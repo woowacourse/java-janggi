@@ -1,21 +1,27 @@
 package domain.player;
 
 import domain.Team;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Players {
-    List<Player> players;
+    private final Player bluePlayer;
+    private final Player redPlayer;
+    private final List<Player> players = new ArrayList<>();
 
-    public Players(List<Player> players) {
-        this.players = players;
+    public Players(Player bluePlayer, Player redPlayer) {
+        this.bluePlayer = bluePlayer;
+        this.redPlayer = redPlayer;
+        players.add(bluePlayer);
+        players.add(redPlayer);
     }
 
-    public String getNameFirstPlayer() {
-        return players.getFirst().getName();
+    public String getBluePlayerName() {
+        return bluePlayer.getName();
     }
 
-    public String getNameSecondPlayer() {
-        return players.getLast().getName();
+    public String getRedPlayerName() {
+        return redPlayer.getName();
     }
 
     public Player getThisTurnPlayer(int sequence) {
@@ -23,11 +29,11 @@ public class Players {
     }
 
     public Player getBluePlayer() {
-        return players.getFirst();
+        return bluePlayer;
     }
 
     public Player getRedPlayer() {
-        return players.getLast();
+        return redPlayer;
     }
 
     public Player getPlayerByTeam(Team team) {
@@ -35,5 +41,13 @@ public class Players {
                 .filter(player -> player.getTeam() == team)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 팀이 없습니다."));
+    }
+
+    public int getBluePlayerId() {
+        return bluePlayer.getId();
+    }
+
+    public int getRedPlayerId() {
+        return redPlayer.getId();
     }
 }

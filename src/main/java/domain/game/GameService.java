@@ -22,8 +22,8 @@ public class GameService {
     }
 
     public void updateGameInfo(Status status, int gameId, Players players, int thisTurnSequence) {
-        int bluePlayerId = players.getBluePlayer().getId();
-        int redPlayerId = players.getRedPlayer().getId();
+        int bluePlayerId = players.getBluePlayerId();
+        int redPlayerId = players.getRedPlayerId();
         gameDao.updateGame(status.name(), gameId, bluePlayerId, redPlayerId, thisTurnSequence);
     }
 

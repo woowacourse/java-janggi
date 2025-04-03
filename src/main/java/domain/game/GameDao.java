@@ -62,7 +62,9 @@ public class GameDao {
             preparedStatement.setInt(2, gameId);
 
             int rowsUpdated = preparedStatement.executeUpdate();
-
+            if (rowsUpdated == 0) {
+                throw new SQLException("게임아이디를 찾을 수 없습니다. " + gameId);
+            }
         } catch (SQLException e) {
             throw new IllegalArgumentException("게임 업데이트 오류", e);
         }

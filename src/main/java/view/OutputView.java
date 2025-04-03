@@ -14,9 +14,9 @@ public class OutputView {
         System.out.println("│        Korea Chase        │");
         System.out.println("└───────────────────────────┘");
         System.out.println();
-        System.out.printf("%s님의 팀은 %s청팀%s 입니다.\n%s님의 팀은 %s홍팀%s 입니다.\n", players.getNameFirstPlayer(),
+        System.out.printf("%s님의 팀은 %s청팀%s 입니다.\n%s님의 팀은 %s홍팀%s 입니다.\n", players.getBluePlayerName(),
                 TextColor.blue,
-                TextColor.exit, players.getNameSecondPlayer(), TextColor.red, TextColor.exit);
+                TextColor.exit, players.getRedPlayerName(), TextColor.red, TextColor.exit);
     }
 
     public void displayJanggiBoard(Map<Position, Piece> board) {

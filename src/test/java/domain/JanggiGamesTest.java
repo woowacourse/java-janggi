@@ -13,7 +13,6 @@ import domain.piece.Piece;
 import domain.player.Player;
 import domain.player.Players;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,7 @@ public class JanggiGamesTest {
 
     @BeforeEach
     void setUp() {
-        players = new Players(List.of(new Player(1, "플레이어1", Team.BLUE), new Player(2, "플레이어2", Team.RED)));
+        players = new Players(new Player(1, "플레이어1", Team.BLUE), new Player(2, "플레이어2", Team.RED));
     }
 
     @DisplayName("장가판을 가져온다")

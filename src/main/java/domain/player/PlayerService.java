@@ -17,7 +17,7 @@ public class PlayerService {
     public Players savePlayer(List<String> playerNames, int gameId) throws SQLException {
         Player bluePlayer = playerDao.insertPlayer(playerNames.getFirst(), gameId, Team.BLUE);
         Player redPlayer = playerDao.insertPlayer(playerNames.getLast(), gameId, Team.RED);
-        return new Players(List.of(bluePlayer, redPlayer));
+        return new Players(bluePlayer, redPlayer);
     }
 
     public Players getPlayersByGameId(int gameId) {

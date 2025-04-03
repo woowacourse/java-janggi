@@ -58,7 +58,7 @@ public class PlayerDao {
             }
 
             if (playerList.size() == 2) {
-                return new Players(List.of(playerList.getFirst(), playerList.getLast()));
+                return new Players(playerList.get(0), playerList.get(1));
             }
         } catch (SQLException e) {
             throw new IllegalArgumentException("플레이어 정보 조회 오류", e);
