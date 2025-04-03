@@ -28,16 +28,21 @@ public class BoardDAO {
                 VALUES (?, ?, ?, ?)
                 """;
 
+        int PIECE_TYPE_INDEX = 1;
+        int TEAM_INDEX = 2;
+        int COLUMN_INDEX = 3;
+        int ROW_INDEX = 4;
+
         try (Connection connection = new MysqlConnectionManager().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             for (Map.Entry<Position, Piece> entry : initialBoard.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
 
-                statement.setString(1, piece.getType().name());
-                statement.setString(2, piece.getTeam().name());
-                statement.setInt(3, position.getColumn());
-                statement.setInt(4, position.getRow());
+                statement.setString(PIECE_TYPE_INDEX, piece.getType().name());
+                statement.setString(TEAM_INDEX, piece.getTeam().name());
+                statement.setInt(COLUMN_INDEX, position.getColumn());
+                statement.setInt(ROW_INDEX, position.getRow());
                 statement.addBatch();
             }
             statement.executeBatch();
@@ -86,20 +91,25 @@ public class BoardDAO {
                 WHERE position_column = ? AND position_row = ?
                 """;
 
+        int GOAL_POSITION_COLUMN = 1;
+        int GOAL_POSITION_ROW = 2;
+        int START_POSITION_COLUMN = 3;
+        int START_POSITION_ROW = 4;
+
         try {
             connection.setAutoCommit(false);
 
             try (PreparedStatement deleteStatement = connection.prepareStatement(deleteExistingPieceQuery)) {
-                deleteStatement.setInt(1, goal.getColumn());
-                deleteStatement.setInt(2, goal.getRow());
+                deleteStatement.setInt(GOAL_POSITION_COLUMN, goal.getColumn());
+                deleteStatement.setInt(GOAL_POSITION_ROW, goal.getRow());
                 deleteStatement.executeUpdate();
             }
 
             try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                updateStatement.setInt(1, goal.getColumn());
-                updateStatement.setInt(2, goal.getRow());
-                updateStatement.setInt(3, start.getColumn());
-                updateStatement.setInt(4, start.getRow());
+                updateStatement.setInt(GOAL_POSITION_COLUMN, goal.getColumn());
+                updateStatement.setInt(GOAL_POSITION_ROW, goal.getRow());
+                updateStatement.setInt(START_POSITION_COLUMN, start.getColumn());
+                updateStatement.setInt(START_POSITION_ROW, start.getRow());
 
                 int rowsAffected = updateStatement.executeUpdate();
                 if (rowsAffected == 0) {

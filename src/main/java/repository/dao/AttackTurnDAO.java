@@ -18,9 +18,11 @@ public class AttackTurnDAO {
                 ON DUPLICATE KEY UPDATE team_name = VALUES(team_name)
                 """;
 
+        int TEAM_INDEX = 1;
+
         try (Connection connection = new MysqlConnectionManager().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, team.name());
+            statement.setString(TEAM_INDEX, team.name());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("공격 턴 저장 실패", e);
@@ -29,9 +31,7 @@ public class AttackTurnDAO {
 
     public Team loadAttackTeam() {
         String query = """
-                SELECT team_name
-                FROM attack_turn 
-                LIMIT 1
+                SELECT team_name FROM attack_turn 
                 """;
 
         try (Connection connection = new MysqlConnectionManager().getConnection();
@@ -51,9 +51,11 @@ public class AttackTurnDAO {
                 UPDATE attack_turn SET team_name=(?)
                 """;
 
+        int TEAM_INDEX = 1;
+
         try (Connection connection = new MysqlConnectionManager().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, team.name());
+            statement.setString(TEAM_INDEX, team.name());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("공격 턴 업데이트 실패", e);
