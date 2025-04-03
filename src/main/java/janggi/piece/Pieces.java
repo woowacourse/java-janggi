@@ -149,4 +149,11 @@ public class Pieces {
         final Piece endPiece = pieces.get(end);
         return startPiece.isSamePieceType(endPiece);
     }
+    
+    public boolean isSamePieceTypeOnPath(final List<Position> path, final Piece piece) {
+        return path.stream()
+                .anyMatch(position -> pieces.containsKey(position) &&
+                        pieces.get(position)
+                                .isSamePieceType(piece));
+    }
 }
