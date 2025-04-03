@@ -1,6 +1,6 @@
 package game;
 
-import board.JdbcGameBoard;
+import board.GameBoard;
 import direction.Point;
 import java.util.Objects;
 import piece.Pieces;
@@ -14,11 +14,11 @@ public class JanggiGame {
     private static final int VERTICAL_START = 1;
     private static final int VERTICAL_END = 10;
 
-    private final JdbcGameBoard gameBoard;
+    private final GameBoard gameBoard;
     private Pieces pieces;
     private Team currentTurn;
 
-    public JanggiGame(final JdbcGameBoard gameBoard) {
+    public JanggiGame(final GameBoard gameBoard) {
         if (Objects.isNull(gameBoard)) {
             throw new IllegalArgumentException("[ERROR] GameBoard는 null이 될 수 없습니다.");
         }

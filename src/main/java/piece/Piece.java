@@ -1,7 +1,6 @@
 package piece;
 
 import direction.Point;
-import java.nio.file.FileStore;
 import team.Team;
 
 public abstract class Piece {

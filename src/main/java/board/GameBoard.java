@@ -2,15 +2,14 @@ package board;
 
 import dao.PieceDao;
 import dao.TurnDao;
-import direction.Point;
 import piece.Pieces;
 import team.Team;
 
-public class JdbcGameBoard {
+public class GameBoard {
     private final PieceDao pieceDao;
     private final TurnDao turnDao;
 
-    public JdbcGameBoard(PieceDao pieceDao, TurnDao turnDao) {
+    public GameBoard(PieceDao pieceDao, TurnDao turnDao) {
         this.pieceDao = pieceDao;
         this.turnDao = turnDao;
     }
