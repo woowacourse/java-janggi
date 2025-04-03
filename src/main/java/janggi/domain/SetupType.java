@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.piece.PieceType;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,5 +51,9 @@ public enum SetupType {
                     .toList();
         }
         return columns;
+    }
+
+    public static double getInitScore() {
+        return 2 * PieceType.ELEPHANT.getScore().value() + 2 * PieceType.HORSE.getScore().value();
     }
 }

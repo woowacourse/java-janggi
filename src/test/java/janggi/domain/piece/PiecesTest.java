@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Position;
+import janggi.domain.Score;
 import janggi.domain.SetupType;
 import janggi.domain.Team;
 import java.util.List;
@@ -86,9 +87,9 @@ class PiecesTest {
     void getInitScore(Team team, double expected) {
         //given
         //when
-        double actual = Pieces.getInitScore(team);
+        Score actual = Pieces.getInitScore(team);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(new Score(expected));
     }
 }

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Position;
+import janggi.domain.Score;
 import janggi.domain.SetupType;
 import janggi.domain.Team;
 import java.util.Collections;
@@ -95,16 +96,16 @@ public class Pieces {
         return Collections.unmodifiableMap(pieces);
     }
 
-    public static double getInitScore(Team team) {
-        double score = 0;
+    public static Score getInitScore(Team team) {
+        double scoreValue = 0;
         if (team.isRed()) {
-            score += 1.5;
+            scoreValue += 1.5;
         }
-        score += SOLDIER_COLUMN.size() * PieceType.SOLDIER.getScore().value();
-        score += GUARD_COLUMN.size() * PieceType.GUARD.getScore().value();
-        score += CHARIOT_COLUMN.size() * PieceType.CHARIOT.getScore().value();
-        score += CANNON_COLUMN.size() * PieceType.CANNON.getScore().value();
-        score += SetupType.getInitScore();
-        return score;
+        scoreValue += SOLDIER_COLUMN.size() * PieceType.SOLDIER.getScore().value();
+        scoreValue += GUARD_COLUMN.size() * PieceType.GUARD.getScore().value();
+        scoreValue += CHARIOT_COLUMN.size() * PieceType.CHARIOT.getScore().value();
+        scoreValue += CANNON_COLUMN.size() * PieceType.CANNON.getScore().value();
+        scoreValue += SetupType.getInitScore();
+        return new Score(scoreValue);
     }
 }

@@ -17,7 +17,7 @@ public class Player {
     public Player(final String name, final Team team) {
         this.name = name;
         this.team = team;
-        this.score = new Score(Pieces.getInitScore(team));
+        this.score = Pieces.getInitScore(team);
     }
 
     public void subtractScore(Score score) {
