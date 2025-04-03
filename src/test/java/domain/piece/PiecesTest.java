@@ -3,7 +3,6 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.player.Team;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +101,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(pieceElements);
 
         // when
-        pieces.deleteByPosition(position, Team.HAN);
+        pieces.deleteByPosition(position);
 
         // then
         assertThat(pieceElements).doesNotContain(piece);

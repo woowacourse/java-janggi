@@ -9,6 +9,7 @@ import domain.piece.Pieces;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
+import dto.MoveResultDto;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,8 +127,15 @@ public class KoreaChess {
     private void processTurn(final Player player, final Board board) {
         Position movingPosition = inputView.readMovingPiecePosition(player);
         Position targetPosition = inputView.readTargetPiecePosition();
-        board.move(player, movingPosition, targetPosition);
+        MoveResultDto moveResultDto = board.move(player, movingPosition, targetPosition);
+        syncMoveResult(player, moveResultDto, targetPosition);
         outputView.printBoard(board);
+    }
+
+    private void syncMoveResult(Player player, MoveResultDto moveResultDto, Position targetPosition) {
+        pieceDao.updatePosition(moveResultDto.updatedPiece(), targetPosition);
+        moveResultDto.caughtPiece()
+                .ifPresent(piece -> pieceDao.delete(piece, Team.getOtherTeam(player.team())));
     }
 
     private Team switchTurn(final Team team, final BoardDao boardDao) {

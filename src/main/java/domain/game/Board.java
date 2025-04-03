@@ -5,22 +5,26 @@ import domain.piece.PieceType;
 import domain.piece.Pieces;
 import domain.player.Player;
 import domain.position.Position;
+import dto.MoveResultDto;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public record Board(
         Map<Player, Pieces> board
 ) {
 
-    public void move(final Player player, final Position startPosition, final Position targetPosition) {
+    public MoveResultDto move(final Player player, final Position startPosition, final Position targetPosition) {
         Pieces pieces = board.get(player);
         Piece piece = pieces.findByPosition(startPosition);
 
         validateTeamPieceInTargetPosition(targetPosition, pieces);
         validatePieceMovingPath(player, targetPosition, piece);
 
-        pieces.updatePosition(piece, targetPosition);
-        catchOppositePieceIfExistsTargetPosition(player, targetPosition);
+        Piece updatedPiece = pieces.updatePosition(piece, targetPosition);
+        Optional<Piece> catchResult = catchOppositePieceIfExistsTargetPosition(player, targetPosition);
+
+        return new MoveResultDto(updatedPiece, catchResult);
     }
 
     public boolean isFinish() {
@@ -87,12 +91,14 @@ public record Board(
                 .anyMatch(pieces -> pieces.isCannonByPosition(position));
     }
 
-    private void catchOppositePieceIfExistsTargetPosition(final Player player, final Position targetPosition) {
+    private Optional<Piece> catchOppositePieceIfExistsTargetPosition(final Player player,
+                                                                     final Position targetPosition) {
         Player oppositePlayer = getOppositePlayer(player);
         Pieces oppositePieces = board.get(oppositePlayer);
         if (oppositePieces.existByPosition(targetPosition)) {
-            oppositePieces.deleteByPosition(targetPosition, oppositePlayer.team());
+            return Optional.of(oppositePieces.deleteByPosition(targetPosition));
         }
+        return Optional.empty();
     }
 
     private Player getOppositePlayer(final Player player) {

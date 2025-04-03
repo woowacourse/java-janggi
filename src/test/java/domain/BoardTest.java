@@ -195,7 +195,7 @@ class BoardTest {
         Position kingPosition = Position.of(5, 9);
 
         Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT));
-        choPieces.deleteByPosition(kingPosition, Team.CHO);
+        choPieces.deleteByPosition(kingPosition);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT)));
@@ -219,7 +219,7 @@ class BoardTest {
         Position kingPosition = Position.of(5, 9);
 
         Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT));
-        choPieces.deleteByPosition(kingPosition, Team.CHO);
+        choPieces.deleteByPosition(kingPosition);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT)));
@@ -241,7 +241,7 @@ class BoardTest {
         Player cho = new Player("초", Team.CHO);
 
         Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT));
-        choPieces.deleteByPosition(Position.of(4, 10), Team.CHO);
+        choPieces.deleteByPosition(Position.of(4, 10));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT)));
