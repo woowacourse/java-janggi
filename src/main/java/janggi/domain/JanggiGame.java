@@ -44,8 +44,4 @@ public class JanggiGame {
         double hanPoints = board.getTotalPoints(Side.HAN) + HANDICAP_POINTS;
         return Map.of(Side.CHO, choPoints, Side.HAN, hanPoints);
     }
-
-    public Piece getPiece(Position position) {
-        return board.getPiece(position);
-    }
 }

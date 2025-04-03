@@ -2,7 +2,6 @@ package janggi.domain.movement;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public record Vectors(List<Vector> vectors) {
 
@@ -19,14 +18,5 @@ public record Vectors(List<Vector> vectors) {
                 )
                 .map(Vectors::new)
                 .toList();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Vectors vectors1 = (Vectors) o;
-        return Objects.equals(vectors, vectors1.vectors);
     }
 }
