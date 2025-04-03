@@ -16,7 +16,7 @@ public class Sang extends Piece implements DistanceMove {
     }
 
     @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validatePieceMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableDistanceCoordinate(from, to, isReachable);
         validateDoesNotHasObstacle(board, from, to);
     }

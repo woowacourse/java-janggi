@@ -61,7 +61,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, myPiece, enemyMa));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, myPiece, enemyMa));
         }
 
         @DisplayName("기물이 현재 위치에서 도달 가능한 위치를 검사한다")
@@ -78,7 +78,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, reachable));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, reachable));
         }
 
         @DisplayName("기물이 현재 위치에서 도달 불가능한 위치를 검사한다")
@@ -96,7 +96,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -124,7 +124,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, maCoordinate, moveCoordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, maCoordinate, moveCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -146,7 +146,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -170,7 +170,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> phoLeftUpCastleMove() {
@@ -195,7 +195,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> phoRightUpCastleMove() {
@@ -220,7 +220,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> phoLeftDownCastleMove() {
@@ -245,7 +245,7 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> phoRightDownCastleMove() {
@@ -265,14 +265,14 @@ class PhoTest {
             JanggiCoordinate obstacleCoordinate = new JanggiCoordinate(2, 5);
 
             JanggiCoordinate moveCoordinate = new JanggiCoordinate(4, 7);
-            
+
             map.put(pieceCoordinate, piece);
             map.put(obstacleCoordinate, obstacle);
 
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

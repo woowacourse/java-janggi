@@ -43,7 +43,6 @@ public class JanggiGame {
     private void validatePieceMove(Piece piece, JanggiCoordinate from, JanggiCoordinate to) {
         validatePlayerTurnPiece(from, piece.getCountry());
         piece.validateDestination(board, from, to);
-        piece.validateMove(board, from, to);
     }
 
     private void validatePlayerTurnPiece(JanggiCoordinate from, Country pieceCountry) {

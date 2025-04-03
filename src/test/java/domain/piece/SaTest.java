@@ -55,7 +55,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, myGung, enemyMa));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, myGung, enemyMa));
         }
 
         @DisplayName("기물이 현재 위치에서 도달 가능한 위치를 검사한다")
@@ -69,7 +69,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, coordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate));
         }
 
         private static Stream<Arguments> reachableArguments() {
@@ -96,7 +96,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -119,7 +119,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -146,7 +146,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> sa.validateMove(board, from, to));
+            assertDoesNotThrow(() -> sa.validatePieceMove(board, from, to));
         }
 
         private static Stream<Arguments> innerCastle() {
@@ -182,7 +182,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> sa.validateMove(board, from, to))
+            assertThatThrownBy(() -> sa.validatePieceMove(board, from, to))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -208,7 +208,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> sa.validateMove(board, from, to))
+            assertThatThrownBy(() -> sa.validatePieceMove(board, from, to))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 

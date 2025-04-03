@@ -11,7 +11,7 @@ public class Cha extends Piece implements LinearMove, CastleDiagonalMove {
     }
 
     @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validatePieceMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         if (!from.isSameRow(to) && !from.isSameCol(to)) {
             validateCastleDiagonalMove(board, from, to);
             validateDiagonalReachable(board, from, to);

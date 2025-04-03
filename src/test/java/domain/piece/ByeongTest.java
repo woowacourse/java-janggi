@@ -56,7 +56,7 @@ class ByeongTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, myPiece, enemyMa));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, myPiece, enemyMa));
         }
 
         @DisplayName("기물이 현재 위치에서 도달 가능한 위치를 검사한다")
@@ -70,7 +70,7 @@ class ByeongTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, coordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate));
         }
 
         private static Stream<Arguments> reachableArguments() {
@@ -92,7 +92,7 @@ class ByeongTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 

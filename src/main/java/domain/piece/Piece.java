@@ -18,12 +18,13 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
-    public abstract void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to);
+    public abstract void validatePieceMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to);
 
     public void validateDestination(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateCoordinate(from);
         validateCoordinate(to);
         validateTarget(board, from, to);
+        validatePieceMove(board, from, to);
     }
 
     private void validateTarget(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {

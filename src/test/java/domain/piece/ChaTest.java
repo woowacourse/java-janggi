@@ -56,7 +56,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, myPiece, enemyMa));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, myPiece, enemyMa));
         }
 
         @DisplayName("기물이 현재 위치에서 도달 가능한 위치를 검사한다")
@@ -70,7 +70,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, coordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate));
         }
 
         private static Stream<Arguments> reachableArguments() {
@@ -92,7 +92,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -121,7 +121,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, maCoordinate, moveCoordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, maCoordinate, moveCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -141,7 +141,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
     }
 
@@ -159,7 +159,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> chaLeftUpCastleMove() {
@@ -180,7 +180,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> chaRightUpCastleMove() {
@@ -201,7 +201,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> chaCenterCastleMove() {
@@ -228,7 +228,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> chaLeftDownCastleMove() {
@@ -249,7 +249,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate));
         }
 
         private static Stream<Arguments> chaRightDownCastleMove() {
@@ -271,7 +271,7 @@ class ChaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, moveCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

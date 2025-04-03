@@ -55,7 +55,7 @@ class SangTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, myPiece, enemyMa));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, myPiece, enemyMa));
         }
 
         @DisplayName("기물이 현재 위치에서 도달 가능한 위치를 검사한다")
@@ -69,7 +69,7 @@ class SangTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, coordinate));
+            assertDoesNotThrow(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate));
         }
 
         private static Stream<Arguments> reachableArguments() {
@@ -96,7 +96,7 @@ class SangTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+            assertThatThrownBy(() -> piece.validatePieceMove(board, pieceCoordinate, coordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -126,7 +126,7 @@ class SangTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> sang.validateMove(board, sangCoordinate, dstCoordinate))
+            assertThatThrownBy(() -> sang.validatePieceMove(board, sangCoordinate, dstCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -148,8 +148,8 @@ class SangTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> sang.validateMove(board, sangCoordinate, moveCoordinate1));
-            assertDoesNotThrow(() -> sang.validateMove(board, sangCoordinate, moveCoordinate2));
+            assertDoesNotThrow(() -> sang.validatePieceMove(board, sangCoordinate, moveCoordinate1));
+            assertDoesNotThrow(() -> sang.validatePieceMove(board, sangCoordinate, moveCoordinate2));
         }
     }
 }

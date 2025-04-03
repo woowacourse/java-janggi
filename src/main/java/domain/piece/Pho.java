@@ -11,7 +11,7 @@ public class Pho extends Piece implements LinearMove, CastleDiagonalMove {
     }
 
     @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validatePieceMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateLinearMove(board, from, to);
     }
 
