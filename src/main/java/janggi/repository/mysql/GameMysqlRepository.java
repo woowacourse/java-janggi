@@ -133,6 +133,24 @@ public class GameMysqlRepository implements GameRepository {
         }
     }
 
+    @Override
+    public void updateStatusById(final Connection connection, final GameId id, final GameStatus status) {
+        final String sql = """
+                    UPDATE game
+                    SET status = ?
+                    WHERE id = ?
+                """;
+
+        try (final PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, GameStatus.FINISHED.name());
+            ps.setLong(2, id.getValue());
+            ps.executeUpdate();
+
+        } catch (final SQLException e) {
+            throw new RuntimeException("게임 상태 업데이트 중 오류 발생", e);
+        }
+    }
+
     private GameId extractGeneratedId(final PreparedStatement ps) throws SQLException {
         try (final ResultSet rs = ps.getGeneratedKeys()) {
             if (rs.next()) {

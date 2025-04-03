@@ -2,6 +2,7 @@ package janggi.service;
 
 import janggi.GameContext;
 import janggi.GameId;
+import janggi.GameStatus;
 import janggi.board.Board;
 import janggi.coordinate.Position;
 import janggi.piece.Pieces;
@@ -80,6 +81,10 @@ public class JanggiService {
         });
     }
 
+    public void finishGame(final GameId gameId) {
+        gameRepository.updateStatusById(connectionProvider.getConnection(), gameId, GameStatus.FINISHED);
+    }
+
     private GameId saveGameInfo(final GameContext gameContext, final Connection connection) {
         if (gameContext.isSaved()) {
             return gameRepository.save(
@@ -96,5 +101,6 @@ public class JanggiService {
                 gameContext.getScore(Team.HAN)
         );
     }
+
 
 }

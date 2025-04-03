@@ -22,11 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GameMysqlRepositoryTest extends TestContainerSupport {
 
     private final GameMysqlRepository repository = new GameMysqlRepository();
-    private Connection conn;
+    private Connection connection;
 
     @BeforeEach
     void setUp() throws Exception {
-        conn = TestContainer.getConnection();
+        connection = TestContainer.getConnection();
     }
 
     @Test
@@ -38,8 +38,8 @@ class GameMysqlRepositoryTest extends TestContainerSupport {
         final Score hanScore = Score.from(5);
 
         // when
-        final GameId savedId = repository.save(conn, turn, choScore, hanScore);
-        final Optional<GameDto> found = repository.findById(conn, savedId);
+        final GameId savedId = repository.save(connection, turn, choScore, hanScore);
+        final Optional<GameDto> found = repository.findById(connection, savedId);
 
         // then
         assertThat(savedId.getValue()).isGreaterThan(0);
@@ -61,8 +61,8 @@ class GameMysqlRepositoryTest extends TestContainerSupport {
         final Score hanScore = Score.from(6);
 
         // when
-        final GameId result = repository.save(conn, id, turn, choScore, hanScore);
-        final Optional<GameDto> found = repository.findById(conn, result);
+        final GameId result = repository.save(connection, id, turn, choScore, hanScore);
+        final Optional<GameDto> found = repository.findById(connection, result);
 
         // then
         assertThat(result).isEqualTo(id);
@@ -77,10 +77,10 @@ class GameMysqlRepositoryTest extends TestContainerSupport {
     @DisplayName("저장된 게임을 조회할 수 있다")
     void findById() {
         // given
-        final GameId gameId = repository.save(conn, Turn.start(), Score.from(3), Score.from(5));
+        final GameId gameId = repository.save(connection, Turn.start(), Score.from(3), Score.from(5));
 
         // when
-        final Optional<GameDto> found = repository.findById(conn, gameId);
+        final Optional<GameDto> found = repository.findById(connection, gameId);
 
         // then
         assertThat(found).isPresent();
@@ -96,7 +96,7 @@ class GameMysqlRepositoryTest extends TestContainerSupport {
     void findByInvalidId() {
         // given
         // when
-        final Optional<GameDto> found = repository.findById(conn, GameId.from(123123));
+        final Optional<GameDto> found = repository.findById(connection, GameId.from(123123));
 
         // then
         assertThat(found).isEmpty();
@@ -106,13 +106,32 @@ class GameMysqlRepositoryTest extends TestContainerSupport {
     @DisplayName("진행 중 게임 목록 조회")
     void findAllRunning() {
         // given
-        repository.save(conn, Turn.start(), Score.from(1), Score.from(2));
-        repository.save(conn, Turn.from(5), Score.from(2), Score.from(2));
+        repository.save(connection, Turn.start(), Score.from(1), Score.from(2));
+        repository.save(connection, Turn.from(5), Score.from(2), Score.from(2));
 
         // when
-        final List<GameDto> all = repository.findAllRunning(conn);
+        final List<GameDto> all = repository.findAllRunning(connection);
 
         // then
         assertThat(all).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("게임 상태 변경")
+    void updateStatus() {
+        // given
+        repository.save(connection, Turn.start(), Score.from(1), Score.from(2));
+        final GameDto game = repository.findAllRunning(connection).getFirst();
+        final int id = game.id();
+
+        // when
+        repository.updateStatusById(connection, GameId.from(game.id()), GameStatus.FINISHED);
+
+        // then
+        final Optional<GameDto> savedGame = repository.findById(connection, GameId.from(id));
+        assertThat(savedGame).isPresent();
+
+        final String savedStatus = savedGame.get().status();
+        assertThat(savedStatus.equals(GameStatus.FINISHED.name())).isTrue();
     }
 }

@@ -4,6 +4,7 @@ import fixture.TestContainer;
 import fixture.TestContainerSupport;
 import janggi.GameContext;
 import janggi.GameId;
+import janggi.GameStatus;
 import janggi.board.Board;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
@@ -15,7 +16,9 @@ import janggi.repository.mysql.PieceMysqlRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -120,5 +123,23 @@ class JanggiServiceTest extends TestContainerSupport {
         assertThatThrownBy(service::getRunningGames)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("저장된 게임이 없습니다");
+    }
+
+    @Test
+    @DisplayName("게임 종료 상태로 변경할 수 있다")
+    void finishGame() throws SQLException {
+        // given
+        final GameContext context = service.createNewContext();
+        service.saveGameWithPieces(context);
+
+        // when
+        final GameId savedId = GameId.from(1);
+        service.finishGame(savedId);
+
+        // then
+        final Optional<GameDto> found = new GameMysqlRepository().findById(TestContainer.getConnection(), savedId);
+
+        assertThat(found).isPresent();
+        assertThat(found.get().status()).isEqualTo(GameStatus.FINISHED.name());
     }
 }

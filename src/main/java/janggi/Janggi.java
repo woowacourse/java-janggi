@@ -75,6 +75,7 @@ public class Janggi {
 
                 if (player.isWin()) {
                     outputView.displayWinner(player);
+                    janggiService.finishGame(context.getGameId());
                     return;
                 }
 
