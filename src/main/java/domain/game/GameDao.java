@@ -22,7 +22,7 @@ public class GameDao {
             preparedStatement.setInt(1, gameId);
             preparedStatement.setString(2, Status.CREATED.name());
             preparedStatement.executeUpdate();
-            
+
         } catch (SQLException e) {
             throw new IllegalArgumentException("게임 저장 오류", e);
         }
@@ -34,18 +34,17 @@ public class GameDao {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(updateGameSql)) {
 
-            // Assuming Players class has methods to get player IDs
             preparedStatement.setString(1,
-                    status);  // Assuming "in progress" is a placeholder for the actual game status
-            preparedStatement.setInt(2, bluePlayerId);  // Get Player 1's ID from the Players object
-            preparedStatement.setInt(3, redPlayerId);  // Get Player 2's ID from the Players object
-            preparedStatement.setInt(4, thisTurnSequence);  // Set the current turn sequence
-            preparedStatement.setInt(5, gameId);  // Set the game ID to identify the game to update
+                    status);
+            preparedStatement.setInt(2, bluePlayerId);
+            preparedStatement.setInt(3, redPlayerId);
+            preparedStatement.setInt(4, thisTurnSequence);
+            preparedStatement.setInt(5, gameId);
 
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                throw new SQLException("No game found with ID " + gameId);
+                throw new SQLException("게임아이디를 찾을 수 없습니다. " + gameId);
             }
 
         } catch (SQLException e) {
