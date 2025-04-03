@@ -306,4 +306,23 @@ public class JanggiGameTest {
                 () -> assertThat(blueScore).isEqualTo(72)
         );
     }
+
+    @Test
+    @DisplayName("Position이 주어질 때 해당 위치에 있는 장기말을 반환한다")
+    void should_return_piece_by_position() {
+        // given
+        Position position = new Position(1, 1);
+        Piece piece = new Tank(Color.RED);
+        JanggiGame janggiGame = new JanggiGame(
+                new Pieces(Map.of(
+                        position, piece
+                ))
+        );
+
+        // when
+        Piece result = janggiGame.getPiece(position);
+
+        // then
+        assertThat(result).isEqualTo(piece);
+    }
 }

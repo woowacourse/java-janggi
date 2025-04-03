@@ -1,6 +1,5 @@
 package janggi;
 
-import janggi.database.JanggiDao;
 import janggi.piece.Color;
 import janggi.piece.Piece;
 import janggi.piece.Pieces;
@@ -11,27 +10,13 @@ public class JanggiGame {
     private static final double DEOM_SCORE = 1.5;
 
     private final Pieces pieces;
-    private final JanggiDao janggiDao;
-
 
     public JanggiGame(final Pieces pieces) {
         this.pieces = pieces;
-        this.janggiDao = new JanggiDao();
     }
 
     public JanggiGame() {
         this.pieces = Pieces.init();
-        this.janggiDao = new JanggiDao();
-        // NOTE: DB에 피스 정보를 저장한다
-        janggiDao.deleteAllPiece();
-        janggiDao.saveAllPiece(pieces.getPieces());
-    }
-
-    public static JanggiGame continueGame() {
-        JanggiDao janggiDao = new JanggiDao();
-        // NOTE: DB에 피스 정보를 가져온다
-        Pieces pieces = janggiDao.findAllPiece();
-        return new JanggiGame(pieces);
     }
 
     public boolean move(final Position start, final Position end) {
@@ -39,13 +24,6 @@ public class JanggiGame {
             return false;
         }
         pieces.moveForward(start, end);
-
-        // 시작점, 도착점에 있는 장기말을 삭제한다
-        janggiDao.deleteByPosition(start);
-        janggiDao.deleteByPosition(end);
-
-        // 이동한 장기말을 저장한다
-        janggiDao.savePiece(end, pieces.getPieceByPosition(end));
         return true;
     }
 
@@ -58,5 +36,9 @@ public class JanggiGame {
             return pieces.calculatePieceScore(color) + DEOM_SCORE;
         }
         return pieces.calculatePieceScore(color);
+    }
+
+    public Piece getPiece(final Position position) {
+        return pieces.getPieceByPosition(position);
     }
 }

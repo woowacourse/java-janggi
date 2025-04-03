@@ -73,4 +73,24 @@ public class OutputView {
         }
         return "이동 실패, 입력한 좌표를 확인해 주세요.";
     }
+
+    public void printDatabaseOffline() {
+        System.out.println("데이터베이스가 오프라인입니다. 게임이 저장되지 않습니다.");
+    }
+
+    public void printDatabaseLoadError() {
+        System.out.println("데이터베이스로부터 이전 게임을 불러오는데 실패했습니다. 새 게임을 시작합니다.");
+    }
+
+    public void printSaveResult(final boolean isSaveSuccess) {
+        final String message = formatSaveResult(isSaveSuccess);
+        System.out.println(message);
+    }
+
+    private String formatSaveResult(final boolean isSaveSuccess) {
+        if (isSaveSuccess) {
+            return "저장 성공";
+        }
+        return "게임 저장에 실패했습니다. 오프라인 모드로 진행되어 게임이 저장되지 않습니다.";
+    }
 }
