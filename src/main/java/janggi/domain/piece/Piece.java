@@ -8,9 +8,9 @@ import java.util.Objects;
 
 public abstract class Piece {
 
-    protected final PieceType pieceType;
-    protected final Dynasty dynasty;
-    protected final MoveStrategy moveStrategy;
+    private final PieceType pieceType;
+    private final Dynasty dynasty;
+    private final MoveStrategy moveStrategy;
 
     public Piece(PieceType pieceType, Dynasty dynasty, MoveStrategy moveStrategy) {
         this.pieceType = pieceType;

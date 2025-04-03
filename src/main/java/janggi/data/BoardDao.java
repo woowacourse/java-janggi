@@ -1,7 +1,7 @@
 package janggi.data;
 
 import janggi.data.dto.PiecePointDto;
-import janggi.data.dto.PointDto;
+import janggi.data.dto.BoardDto;
 import janggi.domain.board.Dynasty;
 import janggi.domain.board.Point;
 import janggi.domain.piece.Piece;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public final class PointDao {
+public final class BoardDao {
 
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
     private static final String DATABASE = "chess"; // MySQL DATABASE 이름
@@ -24,57 +24,71 @@ public final class PointDao {
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
-    private static final List<PointDto> initialPointDtos = new ArrayList<>() {{
-        add(new PointDto(2, 1, 1));
-        add(new PointDto(3, 1, 4));
-        add(new PointDto(3, 1, 6));
-        add(new PointDto(2, 1, 9));
-        add(new PointDto(1, 2, 5));
-        add(new PointDto(4, 3, 2));
-        add(new PointDto(4, 3, 8));
-        add(new PointDto(5, 4, 1));
-        add(new PointDto(5, 4, 3));
-        add(new PointDto(5, 4, 5));
-        add(new PointDto(5, 4, 7));
-        add(new PointDto(5, 4, 9));
-        add(new PointDto(7, 10, 1));
-        add(new PointDto(8, 10, 4));
-        add(new PointDto(8, 10, 6));
-        add(new PointDto(7, 10, 9));
-        add(new PointDto(6, 9, 5));
-        add(new PointDto(9, 8, 2));
-        add(new PointDto(9, 8, 8));
-        add(new PointDto(10, 7, 1));
-        add(new PointDto(10, 7, 3));
-        add(new PointDto(10, 7, 5));
-        add(new PointDto(10, 7, 7));
-        add(new PointDto(10, 7, 9));
+    private static final List<BoardDto> INITIAL_BOARD_DTOS = new ArrayList<>() {{
+        add(new BoardDto(1, 2, 5));
+        add(new BoardDto(2, 1, 1));
+        add(new BoardDto(2, 1, 9));
+        add(new BoardDto(3, 1, 4));
+        add(new BoardDto(3, 1, 6));
+        add(new BoardDto(4, 3, 2));
+        add(new BoardDto(4, 3, 8));
+        add(new BoardDto(5, 4, 1));
+        add(new BoardDto(5, 4, 3));
+        add(new BoardDto(5, 4, 5));
+        add(new BoardDto(5, 4, 7));
+        add(new BoardDto(5, 4, 9));
+        add(new BoardDto(6, 9, 5));
+        add(new BoardDto(7, 10, 1));
+        add(new BoardDto(7, 10, 9));
+        add(new BoardDto(8, 10, 4));
+        add(new BoardDto(8, 10, 6));
+        add(new BoardDto(9, 8, 2));
+        add(new BoardDto(9, 8, 8));
+        add(new BoardDto(10, 7, 1));
+        add(new BoardDto(10, 7, 3));
+        add(new BoardDto(10, 7, 5));
+        add(new BoardDto(10, 7, 7));
+        add(new BoardDto(10, 7, 9));
     }};
 
     private final PieceDao pieceDao;
 
-    public PointDao(PieceDao pieceDao) {
+    public BoardDao(PieceDao pieceDao) {
         this.pieceDao = pieceDao;
     }
 
-    public Connection getConnection() {
+    private Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
             return null;
         }
     }
 
-    public void initializePiecePoints() {
-        String query = "INSERT INTO point (piece_id, x, y) VALUES (?, ?, ?)";
+    private void run(String query) {
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            for (PointDto pointDto : initialPointDtos) {
-                preparedStatement.setInt(1, pointDto.pieceId());
-                preparedStatement.setInt(2, pointDto.x());
-                preparedStatement.setInt(3, pointDto.y());
+            for (BoardDto boardDto : INITIAL_BOARD_DTOS) {
+                preparedStatement.setInt(1, boardDto.pieceId());
+                preparedStatement.setInt(2, boardDto.x());
+                preparedStatement.setInt(3, boardDto.y());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void initializePiecePoints() {
+        String query = "INSERT INTO board (piece_id, x, y) VALUES (?, ?, ?)";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            for (BoardDto boardDto : INITIAL_BOARD_DTOS) {
+                preparedStatement.setInt(1, boardDto.pieceId());
+                preparedStatement.setInt(2, boardDto.x());
+                preparedStatement.setInt(3, boardDto.y());
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();
@@ -85,7 +99,7 @@ public final class PointDao {
 
     public void updatePiecePoints(Map<Point, Piece> boardPieces) {
         Map<Piece, Integer> pieceKeys = pieceDao.getPieceKeys();
-        String query = "INSERT point SET x = ?, y = ?, piece_id = ?";
+        String query = "INSERT board SET x = ?, y = ?, piece_id = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             for (Entry<Point, Piece> entry : boardPieces.entrySet()) {
@@ -104,8 +118,8 @@ public final class PointDao {
 
     public Map<Point, Piece> getPiecePoints() {
         String query = """
-                    SELECT p.piece_type, p.dynasty, pt.x, pt.y
-                    FROM piece p
+                    SELECT b.piece_type, b.dynasty, pt.x, pt.y
+                    FROM board b
                     JOIN point pt ON p.piece_id = pt.piece_id
                 """;
         List<PiecePointDto> result = new ArrayList<>();
@@ -136,7 +150,7 @@ public final class PointDao {
     }
 
     public void deleteAll() {
-        String query = "DELETE FROM point";
+        String query = "DELETE FROM board";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
