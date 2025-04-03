@@ -128,4 +128,18 @@ class PlayersTest {
             assertThat(players.getScore(Team.HAN)).isEqualTo(hanScore);
         });
     }
+
+    @Test
+    @DisplayName("승리를 확인할 수 있다")
+    void isWin() {
+        // given
+        final Score choScore = Score.general();
+        final Score hanScore = Score.from(1);
+        final Players players = Players.of(Pieces.empty(), Turn.start(), choScore, hanScore);
+
+        // when
+        // then
+        assertThat(players.isWin(players.getPlayer(Team.CHO))).isTrue();
+        assertThat(players.isWin(players.getPlayer(Team.HAN))).isFalse();
+    }
 }

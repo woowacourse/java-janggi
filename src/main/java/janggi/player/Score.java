@@ -31,7 +31,7 @@ public record Score(int value) {
     }
 
     public static Score general() {
-        return new Score(19980608);
+        return Score.win().add(new Score(1));
     }
 
     public static Score win() {
