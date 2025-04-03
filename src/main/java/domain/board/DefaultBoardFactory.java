@@ -22,12 +22,16 @@ import view.SangMaOrderCommand;
 
 public class DefaultBoardFactory implements BoardFactory {
 
-    private static final DefaultBoardFactory INSTANCE = new DefaultBoardFactory();
+    private static DefaultBoardFactory INSTANCE;
 
     private DefaultBoardFactory() {
     }
 
     public static DefaultBoardFactory getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DefaultBoardFactory();
+            return INSTANCE;
+        }
         return INSTANCE;
     }
 
