@@ -74,7 +74,7 @@ public class JanggiDao {
             }
 
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("SQL쿼리에 문제가 존재합니다.", e);
         }
     }
 
@@ -105,7 +105,7 @@ public class JanggiDao {
                 updatePointStmt.executeUpdate();
             }
         } catch (final SQLException | IllegalArgumentException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("SQL쿼리에 문제가 존재합니다.", e);
         }
     }
 
@@ -143,7 +143,7 @@ public class JanggiDao {
             turnStmt.setString(1, team.name());
             turnStmt.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("SQL쿼리에 문제가 존재합니다.\"" + e);
         }
     }
 
@@ -161,7 +161,7 @@ public class JanggiDao {
                 throw new SQLException("턴 정보가 존재하지 않습니다.");
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("SQL쿼리에 문제가 존재합니다." + e);
         }
     }
 
@@ -185,7 +185,7 @@ public class JanggiDao {
                 positions.add(position);
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("SQL쿼리에 문제가 존재합니다." + e);
         }
         return positions;
     }
@@ -217,7 +217,7 @@ public class JanggiDao {
             gameStateStmt.setString(1, gameState.name());
             gameStateStmt.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("SQL쿼리에 문제가 존재합니다." + e);
         }
     }
 
@@ -231,7 +231,7 @@ public class JanggiDao {
             deletePieceStmt.executeUpdate();
             deletePointStmt.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("SQL쿼리에 문제가 존재합니다." + e);
         }
     }
 }
