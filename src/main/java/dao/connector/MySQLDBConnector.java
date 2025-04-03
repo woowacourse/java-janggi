@@ -7,11 +7,11 @@ import java.sql.SQLException;
 public class MySQLDBConnector implements DBConnector {
 
     private static final String IP = "localhost";
-    private static final String PORT = "13306";;
-    private static final String DATABASE_NAME = "janggi";;
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";;
-    private static final String USERNAME = "root";;
-    private static final String PASSWORD = "root";;;
+    private static final String PORT = "13306";
+    private static final String DATABASE_NAME = "janggi";
+    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "root";
 
     @Override
     public Connection getConnection() {
