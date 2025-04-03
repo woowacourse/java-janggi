@@ -10,6 +10,13 @@ import java.util.Objects;
 
 public class Coordinate {
 
+    private static final int CASTLE_MIN_X_COORDINATE = 4;
+    private static final int CASTLE_MAX_X_COORDINATE = 6;
+    private static final int CASTLE_HAN_MIN_Y_COORDINATE = 1;
+    private static final int CASTLE_HAN_MAX_Y_COORDINATE = 3;
+    private static final int CASTLE_CHO_MIN_Y_COORDINATE = 8;
+    private static final int CASTLE_CHO_MAX_Y_COORDINATE = 10;
+
     private final int x;
     private final int y;
 
@@ -51,10 +58,12 @@ public class Coordinate {
     }
 
     public boolean isInCastle() {
-        if ((x >= 4 && x <= 6) && (y >= 1 && y <= 3)) {
+        if ((x >= CASTLE_MIN_X_COORDINATE && x <= CASTLE_MAX_X_COORDINATE)
+                && (y >= CASTLE_HAN_MIN_Y_COORDINATE && y <= CASTLE_HAN_MAX_Y_COORDINATE)) {
             return true;
         }
-        if ((x >= 4 && x <= 6) && (y >= 8 && y <= 10)) {
+        if ((x >= CASTLE_MIN_X_COORDINATE && x <= CASTLE_MAX_X_COORDINATE)
+                && (y >= CASTLE_CHO_MIN_Y_COORDINATE && y <= CASTLE_CHO_MAX_Y_COORDINATE)) {
             return true;
         }
         return false;
