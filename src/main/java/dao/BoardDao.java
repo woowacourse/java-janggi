@@ -10,7 +10,6 @@ import static db.ConnectionManager.getConnection;
 
 public class BoardDao {
 
-
     public void saveScore(Map<Country, Integer> scoreByCountry) {
         String sql = "REPLACE INTO board_score (country, score) VALUES (?, ?)";
 
