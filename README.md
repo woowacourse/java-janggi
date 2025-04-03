@@ -77,7 +77,6 @@
 - [X] Point 객체 제거
 - [x] Janggi의 캐논 메서드 책임 분리
 - [X] Janggi에서 Routes 필터링에 대한 고민
-- [ ] DefaultUnitPosition 인스턴스 필드 개수에 대한 고민
 
 ## 2단계 기능 구현
 
@@ -95,10 +94,9 @@
 - [x] Janggi Service에서 장기 기물들을 생성하는 부분 UnitType으로 이동
 - [x] Janggi 클래스의 상수 private로
 - [x] JanggiGameFlow에서 RoomId 파라미터로 전달하기
-- [ ] PieceDao의 printStackTrace 제거
-- [ ] Database connection을 얻지 못한 경우에 대해서 바로 예외를 던지기
-- [ ] DAO의 주석 제거
-- [ ] executeUpdate()의 반환값을 체크하면 업데이트가 실패했음을 알 수 있음
+- [x] PieceDao의 printStackTrace 제거
+- [x] Database connection을 얻지 못한 경우에 대해서 바로 예외를 던지기
+- [x] DAO의 주석 제거
 - [ ] 기존에 Entity에서 Janggi 객체를 만들어주는 생성 로직을 분리
 - [ ] UnitType 책임 분리
 - [ ] Piece 객체의 필요성 고민
