@@ -7,10 +7,6 @@ import domain.piece.Piece;
 import domain.piece.PieceColor;
 import domain.piece.PieceFactory;
 import domain.piece.PieceType;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,15 +18,14 @@ public class BoardDao {
     private static final String UPDATE_POSITION = "UPDATE board SET position_row = ?, position_column = ? WHERE position_row = ? AND position_column = ?";
     private static final String DELETE_BOARD = "DELETE FROM board";
 
-    private final DatabaseConnection databaseConnection;
+    private final Executor executor;
 
-    public BoardDao(DatabaseConnection databaseConnection) {
-        this.databaseConnection = databaseConnection;
+    public BoardDao(Executor executor) {
+        this.executor = executor;
     }
 
     public void saveBoard(Map<Position, Piece> board) {
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT_PIECE)) {
+        executor.executeBatch(INSERT_PIECE, statement -> {
             for (Map.Entry<Position, Piece> entry : board.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
@@ -40,17 +35,12 @@ public class BoardDao {
                 statement.setString(4, piece.getColor().toString());
                 statement.addBatch();
             }
-            statement.executeBatch();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public Map<Position, Piece> loadBoard() {
-        Map<Position, Piece> board = new HashMap<>();
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_BOARD);
-             ResultSet resultSet = statement.executeQuery()) {
+        return executor.executeQuery(SELECT_BOARD, (statement, resultSet) -> {
+            Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {
                 int row = resultSet.getInt("position_row");
                 int column = resultSet.getInt("position_column");
@@ -63,47 +53,27 @@ public class BoardDao {
                 Piece piece = PieceFactory.createPiece(pieceType, pieceColor);
                 board.put(position, piece);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return board;
+            return board;
+        });
     }
 
     public void updatePosition(Position source, Position destination) {
-        try (Connection connection = databaseConnection.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                try (PreparedStatement deleteDestination = connection.prepareStatement(DELETE_PIECE)) {
-                    deleteDestination.setInt(1, destination.rowValue());
-                    deleteDestination.setInt(2, destination.columnValue());
-                    deleteDestination.executeUpdate();
-                }
-
-                try (PreparedStatement updateStatement = connection.prepareStatement(UPDATE_POSITION)) {
-                    updateStatement.setInt(1, destination.rowValue()); // 새로운 위치
-                    updateStatement.setInt(2, destination.columnValue());
-                    updateStatement.setInt(3, source.rowValue()); // 기존 위치
-                    updateStatement.setInt(4, source.columnValue());
-                    updateStatement.executeUpdate();
-                }
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        executor.executeTransaction(connection -> {
+            executor.executeUpdate(DELETE_PIECE, statement -> {
+                statement.setInt(1, source.rowValue());
+                statement.setInt(2, source.columnValue());
+            });
+            executor.executeUpdate(UPDATE_POSITION, statement -> {
+                statement.setInt(1, destination.rowValue());
+                statement.setInt(2, destination.columnValue());
+                statement.setInt(3, source.rowValue());
+                statement.setInt(4, source.columnValue());
+            });
+        });
     }
 
     public void deleteBoard() {
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BOARD)) {
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        executor.executeUpdate(DELETE_BOARD, (statement) -> {
+        });
     }
 }
