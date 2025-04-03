@@ -88,19 +88,19 @@ public class PieceDao {
         }
     }
 
-    public Camp findWinningCamp() {
+    public Optional<Camp> findWinningCamp() {
         String query = "SELECT * FROM piece WHERE type = ?";
         try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, PieceType.GENERAL.getName(null));
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return Camp.from(resultSet.getString("camp"));
+                return Optional.of(Camp.from(resultSet.getString("camp")));
             }
         } catch (SQLException e) {
             throw new RuntimeException("승리한 캠프 조회 중 오류가 발생했습니다.", e);
         }
-        return null;
+        return Optional.empty();
     }
 
     public int getGeneralCount() {

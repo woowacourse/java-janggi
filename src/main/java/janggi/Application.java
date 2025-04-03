@@ -111,7 +111,8 @@ public class Application {
 
     private static void displayEndingResult(View view, Board board, PieceDao pieceDao) {
         view.displayBoard(pieceDao);
-        Camp winningCamp = pieceDao.findWinningCamp();
+        Camp winningCamp = pieceDao.findWinningCamp()
+                .orElseThrow(() -> new IllegalStateException("승리한 캠프가 존재하지 않습니다."));
         view.displayEndingMessage(winningCamp);
         view.displayScore(Camp.CHU, board.calculateChuScore());
         view.displayScore(Camp.HAN, board.calculateHanScore());
