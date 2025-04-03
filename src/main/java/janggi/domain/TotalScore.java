@@ -10,7 +10,7 @@ public class TotalScore {
     }
 
     public static TotalScore from(double totalScore, Team team) {
-        if (team == Team.BLUE) {
+        if (team == Turn.First().getTeam()) {
             return new TotalScore(totalScore);
         }
         return new TotalScore(1.5 + totalScore);
