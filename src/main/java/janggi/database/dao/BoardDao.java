@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.database.dao;
 
 import janggi.board.BoardStatus;
 import janggi.board.JanggiBoard;

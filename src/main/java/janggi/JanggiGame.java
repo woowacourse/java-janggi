@@ -2,7 +2,7 @@ package janggi;
 
 import janggi.board.JanggiBoard;
 import janggi.board.Position;
-import janggi.dao.BoardDao;
+import janggi.database.dao.BoardDao;
 import janggi.piece.Piece;
 import janggi.view.InputView;
 import janggi.view.OutputView;

@@ -1,5 +1,5 @@
 import janggi.JanggiGame;
-import janggi.dao.BoardDao;
+import janggi.database.dao.BoardDao;
 import janggi.database.DatabaseInitializer;
 import janggi.view.InputView;
 import janggi.view.OutputView;
