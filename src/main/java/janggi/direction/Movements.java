@@ -2,6 +2,7 @@ package janggi.direction;
 
 import janggi.position.Position;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Movements {
@@ -32,10 +33,6 @@ public class Movements {
         movements.addAll(givenMovements.getMovements());
     }
 
-    public void delete(final Movements givenMovements) {
-        movements.removeAll(givenMovements.getMovements());
-    }
-
     private int calculateUnit(final int difference) {
         if (difference == 0) {
             return difference;
@@ -44,6 +41,6 @@ public class Movements {
     }
 
     public List<Movement> getMovements() {
-        return movements;
+        return Collections.unmodifiableList(movements);
     }
 }
