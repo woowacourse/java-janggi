@@ -9,8 +9,8 @@ public class MysqlConnectionManager implements ConnectionManager {
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String USERNAME = "user";
+    private static final String PASSWORD = "password";
 
     @Override
     public Connection getConnection() {
