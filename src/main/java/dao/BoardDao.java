@@ -6,19 +6,15 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static db.ConnectionManager.getConnection;
+
 public class BoardDao {
 
-
-    private final PieceDao pieceDao;
-
-    public BoardDao(PieceDao pieceDao) {
-        this.pieceDao = pieceDao;
-    }
 
     public void saveScore(Map<Country, Integer> scoreByCountry) {
         String sql = "REPLACE INTO board_score (country, score) VALUES (?, ?)";
 
-        try (Connection conn = pieceDao.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             for (Map.Entry<Country, Integer> entry : scoreByCountry.entrySet()) {
@@ -37,7 +33,7 @@ public class BoardDao {
         String sql = "SELECT * FROM board_score";
         Map<Country, Integer> scoreMap = new HashMap<>();
 
-        try (Connection conn = pieceDao.getConnection();
+        try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
