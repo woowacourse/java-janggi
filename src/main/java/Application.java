@@ -1,6 +1,6 @@
 import janggi.JanggiGame;
-import janggi.dao.GameDaoImpl;
-import janggi.dao.PieceDaoImpl;
+import janggi.dao.game.GameDaoImpl;
+import janggi.dao.piece.PieceDaoImpl;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;

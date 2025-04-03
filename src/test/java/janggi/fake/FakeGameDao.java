@@ -1,8 +1,8 @@
 package janggi.fake;
 
 import janggi.GameState;
-import janggi.dao.GameDao;
 import janggi.dao.entity.GameEntity;
+import janggi.dao.game.GameDao;
 import janggi.piece.Team;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
-package janggi.dao;
+package janggi.dao.game;
 
 import janggi.GameState;
+import janggi.dao.JanggiDatabase;
 import janggi.dao.entity.GameEntity;
 import janggi.piece.Team;
 import java.sql.Connection;

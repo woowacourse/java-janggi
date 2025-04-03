@@ -1,7 +1,7 @@
 package janggi.fake;
 
-import janggi.dao.PieceDao;
 import janggi.dao.entity.PieceEntity;
+import janggi.dao.piece.PieceDao;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.Collections;

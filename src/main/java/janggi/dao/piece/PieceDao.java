@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.dao.piece;
 
 import janggi.dao.entity.PieceEntity;
 import janggi.position.Position;

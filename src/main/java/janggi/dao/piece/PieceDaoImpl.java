@@ -1,5 +1,6 @@
-package janggi.dao;
+package janggi.dao.piece;
 
+import janggi.dao.JanggiDatabase;
 import janggi.dao.entity.PieceEntity;
 import janggi.piece.PieceType;
 import janggi.piece.Team;

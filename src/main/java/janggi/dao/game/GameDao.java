@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.dao.game;
 
 import janggi.GameState;
 import janggi.dao.entity.GameEntity;
