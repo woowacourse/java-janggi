@@ -90,7 +90,7 @@ public class JanggiController {
     private void startNewGame(int gameId) {
         try {
             List<String> playerNames = inputView.readPlayerNames();
-            Games game = gameService.createGame(gameId);
+            gameService.createGame(gameId);
             Players players = playerService.savePlayer(playerNames, gameId);
             gameService.updateGameInfo(Status.STARTED, gameId, players, 0);
 

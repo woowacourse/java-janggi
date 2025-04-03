@@ -17,8 +17,8 @@ public class GameService {
         this.gameDao = new GameDao(connection);
     }
 
-    public Games createGame(int gameId) {
-        return gameDao.insertGame(gameId);
+    public void createGame(int gameId) {
+        gameDao.insertGame(gameId);
     }
 
     public void updateGameInfo(Status status, int gameId, Players players, int thisTurnSequence) {

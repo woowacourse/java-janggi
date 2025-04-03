@@ -34,7 +34,7 @@ public class PlayerDaoTest {
         Player savedPlayer = playerDao.insertPlayer(playerName, gameId, team);
 
         // then
-        Assertions.assertThat(savedPlayer.getId()).isEqualTo(3);
+        Assertions.assertThat(savedPlayer.getId()).isEqualTo(5);
         Assertions.assertThat(savedPlayer.getName()).isEqualTo("레몬");
         Assertions.assertThat(savedPlayer.getTeam()).isEqualTo(Team.BLUE);
     }

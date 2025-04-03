@@ -13,7 +13,7 @@ public class GameDao {
         this.connection = connection;
     }
 
-    public Games insertGame(int gameId) {
+    public void insertGame(int gameId) {
         final var insertGameSql = "INSERT INTO games (game_id,game_status) VALUES (?,?)";
 
         try (
@@ -22,9 +22,7 @@ public class GameDao {
             preparedStatement.setInt(1, gameId);
             preparedStatement.setString(2, Status.CREATED.name());
             preparedStatement.executeUpdate();
-
-            return new Games(gameId, null, 0, -1, -1);
-
+            
         } catch (SQLException e) {
             throw new IllegalArgumentException("게임 저장 오류", e);
         }
