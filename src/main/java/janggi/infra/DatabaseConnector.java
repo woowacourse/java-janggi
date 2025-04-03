@@ -6,20 +6,18 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private final DatabaseConfig DBConfig;
 
-    public static Connection getConnection() {
+    public DatabaseConnector(DatabaseConfig DBConfig) {
+        this.DBConfig = DBConfig;
+    }
+
+    public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            return DriverManager.getConnection(DBConfig.getUrl(), DBConfig.getUsername(),
+                    DBConfig.getPassword());
         } catch (final SQLException e) {
             throw new RuntimeException("DB 연결 오류:" + e.getMessage());
         }
-    }
-
-    private DatabaseConnector() {
     }
 }

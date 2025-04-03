@@ -14,10 +14,16 @@ import java.util.List;
 
 public class PieceDao {
 
+    private final DatabaseConnector DBConnector;
+
+    public PieceDao(DatabaseConnector DBConnector) {
+        this.DBConnector = DBConnector;
+    }
+
     public void addPiece(Piece piece, Point point) {
         String query = "INSERT INTO piece (type, camp, pos_x, pos_y) VALUES (?, ?, ?, ?)";
         Camp camp = piece.getCamp();
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, piece.getPieceType().getName(camp));
             preparedStatement.setString(2, camp.getName());
@@ -31,7 +37,7 @@ public class PieceDao {
 
     public Piece findByPoint(Point point) {
         String query = "SELECT * FROM piece WHERE pos_x = ? AND pos_y = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, point.getX());
             preparedStatement.setInt(2, point.getY());
@@ -49,7 +55,7 @@ public class PieceDao {
 
     public void updatePieceByPoint(Point point, Piece piece) {
         String query = "UPDATE piece SET type = ?, camp = ? WHERE pos_x = ? AND pos_y = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             Camp camp = piece.getCamp();
             preparedStatement.setString(1, piece.getPieceType().getName(camp));
@@ -64,7 +70,7 @@ public class PieceDao {
 
     public void deletePieceByPoint(Point point) {
         String query = "DELETE FROM piece WHERE pos_x = ? AND pos_y = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, point.getX());
             preparedStatement.setInt(2, point.getY());
@@ -76,7 +82,7 @@ public class PieceDao {
 
     public Camp findWinningCamp() {
         String query = "SELECT * FROM piece WHERE type = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, PieceType.GENERAL.getName(null));
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -92,7 +98,7 @@ public class PieceDao {
     public int getGeneralCount() {
         String query = "SELECT * FROM piece WHERE type = ?";
         int generalCount = 0;
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, PieceType.GENERAL.getName(null));
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -108,7 +114,7 @@ public class PieceDao {
     public List<Piece> findAllCampPieces(Camp camp) {
         String query = "SELECT * FROM piece WHERE camp = ?";
         List<Piece> campPieces = new ArrayList<>();
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, camp.getName());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -124,7 +130,7 @@ public class PieceDao {
 
     public void clearTable() {
         String query = "TRUNCATE TABLE piece";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

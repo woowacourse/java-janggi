@@ -5,6 +5,8 @@ import janggi.board.BoardGenerator;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.dao.GameDao;
+import janggi.infra.DatabaseConfig;
+import janggi.infra.DatabaseConnector;
 import janggi.piece.Piece;
 import janggi.view.View;
 
@@ -14,7 +16,10 @@ public class Application {
 
     public static void main(String[] args) {
         View view = new View();
-        GameDao gameDao = new GameDao();
+        DatabaseConfig DBConfig = new DatabaseConfig("localhost:13306", "janggi",
+                "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC", "root", "root");
+        DatabaseConnector DBConnector = new DatabaseConnector(DBConfig);
+        GameDao gameDao = new GameDao(DBConnector);
         view.displayStartBanner();
         boolean startGame = view.readStartGame();
         if (startGame) {

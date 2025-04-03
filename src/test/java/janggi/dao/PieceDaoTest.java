@@ -4,20 +4,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
+import janggi.infra.DatabaseConfig;
+import janggi.infra.DatabaseConnector;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Piece;
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class PieceDaoTest {
 
-    private final TestPieceDao testPieceDao = new TestPieceDao();
+    private DatabaseConfig DBConfig = new DatabaseConfig(
+            "localhost:23306", "janggi_test",
+            "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+            "test", "test");
+    private DatabaseConnector DBConnector;
+    private PieceDao pieceDao;
+
+    @BeforeEach
+    void setUp() {
+        DBConnector = new DatabaseConnector(DBConfig);
+        pieceDao = new PieceDao(DBConnector);
+    }
 
     @Test
     void connection() throws SQLException {
-        try (Connection connection = testPieceDao.getConnection()) {
+        try (Connection connection = DBConnector.getConnection()) {
             assertThat(connection).isNotNull();
         }
     }
@@ -26,14 +40,14 @@ public class PieceDaoTest {
     void addPiece() {
         Piece chariot = new Chariot(Camp.CHU);
         Point point = new Point(0, 0);
-        testPieceDao.addPiece(chariot, point);
+        pieceDao.addPiece(chariot, point);
     }
 
     @Test
     void findPiece() {
         Point point = new Point(0, 0);
         Piece chariot = new Chariot(Camp.CHU);
-        Piece piece = testPieceDao.findByPoint(point);
+        Piece piece = pieceDao.findByPoint(point);
         assertThat(piece.getPieceType()).isEqualTo(chariot.getPieceType());
     }
 
@@ -41,14 +55,14 @@ public class PieceDaoTest {
     void updatePiece() {
         Point point = new Point(0, 0);
         Piece cannon = new Cannon(Camp.HAN);
-        testPieceDao.updatePieceByPoint(point, cannon);
-        assertThat(testPieceDao.findByPoint(point).getPieceType()).isEqualTo(cannon.getPieceType());
+        pieceDao.updatePieceByPoint(point, cannon);
+        assertThat(pieceDao.findByPoint(point).getPieceType()).isEqualTo(cannon.getPieceType());
     }
 
     @Test
     void deletePiece() {
         Point point = new Point(0, 0);
-        testPieceDao.deletePieceByPoint(point);
-        assertThat(testPieceDao.findByPoint(point)).isNull();
+        pieceDao.deletePieceByPoint(point);
+        assertThat(pieceDao.findByPoint(point)).isNull();
     }
 }

@@ -2,6 +2,8 @@ package janggi.board;
 
 import janggi.camp.Camp;
 import janggi.dao.PieceDao;
+import janggi.infra.DatabaseConfig;
+import janggi.infra.DatabaseConnector;
 import janggi.piece.MoveType;
 import janggi.piece.Piece;
 import java.util.List;
@@ -20,7 +22,10 @@ public class Board {
 
     public Board() {
         this.palaceArea = new PalaceArea();
-        this.pieceDao = new PieceDao();
+        DatabaseConfig DBConfig = new DatabaseConfig("localhost:13306", "janggi",
+                "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC", "root", "root");
+        DatabaseConnector DBConnector = new DatabaseConnector(DBConfig);
+        this.pieceDao = new PieceDao(DBConnector);
     }
 
     public void placePiece(Point point, Piece piece) {

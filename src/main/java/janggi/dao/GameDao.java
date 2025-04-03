@@ -9,9 +9,15 @@ import java.sql.SQLException;
 
 public class GameDao {
 
+    private final DatabaseConnector DBConnector;
+
+    public GameDao(DatabaseConnector DBConnector) {
+        this.DBConnector = DBConnector;
+    }
+
     public void initializeGame(Camp firstTurnCamp) {
         String query = "INSERT INTO game (is_end, turn) VALUES (?, ?)";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setBoolean(1, false);
             preparedStatement.setString(2, firstTurnCamp.getName());
@@ -24,7 +30,7 @@ public class GameDao {
     public Camp findLatestTurn() {
         String query = "SELECT * FROM game WHERE id = ?";
         int gameId = findActiveGameId();
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -39,7 +45,7 @@ public class GameDao {
 
     public int findActiveGameId() {
         String query = "SELECT * FROM game WHERE is_end = false";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -54,7 +60,7 @@ public class GameDao {
     public void endGame() {
         String query = "UPDATE game SET is_end = ? WHERE id= ?";
         int gameId = findActiveGameId();
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setBoolean(1, true);
             preparedStatement.setInt(2, gameId);
@@ -67,7 +73,7 @@ public class GameDao {
     public void updateTurn(Camp camp) {
         String query = "UPDATE game SET turn = ? WHERE id= ?";
         int gameId = findActiveGameId();
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, camp.getName());
             preparedStatement.setInt(2, gameId);
@@ -79,7 +85,7 @@ public class GameDao {
 
     public boolean isNewGame() {
         String query = "SELECT NOT EXISTS (SELECT 1 FROM game WHERE is_end = false)";
-        try (Connection conn = DatabaseConnector.getConnection();
+        try (Connection conn = DBConnector.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
