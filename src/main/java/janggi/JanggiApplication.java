@@ -18,19 +18,25 @@ public class JanggiApplication {
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root";
 
-    public static void main(final String[] args) throws SQLException {
+    public static void main(final String[] args) {
         InputView inputView = new InputView(new Scanner(System.in));
         OutputView outputView = new OutputView();
-        Connection connection = getConnection();
-        PiecesDao piecesDao = new PiecesDao(connection);
-        TurnDao turnDao = new TurnDao(connection);
-        JanggiController janggiController = new JanggiController(
-            inputView,
-            outputView,
-            piecesDao,
-            turnDao
-        );
-        janggiController.startJanggi();
+        try (Connection connection = getConnection()) {
+            if (connection == null) {
+                throw new SQLException();
+            }
+            PiecesDao piecesDao = new PiecesDao(connection);
+            TurnDao turnDao = new TurnDao(connection);
+            JanggiController janggiController = new JanggiController(
+                inputView,
+                outputView,
+                piecesDao,
+                turnDao
+            );
+            janggiController.startJanggi();
+        } catch (SQLException e) {
+            System.out.println("데이터베이스 오류");
+        }
     }
 
     public static Connection getConnection() {

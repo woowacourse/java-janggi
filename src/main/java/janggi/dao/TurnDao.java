@@ -15,25 +15,28 @@ public class TurnDao {
 
     public void saveTurn(Turn turn) throws SQLException {
         final var query = "INSERT INTO turn(team) VALUES(?)";
-        final var preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, turn.getTeam().name());
-        preparedStatement.executeUpdate();
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, turn.getTeam().name());
+            preparedStatement.executeUpdate();
+        }
     }
 
     public Turn loadTurn() throws SQLException {
         final var query = "SELECT team FROM turn";
-        final var preparedStatement = connection.prepareStatement(query);
-        final var resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            Team team = Team.valueOf(resultSet.getString("team"));
-            return new Turn(team);
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            final var resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Team team = Team.valueOf(resultSet.getString("team"));
+                return new Turn(team);
+            }
+            throw new IllegalArgumentException("턴이 존재하지 않습니다");
         }
-        throw new IllegalArgumentException("턴이 존재하지 않습니다");
     }
 
     public void deleteTurn() throws SQLException {
         final var query = "DELETE FROM turn";
-        final var preparedStatement = connection.prepareStatement(query);
-        preparedStatement.executeUpdate();
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        }
     }
 }
