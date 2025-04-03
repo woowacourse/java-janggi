@@ -3,14 +3,15 @@ package piece;
 import direction.Movement;
 import direction.Point;
 import java.util.List;
+import team.Team;
 
 public class General extends Piece  {
 
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN,
             Movement.LEFT_UP, Movement.LEFT_DOWN, Movement.RIGHT_UP, Movement.RIGHT_DOWN);
 
-    public General(final Point current) {
-        super(PieceType.GENERAL, current);
+    public General(Team team, Point current) {
+        super(PieceType.GENERAL, team, current);
     }
 
     @Override
@@ -26,14 +27,14 @@ public class General extends Piece  {
         current = current.move(destinationMovement);
     }
 
-    private static void validateOnlyMoveInPalace(Point destination) {
+    private void validateOnlyMoveInPalace(Point destination) {
         if (!destination.isPalace()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
 
     private void validatePossibleDiagonalMovePoint() {
-        if ((!current.isPalaceCenter() && !current.isPalaceCorner())) {
+        if (!current.isPalaceCenter() && !current.isPalaceCorner()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
@@ -54,8 +55,8 @@ public class General extends Piece  {
         throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
     }
 
-    private static void validateIsExistPieceInPoint(final Pieces pieces, final Point nextPoint) {
-        if (pieces.isExistPieceIn(nextPoint)) {
+    private void validateIsExistPieceInPoint(final Pieces pieces, final Point nextPoint) {
+        if (pieces.isExistPieceInPointWithTeam(nextPoint, team)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
     }

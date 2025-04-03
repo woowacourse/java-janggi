@@ -10,11 +10,8 @@ public class Soldier extends Piece {
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP,
         Movement.LEFT_UP, Movement.RIGHT_UP);
 
-    private final Team team;
-
-    public Soldier(final Point current, final Team team) {
-        super(PieceType.SOLDIER, current);
-        this.team = team;
+    public Soldier(Team team, Point current) {
+        super(PieceType.SOLDIER, team, current);
     }
 
     @Override

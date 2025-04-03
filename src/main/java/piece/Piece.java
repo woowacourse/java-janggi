@@ -1,22 +1,22 @@
 package piece;
 
 import direction.Point;
+import java.nio.file.FileStore;
+import team.Team;
 
 public abstract class Piece {
 
     protected final PieceType type;
+    protected final Team team;
     protected Point current;
 
-    public Piece(PieceType type, Point current) {
+    public Piece(PieceType type, Team team, Point current) {
         this.type = type;
+        this.team = team;
         this.current = current;
     }
 
     public abstract void move(final Pieces allPieces, final Point destination);
-
-    public int killableToKill(Pieces oppositeTeamPieces) {
-        return oppositeTeamPieces.diePieceInPoint(current);
-    }
 
     public boolean isSamePoint(final Point point) {
         return current.equals(point);
@@ -42,5 +42,13 @@ public abstract class Piece {
 
     public int column() {
         return current.column();
+    }
+
+    public boolean isSameTeam(Team team) {
+        return this.team.equals(team);
+    }
+
+    public Team team() {
+        return team;
     }
 }

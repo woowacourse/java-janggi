@@ -4,6 +4,7 @@ import direction.Movement;
 import direction.Point;
 import java.util.List;
 import java.util.Map;
+import team.Team;
 
 public class Horse extends Piece {
 
@@ -18,8 +19,8 @@ public class Horse extends Piece {
             Movement.LEFT_LEFT_DOWN, List.of(Movement.LEFT)
     );
 
-    public Horse(final Point current) {
-        super(PieceType.HORSE, current);
+    public Horse(Team team, Point current) {
+        super(PieceType.HORSE, team, current);
     }
 
     @Override
@@ -51,8 +52,8 @@ public class Horse extends Piece {
         throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
     }
 
-    private static void validateIsExistPieceInPoint(final Pieces pieces, final Point nextPoint) {
-        if (pieces.isExistPieceIn(nextPoint)) {
+    private void validateIsExistPieceInPoint(final Pieces pieces, final Point nextPoint) {
+        if (pieces.isExistPieceInPoint(nextPoint)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
     }

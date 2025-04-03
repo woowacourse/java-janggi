@@ -4,6 +4,7 @@ import direction.Movement;
 import direction.Point;
 import java.util.List;
 import java.util.Map;
+import team.Team;
 
 public class Elephant extends Piece {
 
@@ -18,8 +19,8 @@ public class Elephant extends Piece {
             Movement.UP_UP_UP_RIGHT_RIGHT, List.of(Movement.UP, Movement.UP_UP_RIGHT)
     );
 
-    public Elephant(final Point current) {
-        super(PieceType.ELEPHANT, current);
+    public Elephant(Team team, Point current) {
+        super(PieceType.ELEPHANT, team, current);
     }
 
     @Override
@@ -51,8 +52,8 @@ public class Elephant extends Piece {
         throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
     }
 
-    private static void validateIsExistPieceInPoint(final Pieces pieces, Point nextPoint) {
-        if (pieces.isExistPieceIn(nextPoint)) {
+    private void validateIsExistPieceInPoint(final Pieces pieces, Point nextPoint) {
+        if (pieces.isExistPieceInPoint(nextPoint)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
     }
