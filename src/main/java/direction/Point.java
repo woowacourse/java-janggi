@@ -50,15 +50,15 @@ public final class Point {
     }
 
     public boolean isPalaceCorner() {
-        return (PALACE_START_X == column || PALACE_END_X == column) && (CHO_PALACE_END_Y == row
-                || CHO_PALACE_START_Y == row
+        return (PALACE_START_X == column || PALACE_END_X == column)
+                && (CHO_PALACE_END_Y == row || CHO_PALACE_START_Y == row
                 || HAN_PALACE_START_Y == row || HAN_PALACE_END_Y == row);
     }
 
     public boolean isPalace() {
-        return (PALACE_START_X <= column && PALACE_END_X >= column) && (
-                (CHO_PALACE_START_Y >= row && CHO_PALACE_END_Y <= row)
-                        || (HAN_PALACE_START_Y <= row && HAN_PALACE_END_Y >= row));
+        return PALACE_START_X <= column && PALACE_END_X >= column
+                && ((CHO_PALACE_START_Y >= row && CHO_PALACE_END_Y <= row)
+                || (HAN_PALACE_START_Y <= row && HAN_PALACE_END_Y >= row));
     }
 
     public boolean isPalaceCenter() {
