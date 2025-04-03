@@ -13,10 +13,10 @@ import janggi.piece.board.Board;
 import janggi.piece.players.Players;
 import janggi.piece.players.Team;
 import janggi.position.Position;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 
 public class PieceHistoryManager {
 
@@ -50,17 +50,20 @@ public class PieceHistoryManager {
     }
 
     private void initializeChoPieces(final Board choPieces) {
-        for (final Piece piece : choPieces.getPieces()) {
-            final Position position = piece.getPosition();
+        for (final Entry<Position, Piece> entry : choPieces.getBoard().entrySet()) {
+            final Position position = entry.getKey();
+            final Piece piece = entry.getValue();
             final PieceDto pieceDto = new PieceDto(Team.CHO, piece.getPieceType(), position.getY(), position.getX());
             pieceDao.insert(pieceDto);
         }
     }
 
     private void initializeHanPieces(final Board hanPieces) {
-        for (final Piece piece : hanPieces.getPieces()) {
-            final Position position = piece.getPosition();
-            pieceDao.insert(new PieceDto(Team.HAN, piece.getPieceType(), position.getY(), position.getX()));
+        for (final Entry<Position, Piece> entry : hanPieces.getBoard().entrySet()) {
+            final Position position = entry.getKey();
+            final Piece piece = entry.getValue();
+            final PieceDto pieceDto = new PieceDto(Team.HAN, piece.getPieceType(), position.getY(), position.getX());
+            pieceDao.insert(pieceDto);
         }
     }
 
@@ -72,13 +75,12 @@ public class PieceHistoryManager {
 
     private Board loadPlayers(final Team team) {
         final List<PieceDto> pieceDtos = pieceDao.select(team);
-        final Set<Piece> pieces = new HashSet<>();
+        final Map<Position, Piece> pieces2 = new HashMap<>();
         for (final PieceDto pieceDto : pieceDtos) {
-            final Piece piece = new Piece(makePieceMoveRule(pieceDto.pieceType()),
-                    makePosition(pieceDto.y(), pieceDto.x()));
-            pieces.add(piece);
+            final Piece piece = new Piece(makePieceMoveRule(pieceDto.pieceType()));
+            pieces2.put(makePosition(pieceDto.y(), pieceDto.x()), piece);
         }
-        return Board.from(pieces);
+        return new Board(pieces2);
     }
 
     private PieceMoveRule makePieceMoveRule(final PieceType pieceType) {

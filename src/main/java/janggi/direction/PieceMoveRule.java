@@ -7,7 +7,7 @@ import janggi.position.Position;
 
 public class PieceMoveRule {
 
-    protected final PieceType pieceType;
+    private final PieceType pieceType;
     private final MoveStrategy moveStrategy;
     private final ObstacleStrategy obstacleStrategy;
 
@@ -24,6 +24,10 @@ public class PieceMoveRule {
         }
         final Movement movement = moveStrategy.move(currentPosition, arrivalPosition, pieceType);
         obstacleStrategy.checkObstacle(currentPosition, arrivalPosition, movement, board);
+    }
+
+    public boolean isObstacleJumping() {
+        return obstacleStrategy.isObstacleJumping();
     }
 
     public PieceType getPieceType() {

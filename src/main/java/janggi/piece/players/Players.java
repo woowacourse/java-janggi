@@ -5,14 +5,11 @@ import janggi.piece.Piece;
 import janggi.piece.board.Board;
 import janggi.position.Position;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-// 팀마다의 기물들을 관리한다
 public class Players {
 
     private static final int TOTAL_KING_COUNT = 2;
@@ -30,7 +27,7 @@ public class Players {
         final Board currrentTeamBoard = players.get(currentTeam);
         final Board opponentBoard = players.get(currentTeam.getOppositeTeam());
 
-        final Board totalPieces = getTotalPieces();
+        final Board totalPieces = getTotalBoard();
         currrentTeamBoard.validatePath(currentPosition, arrivalPosition, totalPieces);
         final Optional<Piece> caughtPieceOptional = catchPiece(arrivalPosition, currrentTeamBoard, opponentBoard);
         currrentTeamBoard.updatePiece(currentPosition, arrivalPosition);
@@ -60,12 +57,10 @@ public class Players {
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 왕이 존재하지 않을 수 없습니다."));
     }
 
-    public Board getTotalPieces() {
-        final Set<Piece> totalPieces = new HashSet<>();
-        for (final Board board : players.values()) {
-            totalPieces.addAll(board.getPieces());
-        }
-        return Board.from(totalPieces);
+    public Board getTotalBoard() {
+        final Board choBoard = players.get(Team.CHO);
+        final Board hanBoard = players.get(Team.HAN);
+        return choBoard.addAll(hanBoard);
     }
 
     public Map<Team, Double> calculateScore() {
@@ -113,8 +108,8 @@ public class Players {
     }
 
     private boolean hasSameTeamPiece(final Board currentTeamBoard, final Position arrivalPosition) {
-        return currentTeamBoard.getPieces().stream()
-                .anyMatch(piece -> piece.isSamePosition(arrivalPosition));
+        return currentTeamBoard.getPositions().stream()
+                .anyMatch(position -> position.equals(arrivalPosition));
     }
 
     private void validateSamePosition(final Position currentPosition, final Position arrivalPosition) {

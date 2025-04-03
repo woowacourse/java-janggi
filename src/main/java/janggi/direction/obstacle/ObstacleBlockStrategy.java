@@ -18,6 +18,11 @@ public class ObstacleBlockStrategy implements ObstacleStrategy {
         }
     }
 
+    @Override
+    public boolean isObstacleJumping() {
+        return false;
+    }
+
     private boolean hasPieceInMiddle(final Path path, final Board board) {
         final List<Position> positions = new ArrayList<>(path.getPositions());
         positions.removeLast();

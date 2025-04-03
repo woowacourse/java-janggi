@@ -9,7 +9,7 @@ import janggi.direction.obstacle.ObstacleBlockStrategy;
 import janggi.piece.Piece;
 import janggi.piece.board.Board;
 import janggi.position.Position;
-import java.util.Set;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,13 +23,13 @@ class WalkingStrategyTest {
         final Position currentPosition = new Position(3, 3);
         final Position arrivalPosition = new Position(6, 5);
         final Piece piece = new Piece(
-                new PieceMoveRule(PieceType.ELEPHANT, new RelativeMoveStrategy(), walkingStrategy), currentPosition);
+                new PieceMoveRule(PieceType.ELEPHANT, new RelativeMoveStrategy(), walkingStrategy));
 
         // When & Then
         Assertions.assertThatCode(() ->
                 walkingStrategy.checkObstacle(currentPosition, arrivalPosition,
                         new Movement(Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT),
-                        Board.from(Set.of(piece)))
+                        new Board(Map.of(currentPosition, piece)))
         ).doesNotThrowAnyException();
     }
 }

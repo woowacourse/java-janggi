@@ -3,12 +3,10 @@ package janggi.piece.board;
 import janggi.direction.PieceType;
 import janggi.piece.Piece;
 import janggi.position.Position;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Board {
 
@@ -16,11 +14,6 @@ public class Board {
 
     public Board(final Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
-    }
-
-    public static Board from(final Set<Piece> givenPieces) {
-        return new Board(givenPieces.stream()
-                .collect(Collectors.toMap(Piece::getPosition, Function.identity())));
     }
 
     public void validatePath(final Position currentPosition, final Position arrivalPosition,
@@ -51,7 +44,6 @@ public class Board {
 
     public void updatePiece(final Position currentPosition, final Position arrivalPosition) {
         final Piece currentPiece = findPieceByPosition(currentPosition);
-        currentPiece.updatePosition(arrivalPosition);
         pieces.remove(currentPosition);
         pieces.put(arrivalPosition, currentPiece);
     }
@@ -60,11 +52,14 @@ public class Board {
         final Piece firstPiece = findPieceByPosition(firstPosition);
         final Piece secondPiece = findPieceByPosition(secondPosition);
 
-        firstPiece.updatePosition(secondPosition);
-        secondPiece.updatePosition(firstPosition);
-
         pieces.put(firstPosition, secondPiece);
         pieces.put(secondPosition, firstPiece);
+    }
+
+    public Board addAll(final Board givenBoard) {
+        final Map<Position, Piece> pieces = new HashMap<>(getBoard());
+        pieces.putAll(givenBoard.getBoard());
+        return new Board(pieces);
     }
 
     public Double calculateScore() {
@@ -77,5 +72,15 @@ public class Board {
         return pieces.values()
                 .stream()
                 .toList();
+    }
+
+    public List<Position> getPositions() {
+        return pieces.keySet()
+                .stream()
+                .toList();
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return Collections.unmodifiableMap(pieces);
     }
 }

@@ -2,7 +2,6 @@ package janggi.direction.obstacle;
 
 import janggi.direction.Movement;
 import janggi.piece.board.Board;
-import janggi.piece.Piece;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
@@ -24,6 +23,11 @@ public class ObstacleJumpingObstacle implements ObstacleStrategy {
         }
     }
 
+    @Override
+    public boolean isObstacleJumping() {
+        return true;
+    }
+
     private int computeCountExistPieceExceptLastPosition(final Path path, final Board board) {
         final List<Position> positions = new ArrayList<>(path.getPositions());
         if (!positions.isEmpty()) {
@@ -41,9 +45,9 @@ public class ObstacleJumpingObstacle implements ObstacleStrategy {
                 .anyMatch(position -> findObstacleJumping(board, position));
     }
 
-    private boolean findObstacleJumping(final Board board, final Position position) {
-        return board.getPieces().stream()
-                .filter(piece -> piece.isSamePosition(position))
-                .anyMatch(Piece::isObstacleJumping);
+    private boolean findObstacleJumping(final Board board, final Position givenPosition) {
+        return board.getBoard().entrySet().stream()
+                .filter(entry -> entry.getKey().equals(givenPosition))
+                .anyMatch(entry -> entry.getValue().isObstacleJumping());
     }
 }

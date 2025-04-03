@@ -8,19 +8,9 @@ import janggi.position.Position;
 public class Piece {
 
     private final PieceMoveRule pieceMoveRule;
-    private Position position;
 
-    public Piece(final PieceMoveRule pieceMoveRule, final Position position) {
+    public Piece(final PieceMoveRule pieceMoveRule) {
         this.pieceMoveRule = pieceMoveRule;
-        this.position = position;
-    }
-
-    public boolean isSamePosition(final Position givenPosition) {
-        return position.equals(givenPosition);
-    }
-
-    public void updatePosition(final Position arrivalPosition) {
-        position = arrivalPosition;
     }
 
     public void validateMovement(final Position currentPosition, final Position arrivalPosition,
@@ -29,16 +19,11 @@ public class Piece {
     }
 
     public boolean isObstacleJumping() {
-        return getPieceType() == PieceType.CANNON;
+        return pieceMoveRule.isObstacleJumping();
     }
 
     public boolean matchPieceMovement(final PieceType givenPieceType) {
         return getPieceType() == givenPieceType;
-    }
-
-
-    public Position getPosition() {
-        return position;
     }
 
     public PieceType getPieceType() {
