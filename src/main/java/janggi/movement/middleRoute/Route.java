@@ -15,15 +15,13 @@ public class Route {
 
     public static Route repeat(Direction direction, Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        Point pointer = startPoint;
-        while (true) {
+        Point pointer = startPoint.move(direction.getRowOffset(), direction.getColumnOffset());
+        while (!pointer.equals(targetPoint)) {
             try {
-                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
-                if (pointer.equals(targetPoint)) {
-                    break;
-                }
                 route.add(pointer);
+                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
             } catch (IllegalArgumentException ignore) {
+                throw new IllegalStateException("시스템에 문제가 발생했습니다.");
             }
         }
         return new Route(route);
@@ -38,6 +36,7 @@ public class Route {
                 pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
                 route.add(pointer);
             } catch (IllegalArgumentException ignore) {
+                throw new IllegalStateException("시스템에 문제가 발생했습니다.");
             }
         }
         return new Route(route);

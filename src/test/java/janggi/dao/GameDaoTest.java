@@ -44,12 +44,6 @@ class GameDaoTest {
     }
 
     @Test
-    @DisplayName("하나의 게임 투플을 추가한다.")
-    void createGameTuple() {
-        gameDao.createGame(createdGame);
-    }
-
-    @Test
     @DisplayName("가장 최근에 만들어진 게임 투플을 조회한다.")
     void findGameLastCreated() {
         GameDto lastCreatedGame = gameDao.findLastCreated();
@@ -72,8 +66,6 @@ class GameDaoTest {
     @Test
     @DisplayName("게임 객체를 삭제한다.")
     void deleteGame() {
-        gameDao.createGame(createdGame);
-
         gameDao.deleteGame(createdGame);
 
         assertThatThrownBy(() -> gameDao.deleteGame(createdGame))
