@@ -8,8 +8,8 @@ public abstract class FixedPalacePieces extends Piece {
     private static final int PALACE_MIN_POINT_X = 3;
     private static final int PALACE_MAX_POINT_X = 5;
 
-    protected FixedPalacePieces(Team team, PieceName pieceName) {
-        super(team, pieceName);
+    protected FixedPalacePieces(Team team, PieceName pieceName, Score score) {
+        super(team, pieceName, score);
     }
 
     @Override
@@ -23,7 +23,7 @@ public abstract class FixedPalacePieces extends Piece {
         if (targetPoint.x() < PALACE_MIN_POINT_X || targetPoint.x() > PALACE_MAX_POINT_X) {
             throw new IllegalArgumentException("궁 밖에 나갈 수 없습니다.");
         }
-        if (targetPoint.y() < team.getYPalaceMinimum() || targetPoint.y() > team.getYPalaceMaximum()) {
+        if (targetPoint.y() < getTeam().getYPalaceMinimum() || targetPoint.y() > getTeam().getYPalaceMaximum()) {
             throw new IllegalArgumentException("궁 밖에 나갈 수 없습니다.");
         }
     }

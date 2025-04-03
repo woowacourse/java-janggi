@@ -21,6 +21,7 @@ public class Janggi {
     JanggiBoard janggiBoard;
     public void play() {
         int gameVersion = selectGameVersion();
+        int turn = 0;
         if (gameVersion == 1) {
         int setUpChoice = choiceSetUp();
             janggiBoard = switch (setUpChoice) {
@@ -33,11 +34,12 @@ public class Janggi {
         }
         if (gameVersion == 2) {
             janggiBoard = new JanggiBoard(janggiDao);
+            turn = janggiDao.getGameTurn();
         }
 
         displayJanggiBoard(janggiBoard);
         displayJanggiScore(janggiBoard.getTeamScore(Team.BLUE), janggiBoard.getTeamScore(Team.RED));
-        for (int i = janggiDao.getGameTurn(); true; i++) {
+        for (int i = turn; true; i++) {
             Team team = Team.RED;
             if (i % 2 == 0) {
                 team = Team.BLUE;

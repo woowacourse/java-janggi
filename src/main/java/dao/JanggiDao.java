@@ -21,15 +21,15 @@ import model.piece.Byeong;
 import model.piece.Cha;
 import model.piece.Jang;
 import model.piece.Ma;
-import model.piece.Pho;
 import model.piece.Piece;
+import model.piece.Po;
 import model.piece.Sa;
 import model.piece.Sang;
 
 public final class JanggiDao {
 
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "chess"; // MySQL DATABASE 이름
+    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
@@ -40,7 +40,7 @@ public final class JanggiDao {
         put("象", Sang::new);
         put("馬", Ma::new);
         put("車", Cha::new);
-        put("包", Pho::new);
+        put("包", Po::new);
         put("兵", Byeong::new);
     }};
 
@@ -96,39 +96,53 @@ public final class JanggiDao {
     }
 
     public List<List<Dot>> settingBeforeJanggiBoard() {
-        final String getGameStateQuery = "SELECT * FROM game_state ORDER BY game_id DESC LIMIT 1";
         final String getPiecesQuery = "SELECT * FROM pieces WHERE game_id = ?";
-
+        final int beforeGameId = getLatestGameId();
         List<List<Dot>> board = initializeJanggiBoard();
 
         try (Connection connection = getConnection();
-             Statement stmtGameState = connection.createStatement();
-             ResultSet gameStateResultSet = stmtGameState.executeQuery(getGameStateQuery)) {
+             PreparedStatement stmt = connection.prepareStatement(getPiecesQuery)) {
 
-            if (gameStateResultSet.next()) {
-                int gameStateId = gameStateResultSet.getInt("game_id");
+            stmt.setInt(1, beforeGameId);
 
-                try (PreparedStatement stmtPieces = connection.prepareStatement(getPiecesQuery)) {
-                    stmtPieces.setInt(1, gameStateId);
-                    try (ResultSet piecesResultSet = stmtPieces.executeQuery()) {
-                        while (piecesResultSet.next()) {
-                            int x = piecesResultSet.getInt("x_position");
-                            int y = piecesResultSet.getInt("y_position");
-                            String pieceName = piecesResultSet.getString("piece_name");
-                            String teamName = piecesResultSet.getString("team");
-
-                            Team team = Team.findTeamByName(teamName);
-                            Piece piece = PIECE_FACTORY.getOrDefault(pieceName, t -> null).apply(team);
-                            Dot dot = new Dot(piece);
-                            board.get(y).set(x, dot);
-                        }
-                    }
-                }
+            try (ResultSet rs = stmt.executeQuery()) {
+                placePiecesOnBoard(board, rs);
             }
         } catch (SQLException e) {
             throw new IllegalArgumentException("기존 게임을 불러오는 중 오류 발생", e);
         }
         return board;
+    }
+
+    private void placePiecesOnBoard(List<List<Dot>> board, ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            int x = rs.getInt("x_position");
+            int y = rs.getInt("y_position");
+            Piece piece = createPiece(rs.getString("piece_name"), rs.getString("team"));
+            board.get(y).set(x, new Dot(piece));
+        }
+    }
+
+    private Piece createPiece(String pieceName, String teamName) {
+        Team team = Team.findTeamByName(teamName);
+        return PIECE_FACTORY.getOrDefault(pieceName, t -> null).apply(team);
+    }
+
+    private int getLatestGameId() {
+        final String query = "SELECT game_id FROM game_state ORDER BY game_id DESC LIMIT 1";
+
+        try (Connection connection = getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            if (rs.next()) {
+                return rs.getInt("game_id");
+            } else {
+                throw new IllegalArgumentException("이전 게임 아이디가 없습니다.");
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("게임 상태를 불러오는 중 오류 발생", e);
+        }
     }
 
     private List<List<Dot>> initializeJanggiBoard() {
@@ -148,23 +162,11 @@ public final class JanggiDao {
         return dotLine;
     }
 
-    private int getLatestGameId(Connection connection) throws SQLException {
-        final String query = "SELECT game_id FROM game_state ORDER BY game_id DESC LIMIT 1";
-        try (PreparedStatement stmt = connection.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-            throw new IllegalArgumentException("장기판 정보가 존재하지 않습니다.");
-        }
-    }
-
     public void deletePiece(Point targetPoint) {
         final String deletePieceQuery = "DELETE FROM pieces WHERE x_position = ? AND y_position = ? AND game_id=?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(deletePieceQuery)) {
-            int gameId = getLatestGameId(connection);
-
+            int gameId = getLatestGameId();
             preparedStatement.setInt(1, targetPoint.x());
             preparedStatement.setInt(2, targetPoint.y());
             preparedStatement.setInt(3, gameId);
@@ -178,7 +180,7 @@ public final class JanggiDao {
         final String updatePieceLocationQuery = "UPDATE pieces SET x_position = ?, y_position = ? WHERE piece_name = ? AND team = ? AND game_id=?";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updatePieceLocationQuery)) {
-            int gameId = getLatestGameId(connection);
+            int gameId = getLatestGameId();
 
             preparedStatement.setInt(1, targetPoint.x());
             preparedStatement.setInt(2, targetPoint.y());
@@ -195,7 +197,7 @@ public final class JanggiDao {
         final String updateTurnQuery = "UPDATE game_state SET turn= turn+1 WHERE game_id=?";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateTurnQuery)) {
-            int gameId = getLatestGameId(connection);
+            int gameId = getLatestGameId();
 
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
