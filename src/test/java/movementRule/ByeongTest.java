@@ -53,28 +53,4 @@ class ByeongTest {
         );
     }
 
-    @Test
-    @DisplayName("자신의 타입 리턴 테스트")
-    void pieceTypeTest() {
-        Byeong byeong = new Byeong();
-        Position startPosition = new Position(5, 5);
-
-        assertThat(byeong.getPieceType().equals(BYEONG)).isTrue();
-    }
-
-    @Test
-    @DisplayName("왕인지 물어보는 테스트")
-    void isJanggunTest() {
-        Byeong byeong = new Byeong();
-
-        assertThat(byeong.isJanggun()).isFalse();
-    }
-
-    @Test
-    @DisplayName("포 판별 테스트")
-    void isPoTest() {
-        Byeong byeong = new Byeong();
-
-        assertThat(byeong.isPo()).isFalse();
-    }
 }

@@ -1,16 +1,15 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static pieceProperty.PieceType.BYEONG;
+import static pieceProperty.PieceType.CHO_JANGGUN;
+import static pieceProperty.PieceType.JOL;
+import static pieceProperty.PieceType.MA;
 import static player.Nation.CHO;
 import static player.Nation.HAN;
 
 import java.util.Map;
-import movementRule.Byeong;
-import movementRule.Jol;
-import movementRule.Ma;
-import movementRule.omniDirectionMover.ChoJanggun;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Piece;
 import pieceProperty.Position;
 import player.JanggiPan;
 import player.Player;
@@ -35,7 +34,7 @@ class JanggiGameStateTest {
     void isGameOverTest() {
         //given
         Player hanPlayer = new Player(new JanggiPan(Map.of(
-                new Position(5, 5), new Piece(new Ma()))));
+                new Position(5, 5), MA)));
         Player choPlayer = new Player(new JanggiPan(Map.of()));
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
@@ -49,9 +48,9 @@ class JanggiGameStateTest {
     void isNotGameOverTest() {
         //given
         Player hanPlayer = new Player(new JanggiPan(Map.of(
-                new Position(8, 5), new Piece(new ChoJanggun()))));
+                new Position(8, 5), CHO_JANGGUN)));
         Player choPlayer = new Player(new JanggiPan(Map.of(
-                new Position(0, 5), new Piece(new ChoJanggun()))));
+                new Position(0, 5), CHO_JANGGUN)));
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
@@ -65,7 +64,7 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new JanggiPan(Map.of()));
         Player choPlayer = new Player(new JanggiPan(Map.of(
-                new Position(5, 5), new Piece(new Ma()))));
+                new Position(5, 5), MA)));
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
@@ -78,13 +77,13 @@ class JanggiGameStateTest {
     void movePieceTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(Map.of(
-                new Position(1, 6), new Piece(new Ma()), new Position(4, 5), new Piece(new Ma()),
-                new Position(5, 5), new Piece(new Ma()), new Position(6, 5), new Piece(new Jol()),
-                new Position(4, 3), new Piece(new Byeong())
+                new Position(1, 6), MA, new Position(4, 5), MA,
+                new Position(5, 5), MA, new Position(6, 5), JOL,
+                new Position(4, 3), BYEONG
         ));
         JanggiPan janggiPan1 = new JanggiPan(Map.of(
-                new Position(1, 7), new Piece(new Jol()), new Position(2, 5), new Piece(new Jol()),
-                new Position(3, 3), new Piece(new Byeong())
+                new Position(1, 7), JOL, new Position(2, 5), JOL,
+                new Position(3, 3),BYEONG
         ));
 
         Player player1 = new Player(janggiPan);

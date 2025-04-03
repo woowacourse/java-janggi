@@ -52,27 +52,4 @@ class JolTest {
                 Arguments.of(new Position(6, 6)));
     }
 
-    @Test
-    @DisplayName("자신의 타입 리턴 테스트")
-    void pieceTypeTest() {
-        Jol jol = new Jol();
-
-        assertThat(jol.getPieceType().equals(JOL)).isTrue();
-    }
-
-    @Test
-    @DisplayName("왕인지 물어보는 테스트")
-    void isJanggunTest() {
-        Jol jol = new Jol();
-
-        assertThat(jol.isJanggun()).isFalse();
-    }
-
-    @Test
-    @DisplayName("포 판별 테스트")
-    void isPoTest() {
-        Jol jol = new Jol();
-
-        assertThat(jol.isPo()).isFalse();
-    }
 }

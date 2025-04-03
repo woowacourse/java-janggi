@@ -3,16 +3,17 @@ package player;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static pieceProperty.PieceType.CHO_JANGGUN;
+import static pieceProperty.PieceType.JOL;
+import static pieceProperty.PieceType.MA;
+import static pieceProperty.PieceType.PO;
 
 import java.util.List;
 import java.util.Map;
-import movementRule.Ma;
-import movementRule.omniDirectionMover.ChoJanggun;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import movementRule.Jol;
 import movementRule.linearMover.Po;
-import piece.Piece;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 
@@ -29,7 +30,7 @@ class PlayerTest {
     @DisplayName("왕이 죽었는지 판단 테스트")
     void isJanggunDieTest() {
         //given
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(new Jol())));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL));
         Player player = new Player(janggiPan);
 
         //when - then
@@ -40,7 +41,7 @@ class PlayerTest {
     @DisplayName("왕이 살았는지 판단 테스트")
     void isKingNotDieTest() {
         //given
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(8, 5), new Piece(new ChoJanggun())));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(8, 5), CHO_JANGGUN));
         Player player = new Player(janggiPan);
 
         //when - then
@@ -51,9 +52,7 @@ class PlayerTest {
     @DisplayName("출발 지점에 있는 기물이 도착 지점에 갈 수 있는지 테스트")
     void validateAllyPieceAtStartTest() {
         //given
-        Jol jol = new Jol();
-        ChoJanggun choJanggun = new ChoJanggun();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(8, 4), new Piece(choJanggun)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(8, 4), CHO_JANGGUN));
 
         Player player = new Player(janggiPan);
 
@@ -70,9 +69,7 @@ class PlayerTest {
     @DisplayName("도착 지점 아군 판별 테스트")
     void validateAllyPieceAtDestination() {
         //given
-        Jol jol = new Jol();
-        Ma ma = new Ma();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 4), new Piece(ma)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(6, 4), MA));
 
         Player player = new Player(janggiPan);
 
@@ -88,9 +85,7 @@ class PlayerTest {
     @DisplayName("출발 지점에 있는 기물이 도착 지점에 갈 수 있는지 테스트")
     void canPieceMoveToTest() {
         //given
-        Jol jol = new Jol();
-        Ma ma = new Ma();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 4), new Piece(ma)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(6, 4), MA));
 
         Player player = new Player(janggiPan);
 
@@ -107,7 +102,7 @@ class PlayerTest {
     void makeRouteTest() {
         //given
         Jol jol = new Jol();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL));
 
         Player player = new Player(janggiPan);
 
@@ -124,11 +119,8 @@ class PlayerTest {
     @DisplayName("경로 상에 같은 위치 기물 개수 확인")
     void countObstacleTest() {
         //given
-        Jol jol = new Jol();
-        Ma ma = new Ma();
-        Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(ma),
-                new Position(4, 3), new Piece(po)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(6, 5), MA,
+                new Position(4, 3), PO));
 
         Player player = new Player(janggiPan);
 
@@ -150,8 +142,8 @@ class PlayerTest {
         //given
         Jol jol = new Jol();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
-                new Position(4, 3), new Piece(po)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(6, 5), JOL,
+                new Position(4, 3), PO));
 
         Player player = new Player(janggiPan);
 
@@ -169,8 +161,8 @@ class PlayerTest {
         //given
         Jol jol = new Jol();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
-                new Position(4, 3), new Piece(po)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(6, 5), JOL,
+                new Position(4, 3), PO));
 
         Player player = new Player(janggiPan);
 
@@ -184,8 +176,8 @@ class PlayerTest {
         //given
         Jol jol = new Jol();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
-                new Position(4, 3), new Piece(po)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(6, 5), JOL,
+                new Position(4, 3), PO));
 
         Player player = new Player(janggiPan);
 
@@ -208,8 +200,8 @@ class PlayerTest {
         //given
         Jol jol = new Jol();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
-                new Position(4, 3), new Piece(po)));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), JOL, new Position(6, 5), JOL,
+                new Position(4, 3), PO));
 
         Player player = new Player(janggiPan);
 

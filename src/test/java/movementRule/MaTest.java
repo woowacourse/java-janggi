@@ -52,28 +52,4 @@ class MaTest {
                 Arguments.of(new Position(5, 3)));
     }
 
-    @Test
-    @DisplayName("자신의 타입 리턴 테스트")
-    void pieceTypeTest() {
-        Ma ma = new Ma();
-
-        assertThat(ma.getPieceType().equals(MA)).isTrue();
-    }
-
-    @Test
-    @DisplayName("왕인지 물어보는 테스트")
-    void isJanggunTest() {
-        Ma ma = new Ma();
-
-        assertThat(ma.isJanggun()).isFalse();
-    }
-
-    @Test
-    @DisplayName("포 판별 테스트")
-    void isPoTest() {
-        Ma ma = new Ma();
-
-        assertThat(ma.isPo()).isFalse();
-    }
-
 }

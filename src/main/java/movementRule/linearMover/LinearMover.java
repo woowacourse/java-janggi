@@ -87,7 +87,4 @@ public abstract sealed class LinearMover
         }
     }
 
-    @Override
-    public abstract PieceType getPieceType();
-
 }

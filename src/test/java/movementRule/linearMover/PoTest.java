@@ -45,28 +45,4 @@ class PoTest {
         );
     }
 
-    @Test
-    @DisplayName("자신의 타입 리턴 테스트")
-    void pieceTypeTest() {
-        Po po = new Po();
-
-        assertThat(po.getPieceType().equals(PO)).isTrue();
-    }
-
-    @Test
-    @DisplayName("왕인지 물어보는 테스트")
-    void isJanggunTest() {
-        Po po = new Po();
-
-        assertThat(po.isJanggun()).isFalse();
-    }
-
-    @Test
-    @DisplayName("포 판별 테스트")
-    void isPoTest() {
-        Po po = new Po();
-
-        assertThat(po.isPo()).isTrue();
-    }
-
 }

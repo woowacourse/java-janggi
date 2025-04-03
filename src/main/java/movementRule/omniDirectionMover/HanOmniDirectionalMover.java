@@ -2,7 +2,6 @@ package movementRule.omniDirectionMover;
 
 import java.util.List;
 import movementRule.PieceRule;
-import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 import view.ErrorMessage;
@@ -23,9 +22,6 @@ public abstract class HanOmniDirectionalMover implements PieceRule {
     public Positions makeRoute(final Position startPosition, Position destination) {
         return new Positions(List.of());
     }
-
-    @Override
-    public abstract PieceType getPieceType();
 
     private boolean isOmniDirectionalMover(final Position startPosition, Position destination) {
         return !startPosition.isOneStepDiagonalMoveForHanOmniDirectionMover(destination)

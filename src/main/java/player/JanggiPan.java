@@ -2,23 +2,23 @@ package player;
 
 import java.util.HashMap;
 import java.util.Map;
-import piece.Piece;
+import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 import view.ErrorMessage;
 
 public class JanggiPan {
 
-    private final Map<Position, Piece> pieces;
+    private final Map<Position, PieceType> pieces;
 
-    public JanggiPan(Map<Position, Piece> pieces) {
+    public JanggiPan(Map<Position, PieceType> pieces) {
         this.pieces = new HashMap<>(pieces);
     }
 
     public void movePiece(final Position presentPosition, final Position destination) {
-        Piece piece = pieces.get(presentPosition);
+        PieceType pieceType = pieces.get(presentPosition);
         pieces.remove(presentPosition);
-        pieces.put(destination, piece);
+        pieces.put(destination, pieceType);
     }
 
     public void validateAllyPieceAtStart(final Position presentPosition) {
@@ -49,7 +49,7 @@ public class JanggiPan {
 
     public boolean hasJanggun() {
         return pieces.values().stream()
-                .noneMatch(Piece::isJanggun);
+                .noneMatch(PieceType::isJanggun);
     }
 
     public boolean isPoAt(final Position presentPosition) {
@@ -61,7 +61,7 @@ public class JanggiPan {
                 .anyMatch(position -> route.contains(position) && pieces.get(position).isPo());
     }
 
-    public Map<Position, Piece> getPieces() {
+    public Map<Position, PieceType> getPieces() {
         return pieces;
     }
 

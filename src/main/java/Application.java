@@ -1,8 +1,8 @@
 import static player.Nation.CHO;
 import static player.Nation.HAN;
 
-import Dao.GameStateDao;
-import Dao.JanggiGimulDao;
+import dao.GameStateDao;
+import dao.JanggiGimulDao;
 import java.util.Map;
 import pieceProperty.Position;
 import pieceProperty.JanggiPieceInitializer;
@@ -33,15 +33,15 @@ public class Application {
 
         if (inputView.getUserWantToPlayReset()) {
             janggiGimulDao.deleteAllPieces();
-            janggiGimulDao.insertHanPieces(hanPieces, 1);
-            janggiGimulDao.insertChoPieces(choPieces, 2);
+            janggiGimulDao.insertHanPieces(hanPieces);
+            janggiGimulDao.insertChoPieces(choPieces);
             gameStateDao.deleteAllGameState();
             gameStateDao.insertGameState();
         }
 
         while (!janggiGameState.isGameOver()) {
             try{
-                outputView.printScore(janggiGimulDao.calculateHanSum(), janggiGimulDao.calculateChoSum());
+                outputView.printScore(janggiGimulDao.calculateSum("HAN"), janggiGimulDao.calculateSum("CHO"));
                 outputView.printJanggiPan(janggiGimulDao.findHanAllGimul(), janggiGimulDao.findChoAllGimul());
                 Position presentPosition = inputView.getPresentPosition(gameStateDao.getCurrentTurn());
                 Position destination = inputView.getDestination();

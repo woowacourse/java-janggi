@@ -44,28 +44,4 @@ class ChaTest {
         );
     }
 
-    @Test
-    @DisplayName("자신의 타입 리턴 테스트")
-    void pieceTypeTest() {
-        Cha cha = new Cha();
-
-        assertThat(cha.getPieceType().equals(CHA)).isTrue();
-    }
-
-    @Test
-    @DisplayName("왕인지 물어보는 테스트")
-    void isJanggunTest() {
-        Cha cha = new Cha();
-
-        assertThat(cha.isJanggun()).isFalse();
-    }
-
-    @Test
-    @DisplayName("포 판별 테스트")
-    void isPoTest() {
-        Cha cha = new Cha();
-
-        assertThat(cha.isPo()).isFalse();
-    }
-
 }

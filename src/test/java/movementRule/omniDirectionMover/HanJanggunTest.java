@@ -2,7 +2,6 @@ package movementRule.omniDirectionMover;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static pieceProperty.PieceType.JANGGUN;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -55,30 +54,6 @@ class HanJanggunTest {
                 Arguments.of(new Position(6, 4)),
                 Arguments.of(new Position(4, 4))
         );
-    }
-
-    @Test
-    @DisplayName("자신의 타입 리턴 테스트")
-    void pieceTypeTest() {
-        HanJanggun hanJanggun = new HanJanggun();
-
-        assertThat(hanJanggun.getPieceType().equals(JANGGUN)).isTrue();
-    }
-
-    @Test
-    @DisplayName("왕인지 물어보는 테스트")
-    void isJanggunTest() {
-        HanJanggun hanJanggun = new HanJanggun();
-
-        assertThat(hanJanggun.isJanggun()).isTrue();
-    }
-
-    @Test
-    @DisplayName("포 판별 테스트")
-    void isPoTest() {
-        HanJanggun hanJanggun = new HanJanggun();
-
-        assertThat(hanJanggun.isPo()).isFalse();
     }
 
     @Test

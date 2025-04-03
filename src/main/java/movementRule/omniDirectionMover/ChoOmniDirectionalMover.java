@@ -25,9 +25,6 @@ public abstract class ChoOmniDirectionalMover implements PieceRule {
         return new Positions(List.of());
     }
 
-    @Override
-    public abstract PieceType getPieceType();
-
     private boolean isOmniDirectionalMover(final Position startPosition, Position destination) {
         return !startPosition.isOneStepDiagonalMoveForChoOmniDirectionMover(destination)
                 && !startPosition.isUpMovementTo(destination)

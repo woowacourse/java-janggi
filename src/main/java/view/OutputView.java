@@ -2,11 +2,13 @@ package view;
 
 import static pieceProperty.PieceType.BYEONG;
 import static pieceProperty.PieceType.CHA;
-import static pieceProperty.PieceType.JANGGUN;
+import static pieceProperty.PieceType.CHO_JANGGUN;
+import static pieceProperty.PieceType.CHO_SA;
+import static pieceProperty.PieceType.HAN_JANGGUN;
+import static pieceProperty.PieceType.HAN_SA;
 import static pieceProperty.PieceType.JOL;
 import static pieceProperty.PieceType.MA;
 import static pieceProperty.PieceType.PO;
-import static pieceProperty.PieceType.SA;
 import static pieceProperty.PieceType.SANG;
 
 import java.util.HashMap;
@@ -17,8 +19,8 @@ import pieceProperty.Position;
 public class OutputView {
 
     private static final Map<PieceType, String> PIECE_TYPE_NAME_MAP = new HashMap<>(
-            Map.of(JANGGUN, "왕", BYEONG, "병", CHA, "차", JOL, "졸", MA, "마",
-                    PO, "포", SA, "사", SANG, "상")
+            Map.of(HAN_JANGGUN, "왕", CHO_JANGGUN, "왕", BYEONG, "병", CHA, "차", JOL, "졸", MA, "마",
+                    PO, "포", HAN_SA, "사", CHO_SA, "사", SANG, "상")
     );
     private static final String RED_COLOR_CODE = "\u001B[31m";
     private static final String GREEN_COLOR_CODE = "\u001B[32m";

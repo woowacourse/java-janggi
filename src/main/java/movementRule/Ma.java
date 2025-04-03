@@ -1,9 +1,6 @@
 package movementRule;
 
-import static pieceProperty.PieceType.MA;
-
 import java.util.List;
-import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 import view.ErrorMessage;
@@ -13,16 +10,6 @@ public class Ma implements PieceRule {
     @Override
     public int getScore() {
         return 5;
-    }
-
-    @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
-    public boolean isJanggun() {
-        return false;
     }
 
     @Override
@@ -69,11 +56,6 @@ public class Ma implements PieceRule {
         }
 
         return route;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return MA;
     }
 
     private boolean isInvalidMaMove(final Position startPosition, final Position destination) {
