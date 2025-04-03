@@ -125,9 +125,9 @@ public class Board {
         return countPieceType(position -> !position.isGreenTeam());
     }
 
-    private Map<PieceType, Integer> countPieceType(final Function<Position, Boolean> function) {
+    private Map<PieceType, Integer> countPieceType(final Function<Position, Boolean> positionPredicate) {
         return positions.stream()
-                .filter(function::apply)
+                .filter(positionPredicate::apply)
                 .map(Position::getPieceType)
                 .collect(Collectors.toMap(
                         pieceType -> pieceType,
