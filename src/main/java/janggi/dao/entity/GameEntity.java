@@ -31,4 +31,16 @@ public class GameEntity {
     public void updateGameTurn(final Team currentTurnTeam) {
         this.currentTeam = currentTurnTeam;
     }
+
+    public GameState getStatus() {
+        return status;
+    }
+
+    public double getChuScore() {
+        return chuScore;
+    }
+
+    public double getHanScore() {
+        return hanScore;
+    }
 }

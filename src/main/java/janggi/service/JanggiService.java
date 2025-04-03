@@ -10,7 +10,10 @@ import janggi.dao.entity.PieceEntity;
 import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Position;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class JanggiService {
 
@@ -29,11 +32,27 @@ public class JanggiService {
     public GameEntity creatGame(final Board board, final GameState gameState) {
         gameDao.addGame();
         final GameEntity gameEntity = findInProgressGame(gameState);
-        pieceDao.addPieces(pieceDao.createPieceEntities(board.getJanggiBoard(), gameEntity.getId()));
+        pieceDao.addPieces(createPieceEntities(board.getJanggiBoard(), gameEntity.getId()));
         return findInProgressGame(gameState);
     }
 
-    public Board getBoardById(final Long id) {
+    private List<PieceEntity> createPieceEntities(final Map<Position, Piece> janggiBoard, final Long gameId) {
+        final List<PieceEntity> pieceEntities = new ArrayList<>();
+        for (final Entry<Position, Piece> pieceEntry : janggiBoard.entrySet()) {
+            final PieceEntity pieceEntity = new PieceEntity(
+                    null,
+                    pieceEntry.getValue().getPieceType(),
+                    pieceEntry.getValue().getTeam(),
+                    pieceEntry.getKey().row(),
+                    pieceEntry.getKey().col(),
+                    gameId
+            );
+            pieceEntities.add(pieceEntity);
+        }
+        return pieceEntities;
+    }
+
+    public Board findBoardById(final Long id) {
         final List<PieceEntity> pieceEntities = pieceDao.findPiecesById(id);
         return new BoardGenerator().generate(pieceEntities);
     }
@@ -54,14 +73,15 @@ public class JanggiService {
         pieceDao.removePieceByPosition(id, position);
     }
 
-    public void updatePiece(final GameEntity gameEntity, final Piece movedPiece, final Position targetPosition) {
+    public void updatePiece(final GameEntity gameEntity, final Piece movePiece, final Position targetPosition) {
         pieceDao.updatePiece(new PieceEntity(
                 null,
-                movedPiece.getPieceType(),
-                movedPiece.getTeam(),
+                movePiece.getPieceType(),
+                movePiece.getTeam(),
                 targetPosition.row(),
                 targetPosition.col(),
                 gameEntity.getId()
         ));
     }
+
 }
