@@ -40,15 +40,6 @@ public class Path {
         return false;
     }
 
-    public boolean firstAndLastIn(List<Position> positions) {
-        if (isValidPath()) {
-            Position first = path.getFirst();
-            Position last = path.getLast();
-            return positions.contains(first) && positions.contains(last);
-        }
-        return false;
-    }
-
     public List<Position> getPath() {
         return path;
     }

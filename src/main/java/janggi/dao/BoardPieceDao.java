@@ -42,12 +42,9 @@ public class BoardPieceDao {
     private void save(Entry<Position, Piece> entry, PreparedStatement preparedStatement) throws SQLException {
         Position position = entry.getKey();
         Piece piece = entry.getValue();
-        PieceType pieceType = piece.getType();
-        Row row = position.getRow();
-        Column column = position.getColumn();
-        preparedStatement.setInt(2, column.getValue());
-        preparedStatement.setInt(3, row.getValue());
-        preparedStatement.setString(4, pieceType.name());
+        preparedStatement.setInt(2, position.getColumn().getValue());
+        preparedStatement.setInt(3, position.getRow().getValue());
+        preparedStatement.setString(4, piece.getType().name());
         preparedStatement.setString(5, piece.getTeam().name());
         preparedStatement.executeUpdate();
     }
@@ -76,36 +73,30 @@ public class BoardPieceDao {
         }
     }
 
-    public void delete(int gameId, Position goalPosition) {
+    public void delete(int gameId, Position position) {
         String query = "delete from board_piece where game_id = ? and column_value = ? and row_value = ?;";
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
-            Column column = goalPosition.getColumn();
-            Row row = goalPosition.getRow();
             preparedStatement.setInt(1, gameId);
-            preparedStatement.setInt(2, column.getValue());
-            preparedStatement.setInt(3, row.getValue());
+            preparedStatement.setInt(2, position.getColumn().getValue());
+            preparedStatement.setInt(3, position.getRow().getValue());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB 오류 발생");
         }
     }
 
-    public void updatePiecePosition(int gameId, Position startPosition, Position goalPosition) {
+    public void updatePiecePosition(int gameId, Position before, Position after) {
         String query = "update board_piece set column_value = ?, row_value = ? where game_id = ? and column_value = ? and row_value = ?;";
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
-            Column startColumn = startPosition.getColumn();
-            Row startRow = startPosition.getRow();
-            Column goalColumn = goalPosition.getColumn();
-            Row goalRow = goalPosition.getRow();
-            preparedStatement.setInt(1, goalColumn.getValue());
-            preparedStatement.setInt(2, goalRow.getValue());
+            preparedStatement.setInt(1, after.getColumn().getValue());
+            preparedStatement.setInt(2, after.getRow().getValue());
             preparedStatement.setInt(3, gameId);
-            preparedStatement.setInt(4, startColumn.getValue());
-            preparedStatement.setInt(5, startRow.getValue());
+            preparedStatement.setInt(4, before.getColumn().getValue());
+            preparedStatement.setInt(5, before.getRow().getValue());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB 오류 발생");
