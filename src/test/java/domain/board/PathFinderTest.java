@@ -14,33 +14,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PathFinderTest {
 
-    private static Stream<Arguments> pointsInDefaultBoard() {
-        return Stream.of(
-                Arguments.arguments(Point.of(1, 1)),
-                Arguments.arguments(Point.of(1, 9)),
-                Arguments.arguments(Point.of(10, 1)),
-                Arguments.arguments(Point.of(10, 9))
-        );
-    }
-
-    private static Stream<Arguments> getNextPointTestCases() {
-        return Stream.of(
-                Arguments.arguments(Point.of(1, 1), Direction.DOWN, Point.of(2, 1)),
-                Arguments.arguments(Point.of(3, 2), Direction.UP, Point.of(2, 2)),
-                Arguments.arguments(Point.of(10, 1), Direction.RIGHT, Point.of(10, 2)),
-                Arguments.arguments(Point.of(10, 9), Direction.LEFT, Point.of(10, 8))
-        );
-    }
-
-    private static Stream<Arguments> getPointMovedByPathTestCases() {
-        return Stream.of(
-                Arguments.arguments(Point.of(1, 1), Path.DOWN_PATH, Point.of(2, 1)),
-                Arguments.arguments(Point.of(3, 2), Path.UP_UP_LEFT_PATH, Point.of(1, 1)),
-                Arguments.arguments(Point.of(10, 1), Path.RIGHT_RIGHT_UP_PATH, Point.of(9, 3)),
-                Arguments.arguments(Point.of(10, 9), Path.LEFT_LEFT_LEFT_UP_UP_PATH, Point.of(8, 6))
-        );
-    }
-
     @ParameterizedTest(name = "위치 : {0}")
     @MethodSource("pointsInDefaultBoard")
     void 장기판에_존재하는_위치면_true를_반환한다(final Point point) {
@@ -136,5 +109,32 @@ class PathFinderTest {
 
         // then
         Assertions.assertThat(actual).isEqualTo(destination);
+    }
+
+    private static Stream<Arguments> pointsInDefaultBoard() {
+        return Stream.of(
+                Arguments.arguments(Point.of(1, 1)),
+                Arguments.arguments(Point.of(1, 9)),
+                Arguments.arguments(Point.of(10, 1)),
+                Arguments.arguments(Point.of(10, 9))
+        );
+    }
+
+    private static Stream<Arguments> getNextPointTestCases() {
+        return Stream.of(
+                Arguments.arguments(Point.of(1, 1), Direction.DOWN, Point.of(2, 1)),
+                Arguments.arguments(Point.of(3, 2), Direction.UP, Point.of(2, 2)),
+                Arguments.arguments(Point.of(10, 1), Direction.RIGHT, Point.of(10, 2)),
+                Arguments.arguments(Point.of(10, 9), Direction.LEFT, Point.of(10, 8))
+        );
+    }
+
+    private static Stream<Arguments> getPointMovedByPathTestCases() {
+        return Stream.of(
+                Arguments.arguments(Point.of(1, 1), Path.DOWN_PATH, Point.of(2, 1)),
+                Arguments.arguments(Point.of(3, 2), Path.UP_UP_LEFT_PATH, Point.of(1, 1)),
+                Arguments.arguments(Point.of(10, 1), Path.RIGHT_RIGHT_UP_PATH, Point.of(9, 3)),
+                Arguments.arguments(Point.of(10, 9), Path.LEFT_LEFT_LEFT_UP_UP_PATH, Point.of(8, 6))
+        );
     }
 }
