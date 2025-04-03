@@ -58,8 +58,6 @@ public class JanggiBoard {
     }
 
     public boolean isNoObstacleOnPath(List<Point> path) {
-        path.removeFirst();
-        path.removeLast();
         for (Point point : path) {
             if (boardPieces.containsKey(point)) {
                 return false;
@@ -69,8 +67,8 @@ public class JanggiBoard {
     }
 
     public int calculatePieceOnPath(List<Point> path) {
-        path.removeFirst();
-        path.removeLast();
+        removePathFirst(path);
+        removePathLast(path);
         int pieceCount = 0;
         for (Point point : path) {
             if (boardPieces.containsKey(point)) {
@@ -81,7 +79,7 @@ public class JanggiBoard {
     }
 
     public boolean hasPieceTypeOnPath(List<Point> path, PieceType pieceType) {
-        path.removeFirst();
+        removePathFirst(path);
         for (Point point : path) {
             if (boardPieces.containsKey(point)) {
                 if (boardPieces.get(point).isEqualPieceType(pieceType)) {
@@ -90,6 +88,20 @@ public class JanggiBoard {
             }
         }
         return false;
+    }
+
+    private void removePathLast(List<Point> path) {
+        if(path.isEmpty()) {
+            throw new IllegalArgumentException("path가 존재하지 않습니다.");
+        }
+        path.removeLast();
+    }
+
+    private void removePathFirst(List<Point> path) {
+        if(path.isEmpty()) {
+            throw new IllegalArgumentException("path가 존재하지 않습니다.");
+        }
+        path.removeFirst();
     }
 
     private Piece getStartPiece(Point start) {
