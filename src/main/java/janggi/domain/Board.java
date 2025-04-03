@@ -77,7 +77,7 @@ public class Board {
 
     public Team getWinner() {
         if (isGameNotEnd()) {
-            return Team.NONE;
+            throw new IllegalArgumentException("게임이 끝나지 않았습니다.");
         }
         if (isKingAlive(Team.BLUE)) {
             return Team.BLUE;
