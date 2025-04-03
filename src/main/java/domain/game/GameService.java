@@ -1,22 +1,13 @@
 package domain.game;
 
-import database.DbConnection;
-import domain.exception.DatabaseException;
 import domain.player.Players;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class GameService {
 
     private final GameDao gameDao;
 
     public GameService() {
-        try {
-            Connection connection = DbConnection.getInstance().getConnection();
-            this.gameDao = new GameDao(connection);
-        } catch (SQLException se) {
-            throw new DatabaseException("jdbc 연결 오류");
-        }
+        this.gameDao = new GameDao();
     }
 
     public boolean checkIfGameExists(int gameId) {

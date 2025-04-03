@@ -1,12 +1,8 @@
 package domain.piece;
 
-import database.DbConnection;
 import domain.Position;
-import domain.exception.DatabaseException;
 import domain.player.Player;
 import domain.player.Players;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +11,7 @@ public class PieceService {
     private final PieceDao pieceDao;
 
     public PieceService() {
-        try {
-            Connection connection = DbConnection.getInstance().getConnection();
-            this.pieceDao = new PieceDao(connection);
-        } catch (SQLException se) {
-            throw new DatabaseException("jdbc 연결 오류");
-        }
+        this.pieceDao = new PieceDao();
     }
 
     public void saveAllPieces(Map<Position, Piece> pieces, int gameId) {

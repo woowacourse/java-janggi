@@ -1,5 +1,6 @@
 package domain.piece;
 
+import database.DbConnection;
 import domain.Position;
 import domain.exception.DatabaseException;
 import domain.movestrategy.BasicFixedMoveStrategy;
@@ -14,16 +15,18 @@ import java.util.Map;
 
 public class PieceDao {
 
-    private final Connection connection;
+    private final DbConnection dbConnection;
 
-    public PieceDao(Connection connection) {
-        this.connection = connection;
+    public PieceDao() {
+        this.dbConnection = DbConnection.getInstance();
     }
 
     public void insertPiece(int playerId, String pieceType, int column, int row, int point, int gameId) {
-        final String insertPieceSql = "INSERT INTO piece (player_id, type, position_x, position_y,point,game_id) VALUES (?, ?, ?, ?,?,?)";
+        final String insertPieceSql = "INSERT INTO piece (player_id, type, position_x, position_y, point, game_id) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(insertPieceSql)) {
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertPieceSql)) {
+
             preparedStatement.setInt(1, playerId);
             preparedStatement.setString(2, pieceType);
             preparedStatement.setInt(3, column);
@@ -32,18 +35,17 @@ public class PieceDao {
             preparedStatement.setInt(6, gameId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException("장기말 저장 실패");
+        } catch (SQLException se) {
+            throw new DatabaseException("장기말 저장 실패", se);
         }
     }
 
     public void updatePiecePosition(Piece startPiece, Position startPosition, Position targetPosition, int gameId) {
-        final var updatePieceSql = "UPDATE piece " +
-                "SET position_x = ?, position_y = ? " +
-                "WHERE player_id = ? AND position_x = ? AND position_y = ? AND game_id = ?";
+        final String updatePieceSql = "UPDATE piece SET position_x = ?, position_y = ? WHERE player_id = ? AND position_x = ? AND position_y = ? AND game_id = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(updatePieceSql)) {
-            // SQL 쿼리에 파라미터 세팅
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(updatePieceSql)) {
+
             preparedStatement.setInt(1, targetPosition.getColumn());
             preparedStatement.setInt(2, targetPosition.getRow());
             preparedStatement.setInt(3, startPiece.getPlayer().getId());
@@ -51,16 +53,18 @@ public class PieceDao {
             preparedStatement.setInt(5, startPosition.getRow());
             preparedStatement.setInt(6, gameId);
 
-            preparedStatement.executeUpdate();  // SQL 실행
+            preparedStatement.executeUpdate();
         } catch (SQLException se) {
-            throw new DatabaseException("장기말 이동 업데이트 실패");
+            throw new DatabaseException("장기말 이동 업데이트 실패", se);
         }
     }
 
     public void deleteTargetPiece(Piece targetPiece, Position targetPosition, int gameId) {
-        final var deletePieceSql = "DELETE FROM piece WHERE player_id = ? AND position_x = ? AND position_y = ? AND game_id = ?";
+        final String deletePieceSql = "DELETE FROM piece WHERE player_id = ? AND position_x = ? AND position_y = ? AND game_id = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(deletePieceSql)) {
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(deletePieceSql)) {
+
             preparedStatement.setInt(1, targetPiece.getPlayer().getId());
             preparedStatement.setInt(2, targetPosition.getColumn());
             preparedStatement.setInt(3, targetPosition.getRow());
@@ -68,15 +72,16 @@ public class PieceDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException se) {
-            throw new DatabaseException("타겟 장기말 삭제 실패");
+            throw new DatabaseException("타겟 장기말 삭제 실패", se);
         }
-
     }
 
     public Map<Position, Piece> selectAllPieceById(int gameId, Player player) {
         final String query = "SELECT * FROM piece WHERE game_id = ? AND player_id = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
             preparedStatement.setInt(1, gameId);
             preparedStatement.setInt(2, player.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -87,14 +92,14 @@ public class PieceDao {
                 int y = resultSet.getInt("position_y");
                 Position position = new Position(y, x);
                 int point = resultSet.getInt("point");
-                String type = resultSet.getString("type");  // Piece 타입을 조회
+                String type = resultSet.getString("type");
                 Piece piece = createPieceByType(type, player, point);
                 piecesMap.put(position, piece);
             }
 
             return piecesMap;
-        } catch (SQLException e) {
-            throw new DatabaseException("장기 말 정보 조회 오류");
+        } catch (SQLException se) {
+            throw new DatabaseException("장기 말 정보 조회 오류", se);
         }
     }
 
@@ -118,5 +123,4 @@ public class PieceDao {
                 throw new IllegalArgumentException("알 수 없는 말 타입: " + type);
         }
     }
-
 }
