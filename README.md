@@ -93,6 +93,17 @@
 
 ### db 환경 설정
 
-1. 터미널에서 java-janggi/docker 디렉토리로 이동한다.
-2. 다음 명령어를 실행한다.
-   `docker compose -p janggi up -d`
+1. 터미널에서 java-janggi/docker 디렉토리로 이동합니다.
+2. 다음 명령어를 통해 MySQL 컨테이너를 실행합니다.
+   ```bash
+   docker compose -p janggi up -d
+    ```
+
+- 주의 사항
+    - schema.sql 파일은 컨테이너가 처음 생성될 때만 자동 실행됩니다.
+    - DDL을 다시 실행하고 싶다면, 볼륨까지 삭제하고 컨테이너를 재생성해야 합니다
+      ```bash
+      `docker compose -p janggi down -v`
+      `docker compose -p janggi up -d`
+      ```
+
