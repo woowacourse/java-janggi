@@ -29,6 +29,7 @@ public class LoadOrSaveManager {
 
     public void save(Board board, Country country) {
         boardDao.deleteAll();
+        turnDao.deleteAll();
         boardDao.saveAll(PieceDto.toDtoFromBoard(board));
         turnDao.saveTurnCountry(new TurnDto(country.name()));
     }
