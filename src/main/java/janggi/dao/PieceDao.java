@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class PieceDao {
 
@@ -33,7 +34,7 @@ public class PieceDao {
         }
     }
 
-    public Piece findByPoint(Point point) {
+    public Optional<Piece> findByPoint(Point point) {
         String query = "SELECT * FROM piece WHERE pos_x = ? AND pos_y = ?";
         try (Connection connection = DBConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -43,13 +44,14 @@ public class PieceDao {
             if (resultSet.next()) {
                 String type = resultSet.getString("type");
                 Camp camp = Camp.from(resultSet.getString("camp"));
-                return PieceType.toPiece(type, camp);
+                return Optional.of(PieceType.toPiece(type, camp));
             }
         } catch (SQLException e) {
             throw new RuntimeException("좌표에 해당하는 기물 조회 중 오류가 발생했습니다.", e);
         }
-        return null;
+        return Optional.empty();
     }
+
 
     public void updatePieceByPoint(Point point, Piece piece) {
         String query = "UPDATE piece SET type = ?, camp = ? WHERE pos_x = ? AND pos_y = ?";
@@ -64,6 +66,14 @@ public class PieceDao {
         } catch (SQLException e) {
             throw new RuntimeException("기물 정보 업데이트 중 오류가 발생했습니다.", e);
         }
+    }
+
+    public void upsertPiece(Point point, Piece piece) {
+        if (findByPoint(point).isPresent()) {
+            updatePieceByPoint(point, piece);
+            return;
+        }
+        addPiece(piece, point);
     }
 
     public void deletePieceByPoint(Point point) {

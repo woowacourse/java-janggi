@@ -11,6 +11,7 @@ import janggi.infra.DatabaseConfig;
 import janggi.infra.DatabaseConnector;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,8 +48,13 @@ public class PieceDaoTest {
     void findPiece() {
         Point point = new Point(0, 0);
         Piece chariot = new Chariot(Camp.CHU);
-        Piece piece = pieceDao.findByPoint(point);
-        assertThat(piece.getPieceType()).isEqualTo(chariot.getPieceType());
+        Optional<Piece> piece = pieceDao.findByPoint(point);
+
+        assertThat(piece)
+                .isPresent()
+                .get()
+                .extracting(Piece::getPieceType)
+                .isEqualTo(chariot.getPieceType());
     }
 
     @Test
@@ -56,7 +62,12 @@ public class PieceDaoTest {
         Point point = new Point(0, 0);
         Piece cannon = new Cannon(Camp.HAN);
         pieceDao.updatePieceByPoint(point, cannon);
-        assertThat(pieceDao.findByPoint(point).getPieceType()).isEqualTo(cannon.getPieceType());
+
+        assertThat(pieceDao.findByPoint(point))
+                .isPresent()
+                .get()
+                .extracting(Piece::getPieceType)
+                .isEqualTo(cannon.getPieceType());
     }
 
     @Test

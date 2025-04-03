@@ -5,6 +5,7 @@ import janggi.domain.board.Point;
 import janggi.domain.camp.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.type.PieceType;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class View {
@@ -83,12 +84,16 @@ public class View {
     }
 
     private void displayPiece(PieceDao pieceDao, int i, int j) {
-        if (pieceDao.findByPoint(new Point(j, i)) == null) {
+        Point point = new Point(j, i);
+        Optional<Piece> piece = pieceDao.findByPoint(point);
+
+        if (!piece.isPresent()) {
             System.out.print(BOARD_DELIMITER_LINE + EMPTY_SPACE);
             return;
         }
-        System.out.print(BOARD_DELIMITER_LINE + formatPiece(pieceDao.findByPoint(new Point(j, i))));
+        System.out.print(BOARD_DELIMITER_LINE + formatPiece(piece.get()));
     }
+
 
     private String formatPiece(Piece piece) {
         PieceType pieceType = piece.getPieceType();

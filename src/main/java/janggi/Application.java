@@ -86,17 +86,14 @@ public class Application {
                                     PieceDao pieceDao) {
         Point from = new Point(fromPointInput);
         Point to = new Point(toPointInput);
-        Piece movingPiece = pieceDao.findByPoint(from);
+        Piece movingPiece = pieceDao.findByPoint(from)
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
         validateSelectedPiece(baseCamp, movingPiece);
         board.move(from, to);
         pieceDao.deletePieceByPoint(from);
-        if (pieceDao.findByPoint(to) != null) {
-            pieceDao.updatePieceByPoint(to, movingPiece);
-        }
-        if (pieceDao.findByPoint(to) == null) {
-            pieceDao.addPiece(movingPiece, to);
-        }
+        pieceDao.upsertPiece(to, movingPiece);
     }
+
 
     private static void validateSelectedPiece(Camp baseCamp, Piece movingPiece) {
         movingPiece.validateSelect(baseCamp);
