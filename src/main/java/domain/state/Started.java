@@ -40,7 +40,7 @@ public abstract class Started implements State {
     }
 
     @Override
-    public State startGame(Board board) {
+    public State startGame(Board board, PieceColor pieceColor) {
         throw new UnsupportedOperationException("게임이 이미 진행중입니다.");
     }
 }

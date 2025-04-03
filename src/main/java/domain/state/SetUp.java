@@ -45,7 +45,10 @@ public class SetUp implements State {
     }
 
     @Override
-    public State startGame(Board board) {
-        return new BlueTurn(board);
+    public State startGame(Board board, PieceColor pieceColor) {
+        if (pieceColor == PieceColor.BLUE) {
+            return new BlueTurn(board);
+        }
+        return new RedTurn(board);
     }
 }

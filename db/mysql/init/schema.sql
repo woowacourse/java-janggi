@@ -7,3 +7,8 @@ CREATE TABLE IF NOT EXISTS board (
     piece_color VARCHAR(10) NOT NULL,
     PRIMARY KEY (position_row, position_column)
 );
+
+CREATE TABLE IF NOT EXISTS game_state (
+    current_turn VARCHAR(10) NOT NULL DEFAULT 'BLUE'
+);
+

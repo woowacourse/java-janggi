@@ -1,6 +1,7 @@
 package service;
 
 import dao.BoardDao;
+import dao.GameStateDao;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardFactory;
@@ -18,16 +19,26 @@ import view.PieceName;
 public class GameService {
 
     private final BoardDao boardDao;
+    private final GameStateDao gameStateDao;
     private final JanggiGame janggiGame;
 
-    public GameService(BoardDao boardDao) {
+    public GameService(BoardDao boardDao, GameStateDao gameStateDao) {
         this.boardDao = boardDao;
+        this.gameStateDao = gameStateDao;
         janggiGame = new JanggiGame(new SetUp());
     }
 
     public void startGame(boolean loadGame) {
         Board board = loadOrCreateBoard(loadGame);
-        janggiGame.startGame(board);
+        PieceColor color = getTurnColor(loadGame);
+        janggiGame.startGame(board, color);
+    }
+
+    public PieceColor getTurnColor(boolean loadGame) {
+        if (!loadGame) {
+            gameStateDao.initializeTurn();
+        }
+        return PieceColor.valueOf(gameStateDao.getCurrentTurn());
     }
 
     private Board loadOrCreateBoard(boolean loadGame) {
@@ -37,6 +48,7 @@ public class GameService {
             boardData = new BoardFactory().createBoard().getBoard();
             boardDao.deleteBoard();
             boardDao.saveBoard(boardData);
+            gameStateDao.initializeTurn();
         }
 
         return new Board(boardData);
@@ -51,6 +63,7 @@ public class GameService {
 
         janggiGame.move(pieceType, source, destination);
         boardDao.updatePosition(source, destination);
+        gameStateDao.switchTurn();
     }
 
     public PieceColor getTurnColor() {

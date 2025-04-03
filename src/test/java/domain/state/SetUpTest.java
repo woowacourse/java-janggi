@@ -8,6 +8,7 @@ import domain.board.BoardFactory;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import domain.piece.PieceColor;
 import domain.piece.PieceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class SetUpTest {
         BoardFactory boardFactory = new BoardFactory();
         Board board = boardFactory.createBoard();
 
-        State newState = state.startGame(board);
+        State newState = state.startGame(board, PieceColor.BLUE);
 
         assertThat(newState).isInstanceOf(BlueTurn.class);
     }

@@ -20,5 +20,5 @@ public interface State {
 
     Board getBoard();
 
-    State startGame(Board board);
+    State startGame(Board board, PieceColor pieceColor);
 }

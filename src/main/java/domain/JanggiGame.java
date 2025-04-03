@@ -14,8 +14,8 @@ public class JanggiGame {
         this.state = state;
     }
 
-    public void startGame(Board board) {
-        state = state.startGame(board);
+    public void startGame(Board board, PieceColor pieceColor) {
+        state = state.startGame(board, pieceColor);
     }
 
     public void move(PieceType pieceType, Position source, Position destination) {
