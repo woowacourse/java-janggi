@@ -17,22 +17,19 @@ import java.util.Map;
 public class Application {
 
     public static void main(String[] args) {
-        JanggiDao janggiDao = new JanggiDao();
-        DataController dataController = new DataController(janggiDao);
-
-        GameController gameController = setGame(dataController);
+        DataController dataController = new DataController(new JanggiDao(), new Viewer());
+        GameController gameController = setGameController(dataController);
 
         gameController.start();
         gameController.finish();
     }
 
-    private static GameController setGame(DataController dataController) {
-        List<PieceDto> pieceDtos = dataController.loadFromDatabase();
-
-        if (pieceDtos.isEmpty()) {
-            return setNewGame(dataController);
+    private static GameController setGameController(DataController dataController) {
+        if (dataController.hasExistingGame()) {
+            List<PieceDto> pieceDtos = dataController.loadPieces();
+            return setLoadedGame(dataController, pieceDtos);
         }
-        return loadGame(dataController, pieceDtos);
+        return setNewGame(dataController);
     }
 
     private static GameController setNewGame(DataController dataController) {
@@ -41,12 +38,12 @@ public class Application {
         Board board = new Board(initialPieces);
         JanggiGame janggiGame = new JanggiGame(board, Side.CHO);
 
-        dataController.setupDatabase(initialPieces);
+        dataController.saveNewPieces(initialPieces);
 
         return new GameController(dataController, viewer, janggiGame);
     }
 
-    private static GameController loadGame(DataController dataController, List<PieceDto> loadedData) {
+    private static GameController setLoadedGame(DataController dataController, List<PieceDto> loadedData) {
         Viewer viewer = new Viewer();
         Board board = new Board(dataController.convertFromDto(loadedData));
         Side currentTurn = dataController.loadCurrentTurn();

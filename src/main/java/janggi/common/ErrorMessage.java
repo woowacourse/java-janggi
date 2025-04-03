@@ -1,6 +1,7 @@
 package janggi.common;
 
 public enum ErrorMessage {
+    INVALID_ID_RANGE("아이디는 최대 99의 양수만 가능합니다."),
     INVALID_BOARD_POSITION("유효하지 않은 장기판 좌표입니다."),
     INVALID_POSITION_INPUT("올바른 좌표 형식이 아닙니다."),
     INVALID_NUMBER_INPUT("숫자로 입력해주세요."),

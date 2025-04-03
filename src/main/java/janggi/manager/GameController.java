@@ -52,13 +52,13 @@ public class GameController {
     }
 
     private void updateDatabase(Position oldPosition, Position newPosition) {
-        dataController.update(oldPosition, newPosition);
+        dataController.update(oldPosition, newPosition, janggiGame.getCurrentTurn());
     }
 
     public void finish() {
         viewer.printBoard(janggiGame.getCurrentPieces());
         viewer.printWinner(janggiGame.getCurrentTurn());
 
-        dataController.resetDatabase();
+        dataController.deleteGameData();
     }
 }
