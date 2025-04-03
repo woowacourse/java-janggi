@@ -208,7 +208,7 @@ class PoStrategyTest {
         assertThat(canMove).isFalse();
     }
 
-    @DisplayName("목적지에 상대 장기말이 있는 경우 이동할 수 없다")
+    @DisplayName("목적지에 상대 장기말이 있는 경우 이동할 수 있다")
     @Test
     void canMoveWithEnemyInDestination() {
         Position jumpPadPosition = new Position(START_POSITION.x() + 1, START_POSITION.y());
