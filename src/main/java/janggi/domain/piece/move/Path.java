@@ -80,18 +80,4 @@ public class Path {
     public List<Direction> getPath() {
         return Collections.unmodifiableList(path);
     }
-
-    public Direction removeFirst() {
-        if(path.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 경로입니다.");
-        }
-        return path.removeFirst();
-    }
-
-    public Direction removeLast() {
-        if(path.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 경로입니다.");
-        }
-        return path.removeLast();
-    }
 }

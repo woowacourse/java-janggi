@@ -40,13 +40,9 @@ public class JanggiBoard {
     }
 
     private boolean isGeneralDie() {
-        int totalGeneralCount = 0;
-        for (Piece piece : boardPieces.values()) {
-            if(piece.isEqualPieceType(PieceType.GENERAL)) {
-                totalGeneralCount++;
-            }
-        }
-        return totalGeneralCount < 2;
+        return boardPieces.values().stream()
+                .filter(piece -> piece.isEqualPieceType(PieceType.GENERAL))
+                .count() < 2;
     }
 
     public boolean isExistPiece(Point point) {
@@ -58,12 +54,10 @@ public class JanggiBoard {
     }
 
     public boolean isNoObstacleOnPath(List<Point> path) {
-        for (Point point : path) {
-            if (boardPieces.containsKey(point)) {
-                return false;
-            }
-        }
-        return true;
+        removePathFirst(path);
+        removePathLast(path);
+        return path.stream()
+                .anyMatch(boardPieces::containsKey);
     }
 
     public int calculatePieceOnPath(List<Point> path) {
@@ -80,14 +74,9 @@ public class JanggiBoard {
 
     public boolean hasPieceTypeOnPath(List<Point> path, PieceType pieceType) {
         removePathFirst(path);
-        for (Point point : path) {
-            if (boardPieces.containsKey(point)) {
-                if (boardPieces.get(point).isEqualPieceType(pieceType)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return path.stream()
+                .filter(boardPieces::containsKey)
+                .anyMatch(point -> boardPieces.get(point).isEqualPieceType(pieceType));
     }
 
     private void removePathLast(List<Point> path) {
@@ -120,14 +109,10 @@ public class JanggiBoard {
     }
 
     public int calculateScore(Dynasty dynasty) {
-        int score = 0;
-        for (Entry<Point, Piece> entry : boardPieces.entrySet()) {
-            Piece piece = entry.getValue();
-            if (entry.getValue().isSameDynasty(dynasty)) {
-                score += piece.getScore();
-            }
-        }
-        return score;
+        return boardPieces.values().stream()
+                .filter(piece -> piece.isSameDynasty(dynasty))
+                .mapToInt(Piece::getScore)
+                .sum();
     }
 
     public Dynasty getWinnerDynasty() {
