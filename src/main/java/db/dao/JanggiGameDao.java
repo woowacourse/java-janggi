@@ -35,7 +35,7 @@ public class JanggiGameDao {
             throw new RuntimeException("[ERROR] 생성된 게임 ID를 조회하지 못했습니다.");
 
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 게임 저장에 실패하였습니다.");
         }
     }
 
@@ -51,7 +51,7 @@ public class JanggiGameDao {
                 result.add(mapToDto(resultSet));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 완료되지 않은 게임 조회에 실패하였습니다.");
         }
         return result;
     }
@@ -69,7 +69,7 @@ public class JanggiGameDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 게임 조회에 실패하였습니다 id: " + id);
         }
         return Optional.empty();
     }
@@ -86,7 +86,7 @@ public class JanggiGameDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 게임 상태 업데이트에 실패하였습니다. id: " + gameId);
         }
     }
 

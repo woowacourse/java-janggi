@@ -40,7 +40,7 @@ public class JanggiPieceDao {
             preparedStatement.executeBatch();
 
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 기물 상태 저장에 실패하였습니다. gameId: " + gameId);
         }
     }
 
@@ -65,7 +65,7 @@ public class JanggiPieceDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 해당 게임에 속한 기물들의 조회에 실패하였습니다. gameId: " + gameId);
         }
         return pieces;
     }
@@ -84,23 +84,23 @@ public class JanggiPieceDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 기물 위치 업데이트에 실패하였습니다. gameId: " + gameId);
         }
     }
 
-    public void deletePieceAt(Long gameId, Position positionition) {
+    public void deletePieceAt(Long gameId, Position position) {
         String sql = "DELETE FROM janggi_piece WHERE janggi_game_id = ? AND x = ? AND y = ?";
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setLong(1, gameId);
-            preparedStatement.setInt(2, positionition.getX());
-            preparedStatement.setInt(3, positionition.getY());
+            preparedStatement.setInt(2, position.getX());
+            preparedStatement.setInt(3, position.getY());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] 기물 삭제에 실패하였습니다. gameId: " + gameId);
         }
     }
 }
