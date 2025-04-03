@@ -40,7 +40,7 @@ public class GameDao {
         } catch (SQLException e) {
             throw new RuntimeException("현재 게임의 턴 조회 중 오류가 발생했습니다.", e);
         }
-        return null;
+        throw new IllegalStateException("현재 게임의 턴을 찾을 수 없습니다.");
     }
 
     public int findActiveGameId() {
@@ -54,7 +54,7 @@ public class GameDao {
         } catch (SQLException e) {
             throw new RuntimeException("진행 중인 게임 ID 조회 중 오류가 발생했습니다.", e);
         }
-        return 0;
+        throw new IllegalStateException("진행 중인 게임을 찾을 수 없습니다.");
     }
 
     public void endGame() {
