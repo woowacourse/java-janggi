@@ -4,7 +4,6 @@ import janggi.domain.board.Point;
 import janggi.domain.camp.Camp;
 import janggi.domain.piece.type.MoveType;
 import janggi.domain.piece.type.PieceType;
-import java.util.Set;
 
 public final class Soldier extends Piece {
 
@@ -68,15 +67,6 @@ public final class Soldier extends Piece {
             return CHU_NAME;
         }
         return HAN_NAME;
-    }
-
-    @Override
-    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
-    }
-
-    @Override
-    public Set<Point> findRoute(MoveType moveType, Point from, Point to) {
-        return Set.of();
     }
 
     @Override

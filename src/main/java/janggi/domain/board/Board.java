@@ -70,6 +70,9 @@ public class Board {
     }
 
     private void validateRoute(MoveType moveType, Piece movingPiece, Point from, Point to) {
+        if (!movingPiece.getPieceType().isRoutable()) {
+            return;
+        }
         Set<Point> route = movingPiece.findRoute(moveType, from, to);
         Set<Piece> piecesByPoint = findPiecesByPoint(route);
         movingPiece.validateRouteObstacles(piecesByPoint);

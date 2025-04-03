@@ -12,43 +12,43 @@ import janggi.domain.piece.Soldier;
 
 public enum PieceType {
 
-    GENERAL(0) {
+    GENERAL(0, false) {
         @Override
         public String getName(Camp camp) {
             return "왕";
         }
     },
-    CHARIOT(13) {
+    CHARIOT(13, true) {
         @Override
         public String getName(Camp camp) {
             return "차";
         }
     },
-    CANNON(7) {
+    CANNON(7, true) {
         @Override
         public String getName(Camp camp) {
             return "포";
         }
     },
-    HORSE(5) {
+    HORSE(5, false) {
         @Override
         public String getName(Camp camp) {
             return "마";
         }
     },
-    ELEPHANT(3) {
+    ELEPHANT(3, true) {
         @Override
         public String getName(Camp camp) {
             return "상";
         }
     },
-    GUARD(3) {
+    GUARD(3, false) {
         @Override
         public String getName(Camp camp) {
             return "사";
         }
     },
-    SOLDIER(2) {
+    SOLDIER(2, false) {
         @Override
         public String getName(Camp camp) {
             if (camp == Camp.CHU) {
@@ -59,15 +59,21 @@ public enum PieceType {
     };
 
     private final int score;
+    private final boolean routable;
 
-    PieceType(int score) {
+    PieceType(int score, boolean routable) {
         this.score = score;
+        this.routable = routable;
     }
 
     public abstract String getName(Camp camp);
 
     public int getScore() {
         return score;
+    }
+
+    public boolean isRoutable() {
+        return routable;
     }
 
     public static Piece toPiece(String name, Camp camp) {

@@ -58,16 +58,6 @@ public final class General extends Piece {
     }
 
     @Override
-    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
-
-    }
-
-    @Override
-    public Set<Point> findRoute(MoveType moveType, Point from, Point to) {
-        return Set.of();
-    }
-
-    @Override
     public PieceType getPieceType() {
         return PieceType.GENERAL;
     }
