@@ -65,23 +65,14 @@ public class Board {
         throw new IllegalArgumentException("올바른 기물의 위치를 입력해주세요.");
     }
 
-    public Map<Team, Double> calculateTotalScore() {
-        Map<Team, Double> scoreBoard = Team.initializeScoreBoard();
-        Team teamRed = Team.RED;
-        Team teamBlue = Team.BLUE;
-        scoreBoard.put(teamRed, calculateTeamScore(teamRed, scoreBoard.get(teamRed)));
-        scoreBoard.put(teamBlue, calculateTeamScore(teamBlue, scoreBoard.get(teamBlue)));
-        return scoreBoard;
-    }
-
-    private double calculateTeamScore(final Team team, final Double bonusScore) {
+    public double calculateTeamScore(final Team team, final Double bonusScore) {
         return bonusScore + pieces.values().stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .mapToDouble(Piece::getScore)
                 .sum();
     }
 
-    public boolean isFinish() {
+    public boolean isAllKingAlive() {
         return TOTAL_KING_COUNT != (int) pieces.values()
                 .stream()
                 .filter(piece -> piece.getType() == PieceType.KING)

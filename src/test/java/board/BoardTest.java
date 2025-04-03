@@ -139,7 +139,6 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-
     @MethodSource
     @ParameterizedTest
     void 위치가_포의_위치인지_알려준다(Piece piece, boolean expected) {
@@ -156,77 +155,54 @@ class BoardTest {
         );
     }
 
-    @Test
-    void 후수인_한나라는_추가_점수가_존재한다() {
+    @CsvSource(value = {
+            "BLUE,0", "RED,1.5"
+    })
+    @ParameterizedTest
+    void 후수인_한나라는_추가_점수가_존재한다(Team team, double bonusScore) {
         Board board = new Board(Map.of());
-        Map<Team, Double> scores = board.calculateTotalScore();
 
-        assertThat(scores).containsExactlyInAnyOrderEntriesOf(
-                Map.of(
-                        Team.BLUE, 0.0,
-                        Team.RED, 1.5
-                )
-        );
+        assertThat(board.calculateTeamScore(team, bonusScore)).isEqualTo(bonusScore);
     }
 
     @MethodSource
     @ParameterizedTest
-    void 현재_존재하는_기물에_따라_점수를_계산한다(Map<Position, Piece> pieces, double blueScore, double redScore) {
+    void 현재_존재하는_기물에_따라_최종_점수를_계산한다(Map<Position, Piece> pieces, Team team, double bonusScore, double expected) {
         Board board = new Board(pieces);
 
-        assertThat(board.calculateTotalScore())
-                .containsExactlyInAnyOrderEntriesOf(
-                        Map.of(
-                                Team.BLUE, blueScore,
-                                Team.RED, redScore
-                        )
-                );
+        assertThat(board.calculateTeamScore(team, bonusScore)).isEqualTo(expected);
     }
 
-    private static Stream<Arguments> 현재_존재하는_기물에_따라_점수를_계산한다() {
+    private static Stream<Arguments> 현재_존재하는_기물에_따라_최종_점수를_계산한다() {
         Position redPosition = new Position(1, 5);
         Position bluePosition = new Position(10, 5);
         return Stream.of(
-                Arguments.of(
-                        Map.of(redPosition, new King(Team.RED), bluePosition, new King(Team.BLUE)),
-                        0.0, 1.5
-                ),
-                Arguments.of(
-                        Map.of(redPosition, new Chariot(Team.RED), bluePosition, new Chariot(Team.BLUE)),
-                        13.0, 14.5
-                ),
-                Arguments.of(
-                        Map.of(redPosition, new Cannon(Team.RED), bluePosition, new Cannon(Team.BLUE)),
-                        7.0, 8.5
-                ),
-                Arguments.of(
-                        Map.of(redPosition, new Horse(Team.RED), bluePosition, new Horse(Team.BLUE)),
-                        5.0, 6.5
-                ),
-                Arguments.of(
-                        Map.of(redPosition, new Elephant(Team.RED), bluePosition, new Elephant(Team.BLUE)),
-                        3.0, 4.5
-                ),
-                Arguments.of(
-                        Map.of(redPosition, new Guard(Team.RED), bluePosition, new Guard(Team.BLUE)),
-                        3.0, 4.5
-                ),
-                Arguments.of(
-                        Map.of(redPosition, new Soldier(Team.RED), bluePosition, new Soldier(Team.BLUE)),
-                        2.0, 3.5
-                )
+                Arguments.of(Map.of(redPosition, new King(Team.RED)), Team.RED, 1.5, 1.5),
+                Arguments.of(Map.of(bluePosition, new King(Team.BLUE)), Team.BLUE, 0, 0),
+                Arguments.of(Map.of(redPosition, new Chariot(Team.RED)), Team.RED, 1.5, 14.5),
+                Arguments.of(Map.of(bluePosition, new Chariot(Team.BLUE)), Team.BLUE, 0, 13),
+                Arguments.of(Map.of(redPosition, new Cannon(Team.RED)), Team.RED, 1.5, 8.5),
+                Arguments.of(Map.of(bluePosition, new Cannon(Team.BLUE)), Team.BLUE, 0, 7),
+                Arguments.of(Map.of(redPosition, new Horse(Team.RED)), Team.RED, 1.5, 6.5),
+                Arguments.of(Map.of(bluePosition, new Horse(Team.BLUE)), Team.BLUE, 0, 5),
+                Arguments.of(Map.of(redPosition, new Elephant(Team.RED)), Team.RED, 1.5, 4.5),
+                Arguments.of(Map.of(bluePosition, new Elephant(Team.BLUE)), Team.BLUE, 0, 3),
+                Arguments.of(Map.of(redPosition, new Guard(Team.RED)), Team.RED, 1.5, 4.5),
+                Arguments.of(Map.of(bluePosition, new Guard(Team.BLUE)), Team.BLUE, 0, 3),
+                Arguments.of(Map.of(redPosition, new Soldier(Team.RED)), Team.RED, 1.5, 3.5),
+                Arguments.of(Map.of(bluePosition, new Soldier(Team.BLUE)), Team.BLUE, 0, 2)
         );
     }
 
     @MethodSource
     @ParameterizedTest
-    void 궁의_생존_상태에_따라_게임이_끝났는지_알려준다(Map<Position, Piece> pieces, boolean expected) {
+    void 궁이_모두_생존해_있는지_알려준다(Map<Position, Piece> pieces, boolean expected) {
         Board board = new Board(pieces);
 
-        assertThat(board.isFinish()).isEqualTo(expected);
+        assertThat(board.isAllKingAlive()).isEqualTo(expected);
     }
 
-    private static Stream<Arguments> 궁의_생존_상태에_따라_게임이_끝났는지_알려준다() {
+    private static Stream<Arguments> 궁이_모두_생존해_있는지_알려준다() {
         return Stream.of(
                 Arguments.of(Map.of(
                         new Position(9, 5), new King(Team.BLUE)), true

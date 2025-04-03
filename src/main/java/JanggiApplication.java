@@ -1,17 +1,10 @@
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
-import board.Board;
-import board.BoardInitializer;
 import board.Position;
-import dao.PieceConverter;
+import dao.DaoService;
 import dao.PieceDao;
-import dao.PieceEntity;
 import dao.TurnConverter;
 import dao.TurnDao;
+import game.JanggiGame;
 import game.Turn;
-import piece.Piece;
 import view.InputView;
 import view.OutputView;
 
@@ -19,83 +12,37 @@ public class JanggiApplication {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
-    private static final PieceDao pieceDao = new PieceDao();
-    private static final TurnDao turnDao = new TurnDao();
 
     public static void main(String[] args) {
-        Board board = createBoard();
-        Turn turn = createTurn();
+        DaoService daoService = new DaoService(new PieceDao(), new TurnDao());
+        JanggiGame janggiGame = new JanggiGame(daoService.findBoard(), daoService.findTurn());
 
-        outputView.printBoard(board.getPieces());
-        outputView.printTeamScore(board.calculateTotalScore());
-        playGame(board, turn);
+        outputView.printBoard(janggiGame.getPieces());
+        outputView.printTeamScore(janggiGame.calculateTotalScore());
+        playGame(janggiGame, daoService);
     }
 
-    private static Board createBoard() {
-        List<PieceEntity> pieceEntities = pieceDao.findAll();
-        if (pieceEntities.isEmpty()) {
-            BoardInitializer boardInitializer = new BoardInitializer();
-            Board board = new Board(boardInitializer.init());
-            List<PieceEntity> entitiesToSave = createPieceEntities(board.getPieces());
-            pieceDao.saveAll(entitiesToSave);
-            return board;
-        }
-        return new Board(PieceConverter.toPieces(pieceEntities));
-    }
-
-    private static List<PieceEntity> createPieceEntities(final Map<Position, Piece> pieces) {
-        return pieces.entrySet()
-                .stream()
-                .map(entry -> PieceConverter.toEntity(entry.getKey(), entry.getValue()))
-                .toList();
-    }
-
-    private static Turn createTurn() {
-        if (turnDao.exists()) {
-            return TurnConverter.toTurn(turnDao.find());
-        }
-        Turn turn = new Turn();
-        turnDao.save(TurnConverter.toEntity(turn));
-        return turn;
-    }
-
-    private static void playGame(final Board board, final Turn turn) {
-        Position startPosition = retry(() -> readStartPosition(board, turn));
-        retry(() -> movePosition(board, startPosition));
-        outputView.printBoard(board.getPieces());
-        outputView.printTeamScore(board.calculateTotalScore());
-        turn.increaseRound();
-        turnDao.update(TurnConverter.toEntity(turn));
-        if (board.isFinish()) {
-            outputView.printWinner(board.findWinnerTeam());
-            pieceDao.removeAll();
-            turnDao.removeAll();
+    private static void playGame(final JanggiGame janggiGame, final DaoService daoService) {
+        retry(() -> movePosition(janggiGame, daoService));
+        outputView.printBoard(janggiGame.getPieces());
+        outputView.printTeamScore(janggiGame.calculateTotalScore());
+        if (janggiGame.isFinish()) {
+            outputView.printWinner(janggiGame.findWinnerTeam());
+            daoService.removeAllGameData();
             return;
         }
-        playGame(board, turn);
+        playGame(janggiGame, daoService);
     }
 
-    private static Position readStartPosition(final Board board, final Turn turn) {
+    private static void movePosition(final JanggiGame janggiGame, final DaoService daoService) {
+        Turn turn = janggiGame.getTurn();
         Position startPosition = inputView.readStartPosition(turn);
-        board.isValidTurn(startPosition, turn);
-        return startPosition;
-    }
-
-    private static void movePosition(final Board board, final Position startPosition) {
         Position destinationPosition = inputView.readDestinationPosition();
-        board.move(startPosition, destinationPosition);
-        pieceDao.removeAndUpdatePosition(startPosition, destinationPosition);
-    }
 
+        janggiGame.move(startPosition, destinationPosition);
 
-    private static <T> T retry(final Supplier<T> supplier) {
-        while (true) {
-            try {
-                return supplier.get();
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
+        daoService.removeAndUpdatePosition(startPosition, destinationPosition);
+        daoService.updateTurn(TurnConverter.toEntity(janggiGame.getTurn()));
     }
 
     private static void retry(final Runnable runnable) {
