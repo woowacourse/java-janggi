@@ -67,7 +67,8 @@ public class Janggi {
                 final Player player = context.getCurrentPlayer();
 
                 final Command command = inputView.inputCommand(player);
-                command.execute(context, outputView, janggiService);
+                command.execute(context, janggiService);
+                outputView.display(command);
                 if (command.isExitCommand()) {
                     return;
                 }

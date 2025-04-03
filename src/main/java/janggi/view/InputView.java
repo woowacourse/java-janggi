@@ -1,12 +1,12 @@
 package janggi.view;
 
+import janggi.command.Command;
+import janggi.command.MoveCommand;
+import janggi.command.QuitCommand;
 import janggi.command.SaveCommand;
 import janggi.player.Player;
 import janggi.player.Team;
 import janggi.repository.dto.GameDto;
-import janggi.command.Command;
-import janggi.command.QuitCommand;
-import janggi.command.MoveCommand;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +17,10 @@ public class InputView {
     public static final String SAVE = "S";
 
     private final Scanner scanner = new Scanner(System.in);
+
+    private static void displayInputPointer() {
+        System.out.print(">>> ");
+    }
 
     public StartOption inputStartOption() {
         System.out.print("""
@@ -96,9 +100,5 @@ public class InputView {
 
     private String processGreenColorString(final String string) {
         return "\u001B[32m" + string + "\u001B[0m";
-    }
-
-    private static void displayInputPointer() {
-        System.out.print(">>> ");
     }
 }

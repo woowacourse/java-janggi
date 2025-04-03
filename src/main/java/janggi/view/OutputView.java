@@ -2,6 +2,8 @@ package janggi.view;
 
 import janggi.GameContext;
 import janggi.board.Board;
+import janggi.command.Command;
+import janggi.command.CommandType;
 import janggi.coordinate.Column;
 import janggi.coordinate.Position;
 import janggi.coordinate.Row;
@@ -54,7 +56,6 @@ public class OutputView {
             stringBuilder.append("\n");
         }
 
-
         System.out.println(stringBuilder);
     }
 
@@ -78,11 +79,21 @@ public class OutputView {
         displayError("올바른 입력이 필요합니다.");
     }
 
+    public void display(final Command command) {
+        if (command.getType() == CommandType.SAVE) {
+            displaySave();
+
+        }
+        if (command.getType() == CommandType.QUIT) {
+            displayQuit();
+        }
+    }
+
     public void displayQuit() {
         display("게임을 종료합니다.");
     }
 
-    public void displaySave() {
+    private void displaySave() {
         display("게임을 저장합니다.");
     }
 
