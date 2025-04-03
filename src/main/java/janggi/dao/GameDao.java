@@ -68,4 +68,17 @@ public class GameDao {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteGameBy(final Long gameId) {
+        final String query = "DELETE FROM game WHERE id = ?";
+
+        try (final Connection conn = janggiDatabase.getConnection();
+             final PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, gameId);
+            stmt.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

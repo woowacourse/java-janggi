@@ -80,6 +80,9 @@ public class JanggiGame {
         final List<PieceEntity> pieceEntities = pieceDao.findPiecesBy(gameEntity.getId());
         final Board board = createJanggiBoardBy(pieceEntities);
         showGameResult(board, currentTurnTeam);
+
+        pieceDao.deletePiecesBy(gameEntity.getId());
+        gameDao.deleteGameBy(gameEntity.getId());
     }
 
     private Board createJanggiBoardBy(final List<PieceEntity> pieceEntities) {
