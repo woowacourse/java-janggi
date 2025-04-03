@@ -11,7 +11,7 @@ import java.util.List;
 
 public class RedSoldier extends Piece {
     private static final List<Direction> VALID_STRAIGHT_DIRECTION = List.of(LEFT, RIGHT, DOWN);
-    private static final Position DIAGONAL_POSSIBLE_POSITON = new Position(5, 9);
+    private static final Position DIAGONAL_POSSIBLE_POSITION = new Position(5, 9);
     private static final List<Position> VALID_PALACE_DIAGONAL_MOVEMENT = List.of(
             new Position(4, 10),
             new Position(6, 10));
@@ -40,7 +40,7 @@ public class RedSoldier extends Piece {
 
     @Override
     public void validateDestination(Position destination) {
-        if (currentPosition.equals(DIAGONAL_POSSIBLE_POSITON)
+        if (currentPosition.equals(DIAGONAL_POSSIBLE_POSITION)
                 && Direction.isDiagonal(currentPosition, destination)) {
             checkValidDiagonalOneMovement(destination);
             return;
