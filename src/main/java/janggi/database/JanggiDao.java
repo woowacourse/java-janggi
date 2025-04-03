@@ -87,7 +87,7 @@ public class JanggiDao {
         }
     }
 
-    public void savePieces(final Map<Position, Piece> pieces) {
+    public void saveAllPiece(final Map<Position, Piece> pieces) {
         final String query = """
                 INSERT INTO piece (x, y, piece_type, color)
                 VALUES (?, ?, ?, ?)
@@ -114,7 +114,7 @@ public class JanggiDao {
         }
     }
 
-    public Pieces findPieces() {
+    public Pieces findAllPiece() {
         final String query = """
                 SELECT * 
                 FROM piece
@@ -129,7 +129,7 @@ public class JanggiDao {
         }
     }
 
-    public void deletePieces() {
+    public void deleteAllPiece() {
         final String query = """
                 DELETE 
                 FROM piece

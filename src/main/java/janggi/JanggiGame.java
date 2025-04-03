@@ -23,14 +23,14 @@ public class JanggiGame {
         this.pieces = Pieces.init();
         this.janggiDao = new JanggiDao();
         // NOTE: DB에 피스 정보를 저장한다
-        janggiDao.deletePieces();
-        janggiDao.savePieces(pieces.getPieces());
+        janggiDao.deleteAllPiece();
+        janggiDao.saveAllPiece(pieces.getPieces());
     }
 
     public static JanggiGame continueGame() {
         JanggiDao janggiDao = new JanggiDao();
         // NOTE: DB에 피스 정보를 가져온다
-        Pieces pieces = janggiDao.findPieces();
+        Pieces pieces = janggiDao.findAllPiece();
         return new JanggiGame(pieces);
     }
 
@@ -39,8 +39,8 @@ public class JanggiGame {
             return false;
         }
         pieces.moveForward(start, end);
-        janggiDao.deletePieces();
-        janggiDao.savePieces(pieces.getPieces());
+        janggiDao.deleteAllPiece();
+        janggiDao.saveAllPiece(pieces.getPieces());
         return true;
     }
 
