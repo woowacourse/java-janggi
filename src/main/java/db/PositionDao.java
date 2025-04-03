@@ -1,6 +1,5 @@
 package db;
 
-import domain.GameState;
 import domain.Team;
 import domain.piece.PieceType;
 import domain.position.Point;
@@ -12,24 +11,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
 
-public class JanggiDao {
+public class PositionDao {
 
-    private final DataSource dataSource;
+    private final DatabaseConnector databaseConnector;
 
-    public JanggiDao(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public Connection getConnection() {
-        try {
-            return dataSource.getConnection();
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("DB 연결에 실패했습니다.", e);
-        }
+    public PositionDao(DatabaseConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
     }
 
     public void savePosition(final Position position) {
@@ -41,7 +29,7 @@ public class JanggiDao {
         final var insertPointSql = "INSERT INTO point(x, y) VALUES(?, ?)";
         final var insertPieceSql = "INSERT INTO piece(pieceType, team, pointId) VALUES(?, ?, ?)";
 
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var pointStmt = connection.prepareStatement(insertPointSql, Statement.RETURN_GENERATED_KEYS);
              final var pieceStmt = connection.prepareStatement(insertPieceSql)) {
 
@@ -69,7 +57,7 @@ public class JanggiDao {
     public void updatePoint(final PointValue fromPoint, final PointValue toPoint) {
         final var updatePointSql = "UPDATE point SET x = ?, y = ? WHERE id = ?";
 
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var updatePointStmt = connection.prepareStatement(updatePointSql)) {
 
             int pointId = findPointIdByCoordinates(connection, fromPoint);
@@ -90,7 +78,7 @@ public class JanggiDao {
         final var deletePieceSql = "DELETE FROM piece WHERE pointId = ?";
         final var deletePointSql = "DELETE FROM point WHERE id = ?";
 
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var deletePieceStmt = connection.prepareStatement(deletePieceSql);
              final var deletePointStmt = connection.prepareStatement(deletePointSql)) {
 
@@ -125,43 +113,13 @@ public class JanggiDao {
         }
     }
 
-    public void changeTurn(final Team team) {
-        final var updateTurnSql = "UPDATE turn SET team = ?";
-
-        try (final var connection = getConnection();
-             final var turnStmt = connection.prepareStatement(updateTurnSql)) {
-            turnStmt.setString(1, team.name());
-            turnStmt.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Team getTurn() {
-        final var getTurnSql = "SELECT team FROM turn";
-
-        try (final var connection = getConnection();
-             final var turnStmt = connection.prepareStatement(getTurnSql);
-             final ResultSet resultSet = turnStmt.executeQuery()) {
-
-            if (resultSet.next()) {
-                final String team = resultSet.getString("team");
-                return Team.valueOf(team.toUpperCase());
-            } else {
-                throw new SQLException("턴 정보가 존재하지 않습니다.");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public List<Position> getPositions() {
         final List<Position> positions = new ArrayList<>();
         final var positionSql = "SELECT p.pieceType, p.team, pt.x, pt.y "
                                 + "FROM piece p "
                                 + "JOIN point pt ON p.pointId = pt.id";
 
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var positionStmt = connection.prepareStatement(positionSql);
              final ResultSet rs = positionStmt.executeQuery()) {
 
@@ -184,42 +142,13 @@ public class JanggiDao {
         return position;
     }
 
-    public GameState getGameState() {
 
-        final var gameStateSql = "SELECT state FROM game_state WHERE id = 1";
-
-        try (final var connection = getConnection();
-             final var gameState = connection.prepareStatement(gameStateSql);
-             final ResultSet resultSet = gameState.executeQuery()) {
-
-            if (resultSet.next()) {
-                final String state = resultSet.getString("state");
-                return GameState.valueOf(state);
-            }
-        } catch (final SQLException | IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException("데이터를 가져오는 과정에서 에러가 발생했습니다.");
-    }
-
-    public void updateGameState(final GameState gameState) {
-
-        final var gameStateSql = "UPDATE game_state SET state = ? WHERE id = 1";
-
-        try (final var connection = getConnection();
-             final var gameStateStmt = connection.prepareStatement(gameStateSql)) {
-            gameStateStmt.setString(1, gameState.name());
-            gameStateStmt.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void deleteAllPosition() {
         final var deletePieceSql = "DELETE FROM piece";
         final var deletePointSql = "DELETE FROM point";
 
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var deletePieceStmt = connection.prepareStatement(deletePieceSql);
              final var deletePointStmt = connection.prepareStatement(deletePointSql)) {
             deletePieceStmt.executeUpdate();

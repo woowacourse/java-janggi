@@ -14,27 +14,23 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class JanggiDaoTest {
+class DatabaseConnectorTest {
 
-    @Mock
-    DataSource mockDataSource;
+    @Mock DataSource mockDataSource;
+    @Mock Connection mockConnection;
 
-    @Mock
-    Connection mockConnection;
-
-    JanggiDao janggiDao;
+    DatabaseConnector databaseConnector;
 
     @BeforeEach
     void setUp() throws SQLException {
         when(mockDataSource.getConnection()).thenReturn(mockConnection);
-        janggiDao = new JanggiDao(mockDataSource);
+        databaseConnector = new DatabaseConnector(mockDataSource);
     }
 
     @Test
     void getConnection_shouldReturnMockConnection() throws SQLException {
-        Connection connection = janggiDao.getConnection();
+        Connection connection = databaseConnector.getConnection();
         assertThat(connection).isNotNull();
         verify(mockDataSource).getConnection();
     }
 }
-

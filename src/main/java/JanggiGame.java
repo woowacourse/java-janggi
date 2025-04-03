@@ -1,5 +1,5 @@
-import db.DataSourceFactory;
-import db.JanggiDao;
+import db.PositionDao;
+import db.TurnDao;
 import domain.Board;
 import domain.Score;
 import domain.Team;
@@ -23,8 +23,7 @@ public class JanggiGame {
         this.board = board;
     }
 
-    public void start() {
-        final JanggiDao janggiDao = new JanggiDao(DataSourceFactory.getDataSource());
+    public void start(final PositionDao positionDao, final TurnDao turnDao) {
 
         Loop.run(() -> {
             OutputView.printBoard(board);
@@ -32,21 +31,21 @@ public class JanggiGame {
 
             final Position prevPosition = readStartPosition();
             if (isInvalidPiece(prevPosition)) {
-                return processTurnChange(janggiDao, OutputView::printInvalidFromPoint);
+                return processTurnChange(turnDao, OutputView::printInvalidFromPoint);
             }
 
             final Point nextPoint = readEndPoint();
             if (isInvalidEndPoint(prevPosition, nextPoint)) {
-                return processTurnChange(janggiDao, OutputView::printInvalidEndPoint);
+                return processTurnChange(turnDao, OutputView::printInvalidEndPoint);
             }
 
-            processMove(prevPosition, nextPoint, janggiDao);
+            processMove(prevPosition, nextPoint, positionDao);
 
             if (board.hasOnlyOneGeneral()) {
                 processGameResult();
                 return false;
             }
-            return processTurnChange(janggiDao, OutputView::printEndTurn);
+            return processTurnChange(turnDao, OutputView::printEndTurn);
         });
     }
 
@@ -76,9 +75,9 @@ public class JanggiGame {
         return isRedTurn() && prevPosition.isGreenTeam();
     }
 
-    private boolean processTurnChange(final JanggiDao janggiDao, final Runnable messagePrinter) {
+    private boolean processTurnChange(final TurnDao turnDao, final Runnable messagePrinter) {
         messagePrinter.run();
-        changeTurn(janggiDao);
+        changeTurn(turnDao);
         return true;
     }
 
@@ -87,11 +86,11 @@ public class JanggiGame {
         return Point.of(toNumber.getFirst(), toNumber.getLast());
     }
 
-    private void processMove(final Position prevPosition, final Point nextPoint, final JanggiDao janggiDao) {
+    private void processMove(final Position prevPosition, final Point nextPoint, final PositionDao positionDao) {
         board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
         final PointValue pointValue = nextPoint.value();
-        janggiDao.deletePosition(pointValue);
-        janggiDao.updatePoint(prevPosition.getPointValue(), pointValue);
+        positionDao.deletePosition(pointValue);
+        positionDao.updatePoint(prevPosition.getPointValue(), pointValue);
     }
 
     private void processGameResult() {
@@ -110,9 +109,9 @@ public class JanggiGame {
         OutputView.printWinnerTeam(team, winnerScore, loserScore);
     }
 
-    private void changeTurn(final JanggiDao janggiDao) {
+    private void changeTurn(final TurnDao turnDao) {
         turn = turn.opposite();
-        janggiDao.changeTurn(turn);
+        turnDao.changeTurn(turn);
     }
 
     private boolean isInvalidEndPoint(final Position prevPosition, final Point nextPoint) {
