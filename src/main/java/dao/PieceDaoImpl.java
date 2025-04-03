@@ -27,7 +27,7 @@ public class PieceDaoImpl implements PieceDao {
             while (resultSet.next()) {
                 final int row = resultSet.getInt("position_row");
                 final int col = resultSet.getInt("position_col");
-                String typeName = resultSet.getString("type");
+                String typeName = resultSet.getString("piece_type");
                 String teamName = resultSet.getString("team");
                 result.add(new PieceEntity(row, col, JanggiTeam.from(teamName), Piece.from(typeName)));
             }
@@ -46,7 +46,7 @@ public class PieceDaoImpl implements PieceDao {
             preparedStatement.setInt(2, position.getCol());
             final var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                String typeName = resultSet.getString("type");
+                String typeName = resultSet.getString("piece_type");
                 String teamName = resultSet.getString("team");
                 PieceEntity pieceEntity = new PieceEntity(position.getRow(), position.getCol(), JanggiTeam.from(teamName), Piece.from(typeName));
                 return Optional.of(pieceEntity);
@@ -83,7 +83,7 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public void save(PieceEntity pieceEntity) {
-        final var query = "INSERT INTO piece(position_row, position_col, type, team) VALUES (?, ?, ?, ?)";
+        final var query = "INSERT INTO piece(position_row, position_col, piece_type, team) VALUES (?, ?, ?, ?)";
         try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query);
         ) {
