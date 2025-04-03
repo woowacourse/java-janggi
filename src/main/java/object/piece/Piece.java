@@ -1,8 +1,8 @@
 package object.piece;
 
+import java.util.stream.Collectors;
 import object.board.Board;
 import object.coordinate.Coordinate;
-import java.util.stream.Collectors;
 import object.team.Country;
 
 public class Piece {
@@ -16,13 +16,7 @@ public class Piece {
     }
 
     public boolean canMove(Board board, Coordinate departure, Coordinate arrival) {
-        if (!validateObstacle(board, departure, arrival)) {
-            return false;
-        }
-        if (!validateMovable(departure, arrival)) {
-            return false;
-        }
-        return true;
+        return validateObstacle(board, departure, arrival) && validateMovable(departure, arrival);
     }
 
     private boolean validateObstacle(Board board, Coordinate departure, Coordinate arrival) {
