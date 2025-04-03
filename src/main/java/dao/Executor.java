@@ -20,7 +20,7 @@ public class Executor {
             preparer.accept(statement);
             executor.accept(statement);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL 실행 실패", e);
         }
     }
 
@@ -45,7 +45,7 @@ public class Executor {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("트랜잭션 실패", e);
         }
     }
 
@@ -55,8 +55,7 @@ public class Executor {
              ResultSet resultSet = statement.executeQuery()) {
             return handler.apply(statement, resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("쿼리 조회 실패", e);
         }
     }
 
