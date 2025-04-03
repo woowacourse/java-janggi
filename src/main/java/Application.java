@@ -15,7 +15,7 @@ public class Application {
         OutputView outputView = new OutputView();
 
         // DB 연결체 생성
-        DBConnection dbConnection = new MySQLConnection();
+        DBConnection dbConnection = MySQLConnection.getInstance();
 
         // repository 생성
         JanggiGameRepository janggiGameRepository = new JanggiGameRepository(dbConnection);

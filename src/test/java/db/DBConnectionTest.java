@@ -13,7 +13,7 @@ class DBConnectionTest {
     @Test
     void getConnection() {
         //given
-        DBConnection dbConnection = new MySQLConnection();
+        DBConnection dbConnection = MySQLConnection.getInstance();
 
         // when // then
         try (final var connection = dbConnection.getConnection()) {
