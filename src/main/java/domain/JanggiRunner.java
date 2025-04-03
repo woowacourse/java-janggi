@@ -17,7 +17,7 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiRunner {
-    private static final String ROOM_NAME = "GAME_ROOM";
+    private static final String DEFAULT_ROOM_NAME = "GAME_ROOM";
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
@@ -59,7 +59,7 @@ public class JanggiRunner {
 
     private void updateGameStatus(Position startPosition, Position endPosition, TeamType nowTurn) {
         boardDao.updateBoard(startPosition, endPosition);
-        gameStatusDao.updateTurn(ROOM_NAME, nowTurn);
+        gameStatusDao.updateTurn(DEFAULT_ROOM_NAME, nowTurn);
     }
 
     private void deleteData() {
@@ -92,38 +92,38 @@ public class JanggiRunner {
     }
 
     private Players createPlayers() {
-        Optional<Players> optionalPlayers = playerDao.findPlayers();
-        if (optionalPlayers.isPresent()) {
-            return optionalPlayers.get();
+        Optional<Players> players = playerDao.findPlayers();
+        if (players.isPresent()) {
+            return players.get();
         }
         Usernames usernames = createUsernames();
         String startPlayerName = inputView.getStartPlayerName();
-        Players players = Players.createFrom(usernames, startPlayerName);
-        playerDao.savePlayers(players);
-        return players;
+        Players newPlayers = Players.createFrom(usernames, startPlayerName);
+        playerDao.savePlayers(newPlayers);
+        return newPlayers;
     }
 
     private Board createBoard(Players players) {
-        Optional<Board> boardOptional = boardDao.findBoard();
-        if (boardOptional.isPresent()) {
-            return boardOptional.get();
+        Optional<Board> board = boardDao.findBoard();
+        if (board.isPresent()) {
+            return board.get();
         }
         HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
         HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
         Map<Position, Piece> allPieces = createAllPieces(choPlayerStrategy, hanPlayerStrategy);
-        Board board = new Board(allPieces);
-        boardDao.save(board);
-        return board;
+        Board newBoard = new Board(allPieces);
+        boardDao.save(newBoard);
+        return newBoard;
     }
 
     private GameStatus createGameStatus() {
-        Optional<GameStatus> gameStatusOptional = gameStatusDao.findGameStatusByRoomName(ROOM_NAME);
-        if (gameStatusOptional.isPresent()) {
-            return gameStatusOptional.get();
+        Optional<GameStatus> gameStatus = gameStatusDao.findGameStatusByRoomName(DEFAULT_ROOM_NAME);
+        if (gameStatus.isPresent()) {
+            return gameStatus.get();
         }
-        GameStatus gameStatus = new GameStatus(ROOM_NAME);
-        gameStatusDao.save(gameStatus);
-        return gameStatus;
+        GameStatus newGameStatus = new GameStatus(DEFAULT_ROOM_NAME);
+        gameStatusDao.save(newGameStatus);
+        return newGameStatus;
     }
 
     private Usernames createUsernames() {
