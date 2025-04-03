@@ -7,7 +7,6 @@ import entity.PieceEntity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,26 +29,12 @@ public class PieceDaoImpl implements PieceDao {
                 final int col = resultSet.getInt("position_col");
                 String typeName = resultSet.getString("type");
                 String teamName = resultSet.getString("team");
-                result.add(new PieceEntity(row, col, getTeam(teamName), getPiece(typeName)));
+                result.add(new PieceEntity(row, col, JanggiTeam.from(teamName), Piece.from(typeName)));
             }
             return result;
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private JanggiTeam getTeam(String teamName) {
-        return Arrays.stream(JanggiTeam.values())
-                .filter(team -> team.name.equals(teamName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException(teamName + "은 올바르지 않은 팀 이름입니다."));
-    }
-
-    private Piece getPiece(String name) {
-        return Arrays.stream(Piece.values())
-                .filter(type -> type.name.equals(name))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException(name + "은 올바르지 않은 기물 이름입니다."));
     }
 
     @Override
@@ -63,7 +48,7 @@ public class PieceDaoImpl implements PieceDao {
             if (resultSet.next()) {
                 String typeName = resultSet.getString("type");
                 String teamName = resultSet.getString("team");
-                PieceEntity pieceEntity = new PieceEntity(position.getRow(), position.getCol(), getTeam(teamName), getPiece(typeName));
+                PieceEntity pieceEntity = new PieceEntity(position.getRow(), position.getCol(), JanggiTeam.from(teamName), Piece.from(typeName));
                 return Optional.of(pieceEntity);
             }
         } catch (final SQLException e) {
