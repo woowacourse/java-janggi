@@ -9,8 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PieceDao {
 
@@ -109,23 +107,6 @@ public class PieceDao {
             throw new RuntimeException("장군 기물 수 조회 중 오류가 발생했습니다.", e);
         }
         return generalCount;
-    }
-
-    public List<Piece> findAllCampPieces(Camp camp) {
-        String query = "SELECT * FROM piece WHERE camp = ?";
-        List<Piece> campPieces = new ArrayList<>();
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, camp.getName());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String type = resultSet.getString("type");
-                campPieces.add(PieceType.toPiece(type, camp));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("캠프별 기물 전체 조회 중 오류가 발생했습니다.", e);
-        }
-        return campPieces;
     }
 
     public void clearTable() {

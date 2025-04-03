@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.dao.GameDao;
+import janggi.dao.PieceDao;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.board.Point;
@@ -13,32 +14,36 @@ import janggi.view.View;
 public class Application {
 
     private static final Camp FIRST_TURN_CAMP = Camp.CHU;
+    public static final int GENERAL_PIECE_COUNT = 2;
 
     public static void main(String[] args) {
         View view = new View();
-        DatabaseConfig DBConfig = new DatabaseConfig("localhost:13306", "janggi",
-                "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC", "root", "root");
+        DatabaseConfig DBConfig = new DatabaseConfig(
+                "localhost:13306", "janggi",
+                "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+                "root", "root");
         DatabaseConnector DBConnector = new DatabaseConnector(DBConfig);
         GameDao gameDao = new GameDao(DBConnector);
+        PieceDao pieceDao = new PieceDao(DBConnector);
         view.displayStartBanner();
         boolean startGame = view.readStartGame();
         if (startGame) {
-            playGame(view, gameDao);
+            playGame(view, gameDao, pieceDao);
         }
     }
 
-    private static void playGame(View view, GameDao gameDao) {
+    private static void playGame(View view, GameDao gameDao, PieceDao pieceDao) {
         Board board = initializeIfNewGame(gameDao);
         Camp currentTurnCamp = gameDao.findLatestTurn();
-        while (!board.isGameOver()) {
-            view.displayBoard(board.getPieceDao());
+        while (!isGameOver(pieceDao)) {
+            view.displayBoard(pieceDao);
             if (view.readGameCommand(currentTurnCamp).equals("end")) {
                 break;
             }
-            currentTurnCamp = handleTurn(view, gameDao, board, currentTurnCamp);
+            currentTurnCamp = handleTurn(view, gameDao, board, currentTurnCamp, pieceDao);
         }
-        if (board.isGameOver()) {
-            endGame(view, board, gameDao);
+        if (isGameOver(pieceDao)) {
+            endGame(view, board, gameDao, pieceDao);
         }
     }
 
@@ -51,8 +56,12 @@ public class Application {
         return new Board();
     }
 
-    private static Camp handleTurn(View view, GameDao gameDao, Board board, Camp currentTurnCamp) {
-        boolean turnPlayed = tryPlayTurn(view, board, currentTurnCamp);
+    private static boolean isGameOver(PieceDao pieceDao) {
+        return pieceDao.getGeneralCount() != GENERAL_PIECE_COUNT;
+    }
+
+    private static Camp handleTurn(View view, GameDao gameDao, Board board, Camp currentTurnCamp, PieceDao pieceDao) {
+        boolean turnPlayed = tryPlayTurn(view, board, currentTurnCamp, pieceDao);
         if (!turnPlayed) {
             return currentTurnCamp;
         }
@@ -61,11 +70,11 @@ public class Application {
         return nextTurn;
     }
 
-    private static boolean tryPlayTurn(View view, Board board, Camp currentTurnCamp) {
+    private static boolean tryPlayTurn(View view, Board board, Camp currentTurnCamp, PieceDao pieceDao) {
         try {
             String fromPointInput = view.readFromPoint();
             String toPointInput = view.readToPoint();
-            executeTurn(fromPointInput, toPointInput, currentTurnCamp, board);
+            executeTurn(fromPointInput, toPointInput, currentTurnCamp, board, pieceDao);
             return true;
         } catch (IllegalArgumentException e) {
             view.displayErrorMessage(e.getMessage());
@@ -73,27 +82,39 @@ public class Application {
         }
     }
 
-    private static void executeTurn(String fromPointInput, String toPointInput, Camp baseCamp, Board board) {
+    private static void executeTurn(String fromPointInput, String toPointInput, Camp baseCamp, Board board,
+                                    PieceDao pieceDao) {
         Point from = new Point(fromPointInput);
         Point to = new Point(toPointInput);
-        validateSelectedPiece(board, from, baseCamp);
+        Piece movingPiece = pieceDao.findByPoint(from);
+        validateSelectedPiece(baseCamp, movingPiece);
         board.move(from, to);
+        pieceDao.deletePieceByPoint(from);
+        if (pieceDao.findByPoint(to) != null) {
+            pieceDao.updatePieceByPoint(to, movingPiece);
+        }
+        if (pieceDao.findByPoint(to) == null) {
+            pieceDao.addPiece(movingPiece, to);
+        }
     }
 
-    private static void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
-        Piece piece = board.peek(from);
-        piece.validateSelect(baseCamp);
+    private static void validateSelectedPiece(Camp baseCamp, Piece movingPiece) {
+        movingPiece.validateSelect(baseCamp);
     }
 
-    private static void endGame(View view, Board board, GameDao gameDao) {
-        displayEndingResult(view, board);
+    private static void endGame(View view, Board board, GameDao gameDao, PieceDao pieceDao) {
+        displayEndingResult(view, board, pieceDao);
         gameDao.endGame();
-        board.resetBoard();
+        resetBoard(pieceDao);
     }
 
-    private static void displayEndingResult(View view, Board board) {
-        view.displayBoard(board.getPieceDao());
-        Camp winningCamp = board.findWinningCamp();
+    private static void resetBoard(PieceDao pieceDao) {
+        pieceDao.clearTable();
+    }
+
+    private static void displayEndingResult(View view, Board board, PieceDao pieceDao) {
+        view.displayBoard(pieceDao);
+        Camp winningCamp = pieceDao.findWinningCamp();
         view.displayEndingMessage(winningCamp);
         view.displayScore(Camp.CHU, board.calculateChuScore());
         view.displayScore(Camp.HAN, board.calculateHanScore());

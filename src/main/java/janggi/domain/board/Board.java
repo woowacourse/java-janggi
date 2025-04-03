@@ -1,12 +1,10 @@
 package janggi.domain.board;
 
-import janggi.dao.PieceDao;
 import janggi.domain.camp.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.type.MoveType;
-import janggi.infra.DatabaseConfig;
-import janggi.infra.DatabaseConnector;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,22 +13,18 @@ public class Board {
     private static final int COLUMN = 9;
     private static final int ROW = 10;
     public static final double LATE_START_BONUS_SCORE = 1.5;
-    public static final int GENERAL_PIECE_COUNT = 2;
 
     private final PalaceArea palaceArea;
-    private final PieceDao pieceDao;
+    private final Map<Point, Piece> placedPieces;
 
     public Board() {
+        this.placedPieces = new HashMap<>();
         this.palaceArea = new PalaceArea();
-        DatabaseConfig DBConfig = new DatabaseConfig("localhost:13306", "janggi",
-                "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC", "root", "root");
-        DatabaseConnector DBConnector = new DatabaseConnector(DBConfig);
-        this.pieceDao = new PieceDao(DBConnector);
     }
 
     public void placePiece(Point point, Piece piece) {
         validatePoint(point);
-        pieceDao.addPiece(piece, point);
+        placedPieces.put(point, piece);
     }
 
     private void validatePoint(Point point) {
@@ -61,10 +55,10 @@ public class Board {
     }
 
     public Piece peek(Point point) {
-        if (pieceDao.findByPoint(point) == null) {
+        if (!placedPieces.containsKey(point)) {
             throw new IllegalArgumentException("해당 위치에서 기물을 찾을 수 없습니다.");
         }
-        return pieceDao.findByPoint(point);
+        return placedPieces.get(point);
     }
 
     private boolean isInPalace(Point point) {
@@ -82,57 +76,36 @@ public class Board {
     }
 
     private void validateCatchable(Piece movingPiece, Point to) {
-        if (pieceDao.findByPoint(to) != null) {
+        if (placedPieces.containsKey(to)) {
             Piece targetPiece = peek(to);
             movingPiece.validateCatch(targetPiece);
         }
     }
 
     private void executeMove(Piece movingPiece, Point from, Point to) {
-        pieceDao.deletePieceByPoint(from);
-        if (pieceDao.findByPoint(to) != null) {
-            pieceDao.updatePieceByPoint(to, movingPiece);
-        }
-        if (pieceDao.findByPoint(to) == null) {
-            pieceDao.addPiece(movingPiece, to);
-        }
+        placedPieces.remove(from);
+        placedPieces.put(to, movingPiece);
     }
 
     private Set<Piece> findPiecesByPoint(Set<Point> route) {
         return route.stream()
-                .filter((point) -> pieceDao.findByPoint(point) != null)
+                .filter(placedPieces::containsKey)
                 .map(this::peek)
                 .collect(Collectors.toSet());
     }
 
-    public boolean isGameOver() {
-        return pieceDao.getGeneralCount() != GENERAL_PIECE_COUNT;
-    }
-
-    public Camp findWinningCamp() {
-        return pieceDao.findWinningCamp();
-    }
-
     public double calculateHanScore() {
-        List<Piece> hanPieces = pieceDao.findAllCampPieces(Camp.HAN);
-        double hanScore = hanPieces.stream()
+        double hanScore = placedPieces.values().stream()
+                .filter(piece -> piece.getCamp() == Camp.HAN)
                 .mapToInt(piece -> piece.getPieceType().getScore())
                 .sum();
         return hanScore + LATE_START_BONUS_SCORE;
     }
 
     public double calculateChuScore() {
-        List<Piece> chuPieces = pieceDao.findAllCampPieces(Camp.CHU);
-        return chuPieces.stream()
+        return placedPieces.values().stream()
+                .filter(piece -> piece.getCamp() == Camp.CHU)
                 .mapToInt(piece -> piece.getPieceType().getScore())
                 .sum();
-    }
-
-    public void resetBoard() {
-        pieceDao.clearTable();
-    }
-
-    public PieceDao getPieceDao() {
-        return pieceDao;
     }
 }
