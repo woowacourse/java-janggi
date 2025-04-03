@@ -1,7 +1,8 @@
 package janggi.piece;
 
+import janggi.piece.moveable.Moveable;
+import janggi.piece.moveable.SoldierMoveable;
 import janggi.piece.movement.MovementRule;
-import janggi.piece.movement.OneBlockMovementRule;
 import janggi.piece.movement.SoldierMovementRule;
 import janggi.piece.path.OneBlockMovementPathCalculator;
 import janggi.piece.path.PathCalculator;
@@ -14,16 +15,23 @@ public class Soldier extends Piece {
 
     private final PathCalculator pathCalculator;
     private final MovementRule movementRule;
+    private final Moveable moveable;
 
     public Soldier(final Color color) {
         super(color);
         this.pathCalculator = new OneBlockMovementPathCalculator();
         this.movementRule = new SoldierMovementRule();
+        this.moveable = new SoldierMoveable();
     }
 
     @Override
     public int getScore() {
         return PIECE_TYPE.getScore();
+    }
+
+    @Override
+    public boolean isMoveable(final Position start, final Position end, final Pieces pieces) {
+        return moveable.isMoveable(start, end, pieces);
     }
 
     @Override

@@ -23,6 +23,8 @@ public abstract class Piece {
         return color;
     }
 
+    public abstract boolean isMoveable(final Position start, final Position end, final Pieces pieces);
+
     public abstract List<Position> calculatePath(final Position start, final Position end);
 
     public abstract PieceType getPieceType();
