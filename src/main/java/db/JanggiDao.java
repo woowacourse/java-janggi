@@ -1,5 +1,6 @@
 package db;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import domain.GameState;
 import domain.Team;
 import domain.piece.PieceType;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
 
 public class JanggiDao {
     private static final String SERVER = "localhost:13307"; // MySQL 서버 주소
@@ -20,6 +22,20 @@ public class JanggiDao {
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+
+    private final DataSource dataSource;
+
+    public JanggiDao() {
+        final MysqlDataSource ds = new MysqlDataSource();
+        ds.setURL("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION);
+        ds.setUser(USERNAME);
+        ds.setPassword(PASSWORD);
+        this.dataSource = ds;
+    }
+
+    public JanggiDao(final DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public Connection getConnection() {
         try {
@@ -32,10 +48,7 @@ public class JanggiDao {
     }
 
     public void savePosition(final Position position) {
-        Team team = Team.RED;
-        if (position.isGreenTeam()) {
-            team = Team.GREEN;
-        }
+        final Team team = determaineTeam(position);
 
         final var insertPointSql = "INSERT INTO point(x, y) VALUES(?, ?)";
         final var insertPieceSql = "INSERT INTO piece(pieceType, team, pointId) VALUES(?, ?, ?)";
@@ -63,6 +76,13 @@ public class JanggiDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Team determaineTeam(final Position position) {
+        if (position.isGreenTeam()) {
+            return Team.GREEN;
+        }
+        return Team.RED;
     }
 
     public void updatePoint(final PointValue fromPoint, final PointValue toPoint) {
