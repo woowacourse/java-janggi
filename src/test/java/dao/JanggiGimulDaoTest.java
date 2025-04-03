@@ -1,13 +1,16 @@
 package dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static player.Nation.HAN;
 
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pieceProperty.JanggiPieceInitializer;
 import pieceProperty.PieceType;
+import pieceProperty.PieceTypes;
 import pieceProperty.Position;
 
 public class JanggiGimulDaoTest {
@@ -88,6 +91,23 @@ public class JanggiGimulDaoTest {
 
         //then
         assertThat(hanPieces.containsKey(new Position(0, 0))).isFalse();
+        janggiGimulDao.deleteAllPieces();
+    }
+
+    @Test
+    @DisplayName("생존 기물 찾기 테스트")
+    void selectAlivePieceTest() {
+        //given
+        JanggiGimulDao janggiGimulDao = new JanggiGimulDao();
+        JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
+        janggiGimulDao.insertHanPieces(janggiPieceInitializer.hanInit());
+
+        //when
+        janggiGimulDao.updateDefenceGimul(new Position(0, 0), HAN);
+        PieceTypes pieceTypes = janggiGimulDao.selectAlivePiece("HAN");
+
+        //then
+        assertThat(pieceTypes.getPieceTypes().size()).isEqualTo(15);
         janggiGimulDao.deleteAllPieces();
     }
 

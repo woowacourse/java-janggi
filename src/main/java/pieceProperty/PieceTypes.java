@@ -16,4 +16,7 @@ public class PieceTypes {
                 .sum();
     }
 
+    public List<PieceType> getPieceTypes() {
+        return pieceTypes;
+    }
 }

@@ -9,9 +9,12 @@ import static dao.GameStateDao.USERNAME;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import pieceProperty.PieceType;
+import pieceProperty.PieceTypes;
 import pieceProperty.Position;
 import player.JanggiPan;
 import player.Nation;
@@ -114,6 +117,23 @@ public class JanggiGimulDao {
             throw new RuntimeException("[ERROR] 기물 조회 중 오류가 발생하였습니다.", e);
         }
         return sum;
+    }
+
+    public PieceTypes selectAlivePiece(String country) {
+        String query = "SELECT * FROM piece WHERE country = ? AND is_alive = true";
+        List<PieceType> pieceTypes = new ArrayList<>();
+        try (var connection = getConnection();
+             var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, country);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    pieceTypes.add(PieceType.getPieceTypeBy(resultSet.getString("type")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 기물 조회 중 오류가 발생하였습니다.", e);
+        }
+        return new PieceTypes(pieceTypes);
     }
 
     public void deleteAllPieces() {
