@@ -33,14 +33,4 @@ public class DbConnection {
         return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
 
     }
-
-    public void closeConnection(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                System.out.println("연결 종료 실패: " + e.getMessage());
-            }
-        }
-    }
 }
