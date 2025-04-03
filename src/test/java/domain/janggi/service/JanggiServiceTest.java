@@ -10,6 +10,7 @@ import domain.turn.Turn;
 import fake.InMemoryBoardRepository;
 import fake.InMemoryTurnRepository;
 import java.util.Map;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -22,6 +23,12 @@ class JanggiServiceTest {
 
     @BeforeEach
     void setUp() {
+        boardRepository.deleteAll();
+        turnRepository.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
         boardRepository.deleteAll();
         turnRepository.deleteAll();
     }

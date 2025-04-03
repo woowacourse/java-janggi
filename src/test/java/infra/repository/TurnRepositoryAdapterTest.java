@@ -6,6 +6,7 @@ import domain.piece.Team;
 import domain.turn.Turn;
 import infra.dao.TurnDao;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,6 +18,11 @@ class TurnRepositoryAdapterTest {
 
     @BeforeEach
     void setUp() {
+        turnDao.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
         turnDao.deleteAll();
     }
 

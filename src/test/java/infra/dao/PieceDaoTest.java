@@ -5,6 +5,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import infra.entity.PieceEntity;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -16,6 +17,11 @@ class PieceDaoTest {
 
     @BeforeEach
     void setUp() {
+        pieceDao.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
         pieceDao.deleteAll();
     }
 

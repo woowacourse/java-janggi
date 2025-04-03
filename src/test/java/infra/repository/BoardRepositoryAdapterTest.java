@@ -9,6 +9,7 @@ import domain.piece.Team;
 import infra.dao.PieceDao;
 import java.util.Map;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -23,6 +24,11 @@ class BoardRepositoryAdapterTest {
         pieceDao.deleteAll();
     }
 
+    @AfterEach
+    void tearDown() {
+        pieceDao.deleteAll();
+    }
+    
     @Nested
     class ValidCases {
 

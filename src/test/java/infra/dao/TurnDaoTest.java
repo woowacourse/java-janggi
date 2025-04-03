@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import infra.entity.TurnEntity;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +16,11 @@ class TurnDaoTest {
 
     @BeforeEach
     void setUp() {
+        turnDao.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
         turnDao.deleteAll();
     }
 
