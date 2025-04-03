@@ -14,6 +14,7 @@ import java.util.function.BiPredicate;
 public class Soldier extends Piece implements DirectionCheckable {
 
     private static final MovePaths basicMoveActions;
+    private static final int SOLDIER_SCORE = 2;
 
     private final MovePaths moveActions;
 
@@ -58,6 +59,6 @@ public class Soldier extends Piece implements DirectionCheckable {
 
     @Override
     public int getScore() {
-        return 2;
+        return SOLDIER_SCORE;
     }
 }

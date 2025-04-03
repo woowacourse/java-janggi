@@ -17,6 +17,7 @@ public class Horse extends Piece implements DistanceCheckable, ObstructionChecka
     private static final int EXPECTED_INTERNAL_POSITION_COUNT = 0;
     private static final MovePaths movePaths;
     private static final double DISTANCE;
+    private static final int HORSE_SCORE = 5;
 
     static {
         movePaths = new MovePaths(Set.of(
@@ -80,6 +81,6 @@ public class Horse extends Piece implements DistanceCheckable, ObstructionChecka
 
     @Override
     public int getScore() {
-        return 5;
+        return HORSE_SCORE;
     }
 }

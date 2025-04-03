@@ -17,6 +17,7 @@ public class Elephant extends Piece implements DistanceCheckable, ObstructionChe
     private static final int EXPECTED_INTERNAL_POSITION_COUNT = 0;
     private static final MovePaths movePaths;
     private static final double DISTANCE;
+    private static final int ELEPHANT_SCORE = 3;
 
     static {
         movePaths = new MovePaths(Set.of(
@@ -80,6 +81,6 @@ public class Elephant extends Piece implements DistanceCheckable, ObstructionChe
 
     @Override
     public int getScore() {
-        return 3;
+        return ELEPHANT_SCORE;
     }
 }

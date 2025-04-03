@@ -14,6 +14,7 @@ import java.util.function.BiPredicate;
 public class Chariot extends Piece implements DirectionCheckable, ObstructionCheckable {
 
     private static final int EXPECTED_INTERNAL_POSITION_COUNT = 0;
+    private static final int CHARIOT_SCORE = 13;
 
     public Chariot(final Position position, final Country country) {
         super(position, country);
@@ -70,6 +71,6 @@ public class Chariot extends Piece implements DirectionCheckable, ObstructionChe
 
     @Override
     public int getScore() {
-        return 13;
+        return CHARIOT_SCORE;
     }
 }

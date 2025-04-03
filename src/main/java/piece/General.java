@@ -7,6 +7,8 @@ import validator.PalaceCheckable;
 
 public class General extends Piece implements PalaceCheckable {
 
+    private static final int GENERAL_SCORE = 3;
+
     public General(final Position position, final Country country) {
         super(position, country);
     }
@@ -24,6 +26,6 @@ public class General extends Piece implements PalaceCheckable {
 
     @Override
     public int getScore() {
-        return 3;
+        return GENERAL_SCORE;
     }
 }

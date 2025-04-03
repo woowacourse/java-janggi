@@ -14,6 +14,7 @@ import java.util.function.BiPredicate;
 public class Cannon extends Piece implements DirectionCheckable, ObstructionCheckable {
 
     private static final int EXPECTED_INTERNAL_POSITION_COUNT = 1;
+    private static final int CANNON_SCORE = 7;
 
     public Cannon(final Position position, final Country country) {
         super(position, country);
@@ -76,6 +77,6 @@ public class Cannon extends Piece implements DirectionCheckable, ObstructionChec
 
     @Override
     public int getScore() {
-        return 7;
+        return CANNON_SCORE;
     }
 }
