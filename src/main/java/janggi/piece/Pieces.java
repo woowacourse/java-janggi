@@ -156,4 +156,12 @@ public class Pieces {
                         pieces.get(position)
                                 .isSamePieceType(piece));
     }
+
+    public boolean isMoveable(final Position start, final Position end) {
+        if (!pieces.containsKey(start)) {
+            return false;
+        }
+        final Piece startPositionPiece = pieces.get(start);
+        return startPositionPiece.isMoveable(start, end, this);
+    }
 }

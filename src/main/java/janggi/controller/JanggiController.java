@@ -25,7 +25,8 @@ public class JanggiController {
             String startPosition = inputView.inputMoveStartPosition();
             String endPosition = inputView.inputMoveEndPosition();
 
-            janggiGame.move(Position.from(startPosition), Position.from(endPosition));
+            final boolean isMoveSuccess = janggiGame.move(Position.from(startPosition), Position.from(endPosition));
+            outputView.printMoveResult(isMoveSuccess);
         }
     }
 

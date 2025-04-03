@@ -35,14 +35,14 @@ public class JanggiGame {
         return new JanggiGame(pieces);
     }
 
-    public void move(final Position start, final Position end) {
-        validateEndPositionPiece(start, end);
-        validatePieceOnPath(start, end);
+    public boolean move(final Position start, final Position end) {
+        if (!pieces.isMoveable(start, end)) {
+            return false;
+        }
         pieces.moveForward(start, end);
-
-        // NOTE: DB에 피스 정보를 저장한다
         janggiDao.deletePieces();
         janggiDao.savePieces(pieces.getPieces());
+        return true;
     }
 
     private void validateEndPositionPiece(Position start, Position end) {

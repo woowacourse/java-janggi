@@ -61,4 +61,16 @@ public class OutputView {
     public void printLoadJanngiIllegalInput() {
         System.out.println("잘못된 입력입니다. 이전 게임을 이어서 진행합니다. 새로운 게임을 시작하려면 프로그램을 재시작 후 'new' 입력하세요.");
     }
+
+    public void printMoveResult(final boolean isMoveSuccess) {
+        final String message = formatMoveResult(isMoveSuccess);
+        System.out.println(message);
+    }
+
+    private String formatMoveResult(final boolean isMoveSuccess) {
+        if (isMoveSuccess) {
+            return "이동 성공";
+        }
+        return "이동 실패, 입력한 좌표를 확인해 주세요.";
+    }
 }
