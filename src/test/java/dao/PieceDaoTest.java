@@ -88,4 +88,16 @@ public class PieceDaoTest {
         assertThatCode(() -> pieceDao.delete(piece, Team.HAN))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    void 기물_데이터를_초기화한다() {
+        // given
+        Piece piece = new Piece(Position.of(1, 2), PieceType.HORSE, MovementRule.HORSE);
+        Player player = new Player("name", Team.HAN);
+        pieceDao.save(piece, player);
+
+        // when & then
+        assertThatCode(pieceDao::clear)
+                .doesNotThrowAnyException();
+    }
 }
