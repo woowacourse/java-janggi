@@ -12,9 +12,9 @@ services:
       MYSQL_PASSWORD: password
       TZ: Asia/Seoul
     volumes:
-      - ./db/mysql/init:/docker-entrypoint-initdb.d
+      - ./db/mysql/init/prod:/docker-entrypoint-initdb.d
 
-  test:
+  test-db:
     image: mysql:8.0.28
     platform: linux/x86_64
     restart: always
@@ -27,4 +27,4 @@ services:
       MYSQL_PASSWORD: password
       TZ: Asia/Seoul
     volumes:
-      - ./db/mysql/init:/docker-entrypoint-initdb.d
+      - ./db/mysql/init/test:/docker-entrypoint-initdb.d
