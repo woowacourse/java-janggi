@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import janggi.domain.ReplaceUnderBar;
+import janggi.domain.piece.movement.MovementStrategy;
 import janggi.domain.piece.movement.MovementStrategyContext;
 import janggi.domain.piece.pieces.Pieces;
-import janggi.domain.piece.pieces.PiecesView;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +19,7 @@ class PieceTest {
     private static final Side ALLY_SIDE = Side.HAN;
     private static final PieceType PIECE_TYPE = PieceType.ELEPHANT;
     private static final Position DEFAULT_POSITION = new Position(1, 2);
-    private static final FakeMovementStrategy MOVEMENT_STRATEGY = new FakeMovementStrategy(true);
+    private static final FakeMovementStrategyContext MOVEMENT_STRATEGY = new FakeMovementStrategyContext(true);
 
     @ParameterizedTest
     @EnumSource(value = Side.class)
@@ -53,18 +53,18 @@ class PieceTest {
         assertThat(piece.isSamePosition(new Position(compareX, compareY))).isEqualTo(expected);
     }
 
-    private static class FakeMovementStrategy extends MovementStrategyContext {
+    private static class FakeMovementStrategyContext extends MovementStrategyContext {
 
         private boolean isMoveable;
 
-        public FakeMovementStrategy(boolean isMoveable) {
+        public FakeMovementStrategyContext(boolean isMoveable) {
             super(null, null);
             this.isMoveable = isMoveable;
         }
 
         @Override
-        public boolean isMoveable(PiecesView map, Position origin, Side side, Position destination) {
-            return isMoveable;
+        public MovementStrategy getMovementStrategy(Position position) {
+            return (map, position1, side, destination) -> isMoveable;
         }
 
         public void setIsMoveable(boolean moveable) {

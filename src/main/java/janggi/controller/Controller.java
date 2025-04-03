@@ -2,8 +2,10 @@ package janggi.controller;
 
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.dao.PieceDao;
 import janggi.domain.piece.generator.ChoPieceGenerator;
 import janggi.domain.piece.generator.HanPieceGenerator;
+import janggi.domain.piece.pieces.Pieces;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -14,6 +16,8 @@ public class Controller {
 
     private final HanPieceGenerator hanPieceGenerator;
     private final ChoPieceGenerator choPieceGenerator;
+
+    private final PieceDao pieceDao = new PieceDao();
 
     public Controller(
         InputView inputView,
@@ -30,12 +34,18 @@ public class Controller {
 
     public void run() {
 
-        JanggiBoard janggiBoard = makeJanggiBoard();
+        JanggiBoard janggiBoard;
+        if (inputView.inputGameContinue()) {
+            janggiBoard = makeExistingJanggiBoard();
+        } else {
+            janggiBoard = makeJanggiBoard();
+        }
         outputView.printJanggiBoard(janggiBoard);
         playGame(janggiBoard);
     }
 
     private JanggiBoard makeJanggiBoard() {
+
         KnightElephantSettingCommand hanKnightElephantSettingCommand = inputView.inputHanKnightElephantSetting();
         KnightElephantSettingCommand choKnightElephantSettingCommand = inputView.inputChoKnightElephantSetting();
 
@@ -47,8 +57,19 @@ public class Controller {
         );
     }
 
+    private JanggiBoard makeExistingJanggiBoard() {
+        return new JanggiBoard(new Pieces(pieceDao.findAllToMap()));
+    }
+
     private void playGame(JanggiBoard janggiBoard) {
         while (!janggiBoard.isEnd()) {
+
+            if (inputView.inputGameExit()) {
+                pieceDao.removeAll();
+                pieceDao.saveAll(janggiBoard.getPlacedPieces().getValues());
+                return;
+            }
+
             moveHan(janggiBoard);
 
             outputView.printJanggiBoard(janggiBoard);

@@ -30,6 +30,11 @@ public class JanggiBoard {
         turn = Turn.start();
     }
 
+    public JanggiBoard(Pieces placedPieces) {
+        this.placedPieces = placedPieces;
+        turn = Turn.start();
+    }
+
     public void move(Position source, Position destination) {
         Piece sourcePiece = placedPieces.findExistingByPosition(source);
         validateTurn(sourcePiece);
