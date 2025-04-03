@@ -37,17 +37,17 @@ public class JanggiApplication {
         }
         final Country firstTurnCountry = Country.getFirstTurnCountry();
         JANGGI_DATABASE.saveTurn(firstTurnCountry);
-        return firstTurnCountry ;
+        return firstTurnCountry;
     }
 
-    private static void startJanggi(final Board board, Country type) {
+    private static void startJanggi(final Board board, final Country country) {
         while (board.isAliveAllGenerals()) {
-            OutputView.printBoard(board, type);
+            OutputView.printBoard(board, country);
             final List<JanggiPosition> janggiPositions = InputView.readPositions();
-            board.updatePosition(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), type);
-            type = type.toggleCountry();
+            board.updatePosition(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), country);
+            final Country countryOfEnemy = country.toggleCountry();
             updateMoveForDatabase(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), board);
-            JANGGI_DATABASE.updateTurn(type);
+            JANGGI_DATABASE.updateTurn(countryOfEnemy);
         }
 
         JANGGI_DATABASE.removeAllJanggiRows();
