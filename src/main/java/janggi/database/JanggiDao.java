@@ -26,28 +26,6 @@ public class JanggiDao {
         }
     }
 
-    public Piece findByPosition(final Position position) {
-        final String query = """
-                SELECT * 
-                FROM piece 
-                WHERE x = ? AND y = ?
-                """;
-
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, position.x());
-            preparedStatement.setInt(2, position.y());
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return PieceConverter.convertToPiece(resultSet);
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
     public void deleteByPosition(final Position position) {
         final String query = """
                 DELETE 
