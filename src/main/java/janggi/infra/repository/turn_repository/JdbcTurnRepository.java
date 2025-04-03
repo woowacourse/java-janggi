@@ -20,7 +20,8 @@ public class JdbcTurnRepository implements TurnRepository {
         final var query = """
                 CREATE TABLE turn (
                     game_number INT NOT NULL,
-                    country VARCHAR(10) NOT NULL
+                    country VARCHAR(10) NOT NULL,
+                    PRIMARY KEY (game_number)
                 );
                 """;
         try (final var connection = connector.getConnection();

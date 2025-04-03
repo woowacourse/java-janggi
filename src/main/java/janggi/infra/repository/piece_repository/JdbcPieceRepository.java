@@ -29,7 +29,8 @@ public class JdbcPieceRepository implements PieceRepository {
                     piece_type VARCHAR(10) NOT NULL,
                     position_rank INT NOT NULL,
                     position_file INT NOT NULL,
-                    country VARCHAR(10) NOT NULL
+                    country VARCHAR(10) NOT NULL,
+                    PRIMARY KEY (piece_type, position_rank, position_file)
                 );
                 """;
         try (final var connection = connector.getConnection();
