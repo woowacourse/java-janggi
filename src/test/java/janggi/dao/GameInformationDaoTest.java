@@ -11,27 +11,18 @@ import janggi.rule.GameState;
 import janggi.rule.PieceAssignType;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameInformationDaoTest {
 
-    DBConnector dbConnector;
-    GameInformationDao gameInformationDao;
-
-    @BeforeEach
-    void beforeEach() {
-        dbConnector = new TestDBConnector();
-        gameInformationDao = new GameInformationDao(dbConnector);
-        DBFixture.resetTable(dbConnector, "games");
-    }
+    DBConnector dbConnector = new TestDBConnector();
+    GameInformationDao gameInformationDao = new GameInformationDao(dbConnector);
 
     @AfterEach
     void afterEach() {
         DBFixture.resetTable(dbConnector, "games");
     }
-
 
     @DisplayName("새로운 게임정보를 삽입하고 조회할 수 있다.")
     @Test

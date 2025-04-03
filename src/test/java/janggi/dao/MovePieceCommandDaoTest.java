@@ -13,24 +13,14 @@ import janggi.rule.PieceAssignType;
 import janggi.value.Position;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class MovePieceCommandDaoTest {
 
-    DBConnector dbConnector;
-    GameInformationDao gameInformationDao;
-    MovePieceCommandDao movePieceCommandDao;
-
-    @BeforeEach
-    void beforeEach() {
-        dbConnector = new TestDBConnector();
-        gameInformationDao = new GameInformationDao(dbConnector);
-        movePieceCommandDao = new MovePieceCommandDao(dbConnector);
-        DBFixture.resetTable(dbConnector, "move_piece_commands");
-        DBFixture.resetTable(dbConnector, "games");
-    }
+    DBConnector dbConnector = new TestDBConnector();
+    GameInformationDao gameInformationDao = new GameInformationDao(dbConnector);
+    MovePieceCommandDao movePieceCommandDao = new MovePieceCommandDao(dbConnector);
 
     @AfterEach
     void afterEach() {
