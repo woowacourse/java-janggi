@@ -42,21 +42,6 @@ public class PieceDao {
         }
     }
 
-    public void updatePiece(int pieceId, int column, int row) {
-        String sql = "UPDATE piece SET x = ?, y = ? WHERE id = ?";
-
-        try (Connection connection = JdbcConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setInt(1, column);
-                preparedStatement.setInt(2, row);
-                preparedStatement.setInt(3, pieceId);
-
-                preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 기물 정보 업데이트에 실패했습니다.");
-        }
-    }
-
     public List<Piece> findAllPieces() {
         String sql = "SELECT type, team, x, y FROM piece";
 
@@ -90,26 +75,6 @@ public class PieceDao {
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 모든 기물을 삭제하는 데 실패했습니다.");
         }
-    }
-
-    public int getPieceIdByPoint(int column, int row) {
-        String sql = "SELECT id FROM piece WHERE x = ? AND y = ?";
-
-        try (Connection connection = JdbcConnection.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-                pstmt.setInt(1, column);
-                pstmt.setInt(2, row);
-
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getInt("id");
-                    }
-                }
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 데이터베이스 조회 중 예외가 발생했습니다.");
-        }
-
-        throw new IllegalArgumentException("[ERROR] 위치에서 기물을 찾을 수 없습니다.");
     }
 
     public boolean existPiece() {
