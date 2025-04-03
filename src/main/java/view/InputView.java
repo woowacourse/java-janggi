@@ -83,7 +83,7 @@ public class InputView {
 
     private static void validateMoveCommandSize(List<String> parsed) {
         if (parsed.size() != 2) {
-            throw new IllegalArgumentException(parsed + ": 위치를 2개 입력해주세요.");
+            throw new IllegalArgumentException(parsed + ": [ERROR] 위치를 2개 입력해주세요. (예: 1,2)");
         }
     }
 
