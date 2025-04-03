@@ -3,18 +3,20 @@ package janggi.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
-public class DBConnectorTest implements DBConnector{
-    private static final String SERVER = "localhost:3306";
-    private static final String DATABASE = "janggi_test";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "100tk324dl";
+public class DBConnectorTest implements DBConnector {
+    private static final Properties properties = PropertiesLoader.load();
+    private static final String SERVER = properties.getProperty("DB_HOST") + ":" + properties.getProperty("DB_PORT");
+    private static final String DATABASE = properties.getProperty("DB_TEST_NAME");
+    private static final String OPTIONS = properties.getProperty("DB_OPTIONS");
+    private static final String USERNAME = properties.getProperty("DB_USER");
+    private static final String PASSWORD = properties.getProperty("DB_PASSWORD");
 
     @Override
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTIONS, USERNAME, PASSWORD);
         } catch (SQLException e) {
             throw new IllegalArgumentException("[ERROR] : 테스트 DB 연결 실패");
         }

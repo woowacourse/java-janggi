@@ -136,8 +136,8 @@
 
 ## DB 환경 설정
 - MySQL DBMS 사용
-- DATABASE 관련 사항은 database.env 파일을 확인해주세요.
-  - 경로 : \java-janggi\database.env
+- DATABASE 관련 사항은 database.properties 파일을 확인해주세요.
+- 경로 : main\resources\database.properties
 - 아래 쿼리문을 작성하여 `janggi` 데이터베이스를 생성하세요.
   - `CREATE DATABASE janggi;`
 
