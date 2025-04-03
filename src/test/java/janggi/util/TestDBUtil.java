@@ -1,16 +1,15 @@
 package janggi.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class TestDBUtil {
 
-    private static final String SERVER = "localhost:13307"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi_test"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "user"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "password"; // MySQL 서버 비밀번호
+    private static final String CONFIG_PROPERTIES = "config.properties";
 
     private static TestDBUtil instance;
 
@@ -25,10 +24,18 @@ public class TestDBUtil {
     }
 
     public Connection getConnection() {
-        // 드라이버 연결
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
+        final Properties properties = new Properties();
+        try (InputStream input = TestDBUtil.class.getClassLoader().getResourceAsStream(CONFIG_PROPERTIES)) {
+            properties.load(input);
+
+            final String server = properties.getProperty("db.server");
+            final String database = properties.getProperty("db.name");
+            final String options = properties.getProperty("db.options");
+            final String username = properties.getProperty("db.username");
+            final String password = properties.getProperty("db.password");
+
+            return DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + options, username, password);
+        } catch (final SQLException | IOException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
             e.printStackTrace();
             return null;
