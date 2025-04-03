@@ -1,11 +1,12 @@
 package domain.piece;
 
-import domain.piece.coordiante.Coordinate;
 import domain.board.ReadableBoard;
+import domain.piece.coordiante.Coordinate;
 import domain.piece.jump.Pho;
 import java.util.List;
 
 public abstract class Piece {
+
     protected final Country country;
     protected final PieceType type;
 
@@ -37,7 +38,7 @@ public abstract class Piece {
     }
 
     public int getScore() {
-        return Score.getScore(this.type);
+        return type.getScore();
     }
 
     public boolean isHan() {
