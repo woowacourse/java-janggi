@@ -11,7 +11,7 @@ public class InMemoryConnector implements DatabaseConnector {
     @Override
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:h2:mem:k-chess;DB_CLOSE_DELAY=-1", "sa", "");
+            return DriverManager.getConnection("jdbc:h2:mem:janggi;DB_CLOSE_DELAY=-1", "sa", "");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
