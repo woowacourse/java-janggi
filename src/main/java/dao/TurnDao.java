@@ -18,8 +18,7 @@ public class TurnDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("[ERROR] 턴 정보를 저장하지 못했습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 턴 정보를 저장하지 못했습니다.");
         }
     }
 
@@ -33,8 +32,7 @@ public class TurnDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("[ERROR] 턴 정보를 저장하지 못했습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 턴 정보를 업데이트하지 못했습니다.");
         }
     }
 
@@ -45,8 +43,7 @@ public class TurnDao {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("[ERROR] 해당 팀의 플레이어를 찾을 수 없습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 턴 정보를 삭제하지 못했습니다.");
         }
     }
 
@@ -61,10 +58,9 @@ public class TurnDao {
                 return turn.getString("current_turn");
             }
         } catch (SQLException e) {
-            System.err.println("[ERROR] 턴 정보를 저장하지 못했습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 턴 정보를 조회하는데 문제가 발생했습니다.");
         }
 
-        return null;
+        throw new IllegalStateException("[ERROR] 턴 정보를 조회하지 못했습니다.");
     }
 }

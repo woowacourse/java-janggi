@@ -32,8 +32,7 @@ public class PieceDao {
             pstmt.setInt(4, y);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("[ERROR] 기물 정보를 저장하지 못했습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 기물들을 저장하는데 실패했습니다.");
         }
     }
 
@@ -48,8 +47,7 @@ public class PieceDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("[ERROR] 기물 정보들을 읽어올 수 없습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 기물 정보 업데이트에 실패했습니다.");
         }
     }
 
@@ -71,8 +69,7 @@ public class PieceDao {
                 pieces.add(piece);
             }
         } catch (SQLException e) {
-            System.err.println("[ERROR] 기물 정보들을 읽어올 수 없습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 기물 정보들을 읽어올 수 없습니다.");
         }
 
         return pieces;
@@ -85,8 +82,7 @@ public class PieceDao {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("[ERROR] 해당 팀의 플레이어를 찾을 수 없습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 모든 기물을 삭제하는 데 실패했습니다.");
         }
     }
 
@@ -103,11 +99,10 @@ public class PieceDao {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            System.err.println("[ERROR] 해당 팀의 플레이어를 찾을 수 없습니다.");
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 데이터베이스 조회 중 예외가 발생했습니다.");
         }
 
-        return -1;
+        throw new IllegalArgumentException("[ERROR] 위치에서 기물을 찾을 수 없습니다.");
     }
 
     private Piece pieceToTypePiece(PieceType pieceType, int column, int row, Team team) {
