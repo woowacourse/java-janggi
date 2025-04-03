@@ -20,92 +20,80 @@ import java.sql.Connection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import util.ConnectionFactory;
-import util.TransactionManager;
 
 public class JanggiManager {
 
     private final PieceDao pieceDao;
     private final JanggiGameDao janggiGameDao;
     private final PlayerDao playerDao;
-    private final TransactionManager transactionManager;
 
-    public JanggiManager(ConnectionFactory connectionFactory) {
+    public JanggiManager() {
         pieceDao = new PieceDao();
         janggiGameDao = new JanggiGameDao();
         playerDao = new PlayerDao();
-        this.transactionManager = new TransactionManager(connectionFactory);
     }
 
-    public List<JanggiGameDto> findInProgressGames() {
-        return transactionManager.execute((connection) -> {
-            List<Long> inProgressGameIds = janggiGameDao.findInProgressGameIds(connection);
+    public List<JanggiGameDto> findInProgressGames(Connection connection) {
+        List<Long> inProgressGameIds = janggiGameDao.findInProgressGameIds(connection);
 
-            return inProgressGameIds.stream()
-                    .map(gameId -> getInProgressGameInfo(gameId, connection))
-                    .toList();
-        });
+        return inProgressGameIds.stream()
+                .map(gameId -> getInProgressGameInfo(gameId, connection))
+                .toList();
     }
 
     public long saveNewGame(Players players, HorseElephantSetupStrategy choStrategy,
-                            HorseElephantSetupStrategy hanStrategy) {
-        return transactionManager.execute((connection) -> {
-            JanggiGame janggiGame = JanggiGame.start(players, choStrategy, hanStrategy);
+                            HorseElephantSetupStrategy hanStrategy, Connection connection) {
+        JanggiGame janggiGame = JanggiGame.start(players, choStrategy, hanStrategy);
 
-            long gameId = janggiGameDao.saveJanggiGame(janggiGame.getTurnState(), janggiGame.getGameState(),
-                    connection);
+        long gameId = janggiGameDao.saveJanggiGame(janggiGame.getTurnState(), janggiGame.getGameState(),
+                connection);
 
-            savePlayers(players, gameId, connection);
+        savePlayers(players, gameId, connection);
 
-            Map<Position, Piece> pieces = janggiGame.getAlivePieces();
-            pieceDao.savePieces(pieces, gameId, connection);
+        Map<Position, Piece> pieces = janggiGame.getAlivePieces();
+        pieceDao.savePieces(pieces, gameId, connection);
 
-            return gameId;
-        });
+        return gameId;
     }
 
-    public void undo(Long gameId) {
-        transactionManager.executeWithoutResult(connection -> {
-            JanggiGame janggiGame = findJanggiGameById(gameId, connection);
-            janggiGame.undo();
-            updateJanggiGameStatus(gameId, janggiGame, connection);
-        });
+    public void undo(Long gameId, Connection connection) {
+        JanggiGame janggiGame = findJanggiGameById(gameId, connection);
+        janggiGame.undo();
+        updateJanggiGameStatus(gameId, janggiGame, connection);
     }
 
-    public void movePiece(Long gameId, Position from, Position to) {
-        transactionManager.executeWithoutResult(connection -> {
-            JanggiGame janggiGame = findJanggiGameById(gameId, connection);
-            janggiGame.movePiece(from, to);
+    public void movePiece(Long gameId, Position from, Position to, Connection connection) {
+        JanggiGame janggiGame = findJanggiGameById(gameId, connection);
+        janggiGame.movePiece(from, to);
 
-            pieceDao.removePiece(gameId, to, connection);
-            pieceDao.updatePiecePosition(gameId, from, to, connection);
+        pieceDao.removePiece(gameId, to, connection);
+        pieceDao.updatePiecePosition(gameId, from, to, connection);
 
-            updateJanggiGameStatus(gameId, janggiGame, connection);
-        });
+        updateJanggiGameStatus(gameId, janggiGame, connection);
     }
 
-    public Map<Position, Piece> getGamePieces(Long gameId) {
-        return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).getAlivePieces());
+    public Map<Position, Piece> getGamePieces(Long gameId, Connection connection) {
+        return findJanggiGameById(gameId, connection).getAlivePieces();
     }
 
-    public boolean isInProgress(Long gameId) {
-        return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).isInProgress());
+    public boolean isInProgress(Long gameId, Connection connection) {
+        return findJanggiGameById(gameId, connection).isInProgress();
     }
 
-    public Player getCurrentPlayer(Long gameId) {
-        return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).getCurrentPlayer());
+    public Player getCurrentPlayer(Long gameId, Connection connection) {
+        return findJanggiGameById(gameId, connection).getCurrentPlayer();
     }
 
-    public Player findWinner(Long gameId) {
-        return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).findWinner());
+    public Player findWinner(Long gameId, Connection connection) {
+        return findJanggiGameById(gameId, connection).findWinner();
     }
 
-    public boolean isFinishedByCheckmate(Long gameId) {
-        return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).isFinishedByCheckmate());
+    public boolean isFinishedByCheckmate(Long gameId, Connection connection) {
+        return findJanggiGameById(gameId, connection).isFinishedByCheckmate();
     }
 
-    public Map<String, Double> calculatePlayerScore(Long gameId) {
-        return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).calculatePlayerScore());
+    public Map<String, Double> calculatePlayerScore(Long gameId, Connection connection) {
+        return findJanggiGameById(gameId, connection).calculatePlayerScore();
     }
 
     private void updateJanggiGameStatus(Long gameId, JanggiGame janggiGame, Connection connection) {

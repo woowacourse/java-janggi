@@ -18,12 +18,12 @@ public class JanggiRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final JanggiManager janggiManager;
+    private final JanggiTransactionManager janggiTransactionManager;
 
-    public JanggiRunner(InputView inputView, OutputView outputView, JanggiManager janggiManager) {
+    public JanggiRunner(InputView inputView, OutputView outputView, JanggiTransactionManager janggiTransactionManager) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiManager = janggiManager;
+        this.janggiTransactionManager = janggiTransactionManager;
     }
 
     public void run() {
@@ -34,30 +34,30 @@ public class JanggiRunner {
     }
 
     private void showCurrentBoard(Long gameId) {
-        Map<Position, Piece> alivePieces = janggiManager.getGamePieces(gameId);
+        Map<Position, Piece> alivePieces = janggiTransactionManager.getGamePieces(gameId);
         outputView.printBoard(alivePieces);
     }
 
     private void executeGame(Long gameId) {
-        while (janggiManager.isInProgress(gameId)) {
+        while (janggiTransactionManager.isInProgress(gameId)) {
             playTurn(gameId);
         }
     }
 
     private void playTurn(Long gameId) {
-        Player currentPlayer = janggiManager.getCurrentPlayer(gameId);
+        Player currentPlayer = janggiTransactionManager.getCurrentPlayer(gameId);
         if (inputCommand(currentPlayer) == CommandOption.UNDO) {
-            janggiManager.undo(gameId);
+            janggiTransactionManager.undo(gameId);
             return;
         }
         handleError(() -> movePiece(gameId));
     }
 
     private void movePiece(Long gameId) {
-        Player nowPlayer = janggiManager.getCurrentPlayer(gameId);
+        Player nowPlayer = janggiTransactionManager.getCurrentPlayer(gameId);
         Position from = handleError(() -> inputView.getStartPosition(nowPlayer));
         Position to = handleError(() -> inputView.getEndPosition(nowPlayer));
-        janggiManager.movePiece(gameId, from, to);
+        janggiTransactionManager.movePiece(gameId, from, to);
         showCurrentBoard(gameId);
     }
 
@@ -68,17 +68,17 @@ public class JanggiRunner {
     }
 
     private void showWinner(Long gameId) {
-        Player winner = janggiManager.findWinner(gameId);
-        if (janggiManager.isFinishedByCheckmate(gameId)) {
+        Player winner = janggiTransactionManager.findWinner(gameId);
+        if (janggiTransactionManager.isFinishedByCheckmate(gameId)) {
             outputView.printWinner(winner);
             return;
         }
-        Map<String, Double> playerScore = janggiManager.calculatePlayerScore(gameId);
+        Map<String, Double> playerScore = janggiTransactionManager.calculatePlayerScore(gameId);
         outputView.printScoreWinner(winner, playerScore);
     }
 
     private long getPlayingGameId() {
-        List<JanggiGameDto> inProgressGames = janggiManager.findInProgressGames();
+        List<JanggiGameDto> inProgressGames = janggiTransactionManager.findInProgressGames();
         if (isInProgressGameResumed(inProgressGames)) {
             return inputView.getInProgressGameId(inProgressGames);
         }
@@ -92,7 +92,7 @@ public class JanggiRunner {
                 () -> inputView.getSetupStrategy(players.getChoPlayerName()));
         HorseElephantSetupStrategy hanPlayerStrategy = handleError(
                 () -> inputView.getSetupStrategy(players.getHanPlayerName()));
-        return janggiManager.saveNewGame(players, choPlayerStrategy, hanPlayerStrategy);
+        return janggiTransactionManager.saveNewGame(players, choPlayerStrategy, hanPlayerStrategy);
     }
 
     private boolean isInProgressGameResumed(List<JanggiGameDto> inProgressGames) {

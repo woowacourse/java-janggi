@@ -40,29 +40,32 @@ import util.H2ConnectionFactory;
 class JanggiManagerTest {
 
     private JanggiManager janggiManager;
-    private H2ConnectionFactory factory;
+    private Connection connection;
 
     @BeforeEach
-    void setup() {
-        this.factory = new H2ConnectionFactory();
+    void setup() throws SQLException {
+        H2ConnectionFactory factory = new H2ConnectionFactory();
         factory.initializeTable();
-        janggiManager = new JanggiManager(new H2ConnectionFactory());
+        connection = factory.getConnection();
+        connection.setAutoCommit(false);
+        janggiManager = new JanggiManager();
     }
 
     @AfterEach
-    void clearTable() {
-        factory.initializeTable();
+    void rollback() throws SQLException {
+        connection.rollback();
+        connection.close();
     }
 
     @Test
     @DisplayName("진행중인 게임의 정보들을 반환한다")
-    void findInProgressGamesTest() throws SQLException {
+    void findInProgressGamesTest() {
         // given
-        long savedGameId1 = JanggiGameTestFixture.saveNewJanggiGame(factory);
-        long savedGameId2 = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long savedGameId1 = JanggiGameTestFixture.saveNewJanggiGame(connection);
+        long savedGameId2 = JanggiGameTestFixture.saveNewJanggiGame(connection);
 
         // when
-        List<JanggiGameDto> inProgressGames = janggiManager.findInProgressGames();
+        List<JanggiGameDto> inProgressGames = janggiManager.findInProgressGames(connection);
 
         // then
         String choPlayerName = "테스트1";
@@ -87,7 +90,7 @@ class JanggiManagerTest {
         RightElephantStrategy hanStrategy = new RightElephantStrategy();
 
         // when & then
-        assertThatCode(() -> janggiManager.saveNewGame(players, choStrategy, hanStrategy))
+        assertThatCode(() -> janggiManager.saveNewGame(players, choStrategy, hanStrategy, connection))
                 .doesNotThrowAnyException();
     }
 
@@ -101,20 +104,18 @@ class JanggiManagerTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("정상적으로 무르기가 실행되면 변경된 정보가 저장된다")
-    void undoTest(TurnState turnState, TurnState expectedTurnState, boolean expectedInProgress) throws SQLException {
+    void undoTest(TurnState turnState, TurnState expectedTurnState, boolean expectedInProgress) {
         // given
-        Connection connection = factory.getConnection();
         JanggiGameDao janggiGameDao = new JanggiGameDao();
         GameState gameState = GameState.IN_PROGRESS;
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory, turnState, gameState);
-        connection.commit();
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(turnState, gameState, connection);
 
         // when
-        janggiManager.undo(gameId);
+        janggiManager.undo(gameId, connection);
 
         // then
         TurnState actualTurnState = janggiGameDao.findTurnStateById(gameId, connection).get();
-        boolean actualInProgress = janggiManager.isInProgress(gameId);
+        boolean actualInProgress = janggiManager.isInProgress(gameId, connection);
         assertAll(
                 () -> assertThat(actualTurnState).isEqualTo(expectedTurnState),
                 () -> assertThat(actualInProgress).isEqualTo(expectedInProgress)
@@ -123,10 +124,9 @@ class JanggiManagerTest {
 
     @Test
     @DisplayName("기물을 이동하면 이동한 좌표가 저장된다")
-    void movePieceTest() throws SQLException {
+    void movePieceTest() {
         // given
-        Connection connection = factory.getConnection();
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
         Position from = Position.of(4, 3);
         Position to = Position.of(5, 5);
         Map<Position, Piece> pieces = Map.of(
@@ -134,14 +134,12 @@ class JanggiManagerTest {
         );
 
         new PieceDao().savePieces(pieces, gameId, connection);
-        connection.commit();
-        connection.close();
 
         // when
-        janggiManager.movePiece(gameId, from, to);
+        janggiManager.movePiece(gameId, from, to, connection);
 
         // then
-        Map<Position, Piece> gamePieces = janggiManager.getGamePieces(gameId);
+        Map<Position, Piece> gamePieces = janggiManager.getGamePieces(gameId, connection);
 
         assertAll(
                 () -> assertThat(gamePieces).containsKey(to),
@@ -151,9 +149,9 @@ class JanggiManagerTest {
 
     @Test
     @DisplayName("기물을 이동하여 잡힌 말은 데이터에서 제거된다")
-    void movePieceRemoveTest() throws SQLException {
+    void movePieceRemoveTest() {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
         Position from = Position.of(4, 3);
         Position to = Position.of(5, 5);
         Map<Position, Piece> pieces = Map.of(
@@ -161,13 +159,13 @@ class JanggiManagerTest {
                 to, new Soldier(TeamType.HAN)
         );
 
-        JanggiGameTestFixture.saveBoardPieces(factory, gameId, pieces);
+        JanggiGameTestFixture.saveBoardPieces(gameId, pieces, connection);
 
         // when
-        janggiManager.movePiece(gameId, from, to);
+        janggiManager.movePiece(gameId, from, to, connection);
 
         // then
-        Map<Position, Piece> gamePieces = janggiManager.getGamePieces(gameId);
+        Map<Position, Piece> gamePieces = janggiManager.getGamePieces(gameId, connection);
 
         assertAll(
                 () -> assertThat(gamePieces).hasSize(1),
@@ -177,12 +175,12 @@ class JanggiManagerTest {
 
     @Test
     @DisplayName("현재 턴을 진행하는 플레이어를 반환한다")
-    void getCurrentPlayerTest() throws SQLException {
+    void getCurrentPlayerTest() {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
 
         // when
-        Player currentPlayer = janggiManager.getCurrentPlayer(gameId);
+        Player currentPlayer = janggiManager.getCurrentPlayer(gameId, connection);
 
         // then
         Player expected = new Player(new Username("테스트1"), TeamType.CHO);
@@ -191,11 +189,11 @@ class JanggiManagerTest {
 
     @Test
     @DisplayName("게임의 우승자를 반환한다")
-    void findWinnerTest() throws SQLException {
+    void findWinnerTest() {
         // given
         TurnState turnState = new TurnState(true, TeamType.HAN);
         GameState gameState = GameState.FINISHED_SCORE;
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory, turnState, gameState);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(turnState, gameState, connection);
         Map<Position, Piece> pieces = Map.of(
                 Position.of(3, 4), new Chariot(TeamType.HAN),
                 Position.of(1, 2), new Soldier(TeamType.CHO),
@@ -204,10 +202,10 @@ class JanggiManagerTest {
                 Position.of(1, 4), new King(TeamType.CHO)
         );
 
-        JanggiGameTestFixture.saveBoardPieces(factory, gameId, pieces);
+        JanggiGameTestFixture.saveBoardPieces(gameId, pieces, connection);
 
         // when
-        Player actual = janggiManager.findWinner(gameId);
+        Player actual = janggiManager.findWinner(gameId, connection);
 
         // then
         assertThat(actual.getTeamType()).isEqualTo(TeamType.HAN);
@@ -215,11 +213,11 @@ class JanggiManagerTest {
 
     @Test
     @DisplayName("플레이어들의 점수를 반환한다")
-    void calculatePlayerScore() throws SQLException {
+    void calculatePlayerScore() {
         // given
         TurnState turnState = new TurnState(true, TeamType.HAN);
         GameState gameState = GameState.FINISHED_SCORE;
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory, turnState, gameState);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(turnState, gameState, connection);
         Map<Position, Piece> pieces = Map.of(
                 Position.of(3, 4), new Chariot(TeamType.HAN),
                 Position.of(1, 2), new Soldier(TeamType.CHO),
@@ -229,10 +227,10 @@ class JanggiManagerTest {
                 Position.of(1, 4), new King(TeamType.CHO)
         );
 
-        JanggiGameTestFixture.saveBoardPieces(factory, gameId, pieces);
+        JanggiGameTestFixture.saveBoardPieces(gameId, pieces, connection);
 
         // when
-        Map<String, Double> playerScores = janggiManager.calculatePlayerScore(gameId);
+        Map<String, Double> playerScores = janggiManager.calculatePlayerScore(gameId, connection);
         double choPlayerScore = playerScores.get("테스트1");
         double hanPlayerScore = playerScores.get("테스트2");
 

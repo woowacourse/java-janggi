@@ -17,21 +17,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import util.ConnectionFactory;
 import util.H2ConnectionFactory;
 
 class PlayerDaoTest {
 
     private PlayerDao playerDao;
     private Connection connection;
-    private ConnectionFactory factory;
 
     @BeforeEach
     void setup() throws SQLException {
         H2ConnectionFactory h2Connection = new H2ConnectionFactory();
         h2Connection.initializeTable();
-        factory = h2Connection;
-        connection = factory.getConnection();
+        connection = h2Connection.getConnection();
         connection.setAutoCommit(false);
         playerDao = new PlayerDao();
     }
@@ -44,9 +41,9 @@ class PlayerDaoTest {
 
     @Test
     @DisplayName("플레이어 데이터를 저장한다")
-    void savePlayerTest() throws SQLException {
+    void savePlayerTest() {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
         Username name = new Username("루키");
         TeamType team = TeamType.HAN;
         Player player = new Player(name, team);

@@ -14,21 +14,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import util.ConnectionFactory;
 import util.H2ConnectionFactory;
 
 class JanggiGameDaoTest {
 
     private JanggiGameDao janggiGameDao;
     private Connection connection;
-    private ConnectionFactory factory;
 
     @BeforeEach
     void setup() throws SQLException {
         H2ConnectionFactory h2Connection = new H2ConnectionFactory();
         h2Connection.initializeTable();
-        factory = h2Connection;
-        connection = factory.getConnection();
+        connection = h2Connection.getConnection();
         connection.setAutoCommit(false);
         janggiGameDao = new JanggiGameDao();
     }

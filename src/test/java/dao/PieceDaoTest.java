@@ -19,21 +19,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import util.ConnectionFactory;
 import util.H2ConnectionFactory;
 
 class PieceDaoTest {
 
     private PieceDao pieceDao;
     private Connection connection;
-    private ConnectionFactory factory;
 
     @BeforeEach
     void setup() throws SQLException {
         H2ConnectionFactory h2Connection = new H2ConnectionFactory();
         h2Connection.initializeTable();
-        factory = h2Connection;
-        connection = factory.getConnection();
+        connection = h2Connection.getConnection();
         connection.setAutoCommit(false);
         pieceDao = new PieceDao();
     }
@@ -47,9 +44,9 @@ class PieceDaoTest {
 
     @Test
     @DisplayName("저장된 보드의 기물과 좌표를 반환한다")
-    void findBoardPiecesByGameIdTest() throws SQLException {
+    void findBoardPiecesByGameIdTest() {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
         Map<Position, Piece> savePieces = Map.of(
                 Position.of(4, 5), new Soldier(TeamType.CHO),
                 Position.of(6, 5), new Horse(TeamType.CHO),
@@ -76,9 +73,9 @@ class PieceDaoTest {
 
     @Test
     @DisplayName("저장된 기물의 좌표를 변경한다")
-    void updatePieceTest() throws SQLException {
+    void updatePieceTest() {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
         Position from = Position.of(3, 5);
         Position to = Position.of(3, 6);
         Map<Position, Piece> savePiece = Map.of(from, new Soldier(TeamType.HAN));
@@ -98,9 +95,9 @@ class PieceDaoTest {
 
     @Test
     @DisplayName("저장된 기물을 제거한다")
-    void removePieceTest() throws SQLException {
+    void removePieceTest() {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
         Map<Position, Piece> savePiece = Map.of(Position.of(3, 5), new Soldier(TeamType.HAN));
         pieceDao.savePieces(savePiece, gameId, connection);
         Position removePosition = Position.of(3, 5);
