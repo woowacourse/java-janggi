@@ -7,14 +7,14 @@ import java.sql.*;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class CountryDao {
+import static db.ConnectionManager.getConnection;
 
-    private final PieceDao pieceDao = new PieceDao();
+public class CountryDao {
 
     public void saveDirection(Map<Country, LineDirection> directionMap) {
         String sql = "REPLACE INTO country_direction (country, direction) VALUES (?, ?)";
 
-        try (Connection conn = pieceDao.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             for (Map.Entry<Country, LineDirection> entry : directionMap.entrySet()) {
@@ -32,7 +32,7 @@ public class CountryDao {
         String sql = "SELECT * FROM country_direction";
         Map<Country, LineDirection> map = new EnumMap<>(Country.class);
 
-        try (Connection conn = pieceDao.getConnection();
+        try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
