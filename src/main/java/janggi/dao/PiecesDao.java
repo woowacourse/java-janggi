@@ -2,7 +2,6 @@ package janggi.dao;
 
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Position;
 import java.sql.Connection;
@@ -52,7 +51,7 @@ public class PiecesDao {
                 String team = loadedPieces.getString("team");
 
                 Position position = new Position(x, y);
-                Piece piece = PieceFactory.createPiece(PieceType.valueOf(pieceType), position,
+                Piece piece = Piece.createPiece(PieceType.valueOf(pieceType), position,
                     Team.valueOf(team));
                 pieces.put(piece.getPosition(), piece);
             }
