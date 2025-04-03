@@ -5,7 +5,7 @@ import janggi.domain.rule.Movement;
 
 public class HorseMoveStrategy implements MoveStrategy {
 
-    private static final Movement MOVEMENT = Movement.STRAIGHT_DIAGONAL;
+    private static final Movement STRAIGHT_DIAGONAL_MOVEMENT = Movement.STRAIGHT_DIAGONAL;
 
     @Override
     public void validateCorrectRule(final Position departure, final Position destination) {
@@ -15,7 +15,8 @@ public class HorseMoveStrategy implements MoveStrategy {
         int maxDiff = Math.max(Math.abs(diffRow), Math.abs(diffColumn));
         int minDiff = Math.min(Math.abs(diffRow), Math.abs(diffColumn));
 
-        if (maxDiff != MOVEMENT.getMaxDistance() || minDiff != MOVEMENT.getMinDistance()) {
+        if (maxDiff != STRAIGHT_DIAGONAL_MOVEMENT.getMaxDistance()
+                || minDiff != STRAIGHT_DIAGONAL_MOVEMENT.getMinDistance()) {
             throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
     }
