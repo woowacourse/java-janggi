@@ -54,13 +54,11 @@ public class JanggiRunner {
     }
 
     private void movePiece(Long gameId) {
-        handleError(() -> {
-            Player nowPlayer = janggiManager.getCurrentPlayer(gameId);
-            Position from = handleError(() -> inputView.getStartPosition(nowPlayer));
-            Position to = handleError(() -> inputView.getEndPosition(nowPlayer));
-            janggiManager.movePiece(gameId, from, to);
-            showCurrentBoard(gameId);
-        });
+        Player nowPlayer = janggiManager.getCurrentPlayer(gameId);
+        Position from = handleError(() -> inputView.getStartPosition(nowPlayer));
+        Position to = handleError(() -> inputView.getEndPosition(nowPlayer));
+        janggiManager.movePiece(gameId, from, to);
+        showCurrentBoard(gameId);
     }
 
     private CommandOption inputCommand(Player player) {
