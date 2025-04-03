@@ -1,19 +1,21 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.board.Point;
-import janggi.camp.Camp;
+import janggi.domain.board.Point;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.type.MoveType;
+import janggi.domain.piece.type.PieceType;
 import java.util.Set;
 
-public final class Guard extends Piece {
+public final class General extends Piece {
 
-    public Guard(Camp camp) {
+    public General(Camp camp) {
         super(camp);
     }
 
     @Override
     public void validateMovementRule(MoveType moveType, Point from, Point to) {
-        if (!isGuardMove(from, to)) {
-            throw new IllegalArgumentException("사는 상하좌우, 대각선으로 한 칸만 움직일 수 있습니다.");
+        if (!isGeneralMove(from, to)) {
+            throw new IllegalArgumentException("장군은 상하좌우, 대각선으로 한 칸만 움직일 수 있습니다.");
         }
         validateArea(from, to);
     }
@@ -33,7 +35,7 @@ public final class Guard extends Piece {
                 new Point(5, 0), new Point(5, 1), new Point(5, 2)
         );
         if (!chuGeneralArea.contains(from) || !chuGeneralArea.contains(to)) {
-            throw new IllegalArgumentException("사는 궁성 밖을 나갈 수 없습니다.");
+            throw new IllegalArgumentException("장군은 궁성 밖을 나갈 수 없습니다.");
         }
     }
 
@@ -44,11 +46,11 @@ public final class Guard extends Piece {
                 new Point(5, 7), new Point(5, 8), new Point(5, 9)
         );
         if (!hanGeneralArea.contains(from) || !hanGeneralArea.contains(to)) {
-            throw new IllegalArgumentException("사는 궁성 밖을 나갈 수 없습니다.");
+            throw new IllegalArgumentException("장군은 궁성 밖을 나갈 수 없습니다.");
         }
     }
 
-    private boolean isGuardMove(Point from, Point to) {
+    private boolean isGeneralMove(Point from, Point to) {
         int xDistance = from.xDistanceTo(to);
         int yDistance = from.yDistanceTo(to);
         return (xDistance == 1 && yDistance == 1) || (xDistance == 0 && yDistance == 1)
@@ -67,6 +69,6 @@ public final class Guard extends Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.GUARD;
+        return PieceType.GENERAL;
     }
 }

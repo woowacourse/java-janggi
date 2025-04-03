@@ -1,4 +1,4 @@
-package janggi.camp;
+package janggi.domain.camp;
 
 public enum Camp {
 

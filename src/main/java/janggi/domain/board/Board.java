@@ -1,11 +1,11 @@
-package janggi.board;
+package janggi.domain.board;
 
-import janggi.camp.Camp;
 import janggi.dao.PieceDao;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.type.MoveType;
 import janggi.infra.DatabaseConfig;
 import janggi.infra.DatabaseConnector;
-import janggi.piece.MoveType;
-import janggi.piece.Piece;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

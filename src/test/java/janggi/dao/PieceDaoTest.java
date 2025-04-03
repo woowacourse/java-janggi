@@ -2,13 +2,13 @@ package janggi.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.board.Point;
-import janggi.camp.Camp;
+import janggi.domain.board.Point;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Piece;
 import janggi.infra.DatabaseConfig;
 import janggi.infra.DatabaseConnector;
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.Piece;
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeEach;

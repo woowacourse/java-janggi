@@ -1,7 +1,9 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.board.Point;
-import janggi.camp.Camp;
+import janggi.domain.board.Point;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.type.MoveType;
+import janggi.domain.piece.type.PieceType;
 import java.util.Set;
 
 public final class Horse extends Piece {

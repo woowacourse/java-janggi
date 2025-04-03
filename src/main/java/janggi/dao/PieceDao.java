@@ -1,10 +1,10 @@
 package janggi.dao;
 
-import janggi.board.Point;
-import janggi.camp.Camp;
+import janggi.domain.board.Point;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.type.PieceType;
 import janggi.infra.DatabaseConnector;
-import janggi.piece.Piece;
-import janggi.piece.PieceType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

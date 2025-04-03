@@ -1,13 +1,13 @@
-package janggi.board;
+package janggi.domain.board;
 
-import janggi.camp.Camp;
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.Elephant;
-import janggi.piece.General;
-import janggi.piece.Guard;
-import janggi.piece.Horse;
-import janggi.piece.Soldier;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Soldier;
 
 public class BoardGenerator {
 

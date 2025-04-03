@@ -1,4 +1,4 @@
-package janggi.board;
+package janggi.domain.board;
 
 import java.util.HashSet;
 import java.util.Objects;

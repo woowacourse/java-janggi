@@ -1,13 +1,13 @@
 package janggi;
 
-import janggi.board.Board;
-import janggi.board.BoardGenerator;
-import janggi.board.Point;
-import janggi.camp.Camp;
 import janggi.dao.GameDao;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardGenerator;
+import janggi.domain.board.Point;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.Piece;
 import janggi.infra.DatabaseConfig;
 import janggi.infra.DatabaseConnector;
-import janggi.piece.Piece;
 import janggi.view.View;
 
 public class Application {

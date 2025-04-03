@@ -1,10 +1,10 @@
 package janggi.view;
 
-import janggi.board.Point;
-import janggi.camp.Camp;
 import janggi.dao.PieceDao;
-import janggi.piece.Piece;
-import janggi.piece.PieceType;
+import janggi.domain.board.Point;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.type.PieceType;
 import java.util.Scanner;
 
 public class View {

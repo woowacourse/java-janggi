@@ -1,9 +1,9 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.board.Board;
-import janggi.board.BoardGenerator;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

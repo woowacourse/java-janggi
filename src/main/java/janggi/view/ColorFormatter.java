@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.camp.Camp;
-import janggi.piece.PieceType;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.type.PieceType;
 
 public class ColorFormatter {
 

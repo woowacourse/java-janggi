@@ -1,6 +1,6 @@
 package janggi.dao;
 
-import janggi.camp.Camp;
+import janggi.domain.camp.Camp;
 import janggi.infra.DatabaseConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

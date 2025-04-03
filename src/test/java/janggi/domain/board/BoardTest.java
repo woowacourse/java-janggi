@@ -1,12 +1,12 @@
-package janggi.board;
+package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.camp.Camp;
-import janggi.piece.Elephant;
-import janggi.piece.Piece;
-import janggi.piece.Soldier;
+import janggi.domain.camp.Camp;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
