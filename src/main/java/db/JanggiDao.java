@@ -84,7 +84,7 @@ public class JanggiDao {
                 updatePointStmt.setInt(3, pointId);
                 updatePointStmt.executeUpdate();
             }
-        } catch (final SQLException | IllegalArgumentException e) {
+        } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -110,7 +110,7 @@ public class JanggiDao {
                 deletePointStmt.setInt(1, pointId);
                 deletePointStmt.executeUpdate();
             }
-        } catch (final SQLException | IllegalArgumentException e) {
+        } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
