@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import janggi.domain.piece.Pieces;
+
 public class Player {
 
     private final String name;
@@ -15,7 +17,7 @@ public class Player {
     public Player(final String name, final Team team) {
         this.name = name;
         this.team = team;
-        this.score = new Score(team.getInitScore());
+        this.score = new Score(Pieces.getInitScore(team));
     }
 
     public void subtractScore(Score score) {
