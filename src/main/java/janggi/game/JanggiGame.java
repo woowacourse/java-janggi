@@ -27,7 +27,7 @@ public class JanggiGame {
     public void start() {
         while (true) {
             GameMenuAnswer gameMenuAnswer = gameInputOutput.readGameMenuAnswer();
-            if (gameMenuAnswer == GameMenuAnswer.New_GAME) {
+            if (gameMenuAnswer == GameMenuAnswer.NEW_GAME) {
                 GameInformation gameInformation = registerNewGameInformation();
                 playGame(gameInformation);
             }
