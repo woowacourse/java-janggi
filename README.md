@@ -2,6 +2,16 @@
 
 장기 미션 저장소
 
+# 실행 방법
+
+1. 루트 디렉토리 위치에서 다음 명령어를 통해 db 컨테이너 실행
+
+```bash
+docker-compose up -d --build
+```
+
+2. Application.java 실행
+
 # 입출력 결과 예시
 
 ## 저장된 게임 불러오기
