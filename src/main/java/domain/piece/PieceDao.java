@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Position;
+import domain.exception.DatabaseException;
 import domain.movestrategy.BasicFixedMoveStrategy;
 import domain.movestrategy.BasicRangeMoveStrategy;
 import domain.player.Player;
@@ -32,7 +33,7 @@ public class PieceDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("장기말 저장 실패");
+            throw new DatabaseException("장기말 저장 실패");
         }
     }
 
@@ -52,7 +53,7 @@ public class PieceDao {
 
             preparedStatement.executeUpdate();  // SQL 실행
         } catch (SQLException se) {
-            throw new IllegalArgumentException("장기말 이동 업데이트 실패");
+            throw new DatabaseException("장기말 이동 업데이트 실패");
         }
     }
 
@@ -67,7 +68,7 @@ public class PieceDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException se) {
-            throw new IllegalArgumentException("타겟 장기말 삭제 실패");
+            throw new DatabaseException("타겟 장기말 삭제 실패");
         }
 
     }
@@ -93,7 +94,7 @@ public class PieceDao {
 
             return piecesMap;
         } catch (SQLException e) {
-            throw new IllegalArgumentException("장기 말 정보 조회 오류", e);
+            throw new DatabaseException("장기 말 정보 조회 오류");
         }
     }
 

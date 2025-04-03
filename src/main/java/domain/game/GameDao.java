@@ -1,5 +1,6 @@
 package domain.game;
 
+import domain.exception.DatabaseException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,18 +14,34 @@ public class GameDao {
         this.connection = connection;
     }
 
+    public boolean checkIfGameExists(int gameId) {
+        String sql = "SELECT COUNT(*) FROM games WHERE game_id = ?";
+
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+            throw new DatabaseException("게임 아이디가 없습니다.");
+        } catch (SQLException se) {
+            throw new DatabaseException("게임방 찾기 오류");
+        }
+    }
+
     public void insertGame(int gameId) {
         final var insertGameSql = "INSERT INTO games (game_id,game_status) VALUES (?,?)";
 
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(insertGameSql)) {
-
             preparedStatement.setInt(1, gameId);
             preparedStatement.setString(2, Status.CREATED.name());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("게임 저장 오류", e);
+            throw new DatabaseException("게임 등록 오류");
         }
     }
 
@@ -44,11 +61,11 @@ public class GameDao {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                throw new SQLException("게임아이디를 찾을 수 없습니다. " + gameId);
+                throw new DatabaseException("게임아이디를 찾을 수 없습니다. " + gameId);
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("게임 업데이트 오류", e);
+            throw new DatabaseException("게임 업데이트 오류");
         }
     }
 
@@ -63,10 +80,10 @@ public class GameDao {
 
             int rowsUpdated = preparedStatement.executeUpdate();
             if (rowsUpdated == 0) {
-                throw new SQLException("게임아이디를 찾을 수 없습니다. " + gameId);
+                throw new DatabaseException("게임아이디를 찾을 수 없습니다. " + gameId);
             }
         } catch (SQLException e) {
-            throw new IllegalArgumentException("게임 업데이트 오류", e);
+            throw new DatabaseException("게임 순서 업데이트 오류");
         }
     }
 
@@ -88,9 +105,9 @@ public class GameDao {
                         resultSet.getInt("player2_id")
                 );
             }
+            throw new DatabaseException("게임아이디가 없습니다");
         } catch (SQLException e) {
-            throw new IllegalArgumentException("게임 불러오기 오류", e);
+            throw new DatabaseException("게임 불러오기 오류");
         }
-        return null;
     }
 }

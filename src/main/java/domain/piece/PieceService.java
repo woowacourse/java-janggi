@@ -2,6 +2,7 @@ package domain.piece;
 
 import database.DbConnection;
 import domain.Position;
+import domain.exception.DatabaseException;
 import domain.player.Player;
 import domain.player.Players;
 import java.sql.Connection;
@@ -13,9 +14,13 @@ public class PieceService {
 
     private final PieceDao pieceDao;
 
-    public PieceService() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        this.pieceDao = new PieceDao(connection);
+    public PieceService() {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            this.pieceDao = new PieceDao(connection);
+        } catch (SQLException se) {
+            throw new DatabaseException("jdbc 연결 오류");
+        }
     }
 
     public void saveAllPieces(Map<Position, Piece> pieces, int gameId) {
@@ -34,18 +39,17 @@ public class PieceService {
         pieceDao.deleteTargetPiece(targetPiece, targetPosition, gameId);
     }
 
-    // 피스 업데이트 (이동한 피스를 데이터베이스에 업데이트)
     public void updateMovingPiece(Piece startPiece, Position startPosition, Position targetPosition, int gameId) {
         pieceDao.updatePiecePosition(startPiece, startPosition, targetPosition, gameId);
     }
-    
+
 
     public Map<Position, Piece> getAllPiecesByGameId(int gameId, Players players) {
         Player player1 = players.getBluePlayer();
         Player player2 = players.getRedPlayer();
 
-        Map<Position, Piece> piecesMap1 = pieceDao.selectAllPieceById(gameId, player1); // Blue player's pieces
-        Map<Position, Piece> piecesMap2 = pieceDao.selectAllPieceById(gameId, player2); // Red player's pieces
+        Map<Position, Piece> piecesMap1 = pieceDao.selectAllPieceById(gameId, player1);
+        Map<Position, Piece> piecesMap2 = pieceDao.selectAllPieceById(gameId, player2);
 
         Map<Position, Piece> allPiecesMap = new HashMap<>();
         allPiecesMap.putAll(piecesMap1);

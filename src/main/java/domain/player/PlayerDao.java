@@ -1,6 +1,7 @@
 package domain.player;
 
 import domain.Team;
+import domain.exception.DatabaseException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,10 +61,10 @@ public class PlayerDao {
             if (playerList.size() == 2) {
                 return new Players(playerList.get(0), playerList.get(1));
             }
+            throw new DatabaseException("해당 게임방이 없습니다.");
         } catch (SQLException e) {
-            throw new IllegalArgumentException("플레이어 정보 조회 오류", e);
+            throw new DatabaseException("플레이어 검색 오류");
         }
-        return null;
     }
 
 }

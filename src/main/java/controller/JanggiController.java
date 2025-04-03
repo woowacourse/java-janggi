@@ -3,7 +3,7 @@ package controller;
 import domain.JanggiGame;
 import domain.Position;
 import domain.boardgenerator.JanggiBoardGenerator;
-import domain.game.GameChecker;
+import domain.exception.DatabaseException;
 import domain.game.GameService;
 import domain.game.Games;
 import domain.game.Status;
@@ -13,7 +13,6 @@ import domain.piece.PieceService;
 import domain.player.Player;
 import domain.player.PlayerService;
 import domain.player.Players;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import view.InputView;
@@ -23,43 +22,40 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameChecker gameChecker;
     private final PlayerService playerService;
     private final GameService gameService;
     private final PieceService pieceService;
 
-
-    public JanggiController(InputView inputView, OutputView outputView, PlayerService playerService
-            , GameService gameService, PieceService pieceService) {
+    public JanggiController(InputView inputView, OutputView outputView, PlayerService playerService,
+                            GameService gameService, PieceService pieceService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.playerService = playerService;
         this.gameService = gameService;
         this.pieceService = pieceService;
-        this.gameChecker = new GameChecker();
     }
 
-    public void run() throws SQLException {
+    public void run() {
         int gameId = inputView.readGameId();
-        boolean isGameExist = gameChecker.checkIfGameExists(gameId);
-
-        if (isGameExist) {
-            outputView.startExistedGame(gameId);
-            loadExistingGame(gameId);
+        try {
+            boolean isGameExist = gameService.checkIfGameExists(gameId);
+            if (isGameExist) {
+                outputView.startExistedGame(gameId);
+                loadExistingGame(gameId);
+            }
+            if (!isGameExist) {
+                outputView.startNewGame(gameId);
+                startNewGame(gameId);
+            }
+        } catch (DatabaseException de) {
+            outputView.displayErrorMessage(de.getMessage());
         }
-        if (!isGameExist) {
-            outputView.startNewGame(gameId);
-            startNewGame(gameId);
-        }
-
     }
 
-    private void loadExistingGame(int gameId) throws SQLException {
+    private void loadExistingGame(int gameId) {
         try {
             Games existingGame = gameService.getGameById(gameId);
-
             Players players = playerService.getPlayersByGameId(gameId);
-
             Map<Position, Piece> boardState = pieceService.getAllPiecesByGameId(gameId, players);
 
             outputView.displayPlayerInfo(players);
@@ -82,8 +78,8 @@ public class JanggiController {
                     return;
                 }
             }
-        } catch (IllegalArgumentException iae) {
-            outputView.displayErrorMessage(iae.getMessage());
+        } catch (DatabaseException de) {
+            outputView.displayErrorMessage(de.getMessage());
         }
     }
 
@@ -114,8 +110,8 @@ public class JanggiController {
                     return;
                 }
             }
-        } catch (SQLException se) {
-            outputView.displayErrorMessage(se.getMessage());
+        } catch (DatabaseException de) {
+            outputView.displayErrorMessage(de.getMessage());
         }
     }
 

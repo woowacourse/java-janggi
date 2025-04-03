@@ -1,6 +1,7 @@
 package domain.game;
 
 import database.DbConnection;
+import domain.exception.DatabaseException;
 import domain.player.Players;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,10 +9,18 @@ import java.sql.SQLException;
 public class GameService {
 
     private final GameDao gameDao;
-    
-    public GameService() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        this.gameDao = new GameDao(connection);
+
+    public GameService() {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            this.gameDao = new GameDao(connection);
+        } catch (SQLException se) {
+            throw new DatabaseException("jdbc 연결 오류");
+        }
+    }
+
+    public boolean checkIfGameExists(int gameId) {
+        return gameDao.checkIfGameExists(gameId);
     }
 
     public void createGame(int gameId) {
