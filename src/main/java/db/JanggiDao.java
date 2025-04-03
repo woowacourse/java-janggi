@@ -73,6 +73,9 @@ public class JanggiDao {
              final var updatePointStmt = connection.prepareStatement(updatePointSql)) {
 
             int pointId = findPointIdByCoordinates(connection, fromPoint);
+            if (pointId == -1) {
+                return;
+            }
             updatePointStmt.setInt(1, toPoint.x());
             updatePointStmt.setInt(2, toPoint.y());
             updatePointStmt.setInt(3, pointId);
@@ -92,6 +95,9 @@ public class JanggiDao {
              final var deletePointStmt = connection.prepareStatement(deletePointSql)) {
 
             int pointId = findPointIdByCoordinates(connection, pointValue);
+            if (pointId == -1) {
+                return;
+            }
             deletePieceStmt.setInt(1, pointId);
             deletePieceStmt.executeUpdate();
 
@@ -112,7 +118,7 @@ public class JanggiDao {
                 if (rs.next()) {
                     return rs.getInt("id");
                 }
-                throw new SQLException("해당 좌표에 말이 존재하지 않습니다.");
+                return -1;
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
