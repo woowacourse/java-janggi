@@ -33,10 +33,9 @@ public class JdbcGameBoard {
         return pieces;
     }
 
-    public void saveGame(Point start, Point end, Team turn) {
-        int pieceId = pieceDao.getPieceIdByPoint(start.column(), start.row());
-
-        pieceDao.updatePiece(pieceId, end.column(), end.row());
+    public void saveGame(Pieces pieces, Team turn) {
+        pieceDao.removeAll();
+        pieceDao.addAllPieces(pieces);
         turnDao.updateTurn(turn);
     }
 

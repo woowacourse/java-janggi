@@ -47,7 +47,7 @@ public class JanggiGame {
 
                 pieces.killableMove(currentTurn, start, end);
                 currentTurn = currentTurn.oppsite();
-                gameBoard.saveGame(start, end, currentTurn);
+                gameBoard.saveGame(pieces, currentTurn);
             } catch (IllegalArgumentException e) {
                 System.err.println(e.getMessage());
             }
