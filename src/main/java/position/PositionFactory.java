@@ -64,11 +64,6 @@ public class PositionFactory {
     }
 
     private boolean isCoordinate(int nextX, int nextY) {
-        try {
-            new Position(nextX, nextY);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
+        return Position.isCoordinate(nextX, nextY);
     }
 }

@@ -30,7 +30,7 @@ public record Position(int x, int y) {
         return isCoordinate(nextX, nextY);
     }
 
-    private boolean isCoordinate(int x, int y) {
+    public static boolean isCoordinate(int x, int y) {
         return POSITION_MIN_RANGE < x && x <= X_MAX_RANGE && POSITION_MIN_RANGE < y && y <= Y_MAX_RANGE;
     }
 
