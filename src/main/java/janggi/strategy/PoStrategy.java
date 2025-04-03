@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public class PoStrategy implements MoveStrategy {
 
-    private final static List<Direction> DIRECTIONS_OUT_OF_GUNGSUNG =
+    private static final List<Direction> DIRECTIONS_OUT_OF_GUNGSUNG =
             List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
-    private final static List<Direction> DIRECTIONS_IN_OF_GUNGSUNG =
+    private static final List<Direction> DIRECTIONS_IN_OF_GUNGSUNG =
             List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT,
                     Direction.UP_LEFT, Direction.UP_RIGHT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT);
 
