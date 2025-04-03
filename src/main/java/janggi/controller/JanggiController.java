@@ -14,6 +14,8 @@ import java.util.Map;
 
 public class JanggiController {
 
+    public static final String SAVED_MENU_SELECTION = "1";
+    public static final String NEW_GAME_MENU_SELECTION = "2";
     private final InputView inputView;
     private final OutputView outputView;
     private final PiecesDao piecesDao;
@@ -51,10 +53,10 @@ public class JanggiController {
 
     private Board loadOrCreateBoard() throws SQLException {
         String loadOrCreate = inputView.getLoadOrCreate();
-        if (loadOrCreate.equals("1")) {
+        if (loadOrCreate.equals(SAVED_MENU_SELECTION)) {
             return getSavedBoard();
         }
-        if (loadOrCreate.equals("2")) {
+        if (loadOrCreate.equals(NEW_GAME_MENU_SELECTION)) {
             return getInitializedBoardByInput();
         }
         throw new IllegalArgumentException("1, 2 만 입력 가능합니다");
