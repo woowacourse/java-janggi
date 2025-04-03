@@ -13,7 +13,7 @@ public class Finished extends Started {
 
     @Override
     public State movePiece(PieceType pieceType, Position source, Position destination) {
-        throw new IllegalArgumentException("게임이 끝난 후에는 움직일 수 없습니다.");
+        throw new UnsupportedOperationException("게임이 끝난 후에는 움직일 수 없습니다.");
     }
 
     @Override
