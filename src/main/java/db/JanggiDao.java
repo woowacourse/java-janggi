@@ -66,49 +66,52 @@ public class JanggiDao {
     }
 
     public void updatePoint(final PointValue fromPoint, final PointValue toPoint) {
-        final var findPointSql = "SELECT id FROM point WHERE x = ? AND y = ?";
         final var updatePointSql = "UPDATE point SET x = ?, y = ? WHERE id = ?";
 
         try (final var connection = getConnection();
-             final var findPointStmt = connection.prepareStatement(findPointSql);
              final var updatePointStmt = connection.prepareStatement(updatePointSql)) {
 
-            findPointStmt.setInt(1, fromPoint.x());
-            findPointStmt.setInt(2, fromPoint.y());
-            final ResultSet resultSet = findPointStmt.executeQuery();
+            int pointId = findPointIdByCoordinates(connection, fromPoint);
+            updatePointStmt.setInt(1, toPoint.x());
+            updatePointStmt.setInt(2, toPoint.y());
+            updatePointStmt.setInt(3, pointId);
+            updatePointStmt.executeUpdate();
 
-            if (resultSet.next()) {
-                final int pointId = resultSet.getInt("id");
-                updatePointStmt.setInt(1, toPoint.x());
-                updatePointStmt.setInt(2, toPoint.y());
-                updatePointStmt.setInt(3, pointId);
-                updatePointStmt.executeUpdate();
-            }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void deletePosition(final PointValue pointValue) {
-
-        final var findPointSql = "SELECT id FROM point WHERE x = ? AND y = ?";
         final var deletePieceSql = "DELETE FROM piece WHERE pointId = ?";
         final var deletePointSql = "DELETE FROM point WHERE id = ?";
 
         try (final var connection = getConnection();
-             final var findPointStmt = connection.prepareStatement(findPointSql);
              final var deletePieceStmt = connection.prepareStatement(deletePieceSql);
              final var deletePointStmt = connection.prepareStatement(deletePointSql)) {
 
-            findPointStmt.setInt(1, pointValue.x());
-            findPointStmt.setInt(2, pointValue.y());
-            final ResultSet resultSet = findPointStmt.executeQuery();
-            if (resultSet.next()) {
-                final int pointId = resultSet.getInt("id");
-                deletePieceStmt.setInt(1, pointId);
-                deletePieceStmt.executeUpdate();
-                deletePointStmt.setInt(1, pointId);
-                deletePointStmt.executeUpdate();
+            int pointId = findPointIdByCoordinates(connection, pointValue);
+            deletePieceStmt.setInt(1, pointId);
+            deletePieceStmt.executeUpdate();
+
+            deletePointStmt.setInt(1, pointId);
+            deletePointStmt.executeUpdate();
+
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int findPointIdByCoordinates(Connection connection, PointValue pointValue) {
+        final var findPointSql = "SELECT id FROM point WHERE x = ? AND y = ?";
+        try (final var stmt = connection.prepareStatement(findPointSql)) {
+            stmt.setInt(1, pointValue.x());
+            stmt.setInt(2, pointValue.y());
+            try (final ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+                throw new SQLException("해당 좌표에 말이 존재하지 않습니다.");
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
