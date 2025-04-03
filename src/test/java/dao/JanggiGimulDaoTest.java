@@ -1,10 +1,8 @@
 package dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static player.Nation.HAN;
 
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,19 +42,6 @@ public class JanggiGimulDaoTest {
 
         //then
         assertThat(pieces.size()).isEqualTo(16);
-        janggiGimulDao.deleteAllPieces();
-    }
-
-    @Test
-    @DisplayName("합산 점수 계산 테스트")
-    public void calculateSumTest() {
-        //given
-        JanggiGimulDao janggiGimulDao = new JanggiGimulDao();
-        JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
-        janggiGimulDao.insertHanPieces(janggiPieceInitializer.hanInit());
-
-        //when - then
-        assertThat(janggiGimulDao.calculateSum("HAN")).isEqualTo(65);
         janggiGimulDao.deleteAllPieces();
     }
 

@@ -41,7 +41,7 @@ public class Application {
 
         while (!janggiGameState.isGameOver()) {
             try{
-                outputView.printScore(janggiGimulDao.calculateSum("HAN"), janggiGimulDao.calculateSum("CHO"));
+                outputView.printScore(janggiGimulDao.selectAlivePiece("HAN").calculateSum(), janggiGimulDao.selectAlivePiece("CHO").calculateSum());
                 outputView.printJanggiPan(janggiGimulDao.findHanAllGimul(), janggiGimulDao.findChoAllGimul());
                 Position presentPosition = inputView.getPresentPosition(gameStateDao.getCurrentTurn());
                 Position destination = inputView.getDestination();

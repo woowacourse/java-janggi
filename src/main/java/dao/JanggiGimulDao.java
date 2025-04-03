@@ -102,23 +102,6 @@ public class JanggiGimulDao {
         }
     }
 
-    public int calculateSum(String country) {
-        String query = "SELECT * FROM piece WHERE country = ? AND is_alive = true";
-        int sum = 0;
-        try (var connection = getConnection();
-             var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, country);
-            try (var resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    sum += resultSet.getInt("score");
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 기물 조회 중 오류가 발생하였습니다.", e);
-        }
-        return sum;
-    }
-
     public PieceTypes selectAlivePiece(String country) {
         String query = "SELECT * FROM piece WHERE country = ? AND is_alive = true";
         List<PieceType> pieceTypes = new ArrayList<>();
