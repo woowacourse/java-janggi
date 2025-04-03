@@ -3,6 +3,7 @@ package domain.janggiPiece;
 import domain.score.Score;
 import domain.type.JanggiTeam;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 public enum Piece {
@@ -23,6 +24,13 @@ public enum Piece {
         this.name = name;
         this.score = score;
         this.create = create;
+    }
+
+    public static Piece from(String name) {
+        return Arrays.stream(values())
+                .filter(v -> v.name.equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기물입니다."));
     }
 
     public JanggiChessPiece create(JanggiTeam team) {
