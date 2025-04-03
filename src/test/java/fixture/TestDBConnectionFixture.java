@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class TestDBConnectionFixture implements DBConnection {
-    public static final TestDBConnectionFixture INSTANCE = new TestDBConnectionFixture();
+    private static final TestDBConnectionFixture INSTANCE = new TestDBConnectionFixture();
 
     private static final String SERVER = "localhost:13307"; // MySQL 서버 주소
     private static final String DATABASE = "chess"; // MySQL DATABASE 이름
