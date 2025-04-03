@@ -2,6 +2,7 @@ package janggi.repository;
 
 import janggi.dao.InMemoryBoardDao;
 import janggi.dao.InMemoryJanggiDao;
+import janggi.dao.InMemoryPieceDao;
 import janggi.domain.Board;
 import janggi.domain.GameStatus;
 import janggi.domain.JanggiGame;
@@ -23,8 +24,9 @@ class JanggiRepositoryTest {
     void save() {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
+        InMemoryPieceDao pieceDao = new InMemoryPieceDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao, pieceDao);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
                 new Player("test1", Team.RED, 0),
                 new Player("test2", Team.GREEN, 0),
@@ -52,12 +54,8 @@ class JanggiRepositoryTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
-        JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
-                new Player("test1", Team.RED, 0),
-                new Player("test2", Team.GREEN, 0),
-                Team.GREEN,
-                GameStatus.DRAW);
+        InMemoryPieceDao pieceDao = new InMemoryPieceDao();
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao, pieceDao);
 
         //when
         boolean actual = janggiRepository.existsByRedAndGreenPlayerNameAndGameStatus("test1",
@@ -74,7 +72,8 @@ class JanggiRepositoryTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
+        InMemoryPieceDao pieceDao = new InMemoryPieceDao();
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao, pieceDao);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
                 new Player("test1", Team.RED, 0),
                 new Player("test2", Team.GREEN, 0),
@@ -97,7 +96,8 @@ class JanggiRepositoryTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
+        InMemoryPieceDao pieceDao = new InMemoryPieceDao();
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao, pieceDao);
         Player red = new Player("test1", Team.RED, 0);
         Player green = new Player("test2", Team.GREEN, 0);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
@@ -129,7 +129,8 @@ class JanggiRepositoryTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
+        InMemoryPieceDao pieceDao = new InMemoryPieceDao();
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao, pieceDao);
         Player red = new Player("test1", Team.RED, 0);
         Player green = new Player("test2", Team.GREEN, 0);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),

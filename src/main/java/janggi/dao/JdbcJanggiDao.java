@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.domain.GameStatus;
 import janggi.entity.JanggiEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,10 +13,11 @@ public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
 
     @Override
     public JanggiEntity save(final JanggiEntity janggiEntity) {
-        if (existsByRedAndGreenPlayerNameAndGameStatus(janggiEntity.redPlayerName(),
+        Optional<Long> janggiIdOptional = findJanggiIdByRedAndGreenPlayerNameAndGameStatus(janggiEntity.redPlayerName(),
                 janggiEntity.greenPlayerName(),
-                janggiEntity.gameStatus())) {
-            update(janggiEntity);
+                GameStatus.CONTINUE.name());
+        if (janggiIdOptional.isPresent()) {
+            update(janggiEntity.addJanggiId(janggiIdOptional.get()));
             return janggiEntity;
         }
         insert(janggiEntity);
@@ -46,7 +48,7 @@ public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
             preparedStatement.setString(6, janggiEntity.gameTurn());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("DB 처리에 문제가 발생했습니다", e);
         }
     }
 
@@ -66,7 +68,7 @@ public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
             preparedStatement.setLong(5, janggiEntity.janggiId());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("DB 처리에 문제가 발생했습니다", e);
         }
     }
 
@@ -96,7 +98,7 @@ public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
             }
             return Optional.empty();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("DB 처리에 문제가 발생했습니다", e);
         }
     }
 
@@ -128,7 +130,7 @@ public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
             }
             return Optional.empty();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("DB 처리에 문제가 발생했습니다", e);
         }
     }
 }

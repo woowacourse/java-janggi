@@ -1,15 +1,13 @@
 package janggi.dao;
 
 import janggi.entity.BoardEntity;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class InMemoryBoardDao implements BoardDao {
 
-    private long id = 0L;
+    private static long id = 1L;
 
     private final Map<Long, BoardEntity> idToBoard;
 
@@ -19,42 +17,20 @@ public class InMemoryBoardDao implements BoardDao {
 
     @Override
     public void save(final BoardEntity boardEntity) {
-        Optional<BoardEntity> boardEntityOptional = findByBoardId(boardEntity.boardId());
-        if (boardEntityOptional.isPresent()) {
-            BoardEntity exist = boardEntityOptional.get();
-            idToBoard.put(exist.boardId(), boardEntity);
+        Optional<Long> boardIdOptional = findByJanggiId(boardEntity.janggiId());
+        if (boardIdOptional.isEmpty()) {
+            long targetId = id++;
+            idToBoard.put(targetId, boardEntity.addBoardId(targetId));
             return;
         }
-        long targetId = ++id;
-        BoardEntity saved = boardEntity.addBoardId(targetId);
-        idToBoard.put(targetId, saved);
+        idToBoard.put(boardEntity.boardId(), boardEntity);
     }
 
     @Override
-    public Optional<BoardEntity> findByJanggiIdAndRowAndColumn(final long janggiId,
-                                                               final int row,
-                                                               final int column) {
-        return idToBoard.values().stream()
-                .filter(boardEntity -> boardEntity.janggiId() == janggiId
-                        && boardEntity.row() == row
-                        && boardEntity.column() == column)
+    public Optional<Long> findByJanggiId(final long janggiId) {
+        Optional<BoardEntity> boardEntityOptional = idToBoard.values().stream()
+                .filter(entity -> entity.janggiId() == janggiId)
                 .findAny();
-    }
-
-    @Override
-    public Optional<BoardEntity> findByBoardId(final long boardId) {
-        return Optional.ofNullable(idToBoard.get(boardId));
-    }
-
-    @Override
-    public List<BoardEntity> findAllByJanggiIdAndIsAlive(final long janggiId, boolean isAlive) {
-        return idToBoard.values().stream()
-                .filter(boardEntity -> boardEntity.janggiId() == janggiId
-                        && boardEntity.isAlive() == isAlive)
-                .toList();
-    }
-
-    public Map<Long, BoardEntity> getIdToBoard() {
-        return Collections.unmodifiableMap(idToBoard);
+        return boardEntityOptional.map(BoardEntity::boardId);
     }
 }

@@ -10,6 +10,7 @@ import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
 import janggi.entity.BoardEntity;
+import janggi.entity.PieceEntity;
 import janggi.repository.BoardRepository;
 import janggi.repository.JanggiRepository;
 
@@ -45,7 +46,9 @@ public class JanggiService {
                 new Player(greenPlayerName, Team.GREEN));
         janggiRepository.save(janggiGame);
         long janggiId = findJanggiId(redPlayerName, greenPlayerName);
-        boardRepository.saveAll(janggiId, janggiGame.getBoard());
+        boardRepository.saveBoard(BoardEntity.from(janggiId));
+        long boardId = findBoardId(janggiId);
+        boardRepository.savePieceAll(boardId, janggiGame.getBoard());
         return janggiGame;
     }
 
@@ -56,7 +59,13 @@ public class JanggiService {
                           final Piece piece,
                           final boolean isAlive) {
         long janggiId = findJanggiId(redPlayerName, greenPlayerName);
-        boardRepository.save(BoardEntity.of(janggiId, piece, destination, isAlive), departure);
+        long boardId = findBoardId(janggiId);
+        boardRepository.savePiece(PieceEntity.of(boardId, piece, destination, isAlive), departure);
+    }
+
+    private long findBoardId(final long janggiId) {
+        return boardRepository.findByJanggiId(janggiId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다: " + janggiId));
     }
 
     public void updateDiedPiece(final String redPlayerName,
@@ -64,7 +73,8 @@ public class JanggiService {
                                 final Position destination,
                                 final Piece removed) {
         long janggiId = findJanggiId(redPlayerName, greenPlayerName);
-        boardRepository.save(BoardEntity.of(janggiId, removed, destination, false), destination);
+        long boardId = findBoardId(janggiId);
+        boardRepository.savePiece(PieceEntity.of(boardId, removed, destination, false), destination);
     }
 
     public void saveJanggiGame(final JanggiGame janggiGame) {

@@ -1,32 +1,44 @@
 package janggi.repository;
 
 import janggi.dao.BoardDao;
+import janggi.dao.PieceDao;
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.entity.BoardEntity;
+import janggi.entity.PieceEntity;
 import java.util.Optional;
 
 public class BoardRepository {
 
     private final BoardDao boardDao;
+    private final PieceDao pieceDao;
 
-    public BoardRepository(final BoardDao boardDao) {
+    public BoardRepository(final BoardDao boardDao, final PieceDao pieceDao) {
         this.boardDao = boardDao;
+        this.pieceDao = pieceDao;
     }
 
-    public void save(BoardEntity boardEntity, Position targetPosition) {
-        Optional<BoardEntity> boardEntityOptional = boardDao.findByJanggiIdAndRowAndColumn(boardEntity.janggiId(),
-                targetPosition.getRow(),
-                targetPosition.getColumn());
-        if (boardEntityOptional.isPresent()) {
-            boardDao.save(boardEntity.addBoardId(boardEntityOptional.get().boardId()));
-            return;
-        }
+    public void saveBoard(BoardEntity boardEntity) {
         boardDao.save(boardEntity);
     }
 
-    public void saveAll(final long janggiId, final Board board) {
+    public void savePiece(PieceEntity pieceEntity, Position targetPosition) {
+        Optional<PieceEntity> pieceEntityOptional = pieceDao.findByBoardIdAndRowAndColumn(pieceEntity.boardId(),
+                targetPosition.getRow(),
+                targetPosition.getColumn());
+        if (pieceEntityOptional.isPresent()) {
+            pieceDao.save(pieceEntity.addPieceId(pieceEntityOptional.get().pieceId()));
+            return;
+        }
+        pieceDao.save(pieceEntity);
+    }
+
+    public void savePieceAll(final long boardId, final Board board) {
         board.getPositionToPiece()
-                .forEach((position, piece) -> save(BoardEntity.of(janggiId, piece, position, true), position));
+                .forEach((position, piece) -> savePiece(PieceEntity.of(boardId, piece, position, true), position));
+    }
+
+    public Optional<Long> findByJanggiId(final long janggiId) {
+        return boardDao.findByJanggiId(janggiId);
     }
 }
