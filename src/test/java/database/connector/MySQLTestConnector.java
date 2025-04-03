@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class MySQLTestConnector implements DatabaseConnector {
 
     private static final String SERVER = "localhost:3306";
-    private static final String DATABASE = "chess_test";
+    private static final String DATABASE = "janggi_test";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "miso";
     private static final String PASSWORD = "miso";
