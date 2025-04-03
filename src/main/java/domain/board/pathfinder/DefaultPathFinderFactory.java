@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class DefaultPathFinderFactory implements PathFinderFactory {
 
-    private static final DefaultPathFinderFactory INSTANCE = new DefaultPathFinderFactory();
+    private static DefaultPathFinderFactory INSTANCE;
 
     private static Map<Point, Node> nodeByPoint;
 
@@ -24,6 +24,10 @@ public class DefaultPathFinderFactory implements PathFinderFactory {
     }
 
     public static DefaultPathFinderFactory getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DefaultPathFinderFactory();
+            return INSTANCE;
+        }
         return INSTANCE;
     }
 
