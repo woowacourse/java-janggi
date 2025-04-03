@@ -16,6 +16,14 @@ public class OutputView {
     private static final int BOARD_HEIGHT = 10;
     private static final String[][] JANGGI_BOARD_ARR = new String[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
 
+    public void printCallInGame() {
+        System.out.println("이전의 게임을 불러 왔습니다.");
+    }
+
+    public void printNewGame() {
+        System.out.println("불러올 게임이 존재하지 않습니다. 새로운 게임을 생성합니다.");
+    }
+
     public void printJanggiBoard(final Map<Position, Piece> janggiBoard) {
         initializeJanggiBoard(janggiBoard);
         printFormattedJanggiBoard();
@@ -97,9 +105,5 @@ public class OutputView {
 
     public void printErrorMessage(final String message) {
         System.out.println(message);
-    }
-
-    public void printCallInGame() {
-        System.out.println("이전의 게임을 불러 왔습니다.");
     }
 }
