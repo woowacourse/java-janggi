@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Moves;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Piece {
 
@@ -22,9 +23,11 @@ public class Piece {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
 
-        type.applyRule(possibleMoves, src, dest);
-
         return possibleMoves.convertToPath(src);
+    }
+
+    public void applyRule(List<Position> path, List<Piece> piecesInPath, Optional<Piece> targetPiece) {
+        type.applyRule(path, piecesInPath, this, targetPiece);
     }
 
     public void moveTo(Position position) {
@@ -41,6 +44,10 @@ public class Piece {
 
     public boolean isType(PieceType type) {
         return this.type == type;
+    }
+
+    public boolean isSameType(Piece piece) {
+        return this.type == piece.type;
     }
 
     public void changePosition(Position position) {

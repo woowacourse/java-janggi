@@ -5,14 +5,13 @@ import domain.piece.Position;
 import java.util.List;
 import java.util.Optional;
 
-public class PalaceRule implements Rule {
+public class SameTeamAttackRule implements Rule {
 
     @Override
     public void validate(List<Position> path, List<Piece> piecesInPath, Piece selectedPiece,
                          Optional<Piece> targetPiece) {
-        boolean isOutOfPalace = path.stream().anyMatch(position -> !position.isInPalace());
-        if (isOutOfPalace) {
-            throw new IllegalArgumentException("궁 내부에서만 이동할 수 있습니다.");
+        if (targetPiece.isPresent() && targetPiece.get().isTeam(selectedPiece)) {
+            throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
     }
 }
