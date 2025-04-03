@@ -18,14 +18,13 @@ import org.junit.jupiter.api.Test;
 
 public class BoardDaoTest {
 
-    private Executor fakeDatabaseExecutor;
+    private Executor fakeDatabaseDatabaseExecutor;
     private BoardDao boardDao;
 
     @BeforeEach
     public void setup() {
-        // Executor 인터페이스의 가짜 구현체를 생성
-        fakeDatabaseExecutor = new FakeExecutor();
-        boardDao = new BoardDao(fakeDatabaseExecutor);
+        fakeDatabaseDatabaseExecutor = new FakeExecutor();
+        boardDao = new BoardDao(fakeDatabaseDatabaseExecutor);
     }
 
     @Test
@@ -35,14 +34,14 @@ public class BoardDaoTest {
 
         boardDao.saveBoard(board);
 
-        assertTrue(((FakeExecutor) fakeDatabaseExecutor).isExecuteBatchCalled());
+        assertTrue(((FakeExecutor) fakeDatabaseDatabaseExecutor).isExecuteBatchCalled());
     }
 
     @Test
     public void testLoadBoard() {
         Map<Position, Piece> expectedBoard = new HashMap<>();
         expectedBoard.put(new Position(Row.ONE, Column.ONE), new Chariot(PieceColor.RED));
-        ((FakeExecutor) fakeDatabaseExecutor).setQueryResult(expectedBoard);
+        ((FakeExecutor) fakeDatabaseDatabaseExecutor).setQueryResult(expectedBoard);
 
         // loadBoard 호출
         Map<Position, Piece> board = boardDao.loadBoard();
@@ -61,15 +60,13 @@ public class BoardDaoTest {
 
         boardDao.updatePosition(source, destination);
 
-        assertTrue(((FakeExecutor) fakeDatabaseExecutor).isExecuteUpdateCalled());
+        assertTrue(((FakeExecutor) fakeDatabaseDatabaseExecutor).isExecuteUpdateCalled());
     }
 
     @Test
     public void testDeleteBoard() {
         boardDao.deleteBoard();
-        
-        assertTrue(((FakeExecutor) fakeDatabaseExecutor).isExecuteUpdateCalled());
+
+        assertTrue(((FakeExecutor) fakeDatabaseDatabaseExecutor).isExecuteUpdateCalled());
     }
-
-
 }
