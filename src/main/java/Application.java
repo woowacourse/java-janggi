@@ -1,6 +1,6 @@
 import janggi.JanggiGame;
-import janggi.dao.GameDao;
-import janggi.dao.PieceDao;
+import janggi.dao.GameDaoImpl;
+import janggi.dao.PieceDaoImpl;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -11,7 +11,7 @@ public class Application {
 
         final OutputView outputView = new OutputView();
         final InputView inputView = new InputView();
-        final JanggiService janggiService = new JanggiService(new GameDao(), new PieceDao());
+        final JanggiService janggiService = new JanggiService(new GameDaoImpl(), new PieceDaoImpl());
         final JanggiGame janggiGame = new JanggiGame(outputView, inputView, janggiService);
 
         janggiGame.startGame();
