@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -268,7 +269,7 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("양 팀 왕이 살아있으면 우승자는 NONE 이다")
+    @DisplayName("양 팀 왕이 살아있으면 예외를 던진다")
     void winnerNoneTest() {
         Piece redGeneral = new General(new Position(2, 5), Team.RED);
         Piece blueGeneral = new General(new Position(9, 5), Team.BLUE);
@@ -277,7 +278,9 @@ class BoardTest {
         pieceMap.put(blueGeneral.getPosition(), blueGeneral);
         Board board = new Board(pieceMap, Turn.First());
 
-        assertThat(board.getWinner()).isEqualTo(Team.NONE);
+        assertThatThrownBy(
+            () -> board.getWinner()
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
