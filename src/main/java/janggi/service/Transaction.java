@@ -20,8 +20,8 @@ public class Transaction {
     private void tryRollback(final Connection connection, final Exception e) {
         try {
             connection.rollback();
-        } catch (final SQLException rollbackEx) {
-            e.addSuppressed(rollbackEx);
+        } catch (final SQLException rollbackException) {
+            e.addSuppressed(rollbackException);
         }
     }
 }
