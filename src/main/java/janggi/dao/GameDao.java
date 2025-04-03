@@ -17,18 +17,17 @@ public class GameDao {
 
         try (final var connection = janggiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-
             preparedStatement.setString(1, gameStatus.name());
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 return new GameEntity(
                         resultSet.getLong("id"),
                         Team.from(resultSet.getString("current_turn")),
                         GameState.valueOf(resultSet.getString("status")),
                         resultSet.getDouble("chu_score"),
-                        resultSet.getDouble("han_score"));
+                        resultSet.getDouble("han_score")
+                );
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);

@@ -40,7 +40,6 @@ public class PieceDao {
 
     public List<PieceEntity> createPieceEntities(final Map<Position, Piece> janggiBoard, final Long gameId) {
         final List<PieceEntity> pieceEntities = new ArrayList<>();
-        //장기판과 게임 아이디로 PieceEntity 를 만들어야 함
         for (final Entry<Position, Piece> pieceEntry : janggiBoard.entrySet()) {
             final PieceEntity pieceEntity = new PieceEntity(
                     null,
@@ -56,7 +55,7 @@ public class PieceDao {
         return pieceEntities;
     }
 
-    public List<PieceEntity> findPiecesBy(final Long gameId) {
+    public List<PieceEntity> findPiecesById(final Long gameId) {
         final String query = "SELECT * FROM piece WHERE game_id = ?";
         final List<PieceEntity> pieces = new ArrayList<>();
 

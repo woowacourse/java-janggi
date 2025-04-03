@@ -61,7 +61,7 @@ public class JanggiGame {
         Team currentTurnTeam = gameEntity.getCurrentTeam();
 
         while (isNotEnd()) {
-            final List<PieceEntity> pieceEntities = pieceDao.findPiecesBy(gameEntity.getId());
+            final List<PieceEntity> pieceEntities = pieceDao.findPiecesById(gameEntity.getId());
             final Board board = createJanggiBoardBy(pieceEntities);
 
             outputView.printJanggiBoard(board.getJanggiBoard());
@@ -77,7 +77,7 @@ public class JanggiGame {
             gameDao.updateGameStatus(gameEntity.getId(), currentTurnTeam, chuScore, hanScore);
         }
 
-        final List<PieceEntity> pieceEntities = pieceDao.findPiecesBy(gameEntity.getId());
+        final List<PieceEntity> pieceEntities = pieceDao.findPiecesById(gameEntity.getId());
         final Board board = createJanggiBoardBy(pieceEntities);
         showGameResult(board, currentTurnTeam);
 
