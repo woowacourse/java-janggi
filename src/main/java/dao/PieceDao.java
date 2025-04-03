@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,22 +13,18 @@ import piece.Team;
 
 public class PieceDao {
 
-    private static final String IP = "localhost";
-    private static final String PORT = "13306";
-    private static final String DATABASE_NAME = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private final Connection connection;
+
+    public PieceDao(final Connection connection) {
+        this.connection = connection;
+    }
 
     public void saveAll(final List<PieceEntity> pieceEntities) {
         String sql = """
                 INSERT INTO piece (row_value, column_value, piece_type, team)
                 VALUES (?, ?, ?, ?);
                 """;
-        try (
-                final Connection connection = getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(sql)
-        ) {
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (PieceEntity pieceEntity : pieceEntities) {
                 preparedStatement.setInt(1, pieceEntity.rowValue());
                 preparedStatement.setInt(2, pieceEntity.columnValue());
@@ -50,7 +45,6 @@ public class PieceDao {
                 FROM piece
                 """;
         try (
-                final Connection connection = getConnection();
                 final PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 final ResultSet resultSet = preparedStatement.executeQuery()
         ) {
@@ -76,7 +70,6 @@ public class PieceDao {
                 WHERE row_value = ? AND column_value = ?;
                 """;
         try (
-                final Connection connection = getConnection();
                 final PreparedStatement deleteStmt = connection.prepareStatement(deleteSql);
                 final PreparedStatement updateStmt = connection.prepareStatement(updateSql)
         ) {
@@ -96,23 +89,10 @@ public class PieceDao {
 
     public void removeAll() {
         String sql = "DELETE FROM piece;";
-        try (
-                final Connection connection = getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ) {
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private Connection getConnection() {
-        try {
-            return DriverManager.getConnection(
-                    "jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE_NAME + OPTION, USERNAME, PASSWORD
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException("DB 연결에 실패했습니다.");
         }
     }
 
