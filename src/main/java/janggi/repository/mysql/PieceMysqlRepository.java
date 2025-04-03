@@ -52,9 +52,9 @@ public class PieceMysqlRepository implements PieceRepository {
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 return ResultSetReader.toList(resultSet,
                         result -> Piece.of(
-                                result.getInt("row"),
-                                result.getInt("column"),
-                                result.getString("piece_type"),
+                                result.getInt("row_pos"),
+                                result.getInt("column_pos"),
+                                result.getString("type"),
                                 result.getString("team")));
             }
         } catch (final SQLException e) {

@@ -42,10 +42,6 @@ public class GameContext {
         return gameId.isSet();
     }
 
-    public Board createBoard() {
-        return players.createBoard();
-    }
-
     public void nextTurn() {
         getTurn().next();
     }
@@ -60,10 +56,6 @@ public class GameContext {
 
     public GameId getGameId() {
         return gameId;
-    }
-
-    public Players getPlayers() {
-        return players;
     }
 
     public Pieces getAlivePieces() {

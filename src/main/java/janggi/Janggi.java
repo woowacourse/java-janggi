@@ -57,7 +57,7 @@ public class Janggi {
     }
 
     private void runGameLoop(final GameContext context) {
-        final Board board = context.createBoard();
+        final Board board = context.getBoard();
 
         while (true) {
             outputView.displayBoard(board);
@@ -76,13 +76,13 @@ public class Janggi {
                     outputView.displayWinner(player);
                     return;
                 }
+
+                context.nextTurn();
             } catch (final IllegalArgumentException e) {
                 outputView.displayError(e.getMessage());
             } catch (final RuntimeException e) {
                 outputView.displayError();
             }
-
-            context.nextTurn();
         }
     }
 }
