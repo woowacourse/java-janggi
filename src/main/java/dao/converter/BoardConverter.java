@@ -43,7 +43,7 @@ public class BoardConverter {
         return pointPieces.stream()
                 .collect(Collectors.toMap(
                         pointPiece -> Point.of(pointPiece.rowIndex(), pointPiece.columnIndex()),
-                        pointPiece -> BoardConverter.convertToPiece(pointPiece.pieceType(), pointPiece.team())
+                        pointPiece -> convertToPiece(pointPiece.pieceType(), pointPiece.team())
                 ));
     }
 
