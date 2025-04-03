@@ -1,11 +1,13 @@
 package dao;
 
-import domain.type.JanggiTeam;
+import entity.TurnEntity;
+
+import java.util.Optional;
 
 public interface TurnDao {
     void deleteAll();
 
-    void save(JanggiTeam team);
+    void save(TurnEntity turnEntity);
 
-    JanggiTeam findTurn();
+    Optional<TurnEntity> findTurn();
 }
