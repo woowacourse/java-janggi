@@ -7,11 +7,8 @@ import java.sql.SQLException;
 
 public class GameService {
 
-    private static final String START_GAME = "STARTED";
-
     private final GameDao gameDao;
-
-
+    
     public GameService() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         this.gameDao = new GameDao(connection);
