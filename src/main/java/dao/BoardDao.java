@@ -60,8 +60,8 @@ public class BoardDao {
     public void updatePosition(Position source, Position destination) {
         executor.executeTransaction(connection -> {
             executor.executeUpdate(DELETE_PIECE, statement -> {
-                statement.setInt(1, source.rowValue());
-                statement.setInt(2, source.columnValue());
+                statement.setInt(1, destination.rowValue());
+                statement.setInt(2, destination.columnValue());
             });
             executor.executeUpdate(UPDATE_POSITION, statement -> {
                 statement.setInt(1, destination.rowValue());
