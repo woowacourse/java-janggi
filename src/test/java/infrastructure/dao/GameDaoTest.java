@@ -3,7 +3,6 @@ package infrastructure.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import application.persistence.DbConnector;
 import domain.game.Game;
 import infrastructure.H2Connector;
 import infrastructure.entity.GameEntity;
@@ -25,7 +24,7 @@ class GameDaoTest {
     @BeforeAll
     static void setUpDatabase() throws SQLException {
         gameDao = new GameDao(dbConnector);
-        
+
         String ddl = """
                 CREATE TABLE games (
                     id BIGINT AUTO_INCREMENT PRIMARY KEY,

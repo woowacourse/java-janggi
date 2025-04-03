@@ -1,6 +1,5 @@
 package infrastructure.dao;
 
-import application.persistence.DbConnector;
 import infrastructure.entity.GameEntity;
 import infrastructure.entity.PieceEntity;
 import java.sql.Connection;

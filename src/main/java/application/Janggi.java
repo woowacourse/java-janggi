@@ -2,13 +2,13 @@ package application;
 
 import application.persistence.GameRepository;
 import application.persistence.PieceRepository;
-import domain.piece.coordiante.Coordinate;
 import domain.board.Board;
 import domain.board.setting.ChoSettingUpStrategy;
 import domain.board.setting.HanSettingUpStrategy;
 import domain.game.Game;
 import domain.piece.Country;
 import domain.piece.Piece;
+import domain.piece.coordiante.Coordinate;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -20,6 +20,7 @@ public class Janggi {
 
     private final InputView inputView;
     private final OutputView outputView;
+
     private final PieceRepository pieceRepository;
     private final GameRepository gameRepository;
     private Game game;

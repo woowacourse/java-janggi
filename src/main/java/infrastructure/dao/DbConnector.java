@@ -1,4 +1,4 @@
-package application.persistence;
+package infrastructure.dao;
 
 import java.sql.Connection;
 

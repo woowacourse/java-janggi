@@ -1,6 +1,6 @@
 package infrastructure;
 
-import application.persistence.DbConnector;
+import infrastructure.dao.DbConnector;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

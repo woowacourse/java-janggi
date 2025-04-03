@@ -2,7 +2,6 @@ package infrastructure.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import application.persistence.DbConnector;
 import infrastructure.H2Connector;
 import infrastructure.entity.GameEntity;
 import infrastructure.entity.PieceEntity;
