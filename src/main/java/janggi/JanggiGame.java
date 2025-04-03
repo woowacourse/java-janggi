@@ -25,13 +25,26 @@ public class JanggiGame {
     }
 
     public void startGame() {
-        GameEntity gameEntity = janggiService.findInProgressGame(GameState.IN_PROGRESS);
-        outputView.printCallInGame();
+        GameEntity gameEntity = getCallInGame();
         if (gameEntity == null) {
-            final Board board = setJanggiBoard();
-            gameEntity = janggiService.creatGame(board, GameState.IN_PROGRESS);
+            gameEntity = getNewGame();
         }
         playGame(gameEntity);
+    }
+
+    private GameEntity getNewGame() {
+        outputView.printNewGame();
+        final Board board = setJanggiBoard();
+        return janggiService.creatGame(board, GameState.IN_PROGRESS);
+    }
+
+    private GameEntity getCallInGame() {
+        final GameEntity gameEntity = janggiService.findInProgressGame(GameState.IN_PROGRESS);
+
+        if (gameEntity != null) {
+            outputView.printCallInGame();
+        }
+        return gameEntity;
     }
 
     private Board setJanggiBoard() {
@@ -41,9 +54,8 @@ public class JanggiGame {
 
     private void playGame(final GameEntity gameEntity) {
         Team currentTurnTeam = gameEntity.getCurrentTeam();
-
         while (isNotEnd()) {
-            final Board board = janggiService.getBoardById(gameEntity.getId());
+            final Board board = janggiService.findBoardById(gameEntity.getId());
 
             outputView.printJanggiBoard(board.getJanggiBoard());
             showScore(board);
@@ -57,7 +69,7 @@ public class JanggiGame {
     }
 
     private void endGame(final GameEntity gameEntity, final Team currentTurnTeam) {
-        final Board board = janggiService.getBoardById(gameEntity.getId());
+        final Board board = janggiService.findBoardById(gameEntity.getId());
         showGameResult(board, currentTurnTeam);
         janggiService.deleteGame(gameEntity.getId());
     }
