@@ -1,18 +1,17 @@
 package janggi.game;
 
 import janggi.dao.GameDao;
-import janggi.dto.MovementDto;
-import janggi.entity.GameEntity;
 import janggi.dao.PieceDao;
-import janggi.entity.PieceEntity;
 import janggi.dto.GameDto;
+import janggi.dto.MovementDto;
 import janggi.dto.PiecesOnBoardDto;
+import janggi.entity.GameEntity;
+import janggi.entity.PieceEntity;
 import janggi.piece.Piece;
 import janggi.point.Point;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.ResultView;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
