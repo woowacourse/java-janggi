@@ -11,7 +11,6 @@ public class Connection {
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
     public java.sql.Connection getConnection() {
-        // 드라이버 연결
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {

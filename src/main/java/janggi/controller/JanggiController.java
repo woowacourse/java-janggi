@@ -6,7 +6,7 @@ import janggi.db.PieceDao;
 import janggi.db.Table;
 import janggi.db.TurnDao;
 import janggi.domain.Board;
-import janggi.domain.Pieces;
+import janggi.domain.BoardService;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -34,13 +34,13 @@ public class JanggiController {
 
     public void run() throws SQLException {
         Table table = new Table(connection);
+        BoardService boardService = new BoardService(pieceDao, turnDao);
         DatabaseInitializer databaseInitializer = new DatabaseInitializer(table);
         databaseInitializer.initialize(pieceDao, turnDao);
 
         while (true) {
-            Board board = readBoardFromDatabase();
+            Board board = boardService.readBoardFromDatabase();
             showCurrentState(board);
-
             UserContinueResponse userContinueResponse = UserExceptionHandler.retryUntilSuccess(inputView::continueGame);
 
             if (userContinueResponse == UserContinueResponse.QUIT) {
@@ -58,34 +58,23 @@ public class JanggiController {
             if (board.isGameEnd(board.getTurn())) {
                 Team winner = board.getWinner(board.getTurn());
                 outputView.printWinnerWithGameEnd(winner);
-
                 table.dropTable("piece");
                 table.dropTable("turn");
                 break;
             }
-            updateDatabase(board);
+            boardService.updateDatabase(board);
         }
     }
 
-    private Board readBoardFromDatabase() {
-        Team currentTurn = turnDao.readTeam();
-        Pieces currentPieces = new Pieces(pieceDao.readAllPiece());
-        return new Board(currentPieces, currentTurn);
+    private Piece selectPiece(final Board board) {
+        Position position = inputView.inputPiecePosition();
+        return board.selectPiece(position);
     }
 
     private void showCurrentState(final Board board) {
         outputView.printTeamScore(board.getTeamScore(Team.RED), board.getTeamScore(Team.BLUE));
         outputView.printBoard(board.getPieces());
         outputView.printTurn(board.getTurn());
-    }
-
-    private void updateDatabase(final Board board) {
-        pieceDao.deleteAllPiece();
-
-        for (Piece piece : board.getPieces()) {
-            pieceDao.addPiece(piece);
-        }
-        turnDao.updateTeam(board.getTurn());
     }
 
     private void move(final Set<Position> possibleDestinations, final Board board, final Piece selectedPiece) {
@@ -96,11 +85,6 @@ public class JanggiController {
             outputView.printPossibleRoutes(possibleDestinations);
             UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece));
         }
-    }
-
-    private Piece selectPiece(final Board board) {
-        Position position = inputView.inputPiecePosition();
-        return board.selectPiece(position);
     }
 
     private void movePiece(final Board board, final Piece selectedPiece) {
