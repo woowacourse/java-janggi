@@ -30,11 +30,15 @@ class JanggiBoardDAOImplTest {
     }
 
     private void createPiecesTable() {
-        try (PreparedStatement preparedStatement = databaseUtils.prepareStatement(createPiecesTableQuery())) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 테스트 Pieces 테이블 만들다가 에러 발생", e);
-        }
+        databaseUtils.executeQuery(createPiecesTableQuery(), stmt -> {
+           try {
+               stmt.executeUpdate();
+
+               return null;
+           } catch (SQLException e) {
+               throw new RuntimeException("[ERROR] 테스트 Pieces 테이블 만들다가 에러 발생", e);
+           }
+        });
     }
 
     private String createPiecesTableQuery() {
@@ -49,11 +53,15 @@ class JanggiBoardDAOImplTest {
     }
 
     private void createTeamTable() {
-        try (PreparedStatement preparedStatement = databaseUtils.prepareStatement(createTeamTableQuery())) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 테스트 team 테이블 만들다가 에러 발생", e);
-        }
+        databaseUtils.executeQuery(createTeamTableQuery(), stmt -> {
+           try {
+               stmt.executeUpdate();
+
+               return null;
+           } catch (SQLException e) {
+               throw new RuntimeException("[ERROR] 테스트 team 테이블 만들다가 에러 발생", e);
+           }
+        });
     }
 
     private String createTeamTableQuery() {

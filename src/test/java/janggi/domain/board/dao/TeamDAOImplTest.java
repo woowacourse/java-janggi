@@ -2,9 +2,6 @@ package janggi.domain.board.dao;
 
 import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnectorTest;
-import janggi.domain.board.dao.TeamDAO;
-import janggi.domain.board.dao.TeamDAOImpl;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.assertj.core.api.Assertions;
@@ -23,11 +20,14 @@ class TeamDAOImplTest {
     }
 
     private void createTeamTable() {
-        try (PreparedStatement preparedStatement = databaseUtils.prepareStatement(createTeamTableQuery())) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 테스트 team 테이블 만들다가 에러 발생", e);
-        }
+        databaseUtils.executeQuery(createTeamTableQuery(), stmt -> {
+           try {
+               stmt.executeUpdate();
+               return null;
+           } catch (SQLException e) {
+               throw new RuntimeException("[ERROR] 테스트 team 테이블 만들다가 에러 발생", e);
+           }
+        });
     }
 
     private String createTeamTableQuery() {
@@ -35,18 +35,18 @@ class TeamDAOImplTest {
     }
 
     private String selectTeamTable(final int teamId) {
-        try (PreparedStatement preparedStatement = databaseUtils.prepareStatement(selectTeamTableQuery())) {
-            preparedStatement.setInt(1, teamId);
-            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+        return databaseUtils.executeQuery(selectTeamTableQuery(), stmt -> {
+            try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getString("name");
                 }
+                return "";
+            } catch (SQLException e) {
+                throw new RuntimeException("[ERROR] TEST, 팀 테이블 SELECT 에러", e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] TEST, 팀 테이블 SELECT 에러", e);
-        }
-        return "";
+        }, teamId);
     }
+
 
     private String selectTeamTableQuery() {
         return "SELECT name FROM team WHERE id = ?";

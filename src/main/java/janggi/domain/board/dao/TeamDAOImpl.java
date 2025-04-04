@@ -2,7 +2,6 @@ package janggi.domain.board.dao;
 
 import janggi.database.utils.DatabaseUtils;
 import janggi.domain.setting.CampType;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class TeamDAOImpl implements TeamDAO {
@@ -17,25 +16,31 @@ public class TeamDAOImpl implements TeamDAO {
 
     @Override
     public void insertTeam() {
-        try (final PreparedStatement preparedStatement = databaseUtils.prepareStatement(INSERT_TEAM)) {
-            preparedStatement.setString(NAME, CampType.CHO.getName());
-            preparedStatement.addBatch();
+        databaseUtils.executeQuery(INSERT_TEAM, stmt -> {
+           try {
+               stmt.setString(NAME, CampType.CHO.getName());
+               stmt.addBatch();
+               stmt.setString(NAME, CampType.HAN.getName());
+               stmt.addBatch();
 
-            preparedStatement.setString(NAME, CampType.HAN.getName());
-            preparedStatement.addBatch();
-
-            preparedStatement.executeBatch();
-        } catch (final SQLException e) {
-            throw new IllegalArgumentException("[ERROR] team 테이블에 값 추가 중 오류가 발생했습니다: " + e.getMessage(), e);
-        }
+               stmt.executeBatch();
+               return null;
+           } catch (SQLException e) {
+               throw new RuntimeException(e);
+           }
+        });
     }
 
     @Override
     public void dropTeamTable() {
-        try(final PreparedStatement preparedStatement = databaseUtils.prepareStatement(DROP_TEAM)) {
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new IllegalArgumentException("[ERROR] team 테이블 삭제 중 에러가 발생했습니다.");
-        }
+        databaseUtils.executeQuery(DROP_TEAM, stmt -> {
+           try {
+               stmt.executeUpdate();
+
+               return null;
+           } catch (SQLException e) {
+               throw new RuntimeException(e);
+           }
+        });
     }
 }

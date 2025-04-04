@@ -2,10 +2,7 @@ package janggi.domain.board.dao;
 
 import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnectorTest;
-import janggi.domain.board.dao.TurnDAO;
-import janggi.domain.board.dao.TurnDAOImpl;
 import janggi.domain.setting.CampType;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,11 +20,15 @@ class TurnDAOImplTest {
         turnDAO = new TurnDAOImpl(databaseUtils);
     }
     private void createTurnTable() {
-        try (PreparedStatement preparedStatement = databaseUtils.prepareStatement(createTurnTableQuery())) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 테스트 turn 테이블 만들다가 에러 발생", e);
-        }
+        databaseUtils.executeQuery(createTurnTableQuery(), stmt -> {
+           try {
+               stmt.executeUpdate();
+
+               return null;
+           } catch (SQLException e) {
+               throw new RuntimeException("[ERROR] 테스트 turn 테이블 만들다가 에러 발생", e);
+           }
+        });
     }
 
     private String createTurnTableQuery() {
