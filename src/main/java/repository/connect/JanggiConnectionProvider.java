@@ -1,4 +1,4 @@
-package db;
+package repository.connect;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,6 +23,19 @@ public class JanggiConnectionProvider implements ConnectionProvider {
             return connection;
         } catch (final SQLException e) {
             throw new IllegalStateException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void closeConnection(final Connection connection) {
+        if (connection == null) {
+            return;
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB 연결을 종료하는데 실패했습니다. DB 상태를 확인해주세요.");
         }
     }
 }

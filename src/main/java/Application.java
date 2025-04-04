@@ -1,10 +1,10 @@
 import controller.KoreaChessController;
-import db.ConnectionProvider;
-import db.JanggiConnectionProvider;
 import java.util.Scanner;
 import repository.GameRepositoryImpl;
 import repository.PieceRepositoryImpl;
 import repository.PlayerRepositoryImpl;
+import repository.connect.ConnectionProvider;
+import repository.connect.JanggiConnectionProvider;
 import service.GameInitializerService;
 import service.GameLoadService;
 import service.GameService;
