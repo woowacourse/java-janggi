@@ -27,12 +27,12 @@ public class OutputView {
         builder.append("   1   2   3   4   5   6   7   8   9").append("\n");
 
         BoardLocation printPosition = locations.getFirst();
-        builder.append(printPosition.y()).append(" ");
+        builder.append(printPosition.row()).append(" ");
 
         for (BoardLocation position : locations) {
             Piece piece = filledPieces.get(position);
-            if (printPosition.y() != position.y()) {
-                builder.append("\n").append(position.y()).append(" ");
+            if (printPosition.row() != position.row()) {
+                builder.append("\n").append(position.row()).append(" ");
                 printPosition = position;
             }
             if (piece == null) {

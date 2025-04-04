@@ -30,7 +30,7 @@ public class EntityMapper {
                 .map(entry -> {
                     BoardLocation location = entry.getKey();
                     Piece piece = entry.getValue();
-                    return new PieceEntity(location.x(), location.y(), piece.getType(), piece.getTeam(),
+                    return new PieceEntity(location.column(), location.row(), piece.getType(), piece.getTeam(),
                             piece.getScore(), janggiGameId);
                 })
                 .toList();
@@ -49,7 +49,7 @@ public class EntityMapper {
     private Board mapToBoard(List<PieceEntity> pieceEntities) {
         Map<BoardLocation, Piece> pieces = pieceEntities.stream()
                 .collect(Collectors.toMap(
-                        entity -> new BoardLocation(entity.getX(), entity.getY()),
+                        entity -> new BoardLocation(entity.getColumn(), entity.getRow()),
                         this::createPiece
                 ));
         return new Board(pieces);

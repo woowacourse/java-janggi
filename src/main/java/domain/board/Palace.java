@@ -55,10 +55,10 @@ public enum Palace {
     }
 
     public boolean isNotInPalace(BoardLocation location) {
-        return startLocation.x() > location.x()
-                || startLocation.y() > location.y()
-                || endLocation.x() < location.x()
-                || endLocation.y() < location.y();
+        return startLocation.column() > location.column()
+                || startLocation.row() > location.row()
+                || endLocation.column() < location.column()
+                || endLocation.row() < location.row();
     }
 
     private static Optional<Palace> findByDiagonalMovableLocation(BoardLocation location) {

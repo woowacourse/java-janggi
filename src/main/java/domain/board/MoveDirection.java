@@ -10,19 +10,19 @@ public enum MoveDirection {
     DOWN_RIGHT(1, 1),
     DOWN_LEFT(1, -1);
 
-    private final int x;
-    private final int y;
+    private final int column;
+    private final int row;
 
-    MoveDirection(int x, int y) {
-        this.x = x;
-        this.y = y;
+    MoveDirection(int column, int row) {
+        this.column = column;
+        this.row = row;
     }
 
-    public int x() {
-        return x;
+    public int column() {
+        return column;
     }
 
-    public int y() {
-        return y;
+    public int row() {
+        return row;
     }
 }

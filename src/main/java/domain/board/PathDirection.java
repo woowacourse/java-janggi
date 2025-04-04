@@ -92,10 +92,10 @@ public enum PathDirection {
     }
 
     public static PathDirection findPathDirection(BoardVector boardVector) {
-        NumberState xState = findNumberState(boardVector.dx());
-        NumberState yState = findNumberState(boardVector.dy());
+        NumberState dxState = findNumberState(boardVector.dx());
+        NumberState dyState = findNumberState(boardVector.dy());
         return Arrays.stream(values())
-                .filter(path -> path.xState == xState && path.yState == yState)
+                .filter(path -> path.xState == dxState && path.yState == dyState)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동 경로의 방향을 찾지 못했습니다."));
     }

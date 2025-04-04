@@ -7,9 +7,9 @@ public class BoardComparator implements Comparator<BoardLocation> {
 
     @Override
     public int compare(BoardLocation o1, BoardLocation o2) {
-        if (o1.y() == o2.y()) {
-            return Integer.compare(o1.x(), o2.x());
+        if (o1.row() == o2.row()) {
+            return Integer.compare(o1.column(), o2.column());
         }
-        return Integer.compare(o1.y(), o2.y());
+        return Integer.compare(o1.row(), o2.row());
     }
 }

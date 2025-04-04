@@ -8,7 +8,7 @@ public record BoardVector(
 ) {
 
     public static BoardVector between(BoardLocation current, BoardLocation destination) {
-        return new BoardVector(destination.x() - current.x(), destination.y() - current.y());
+        return new BoardVector(destination.column() - current.column(), destination.row() - current.row());
     }
 
     public boolean isNotAxis() {

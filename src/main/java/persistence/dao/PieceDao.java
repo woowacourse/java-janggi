@@ -14,12 +14,12 @@ public class PieceDao {
 
     public void createAll(Connection connection, List<PieceEntity> pieceEntities) throws SQLException {
         final var createQuery = """
-                INSERT INTO piece (x, y, type, team, score, janggi_game_id) VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO piece (column_index, row_index, type, team, score, janggi_game_id) VALUES (?, ?, ?, ?, ?, ?)
                 """;
         try (final var prepareStatement = connection.prepareStatement(createQuery)) {
             for (PieceEntity pieceEntity : pieceEntities) {
-                prepareStatement.setInt(1, pieceEntity.getX());
-                prepareStatement.setInt(2, pieceEntity.getY());
+                prepareStatement.setInt(1, pieceEntity.getColumn());
+                prepareStatement.setInt(2, pieceEntity.getRow());
                 prepareStatement.setString(3, pieceEntity.getType().name());
                 prepareStatement.setString(4, pieceEntity.getTeam().name());
                 prepareStatement.setDouble(5, pieceEntity.getScore().score());
@@ -41,10 +41,10 @@ public class PieceDao {
                 UPDATE piece SET x = ?, y = ? WHERE x = ? AND y = ?;
                 """;
         try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
-            preparedStatement.setInt(1, updateLocation.x());
-            preparedStatement.setInt(2, updateLocation.y());
-            preparedStatement.setInt(3, originLocation.x());
-            preparedStatement.setInt(4, originLocation.y());
+            preparedStatement.setInt(1, updateLocation.column());
+            preparedStatement.setInt(2, updateLocation.row());
+            preparedStatement.setInt(3, originLocation.column());
+            preparedStatement.setInt(4, originLocation.row());
             int rowUpdated = preparedStatement.executeUpdate();
 
             if (rowUpdated == 0) {
@@ -64,8 +64,8 @@ public class PieceDao {
                 while (resultSet.next()) {
                     PieceEntity piece = new PieceEntity(
                             resultSet.getLong("id"),
-                            resultSet.getInt("x"),
-                            resultSet.getInt("y"),
+                            resultSet.getInt("column_index"),
+                            resultSet.getInt("row_index"),
                             PieceType.valueOf(resultSet.getString("type")),
                             Team.valueOf(resultSet.getString("team")),
                             new Score(resultSet.getDouble("score")),

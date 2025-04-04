@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS janggi_game
 CREATE TABLE IF NOT EXISTS piece
 (
     id             BIGINT PRIMARY KEY AUTO_INCREMENT,
-    x              INTEGER NOT NULL,
-    y              INTEGER NOT NULL,
+    column_index              INTEGER NOT NULL,
+    row_index              INTEGER NOT NULL,
     type           VARCHAR(20),
     team           VARCHAR(20),
     score          DOUBLE  NOT NULL,
