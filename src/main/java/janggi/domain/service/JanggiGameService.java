@@ -1,13 +1,13 @@
-package janggi.service;
+package janggi.domain.service;
 
-import janggi.board.JanggiBoard;
-import janggi.board.dao.JanggiBoardDAO;
-import janggi.board.dao.TeamDAO;
-import janggi.board.dao.TurnDAO;
-import janggi.piece.Piece;
-import janggi.setting.AssignType;
-import janggi.setting.CampType;
-import janggi.value.JanggiPosition;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.dao.JanggiBoardDAO;
+import janggi.domain.board.dao.TeamDAO;
+import janggi.domain.board.dao.TurnDAO;
+import janggi.domain.piece.Piece;
+import janggi.domain.setting.AssignType;
+import janggi.domain.setting.CampType;
+import janggi.domain.value.JanggiPosition;
 
 import java.util.List;
 
