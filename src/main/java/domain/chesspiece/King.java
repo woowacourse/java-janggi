@@ -9,29 +9,27 @@ import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
 import java.util.List;
 
-public class King extends LimitedMoveChessPiece{
+public class King extends LimitedMoveChessPiece {
 
     private static final List<Directions> DIRECTIONS = List.of(
-                    new Directions(List.of(Direction.UP)),
-                    new Directions(List.of(Direction.DOWN)),
-                    new Directions(List.of(Direction.LEFT)),
-                    new Directions(List.of(Direction.RIGHT)),
-                    new Directions(List.of(Direction.LEFT_UP)),
-                    new Directions(List.of(Direction.LEFT_DOWN)),
-                    new Directions(List.of(Direction.RIGHT_UP)),
-                    new Directions(List.of(Direction.RIGHT_DOWN))
+            new Directions(List.of(Direction.UP)),
+            new Directions(List.of(Direction.DOWN)),
+            new Directions(List.of(Direction.LEFT)),
+            new Directions(List.of(Direction.RIGHT)),
+            new Directions(List.of(Direction.LEFT_UP)),
+            new Directions(List.of(Direction.LEFT_DOWN)),
+            new Directions(List.of(Direction.RIGHT_UP)),
+            new Directions(List.of(Direction.RIGHT_DOWN))
     );
 
-    private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
-
     public King(final ChessTeam team, final ChessPosition position) {
-        super(position, team, DIRECTIONS);
+        super(position, team, DIRECTIONS, new UnpassableHurdlePolicy());
     }
 
     public static List<King> initPieces() {
         return List.of(
-                new King(ChessTeam.RED, new ChessPosition(1,4 )),
-                new King(ChessTeam.BLUE, new ChessPosition(8,4 ))
+                new King(ChessTeam.RED, new ChessPosition(1, 4)),
+                new King(ChessTeam.BLUE, new ChessPosition(8, 4))
         );
     }
 
@@ -44,11 +42,6 @@ public class King extends LimitedMoveChessPiece{
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.KING;
-    }
-
-    @Override
-    public HurdlePolicy getHurdlePolicy() {
-        return hurdlePolicy;
     }
 
     @Override

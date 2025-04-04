@@ -22,10 +22,8 @@ public class Guard extends LimitedMoveChessPiece {
             new Directions(List.of(Direction.RIGHT_DOWN))
     );
 
-    private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
-
     public Guard(final ChessTeam team, final ChessPosition position) {
-        super(position, team, DIRECTIONS);
+        super(position, team, DIRECTIONS, new UnpassableHurdlePolicy());
     }
 
     public static List<Guard> initPieces() {
@@ -46,11 +44,6 @@ public class Guard extends LimitedMoveChessPiece {
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.GUARD;
-    }
-
-    @Override
-    public HurdlePolicy getHurdlePolicy() {
-        return hurdlePolicy;
     }
 
     @Override

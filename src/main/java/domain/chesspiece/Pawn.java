@@ -30,11 +30,9 @@ public class Pawn extends LimitedMoveChessPiece {
                     new Directions(List.of(Direction.RIGHT_UP))
             )
     );
-    private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
-
 
     public Pawn(final ChessTeam team, final ChessPosition position) {
-        super(position, team, DIRECTIONS.get(team));
+        super(position, team, DIRECTIONS.get(team), new UnpassableHurdlePolicy());
     }
 
     public static List<ChessPiece> initPieces() {
@@ -50,11 +48,6 @@ public class Pawn extends LimitedMoveChessPiece {
                 new Pawn(ChessTeam.BLUE, new ChessPosition(6, 6)),
                 new Pawn(ChessTeam.BLUE, new ChessPosition(6, 8))
         );
-    }
-
-    @Override
-    public HurdlePolicy getHurdlePolicy() {
-        return hurdlePolicy;
     }
 
     @Override

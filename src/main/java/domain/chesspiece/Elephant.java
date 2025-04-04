@@ -21,10 +21,9 @@ public class Elephant extends LimitedMoveChessPiece {
             new Directions(List.of(Direction.DOWN, Direction.LEFT_DOWN, Direction.LEFT_DOWN)),
             new Directions(List.of(Direction.DOWN, Direction.RIGHT_DOWN, Direction.RIGHT_DOWN))
     );
-    private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public Elephant(final ChessTeam team, final ChessPosition position) {
-        super(position, team, DIRECTIONS);
+        super(position, team, DIRECTIONS, new UnpassableHurdlePolicy());
     }
 
     public static List<ChessPiece> initPieces() {
@@ -41,10 +40,6 @@ public class Elephant extends LimitedMoveChessPiece {
         return new Elephant(getTeam(), position);
     }
 
-    @Override
-    public HurdlePolicy getHurdlePolicy() {
-        return hurdlePolicy;
-    }
 
     @Override
     public ChessPieceType getChessPieceType() {

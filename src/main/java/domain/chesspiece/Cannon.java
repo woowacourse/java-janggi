@@ -11,10 +11,9 @@ import java.util.Objects;
 
 public class Cannon extends UnlimitedMoveChessPiece {
     private static final List<Direction> DIRECTIONS = Direction.getAll();
-    private final HurdlePolicy hurdlePolicy = new CannonHurdlePolicy();
 
     public Cannon(final ChessTeam team, final ChessPosition position) {
-        super(team, position, DIRECTIONS);
+        super(team, position, DIRECTIONS, new CannonHurdlePolicy());
     }
 
     public static List<ChessPiece> initPieces() {
@@ -29,11 +28,6 @@ public class Cannon extends UnlimitedMoveChessPiece {
     @Override
     public ChessPiece from(final ChessPosition position) {
         return new Cannon(this.getTeam(), position);
-    }
-
-    @Override
-    public HurdlePolicy getHurdlePolicy() {
-        return hurdlePolicy;
     }
 
     @Override

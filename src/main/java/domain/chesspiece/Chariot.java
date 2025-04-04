@@ -13,10 +13,8 @@ public class Chariot extends UnlimitedMoveChessPiece {
 
     private static final List<Direction> DIRECTIONS = Direction.getAll();
 
-    private final HurdlePolicy hurdlePolicy = new StopAtHurdlePolicy();
-
     public Chariot(final ChessTeam team, final ChessPosition position) {
-        super(team, position, DIRECTIONS);
+        super(team, position, DIRECTIONS, new StopAtHurdlePolicy());
     }
 
     public static List<ChessPiece> initPieces() {
@@ -31,12 +29,6 @@ public class Chariot extends UnlimitedMoveChessPiece {
     @Override
     public ChessPiece from(final ChessPosition position) {
         return new Chariot(getTeam(), position);
-    }
-
-
-    @Override
-    public HurdlePolicy getHurdlePolicy() {
-        return hurdlePolicy;
     }
 
     @Override

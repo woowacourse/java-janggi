@@ -1,6 +1,7 @@
 package domain.chesspiece;
 
 import domain.direction.Direction;
+import domain.hurdlePolicy.HurdlePolicy;
 import domain.path.Path;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
@@ -13,8 +14,8 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
 
 
     protected UnlimitedMoveChessPiece(final ChessTeam team, final ChessPosition position,
-                                      final List<Direction> directions) {
-        super(position, team);
+                                      final List<Direction> directions, final HurdlePolicy hurdlePolicy) {
+        super(position, team, hurdlePolicy);
         this.directions = directions;
     }
 

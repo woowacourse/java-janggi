@@ -22,10 +22,8 @@ public class Horse extends LimitedMoveChessPiece {
             new Directions(List.of(Direction.DOWN, Direction.RIGHT_DOWN))
     );
 
-    private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
-
     public Horse(final ChessTeam team, final ChessPosition position) {
-        super(position, team, DIRECTIONS);
+        super(position, team, DIRECTIONS, new UnpassableHurdlePolicy());
     }
 
     public static List<ChessPiece> initPieces() {
@@ -35,11 +33,6 @@ public class Horse extends LimitedMoveChessPiece {
                 new Horse(ChessTeam.BLUE, new ChessPosition(9, 1)),
                 new Horse(ChessTeam.BLUE, new ChessPosition(9, 7))
         );
-    }
-
-    @Override
-    public HurdlePolicy getHurdlePolicy() {
-        return hurdlePolicy;
     }
 
     @Override
