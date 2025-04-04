@@ -40,7 +40,7 @@ public class Board {
 
     public void validateCurrentTeam(final ChessPosition from, final ChessTeam team) {
         final ChessPiece chessPiece = getChessPieceByPosition(from);
-        if (chessPiece.getTeam() != team) {
+        if (!chessPiece.matchTeam(team)) {
             throw new IllegalArgumentException(String.format("현재 턴은 %s 입니다.", team.getName()));
         }
     }

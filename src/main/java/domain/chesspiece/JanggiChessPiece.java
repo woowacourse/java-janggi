@@ -43,4 +43,9 @@ public abstract class JanggiChessPiece implements ChessPiece {
     public HurdlePolicy getHurdlePolicy() {
         return hurdlePolicy;
     }
+
+    @Override
+    public boolean matchTeam(final ChessTeam team) {
+        return this.team == team;
+    }
 }

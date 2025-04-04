@@ -17,4 +17,5 @@ public interface ChessPiece {
     ChessPiece from(final ChessPosition position);
     boolean matchPosition(final ChessPosition position);
     ChessPosition getPosition();
+    boolean matchTeam(final ChessTeam team);
 }
