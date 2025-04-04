@@ -4,8 +4,7 @@ create table board_piece
     piece_type     ENUM('KING', 'GUARD', 'HORSE', 'ELEPHANT', 'CANNON', 'CHARIOT', 'SOLDIER') not null,
     team           ENUM('CHO', 'HAN') not null,
     column_position         int         not null,
-    row_position            int         not null,
-    live_status    boolean     not null
+    row_position            int         not null
 );
 
 create table turn
