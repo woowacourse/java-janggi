@@ -88,4 +88,30 @@ class ChariotTest {
                 chariot.getPalaceMovableValidator(palaceBeforePosition, afterPosition).accept(new Pieces(map)))
                 .doesNotThrowAnyException();
     }
+
+    @DisplayName("차는 궁성 내 대각선 이동 중 경로에 기물이 있으면 예외를 던진다.")
+    @Test
+    void palaceMoveWithObstacleShouldFail() {
+        Position palaceBeforePosition = new Position(8, 5);
+        Position between = new Position(9, 6); // 중간 경로
+        Position afterPosition = new Position(10, 7);
+
+        map.put(between, new Soldier(Team.RED));
+
+        assertThatThrownBy(() ->
+                chariot.getPalaceMovableValidator(palaceBeforePosition, afterPosition).accept(new Pieces(map))
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("불가능한 이동입니다");
+    }
+
+    @DisplayName("궁성 내 대각선 이동이 아닌 잘못된 움직임이면 예외를 던진다.")
+    @Test
+    void invalidPalaceMoveShouldFail() {
+        Position palaceBeforePosition = new Position(8, 5);
+        Position afterPosition = new Position(9, 7);
+
+        assertThatThrownBy(() ->
+                chariot.getPalaceMovableValidator(palaceBeforePosition, afterPosition).accept(new Pieces(map))
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
 }

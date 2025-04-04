@@ -1,11 +1,11 @@
 package janggi.domain.board;
 
-import janggi.domain.piece.Team;
 import janggi.domain.Turn;
-import janggi.domain.piece.impl.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.Team;
+import janggi.domain.piece.impl.None;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -60,15 +60,18 @@ public class Board {
     }
 
     public Team getWinner() {
-        if (board.values().stream()
-                .noneMatch(piece -> piece.isGeneral() && piece.getTeam() == Team.RED)) {
+        if (!hasGeneral(Team.RED)) {
             return Team.BLUE;
         }
-        if (board.values().stream()
-                .noneMatch(piece -> piece.isGeneral() && piece.getTeam() == Team.BLUE)) {
+        if (!hasGeneral(Team.BLUE)) {
             return Team.RED;
         }
         return Team.NONE;
+    }
+
+    private boolean hasGeneral(final Team team) {
+        return board.values().stream()
+                .anyMatch(piece -> piece.isGeneral() && piece.getTeam() == team);
     }
 
     public double calculateScoreByTeam(final Team team, final Turn turn) {

@@ -53,6 +53,16 @@ class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("포는 직선 경로 상 장애물이 없으면 이동할 수 없다.")
+    @Test
+    void moveWithoutObstacleShouldFail() {
+        Position afterPosition = new Position(2, 5);
+        assertThatThrownBy(() ->
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("포는 반드시 하나의 장애물을 넘어야 합니다.");
+    }
+
     @DisplayName("포의 초기 위치와 이동 위치 사이에 포가 존재하는 경우 예외를 던진다.")
     @Test
     void move3() {
@@ -150,5 +160,31 @@ class CannonTest {
         assertThatCode(() ->
                 cannon.getPalaceMovableValidator(palaceBeforePosition, afterPosition).accept(new Pieces(map)))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("포는 궁성 대각선 이동 시 장애물이 없으면 이동할 수 없다.")
+    @Test
+    void palaceMoveWithoutObstacleShouldFail() {
+        Position palaceBeforePosition = new Position(8, 5);
+        Position afterPosition = new Position(10, 7);
+
+        assertThatThrownBy(() ->
+                cannon.getPalaceMovableValidator(palaceBeforePosition, afterPosition).accept(new Pieces(map))
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("포는 궁성 내 대각선 경로에 포가 있으면 이동할 수 없다.")
+    @Test
+    void palaceMoveWithCannonOnPathShouldFail() {
+        Position palaceBeforePosition = new Position(8, 5);
+        Position between = new Position(9, 6);
+        Position afterPosition = new Position(10, 7);
+
+        map.put(between, new Cannon(Team.RED));
+
+        assertThatThrownBy(() ->
+                cannon.getPalaceMovableValidator(palaceBeforePosition, afterPosition).accept(new Pieces(map))
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("불가능한 이동입니다");
     }
 }
