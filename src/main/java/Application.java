@@ -13,29 +13,35 @@ import java.util.List;
 
 public class Application {
 
+    private static final PositionRepository positionRepository = new PositionMysqlRepository();
+    private static final JanggiGameRepository janggiGameRepository = new JanggiGameMysqlRepository();
+    private static final Connector mySqlConnector = new MySqlConnector();
+
     public static void main(final String[] args) {
-        final PositionMysqlRepository positionRepository = new PositionMysqlRepository();
-        final JanggiGameMysqlRepository gameRepository = new JanggiGameMysqlRepository();
-        final Connector mySqlConnector = new MySqlConnector();
-        final GameState gameState = gameRepository.getGameState(mySqlConnector.getConnection());
+        final GameState gameState = janggiGameRepository.getGameState(mySqlConnector.getConnection());
+
         if (gameState.isRunning()) {
-            final JanggiGame janggiGame = new JanggiGame(
-                    new Board(positionRepository.getPositions(mySqlConnector.getConnection())),
-                    gameRepository.getTurn(mySqlConnector.getConnection()));
-            processGame(janggiGame, positionRepository, gameRepository, mySqlConnector);
+            processGame(createNewJanggiGame());
             return;
         }
-        gameRepository.updateGameState(mySqlConnector.getConnection(), GameState.RUNNING);
-        final List<Position> positions = BoardFactory.create();
-        positions.forEach(p -> positionRepository.savePosition(mySqlConnector.getConnection(), p));
-        final JanggiGame janggiGame = new JanggiGame(new Board(positions), Team.GREEN);
-        processGame(janggiGame, positionRepository, gameRepository, mySqlConnector);
+        processGame(loadSavedJanggiGame());
     }
 
-    private static void processGame(final JanggiGame janggiGame,
-                                    final PositionRepository positionRepository,
-                                    final JanggiGameRepository janggiGameRepository,
-                                    final Connector mySqlConnector) {
+    private static JanggiGame createNewJanggiGame() {
+        return new JanggiGame(
+                new Board(positionRepository.getPositions(mySqlConnector.getConnection())),
+                janggiGameRepository.getTurn(mySqlConnector.getConnection())
+        );
+    }
+
+    private static JanggiGame loadSavedJanggiGame() {
+        janggiGameRepository.updateGameState(mySqlConnector.getConnection(), GameState.RUNNING);
+        final List<Position> positions = BoardFactory.create();
+        positions.forEach(position -> positionRepository.savePosition(mySqlConnector.getConnection(), position));
+        return new JanggiGame(new Board(positions), Team.GREEN);
+    }
+
+    private static void processGame(final JanggiGame janggiGame) {
         janggiGame.start();
         janggiGameRepository.updateGameState(mySqlConnector.getConnection(), GameState.END);
         janggiGameRepository.changeTurn(mySqlConnector.getConnection(), Team.GREEN);
