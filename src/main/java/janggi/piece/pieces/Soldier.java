@@ -1,39 +1,30 @@
 package janggi.piece.pieces;
 
-import janggi.board.Palace;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
-import janggi.position.Direction;
+import janggi.piece.pieces.moverule.MoveRule;
+import janggi.piece.pieces.moverule.StraightRule;
 import janggi.position.Position;
 import janggi.position.Route;
-import java.util.ArrayList;
 import java.util.List;
 
-public record Soldier(Team getTeam) implements Piece {
+public class Soldier implements Piece {
+    private final Team team;
+    private final MoveRule moveRule;
+
+    public Soldier(Team team) {
+        this.team = team;
+        this.moveRule = new StraightRule(team);
+    }
+
     @Override
     public List<Route> calculateRoutes(Position start) {
-        List<Route> routes = new ArrayList<>();
-
-        for (Direction direction : getTeam.getTeamDirection()) {
-            addRouteIfCanBePosition(direction, start, routes);
-        }
-        return routes;
+        return moveRule.moveAll(start);
     }
 
-    private void addRouteIfCanBePosition(Direction direction, Position startPoint, List<Route> routes) {
-        if (direction.isDiagonal()) {
-            addIfCanMoveDiagonal(direction, startPoint, routes);
-            return;
-        }
-        if (startPoint.canMove(direction)) {
-            routes.add(Route.of(List.of(startPoint.move(direction))));
-        }
-    }
-
-    private static void addIfCanMoveDiagonal(Direction direction, Position startPoint, List<Route> routes) {
-        if (Palace.canDiagonalInPalace(startPoint)) {
-            routes.add(Route.of(List.of(startPoint.move(direction))));
-        }
+    @Override
+    public boolean isCannon() {
+        return Piece.super.isCannon();
     }
 
     @Override
@@ -42,7 +33,12 @@ public record Soldier(Team getTeam) implements Piece {
     }
 
     @Override
-    public int getScore() {
-        return this.getScore();
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
+    public double getScore() {
+        return this.getType().getScore();
     }
 }

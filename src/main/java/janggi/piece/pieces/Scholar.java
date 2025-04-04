@@ -1,43 +1,25 @@
 package janggi.piece.pieces;
 
-import janggi.board.Palace;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
-import janggi.position.Direction;
+import janggi.piece.pieces.moverule.MoveRule;
+import janggi.piece.pieces.moverule.PalaceRule;
 import janggi.position.Position;
 import janggi.position.Route;
-import java.util.ArrayList;
 import java.util.List;
 
-public record Scholar(Team getTeam) implements Piece {
-    @Override
-    public List<Route> calculateRoutes(Position position) {
-        List<Route> routes = new ArrayList<>();
+public class Scholar implements Piece {
+    private final Team team;
+    private final MoveRule moveRule;
 
-        for (Direction direction : Direction.getAllDirection()) {
-            addRouteCanBeMove(position, direction, routes);
-        }
-        return routes;
+    public Scholar(Team team) {
+        this.team = team;
+        this.moveRule = new PalaceRule();
     }
 
-    private void addRouteCanBeMove(Position position, Direction direction, List<Route> routes) {
-        int column = position.getColumn() + direction.getX();
-        int row = position.getRow() + direction.getY();
-
-        if (!Position.isCanBePosition(column, row)) {
-            return;
-        }
-        Position nextPosition = new Position(column, row);
-        if (position.isSamePoint(nextPosition)) {
-            return;
-        }
-        if (!Palace.isInPalace(nextPosition)) {
-            return;
-        }
-        if (direction.isDiagonal() && !Palace.canDiagonalInPalace(position)) {
-            return;
-        }
-        routes.add(Route.of(List.of(nextPosition)));
+    @Override
+    public List<Route> calculateRoutes(Position position) {
+        return moveRule.moveAll(position);
     }
 
     @Override
@@ -46,7 +28,12 @@ public record Scholar(Team getTeam) implements Piece {
     }
 
     @Override
-    public int getScore() {
-        return this.getScore();
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
+    public double getScore() {
+        return getType().getScore();
     }
 }

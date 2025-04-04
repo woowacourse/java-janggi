@@ -1,35 +1,28 @@
-package janggi.piece.pieces;
+package janggi.piece.pieces.moverule;
 
-import janggi.piece.PieceType;
-import janggi.piece.Team;
-import janggi.piece.pieces.moverule.MoveRule;
-import janggi.piece.pieces.moverule.StraightDiagonalRule;
 import janggi.position.Direction;
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Horse implements Piece {
-    private static final int MAX_DEPTH = 2;
+public class StraightDiagonalRule implements MoveRule {
+    private final int maxDepth;
 
-    private final Team team;
-    private final MoveRule moveRule;
-
-    public Horse(Team team) {
-        this.team = team;
-        this.moveRule = new StraightDiagonalRule(MAX_DEPTH);
+    public StraightDiagonalRule(int maxDepth) {
+        this.maxDepth = maxDepth;
     }
 
     @Override
-    public List<Route> calculateRoutes(Position position) {
+    public List<Route> moveAll(Position start) {
         List<Route> routes = new ArrayList<>();
-        findPath(0, Direction.NONE, new ArrayList<>(), position, routes);
+
+        findPath(0, Direction.NONE, new ArrayList<>(), start, routes);
         return routes;
     }
 
     private void findPath(int depth, Direction before, List<Position> route, Position prevPoint, List<Route> routes) {
-        if (depth == MAX_DEPTH) {
+        if (depth == maxDepth) {
             routes.add(Route.of(route.stream().toList()));
             return;
         }
@@ -49,20 +42,5 @@ public class Horse implements Piece {
         route.add(next);
         findPath(depth + 1, direction, route, next, routes);
         route.remove(next);
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.HORSE;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
-    }
-
-    @Override
-    public double getScore() {
-        return getType().getScore();
     }
 }

@@ -18,7 +18,7 @@ public record None(Team getTeam) implements Piece {
     }
 
     @Override
-    public int getScore() {
-        return this.getScore();
+    public double getScore() {
+        return getType().getScore();
     }
 }
