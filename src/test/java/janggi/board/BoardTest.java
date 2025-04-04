@@ -1,4 +1,3 @@
-/*
 package janggi.board;
 
 import janggi.dao.BoardDao;
@@ -13,8 +12,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
@@ -33,13 +32,10 @@ public class BoardTest {
         Position arrivedPosition = new Position(8, 1);
         //when
         board.dropPiece(new Turn(Team.CHO), startPosition, arrivedPosition, boardDao);
-        List<Piece> positionedPieces = board.extractLocatedLivePieces();
-        Piece findPiece = positionedPieces.stream()
-                .filter(piece -> piece.matchesPosition(arrivedPosition))
-                .findFirst()
-                .orElseThrow();
+        Map<Position, Piece> positionedPieces = board.getLocatedPieces();
+        Piece findPiece = positionedPieces.get(arrivedPosition);
         //then
-        Assertions.assertThat(findPiece).isEqualTo(new Chariot(Team.CHO, new Position(8, 1)));
+        Assertions.assertThat(findPiece).isEqualTo(new DefaultPiece(Team.CHO, PieceType.CHARIOT));
     }
 
     @Test
@@ -68,9 +64,9 @@ public class BoardTest {
     @Test
     @DisplayName("포 이동 경로에 넘을 수 있는 장애물이 존재하는 경우 이동")
     void cannonMoveTest() {
-        Board board = new Board(new ArrayList<>(List.of(
-                new Cannon(Team.CHO, new Position(8, 2)),
-                new Elephant(Team.CHO, new Position(8, 3)))));
+        Board board = new Board(new HashMap<>(Map.of(
+                 new Position(8, 2), new DefaultPiece(Team.CHO, PieceType.CANNON),
+                 new Position(8, 3), new DefaultPiece(Team.CHO, PieceType.ELEPHANT))));
 
         assertThatCode(
                 () -> board.dropPiece(new Turn(Team.CHO), new Position(8, 2), new Position(8, 5), boardDao)
@@ -80,10 +76,9 @@ public class BoardTest {
     @Test
     @DisplayName("포 이동 경로에 넘을 수 없는 장애물이 존재하는 경우 예외 발생")
     void cannonMoveExceptionTest() {
-        Board board = new Board(List.of(
-                new Cannon(Team.CHO, new Position(8, 2)),
-                new Cannon(Team.CHO, new Position(8, 3))
-        ));
+        Board board = new Board(new HashMap<>(Map.of(
+                new Position(8, 2), new DefaultPiece(Team.CHO, PieceType.CANNON),
+                new Position(8, 3), new DefaultPiece(Team.CHO, PieceType.CANNON))));
 
         assertThatThrownBy(
                 () -> board.dropPiece(new Turn(Team.CHO), new Position(8, 2), new Position(8, 5), boardDao)
@@ -93,10 +88,10 @@ public class BoardTest {
     @Test
     @DisplayName("포 이동 경로에 장애물이 여러개 존재하는 경우 예외 발생")
     void hasManyObstacleExceptionTest() {
-        Board board = new Board(new ArrayList<>(List.of(
-                new Cannon(Team.CHO, new Position(8, 2)),
-                new Elephant(Team.CHO, new Position(8, 3)),
-                new Elephant(Team.CHO, new Position(8, 4)))));
+        Board board = new Board(new HashMap<>(Map.of(
+                new Position(8, 2), new DefaultPiece(Team.CHO, PieceType.CANNON),
+                new Position(8, 3), new DefaultPiece(Team.CHO, PieceType.ELEPHANT),
+                new Position(8, 4), new DefaultPiece(Team.CHO, PieceType.ELEPHANT))));
 
         assertThatThrownBy(
                 () -> board.dropPiece(new Turn(Team.CHO), new Position(8, 2), new Position(8, 5), boardDao)
@@ -108,9 +103,10 @@ public class BoardTest {
     @DisplayName("포 궁성 내 대각선 이동 테스트")
     void moveCrossWithinPalaceTest(Position cannonPosition, Position abstaclePosition, Position arrivedPosition) {
         //given
-        Board board = new Board(new ArrayList<>(List.of(
-                new Cannon(Team.CHO, cannonPosition),
-                new King(Team.CHO, abstaclePosition))));
+        Board board = new Board(new HashMap<>(Map.of(
+                cannonPosition, new DefaultPiece(Team.CHO, PieceType.CANNON),
+                abstaclePosition, new PalacePiece(Team.CHO, PieceType.KING))));
+
         //when & then
         assertThatCode(
                 () -> board.dropPiece(new Turn(Team.CHO), cannonPosition, arrivedPosition, boardDao)
@@ -128,9 +124,12 @@ public class BoardTest {
     @ParameterizedTest
     @MethodSource("makeExceptionCannonInPalace")
     @DisplayName("포 궁성 내 대각선 이동 불가 테스트")
-    void moveCrossWithinPalaceExceptionTest(Position cannonPosition, Piece abstacle, Position arrivedPosition) {
+    void moveCrossWithinPalaceExceptionTest(Position cannonPosition, Position arrivedPosition, Piece abstaclePiece) {
         //given
-        Board board = new Board(new ArrayList<>(List.of(new Cannon(Team.CHO, cannonPosition), abstacle)));
+        Board board = new Board(new HashMap<>(Map.of(
+                cannonPosition, new DefaultPiece(Team.CHO, PieceType.CANNON),
+                arrivedPosition,abstaclePiece
+        )));
         //when & then
         assertThatThrownBy(
                 () -> board.dropPiece(new Turn(Team.CHO), cannonPosition, arrivedPosition, boardDao)
@@ -139,9 +138,9 @@ public class BoardTest {
 
     static Stream<Arguments> makeExceptionCannonInPalace() {
         return Stream.of(
-                Arguments.arguments(new Position(10, 4), new King(Team.CHO, new Position(9, 5)), new Position(7, 7)),
-                Arguments.arguments(new Position(10, 4), new Cannon(Team.CHO, new Position(9, 5)), new Position(7, 7)),
-                Arguments.arguments(new Position(10, 4), new King(Team.CHO, new Position(10, 5)), new Position(8, 6))
+                Arguments.arguments(new Position(10, 4),new Position(9, 5), new PalacePiece(Team.CHO, PieceType.KING)),
+                Arguments.arguments(new Position(10, 4),new Position(7, 7), new DefaultPiece(Team.CHO,PieceType.CANNON)),
+                Arguments.arguments(new Position(10, 4),new Position(9, 3), new PalacePiece(Team.CHO, PieceType.KING))
         );
     }
 
@@ -149,11 +148,13 @@ public class BoardTest {
     @DisplayName("차 궁성 내 대각선 이동 테스트")
     void moveCrossWithinPalaceTest() {
         //given
-        Board board = new Board(new ArrayList<>(List.of(new Chariot(Team.CHO, new Position(10, 4)))));
+        Board board = new Board(new HashMap<>(Map.of(
+                new Position(10, 4), new DefaultPiece(Team.CHO, PieceType.CHARIOT)
+        )));
+
         //when & then
         assertThatCode(
                 () -> board.dropPiece(new Turn(Team.CHO), new Position(10, 4), new Position(8, 6), boardDao)
         ).doesNotThrowAnyException();
     }
 }
-*/

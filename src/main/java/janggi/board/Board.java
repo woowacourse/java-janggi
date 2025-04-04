@@ -48,7 +48,7 @@ public class Board {
 
     private boolean canOverObstacle(List<Position> paths) {
         Position position = paths.getFirst();
-        return !locatedPieces.get(position).isJumpable();
+        return locatedPieces.get(position).isJumpable();
     }
 
     private void validateObstacle(Piece attackerPiece, Position startPosition, Position arrivedPosition) {
