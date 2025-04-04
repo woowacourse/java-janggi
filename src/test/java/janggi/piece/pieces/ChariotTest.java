@@ -48,9 +48,7 @@ class ChariotTest {
 
         // when
         List<Route> routes = chariot.calculateRoutes(new Position(3, 7));
-        for (Route route : routes) {
-            System.out.println(route);
-        }
+
         // then
         Assertions.assertThat(routes).hasSize(19);
         Assertions.assertThat(routes).containsOnly(
