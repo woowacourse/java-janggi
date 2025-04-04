@@ -14,7 +14,7 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
     implementation 'com.google.guava:guava:33.0.0-jre'
-
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     runtimeOnly("com.mysql:mysql-connector-j:9.2.0")
 }
 
