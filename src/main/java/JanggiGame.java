@@ -1,4 +1,7 @@
-import db.JanggiDao;
+import db.JanggiGameRepository;
+import db.connector.MySqlConnector;
+import db.mysql.JanggiGameMysqlRepository;
+import db.mysql.PositionMysqlRepository;
 import domain.Board;
 import domain.Score;
 import domain.Team;
@@ -23,7 +26,9 @@ public class JanggiGame {
     }
 
     public void start() {
-        final JanggiDao janggiDao = new JanggiDao();
+        final JanggiGameRepository janggiGameRepository = new JanggiGameMysqlRepository();
+        final PositionMysqlRepository positionMysqlRepository = new PositionMysqlRepository();
+        final MySqlConnector mySqlConnector = new MySqlConnector();
 
         Loop.run(() -> {
             OutputView.printBoard(board);
@@ -31,7 +36,7 @@ public class JanggiGame {
 
             final Position prevPosition = readStartPosition();
             if (isInvalidPiece(prevPosition)) {
-                return processTurnChange(janggiDao, OutputView::printInvalidFromPoint);
+                return processTurnChange(janggiGameRepository, mySqlConnector, OutputView::printInvalidFromPoint);
             }
 
             final Point nextPoint = readEndPoint();
@@ -40,16 +45,16 @@ public class JanggiGame {
             }
 
             if (isInvalidEndPoint(prevPosition, nextPoint)) {
-                return processTurnChange(janggiDao, OutputView::printInvalidEndPoint);
+                return processTurnChange(janggiGameRepository, mySqlConnector, OutputView::printInvalidEndPoint);
             }
 
-            processMove(prevPosition, nextPoint, janggiDao);
+            processMove(prevPosition, nextPoint, positionMysqlRepository, mySqlConnector);
 
             if (board.hasOnlyOneGeneral()) {
                 processGameResult();
                 return false;
             }
-            return processTurnChange(janggiDao, OutputView::printEndTurn);
+            return processTurnChange(janggiGameRepository, mySqlConnector, OutputView::printEndTurn);
         });
     }
 
@@ -79,9 +84,10 @@ public class JanggiGame {
         return isRedTurn() && prevPosition.isGreenTeam();
     }
 
-    private boolean processTurnChange(final JanggiDao janggiDao, final Runnable messagePrinter) {
+    private boolean processTurnChange(final JanggiGameRepository janggiGameRepository,
+                                      final MySqlConnector mySqlConnector, final Runnable messagePrinter) {
         messagePrinter.run();
-        changeTurn(janggiDao);
+        changeTurn(janggiGameRepository, mySqlConnector);
         return true;
     }
 
@@ -90,11 +96,16 @@ public class JanggiGame {
         return Point.of(toNumber.getFirst(), toNumber.getLast());
     }
 
-    private void processMove(final Position prevPosition, final Point nextPoint, final JanggiDao janggiDao) {
+    private void processMove(final Position prevPosition,
+                             final Point nextPoint,
+                             final PositionMysqlRepository positionMysqlRepository,
+                             final MySqlConnector mySqlConnector
+    ) {
         board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
         final PointValue pointValue = nextPoint.value();
-        janggiDao.deletePosition(pointValue);
-        janggiDao.updatePoint(prevPosition.getPointValue(), pointValue);
+
+        positionMysqlRepository.deletePosition(mySqlConnector.getConnection(), pointValue);
+        positionMysqlRepository.updatePoint(mySqlConnector.getConnection(), prevPosition.getPointValue(), pointValue);
     }
 
     private void processGameResult() {
@@ -124,9 +135,9 @@ public class JanggiGame {
         OutputView.printWinnerTeam(winnerTeam, winnerScore, loserScore);
     }
 
-    private void changeTurn(final JanggiDao janggiDao) {
+    private void changeTurn(final JanggiGameRepository janggiGameRepository, final MySqlConnector mySqlConnector) {
         turn = turn.opposite();
-        janggiDao.changeTurn(turn);
+        janggiGameRepository.changeTurn(mySqlConnector.getConnection(), turn);
     }
 
     private boolean isSamePoint(final Position prevPosition, final Point nextPoint) {
