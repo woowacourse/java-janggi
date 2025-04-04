@@ -1,17 +1,15 @@
-import dao.JanggiDao;
 import domain.JanggiPosition;
 import domain.game.JanggiGame;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
-    private JanggiDao janggiDao = new JanggiDao();
-
-    public void run() {
-        JanggiGame game = new JanggiGame();
+    public void run(JanggiService janggiService) {
+        JanggiGame game = new JanggiGame(janggiService);
         startJanggiGame(game);
     }
 

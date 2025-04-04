@@ -34,6 +34,7 @@ import static domain.Fixtures.TWO_THREE;
 import static domain.Fixtures.TWO_ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dao.JanggiDao;
 import domain.JanggiPosition;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
@@ -45,6 +46,8 @@ import domain.piece.Piece;
 import domain.piece.Side;
 import domain.piece.Soldier;
 import java.util.stream.Stream;
+import service.JanggiService;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -54,7 +57,7 @@ public class JanggiGameTest {
     @MethodSource("provideJanggiPieces")
     void 장기_게임을_시작하면_장기_기물들이_보드에_초기화된다(JanggiPosition position, Piece piece) {
         // given
-        GameState state = new Start();
+        GameState state = new Start(new JanggiService(new JanggiDao()));
 
         // when & then
         assertThat(state.getBoard().get(position)).isInstanceOf(piece.getClass());

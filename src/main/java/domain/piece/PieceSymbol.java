@@ -20,4 +20,13 @@ public enum PieceSymbol {
     public String getSymbol() {
         return symbol;
     }
+
+    public static PieceSymbol fromSymbol(String symbol) {
+        for (PieceSymbol value : values()) {
+            if (value.symbol.equals(symbol)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }
