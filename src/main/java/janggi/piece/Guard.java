@@ -4,20 +4,25 @@ import janggi.board.Board;
 import janggi.coordinate.Position;
 import janggi.piece.rule.movement.MovementRule;
 import janggi.piece.rule.movement.SingleMovementRule;
+import janggi.piece.rule.palace.PalaceRestrictRule;
 import janggi.player.Team;
 
 import java.util.List;
 
 public class Guard extends Piece {
 
+    private final PalaceRestrictRule palaceRestrictRule;
+
     public Guard(final Position position,
                  final Team team,
-                 final MovementRule movementRule) {
+                 final MovementRule movementRule,
+                 final PalaceRestrictRule palaceRestrictRule) {
         super(position, team, movementRule);
+        this.palaceRestrictRule = palaceRestrictRule;
     }
 
     public static Guard of(final Position position, final Team team) {
-        return new Guard(position, team, SingleMovementRule.withNonBlock());
+        return new Guard(position, team, SingleMovementRule.withNonBlock(), new PalaceRestrictRule());
     }
 
     public static List<Guard> defaultsOf(final Team team) {
@@ -36,10 +41,7 @@ public class Guard extends Piece {
 
     @Override
     protected void validateSpecialRule(final Board board, final Position destination) {
-        if (board.isPalace(destination)) {
-            return;
-        }
-        throw new IllegalArgumentException("사는 궁성 밖으로 나갈 수 없습니다");
+        palaceRestrictRule.validate(board, destination);
     }
 
     @Override
