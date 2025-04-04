@@ -1,4 +1,4 @@
-package janggi.board.dao;
+package janggi.domain.board.dao;
 
 import janggi.domain.board.JanggiBoard;
 import janggi.database.utils.DatabaseUtils;

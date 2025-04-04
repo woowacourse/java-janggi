@@ -1,4 +1,4 @@
-package janggi.board.dao;
+package janggi.domain.board.dao;
 
 import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnectorTest;

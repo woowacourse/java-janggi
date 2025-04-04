@@ -1,4 +1,4 @@
-package janggi.value;
+package janggi.domain.value;
 
 import janggi.domain.piece.direction.DirectionVector;
 import org.assertj.core.api.Assertions;
