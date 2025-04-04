@@ -95,6 +95,26 @@ public class RoomDao extends DefaultDao implements EntityMapper<Room> {
         }
     }
 
+    public boolean existsByRoomId(String roomId) {
+        final var query = """
+                SELECT EXISTS(
+                    SELECT 1 FROM room
+                    WHERE room_id = ?
+                )
+                """;
+        try (final var connection = getConnection();
+             final var ppst = connection.prepareStatement(query)) {
+            ppst.setString(1, roomId);
+            final var resultSet = ppst.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBoolean(1);
+            }
+            return false;
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public Room mapFromResultSet(ResultSet resultSet) throws SQLException {
         return new Room(

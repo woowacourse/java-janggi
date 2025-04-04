@@ -23,6 +23,11 @@ public class InputView {
         return scanner.nextLine();
     }
 
+    public String reReadRoomIdToCreate() {
+        System.out.println("이미 존재하는 방입니다. 이름을 다시 정해주세요.");
+        return scanner.nextLine();
+    }
+
     public String readUnitPosition(Team team) {
         System.out.println(teamToName(team) + ":: 이동할 장기의 위치를 선택해 주세요.");
         return scanner.nextLine();

@@ -37,11 +37,15 @@ public class JanggiGameFlow {
             return createRoom();
         }
         int roomIdNumber = Integer.parseInt(rawRoomIdNumber);
-        return allPlayingRoom.get(roomIdNumber - 1).roomId();
+        Room room = allPlayingRoom.get(roomIdNumber - 1);
+        return room.roomId();
     }
 
     private String createRoom() {
         String roomId = inputView.readRoomIdToCreate();
+        while (janggiService.existsRoom(roomId)) {
+            roomId = inputView.reReadRoomIdToCreate();
+        }
         Janggi janggi = initGame();
         janggiService.createJanggiRoom(roomId, janggi);
         return roomId;

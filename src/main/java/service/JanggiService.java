@@ -23,6 +23,10 @@ public class JanggiService {
         return roomDao.findAllPlayingRoom();
     }
 
+    public boolean existsRoom(String roomId) {
+        return roomDao.existsByRoomId(roomId);
+    }
+
     public void createJanggiRoom(String roomId, Janggi janggi) {
         roomDao.save(new Room(roomId, GameState.PLAYING, Team.CHO));
         List<Piece> pieces = Piece.from(janggi);
