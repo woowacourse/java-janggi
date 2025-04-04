@@ -1,11 +1,11 @@
 package repository;
 
-import db.ConnectionProvider;
 import domain.Game;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import repository.connect.ConnectionProvider;
 
 public class GameRepositoryImpl implements GameRepository {
 
@@ -23,6 +23,7 @@ public class GameRepositoryImpl implements GameRepository {
             preparedStatement.setString(1, game.getName());
             preparedStatement.setString(2, game.getStatus().name());
             preparedStatement.executeUpdate();
+            connectionProvider.closeConnection(connection);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -34,6 +35,7 @@ public class GameRepositoryImpl implements GameRepository {
         try (final Connection connection = connectionProvider.getConnection();
              final var preparedStatement = connection.prepareStatement(query);
              final var resultSet = preparedStatement.executeQuery()) {
+            connectionProvider.closeConnection(connection);
             if (resultSet.next()) {
                 return resultSet.getInt(1) > 0;
             }
@@ -49,6 +51,7 @@ public class GameRepositoryImpl implements GameRepository {
         try (final Connection connection = connectionProvider.getConnection();
              final var preparedStatement = connection.prepareStatement(query);
              final var resultSet = preparedStatement.executeQuery()) {
+            connectionProvider.closeConnection(connection);
             final List<String> gameNames = new ArrayList<>();
             while (resultSet.next()) {
                 gameNames.add(resultSet.getString("name"));

@@ -1,6 +1,5 @@
 package repository;
 
-import db.ConnectionProvider;
 import domain.Player;
 import domain.Team;
 import domain.piece.Score;
@@ -9,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import repository.connect.ConnectionProvider;
 
 public class PlayerRepositoryImpl implements PlayerRepository {
 
@@ -27,6 +27,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
             preparedStatement.setString(2, gameName);
             preparedStatement.setInt(3, player.getScore().value());
             preparedStatement.executeUpdate();
+            connectionProvider.closeConnection(connection);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -39,6 +40,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, gameName);
             final var resultSet = preparedStatement.executeQuery();
+            connectionProvider.closeConnection(connection);
             return mapResultSetToPlayers(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException(e);

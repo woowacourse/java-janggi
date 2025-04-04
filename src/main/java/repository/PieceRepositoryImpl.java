@@ -1,6 +1,5 @@
 package repository;
 
-import db.ConnectionProvider;
 import domain.Team;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
@@ -20,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import repository.connect.ConnectionProvider;
 
 public class PieceRepositoryImpl implements PieceRepository {
 
@@ -47,6 +47,7 @@ public class PieceRepositoryImpl implements PieceRepository {
             preparedStatement.setInt(4, piece.getPosition().row());
             preparedStatement.setInt(5, piece.getPosition().column());
             preparedStatement.executeUpdate();
+            connectionProvider.closeConnection(connection);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -60,6 +61,7 @@ public class PieceRepositoryImpl implements PieceRepository {
             preparedStatement.setString(1, gameName);
             preparedStatement.setString(2, team.name());
             final var resultSet = preparedStatement.executeQuery();
+            connectionProvider.closeConnection(connection);
             return mapResultSetToPieces(resultSet, team);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -75,6 +77,7 @@ public class PieceRepositoryImpl implements PieceRepository {
             preparedStatement.setString(2, team.name());
             preparedStatement.setInt(3, position.row());
             preparedStatement.setInt(4, position.column());
+            connectionProvider.closeConnection(connection);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
