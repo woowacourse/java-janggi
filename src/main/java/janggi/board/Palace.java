@@ -8,8 +8,8 @@ public enum Palace {
     CHO(3, 7),
     ;
 
-    public static final int WIDTH = 3;
-    public static final int HEIGHT = 3;
+    private static final int PALACE_WIDTH = 3;
+    private static final int PALACE_HEIGHT = 3;
 
     private final int startColumn;
     private final int startRow;
@@ -32,8 +32,8 @@ public enum Palace {
     }
 
     private static boolean isVertex(Palace team, int pickedColumn, int pickedRow) {
-        int endColumn = team.startColumn + WIDTH - 1;
-        int endRow = team.startRow + HEIGHT - 1;
+        int endColumn = team.startColumn + PALACE_WIDTH - 1;
+        int endRow = team.startRow + PALACE_HEIGHT - 1;
 
         return (pickedColumn == team.startColumn && pickedRow == team.startRow) ||
                 (pickedColumn == endColumn && pickedRow == team.startRow) ||
@@ -42,8 +42,8 @@ public enum Palace {
     }
 
     private static boolean isCenterInPalace(Palace team, int pickedColumn, int pickedRow) {
-        int centerColumn = team.startColumn + (WIDTH / 2);
-        int centerRow = team.startRow + (HEIGHT / 2);
+        int centerColumn = team.startColumn + (PALACE_WIDTH / 2);
+        int centerRow = team.startRow + (PALACE_HEIGHT / 2);
 
         return pickedColumn == centerColumn && pickedRow == centerRow;
     }
@@ -58,8 +58,8 @@ public enum Palace {
     }
 
     private static boolean isInsidePalace(Palace team, int pickedColumn, int pickedRow) {
-        int endRow = team.startRow + HEIGHT;
-        int endColumn = team.startColumn + WIDTH;
+        int endRow = team.startRow + PALACE_HEIGHT;
+        int endColumn = team.startColumn + PALACE_WIDTH;
         return pickedRow >= team.startRow && pickedRow < endRow
                 && pickedColumn >= team.startColumn && pickedColumn < endColumn;
     }
