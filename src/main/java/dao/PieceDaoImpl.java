@@ -1,14 +1,7 @@
 package dao;
 
 import config.Connector;
-import domain.chesspiece.Cannon;
-import domain.chesspiece.Chariot;
 import domain.chesspiece.ChessPiece;
-import domain.chesspiece.Elephant;
-import domain.chesspiece.Guard;
-import domain.chesspiece.Horse;
-import domain.chesspiece.King;
-import domain.chesspiece.Pawn;
 import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
@@ -36,8 +29,8 @@ public class PieceDaoImpl implements PieceDao {
             for (ChessPiece piece : pieces) {
                 pstmt.setInt(1, piece.getPosition().row());
                 pstmt.setInt(2, piece.getPosition().column());
-                pstmt.setString(3, piece.getTeam().name());
-                pstmt.setString(4, piece.getChessPieceType().name());
+                pstmt.setString(3, piece.getTeam().toString());
+                pstmt.setString(4, piece.getChessPieceType().toString());
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
