@@ -38,36 +38,36 @@ public class JanggiController {
     public void startJanggiWithoutSave() {
         Board board = getInitializedBoardByInput();
         Turn turn = Turn.startWith(Team.BLUE);
-
-        while (true) {
-            Team nowTeam = turn.next();
-            outputView.printBoard(board);
-            String pieceMovement = inputView.readPieceMovement(nowTeam);
-            movePieceByPieceMovement(nowTeam, pieceMovement, board);
-
-            if (board.checkGameOver()) {
-                printResult(board,turn);
-                break;
-            }
-        }
+        playGame(board, turn, false, -1);
     }
 
     public void startJanggiWithSave() {
         Board board = loadOrInitializeBoard();
         int gameId = janggiService.getLatestGameId();
         Turn turn = Turn.startWith(janggiService.loadTurn(gameId));
-        janggiService.saveGame(gameId, board, turn.current());
+        playGame(board, turn, true, gameId);
+    }
+
+    private void playGame(final Board board, final Turn turn, final boolean saveEnabled, final int gameId) {
+        if (saveEnabled) {
+            janggiService.saveGame(gameId, board, turn.current());
+        }
 
         while (true) {
             Team nowTeam = turn.next();
             outputView.printBoard(board);
             String pieceMovement = inputView.readPieceMovement(nowTeam);
             movePieceByPieceMovement(nowTeam, pieceMovement, board);
-            janggiService.saveGame(gameId, board, turn.current());
+
+            if (saveEnabled) {
+                janggiService.saveGame(gameId, board, turn.current());
+            }
 
             if (board.checkGameOver()) {
                 printResult(board, turn);
-                janggiService.deleteGame(gameId);
+                if (saveEnabled) {
+                    janggiService.deleteGame(gameId);
+                }
                 break;
             }
         }
@@ -87,7 +87,6 @@ public class JanggiController {
 
     private void printResult(final Board board, final Turn turn) {
         Team winner = board.getWinner();
-
         outputView.printWinner(winner);
         outputView.printScore(Team.RED, board.calculateScoreByTeam(Team.RED, turn));
         outputView.printScore(Team.BLUE, board.calculateScoreByTeam(Team.BLUE, turn));
