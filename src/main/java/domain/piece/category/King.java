@@ -4,6 +4,8 @@ import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
+import domain.piece.validation.MoveValidation;
+import domain.piece.validation.PalaceBoundaryValidator;
 import domain.spatial.Position;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class King extends Piece {
 
     @Override
     public King move(final Position target, final MoveInfos moveInfos) {
-        validateMoveWithinPalace(target);
+        validateMove(moveInfos);
         return new King(target, directions);
     }
 
@@ -40,9 +42,13 @@ public class King extends Piece {
         return true;
     }
 
-    private void validateMoveWithinPalace(final Position target) {
-        if (!target.isWithinPalace()) {
-            throw new IllegalArgumentException("왕은 궁성 밖으로 이동할 수 없습니다.");
+    private void validateMove(final MoveInfos moveInfos) {
+        for (MoveValidation validation : validations) {
+            validation.validate(moveInfos);
         }
     }
+
+    private final List<MoveValidation> validations = List.of(
+            new PalaceBoundaryValidator()
+    );
 }
