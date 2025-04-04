@@ -1,6 +1,6 @@
 package janggi.board.dao;
 
-import janggi.board.dao.utils.DatabaseUtils;
+import janggi.database.utils.DatabaseUtils;
 import janggi.setting.CampType;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

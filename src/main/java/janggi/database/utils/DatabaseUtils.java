@@ -1,4 +1,4 @@
-package janggi.board.dao.utils;
+package janggi.database.utils;
 
 import janggi.database.DBConnector;
 import java.sql.PreparedStatement;

@@ -6,7 +6,7 @@ import janggi.board.dao.TeamDAO;
 import janggi.board.dao.TeamDAOImpl;
 import janggi.board.dao.TurnDAO;
 import janggi.board.dao.TurnDAOImpl;
-import janggi.board.dao.utils.DatabaseUtils;
+import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnector;
 import janggi.database.DBInitializer;
 import janggi.database.MySQLDBConnector;

@@ -1,7 +1,7 @@
 package janggi.board.dao;
 
 import janggi.board.JanggiBoard;
-import janggi.board.dao.utils.DatabaseUtils;
+import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnectorTest;
 import janggi.piece.Piece;
 import janggi.setting.AssignType;
