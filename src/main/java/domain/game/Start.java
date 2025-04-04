@@ -1,25 +1,40 @@
 package domain.game;
 
-import dao.JanggiDao;
+import static view.InputView.inputGameId;
+import static view.InputView.inputNewGameId;
+
+import dao.JanggiPieceEntity;
 import domain.JanggiBoard;
 import domain.JanggiBoardFactory;
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import domain.piece.Side;
+import java.util.List;
 import java.util.Map;
+import service.JanggiService;
 
 public class Start implements GameState {
     private JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
-    private final JanggiDao janggiDao = new JanggiDao();
+    protected final JanggiService janggiService;
+
+    public Start(JanggiService janggiService) {
+        this.janggiService = janggiService;
+    }
 
     @Override
     public GameState start() {
-        // 초기화 하고, 만약 Map이 비어있지 않으면 이어하도록 보드 재설정
-        Map<JanggiPosition, Piece> savedJanggiBoard = janggiDao.loadJanggiBoard();
+        Long gameId = inputGameId();
+        if (gameId == -1) {
+            gameId = inputNewGameId();
+            janggiService.createJanggiGame(gameId);
+        }
+
+        List<JanggiPieceEntity> pieceEntities = janggiService.getJanggiPieces(gameId);
+        Map<JanggiPosition, Piece> savedJanggiBoard = janggiService.loadJanggiBoard(pieceEntities);
         if (!savedJanggiBoard.isEmpty()) {
             this.janggiBoard = new JanggiBoard(savedJanggiBoard);
         }
-        return new Run(janggiBoard, new Player(Side.CHO));
+        return new Run(gameId, janggiService, janggiBoard, new Player(Side.CHO));
     }
 
     @Override
