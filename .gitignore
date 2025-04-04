@@ -31,3 +31,7 @@ out/
 ### VS Code ###
 .vscode/
 .DS_Store
+
+### Docker MySQL Mount ##
+**/db/mysql/config/**
+**/db/mysql/data/**
