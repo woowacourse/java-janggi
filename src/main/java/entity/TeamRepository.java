@@ -10,7 +10,7 @@ public class TeamRepository {
     }
 
     public TeamEntity findById(long teamId) {
-        return teamDao.findByid(teamId);
+        return teamDao.findById(teamId);
     }
 
     public TeamEntity findByName(String name) {

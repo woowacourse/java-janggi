@@ -14,45 +14,64 @@ public class PlayerDao {
         this.janggiConnection = janggiConnection;
     }
 
+    public <T> List<T> executeQueryForList(String sql, StatementSetter setter, RowMapper<T> rowMapper) {
+        try (var connection = janggiConnection.getConnection();
+             var preparedStatement = connection.prepareStatement(sql)) {
+
+            setter.setValues(preparedStatement);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<T> results = new ArrayList<>();
+                while (resultSet.next()) {
+                    results.add(rowMapper.mapRow(resultSet));
+                }
+                return results;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void executeUpdate(String sql, StatementSetter setter) {
+        try (final var connection = janggiConnection.getConnection();
+             final var preparedStatement = connection.prepareStatement(sql)) {
+
+            setter.setValues(preparedStatement);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<PlayerEntity> getAllPlayers() {
         final var query = "SELECT * FROM player";
 
-        try (final var connection = janggiConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            List<PlayerEntity> players = new ArrayList<>();
-
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                long teamId = resultSet.getLong("team_id");
-
-                PlayerEntity playerEntity = new PlayerEntity(id, teamId);
-                players.add(playerEntity);
-            }
-
-            return players;
-
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return executeQueryForList(
+                query,
+                preparedStatement -> {
+                },
+                resultSet -> new PlayerEntity(
+                        resultSet.getLong("id"),
+                        resultSet.getLong("team_id")
+                )
+        );
     }
 
     public void saveSwitchedTurn(final List<SwitchPlayerTurnRequestDto> requestDtos) {
         final var query = "UPDATE player SET is_turn = ? WHERE team_id = ?";
 
-        try (final var connection = janggiConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        for (final SwitchPlayerTurnRequestDto requestDto : requestDtos) {
+            executeUpdate(
+                    query,
+                    preparedStatement -> {
+                        preparedStatement.setBoolean(1, requestDto.isTurn());
+                        preparedStatement.setLong(2, requestDto.teamId());
 
-            for (SwitchPlayerTurnRequestDto requestDto : requestDtos) {
-                preparedStatement.setBoolean(1, requestDto.isTurn());
-                preparedStatement.setLong(2, requestDto.teamId());
-
-                preparedStatement.executeUpdate();
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
+                    }
+            );
         }
     }
 

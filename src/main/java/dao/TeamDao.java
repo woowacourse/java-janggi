@@ -1,6 +1,7 @@
 package dao;
 
 import entity.TeamEntity;
+import execptions.JanggiArgumentException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,49 +12,50 @@ public class TeamDao {
         this.janggiConnection = janggiConnection;
     }
 
-    public TeamEntity findByid(long teamId) {
-        final var query = "SELECT * FROM team WHERE id = ?";
-
+    private <T> T executeQuery(String sql, StatementSetter setter, ResultSetExtractor<T> extractor) {
         try (final var connection = janggiConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, teamId);
+             final var preparedStatement = connection.prepareStatement(sql)) {
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            setter.setValues(preparedStatement);
 
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
-
-                return new TeamEntity(id, name);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                return extractor.extractData(rs);
             }
 
-        } catch (final SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
-        return null;
+    public TeamEntity findById(long teamId) {
+        final var query = "SELECT * FROM team WHERE id = ?";
+
+        return executeQuery(
+                query,
+                preparedStatement -> preparedStatement.setLong(1, teamId),
+                resultSet -> {
+                    if (resultSet.next()) {
+                        return new TeamEntity(resultSet.getLong("id"), resultSet.getString("name"));
+                    }
+                    return null;
+                }
+        );
     }
 
     public TeamEntity findByName(String comparedNamed) {
         final var query = "SELECT * FROM team WHERE name = ?";
 
-        try (final var connection = janggiConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, comparedNamed);
+        return executeQuery(
+                query,
+                preparedStatement -> preparedStatement.setString(1, comparedNamed),
+                resultSet -> {
+                    if (resultSet.next()) {
+                        long id = resultSet.getLong("id");
+                        String name = resultSet.getString("name");
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
-
-                return new TeamEntity(id, name);
-            }
-
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return null;
+                        return new TeamEntity(id, name);
+                    }
+                    throw new JanggiArgumentException("해당 이름을 갖는 팀이 존재하지 않습니다.");
+                });
     }
 }
