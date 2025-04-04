@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnector {
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
+    private static final String SERVER = "localhost:23306"; // MySQL 서버 주소
     private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
