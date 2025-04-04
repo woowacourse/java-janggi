@@ -23,9 +23,8 @@ public final class Point {
             throw new IllegalArgumentException("잘못된 좌표 입력입니다.");
         }
         try {
-            String[] coordinates = value.split("", -1);
-            this.x = Integer.parseInt(coordinates[X_COORDINATE_INDEX].trim());
-            this.y = Integer.parseInt(coordinates[Y_COORDINATE_INDEX].trim());
+            this.x = Integer.parseInt(String.valueOf(value.charAt(X_COORDINATE_INDEX)));
+            this.y = Integer.parseInt(String.valueOf(value.charAt(Y_COORDINATE_INDEX)));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력 가능합니다.");
         }
