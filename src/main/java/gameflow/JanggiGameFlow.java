@@ -57,7 +57,11 @@ public class JanggiGameFlow {
     public void play(String roomId) {
         Janggi janggi = janggiService.loadJanggiGame(roomId);
         while (isPlaying(janggi)) {
-            janggi = processTurn(roomId);
+            try {
+                janggi = processTurn(roomId);
+            } catch (IllegalArgumentException e) {
+                System.out.println("[ERROR] " + e.getMessage());
+            }
         }
     }
 
@@ -84,15 +88,14 @@ public class JanggiGameFlow {
         outputView.printAvailableRoute(position, routes);
 
         Position destination = parsePosition(inputView.readDestinationPosition(janggi.getTurn()));
-        if (routes.hasRouteTo(position, destination)) {
-            janggi.doTurn(position, destination);
-            janggiService.movePiece(roomId, position, destination);
-        }
+        janggi.doTurn(position, destination);
+        janggiService.movePiece(roomId, position, destination);
     }
 
     public void endGame(String roomId) {
         Janggi janggi = janggiService.loadJanggiGame(roomId);
         Team winner = janggi.getWinner();
+        janggiService.endGame(roomId, winner);
         double han = janggi.getScoreOf(Team.HAN);
         double cho = janggi.getScoreOf(Team.CHO);
         outputView.printWinner(winner, cho, han);

@@ -31,13 +31,13 @@ public record Piece(Long pieceId, int positionX, int positionY, UnitType unitTyp
         return pieces;
     }
 
-    public static Janggi toDomain(List<Piece> pieces) {
+    public static Janggi toDomain(Room room, List<Piece> pieces) {
         Map<Position, Unit> units = new HashMap<>();
         for (Piece piece : pieces) {
             Position position = Position.of(piece.positionX(), piece.positionY());
             Unit unit = piece.unitType.createUnit(piece.team);
             units.put(position, unit);
         }
-        return Janggi.of(Units.of(units));
+        return Janggi.of(Units.of(units), room.turn());
     }
 }

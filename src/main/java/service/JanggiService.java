@@ -33,7 +33,8 @@ public class JanggiService {
 
     public Janggi loadJanggiGame(String roomId) {
         List<Piece> boardsByRoomId = pieceDao.findBoardsByRoomId(roomId);
-        return Piece.toDomain(boardsByRoomId);
+        Room room = roomDao.findRoomById(roomId);
+        return Piece.toDomain(room, boardsByRoomId);
     }
 
     public void movePiece(String roomId, Position before, Position after) {

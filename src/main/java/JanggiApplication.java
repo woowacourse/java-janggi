@@ -17,8 +17,12 @@ public class JanggiApplication {
 
         final JanggiGameFlow janggiGameFlow = new JanggiGameFlow(janggiService, inputView, outputView);
 
-        String roomId = janggiGameFlow.selectGameRoom();
-        janggiGameFlow.play(roomId);
-        janggiGameFlow.endGame(roomId);
+        try {
+            String roomId = janggiGameFlow.selectGameRoom();
+            janggiGameFlow.play(roomId);
+            janggiGameFlow.endGame(roomId);
+        } catch (Exception e) {
+            System.out.println("[ERROR] " + e.getMessage());
+        }
     }
 }
