@@ -38,7 +38,7 @@ public class PieceDao {
 
     public void update(Connection connection, BoardLocation originLocation, BoardLocation updateLocation) throws SQLException {
         final var updateQuery = """
-                UPDATE piece SET x = ?, y = ? WHERE x = ? AND y = ?;
+                UPDATE piece SET column_index = ?, row_index = ? WHERE column_index = ? AND row_index = ?;
                 """;
         try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
             preparedStatement.setInt(1, updateLocation.column());
