@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class ContinuousPiece extends Moved {
+    @Override
     public List<Pattern> findMovablePath(Path path, JanggiPosition beforePosition, JanggiPosition afterPosition) {
         if (afterPosition.isSameFileWith(beforePosition)) {
             return setNewPathAndGetAdditionalSizeAboutLeftOrRight(path, beforePosition, afterPosition);

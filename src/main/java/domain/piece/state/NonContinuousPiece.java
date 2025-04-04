@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public abstract class NonContinuousPiece extends Moved {
+    @Override
     public List<Pattern> findMovablePath(Path path, JanggiPosition beforePosition, JanggiPosition afterPosition) {
         return path.getPaths().entrySet().stream()
                 .filter(entry -> canReachTargetPosition(beforePosition, afterPosition, entry))
