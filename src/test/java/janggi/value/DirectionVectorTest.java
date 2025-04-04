@@ -1,6 +1,6 @@
 package janggi.value;
 
-import janggi.piece.direction.DirectionVector;
+import janggi.domain.piece.direction.DirectionVector;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

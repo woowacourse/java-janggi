@@ -1,17 +1,17 @@
 package janggi;
 
-import janggi.board.dao.JanggiBoardDAO;
-import janggi.board.dao.JanggiBoardDAOImpl;
-import janggi.board.dao.TeamDAO;
-import janggi.board.dao.TeamDAOImpl;
-import janggi.board.dao.TurnDAO;
-import janggi.board.dao.TurnDAOImpl;
+import janggi.domain.board.dao.JanggiBoardDAO;
+import janggi.domain.board.dao.JanggiBoardDAOImpl;
+import janggi.domain.board.dao.TeamDAO;
+import janggi.domain.board.dao.TeamDAOImpl;
+import janggi.domain.board.dao.TurnDAO;
+import janggi.domain.board.dao.TurnDAOImpl;
 import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnector;
 import janggi.database.DBInitializer;
 import janggi.database.MySQLDBConnector;
-import janggi.manager.JanggiGame;
-import janggi.service.JanggiGameService;
+import janggi.domain.manager.JanggiGame;
+import janggi.domain.service.JanggiGameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

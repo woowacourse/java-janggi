@@ -2,6 +2,8 @@ package janggi.board.dao;
 
 import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnectorTest;
+import janggi.domain.board.dao.TeamDAO;
+import janggi.domain.board.dao.TeamDAOImpl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,10 +1,10 @@
 package janggi.service.fake;
 
-import janggi.board.JanggiBoard;
-import janggi.board.dao.JanggiBoardDAO;
-import janggi.piece.Piece;
-import janggi.piece.Pieces;
-import janggi.value.JanggiPosition;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.dao.JanggiBoardDAO;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Pieces;
+import janggi.domain.value.JanggiPosition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

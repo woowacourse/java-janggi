@@ -3,7 +3,17 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.value.JanggiPosition;
+import janggi.domain.piece.Cha;
+import janggi.domain.piece.Gung;
+import janggi.domain.piece.Jol;
+import janggi.domain.piece.Ma;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Po;
+import janggi.domain.piece.Sa;
+import janggi.domain.piece.Sang;
+import janggi.domain.value.JanggiPosition;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

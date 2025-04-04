@@ -1,8 +1,8 @@
 package janggi.view;
 
-import janggi.setting.AssignType;
-import janggi.setting.CampType;
-import janggi.value.JanggiPosition;
+import janggi.domain.setting.AssignType;
+import janggi.domain.setting.CampType;
+import janggi.domain.value.JanggiPosition;
 import java.util.List;
 import java.util.Scanner;
 

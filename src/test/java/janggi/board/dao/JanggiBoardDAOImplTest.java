@@ -1,11 +1,15 @@
 package janggi.board.dao;
 
-import janggi.board.JanggiBoard;
+import janggi.domain.board.JanggiBoard;
 import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnectorTest;
-import janggi.piece.Piece;
-import janggi.setting.AssignType;
-import janggi.value.JanggiPosition;
+import janggi.domain.board.dao.JanggiBoardDAO;
+import janggi.domain.board.dao.JanggiBoardDAOImpl;
+import janggi.domain.board.dao.TeamDAO;
+import janggi.domain.board.dao.TeamDAOImpl;
+import janggi.domain.piece.Piece;
+import janggi.domain.setting.AssignType;
+import janggi.domain.value.JanggiPosition;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;

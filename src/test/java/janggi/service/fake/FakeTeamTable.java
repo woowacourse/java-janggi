@@ -1,7 +1,7 @@
 package janggi.service.fake;
 
-import janggi.board.dao.TeamDAO;
-import janggi.setting.CampType;
+import janggi.domain.board.dao.TeamDAO;
+import janggi.domain.setting.CampType;
 import java.util.HashMap;
 import java.util.Map;
 

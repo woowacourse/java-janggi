@@ -2,7 +2,9 @@ package janggi.board.dao;
 
 import janggi.database.utils.DatabaseUtils;
 import janggi.database.DBConnectorTest;
-import janggi.setting.CampType;
+import janggi.domain.board.dao.TurnDAO;
+import janggi.domain.board.dao.TurnDAOImpl;
+import janggi.domain.setting.CampType;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import org.assertj.core.api.Assertions;

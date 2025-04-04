@@ -3,8 +3,9 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.setting.CampType;
-import janggi.value.JanggiPosition;
+import janggi.domain.piece.Jol;
+import janggi.domain.piece.Pieces;
+import janggi.domain.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;

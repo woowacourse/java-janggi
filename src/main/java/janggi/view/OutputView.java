@@ -1,10 +1,9 @@
 package janggi.view;
 
-import janggi.piece.Piece;
-import janggi.setting.CampType;
-import janggi.value.JanggiPosition;
+import janggi.domain.piece.Piece;
+import janggi.domain.setting.CampType;
+import janggi.domain.value.JanggiPosition;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class OutputView {

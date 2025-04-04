@@ -2,13 +2,13 @@ package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.board.JanggiBoard;
+import janggi.domain.board.JanggiBoard;
 import janggi.fixture.PiecePositionFixture;
-import janggi.piece.Piece;
-import janggi.piece.PieceType;
-import janggi.setting.AssignType;
-import janggi.setting.CampType;
-import janggi.value.JanggiPosition;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.setting.AssignType;
+import janggi.domain.setting.CampType;
+import janggi.domain.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;

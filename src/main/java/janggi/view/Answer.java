@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.setting.AssignType;
+import janggi.domain.setting.AssignType;
 import java.util.Arrays;
 
 public enum Answer {
