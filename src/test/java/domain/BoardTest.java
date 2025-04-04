@@ -22,7 +22,7 @@ class BoardTest {
 
     @Test
     @DisplayName("보드판에는 궁 2개, 차 4개, 포 4개, 마 4개, 상 4개, 사 4개, 졸 10개를 갖는다")
-    void test() {
+    void createBoard() {
         // given & when
         BoardLocation hanHorseBoardLocation1 = new BoardLocation(2, 1);
         BoardLocation hanHorseBoardLocation2 = new BoardLocation(8, 1);
@@ -55,7 +55,7 @@ class BoardTest {
 
     @Test
     @DisplayName("보드내 위치로 기물을 찾을 수 있다")
-    void test1() {
+    void getByLocationOrThrow() {
         //given
         Board board = BoardFixture.createBoard();
         BoardLocation boardLocation = new BoardLocation(1, 1);
@@ -72,7 +72,7 @@ class BoardTest {
 
     @DisplayName("기물이 이동할 경우, 현재 위치는 제거하고 목표 위치를 추가한다")
     @Test
-    void test5() {
+    void occupy() {
         // given
         Board board = BoardFixture.createBoard();
         BoardLocation current = new BoardLocation(1, 1);
@@ -89,7 +89,7 @@ class BoardTest {
 
     @DisplayName("해당 경로 내에 위치하고 있는 모든 기물을 반환한다")
     @Test
-    void test6() {
+    void extractPathPiece() {
         // given
         Board board = BoardFixture.createBoard();
         BoardLocation boardLocation1 = new BoardLocation(1, 1);
@@ -112,7 +112,7 @@ class BoardTest {
 
     @DisplayName("입력된 팀 기물들의 총 점수를 반환한다")
     @Test
-    void test7() {
+    void calculateScoreByTeam() {
         // given
         Team team = HAN;
         Map<BoardLocation, Piece> pieces = Map.of(
@@ -132,7 +132,7 @@ class BoardTest {
 
     @DisplayName("게임이 종료의 기준이 되는 기물의 개수는 2개라면 false를 반환한다")
     @Test
-    void test8() {
+    void isGameStopped1() {
         //given
         Map<BoardLocation, Piece> pieces = Map.of(
                 new BoardLocation(1, 1), new King(HAN, new Score(13)),
@@ -151,7 +151,7 @@ class BoardTest {
 
     @DisplayName("게임이 종료의 기준이 되는 기물의 개수는 2개아니라면 true를 반환한다")
     @Test
-    void test9() {
+    void isGameStopped2() {
         //given
         Map<BoardLocation, Piece> pieces = Map.of(
                 new BoardLocation(1, 1), new King(HAN, new Score(13)),

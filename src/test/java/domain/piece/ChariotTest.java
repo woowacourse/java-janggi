@@ -17,7 +17,7 @@ class ChariotTest {
 
     @DisplayName("차(車)는 현재 위치에서 한 방향으로 목적지에 도착할 수 있다면 예외를 발생시키지 않는다")
     @Test
-    void test() {
+    void validateArrival1() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(1, 2);
@@ -31,7 +31,7 @@ class ChariotTest {
 
     @DisplayName("차(車)는 현재 위치에서 한 방향으로 목적지에 도착할 수 없다면 예외를 발생시킨다")
     @Test
-    void test2() {
+    void validateArrival2() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(2, 2);
@@ -45,7 +45,7 @@ class ChariotTest {
 
     @DisplayName("차 현재 위치에서 목표 좌표까지 이동하는 모든 경로를 반환한다")
     @Test
-    void test3() {
+    void extractIntermediatePath1() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(4, 1);
@@ -59,7 +59,7 @@ class ChariotTest {
 
     @DisplayName("이동 경로에 기물이 있다면 예외를 발생시킨다")
     @Test
-    void test4() {
+    void validateMovePath1() {
         // given
         List<Piece> pathPiece = List.of(new Pawn(HAN));
         Piece piece = new Chariot(HAN);
@@ -72,7 +72,7 @@ class ChariotTest {
 
     @DisplayName("이동 경로에 기물이 없으면 예외를 발생시키지 않는다")
     @Test
-    void test5() {
+    void validateMovePath2() {
         // given
         List<Piece> pathPiece = List.of();
         Piece piece = new Chariot(HAN);
@@ -85,7 +85,7 @@ class ChariotTest {
 
     @DisplayName("목표 위치에 아군 기물이 있다면 예외를 발생시킨다")
     @Test
-    void test11() {
+    void validateKillable1() {
         // given
         Piece destination = new Pawn(HAN);
         Piece start = new Chariot(HAN);
@@ -98,7 +98,7 @@ class ChariotTest {
 
     @DisplayName("목표 위치에 적군 기물이 있다면 예외를 발생시키지 않는다")
     @Test
-    void test12() {
+    void validateKillable2() {
         // given
         Piece destination = new Pawn(CHO);
         Piece start = new Chariot(HAN);
@@ -111,7 +111,7 @@ class ChariotTest {
 
     @DisplayName("궁성 좌표라면 궁성 대각선으로 이동 가능")
     @Test
-    void test13() {
+    void validateKillable3() {
         // give n
         BoardLocation current = new BoardLocation(4, 3);
         BoardLocation destination = new BoardLocation(6, 1);
@@ -124,7 +124,7 @@ class ChariotTest {
 
     @DisplayName("한나라 궁성에서 (4,3) 좌표에서 (6,1) 좌표 대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
     @Test
-    void test14() {
+    void extractIntermediatePath2() {
         // give n
         BoardLocation current = new BoardLocation(4, 3);
         BoardLocation destination = new BoardLocation(6, 1);
@@ -137,7 +137,7 @@ class ChariotTest {
 
     @DisplayName("한나라 궁성에서 (6,3) 좌표에서 (4,1) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
     @Test
-    void test15() {
+    void extractIntermediatePath3() {
         // give n
         BoardLocation current = new BoardLocation(6, 3);
         BoardLocation destination = new BoardLocation(4, 1);
@@ -150,7 +150,7 @@ class ChariotTest {
 
     @DisplayName("한나라 궁성에서 (4,1) 좌표에서 (6,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
     @Test
-    void test16() {
+    void extractIntermediatePath4() {
         // give n
         BoardLocation current = new BoardLocation(4, 1);
         BoardLocation destination = new BoardLocation(6, 3);
@@ -163,7 +163,7 @@ class ChariotTest {
 
     @DisplayName("한나라 궁성에서 (6,1) 좌표에서 (4,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
     @Test
-    void test17() {
+    void extractIntermediatePath5() {
         // give n
         BoardLocation current = new BoardLocation(6, 1);
         BoardLocation destination = new BoardLocation(4, 3);

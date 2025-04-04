@@ -18,7 +18,7 @@ class BoardLocationTest {
             "10,9",
             "10,10"
     })
-    void test(int x, int y) {
+    void validateRange(int x, int y) {
         // given when & then
         assertThatThrownBy(() ->{
             new BoardLocation(x, y);
