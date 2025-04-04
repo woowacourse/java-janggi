@@ -24,6 +24,8 @@ public class Application {
     private static final JanggiGame janggiGame = JanggiGame.initPiecesFrom(pieceDao.getAllPieces(), gameDao.getTurn());
 
     public static void main(String[] args) {
+        pieceDao.addPieces(janggiGame.getPieces());
+        gameDao.addTurn(janggiGame.getCurrentTurn());
         janggiPiecesView.printJanggiStart();
         while (true) {
             janggiPiecesView.showCurrentPositionOfPieces(janggiGame.getPieces());
