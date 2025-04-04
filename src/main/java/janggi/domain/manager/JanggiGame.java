@@ -1,6 +1,13 @@
 package janggi.domain.manager;
 
+import janggi.database.utils.DatabaseUtils;
 import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.dao.JanggiBoardDAO;
+import janggi.domain.board.dao.JanggiBoardDAOImpl;
+import janggi.domain.board.dao.TeamDAO;
+import janggi.domain.board.dao.TeamDAOImpl;
+import janggi.domain.board.dao.TurnDAO;
+import janggi.domain.board.dao.TurnDAOImpl;
 import janggi.domain.service.JanggiGameService;
 import janggi.domain.setting.AssignType;
 import janggi.domain.setting.CampType;
@@ -13,10 +20,13 @@ public class JanggiGame {
     private final OutputView outputView;
     private final JanggiGameService janggiGameService;
 
-    public JanggiGame(final InputView inputView, final OutputView outputView, final JanggiGameService janggiGameService) {
+    public JanggiGame(final InputView inputView, final OutputView outputView, final DatabaseUtils databaseUtils) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiGameService = janggiGameService;
+        final JanggiBoardDAO janggiBoardDAO = new JanggiBoardDAOImpl(databaseUtils);
+        final TurnDAO turnDAO = new TurnDAOImpl(databaseUtils);
+        final TeamDAO teamDAO = new TeamDAOImpl(databaseUtils);
+        this.janggiGameService = new JanggiGameService(janggiBoardDAO, turnDAO, teamDAO);
     }
 
     public void start() {
