@@ -12,8 +12,8 @@ public class ExistHurdlePositionsGenerator implements ChessPiecePositionsGenerat
     @Override
     public List<ChessPiece> generate() {
         return List.of(
-                new Pawn(new ChessPosition(3, 4), ChessTeam.RED),
-                new Pawn(new ChessPosition(5, 2), ChessTeam.BLUE)
+                new Pawn(ChessTeam.RED, new ChessPosition(3, 4)),
+                new Pawn(ChessTeam.BLUE, new ChessPosition(5, 2))
         );
     }
 }

@@ -33,22 +33,22 @@ public class Pawn extends LimitedMoveChessPiece {
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
 
-    public Pawn(final ChessPosition position, final ChessTeam team) {
+    public Pawn(final ChessTeam team, final ChessPosition position) {
         super(position, team, DIRECTIONS.get(team));
     }
 
     public static List<ChessPiece> initPieces() {
         return List.of(
-                new Pawn(new ChessPosition(3, 0), ChessTeam.RED),
-                new Pawn(new ChessPosition(3, 2), ChessTeam.RED),
-                new Pawn(new ChessPosition(3, 4), ChessTeam.RED),
-                new Pawn(new ChessPosition(3, 6), ChessTeam.RED),
-                new Pawn(new ChessPosition(3, 8), ChessTeam.RED),
-                new Pawn(new ChessPosition(6, 0), ChessTeam.BLUE),
-                new Pawn(new ChessPosition(6, 2), ChessTeam.BLUE),
-                new Pawn(new ChessPosition(6, 4), ChessTeam.BLUE),
-                new Pawn(new ChessPosition(6, 6), ChessTeam.BLUE),
-                new Pawn(new ChessPosition(6, 8), ChessTeam.BLUE)
+                new Pawn(ChessTeam.RED, new ChessPosition(3, 0)),
+                new Pawn(ChessTeam.RED, new ChessPosition(3, 2)),
+                new Pawn(ChessTeam.RED, new ChessPosition(3, 4)),
+                new Pawn(ChessTeam.RED, new ChessPosition(3, 6)),
+                new Pawn(ChessTeam.RED, new ChessPosition(3, 8)),
+                new Pawn(ChessTeam.BLUE, new ChessPosition(6, 0)),
+                new Pawn(ChessTeam.BLUE, new ChessPosition(6, 2)),
+                new Pawn(ChessTeam.BLUE, new ChessPosition(6, 4)),
+                new Pawn(ChessTeam.BLUE, new ChessPosition(6, 6)),
+                new Pawn(ChessTeam.BLUE, new ChessPosition(6, 8))
         );
     }
 
@@ -64,7 +64,7 @@ public class Pawn extends LimitedMoveChessPiece {
 
     @Override
     public ChessPiece from(final ChessPosition position) {
-        return new Pawn(position, getTeam());
+        return new Pawn(getTeam(), position);
     }
 
     @Override

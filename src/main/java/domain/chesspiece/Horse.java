@@ -24,16 +24,16 @@ public class Horse extends LimitedMoveChessPiece {
 
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public Horse(final ChessPosition position, final ChessTeam team) {
+    public Horse(final ChessTeam team, final ChessPosition position) {
         super(position, team, DIRECTIONS);
     }
 
     public static List<ChessPiece> initPieces() {
         return List.of(
-                new Horse(new ChessPosition(0, 1), ChessTeam.RED),
-                new Horse(new ChessPosition(0, 7), ChessTeam.RED),
-                new Horse(new ChessPosition(9, 1),ChessTeam.BLUE),
-                new Horse(new ChessPosition(9, 7), ChessTeam.BLUE)
+                new Horse(ChessTeam.RED, new ChessPosition(0, 1)),
+                new Horse(ChessTeam.RED, new ChessPosition(0, 7)),
+                new Horse(ChessTeam.BLUE, new ChessPosition(9, 1)),
+                new Horse(ChessTeam.BLUE, new ChessPosition(9, 7))
         );
     }
 
@@ -49,7 +49,7 @@ public class Horse extends LimitedMoveChessPiece {
 
     @Override
     public ChessPiece from(final ChessPosition position) {
-        return new Horse(position, getTeam());
+        return new Horse(getTeam(), position);
     }
 
     @Override

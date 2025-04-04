@@ -28,7 +28,7 @@ class GuardTest {
         );
 
         //when
-        final Guard guard = new Guard(chessPosition, ChessTeam.RED);
+        final Guard guard = new Guard(ChessTeam.RED, chessPosition);
         final List<Path> coordinatePaths = guard.calculateCoordinatePaths(chessPosition);
 
         //then
@@ -48,7 +48,7 @@ class GuardTest {
         );
 
         //when
-        final Guard guard = new Guard(chessPosition, ChessTeam.RED);
+        final Guard guard = new Guard(ChessTeam.RED, chessPosition);
         final List<Path> coordinatePaths = guard.calculateCoordinatePaths(chessPosition);
 
         //then

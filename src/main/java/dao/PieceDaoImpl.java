@@ -10,6 +10,7 @@ import domain.chesspiece.Horse;
 import domain.chesspiece.King;
 import domain.chesspiece.Pawn;
 import domain.position.ChessPosition;
+import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -76,32 +77,9 @@ public class PieceDaoImpl implements PieceDao {
                 resultSet.getInt("x_axis")
         );
         ChessTeam team = ChessTeam.valueOf(resultSet.getString("team"));
-
         String pieceType = resultSet.getString("piece_type");
+        return ChessPieceType.parseToChess(pieceType, team, position);
 
-        if ("CANNON".equals(pieceType)) {
-            return new Cannon(team, position);
-        }
-        if ("ELEPHANT".equals(pieceType)) {
-            return new Elephant(position, team);
-        }
-        if ("GUARD".equals(pieceType)) {
-            return new Guard(position, team);
-        }
-        if ("HORSE".equals(pieceType)) {
-            return new Horse(position, team);
-        }
-        if ("KING".equals(pieceType)) {
-            return new King(position, team);
-        }
-        if ("PAWN".equals(pieceType)) {
-            return new Pawn(position, team);
-        }
-        if ("CHARIOT".equals(pieceType)) {
-            return new Chariot(team, position);
-        }
-
-        throw new IllegalArgumentException("유효하지 않은 타입입니다.");
     }
 
 }

@@ -18,8 +18,8 @@ class CannonHurdlePolicyTest {
     void test1() {
         //given
         final ChessPiecePositions chessPiecePositions = new ChessPiecePositions(
-                List.of(new Pawn(new ChessPosition(4, 5), ChessTeam.BLUE),
-                        new Pawn(new ChessPosition(4, 6), ChessTeam.RED)));
+                List.of(new Pawn(ChessTeam.BLUE, new ChessPosition(4, 5)),
+                        new Pawn(ChessTeam.RED, new ChessPosition(4, 6))));
         final List<Path> paths = List.of(
                 new Path(List.of(new ChessPosition(4,5), new ChessPosition(4,6), new ChessPosition(4,7)))
         );

@@ -23,21 +23,21 @@ public class Elephant extends LimitedMoveChessPiece {
     );
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public Elephant(final ChessPosition position, final ChessTeam team) {
+    public Elephant(final ChessTeam team, final ChessPosition position) {
         super(position, team, DIRECTIONS);
     }
 
     @Override
     public ChessPiece from(final ChessPosition position) {
-        return new Elephant(position, getTeam());
+        return new Elephant(getTeam(), position);
     }
 
     public static List<ChessPiece> initPieces() {
         return List.of(
-                new Elephant(new ChessPosition(0, 2), ChessTeam.RED),
-                new Elephant(new ChessPosition(0, 6), ChessTeam.RED),
-                new Elephant(new ChessPosition(9, 2),ChessTeam.BLUE),
-                new Elephant(new ChessPosition(9, 6),ChessTeam.BLUE)
+                new Elephant(ChessTeam.RED, new ChessPosition(0, 2)),
+                new Elephant(ChessTeam.RED, new ChessPosition(0, 6)),
+                new Elephant(ChessTeam.BLUE, new ChessPosition(9, 2)),
+                new Elephant(ChessTeam.BLUE, new ChessPosition(9, 6))
         );
     }
 

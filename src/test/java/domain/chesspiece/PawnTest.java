@@ -21,7 +21,7 @@ public class PawnTest {
         ));
 
         //when
-        final Pawn pawn = new Pawn(chessPosition, ChessTeam.BLUE);
+        final Pawn pawn = new Pawn(ChessTeam.BLUE, chessPosition);
         final List<Path> coordinatePaths = pawn.calculateCoordinatePaths(chessPosition);
 
         //then

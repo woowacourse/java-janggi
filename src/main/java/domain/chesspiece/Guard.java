@@ -24,16 +24,16 @@ public class Guard extends LimitedMoveChessPiece {
 
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public Guard(final ChessPosition position, final ChessTeam team) {
+    public Guard(final ChessTeam team, final ChessPosition position) {
         super(position, team, DIRECTIONS);
     }
 
     public static List<Guard> initPieces() {
         return List.of(
-                new Guard(new ChessPosition(0,3), ChessTeam.RED),
-                new Guard(new ChessPosition(0,5), ChessTeam.RED),
-                new Guard(new ChessPosition(9,3), ChessTeam.BLUE),
-                new Guard(new ChessPosition(9,5), ChessTeam.BLUE)
+                new Guard(ChessTeam.RED, new ChessPosition(0,3)),
+                new Guard(ChessTeam.RED, new ChessPosition(0,5)),
+                new Guard(ChessTeam.BLUE, new ChessPosition(9,3)),
+                new Guard(ChessTeam.BLUE, new ChessPosition(9,5))
         );
     }
 
@@ -55,6 +55,6 @@ public class Guard extends LimitedMoveChessPiece {
 
     @Override
     public ChessPiece from(final ChessPosition position) {
-        return new Guard(position, getTeam());
+        return new Guard(getTeam(), position);
     }
 }

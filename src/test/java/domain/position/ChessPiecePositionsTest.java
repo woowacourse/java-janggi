@@ -18,10 +18,10 @@ class ChessPiecePositionsTest {
     void test1() {
         //given
         final ChessPosition enemyPosition = new ChessPosition(4, 4);
-        final Pawn enemy = new Pawn(enemyPosition, ChessTeam.RED);
+        final Pawn enemy = new Pawn(ChessTeam.RED, enemyPosition);
         final ChessPosition position = new ChessPosition(4, 5);
-        final Pawn pawn = new Pawn(position, ChessTeam.BLUE);
-        final Pawn expectedPawn = new Pawn(enemyPosition, ChessTeam.BLUE);
+        final Pawn pawn = new Pawn(ChessTeam.BLUE, position);
+        final Pawn expectedPawn = new Pawn(ChessTeam.BLUE, enemyPosition);
 
         //when
         final ChessPiecePositions chessPiecePositions = new ChessPiecePositions(List.of(enemy, pawn));

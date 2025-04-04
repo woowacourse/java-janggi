@@ -23,7 +23,7 @@ public abstract class JanggiChessPiece implements ChessPiece {
 
     @Override
     public final Score getScore() {
-        return getChessPieceType().score;
+        return getChessPieceType().getScore();
     }
 
     @Override

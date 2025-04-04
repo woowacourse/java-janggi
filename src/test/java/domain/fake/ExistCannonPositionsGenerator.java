@@ -14,9 +14,9 @@ public class ExistCannonPositionsGenerator implements ChessPiecePositionsGenerat
     public List<ChessPiece> generate() {
         return List.of(
                 new Cannon(ChessTeam.RED,new ChessPosition(6, 4)),
-                new Pawn(new ChessPosition(2, 4), ChessTeam.RED),
-                new Pawn(new ChessPosition(7,5), ChessTeam.RED),
-                new Pawn(new ChessPosition(1, 4), ChessTeam.RED)
+                new Pawn(ChessTeam.RED, new ChessPosition(2, 4)),
+                new Pawn(ChessTeam.RED, new ChessPosition(7,5)),
+                new Pawn(ChessTeam.RED, new ChessPosition(1, 4))
         );
     }
 }

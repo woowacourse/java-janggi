@@ -22,7 +22,7 @@ class HorseTest {
         ));
 
         //when
-        final Horse horse = new Horse(chessPosition, ChessTeam.RED);
+        final Horse horse = new Horse(ChessTeam.RED, chessPosition);
         final List<Path> coordinatePaths = horse.calculateCoordinatePaths(chessPosition);
 
         //then

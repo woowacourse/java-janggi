@@ -21,7 +21,7 @@ public class BoardTest {
         final ChessPosition chessPosition = new ChessPosition(2, 3);
         final ChessPiecePositions piecePositions = ChessPiecePositions.from(
                 new EmptyChessPiecePositionsGenerator());
-        final Pawn pawn = new Pawn(chessPosition, ChessTeam.BLUE);
+        final Pawn pawn = new Pawn(ChessTeam.BLUE, chessPosition);
         final List<ChessPosition> expectDestinations = List.of(
                 new ChessPosition(1,3),
                 new ChessPosition(1,4),

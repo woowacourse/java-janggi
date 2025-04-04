@@ -24,14 +24,14 @@ public class King extends LimitedMoveChessPiece{
 
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public King(final ChessPosition position, final ChessTeam team) {
+    public King(final ChessTeam team, final ChessPosition position) {
         super(position, team, DIRECTIONS);
     }
 
     public static List<King> initPieces() {
         return List.of(
-                new King(new ChessPosition(1,4 ), ChessTeam.RED),
-                new King(new ChessPosition(8,4 ), ChessTeam.BLUE)
+                new King(ChessTeam.RED, new ChessPosition(1,4 )),
+                new King(ChessTeam.BLUE, new ChessPosition(8,4 ))
         );
     }
 
@@ -53,6 +53,6 @@ public class King extends LimitedMoveChessPiece{
 
     @Override
     public ChessPiece from(final ChessPosition position) {
-        return new King(position, getTeam());
+        return new King(getTeam(), position);
     }
 }

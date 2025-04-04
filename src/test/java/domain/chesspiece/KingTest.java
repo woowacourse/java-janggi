@@ -28,7 +28,7 @@ class KingTest {
         );
 
         //when
-        final King king = new King(chessPosition, ChessTeam.RED);
+        final King king = new King(ChessTeam.RED, chessPosition);
         final List<Path> coordinatePaths = king.calculateCoordinatePaths(chessPosition);
 
         //then
@@ -48,7 +48,7 @@ class KingTest {
         );
 
         //when
-        final King king = new King(chessPosition, ChessTeam.RED);
+        final King king = new King(ChessTeam.RED, chessPosition);
         final List<Path> coordinatePaths = king.calculateCoordinatePaths(chessPosition);
 
         //then

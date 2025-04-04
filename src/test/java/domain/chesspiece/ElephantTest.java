@@ -23,7 +23,7 @@ class ElephantTest {
         ));
 
         //when
-        final Elephant elephant = new Elephant(chessPosition, ChessTeam.RED);
+        final Elephant elephant = new Elephant(ChessTeam.RED, chessPosition);
         final List<Path> coordinatePaths = elephant.calculateCoordinatePaths(chessPosition);
 
         //then

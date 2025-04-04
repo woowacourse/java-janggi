@@ -19,8 +19,8 @@ class PieceDaoImplTest {
     void test1() {
         //given
         final List<ChessPiece> chessPieces = List.of(
-                new Pawn(new ChessPosition(1, 1), ChessTeam.RED),
-                new Pawn(new ChessPosition(0, 0), ChessTeam.RED)
+                new Pawn(ChessTeam.RED, new ChessPosition(1, 1)),
+                new Pawn(ChessTeam.RED, new ChessPosition(0, 0))
         );
 
         //when
@@ -37,8 +37,8 @@ class PieceDaoImplTest {
     void test2() {
         //given
         final List<ChessPiece> chessPieces = List.of(
-                new Pawn(new ChessPosition(1, 1), ChessTeam.RED),
-                new Pawn(new ChessPosition(0, 0), ChessTeam.RED)
+                new Pawn(ChessTeam.RED, new ChessPosition(1, 1)),
+                new Pawn(ChessTeam.RED, new ChessPosition(0, 0))
         );
 
         //when
