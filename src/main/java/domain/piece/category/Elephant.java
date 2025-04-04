@@ -3,6 +3,8 @@ package domain.piece.category;
 import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.piece.Piece;
+import domain.piece.validation.IntermediatePieceCountValidator;
+import domain.piece.validation.MoveValidation;
 import domain.spatial.Position;
 import java.util.List;
 
@@ -34,8 +36,12 @@ public class Elephant extends Piece {
     }
 
     private void validateMove(final MoveInfos moveInfos) {
-        if (moveInfos.countPiecesInIntermediatePath() != PIECES_TO_PASS) {
-            throw new IllegalArgumentException("상은 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
+        for (MoveValidation validation : validations) {
+            validation.validate(moveInfos);
         }
     }
+
+    private final List<MoveValidation> validations = List.of(
+            new IntermediatePieceCountValidator()
+    );
 }
