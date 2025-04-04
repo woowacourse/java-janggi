@@ -137,12 +137,8 @@ public class PositionDao {
         final int x = rs.getInt("x");
         final int y = rs.getInt("y");
         final Team team = Team.valueOf(rs.getString("team").toUpperCase());
-        final Position position = Position.newInstance(Point.newInstance(x, y),
-                PieceType.find(pieceType, team));
-        return position;
+        return Position.newInstance(Point.newInstance(x, y), PieceType.find(pieceType, team));
     }
-
-
 
     public void deleteAllPosition() {
         final var deletePieceSql = "DELETE FROM piece";

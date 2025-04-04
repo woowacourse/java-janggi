@@ -16,8 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class DatabaseConnectorTest {
 
-    @Mock DataSource mockDataSource;
-    @Mock Connection mockConnection;
+    @Mock
+    DataSource mockDataSource;
+    @Mock
+    Connection mockConnection;
 
     DatabaseConnector databaseConnector;
 
