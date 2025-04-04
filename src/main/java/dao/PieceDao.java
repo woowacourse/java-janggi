@@ -14,7 +14,6 @@ public final class PieceDao {
 
     public void savePieces(List<Piece> pieces) {
         for (Piece piece : pieces) {
-            System.out.println(piece);
             savePiece(piece);
         }
     }
@@ -52,8 +51,8 @@ public final class PieceDao {
         List<Piece> pieces = new ArrayList<>();
 
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 String type = rs.getString("type");
@@ -77,8 +76,8 @@ public final class PieceDao {
     public void clearPieces() {
         String sql = "DELETE FROM pieces";
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(sql);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalArgumentException("기물을 삭제하는 데에 오류가 생겼습니다.");
         }

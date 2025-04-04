@@ -33,8 +33,8 @@ public class CountryDao {
         Map<Country, LineDirection> map = new EnumMap<>(Country.class);
 
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Country country = Country.valueOf(rs.getString("country"));

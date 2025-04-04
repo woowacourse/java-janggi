@@ -42,11 +42,12 @@ public class Board {
         validate(src, country);
         Piece piece = pieces.get(src);
         piece.validateMove(src, dest,this);
-        pieces.remove(src);
         if (pieces.containsKey(dest)) {
             scoreByCountry.put(country, scoreByCountry.get(country) + pieces.get(dest).getScore());
         }
+        pieces.remove(src);
         pieces.put(dest, piece);
+        piece.setPosition(dest);
     }
 
     private void validate(Position src, Country country) {

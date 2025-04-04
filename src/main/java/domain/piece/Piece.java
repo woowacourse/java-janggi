@@ -37,4 +37,8 @@ public abstract class Piece {
     }
 
     public abstract int getScore();
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 }
