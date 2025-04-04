@@ -4,6 +4,15 @@
 
 ---
 
+## 실행 방법
+
+콘솔에서 아래 명령어 실행 시 docker-compose.yml 파일에 따라 DB 환경 설정이 진행됩니다!
+```
+docker-compose -p janggi up -d
+```
+
+---
+
 ## 기능 구현 목록
 
 ### 초기화
