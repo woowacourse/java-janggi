@@ -4,6 +4,7 @@ import janggi.piece.Piece;
 import janggi.point.Point;
 import janggi.movement.direction.Direction;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Route {
@@ -69,8 +70,8 @@ public class Route {
             return false;
         }
         Route target = (Route) o;
-        return target.route.containsAll(this.route)
-                && this.route.containsAll(target.route);
+        return new HashSet<>(target.route).containsAll(this.route)
+                && new HashSet<>(this.route).containsAll(target.route);
     }
 
     @Override
