@@ -18,7 +18,7 @@ public class Board {
         this.locatedPieces = locatedPieces;
     }
 
-    public void dropPiece(Turn turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
+    public void movePiece(Turn turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
         validateExistsPosition(startPosition);
         Piece attacker = locatedPieces.get(startPosition);
         turn.checkTurn(attacker);
