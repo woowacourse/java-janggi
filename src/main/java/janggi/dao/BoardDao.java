@@ -1,14 +1,12 @@
 package janggi.dao;
 
-import janggi.dto.BoardPieceDto;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.position.Position;
 import janggi.team.Team;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BoardDao {
@@ -20,7 +18,7 @@ public class BoardDao {
     }
 
     public void saveAllBoardPiece(Map<Position,Piece> pieces) {
-        String query = "INSERT INTO board_piece (piece_type, live_status, team, column_position, row_position) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO board_piece (piece_type, team, column_position, row_position) VALUES(?, ?, ?, ?)";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
@@ -39,15 +37,16 @@ public class BoardDao {
     }
 
     public void updateBoardPiece(Position position, Piece updatePiece) {
-        String query = "UPDATE board_piece SET piece_type = ?, team = ? WHERE column_position = ? AND row_position = ?";
+        String query = "UPDATE board_piece SET column_position = ?, row_position = ? WHERE piece_type = ? AND team = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
-            preparedStatement.setString(1, updatePiece.getPieceType().name());
-            preparedStatement.setString(2, updatePiece.getTeam().name());
+            preparedStatement.setInt(1, position.column());
+            preparedStatement.setInt(2, position.row());
 
-            preparedStatement.setInt(3, position.column());
-            preparedStatement.setInt(4, position.row());
+            preparedStatement.setString(3, updatePiece.getPieceType().name());
+            preparedStatement.setString(4, updatePiece.getTeam().name());
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -69,27 +68,42 @@ public class BoardDao {
         }
     }
 
-/*    public Map<Position, Piece> findAllBoardPiece() {
+    public Map<Position, Piece> findAllBoardPiece() {
         String query = "SELECT * FROM board_piece";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             ResultSet result = preparedStatement.executeQuery();
-            List<Piece> pieces = new ArrayList<>();
+            Map<Position, Piece> locatedPieces = new HashMap<>();
             while (result.next()) {
                 PieceType pieceType = PieceType.valueOf(result.getString("piece_type"));
                 Team team = Team.valueOf(result.getString("team"));
                 int columnPosition = result.getInt("column_position");
                 int rowPosition = result.getInt("row_position");
-                boolean liveStatus = result.getBoolean("live_status");
-                Piece piece = pieceType.createInstance(new BoardPieceDto(team, new Position(rowPosition, columnPosition), liveStatus));
-                pieces.add(piece);
+
+                Position position = new Position(rowPosition, columnPosition);
+                Piece piece = pieceType.createInstance(team);
+                locatedPieces.put(position,piece);
             }
-            return pieces;
+            return locatedPieces;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }*/
+    }
+
+
+    public void deletePieceByPosition(Position position) {
+        String query = "DELETE FROM board_piece WHERE column_position = ? AND row_position = ?";
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+             preparedStatement.setInt(1, position.column());
+             preparedStatement.setInt(2, position.row());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void deleteAll() {
         String query = "DELETE FROM board_piece";

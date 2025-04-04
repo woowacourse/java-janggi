@@ -13,7 +13,6 @@ import janggi.team.Team;
 import janggi.view.Input;
 import janggi.view.Output;
 
-import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
@@ -22,22 +21,22 @@ public class JanggiGame {
         Input input = new Input();
         Output output = new Output();
         DatabaseConnector connector = new DatabaseConnector();
+
         BoardDao boardDao = new BoardDao(connector);
         TurnDao turnDao = new TurnDao(connector);
 
         Map<Position, Piece> initialPieces;
         Turn turn;
-/*
         if (boardDao.existsBoardPiece()) {
             System.out.println("진행 중인 게임 데이터를 불러옵니다");
-//            initialPieces = boardDao.findAllBoardPiece();
+            initialPieces = boardDao.findAllBoardPiece();
             turn = new Turn(turnDao.findCurrentTurn());
-        } else {*/
+        } else {
             initialPieces = generateInitialPieces(input);
-//            boardDao.saveAllBoardPiece(initialPieces);
+            boardDao.saveAllBoardPiece(initialPieces);
             turn = new Turn();
-//            turnDao.saveTurn(turn.getTurn());
-//        }
+            turnDao.saveTurn(turn.getTurn());
+        }
 
         Board board = new Board(initialPieces);
         output.printBoard(board.getLocatedPieces());
@@ -58,7 +57,15 @@ public class JanggiGame {
             output.printTurn(turn);
             output.printScore(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
             Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
-            board.dropPiece(turn, moveableInfo.getKey(), moveableInfo.getValue(), boardDao);
+
+            Position startPosition = moveableInfo.getKey();
+            Position arrivedPosition = moveableInfo.getValue();
+
+            Piece movedPiece = board.movePiece(turn, startPosition, arrivedPosition);
+
+            boardDao.deletePieceByPosition(arrivedPosition);
+            boardDao.updateBoardPiece(arrivedPosition, movedPiece);
+
             output.printBoard(board.getLocatedPieces());
             Turn nextTurn = turn.turnOver();
             turnDao.updateTurn(turn.getTurn(), nextTurn.getTurn());

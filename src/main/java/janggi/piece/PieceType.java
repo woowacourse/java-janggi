@@ -6,13 +6,15 @@ import janggi.movement.Movement;
 import janggi.movement.UnLimitedMovement;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
+import janggi.team.Team;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiFunction;
 
 public enum PieceType {
-    CHARIOT( 13,false,
+    CHARIOT(DefaultPiece::new, 13, false,
             List.of(new UnLimitedMovement(Collections.nCopies(10, Direction.UP)),
                     new UnLimitedMovement(Collections.nCopies(10, Direction.DOWN)),
                     new UnLimitedMovement(Collections.nCopies(10, Direction.RIGHT)),
@@ -25,7 +27,7 @@ public enum PieceType {
                     new LimitedMovement(List.of(Direction.RIGHT_DOWN)),
                     new LimitedMovement(List.of(Direction.LEFT_UP)),
                     new LimitedMovement(List.of(Direction.LEFT_DOWN)))),
-    CANNON( 7,true,
+    CANNON(DefaultPiece::new, 7, true,
             List.of(new UnLimitedMovement(Collections.nCopies(10, Direction.UP)),
                     new UnLimitedMovement(Collections.nCopies(10, Direction.DOWN)),
                     new UnLimitedMovement(Collections.nCopies(10, Direction.RIGHT)),
@@ -35,7 +37,7 @@ public enum PieceType {
                     new UnLimitedMovement(Collections.nCopies(2, Direction.LEFT_UP)),
                     new UnLimitedMovement(Collections.nCopies(2, Direction.LEFT_DOWN))
             )),
-    HORSE( 5, false,List.of(
+    HORSE(DefaultPiece::new, 5, false, List.of(
             new LimitedMovement(List.of(Direction.UP, Direction.RIGHT_UP)),
             new LimitedMovement(List.of(Direction.UP, Direction.LEFT_UP)),
             new LimitedMovement(List.of(Direction.LEFT, Direction.LEFT_UP)),
@@ -45,7 +47,7 @@ public enum PieceType {
             new LimitedMovement(List.of(Direction.DOWN, Direction.RIGHT_DOWN)),
             new LimitedMovement(List.of(Direction.DOWN, Direction.LEFT_DOWN))
     ), List.of()),
-    ELEPHANT( 3, false,List.of(
+    ELEPHANT(DefaultPiece::new, 3, false, List.of(
             new LimitedMovement(List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT_UP)),
             new LimitedMovement(List.of(Direction.UP, Direction.LEFT_UP, Direction.LEFT_UP)),
             new LimitedMovement(List.of(Direction.LEFT, Direction.LEFT_UP, Direction.LEFT_UP)),
@@ -55,51 +57,45 @@ public enum PieceType {
             new LimitedMovement(List.of(Direction.DOWN, Direction.RIGHT_DOWN, Direction.RIGHT_DOWN)),
             new LimitedMovement(List.of(Direction.DOWN, Direction.LEFT_DOWN, Direction.LEFT_DOWN))
     ), List.of()),
-    GUARD( 3, false,
+    GUARD(PalacePiece::new, 3, false,
             List.of(new LimitedMovement(List.of(Direction.UP)),
-            new LimitedMovement(List.of(Direction.DOWN)),
-            new LimitedMovement(List.of(Direction.RIGHT)),
-            new LimitedMovement(List.of(Direction.LEFT))),
+                    new LimitedMovement(List.of(Direction.DOWN)),
+                    new LimitedMovement(List.of(Direction.RIGHT)),
+                    new LimitedMovement(List.of(Direction.LEFT))),
             List.of(new LimitedMovement(List.of(Direction.RIGHT_UP)),
-            new LimitedMovement(List.of(Direction.RIGHT_DOWN)),
-            new LimitedMovement(List.of(Direction.LEFT_UP)),
-            new LimitedMovement(List.of(Direction.LEFT_DOWN))
-    )),
-        SOLDIER( 2,false,
+                    new LimitedMovement(List.of(Direction.RIGHT_DOWN)),
+                    new LimitedMovement(List.of(Direction.LEFT_UP)),
+                    new LimitedMovement(List.of(Direction.LEFT_DOWN))
+            )),
+    SOLDIER(DefaultPiece::new,2, false,
             List.of(new LimitedMovement(List.of(Direction.UP)),
-            new LimitedMovement(List.of(Direction.DOWN)),
-            new LimitedMovement(List.of(Direction.RIGHT)),
-            new LimitedMovement(List.of(Direction.LEFT))),
+                    new LimitedMovement(List.of(Direction.DOWN)),
+                    new LimitedMovement(List.of(Direction.RIGHT)),
+                    new LimitedMovement(List.of(Direction.LEFT))),
             List.of(new LimitedMovement(List.of(Direction.RIGHT_UP)),
-            new LimitedMovement(List.of(Direction.LEFT_UP)),
-            new LimitedMovement(List.of(Direction.RIGHT_DOWN)),
-            new LimitedMovement(List.of(Direction.LEFT_DOWN))
-    )),
-    KING( 0, false,
+                    new LimitedMovement(List.of(Direction.LEFT_UP)),
+                    new LimitedMovement(List.of(Direction.RIGHT_DOWN)),
+                    new LimitedMovement(List.of(Direction.LEFT_DOWN))
+            )),
+    KING(PalacePiece::new,0, false,
             List.of(new LimitedMovement(List.of(Direction.UP)),
-            new LimitedMovement(List.of(Direction.DOWN)),
-            new LimitedMovement(List.of(Direction.RIGHT)),
-            new LimitedMovement(List.of(Direction.LEFT))),
+                    new LimitedMovement(List.of(Direction.DOWN)),
+                    new LimitedMovement(List.of(Direction.RIGHT)),
+                    new LimitedMovement(List.of(Direction.LEFT))),
             List.of(new LimitedMovement(List.of(Direction.RIGHT_UP)),
-            new LimitedMovement(List.of(Direction.RIGHT_DOWN)),
-            new LimitedMovement(List.of(Direction.LEFT_UP)),
-            new LimitedMovement(List.of(Direction.LEFT_DOWN)))
+                    new LimitedMovement(List.of(Direction.RIGHT_DOWN)),
+                    new LimitedMovement(List.of(Direction.LEFT_UP)),
+                    new LimitedMovement(List.of(Direction.LEFT_DOWN)))
     );
 
-//    private final Function<BoardPieceDto, Piece> instance;
+    private final BiFunction<Team, PieceType, Piece> instance;
     private final int score;
     private final boolean isJumpable;
     private final List<Movement> movements;
     private final List<Movement> palaceMovements;
-/*
-    PieceType(Function<BoardPieceDto, Piece> instance, int score, List<Movement> movements, List<Movement> palaceMovements) {
-        this.instance = instance;
-        this.score = score;
-        this.movements = movements;
-        this.palaceMovements = palaceMovements;
-    }*/
 
-    PieceType(int score, boolean isJumpable, List<Movement> movements, List<Movement> palaceMovements) {
+    PieceType(BiFunction<Team, PieceType, Piece> instance, int score, boolean isJumpable, List<Movement> movements, List<Movement> palaceMovements) {
+        this.instance = instance;
         this.score = score;
         this.isJumpable = isJumpable;
         this.movements = movements;
@@ -124,9 +120,9 @@ public enum PieceType {
         return isJumpable;
     }
 
-//    public Piece createInstance(BoardPieceDto boardPieceDto) {
-//        return instance.apply(boardPieceDto);
-//    }
+    public Piece createInstance(Team team) {
+        return instance.apply(team, this);
+    }
 
     public int getScore() {
         return score;
