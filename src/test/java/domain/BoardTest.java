@@ -57,7 +57,7 @@ class BoardTest {
     @DisplayName("보드내 위치로 기물을 찾을 수 있다")
     void test1() {
         //given
-        Board board = new Board(BoardFixture.createHanTeamBoard());
+        Board board = BoardFixture.createBoard();
         BoardLocation boardLocation = new BoardLocation(1, 1);
 
         //when
@@ -74,8 +74,7 @@ class BoardTest {
     @Test
     void test5() {
         // given
-        Map<BoardLocation, Piece> teamPiece = BoardFixture.createHanTeamBoard();
-        Board board = new Board(teamPiece);
+        Board board = BoardFixture.createBoard();
         BoardLocation current = new BoardLocation(1, 1);
         Piece currentPiece = board.getPieces().get(current);
         BoardLocation destination = new BoardLocation(1, 3);
@@ -92,13 +91,12 @@ class BoardTest {
     @Test
     void test6() {
         // given
-        Map<BoardLocation, Piece> pieces = BoardFixture.createHanTeamBoard();
+        Board board = BoardFixture.createBoard();
         BoardLocation boardLocation1 = new BoardLocation(1, 1);
         BoardLocation boardLocation2 = new BoardLocation(4, 1);
         BoardLocation boardLocation3 = new BoardLocation(4, 2);
 
         List<BoardLocation> allPath = List.of(boardLocation1, boardLocation2, boardLocation3);
-        Board board = new Board(pieces);
 
         // when
         List<Piece> pathPieces = board.extractPathPiece(allPath);
@@ -107,7 +105,7 @@ class BoardTest {
         assertSoftly(softly -> {
             softly.assertThat(pathPieces).hasSize(2);
             softly.assertThat(pathPieces).containsExactlyInAnyOrderElementsOf(
-                    List.of(pieces.get(boardLocation1), pieces.get(boardLocation2)
+                    List.of(board.getPieces().get(boardLocation1), board.getPieces().get(boardLocation2)
             ));
         });
     }

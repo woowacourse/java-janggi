@@ -3,6 +3,7 @@ package fixture;
 import static domain.piece.Team.CHO;
 import static domain.piece.Team.HAN;
 
+import domain.board.Board;
 import domain.board.BoardLocation;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardFixture {
-    public static Map<BoardLocation, Piece> createHanTeamBoard( ) {
+    public static Board createBoard( ) {
         Map<BoardLocation, Piece> pieces = new HashMap<>();
         pieces.put(new BoardLocation(1, 1), new Chariot(HAN));
         pieces.put(new BoardLocation(4, 1), new Scholar(HAN));
@@ -32,7 +33,7 @@ public class BoardFixture {
         pieces.put(new BoardLocation(5, 4), new Pawn(HAN));
         pieces.put(new BoardLocation(7, 4), new Pawn(HAN));
         pieces.put(new BoardLocation(9, 4), new Pawn(HAN));
-        return pieces;
+        return new Board(pieces);
     }
 
 
