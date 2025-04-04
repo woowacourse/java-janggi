@@ -1,5 +1,8 @@
 package domain.direction;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Direction {
     UP(-1, 0),
     DOWN(1, 0),
@@ -21,5 +24,9 @@ public enum Direction {
 
     public boolean isDiagonal() {
         return this == LEFT_DOWN || this == LEFT_UP || this == RIGHT_DOWN || this == RIGHT_UP;
+    }
+
+    public static List<Direction> getAll() {
+        return Arrays.stream(Direction.values()).toList();
     }
 }

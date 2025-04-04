@@ -10,16 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Cannon extends UnlimitedMoveChessPiece {
-    private static final List<Direction> DIRECTIONS = List.of(
-            Direction.UP,
-            Direction.DOWN,
-            Direction.LEFT,
-            Direction.RIGHT,
-            Direction.LEFT_UP,
-            Direction.LEFT_DOWN,
-            Direction.RIGHT_UP,
-            Direction.RIGHT_DOWN
-    );
+    private static final List<Direction> DIRECTIONS = Direction.getAll();
     private final HurdlePolicy hurdlePolicy = new CannonHurdlePolicy();
 
     public Cannon(final ChessTeam team, final ChessPosition position) {
