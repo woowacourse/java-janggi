@@ -1,13 +1,13 @@
 package service;
 
+import dao.GameDao;
 import java.util.List;
-import repository.GameRepository;
 
 public class GameService {
 
-    private final GameRepository gameRepository;
+    private final GameDao gameRepository;
 
-    public GameService(final GameRepository gameRepository) {
+    public GameService(final GameDao gameRepository) {
         this.gameRepository = gameRepository;
     }
 

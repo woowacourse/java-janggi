@@ -1,5 +1,6 @@
-package repository;
+package dao;
 
+import dao.connect.ConnectionProvider;
 import domain.Player;
 import domain.Team;
 import domain.piece.Score;
@@ -8,13 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import repository.connect.ConnectionProvider;
 
-public class PlayerRepositoryImpl implements PlayerRepository {
+public class PlayerDaoImpl implements PlayerDao {
 
     private final ConnectionProvider connectionProvider;
 
-    public PlayerRepositoryImpl(final ConnectionProvider connectionProvider) {
+    public PlayerDaoImpl(final ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
 

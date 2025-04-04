@@ -1,5 +1,7 @@
 package service;
 
+import dao.PieceDao;
+import dao.PlayerDao;
 import domain.Board;
 import domain.Game;
 import domain.GameStatus;
@@ -8,15 +10,13 @@ import domain.piece.Pieces;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import repository.PieceRepository;
-import repository.PlayerRepository;
 
 public class GameLoadService {
 
-    private final PlayerRepository playerRepository;
-    private final PieceRepository pieceRepository;
+    private final PlayerDao playerRepository;
+    private final PieceDao pieceRepository;
 
-    public GameLoadService(final PlayerRepository playerRepository, final PieceRepository pieceRepository) {
+    public GameLoadService(final PlayerDao playerRepository, final PieceDao pieceRepository) {
         this.playerRepository = playerRepository;
         this.pieceRepository = pieceRepository;
     }

@@ -1,15 +1,15 @@
 package service;
 
+import dao.PieceDao;
 import domain.Team;
 import domain.piece.Piece;
 import domain.spatial.Position;
-import repository.PieceRepository;
 
 public class PieceService {
 
-    private final PieceRepository pieceRepository;
+    private final PieceDao pieceRepository;
 
-    public PieceService(final PieceRepository pieceRepository) {
+    public PieceService(final PieceDao pieceRepository) {
         this.pieceRepository = pieceRepository;
     }
 

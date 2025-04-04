@@ -1,17 +1,17 @@
-package repository;
+package dao;
 
+import dao.connect.ConnectionProvider;
 import domain.Game;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import repository.connect.ConnectionProvider;
 
-public class GameRepositoryImpl implements GameRepository {
+public class GameDaoImpl implements GameDao {
 
     private final ConnectionProvider connectionProvider;
 
-    public GameRepositoryImpl(final ConnectionProvider connectionProvider) {
+    public GameDaoImpl(final ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
 

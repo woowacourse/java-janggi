@@ -1,5 +1,8 @@
 package service;
 
+import dao.GameDao;
+import dao.PieceDao;
+import dao.PlayerDao;
 import domain.Board;
 import domain.Game;
 import domain.GameStatus;
@@ -12,9 +15,6 @@ import domain.strategy.SettingUpInitializer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import repository.GameRepository;
-import repository.PieceRepository;
-import repository.PlayerRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -22,15 +22,15 @@ public class GameInitializerService {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final GameRepository gameRepository;
-    private final PlayerRepository playerRepository;
-    private final PieceRepository pieceRepository;
+    private final GameDao gameRepository;
+    private final PlayerDao playerRepository;
+    private final PieceDao pieceRepository;
 
     public GameInitializerService(final OutputView outputView,
                                   final InputView inputView,
-                                  final GameRepository gameRepository,
-                                  final PlayerRepository playerRepository,
-                                  final PieceRepository pieceRepository
+                                  final GameDao gameRepository,
+                                  final PlayerDao playerRepository,
+                                  final PieceDao pieceRepository
     ) {
         this.outputView = outputView;
         this.inputView = inputView;

@@ -1,4 +1,4 @@
-package repository.connect;
+package dao.connect;
 
 import java.sql.Connection;
 

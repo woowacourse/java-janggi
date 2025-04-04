@@ -1,11 +1,11 @@
-package repository;
+package dao;
 
 import domain.Team;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.spatial.Position;
 
-public interface PieceRepository {
+public interface PieceDao {
     void saveAll(final String gameName, final Team team, final Pieces pieces);
 
     void save(final String gameName, final Team team, final Piece piece);

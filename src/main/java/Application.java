@@ -1,10 +1,10 @@
 import controller.KoreaChessController;
+import dao.GameDaoImpl;
+import dao.PieceDaoImpl;
+import dao.PlayerDaoImpl;
+import dao.connect.ConnectionProvider;
+import dao.connect.JanggiConnectionProvider;
 import java.util.Scanner;
-import repository.GameRepositoryImpl;
-import repository.PieceRepositoryImpl;
-import repository.PlayerRepositoryImpl;
-import repository.connect.ConnectionProvider;
-import repository.connect.JanggiConnectionProvider;
 import service.GameInitializerService;
 import service.GameLoadService;
 import service.GameService;
@@ -18,9 +18,9 @@ public class Application {
         InputView inputView = new InputView(new Scanner(System.in));
 
         ConnectionProvider connectionProvider = new JanggiConnectionProvider();
-        GameRepositoryImpl gameRepository = new GameRepositoryImpl(connectionProvider);
-        PlayerRepositoryImpl playerRepository = new PlayerRepositoryImpl(connectionProvider);
-        PieceRepositoryImpl pieceRepository = new PieceRepositoryImpl(connectionProvider);
+        GameDaoImpl gameRepository = new GameDaoImpl(connectionProvider);
+        PlayerDaoImpl playerRepository = new PlayerDaoImpl(connectionProvider);
+        PieceDaoImpl pieceRepository = new PieceDaoImpl(connectionProvider);
 
         try {
             KoreaChessController koreaChess = new KoreaChessController(

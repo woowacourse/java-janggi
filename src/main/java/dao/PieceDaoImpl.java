@@ -1,5 +1,6 @@
-package repository;
+package dao;
 
+import dao.connect.ConnectionProvider;
 import domain.Team;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
@@ -19,13 +20,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import repository.connect.ConnectionProvider;
 
-public class PieceRepositoryImpl implements PieceRepository {
+public class PieceDaoImpl implements PieceDao {
 
     private final ConnectionProvider connectionProvider;
 
-    public PieceRepositoryImpl(final ConnectionProvider connectionProvider) {
+    public PieceDaoImpl(final ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
 
