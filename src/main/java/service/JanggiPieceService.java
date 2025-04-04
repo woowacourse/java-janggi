@@ -66,10 +66,10 @@ public class JanggiPieceService {
     }
 
     public List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
-        JanggiChessPiece chessPiece = janggiPositions.getJanggiPieceByPosition(position);
-        List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
-        HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
-        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPositions);
+        JanggiChessPiece piece = janggiPositions.getJanggiPieceByPosition(position);
+        List<Path> coordinatePaths = piece.getCoordinatePaths(position);
+        HurdlePolicy hurdlePolicy = piece.getHurdlePolicy();
+        return hurdlePolicy.pickDestinations(piece.getTeam(), coordinatePaths, janggiPositions);
     }
 
     public JanggiChessPiece getPieceByPosition(final JanggiPosition position) {
