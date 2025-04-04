@@ -36,7 +36,7 @@ public class King extends LimitedMoveChessPiece{
     }
 
     @Override
-    protected boolean canMove(final ChessPosition position, final Directions directions) {
+    protected boolean canMoveInCastle(final ChessPosition position, final Directions directions) {
         final Direction direction = directions.getFirstDirection();
         return position.canCastleMove(direction) && position.move(direction).isInCastle();
     }

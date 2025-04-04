@@ -53,7 +53,7 @@ public class Horse extends LimitedMoveChessPiece {
     }
 
     @Override
-    protected boolean canMove(final ChessPosition position, final Directions direction) {
+    protected boolean canMoveInCastle(final ChessPosition position, final Directions direction) {
         return true;
     }
 

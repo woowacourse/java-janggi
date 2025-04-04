@@ -20,12 +20,12 @@ public abstract class LimitedMoveChessPiece extends JanggiChessPiece {
     public final List<Path> calculateCoordinatePaths(ChessPosition startPosition) {
         List<Path> result = new ArrayList<>();
         for (Directions direction : directions) {
-            if (direction.canApplyFrom(startPosition) && canMove(startPosition, direction)) {
+            if (direction.canApplyFrom(startPosition) && canMoveInCastle(startPosition, direction)) {
                 result.add(direction.getPathFrom(startPosition));
             }
         }
         return result;
     }
 
-    protected abstract boolean canMove(final ChessPosition position, final Directions directions);
+    protected abstract boolean canMoveInCastle(final ChessPosition position, final Directions directions);
 }

@@ -68,7 +68,7 @@ public class Pawn extends LimitedMoveChessPiece {
     }
 
     @Override
-    protected boolean canMove(final ChessPosition position, final Directions directions) {
+    protected boolean canMoveInCastle(final ChessPosition position, final Directions directions) {
         return position.canCastleMove(directions.getFirstDirection());
     }
 
