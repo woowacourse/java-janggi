@@ -2,6 +2,8 @@ package service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dao.JanggiDao;
+import dao.PieceDao;
 import domain.Board;
 import domain.fake.FakeJanggiDao;
 import domain.fake.FakePieceDao;
@@ -23,8 +25,8 @@ class JanngiServiceTest {
         final Turn turn = Turn.create();
         final Board board = new Board(chessPiecePositions);
         final Janggi janggi = new Janggi(board, turn);
-        final FakePieceDao fakePieceDao = new FakePieceDao();
-        final FakeJanggiDao fakeJanggiDao = new FakeJanggiDao();
+        final PieceDao fakePieceDao = new FakePieceDao();
+        final JanggiDao fakeJanggiDao = new FakeJanggiDao();
 
         //when
         final JanngiService janngiService = new JanngiService(fakePieceDao, fakeJanggiDao);
@@ -42,8 +44,8 @@ class JanngiServiceTest {
         final Turn turn = Turn.create();
         final Board board = new Board(chessPiecePositions);
         final Janggi janggi = new Janggi(board, turn);
-        final FakePieceDao fakePieceDao = new FakePieceDao();
-        final FakeJanggiDao fakeJanggiDao = new FakeJanggiDao();
+        final PieceDao fakePieceDao = new FakePieceDao();
+        final JanggiDao fakeJanggiDao = new FakeJanggiDao();
 
         //when
         final JanngiService janngiService = new JanngiService(fakePieceDao, fakeJanggiDao);
