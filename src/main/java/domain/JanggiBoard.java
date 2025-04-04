@@ -1,6 +1,5 @@
 package domain;
 
-import dao.JanggiDao;
 import domain.piece.Empty;
 import domain.piece.Piece;
 import domain.piece.Side;
@@ -12,7 +11,6 @@ public class JanggiBoard {
     private final Map<JanggiPosition, Piece> janggiBoard;
     private int choScore = 0;
     private int hanScore = 0;
-    private final JanggiDao janggiDao = new JanggiDao();
 
     public JanggiBoard(Map<JanggiPosition, Piece> janggiBoard) {
         this.janggiBoard = janggiBoard;
@@ -69,8 +67,6 @@ public class JanggiBoard {
 
         janggiBoard.put(beforePosition, new Empty());
         janggiBoard.put(afterPosition, piece);
-
-        janggiDao.updateJanggiBoard(piece, beforePosition, afterPosition);
     }
 
     public boolean isGeneralDead(Piece targetPiece) {
