@@ -6,12 +6,10 @@ import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.path.Path;
 import domain.position.JanggiPosition;
-import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Horse extends JanggiChessPiece {
     private static final List<JanggiDirections> directions = List.of(
@@ -28,15 +26,6 @@ public class Horse extends JanggiChessPiece {
 
     public Horse(final JanggiTeam team) {
         super(team);
-    }
-
-    public static Map<JanggiPosition, JanggiChessPiece> initPieces() {
-        return Map.of(
-                JanggiPositionFactory.of(0, 1), new Horse(JanggiTeam.RED),
-                JanggiPositionFactory.of(0, 7), new Horse(JanggiTeam.RED),
-                JanggiPositionFactory.of(9, 1), new Horse(JanggiTeam.BLUE),
-                JanggiPositionFactory.of(9, 7), new Horse(JanggiTeam.BLUE)
-        );
     }
 
     @Override

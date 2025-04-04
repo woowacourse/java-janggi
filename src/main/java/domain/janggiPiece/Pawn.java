@@ -5,7 +5,6 @@ import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.path.Path;
 import domain.position.JanggiPosition;
-import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
@@ -34,21 +33,6 @@ public class Pawn extends JanggiChessPiece {
 
     public Pawn(JanggiTeam janggiTeam) {
         super(janggiTeam);
-    }
-
-    public static Map<JanggiPosition, JanggiChessPiece> initPieces() {
-        return Map.of(
-                JanggiPositionFactory.of(3, 0), new Pawn(JanggiTeam.RED),
-                JanggiPositionFactory.of(3, 2), new Pawn(JanggiTeam.RED),
-                JanggiPositionFactory.of(3, 4), new Pawn(JanggiTeam.RED),
-                JanggiPositionFactory.of(3, 6), new Pawn(JanggiTeam.RED),
-                JanggiPositionFactory.of(3, 8), new Pawn(JanggiTeam.RED),
-                JanggiPositionFactory.of(6, 0), new Pawn(JanggiTeam.BLUE),
-                JanggiPositionFactory.of(6, 2), new Pawn(JanggiTeam.BLUE),
-                JanggiPositionFactory.of(6, 4), new Pawn(JanggiTeam.BLUE),
-                JanggiPositionFactory.of(6, 6), new Pawn(JanggiTeam.BLUE),
-                JanggiPositionFactory.of(6, 8), new Pawn(JanggiTeam.BLUE)
-        );
     }
 
     @Override

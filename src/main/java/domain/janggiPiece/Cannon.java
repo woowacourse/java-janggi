@@ -5,27 +5,16 @@ import domain.hurdlePolicy.CannonHurdlePolicy;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.path.Path;
 import domain.position.JanggiPosition;
-import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Cannon extends JanggiChessPiece {
     private final HurdlePolicy hurdlePolicy = new CannonHurdlePolicy();
 
     public Cannon(final JanggiTeam team) {
         super(team);
-    }
-
-    public static Map<JanggiPosition, JanggiChessPiece> initPieces() {
-        return Map.of(
-                JanggiPositionFactory.of(2, 1), new Cannon(JanggiTeam.RED),
-                JanggiPositionFactory.of(2, 7), new Cannon(JanggiTeam.RED),
-                JanggiPositionFactory.of(7, 1), new Cannon(JanggiTeam.BLUE),
-                JanggiPositionFactory.of(7, 7), new Cannon(JanggiTeam.BLUE)
-        );
     }
 
     @Override

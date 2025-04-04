@@ -5,25 +5,16 @@ import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.path.Path;
 import domain.position.JanggiPosition;
-import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class King extends JanggiChessPiece {
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public King(final JanggiTeam team) {
         super(team);
-    }
-
-    public static Map<JanggiPosition, JanggiChessPiece> initPieces() {
-        return Map.of(
-                JanggiPositionFactory.of(1, 4), new King(JanggiTeam.RED),
-                JanggiPositionFactory.of(8, 4), new King(JanggiTeam.BLUE)
-        );
     }
 
     @Override
