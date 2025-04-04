@@ -4,6 +4,7 @@ import domain.MoveInfos;
 import domain.piece.category.PieceCategory;
 
 public class TargetPieceIsCannonValidator implements MoveValidation {
+
     @Override
     public void validate(MoveInfos moveInfos) {
         if (moveInfos.isSameAsTargetPiece(PieceCategory.CANNON)) {

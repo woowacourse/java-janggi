@@ -3,6 +3,7 @@ package domain.piece.validation;
 import domain.MoveInfos;
 
 public class DiagonalPalacePathValidator implements MoveValidation {
+
     @Override
     public void validate(final MoveInfos moveInfos) {
         if (moveInfos.isDiagonalPath()) {
