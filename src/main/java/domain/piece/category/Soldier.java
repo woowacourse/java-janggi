@@ -4,6 +4,8 @@ import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
+import domain.piece.validation.DiagonalPalacePathValidator;
+import domain.piece.validation.MoveValidation;
 import domain.spatial.Position;
 import java.util.List;
 
@@ -31,10 +33,14 @@ public class Soldier extends Piece {
     }
 
     private void validateMove(final MoveInfos moveInfos) {
-        if (moveInfos.isDiagonalPath()) {
-            validateLastPathWithinPalace(moveInfos);
+        for (MoveValidation validation : validations) {
+            validation.validate(moveInfos);
         }
     }
+
+    private final List<MoveValidation> validations = List.of(
+            new DiagonalPalacePathValidator()
+    );
 
     @Override
     public PieceCategory getCategory() {
