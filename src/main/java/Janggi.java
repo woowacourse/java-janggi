@@ -23,25 +23,21 @@ public class Janggi {
     }
 
     public void play() {
-        while (true) {
+        JanggiChessPiece target = null;
+        do {
             try {
                 JanggiTeam currentTeam = janggiTurnService.getCurrentTeam();
                 showBoard();
-                OutputView.printCurrentTeam(currentTeam);
                 JanggiPosition startPosition = getStartPosition();
-                OutputView.printAvailableDestinations(janggiPieceService.getAvailableDestination(startPosition));
                 JanggiPosition destinationPosition = getDestinationPosition(startPosition);
-                if (isExistBossAt(destinationPosition)) {
-                    break;
-                }
+                target = janggiPieceService.getPieceByPosition(destinationPosition);
                 move(currentTeam, startPosition, destinationPosition);
                 janggiTurnService.switchTurn();
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
-        }
-        OutputView.printGameResult(janggiTurnService.getCurrentTeam(), getScores());
-        reset();
+        } while (target != null && !isBoss(target));
+        terminate();
     }
 
     private void showBoard() {
@@ -49,13 +45,15 @@ public class Janggi {
     }
 
     private JanggiPosition getStartPosition() {
+        JanggiTeam currentTeam = janggiTurnService.getCurrentTeam();
+        OutputView.printCurrentTeam(currentTeam);
         while (true) {
             JanggiPosition targetPosition = InputView.readStartPosition();
             if (!janggiPieceService.isExistAt(targetPosition)) {
                 OutputView.printNotExistPieceAt(targetPosition);
                 continue;
             }
-            validateTeam(janggiTurnService.getCurrentTeam(), targetPosition);
+            validateTeam(currentTeam, targetPosition);
             List<JanggiPosition> availableDestinations = janggiPieceService.getAvailableDestination(targetPosition);
             if (!availableDestinations.isEmpty()) {
                 return targetPosition;
@@ -72,6 +70,7 @@ public class Janggi {
     }
 
     private JanggiPosition getDestinationPosition(JanggiPosition startPosition) {
+        OutputView.printAvailableDestinations(janggiPieceService.getAvailableDestination(startPosition));
         while (true) {
             JanggiPosition destinationPosition = InputView.readDestinationPosition();
             List<JanggiPosition> availableDestinations = janggiPieceService.getAvailableDestination(startPosition);
@@ -82,17 +81,18 @@ public class Janggi {
         }
     }
 
-    private boolean isExistBossAt(JanggiPosition position) {
-        if (!janggiPieceService.isExistAt(position)) {
-            return false;
-        }
-        JanggiChessPiece piece = janggiPieceService.getPieceByPosition(position);
+    private boolean isBoss(JanggiChessPiece piece) {
         return piece.getChessPieceType() == Piece.KING;
     }
 
     private void move(final JanggiTeam currentTeam, final JanggiPosition from, final JanggiPosition to) {
         validateTeam(currentTeam, from);
         janggiPieceService.move(from, to);
+    }
+
+    private void terminate() {
+        OutputView.printGameResult(janggiTurnService.getCurrentTeam(), getScores());
+        reset();
     }
 
     private Map<JanggiTeam, Score> getScores() {
@@ -103,7 +103,7 @@ public class Janggi {
         return Collections.unmodifiableMap(scores);
     }
 
-    public void reset() {
+    private void reset() {
         janggiPieceService.reset();
         janggiTurnService.reset();
     }
