@@ -1,6 +1,6 @@
-package movement;
+package domain.movement;
 
-import position.Position;
+import domain.position.Position;
 
 import java.util.Arrays;
 

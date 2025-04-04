@@ -1,6 +1,6 @@
 package validator;
 
-import position.Position;
+import domain.position.Position;
 
 import java.util.function.BiPredicate;
 

@@ -1,12 +1,14 @@
 package piece;
 
-import board.Board;
-import board.Palace;
+import domain.board.Board;
+import domain.board.Palace;
+import domain.piece.Country;
+import domain.piece.General;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import position.LineDirection;
-import position.Position;
-import position.PositionFactory;
+import domain.position.LineDirection;
+import domain.position.Position;
+import domain.position.PositionFactory;
 
 import java.util.Map;
 

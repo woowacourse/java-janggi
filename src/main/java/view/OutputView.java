@@ -1,8 +1,8 @@
 package view;
 
-import board.Board;
-import position.Position;
-import piece.*;
+import domain.board.Board;
+import domain.piece.*;
+import domain.position.Position;
 
 import java.util.Map;
 

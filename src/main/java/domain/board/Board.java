@@ -1,8 +1,8 @@
-package board;
+package domain.board;
 
-import piece.Country;
-import piece.Piece;
-import position.Position;
+import domain.piece.Country;
+import domain.piece.Piece;
+import domain.position.Position;
 
 import java.util.*;
 

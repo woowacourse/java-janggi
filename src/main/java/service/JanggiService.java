@@ -1,16 +1,16 @@
 package service;
 
-import board.Board;
-import board.BoardFactory;
-import board.Palace;
+import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Palace;
 import dao.BoardDao;
 import dao.CountryDao;
 import dao.PieceDao;
-import piece.Country;
-import piece.Piece;
-import position.LineDirection;
-import position.Position;
-import position.PositionFactory;
+import domain.piece.Country;
+import domain.piece.Piece;
+import domain.position.LineDirection;
+import domain.position.Position;
+import domain.position.PositionFactory;
 import view.InputView;
 import view.LineSettingDto;
 
@@ -58,8 +58,9 @@ public class JanggiService {
         return boardFactory.generateBoard();
     }
 
-    public void processTurn(Board board, Country currentTurn, List<Position> positions) {
+    public Board processTurn(Board board, Country currentTurn, List<Position> positions) {
         board.updatePosition(positions.get(0), positions.get(1), currentTurn);
+        return board;
     }
 
     public void save(Board board) {

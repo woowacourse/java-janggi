@@ -1,7 +1,7 @@
-package board;
+package domain.board;
 
-import position.LineDirection;
-import position.Position;
+import domain.position.LineDirection;
+import domain.position.Position;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,6 @@
-package position;
+package domain.position;
 
-import piece.*;
+import domain.piece.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 
 public enum PieceInitialPosition {
 
-    GENERAL(List.of(new RelativePosition(5, 0)), General::new),
+    GENERAL(List.of(new RelativePosition(5, 1)), General::new),
     GUARD(List.of(new RelativePosition(4, 0), new RelativePosition(6, 0)), Guard::new),
     HORSE(List.of(new RelativePosition(3, 0), new RelativePosition(7, 0)), Horse::new),
     ELEPHANT(List.of(new RelativePosition(2, 0), new RelativePosition(8, 0)), Elephant::new),

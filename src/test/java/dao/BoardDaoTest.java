@@ -2,7 +2,7 @@ package dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import piece.Country;
+import domain.piece.Country;
 
 import java.util.EnumMap;
 import java.util.Map;

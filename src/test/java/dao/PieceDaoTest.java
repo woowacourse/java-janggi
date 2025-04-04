@@ -2,10 +2,10 @@ package dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import piece.Country;
-import piece.Guard;
-import piece.Piece;
-import position.Position;
+import domain.piece.Country;
+import domain.piece.Guard;
+import domain.piece.Piece;
+import domain.position.Position;
 
 import java.util.List;
 

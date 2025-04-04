@@ -1,8 +1,8 @@
 package validator;
 
-import board.Palace;
-import piece.Country;
-import position.Position;
+import domain.board.Palace;
+import domain.piece.Country;
+import domain.position.Position;
 
 public interface PalaceCheckable {
 

@@ -1,7 +1,7 @@
-package piece;
+package domain.piece;
 
-import board.Board;
-import position.Position;
+import domain.board.Board;
+import domain.position.Position;
 
 public abstract class Piece {
 

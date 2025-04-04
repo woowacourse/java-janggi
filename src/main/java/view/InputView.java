@@ -1,8 +1,8 @@
 package view;
 
-import piece.Country;
-import position.LineDirection;
-import position.Position;
+import domain.piece.Country;
+import domain.position.LineDirection;
+import domain.position.Position;
 
 import java.util.*;
 import java.util.function.Consumer;

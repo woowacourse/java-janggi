@@ -1,8 +1,8 @@
 package dao;
 
-import piece.Country;
-import piece.Piece;
-import position.Position;
+import domain.piece.Country;
+import domain.piece.Piece;
+import domain.position.Position;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ public final class PieceDao {
 
     public void savePieces(List<Piece> pieces) {
         for (Piece piece : pieces) {
+            System.out.println(piece);
             savePiece(piece);
         }
     }
@@ -21,8 +22,16 @@ public final class PieceDao {
     public void savePiece(Piece piece) {
         String sql = "INSERT INTO pieces (type, country, x, y) VALUES (?, ?, ?, ?)";
 
+        System.out.printf("저장 중: type=%s, country=%s, x=%d, y=%d\n",
+                piece.getClass().getSimpleName(),
+                piece.getCountry().name(),
+                piece.getPosition().x(),
+                piece.getPosition().y());
+
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            conn.setAutoCommit(false); // 수동 커밋 설정 추가
 
             pstmt.setString(1, piece.getClass().getSimpleName());
             pstmt.setString(2, piece.getCountry().name());
@@ -30,7 +39,10 @@ public final class PieceDao {
             pstmt.setInt(4, piece.getPosition().y());
 
             pstmt.executeUpdate();
+            conn.commit(); // 이제 유효하게 작동함
+
         } catch (SQLException e) {
+            e.printStackTrace(); // 진짜 오류 확인
             throw new IllegalArgumentException("기물을 저장하는 데에 오류가 생겼습니다.");
         }
     }

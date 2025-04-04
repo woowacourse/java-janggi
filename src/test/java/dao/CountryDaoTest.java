@@ -2,8 +2,8 @@ package dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import piece.Country;
-import position.LineDirection;
+import domain.piece.Country;
+import domain.position.LineDirection;
 
 import java.util.EnumMap;
 import java.util.Map;

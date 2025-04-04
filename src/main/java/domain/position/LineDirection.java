@@ -1,6 +1,6 @@
-package position;
+package domain.position;
 
-import movement.Movement;
+import domain.movement.Movement;
 
 public enum LineDirection {
 

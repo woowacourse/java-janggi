@@ -1,6 +1,6 @@
 package validator;
 
-import position.Position;
+import domain.position.Position;
 
 public interface DistanceCheckable {
 

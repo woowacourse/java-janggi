@@ -1,7 +1,7 @@
 package dao;
 
-import piece.Country;
-import position.LineDirection;
+import domain.piece.Country;
+import domain.position.LineDirection;
 
 import java.sql.*;
 import java.util.EnumMap;

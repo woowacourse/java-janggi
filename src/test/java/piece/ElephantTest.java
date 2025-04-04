@@ -1,8 +1,12 @@
 package piece;
 
-import board.Board;
-import position.LineDirection;
-import position.Position;
+import domain.board.Board;
+import domain.piece.Cannon;
+import domain.piece.Country;
+import domain.piece.Elephant;
+import domain.piece.Piece;
+import domain.position.LineDirection;
+import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

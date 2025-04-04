@@ -1,8 +1,8 @@
 package dao;
 
 
-import piece.*;
-import position.Position;
+import domain.piece.*;
+import domain.position.Position;
 
 public class PieceFactory {
 

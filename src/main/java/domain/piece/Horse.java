@@ -1,10 +1,10 @@
-package piece;
+package domain.piece;
 
-import board.Board;
-import movement.MovePath;
-import movement.MovePaths;
-import movement.Movement;
-import position.Position;
+import domain.board.Board;
+import domain.movement.MovePath;
+import domain.movement.MovePaths;
+import domain.movement.Movement;
+import domain.position.Position;
 import validator.DistanceCheckable;
 import validator.ObstructionCheckable;
 

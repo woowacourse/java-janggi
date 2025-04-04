@@ -1,13 +1,17 @@
 package piece;
 
-import board.Board;
-import board.Palace;
+import domain.board.Board;
+import domain.board.Palace;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Country;
+import domain.piece.Piece;
 import org.assertj.core.api.Assertions;
-import position.LineDirection;
-import position.Position;
+import domain.position.LineDirection;
+import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import position.PositionFactory;
+import domain.position.PositionFactory;
 
 import java.util.HashMap;
 import java.util.Map;

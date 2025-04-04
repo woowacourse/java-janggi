@@ -1,11 +1,11 @@
 package controller;
 
-import board.Board;
+import domain.board.Board;
 import dao.BoardDao;
 import dao.CountryDao;
 import dao.PieceDao;
-import piece.Country;
-import position.Position;
+import domain.piece.Country;
+import domain.position.Position;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -26,14 +26,15 @@ public class JanggiController {
         Country currentTurn = Country.getDefaultTeam();
         int turnCount = 0;
 
+        Board updateBoard = board;
         while (++turnCount < MAX_TRY_COUNT) {
             currentTurn = currentTurn.opposite();
 
-            OutputView.printBoard(board, currentTurn);
+            OutputView.printBoard(updateBoard, currentTurn);
             final List<Position> positions = InputView.readPositions();
 
-            janggiService.processTurn(board, currentTurn, positions);
-            janggiService.save(board);
+            updateBoard = janggiService.processTurn(updateBoard, currentTurn, positions);
+            janggiService.save(updateBoard);
         }
     }
 }

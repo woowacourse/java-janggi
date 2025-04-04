@@ -1,6 +1,6 @@
-package piece;
+package domain.piece;
 
-import position.LineDirection;
+import domain.position.LineDirection;
 
 import java.util.EnumMap;
 import java.util.Map;

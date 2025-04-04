@@ -1,11 +1,13 @@
 package movement;
 
+import domain.movement.MovePath;
+import domain.movement.MovePaths;
+import domain.movement.Movement;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import position.Position;
+import domain.position.Position;
 
-import java.util.List;
 import java.util.Set;
 
 class MovePathsTest {

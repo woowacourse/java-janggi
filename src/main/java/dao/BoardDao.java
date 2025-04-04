@@ -1,6 +1,6 @@
 package dao;
 
-import piece.Country;
+import domain.piece.Country;
 
 import java.sql.*;
 import java.util.HashMap;

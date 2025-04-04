@@ -1,8 +1,8 @@
-package piece;
+package domain.piece;
 
-import board.Board;
-import position.Position;
-import position.PositionFactory;
+import domain.board.Board;
+import domain.position.Position;
+import domain.position.PositionFactory;
 import validator.PalaceCheckable;
 
 public class Guard extends Piece implements PalaceCheckable {

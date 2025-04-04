@@ -1,10 +1,14 @@
 package piece;
 
-import board.Board;
+import domain.board.Board;
+import domain.piece.Cannon;
+import domain.piece.Country;
+import domain.piece.Horse;
+import domain.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import position.LineDirection;
-import position.Position;
+import domain.position.LineDirection;
+import domain.position.Position;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package validator;
 
-import board.Board;
-import position.Position;
+import domain.board.Board;
+import domain.position.Position;
 
 import java.util.List;
 
