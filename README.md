@@ -27,3 +27,11 @@
   - Soldier
     - [x]  한칸 이동
     - [x]  뒤로 못감
+                       
+
+## docker 연결 방식
+
+- 도커 실행 방법
+``` text
+   docker-compose up -d --build
+```
