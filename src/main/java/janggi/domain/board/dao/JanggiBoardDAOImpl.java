@@ -6,7 +6,6 @@ import janggi.database.utils.DatabaseUtils;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.value.JanggiPosition;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class JanggiBoardDAOImpl implements JanggiBoardDAO{
                 stmt.executeBatch();
                 return null;
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("[ERROR] PIECES 테이블 INSERT 초나라 쿼리 에러 발생");
             }
         });
         databaseUtils.executeQuery(INSERT_PIECES, stmt -> {
@@ -69,7 +68,7 @@ public class JanggiBoardDAOImpl implements JanggiBoardDAO{
                 stmt.executeBatch();
                 return null;
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("[ERROR] PIECES 테이블 INSERT 한나라 쿼리 에러 발생");
             }
         });
     }
@@ -81,7 +80,7 @@ public class JanggiBoardDAOImpl implements JanggiBoardDAO{
                stmt.executeUpdate();
                return null;
            } catch (SQLException e) {
-               throw new RuntimeException(e);
+               throw new RuntimeException("[ERROR] PIECES 테이블 DROP 쿼리 에러 발생");
            }
         });
     }
@@ -99,7 +98,7 @@ public class JanggiBoardDAOImpl implements JanggiBoardDAO{
                stmt.executeUpdate();
                return null;
            } catch (SQLException e) {
-               throw new RuntimeException(e);
+               throw new RuntimeException("[ERROR] PIECES 테이블 UPDATE 쿼리 에러 발생");
            }
         });
     }
@@ -114,7 +113,7 @@ public class JanggiBoardDAOImpl implements JanggiBoardDAO{
                stmt.executeUpdate();
                return null;
            } catch (SQLException e) {
-               throw new RuntimeException(e);
+               throw new RuntimeException("[ERROR] PIECES 테이블 DELETE 쿼리 에러 발생");
            }
         });
     }

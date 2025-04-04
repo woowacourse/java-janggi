@@ -26,7 +26,7 @@ public class TeamDAOImpl implements TeamDAO {
                stmt.executeBatch();
                return null;
            } catch (SQLException e) {
-               throw new RuntimeException(e);
+               throw new RuntimeException("[ERROR] TEAM 테이블 insert 에러 발생");
            }
         });
     }
@@ -39,7 +39,7 @@ public class TeamDAOImpl implements TeamDAO {
 
                return null;
            } catch (SQLException e) {
-               throw new RuntimeException(e);
+               throw new RuntimeException("[ERROR] TEAM 테이블 DROP 에러 발생");
            }
         });
     }

@@ -2,7 +2,6 @@ package janggi.domain.board.dao;
 
 import janggi.database.utils.DatabaseUtils;
 import janggi.domain.setting.CampType;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -29,7 +28,7 @@ public class TurnDAOImpl implements TurnDAO {
                 stmt.executeUpdate();
                 return null;
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("[ERROR] TURN INSERT 쿼리 에러 발생");
             }
         });
     }
@@ -43,7 +42,7 @@ public class TurnDAOImpl implements TurnDAO {
                stmt.executeUpdate();
                return null;
            } catch (SQLException e) {
-               throw new RuntimeException(e);
+               throw new RuntimeException("[ERROR] TURN UPDATE 쿼리 에러 발생");
            }
         });
     }
@@ -70,7 +69,7 @@ public class TurnDAOImpl implements TurnDAO {
                stmt.executeUpdate();
                return null;
            } catch (SQLException e) {
-               throw new RuntimeException(e);
+               throw new RuntimeException("[ERROR] TURN DROP 쿼리 에러 발생");
            }
         });
     }
