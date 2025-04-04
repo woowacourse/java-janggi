@@ -31,6 +31,7 @@ public class Janggi {
                 JanggiPosition startPosition = getStartPosition();
                 JanggiPosition destinationPosition = getDestinationPosition(startPosition);
                 target = janggiPieceService.getPieceByPosition(destinationPosition);
+                janggiPieceService.kill(destinationPosition);
                 move(currentTeam, startPosition, destinationPosition);
                 janggiTurnService.switchTurn();
             } catch (IllegalArgumentException e) {
@@ -87,7 +88,6 @@ public class Janggi {
 
     private void move(final JanggiTeam currentTeam, final JanggiPosition from, final JanggiPosition to) {
         validateTeam(currentTeam, from);
-        janggiPieceService.kill(to);
         janggiPieceService.move(from, to);
     }
 
