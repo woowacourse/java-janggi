@@ -23,17 +23,11 @@ public class Piece {
     }
 
     public boolean isCannon() {
-        if (pieceType == PieceType.CANNON) {
-            return true;
-        }
-        return false;
+        return pieceType == PieceType.CANNON;
     }
 
     public boolean isGeneral() {
-        if (pieceType == PieceType.GENERAL) {
-            return true;
-        }
-        return false;
+        return pieceType == PieceType.GENERAL;
     }
 
     public int getScore() {
