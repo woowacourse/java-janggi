@@ -87,6 +87,7 @@ public class Janggi {
 
     private void move(final JanggiTeam currentTeam, final JanggiPosition from, final JanggiPosition to) {
         validateTeam(currentTeam, from);
+        janggiPieceService.kill(to);
         janggiPieceService.move(from, to);
     }
 

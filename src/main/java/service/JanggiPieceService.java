@@ -61,8 +61,11 @@ public class JanggiPieceService {
         PieceEntity pieceEntity = pieceDao.findByPosition(from).get();
         janggiPositions.move(from, to);
         pieceDao.deleteByPosition(from);
-        pieceDao.deleteByPosition(to);
         pieceDao.save(pieceEntity.move(to));
+    }
+
+    public void kill(final JanggiPosition targetPosition) {
+        pieceDao.deleteByPosition(targetPosition);
     }
 
     public List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
