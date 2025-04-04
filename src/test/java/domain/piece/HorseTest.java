@@ -51,7 +51,7 @@ public class HorseTest {
         BoardLocation destination = new BoardLocation(2, 3);
 
         // when
-        List<BoardLocation> allPath = horse.createAllPath(current, destination);
+        List<BoardLocation> allPath = horse.extractIntermediatePath(current, destination);
 
         // then
         assertThat(allPath).containsAll(List.of(new BoardLocation(1,2)));

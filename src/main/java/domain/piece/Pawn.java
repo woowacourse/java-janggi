@@ -24,7 +24,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
+    protected List<BoardLocation> extractIntermediatePath(BoardLocation current, BoardLocation destination) {
         return Collections.emptyList();
     }
 

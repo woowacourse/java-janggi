@@ -50,7 +50,7 @@ public class CannonTest {
 
         Piece cannon = new Cannon(HAN);
         // when
-        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+        List<BoardLocation> allPath = cannon.extractIntermediatePath(current, destination);
 
         // then
         assertThat(allPath).containsAll(List.of(new BoardLocation(2, 1), new BoardLocation(3, 1)));
@@ -167,7 +167,7 @@ public class CannonTest {
         BoardLocation destination = new BoardLocation(6, 1);
         Piece cannon = new Cannon(HAN);
         // when & then
-        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+        List<BoardLocation> allPath = cannon.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }
@@ -180,7 +180,7 @@ public class CannonTest {
         BoardLocation destination = new BoardLocation(4, 1);
         Piece cannon = new Cannon(HAN);
         // when & then
-        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+        List<BoardLocation> allPath = cannon.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }
@@ -193,7 +193,7 @@ public class CannonTest {
         BoardLocation destination = new BoardLocation(6, 3);
         Piece cannon = new Cannon(HAN);
         // when & then
-        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+        List<BoardLocation> allPath = cannon.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }
@@ -206,7 +206,7 @@ public class CannonTest {
         BoardLocation destination = new BoardLocation(4, 3);
         Piece cannon = new Cannon(HAN);
         // when & then
-        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+        List<BoardLocation> allPath = cannon.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }

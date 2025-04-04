@@ -21,7 +21,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
+    protected List<BoardLocation> extractIntermediatePath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
         PathDirection pathDirection = PathDirection.findPathDirection(boardVector);
         return pathDirection.createPaths(current, boardVector);

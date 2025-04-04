@@ -22,7 +22,7 @@ public abstract class Piece {
             PieceFinder pieceFinder
     ) {
         validateArrival(current, destination);
-        List<BoardLocation> allPath = createAllPath(current, destination);
+        List<BoardLocation> allPath = extractIntermediatePath(current, destination);
         List<Piece> pathPiece = pieceExtractor.extract(allPath);
         validateMovePath(pathPiece);
         pieceFinder.findByLocation(destination)
@@ -31,7 +31,7 @@ public abstract class Piece {
 
     protected abstract void validateArrival(BoardLocation current, BoardLocation target);
 
-    protected abstract List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target);
+    protected abstract List<BoardLocation> extractIntermediatePath(BoardLocation current, BoardLocation target);
 
     protected abstract void validateMovePath(List<Piece> pathPiece);
 

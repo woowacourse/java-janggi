@@ -64,7 +64,7 @@ public class PawnTest {
 
         Pawn choPawn = new Pawn(Team.CHO);
         // when
-        List<BoardLocation> allPath = choPawn.createAllPath(current, destination);
+        List<BoardLocation> allPath = choPawn.extractIntermediatePath(current, destination);
 
         // then
         assertThat(allPath).containsAll(List.of());
@@ -124,7 +124,7 @@ public class PawnTest {
 
         Pawn hanPawn = new Pawn(Team.HAN);
         // when
-        List<BoardLocation> allPath = hanPawn.createAllPath(current, destination);
+        List<BoardLocation> allPath = hanPawn.extractIntermediatePath(current, destination);
 
         // then
         assertThat(allPath).containsAll(List.of());

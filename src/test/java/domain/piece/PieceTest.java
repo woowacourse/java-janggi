@@ -24,7 +24,7 @@ class PieceTest {
         }
 
         @Override
-        protected List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target) {
+        protected List<BoardLocation> extractIntermediatePath(BoardLocation current, BoardLocation target) {
             return List.of();
         }
 

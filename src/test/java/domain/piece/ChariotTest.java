@@ -51,7 +51,7 @@ class ChariotTest {
         BoardLocation destination = new BoardLocation(4, 1);
 
         // when
-        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+        List<BoardLocation> allPath = chariot.extractIntermediatePath(current, destination);
 
         // then
         assertThat(allPath).containsAll(List.of(new BoardLocation(2, 1), new BoardLocation(3, 1)));
@@ -130,7 +130,7 @@ class ChariotTest {
         BoardLocation destination = new BoardLocation(6, 1);
         Piece chariot = new Chariot(HAN);
         // when & then
-        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+        List<BoardLocation> allPath = chariot.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }
@@ -143,7 +143,7 @@ class ChariotTest {
         BoardLocation destination = new BoardLocation(4, 1);
         Piece chariot = new Chariot(HAN);
         // when & then
-        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+        List<BoardLocation> allPath = chariot.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }
@@ -156,7 +156,7 @@ class ChariotTest {
         BoardLocation destination = new BoardLocation(6, 3);
         Piece chariot = new Chariot(HAN);
         // when & then
-        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+        List<BoardLocation> allPath = chariot.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }
@@ -169,7 +169,7 @@ class ChariotTest {
         BoardLocation destination = new BoardLocation(4, 3);
         Piece chariot = new Chariot(HAN);
         // when & then
-        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+        List<BoardLocation> allPath = chariot.extractIntermediatePath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }

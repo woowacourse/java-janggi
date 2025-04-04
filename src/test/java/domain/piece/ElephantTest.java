@@ -49,7 +49,7 @@ public class ElephantTest {
         BoardLocation destination = new BoardLocation(3, 4);
 
         // when
-        List<BoardLocation> allPath = elephant.createAllPath(current, destination);
+        List<BoardLocation> allPath = elephant.extractIntermediatePath(current, destination);
 
         // then
         assertThat(allPath).containsAll(List.of(new BoardLocation(1, 2), new BoardLocation(2, 3)));
