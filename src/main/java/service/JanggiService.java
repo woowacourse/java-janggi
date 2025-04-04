@@ -58,9 +58,8 @@ public class JanggiService {
         return boardFactory.generateBoard();
     }
 
-    public Board processTurn(Board board, Country currentTurn, List<Position> positions) {
+    public void processTurn(Board board, Country currentTurn, List<Position> positions) {
         board.updatePosition(positions.get(0), positions.get(1), currentTurn);
-        return board;
     }
 
     public void save(Board board) {

@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static db.ConnectionManager.getConnection;
+import static database.ConnectionManager.getConnection;
 
 public final class PieceDao {
 

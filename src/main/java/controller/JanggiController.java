@@ -5,6 +5,7 @@ import dao.BoardDao;
 import dao.CountryDao;
 import dao.PieceDao;
 import domain.piece.Country;
+import domain.piece.Piece;
 import domain.position.Position;
 import service.JanggiService;
 import view.InputView;
@@ -33,7 +34,19 @@ public class JanggiController {
             OutputView.printBoard(updateBoard, currentTurn);
             final List<Position> positions = InputView.readPositions();
 
-            updateBoard = janggiService.processTurn(updateBoard, currentTurn, positions);
+            janggiService.processTurn(updateBoard, currentTurn, positions);
+            // test method
+            List<Piece> pieceList = updateBoard.getPieceList();
+            for (Piece piece : pieceList) {
+                int x = piece.getPosition().x();
+                int y = piece.getPosition().y();
+                if (x == 1 && y == 4) {
+                    System.out.println("1, 4를 찾았다");
+                }
+                if (x == 2 && y == 4) {
+                    System.out.println("2, 4를 찾았다.");
+                }
+            }
             janggiService.save(updateBoard);
         }
     }

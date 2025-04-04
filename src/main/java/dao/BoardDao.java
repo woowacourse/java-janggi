@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static db.ConnectionManager.getConnection;
+import static database.ConnectionManager.getConnection;
 
 public class BoardDao {
 
