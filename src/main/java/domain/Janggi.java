@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class Janggi {
 
-    public static final String EMPTY_POINT_EXCEPTION = "해당 위치에 기물이 존재하지 않습니다.";
-    public static final String PICK_OPPOSITE_UNIT_EXCEPTION = "상대팀 말은 고를 수 없습니다.";
-    public static final String CANNOT_MOVE_EXCEPTION = "이동할 수 없는 도착지입니다.";
+    private static final String EMPTY_POINT_EXCEPTION = "해당 위치에 기물이 존재하지 않습니다.";
+    private static final String PICK_OPPOSITE_UNIT_EXCEPTION = "상대팀 말은 고를 수 없습니다.";
+    private static final String CANNOT_MOVE_EXCEPTION = "이동할 수 없는 도착지입니다.";
 
     private static final Team FIRST_ATTACK_TEAM = Team.CHO;
     private static final double AFTER_ATTACK_HANDICAP = 1.5;
@@ -29,6 +29,10 @@ public class Janggi {
 
     public static Janggi of(Units totalUnits) {
         return new Janggi(totalUnits, FIRST_ATTACK_TEAM);
+    }
+
+    public static Janggi of(Units totalUnits, Team turn) {
+        return new Janggi(totalUnits, turn);
     }
 
     public void surrender() {

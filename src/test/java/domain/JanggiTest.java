@@ -183,7 +183,7 @@ class JanggiTest {
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(oppositePosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(Janggi.PICK_OPPOSITE_UNIT_EXCEPTION);
+                .hasMessage("상대팀 말은 고를 수 없습니다.");
     }
 
     @Test
@@ -205,7 +205,7 @@ class JanggiTest {
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(Position.of(0, 0), oppositePosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(Janggi.EMPTY_POINT_EXCEPTION);
+                .hasMessage("해당 위치에 기물이 존재하지 않습니다.");
     }
 
     @Test
@@ -223,7 +223,7 @@ class JanggiTest {
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(targetPosition, Position.of(0, 0)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(Janggi.CANNOT_MOVE_EXCEPTION);
+                .hasMessage("이동할 수 없는 도착지입니다.");
     }
 
     @Test

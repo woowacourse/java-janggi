@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Position {
 
-    public static final String INVALID_POSITION_EXCEPTION = "유효하지 않은 장기판 위치입니다.";
+    private static final String INVALID_POSITION_EXCEPTION = "유효하지 않은 장기판 위치입니다.";
     public static final int X_MAX = 8;
     public static final int Y_MAX = 9;
 

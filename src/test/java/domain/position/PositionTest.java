@@ -1,6 +1,5 @@
 package domain.position;
 
-import static domain.position.Position.INVALID_POSITION_EXCEPTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -23,7 +22,7 @@ class PositionTest {
         // when & then
         assertThatThrownBy(() -> Position.of(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(INVALID_POSITION_EXCEPTION);
+                .hasMessage("유효하지 않은 장기판 위치입니다.");
     }
 
     @Test
