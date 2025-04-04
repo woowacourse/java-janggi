@@ -16,21 +16,19 @@ public class Score {
     }
 
     public static Score calculateScoreFrom(Map<Position, Piece> pieces) {
-        return calculateScore(pieces);
+        int redScore = calculateScore(pieces, Team.RED);
+        int greenScore = calculateScore(pieces, Team.GREEN);
+        return calculateScore(redScore, greenScore);
     }
 
-    private static Score calculateScore(Map<Position, Piece> pieces) {
-        int redScore = 0;
-        int greenScore = 0;
-        for (Position position : pieces.keySet()) {
-            Piece piece = pieces.get(position);
-            if (piece.getTeam() == Team.RED) {
-                redScore += piece.getScore();
-            }
-            if (piece.getTeam() == Team.GREEN) {
-                greenScore += piece.getScore();
-            }
-        }
+    private static int calculateScore(Map<Position, Piece> pieces, Team team) {
+        return pieces.values().stream()
+            .filter(piece -> piece.getTeam() == team)
+            .mapToInt(Piece::getScore)
+            .sum();
+    }
+
+    private static Score calculateScore(int redScore, int greenScore) {
         return new Score(redScore, greenScore);
     }
 
