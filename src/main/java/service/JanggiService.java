@@ -5,7 +5,6 @@ import dao.RoomDao;
 import domain.GameState;
 import domain.Janggi;
 import domain.position.Position;
-import domain.position.Routes;
 import domain.unit.Team;
 import entity.Piece;
 import entity.Room;
@@ -48,33 +47,11 @@ public class JanggiService {
         roomDao.updateTurn(roomId, room.turn().getOpposite());
     }
 
-    public Routes findAllRoute(String roomId, int positionX, int positionY) {
-        Janggi janggi = loadJanggiGame(roomId);
-        return janggi.findMovableRoutesFrom(Position.of(positionX, positionY));
-    }
-
     public void endGame(String roomId, Team winner) {
         GameState status = GameState.CHO_WIN;
         if (winner == Team.HAN) {
             status = GameState.HAN_WIN;
         }
         roomDao.updateStatus(roomId, status);
-    }
-
-    public Team getWinner(String roomId) {
-        Room room = roomDao.findRoomById(roomId);
-        if (room.status() == GameState.PLAYING) {
-            throw new IllegalStateException();
-        }
-        if (room.status() == GameState.CHO_WIN) {
-            return Team.CHO;
-        }
-        return Team.HAN;
-    }
-
-    public double calculateScoreOf(String roomId, Team team) {
-        List<Piece> pieces = pieceDao.findBoardsByRoomId(roomId);
-        Janggi janggi = Piece.toDomain(pieces);
-        return janggi.getScoreOf(team);
     }
 }

@@ -10,9 +10,10 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public String readRoomId(List<Room> rooms) {
+        System.out.println("0 : 새로운 방 생성하기");
         for (int i = 0; i < rooms.size(); i++) {
             Room room = rooms.get(i);
-            System.out.printf("%d : %s\n", i + 1, room.roomId());
+            System.out.printf("%d : \"%s\"에 참가\n", i + 1, room.roomId());
         }
         return scanner.nextLine();
     }

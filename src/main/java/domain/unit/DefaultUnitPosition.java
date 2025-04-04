@@ -23,15 +23,15 @@ public enum DefaultUnitPosition {
             UnitType.CHARIOT
     ),
     CANNON(
-            List.of(Position.of(1, 0), Position.of(7, 0)),
-            List.of(Position.of(1, 9), Position.of(7, 9)),
+            List.of(Position.of(1, 2), Position.of(7, 2)),
+            List.of(Position.of(1, 7), Position.of(7, 7)),
             UnitType.CANNON
     ),
     SOLDIER(
-            List.of(Position.of(0, 0), Position.of(2, 0), Position.of(4, 0),
-                    Position.of(6, 0), Position.of(8, 0)),
-            List.of(Position.of(0, 9), Position.of(2, 9), Position.of(4, 9),
-                    Position.of(6, 9), Position.of(8, 9)),
+            List.of(Position.of(0, 3), Position.of(2, 3), Position.of(4, 3),
+                    Position.of(6, 3), Position.of(8, 3)),
+            List.of(Position.of(0, 6), Position.of(2, 6), Position.of(4, 6),
+                    Position.of(6, 6), Position.of(8, 6)),
             UnitType.SOLDIER
     ),
     HORSE(

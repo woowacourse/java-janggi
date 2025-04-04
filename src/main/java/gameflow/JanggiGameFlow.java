@@ -32,7 +32,6 @@ public class JanggiGameFlow {
 
     public String selectGameRoom() {
         List<Room> allPlayingRoom = janggiService.findAllPlayingRoom();
-        outputView.printPlayingRoom(allPlayingRoom);
         String rawRoomIdNumber = inputView.readRoomId(allPlayingRoom);
         if (rawRoomIdNumber.equals(CREATE_ROOM_COMMAND)) {
             return createRoom();
@@ -58,7 +57,7 @@ public class JanggiGameFlow {
     public void play(String roomId) {
         Janggi janggi = janggiService.loadJanggiGame(roomId);
         while (isPlaying(janggi)) {
-            processTurn(roomId);
+            janggi = processTurn(roomId);
         }
     }
 
@@ -66,21 +65,22 @@ public class JanggiGameFlow {
         return !janggi.isEnd();
     }
 
-    private void processTurn(String roomId) {
+    private Janggi processTurn(String roomId) {
         Janggi janggi = janggiService.loadJanggiGame(roomId);
         outputView.printJanggiUnits(janggi.getUnits());
         String rawPosition = inputView.readUnitPosition(janggi.getTurn());
         if (rawPosition.equals(SURRENDER_COMMAND)) {
             janggi.surrender();
             janggiService.endGame(roomId, janggi.getTurn().getOpposite());
-            return;
+            return janggi;
         }
         Position current = parsePosition(rawPosition);
         handleMove(roomId, janggi, current);
+        return janggi;
     }
 
     private void handleMove(String roomId, Janggi janggi, Position position) {
-        Routes routes = janggiService.findAllRoute(roomId, position.getX(), position.getY());
+        Routes routes = janggi.findMovableRoutesFrom(position);
         outputView.printAvailableRoute(position, routes);
 
         Position destination = parsePosition(inputView.readDestinationPosition(janggi.getTurn()));
@@ -91,9 +91,10 @@ public class JanggiGameFlow {
     }
 
     public void endGame(String roomId) {
-        Team winner = janggiService.getWinner(roomId);
-        double han = janggiService.calculateScoreOf(roomId, Team.HAN);
-        double cho = janggiService.calculateScoreOf(roomId, Team.CHO);
+        Janggi janggi = janggiService.loadJanggiGame(roomId);
+        Team winner = janggi.getWinner();
+        double han = janggi.getScoreOf(Team.HAN);
+        double cho = janggi.getScoreOf(Team.CHO);
         outputView.printWinner(winner, cho, han);
     }
 

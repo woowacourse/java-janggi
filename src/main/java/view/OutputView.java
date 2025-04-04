@@ -6,8 +6,6 @@ import domain.position.Routes;
 import domain.unit.Team;
 import domain.unit.Unit;
 import domain.unit.UnitType;
-import entity.Room;
-import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -15,14 +13,6 @@ public class OutputView {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
-
-    public void printPlayingRoom(List<Room> rooms) {
-        System.out.println("0 : 새로운 방 생성하기");
-        for (int i = 0; i < rooms.size(); i++) {
-            Room room = rooms.get(i);
-            System.out.printf("%d : \"%s\"에 참가\n", i + 1, room.roomId());
-        }
-    }
 
     public void printJanggiUnits(Map<Position, Unit> units) {
         System.out.println("\n* |  0  1  2  3  4  5  6  7  8 ");
