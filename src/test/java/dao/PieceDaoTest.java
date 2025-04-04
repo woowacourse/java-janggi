@@ -1,21 +1,53 @@
 package dao;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import piece.Country;
+import piece.Guard;
+import piece.Piece;
+import position.Position;
 
-import java.sql.SQLException;
+import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceDaoTest {
 
-    private final PieceDao pieceDao = new PieceDao();
+    private PieceDao pieceDao;
+
+    @BeforeEach
+    void setUp() {
+        pieceDao = new PieceDao();
+        pieceDao.clearPieces();
+    }
 
     @Test
-    public void connection() {
-        try (final var connection = pieceDao.getConnection()) {
-            assertThat(connection).isNotNull();
-        } catch (SQLException e) {
-            throw new IllegalArgumentException("연결 오류 발생");
-        }
+    void saveAndLoadPieces() {
+        // given
+        Piece piece1 = new Guard(new Position(1, 1), Country.HAN);
+        Piece piece2 = new Guard(new Position(2, 2), Country.CHO);
+
+        // when
+        pieceDao.savePiece(piece1);
+        pieceDao.savePiece(piece2);
+        List<Piece> loaded = pieceDao.loadPieces();
+
+        // then
+        assertThat(loaded).hasSize(2);
+        assertThat(loaded).anyMatch(p -> p.getCountry() == Country.HAN && p.getPosition().equals(new Position(1, 1)));
+        assertThat(loaded).anyMatch(p -> p.getCountry() == Country.CHO && p.getPosition().equals(new Position(2, 2)));
+    }
+
+    @Test
+    void clearPiece() {
+        // given
+        pieceDao.savePiece(new Guard(new Position(1, 1), Country.HAN));
+
+        // when
+        pieceDao.clearPieces();
+        List<Piece> loaded = pieceDao.loadPieces();
+
+        // then
+        assertThat(loaded).isEmpty();
     }
 }
