@@ -36,16 +36,15 @@ public class BoardDao {
         }
     }
 
-    public void updateBoardPiece(Position position, Piece updatePiece) {
-        String query = "UPDATE board_piece SET column_position = ?, row_position = ? WHERE piece_type = ? AND team = ?";
+    public void updateBoardPiece(Position startPosition, Position arrivedPosition) {
+        String query = "UPDATE board_piece SET column_position = ?, row_position = ? WHERE column_position = ? AND row_position = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
-            preparedStatement.setInt(1, position.column());
-            preparedStatement.setInt(2, position.row());
-
-            preparedStatement.setString(3, updatePiece.getPieceType().name());
-            preparedStatement.setString(4, updatePiece.getTeam().name());
+            preparedStatement.setInt(1, arrivedPosition.column());
+            preparedStatement.setInt(2, arrivedPosition.row());
+            preparedStatement.setInt(3, startPosition.column());
+            preparedStatement.setInt(4, startPosition.row());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

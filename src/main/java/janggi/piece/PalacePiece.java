@@ -26,13 +26,13 @@ public class PalacePiece implements Piece{
         List<Movement> movements = pieceType.generateMovements(startPosition);
         return movements.stream()
                 .filter(route ->
-                        !arrivedPosition.isOutOfPalace() && !arrivedPosition.isOutOfBoards() &&  route.step(startPosition, arrivedPosition).equals(arrivedPosition))
+                        !arrivedPosition.isOutOfPalace() && !arrivedPosition.isOutOfBoards() && route.step(startPosition, arrivedPosition).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
     public List<Position> extractPathPositions(Position startPosition,Position arrivedPosition) {
-        Movement availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition,arrivedPosition);
+        Movement availableMovement = findAvailableMovementByArrivedPosition(startPosition,arrivedPosition);
         return availableMovement.extractPathPositions(startPosition,arrivedPosition);
     }
 

@@ -61,12 +61,13 @@ public class JanggiGame {
             Position startPosition = moveableInfo.getKey();
             Position arrivedPosition = moveableInfo.getValue();
 
-            Piece movedPiece = board.movePiece(turn, startPosition, arrivedPosition);
+            board.movePiece(turn, startPosition, arrivedPosition);
 
             boardDao.deletePieceByPosition(arrivedPosition);
-            boardDao.updateBoardPiece(arrivedPosition, movedPiece);
+            boardDao.updateBoardPiece(startPosition, arrivedPosition);
 
-            output.printBoard(board.getLocatedPieces());
+            output.printBoard(boardDao.findAllBoardPiece());
+
             Turn nextTurn = turn.turnOver();
             turnDao.updateTurn(turn.getTurn(), nextTurn.getTurn());
             return nextTurn;

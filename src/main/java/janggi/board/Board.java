@@ -18,29 +18,28 @@ public class Board {
         this.locatedPieces = locatedPieces;
     }
 
-    public Piece movePiece(Turn turn, Position startPosition, Position arrivedPosition) {
+    public void movePiece(Turn turn, Position startPosition, Position arrivedPosition) {
         validateExistsPosition(startPosition);
         Piece attacker = locatedPieces.get(startPosition);
         turn.checkTurn(attacker);
         if (isExistPiece(arrivedPosition)) {
-            return attackToTarget(attacker, startPosition, arrivedPosition);
-
+            attackToTarget(attacker, startPosition, arrivedPosition);
+            return;
         }
-        return move(attacker, startPosition, arrivedPosition);
+        move(attacker, startPosition, arrivedPosition);
     }
 
-    private Piece attackToTarget(Piece attacker, Position startPosition, Position arrivedPosition) {
+    private void attackToTarget(Piece attacker, Position startPosition, Position arrivedPosition) {
         // todo 공격해서 공격 위치에 있는 기물이 죽으면 DB 에서 삭제 되도록 변경
         Piece target = locatedPieces.get(arrivedPosition);
         validateCatchablePiece(attacker, target);
-        return move(attacker, startPosition, arrivedPosition);
+        move(attacker, startPosition, arrivedPosition);
     }
 
-    private Piece move(Piece attacker, Position startPosition, Position arrivedPosition) {
+    private void move(Piece attacker, Position startPosition, Position arrivedPosition) {
         validateObstacle(attacker, startPosition, arrivedPosition);
         locatedPieces.remove(startPosition);
         locatedPieces.put(arrivedPosition, attacker);
-        return locatedPieces.get(arrivedPosition);
     }
 
     private long calculateObstacleCount(List<Position> paths) {
