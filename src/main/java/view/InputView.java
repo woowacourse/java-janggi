@@ -10,6 +10,18 @@ public class InputView {
     private static final int BOARD_HEIGHT = 10;
     private static final int BOARD_WIDTH = 10;
 
+    public static Long inputGameId() {
+        System.out.println("이어하고 싶은 게임 ID를 입력해주세요. 새롭게 게임을 시작하려면 -1이라고 입력해주세요.");
+        String id = scanner.nextLine();
+        return Long.parseLong(id);
+    }
+
+    public static Long inputNewGameId() {
+        System.out.println("새롭게 만들 게임 ID를 입력해주세요.");
+        String id = scanner.nextLine();
+        return Long.parseLong(id);
+    }
+
     public static String input() {
         System.out.println("이동할 기물의 위치와 도착 위치를 입력하세요 (예: 10 12, 종료: q):");
         return scanner.nextLine();
