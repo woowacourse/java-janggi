@@ -19,12 +19,6 @@ public class Chariot extends UnlimitedMoveChessPiece {
         super(team, position, DIRECTIONS);
     }
 
-    @Override
-    public ChessPiece from(final ChessPosition position) {
-        return new Chariot(getTeam(), position);
-    }
-
-
     public static List<ChessPiece> initPieces() {
         return List.of(
                 new Chariot(ChessTeam.RED, new ChessPosition(0, 0)),
@@ -33,6 +27,12 @@ public class Chariot extends UnlimitedMoveChessPiece {
                 new Chariot(ChessTeam.BLUE, new ChessPosition(9, 8))
         );
     }
+
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Chariot(getTeam(), position);
+    }
+
 
     @Override
     public HurdlePolicy getHurdlePolicy() {

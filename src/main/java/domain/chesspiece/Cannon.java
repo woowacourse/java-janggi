@@ -17,11 +17,6 @@ public class Cannon extends UnlimitedMoveChessPiece {
         super(team, position, DIRECTIONS);
     }
 
-    @Override
-    public ChessPiece from(final ChessPosition position) {
-        return new Cannon(this.getTeam(), position);
-    }
-
     public static List<ChessPiece> initPieces() {
         return List.of(
                 new Cannon(ChessTeam.RED,new ChessPosition(2, 1)),
@@ -29,6 +24,11 @@ public class Cannon extends UnlimitedMoveChessPiece {
                 new Cannon(ChessTeam.BLUE, new ChessPosition(7, 1)),
                 new Cannon(ChessTeam.BLUE, new ChessPosition(7, 7))
         );
+    }
+
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Cannon(this.getTeam(), position);
     }
 
     @Override

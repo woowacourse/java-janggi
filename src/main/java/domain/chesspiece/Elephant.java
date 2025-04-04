@@ -27,11 +27,6 @@ public class Elephant extends LimitedMoveChessPiece {
         super(position, team, DIRECTIONS);
     }
 
-    @Override
-    public ChessPiece from(final ChessPosition position) {
-        return new Elephant(getTeam(), position);
-    }
-
     public static List<ChessPiece> initPieces() {
         return List.of(
                 new Elephant(ChessTeam.RED, new ChessPosition(0, 2)),
@@ -39,6 +34,11 @@ public class Elephant extends LimitedMoveChessPiece {
                 new Elephant(ChessTeam.BLUE, new ChessPosition(9, 2)),
                 new Elephant(ChessTeam.BLUE, new ChessPosition(9, 6))
         );
+    }
+
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Elephant(getTeam(), position);
     }
 
     @Override
