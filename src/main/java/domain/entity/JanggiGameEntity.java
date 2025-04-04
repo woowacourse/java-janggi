@@ -14,7 +14,7 @@ public class JanggiGameEntity {
     }
 
     public JanggiGameEntity(Turn turn) {
-        this(-1L, turn);
+        this(null, turn);
     }
 
     public Turn getTurn() {

@@ -31,11 +31,11 @@ public class PieceEntity {
     }
 
     public PieceEntity(int x, int y, PieceType type, Team team, Score score, Long janggiGameId) {
-        this(-1L, x, y, type, team, score, janggiGameId);
+        this(null, x, y, type, team, score, janggiGameId);
     }
 
     public PieceEntity(int x, int y, PieceType type, Team team, Score score) {
-        this(-1L, x, y, type, team, score, -1L);
+        this(null, x, y, type, team, score, -1L);
     }
 
     public int getX() {
