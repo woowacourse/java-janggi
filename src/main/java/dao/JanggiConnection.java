@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -10,7 +11,7 @@ public class JanggiConnection {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    public java.sql.Connection getConnection() {
+    public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
