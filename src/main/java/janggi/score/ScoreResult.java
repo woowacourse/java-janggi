@@ -27,8 +27,10 @@ public class ScoreResult {
 
     public void aggregate(List<AttackedPiece> attackedPieces) {
         for (AttackedPiece attackedPiece : attackedPieces) {
-            Team attackedTeam = attackedPiece.getTeam();
-            result.replace(attackedTeam, result.get(attackedTeam).minus(attackedPiece.getScore()));
+            if (attackedPiece.exists()) {
+                Team attackedTeam = attackedPiece.getTeam();
+                result.replace(attackedTeam, result.get(attackedTeam).minus(attackedPiece.getScore()));
+            }
         }
     }
 
