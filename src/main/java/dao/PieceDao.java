@@ -1,9 +1,9 @@
 package dao;
 
 import entity.PieceEntity;
-import execptions.JanggiArgumentException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public final class PieceDao {
 
@@ -28,10 +28,10 @@ public final class PieceDao {
         }
     }
 
-    public PieceEntity findById(final long findId) {
+    public Optional<PieceEntity> findById(final long findId) {
         final var query = "SELECT * FROM piece WHERE id = ?";
 
-        return executeQuery(
+        return Optional.ofNullable(executeQuery(
                 query,
                 preparedStatement -> preparedStatement.setLong(1, findId),
                 resultSet -> {
@@ -42,9 +42,8 @@ public final class PieceDao {
 
                         return new PieceEntity(id, teamId, type);
                     }
-
-                    throw new JanggiArgumentException("해당 조건에 맞는 기물이 존재하지 않습니다.");
+                    return null;
                 }
-        );
+        ));
     }
 }

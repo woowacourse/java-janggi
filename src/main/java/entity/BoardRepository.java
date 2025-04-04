@@ -2,7 +2,9 @@ package entity;
 
 import dao.BoardDao;
 import domain.board.BoardPoint;
+import execptions.JanggiArgumentException;
 import java.util.List;
+import java.util.Optional;
 
 public class BoardRepository {
     private final BoardDao boardDao;
@@ -16,7 +18,11 @@ public class BoardRepository {
     }
 
     public BoardEntity findByBoardPoint(final BoardPoint boardPoint) {
-        return boardDao.findByBoardPoint(boardPoint);
+        Optional<BoardEntity> boardEntity = boardDao.findByBoardPoint(boardPoint);
+        if (boardEntity.isEmpty()) {
+            throw new JanggiArgumentException("해당 보드 포인트 위에 기물이 존재하지 않습니다.");
+        }
+        return boardEntity.get();
     }
 
     public void delete(BoardEntity boardEntity) {

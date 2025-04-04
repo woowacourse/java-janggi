@@ -2,11 +2,11 @@ package dao;
 
 import domain.board.BoardPoint;
 import entity.BoardEntity;
-import execptions.JanggiArgumentException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BoardDao {
 
@@ -79,11 +79,11 @@ public class BoardDao {
         );
     }
 
-    public BoardEntity findByBoardPoint(BoardPoint boardPoint) {
+    public Optional<BoardEntity> findByBoardPoint(BoardPoint boardPoint) {
 
         final var query = "SELECT * FROM board WHERE row_index = ? AND column_index = ?";
 
-        return executeQuery(
+        return Optional.ofNullable(executeQuery(
                 query,
                 preparedStatement -> {
                     preparedStatement.setInt(1, boardPoint.row());
@@ -98,9 +98,9 @@ public class BoardDao {
 
                         return new BoardEntity(id, rowIndex, columnIndex, pieceId);
                     }
-                    throw new JanggiArgumentException("조건에 해당하는 보드의 포인트에 기물이 존재하지 않습니다.");
+                    return null;
                 }
-        );
+        ));
     }
 
     public void delete(BoardEntity boardEntity) {

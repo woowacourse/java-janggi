@@ -4,6 +4,7 @@ import entity.TeamEntity;
 import execptions.JanggiArgumentException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class TeamDao {
     private final JanggiConnection janggiConnection;
@@ -27,10 +28,10 @@ public class TeamDao {
         }
     }
 
-    public TeamEntity findById(long teamId) {
+    public Optional<TeamEntity> findById(long teamId) {
         final var query = "SELECT * FROM team WHERE id = ?";
 
-        return executeQuery(
+        return Optional.ofNullable(executeQuery(
                 query,
                 preparedStatement -> preparedStatement.setLong(1, teamId),
                 resultSet -> {
@@ -39,13 +40,13 @@ public class TeamDao {
                     }
                     return null;
                 }
-        );
+        ));
     }
 
-    public TeamEntity findByName(String comparedNamed) {
+    public Optional<TeamEntity> findByName(String comparedNamed) {
         final var query = "SELECT * FROM team WHERE name = ?";
 
-        return executeQuery(
+        return Optional.ofNullable(executeQuery(
                 query,
                 preparedStatement -> preparedStatement.setString(1, comparedNamed),
                 resultSet -> {
@@ -56,6 +57,6 @@ public class TeamDao {
                         return new TeamEntity(id, name);
                     }
                     throw new JanggiArgumentException("해당 이름을 갖는 팀이 존재하지 않습니다.");
-                });
+                }));
     }
 }
