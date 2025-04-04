@@ -4,13 +4,15 @@ import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
+import domain.piece.validation.DiagonalPalacePathValidator;
+import domain.piece.validation.IntermediatePieceCountValidator;
+import domain.piece.validation.MoveValidation;
 import domain.spatial.Position;
 import java.util.List;
 
 public class Chariot extends Piece {
 
     private static final PieceCategory CATEGORY = PieceCategory.CHARIOT;
-    private static final int PIECES_TO_PASS = 0;
 
     public Chariot(final Position position, final Directions directions) {
         super(position, directions);
@@ -37,11 +39,13 @@ public class Chariot extends Piece {
     }
 
     private void validateMove(final MoveInfos moveInfos) {
-        if (moveInfos.isDiagonalPath()) {
-            validateLastPathWithinPalace(moveInfos);
-        }
-        if (moveInfos.countPiecesInIntermediatePath() != PIECES_TO_PASS) {
-            throw new IllegalArgumentException("차는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
+        for (MoveValidation validation : validations) {
+            validation.validate(moveInfos);
         }
     }
+
+    private final List<MoveValidation> validations = List.of(
+            new DiagonalPalacePathValidator(),
+            new IntermediatePieceCountValidator()
+    );
 }
