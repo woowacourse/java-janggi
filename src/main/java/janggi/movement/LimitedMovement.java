@@ -5,31 +5,30 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LimitedRoute implements Route{
+public class LimitedMovement implements Movement {
 
-    private final List<Movement> movements;
+    private final List<Direction> directions;
 
-    public LimitedRoute(List<Movement> movements) {
-        this.movements = movements;
+    public LimitedMovement(List<Direction> directions) {
+        this.directions = directions;
     }
 
     @Override
     public Position step(Position startPosition, Position arrivedPosition) {
         Position reachablePosition = startPosition;
-        for (Movement movement : movements) {
-            reachablePosition = movement.move(reachablePosition);
+        for (Direction direction : directions) {
+            reachablePosition = direction.move(reachablePosition);
         }
         return reachablePosition;
     }
 
-
     public List<Position> extractPathPositions(Position startPosition ,Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();
-        for (int i = 0; i < movements.size(); i++) {
+        for (int i = 0; i < directions.size(); i++) {
             Position pathPosition = startPosition;
             for (int j = 0; j <= i; j++) {
-                Movement movement = movements.get(j);
-                pathPosition = movement.move(pathPosition);
+                Direction direction = directions.get(j);
+                pathPosition = direction.move(pathPosition);
             }
             pathPositions.add(pathPosition);
         }

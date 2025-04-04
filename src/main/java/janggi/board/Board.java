@@ -1,55 +1,80 @@
 package janggi.board;
 
 import janggi.dao.BoardDao;
-import janggi.movement.Movement;
-import janggi.movement.Route;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
-
 import janggi.position.Position;
 import janggi.team.Team;
 
 import java.util.List;
+import java.util.Map;
 
 public class Board {
     private static final int GAME_PROGRESS_CONDITION = 2;
 
-    private final List<Piece> locatedPieces;
+    private final Map<Position, Piece> locatedPieces;
 
-    public Board(List<Piece> locatedPieces) {
+    public Board(Map<Position, Piece> locatedPieces) {
         this.locatedPieces = locatedPieces;
     }
 
     public void dropPiece(Turn turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
-        Piece attackerPiece = findByPosition(startPosition);
-        turn.checkTurn(attackerPiece);
-        boolean isOccupy = isOccupiedPosition(arrivedPosition);
-        if (isOccupy) {
-            attackToTarget(attackerPiece, arrivedPosition ,boardDao);
+        validateExistsPosition(startPosition);
+        Piece attacker = locatedPieces.get(startPosition);
+        turn.checkTurn(attacker);
+        if (isExistPiece(arrivedPosition)) {
+            attackToTarget(attacker, startPosition, arrivedPosition, boardDao);
             return;
         }
-        move(attackerPiece, arrivedPosition, boardDao);
+        move(attacker, startPosition, arrivedPosition, boardDao);
     }
 
-    private void attackToTarget(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
-        Piece targetPiece = findByPosition(arrivedPosition);
-        validateAttackingSameTeam(attackerPiece, targetPiece);
-        Piece updatedPiece = targetPiece.receiveAttack();
-        updatePiece(targetPiece,updatedPiece,boardDao);
-        move(attackerPiece, arrivedPosition, boardDao);
+    private void attackToTarget(Piece attacker, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
+        // todo 공격해서 공격 위치에 있는 기물이 죽으면 DB 에서 삭제 되도록 변경
+        Piece target = locatedPieces.get(arrivedPosition);
+        validateAttackingSameTeam(attacker, target);
+        move(attacker, startPosition, arrivedPosition, boardDao);
     }
 
-    private void move(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
-        validateObstacle(attackerPiece, arrivedPosition);
-        Piece movedPiece = attackerPiece.move(arrivedPosition);
-        updatePiece(attackerPiece, movedPiece, boardDao);
+    private void move(Piece attacker, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
+        validateObstacle(attacker, startPosition, arrivedPosition);
+        locatedPieces.remove(startPosition);
+        locatedPieces.put(arrivedPosition, attacker);
     }
 
-    private void updatePiece(Piece previousPiece, Piece updatePiece,  BoardDao boardDao) {
+    private long calculateObstacleCount(List<Position> paths) {
+        return paths.stream().filter(locatedPieces::containsKey).count();
+    }
+
+    private boolean canOverObstacle(List<Position> paths) {
+        Position position = paths.getFirst();
+        return !locatedPieces.get(position).isJumpable();
+    }
+
+    private void validateObstacle(Piece attackerPiece, Position startPosition, Position arrivedPosition) {
+        List<Position> pathPositions = attackerPiece.extractPathPositions(startPosition, arrivedPosition);
+
+        long obstacleCount = calculateObstacleCount(pathPositions);
+
+        if (attackerPiece.isJumpable() && obstacleCount > 1) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
+        }
+
+        if (attackerPiece.isJumpable() && canOverObstacle(pathPositions)) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
+        }
+
+        if (!attackerPiece.isJumpable() && obstacleCount >= 1) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
+        }
+    }
+
+    private void updatePiece(Piece previousPiece, Piece updatePiece, BoardDao boardDao) {
         locatedPieces.remove(previousPiece);
-        locatedPieces.add(updatePiece);
-        boardDao.updateBoardPiece(previousPiece, updatePiece);
+//        locatedPieces.add(updatePiece);
+//        boardDao.updateBoardPiece(previousPiece, updatePiece);
     }
+
 
     private void validateAttackingSameTeam(Piece attakerPiece, Piece targetPiece) {
         if (attakerPiece.isSameTeam(targetPiece.getTeam())) {
@@ -57,19 +82,11 @@ public class Board {
         }
     }
 
-    private void validateObstacle(Piece attackerPiece, Position arrivedPosition) {
-        Route availableRoute = attackerPiece.findAvailableMovementByArrivedPosition(arrivedPosition);
-        List<Position> pathPositions = attackerPiece.extractPathPositions(availableRoute, arrivedPosition);
-        if (isExistObstacleOfPath(attackerPiece, pathPositions, locatedPieces)) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
-        };
+    private boolean isExistPiece(Position position) {
+        return locatedPieces.containsKey(position);
     }
 
-    private boolean isOccupiedPosition(Position arrivedPosition) {
-        return locatedPieces.stream()
-                .anyMatch(piece -> piece.matchesPosition(arrivedPosition));
-    }
-
+/*
     private boolean isExistObstacleOfPath(Piece attackerPiece, List<Position> pathPositions, List<Piece> locatedPieces) {
         List<Piece> obstacles = locatedPieces.stream()
                 .filter(piece -> piece.isObstacle(pathPositions))
@@ -83,39 +100,37 @@ public class Board {
             return obstacle.canNotJumpingOver();
         }
         return !obstacles.isEmpty();
-    }
+    }*/
 
-    private Piece findByPosition(Position startPosition) {
-        return locatedPieces.stream()
-                .filter(piece -> piece.matchesPosition(startPosition) && piece.isLive())
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다"));
-    }
-
-    public List<Piece> extractLocatedLivePieces() {
-        return locatedPieces.stream()
-                .filter(Piece::isLive)
-                .toList();
+    private void validateExistsPosition(Position startPosition) {
+        if (locatedPieces.containsKey(startPosition)) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다");
     }
 
     public boolean isGameOver() {
-        long liveKingCount = locatedPieces.stream()
-                .filter(piece -> piece.isLive() && piece.getPieceType() == PieceType.KING)
+        long liveKingCount = locatedPieces.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.KING)
                 .count();
         return liveKingCount < GAME_PROGRESS_CONDITION;
     }
 
     public Piece extractWinnerKing() {
-        return locatedPieces.stream()
-                .filter(piece -> piece.isLive() && piece.getPieceType() == PieceType.KING)
+        return locatedPieces.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.KING)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("살아있는 왕이 존재하지 않습니다"));
     }
 
     public int calculateScore(Team team) {
-        return locatedPieces.stream()
-                .filter(piece -> piece.isSameTeam(team) && piece.isLive())
+        return locatedPieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
                 .mapToInt(piece -> piece.getPieceType().getScore())
                 .sum();
+    }
+
+    public Map<Position, Piece> getLocatedPieces() {
+        return locatedPieces;
     }
 }

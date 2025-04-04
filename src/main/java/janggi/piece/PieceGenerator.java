@@ -4,46 +4,40 @@ import janggi.board.TableOption;
 import janggi.position.Position;
 import janggi.team.Team;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PieceGenerator {
+    public Map<Position, Piece> generateInitialPieces(TableOption hanTableOption, TableOption choTableOption) {
+        Map<Position, Piece> allPieces = new HashMap<>();
 
-    public List<Piece> generateInitialPieces(TableOption hanTableOption, TableOption choTableOption) {
-        List<Piece> allPieces = new ArrayList<>();
+        allPieces.put(new Position(1, 1), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
+        allPieces.put(new Position(1, 9), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
+        allPieces.put(new Position(3, 2), new DefaultPiece(Team.HAN, PieceType.CANNON));
+        allPieces.put(new Position(3, 8), new DefaultPiece(Team.HAN, PieceType.CANNON));
+        allPieces.put(new Position(4, 1), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        allPieces.put(new Position(4, 3), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        allPieces.put(new Position(4, 5), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        allPieces.put(new Position(4, 7), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        allPieces.put(new Position(4, 9), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        allPieces.put(new Position(1, 4), new PalacePiece(Team.HAN, PieceType.GUARD));
+        allPieces.put(new Position(1, 6), new PalacePiece(Team.HAN, PieceType.GUARD));
+        allPieces.put(new Position(2, 5), new PalacePiece(Team.HAN, PieceType.KING));
 
-        List<Piece> hanTableSettings = Team.HAN.generateTableSetPieces(hanTableOption);
+        allPieces.put(new Position(10, 1), new DefaultPiece(Team.CHO, PieceType.CHARIOT));
+        allPieces.put(new Position(10, 9), new DefaultPiece(Team.CHO, PieceType.CHARIOT));
+        allPieces.put(new Position(8, 2), new DefaultPiece(Team.CHO, PieceType.CANNON));
+        allPieces.put(new Position(8, 8), new DefaultPiece(Team.CHO, PieceType.CANNON));
+        allPieces.put(new Position(7, 1), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        allPieces.put(new Position(7, 3), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        allPieces.put(new Position(7, 5), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        allPieces.put(new Position(7, 7), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        allPieces.put(new Position(7, 9), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        allPieces.put(new Position(10, 4), new PalacePiece(Team.CHO, PieceType.GUARD));
+        allPieces.put(new Position(10, 6), new PalacePiece(Team.CHO, PieceType.GUARD));
+        allPieces.put(new Position(9, 5), new PalacePiece(Team.CHO, PieceType.KING));
 
-        List<Piece> hanInitialBoardSetting = List.of(
-                new Chariot(Team.HAN, new Position(1, 1)), new Chariot(Team.HAN, new Position(1, 9)),
-                new Cannon(Team.HAN, new Position(3, 2)), new Cannon(Team.HAN, new Position(3,8)),
-                new Soldier(Team.HAN, new Position(4, 1)),
-                new Soldier(Team.HAN, new Position(4, 3)),
-                new Soldier(Team.HAN, new Position(4, 5)),
-                new Soldier(Team.HAN, new Position(4, 7)),
-                new Soldier(Team.HAN, new Position(4, 9)),
-                new Guard(Team.HAN, new Position(1, 4)), new Guard(Team.HAN, new Position(1, 6)),
-                new King(Team.HAN, new Position(2, 5))
-        );
-
-        List<Piece> choTableSettings = Team.CHO.generateTableSetPieces(choTableOption);
-
-        List<Piece> choInitialBoardSetting = List.of(
-                new Chariot(Team.CHO, new Position(10, 1)), new Chariot(Team.CHO, new Position(10, 9)),
-                new Cannon(Team.CHO, new Position(8, 2)), new Cannon(Team.CHO, new Position(8, 8)),
-                new Soldier(Team.CHO, new Position(7, 1)),
-                new Soldier(Team.CHO, new Position(7, 3)),
-                new Soldier(Team.CHO, new Position(7, 5)),
-                new Soldier(Team.CHO, new Position(7, 7)),
-                new Soldier(Team.CHO, new Position(7, 9)),
-                new Guard(Team.CHO, new Position(10, 4)), new Guard(Team.CHO, new Position(10, 6)),
-                new King(Team.CHO, new Position(9, 5))
-        );
-
-        allPieces.addAll(hanInitialBoardSetting);
-        allPieces.addAll(hanTableSettings);
-        allPieces.addAll(choInitialBoardSetting);
-        allPieces.addAll(choTableSettings);
+        allPieces.putAll(Team.CHO.generateTableSetPieces(choTableOption));
+        allPieces.putAll(Team.HAN.generateTableSetPieces(hanTableOption));
 
         return allPieces;
     }

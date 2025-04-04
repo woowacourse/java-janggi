@@ -1,5 +1,7 @@
 package janggi.position;
 
+import janggi.team.Team;
+
 public record Position(int row, int column) {
     private static final int BOARD_ROW_MIN = 1;
     private static final int BOARD_ROW_MAX = 10;
@@ -55,6 +57,10 @@ public record Position(int row, int column) {
 
     public int calculateRowDistance(Position position) {
         return Math.abs(position.row - row);
+    }
+
+    public int calculateRowDistance(int row) {
+        return Math.abs(this.row - row);
     }
 
     public int calculateColumnDistance(Position position) {

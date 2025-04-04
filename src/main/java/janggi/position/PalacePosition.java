@@ -21,9 +21,9 @@ public enum PalacePosition {
         this.values = values;
     }
 
-    public static boolean isContains(Position arrivedPosition) {
+    public static boolean isContains(Position position) {
         return Arrays.stream(PalacePosition.values())
-                .anyMatch(value -> value.contains(arrivedPosition));
+                .anyMatch(value -> value.contains(position));
     }
 
     public boolean contains(Position position) {

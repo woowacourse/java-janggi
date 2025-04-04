@@ -25,29 +25,29 @@ public class JanggiGame {
         BoardDao boardDao = new BoardDao(connector);
         TurnDao turnDao = new TurnDao(connector);
 
-        List<Piece> initialPieces;
+        Map<Position, Piece> initialPieces;
         Turn turn;
-
+/*
         if (boardDao.existsBoardPiece()) {
             System.out.println("진행 중인 게임 데이터를 불러옵니다");
-            initialPieces = boardDao.findAllBoardPiece();
+//            initialPieces = boardDao.findAllBoardPiece();
             turn = new Turn(turnDao.findCurrentTurn());
-        } else {
+        } else {*/
             initialPieces = generateInitialPieces(input);
-            boardDao.saveAllBoardPiece(initialPieces);
+//            boardDao.saveAllBoardPiece(initialPieces);
             turn = new Turn();
-            turnDao.saveTurn(turn.getTurn());
-        }
+//            turnDao.saveTurn(turn.getTurn());
+//        }
 
         Board board = new Board(initialPieces);
-        output.printBoard(board.extractLocatedLivePieces());
+        output.printBoard(board.getLocatedPieces());
         while (!board.isGameOver()) {
             turn = dropPiece(output, input, board, turn, boardDao, turnDao);
         }
         endGame(output, board, boardDao, turnDao);
     }
 
-    private static List<Piece> generateInitialPieces(Input input) {
+    private static Map<Position, Piece> generateInitialPieces(Input input) {
         TableOption choTableOption = input.readTableOption(Team.CHO);
         TableOption hanTableOption = input.readTableOption(Team.HAN);
         return new PieceGenerator().generateInitialPieces(hanTableOption, choTableOption);
@@ -59,7 +59,7 @@ public class JanggiGame {
             output.printScore(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
             Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
             board.dropPiece(turn, moveableInfo.getKey(), moveableInfo.getValue(), boardDao);
-            output.printBoard(board.extractLocatedLivePieces());
+            output.printBoard(board.getLocatedPieces());
             Turn nextTurn = turn.turnOver();
             turnDao.updateTurn(turn.getTurn(), nextTurn.getTurn());
             return nextTurn;

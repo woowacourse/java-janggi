@@ -2,19 +2,20 @@ package janggi.team;
 
 import janggi.board.TableOption;
 import janggi.piece.Piece;
+import janggi.position.Position;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 public enum Team {
     CHO(10, 1),
     HAN(1, 2);
 
-    private final int StartingRow;
+    private final int startingRow;
     private final int turn;
 
     Team(int startingRow, int turn) {
-        StartingRow = startingRow;
+        this.startingRow = startingRow;
         this.turn = turn;
     }
 
@@ -24,7 +25,11 @@ public enum Team {
         ).findFirst().orElseThrow();
     }
 
-    public List<Piece> generateTableSetPieces(TableOption option) {
-        return option.generateTableSetPieces(this, StartingRow);
+    public Map<Position, Piece> generateTableSetPieces(TableOption option) {
+        return option.generateTableSetPieces(this, startingRow);
+    }
+
+    public boolean isMoveBack(Position startPosition, Position arrivedPosition) {
+        return startPosition.calculateRowDistance(startingRow) > arrivedPosition.calculateRowDistance(startingRow);
     }
 }

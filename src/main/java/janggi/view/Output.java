@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.board.Turn;
 import janggi.piece.*;
+import janggi.position.Position;
 import janggi.team.Team;
 
 import java.util.*;
@@ -27,29 +28,29 @@ public class Output {
             Team.HAN,"한"
     );
 
-    public void printBoard(List<Piece> positioningPieces) {
+    public void printBoard(Map<Position, Piece> locatedPieces) {
 
-        String[][] locatedPieces = new String[10][9];
+        String[][] board = new String[10][9];
 
-        for (String[] row : locatedPieces) {
+        for (String[] row : board) {
             Arrays.fill(row,"_");
         }
 
-        for (Piece piece : positioningPieces) {
-            int row = piece.getPosition().row();
-            int column = piece.getPosition().column();
-            String color = piece.getTeam().equals(Team.CHO) ? CHO_BLUE : HAN_RED;
+        for (Map.Entry<Position, Piece> piece : locatedPieces.entrySet()) {
+            int row = piece.getKey().row();
+            int column = piece.getKey().column();
+            String color = piece.getValue().getTeam().equals(Team.CHO) ? CHO_BLUE : HAN_RED;
             Map.Entry<PieceType,String> findEntry = PIECE_VIEWS.entrySet().stream()
-                    .filter(entry -> entry.getKey() == piece.getPieceType())
+                    .filter(entry -> entry.getKey() == piece.getValue().getPieceType())
                     .findFirst()
                     .orElseThrow();
-            locatedPieces[row - 1][column - 1] = color + findEntry.getValue() + RESET;
+            board[row - 1][column - 1] = color + findEntry.getValue() + RESET;
         }
 
         for (int i = 0; i <= 9; i++) {
             System.out.println();
             for (int j = 0; j <= 8; j++) {
-                System.out.print(locatedPieces[i][j]);
+                System.out.print(board[i][j]);
             }
         }
 

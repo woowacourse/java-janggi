@@ -1,13 +1,13 @@
 package janggi.board;
 
-import janggi.piece.Elephant;
-import janggi.piece.Horse;
+import janggi.piece.DefaultPiece;
+import janggi.piece.PieceType;
 import janggi.position.Position;
 import janggi.team.Team;
 import janggi.piece.Piece;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum TableOption {
     EHEH(7, 2, 8, 3),
@@ -28,12 +28,12 @@ public enum TableOption {
         this.leftHorseColumn = leftHorseColumn;
     }
 
-    public List<Piece> generateTableSetPieces(Team team, int row) {
-        List<Piece> tableSettings = new ArrayList<>();
-        tableSettings.add(new Elephant(team, new Position(row, rightElephantColumn)));
-        tableSettings.add(new Elephant(team, new Position(row, leftElephantColumn)));
-        tableSettings.add(new Horse(team, new Position(row, rightHorseColumn)));
-        tableSettings.add(new Horse(team, new Position(row, leftHorseColumn)));
+    public Map<Position, Piece> generateTableSetPieces(Team team, int row) {
+        Map<Position,Piece> tableSettings = new HashMap<>();
+        tableSettings.put(new Position(row, rightElephantColumn) ,new DefaultPiece(team, PieceType.ELEPHANT));
+        tableSettings.put(new Position(row, leftElephantColumn) ,new DefaultPiece(team, PieceType.ELEPHANT));
+        tableSettings.put(new Position(row, rightHorseColumn) ,new DefaultPiece(team, PieceType.HORSE));
+        tableSettings.put(new Position(row, leftHorseColumn) ,new DefaultPiece(team, PieceType.HORSE));
         return tableSettings;
     }
 }

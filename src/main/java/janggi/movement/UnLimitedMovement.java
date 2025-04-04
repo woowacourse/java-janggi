@@ -5,20 +5,20 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnLimitedRoute implements Route{
+public class UnLimitedMovement implements Movement {
 
-    private final List<Movement> movements;
+    private final List<Direction> directions;
 
-    public UnLimitedRoute(List<Movement> movements) {
-        this.movements = movements;
+    public UnLimitedMovement(List<Direction> directions) {
+        this.directions = directions;
     }
 
     @Override
     public Position step(Position startPosition, Position arrivedPosition) {
         Position reachablePosition = startPosition;
         if (startPosition.isHorizontalFromPosition(arrivedPosition)) {
-            for (Movement movement : movements) {
-                reachablePosition = movement.move(reachablePosition);
+            for (Direction direction : directions) {
+                reachablePosition = direction.move(reachablePosition);
                 if (reachablePosition.isSameColumn(arrivedPosition)) {
                     return reachablePosition;
                 }
@@ -26,16 +26,16 @@ public class UnLimitedRoute implements Route{
         }
 
         if (startPosition.isVerticalFromPosition(arrivedPosition)) {
-            for (Movement movement : movements) {
-                reachablePosition = movement.move(reachablePosition);
+            for (Direction direction : directions) {
+                reachablePosition = direction.move(reachablePosition);
                 if (reachablePosition.isSameRow(arrivedPosition)) {
                     return reachablePosition;
                 }
             }
         }
 
-        for (Movement movement : movements) {
-            reachablePosition = movement.move(reachablePosition);
+        for (Direction direction : directions) {
+            reachablePosition = direction.move(reachablePosition);
         }
         return reachablePosition;
     }
@@ -56,8 +56,8 @@ public class UnLimitedRoute implements Route{
         for (int i = 0; i < arrivedValue; i++) {
             Position pathPosition = startPosition;
             for (int j = 0; j <= i; j++) {
-                Movement movement = movements.get(j);
-                pathPosition = movement.move(pathPosition);
+                Direction direction = directions.get(j);
+                pathPosition = direction.move(pathPosition);
             }
             pathPositions.add(pathPosition);
         }

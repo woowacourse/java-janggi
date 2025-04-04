@@ -9,53 +9,66 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class PieceGeneratorTest {
     @ParameterizedTest
     @MethodSource("makeInitialPieceTestData")
     @DisplayName("초기 기물이 올바르게 생성되는지 확인")
-    void pieceGeneratorTest(List<Piece> hanPieces) {
+    void pieceGeneratorTest(Map<Position, Piece> expectedPieces) {
         //given & when
-        List<Piece> pieces = new PieceGenerator().generateInitialPieces(TableOption.HEEH, TableOption.EHHE);
+        Map<Position, Piece> pieces = new PieceGenerator().generateInitialPieces(TableOption.HEEH, TableOption.EHHE);
         //then
-        Assertions.assertThat(pieces).containsAll(hanPieces);
+        Assertions.assertThat(pieces).containsAllEntriesOf(expectedPieces);
     }
 
     static Stream<Arguments> makeInitialPieceTestData() {
+        // 한 - 마상상마
+        Map<Position, Piece> hanPieces = new HashMap<>();
+        hanPieces.put(new Position(1, 1), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
+        hanPieces.put(new Position(1, 9), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
+        hanPieces.put(new Position(3, 2), new DefaultPiece(Team.HAN, PieceType.CANNON));
+        hanPieces.put(new Position(3, 8), new DefaultPiece(Team.HAN, PieceType.CANNON));
+        hanPieces.put(new Position(1, 3), new DefaultPiece(Team.HAN, PieceType.ELEPHANT));
+        hanPieces.put(new Position(1, 7), new DefaultPiece(Team.HAN, PieceType.ELEPHANT));
+        hanPieces.put(new Position(1, 2), new DefaultPiece(Team.HAN, PieceType.HORSE));
+        hanPieces.put(new Position(1, 8), new DefaultPiece(Team.HAN, PieceType.HORSE));
+        hanPieces.put(new Position(4, 1), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        hanPieces.put(new Position(4, 3), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        hanPieces.put(new Position(4, 5), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        hanPieces.put(new Position(4, 7), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        hanPieces.put(new Position(4, 9), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
+        hanPieces.put(new Position(1, 4), new PalacePiece(Team.HAN, PieceType.GUARD));
+        hanPieces.put(new Position(1, 6), new PalacePiece(Team.HAN, PieceType.GUARD));
+        hanPieces.put(new Position(2, 5), new PalacePiece(Team.HAN, PieceType.KING));
+
+        // 초 - 상마마상
+        Map<Position, Piece> choPieces = new HashMap<>();
+        choPieces.put(new Position(10, 1), new DefaultPiece(Team.CHO, PieceType.CHARIOT));
+        choPieces.put(new Position(10, 9), new DefaultPiece(Team.CHO, PieceType.CHARIOT));
+        choPieces.put(new Position(8, 2), new DefaultPiece(Team.CHO, PieceType.CANNON));
+        choPieces.put(new Position(8, 8), new DefaultPiece(Team.CHO, PieceType.CANNON));
+        choPieces.put(new Position(10, 2), new DefaultPiece(Team.CHO, PieceType.ELEPHANT));
+        choPieces.put(new Position(10, 8), new DefaultPiece(Team.CHO, PieceType.ELEPHANT));
+        choPieces.put(new Position(10, 3), new DefaultPiece(Team.CHO, PieceType.HORSE));
+        choPieces.put(new Position(10, 7), new DefaultPiece(Team.CHO, PieceType.HORSE));
+        choPieces.put(new Position(7, 1), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        choPieces.put(new Position(7, 3), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        choPieces.put(new Position(7, 5), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        choPieces.put(new Position(7, 7), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        choPieces.put(new Position(7, 9), new DefaultPiece(Team.CHO, PieceType.SOLDIER));
+        choPieces.put(new Position(10, 4), new PalacePiece(Team.CHO, PieceType.GUARD));
+        choPieces.put(new Position(10, 6), new PalacePiece(Team.CHO, PieceType.GUARD));
+        choPieces.put(new Position(9, 5), new PalacePiece(Team.CHO, PieceType.KING));
+
         return Stream.of(
                 Arguments.arguments(
-                        // 한 - 마상상마
-                        List.of(
-                                new Chariot(Team.HAN, new Position(1, 1)), new Chariot(Team.HAN, new Position(1,  9)),
-                                new Cannon(Team.HAN, new Position(3, 2)), new Cannon(Team.HAN, new Position(3,  8)),
-                                new Elephant(Team.HAN, new Position(1, 3)), new Elephant(Team.HAN, new Position(1,  7)),
-                                new Horse(Team.HAN, new Position(1, 2)), new Horse(Team.HAN, new Position(1,  8)),
-                                new Soldier(Team.HAN, new Position(4, 1)),
-                                new Soldier(Team.HAN, new Position(4, 3)),
-                                new Soldier(Team.HAN, new Position(4, 5)),
-                                new Soldier(Team.HAN, new Position(4, 7)),
-                                new Soldier(Team.HAN, new Position(4, 9)),
-                                new Guard(Team.HAN, new Position(1, 4)), new Guard(Team.HAN, new Position(1, 6)),
-                                new King(Team.HAN, new Position(2, 5))
-                        )
+                        hanPieces
                 ),
                 Arguments.arguments(
-                        // 초 - 상마마상
-                        List.of(
-                                new Chariot(Team.CHO, new Position(10, 1)), new Chariot(Team.CHO, new Position(10, 9)),
-                                new Cannon(Team.CHO, new Position(8, 2)), new Cannon(Team.CHO, new Position(8, 8)),
-                                new Elephant(Team.CHO, new Position(10, 2)), new Elephant(Team.CHO, new Position(10, 8)),
-                                new Horse(Team.CHO, new Position(10, 3)), new Horse(Team.CHO, new Position(10, 7)),
-                                new Soldier(Team.CHO, new Position(7, 1)),
-                                new Soldier(Team.CHO, new Position(7, 3)),
-                                new Soldier(Team.CHO, new Position(7, 5)),
-                                new Soldier(Team.CHO, new Position(7, 7)),
-                                new Soldier(Team.CHO, new Position(7, 9)),
-                                new Guard(Team.CHO, new Position(10, 4)), new Guard(Team.CHO, new Position(10, 6)),
-                                new King(Team.CHO, new Position(9, 5))
-                        )
+                        choPieces
                 )
         );
     }

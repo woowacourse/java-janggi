@@ -2,116 +2,136 @@ package janggi.piece;
 
 import janggi.position.Position;
 import janggi.team.Team;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class HorseTest {
     @Test
     @DisplayName("마 전진 우대각 이동 테스트")
     void horseUpRightUpTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(5, 4);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(5, 4))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 전진 좌대각 이동 테스트")
     void horseUpLeftUpTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(5, 2);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(5, 2))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 좌 위대각 이동 테스트")
     void horseLeftLeftUpTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(6, 1);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(6, 1))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 좌 아래대각 이동 테스트")
     void horseLeftLeftDownTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(8, 1);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(8, 1))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 우 위대각 이동 테스트")
     void horseRightRightUpTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(6, 5);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(6, 5))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 우 아래대각 이동 테스트")
     void horseRightRightDownTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(8, 5);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(8, 5))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 아래 우대각 이동 테스트")
     void horseDownRightDownTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(9, 4);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(9, 4))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 아래 좌대각 이동 테스트")
     void horseDownLeftDownTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
+        Position startPosition = new Position(7, 3);
         Position arrivedPosition = new Position(9, 2);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when
-        Piece movedPiece = horse.move(arrivedPosition);
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
         //then
-        assertThat(movedPiece.matchesPosition(new Position(9, 2))).isTrue();
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
+    }
+
+    @Test
+    @DisplayName("마 궁성 이동 테스트")
+    void moveInPalaceHorseTest() {
+        //given
+        Position startPosition = new Position(8, 3);
+        Position arrivedPosition = new Position(9, 5);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
+        //when
+        Position movedPosition = horse.move(startPosition, arrivedPosition);
+        //then
+        Assertions.assertThat(movedPosition).isEqualTo(arrivedPosition);
     }
 
     @Test
     @DisplayName("마 장기판 밖으로 이동 시 예외 발생")
-    void outOfBoardTest() {
+    void outOfBoardHorseTest() {
         //given
-        Horse horse = new Horse(Team.CHO, new Position(9, 3));
+        Position startPosition = new Position(9, 3);
         Position arrivedPosition = new Position(11, 2);
+        DefaultPiece horse = new DefaultPiece(Team.CHO, PieceType.HORSE);
         //when & then
-        assertThatThrownBy(() -> horse.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> horse.move(startPosition, arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }

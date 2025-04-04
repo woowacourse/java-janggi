@@ -9,6 +9,7 @@ import janggi.team.Team;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BoardDao {
 
@@ -18,17 +19,18 @@ public class BoardDao {
         this.connector = connector;
     }
 
-    public void saveAllBoardPiece(List<Piece> pieces) {
+    public void saveAllBoardPiece(Map<Position,Piece> pieces) {
         String query = "INSERT INTO board_piece (piece_type, live_status, team, column_position, row_position) VALUES(?, ?, ?, ?, ?)";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
-            for (Piece piece : pieces) {
+            for (Map.Entry<Position, Piece> pieceInfo : pieces.entrySet()) {
+                Position position = pieceInfo.getKey();
+                Piece piece = pieceInfo.getValue();
                 preparedStatement.setString(1, piece.getPieceType().name());
-                preparedStatement.setBoolean(2, piece.isLive());
-                preparedStatement.setString(3, piece.getTeam().name());
-                preparedStatement.setInt(4, piece.getPosition().column());
-                preparedStatement.setInt(5, piece.getPosition().row());
+                preparedStatement.setString(2, piece.getTeam().name());
+                preparedStatement.setInt(3, position.column());
+                preparedStatement.setInt(4, position.row());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -36,17 +38,16 @@ public class BoardDao {
         }
     }
 
-    public void updateBoardPiece(Piece previousPiece, Piece updatePiece) {
-        String query = "UPDATE board_piece SET column_position = ?, row_position = ?, live_status = ? WHERE column_position = ? AND row_position = ? AND team = ?";
+    public void updateBoardPiece(Position position, Piece updatePiece) {
+        String query = "UPDATE board_piece SET piece_type = ?, team = ? WHERE column_position = ? AND row_position = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
-            preparedStatement.setInt(1, updatePiece.getPosition().column());
-            preparedStatement.setInt(2, updatePiece.getPosition().row());
-            preparedStatement.setBoolean(3, updatePiece.isLive());
-            preparedStatement.setInt(4, previousPiece.getPosition().column());
-            preparedStatement.setInt(5, previousPiece.getPosition().row());
-            preparedStatement.setString(6, previousPiece.getTeam().name());
+            preparedStatement.setString(1, updatePiece.getPieceType().name());
+            preparedStatement.setString(2, updatePiece.getTeam().name());
+
+            preparedStatement.setInt(3, position.column());
+            preparedStatement.setInt(4, position.row());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -68,7 +69,7 @@ public class BoardDao {
         }
     }
 
-    public List<Piece> findAllBoardPiece() {
+/*    public Map<Position, Piece> findAllBoardPiece() {
         String query = "SELECT * FROM board_piece";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -88,7 +89,7 @@ public class BoardDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public void deleteAll() {
         String query = "DELETE FROM board_piece";
