@@ -32,7 +32,7 @@ class KingTest {
         // when && then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> king.move(target, moveInfos))
-                .withMessage("왕은 궁성 밖으로 이동할 수 없습니다.");
+                .withMessage("궁성 밖으로 이동할 수 없습니다.");
     }
 
     @Test

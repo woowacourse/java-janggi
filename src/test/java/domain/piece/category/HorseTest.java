@@ -30,7 +30,7 @@ class HorseTest {
         // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.move(target, moveInfos))
-                .withMessage("마는 중간에 기물이 0개여야 합니다.");
+                .withMessage("중간에 기물이 0개여야 합니다.");
     }
 
     @Test

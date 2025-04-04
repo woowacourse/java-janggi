@@ -138,10 +138,10 @@ class BoardTest {
         assertAll(
                 () -> assertThatIllegalArgumentException()
                         .isThrownBy(() -> board.moveAndCapture(han, startPosition, targetPosition1))
-                        .withMessage("포는 중간에 기물이 1개여야 합니다."),
+                        .withMessage("중간에 기물이 1개여야 합니다."),
                 () -> assertThatIllegalArgumentException()
                         .isThrownBy(() -> board.moveAndCapture(han, startPosition, targetPosition2))
-                        .withMessage("포는 중간에 기물이 1개여야 합니다.")
+                        .withMessage("중간에 기물이 1개여야 합니다.")
         );
     }
 

@@ -61,7 +61,7 @@ class CannonTest {
         // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
-                .withMessage("포는 중간에 기물이 1개여야 합니다.");
+                .withMessage("중간에 기물이 1개여야 합니다.");
     }
 
     private static Stream<Arguments> 포는_경로에_기물이_1개가_아닌_경우_예외가_발생한다() {

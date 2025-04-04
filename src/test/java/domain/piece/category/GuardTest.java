@@ -33,7 +33,7 @@ class GuardTest {
         // when && then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> guard.move(target, moveInfos))
-                .withMessage("사는 궁성 밖으로 이동할 수 없습니다.");
+                .withMessage("궁성 밖으로 이동할 수 없습니다.");
     }
 
     @Test
