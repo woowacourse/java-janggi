@@ -11,7 +11,6 @@ import java.util.List;
 public class Elephant extends Piece {
 
     private static final PieceCategory CATEGORY = PieceCategory.ELEPHANT;
-    private static final int PIECES_TO_PASS = 0;
 
     public Elephant(final Position position, final Directions directions) {
         super(position, directions);
