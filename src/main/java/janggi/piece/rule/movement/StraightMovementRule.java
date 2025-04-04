@@ -3,57 +3,39 @@ package janggi.piece.rule.movement;
 import janggi.board.Board;
 import janggi.coordinate.Distance;
 import janggi.coordinate.Position;
-import janggi.coordinate.Route;
 import janggi.piece.rule.block.RequiredBlockCountRule;
+import janggi.piece.rule.palace.PalaceDiagonalRule;
+import janggi.piece.rule.palace.StraightMovementPalaceDiagonalRule;
 
 public class StraightMovementRule extends MovementRule {
 
-    private StraightMovementRule(final RequiredBlockCountRule requiredBlockCountRule) {
+    private final PalaceDiagonalRule palaceDiagonalRule;
+
+    private StraightMovementRule(final RequiredBlockCountRule requiredBlockCountRule,
+                                 final PalaceDiagonalRule palaceDiagonalRule) {
         super(requiredBlockCountRule);
+        this.palaceDiagonalRule = palaceDiagonalRule;
     }
 
     public static MovementRule withNonBlock() {
-        return new StraightMovementRule(RequiredBlockCountRule.withNonBlock());
+        return new StraightMovementRule(RequiredBlockCountRule.withNonBlock(),
+                new StraightMovementPalaceDiagonalRule());
     }
 
     public static MovementRule withBlock(final int requireBlockCount) {
-        return new StraightMovementRule(RequiredBlockCountRule.withBlock(requireBlockCount));
+        return new StraightMovementRule(RequiredBlockCountRule.withBlock(requireBlockCount),
+                new StraightMovementPalaceDiagonalRule());
     }
 
     @Override
-    protected void validateMoveShape(final Board board, final Position departure, final Position destination) {
+    protected void validateMovement(final Board board, final Position departure, final Position destination) {
         final Distance distance = Distance.of(departure, destination);
 
-        if (distance.isStraight()) {
-            return;
-        }
-
-        if (isValidPalaceDiagonalMove(board, departure, destination, distance)) {
+        if (distance.isStraight()
+                || palaceDiagonalRule.isSatisfied(board, departure, destination, distance)) {
             return;
         }
 
         throw new IllegalArgumentException(EXCEPTION_MESSAGE);
-    }
-
-    private boolean isValidPalaceDiagonalMove(final Board board,
-                                              final Position departure,
-                                              final Position destination,
-                                              final Distance distance) {
-        if (!board.isPalace(departure)) {
-            return false;
-        }
-
-        if (!board.isPalace(destination)) {
-            return false;
-        }
-
-        if (!distance.isDiagonal()) {
-            return false;
-        }
-
-        final Route route = Route.of(departure, destination);
-
-        return route.calculateWithDepartureAndDestination().stream()
-                .anyMatch(board::isCenterOfPalace);
     }
 }

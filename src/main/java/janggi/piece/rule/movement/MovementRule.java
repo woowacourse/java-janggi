@@ -15,11 +15,11 @@ public abstract class MovementRule {
     }
 
     public void validate(final Board board, final Position departure, final Position destination) {
-        validateMoveShape(board, departure, destination);
+        validateMovement(board, departure, destination);
         validateBlockCount(board, departure, destination);
     }
 
-    protected abstract void validateMoveShape(final Board board, final Position departure, final Position destination);
+    protected abstract void validateMovement(final Board board, final Position departure, final Position destination);
 
     private void validateBlockCount(final Board board, final Position departure, final Position destination) {
         requiredBlockCountRule.validate(board, departure, destination);

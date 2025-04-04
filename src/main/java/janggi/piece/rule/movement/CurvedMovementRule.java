@@ -23,7 +23,7 @@ public class CurvedMovementRule extends MovementRule {
     }
 
     @Override
-    protected void validateMoveShape(final Board board, final Position departure, final Position destination) {
+    protected void validateMovement(final Board board, final Position departure, final Position destination) {
         final Distance distance = Distance.of(departure, destination);
 
         if (matchesRequiredCurve(distance)) {

@@ -81,6 +81,6 @@ class GuardTest {
         // then
         assertThatThrownBy(() -> guard.move(board, Position.of(7, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("사는 궁성 밖으로 나갈 수 없습니다");
+                .hasMessageContaining("해당 기물은 궁성 밖으로 움직일 수 없습니다");
     }
 }
