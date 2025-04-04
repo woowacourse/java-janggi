@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

@@ -1,7 +1,5 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.domain.piece.Byeong;
-import janggi.domain.piece.Pieces;
 import janggi.domain.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;

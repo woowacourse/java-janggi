@@ -1,11 +1,11 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.Cha;
+import janggi.domain.piece.Gung;
 import janggi.domain.piece.Pieces;
-import janggi.domain.piece.Sa;
 import janggi.domain.setting.CampType;
 import janggi.domain.value.JanggiPosition;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class SaTest {
+class GungTest {
 
     static final JanggiPosition STANDARD = new JanggiPosition(4, 8);
 
@@ -26,13 +26,13 @@ class SaTest {
     @MethodSource()
     void test1(JanggiPosition destination) {
         //given
-        Sa sa = Sa.from(STANDARD);
+        Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
 
         //when
-        Sa movedSa = sa.move(destination, new Pieces(List.of()), new Pieces(List.of()));
+        Gung movedGung = gung.move(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
-        assertThat(movedSa.getPosition()).isEqualTo(destination);
+        assertThat(movedGung.getPosition()).isEqualTo(destination);
     }
 
     static Stream<Arguments> test1() {
@@ -49,10 +49,10 @@ class SaTest {
     @MethodSource()
     void test2(JanggiPosition destination) {
         //given
-        Sa sa = Sa.from(STANDARD);
+        Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
 
         //when & then
-        assertThatThrownBy(() -> sa.move(destination, new Pieces(List.of()), new Pieces(List.of())))
+        assertThatThrownBy(() -> gung.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -69,12 +69,12 @@ class SaTest {
     @Test
     void test3() {
         //given
-        Sa sa = Sa.generateInitialSas(CampType.CHO).getFirst();
-        JanggiPosition destination = new JanggiPosition(3, 8);
-        Sa otherPiece = Sa.from(destination);
+        Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
+        JanggiPosition destination = new JanggiPosition(STANDARD.x() + 1, STANDARD.y());
+        Gung otherPiece = Gung.from(destination);
 
         //when & then
-        assertThatThrownBy(() -> sa.move(destination, new Pieces(List.of()), new Pieces(List.of(otherPiece))))
+        assertThatThrownBy(() -> gung.move(destination, new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -83,13 +83,13 @@ class SaTest {
     @Test
     void test4() {
         //given
-        Sa sa = Sa.from(STANDARD);
-        JanggiPosition destination = new JanggiPosition(4,9);
+        Gung gung = Gung.from(STANDARD);
+        JanggiPosition destination = new JanggiPosition(5, 8);
         Cha enemyCha = Cha.from(destination);
         Pieces enemyPieces = new Pieces(List.of(enemyCha));
 
         //when
-        Sa movedSa = sa.move(destination, enemyPieces, new Pieces(List.of()));
+        Gung movedGung = gung.move(destination, enemyPieces, new Pieces(List.of()));
 
         //then
         Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
@@ -100,10 +100,10 @@ class SaTest {
     @MethodSource()
     void test5(JanggiPosition destination) {
         //given
-        Sa sa = Sa.from(STANDARD);
+        Gung gung = Gung.from(STANDARD);
 
         //when
-        boolean isMoving = sa.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+        boolean isMoving = gung.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         Assertions.assertThat(isMoving).isTrue();
@@ -123,10 +123,10 @@ class SaTest {
     @Test
     void test6() {
         //given
-        Sa sa = Sa.from(new JanggiPosition(3,8));
+        Gung gung = Gung.from(new JanggiPosition(3,8));
         JanggiPosition destination = new JanggiPosition(2,8);
         //when
-        boolean isMoving = sa.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+        boolean isMoving = gung.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         Assertions.assertThat(isMoving).isFalse();
