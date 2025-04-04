@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class InMemoryJanggiDao implements JanggiDao {
 
     private final Map<Long, String> dataSource = new ConcurrentHashMap<>();
-    private AtomicLong idGenerator = new AtomicLong(0L);
+    private final AtomicLong idGenerator = new AtomicLong(0L);
 
     @Override
     public void save(final Janggi janggi) {

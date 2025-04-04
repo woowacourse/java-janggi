@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class InMemoryPieceDao implements PieceDao {
 
     private final Map<Long, ChessPiece> dataSource = new ConcurrentHashMap<>();
-    private AtomicLong idGenerator = new AtomicLong(0L);
+    private final AtomicLong idGenerator = new AtomicLong(0L);
 
     @Override
     public void saveAll(final List<ChessPiece> chessPieces) {
