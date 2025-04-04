@@ -1,4 +1,4 @@
-package domain.chessPiece;
+package domain.chesspiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,10 +9,10 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class KingTest {
+class GuardTest {
 
     @Test
-    @DisplayName("(1, 4) 위치 왕의 이동 경로를 계산한다")
+    @DisplayName("(1, 4) 위치 사의 이동 경로를 계산한다")
     void test1() {
         //given
         final ChessPosition chessPosition = new ChessPosition(1, 4);
@@ -28,8 +28,8 @@ class KingTest {
         );
 
         //when
-        final King king = new King(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = king.calculateCoordinatePaths(chessPosition);
+        final Guard guard = new Guard(chessPosition, ChessTeam.RED);
+        final List<Path> coordinatePaths = guard.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).containsExactlyInAnyOrderElementsOf(expected);
@@ -37,7 +37,7 @@ class KingTest {
     }
 
     @Test
-    @DisplayName("(1, 3) 위치 왕의 이동경로를 계산한다")
+    @DisplayName("(1, 3) 위치 사의 이동경로를 계산한다")
     void test2() {
         //given
         final ChessPosition chessPosition = new ChessPosition(1, 3);
@@ -48,8 +48,8 @@ class KingTest {
         );
 
         //when
-        final King king = new King(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = king.calculateCoordinatePaths(chessPosition);
+        final Guard guard = new Guard(chessPosition, ChessTeam.RED);
+        final List<Path> coordinatePaths = guard.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).containsExactlyInAnyOrderElementsOf(expected);

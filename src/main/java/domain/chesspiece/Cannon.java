@@ -1,4 +1,4 @@
-package domain.chessPiece;
+package domain.chesspiece;
 
 import domain.direction.Direction;
 import domain.hurdlePolicy.CannonHurdlePolicy;

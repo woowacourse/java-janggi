@@ -1,4 +1,4 @@
-package domain.chessPiece;
+package domain.chesspiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,21 +9,20 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class HorseTest {
+public class PawnTest {
 
     @Test
-    @DisplayName("마의 이동 경로를 반환한다")
+    @DisplayName("폰이 이동 가능한 경로를 반환한다")
     void test1() {
         // given
         final ChessPosition chessPosition = new ChessPosition(4, 4);
         final Path expected = new Path(List.of(
-                new ChessPosition(4, 5),
-                new ChessPosition(5,6)
+                new ChessPosition(3, 4)
         ));
 
         //when
-        final Horse horse = new Horse(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = horse.calculateCoordinatePaths(chessPosition);
+        final Pawn pawn = new Pawn(chessPosition, ChessTeam.BLUE);
+        final List<Path> coordinatePaths = pawn.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).contains(expected);

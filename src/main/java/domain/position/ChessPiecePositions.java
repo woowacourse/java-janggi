@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.chessPiece.ChessPiece;
+import domain.chesspiece.ChessPiece;
 import domain.score.Score;
 import domain.type.ChessTeam;
 import java.util.ArrayList;

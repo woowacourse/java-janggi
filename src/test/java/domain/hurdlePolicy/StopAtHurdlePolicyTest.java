@@ -2,7 +2,7 @@ package domain.hurdlePolicy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.chessPiece.Pawn;
+import domain.chesspiece.Pawn;
 import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;

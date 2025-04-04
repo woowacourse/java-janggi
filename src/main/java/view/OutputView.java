@@ -1,6 +1,6 @@
 package view;
 
-import domain.chessPiece.ChessPiece;
+import domain.chesspiece.ChessPiece;
 import domain.position.ChessPosition;
 import domain.score.Score;
 import domain.type.ChessPieceType;

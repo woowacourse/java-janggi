@@ -1,14 +1,14 @@
 package dao;
 
 import config.Connector;
-import domain.chessPiece.Cannon;
-import domain.chessPiece.Chariot;
-import domain.chessPiece.ChessPiece;
-import domain.chessPiece.Elephant;
-import domain.chessPiece.Guard;
-import domain.chessPiece.Horse;
-import domain.chessPiece.King;
-import domain.chessPiece.Pawn;
+import domain.chesspiece.Cannon;
+import domain.chesspiece.Chariot;
+import domain.chesspiece.ChessPiece;
+import domain.chesspiece.Elephant;
+import domain.chesspiece.Guard;
+import domain.chesspiece.Horse;
+import domain.chesspiece.King;
+import domain.chesspiece.Pawn;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
 import java.sql.PreparedStatement;

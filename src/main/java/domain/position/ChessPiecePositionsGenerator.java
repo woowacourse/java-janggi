@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.chessPiece.ChessPiece;
+import domain.chesspiece.ChessPiece;
 import java.util.List;
 
 public interface ChessPiecePositionsGenerator {

@@ -1,12 +1,12 @@
 package domain.fake;
 
-import domain.chessPiece.Cannon;
-import domain.chessPiece.Chariot;
-import domain.chessPiece.ChessPiece;
-import domain.chessPiece.Elephant;
-import domain.chessPiece.Guard;
-import domain.chessPiece.Horse;
-import domain.chessPiece.Pawn;
+import domain.chesspiece.Cannon;
+import domain.chesspiece.Chariot;
+import domain.chesspiece.ChessPiece;
+import domain.chesspiece.Elephant;
+import domain.chesspiece.Guard;
+import domain.chesspiece.Horse;
+import domain.chesspiece.Pawn;
 import domain.position.ChessPiecePositionsGenerator;
 import java.util.ArrayList;
 import java.util.List;

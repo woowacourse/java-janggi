@@ -1,6 +1,6 @@
 package domain.fake;
 
-import domain.chessPiece.ChessPiece;
+import domain.chesspiece.ChessPiece;
 import domain.position.ChessPiecePositionsGenerator;
 import java.util.List;
 

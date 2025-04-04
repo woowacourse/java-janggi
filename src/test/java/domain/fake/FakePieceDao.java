@@ -1,7 +1,7 @@
 package domain.fake;
 
 import dao.PieceDao;
-import domain.chessPiece.ChessPiece;
+import domain.chesspiece.ChessPiece;
 import java.util.List;
 
 public class FakePieceDao implements PieceDao {

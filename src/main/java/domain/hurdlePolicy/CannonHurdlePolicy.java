@@ -1,6 +1,6 @@
 package domain.hurdlePolicy;
 
-import domain.chessPiece.ChessPiece;
+import domain.chesspiece.ChessPiece;
 import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;

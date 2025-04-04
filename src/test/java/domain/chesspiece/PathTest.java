@@ -1,4 +1,4 @@
-package domain.chessPiece;
+package domain.chesspiece;
 
 import domain.path.Path;
 import domain.position.ChessPosition;

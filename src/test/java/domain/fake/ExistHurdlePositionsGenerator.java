@@ -1,7 +1,7 @@
 package domain.fake;
 
-import domain.chessPiece.ChessPiece;
-import domain.chessPiece.Pawn;
+import domain.chesspiece.ChessPiece;
+import domain.chesspiece.Pawn;
 import domain.position.ChessPiecePositionsGenerator;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;

@@ -3,7 +3,7 @@ package service;
 import dao.JanggiDao;
 import dao.PieceDao;
 import domain.Board;
-import domain.chessPiece.ChessPiece;
+import domain.chesspiece.ChessPiece;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.position.InitialChessPiecePositionsGenerator;

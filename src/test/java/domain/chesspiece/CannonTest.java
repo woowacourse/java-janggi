@@ -1,4 +1,4 @@
-package domain.chessPiece;
+package domain.chesspiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -2,8 +2,8 @@ package domain.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.chessPiece.ChessPiece;
-import domain.chessPiece.Pawn;
+import domain.chesspiece.ChessPiece;
+import domain.chesspiece.Pawn;
 import domain.type.ChessTeam;
 import java.util.List;
 import org.junit.jupiter.api.Disabled;

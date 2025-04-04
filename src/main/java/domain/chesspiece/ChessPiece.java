@@ -1,4 +1,4 @@
-package domain.chessPiece;
+package domain.chesspiece;
 
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.path.Path;
