@@ -1,6 +1,7 @@
 package entity;
 
 import domain.Player;
+import domain.Team;
 import domain.board.Board;
 import domain.board.BoardPoint;
 import domain.pieces.Piece;
@@ -49,7 +50,7 @@ public class GameInitializer {
                 .map(playerEntity ->
                 {
                     TeamEntity teamEntity = teamRepository.findById(playerEntity.getTeamId());
-                    return PlayerMapper.toPlayer(TeamMapper.toTeam(teamEntity));
+                    return PlayerMapper.toPlayer(Team.findByName(teamEntity.getName()));
                 })
                 .collect(Collectors.toList());
     }

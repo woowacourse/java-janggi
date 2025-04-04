@@ -14,7 +14,7 @@ import execptions.JanggiArgumentException;
 public class PieceMapper {
     public static Piece toPiece(PieceEntity pieceEntity, TeamEntity teamEntity) {
         String type = pieceEntity.getType();
-        Team team = TeamMapper.toTeam(teamEntity);
+        Team team = Team.findByName(teamEntity.getName());
 
         return switch (type) {
             case "Soldier" -> new Soldier(team);
