@@ -11,6 +11,7 @@ import domain.score.Score;
 import domain.type.ChessTeam;
 import game.Janggi;
 import game.Turn;
+import java.sql.SQLException;
 import java.util.List;
 
 public class JanngiService {
@@ -28,7 +29,14 @@ public class JanngiService {
     }
 
     public void processTurn(final Janggi janggi, final ChessPosition fromPosition, final ChessPosition toPosition) {
-        janggi.processTurn(fromPosition, toPosition);
+        try {
+            clear();
+            janggi.processTurn(fromPosition, toPosition);
+            gameSave(janggi);
+        } catch (final RuntimeException e) {
+            throw new IllegalArgumentException("턴 진행을 실패하였습니다.");
+        }
+
     }
 
     public void gameSave(final Janggi janggi) {

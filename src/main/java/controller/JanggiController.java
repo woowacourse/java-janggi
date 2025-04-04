@@ -45,8 +45,6 @@ public class JanggiController {
             outputView.printAvailableDestinations(janggi.getAvailableDestinations(fromPosition));
             final ChessPosition toPosition = inputView.readToPosition();
             janngiService.processTurn(janggi, fromPosition, toPosition);
-            janngiService.clear();
-            janngiService.gameSave(janggi);
         });
     }
 }
