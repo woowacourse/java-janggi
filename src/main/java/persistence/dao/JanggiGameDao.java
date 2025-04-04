@@ -1,6 +1,6 @@
 package persistence.dao;
 
-import domain.entity.JanggiGameEntity;
+import persistence.entity.JanggiGameEntity;
 import domain.game.Turn;
 import domain.piece.Team;
 import java.sql.Connection;
@@ -15,7 +15,7 @@ public class JanggiGameDao {
                 INSERT INTO janggi_game (turn) VALUES (?)
                 """;
         try (final var preparedStatement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, entity.getTurn().getTeam().name());
+            preparedStatement.setString(1, entity.turn().getTeam().name());
             int rowCreated = preparedStatement.executeUpdate();
             if (rowCreated == 0) {
                 throw new SQLException("[ERROR] 게임 생성에 실패하였습니다");
@@ -34,7 +34,7 @@ public class JanggiGameDao {
                 UPDATE janggi_game SET turn = ? WHERE id = ?;
                 """;
         try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
-            preparedStatement.setString(1, entity.getTurn().getTeam().name());
+            preparedStatement.setString(1, entity.turn().getTeam().name());
             preparedStatement.setLong(2, janggiGameId);
             int rowUpdated = preparedStatement.executeUpdate();
             if (rowUpdated == 0) {

@@ -1,7 +1,7 @@
 package persistence.dao;
 
 import domain.board.BoardLocation;
-import domain.entity.PieceEntity;
+import persistence.entity.PieceEntity;
 import domain.piece.PieceType;
 import domain.piece.Score;
 import domain.piece.Team;
@@ -18,12 +18,12 @@ public class PieceDao {
                 """;
         try (final var prepareStatement = connection.prepareStatement(createQuery)) {
             for (PieceEntity pieceEntity : pieceEntities) {
-                prepareStatement.setInt(1, pieceEntity.getColumn());
-                prepareStatement.setInt(2, pieceEntity.getRow());
-                prepareStatement.setString(3, pieceEntity.getType().name());
-                prepareStatement.setString(4, pieceEntity.getTeam().name());
-                prepareStatement.setDouble(5, pieceEntity.getScore().score());
-                prepareStatement.setLong(6, pieceEntity.getJanggiGameId());
+                prepareStatement.setInt(1, pieceEntity.column());
+                prepareStatement.setInt(2, pieceEntity.row());
+                prepareStatement.setString(3, pieceEntity.type().name());
+                prepareStatement.setString(4, pieceEntity.team().name());
+                prepareStatement.setDouble(5, pieceEntity.score().score());
+                prepareStatement.setLong(6, pieceEntity.janggiGameId());
 
                 prepareStatement.addBatch();
             }

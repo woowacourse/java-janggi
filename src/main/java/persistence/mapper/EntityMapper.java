@@ -2,8 +2,8 @@ package persistence.mapper;
 
 import domain.board.Board;
 import domain.board.BoardLocation;
-import domain.entity.JanggiGameEntity;
-import domain.entity.PieceEntity;
+import persistence.entity.JanggiGameEntity;
+import persistence.entity.PieceEntity;
 import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Cannon;
@@ -41,7 +41,7 @@ public class EntityMapper {
     }
 
     public JanggiGame mapToJanggiGame(JanggiGameEntity janggiGameEntity, List<PieceEntity> pieceEntities) {
-        Turn turn = janggiGameEntity.getTurn();
+        Turn turn = janggiGameEntity.turn();
         Board board = mapToBoard(pieceEntities);
         return new JanggiGame(board, turn);
     }
@@ -49,21 +49,21 @@ public class EntityMapper {
     private Board mapToBoard(List<PieceEntity> pieceEntities) {
         Map<BoardLocation, Piece> pieces = pieceEntities.stream()
                 .collect(Collectors.toMap(
-                        entity -> new BoardLocation(entity.getColumn(), entity.getRow()),
+                        entity -> new BoardLocation(entity.column(), entity.row()),
                         this::createPiece
                 ));
         return new Board(pieces);
     }
 
     private Piece createPiece(PieceEntity entity) {
-        return switch (entity.getType()) {
-            case CANNON -> new Cannon(entity.getTeam());
-            case HORSE -> new Horse(entity.getTeam());
-            case CHARIOT -> new Chariot(entity.getTeam());
-            case ELEPHANT -> new Elephant(entity.getTeam());
-            case KING -> King.createByTeam(entity.getTeam());
-            case PAWN -> new Pawn(entity.getTeam());
-            case SCHOLAR -> new Scholar(entity.getTeam());
+        return switch (entity.type()) {
+            case CANNON -> new Cannon(entity.team());
+            case HORSE -> new Horse(entity.team());
+            case CHARIOT -> new Chariot(entity.team());
+            case ELEPHANT -> new Elephant(entity.team());
+            case KING -> King.createByTeam(entity.team());
+            case PAWN -> new Pawn(entity.team());
+            case SCHOLAR -> new Scholar(entity.team());
         };
     }
 }
