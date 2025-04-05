@@ -9,12 +9,12 @@ import static janggi.domain.piece.direction.Direction.UP;
 import static janggi.domain.piece.direction.Direction.UP_LEFT;
 import static janggi.domain.piece.direction.Direction.UP_RIGHT;
 
+import janggi.domain.board.Board;
 import janggi.domain.piece.direction.Movement;
 import janggi.domain.piece.direction.Movements;
-import janggi.domain.piece.position.PathValidator;
-import janggi.domain.board.Board;
-import janggi.domain.players.Team;
+import janggi.domain.piece.position.Path;
 import janggi.domain.piece.position.Position;
+import janggi.domain.players.Team;
 import java.util.Arrays;
 
 public enum Piece {
@@ -118,7 +118,6 @@ public enum Piece {
     private final MovementType movementType;
     private final ObstacleTraversalRule obstacleTraversalRule;
     private final int score;
-    private PathValidator pathValidator;
 
     Piece(
             final Movements movements,
@@ -157,16 +156,18 @@ public enum Piece {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 기물을 찾을 수 없습니다."));
     }
 
-    public void move(final Position from, final Position to, final Board board) {
+    public void validateMove(final Position from, final Position to, final Board board) {
         final Movement movement = movementType.determineMovement(this, from, to);
-        getPathValidator().validatePath(from, to, doesLiveInPalace(), board, movement);
+        validatePath(from, to, doesLiveInPalace(), board, movement);
     }
 
-    private PathValidator getPathValidator() {
-        if (pathValidator == null) {
-            return new PathValidator(obstacleTraversalRule);
+    private void validatePath(final Position from, final Position to, final boolean doesLiveInPalace, final Board board,
+                              final Movement movement) {
+        if (doesLiveInPalace) {
+            from.validateIsInPalace(to);
         }
-        return pathValidator;
+        final Path path = movement.makePath(from, to);
+        obstacleTraversalRule.validatePathObstacles(path, board);
     }
 
     public boolean doesLiveInPalace() {

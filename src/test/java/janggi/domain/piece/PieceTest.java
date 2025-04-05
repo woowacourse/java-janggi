@@ -1,18 +1,13 @@
-package janggi.domain.piece.direction;
+package janggi.domain.piece;
 
-import janggi.domain.piece.ObstacleTraversalRule;
-import janggi.domain.piece.direction.Direction;
-import janggi.domain.piece.direction.Movement;
-import janggi.domain.piece.position.PathValidator;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.position.Position;
 import janggi.domain.board.Board;
+import janggi.domain.piece.position.Position;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class PathValidatorTest {
+class PieceTest {
 
     @ParameterizedTest
     @CsvSource({
@@ -23,12 +18,11 @@ class PathValidatorTest {
         // Given
         final Position currentPosition = new Position(3, 5);
         final Position arrivalPosition = new Position(4, 5);
-        final PathValidator pathValidator = new PathValidator(ObstacleTraversalRule.BLOCK);
 
         // When & Then
         Assertions.assertThatThrownBy(
-                        () -> pathValidator.validatePath(currentPosition, arrivalPosition, true,
-                                new Board(Map.of(currentPosition, piece)), new Movement(Direction.DOWN)))
+                        () -> piece.validateMove(currentPosition, arrivalPosition,
+                                new Board(Map.of(currentPosition, piece))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 궁성 밖을 나갔습니다.");
     }
