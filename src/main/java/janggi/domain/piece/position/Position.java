@@ -79,25 +79,27 @@ public class Position {
     }
 
     public void validateIsInPalace(final Position arrivalPosition) {
-        if (!isInPalace(arrivalPosition)) {
+        if (!areBothPositionsInPalace(arrivalPosition)) {
             throw new IllegalArgumentException("[ERROR] 궁성 밖을 나갔습니다.");
         }
     }
 
-    private boolean isInPalace(final Position arrivalPosition) {
-        return isInPalace(y, x) && isInPalace(arrivalPosition.getY(), arrivalPosition.getX());
+    private boolean areBothPositionsInPalace(final Position arrivalPosition) {
+        return isInAnyPalace(y, x) && isInAnyPalace(arrivalPosition.getY(), arrivalPosition.getX());
     }
 
-    private boolean isInPalace(final int currentY, final int currentX) {
-        if ((HAN_PALACE_START_Y <= currentY && currentY <= HAN_PALACE_END_Y)
-                && (PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
-            return true;
-        }
-        if ((CHO_PALACE_START_Y <= currentY && currentY <= CHO_PALACE_END_Y)
-                && (PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
-            return true;
-        }
-        return false;
+    private boolean isInAnyPalace(final int currentY, final int currentX) {
+        return isInHanPalace(currentY, currentX) || isInChoPalace(currentY, currentX);
+    }
+
+    private boolean isInHanPalace(final int currentY, final int currentX) {
+        return (HAN_PALACE_START_Y <= currentY && currentY <= HAN_PALACE_END_Y)
+                && (PALACE_START_X <= currentX && currentX <= PALACE_END_X);
+    }
+
+    private boolean isInChoPalace(final int currentY, final int currentX) {
+        return (CHO_PALACE_START_Y <= currentY && currentY <= CHO_PALACE_END_Y)
+                && (PALACE_START_X <= currentX && currentX <= PALACE_END_X);
     }
 
     @Override

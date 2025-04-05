@@ -3,8 +3,8 @@ package janggi.domain.players;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.piece.Piece;
 import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.position.Position;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -117,7 +117,7 @@ class PlayersTest {
         players.move(choPosition, hanPosition, Team.CHO);
 
         // Then
-        assertThat(players.getChoPieces().getPieces()).doesNotContain(Piece.HAN_SOLDIER);
+        assertThat(players.getHanPieces().getBoard().get(hanPosition)).isNull();
     }
 
     @Test

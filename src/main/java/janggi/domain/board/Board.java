@@ -66,12 +66,6 @@ public class Board {
                 .sum();
     }
 
-    public List<Piece> getPieces() {
-        return pieces.values()
-                .stream()
-                .toList();
-    }
-
     public List<Position> getPositions() {
         return pieces.keySet()
                 .stream()

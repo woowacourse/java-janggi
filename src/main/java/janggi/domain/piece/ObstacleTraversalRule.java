@@ -25,7 +25,7 @@ public enum ObstacleTraversalRule {
             if (count != OBSTACLE_JUMPING_THRESHOLD) {
                 throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
             }
-            if (isObstacleJumping(path, board)) {
+            if (hasJumpingObstaclePiece(path, board)) {
                 throw new IllegalArgumentException("[ERROR] 같은 종류의 기물을 뛰어넘거나 잡을 수 없습니다.");
             }
         }
@@ -52,7 +52,7 @@ public enum ObstacleTraversalRule {
                 .count();
     }
 
-    private static boolean isObstacleJumping(final Path path, final Board board) {
+    private static boolean hasJumpingObstaclePiece(final Path path, final Board board) {
         return path.getPositions().stream()
                 .filter(board::hasPiece)
                 .anyMatch(position -> findObstacleJumping(board, position));
