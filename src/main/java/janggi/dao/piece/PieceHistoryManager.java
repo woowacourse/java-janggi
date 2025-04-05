@@ -1,12 +1,12 @@
 package janggi.dao.piece;
 
-import janggi.domain.piece.Piece;
-import janggi.dto.PieceDto;
-import janggi.dto.PieceMove;
 import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.position.Position;
 import janggi.domain.players.Players;
 import janggi.domain.players.Team;
-import janggi.domain.piece.position.Position;
+import janggi.dto.PieceDto;
+import janggi.dto.PieceMove;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class PieceHistoryManager {
     }
 
     public void updatePiece(final PieceMove pieceMove) {
-        if (pieceMove.isCaught()) {
+        if (pieceMove.caughtPiece() != null) {
             pieceDao.delete(pieceMove);
         }
         pieceDao.update(pieceMove);

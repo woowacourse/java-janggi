@@ -35,9 +35,9 @@ public class Players {
         if (caughtPieceOptional.isPresent()) {
             final Piece caughtPiece = caughtPieceOptional.get();
             return new PieceMove(currentTeam, currentPiece, caughtPiece,
-                    from, to, true);
+                    from, to);
         }
-        return new PieceMove(currentTeam, currentPiece, null, from, to, false);
+        return new PieceMove(currentTeam, currentPiece, null, from, to);
     }
 
     public boolean canContinue() {
