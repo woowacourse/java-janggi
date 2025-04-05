@@ -23,15 +23,10 @@ public class BoardPieceDao {
     private static final String password = "root";
 
     public void saveAll(int gameId, Map<Position, Piece> board) {
-        String query = "insert into board_piece(game_id, column_value, row_value, piece_type, team) values(?, ?, ?, ?, ?);";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)
-        ) {
+        try (Connection connection = getConnection()) {
             connection.setAutoCommit(false);
             for (Entry<Position, Piece> entry : board.entrySet()) {
-                preparedStatement.setInt(1, gameId);
-                save(entry, preparedStatement);
-                preparedStatement.clearParameters();
+                save(connection, gameId, entry);
             }
             connection.commit();
         } catch (SQLException e) {
@@ -39,20 +34,24 @@ public class BoardPieceDao {
         }
     }
 
-    private void save(Entry<Position, Piece> entry, PreparedStatement preparedStatement) throws SQLException {
-        Position position = entry.getKey();
-        Piece piece = entry.getValue();
-        preparedStatement.setInt(2, position.getColumn().getValue());
-        preparedStatement.setInt(3, position.getRow().getValue());
-        preparedStatement.setString(4, piece.getType().name());
-        preparedStatement.setString(5, piece.getTeam().name());
-        preparedStatement.executeUpdate();
+    private void save(Connection connection, int gameId, Entry<Position, Piece> entry) throws SQLException {
+        String query = "insert into board_piece(game_id, column_value, row_value, piece_type, team) values(?, ?, ?, ?, ?);";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+            preparedStatement.setInt(1, gameId);
+            preparedStatement.setInt(2, position.getColumn().getValue());
+            preparedStatement.setInt(3, position.getRow().getValue());
+            preparedStatement.setString(4, piece.getType().name());
+            preparedStatement.setString(5, piece.getTeam().name());
+            preparedStatement.executeUpdate();
+        }
     }
 
     public Board loadBoard(int gameId) {
         String query = "select * from board_piece where game_id = ?;";
         try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             preparedStatement.setInt(1, gameId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -76,7 +75,7 @@ public class BoardPieceDao {
     public void delete(int gameId, Position position) {
         String query = "delete from board_piece where game_id = ? and column_value = ? and row_value = ?;";
         try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, gameId);
             preparedStatement.setInt(2, position.getColumn().getValue());
@@ -90,7 +89,7 @@ public class BoardPieceDao {
     public void updatePiecePosition(int gameId, Position before, Position after) {
         String query = "update board_piece set column_value = ?, row_value = ? where game_id = ? and column_value = ? and row_value = ?;";
         try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, after.getColumn().getValue());
             preparedStatement.setInt(2, after.getRow().getValue());
@@ -106,7 +105,7 @@ public class BoardPieceDao {
     public void deleteAll(int gameId) {
         String query = "delete from board_piece where game_id = ?";
         try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
