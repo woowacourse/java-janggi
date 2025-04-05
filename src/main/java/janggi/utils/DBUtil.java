@@ -36,9 +36,7 @@ public class DBUtil {
 
             return DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + options, username, password);
         } catch (final SQLException | IOException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new IllegalStateException("[ERROR] 데이터베이스 연결 또는 설정 파일 로딩에 실패했습니다.");
         }
     }
 }
