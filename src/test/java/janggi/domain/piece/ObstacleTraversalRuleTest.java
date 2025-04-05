@@ -1,21 +1,23 @@
-package janggi.move;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.board.Board;
-import janggi.position.Path;
-import janggi.position.Position;
+import janggi.domain.piece.direction.Direction;
+import janggi.domain.piece.direction.Movement;
+import janggi.domain.board.Board;
+import janggi.domain.piece.position.Path;
+import janggi.domain.piece.position.Position;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class ObstacleStrategyTest {
+class ObstacleTraversalRuleTest {
 
     @Nested
     class ObstacleJumpingStrategyTest {
 
-        private final ObstacleStrategy jumpingStrategy = ObstacleStrategy.JUMPING;
+        private final ObstacleTraversalRule jumpingStrategy = ObstacleTraversalRule.JUMP_ONE_OBSTACLE;
 
         @Test
         void 이동_경로_중간에_기물이_존재하는_경우에만_움직인다() {
@@ -30,7 +32,7 @@ class ObstacleStrategyTest {
 
             // When & Then
             Assertions.assertThatCode(() -> {
-                jumpingStrategy.checkObstacle(path,
+                jumpingStrategy.validatePathObstacles(path,
                         new Board(Map.of(currentPosition, cannon, soldierPosition, soldier)));
             }).doesNotThrowAnyException();
         }
@@ -49,7 +51,7 @@ class ObstacleStrategyTest {
             // When & Then
             assertThatThrownBy(
                     () -> {
-                        jumpingStrategy.checkObstacle(path,
+                        jumpingStrategy.validatePathObstacles(path,
                                 new Board(Map.of(currentPosition, Piece.CANNON, soldierPosition, Piece.CHO_SOLDIER,
                                         guardPosition, Piece.GUARD)));
                     })
@@ -69,7 +71,7 @@ class ObstacleStrategyTest {
             // When & Then
             assertThatThrownBy(
                     () -> {
-                        jumpingStrategy.checkObstacle(path,
+                        jumpingStrategy.validatePathObstacles(path,
                                 new Board(Map.of(currentPosition, Piece.CANNON, cannonPosition, Piece.CANNON)));
                     })
                     .isInstanceOf(IllegalArgumentException.class)
@@ -88,7 +90,7 @@ class ObstacleStrategyTest {
             // When & Then
             assertThatThrownBy(
                     () -> {
-                        jumpingStrategy.checkObstacle(path,
+                        jumpingStrategy.validatePathObstacles(path,
                                 new Board(Map.of(currentPosition, Piece.CANNON, cannonPosition, Piece.CANNON)));
                     })
                     .isInstanceOf(IllegalArgumentException.class)
@@ -99,7 +101,7 @@ class ObstacleStrategyTest {
     @Nested
     class ObstacleBlockStrategyTest {
 
-        private final ObstacleStrategy blockStrategy = ObstacleStrategy.BLOCK;
+        private final ObstacleTraversalRule blockStrategy = ObstacleTraversalRule.BLOCK;
 
         @Test
         void 정해진_거리만큼_이동한다() {
@@ -111,7 +113,7 @@ class ObstacleStrategyTest {
 
             // When & Then
             Assertions.assertThatCode(() ->
-                    blockStrategy.checkObstacle(path, new Board(Map.of(currentPosition, Piece.ELEPHANT)))
+                    blockStrategy.validatePathObstacles(path, new Board(Map.of(currentPosition, Piece.ELEPHANT)))
             ).doesNotThrowAnyException();
         }
     }

@@ -1,17 +1,20 @@
-package janggi.move;
+package janggi.domain.piece;
 
-import static janggi.move.Direction.DOWN;
-import static janggi.move.Direction.DOWN_LEFT;
-import static janggi.move.Direction.DOWN_RIGHT;
-import static janggi.move.Direction.LEFT;
-import static janggi.move.Direction.RIGHT;
-import static janggi.move.Direction.UP;
-import static janggi.move.Direction.UP_LEFT;
-import static janggi.move.Direction.UP_RIGHT;
+import static janggi.domain.piece.direction.Direction.DOWN;
+import static janggi.domain.piece.direction.Direction.DOWN_LEFT;
+import static janggi.domain.piece.direction.Direction.DOWN_RIGHT;
+import static janggi.domain.piece.direction.Direction.LEFT;
+import static janggi.domain.piece.direction.Direction.RIGHT;
+import static janggi.domain.piece.direction.Direction.UP;
+import static janggi.domain.piece.direction.Direction.UP_LEFT;
+import static janggi.domain.piece.direction.Direction.UP_RIGHT;
 
-import janggi.piece.board.Board;
-import janggi.piece.players.Team;
-import janggi.position.Position;
+import janggi.domain.piece.direction.Movement;
+import janggi.domain.piece.direction.Movements;
+import janggi.domain.piece.position.PathValidator;
+import janggi.domain.board.Board;
+import janggi.domain.players.Team;
+import janggi.domain.piece.position.Position;
 import java.util.Arrays;
 
 public enum Piece {
@@ -23,8 +26,8 @@ public enum Piece {
                     new Movement(LEFT),
                     new Movement(DOWN)
             ),
-            MoveStrategy.EDGE,
-            ObstacleStrategy.JUMPING,
+            MovementType.PALACE_AWARE,
+            ObstacleTraversalRule.JUMP_ONE_OBSTACLE,
             7
     ),
     CHARIOT(
@@ -34,8 +37,8 @@ public enum Piece {
                     new Movement(RIGHT),
                     new Movement(LEFT)
             ),
-            MoveStrategy.EDGE,
-            ObstacleStrategy.BLOCK,
+            MovementType.PALACE_AWARE,
+            ObstacleTraversalRule.BLOCK,
             13
     ),
     CHO_SOLDIER(
@@ -44,8 +47,8 @@ public enum Piece {
                     new Movement(RIGHT),
                     new Movement(LEFT)
             ),
-            MoveStrategy.EDGE,
-            ObstacleStrategy.BLOCK,
+            MovementType.PALACE_AWARE,
+            ObstacleTraversalRule.BLOCK,
             2
     ),
     HAN_SOLDIER(
@@ -54,8 +57,8 @@ public enum Piece {
                     new Movement(RIGHT),
                     new Movement(LEFT)
             ),
-            MoveStrategy.EDGE,
-            ObstacleStrategy.BLOCK,
+            MovementType.PALACE_AWARE,
+            ObstacleTraversalRule.BLOCK,
             2
     ),
     ELEPHANT(
@@ -69,8 +72,8 @@ public enum Piece {
                     new Movement(RIGHT, UP_RIGHT, UP_RIGHT),
                     new Movement(LEFT, UP_LEFT, UP_LEFT)
             ),
-            MoveStrategy.RELATIVE,
-            ObstacleStrategy.BLOCK,
+            MovementType.STANDARD,
+            ObstacleTraversalRule.BLOCK,
             3
     ),
     GUARD(
@@ -80,8 +83,8 @@ public enum Piece {
                     new Movement(LEFT),
                     new Movement(DOWN)
             ),
-            MoveStrategy.EDGE,
-            ObstacleStrategy.BLOCK,
+            MovementType.PALACE_AWARE,
+            ObstacleTraversalRule.BLOCK,
             3
     ),
     HORSE(
@@ -95,8 +98,8 @@ public enum Piece {
                     new Movement(RIGHT, UP_RIGHT),
                     new Movement(LEFT, UP_LEFT)
             ),
-            MoveStrategy.RELATIVE,
-            ObstacleStrategy.BLOCK,
+            MovementType.STANDARD,
+            ObstacleTraversalRule.BLOCK,
             5
     ),
     KING(
@@ -106,27 +109,26 @@ public enum Piece {
                     new Movement(LEFT),
                     new Movement(DOWN)
             ),
-            MoveStrategy.EDGE,
-            ObstacleStrategy.BLOCK,
+            MovementType.PALACE_AWARE,
+            ObstacleTraversalRule.BLOCK,
             0
     );
 
-
     private final Movements movements;
-    private final MoveStrategy moveStrategy;
-    private final ObstacleStrategy obstacleStrategy;
+    private final MovementType movementType;
+    private final ObstacleTraversalRule obstacleTraversalRule;
     private final int score;
     private PathValidator pathValidator;
 
     Piece(
             final Movements movements,
-            final MoveStrategy moveStrategy,
-            final ObstacleStrategy obstacleStrategy,
+            final MovementType movementType,
+            final ObstacleTraversalRule obstacleTraversalRule,
             final int score
     ) {
         this.movements = movements;
-        this.moveStrategy = moveStrategy;
-        this.obstacleStrategy = obstacleStrategy;
+        this.movementType = movementType;
+        this.obstacleTraversalRule = obstacleTraversalRule;
         this.score = score;
     }
 
@@ -134,7 +136,7 @@ public enum Piece {
         if (isSoldier(name)) {
             return getSoldier(team);
         }
-        return findPieceType(name);
+        return findPiece(name);
     }
 
     private static boolean isSoldier(final String name) {
@@ -148,21 +150,21 @@ public enum Piece {
         return HAN_SOLDIER;
     }
 
-    private static Piece findPieceType(final String name) {
+    private static Piece findPiece(final String name) {
         return Arrays.stream(values())
                 .filter(pieceType -> pieceType.name().equals(name))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] PieceType을 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 기물을 찾을 수 없습니다."));
     }
 
     public void move(final Position from, final Position to, final Board board) {
-        final Movement movement = moveStrategy.move(from, to, this);
-        getPathValidator().validatePath(from, to, board, movement);
+        final Movement movement = movementType.determineMovement(this, from, to);
+        getPathValidator().validatePath(from, to, doesLiveInPalace(), board, movement);
     }
 
     private PathValidator getPathValidator() {
         if (pathValidator == null) {
-            return new PathValidator(this, obstacleStrategy);
+            return new PathValidator(obstacleTraversalRule);
         }
         return pathValidator;
     }
@@ -172,7 +174,11 @@ public enum Piece {
     }
 
     public boolean isObstacleJumping() {
-        return this.obstacleStrategy == ObstacleStrategy.JUMPING;
+        return this.obstacleTraversalRule == ObstacleTraversalRule.JUMP_ONE_OBSTACLE;
+    }
+
+    public boolean canMoveIterable() {
+        return this == CHARIOT || this == CANNON;
     }
 
     public boolean isKing() {

@@ -1,27 +1,27 @@
-package janggi.move;
+package janggi.domain.piece;
 
-import janggi.piece.board.Board;
-import janggi.position.Path;
-import janggi.position.Position;
+import janggi.domain.board.Board;
+import janggi.domain.piece.position.Path;
+import janggi.domain.piece.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum ObstacleStrategy {
+public enum ObstacleTraversalRule {
 
     BLOCK {
         @Override
-        public void checkObstacle(final Path path, final Board board) {
+        public void validatePathObstacles(final Path path, final Board board) {
             if (hasPieceInMiddle(path, board)) {
                 throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
             }
         }
     },
-    JUMPING {
+    JUMP_ONE_OBSTACLE {
         private static final int OBSTACLE_JUMPING_THRESHOLD = 1;
 
         @Override
-        public void checkObstacle(final Path path, final Board board) {
-            final int count = computeCountExistPieceExceptLastPosition(path, board);
+        public void validatePathObstacles(final Path path, final Board board) {
+            final int count = countPieceExceptArrivalPosition(path, board);
             if (count != OBSTACLE_JUMPING_THRESHOLD) {
                 throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
             }
@@ -31,7 +31,7 @@ public enum ObstacleStrategy {
         }
     };
 
-    public abstract void checkObstacle(Path path, Board board);
+    public abstract void validatePathObstacles(Path path, Board board);
 
 
     private static boolean hasPieceInMiddle(final Path path, final Board board) {
@@ -41,7 +41,7 @@ public enum ObstacleStrategy {
                 .anyMatch(board::hasPiece);
     }
 
-    private static int computeCountExistPieceExceptLastPosition(final Path path, final Board board) {
+    private static int countPieceExceptArrivalPosition(final Path path, final Board board) {
         final List<Position> positions = new ArrayList<>(path.getPositions());
         if (!positions.isEmpty()) {
             positions.removeLast();
