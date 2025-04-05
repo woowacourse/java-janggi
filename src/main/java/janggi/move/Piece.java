@@ -111,7 +111,6 @@ public enum Piece {
             0
     );
 
-    private static final String SOLDIER = "SOLDIER";
 
     private final Movements movements;
     private final MoveStrategy moveStrategy;
@@ -132,13 +131,21 @@ public enum Piece {
     }
 
     public static Piece from(final String name, final Team team) {
-        if (name.equals(SOLDIER)) {
-            if (team == Team.CHO) {
-                return CHO_SOLDIER;
-            }
-            return HAN_SOLDIER;
+        if (isSoldier(name)) {
+            return getSoldier(team);
         }
         return findPieceType(name);
+    }
+
+    private static boolean isSoldier(final String name) {
+        return CHO_SOLDIER.name().contains(name);
+    }
+
+    private static Piece getSoldier(final Team team) {
+        if (team == Team.CHO) {
+            return CHO_SOLDIER;
+        }
+        return HAN_SOLDIER;
     }
 
     private static Piece findPieceType(final String name) {
