@@ -1,4 +1,5 @@
-CREATE TABLE pieces (
+
+CREATE TABLE IF NOT EXISTS pieces (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         type VARCHAR(20),
                         country VARCHAR(10),
@@ -6,12 +7,18 @@ CREATE TABLE pieces (
                         y INT
 );
 
-CREATE TABLE board_score (
+CREATE TABLE IF NOT EXISTS board_score (
                              country VARCHAR(10) PRIMARY KEY,
                              score INT
 );
 
-CREATE TABLE country_direction (
+CREATE TABLE IF NOT EXISTS country_direction (
                                    country VARCHAR(10) PRIMARY KEY,
                                    direction VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS game_status (
+                                    id INT PRIMARY KEY,
+                                    current_turn VARCHAR(10) NOT NULL,
+                                    turn_count INT NOT NULL
 );
