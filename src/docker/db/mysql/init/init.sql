@@ -13,7 +13,7 @@ VALUES ('HAN'),
 
 CREATE TABLE piecetype
 (
-    piecetype_id int                                                                                    NOT NULL AUTO_INCREMENT,
+    piecetype_id int                                                                         NOT NULL AUTO_INCREMENT,
     name         ENUM ('CANNON', 'CHARIOT', 'SOLDIER', 'ELEPHANT', 'GUARD', 'HORSE', 'KING') NOT NULL,
     PRIMARY KEY (piecetype_id)
 );
@@ -34,7 +34,9 @@ CREATE TABLE piece
     x         int NOT NULL,
     team      int references team (team_id),
     piecetype int references piecetype (piecetype_id),
-    PRIMARY KEY (piece_id)
+    PRIMARY KEY (piece_id),
+    CHECK (y BETWEEN 1 AND 10),
+    CHECK (x BETWEEN 1 AND 9)
 );
 
 CREATE TABLE turn
