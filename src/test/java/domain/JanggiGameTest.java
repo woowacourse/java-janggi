@@ -12,14 +12,21 @@ import entity.TeamRepository;
 import java.util.List;
 import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import util.TestDatabaseInitializer;
 
 class JanggiGameTest {
     @Nested
     @DisplayName("보드를 생성할 때")
     class TestGenerateBoard {
+
+        @BeforeEach
+        void init() {
+            TestDatabaseInitializer.init();
+        }
 
         @Test
         @DisplayName("row 는 최대 8, column 은 최대 9를 갖는다")
@@ -45,6 +52,12 @@ class JanggiGameTest {
 
     @Nested
     class TestMove {
+
+        @BeforeEach
+        void init() {
+            TestDatabaseInitializer.init();
+        }
+
         @Test
         @DisplayName("시작 지점에서부터 말을 이동시킨다")
         void test_move() {
