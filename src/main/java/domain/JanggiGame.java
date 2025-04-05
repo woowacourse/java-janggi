@@ -41,6 +41,16 @@ public final class JanggiGame {
         this.teamRepository = teamRepository;
     }
 
+    public JanggiGame(List<Player> players, BoardRepository boardRepository,
+                      PlayerRepository playerRepository,
+                      TeamRepository teamRepository) {
+        this.board = generateBoard();
+        this.players = players;
+        this.boardRepository = boardRepository;
+        this.playerRepository = playerRepository;
+        this.teamRepository = teamRepository;
+    }
+
     public Map<BoardPoint, Piece> getBoard() {
         return board.getLocations();
     }
