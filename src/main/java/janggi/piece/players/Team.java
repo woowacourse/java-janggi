@@ -15,10 +15,13 @@ public enum Team {
     }
 
     public Team getOppositeTeam() {
+        if (this == CHO) {
+            return HAN;
+        }
         if (this == HAN) {
             return CHO;
         }
-        return HAN;
+        throw new IllegalStateException("[ERROR] NONE 팀은 반대 팀이 존재하지 않습니다.");
     }
 
     public static Team from(final String name) {

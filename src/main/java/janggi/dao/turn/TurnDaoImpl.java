@@ -45,7 +45,7 @@ public class TurnDaoImpl implements TurnDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        throw new IllegalStateException("[ERROR] 현재 턴 정보를 찾을 수 없습니다.");
     }
 
     @Override
