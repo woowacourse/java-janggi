@@ -2,15 +2,15 @@ package janggi.dao.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.move.Piece;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PiecesFactory;
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
-import janggi.piece.PiecesFactory;
-import janggi.piece.board.Board;
-import janggi.piece.board.BoardOrder;
-import janggi.piece.players.Players;
-import janggi.piece.players.Team;
-import janggi.position.Position;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardOrder;
+import janggi.domain.players.Players;
+import janggi.domain.players.Team;
+import janggi.domain.piece.position.Position;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

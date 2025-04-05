@@ -1,4 +1,4 @@
-package janggi.position;
+package janggi.domain.piece.position;
 
 import java.util.Collections;
 import java.util.List;

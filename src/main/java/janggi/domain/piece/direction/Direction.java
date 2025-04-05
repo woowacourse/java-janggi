@@ -1,4 +1,4 @@
-package janggi.move;
+package janggi.domain.piece.direction;
 
 public enum Direction {
 

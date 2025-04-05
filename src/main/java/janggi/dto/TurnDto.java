@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.piece.players.Team;
+import janggi.domain.players.Team;
 
 public record TurnDto(Team team) {
 }

@@ -1,8 +1,8 @@
 package janggi.fixture;
 
-import janggi.move.Piece;
+import janggi.domain.piece.Piece;
 import janggi.dto.PieceDto;
-import janggi.piece.players.Team;
+import janggi.domain.players.Team;
 
 public class TestFixture {
 

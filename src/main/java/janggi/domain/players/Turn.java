@@ -1,4 +1,4 @@
-package janggi.piece.players;
+package janggi.domain.players;
 
 import java.util.Objects;
 

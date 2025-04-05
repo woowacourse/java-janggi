@@ -1,7 +1,7 @@
-package janggi.piece.board;
+package janggi.domain.board;
 
-import janggi.move.Piece;
-import janggi.position.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.position.Position;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

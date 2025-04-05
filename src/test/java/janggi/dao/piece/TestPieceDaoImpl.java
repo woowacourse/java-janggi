@@ -1,10 +1,10 @@
 package janggi.dao.piece;
 
-import janggi.move.Piece;
+import janggi.domain.piece.Piece;
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
-import janggi.piece.players.Team;
-import janggi.position.Position;
+import janggi.domain.players.Team;
+import janggi.domain.piece.position.Position;
 import janggi.util.TestDBUtil;
 import java.sql.Connection;
 import java.sql.SQLException;

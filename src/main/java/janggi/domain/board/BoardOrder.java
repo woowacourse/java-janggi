@@ -1,4 +1,4 @@
-package janggi.piece.board;
+package janggi.domain.board;
 
 import java.util.Arrays;
 

@@ -1,6 +1,6 @@
-package janggi.move;
+package janggi.domain.piece.direction;
 
-import janggi.position.Position;
+import janggi.domain.piece.position.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,10 +20,10 @@ public class Movements {
     }
 
     public Movement findMovements(final Position startPosition, final Position arrivalPosition,
-                                  final Piece piece) {
+                                  final boolean canMoveIterable) {
         int dy = arrivalPosition.calculateDifferenceForY(startPosition);
         int dx = arrivalPosition.calculateDifferenceForX(startPosition);
-        if (piece == Piece.CHARIOT && (dy == 0 || dx == 0)) {
+        if (canMoveIterable && (dy == 0 || dx == 0)) {
             dy = calculateUnit(dy);
             dx = calculateUnit(dx);
         }

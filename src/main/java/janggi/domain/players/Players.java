@@ -1,9 +1,9 @@
-package janggi.piece.players;
+package janggi.domain.players;
 
-import janggi.move.Piece;
+import janggi.domain.piece.Piece;
 import janggi.dto.PieceMove;
-import janggi.piece.board.Board;
-import janggi.position.Position;
+import janggi.domain.board.Board;
+import janggi.domain.piece.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;

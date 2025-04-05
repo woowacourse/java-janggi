@@ -1,8 +1,8 @@
 package janggi.dao.turn;
 
 import janggi.dto.TurnDto;
-import janggi.piece.players.Team;
-import janggi.piece.players.Turn;
+import janggi.domain.players.Team;
+import janggi.domain.players.Turn;
 
 public class FakeTurnDao implements TurnDao {
 

@@ -3,8 +3,8 @@ package janggi.dao.turn;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.dto.TurnDto;
-import janggi.piece.players.Team;
-import janggi.piece.players.Turn;
+import janggi.domain.players.Team;
+import janggi.domain.players.Turn;
 import org.junit.jupiter.api.Test;
 
 class TurnManagerTest {

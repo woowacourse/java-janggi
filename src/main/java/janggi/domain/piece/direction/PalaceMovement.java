@@ -1,9 +1,6 @@
-package janggi.piece;
+package janggi.domain.piece.direction;
 
-import janggi.move.Direction;
-import janggi.move.Movement;
-import janggi.move.Movements;
-import janggi.position.Position;
+import janggi.domain.piece.position.Position;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

@@ -2,12 +2,12 @@ package janggi.dao.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.move.Piece;
+import janggi.domain.piece.Piece;
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
 import janggi.fixture.TestFixture;
-import janggi.piece.players.Team;
-import janggi.position.Position;
+import janggi.domain.players.Team;
+import janggi.domain.piece.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

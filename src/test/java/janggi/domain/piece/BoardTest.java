@@ -1,13 +1,11 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.move.PathValidator;
-import janggi.move.Piece;
-import janggi.piece.board.Board;
-import janggi.position.Position;
+import janggi.domain.board.Board;
+import janggi.domain.piece.position.Position;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;

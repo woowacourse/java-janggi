@@ -2,7 +2,7 @@ package janggi.dao.piece;
 
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
-import janggi.piece.players.Team;
+import janggi.domain.players.Team;
 import java.util.List;
 
 public interface PieceDao {

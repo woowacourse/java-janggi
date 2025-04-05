@@ -1,13 +1,11 @@
-package janggi.board;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.move.Piece;
-import janggi.piece.PiecesFactory;
-import janggi.piece.board.Board;
-import janggi.piece.board.BoardOrder;
-import janggi.position.Position;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardOrder;
+import janggi.domain.piece.position.Position;
 import org.junit.jupiter.api.Test;
 
 class PiecesFactoryTest {

@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.piece.players.Team;
+import janggi.domain.players.Team;
 import java.util.Map;
 import java.util.Scanner;
 

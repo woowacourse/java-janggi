@@ -1,14 +1,13 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import static janggi.piece.board.BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
-import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
-import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
+import static janggi.domain.board.BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
+import static janggi.domain.board.BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
+import static janggi.domain.board.BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
 
-import janggi.move.Piece;
-import janggi.piece.board.Board;
-import janggi.piece.board.BoardOrder;
-import janggi.piece.players.Team;
-import janggi.position.Position;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardOrder;
+import janggi.domain.players.Team;
+import janggi.domain.piece.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
