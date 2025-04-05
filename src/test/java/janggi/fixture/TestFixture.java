@@ -1,16 +1,16 @@
 package janggi.fixture;
 
-import janggi.direction.PieceType;
+import janggi.move.Piece;
 import janggi.dto.PieceDto;
 import janggi.piece.players.Team;
 
 public class TestFixture {
 
     public static PieceDto makeHanKingPiece() {
-        return new PieceDto(Team.HAN, PieceType.KING, 2, 5);
+        return new PieceDto(Team.HAN, Piece.KING, 2, 5);
     }
 
     public static PieceDto makeChoKingPiece() {
-        return new PieceDto(Team.CHO, PieceType.KING, 9, 5);
+        return new PieceDto(Team.CHO, Piece.KING, 9, 5);
     }
 }

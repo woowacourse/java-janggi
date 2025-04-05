@@ -1,6 +1,6 @@
 package janggi.dao.piece;
 
-import janggi.direction.PieceType;
+import janggi.move.Piece;
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
 import janggi.piece.players.Team;
@@ -37,7 +37,7 @@ public class TestPieceDaoImpl implements PieceDao {
                 final Team team = Team.from(getTeamNameById(connection, resultSet.getInt("team")));
                 dtos.add(new PieceDto(
                         team,
-                        PieceType.from(getPieceTypeById(connection, resultSet.getInt("piecetype")), team),
+                        Piece.from(getPieceTypeById(connection, resultSet.getInt("piecetype")), team),
                         resultSet.getInt("y"),
                         resultSet.getInt("x")
                 ));
@@ -60,7 +60,7 @@ public class TestPieceDaoImpl implements PieceDao {
                 final Team team = Team.from(getTeamNameById(connection, resultSet.getInt("team")));
                 dtos.add(new PieceDto(
                         team,
-                        PieceType.from(getPieceTypeById(connection, resultSet.getInt("piecetype")), team),
+                        Piece.from(getPieceTypeById(connection, resultSet.getInt("piecetype")), team),
                         resultSet.getInt("y"),
                         resultSet.getInt("x")
                 ));
@@ -81,7 +81,7 @@ public class TestPieceDaoImpl implements PieceDao {
             final Team team = pieceDto.team();
             final int teamId = getTeamIdByName(connection, team.name());
             preparedStatement.setInt(3, teamId);
-            final int pieceTypeId = getPieceTypeIdByName(connection, pieceDto.pieceType());
+            final int pieceTypeId = getPieceTypeIdByName(connection, pieceDto.piece());
             preparedStatement.setInt(4, pieceTypeId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -103,7 +103,7 @@ public class TestPieceDaoImpl implements PieceDao {
             final Team team = pieceMove.team();
             final int teamId = getTeamIdByName(connection, team.name());
             preparedStatement.setInt(5, teamId);
-            final int pieceTypeId = getPieceTypeIdByName(connection, pieceMove.pieceType());
+            final int pieceTypeId = getPieceTypeIdByName(connection, pieceMove.piece());
             preparedStatement.setInt(6, pieceTypeId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -122,7 +122,7 @@ public class TestPieceDaoImpl implements PieceDao {
             final Team opponentTeam = pieceMove.team().getOppositeTeam();
             preparedStatement.setInt(3, getTeamIdByName(connection, opponentTeam.name()));
             preparedStatement.setInt(4,
-                    getPieceTypeIdByName(connection, pieceMove.caughtPieceType()));
+                    getPieceTypeIdByName(connection, pieceMove.caughtPiece()));
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -185,8 +185,8 @@ public class TestPieceDaoImpl implements PieceDao {
         throw new IllegalStateException("[ERROR] PieceType을 찾을 수 없습니다.");
     }
 
-    private int getPieceTypeIdByName(final Connection connection, final PieceType pieceType) {
-        final String pieceTypeName = makePieceTypeName(pieceType);
+    private int getPieceTypeIdByName(final Connection connection, final Piece piece) {
+        final String pieceTypeName = makePieceTypeName(piece);
 
         final var query = "SELECT * FROM piecetype WHERE name = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
@@ -202,10 +202,10 @@ public class TestPieceDaoImpl implements PieceDao {
         throw new IllegalStateException("[ERROR] PieceType을 찾을 수 없습니다.");
     }
 
-    private String makePieceTypeName(final PieceType pieceType) {
-        if (pieceType.isSoldier()) {
-            return pieceType.name().substring(4);
+    private String makePieceTypeName(final Piece piece) {
+        if (piece.isSoldier()) {
+            return piece.name().substring(4);
         }
-        return pieceType.name();
+        return piece.name();
     }
 }

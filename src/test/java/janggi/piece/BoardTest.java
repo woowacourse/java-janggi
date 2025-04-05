@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.direction.PieceMoveRule;
-import janggi.direction.PieceType;
-import janggi.direction.move.EdgeMoveStrategy;
-import janggi.direction.obstacle.ObstacleBlockStrategy;
+import janggi.move.PathValidator;
+import janggi.move.Piece;
 import janggi.piece.board.Board;
 import janggi.position.Position;
 import java.util.Map;
@@ -24,10 +22,8 @@ class BoardTest {
         // Given
         final Position currentPosition = new Position(10, 1);
         final Position arrivalPosition = new Position(9, 1);
-        final Piece soldier = new Piece(
-                new PieceMoveRule(PieceType.CHO_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()));
 
-        final Board board = new Board(Map.of(currentPosition, soldier));
+        final Board board = new Board(Map.of(currentPosition, Piece.CHO_SOLDIER));
 
         // When
         board.updatePiece(currentPosition, arrivalPosition);
@@ -35,8 +31,7 @@ class BoardTest {
         // Then
         assertAll(
                 () -> assertThat(board.hasPiece(currentPosition)).isFalse(),
-                () -> assertThat(board.findPieceByPosition(arrivalPosition)).isEqualTo(
-                        soldier)
+                () -> assertThat(board.findPieceByPosition(arrivalPosition)).isEqualTo(Piece.CHO_SOLDIER)
         );
     }
 
@@ -51,10 +46,8 @@ class BoardTest {
     }
 
     private static Stream<Arguments> 해당_기물이_존재하는지_확인한다() {
-        final Piece piece = new Piece(
-                new PieceMoveRule(PieceType.CHO_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()));
         return Stream.of(
-                Arguments.of(new Board(Map.of(new Position(10, 1), piece)), true),
+                Arguments.of(new Board(Map.of(new Position(10, 1), Piece.CHO_SOLDIER)), true),
                 Arguments.of(new Board(Map.of()), false)
         );
     }
@@ -63,21 +56,17 @@ class BoardTest {
     void 해당_위치에_기물이_있는지_확인한다() {
         // Given
         final Position position = new Position(10, 1);
-        final Piece choSolider = new Piece(
-                new PieceMoveRule(PieceType.CHO_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()));
-        final Board board = new Board(Map.of(position, choSolider));
+        final Board board = new Board(Map.of(position, Piece.CHO_SOLDIER));
 
         // When & Then
-        assertThat(board.findPieceByPosition(position)).isEqualTo(choSolider);
+        assertThat(board.findPieceByPosition(position)).isEqualTo(Piece.CHO_SOLDIER);
     }
 
     @Test
     void 해당_위치에_기물이_없으면_예외가_발생한다() {
         // Given
         final Position position = new Position(10, 1);
-        final Piece choSolider = new Piece(
-                new PieceMoveRule(PieceType.CHO_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()));
-        final Board board = new Board(Map.of(position, choSolider));
+        final Board board = new Board(Map.of(position, Piece.CHO_SOLDIER));
 
         // When & Then
         assertThatThrownBy(() -> board.findPieceByPosition(new Position(9, 1)))
@@ -89,12 +78,8 @@ class BoardTest {
     void 기물들의_점수_총_합을_구한다() {
         // Given
         final Position soldierPosition = new Position(10, 1);
-        final Piece soldier = new Piece(
-                new PieceMoveRule(PieceType.CHO_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()));
         final Position chariotPosition = new Position(8, 1);
-        final Piece chariot = new Piece(
-                new PieceMoveRule(PieceType.CHARIOT, new EdgeMoveStrategy(), new ObstacleBlockStrategy()));
-        final Board board = new Board(Map.of(soldierPosition, soldier, chariotPosition, chariot));
+        final Board board = new Board(Map.of(soldierPosition, Piece.CHO_SOLDIER, chariotPosition, Piece.CHARIOT));
 
         // When
         final Double score = board.calculateScore();

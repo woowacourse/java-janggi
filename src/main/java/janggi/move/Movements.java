@@ -1,7 +1,8 @@
-package janggi.direction;
+package janggi.move;
 
 import janggi.position.Position;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,11 +14,16 @@ public class Movements {
         this.movements = new ArrayList<>(movements);
     }
 
+    public Movements(final Movement... movements) {
+        this(Arrays.stream(movements)
+                .toList());
+    }
+
     public Movement findMovements(final Position startPosition, final Position arrivalPosition,
-                                  final PieceType pieceType) {
+                                  final Piece piece) {
         int dy = arrivalPosition.calculateDifferenceForY(startPosition);
         int dx = arrivalPosition.calculateDifferenceForX(startPosition);
-        if (pieceType == PieceType.CHARIOT && (dy == 0 || dx == 0)) {
+        if (piece == Piece.CHARIOT && (dy == 0 || dx == 0)) {
             dy = calculateUnit(dy);
             dx = calculateUnit(dx);
         }

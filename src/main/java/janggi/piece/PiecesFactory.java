@@ -4,12 +4,7 @@ import static janggi.piece.board.BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
 import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
 import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
 
-import janggi.direction.PieceMoveRule;
-import janggi.direction.PieceType;
-import janggi.direction.move.EdgeMoveStrategy;
-import janggi.direction.move.RelativeMoveStrategy;
-import janggi.direction.obstacle.ObstacleBlockStrategy;
-import janggi.direction.obstacle.ObstacleJumpingObstacle;
+import janggi.move.Piece;
 import janggi.piece.board.Board;
 import janggi.piece.board.BoardOrder;
 import janggi.piece.players.Team;
@@ -40,77 +35,69 @@ public class PiecesFactory {
         final Map<Position, Piece> board = new HashMap<>();
         board.put(
                 new Position(CHO_Y, 1),
-                new Piece(new PieceMoveRule(PieceType.CHARIOT, new RelativeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.CHARIOT
         );
         board.put(
                 new Position(CHO_Y, 2),
-                new Piece(new PieceMoveRule(PieceType.ELEPHANT, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.ELEPHANT
         );
         board.put(
                 new Position(CHO_Y, 3),
-                new Piece(new PieceMoveRule(PieceType.HORSE, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HORSE
         );
         board.put(
                 new Position(CHO_Y, 4),
-                new Piece(
-                        new PieceMoveRule(PieceType.GUARD, new RelativeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.GUARD
         );
         board.put(
                 new Position(CHO_Y, 6),
-                new Piece(new PieceMoveRule(PieceType.GUARD, new RelativeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.GUARD
         );
         board.put(
                 new Position(CHO_Y, 7),
-                new Piece(new PieceMoveRule(PieceType.ELEPHANT, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.ELEPHANT
         );
         board.put(
                 new Position(CHO_Y, 8),
-                new Piece(new PieceMoveRule(PieceType.HORSE, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HORSE
         );
         board.put(
                 new Position(CHO_Y, 9),
-                new Piece(new PieceMoveRule(PieceType.CHARIOT, new RelativeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.CHARIOT
         );
         board.put(
                 new Position(9, 5),
-                new Piece(new PieceMoveRule(PieceType.KING, new RelativeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.KING
         );
 
         board.put(
                 new Position(8, 2),
-                new Piece(
-                        new PieceMoveRule(PieceType.CANNON, new RelativeMoveStrategy(), new ObstacleJumpingObstacle()))
+                Piece.CANNON
         );
         board.put(
                 new Position(8, 8),
-                new Piece(
-                        new PieceMoveRule(PieceType.CANNON, new RelativeMoveStrategy(), new ObstacleJumpingObstacle()))
+                Piece.CANNON
         );
 
         board.put(
                 new Position(SECOND_CHANGE_X, 1),
-                new Piece(new PieceMoveRule(PieceType.CHO_SOLDIER, new RelativeMoveStrategy(),
-                        new ObstacleBlockStrategy()))
+                Piece.CHO_SOLDIER
         );
         board.put(
                 new Position(SECOND_CHANGE_X, 3),
-                new Piece(new PieceMoveRule(PieceType.CHO_SOLDIER, new RelativeMoveStrategy(),
-                        new ObstacleBlockStrategy()))
+                Piece.CHO_SOLDIER
         );
         board.put(
                 new Position(SECOND_CHANGE_X, 5),
-                new Piece(new PieceMoveRule(PieceType.CHO_SOLDIER, new RelativeMoveStrategy(),
-                        new ObstacleBlockStrategy()))
+                Piece.CHO_SOLDIER
         );
         board.put(
                 new Position(SECOND_CHANGE_X, 7),
-                new Piece(new PieceMoveRule(PieceType.CHO_SOLDIER, new RelativeMoveStrategy(),
-                        new ObstacleBlockStrategy()))
+                Piece.CHO_SOLDIER
         );
         board.put(
                 new Position(SECOND_CHANGE_X, 9),
-                new Piece(new PieceMoveRule(PieceType.CHO_SOLDIER, new RelativeMoveStrategy(),
-                        new ObstacleBlockStrategy()))
+                Piece.CHO_SOLDIER
         );
         return new Board(board);
     }
@@ -119,65 +106,66 @@ public class PiecesFactory {
         final Map<Position, Piece> board = new HashMap<>();
         board.put(
                 new Position(HAN_Y, 1),
-                new Piece(new PieceMoveRule(PieceType.CHARIOT, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.CHARIOT
         );
         board.put(
                 new Position(HAN_Y, 2),
-                new Piece(new PieceMoveRule(PieceType.ELEPHANT, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.ELEPHANT
         );
         board.put(
                 new Position(HAN_Y, 3),
-                new Piece(new PieceMoveRule(PieceType.HORSE, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HORSE
         );
         board.put(
                 new Position(HAN_Y, 4),
-                new Piece(new PieceMoveRule(PieceType.GUARD, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.GUARD
         );
         board.put(
                 new Position(HAN_Y, 6),
-                new Piece(new PieceMoveRule(PieceType.GUARD, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.GUARD
         );
         board.put(
                 new Position(HAN_Y, 7),
-                new Piece(new PieceMoveRule(PieceType.ELEPHANT, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.ELEPHANT
         );
         board.put(
                 new Position(HAN_Y, 8),
-                new Piece(new PieceMoveRule(PieceType.HORSE, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HORSE
         );
         board.put(
                 new Position(HAN_Y, 9),
-                new Piece(new PieceMoveRule(PieceType.CHARIOT, new EdgeMoveStrategy(), new ObstacleBlockStrategy())));
+                Piece.CHARIOT
+        );
         board.put(new Position(2, 5),
-                new Piece(new PieceMoveRule(PieceType.KING, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.KING
         );
 
         board.put(new Position(3, 2),
-                new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(), new ObstacleJumpingObstacle()))
+                Piece.CANNON
         );
         board.put(
                 new Position(3, 8),
-                new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(), new ObstacleJumpingObstacle()))
+                Piece.CANNON
         );
         board.put(
                 new Position(4, 1),
-                new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HAN_SOLDIER
         );
         board.put(
                 new Position(4, 3),
-                new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HAN_SOLDIER
         );
         board.put(
                 new Position(4, 5),
-                new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HAN_SOLDIER
         );
         board.put(
                 new Position(4, 7),
-                new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HAN_SOLDIER
         );
         board.put(
                 new Position(4, 9),
-                new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, new EdgeMoveStrategy(), new ObstacleBlockStrategy()))
+                Piece.HAN_SOLDIER
         );
         return new Board(board);
     }

@@ -2,10 +2,10 @@ package janggi.piece.direction;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.direction.Direction;
-import janggi.direction.Movement;
-import janggi.direction.Movements;
-import janggi.direction.PieceType;
+import janggi.move.Direction;
+import janggi.move.Movement;
+import janggi.move.Movements;
+import janggi.move.Piece;
 import janggi.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class MovementsTest {
 
         // When & Then
         assertThatThrownBy(
-                () -> movements.findMovements(currentPosition, arrivalPosition, PieceType.HAN_SOLDIER))
+                () -> movements.findMovements(currentPosition, arrivalPosition, Piece.HAN_SOLDIER))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }

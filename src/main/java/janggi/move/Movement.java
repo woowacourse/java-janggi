@@ -1,4 +1,4 @@
-package janggi.direction;
+package janggi.move;
 
 import janggi.position.Path;
 import janggi.position.Position;

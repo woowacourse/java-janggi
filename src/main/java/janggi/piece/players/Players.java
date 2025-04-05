@@ -1,7 +1,7 @@
 package janggi.piece.players;
 
+import janggi.move.Piece;
 import janggi.dto.PieceMove;
-import janggi.piece.Piece;
 import janggi.piece.board.Board;
 import janggi.position.Position;
 import java.util.HashMap;
@@ -20,26 +20,24 @@ public class Players {
         this.players = new HashMap<>(players);
     }
 
-    public final PieceMove move(final Position currentPosition, final Position arrivalPosition,
-                                final Team currentTeam) {
-        validateSamePosition(currentPosition, arrivalPosition);
+    public final PieceMove move(final Position from, final Position to, final Team currentTeam) {
+        validateSamePosition(from, to);
 
         final Board currrentTeamBoard = players.get(currentTeam);
         final Board opponentBoard = players.get(currentTeam.getOppositeTeam());
 
         final Board totalPieces = getTotalBoard();
-        currrentTeamBoard.validatePath(currentPosition, arrivalPosition, totalPieces);
-        final Optional<Piece> caughtPieceOptional = catchPiece(arrivalPosition, currrentTeamBoard, opponentBoard);
-        currrentTeamBoard.updatePiece(currentPosition, arrivalPosition);
-        final Piece currentPiece = currrentTeamBoard.findPieceByPosition(arrivalPosition);
+        currrentTeamBoard.move(from, to, totalPieces);
+        final Optional<Piece> caughtPieceOptional = catchPiece(to, currrentTeamBoard, opponentBoard);
+        currrentTeamBoard.updatePiece(from, to);
+        final Piece currentPiece = currrentTeamBoard.findPieceByPosition(to);
 
         if (caughtPieceOptional.isPresent()) {
             final Piece caughtPiece = caughtPieceOptional.get();
-            return new PieceMove(true, currentTeam, currentPiece.getPieceType(), caughtPiece.getPieceType(),
-                    currentPosition, arrivalPosition, true);
+            return new PieceMove(true, currentTeam, currentPiece, caughtPiece,
+                    from, to, true);
         }
-        return new PieceMove(true, currentTeam, currentPiece.getPieceType(), null, currentPosition, arrivalPosition,
-                false);
+        return new PieceMove(true, currentTeam, currentPiece, null, from, to, false);
     }
 
     public boolean canContinue() {
@@ -112,8 +110,8 @@ public class Players {
                 .anyMatch(position -> position.equals(arrivalPosition));
     }
 
-    private void validateSamePosition(final Position currentPosition, final Position arrivalPosition) {
-        if (currentPosition.equals(arrivalPosition)) {
+    private void validateSamePosition(final Position from, final Position to) {
+        if (from.equals(to)) {
             throw new IllegalArgumentException("[ERROR] 같은 위치로는 이동할 수 없습니다.");
         }
     }

@@ -1,6 +1,6 @@
 package janggi.position;
 
-import janggi.direction.Direction;
+import janggi.move.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -89,12 +89,12 @@ public class Position {
     }
 
     private boolean isInPalace(final int currentY, final int currentX) {
-        if ((HAN_PALACE_START_Y <= currentY && currentY <= HAN_PALACE_END_Y) &&
-                (PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
+        if ((HAN_PALACE_START_Y <= currentY && currentY <= HAN_PALACE_END_Y)
+                && (PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
             return true;
         }
-        if ((CHO_PALACE_START_Y <= currentY && currentY <= CHO_PALACE_END_Y) && (
-                PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
+        if ((CHO_PALACE_START_Y <= currentY && currentY <= CHO_PALACE_END_Y)
+                && (PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
             return true;
         }
         return false;

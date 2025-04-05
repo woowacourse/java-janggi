@@ -1,8 +1,8 @@
 package janggi.piece;
 
-import janggi.direction.Direction;
-import janggi.direction.Movement;
-import janggi.direction.Movements;
+import janggi.move.Direction;
+import janggi.move.Movement;
+import janggi.move.Movements;
 import janggi.position.Position;
 import java.util.Arrays;
 import java.util.List;

@@ -1,7 +1,6 @@
 package janggi.piece.board;
 
-import janggi.direction.PieceType;
-import janggi.piece.Piece;
+import janggi.move.Piece;
 import janggi.position.Position;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,10 +15,9 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public void validatePath(final Position currentPosition, final Position arrivalPosition,
-                             final Board totalBoard) {
-        final Piece piece = findPieceByPosition(currentPosition);
-        piece.validateMovement(currentPosition, arrivalPosition, totalBoard);
+    public void move(final Position from, final Position to, final Board totalBoard) {
+        final Piece piece = findPieceByPosition(from);
+        piece.move(from, to, totalBoard);
     }
 
     public Piece findPieceByPosition(final Position position) {
@@ -35,7 +33,7 @@ public class Board {
 
     public boolean hasKing() {
         return pieces.values().stream()
-                .anyMatch(piece -> piece.matchPieceMovement(PieceType.KING));
+                .anyMatch(piece -> piece == Piece.KING);
     }
 
     public void removePiece(final Position position) {
@@ -64,7 +62,7 @@ public class Board {
 
     public Double calculateScore() {
         return pieces.values().stream()
-                .mapToDouble(piece -> piece.getPieceType().getScore())
+                .mapToDouble(Piece::getScore)
                 .sum();
     }
 

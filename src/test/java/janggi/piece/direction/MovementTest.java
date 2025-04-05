@@ -1,10 +1,10 @@
 package janggi.piece.direction;
 
-import static janggi.direction.Direction.UP;
-import static janggi.direction.Direction.UP_RIGHT;
+import static janggi.move.Direction.UP;
+import static janggi.move.Direction.UP_RIGHT;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.direction.Movement;
+import janggi.move.Movement;
 import org.junit.jupiter.api.Test;
 
 class MovementTest {

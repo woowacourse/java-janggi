@@ -32,11 +32,11 @@ public class FakePieceDao implements PieceDao {
     @Override
     public void update(final PieceMove pieceMove) {
         final Position currentPosition = pieceMove.currentPosition();
-        final PieceDto pieceDto = new PieceDto(pieceMove.team(), pieceMove.pieceType(), currentPosition.getY(),
+        final PieceDto pieceDto = new PieceDto(pieceMove.team(), pieceMove.piece(), currentPosition.getY(),
                 currentPosition.getX());
         dtos.remove(pieceDto);
         final Position arrivalPosition = pieceMove.arrivalPosition();
-        final PieceDto updatedDto = new PieceDto(pieceMove.team(), pieceMove.pieceType(), arrivalPosition.getY(),
+        final PieceDto updatedDto = new PieceDto(pieceMove.team(), pieceMove.piece(), arrivalPosition.getY(),
                 arrivalPosition.getX());
         dtos.add(updatedDto);
     }
@@ -44,7 +44,7 @@ public class FakePieceDao implements PieceDao {
     @Override
     public void delete(final PieceMove pieceMove) {
         final Position arrivalPosition = pieceMove.arrivalPosition();
-        final PieceDto pieceDto = new PieceDto(pieceMove.team().getOppositeTeam(), pieceMove.caughtPieceType(),
+        final PieceDto pieceDto = new PieceDto(pieceMove.team().getOppositeTeam(), pieceMove.caughtPiece(),
                 arrivalPosition.getY(), arrivalPosition.getX());
         dtos.remove(pieceDto);
         System.out.println(pieceDto);
