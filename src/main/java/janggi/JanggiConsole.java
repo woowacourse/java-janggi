@@ -2,20 +2,21 @@ package janggi;
 
 import janggi.dao.piece.PieceHistoryManager;
 import janggi.dao.turn.TurnManager;
-import janggi.dto.PieceMove;
-import janggi.domain.piece.PiecesFactory;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardOrder;
+import janggi.domain.piece.PiecesFactory;
+import janggi.domain.piece.position.Position;
 import janggi.domain.players.Players;
 import janggi.domain.players.Team;
 import janggi.domain.players.Turn;
-import janggi.domain.piece.position.Position;
+import janggi.dto.PieceMove;
 import janggi.utils.ExceptionHandler;
 import janggi.utils.StringParser;
 import janggi.view.InputView;
 import janggi.view.ResultView;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JanggiConsole {
 
@@ -43,12 +44,12 @@ public class JanggiConsole {
         while (players.canContinue() && !turn.canExit()) {
             final Team currentTeam = turn.getTeam();
             resultView.printOrder(currentTeam);
-            final PieceMove pieceMove = movePiece(players, currentTeam);
-            if (!pieceMove.wantRun()) {
+            final Optional<PieceMove> pieceMove = movePiece(players, currentTeam);
+            if (pieceMove.isEmpty()) {
                 turn = turn.wantExit();
                 continue;
             }
-            pieceHistoryManager.updatePiece(pieceMove);
+            pieceHistoryManager.updatePiece(pieceMove.get());
             resultView.printBoard(players.getChoPieces(), players.getHanPieces());
             turn = turn.moveNextTurn();
             turnManager.updateCurrentTurn(turn);
@@ -76,19 +77,19 @@ public class JanggiConsole {
         return new Players(Map.of(Team.CHO, choBoard, Team.HAN, hanBoard));
     }
 
-    private PieceMove movePiece(final Players players, final Team currentTeam) {
+    private Optional<PieceMove> movePiece(final Players players, final Team currentTeam) {
         return ExceptionHandler.retry(() -> moveOnePiece(players, currentTeam));
     }
 
-    private PieceMove moveOnePiece(final Players players, final Team currentTeam) {
+    private Optional<PieceMove> moveOnePiece(final Players players, final Team currentTeam) {
         final String input = inputView.readMovingPosition();
         if (input.equals(EXIT)) {
-            return new PieceMove(false, null, null, null, null, null, false);
+            return Optional.empty();
         }
         final List<Integer> positions = readPositions(input);
         final Position currentPosition = Position.from(positions.getFirst());
         final Position arrivalPosition = Position.from(positions.getLast());
-        return players.move(currentPosition, arrivalPosition, currentTeam);
+        return Optional.of(players.move(currentPosition, arrivalPosition, currentTeam));
     }
 
     private List<Integer> readPositions(final String input) {

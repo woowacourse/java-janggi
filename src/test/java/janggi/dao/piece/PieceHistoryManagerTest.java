@@ -2,15 +2,15 @@ package janggi.dao.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PiecesFactory;
-import janggi.dto.PieceDto;
-import janggi.dto.PieceMove;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardOrder;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PiecesFactory;
+import janggi.domain.piece.position.Position;
 import janggi.domain.players.Players;
 import janggi.domain.players.Team;
-import janggi.domain.piece.position.Position;
+import janggi.dto.PieceDto;
+import janggi.dto.PieceMove;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +56,7 @@ class PieceHistoryManagerTest {
         // Given
         final PieceDto hanPiece = new PieceDto(Team.HAN, Piece.CHARIOT, 3, 5);
         fakePieceDao.insert(hanPiece);
-        final PieceMove pieceMove = new PieceMove(true, Team.HAN, Piece.CHARIOT, null, new Position(3, 5),
+        final PieceMove pieceMove = new PieceMove(Team.HAN, Piece.CHARIOT, null, new Position(3, 5),
                 new Position(2, 5), false);
         final PieceDto updatedDto = new PieceDto(Team.HAN, Piece.CHARIOT, 2, 5);
 
@@ -74,7 +74,7 @@ class PieceHistoryManagerTest {
         final PieceDto hanPiece = new PieceDto(Team.HAN, Piece.CHARIOT, 3, 5);
         fakePieceDao.insert(hanPiece);
         fakePieceDao.insert(new PieceDto(Team.CHO, Piece.KING, 2, 5));
-        final PieceMove pieceMove = new PieceMove(true, Team.HAN, Piece.CHARIOT, Piece.KING, new Position(3, 5),
+        final PieceMove pieceMove = new PieceMove(Team.HAN, Piece.CHARIOT, Piece.KING, new Position(3, 5),
                 new Position(2, 5), true);
         final PieceDto updatedDto = new PieceDto(Team.HAN, Piece.CHARIOT, 2, 5);
 

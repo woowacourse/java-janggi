@@ -1,9 +1,9 @@
 package janggi.domain.players;
 
-import janggi.domain.piece.Piece;
-import janggi.dto.PieceMove;
 import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.position.Position;
+import janggi.dto.PieceMove;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,10 +34,10 @@ public class Players {
 
         if (caughtPieceOptional.isPresent()) {
             final Piece caughtPiece = caughtPieceOptional.get();
-            return new PieceMove(true, currentTeam, currentPiece, caughtPiece,
+            return new PieceMove(currentTeam, currentPiece, caughtPiece,
                     from, to, true);
         }
-        return new PieceMove(true, currentTeam, currentPiece, null, from, to, false);
+        return new PieceMove(currentTeam, currentPiece, null, from, to, false);
     }
 
     public boolean canContinue() {

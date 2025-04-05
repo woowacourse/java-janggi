@@ -63,7 +63,7 @@ public class PieceDaoTest {
     @Test
     void 갱신_테스트() {
         // Given
-        final PieceMove pieceMove = new PieceMove(false, Team.HAN, Piece.KING, null, new Position(2, 5),
+        final PieceMove pieceMove = new PieceMove(Team.HAN, Piece.KING, null, new Position(2, 5),
                 new Position(3, 5), false);
 
         // When
@@ -77,7 +77,7 @@ public class PieceDaoTest {
     void 삭제_테스트() {
         // Given
         pieceDao.insert(new PieceDto(Team.CHO, Piece.CANNON, 4, 5));
-        final PieceMove pieceMove = new PieceMove(false, Team.CHO, Piece.CANNON, Piece.KING, new Position(4, 5),
+        final PieceMove pieceMove = new PieceMove( Team.CHO, Piece.CANNON, Piece.KING, new Position(4, 5),
                 new Position(2, 5), true);
 
         // When
