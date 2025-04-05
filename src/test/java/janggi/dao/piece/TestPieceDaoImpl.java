@@ -1,10 +1,10 @@
 package janggi.dao.piece;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.position.Position;
+import janggi.domain.players.Team;
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
-import janggi.domain.players.Team;
-import janggi.domain.piece.position.Position;
 import janggi.util.TestDBUtil;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -94,8 +94,8 @@ public class TestPieceDaoImpl implements PieceDao {
         final var updateQuery = "UPDATE piece SET y = ?, x= ? WHERE y = ? AND x=? AND team=? AND piecetype = ?";
         try (final var connection = dbUtil.getConnection();
              final var preparedStatement = connection.prepareStatement(updateQuery)) {
-            final Position currentPosition = pieceMove.currentPosition();
-            final Position arrivalPosition = pieceMove.arrivalPosition();
+            final Position currentPosition = pieceMove.from();
+            final Position arrivalPosition = pieceMove.to();
             preparedStatement.setInt(1, arrivalPosition.getY());
             preparedStatement.setInt(2, arrivalPosition.getX());
             preparedStatement.setInt(3, currentPosition.getY());
@@ -113,16 +113,19 @@ public class TestPieceDaoImpl implements PieceDao {
 
     @Override
     public void delete(final PieceMove pieceMove) {
+        if (!pieceMove.isCapture()) {
+            return;
+        }
         final var deleteQuery = "DELETE FROM piece WHERE y = ? AND x = ? AND team = ? AND piecetype = ?";
         try (final var connection = dbUtil.getConnection();
              final var preparedStatement = connection.prepareStatement(deleteQuery)) {
-            final Position arrivalPosition = pieceMove.arrivalPosition();
+            final Position arrivalPosition = pieceMove.to();
             preparedStatement.setInt(1, arrivalPosition.getY());
             preparedStatement.setInt(2, arrivalPosition.getX());
             final Team opponentTeam = pieceMove.team().getOppositeTeam();
             preparedStatement.setInt(3, getTeamIdByName(connection, opponentTeam.name()));
             preparedStatement.setInt(4,
-                    getPieceTypeIdByName(connection, pieceMove.caughtPiece()));
+                    getPieceTypeIdByName(connection, pieceMove.caughtPiece().get()));
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);

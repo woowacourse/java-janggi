@@ -56,8 +56,7 @@ class PieceHistoryManagerTest {
         // Given
         final PieceDto hanPiece = new PieceDto(Team.HAN, Piece.CHARIOT, 3, 5);
         fakePieceDao.insert(hanPiece);
-        final PieceMove pieceMove = new PieceMove(Team.HAN, Piece.CHARIOT, null, new Position(3, 5),
-                new Position(2, 5));
+        final PieceMove pieceMove = new PieceMove(Team.HAN, Piece.CHARIOT, new Position(3, 5), new Position(2, 5));
         final PieceDto updatedDto = new PieceDto(Team.HAN, Piece.CHARIOT, 2, 5);
 
         // When
@@ -74,8 +73,8 @@ class PieceHistoryManagerTest {
         final PieceDto hanPiece = new PieceDto(Team.HAN, Piece.CHARIOT, 3, 5);
         fakePieceDao.insert(hanPiece);
         fakePieceDao.insert(new PieceDto(Team.CHO, Piece.KING, 2, 5));
-        final PieceMove pieceMove = new PieceMove(Team.HAN, Piece.CHARIOT, Piece.KING, new Position(3, 5),
-                new Position(2, 5));
+        final PieceMove pieceMove = PieceMove.capture(Team.HAN, Piece.CHARIOT, new Position(3, 5), new Position(2, 5),
+                Piece.KING);
         final PieceDto updatedDto = new PieceDto(Team.HAN, Piece.CHARIOT, 2, 5);
 
         // When

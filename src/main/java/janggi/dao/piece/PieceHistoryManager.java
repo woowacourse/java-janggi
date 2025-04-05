@@ -37,9 +37,7 @@ public class PieceHistoryManager {
     }
 
     public void updatePiece(final PieceMove pieceMove) {
-        if (pieceMove.caughtPiece() != null) {
-            pieceDao.delete(pieceMove);
-        }
+        pieceDao.delete(pieceMove);
         pieceDao.update(pieceMove);
     }
 
