@@ -1,5 +1,6 @@
 package dao;
 
+import database.H2ConnectManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import domain.piece.Country;
@@ -12,11 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CountryDaoTest {
 
-    private CountryDao countryDao;
+    private CountryDirectionDao countryDao;
 
     @BeforeEach
     void setUp() {
-        countryDao = new CountryDao();
+        countryDao = new CountryDirectionDao(new H2ConnectManager());
     }
 
     @Test

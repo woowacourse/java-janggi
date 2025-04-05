@@ -1,5 +1,6 @@
 package dao;
 
+import database.ConnectionManager;
 import domain.piece.Country;
 import domain.position.LineDirection;
 
@@ -7,15 +8,18 @@ import java.sql.*;
 import java.util.EnumMap;
 import java.util.Map;
 
-import static database.ConnectionManager.getConnection;
+public class CountryDirectionDao {
 
-public class CountryDao {
+    private final ConnectionManager manager;
+
+    public CountryDirectionDao(ConnectionManager manager) {
+        this.manager = manager;
+    }
 
     public void saveDirection(Map<Country, LineDirection> directionMap) {
         String sql = "REPLACE INTO country_direction (country, direction) VALUES (?, ?)";
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = manager.getConnection().prepareCall(sql)) {
 
             for (Map.Entry<Country, LineDirection> entry : directionMap.entrySet()) {
                 pstmt.setString(1, entry.getKey().name());
@@ -32,9 +36,8 @@ public class CountryDao {
         String sql = "SELECT * FROM country_direction";
         Map<Country, LineDirection> map = new EnumMap<>(Country.class);
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = manager.getConnection().prepareStatement(sql)) {
+             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Country country = Country.valueOf(rs.getString("country"));

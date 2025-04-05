@@ -1,5 +1,6 @@
 package dao;
 
+import database.H2ConnectManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import domain.piece.Country;
@@ -17,7 +18,7 @@ class PieceDaoTest {
 
     @BeforeEach
     void setUp() {
-        pieceDao = new PieceDao();
+        pieceDao = new PieceDao(new H2ConnectManager());
         pieceDao.clearPieces();
     }
 

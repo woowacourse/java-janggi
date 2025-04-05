@@ -1,5 +1,7 @@
 package dao;
 
+import database.ConnectionManager;
+import database.H2ConnectManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import domain.piece.Country;
@@ -12,10 +14,11 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 class BoardDaoTest {
 
     private BoardDao boardDao;
+    private ConnectionManager connectionManager = new H2ConnectManager();
 
     @BeforeEach
     void setUp() {
-        boardDao = new BoardDao();
+        boardDao = new BoardDao(connectionManager);
     }
 
     @Test
