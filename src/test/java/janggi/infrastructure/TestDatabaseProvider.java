@@ -6,7 +6,7 @@ public class TestDatabaseProvider extends AbstractDatabaseConnectionProvider imp
 
     private static TestDatabaseProvider instance;
 
-    public TestDatabaseProvider() {
+    private TestDatabaseProvider() {
         super(CONFIG_PATH);
     }
 

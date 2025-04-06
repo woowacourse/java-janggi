@@ -6,10 +6,9 @@ public class ProductionDatabaseProvider extends AbstractDatabaseConnectionProvid
 
     private static ProductionDatabaseProvider instance;
 
-    public ProductionDatabaseProvider() {
+    private ProductionDatabaseProvider() {
         super(CONFIG_PATH);
     }
-
 
     public static ProductionDatabaseProvider getInstance() {
         if (instance == null) {

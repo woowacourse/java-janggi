@@ -12,7 +12,7 @@ public abstract class BaseDao {
 
     protected final DatabaseConnectionProvider databaseConnectionProvider;
 
-    public BaseDao(final DatabaseConnectionProvider databaseConnectionProvider) {
+    protected BaseDao(final DatabaseConnectionProvider databaseConnectionProvider) {
         this.databaseConnectionProvider = databaseConnectionProvider;
     }
 
