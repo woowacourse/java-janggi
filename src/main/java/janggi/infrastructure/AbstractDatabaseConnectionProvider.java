@@ -18,7 +18,7 @@ public class AbstractDatabaseConnectionProvider implements DatabaseConnectionPro
     @Override
     public final Connection getConnection() {
         final Properties properties = new Properties();
-        try (InputStream input = ProductionDatabaseProvider.class.getClassLoader().getResourceAsStream(configPath)) {
+        try (InputStream input = this.getClass().getClassLoader().getResourceAsStream(configPath)) {
             properties.load(input);
 
             final String server = properties.getProperty("db.server");
