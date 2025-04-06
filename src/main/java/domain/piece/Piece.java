@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.board.PieceVisibleBoard;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
-import domain.board.PieceVisibleBoard;
 import domain.point.Point;
 import java.util.List;
 
@@ -14,7 +14,7 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public boolean canMove(final Point source, final Point destination, final PieceVisibleBoard board) {
+    public final boolean canMove(final Point source, final Point destination, final PieceVisibleBoard board) {
         List<Point> candidates = findMovablePoints(source, board);
         if (isOnlyMovableInPalace()) {
             candidates = candidates.stream()

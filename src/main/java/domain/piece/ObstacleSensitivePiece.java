@@ -14,7 +14,7 @@ public abstract class ObstacleSensitivePiece extends Piece {
     }
 
     @Override
-    protected List<Point> findMovablePoints(final Point source, final PieceVisibleBoard board) {
+    protected final List<Point> findMovablePoints(final Point source, final PieceVisibleBoard board) {
         return movements().stream()
                 .filter(movement -> board.canMoveByPath(source, movement.destinationPath())
                         && !board.matchTeam(board.getPointMovedByPath(source, movement.destinationPath()), team())

@@ -14,7 +14,7 @@ public abstract class SlidingPiece extends Piece {
     }
 
     @Override
-    protected List<Point> findMovablePoints(final Point point, final PieceVisibleBoard board) {
+    protected final List<Point> findMovablePoints(final Point point, final PieceVisibleBoard board) {
         List<Point> candidates = new ArrayList<>();
         for (Direction direction : movableDirections()) {
             candidates.addAll(findCandidatesByDirection(point, direction, board));
