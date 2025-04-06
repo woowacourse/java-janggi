@@ -134,7 +134,7 @@ public class GameService {
     private Board loadBoardByGameRoomName(final String gameRoomName) {
         return BoardConverter.convertToBoard(
                 pieceDao.findByGameRoomName(getConnection(), gameRoomName),
-                DefaultPathFinderFactory.getInstance()
+                DefaultPathFinderFactory.getInstance().createPathFinder()
         );
     }
 

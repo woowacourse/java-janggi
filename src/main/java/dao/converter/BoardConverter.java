@@ -2,7 +2,6 @@ package dao.converter;
 
 import domain.board.Board;
 import domain.board.pathfinder.PathFinder;
-import domain.board.pathfinder.PathFinderFactory;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Ma;
@@ -32,9 +31,8 @@ public class BoardConverter {
         return new PieceDto(null, point.row(), point.column(), piece.type(), piece.team(), gameRoomName);
     }
 
-    public static Board convertToBoard(List<PieceDto> pieceDtos, PathFinderFactory pathFinderFactory) {
+    public static Board convertToBoard(List<PieceDto> pieceDtos, PathFinder pathFinder) {
         Map<Point, Piece> boardPieces = convertToPieceByPoint(pieceDtos);
-        PathFinder pathFinder = pathFinderFactory.createPathFinder();
         return new Board(boardPieces, pathFinder);
     }
 
