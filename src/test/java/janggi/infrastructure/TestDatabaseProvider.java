@@ -4,15 +4,15 @@ public class TestDatabaseProvider extends AbstractDatabaseConnectionProvider imp
 
     private static final String CONFIG_PATH = "config.properties";
 
-    private static ProductionDatabaseProvider instance;
+    private static TestDatabaseProvider instance;
 
     public TestDatabaseProvider() {
         super(CONFIG_PATH);
     }
 
-    public static ProductionDatabaseProvider getInstance() {
+    public static TestDatabaseProvider getInstance() {
         if (instance == null) {
-            instance = new ProductionDatabaseProvider();
+            instance = new TestDatabaseProvider();
         }
         return instance;
     }
