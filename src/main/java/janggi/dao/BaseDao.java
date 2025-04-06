@@ -16,8 +16,8 @@ public abstract class BaseDao {
         this.databaseConnectionProvider = databaseConnectionProvider;
     }
 
-    protected final <T> List<T> executeQueryWithMultiData(final String query, final StatementSetter setter,
-                                                    final ResultMapper<T> resultMapper) {
+    protected final <T> List<T> findAll(final String query, final StatementSetter setter,
+                                        final ResultMapper<T> resultMapper) {
         final List<T> results = new ArrayList<>();
         try (final Connection connection = databaseConnectionProvider.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -37,12 +37,12 @@ public abstract class BaseDao {
         }
     }
 
-    protected final <T> List<T> executeQueryWithMultiData(final String query, final ResultMapper<T> resultMapper) {
-        return executeQueryWithMultiData(query, null, resultMapper);
+    protected final <T> List<T> findAll(final String query, final ResultMapper<T> resultMapper) {
+        return findAll(query, null, resultMapper);
     }
 
-    protected final <T> T executeQuery(final String query, final StatementSetter setter,
-                                 final ResultMapper<T> resultMapper) {
+    protected final <T> T findOne(final String query, final StatementSetter setter,
+                                  final ResultMapper<T> resultMapper) {
         try (final Connection connection = databaseConnectionProvider.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -60,8 +60,8 @@ public abstract class BaseDao {
         throw new IllegalStateException("[ERROR] 해당 데이터를 찾을 수 없습니다.");
     }
 
-    protected final <T> T executeQuery(final String query, final ResultMapper<T> resultMapper) {
-        return executeQuery(query, null, resultMapper);
+    protected final <T> T findOne(final String query, final ResultMapper<T> resultMapper) {
+        return findOne(query, null, resultMapper);
     }
 
     protected final void executeUpdate(final String query, final StatementSetter setter) {

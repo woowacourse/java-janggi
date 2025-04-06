@@ -32,7 +32,7 @@ public class TestTurnDaoImpl extends BaseDao implements TurnDao {
     @Override
     public Turn selectCurrentTeam() {
         final var query = "SELECT current_team FROM turn LIMIT 1";
-        return executeQuery(query, (resultSet, connection) -> {
+        return findOne(query, (resultSet, connection) -> {
             final String teamName = getTeamNameById(connection, resultSet.getInt("current_team"));
             return Turn.initialize(Team.from(teamName));
         });

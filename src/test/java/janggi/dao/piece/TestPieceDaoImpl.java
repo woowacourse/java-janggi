@@ -29,7 +29,7 @@ public class TestPieceDaoImpl extends BaseDao implements PieceDao {
     @Override
     public List<PieceDto> select(final Team givenTeam) {
         final var query = "SELECT * FROM piece WHERE team = ?";
-        return executeQueryWithMultiData(query, (preparedStatement, connection) -> {
+        return findAll(query, (preparedStatement, connection) -> {
             final int givenTeamId = getTeamIdByName(connection, givenTeam.name());
             preparedStatement.setInt(1, givenTeamId);
         }, this::mapToPieceDto);
@@ -38,7 +38,7 @@ public class TestPieceDaoImpl extends BaseDao implements PieceDao {
     @Override
     public List<PieceDto> selectAll() {
         final var query = "SELECT * FROM piece";
-        return executeQueryWithMultiData(query, this::mapToPieceDto);
+        return findAll(query, this::mapToPieceDto);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class TestPieceDaoImpl extends BaseDao implements PieceDao {
 
     private String getPieceTypeById(final int pieceTypeId) {
         final var query = "SELECT name FROM piecetype WHERE piecetype_id = ?";
-        return executeQuery(query, (preparedStatement, connection) -> {
+        return findOne(query, (preparedStatement, connection) -> {
             preparedStatement.setInt(1, pieceTypeId);
         }, (resultSet, connection) -> resultSet.getString("name"));
     }
@@ -114,7 +114,7 @@ public class TestPieceDaoImpl extends BaseDao implements PieceDao {
     private int getPieceTypeIdByName(final Piece piece) {
         final var query = "SELECT * FROM piecetype WHERE name = ?";
         final String pieceTypeName = makePieceTypeName(piece);
-        return executeQuery(query, (preparedStatement, connection) -> {
+        return findOne(query, (preparedStatement, connection) -> {
             preparedStatement.setString(1, pieceTypeName);
         }, (resultSet, connection) -> resultSet.getInt("piecetype_id"));
     }
