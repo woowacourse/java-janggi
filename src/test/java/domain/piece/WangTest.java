@@ -16,43 +16,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class WangTest {
 
-    private static Stream<Arguments> moveInPalaceTestCases() {
-        return Stream.of(
-                Arguments.arguments(Point.of(2, 5), Point.of(1, 4)),
-                Arguments.arguments(Point.of(2, 5), Point.of(1, 5)),
-                Arguments.arguments(Point.of(2, 5), Point.of(1, 6)),
-                Arguments.arguments(Point.of(2, 5), Point.of(2, 4)),
-                Arguments.arguments(Point.of(2, 5), Point.of(2, 6)),
-                Arguments.arguments(Point.of(2, 5), Point.of(3, 4)),
-                Arguments.arguments(Point.of(2, 5), Point.of(3, 5)),
-                Arguments.arguments(Point.of(2, 5), Point.of(3, 6)),
-
-                Arguments.arguments(Point.of(1, 4), Point.of(2, 5)),
-                Arguments.arguments(Point.of(1, 5), Point.of(2, 5)),
-                Arguments.arguments(Point.of(1, 6), Point.of(2, 5)),
-                Arguments.arguments(Point.of(2, 4), Point.of(2, 5)),
-                Arguments.arguments(Point.of(2, 6), Point.of(2, 5)),
-                Arguments.arguments(Point.of(3, 4), Point.of(2, 5)),
-                Arguments.arguments(Point.of(3, 5), Point.of(2, 5)),
-                Arguments.arguments(Point.of(3, 6), Point.of(2, 5))
-        );
-    }
-
-    private static Stream<Arguments> moveOutOfPalaceTestCases() {
-        return Stream.of(
-                Arguments.arguments(Point.of(1, 4), Point.of(1, 3)),
-                Arguments.arguments(Point.of(2, 4), Point.of(2, 3)),
-                Arguments.arguments(Point.of(3, 4), Point.of(3, 3)),
-                Arguments.arguments(Point.of(1, 6), Point.of(1, 7)),
-                Arguments.arguments(Point.of(2, 6), Point.of(2, 7)),
-                Arguments.arguments(Point.of(3, 6), Point.of(3, 7)),
-
-                Arguments.arguments(Point.of(3, 4), Point.of(4, 4)),
-                Arguments.arguments(Point.of(3, 5), Point.of(4, 5)),
-                Arguments.arguments(Point.of(3, 6), Point.of(4, 6))
-        );
-    }
-
     @Test
     void 왕은_왕_타입이다() {
         // given
@@ -167,5 +130,42 @@ class WangTest {
 
         // then
         Assertions.assertThat(actual).isFalse();
+    }
+
+    private static Stream<Arguments> moveInPalaceTestCases() {
+        return Stream.of(
+                Arguments.arguments(Point.of(2, 5), Point.of(1, 4)),
+                Arguments.arguments(Point.of(2, 5), Point.of(1, 5)),
+                Arguments.arguments(Point.of(2, 5), Point.of(1, 6)),
+                Arguments.arguments(Point.of(2, 5), Point.of(2, 4)),
+                Arguments.arguments(Point.of(2, 5), Point.of(2, 6)),
+                Arguments.arguments(Point.of(2, 5), Point.of(3, 4)),
+                Arguments.arguments(Point.of(2, 5), Point.of(3, 5)),
+                Arguments.arguments(Point.of(2, 5), Point.of(3, 6)),
+
+                Arguments.arguments(Point.of(1, 4), Point.of(2, 5)),
+                Arguments.arguments(Point.of(1, 5), Point.of(2, 5)),
+                Arguments.arguments(Point.of(1, 6), Point.of(2, 5)),
+                Arguments.arguments(Point.of(2, 4), Point.of(2, 5)),
+                Arguments.arguments(Point.of(2, 6), Point.of(2, 5)),
+                Arguments.arguments(Point.of(3, 4), Point.of(2, 5)),
+                Arguments.arguments(Point.of(3, 5), Point.of(2, 5)),
+                Arguments.arguments(Point.of(3, 6), Point.of(2, 5))
+        );
+    }
+
+    private static Stream<Arguments> moveOutOfPalaceTestCases() {
+        return Stream.of(
+                Arguments.arguments(Point.of(1, 4), Point.of(1, 3)),
+                Arguments.arguments(Point.of(2, 4), Point.of(2, 3)),
+                Arguments.arguments(Point.of(3, 4), Point.of(3, 3)),
+                Arguments.arguments(Point.of(1, 6), Point.of(1, 7)),
+                Arguments.arguments(Point.of(2, 6), Point.of(2, 7)),
+                Arguments.arguments(Point.of(3, 6), Point.of(3, 7)),
+
+                Arguments.arguments(Point.of(3, 4), Point.of(4, 4)),
+                Arguments.arguments(Point.of(3, 5), Point.of(4, 5)),
+                Arguments.arguments(Point.of(3, 6), Point.of(4, 6))
+        );
     }
 }
