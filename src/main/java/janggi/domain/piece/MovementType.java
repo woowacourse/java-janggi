@@ -2,32 +2,33 @@ package janggi.domain.piece;
 
 import janggi.domain.piece.direction.Movement;
 import janggi.domain.piece.direction.Movements;
-import janggi.domain.piece.position.Position;
 import janggi.domain.piece.direction.PalaceMovement;
+import janggi.domain.piece.position.Position;
 import java.util.Optional;
 
 public enum MovementType {
 
-    PALACE_AWARE {
+    PALACE_CONSIDERATE {
         @Override
-        public Movement determineMovement(final Piece piece, final Position from, final Position to) {
-            final Movements movements = piece.getMovements();
-            addPalaceMovementIfApplicable(from, movements);
-            return movements.findMovements(from, to, piece.canMoveIterable());
+        public Movement findValidMovement(final Piece piece, final Position from, final Position to) {
+            final Movements movements = piece.getPossibleMovements();
+            includePalaceMovementsIfInPalace(from, movements);
+            return movements.findMovements(from, to, piece.canMoveMultipleSteps());
         }
 
-        private void addPalaceMovementIfApplicable(final Position from, final Movements movements) {
+        private void includePalaceMovementsIfInPalace(final Position from, final Movements movements) {
             final Optional<Movements> optionalMovements = PalaceMovement.getMovements(from);
             optionalMovements.ifPresent(movements::add);
         }
     },
-    STANDARD {
+
+    BASIC {
         @Override
-        public Movement determineMovement(final Piece piece, final Position from, final Position to) {
-            final Movements movements = piece.getMovements();
-            return movements.findMovements(from, to, piece.canMoveIterable());
+        public Movement findValidMovement(final Piece piece, final Position from, final Position to) {
+            final Movements movements = piece.getPossibleMovements();
+            return movements.findMovements(from, to, piece.canMoveMultipleSteps());
         }
     };
 
-    public abstract Movement determineMovement(Piece piece, Position from, Position to);
+    public abstract Movement findValidMovement(Piece piece, Position from, Position to);
 }

@@ -26,8 +26,8 @@ public enum Piece {
                     new Movement(LEFT),
                     new Movement(DOWN)
             ),
-            MovementType.PALACE_AWARE,
-            ObstacleTraversalRule.JUMP_ONE_OBSTACLE,
+            MovementType.PALACE_CONSIDERATE,
+            PathObstacleRule.MUST_JUMP_EXACTLY_ONE_OBSTACLE,
             7
     ),
     CHARIOT(
@@ -37,8 +37,8 @@ public enum Piece {
                     new Movement(RIGHT),
                     new Movement(LEFT)
             ),
-            MovementType.PALACE_AWARE,
-            ObstacleTraversalRule.BLOCK,
+            MovementType.PALACE_CONSIDERATE,
+            PathObstacleRule.CANNOT_PASS_OBSTACLES,
             13
     ),
     CHO_SOLDIER(
@@ -47,8 +47,8 @@ public enum Piece {
                     new Movement(RIGHT),
                     new Movement(LEFT)
             ),
-            MovementType.PALACE_AWARE,
-            ObstacleTraversalRule.BLOCK,
+            MovementType.PALACE_CONSIDERATE,
+            PathObstacleRule.CANNOT_PASS_OBSTACLES,
             2
     ),
     HAN_SOLDIER(
@@ -57,8 +57,8 @@ public enum Piece {
                     new Movement(RIGHT),
                     new Movement(LEFT)
             ),
-            MovementType.PALACE_AWARE,
-            ObstacleTraversalRule.BLOCK,
+            MovementType.PALACE_CONSIDERATE,
+            PathObstacleRule.CANNOT_PASS_OBSTACLES,
             2
     ),
     ELEPHANT(
@@ -72,8 +72,8 @@ public enum Piece {
                     new Movement(RIGHT, UP_RIGHT, UP_RIGHT),
                     new Movement(LEFT, UP_LEFT, UP_LEFT)
             ),
-            MovementType.STANDARD,
-            ObstacleTraversalRule.BLOCK,
+            MovementType.BASIC,
+            PathObstacleRule.CANNOT_PASS_OBSTACLES,
             3
     ),
     GUARD(
@@ -83,8 +83,8 @@ public enum Piece {
                     new Movement(LEFT),
                     new Movement(DOWN)
             ),
-            MovementType.PALACE_AWARE,
-            ObstacleTraversalRule.BLOCK,
+            MovementType.PALACE_CONSIDERATE,
+            PathObstacleRule.CANNOT_PASS_OBSTACLES,
             3
     ),
     HORSE(
@@ -98,8 +98,8 @@ public enum Piece {
                     new Movement(RIGHT, UP_RIGHT),
                     new Movement(LEFT, UP_LEFT)
             ),
-            MovementType.STANDARD,
-            ObstacleTraversalRule.BLOCK,
+            MovementType.BASIC,
+            PathObstacleRule.CANNOT_PASS_OBSTACLES,
             5
     ),
     KING(
@@ -109,31 +109,28 @@ public enum Piece {
                     new Movement(LEFT),
                     new Movement(DOWN)
             ),
-            MovementType.PALACE_AWARE,
-            ObstacleTraversalRule.BLOCK,
+            MovementType.PALACE_CONSIDERATE,
+            PathObstacleRule.CANNOT_PASS_OBSTACLES,
             0
     );
 
-    private final Movements movements;
+    private final Movements possibleMovements;
     private final MovementType movementType;
-    private final ObstacleTraversalRule obstacleTraversalRule;
+    private final PathObstacleRule pathObstacleRule;
     private final int score;
 
-    Piece(
-            final Movements movements,
-            final MovementType movementType,
-            final ObstacleTraversalRule obstacleTraversalRule,
-            final int score
-    ) {
-        this.movements = movements;
+    Piece(final Movements possibleMovements, final MovementType movementType,
+          final PathObstacleRule pathObstacleRule,
+          final int score) {
+        this.possibleMovements = possibleMovements;
         this.movementType = movementType;
-        this.obstacleTraversalRule = obstacleTraversalRule;
+        this.pathObstacleRule = pathObstacleRule;
         this.score = score;
     }
 
     public static Piece from(final String name, final Team team) {
         if (isSoldier(name)) {
-            return getSoldier(team);
+            return findSoldierByTeam(team);
         }
         return findPiece(name);
     }
@@ -142,7 +139,7 @@ public enum Piece {
         return CHO_SOLDIER.name().contains(name);
     }
 
-    private static Piece getSoldier(final Team team) {
+    private static Piece findSoldierByTeam(final Team team) {
         if (team == Team.CHO) {
             return CHO_SOLDIER;
         }
@@ -156,29 +153,28 @@ public enum Piece {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 기물을 찾을 수 없습니다."));
     }
 
-    public void validateMove(final Position from, final Position to, final Board board) {
-        final Movement movement = movementType.determineMovement(this, from, to);
-        validatePath(from, to, doesLiveInPalace(), board, movement);
+    public void validateMovement(final Position from, final Position to, final Board board) {
+        validatePalaceMovementRules(from, to);
+        validatePathObstacles(from, to, board);
     }
 
-    private void validatePath(final Position from, final Position to, final boolean doesLiveInPalace, final Board board,
-                              final Movement movement) {
-        if (doesLiveInPalace) {
+    private void validatePalaceMovementRules(final Position from, final Position to) {
+        if (isRestrictedByPalace()) {
             from.validateIsInPalace(to);
         }
+    }
+
+    private void validatePathObstacles(final Position from, final Position to, final Board board) {
+        final Movement movement = movementType.findValidMovement(this, from, to);
         final Path path = movement.makePath(from, to);
-        obstacleTraversalRule.validatePathObstacles(path, board);
+        pathObstacleRule.validatePathObstacles(path, board);
     }
 
-    public boolean doesLiveInPalace() {
-        return this == KING || this == GUARD;
+    public boolean canJumpObstacle() {
+        return this.pathObstacleRule == PathObstacleRule.MUST_JUMP_EXACTLY_ONE_OBSTACLE;
     }
 
-    public boolean isObstacleJumping() {
-        return this.obstacleTraversalRule == ObstacleTraversalRule.JUMP_ONE_OBSTACLE;
-    }
-
-    public boolean canMoveIterable() {
+    public boolean canMoveMultipleSteps() {
         return this == CHARIOT || this == CANNON;
     }
 
@@ -190,8 +186,12 @@ public enum Piece {
         return this == CHO_SOLDIER || this == HAN_SOLDIER;
     }
 
-    public Movements getMovements() {
-        return movements;
+    private boolean isRestrictedByPalace() {
+        return this == KING || this == GUARD;
+    }
+
+    public Movements getPossibleMovements() {
+        return possibleMovements;
     }
 
     public int getScore() {

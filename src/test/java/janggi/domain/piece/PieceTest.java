@@ -21,7 +21,7 @@ class PieceTest {
 
         // When & Then
         Assertions.assertThatThrownBy(
-                        () -> piece.validateMove(currentPosition, arrivalPosition,
+                        () -> piece.validateMovement(currentPosition, arrivalPosition,
                                 new Board(Map.of(currentPosition, piece))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 궁성 밖을 나갔습니다.");

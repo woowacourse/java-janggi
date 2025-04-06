@@ -17,7 +17,7 @@ public class Board {
 
     public void move(final Position from, final Position to, final Board totalBoard) {
         final Piece piece = findPieceByPosition(from);
-        piece.validateMove(from, to, totalBoard);
+        piece.validateMovement(from, to, totalBoard);
     }
 
     public Piece findPieceByPosition(final Position position) {

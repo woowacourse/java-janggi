@@ -12,12 +12,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class ObstacleTraversalRuleTest {
+class PathObstacleRuleTest {
 
     @Nested
     class ObstacleJumpingStrategyTest {
 
-        private final ObstacleTraversalRule jumpingStrategy = ObstacleTraversalRule.JUMP_ONE_OBSTACLE;
+        private final PathObstacleRule jumpingStrategy = PathObstacleRule.MUST_JUMP_EXACTLY_ONE_OBSTACLE;
 
         @Test
         void 이동_경로_중간에_기물이_존재하는_경우에만_움직인다() {
@@ -101,7 +101,7 @@ class ObstacleTraversalRuleTest {
     @Nested
     class ObstacleBlockStrategyTest {
 
-        private final ObstacleTraversalRule blockStrategy = ObstacleTraversalRule.BLOCK;
+        private final PathObstacleRule blockStrategy = PathObstacleRule.CANNOT_PASS_OBSTACLES;
 
         @Test
         void 정해진_거리만큼_이동한다() {

@@ -16,12 +16,12 @@ class MovementTypeTest {
         @Test
         void 적절한_움직임을_찾는다() {
             // Given
-            final MovementType edgeStrategy = MovementType.PALACE_AWARE;
+            final MovementType edgeStrategy = MovementType.PALACE_CONSIDERATE;
             final Position currentPosition = new Position(9, 4);
             final Position arrivalPosition = new Position(9, 5);
 
             // When
-            final Movement movement = edgeStrategy.determineMovement(Piece.CANNON, currentPosition, arrivalPosition);
+            final Movement movement = edgeStrategy.findValidMovement(Piece.CANNON, currentPosition, arrivalPosition);
 
             // Then
             assertThat(movement).isEqualTo(new Movement(Direction.RIGHT));
@@ -34,12 +34,12 @@ class MovementTypeTest {
         @Test
         void 적절한_움직임을_찾는다() {
             // Given
-            final MovementType edgeStrategy = MovementType.STANDARD;
+            final MovementType edgeStrategy = MovementType.BASIC;
             final Position from = new Position(2, 4);
             final Position to = new Position(4, 5);
 
             // When
-            final Movement movement = edgeStrategy.determineMovement(Piece.HORSE, from, to);
+            final Movement movement = edgeStrategy.findValidMovement(Piece.HORSE, from, to);
 
             // Then
             assertThat(movement).isEqualTo(new Movement(Direction.DOWN, Direction.DOWN_RIGHT));
