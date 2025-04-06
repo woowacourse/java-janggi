@@ -1,6 +1,6 @@
 package janggi.dao;
 
-import janggi.utils.DBUtil;
+import janggi.infrastructure.DatabaseConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,11 @@ import java.util.List;
 
 public abstract class BaseDao {
 
-    private static final DBUtil dbUtil = DBUtil.getInstance();
+    protected final DatabaseConnectionProvider dbUtil;
+
+    public BaseDao(final DatabaseConnectionProvider dbUtil) {
+        this.dbUtil = dbUtil;
+    }
 
     protected <T> List<T> executeQueryWithMultiData(final String query, final StatementSetter setter,
                                                     final ResultMapper<T> resultMapper) {

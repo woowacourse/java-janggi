@@ -1,4 +1,4 @@
-package janggi.util;
+package janggi.infrastructure;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,25 +7,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class TestDBUtil {
+public class AbstractDatabaseConnectionProvider implements DatabaseConnectionProvider {
 
-    private static final String CONFIG_PROPERTIES = "config.properties";
+    private final String configPath;
 
-    private static TestDBUtil instance;
-
-    private TestDBUtil() {
+    public AbstractDatabaseConnectionProvider(final String configPath) {
+        this.configPath = configPath;
     }
 
-    public static TestDBUtil getInstance() {
-        if (instance == null) {
-            instance = new TestDBUtil();
-        }
-        return instance;
-    }
-
+    @Override
     public Connection getConnection() {
         final Properties properties = new Properties();
-        try (InputStream input = TestDBUtil.class.getClassLoader().getResourceAsStream(CONFIG_PROPERTIES)) {
+        try (InputStream input = ProductionDatabaseProvider.class.getClassLoader().getResourceAsStream(configPath)) {
             properties.load(input);
 
             final String server = properties.getProperty("db.server");
@@ -36,9 +29,7 @@ public class TestDBUtil {
 
             return DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + options, username, password);
         } catch (final SQLException | IOException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new IllegalStateException("[ERROR] 데이터베이스 연결 또는 설정 파일 로딩에 실패했습니다.");
         }
     }
 }
