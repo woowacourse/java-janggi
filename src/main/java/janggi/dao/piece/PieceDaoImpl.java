@@ -1,5 +1,6 @@
 package janggi.dao.piece;
 
+import janggi.dao.BaseDao;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.position.Position;
 import janggi.domain.players.Team;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PieceDaoImpl implements PieceDao {
+public class PieceDaoImpl extends BaseDao implements PieceDao {
 
     private static final DBUtil dbUtil = DBUtil.getInstance();
     private static final PieceDao pieceDao = new PieceDaoImpl();
@@ -53,7 +54,6 @@ public class PieceDaoImpl implements PieceDao {
         final var query = "SELECT * FROM piece";
         try (var connection = dbUtil.getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
-
             final var resultSet = preparedStatement.executeQuery();
             final List<PieceDto> dtos = new ArrayList<>();
             while (resultSet.next()) {
@@ -135,43 +135,7 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public void deleteAll() {
-        final var deleteQuery = "DELETE FROM piece WHERE piece_id > 0";
-        try (var connection = dbUtil.getConnection();
-             var preparedStatement = connection.prepareStatement(deleteQuery)) {
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String getTeamNameById(final Connection connection, final int teamId) {
-        final var query = "SELECT name FROM team WHERE team_id = ?";
-        try (final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, teamId);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getString("name");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException("[ERROR] Team을 찾을 수 없습니다.");
-    }
-
-    private int getTeamIdByName(final Connection connection, final String teamName) {
-        final var query = "SELECT * FROM team WHERE name = ?";
-        try (var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, teamName);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt("team_id");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException("[ERROR] Team을 찾을 수 없습니다.");
+        executeUpdate("DELETE FROM piece WHERE piece_id > 0");
     }
 
     private String getPieceTypeById(final Connection connection, final int pieceTypeId) {

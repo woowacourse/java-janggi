@@ -1,13 +1,13 @@
 package janggi.dao.turn;
 
-import janggi.dto.TurnDto;
+import janggi.dao.BaseDao;
 import janggi.domain.players.Team;
 import janggi.domain.players.Turn;
+import janggi.dto.TurnDto;
 import janggi.utils.DBUtil;
-import java.sql.Connection;
 import java.sql.SQLException;
 
-public class TurnDaoImpl implements TurnDao {
+public class TurnDaoImpl extends BaseDao implements TurnDao {
 
     private static final DBUtil dbUtil = DBUtil.getInstance();
     private static final TurnDao turnDao = new TurnDaoImpl();
@@ -55,13 +55,7 @@ public class TurnDaoImpl implements TurnDao {
 
     @Override
     public void deleteAll() {
-        final var deleteQuery = "DELETE FROM turn WHERE turn_id > 0";
-        try (var connection = dbUtil.getConnection();
-             var preparedStatement = connection.prepareStatement(deleteQuery)) {
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+        executeUpdate("DELETE FROM turn WHERE turn_id > 0");
     }
 
     private void insertCurrentTeam(final TurnDto turnDto) {
@@ -74,35 +68,5 @@ public class TurnDaoImpl implements TurnDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private String getTeamNameById(final Connection connection, final int teamId) {
-        final var query = "SELECT name FROM team WHERE team_id = ?";
-        try (var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, teamId);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getString("name");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException("[ERROR] Team을 찾을 수 없습니다.");
-    }
-
-    private int getTeamIdByName(final Connection connection, final String teamName) {
-        final var query = "SELECT * FROM team WHERE name = ?";
-        try (var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, teamName);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt("team_id");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException("[ERROR] Team을 찾을 수 없습니다.");
     }
 }
