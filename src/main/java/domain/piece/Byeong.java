@@ -21,8 +21,21 @@ public class Byeong extends SlidingPiece {
     }
 
     @Override
+    public List<Direction> movableDirections() {
+        return switch (team()) {
+            case CHO -> List.of(LEFT, UP_LEFT, UP, UP_RIGHT, RIGHT);
+            case HAN -> List.of(LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT, RIGHT);
+        };
+    }
+
+    @Override
     public boolean isOnlyMovableInPalace() {
         return false;
+    }
+
+    @Override
+    public int maxStep() {
+        return 1;
     }
 
     @Override
@@ -32,19 +45,6 @@ public class Byeong extends SlidingPiece {
 
     @Override
     public int score() {
-        return 0;
-    }
-
-    @Override
-    public List<Direction> movableDirections() {
-        return switch (team()) {
-            case CHO -> List.of(LEFT, UP_LEFT, UP, UP_RIGHT, RIGHT);
-            case HAN -> List.of(LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT, RIGHT);
-        };
-    }
-
-    @Override
-    public int maxStep() {
-        return 1;
+        return 2;
     }
 }
