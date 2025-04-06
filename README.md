@@ -145,4 +145,5 @@ docker-compose -p janggi down
 - 팀은 색깔로 구분한다.
     - 초나라 : 초록색
     - 한나라 : 빨간색
+  
 ![image](https://github.com/user-attachments/assets/5c3a40dc-e846-4755-9795-85f56cfb5989)
