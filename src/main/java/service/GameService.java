@@ -108,7 +108,7 @@ public class GameService {
         return game.findWinTeam();
     }
 
-    public Map<Point, Piece> findPieceByPoint() {
+    public Map<Point, Piece> getPieceByPoint() {
         JanggiGame game = getGameOrThrow();
         return game.getPieceByPoint();
     }

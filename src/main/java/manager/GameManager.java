@@ -45,11 +45,11 @@ public class GameManager {
     }
 
     private void processMove() {
-        OutputView.printPieceByPoint(gameService.findPieceByPoint());
+        OutputView.printPieceByPoint(gameService.getPieceByPoint());
 
         MoveCommand moveCommand = InputView.inputMoveCommand(gameService.currentTurn());
         gameService.movePiece(moveCommand.source(), moveCommand.destination());
-        OutputView.printPieceByPoint(gameService.findPieceByPoint());
+        OutputView.printPieceByPoint(gameService.getPieceByPoint());
     }
 
     private void processStatus() {
