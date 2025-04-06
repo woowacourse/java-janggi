@@ -146,7 +146,7 @@ public class GameService {
     }
 
     private JanggiGame getGameOrThrow() {
-        if (isGameLoaded()) {
+        if (!isGameLoaded()) {
             throw new IllegalStateException("[ERROR] 게임이 로드되지 않았습니다.");
         }
         return janggiGame;
