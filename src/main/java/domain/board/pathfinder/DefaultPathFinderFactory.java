@@ -34,7 +34,7 @@ public class DefaultPathFinderFactory implements PathFinderFactory {
     @Override
     public PathFinder createPathFinder() {
         if (nodeByPoint != null) {
-            return new PathFinder(nodeByPoint);
+            return new PathFinder(new HashMap<>(nodeByPoint));
         }
 
         nodeByPoint = new HashMap<>();
