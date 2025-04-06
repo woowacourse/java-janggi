@@ -43,7 +43,7 @@ public class FakePieceDao implements PieceDao {
 
     @Override
     public void delete(final PieceMove pieceMove) {
-        if (!pieceMove.isCapture()) {
+        if (pieceMove.isNotCaptured()) {
             return;
         }
         final Position arrivalPosition = pieceMove.to();

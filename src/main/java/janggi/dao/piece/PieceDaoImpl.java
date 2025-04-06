@@ -6,16 +6,15 @@ import janggi.domain.piece.position.Position;
 import janggi.domain.players.Team;
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
-import janggi.utils.DBUtil;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PieceDaoImpl extends BaseDao implements PieceDao {
 
-    private static final DBUtil dbUtil = DBUtil.getInstance();
     private static final PieceDao pieceDao = new PieceDaoImpl();
+    private static final int SOLDIER_START_INDEX = 4;
 
     private PieceDaoImpl() {
     }
@@ -27,110 +26,65 @@ public class PieceDaoImpl extends BaseDao implements PieceDao {
     @Override
     public List<PieceDto> select(final Team givenTeam) {
         final var query = "SELECT * FROM piece WHERE team = ?";
-        try (var connection = dbUtil.getConnection();
-             var preparedStatement = connection.prepareStatement(query)) {
+        return executeQueryWithMultiData(query, (preparedStatement, connection) -> {
             final int givenTeamId = getTeamIdByName(connection, givenTeam.name());
             preparedStatement.setInt(1, givenTeamId);
-
-            final var resultSet = preparedStatement.executeQuery();
-            final List<PieceDto> dtos = new ArrayList<>();
-            while (resultSet.next()) {
-                final Team team = Team.from(getTeamNameById(connection, resultSet.getInt("team")));
-                dtos.add(new PieceDto(
-                        team,
-                        Piece.from(getPieceTypeById(connection, resultSet.getInt("piecetype")), team),
-                        resultSet.getInt("y"),
-                        resultSet.getInt("x")
-                ));
-            }
-            return dtos;
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+        }, this::mapToPieceDto);
     }
 
     @Override
     public List<PieceDto> selectAll() {
         final var query = "SELECT * FROM piece";
-        try (var connection = dbUtil.getConnection();
-             var preparedStatement = connection.prepareStatement(query)) {
-            final var resultSet = preparedStatement.executeQuery();
-            final List<PieceDto> dtos = new ArrayList<>();
-            while (resultSet.next()) {
-                final Team team = Team.from(getTeamNameById(connection, resultSet.getInt("team")));
-                dtos.add(new PieceDto(
-                        team,
-                        Piece.from(getPieceTypeById(connection, resultSet.getInt("piecetype")), team),
-                        resultSet.getInt("y"),
-                        resultSet.getInt("x")
-                ));
-            }
-            return dtos;
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return executeQueryWithMultiData(query, this::mapToPieceDto);
     }
 
     @Override
     public void insert(final PieceDto pieceDto) {
         final var query = "INSERT INTO piece (y, x, team, piecetype) VALUES(?, ?, ?, ?)";
-        try (var connection = dbUtil.getConnection();
-             var preparedStatement = connection.prepareStatement(query)) {
+        executeUpdate(query, (preparedStatement, connection) -> {
             preparedStatement.setInt(1, pieceDto.y());
             preparedStatement.setInt(2, pieceDto.x());
-            final Team team = pieceDto.team();
-            final int teamId = getTeamIdByName(connection, team.name());
+            final int teamId = getTeamIdByName(connection, pieceDto.team().name());
             preparedStatement.setInt(3, teamId);
-            final int pieceTypeId = getPieceTypeIdByName(connection, pieceDto.piece());
-            preparedStatement.setInt(4, pieceTypeId);
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+            final int pieceTypeId = getPieceTypeIdByName(pieceDto.piece());
+            preparedStatement.setInt(SOLDIER_START_INDEX, pieceTypeId);
+        });
     }
 
     @Override
     public void update(final PieceMove pieceMove) {
-        final var updateQuery = "UPDATE piece SET y = ?, x= ? WHERE y = ? AND x=? AND team=? AND piecetype = ?";
-        try (var connection = dbUtil.getConnection();
-             var preparedStatement = connection.prepareStatement(updateQuery)) {
-            final Position currentPosition = pieceMove.from();
-            final Position arrivalPosition = pieceMove.to();
-            preparedStatement.setInt(1, arrivalPosition.getY());
-            preparedStatement.setInt(2, arrivalPosition.getX());
-            preparedStatement.setInt(3, currentPosition.getY());
-            preparedStatement.setInt(4, currentPosition.getX());
-            final Team team = pieceMove.team();
-            final int teamId = getTeamIdByName(connection, team.name());
+        final var query = "UPDATE piece SET y = ?, x= ? WHERE y = ? AND x=? AND team=? AND piecetype = ?";
+        executeUpdate(query, (preparedStatement, connection) -> {
+            final Position to = pieceMove.to();
+            final Position from = pieceMove.from();
+            preparedStatement.setInt(1, to.getY());
+            preparedStatement.setInt(2, to.getX());
+            preparedStatement.setInt(3, from.getY());
+            preparedStatement.setInt(SOLDIER_START_INDEX, from.getX());
+
+            final int teamId = getTeamIdByName(connection, pieceMove.team().name());
             preparedStatement.setInt(5, teamId);
-            final int pieceTypeId = getPieceTypeIdByName(connection, pieceMove.piece());
+            final int pieceTypeId = getPieceTypeIdByName(pieceMove.piece());
             preparedStatement.setInt(6, pieceTypeId);
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     @Override
     public void delete(final PieceMove pieceMove) {
-        if (!pieceMove.isCapture()) {
+        if (pieceMove.isNotCaptured()) {
             return;
         }
-        final var deleteQuery = "DELETE FROM piece WHERE y = ? AND x = ? AND team = ? AND piecetype = ?";
-        try (var connection = dbUtil.getConnection();
-             var preparedStatement = connection.prepareStatement(deleteQuery)) {
+
+        final var query = "DELETE FROM piece WHERE y = ? AND x = ? AND team = ? AND piecetype = ?";
+        executeUpdate(query, (preparedStatement, connection) -> {
             final Position arrivalPosition = pieceMove.to();
             preparedStatement.setInt(1, arrivalPosition.getY());
             preparedStatement.setInt(2, arrivalPosition.getX());
             final Team opponentTeam = pieceMove.team().getOppositeTeam();
             preparedStatement.setInt(3, getTeamIdByName(connection, opponentTeam.name()));
-
-            preparedStatement.setInt(4,
-                    getPieceTypeIdByName(connection, pieceMove.caughtPiece().get()));
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+            preparedStatement.setInt(SOLDIER_START_INDEX,
+                    getPieceTypeIdByName(pieceMove.caughtPiece().get()));
+        });
     }
 
     @Override
@@ -138,41 +92,33 @@ public class PieceDaoImpl extends BaseDao implements PieceDao {
         executeUpdate("DELETE FROM piece WHERE piece_id > 0");
     }
 
-    private String getPieceTypeById(final Connection connection, final int pieceTypeId) {
-        final var query = "SELECT name FROM piecetype WHERE piecetype_id = ?";
-        try (var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, pieceTypeId);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getString("name");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException("[ERROR] PieceType을 찾을 수 없습니다.");
+    private PieceDto mapToPieceDto(final ResultSet resultSet, final Connection connection) throws SQLException {
+        final Team team = Team.from(getTeamNameById(connection, resultSet.getInt("team")));
+        return new PieceDto(
+                team,
+                Piece.from(getPieceTypeById(resultSet.getInt("piecetype")), team),
+                resultSet.getInt("y"),
+                resultSet.getInt("x"));
     }
 
-    private int getPieceTypeIdByName(final Connection connection, final Piece piece) {
-        final String pieceTypeName = makePieceTypeName(piece);
+    private String getPieceTypeById(final int pieceTypeId) {
+        final var query = "SELECT name FROM piecetype WHERE piecetype_id = ?";
+        return executeQuery(query, (preparedStatement, connection) -> {
+            preparedStatement.setInt(1, pieceTypeId);
+        }, (resultSet, connection) -> resultSet.getString("name"));
+    }
 
+    private int getPieceTypeIdByName(final Piece piece) {
         final var query = "SELECT * FROM piecetype WHERE name = ?";
-        try (var preparedStatement = connection.prepareStatement(query)) {
+        final String pieceTypeName = makePieceTypeName(piece);
+        return executeQuery(query, (preparedStatement, connection) -> {
             preparedStatement.setString(1, pieceTypeName);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt("piecetype_id");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException("[ERROR] PieceType을 찾을 수 없습니다.");
+        }, (resultSet, connection) -> resultSet.getInt("piecetype_id"));
     }
 
     private String makePieceTypeName(final Piece piece) {
         if (piece.isSoldier()) {
-            return piece.name().substring(4);
+            return piece.name().substring(SOLDIER_START_INDEX);
         }
         return piece.name();
     }

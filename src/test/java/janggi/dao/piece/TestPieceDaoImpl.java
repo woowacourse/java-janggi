@@ -113,7 +113,7 @@ public class TestPieceDaoImpl implements PieceDao {
 
     @Override
     public void delete(final PieceMove pieceMove) {
-        if (!pieceMove.isCapture()) {
+        if (pieceMove.isNotCaptured()) {
             return;
         }
         final var deleteQuery = "DELETE FROM piece WHERE y = ? AND x = ? AND team = ? AND piecetype = ?";

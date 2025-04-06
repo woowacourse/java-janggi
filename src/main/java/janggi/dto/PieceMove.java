@@ -17,7 +17,7 @@ public record PieceMove(Team team, Piece piece, Position from, Position to, Opti
         return new PieceMove(team, piece, from, to, Optional.ofNullable(capturedPiece));
     }
 
-    public boolean isCapture() {
-        return caughtPiece.isPresent();
+    public boolean isNotCaptured() {
+        return caughtPiece.isEmpty();
     }
 }
