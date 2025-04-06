@@ -18,8 +18,8 @@ public class PieceDaoImpl extends BaseDao implements PieceDao {
     private static final PieceDao pieceDao = new PieceDaoImpl(ProductionDatabaseProvider.getInstance());
     private static final int SOLDIER_START_INDEX = 4;
 
-    public PieceDaoImpl(final DatabaseConnectionProvider dbUtil) {
-        super(dbUtil);
+    public PieceDaoImpl(final DatabaseConnectionProvider databaseConnectionProvider) {
+        super(databaseConnectionProvider);
     }
 
     public static PieceDao getPieceDao() {

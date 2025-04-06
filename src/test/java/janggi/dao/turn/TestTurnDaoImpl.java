@@ -11,8 +11,8 @@ public class TestTurnDaoImpl extends BaseDao implements TurnDao {
 
     private static final TurnDao turnDao = new TestTurnDaoImpl(TestDatabaseProvider.getInstance());
 
-    public TestTurnDaoImpl(final DatabaseConnectionProvider dbUtil) {
-        super(dbUtil);
+    public TestTurnDaoImpl(final DatabaseConnectionProvider databaseConnectionProvider) {
+        super(databaseConnectionProvider);
     }
 
     public static TurnDao getDaoImpl() {

@@ -10,16 +10,16 @@ import java.util.List;
 
 public abstract class BaseDao {
 
-    protected final DatabaseConnectionProvider dbUtil;
+    protected final DatabaseConnectionProvider databaseConnectionProvider;
 
-    public BaseDao(final DatabaseConnectionProvider dbUtil) {
-        this.dbUtil = dbUtil;
+    public BaseDao(final DatabaseConnectionProvider databaseConnectionProvider) {
+        this.databaseConnectionProvider = databaseConnectionProvider;
     }
 
     protected final <T> List<T> executeQueryWithMultiData(final String query, final StatementSetter setter,
                                                     final ResultMapper<T> resultMapper) {
         final List<T> results = new ArrayList<>();
-        try (final Connection connection = dbUtil.getConnection();
+        try (final Connection connection = databaseConnectionProvider.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             if (setter != null) {
@@ -43,7 +43,7 @@ public abstract class BaseDao {
 
     protected final <T> T executeQuery(final String query, final StatementSetter setter,
                                  final ResultMapper<T> resultMapper) {
-        try (final Connection connection = dbUtil.getConnection();
+        try (final Connection connection = databaseConnectionProvider.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             if (setter != null) {
@@ -65,7 +65,7 @@ public abstract class BaseDao {
     }
 
     protected final void executeUpdate(final String query, final StatementSetter setter) {
-        try (final Connection connection = dbUtil.getConnection();
+        try (final Connection connection = databaseConnectionProvider.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             if (setter != null) {
@@ -109,7 +109,7 @@ public abstract class BaseDao {
     }
 
     protected final void executeUpdate(final String query) {
-        try (final var connection = dbUtil.getConnection();
+        try (final var connection = databaseConnectionProvider.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {

@@ -25,7 +25,7 @@ public enum PathObstacleRule {
             if (count != OBSTACLE_JUMPING_THRESHOLD) {
                 throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
             }
-            if (wouldJumpSameTypePiece(path, board)) {
+            if (containsSameTypePiece(path, board)) {
                 throw new IllegalArgumentException("[ERROR] 같은 종류의 기물을 뛰어넘거나 잡을 수 없습니다.");
             }
         }
@@ -50,7 +50,7 @@ public enum PathObstacleRule {
                 .count();
     }
 
-    private static boolean wouldJumpSameTypePiece(final Path path, final Board board) {
+    private static boolean containsSameTypePiece(final Path path, final Board board) {
         return path.getPositions().stream()
                 .filter(board::hasPiece)
                 .anyMatch(position -> hasObstacleJumpingType(board, position));
