@@ -2,11 +2,9 @@ package service;
 
 import dao.converter.BoardConverter;
 import dao.converter.GameRoomDto;
-import dao.gameroom.GameRoomCommandDao;
-import dao.gameroom.GameRoomQueryDao;
+import dao.gameroom.GameRoomDao;
 import dao.init.ConnectionGenerator;
-import dao.piece.PieceCommandDao;
-import dao.piece.PieceQueryDao;
+import dao.piece.PieceDao;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardFactory;
@@ -22,30 +20,25 @@ import view.SangMaOrderCommand;
 
 public class GameService {
 
-    private final PieceQueryDao pieceQueryDao;
-    private final PieceCommandDao pieceCommandDao;
-    private final GameRoomQueryDao gameRoomQueryDao;
-    private final GameRoomCommandDao gameRoomCommandDao;
-
+    private final PieceDao pieceDao;
+    private final GameRoomDao gameRoomDao;
     private final ConnectionGenerator connectionGenerator;
     private final MessageQueue messageQueue;
 
     private JanggiGame janggiGame;
 
-    public GameService(PieceQueryDao pieceQueryDao, PieceCommandDao pieceCommandDao,
-                       GameRoomQueryDao gameRoomQueryDao, GameRoomCommandDao gameRoomCommandDao,
+    public GameService(PieceDao pieceDao,
+                       GameRoomDao gameRoomDao,
                        ConnectionGenerator connectionGenerator) {
-        this.pieceQueryDao = pieceQueryDao;
-        this.pieceCommandDao = pieceCommandDao;
-        this.gameRoomQueryDao = gameRoomQueryDao;
-        this.gameRoomCommandDao = gameRoomCommandDao;
+        this.pieceDao = pieceDao;
+        this.gameRoomDao = gameRoomDao;
         this.connectionGenerator = connectionGenerator;
         this.messageQueue = new MessageQueue(connectionGenerator);
     }
 
     public boolean existsGameRoom(final String gameRoomName) {
         try {
-            final Optional<GameRoomDto> gameRoomDto = gameRoomQueryDao.findByName(getConnection(), gameRoomName);
+            final Optional<GameRoomDto> gameRoomDto = gameRoomDao.findByName(getConnection(), gameRoomName);
             return gameRoomDto.isPresent();
         } catch (RuntimeException e) {
             throw new RuntimeException("[ERROR] DB로부터 게임방 정보를 불러오는데 실패했습니다.");
@@ -70,9 +63,9 @@ public class GameService {
         );
 
         messageQueue.executeAllTransaction((Connection connection) -> {
-            gameRoomCommandDao.insert(connection,
+            gameRoomDao.insert(connection,
                     new GameRoomDto(null, gameRoomName, firstTurn));
-            pieceCommandDao.insertAll(connection,
+            pieceDao.insertAll(connection,
                     BoardConverter.convertToPieceDtos(newGame.getPieceByPoint(), gameRoomName));
         });
 
@@ -87,9 +80,9 @@ public class GameService {
         final Team turn = janggiGame.currentTurn();
 
         messageQueue.executeAllTransaction((Connection connection) -> {
-            pieceCommandDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
-            pieceCommandDao.updatePointByGameRoomNameAndPoint(connection, gameRoomName, source, destination);
-            gameRoomCommandDao.updateTurnByGameRoomName(connection, gameRoomName, turn.inverse());
+            pieceDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
+            pieceDao.updatePointByGameRoomNameAndPoint(connection, gameRoomName, source, destination);
+            gameRoomDao.updateTurnByGameRoomName(connection, gameRoomName, turn.inverse());
         });
     }
 
@@ -97,7 +90,7 @@ public class GameService {
         JanggiGame game = getGameOrThrow();
 
         messageQueue.executeAllTransaction((Connection connection) -> {
-            gameRoomCommandDao.deleteByGameRoomName(connection, game.getGameRoomName());
+            gameRoomDao.deleteByGameRoomName(connection, game.getGameRoomName());
         });
     }
 
@@ -131,7 +124,7 @@ public class GameService {
     }
 
     private GameRoomDto findGameRoomDtoByName(final String name) {
-        final Optional<GameRoomDto> maybeGameRoom = gameRoomQueryDao.findByName(getConnection(), name);
+        final Optional<GameRoomDto> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
         if (maybeGameRoom.isEmpty()) {
             throw new IllegalStateException("[ERROR] '" + name + "' 방이 존재하지 않습니다.");
         }
@@ -140,7 +133,7 @@ public class GameService {
 
     private Board loadBoardByGameRoomName(final String gameRoomName) {
         return BoardConverter.convertToBoard(
-                pieceQueryDao.findByGameRoomName(getConnection(), gameRoomName),
+                pieceDao.findByGameRoomName(getConnection(), gameRoomName),
                 DefaultPathFinderFactory.getInstance()
         );
     }

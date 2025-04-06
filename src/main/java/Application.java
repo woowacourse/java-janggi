@@ -1,8 +1,6 @@
-import dao.gameroom.GameRoomCommandDaoImpl;
-import dao.gameroom.GameRoomQueryDaoImpl;
+import dao.gameroom.GameRoomDaoImpl;
 import dao.init.MySQLConnectionGenerator;
-import dao.piece.PieceCommandDaoImpl;
-import dao.piece.PieceQueryDaoImpl;
+import dao.piece.PieceDaoImpl;
 import manager.GameManager;
 import service.GameService;
 
@@ -11,10 +9,8 @@ public class Application {
     public static void main(String[] args) {
         GameManager gameManager = new GameManager(
                 new GameService(
-                        new PieceQueryDaoImpl(),
-                        new PieceCommandDaoImpl(),
-                        new GameRoomQueryDaoImpl(),
-                        new GameRoomCommandDaoImpl(),
+                        new PieceDaoImpl(),
+                        new GameRoomDaoImpl(),
                         new MySQLConnectionGenerator()
                 )
         );
