@@ -28,22 +28,22 @@ public class GameDao {
         }
     }
 
-    public boolean deleteTurn() {
+    public void deleteTurn() {
         final var query = "DELETE FROM GAME";
         try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
-            return preparedStatement.execute();
+            preparedStatement.execute();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean updateTurn(Team turn) {
+    public void updateTurn(Team turn) {
         final var query = "UPDATE GAME SET turn = ? WHERE game_id = 1";
         try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, turn.name());
-            return preparedStatement.execute();
+            preparedStatement.execute();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

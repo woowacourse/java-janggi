@@ -83,19 +83,19 @@ public class PieceDao {
         }
     }
 
-    public boolean deletePiece(Position position) {
+    public void deletePiece(Position position) {
         final var query = "DELETE FROM piece WHERE piece_id = ?";
         try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             int pieceIdFromPosition = findPieceByPosition(position);
             preparedStatement.setInt(1, pieceIdFromPosition);
-            return preparedStatement.execute();
+            preparedStatement.execute();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean updatePiece(Position departure, Position arrival) {
+    public void updatePiece(Position departure, Position arrival) {
         final var query = "UPDATE piece SET `column` = ?, `row` = ? WHERE piece_id = ?";
         try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
@@ -103,7 +103,7 @@ public class PieceDao {
             preparedStatement.setString(1, arrival.getColumn().name());
             preparedStatement.setString(2, arrival.getRow().name());
             preparedStatement.setInt(3, pieceIdFromPosition);
-            return preparedStatement.execute();
+            preparedStatement.execute();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
