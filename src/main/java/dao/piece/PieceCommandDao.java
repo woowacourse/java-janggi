@@ -2,18 +2,16 @@ package dao.piece;
 
 import dao.converter.PieceDto;
 import domain.point.Point;
+import java.sql.Connection;
 import java.util.List;
-import queue.Transaction;
 
 public interface PieceCommandDao {
 
-    void insert(Transaction transaction, PieceDto piece);
+    void insert(Connection connection, PieceDto piece);
 
-    void insertAll(Transaction transaction, List<PieceDto> pieceDtos);
+    void insertAll(Connection connection, List<PieceDto> pieceDtos);
 
-    void updatePointByGameRoomNameAndPoint(Transaction transaction,
-                                           String gameRoomName, Point oldPoint, Point newPoint);
+    void updatePointByGameRoomNameAndPoint(Connection connection, String gameRoomName, Point oldPoint, Point newPoint);
 
-    void deleteByGameRoomNameAndPoint(Transaction transaction,
-                                      String gameRoomName, Point point);
+    void deleteByGameRoomNameAndPoint(Connection connection, String gameRoomName, Point point);
 }

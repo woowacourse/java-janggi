@@ -2,13 +2,13 @@ package dao.gameroom;
 
 import dao.converter.GameRoomDto;
 import domain.piece.character.Team;
-import queue.Transaction;
+import java.sql.Connection;
 
 public interface GameRoomCommandDao {
 
-    void insert(Transaction transaction, GameRoomDto gameRoom);
+    void insert(Connection connection, GameRoomDto gameRoom);
 
-    void updateTurnByGameRoomName(Transaction transaction, String gameRoomName, Team turn);
+    void updateTurnByGameRoomName(Connection connection, String gameRoomName, Team turn);
 
-    void deleteByGameRoomName(Transaction transaction, String gameRoomName);
+    void deleteByGameRoomName(Connection connection, String gameRoomName);
 }

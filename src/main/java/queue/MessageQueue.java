@@ -5,10 +5,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.function.Consumer;
 
 public class MessageQueue {
 
-    private final Deque<Transaction> delayedTransactions;
+    private final Deque<Consumer<Connection>> delayedTransactions;
     private final ConnectionGenerator connectionGenerator;
 
     public MessageQueue(ConnectionGenerator connectionGenerator) {
@@ -16,30 +17,37 @@ public class MessageQueue {
         this.delayedTransactions = new ArrayDeque<>();
     }
 
-    public void addLast(Transaction transaction) {
-        delayedTransactions.addLast(transaction);
-    }
+    public void executeAllTransaction(Consumer<Connection> transaction) {
+        executeDelayedTransactions();
 
-    public void executeTransactions() {
-        Connection connection = connectionGenerator.createConnection();
-
-        while (!delayedTransactions.isEmpty()) {
-            var delayedTransaction = delayedTransactions.getFirst();
-
-            try {
-                delayedTransaction.executeTransaction(connection);
-                delayedTransactions.removeFirst();
-            } catch (SQLException e) {
-                break;
-            }
+        try (Connection connection = connectionGenerator.createConnection()) {
+            connection.setAutoCommit(false);
+            transaction.accept(connection);
+            connection.commit();
+        } catch (SQLException e) {
+            delayedTransactions.add(transaction);
+            throw new RuntimeException(
+                    "[ERROR] DB 연결이 끊어져 트랜잭션 실행에 실패했습니다. 실패한 트랜잭션이 메시지 큐에 추가됐습니다. : " + e.getMessage());
         }
     }
 
-    public int size() {
-        return delayedTransactions.size();
+    public void executeDelayedTransactions() {
+        while (!delayedTransactions.isEmpty()) {
+            var delayedTransaction = delayedTransactions.getFirst();
+
+            executeTransaction(delayedTransaction);
+            delayedTransactions.removeFirst();
+        }
     }
 
-    public void clear() {
-        delayedTransactions.clear();
+    private void executeTransaction(Consumer<Connection> transaction) {
+        try (Connection connection = connectionGenerator.createConnection()) {
+            connection.setAutoCommit(false);
+            transaction.accept(connection);
+            connection.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "[ERROR] DB 연결이 끊어져 트랜잭션 실행에 실패했습니다. : " + e.getMessage());
+        }
     }
 }

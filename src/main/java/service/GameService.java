@@ -18,7 +18,6 @@ import java.sql.Connection;
 import java.util.Map;
 import java.util.Optional;
 import queue.MessageQueue;
-import queue.Transaction;
 import view.SangMaOrderCommand;
 
 public class GameService {
@@ -42,10 +41,6 @@ public class GameService {
         this.gameRoomCommandDao = gameRoomCommandDao;
         this.connectionGenerator = connectionGenerator;
         this.messageQueue = new MessageQueue(connectionGenerator);
-    }
-
-    public void executeDelayedQueries() {
-        messageQueue.executeTransactions();
     }
 
     public boolean existsGameRoom(final String gameRoomName) {
@@ -74,13 +69,13 @@ public class GameService {
                 firstTurn
         );
 
-        final Transaction transaction = new Transaction();
-        gameRoomCommandDao.insert(transaction, new GameRoomDto(null, gameRoomName, firstTurn));
-        pieceCommandDao.insertAll(transaction,
-                BoardConverter.convertToPieceDtos(newGame.getPieceByPoint(), gameRoomName));
-        messageQueue.addLast(transaction);
+        messageQueue.executeAllTransaction((Connection connection) -> {
+            gameRoomCommandDao.insert(connection,
+                    new GameRoomDto(null, gameRoomName, firstTurn));
+            pieceCommandDao.insertAll(connection,
+                    BoardConverter.convertToPieceDtos(newGame.getPieceByPoint(), gameRoomName));
+        });
 
-        executeDelayedQueries();
         janggiGame = newGame;
     }
 
@@ -91,23 +86,19 @@ public class GameService {
         final String gameRoomName = game.getGameRoomName();
         final Team turn = janggiGame.currentTurn();
 
-        final Transaction transaction = new Transaction();
-        pieceCommandDao.deleteByGameRoomNameAndPoint(transaction, gameRoomName, destination);
-        pieceCommandDao.updatePointByGameRoomNameAndPoint(transaction, gameRoomName, source, destination);
-        gameRoomCommandDao.updateTurnByGameRoomName(transaction, gameRoomName, turn.inverse());
-        messageQueue.addLast(transaction);
-
-        executeDelayedQueries();
+        messageQueue.executeAllTransaction((Connection connection) -> {
+            pieceCommandDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
+            pieceCommandDao.updatePointByGameRoomNameAndPoint(connection, gameRoomName, source, destination);
+            gameRoomCommandDao.updateTurnByGameRoomName(connection, gameRoomName, turn.inverse());
+        });
     }
 
     public void endGame() {
         JanggiGame game = getGameOrThrow();
 
-        final Transaction transaction = new Transaction();
-        gameRoomCommandDao.deleteByGameRoomName(transaction, game.getGameRoomName());
-        messageQueue.addLast(transaction);
-
-        executeDelayedQueries();
+        messageQueue.executeAllTransaction((Connection connection) -> {
+            gameRoomCommandDao.deleteByGameRoomName(connection, game.getGameRoomName());
+        });
     }
 
     public boolean isPlaying() {
@@ -154,16 +145,8 @@ public class GameService {
         );
     }
 
-    private Connection getConnection() {
-        try {
-            return connectionGenerator.createConnection();
-        } catch (RuntimeException e) {
-            throw new IllegalStateException("[ERROR] DB 연결에 실패했습니다. 게임이 저장/로드되지 않을 수 있습니다.");
-        }
-    }
-
     private JanggiGame getGameOrThrow() {
-        if (janggiGame == null) {
+        if (isGameLoaded()) {
             throw new IllegalStateException("[ERROR] 게임이 로드되지 않았습니다.");
         }
         return janggiGame;
@@ -171,5 +154,13 @@ public class GameService {
 
     private boolean isGameLoaded() {
         return janggiGame != null;
+    }
+
+    private Connection getConnection() {
+        try {
+            return connectionGenerator.createConnection();
+        } catch (RuntimeException e) {
+            throw new IllegalStateException("[ERROR] DB 연결에 실패했습니다. 게임이 저장/로드되지 않을 수 있습니다.");
+        }
     }
 }
