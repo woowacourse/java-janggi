@@ -16,7 +16,7 @@ public abstract class BaseDao {
         this.dbUtil = dbUtil;
     }
 
-    protected <T> List<T> executeQueryWithMultiData(final String query, final StatementSetter setter,
+    protected final <T> List<T> executeQueryWithMultiData(final String query, final StatementSetter setter,
                                                     final ResultMapper<T> resultMapper) {
         final List<T> results = new ArrayList<>();
         try (final Connection connection = dbUtil.getConnection();
@@ -37,11 +37,11 @@ public abstract class BaseDao {
         }
     }
 
-    protected <T> List<T> executeQueryWithMultiData(final String query, final ResultMapper<T> resultMapper) {
+    protected final <T> List<T> executeQueryWithMultiData(final String query, final ResultMapper<T> resultMapper) {
         return executeQueryWithMultiData(query, null, resultMapper);
     }
 
-    protected <T> T executeQuery(final String query, final StatementSetter setter,
+    protected final <T> T executeQuery(final String query, final StatementSetter setter,
                                  final ResultMapper<T> resultMapper) {
         try (final Connection connection = dbUtil.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -60,11 +60,11 @@ public abstract class BaseDao {
         throw new IllegalStateException("[ERROR] 해당 데이터를 찾을 수 없습니다.");
     }
 
-    protected <T> T executeQuery(final String query, final ResultMapper<T> resultMapper) {
+    protected final <T> T executeQuery(final String query, final ResultMapper<T> resultMapper) {
         return executeQuery(query, null, resultMapper);
     }
 
-    protected void executeUpdate(final String query, final StatementSetter setter) {
+    protected final void executeUpdate(final String query, final StatementSetter setter) {
         try (final Connection connection = dbUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -78,7 +78,7 @@ public abstract class BaseDao {
         }
     }
 
-    protected String getTeamNameById(final Connection connection, final int teamId) {
+    protected final String getTeamNameById(final Connection connection, final int teamId) {
         final var query = "SELECT name FROM team WHERE team_id = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, teamId);
@@ -93,7 +93,7 @@ public abstract class BaseDao {
         throw new IllegalStateException("[ERROR] Team을 찾을 수 없습니다.");
     }
 
-    protected int getTeamIdByName(final Connection connection, final String teamName) {
+    protected final int getTeamIdByName(final Connection connection, final String teamName) {
         final var query = "SELECT * FROM team WHERE name = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, teamName);
@@ -108,7 +108,7 @@ public abstract class BaseDao {
         throw new IllegalStateException("[ERROR] Team을 찾을 수 없습니다.");
     }
 
-    protected void executeUpdate(final String query) {
+    protected final void executeUpdate(final String query) {
         try (final var connection = dbUtil.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
