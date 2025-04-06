@@ -4,7 +4,7 @@ import static model.position.Movement.*;
 
 import java.util.List;
 import model.position.Movement;
-import model.navigator.UnlimitedBasicMoveStrategy;
+import model.strategy.UnlimitedBasicMoveStrategy;
 import model.piece.Castle;
 import model.position.Position;
 

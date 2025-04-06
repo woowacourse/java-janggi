@@ -1,4 +1,4 @@
-package model.navigator;
+package model.strategy;
 
 import java.util.ArrayList;
 import java.util.List;

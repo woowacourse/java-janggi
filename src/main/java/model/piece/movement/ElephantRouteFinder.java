@@ -4,7 +4,7 @@ import static model.position.Movement.*;
 
 import java.util.List;
 import model.position.Movement;
-import model.navigator.JumpMoveStrategy;
+import model.strategy.JumpMoveStrategy;
 import model.position.Position;
 
 public class ElephantRouteFinder implements RouteFinder {

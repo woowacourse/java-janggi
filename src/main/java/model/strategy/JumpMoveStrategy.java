@@ -1,4 +1,4 @@
-package model.navigator;
+package model.strategy;
 
 import java.util.List;
 import model.position.Movement;
