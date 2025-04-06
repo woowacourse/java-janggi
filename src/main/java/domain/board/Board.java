@@ -90,15 +90,16 @@ public class Board implements PieceVisibleBoard {
     }
 
     public double calculateScore(final Team team) {
-        double sum = 0;
-        final double HAN_HANDICAP_SCORE = 1.5;
-        if (team == Team.HAN) {
-            sum += HAN_HANDICAP_SCORE;
-        }
-        return sum + pieceByPoint.values().stream()
+        double sum = pieceByPoint.values().stream()
                 .filter(piece -> piece.team() == team)
                 .mapToInt(Piece::score)
                 .sum();
+        
+        if (team == Team.HAN) {
+            final double HAN_HANDICAP_SCORE = 1.5;
+            sum += HAN_HANDICAP_SCORE;
+        }
+        return sum;
     }
 
     public Team findWinTeam() {
