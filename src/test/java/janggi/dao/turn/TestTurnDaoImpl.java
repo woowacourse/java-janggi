@@ -4,12 +4,12 @@ import janggi.dao.BaseDao;
 import janggi.domain.players.Team;
 import janggi.domain.players.Turn;
 import janggi.dto.TurnDto;
-import janggi.infrastructure.TestDatabaseProvider;
 import janggi.infrastructure.DatabaseConnectionProvider;
+import janggi.infrastructure.DefaultDatabaseProvider;
 
 public class TestTurnDaoImpl extends BaseDao implements TurnDao {
 
-    private static final TurnDao turnDao = new TestTurnDaoImpl(TestDatabaseProvider.getInstance());
+    private static final TurnDao turnDao = new TestTurnDaoImpl(DefaultDatabaseProvider.getInstance());
 
     private TestTurnDaoImpl(final DatabaseConnectionProvider databaseConnectionProvider) {
         super(databaseConnectionProvider);

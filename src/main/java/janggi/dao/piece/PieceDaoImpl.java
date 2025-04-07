@@ -7,7 +7,7 @@ import janggi.domain.players.Team;
 import janggi.dto.PieceDto;
 import janggi.dto.PieceMove;
 import janggi.infrastructure.DatabaseConnectionProvider;
-import janggi.infrastructure.ProductionDatabaseProvider;
+import janggi.infrastructure.DefaultDatabaseProvider;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PieceDaoImpl extends BaseDao implements PieceDao {
 
-    private static final PieceDao pieceDao = new PieceDaoImpl(ProductionDatabaseProvider.getInstance());
+    private static final PieceDao pieceDao = new PieceDaoImpl(DefaultDatabaseProvider.getInstance());
     private static final int SOLDIER_START_INDEX = 4;
 
     private PieceDaoImpl(final DatabaseConnectionProvider databaseConnectionProvider) {

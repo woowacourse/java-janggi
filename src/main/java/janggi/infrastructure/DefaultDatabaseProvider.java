@@ -7,18 +7,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public abstract class AbstractDatabaseConnectionProvider implements DatabaseConnectionProvider {
+public class DefaultDatabaseProvider implements DatabaseConnectionProvider {
 
-    private final String configPath;
+    private static final String CONFIG_PATH = "config.properties";
 
-    public AbstractDatabaseConnectionProvider(final String configPath) {
-        this.configPath = configPath;
+    private static DefaultDatabaseProvider instance;
+
+    private DefaultDatabaseProvider() {
     }
 
-    @Override
+    public static DefaultDatabaseProvider getInstance() {
+        if (instance == null) {
+            instance = new DefaultDatabaseProvider();
+        }
+        return instance;
+    }
+
     public final Connection getConnection() {
         final Properties properties = new Properties();
-        try (InputStream input = this.getClass().getClassLoader().getResourceAsStream(configPath)) {
+        try (InputStream input = this.getClass().getClassLoader().getResourceAsStream(CONFIG_PATH)) {
             properties.load(input);
 
             final String server = properties.getProperty("db.server");
