@@ -34,9 +34,7 @@ CREATE TABLE piece
     x         int NOT NULL,
     team      int references team (team_id),
     piecetype int references piecetype (piecetype_id),
-    PRIMARY KEY (piece_id),
-    CHECK (y BETWEEN 1 AND 10),
-    CHECK (x BETWEEN 1 AND 9)
+    PRIMARY KEY (piece_id)
 );
 
 CREATE TABLE turn

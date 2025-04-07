@@ -1,4 +1,4 @@
-use janggi_test;
+use janggi;
 
 CREATE TABLE team
 (
@@ -13,7 +13,7 @@ VALUES ('HAN'),
 
 CREATE TABLE piecetype
 (
-    piecetype_id int                                                                                    NOT NULL AUTO_INCREMENT,
+    piecetype_id int                                                                         NOT NULL AUTO_INCREMENT,
     name         ENUM ('CANNON', 'CHARIOT', 'SOLDIER', 'ELEPHANT', 'GUARD', 'HORSE', 'KING') NOT NULL,
     PRIMARY KEY (piecetype_id)
 );
