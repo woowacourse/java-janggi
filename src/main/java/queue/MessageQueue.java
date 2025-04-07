@@ -23,10 +23,10 @@ public class MessageQueue {
             connection.setAutoCommit(false);
             transaction.accept(connection);
             connection.commit();
-        } catch (SQLException e) {
+        } catch (SQLException | RuntimeException e) {
             delayedTransactions.add(transaction);
             throw new RuntimeException(
-                    "[ERROR] DB 연결이 끊어져 트랜잭션 실행에 실패했습니다. 실패한 트랜잭션이 메시지 큐에 추가됐습니다. : " + e.getMessage());
+                    e.getMessage() + ": \n[ERROR] DB 연결이 끊어져 트랜잭션 실행에 실패했습니다. 실패한 트랜잭션이 메시지 큐에 추가됐습니다.");
         }
     }
 
@@ -44,9 +44,9 @@ public class MessageQueue {
             connection.setAutoCommit(false);
             transaction.accept(connection);
             connection.commit();
-        } catch (SQLException e) {
+        } catch (SQLException | RuntimeException e) {
             throw new RuntimeException(
-                    "[ERROR] DB 연결이 끊어져 트랜잭션 실행에 실패했습니다. : " + e.getMessage());
+                    e.getMessage() + ": \n[ERROR] DB 연결이 끊어져 트랜잭션 실행에 실패했습니다.");
         }
     }
 
