@@ -9,14 +9,13 @@ import janggi.domain.piece.position.Position;
 import janggi.domain.players.Players;
 import janggi.domain.players.Team;
 import janggi.domain.players.Turn;
-import janggi.dto.PieceMove;
+import janggi.dto.MoveResult;
 import janggi.utils.ExceptionHandler;
 import janggi.utils.StringParser;
 import janggi.view.InputView;
 import janggi.view.ResultView;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class JanggiConsole {
 
@@ -39,23 +38,25 @@ public class JanggiConsole {
     public void start() {
         final Players players = initialize(inputView.readInitialize());
         resultView.printBoard(players.getChoPieces(), players.getHanPieces());
-        Turn turn = turnManager.findCurrentTurn();
+        final Turn turn = turnManager.findCurrentTurn();
+        movePieces(players, turn);
+        resultView.printJanggiResult(players.findWinningTeam(), players.calculateScore());
+    }
 
+    private void movePieces(final Players players, Turn turn) {
         while (players.canContinue() && !turn.canExit()) {
             final Team currentTeam = turn.getTeam();
             resultView.printOrder(currentTeam);
-            final Optional<PieceMove> pieceMove = movePiece(players, currentTeam);
-            if (pieceMove.isEmpty()) {
+            final MoveResult moveResult = movePiece(players, currentTeam);
+            if (moveResult.isExit()) {
                 turn = turn.wantExit();
                 continue;
             }
-            pieceHistoryManager.updatePiece(pieceMove.get());
+            pieceHistoryManager.updatePiece(moveResult.pieceMove());
             resultView.printBoard(players.getChoPieces(), players.getHanPieces());
             turn = turn.moveNextTurn();
             turnManager.updateCurrentTurn(turn);
         }
-
-        resultView.printJanggiResult(players.findWinningTeam(), players.calculateScore());
     }
 
     private Players initialize(final boolean wantInitialize) {
@@ -77,19 +78,19 @@ public class JanggiConsole {
         return new Players(Map.of(Team.CHO, choBoard, Team.HAN, hanBoard));
     }
 
-    private Optional<PieceMove> movePiece(final Players players, final Team currentTeam) {
+    private MoveResult movePiece(final Players players, final Team currentTeam) {
         return ExceptionHandler.retry(() -> moveOnePiece(players, currentTeam));
     }
 
-    private Optional<PieceMove> moveOnePiece(final Players players, final Team currentTeam) {
+    private MoveResult moveOnePiece(final Players players, final Team currentTeam) {
         final String input = inputView.readMovingPosition();
         if (input.equals(EXIT)) {
-            return Optional.empty();
+            return MoveResult.exit();
         }
         final List<Integer> positions = readPositions(input);
         final Position currentPosition = Position.from(positions.getFirst());
         final Position arrivalPosition = Position.from(positions.getLast());
-        return Optional.of(players.move(currentPosition, arrivalPosition, currentTeam));
+        return MoveResult.moveCompleted(players.move(currentPosition, arrivalPosition, currentTeam));
     }
 
     private List<Integer> readPositions(final String input) {
