@@ -77,7 +77,7 @@ public class GameService {
         game.movePiece(source, destination);
 
         final String gameRoomName = game.getGameRoomName();
-        final Team turn = janggiGame.currentTurn();
+        final Team turn = game.currentTurn();
 
         messageQueue.flushQueueAndExecuteTransaction((Connection connection) -> {
             pieceDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
