@@ -5,11 +5,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.function.Consumer;
 
 public class MessageQueue {
 
-    private final Deque<Consumer<Connection>> delayedTransactions;
+    private final Deque<Transaction<Connection>> delayedTransactions;
     private final ConnectionGenerator connectionGenerator;
 
     public MessageQueue(ConnectionGenerator connectionGenerator) {
@@ -17,7 +16,7 @@ public class MessageQueue {
         this.delayedTransactions = new ArrayDeque<>();
     }
 
-    public void flushQueueAndExecuteTransaction(Consumer<Connection> transaction) {
+    public void flushQueueAndExecuteTransaction(Transaction<Connection> transaction) {
         executeDelayedTransactions();
 
         try (Connection connection = connectionGenerator.createConnection()) {
@@ -40,7 +39,7 @@ public class MessageQueue {
         }
     }
 
-    private void executeTransaction(Consumer<Connection> transaction) {
+    private void executeTransaction(Transaction<Connection> transaction) {
         try (Connection connection = connectionGenerator.createConnection()) {
             connection.setAutoCommit(false);
             transaction.accept(connection);
@@ -49,5 +48,10 @@ public class MessageQueue {
             throw new RuntimeException(
                     "[ERROR] DB 연결이 끊어져 트랜잭션 실행에 실패했습니다. : " + e.getMessage());
         }
+    }
+
+    @FunctionalInterface
+    public interface Transaction<T extends Connection> {
+        void accept(T t) throws SQLException;
     }
 }
