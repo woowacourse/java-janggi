@@ -37,12 +37,7 @@ public class Ma extends ObstacleSensitivePiece {
                 new Movement(List.of(LEFT_PATH), LEFT_LEFT_UP_PATH)
         );
     }
-
-    @Override
-    public boolean isOnlyMovableInPalace() {
-        return false;
-    }
-
+    
     @Override
     public PieceType type() {
         return PieceType.MA;

@@ -26,7 +26,9 @@ public abstract class Piece {
 
     protected abstract List<Point> findMovablePoints(Point point, PieceVisibleBoard board);
 
-    public abstract boolean isOnlyMovableInPalace();
+    public boolean isOnlyMovableInPalace() {
+        return false;
+    }
 
     public Team team() {
         return team;

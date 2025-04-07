@@ -16,12 +16,7 @@ public class Cha extends SlidingPiece {
     public List<Direction> movableDirections() {
         return Arrays.stream(Direction.values()).toList();
     }
-
-    @Override
-    public boolean isOnlyMovableInPalace() {
-        return false;
-    }
-
+    
     @Override
     public int maxStep() {
         return 10;

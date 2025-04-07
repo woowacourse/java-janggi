@@ -67,12 +67,7 @@ public class Po extends Piece {
     public List<Direction> movableDirections() {
         return Arrays.stream(Direction.values()).toList();
     }
-
-    @Override
-    public boolean isOnlyMovableInPalace() {
-        return false;
-    }
-
+    
     @Override
     public PieceType type() {
         return PieceType.PO;

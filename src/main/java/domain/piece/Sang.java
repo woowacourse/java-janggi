@@ -45,12 +45,7 @@ public class Sang extends ObstacleSensitivePiece {
                 new Movement(List.of(LEFT_PATH, LEFT_LEFT_UP_PATH), LEFT_LEFT_LEFT_UP_UP_PATH)
         );
     }
-
-    @Override
-    public boolean isOnlyMovableInPalace() {
-        return false;
-    }
-
+    
     @Override
     public PieceType type() {
         return PieceType.SANG;
