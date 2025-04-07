@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class AbstractDatabaseConnectionProvider implements DatabaseConnectionProvider {
+public abstract class AbstractDatabaseConnectionProvider implements DatabaseConnectionProvider {
 
     private final String configPath;
 
