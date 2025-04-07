@@ -94,7 +94,7 @@ public class Board implements PieceVisibleBoard {
                 .filter(piece -> piece.team() == team)
                 .mapToInt(Piece::score)
                 .sum();
-        
+
         if (team == Team.HAN) {
             final double HAN_HANDICAP_SCORE = 1.5;
             sum += HAN_HANDICAP_SCORE;
