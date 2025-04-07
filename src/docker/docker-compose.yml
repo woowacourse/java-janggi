@@ -22,7 +22,7 @@ services:
     container_name: janggi-test
     image: mysql:8.0.28
     platform: linux/amd64
-    restart: "no"
+    restart: always
     ports:
       - "13307:3306"
     environment:

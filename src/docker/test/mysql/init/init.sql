@@ -1,4 +1,4 @@
-use janggi;
+use janggi_test;
 
 CREATE TABLE team
 (
