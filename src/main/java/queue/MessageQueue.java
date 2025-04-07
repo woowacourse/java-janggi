@@ -17,7 +17,7 @@ public class MessageQueue {
         this.delayedTransactions = new ArrayDeque<>();
     }
 
-    public void executeAllTransaction(Consumer<Connection> transaction) {
+    public void flushQueueAndExecuteTransaction(Consumer<Connection> transaction) {
         executeDelayedTransactions();
 
         try (Connection connection = connectionGenerator.createConnection()) {

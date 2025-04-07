@@ -62,7 +62,7 @@ public class GameService {
                 firstTurn
         );
 
-        messageQueue.executeAllTransaction((Connection connection) -> {
+        messageQueue.flushQueueAndExecuteTransaction((Connection connection) -> {
             gameRoomDao.insert(connection,
                     new GameRoomDto(null, gameRoomName, firstTurn));
             pieceDao.insertAll(connection,
@@ -79,7 +79,7 @@ public class GameService {
         final String gameRoomName = game.getGameRoomName();
         final Team turn = janggiGame.currentTurn();
 
-        messageQueue.executeAllTransaction((Connection connection) -> {
+        messageQueue.flushQueueAndExecuteTransaction((Connection connection) -> {
             pieceDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
             pieceDao.updatePointByGameRoomNameAndPoint(connection, gameRoomName, source, destination);
             gameRoomDao.updateTurnByGameRoomName(connection, gameRoomName, turn.inverse());
@@ -89,7 +89,7 @@ public class GameService {
     public void endGame() {
         JanggiGame game = getGameOrThrow();
 
-        messageQueue.executeAllTransaction((Connection connection) -> {
+        messageQueue.flushQueueAndExecuteTransaction((Connection connection) -> {
             gameRoomDao.deleteByGameRoomName(connection, game.getGameRoomName());
         });
     }
