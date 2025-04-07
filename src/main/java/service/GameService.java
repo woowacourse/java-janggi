@@ -82,7 +82,7 @@ public class GameService {
         messageQueue.flushQueueAndExecuteTransaction((Connection connection) -> {
             pieceDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
             pieceDao.updatePointByGameRoomNameAndPoint(connection, gameRoomName, source, destination);
-            gameRoomDao.updateTurnByGameRoomName(connection, gameRoomName, turn.inverse());
+            gameRoomDao.updateTurnByGameRoomName(connection, gameRoomName, turn);
         });
     }
 
