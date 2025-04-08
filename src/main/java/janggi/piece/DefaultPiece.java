@@ -39,7 +39,6 @@ public class DefaultPiece implements Piece{
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
-    // todo 이동 가능한 경로 뽑아주고 Board에게 장애물 없는지 확인받은 후 move로 움직이기
     public List<Position> extractPathPositions(Position startPosition ,Position arrivedPosition) {
         Movement availableMovement = findAvailableMovementByArrivedPosition(startPosition, arrivedPosition);
         return availableMovement.extractPathPositions(startPosition,arrivedPosition);

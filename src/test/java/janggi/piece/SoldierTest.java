@@ -129,7 +129,6 @@ public class SoldierTest {
         Assertions.assertThatThrownBy(() -> soldier.move(startPosition, arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 
-    // todo han
     @Test
     @DisplayName("한 궁성 내 우측 하단 대각선 이동 테스트")
     void soldierHanRightDownCrossTest() {

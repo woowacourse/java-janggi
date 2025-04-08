@@ -136,7 +136,6 @@ public class ChariotTest {
         );
     }
 
-    // todo 여기부터 우측
     @ParameterizedTest
     @MethodSource("makePositionInPalaceForRightUpCrossTest")
     @DisplayName("차 궁성 내 우측 상단 대각선 이동 테스트")

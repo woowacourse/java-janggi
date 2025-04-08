@@ -30,7 +30,6 @@ public class Board {
     }
 
     private void attackToTarget(Piece attacker, Position startPosition, Position arrivedPosition) {
-        // todo 공격해서 공격 위치에 있는 기물이 죽으면 DB 에서 삭제 되도록 변경
         Piece target = locatedPieces.get(arrivedPosition);
         validateCatchablePiece(attacker, target);
         move(attacker, startPosition, arrivedPosition);
