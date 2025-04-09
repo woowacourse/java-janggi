@@ -5,8 +5,8 @@ import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.position.Position;
 import janggi.team.Team;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -31,6 +31,7 @@ public class BoardDaoTest {
         initializeSchema(connection);
     }
 
+    @DisplayName("보드 기물 전체 저장 확인")
     @Test
     void saveAllBoardPieceTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
@@ -52,6 +53,7 @@ public class BoardDaoTest {
         assertThat(allPieces).isEqualTo(findAllPieces);
     }
 
+    @DisplayName("보드 기물 업데이트 확인")
     @Test
     void updateBoardPieceTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
@@ -67,6 +69,7 @@ public class BoardDaoTest {
         assertThat(allBoardPiece.get(new Position(1, 5))).isEqualTo(new DefaultPiece(Team.HAN, PieceType.CHARIOT));
     }
 
+    @DisplayName("DB에 기물 정보 존재하는 경우 True")
     @Test
     void existsTrueTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
@@ -75,11 +78,13 @@ public class BoardDaoTest {
         assertThat(boardDao.existsBoardPiece()).isTrue();
     }
 
+    @DisplayName("DB에 기물 정보 존재하지 않는 경우 false")
     @Test
     void existsFalseTest() {
         assertThat(boardDao.existsBoardPiece()).isFalse();
     }
 
+    @DisplayName("모든 기물 정보 불러오기 확인")
     @Test
     void findAllBoardPieceTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
@@ -101,6 +106,7 @@ public class BoardDaoTest {
         assertThat(allPieces).isEqualTo(findAllPieces);
     }
 
+    @DisplayName("Position이 일치하는 기물 정보 삭제 확인")
     @Test
     void deletePieceByPositionTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
@@ -112,6 +118,7 @@ public class BoardDaoTest {
         );
     }
 
+    @DisplayName("전체 기물 정보 삭제 확인")
     @Test
     void deleteAllTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
@@ -136,12 +143,6 @@ public class BoardDaoTest {
                             team           ENUM('CHO', 'HAN') NOT NULL,
                             column_position INT NOT NULL,
                             row_position    INT NOT NULL
-                        )
-                    """);
-
-            stmt.execute("""
-                        CREATE TABLE turn (
-                            turn ENUM('CHO', 'HAN') PRIMARY KEY
                         )
                     """);
         } catch (SQLException e) {
