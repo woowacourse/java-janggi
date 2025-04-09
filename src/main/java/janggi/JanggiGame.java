@@ -4,7 +4,7 @@ import janggi.board.Board;
 import janggi.board.TableOption;
 import janggi.board.Turn;
 import janggi.dao.BoardDao;
-import janggi.dao.DatabaseConnector;
+import janggi.dao.MySQLDatabaseConnector;
 import janggi.dao.TurnDao;
 import janggi.piece.Piece;
 import janggi.piece.PieceGenerator;
@@ -20,7 +20,7 @@ public class JanggiGame {
     public static void main(String[] args) {
         Input input = new Input();
         Output output = new Output();
-        DatabaseConnector connector = new DatabaseConnector();
+        MySQLDatabaseConnector connector = new MySQLDatabaseConnector();
 
         BoardDao boardDao = new BoardDao(connector);
         TurnDao turnDao = new TurnDao(connector);

@@ -14,6 +14,7 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
     runtimeOnly("com.mysql:mysql-connector-j:9.2.0")
+    testImplementation 'com.h2database:h2:2.2.224'
 }
 
 java {

@@ -1,6 +1,5 @@
 package janggi.board;
 
-import janggi.dao.BoardDao;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.position.Position;
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
+
     private static final int GAME_PROGRESS_CONDITION = 2;
 
     private final Map<Position, Piece> locatedPieces;
@@ -92,6 +92,7 @@ public class Board {
         throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다");
     }
 
+    // todo public 메서드 테스트 추가
     public boolean isGameOver() {
         long liveKingCount = locatedPieces.values().stream()
                 .filter(piece -> piece.getPieceType() == PieceType.KING)

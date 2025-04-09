@@ -15,6 +15,7 @@ public class TurnDao {
         this.connector = connector;
     }
 
+    // todo dao test 작성
     public void saveTurn(Team turn) {
         String query = "INSERT INTO turn VALUES (?)";
         try (Connection connection = connector.getConnection();
