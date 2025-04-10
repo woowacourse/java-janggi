@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.game.GameRoom;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.position.Position;
@@ -17,18 +18,19 @@ public class BoardDao {
         this.connector = connector;
     }
 
-    public void saveAllBoardPiece(Map<Position,Piece> pieces) {
-        String query = "INSERT INTO board_piece (piece_type, team, column_position, row_position) VALUES(?, ?, ?, ?)";
+    public void saveAllBoardPiece(Map<Position,Piece> pieces, GameRoom gameRoom) {
+        String query = "INSERT INTO board_piece (room_name, piece_type, team, column_position, row_position) VALUES(?, ?, ?, ?, ?)";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             for (Map.Entry<Position, Piece> pieceInfo : pieces.entrySet()) {
                 Position position = pieceInfo.getKey();
                 Piece piece = pieceInfo.getValue();
-                preparedStatement.setString(1, piece.getPieceType().name());
-                preparedStatement.setString(2, piece.getTeam().name());
-                preparedStatement.setInt(3, position.column());
-                preparedStatement.setInt(4, position.row());
+                preparedStatement.setString(1, gameRoom.getRoomName());
+                preparedStatement.setString(2, piece.getPieceType().name());
+                preparedStatement.setString(3, piece.getTeam().name());
+                preparedStatement.setInt(4, position.column());
+                preparedStatement.setInt(5, position.row());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -36,8 +38,8 @@ public class BoardDao {
         }
     }
 
-    public void updateBoardPiece(Position startPosition, Position arrivedPosition) {
-        String query = "UPDATE board_piece SET column_position = ?, row_position = ? WHERE column_position = ? AND row_position = ?";
+    public void updateBoardPiece(GameRoom gameRoom,Position startPosition, Position arrivedPosition) {
+        String query = "UPDATE board_piece SET column_position = ?, row_position = ? WHERE column_position = ? AND row_position = ? AND room_name = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
@@ -45,6 +47,7 @@ public class BoardDao {
             preparedStatement.setInt(2, arrivedPosition.row());
             preparedStatement.setInt(3, startPosition.column());
             preparedStatement.setInt(4, startPosition.row());
+            preparedStatement.setString(5, gameRoom.getRoomName());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -52,11 +55,12 @@ public class BoardDao {
         }
     }
 
-    public boolean existsBoardPiece() {
-        String query = "SELECT EXISTS (SELECT 1 FROM board_piece)";
+    public boolean existsBoardPieceByRoomName(String roomName) {
+        String query = "SELECT EXISTS (SELECT * FROM board_piece WHERE room_name = ?)";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
+            preparedStatement.setString(1, roomName);
             ResultSet result = preparedStatement.executeQuery();
             if (result.next()) {
                 return result.getBoolean(1);
@@ -67,11 +71,12 @@ public class BoardDao {
         }
     }
 
-    public Map<Position, Piece> findAllBoardPiece() {
-        String query = "SELECT * FROM board_piece";
+    public Map<Position, Piece> findAllBoardPieceByRoomName(String roomName) {
+        String query = "SELECT * FROM board_piece WHERE room_name = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
+            preparedStatement.setString(1, roomName);
             ResultSet result = preparedStatement.executeQuery();
             Map<Position, Piece> locatedPieces = new HashMap<>();
             while (result.next()) {
@@ -91,24 +96,26 @@ public class BoardDao {
     }
 
 
-    public void deletePieceByPosition(Position position) {
-        String query = "DELETE FROM board_piece WHERE column_position = ? AND row_position = ?";
+    public void deletePieceByPositionAndRoomName(Position position, GameRoom gameRoom) {
+        String query = "DELETE FROM board_piece WHERE column_position = ? AND row_position = ? AND room_name = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
              preparedStatement.setInt(1, position.column());
              preparedStatement.setInt(2, position.row());
+             preparedStatement.setString(3, gameRoom.getRoomName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void deleteAll() {
-        String query = "DELETE FROM board_piece";
+    public void deleteAllByRoomName(GameRoom gameRoom) {
+        String query = "DELETE FROM board_piece WHERE room_name = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
+            preparedStatement.setString(1, gameRoom.getRoomName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

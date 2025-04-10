@@ -1,5 +1,7 @@
 package janggi.dao;
 
+import janggi.board.Turn;
+import janggi.game.GameRoom;
 import janggi.piece.DefaultPiece;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class BoardDaoTest {
 
+    private static final GameRoom gameRoom = new GameRoom("테스트방", new Turn(Team.CHO));
     private BoardDao boardDao;
 
     @BeforeEach
@@ -46,9 +49,9 @@ public class BoardDaoTest {
         allPieces.put(new Position(4, 7), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
         allPieces.put(new Position(4, 9), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
 
-        boardDao.saveAllBoardPiece(allPieces);
+        boardDao.saveAllBoardPiece(allPieces, gameRoom);
 
-        Map<Position, Piece> findAllPieces = boardDao.findAllBoardPiece();
+        Map<Position, Piece> findAllPieces = boardDao.findAllBoardPieceByRoomName(gameRoom.getRoomName());
 
         assertThat(allPieces).isEqualTo(findAllPieces);
     }
@@ -60,11 +63,11 @@ public class BoardDaoTest {
 
         allPieces.put(new Position(1, 1), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
 
-        boardDao.saveAllBoardPiece(allPieces);
+        boardDao.saveAllBoardPiece(allPieces,gameRoom);
 
-        boardDao.updateBoardPiece(new Position(1, 1), new Position(1, 5));
+        boardDao.updateBoardPiece(gameRoom,new Position(1, 1), new Position(1, 5));
 
-        Map<Position, Piece> allBoardPiece = boardDao.findAllBoardPiece();
+        Map<Position, Piece> allBoardPiece = boardDao.findAllBoardPieceByRoomName(gameRoom.getRoomName());
 
         assertThat(allBoardPiece.get(new Position(1, 5))).isEqualTo(new DefaultPiece(Team.HAN, PieceType.CHARIOT));
     }
@@ -74,14 +77,14 @@ public class BoardDaoTest {
     void existsTrueTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
         allPieces.put(new Position(1, 1), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
-        boardDao.saveAllBoardPiece(allPieces);
-        assertThat(boardDao.existsBoardPiece()).isTrue();
+        boardDao.saveAllBoardPiece(allPieces, gameRoom);
+        assertThat(boardDao.existsBoardPieceByRoomName(gameRoom.getRoomName())).isTrue();
     }
 
     @DisplayName("DB에 기물 정보 존재하지 않는 경우 false")
     @Test
     void existsFalseTest() {
-        assertThat(boardDao.existsBoardPiece()).isFalse();
+        assertThat(boardDao.existsBoardPieceByRoomName(gameRoom.getRoomName())).isFalse();
     }
 
     @DisplayName("모든 기물 정보 불러오기 확인")
@@ -99,9 +102,9 @@ public class BoardDaoTest {
         allPieces.put(new Position(4, 7), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
         allPieces.put(new Position(4, 9), new DefaultPiece(Team.HAN, PieceType.SOLDIER));
 
-        boardDao.saveAllBoardPiece(allPieces);
+        boardDao.saveAllBoardPiece(allPieces,gameRoom);
 
-        Map<Position, Piece> findAllPieces = boardDao.findAllBoardPiece();
+        Map<Position, Piece> findAllPieces = boardDao.findAllBoardPieceByRoomName(gameRoom.getRoomName());
 
         assertThat(allPieces).isEqualTo(findAllPieces);
     }
@@ -111,10 +114,10 @@ public class BoardDaoTest {
     void deletePieceByPositionTest() {
         Map<Position, Piece> allPieces = new HashMap<>();
         allPieces.put(new Position(1, 1), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
-        boardDao.saveAllBoardPiece(allPieces);
+        boardDao.saveAllBoardPiece(allPieces,gameRoom);
         assertAll(
-                () -> assertThatCode(() -> boardDao.deletePieceByPosition(new Position(1, 1))).doesNotThrowAnyException(),
-                () -> assertThat(boardDao.findAllBoardPiece()).doesNotContainKey(new Position(1, 1))
+                () -> assertThatCode(() -> boardDao.deletePieceByPositionAndRoomName(new Position(1, 1),gameRoom)).doesNotThrowAnyException(),
+                () -> assertThat(boardDao.findAllBoardPieceByRoomName(gameRoom.getRoomName())).doesNotContainKey(new Position(1, 1))
         );
     }
 
@@ -126,11 +129,11 @@ public class BoardDaoTest {
         allPieces.put(new Position(1, 9), new DefaultPiece(Team.HAN, PieceType.CHARIOT));
         allPieces.put(new Position(3, 2), new DefaultPiece(Team.HAN, PieceType.CANNON));
 
-        boardDao.saveAllBoardPiece(allPieces);
+        boardDao.saveAllBoardPiece(allPieces,gameRoom);
 
         assertAll(
-                () -> assertThatCode(() -> boardDao.deleteAll()).doesNotThrowAnyException(),
-                () -> assertThat(boardDao.existsBoardPiece()).isFalse()
+                () -> assertThatCode(() -> boardDao.deleteAllByRoomName(gameRoom)).doesNotThrowAnyException(),
+                () -> assertThat(boardDao.existsBoardPieceByRoomName(gameRoom.getRoomName())).isFalse()
         );
     }
 
@@ -139,6 +142,7 @@ public class BoardDaoTest {
             stmt.execute("""
                         CREATE TABLE board_piece (
                             board_piece_id INT PRIMARY KEY AUTO_INCREMENT,
+                            room_name varchar(100) not null,
                             piece_type     ENUM('KING', 'GUARD', 'HORSE', 'ELEPHANT', 'CANNON', 'CHARIOT', 'SOLDIER') NOT NULL,
                             team           ENUM('CHO', 'HAN') NOT NULL,
                             column_position INT NOT NULL,

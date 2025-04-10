@@ -43,6 +43,11 @@ public class Input {
         return Map.entry(startPosition, arrivedPosition);
     }
 
+    public String readGameRoomName () {
+        System.out.println("참여할 게임 방 이름을 입력해주세요.");
+        return scanner.nextLine();
+    }
+
     private Position convertToPosition(String[] splitInputPosition) {
         int row = Integer.parseInt(splitInputPosition[0]);
         int column = Integer.parseInt(splitInputPosition[1]);

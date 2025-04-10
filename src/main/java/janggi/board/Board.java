@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.game.GameRoom;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.position.Position;
@@ -18,10 +19,10 @@ public class Board {
         this.locatedPieces = locatedPieces;
     }
 
-    public void movePiece(Turn turn, Position startPosition, Position arrivedPosition) {
+    public void movePiece(GameRoom room, Position startPosition, Position arrivedPosition) {
         validateExistsPosition(startPosition);
         Piece attacker = locatedPieces.get(startPosition);
-        turn.checkTurn(attacker);
+        room.checkTurn(attacker);
         if (isExistPiece(arrivedPosition)) {
             attackToTarget(attacker, startPosition, arrivedPosition);
             return;

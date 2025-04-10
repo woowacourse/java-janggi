@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.board.Turn;
+import janggi.game.GameRoom;
 import janggi.piece.*;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -27,6 +28,20 @@ public class Output {
             Team.CHO,"초",
             Team.HAN,"한"
     );
+
+    public void printGameRooms(List<String> roomNames) {
+        if (roomNames.isEmpty()) {
+            System.out.println("참가 가능한 게임 방이 없습니다.");
+            System.out.println("방을 생성해 주세요.");
+            return;
+        }
+
+        System.out.println("---참가 가능한 방---");
+        for (String roomName : roomNames) {
+            System.out.println(roomName);
+        }
+        System.out.println("-----------------");
+    }
 
     public void printBoard(Map<Position, Piece> locatedPieces) {
 
@@ -69,9 +84,9 @@ public class Output {
         System.out.println();
     }
 
-    public void printTurn(Turn turn) {
+    public void printTurn(Team turn) {
         System.out.println();
-        System.out.printf("순서 : %s 진영%n", TEAMS.get(turn.getTurn()));
+        System.out.printf("순서 : %s 진영%n", TEAMS.get(turn));
         System.out.println();
     }
 }

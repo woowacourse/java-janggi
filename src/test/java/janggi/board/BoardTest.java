@@ -2,6 +2,7 @@ package janggi.board;
 
 import janggi.dao.BoardDao;
 import janggi.dao.MySQLDatabaseConnector;
+import janggi.game.GameRoom;
 import janggi.piece.*;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -22,6 +23,7 @@ public class BoardTest {
 
     private static final PieceGenerator pieceGenerator = new PieceGenerator();
     private static final BoardDao boardDao = new BoardDao(new MySQLDatabaseConnector());
+    private static final GameRoom gameRoom = new GameRoom("테스트방", new Turn(Team.CHO));
 
     @Test
     @DisplayName("보드에서 선택한 기물을 다른 기물로 이동 시킬 수 있는지 확인")
@@ -31,7 +33,7 @@ public class BoardTest {
         Position startPosition = new Position(10, 1);
         Position arrivedPosition = new Position(8, 1);
         //when
-        board.movePiece(new Turn(Team.CHO), startPosition, arrivedPosition);
+        board.movePiece(gameRoom, startPosition, arrivedPosition);
         Map<Position, Piece> positionedPieces = board.getLocatedPieces();
         Piece findPiece = positionedPieces.get(arrivedPosition);
         //then
@@ -43,10 +45,10 @@ public class BoardTest {
     void checkTurnTest() {
         //given
         Board board = new Board(pieceGenerator.generateInitialPieces(TableOption.EHHE, TableOption.HEEH));
-        Position startPosition = new Position(10, 1);
-        Position arrivedPosition = new Position(8, 1);
+        Position startPosition = new Position(5, 1);
+        Position arrivedPosition = new Position(6, 1);
         //when & then
-        Assertions.assertThatThrownBy(() -> board.movePiece(new Turn(Team.HAN), startPosition, arrivedPosition))
+        Assertions.assertThatThrownBy(() -> board.movePiece(gameRoom, startPosition, arrivedPosition))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -58,7 +60,7 @@ public class BoardTest {
         Position startPosition = new Position(9, 1);
         Position arrivedPosition = new Position(8, 1);
         //when & then
-        Assertions.assertThatThrownBy(() -> board.movePiece(new Turn(Team.CHO), startPosition, arrivedPosition));
+        Assertions.assertThatThrownBy(() -> board.movePiece(gameRoom, startPosition, arrivedPosition));
     }
 
     @Test
@@ -69,7 +71,7 @@ public class BoardTest {
                  new Position(8, 3), new DefaultPiece(Team.CHO, PieceType.ELEPHANT))));
 
         assertThatCode(
-                () -> board.movePiece(new Turn(Team.CHO), new Position(8, 2), new Position(8, 5))
+                () -> board.movePiece(gameRoom, new Position(8, 2), new Position(8, 5))
         ).doesNotThrowAnyException();
     }
 
@@ -81,7 +83,7 @@ public class BoardTest {
                 new Position(8, 3), new DefaultPiece(Team.CHO, PieceType.CANNON))));
 
         assertThatThrownBy(
-                () -> board.movePiece(new Turn(Team.CHO), new Position(8, 2), new Position(8, 5))
+                () -> board.movePiece(gameRoom, new Position(8, 2), new Position(8, 5))
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -94,7 +96,7 @@ public class BoardTest {
                 new Position(8, 4), new DefaultPiece(Team.CHO, PieceType.ELEPHANT))));
 
         assertThatThrownBy(
-                () -> board.movePiece(new Turn(Team.CHO), new Position(8, 2), new Position(8, 5))
+                () -> board.movePiece(gameRoom, new Position(8, 2), new Position(8, 5))
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -109,7 +111,7 @@ public class BoardTest {
 
         //when & then
         assertThatCode(
-                () -> board.movePiece(new Turn(Team.CHO), cannonPosition, arrivedPosition)
+                () -> board.movePiece(gameRoom, cannonPosition, arrivedPosition)
         ).doesNotThrowAnyException();
     }
 
@@ -132,7 +134,7 @@ public class BoardTest {
         )));
         //when & then
         assertThatThrownBy(
-                () -> board.movePiece(new Turn(Team.CHO), cannonPosition, arrivedPosition)
+                () -> board.movePiece(gameRoom, cannonPosition, arrivedPosition)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -154,7 +156,7 @@ public class BoardTest {
 
         //when & then
         assertThatCode(
-                () -> board.movePiece(new Turn(Team.CHO), new Position(10, 4), new Position(8, 6))
+                () -> board.movePiece(gameRoom, new Position(10, 4), new Position(8, 6))
         ).doesNotThrowAnyException();
     }
 }
