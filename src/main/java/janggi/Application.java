@@ -17,6 +17,6 @@ public class Application {
                 new GameRoomDao(new MySQLDatabaseConnector())
         );
 
-        gameManager.play();
+        gameManager.progress();
     }
 }
