@@ -29,51 +29,34 @@ public class GameManager {
     }
 
     public void progress() {
-        GameRoom gameRoom = generateGameRoom();
-        Board board = initialBoard(gameRoom);
+        JanggiGame janggiGame = new JanggiGame(boardDao, gameRoomDao);
+        output.printGameRooms(janggiGame.findAllGameRoom());
+
+        GameRoom gameRoom = janggiGame.selectGameRoom(input.readGameRoomName());
+
+        Board board = initialBoard(gameRoom, janggiGame);
+
         playGame(board, gameRoom);
+
         endGame(output, board, gameRoom);
+    }
+
+    private Board initialBoard(GameRoom gameRoom, JanggiGame janggiGame) {
+        Board board;
+        if (janggiGame.existsBoardPieceByRoomName(gameRoom)) {
+            System.out.println("진행 중인 게임 데이터를 불러옵니다");
+            board = janggiGame.makeSavedBoard(gameRoom);
+        } else {
+            board = janggiGame.makeInitialBoard(gameRoom, input.readTableOption(Team.CHO), input.readTableOption(Team.HAN));
+        }
+        output.printBoard(board.getLocatedPieces());
+        return board;
     }
 
     private void playGame(Board board, GameRoom gameRoom) {
         while (!board.isGameOver()) {
             dropPiece(output, input, board, gameRoom);
         }
-    }
-
-    private GameRoom generateGameRoom() {
-        List<String> rooms = gameRoomDao.findAllGameRoom();
-        output.printGameRooms(rooms);
-        String roomName = input.readGameRoomName();
-        GameRoom gameRoom;
-        if(gameRoomDao.existsGameRoom(roomName)) {
-            gameRoom = gameRoomDao.findByRoomName(roomName);
-        } else {
-            gameRoom = new GameRoom(roomName, new Turn(Team.CHO));
-            gameRoomDao.saveGameRoom(gameRoom);
-        }
-        return gameRoom;
-    }
-
-    private Board initialBoard(GameRoom gameRoom) {
-        Map<Position, Piece> initialPieces;
-        if (boardDao.existsBoardPieceByRoomName(gameRoom.getRoomName())) {
-            System.out.println("진행 중인 게임 데이터를 불러옵니다");
-            initialPieces = boardDao.findAllBoardPieceByRoomName(gameRoom.getRoomName());
-        } else {
-            initialPieces = generateInitialPieces(input);
-            boardDao.saveAllBoardPiece(initialPieces, gameRoom);
-        }
-
-        Board board = new Board(initialPieces);
-        output.printBoard(board.getLocatedPieces());
-        return board;
-    }
-
-    private Map<Position, Piece> generateInitialPieces(Input input) {
-        TableOption choTableOption = input.readTableOption(Team.CHO);
-        TableOption hanTableOption = input.readTableOption(Team.HAN);
-        return new PieceGenerator().generateInitialPieces(hanTableOption, choTableOption);
     }
 
     private void dropPiece(Output output, Input input, Board board, GameRoom gameRoom) {
