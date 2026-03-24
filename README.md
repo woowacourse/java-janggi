@@ -50,7 +50,35 @@
 ### 실행 결과 예시
 
 ```
+[한(HAN) 진영] 배치를 선택하세요.
+1. 마-상-마-상 (Horse-Elephant-Horse-Elephant)
+2. 마-상-상-마 (Horse-Elephant-Elephant-Horse)
+3. 상-마-마-상 (Elephant-Horse-Horse-Elephant)
+4. 상-마-상-마 (Elephant-Horse-Elephant-Horse)
+> 1
 
+[초(CHO) 진영] 배치를 선택하세요.
+1. 마-상-마-상 (Horse-Elephant-Horse-Elephant)
+2. 마-상-상-마 (Horse-Elephant-Elephant-Horse)
+3. 상-마-마-상 (Elephant-Horse-Horse-Elephant)
+4. 상-마-상-마 (Elephant-Horse-Elephant-Horse)
+> 2
+
+현재 턴: [초(CHO) 진영]
+
+     0   1   2   3   4   5   6   7   8
+ 0  한차 한마 한상 한사 ... 한사 한마 한상 한차
+ 1  ... ... ... ... 한궁 ... ... ... ...
+ 2  ... 한포 ... ... ... ... ... 한포 ...
+ 3  한병 ... 한병 ... 한병 ... 한병 ... 한병
+ 4  ... ... ... ... ... ... ... ... ...
+ 5  ... ... ... ... ... ... ... ... ...
+ 6  초졸 ... 초졸 ... 초졸 ... 초졸 ... 초졸
+ 7  ... 초포 ... ... ... ... ... 초포 ...
+ 8  ... ... ... ... 초궁 ... ... ... ...
+ 9  초차 초마 초상 초사 ... 초사 초상 초마 초차
+ 
+ >
 ```
 
 ---
