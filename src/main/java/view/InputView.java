@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class InputView {
     static Scanner sc = new Scanner(System.in);
+
     public static String readCountry() {
         System.out.println("진영을 선택해주세요.");
         System.out.println("1. 초");
