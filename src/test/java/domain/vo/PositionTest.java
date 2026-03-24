@@ -1,8 +1,10 @@
 package domain.vo;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PositionTest {
 
@@ -17,7 +19,29 @@ class PositionTest {
         Position position = Position.of(x, y);
 
         // then
-        Assertions.assertEquals(x, position.getRow());
-        Assertions.assertEquals(y, position.getCol());
+        assertEquals(x, position.getRow());
+        assertEquals(y, position.getCol());
+    }
+
+    @Test
+    @DisplayName("행이 0~9 범위를 벗어나면 예외를 발생한다.")
+    void 위치_행_비정상_입력() {
+        // given
+        // when
+        // then
+        assertThatThrownBy(() ->Position.of(-1, 0))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 행이 0~9 범위를 벗어났습니다.");
+    }
+
+    @Test
+    @DisplayName("열이 0~8 범위를 벗어나면 예외를 발생한다.")
+    void 위치_열_비정상_입력() {
+        // given
+        // when
+        // then
+        assertThatThrownBy(() ->Position.of(0, -1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 열이 0~8 범위를 벗어났습니다.");
     }
 }
