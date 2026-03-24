@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-public class EmptyPosition extends Piece{
+public class EmptyPosition extends Piece {
 
     public EmptyPosition(Team team) {
         super(team);
@@ -8,11 +8,16 @@ public class EmptyPosition extends Piece{
 
     @Override
     public String displayName() {
-        return "[]";
+        return "X";
     }
 
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return true;
+    }
+
+    @Override
+    public PieceType pieceType() {
+        return PieceType.EMPTY;
     }
 }

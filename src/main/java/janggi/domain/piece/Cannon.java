@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-public class Cannon extends Piece{
+public class Cannon extends Piece {
 
     public Cannon(Team team) {
         super(team);
@@ -9,5 +9,10 @@ public class Cannon extends Piece{
     @Override
     public String displayName() {
         return "포";
+    }
+
+    @Override
+    public PieceType pieceType() {
+        return PieceType.CANNON;
     }
 }

@@ -7,12 +7,17 @@ public abstract class Piece implements State {
         this.team = team;
     }
 
-    public boolean isSameTeam(Team otherTeam){
+    public boolean isSameTeam(Team otherTeam) {
         return team == otherTeam;
     }
 
     @Override
     public boolean isEmpty() {
         return false;
+    }
+
+    @Override
+    public Team findTeam() {
+        return team;
     }
 }

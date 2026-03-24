@@ -10,4 +10,9 @@ public class Horse extends Piece {
     public String displayName() {
         return "마";
     }
+
+    @Override
+    public PieceType pieceType() {
+        return PieceType.HORSE;
+    }
 }

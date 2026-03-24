@@ -8,4 +8,8 @@ public interface State {
 
     public String displayName();
 
+    public Team findTeam();
+
+    public PieceType pieceType();
+
 }

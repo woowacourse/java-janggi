@@ -10,4 +10,9 @@ public class Tank extends Piece {
     public String displayName() {
         return "차";
     }
+
+    @Override
+    public PieceType pieceType() {
+        return PieceType.TANK;
+    }
 }

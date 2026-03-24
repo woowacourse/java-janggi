@@ -10,4 +10,9 @@ public class Elephant extends Piece {
     public String displayName() {
         return "상";
     }
+
+    @Override
+    public PieceType pieceType() {
+        return PieceType.ELEPHANT;
+    }
 }
