@@ -10,10 +10,10 @@
 
 ### 기물 (Piece)
 
-| 용어         | 설명                                                                           |
-|------------|------------------------------------------------------------------------------|
-| Piece      | 고유한 이동규칙을 갖는 게임 객체.                                                          |
-| Piece Name | 기물이 가지는 이름.  general, chariots, cannons, horses, elephants, guards, soldiers |
+| 용어         | 설명                                                                     |
+|------------|------------------------------------------------------------------------|
+| Piece      | 고유한 이동규칙을 갖는 게임 객체.                                                    |
+| Piece Name | 기물이 가지는 이름.  general, chariot, cannon, horse, elephant, guard, soldier |
 
 ### 이동 규칙 (Move Strategy)
 
@@ -48,17 +48,31 @@
 - [ ] 각 Piece의 Move Strategy를 구현한다.
 - [ ] Piece의 Move Strategy은 직접 요구사항을 분석하여 정의한다.
     - [ ] General : 궁성 내부에서 1칸 자유롭게 이동 가능.
-    - [ ] Guards : 궁성 내부에서 1칸 자유롭게 이동 가능.
-    - [ ] Chariots : 동일한 Row 또는 동일한 Column에 위치한 곳으로 이동 가능.
+    - [ ] Guard : 궁성 내부에서 1칸 자유롭게 이동 가능.
+    - [ ] Chariot : 동일한 Row 또는 동일한 Column에 위치한 곳으로 이동 가능.
         - 궁성 내부에서는 대각선으로 이동 가능
-    - [ ] Cannons : 동일한 Row 또는 동일한 Column에 위치한 곳으로 이동 가능.
+    - [ ] Cannon : 동일한 Row 또는 동일한 Column에 위치한 곳으로 이동 가능.
         - 꼭 기물 하나를 넘어야 함
-        - Cannons 끼리는 넘을 수 없음
-        - Cannons 끼리는 먹을 수 없음
+        - Cannon 끼리는 넘을 수 없음
+        - Cannon 끼리는 먹을 수 없음
         - 궁성 내부에서는 대각선으로 이동 가능
-    - [ ] Horses : Row 또는 Column으로 1칸 이동하고 진행한 방향으로 오른쪽(or왼쪽) 대각선 1칸 이동
-    - [ ] Elephants : Row 또는 Column으로 1칸 이동하고 진행한 방향으로 오른쪽(or왼쪽) 대각선 2칸 이동
-    - [ ] Soldiers : 앞으로 또는 좌우로 1칸 이동 가능
+    - [ ] Horse : Row 또는 Column으로 1칸 이동하고 진행한 방향으로 오른쪽(or왼쪽) 대각선 1칸 이동
+    - [ ] Elephant : Row 또는 Column으로 1칸 이동하고 진행한 방향으로 오른쪽(or왼쪽) 대각선 2칸 이동
+    - [ ] Soldier : 앞으로 또는 좌우로 1칸 이동 가능
         - 궁성 내부에서는 대각선으로 이동 가능
 
 - [ ] 궁성(宮城) 영역은 구현하지 않는다. (사이클2에서 다룬다)
+
+## 게임 흐름 세부 조건 사항
+
+### 게임 준비 (차림)
+
+- [ ] 각 Dynasty의 Horse와 Elephant의 배치를 입력받는다.
+    - [ ] 차림은 숫자로 입력받는다.
+        - 1: Horse-Elephant-Horse-Elephant
+        - 2: Horse-Elephant-Elephant-Horse
+        - 3: Elephant-Horse-Elephant-Horse
+        - 4: Elephant-Horse-Horse-Elephant
+- [ ] Board에 Piece를 올바른 Position에 배치한다.
+
+### 게임 시작 (2단계)
