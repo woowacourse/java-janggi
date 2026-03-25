@@ -21,7 +21,7 @@ public abstract class Piece implements Space {
         }
 
         Piece piece = (Piece) space;
-        if (!team.equals(piece.team)) {
+        if (!isEqualTeam(piece.team)) {
             return;
         }
 
@@ -32,6 +32,10 @@ public abstract class Piece implements Space {
         if (!pieces.isEmpty()){
             throw new IllegalArgumentException("이동 경로 사이에 다른 말이 있으면 안됩니다.");
         }
+    }
+
+    public boolean isEqualTeam(Team team) {
+        return this.team == team;
     }
 
     @Override
