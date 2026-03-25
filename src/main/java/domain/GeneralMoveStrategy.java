@@ -1,26 +1,45 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralMoveStrategy implements MoveStrategy {
+public class GeneralMoveStrategy extends MoveStrategy {
 
-    private final Position position;
+    private final static int[] DR = {0, 1, 0, -1};
+    private final static int[] DC = {1, 0, -1, 0};
+
+    private final List<Position> destinations;
+    private final List<Position> routePositions;
 
     private GeneralMoveStrategy(Position position) {
-        this.position = position;
+        super(position);
+        this.destinations = setupDestinations();
+        this.routePositions = List.of();
     }
 
-    static GeneralMoveStrategy of(Position position) {
+    public static GeneralMoveStrategy of(Position position) {
         return new GeneralMoveStrategy(position);
     }
 
-    @Override
-    public boolean isMoveAble(Position position) {
-        return false;
+    private List<Position> setupDestinations() {
+        List<Position> positions = new ArrayList<>();
+
+        for (int i = 0; i < DR.length; i++) {
+            int dr = position.row() + DR[i];
+            int dc = position.col() + DC[i];
+            positions.add(Position.of(dr, dc));
+        }
+
+        return positions;
     }
 
     @Override
-    public boolean isRootBlockedBy(List<Position> piecePositions) {
+    public boolean isMoveAble(Position targetPosition) {
+        return destinations.contains(targetPosition);
+    }
+
+    @Override
+    public boolean isRouteBlockedBy(List<Position> piecePositions) {
         return false;
     }
 }
