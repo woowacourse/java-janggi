@@ -6,6 +6,7 @@ import janggi.domain.Position;
 import java.util.List;
 
 public interface Piece {
-    boolean isMovable(Position start, Position end, BoardInterface boardInterface);
+    List<Position> calculatePath(Position start, Position end);
+    boolean isMovable(List<Position> path, BoardInterface boardInterface);
     boolean isPo();
 }
