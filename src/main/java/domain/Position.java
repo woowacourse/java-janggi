@@ -1,2 +1,4 @@
-package domain;public class Position {
+package domain;
+
+public record Position(int col, int row) {
 }
