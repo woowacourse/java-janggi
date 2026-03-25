@@ -77,7 +77,7 @@ class ByeongTest {
                 .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
     }
 
-    @DisplayName("초나라일때 남쪽으로 예외가 발생한다.")
+    @DisplayName("초나라일때 남쪽으로 움직이면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid_cho() {
         //given
