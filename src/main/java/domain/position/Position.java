@@ -21,6 +21,10 @@ public class Position {
         return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
     }
 
+    public boolean isNotStrategyLine(Position position){
+        return getRow() != position.getRow() && getColumn() != position.getColumn();
+    }
+
     public int getRow(){
         return row.row();
     }

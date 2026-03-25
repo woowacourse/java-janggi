@@ -29,6 +29,11 @@ public class Board {
         return result;
     }
 
+    public boolean isEmpty(Position position){
+        Place place = board.get(position);
+        return place.isEmpty();
+    }
+
     public boolean isSameTeam(Position from, Position to) {
         Place toPlace = board.get(to);
 
