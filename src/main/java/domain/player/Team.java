@@ -1,4 +1,4 @@
-package domain;
+package domain.player;
 
 public enum Team {
     CHO(1),
