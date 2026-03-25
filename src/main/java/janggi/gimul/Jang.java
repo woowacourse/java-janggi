@@ -18,7 +18,28 @@ public class Jang extends Gimul {
         int absRowDistance = Math.abs(rowDistance);
         int absColumnDistance = Math.abs(columnDistance);
 
-        return null;
+        if (absRowDistance >= 2 || absColumnDistance >= 2) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+
+        if (rowDistance == 1 && columnDistance == 1) {
+            return from.moveSouthAndEast();
+        }
+        if (rowDistance == 1 && columnDistance == -1) {
+            return from.moveSouthAndWest();
+        }
+        if (rowDistance == -1 && columnDistance == 1) {
+            return from.moveSouthAndEast();
+        }
+        if (rowDistance == -1 && columnDistance == -1) {
+            return from.moveNorthAndWest();
+        }
+
+        if (absRowDistance == 0) {
+            return from.moveHorizontal(columnDistance);
+        }
+
+        return from.moveVertical(rowDistance);
     }
 
     @Override

@@ -18,7 +18,7 @@ class JangTest {
     void getLegalPath_invalid() {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.EIGHT, Column.FOUR);
+        Position to = new Position(Row.SEVEN, Column.SEVEN);
         Jang jang = new Jang(Team.HAN);
 
         //when & then
