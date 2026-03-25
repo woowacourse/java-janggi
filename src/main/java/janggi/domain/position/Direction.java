@@ -36,6 +36,10 @@ public enum Direction {
         return values()[(this.ordinal() + DIRECTION_SIZE - 1) % DIRECTION_SIZE];
     }
 
+    public Direction back() {
+        return values()[(this.ordinal() + 4) % DIRECTION_SIZE];
+    }
+
     public int row() {
         return row;
     }

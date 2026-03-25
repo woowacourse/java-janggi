@@ -1,17 +1,37 @@
 package janggi.domain.piece;
 
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static janggi.domain.position.Direction.EAST;
+import static janggi.domain.position.Direction.WEST;
 
 public class SoldierMoveStrategy implements MoveStrategy {
 
 
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
-        return List.of();
+        List<Position> canMovePositions = new ArrayList<>();
+
+        for (Direction dir : Direction.valuesFourDirection()) {
+            if(dir.equals(dynasty.front().back())) {
+                continue;
+            }
+            from.findPositionByDirection(dir).ifPresent(to -> {
+                if(board.containsKey(to) && board.get(to).isSameDynasty(dynasty)) {
+                    return;
+                }
+                canMovePositions.add(to);
+            });
+        }
+        return canMovePositions;
     }
+
 
     @Override
     public boolean canMove(Map<Position, Piece> board, Position from, Position to) {
