@@ -14,7 +14,7 @@ public class ChariotMoveStrategy implements MoveStrategy{
         int targetRow = to.getRow();
         int targetCol = to.getCol();
 
-        if (checkStraightPath(currentCol, targetCol, currentRow, targetRow))
+        if (checkNotStraightPath(currentCol, targetCol, currentRow, targetRow))
             return false;
 
         if (currentCol == targetCol) {
@@ -44,7 +44,7 @@ public class ChariotMoveStrategy implements MoveStrategy{
         return true;
     }
 
-    private boolean checkStraightPath(int currentCol, int targetCol, int currentRow, int targetRow) {
+    private boolean checkNotStraightPath(int currentCol, int targetCol, int currentRow, int targetRow) {
         return currentCol != targetCol && currentRow != targetRow;
     }
 
