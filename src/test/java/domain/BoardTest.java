@@ -140,4 +140,21 @@ class BoardTest {
         assertThatThrownBy(() -> board.move(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("기물 이동을 마치면 턴이 종료된다.")
+    void endTurnTest() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(9, 0);
+        Position destination = new Position(8, 0);
+
+        // when
+        board.move(start, destination);
+
+        // then
+        assertThatThrownBy(() -> board.move(destination, start))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("아군 기물만 이동 가능합니다.");
+    }
 }

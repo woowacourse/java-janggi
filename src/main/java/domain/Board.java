@@ -37,6 +37,12 @@ public class Board {
 
         board[destination.col()][destination.row()] = board[start.col()][start.row()];
         board[start.col()][start.row()] = new EmptyPiece();
+
+        endTurn();
+    }
+
+    private void endTurn() {
+        turn = turn.change();
     }
 
     private boolean isCurrentTurnPiece(Position position) {
@@ -64,8 +70,6 @@ public class Board {
             throw new IllegalArgumentException("아군 기물이 있는 위치는 이동할 수 없습니다.");
         }
     }
-
-
 
     public Piece[][] getBoard() {
         return Arrays.copyOf(board, board.length);
