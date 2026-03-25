@@ -1,4 +1,4 @@
-package piece;
+package domain.piece;
 
 public enum PieceType {
     GENERAL("장"),

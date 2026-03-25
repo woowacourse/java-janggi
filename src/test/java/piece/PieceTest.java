@@ -1,5 +1,8 @@
 package piece;
 
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package player;
+package domain.player;
 
-import piece.Side;
+import domain.piece.Side;
 
 public class Player {
     private final Side side;

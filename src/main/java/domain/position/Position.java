@@ -1,4 +1,4 @@
-package position;
+package domain.position;
 
 public record Position(
         int row,

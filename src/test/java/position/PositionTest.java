@@ -1,5 +1,6 @@
 package position;
 
+import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

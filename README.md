@@ -27,7 +27,7 @@
 - Players
 
 #### Player
-- [ ] 진영별 배치를 선택한다.
+- [x] 진영별 배치를 선택한다.
 - 진영 side ENUM
 
 #### Piece
@@ -36,7 +36,7 @@
 - 기물 종류 type ENUM
 
 #### Board
-- [ ] 각 진영별 기물 배치를 초기화한다.
+- [x] 각 진영별 기물 배치를 초기화한다.
 - Map<Position, Piece>
 - MAX_ROW
 - MIN_ROW

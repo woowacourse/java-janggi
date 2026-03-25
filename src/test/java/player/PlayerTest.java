@@ -1,8 +1,9 @@
 package player;
 
+import domain.player.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Side;
+import domain.piece.Side;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
