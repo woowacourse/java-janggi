@@ -6,40 +6,40 @@ import java.util.List;
 
 public class Point {
 
-    private int column;
-    private int row;
+    private int x;
+    private int y;
     private static final List<List<Point>> CACHE;
 
     static {
         List<List<Point>> temp = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            List<Point> row = new ArrayList<>();
-            addColumn(row, i);
-            temp.add(row);
+        for(int i = 0; i < 9; i++) {
+            List<Point> y = new ArrayList<>();
+            addX(y, i);
+            temp.add(y);
         }
         CACHE = Collections.unmodifiableList(temp);
     }
 
-    private Point(int column, int row) {
-        this.column = column;
-        this.row = row;
+    private Point(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public static Point of(int column, int row) {
-        return CACHE.get(column).get(row);
+    public static Point of(int x, int y) {
+        return CACHE.get(x).get(y);
     }
 
-    public int getColumn() {
-        return column;
+    public int getX() {
+        return x;
     }
 
-    public int getRow() {
-        return row;
+    public int getY() {
+        return y;
     }
 
-    private static void addColumn(List<Point> row, int column) {
-        for(int i = 0; i < 9; i++) {
-            row.add(new Point(column, i));
+    private static void addX(List<Point> y, int x) {
+        for(int i = 0; i < 10; i++) {
+            y.add(new Point(x, i));
         }
     }
 }
