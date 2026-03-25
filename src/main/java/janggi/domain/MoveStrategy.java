@@ -8,5 +8,5 @@ public interface MoveStrategy {
 
     Paths findMovablePaths(Position current, EnumSet<Direction> directions);
 
-    List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState);
+    List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO);
 }

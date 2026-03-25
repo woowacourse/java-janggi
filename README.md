@@ -106,7 +106,7 @@
     - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
       `List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO)`
 
-- [ ] **[`Domain/VO`]** 기물의 이동 가능성을 판정하기 위한 최소 정보를 전달할 클래스 `record PieceVO`
+- [x] **[`Domain/VO`]** 기물의 이동 가능성을 판정하기 위한 최소 정보를 전달할 클래스 `record PieceVO`
     - [x] [규칙] 기물의 진영을 전달 `Side side`
     - [x] [규칙] 같은 진영인지 판별 `public boolean isSameSide(PieceVO)`
     - [x] [규칙] 기물의 종류를 전달 `PieceType pieceType`
