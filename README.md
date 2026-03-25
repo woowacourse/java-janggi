@@ -68,7 +68,7 @@
 
 ## 2. 보드 초기화 및 출력
 
-- [x] **[Domain]** 각 기물의 위치를 관리하는 클래스 `class Position`
+- [x] **[Domain]** 기물의 위치를 관리하는 클래스 `record Position`
     - [x] [규칙] 기물의 행 번호를 표시 `private final int row`
     - [x] [규칙] 기물의 열 번호를 표시 `private final int column`
     - [x] [규칙] 보드의 행 최댓값을 표시 `private final int BOARD_MAX_ROW`
@@ -79,8 +79,16 @@
     - [x] [예외 처리] 클래스 생성 시, 보드의 행 / 열 범위를 벗어나는 위치면 `IllegalArgumentException` 을 발생시킨다.
       `private void validateBounds(int row, int column)`
 
-- [x] **[Domain]** 각 기물의 최소 이동 단위를 관리하는 클래스 `enum Direction`
-    - [x] [규칙] 각 기물의 모든 최소 이동 단위 경우의 수를 정의
+- [x] **[Domain]** 기물의 이동 경로를 관리하는 클래스 `class Path`
+    - [x] [규칙] 기물의 이동 경로를 위치의 목록으로 표시 `private final List<Position> positions`
+    - [x] [규칙] 기물의 위치를 하나씩 받아 이동 경로를 표시 `public void makePath(Position nextPosition)`
+
+- [x] **[Domain]** 기물의 모든 이동 경로를 관리하는 일급 컬렉션 `class Paths`
+    - [x] [규칙] 기물이 이동할 수 있는 모든 경로를 목록으로 표시 `private final List<Path> paths`
+    - [x] [규칙] 기물의 이동 경로를 하나씩 받아 모든 이동 경로를 표시 `public void addPath(Path path)`
+
+- [x] **[Domain]** 기물의 최소 이동 단위를 관리하는 클래스 `enum Direction`
+    - [x] [규칙] 기물의 모든 최소 이동 단위 경우의 수를 정의
       - E(0, 1)
       - W(0, -1)
       - S(1, 0)
@@ -89,10 +97,10 @@
       - NW(-1, -1)
       - SE(1, 1)
       - SW(1, -1)
-    - [x] [규칙] 각 이동 단위는 초기 위치 `class Positoin` 을 받아, 이동 위치 `class Position` 를 반환한다.
+    - [x] [규칙] 이동 단위는 초기 위치 `class Positoin` 을 받아, 이동 위치 `class Position` 를 반환한다.
       `public Static Position move(Position currentPosition)`
 
-- [ ] **[Domain]** 각 기물의 정보를 관리하는 클래스 `class Piece`
+- [ ] **[Domain]** 기물의 정보를 관리하는 클래스 `class Piece`
     - [ ] [규칙] 기물의 고유한 식별자 `private final String pieceNumber`
     - [ ] [규칙] 기물의 고유한 종류 `private final PieceType`
     - [ ] [규칙] 기물의 고유한 이동 규칙에 따라, 이동 가능한 경로를 반환 `public Paths calculateAccessiblePaths(Position currentLocation)`
