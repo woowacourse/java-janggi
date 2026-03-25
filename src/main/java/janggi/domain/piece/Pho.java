@@ -7,9 +7,11 @@ import java.util.List;
 public class Pho implements Piece {
 
     private final Team team;
+    private final String name;
 
-    public Pho(Team team) {
+    public Pho(Team team, String pieceName) {
         this.team = team;
+        this.name = pieceName;
     }
 
     @Override

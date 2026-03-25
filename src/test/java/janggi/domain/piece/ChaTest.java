@@ -18,7 +18,7 @@ public class ChaTest {
     @DisplayName("시작 및 도착 지점에 따른 경유지 반환")
     void straight_back_route(int x, int y, int result) {
         // given
-        Piece cha = new Cha(Team.CHO);
+        Piece cha = new Cha(Team.CHO, "차");
         Point from = Point.of(5,5);
         Point to = Point.of(x, y);
 
@@ -33,7 +33,7 @@ public class ChaTest {
     @DisplayName("이동할 수 없는 위치를 목적지로 할 경우 예외 발생")
     void destination_exception() {
         // given
-        Piece cha = new Cha(Team.CHO);
+        Piece cha = new Cha(Team.CHO, "차");
         Point from = Point.of(0,0);
         Point to = Point.of(7, 1);
 

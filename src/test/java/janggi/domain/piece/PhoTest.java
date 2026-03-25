@@ -33,7 +33,7 @@ public class PhoTest {
     @DisplayName("이동할 수 없는 위치를 목적지로 할 경우 예외 발생")
     void destination_exception() {
         // given
-        Piece pho = new Pho(Team.CHO);
+        Piece pho = new Pho(Team.CHO, "포");
         Point from = Point.of(0, 0);
         Point to = Point.of(1, 1);
         // when & then
