@@ -1,20 +1,23 @@
 package janggi.dto;
 
+import janggi.domain.Point;
 import janggi.domain.status.Team;
 import java.util.List;
 
 public record PositionInfo(
         Team team,
         String pieceName,
-        int x,
-        int y
+        Point point
 ) {
     public static PositionInfo from(List<String> data) {
+        int x = Integer.parseInt(data.get(2));
+        int y = Integer.parseInt(data.get(3));
+        Team team = team(data.get(0));
+        String pieceName = data.get(1);
         return new PositionInfo(
-                team(data.get(0)),
-                data.get(1),
-                Integer.parseInt(data.get(2)),
-                Integer.parseInt(data.get(3)));
+                ,
+                Point.of(x, y)
+        );
     }
 
     private static Team team(String team) {
