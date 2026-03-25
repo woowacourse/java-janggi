@@ -1,6 +1,14 @@
 package domain.board;
 
+import domain.board.setup.BoardSetUp;
+import domain.piece.Advisor;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.General;
 import domain.piece.Piece;
+import domain.piece.Soldier;
+import domain.side.Side;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
@@ -30,7 +38,49 @@ public class Board {
 //        });
 //    }
 
-    public Board setUp(BoardSetUp boardSetUp) {
-        return new Board(boardSetUp.generate());
+    public Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
+        Map<Point, Piece> board = createCommonBoard();
+        board.putAll(choBoardSetUp.generate(Side.CHO));
+        board.putAll(hanBoardSetUp.generate(Side.HAN));
+
+        return new Board(board);
+    }
+
+    private Map<Point, Piece> createCommonBoard() {
+        Map<Point, Piece> board = new HashMap<>();
+
+        board.put(new Point(0, 0), new Chariot(Side.CHO));
+        board.put(new Point(3, 0), new Advisor(Side.CHO));
+        board.put(new Point(5, 0), new Advisor(Side.CHO));
+        board.put(new Point(8, 0), new Chariot(Side.CHO));
+
+        board.put(new Point(4, 1), new General(Side.CHO));
+
+        board.put(new Point(1, 2), new Cannon(Side.CHO));
+        board.put(new Point(7, 2), new Cannon(Side.CHO));
+
+        board.put(new Point(0, 3), new Soldier(Side.CHO));
+        board.put(new Point(2, 3), new Soldier(Side.CHO));
+        board.put(new Point(4, 3), new Soldier(Side.CHO));
+        board.put(new Point(6, 3), new Soldier(Side.CHO));
+        board.put(new Point(8, 3), new Soldier(Side.CHO));
+
+        board.put(new Point(0, 6), new Soldier(Side.HAN));
+        board.put(new Point(2, 6), new Soldier(Side.HAN));
+        board.put(new Point(4, 6), new Soldier(Side.HAN));
+        board.put(new Point(6, 6), new Soldier(Side.HAN));
+        board.put(new Point(8, 6), new Soldier(Side.HAN));
+
+        board.put(new Point(1, 7), new Cannon(Side.HAN));
+        board.put(new Point(7, 7), new Cannon(Side.HAN));
+
+        board.put(new Point(4, 8), new General(Side.HAN));
+
+        board.put(new Point(0, 9), new Chariot(Side.HAN));
+        board.put(new Point(3, 9), new Advisor(Side.HAN));
+        board.put(new Point(5, 9), new Advisor(Side.HAN));
+        board.put(new Point(8, 9), new Chariot(Side.HAN));
+
+        return board;
     }
 }
