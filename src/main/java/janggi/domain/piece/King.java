@@ -18,7 +18,7 @@ public class King extends Piece {
     }
 
     private boolean moveStrategy(Position from, Position to) {
-        return (Math.abs(from.getX() - to.getX()) == 0 && Math.abs(from.getY() - to.getY()) == 1) ||
-            (Math.abs(from.getX() - to.getX()) == 1 && Math.abs(from.getY() - to.getY()) == 0);
+        return (Math.abs(from.x() - to.x()) == 0 && Math.abs(from.y() - to.y()) == 1) ||
+            (Math.abs(from.x() - to.x()) == 1 && Math.abs(from.y() - to.y()) == 0);
     }
 }
