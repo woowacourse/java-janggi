@@ -18,7 +18,7 @@ public class Board {
         this.board = board;
     }
 
-    public List<Piece> findPieceInPath(Path path) {
+    public PathPieces findPieceInPath(Path path) {
         List<Position> wayPoints = path.getWaypoints();
         List<Piece> pieces = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class Board {
             }
         }
 
-        return pieces;
+        return new PathPieces(findPiece(path.getSrc()), pieces, findPiece(path.getDest()));
     }
 
     public void move(Position src, Position dest) {
@@ -41,9 +41,9 @@ public class Board {
 
     public BoardDTO print() {
         List<List<String>> stringBoard = new ArrayList<>();
-        for(int y = 0; y < 10; y++) {
+        for (int y = 0; y < 10; y++) {
             List<String> lineOfStringBoard = new ArrayList<>();
-            for(int x = 0; x < 9; x++) {
+            for (int x = 0; x < 9; x++) {
                 lineOfStringBoard.add(board.get(new Position(x, y)).getPieceString());
             }
             stringBoard.add(lineOfStringBoard);
