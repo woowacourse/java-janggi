@@ -5,7 +5,7 @@ import janggi.domain.Point;
 
 public class HanTurn implements GameStatus {
 
-    private Team team;
+    private final Team team;
 
     public HanTurn() {
         this.team = Team.HAN;
@@ -13,9 +13,20 @@ public class HanTurn implements GameStatus {
 
     @Override
     public GameStatus move(Point from, Point to, Board board) {
-        if (!board.isSameTeam(from, team)) {
+        validateFromPoint(from, board);
+        validateOfPoint(to, board);
+        return new ChoTurn();
+    }
+
+    private void validateOfPoint(Point to, Board board) {
+        if (!board.isEmptyPoint(to) && board.isSameTeam(to, team)) {
             throw new IllegalArgumentException();
         }
-        return new ChoTurn();
+    }
+
+    private void validateFromPoint(Point from, Board board) {
+        if (board.isEmptyPoint(from) || !board.isSameTeam(from, team)) {
+            throw new IllegalArgumentException();
+        }
     }
 }

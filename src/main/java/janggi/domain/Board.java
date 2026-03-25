@@ -16,13 +16,16 @@ public class Board {
     }
 
     public void init(List<PositionInfo> positionInfos) {
-        positionInfos.stream()
-                .forEach(info -> state.put(info.point(), info.piece()));
+        positionInfos.forEach(info -> state.put(info.point(), info.piece()));
     }
 
-//    public void move(Point from, Point to) {
-//
-//    }
+    public void move(Point from, Point to) {
+
+    }
+
+    public boolean isEmptyPoint(Point point) {
+        return state.get(point) == null;
+    }
 
     public boolean isSameTeam(Point from, Team team) {
         return state.get(from).isSameTeam(team);
