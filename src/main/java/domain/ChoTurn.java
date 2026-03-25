@@ -5,4 +5,9 @@ public class ChoTurn implements State {
     public State changeTurn() {
         return new HanTurn();
     }
+
+    @Override
+    public Country getCountry() {
+        return Country.CHO;
+    }
 }

@@ -10,7 +10,11 @@ public class JanggiGame {
     }
 
     public void play() {
-        // 기물 이동
-        state.changeTurn();
+        // TODO : 보드 한턴 진행
+        this.state = state.changeTurn();
+    }
+
+    public Country getCountry() {
+        return state.getCountry();
     }
 }
