@@ -2,6 +2,7 @@ package domain;
 
 public enum PieceType {
     // 차, 마, 상, 사, 장, 포, 졸
+    NONE("+"),
     CHA("차"),
     MA("마"),
     SANG("상"),

@@ -1,6 +1,11 @@
 package view;
 
+import java.util.Map;
+
 import domain.Country;
+import domain.Piece;
+import domain.Position;
+import service.dto.BoardDto;
 
 public class OutputView {
     private final OutputViewFormatter formatter;
@@ -27,6 +32,13 @@ public class OutputView {
 
     public void printTurnStartMessage() {
         System.out.println("\n초나라가 먼저 시작합니다.");
+    }
+
+    public void printBoard(BoardDto boardDto) {
+        for (BoardDto.Row dto : boardDto.rows()){
+            System.out.println(String.join(" ",dto.row()));
+        }
+
     }
 
 

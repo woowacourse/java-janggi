@@ -9,4 +9,8 @@ public class Board {
     public Board() {
         board = new HashMap<>();
     }
+
+    public PieceType getPiece(Position position){
+        return board.get(position).getPieceType();
+    }
 }

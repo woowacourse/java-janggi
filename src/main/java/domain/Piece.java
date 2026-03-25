@@ -9,4 +9,8 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
 }

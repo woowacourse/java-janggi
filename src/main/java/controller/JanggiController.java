@@ -1,8 +1,11 @@
 package controller;
 
+import domain.Board;
 import domain.Country;
 import java.util.function.Supplier;
 
+import service.JanggiService;
+import service.dto.BoardDto;
 import view.InputView;
 import view.OutputView;
 
@@ -11,11 +14,13 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
 
     public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = new JanggiService();
     }
 
     public void run() {
@@ -33,8 +38,12 @@ public class JanggiController {
         int hanMasangChoice = doRetry(inputView::requestMaSangPosition);
 
         // TODO: 장기판 초기화
+        Board board = new Board();
 
         outputView.printTurnStartMessage();
+
+        BoardDto boardDto = janggiService.getBoard(board);
+        outputView.printBoard(boardDto);
     }
 
 
