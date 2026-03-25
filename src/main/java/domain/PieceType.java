@@ -11,6 +11,8 @@ public enum PieceType {
     CHARIOT("차"),
 
     CANNON("포"),
+
+    EMPTY_VALUE("*")
     ;
 
     private final String description;

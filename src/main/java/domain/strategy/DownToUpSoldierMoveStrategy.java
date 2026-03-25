@@ -1,5 +1,6 @@
-package domain;
+package domain.strategy;
 
+import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,22 +1,23 @@
-package domain;
+package domain.strategy;
 
+import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpToDownSoldierMoveStrategy extends MoveStrategy {
+public class GuardMoveStrategy extends MoveStrategy {
 
-    private final static int[] DR = {0, 1, 0};
-    private final static int[] DC = {1, 0, -1};
+    private final static int[] DR = {0, 1, 0, -1};
+    private final static int[] DC = {1, 0, -1, 0};
 
     private final List<Position> destinations;
 
-    private UpToDownSoldierMoveStrategy(Position position) {
+    private GuardMoveStrategy(Position position) {
         super(position);
         this.destinations = setupDestinations();
     }
 
-    public static UpToDownSoldierMoveStrategy of(Position position) {
-        return new UpToDownSoldierMoveStrategy(position);
+    public static GuardMoveStrategy of(Position position) {
+        return new GuardMoveStrategy(position);
     }
 
     private List<Position> setupDestinations() {
@@ -37,7 +38,7 @@ public class UpToDownSoldierMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isRouteBlockedBy(List<Position> piecePositions) {
+    public boolean isRouteBlockedBy(Position destination, List<Position> piecePositions) {
         return false;
     }
 }
