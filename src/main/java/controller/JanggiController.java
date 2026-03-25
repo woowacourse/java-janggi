@@ -18,6 +18,6 @@ public class JanggiController {
     }
 
     public void play() {
-        Board board = new Board(boardInitializer.initialize());
+        Board board = new Board(boardInitializer);
     }
 }

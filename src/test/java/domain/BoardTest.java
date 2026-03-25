@@ -1,39 +1,49 @@
 package domain;
 
-import domain.piece.Pawn;
-import domain.piece.Piece;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+import domain.piece.King;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
 
 class BoardTest {
+    private final BoardInitializer boardInitializer = new BoardInitializer();
 
     @Test
     @DisplayName("장기판을 생성한다.")
     void BoardTest() {
-        // given
-        Map<Position, Piece> emptyPieceMap = new HashMap<>();
-
-        // when - then
-        Assertions.assertDoesNotThrow(() -> new Board(emptyPieceMap));
+        // given - when - then
+        assertDoesNotThrow(() -> new Board(boardInitializer));
     }
 
     @Test
-    @DisplayName("전체 기물을 올바른 위치에 초기화한다.")
-    void BoardInitializeTest() {
+    @DisplayName("정해진 위치에 있는지 확인한다.")
+    void isPlaceAt_HanKing_Test() {
         // given
-        Map<Position, Piece> pieceMap = new HashMap<>();
-        Position position = new Position(0, 0);
-        Pawn pawn = new Pawn(Side.CHU);
-        pieceMap.put(position, pawn);
+        Board board = new Board(boardInitializer);
 
         // when
-        Board board = new Board(pieceMap);
+        Position hanKingPosition = new Position(1, 4);
+        King king = new King(Side.HAN);
 
         // then
-        Assertions.assertTrue(board.isPieceAt(position, pawn));
+        assertThat(board.isPieceAt(hanKingPosition, king)).isTrue();
     }
+
+    @Test
+    @DisplayName("기물이 정해진 위치에 있는지 확인한다.")
+    void isPlaceAt_ChuKing_Test() {
+        // given
+        Board board = new Board(boardInitializer);
+
+        // when
+        Position chuKingPosition = new Position(8, 4);
+        King king = new King(Side.CHU);
+
+        // then
+        assertThat(board.isPieceAt(chuKingPosition, king)).isTrue();
+    }
+
 }
