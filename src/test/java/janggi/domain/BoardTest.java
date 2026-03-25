@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.board.Board;
@@ -42,6 +43,36 @@ public class BoardTest {
             boolean actual = board.isBlank(position);
 
             assertThat(actual).isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("기물 획득 테스트")
+    class FindPieceByPosition {
+
+        @Test
+        @DisplayName("정상 테스트")
+        void success() {
+            Position position = Position.valueOf(1, 1);
+            Piece expected = new Cannon(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = Map.of(
+                position, expected);
+            Board board = new Board(positionPieceMap);
+
+            Board actual = board.findPieceByPosition(position);
+
+            assertThat(actual).usingRecursiveComparison()
+                .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("빈칸인 경우 예외가 발생한다.")
+        void failure() {
+            Position position = Position.valueOf(1, 1);
+            Board board = new Board(new LinkedHashMap<>());
+
+            assertThatIllegalArgumentException()
+                .isThrownBy(() -> board.findPieceByPosition(position));
         }
     }
 }
