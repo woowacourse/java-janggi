@@ -17,11 +17,10 @@ public class JanggiBoard {
 
     private static Map<Point, Intersection> fillEmptyIntersections() {
         Map<Point, Intersection> intersections = new HashMap<>();
-        NonePiece nonePiece = new NonePiece();
         for (int row = 0; row < 10; row++) {
             for (int file = 0; file < 9; file++) {
                 Point point = new Point(row, file);
-                intersections.put(point, new Intersection(point, nonePiece));
+                intersections.put(point, Intersection.empty(point));
             }
         }
         return intersections;

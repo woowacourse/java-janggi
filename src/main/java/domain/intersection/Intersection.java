@@ -1,5 +1,6 @@
 package domain.intersection;
 
+import domain.piece.NonePiece;
 import domain.piece.Piece;
 import domain.point.Point;
 
@@ -10,6 +11,10 @@ public class Intersection {
     public Intersection(Point point, Piece piece) {
         this.point = point;
         this.piece = piece;
+    }
+
+    public static Intersection empty(Point point) {
+        return new Intersection(point, new NonePiece());
     }
 
     public Point getPoint() {
