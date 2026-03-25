@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 import model.pieces.Cannon;
+import model.pieces.Chariot;
 import model.pieces.General;
 import model.pieces.Guard;
 import model.pieces.Soldier;
@@ -52,7 +53,7 @@ public class Army {
 
     private void deployChariot(Board board, Country country) {
         for (int column : CHARIOT_COLUMN) {
-            board.place(Position.of(Row.edgePiece(country), column), new Guard(country));
+            board.place(Position.of(Row.edgePiece(country), column), new Chariot(country));
         }
     }
 
