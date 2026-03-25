@@ -15,7 +15,7 @@ public class MaTest {
     @DisplayName("마가 전진할 때, 경유지는 한 곳이다.")
     void straight_back_route() {
         // given
-        Piece ma = new Ma(Team.CHO, "마");
+        Piece ma = new Ma(Team.CHO);
         Point from = Point.of(0,0);
         Point to = Point.of(2, 1);
 
@@ -30,7 +30,7 @@ public class MaTest {
     @DisplayName("마가 좌우로 움직일 때, 경유지는 한 곳이다.")
     void left_right_route() {
         // given
-        Piece ma = new Ma(Team.CHO, "마");
+        Piece ma = new Ma(Team.CHO);
         Point from = Point.of(0,0);
         Point to = Point.of(1, 2);
 
@@ -45,7 +45,7 @@ public class MaTest {
     @DisplayName("이동할 수 없는 위치를 목적지로 할 경우 예외 발생")
     void destination_exception() {
         // given
-        Piece ma = new Ma(Team.CHO, "마");
+        Piece ma = new Ma(Team.CHO);
         Point from = Point.of(0,0);
         Point to = Point.of(1, 1);
 
