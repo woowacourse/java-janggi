@@ -6,4 +6,6 @@ import java.util.Map;
 
 public interface Team {
     Map<Position, Piece> generatePieces();
+
+    String getName();
 }

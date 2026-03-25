@@ -22,8 +22,15 @@ public class RedTeam implements Team {
         final Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
         final Map<Position, PieceType> positionPieceTypeMap = setupPolicy.offerBoardMap();
         positionPieceTypeMap.forEach((position, pieceType) ->
-            positionPieceMap.put(position, pieceType.toPiece(TEAM_TYPE)));
+                positionPieceMap.put(position, pieceType.toPiece(TEAM_TYPE)));
 
         return positionPieceMap;
     }
+
+    @Override
+    public String getName() {
+        return TEAM_TYPE.getName();
+    }
+
+
 }

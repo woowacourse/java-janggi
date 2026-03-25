@@ -22,7 +22,7 @@ public enum PieceType {
     SOLDIER(Soldier::new);
 
     private final Function<TeamType, Piece> function;
-
+    
     PieceType(Function<TeamType, Piece> function) {
         this.function = function;
     }
