@@ -1,8 +1,7 @@
 package model.pieces;
 
-import model.Country;
-
 import java.util.Objects;
+import model.Country;
 
 public abstract class Piece {
     private final Country country;
@@ -10,6 +9,8 @@ public abstract class Piece {
     public Piece(Country country) {
         this.country = country;
     }
+
+    abstract public String mark(Country country);
 
     @Override
     public boolean equals(Object o) {
@@ -23,5 +24,9 @@ public abstract class Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(country);
+    }
+
+    public Country country() {
+        return country;
     }
 }

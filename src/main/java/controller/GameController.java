@@ -15,20 +15,21 @@ public class GameController {
     public void start() {
         Board board = new Board();
         init(board);
+        OutputView.printBoard(board);
     }
 
     private void init(Board board) {
-        OutputView.printArrangeCountry(Country.CHO.title());
-        Army cho = initArmy();
+        OutputView.printArrangeCountry(Country.CHO);
+        Army cho = initArmy(Country.CHO);
         cho.deployTo(board, Country.CHO);
-
-        OutputView.printArrangeCountry(Country.HAN.title());
-        Army han = initArmy();
+        OutputView.printLine();
+        OutputView.printArrangeCountry(Country.HAN);
+        Army han = initArmy(Country.HAN);
         han.deployTo(board, Country.HAN);
     }
 
-    private Army initArmy() {
-        String number = InputView.readArrangement();
+    private Army initArmy(Country country) {
+        String number = InputView.readArrangement(country);
         if (number.equals("2")) {
             return new Army(new OuterElephant());
         }

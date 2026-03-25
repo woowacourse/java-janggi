@@ -19,4 +19,8 @@ public class Board {
     public boolean isPieceAt(Position position, Piece piece) {
         return piece.equals(board.get(position));
     }
+
+    public Piece findPiece(Position position) {
+        return board.get(position);
+    }
 }
