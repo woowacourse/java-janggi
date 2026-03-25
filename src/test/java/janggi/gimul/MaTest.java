@@ -13,6 +13,36 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class MaTest {
+    @DisplayName("상하 또는 좌우로 한칸을 간 후에 같은 방향의 대각선으로 한칸 이동한다.")
+    @Test
+    void getLegalPath() {
+        //given
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.FIVE, Column.SIX);
+        Ma ma = new Ma(Team.CHO);
+
+        //when
+        Path path = ma.getLegalPath(from, to);
+
+        //then
+        assertThat(path.getDestination())
+                .isEqualTo(new Position(Row.FIVE, Column.SIX));
+    }
+
+    @DisplayName("행과 열의 거리가 각각 (1,2) 혹은 (2,1)이 아니면 예외가 발생한다.")
+    @Test
+    void getLegalPath_invalid() {
+        //given
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.FOUR, Column.SIX);
+        Ma ma = new Ma(Team.CHO);
+
+        //when & then
+        assertThatThrownBy(() -> ma.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")
     @Test

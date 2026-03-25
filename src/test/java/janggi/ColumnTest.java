@@ -80,10 +80,10 @@ class ColumnTest {
     void getDistance() {
         //given
         Column eight = Column.EIGHT;
-        Column seven = Column.SEVEN;
+        Column zero = Column.SEVEN;
 
         //when & then
-        assertThat(eight.getDistance(seven))
+        assertThat(eight.getDistance(zero))
                 .isEqualTo(1);
     }
 }

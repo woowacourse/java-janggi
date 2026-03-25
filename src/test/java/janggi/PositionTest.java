@@ -112,29 +112,15 @@ class PositionTest {
                 .isEqualTo(true);
     }
 
-    @DisplayName("다른 위치가 들어올때 수평 이동 경로를 반환한다.")
+    @DisplayName("입력받은 거리만큼 수평 이동하는 경로를 반환한다.")
     @Test
     void moveHorizontal() {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
-        Position to = new Position(Row.SIX, Column.SIX);
 
         //when & then
-        Path path = from.moveHorizontal(to);
-        assertThat(path.getDestination()).isEqualTo(to);
-    }
-
-    @DisplayName("같은 행이 아닌 위치가 들어올때 예외가 발생한다.")
-    @Test
-    void moveHorizontal_different_row() {
-        //given
-        Position from = new Position(Row.SIX, Column.THREE);
-        Position to = new Position(Row.NINE, Column.FOUR);
-
-        //when & then
-        assertThatThrownBy(() -> from.moveHorizontal(to))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 행이 아닙니다.");
+        Path path = from.moveHorizontal(3);
+        assertThat(path.getDestination()).isEqualTo(new Position(Row.SIX, Column.SIX));
     }
 
     @DisplayName("다른 위치가 들어올때 수직 이동 경로를 반환한다.")
@@ -142,23 +128,9 @@ class PositionTest {
     void moveVertical() {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
-        Position to = new Position(Row.NINE, Column.THREE);
 
         //when & then
-        Path path = from.moveVertical(to);
-        assertThat(path.getDestination()).isEqualTo(to);
-    }
-
-    @DisplayName("같은 열이 아닌 위치가 들어올때 예외가 발생한다.")
-    @Test
-    void moveVertical_different_column() {
-        //given
-        Position from = new Position(Row.SIX, Column.THREE);
-        Position to = new Position(Row.NINE, Column.FOUR);
-
-        //when & then
-        assertThatThrownBy(() -> from.moveVertical(to))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 열이 아닙니다.");
+        Path path = from.moveVertical(3);
+        assertThat(path.getDestination()).isEqualTo( new Position(Row.NINE, Column.THREE));
     }
 }

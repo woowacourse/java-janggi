@@ -6,8 +6,12 @@ public record Position(
         Row row,
         Column column
 ) {
+    public Path moveHorizontal(int distance) {
+        Position to = new Position(
+                row,
+                Column.of(column.ordinal() + distance)
+        );
 
-    public Path moveHorizontal(Position to) {
         if (!this.row.equals(to.row)) {
             throw new IllegalArgumentException("같은 행이 아닙니다.");
         }
@@ -15,13 +19,24 @@ public record Position(
         return new Path(columns.stream().map(column -> new Position(this.row, column)).toList());
     }
 
-    public Path moveVertical(Position to) {
-        if (!this.column.equals(to.column)) {
-            throw new IllegalArgumentException("같은 열이 아닙니다.");
-        }
+//    public Path moveVertical(Position to) {
+//        if (!this.column.equals(to.column)) {
+//            throw new IllegalArgumentException("같은 열이 아닙니다.");
+//        }
+//        List<Row> rows = this.row.to(to.row);
+//        return new Path(rows.stream().map(row -> new Position(row, this.column)).toList());
+//    }
+
+    public Path moveVertical(int distance) {
+        Position to = new Position(
+                Row.of(row.ordinal() + distance),
+                column
+        );
+
         List<Row> rows = this.row.to(to.row);
         return new Path(rows.stream().map(row -> new Position(row, this.column)).toList());
     }
+
 
     public int getRowDistance(Position other) {
         return this.row.getDistance(other.row);
