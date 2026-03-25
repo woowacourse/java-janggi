@@ -5,13 +5,21 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.strategy.DefaultMoveStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Ma extends Started {
     public Ma(Side side) {
         super(new DefaultMoveStrategy(), side);
     }
 
     @Override
-    public boolean isMovable(Position start, Position end, BoardInterface boardInterface) {
+    public List<Position> calculatePath(Position start, Position end){
+        return new ArrayList<>();
+    }
+
+    @Override
+    public boolean isMovable(List<Position> path, BoardInterface boardInterface) {
         return false;
     }
 }
