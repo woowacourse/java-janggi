@@ -17,6 +17,13 @@ public final class Position {
         if (y <= 0 || y >= 10) {
             throw new IllegalArgumentException("x값은 0이상 9이하여야 합니다.");
         }
+    }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
