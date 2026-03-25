@@ -20,4 +20,11 @@ public class Board {
     public boolean isBlank(final Position position) {
         return !positionPieceMap.containsKey(position);
     }
+
+    public Piece findPieceByPosition(final Position position) {
+        if (isBlank(position)) {
+            throw new IllegalStateException("요청된 위치에는 기물이 존재하지 않습니다.");
+        }
+        return positionPieceMap.get(position);
+    }
 }

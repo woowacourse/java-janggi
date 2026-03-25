@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.board.Board;
@@ -59,7 +60,7 @@ public class BoardTest {
                 position, expected);
             Board board = new Board(positionPieceMap);
 
-            Board actual = board.findPieceByPosition(position);
+            Piece actual = board.findPieceByPosition(position);
 
             assertThat(actual).usingRecursiveComparison()
                 .isEqualTo(expected);
@@ -71,7 +72,7 @@ public class BoardTest {
             Position position = Position.valueOf(1, 1);
             Board board = new Board(new LinkedHashMap<>());
 
-            assertThatIllegalArgumentException()
+            assertThatIllegalStateException()
                 .isThrownBy(() -> board.findPieceByPosition(position));
         }
     }
