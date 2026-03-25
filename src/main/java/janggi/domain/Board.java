@@ -1,7 +1,10 @@
 package janggi.domain;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.strategy.InitializeStrategy;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -23,5 +26,49 @@ public class Board {
         }
 
         return blankBoard;
+    }
+
+    public void move(Position from, Position to) {
+        Space spaceFrom = piecesInfo.get(from);
+        validateBlankSpace(spaceFrom);
+
+        Piece selectedPiece = (Piece) spaceFrom;
+        validatePieceRule(from, to, selectedPiece);
+
+        applyMove(from, to, selectedPiece);
+    }
+
+    private void validatePieceRule(Position from, Position to, Piece selectedPiece) {
+        selectedPiece.validateMove(from, to);
+
+        List<Piece> blockedPiece = getBlockedPiece(from, to, selectedPiece);
+        selectedPiece.validateRoutes(blockedPiece);
+
+        Space spaceTo = piecesInfo.get(to);
+        selectedPiece.validateArrival(spaceTo);
+    }
+
+    private void validateBlankSpace(Space spaceFrom) {
+        if (spaceFrom.isBlank()) {
+            throw new IllegalArgumentException("해당 좌표에 말이 없습니다.");
+        }
+    }
+
+    private List<Piece> getBlockedPiece(Position from, Position to, Piece selectedPiece) {
+        List<Position> routes = selectedPiece.getRoutes(from, to);
+        List<Piece> pieces = new ArrayList<>();
+        for (Position route : routes) {
+            Space routeSpace = piecesInfo.get(route);
+            if (routeSpace.isBlank()) {
+                continue;
+            }
+            pieces.add((Piece) routeSpace);
+        }
+        return pieces;
+    }
+
+    private void applyMove(Position from, Position to, Piece selectedPiece) {
+        piecesInfo.put(to, selectedPiece);
+        piecesInfo.put(from, new Blank());
     }
 }
