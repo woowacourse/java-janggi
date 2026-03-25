@@ -8,6 +8,7 @@ import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
+import janggi.dto.BoardDto;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -34,6 +35,7 @@ public class JanggiController {
         Team redTeam = setupRedTeam();
         Team blueTeam = setupBlueTeam();
         Board board = BoardGenerator.generate(redTeam, blueTeam);
+        OutputView.printBoard(BoardDto.from(board));
     }
 
     private SetupCommand readSetupCommand() {

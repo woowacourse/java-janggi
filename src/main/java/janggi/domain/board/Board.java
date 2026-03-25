@@ -12,5 +12,7 @@ public class Board {
         this.positionPieceMap = positionPieceMap;
     }
 
-
+    public Map<Position, Piece> getPositionPieceMap() {
+        return positionPieceMap;
+    }
 }

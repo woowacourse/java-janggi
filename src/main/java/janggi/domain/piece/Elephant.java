@@ -12,4 +12,14 @@ public class Elephant implements Piece {
     public Elephant(final TeamType teamType) {
         this.teamType = teamType;
     }
+
+    @Override
+    public PieceType getPieceType() {
+        return PIECE_TYPE;
+    }
+
+    @Override
+    public TeamType getTeamType() {
+        return teamType;
+    }
 }

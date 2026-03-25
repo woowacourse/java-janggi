@@ -5,10 +5,10 @@ import java.util.Map;
 
 public final class Position {
 
-    private static final int MAXIMUM_ROW = 10;
-    private static final int MAXIMUM_COLUMN = 9;
-    private static final int MINIMUM_ROW = 1;
-    private static final int MINIMUM_COLUMN = 1;
+    public static final int MAXIMUM_ROW = 10;
+    public static final int MAXIMUM_COLUMN = 9;
+    public static final int MINIMUM_ROW = 1;
+    public static final int MINIMUM_COLUMN = 1;
     private static final int ROW_FLIP_VALUE = 11;
     private static final Map<Integer, Map<Integer, Position>> CACHE;
 

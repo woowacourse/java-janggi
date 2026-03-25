@@ -1,5 +1,9 @@
 package janggi.domain.piece;
 
-public interface Piece {
+import janggi.domain.PieceType;
+import janggi.domain.team.TeamType;
 
+public interface Piece {
+    PieceType getPieceType();
+    TeamType getTeamType();
 }
