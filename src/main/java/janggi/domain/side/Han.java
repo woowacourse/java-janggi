@@ -5,15 +5,13 @@ import janggi.domain.Pieces;
 public class Han implements Team {
 
     private final Pieces pieces;
-    private final int score;
 
-    private Han(Pieces pieces, int score) {
+    private Han(Pieces pieces) {
         this.pieces = pieces;
-        this.score = score;
     }
 
     public static Han createInitialHan() {
-        return new Han(Pieces.createHan(), 0);
+        return new Han(Pieces.createHan());
     }
 
     @Override

@@ -5,15 +5,13 @@ import janggi.domain.Pieces;
 public class Chu implements Team {
 
     private final Pieces pieces;
-    private final int score;
 
-    private Chu(Pieces pieces, int score) {
+    private Chu(Pieces pieces) {
         this.pieces = pieces;
-        this.score = score;
     }
 
     public static Chu createInitialChu() {
-        return new Chu(Pieces.createChu(), 0);
+        return new Chu(Pieces.createChu());
     }
 
     @Override
@@ -23,7 +21,7 @@ public class Chu implements Team {
 
     @Override
     public Team move(int startX, int startY, int endX, int endY) {
-        return new Chu(pieces.move(startX, startY, endX, endY), calculateScore());
+        return new Chu(pieces.move(startX, startY, endX, endY));
     }
 
     // TODO: 구현하기
