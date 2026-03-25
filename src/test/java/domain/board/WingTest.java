@@ -1,0 +1,120 @@
+package domain.board;
+
+import static java.util.Collections.EMPTY_LIST;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import domain.game.Side;
+import domain.piece.Elephant;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.Soldier;
+import java.util.List;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+class WingTest {
+
+    private static final Soldier DEFAULT_PIECE = new Soldier(Side.CHO);
+
+    @Nested
+    class 기물_개수가_2개가_아니면_예외를_던진다 {
+
+        @ParameterizedTest
+        @MethodSource("lessPieces")
+        void 기물_개수가_2개_미만이면_예외를_던진다(List<Piece> lessPieces) {
+            assertThatThrownBy(() -> new Wing(lessPieces))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @ParameterizedTest
+        @MethodSource("morePieces")
+        void 기물_개수가_2개_초과면_예외를_던진다(List<Piece> morePieces) {
+            assertThatThrownBy(() -> new Wing(morePieces))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        private static Stream<Arguments> lessPieces() {
+            return Stream.of(
+                    Arguments.of(EMPTY_LIST),
+                    Arguments.of(List.of(
+                            new Horse(Side.CHO)
+                    ))
+            );
+        }
+
+        private static Stream<Arguments> morePieces() {
+            return Stream.of(
+                    Arguments.of(List.of(
+                            new Horse(Side.CHO),
+                            new Elephant(Side.CHO),
+                            new Horse(Side.CHO)
+                    )),
+                    Arguments.of(List.of(
+                            new Horse(Side.CHO),
+                            new Elephant(Side.CHO),
+                            new Horse(Side.CHO),
+                            new Elephant(Side.CHO)
+                    )),
+                    Arguments.of(List.of(
+                            new Horse(Side.CHO),
+                            new Elephant(Side.CHO),
+                            new Horse(Side.CHO),
+                            new Elephant(Side.CHO),
+                            DEFAULT_PIECE
+                    ))
+            );
+        }
+    }
+
+    @Nested
+    class 상의_개수가_1개가_아니면_예외를_던진다 {
+
+        @Test
+        void 상의_개수가_1개_미만이면_예외를_던진다() {
+            // given
+            List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
+
+            // when and then
+            assertThatThrownBy(() -> new Wing(illegalPieces))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 상의_개수가_1개_초과면_예외를_던진다() {
+            // given
+            List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), new Elephant(Side.CHO));
+
+            // when and then
+            assertThatThrownBy(() -> new Wing(illegalPieces))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Nested
+    class 마의_개수가_1개가_아니면_예외를_던진다 {
+
+        @Test
+        void 마의_개수가_1개_미만이면_예외를_던진다() {
+            // given
+            List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), DEFAULT_PIECE);
+
+            // when and then
+            assertThatThrownBy(() -> new Wing(illegalPieces))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 마의_개수가_1개_초과면_예외를_던진다() {
+            // given
+            List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
+
+            // when and then
+            assertThatThrownBy(() -> new Wing(illegalPieces))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+}
