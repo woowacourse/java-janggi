@@ -36,11 +36,16 @@ public class Sang implements Piece {
         if (distanceX == DISTANCE_MAX) {
             return List.of(
                     Point.of(from.getColumn() + (pathX / DISTANCE_MAX), from.getRow()),
-                    Point.of(from.getColumn() + signX * 2,  from.getRow() + signY)
+                    Point.of(from.getColumn() + signX * DISTANCE_MIN,  from.getRow() + signY)
             );
         }
         return List.of(
                 Point.of(from.getColumn(), from.getRow() + (pathY / DISTANCE_MAX)),
-                Point.of(from.getColumn() + signX,  from.getRow() + signY * 2));
+                Point.of(from.getColumn() + signX,  from.getRow() + signY * DISTANCE_MIN));
+    }
+
+    @Override
+    public boolean canMove(List<Piece> route) {
+        return route.isEmpty();
     }
 }
