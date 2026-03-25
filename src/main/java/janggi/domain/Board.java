@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,5 +18,17 @@ public class Board {
     public void init(List<PositionInfo> positionInfos) {
         positionInfos.stream()
                 .forEach(info -> state.put(info.point(), info.piece()));
+    }
+
+//    public void move(Point from, Point to) {
+//
+//    }
+
+    public boolean isSameTeam(Point from, Team team) {
+        return state.get(from).isSameTeam(team);
+    }
+
+    public Piece getPointAt(Point point) {
+        return state.get(point);
     }
 }

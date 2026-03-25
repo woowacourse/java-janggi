@@ -6,7 +6,7 @@ import janggi.domain.status.GameStatus;
 public class JanggiGame {
 
     private final Board board;
-    private final GameStatus gameStatus;
+    private GameStatus gameStatus;
 
     public JanggiGame(Board board) {
         this.board = board;
@@ -14,6 +14,6 @@ public class JanggiGame {
     }
 
     public void play(Point from, Point to) {
-        gameStatus.move(from, to);
+        this.gameStatus = gameStatus.move(from, to, board);
     }
 }
