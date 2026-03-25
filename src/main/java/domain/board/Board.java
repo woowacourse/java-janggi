@@ -41,9 +41,9 @@ public class Board {
 
     public BoardDTO print() {
         List<List<String>> stringBoard = new ArrayList<>();
-        for(int x = 0; x < 9; x++) {
+        for(int y = 0; y < 10; y++) {
             List<String> lineOfStringBoard = new ArrayList<>();
-            for(int y = 0; y < 10; y++) {
+            for(int x = 0; x < 9; x++) {
                 lineOfStringBoard.add(board.get(new Position(x, y)).getPieceString());
             }
             stringBoard.add(lineOfStringBoard);

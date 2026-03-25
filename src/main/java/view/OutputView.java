@@ -13,11 +13,11 @@ public class OutputView {
         validateBoard(board);
         System.out.println();
         printColumnHeader();
-        for (int y = 1; y <= 9; y++) {
+        for (int y = 0; y < 9; y++) {
             printPieceRow(y, board.get(y));
             printVerticalRow();
         }
-        printPieceRow(0, board.getFirst());
+        printPieceRow(9, board.get(9));
         System.out.println();
     }
 
