@@ -41,10 +41,6 @@ public class Board {
         return toPlace.isSameSide(fromSide);
     }
 
-    public boolean isOutOfBounds(int row, int column){
-        return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
-    }
-
     private void getFormatRow(int row, List<String> result) {
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             Position position = new Position(row, column);

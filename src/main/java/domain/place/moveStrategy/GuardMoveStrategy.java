@@ -23,19 +23,9 @@ public class GuardMoveStrategy implements MoveStrategy {
         int currentRow = from.getRow();
         int currentColumn = from.getColumn();
 
-        return directions.stream().
-                anyMatch(d -> isSameAsNextPosition(to, d, currentRow, currentColumn));
-    }
-
-    private static boolean isSameAsNextPosition(Position to, Direction direction, int currentRow, int currentColumn) {
-        int nextRow = currentRow + direction.getRow();
-        int nextColumn = currentColumn + direction.getColumn();
-
-        Position nextPosition = new Position(nextRow, nextColumn);
-
-        if (to.equals(nextPosition)) {
-            return true;
-        }
-        return false;
+        return directions.stream()
+                .filter(d -> Position.isNotOutOfBounds(currentRow + d.getRow(), currentColumn + d.getColumn()))
+                .map(d -> new Position(currentRow + d.getRow(), currentColumn + d.getColumn()))
+                .anyMatch(to::equals);
     }
 }

@@ -1,5 +1,10 @@
 package domain.position;
 
+import static domain.common.Constant.MAX_COLUMN;
+import static domain.common.Constant.MAX_ROW;
+import static domain.common.Constant.MIN_COLUMN;
+import static domain.common.Constant.MIN_ROW;
+
 import java.util.Objects;
 
 public class Position {
@@ -10,6 +15,10 @@ public class Position {
     public Position(int row, int column) {
         this.row = new Row(row);
         this.column = new Column(column);
+    }
+
+    public static boolean isNotOutOfBounds(int row, int column){
+        return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
     }
 
     public int getRow(){
