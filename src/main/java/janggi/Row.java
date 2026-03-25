@@ -15,7 +15,7 @@ public enum Row {
 
     private static final Row[] CACHE_VALUES = values();
 
-    public Row next() {
+    public Row previous() {
         if (this == OUT) {
             return OUT;
         }
@@ -24,7 +24,7 @@ public enum Row {
     }
 
 
-    public Row previous() {
+    public Row next() {
         if (this == OUT) {
             return OUT;
         }
