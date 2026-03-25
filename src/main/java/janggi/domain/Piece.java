@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class Piece {
 
-    private final PieceType pieceType;
     private final Side side;
+    private final PieceType pieceType;
     private final String pieceNumber;
 
-    public Piece(PieceType pieceType, Side side, String pieceNumber) {
+    public Piece(Side side, PieceType pieceType, String pieceNumber) {
         this.pieceType = pieceType;
         this.side = side;
         this.pieceNumber = pieceNumber;

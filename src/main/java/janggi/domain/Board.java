@@ -52,4 +52,3 @@ public class Board {
         initialBoard.put(new Position(r, c), new Piece(s, t, n));
     }
 }
-f

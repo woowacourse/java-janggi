@@ -158,9 +158,10 @@
       - [x] [규칙] `궁` 은 1개, 각 진영 마지막에서 한 칸 윗 행 (초-8, 한-1) 중간 열 (4) 에 배치한다.
       - ![](https://velog.velcdn.com/images/nn98/post/7e935174-b161-4812-9e91-111a3a8c5bca/image.png)
 
-- [ ] **[Domain/UI]** 현재 장기판의 상태를 출력한다. `class OutputView`
-    - [ ] [규칙] 장기판 `class Board`의 기물 배치 상태 `Map<Position, Piece> piecePosition`를 바탕으로 `class BoardDTO` 생성 `public BoardDTO from(Board board)`
-    - [ ] [출력] `BoardDTO`를 전달받아 장기판의 기물 배치 상태를 콘솔에 출력한다. `public void printBoardStatus(BoardDTO boardDto)`
+- [ ] **[DTO/UI]** 현재 장기판의 상태를 출력한다. `class OutputView`
+    - [ ] [`!임시`] 장기판 `class Board`의 기물 배치 상태 `Map<Position, Piece> piecePosition`를 바탕으로 `class BoardDTO` 생성 `public BoardDTO from(Board board)`
+    - [ ] [`!임시`] `BoardDTO`를 전달받아 장기판의 기물 배치 상태를 콘솔에 출력한다.  
+      `public void printBoardStatus(BoardDTO boardDto)`
 
 
 ## 3. 기물 이동 로직
