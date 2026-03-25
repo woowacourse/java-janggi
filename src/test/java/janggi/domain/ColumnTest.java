@@ -1,11 +1,12 @@
 package janggi.domain;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import janggi.domain.position.Column;
+import janggi.domain.position.Row;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.assertj.core.api.Assertions.*;
 
 class ColumnTest {
 
@@ -23,6 +24,19 @@ class ColumnTest {
         // when & then
         assertThatThrownBy(() -> new Column(column))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void 기존_열에_값을_더해서_새로운_열을_만든다() {
+        // given
+        int columnNum = 1;
+        Column column = new Column(1);
+
+        // when
+        Column result = column.add(columnNum);
+
+        // then
+        assertThat(result).isEqualTo(new Column(2));
     }
 
 }

@@ -17,4 +17,8 @@ public record Column(
         }
     }
 
+    public Column add(int column) {
+        return new Column(this.column + column);
+    }
+
 }
