@@ -9,7 +9,7 @@ public class Soldier extends Piece {
     private static final PieceName NAME = PieceName.SOLDIER;
 
     public Soldier(Side side) {
-        super(NAME.getName(side), side);
+        super(NAME, side);
     }
 
     @Override

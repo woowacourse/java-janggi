@@ -9,7 +9,7 @@ public class Chariot extends Piece {
     private static final PieceName NAME = PieceName.CHARIOT;
 
     public Chariot(Side side) {
-        super(NAME.getName(side), side);
+        super(NAME, side);
     }
 
     @Override

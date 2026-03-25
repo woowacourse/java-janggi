@@ -9,7 +9,7 @@ public class General extends Piece {
     private static final PieceName NAME = PieceName.GENERAL;
 
     public General(Side side) {
-        super(NAME.getName(side), side);
+        super(NAME, side);
     }
 
     @Override

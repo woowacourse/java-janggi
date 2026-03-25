@@ -9,7 +9,7 @@ public class Elephant extends Piece {
     private static final PieceName NAME = PieceName.ELEPHANT;
 
     public Elephant(Side side) {
-        super(NAME.getName(side), side);
+        super(NAME, side);
     }
 
     @Override

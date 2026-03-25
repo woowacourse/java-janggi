@@ -6,10 +6,10 @@ import domain.side.Side;
 import java.util.List;
 
 public abstract class Piece {
-    protected String name;
+    protected PieceName name;
     protected Side side;
 
-    public Piece(String name, Side side) {
+    public Piece(PieceName name, Side side) {
         this.name = name;
         this.side = side;
     }

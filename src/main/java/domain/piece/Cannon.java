@@ -9,7 +9,7 @@ public class Cannon extends Piece {
     private static final PieceName NAME = PieceName.CANNON;
 
     public Cannon(Side side) {
-        super(NAME.getName(side), side);
+        super(NAME, side);
     }
 
     @Override

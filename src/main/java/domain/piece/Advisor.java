@@ -9,7 +9,7 @@ public class Advisor extends Piece {
     private static final PieceName NAME = PieceName.ADVISOR;
 
     public Advisor(Side side) {
-        super(NAME.getName(side), side);
+        super(NAME, side);
     }
 
     @Override

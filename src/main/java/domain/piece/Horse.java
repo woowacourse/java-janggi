@@ -9,7 +9,7 @@ public class Horse extends Piece {
     private static final PieceName NAME = PieceName.HORSE;
 
     public Horse(Side side) {
-        super(NAME.getName(side), side);
+        super(NAME, side);
     }
 
     @Override
