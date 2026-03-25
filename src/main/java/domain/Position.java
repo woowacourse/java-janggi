@@ -1,3 +1,5 @@
+package domain;
+
 public record Position(int column, int row) {
 
     private static final int MIN_COLUMN = 0;
