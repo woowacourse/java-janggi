@@ -1,4 +1,5 @@
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.junit.jupiter.api.Test;
 
 public class ColumnTest {
@@ -20,10 +21,8 @@ public class ColumnTest {
     void 값이_최댓값을_초과하면_예외를_발행한다() {
         int input = 19;
 
-        Column row = new Column(input);
-
-        assertThatThrownBy(()->{
-            throw new Exception("최대 값은 9입니다.");
-        }).isInstanceOf(Exception.class);
+        assertThatThrownBy(() ->  new Column(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("열의 최대 값은 10입니다.");
     }
 }

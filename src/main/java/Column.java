@@ -13,7 +13,7 @@ public class Column {
 
     private void validateColumn(int number) {
         if (number > COLUMN_MAX_SIZE) {
-            throw new IllegalArgumentException("최대 값은 10입니다.");
+            throw new IllegalArgumentException("열의 최대 값은 10입니다.");
         }
     }
 }

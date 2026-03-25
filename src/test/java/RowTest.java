@@ -21,11 +21,9 @@ class RowTest {
     void 값이_최댓값을_초과하면_예외를_발행한다() {
         int input = 19;
 
-        Row row = new Row(input);
-
-        assertThatThrownBy(()->{
-            throw new Exception("최대 값은 9입니다.");
-        }).isInstanceOf(Exception.class);
+        assertThatThrownBy(() ->  new Row(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("행의 최대 값은 9입니다.");
     }
 
 }
