@@ -12,17 +12,18 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class JangTest {
+class SaTest {
+
     @DisplayName("이동 거리가 1칸 초과이면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SEVEN);
-        Jang jang = new Jang(Team.HAN);
+        Sa sa = new Sa(Team.HAN);
 
         //when & then
-        assertThatThrownBy(() -> jang.getLegalPath(from, to))
+        assertThatThrownBy(() -> sa.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동할 수 없는 위치입니다.");
     }
@@ -33,10 +34,10 @@ class JangTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Jang jang = new Jang(Team.CHO);
+        Sa sa = new Sa(Team.HAN);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        Path path = sa.getLegalPath(from, to);
 
         //then
         assertThat(path.getDestination())
@@ -49,10 +50,10 @@ class JangTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Jang jang = new Jang(Team.CHO);
+        Sa sa = new Sa(Team.HAN);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        Path path = sa.getLegalPath(from, to);
 
         //then
         assertThat(path.getDestination())
@@ -66,10 +67,10 @@ class JangTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SIX);
-        Jang jang = new Jang(Team.CHO);
+        Sa sa = new Sa(Team.CHO);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        Path path = sa.getLegalPath(from, to);
 
         //then
         assertThat(path.getDestination())
@@ -82,10 +83,10 @@ class JangTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.FOUR);
-        Jang jang = new Jang(Team.CHO);
+        Sa sa = new Sa(Team.HAN);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        Path path = sa.getLegalPath(from, to);
 
         //then
         assertThat(path.getDestination())
@@ -101,10 +102,10 @@ class JangTest {
                 new Cha(Team.CHO),
                 new Cha(Team.HAN)
         );
-        Jang jang = new Jang(Team.CHO);
+        Sa sa = new Sa(Team.HAN);
 
         //when & then
-        assertThat(jang.canPassThrough(gimuls))
+        assertThat(sa.canPassThrough(gimuls))
                 .isFalse();
     }
 }
