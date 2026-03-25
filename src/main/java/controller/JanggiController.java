@@ -19,5 +19,6 @@ public class JanggiController {
 
     public void play() {
         Board board = new Board(boardInitializer);
+        outputView.printBoard(board.getBoard());
     }
 }

@@ -3,9 +3,11 @@ package domain;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class Board {
+
     private Piece[][] board = new Piece[10][9];
     private Side turn;
 
@@ -13,7 +15,7 @@ public class Board {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 Map<Position, Piece> initializedPosition = boardInitializer.initialize();
-                board[i][j] = initializedPosition.getOrDefault(new Position(i, j), new EmptyPiece(Side.CHU));
+                board[i][j] = initializedPosition.getOrDefault(new Position(i, j), new EmptyPiece(Side.NEUTRAL));
             }
         }
         turn = boardInitializer.getFirstTurn();
@@ -24,6 +26,6 @@ public class Board {
     }
 
     public Piece[][] getBoard() {
-        return board;
+        return Arrays.copyOf(board, board.length);
     }
 }

@@ -3,7 +3,8 @@ package domain;
 public enum Side {
 
     HAN,
-    CHU;
+    CHU,
+    NEUTRAL;
 
     public boolean isChu() {
         return this == CHU;
