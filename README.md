@@ -45,9 +45,9 @@
 
 ## 1. 게임 준비 및 플레이어 설정
 - [ ] **[UI]** 선수(초)와 후수(한) 플레이어의 이름을 입력받는다. `class InputView`
-    - [ ] [출력] 초 진영의 플레이어 이름 입력 안내문 출력 - `class OutputView`
+    - [x] [출력] 초 진영의 플레이어 이름 입력 안내문 출력 - `class OutputView`
     - [x] [입력] 초 진영의 플레이어 이름 입력 - `public String readPlayerName`
-    - [ ] [출력] 한 진영의 플레이어 이름 입력 안내문 출력 - `class OutputView`
+    - [x] [출력] 한 진영의 플레이어 이름 입력 안내문 출력 - `class OutputView`
     - [x] [입력] 한 진영의 플레이어 이름 입력 - `public String readPlayerName`
     - [ ] [예외 처리] 입력이 비어있는 경우, `IllegalArgumentException`을 발생시키고 재입력을 받는다.
 
