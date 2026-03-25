@@ -24,4 +24,12 @@ public class Position {
             throw new IllegalArgumentException("[ERROR] 열은 0열 이상 8열 이하여야 합니다.");
         }
     }
+
+    public int calculateRowDistance(Position other) {
+        return row - other.row;
+    }
+
+    public int calculateColumnDistance(Position other) {
+        return column - other.column;
+    }
 }
