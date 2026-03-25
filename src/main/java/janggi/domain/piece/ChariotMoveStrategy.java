@@ -12,10 +12,10 @@ public class ChariotMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
-        for (Direction dir : Direction.values()) {
+        for (Direction dir : Direction.valuesFourDirection()) {
             List<Position> positions = from.findPositionsByDirection(dir);
             for (Position to : positions) {
-                if(board.containsKey(to)) {
+                if (board.containsKey(to)) {
                     // 다른 팀을 만났을 때
                     if (!board.get(to).isSameDynasty(dynasty)) {
                         canMovePositions.add(to);
@@ -31,7 +31,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     private static Piece getFromPiece(Map<Position, Piece> board, Position from) {
         Piece piece = board.get(from);
-        if(piece == null) {
+        if (piece == null) {
             throw new IllegalStateException("");
         }
         return piece;
