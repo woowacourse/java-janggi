@@ -1,4 +1,4 @@
-package domain;
+package domain.point;
 
 import java.util.Objects;
 
