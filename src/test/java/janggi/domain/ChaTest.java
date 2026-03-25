@@ -14,11 +14,11 @@ public class ChaTest {
     @ParameterizedTest
     @CsvSource(value = {"5:0:4", "5:9:3", "8:5:2", "0:5:4"}, delimiter = ':')
     @DisplayName("시작 및 도착 지점에 따른 경유지 반환")
-    void straight_back_route(int column, int row, int result) {
+    void straight_back_route(int x, int y, int result) {
         // given
         Piece cha = new Cha(Team.CHO);
         Point from = Point.of(5,5);
-        Point to = Point.of(column, row);
+        Point to = Point.of(x, y);
 
         // when
         List<Point> route = cha.getRoute(from, to);

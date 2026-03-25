@@ -18,7 +18,7 @@ public class PointTest {
         Point point = Point.of(column, row);
 
         // then
-        assertThat(point.getColumn()).isEqualTo(column);
-        assertThat(point.getRow()).isEqualTo(row);
+        assertThat(point.getX()).isEqualTo(column);
+        assertThat(point.getY()).isEqualTo(row);
     }
 }

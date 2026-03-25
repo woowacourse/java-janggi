@@ -18,8 +18,8 @@ public class Cha implements Piece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getColumn() - from.getColumn();
-        int pathY = to.getRow() - from.getRow();
+        int pathX = to.getX() - from.getX();
+        int pathY = to.getY() - from.getY();
         List<Point> route = new ArrayList<>();
 
         if (pathY != 0 && pathX != 0) {
@@ -27,26 +27,26 @@ public class Cha implements Piece {
         }
 
         if (pathX == 0) {
-            if (from.getRow() > to.getRow()) {
-                for (int i = to.getRow() + 1; i < from.getRow(); i++) {
-                    route.add(Point.of(from.getColumn(), i));
+            if (from.getY() > to.getY()) {
+                for (int i = to.getY() + 1; i < from.getY(); i++) {
+                    route.add(Point.of(from.getX(), i));
                 }
                 return route;
             }
-            for (int i = from.getRow() + 1; i < to.getRow(); i++) {
-                route.add(Point.of(from.getColumn(), i));
+            for (int i = from.getY() + 1; i < to.getY(); i++) {
+                route.add(Point.of(from.getX(), i));
             }
             return route;
         }
 
-        if (from.getColumn() > to.getColumn()) {
-            for (int i = to.getColumn() + 1; i < from.getColumn(); i++) {
-                route.add(Point.of(i, from.getRow()));
+        if (from.getX() > to.getX()) {
+            for (int i = to.getX() + 1; i < from.getX(); i++) {
+                route.add(Point.of(i, from.getY()));
             }
             return route;
         }
-        for (int i = from.getColumn() + 1; i < to.getColumn(); i++) {
-            route.add(Point.of(i, from.getRow()));
+        for (int i = from.getX() + 1; i < to.getX(); i++) {
+            route.add(Point.of(i, from.getY()));
         }
         return route;
     }

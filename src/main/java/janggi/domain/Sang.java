@@ -22,8 +22,8 @@ public class Sang implements Piece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getColumn() - from.getColumn();
-        int pathY = to.getRow() - from.getRow();
+        int pathX = to.getX() - from.getX();
+        int pathY = to.getY() - from.getY();
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
         int signX = Integer.compare(pathX, 0);
@@ -35,13 +35,13 @@ public class Sang implements Piece {
         }
         if (distanceX == DISTANCE_MAX) {
             return List.of(
-                    Point.of(from.getColumn() + (pathX / DISTANCE_MAX), from.getRow()),
-                    Point.of(from.getColumn() + signX * DISTANCE_MIN,  from.getRow() + signY)
+                    Point.of(from.getX() + (pathX / DISTANCE_MAX), from.getY()),
+                    Point.of(from.getX() + signX * DISTANCE_MIN,  from.getY() + signY)
             );
         }
         return List.of(
-                Point.of(from.getColumn(), from.getRow() + (pathY / DISTANCE_MAX)),
-                Point.of(from.getColumn() + signX,  from.getRow() + signY * DISTANCE_MIN));
+                Point.of(from.getX(), from.getY() + (pathY / DISTANCE_MAX)),
+                Point.of(from.getX() + signX,  from.getY() + signY * DISTANCE_MIN));
     }
 
     @Override

@@ -22,8 +22,8 @@ public class Ma implements Piece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getColumn() - from.getColumn();
-        int pathY = to.getRow() - from.getRow();
+        int pathX = to.getX() - from.getX();
+        int pathY = to.getY() - from.getY();
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
@@ -32,9 +32,9 @@ public class Ma implements Piece {
             throw new IllegalArgumentException();
         }
         if (distanceX == DISTANCE_MAX) {
-            return List.of(Point.of(from.getColumn() + (pathX / DISTANCE_MAX), from.getRow()));
+            return List.of(Point.of(from.getX() + (pathX / DISTANCE_MAX), from.getY()));
         }
-        return List.of(Point.of(from.getColumn(), from.getRow() + (pathY / DISTANCE_MAX)));
+        return List.of(Point.of(from.getX(), from.getY() + (pathY / DISTANCE_MAX)));
     }
 
     @Override
