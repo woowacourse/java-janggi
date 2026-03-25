@@ -3,7 +3,10 @@ package domain.board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import dto.PieceInfoDto;
+import dto.PieceInfosDto;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -33,7 +36,7 @@ public class Board {
 
         return new Board(pieces);
     }
-    
+
 
     private static void initializeChoPieces(final PieceType type, final Map<Position, Piece> pieces) {
         for (Position pos : type.getInitPositions()) {
@@ -66,5 +69,13 @@ public class Board {
         int mirroredColumn = MAX_COLUMN_RANGE - pos.column() + 1;
         int mirroredRow = MAX_ROW_RANGE - pos.row() + 1;
         return Position.of(mirroredColumn, mirroredRow);
+    }
+
+
+    public PieceInfosDto getPieceInfos() {
+        List<PieceInfoDto> pieceInfos = pieces.entrySet().stream()
+                .map(entry -> PieceInfoDto.of(entry.getValue(), entry.getKey()))
+                .toList();
+        return PieceInfosDto.of(pieceInfos);
     }
 }
