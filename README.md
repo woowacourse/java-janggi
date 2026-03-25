@@ -59,6 +59,12 @@
     - [x] [규칙] 플레이어는 진영을 가지고, 각각의 이름을 가진다.
       `private final Side side` `private final String nickname`
 
+- [x] **[Domain]** 플레이어들을 관리할 일급 컬렉션 `class Players`
+    - [x] [규칙] 플레이어들을 관리할 컬렉션을 가진다. `private Set<Player> players`
+    - [x] [규칙] 각 진영의 플레이어 이름으로 플레이어 일급 컬렉션 생성 `public from(String choPlayer, String hanPlayer)`
+    - [x] [규칙] 각 진영의 플레이어 이름으로 플레이어 객체 생성 `public Player(String name, Side side)`
+    - [x] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException`을 발생시킨다. `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
+
 
 ## 2. 보드 초기화 및 출력
 
