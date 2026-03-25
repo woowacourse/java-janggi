@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.dynasty;
 
 public enum Dynasty {
 
