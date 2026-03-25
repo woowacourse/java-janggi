@@ -6,6 +6,9 @@ public class OutputView {
     private static final int WIDTH = 9;
     private static final int HEIGHT = 10;
 
+    private static final String ANSI_CLS = "\u001b[2J";
+    private static final String ANSI_HOME = "\u001b[H";
+
     public void printBoard(List<List<String>> board) {
         validateBoard(board);
         System.out.println();
@@ -16,6 +19,11 @@ public class OutputView {
         }
         printPieceRow(0, board.getFirst());
         System.out.println();
+    }
+
+    public static void clearScreen() {
+        System.out.print(ANSI_HOME + ANSI_CLS);
+        System.out.flush();
     }
 
     private void printColumnHeader() {
