@@ -1,6 +1,8 @@
 package janggi.domain.side;
 
 import janggi.domain.Pieces;
+import janggi.dto.BoardSpot;
+import java.util.List;
 
 public class Chu implements Team {
 
@@ -17,6 +19,11 @@ public class Chu implements Team {
     @Override
     public boolean isPieceExists(int x, int y) {
         return pieces.isPieceExists(x, y);
+    }
+
+    @Override
+    public List<BoardSpot> makeSpots() {
+        return pieces.makeSpots();
     }
 
     @Override
