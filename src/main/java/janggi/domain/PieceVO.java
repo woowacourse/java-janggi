@@ -1,6 +1,6 @@
 package janggi.domain;
 
-public record PieceVO(Side side, PieceType type) {
+public record PieceVO(Side side, PieceType type, String pieceNumber) {
 
     public boolean isSameSide(PieceVO other) {
         if (other == null) {

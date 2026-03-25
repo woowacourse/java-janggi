@@ -1,6 +1,5 @@
 package janggi.domain;
 
-import janggi.domain.strategy.*;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
