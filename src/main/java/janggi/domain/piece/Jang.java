@@ -7,11 +7,11 @@ import java.util.List;
 public class Jang implements Piece {
 
     private final Team team;
-    private final String name;
+    private final PieceType type;
 
-    public Jang(Team team, String pieceName) {
+    public Jang(Team team) {
         this.team = team;
-        this.name = pieceName;
+        this.type = PieceType.JANG;
     }
 
     @Override
@@ -41,5 +41,10 @@ public class Jang implements Piece {
         return route.stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .count() == 0;
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
     }
 }

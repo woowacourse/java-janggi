@@ -10,11 +10,11 @@ import java.util.List;
 public class Jol implements Piece {
 
     private final Team team;
-    private final String name;
+    private final PieceType type;
 
-    public Jol(Team team, String pieceName) {
+    public Jol(Team team) {
         this.team = team;
-        this.name = pieceName;
+        this.type = PieceType.JOL;
     }
 
     @Override
@@ -49,6 +49,11 @@ public class Jol implements Piece {
         return route.stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .count() == 0;
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
     }
 }
 
