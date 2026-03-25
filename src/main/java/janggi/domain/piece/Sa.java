@@ -40,4 +40,9 @@ public class Sa implements Piece{
     private boolean isOneStep(int distanceX, int distanceY) {
         return distanceX <= 1 && distanceY <= 1;
     }
+
+    @Override
+    public String nickname() {
+        return pieceType.getNickname();
+    }
 }

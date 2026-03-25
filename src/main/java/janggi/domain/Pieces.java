@@ -9,7 +9,10 @@ import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
 import janggi.domain.side.TeamType;
+import janggi.dto.BoardSpot;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Pieces {
@@ -71,7 +74,7 @@ public class Pieces {
 
     private static void createSas(Map<Position, Piece> pieces, int indexY) {
         pieces.put(new Position(4, indexY), new Sa());
-        pieces.put(new Position(10 - 6, indexY), new Sa());
+        pieces.put(new Position(10 - 4, indexY), new Sa());
     }
 
     private static void createGung(Map<Position, Piece> pieces, int indexY) {
@@ -92,5 +95,16 @@ public class Pieces {
     public boolean isPieceExists(int x, int y) {
         Position position = new Position(x, y);
         return value.containsKey(position);
+    }
+
+    public List<BoardSpot> makeSpots() {
+        List<BoardSpot> boardSpots = new ArrayList<>();
+        for (Map.Entry<Position, Piece> entry : value.entrySet()) {
+            boardSpots.add(new BoardSpot(
+                entry.getKey().makePositionKey(),
+                entry.getValue().nickname()
+            ));
+        }
+        return boardSpots;
     }
 }

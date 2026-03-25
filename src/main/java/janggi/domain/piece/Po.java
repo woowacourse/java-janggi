@@ -27,4 +27,9 @@ public class Po implements Piece {
         }
         return startX != endX || startY != endY;
     }
+
+    @Override
+    public String nickname() {
+        return pieceType.getNickname();
+    }
 }

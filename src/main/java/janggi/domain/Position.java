@@ -12,6 +12,10 @@ public class Position {
         this.y = y;
     }
 
+    public String makePositionKey() {
+        return x + "," + y;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

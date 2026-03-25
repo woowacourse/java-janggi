@@ -62,4 +62,9 @@ public class Jol implements Piece {
             new MovePath(List.of(Delta.createRight()))
         );
     }
+
+    @Override
+    public String nickname() {
+        return pieceType.getNickname();
+    }
 }

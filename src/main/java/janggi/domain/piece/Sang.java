@@ -30,4 +30,9 @@ public class Sang implements Piece {
 
         return (distanceX == 2 && distanceY == 3) || (distanceX == 3 && distanceY == 2);
     }
+
+    @Override
+    public String nickname() {
+        return pieceType.getNickname();
+    }
 }

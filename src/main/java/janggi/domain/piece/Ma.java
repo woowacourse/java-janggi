@@ -31,4 +31,9 @@ public class Ma implements Piece {
         // 마의 이동 거리 공식: (X가 1칸이면 Y는 2칸) 또는 (X가 2칸이면 Y는 1칸)
         return (distanceX == 1 && distanceY == 2) || (distanceX == 2 && distanceY == 1);
     }
+
+    @Override
+    public String nickname() {
+        return pieceType.getNickname();
+    }
 }
