@@ -8,12 +8,12 @@ public abstract class PieceImpl implements Piece {
     }
 
     @Override
-    public boolean isHan() {
+    public final boolean isHan() {
         return side.isHan();
     }
 
     @Override
-    public boolean isCho() {
+    public final boolean isCho() {
         return side.isCho();
     }
 }
