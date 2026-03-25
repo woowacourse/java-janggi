@@ -8,7 +8,7 @@ public record Position(int column, int row) {
             throw new IllegalArgumentException(ERROR_INVALID_X_COORDINATE);
         }
 
-        if (row < 1 || column > 0) {
+        if (row < 1 || row > 9) {
             throw new IllegalArgumentException(ERROR_INVALID_Y_COORDINATE);
         }
     }
