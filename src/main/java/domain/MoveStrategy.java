@@ -12,5 +12,5 @@ public abstract class MoveStrategy {
 
     abstract boolean isMoveAble(Position position);
 
-    abstract boolean isRouteBlockedBy(List<Position> piecePositions);
+    abstract boolean isRouteBlockedBy(Position destination, List<Position> piecePositions);
 }

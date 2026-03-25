@@ -14,7 +14,7 @@ abstract class Piece {
 
     protected abstract boolean isMoveAble(Position position);
 
-    boolean isRouteBlockedBy(List<Position> piecePositions) {
-        return moveStrategy.isRouteBlockedBy(piecePositions);
+    boolean isRouteBlockedBy(Position destination, List<Position> piecePositions) {
+        return moveStrategy.isRouteBlockedBy(destination, piecePositions);
     }
 }
