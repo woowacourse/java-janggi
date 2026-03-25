@@ -6,4 +6,5 @@ import janggi.domain.team.TeamType;
 public interface Piece {
     PieceType getPieceType();
     TeamType getTeamType();
+    boolean belongsToTeam(TeamType teamType);
 }

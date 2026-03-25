@@ -22,4 +22,9 @@ public class General implements Piece {
     public TeamType getTeamType() {
         return teamType;
     }
+
+    @Override
+    public boolean belongsToTeam(final TeamType teamType) {
+        return this.teamType == teamType;
+    }
 }

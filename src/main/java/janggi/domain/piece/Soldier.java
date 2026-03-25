@@ -22,4 +22,9 @@ public class Soldier implements Piece {
         return teamType;
     }
 
+    @Override
+    public boolean belongsToTeam(final TeamType teamType) {
+        return this.teamType == teamType;
+    }
+
 }

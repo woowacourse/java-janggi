@@ -32,5 +32,10 @@ public class RedTeam implements Team {
         return TEAM_TYPE.getName();
     }
 
+    @Override
+    public boolean hasPiece(final Piece piece) {
+        return piece.belongsToTeam(TEAM_TYPE);
+    }
+
 
 }
