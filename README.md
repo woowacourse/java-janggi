@@ -34,7 +34,7 @@
 ------------------------1차 구현 및 PR 포인트---------------------------
 │                                         
 │                                         ↓
-│                               6. 상대의 '장'이 잡혔는지 확인한다.
+│                               6. 상대의 '궁'이 잡혔는지 확인한다.
 │                                 ↙ [아니오]          ↘ [예]
 └─────────────────────────────────┘             7. 게임을 종료한다.
                                                       ↓
@@ -63,13 +63,39 @@
     - [x] [규칙] 플레이어들을 관리할 컬렉션을 가진다. `private Set<Player> players`
     - [x] [규칙] 각 진영의 플레이어 이름으로 플레이어 일급 컬렉션 생성 `public from(String choPlayer, String hanPlayer)`
     - [x] [규칙] 각 진영의 플레이어 이름으로 플레이어 객체 생성 `public Player(String name, Side side)`
-    - [x] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException`을 발생시킨다. `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
+    - [x] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException` 을 발생시킨다. `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
 
 
 ## 2. 보드 초기화 및 출력
 
-- [ ] **[Domain]** 장기판과 전체 기물을 올바른 초기 위치에 배치한다.
-    - *※ 1.1단계 제약에 따라 상/마 위치 자유 배치는 생략하고 기본 위치로 일괄 고정하여 구현한다.*
+- [x] **[Domain]** 각 기물의 위치를 관리하는 클래스 `class Position`
+    - [x] [규칙] 기물의 행 번호를 표시 `private final int row`
+    - [x] [규칙] 기물의 열 번호를 표시 `private final int column`
+    - [x] [규칙] 보드의 행 최댓값을 표시 `private final int BOARD_MAX_ROW`
+    - [x] [규칙] 보드의 행 최솟값을 표시 `private final int BOARD_MIN_ROW`
+    - [x] [규칙] 보드의 열 최댓값을 표시 `private final int BOARD_MAX_COLUMN`
+    - [x] [규칙] 보드의 열 최솟값을 표시 `private final int BOARD_MIN_COLUMN`
+    - [x] [예외 처리] 클래스 생성 시, 보드의 행 / 열 범위를 벗어나는 위치면 `IllegalArgumentException` 을 발생시킨다.
+      `private void validateBounds(int row, int column)`
+
+- [ ] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`
+    - [x] [규칙] ※ 1.1단계 제약에 따라 상/마 위치 자유 배치는 생략하고 기본 위치로 일괄 고정하여 구현한다.*
+    - [ ] [규칙] 각 진영에 속한 `졸(병) 포 차 마 상 사 궁` 을 배치한다.
+        ![](https://i.namu.wiki/i/j-sZdZbz3kD7bGBzAq8G4Rbkl-gfasbRzB9hFgQp3tqpnfo-cLccIqPqEjiUi30MadlJdqvP-Jkw5NUqhKJBdQ.svg)
+      - [ ] [규칙] `졸(병)` 은 5개, 각 진영 첫 번째 행 (초-6, 한-3) 양 끝 열 (0, 8) 에서부터, 한 칸의 간격을 두고 배치한다.
+        ![](https://velog.velcdn.com/images/nn98/post/9729b224-4b37-4fbe-b08d-9a7148b5fcad/image.png)
+      - [ ] [규칙] `포` 는 2개, 각 진영 두 번째 행 (초-7, 한-2) 양 끝 열 (0, 8) 에서 한 칸의 간격을 두고 배치한다.
+        ![](https://velog.velcdn.com/images/nn98/post/7b636ac0-e9da-4651-8dc3-1c29b272cf68/image.png)
+      - [ ] [규칙] `차` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝 열 (0, 8) 에 배치한다.
+        ![](https://velog.velcdn.com/images/nn98/post/d80c5ac6-9650-499f-add7-4baa9a8ec491/image.png)
+      - [ ] [규칙] `상` 은 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 한 칸 떨어진 열 (1, 7) 에 배치한다.
+        ![](https://velog.velcdn.com/images/nn98/post/abe72e90-a785-4b61-a542-caa5c54bde56/image.png)
+      - [ ] [규칙] `마` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 두 칸 떨어진 열 (2, 6) 에 배치한다.
+        ![](https://velog.velcdn.com/images/nn98/post/43ca2acf-71cf-48e1-80c9-f93d737225e1/image.png)
+      - [ ] [규칙] `사` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 세 칸 떨어진 열 (3, 5) 에 배치한다.
+        ![](https://velog.velcdn.com/images/nn98/post/8eb3d297-6ba9-4209-9c55-efef637f6bae/image.png)
+      - [ ] [규칙] `궁` 은 1개, 각 진영 마지막에서 한 칸 윗 행 (초-8, 한-1) 중간 열 (4) 에 배치한다.
+      - ![](https://velog.velcdn.com/images/nn98/post/7e935174-b161-4812-9e91-111a3a8c5bca/image.png)
 
 - [ ] **[Domain/UI]** 현재 장기판의 상태를 출력한다. `class OutputView`
     - [ ] [규칙] 장기판 `class Board`의 기물 배치 상태 `Map<Position, Piece> piecePosition`를 바탕으로 `class BoardDTO` 생성 `public BoardDTO from(Board board)`
@@ -84,10 +110,10 @@
 
 - [ ] **[Domain]** 공통 이동 규칙을 검증한다.
     - [ ] [규칙] 도착 위치에 같은 팀(아군) 기물이 있으면 이동할 수 없다.
-    - [ ] [규칙] 이동 이후 자신의 '장'이 상대에게 잡힐 수 있는 위험한 상태(장군)가 된다면, 그 이동은 허용되지 않는다.
+    - [ ] [규칙] 이동 이후 자신의 '궁'이 상대에게 잡힐 수 있는 위험한 상태(장군)가 된다면, 그 이동은 허용되지 않는다.
 
 - [ ] **[Domain]** 개별 기물의 이동 규칙을 검증한다. (※ **궁성 영역 배제** 룰 적용)
-    - [ ] [규칙] **장/사**: (궁성을 구현하지 않으므로) 현재 위치에서 상하좌우 1칸씩만 이동 가능하다.
+    - [ ] [규칙] **궁/사**: (궁성을 구현하지 않으므로) 현재 위치에서 상하좌우 1칸씩만 이동 가능하다.
     - [ ] [규칙] **차**: 상하좌우로 거리 제한 없이 이동할 수 있다. 단, 이동 경로 중간에 다른 기물이 있으면 뛰어넘을 수 없다.
     - [ ] [규칙] **포**: 이동 경로 사이에 반드시 다른 기물이 하나 이상 있어야 하며, 넘는 기물이 '포'이면 안 된다. 또한 도착 위치의 기물이 '포'인 경우에는 잡을 수 없다.
     - [ ] [규칙] **마**: 직진 한 칸 후 대각선 한 칸 이동한다. 직진하는 첫 칸에 기물이 있으면 이동할 수 없다 (멱).
@@ -106,8 +132,8 @@
 
 ## 4. 승패 판정 및 게임 종료 (1차 PR 이후 구현)
 
-- [ ] **[Domain]** 상대의 '장'이 잡혔는지 판단하여 게임 종료 여부를 결정한다.
-    - [ ] [규칙] 기물 이동 후, 한쪽의 '장'이 보드판에서 사라졌다면 즉시 게임이 끝난다.
+- [ ] **[Domain]** 상대의 '궁'이 잡혔는지 판단하여 게임 종료 여부를 결정한다.
+    - [ ] [규칙] 기물 이동 후, 한쪽의 '궁'이 보드판에서 사라졌다면 즉시 게임이 끝난다.
 
 - [ ] **[UI]** 최종 승패 결과를 출력한다.
     - [ ] [출력] 상대방의 장을 잡은 진영(플레이어)을 승자로 출력한다.
