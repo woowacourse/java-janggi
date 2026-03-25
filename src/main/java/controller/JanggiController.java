@@ -1,5 +1,6 @@
 package controller;
 
+import domain.Country;
 import java.util.function.Supplier;
 
 import view.InputView;
@@ -24,13 +25,16 @@ public class JanggiController {
     }
 
     private void init() {
-        outputView.printStartMessage();
-
+        outputView.printGameStartMessage();
+        outputView.printCountry(Country.CHO);
         int choMasangChoice = doRetry(inputView::requestMaSangPosition);
+
+        outputView.printCountry(Country.HAN);
         int hanMasangChoice = doRetry(inputView::requestMaSangPosition);
 
         // TODO: 장기판 초기화
 
+        outputView.printTurnStartMessage();
     }
 
 
@@ -48,6 +52,4 @@ public class JanggiController {
             }
         }
     }
-
-
 }
