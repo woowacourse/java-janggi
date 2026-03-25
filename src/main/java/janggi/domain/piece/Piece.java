@@ -4,6 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.Point;
 import janggi.domain.side.Side;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Piece {
     protected PieceName name;
@@ -27,4 +28,24 @@ public abstract class Piece {
     public final Side getSide() {
         return side;
     }
+
+    @Override
+    public final boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Piece piece)) {
+            return false;
+        }
+
+        return name == piece.name && side == piece.side;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(name);
+        result = 31 * result + Objects.hashCode(side);
+        return result;
+    }
+
 }

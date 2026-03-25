@@ -8,6 +8,7 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.side.Side;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,22 +24,11 @@ public class Board {
         this.board = board;
     }
 
-//    private void validatePiece(List<List<domain.piece.Piece>> board) {
-//
-//    }
+    public final Map<Point, Piece> getBoard(){
+        return Collections.unmodifiableMap(board);
+    }
 
-//    private void validateSize(Map<Point, Piece> board) {
-//        if (board.size() != ROW_SIZE) {
-//            throw new IllegalStateException("보드의 행은 %d여야 합니다.".formatted(ROW_SIZE));
-//        }
-//        board.forEach(col -> {
-//            if (col.size() != COL_SIZE) {
-//                throw new IllegalStateException("보드의 줄은 %d여야 합니다.".formatted(COL_SIZE));
-//            }
-//        });
-//    }
-
-    public Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
+    public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
         Map<Point, Piece> board = createCommonBoard();
         board.putAll(choBoardSetUp.generate(Side.CHO));
         board.putAll(hanBoardSetUp.generate(Side.HAN));
@@ -46,7 +36,7 @@ public class Board {
         return new Board(board);
     }
 
-    private Map<Point, Piece> createCommonBoard() {
+    private static Map<Point, Piece> createCommonBoard() {
         Map<Point, Piece> board = new HashMap<>();
 
         board.put(new Point(0, 0), new Chariot(Side.CHO));
