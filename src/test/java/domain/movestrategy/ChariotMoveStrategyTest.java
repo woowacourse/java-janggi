@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.piece.Position;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ class ChariotMoveStrategyTest {
         );
 
         // when
-        List<Position> movable = new ChariotMoveStrategy().calculateMovablePositions(from);
+        List<Position> movable = new ChariotMoveStrategy().calculateMovablePositions(from, Map.of());
 
         // then
         assertThat(movable).containsAll(expected);

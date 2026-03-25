@@ -1,14 +1,16 @@
 package domain.movestrategy;
 
 import domain.board.Board;
+import domain.piece.Piece;
 import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from) {
+    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
         List<Position> movable = new ArrayList<>();
 
         for (int newColumn = Board.MIN_COLUMN_RANGE; newColumn <= Board.MAX_COLUMN_RANGE; newColumn++) {

@@ -1,7 +1,9 @@
 package domain.movestrategy;
 
+import domain.piece.Piece;
 import domain.piece.Position;
 import java.util.List;
+import java.util.Map;
 
 public class GeneralMoveStrategy implements MoveStrategy {
 
@@ -17,7 +19,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from) {
+    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
         return OFFSET_POSITIONS.stream()
                 .map(from::move)
                 .toList();
