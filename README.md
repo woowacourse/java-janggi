@@ -100,11 +100,38 @@
     - [x] [규칙] 이동 단위는 초기 위치 `class Positoin` 을 받아, 이동 위치 `class Position` 를 반환한다.
       `public Static Position move(Position currentPosition)`
 
+- [x] **[Domain]** 기물의 이동 규칙(전략)을 관리하는 클래스 `interface MoveStrategy`
+    - [x] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환  
+      `Paths findMovablePaths(Position current, EnumSet<Direction> directions)`
+    - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
+      `List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO)`
+
+- [ ] **[`Domain/VO`]** 기물의 이동 가능성을 판정하기 위한 최소 정보를 전달할 클래스 `record PieceVO`
+    - [x] [규칙] 기물의 진영을 전달 `Side side`
+    - [x] [규칙] 같은 진영인지 판별 `public boolean isSameSide(PieceVO)`
+    - [x] [규칙] 기물의 종류를 전달 `PieceType pieceType`
+    - [x] [규칙] 기물의 종류를 판별 -> 현재 필요한 건 포 여부 뿐 `public boolean isCannon()`
+
+- [ ] **[Domain]** 기물의 종류, 이동 규칙을 관리하는 클래스 `enum PieceType`
+    - [ ] [규칙] 기물의 종류 `PieceType`
+      - General
+      - Guard
+      - Horse
+      - Elephant
+      - Chariot
+      - Cannon
+      - Soldier
+    - [ ] [규칙] 기물의 이동 규칙 `class Strategy implements MoveStrategy`
+
 - [ ] **[Domain]** 기물의 정보를 관리하는 클래스 `class Piece`
     - [ ] [규칙] 기물의 고유한 식별자 `private final String pieceNumber`
     - [ ] [규칙] 기물의 고유한 종류 `private final PieceType`
-    - [ ] [규칙] 기물의 고유한 이동 규칙에 따라, 이동 가능한 경로를 반환 `public Paths calculateAccessiblePaths(Position currentLocation)`
-    - [ ] [출력] `BoardDTO`를 전달받아 장기판의 기물 배치 상태를 콘솔에 출력한다. `public void printBoardStatus(BoardDTO boardDto)`
+    - [ ] [규칙] 기물의 소속 진영 `private final Side`
+    - [ ] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환  
+      `Paths calculatePaths(Position current)`
+    - [ ] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
+      `List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState)`
+    - [ ] [규칙] 기물의 상태를 포장된 객체로 반환 `public PieceVO toVO()`
 
 - [ ] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`
     - [x] [규칙] ※ 1.1단계 제약에 따라 상/마 위치 자유 배치는 생략하고 기본 위치로 일괄 고정하여 구현한다.*
