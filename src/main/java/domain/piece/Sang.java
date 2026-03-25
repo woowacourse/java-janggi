@@ -13,6 +13,7 @@ import domain.direction.Direction;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+import domain.strategy.BlockedMovementStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Sang extends Piece {
     );
 
     public Sang(Team team) {
-        super(team, PieceType.SANG);
+        super(team, PieceType.SANG, new BlockedMovementStrategy());
     }
 
     @Override

@@ -9,6 +9,7 @@ import domain.direction.Direction;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+import domain.strategy.BlockedMovementStrategy;
 import java.util.List;
 
 public class Jol extends Piece {
@@ -17,7 +18,7 @@ public class Jol extends Piece {
 
 
     public Jol(Team team) {
-        super(team, PieceType.JOL);
+        super(team, PieceType.JOL, new BlockedMovementStrategy());
 
         if (team.isCho()) {
             paths = List.of(

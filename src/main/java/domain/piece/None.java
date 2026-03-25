@@ -7,7 +7,7 @@ import domain.position.Position;
 public class None extends Piece{
 
     public None(Team team) {
-        super(team, PieceType.NONE);
+        super(team, PieceType.NONE, null);
     }
 
     @Override

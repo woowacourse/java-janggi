@@ -13,6 +13,7 @@ import domain.direction.Direction;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+import domain.strategy.BlockedMovementStrategy;
 import java.util.List;
 
 public class Jang extends Piece {
@@ -29,7 +30,7 @@ public class Jang extends Piece {
     );
 
     public Jang(Team team) {
-        super(team, PieceType.JANG);
+        super(team, PieceType.JANG, new BlockedMovementStrategy());
     }
 
     @Override

@@ -3,13 +3,14 @@ package domain.piece;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+import domain.strategy.BlockedMovementStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cha extends Piece {
 
     public Cha(Team team) {
-        super(team, PieceType.CHA);
+        super(team, PieceType.CHA, new BlockedMovementStrategy());
     }
 
     @Override
