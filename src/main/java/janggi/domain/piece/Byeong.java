@@ -1,10 +1,39 @@
 package janggi.domain.piece;
 
+import janggi.domain.Position;
 import janggi.domain.Team;
 
 public class Byeong extends Piece {
 
     public Byeong(Team team) {
         super(team);
+    }
+
+    @Override
+    public void validateMove(Position from, Position to) {
+        if (moveStrategy(from, to)) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 위치로 병이 이동할 수 없습니다.");
+    }
+
+    private boolean moveStrategy(Position from, Position to) {
+        return xMoveStrategy(from, to) || HanYMoveStrategy(from, to) || ChoYMoveStrategy(from, to);
+    }
+
+    private boolean xMoveStrategy(Position from, Position to) {
+        return Math.abs(from.x() - to.x()) == 1 && Math.abs(from.y() - to.y()) == 0;
+    }
+
+    private boolean HanYMoveStrategy(Position from, Position to) {
+        return Math.abs(from.x() - to.x()) == 0 &&
+                (from.y() - to.y()) == 1 &&
+                this.isEqualTeam(Team.HAN);
+    }
+
+    private boolean ChoYMoveStrategy(Position from, Position to) {
+        return Math.abs(from.x() - to.x()) == 0 &&
+                (from.y() - to.y()) == -1 &&
+                this.isEqualTeam(Team.CHO);
     }
 }
