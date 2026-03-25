@@ -2,7 +2,8 @@ package domain.player;
 
 public enum Team {
     CHO(1),
-    HAN(-1);
+    HAN(-1),
+    NULL(0);
 
     private final int direction;
 
