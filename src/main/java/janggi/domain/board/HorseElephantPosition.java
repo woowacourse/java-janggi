@@ -1,5 +1,7 @@
 package janggi.domain.board;
 
+import janggi.domain.dynasty.Dynasty;
+
 public enum HorseElephantPosition {
 
     HEHE(2, 3, 7, 8),
@@ -19,5 +21,4 @@ public enum HorseElephantPosition {
         this.secondHorseColumn = secondHorseColumn;
         this.secondElephantColumn = secondElephantColumn;
     }
-    
 }

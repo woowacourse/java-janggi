@@ -17,17 +17,17 @@ public record Position(
     }
 
     public List<Position> findPositionsByDirection(Direction dir) {
-        List<Position> northPositions = new ArrayList<>();
+        List<Position> positions = new ArrayList<>();
         Position cur = this;
         while (true) {
             try {
                 cur = cur.add(dir.row(), dir.column());
-                northPositions.add(cur);
+                positions.add(cur);
             } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        return northPositions;
+        return positions;
     }
 
 }
