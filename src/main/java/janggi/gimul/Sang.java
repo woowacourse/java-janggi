@@ -84,6 +84,6 @@ public class Sang extends Gimul {
 
     @Override
     public boolean canPassThrough(List<Gimul> gimuls) {
-        return false;
+        return gimuls.isEmpty();
     }
 }
