@@ -7,4 +7,7 @@ public record Piece (
         MoveStrategy moveStrategy
 ) {
 
+    public boolean isSameDynasty(Dynasty dynasty) {
+        return this.dynasty.equals(dynasty);
+    }
 }
