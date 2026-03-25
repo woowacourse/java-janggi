@@ -43,7 +43,12 @@
     - [ ] Horses와 Elephants의 Position은 각 Dynasty에게 입력받도록한다.
     - [ ] 1.1단계에서는 기물의 이동은 구현하지 않는다.
 
-### 1.2단계 - 기물 이동
+### 1.2단계 - 기물 이동 가능 지역 파악
+
+- [ ] 선택된 Piece가 갈 수 있는 Position들을 파악한다.
+    - Position들은 각 Piece의 Move Strategy를 기반으로 계산된다.
+
+### 1.3단계 - 기물 이동
 
 - [ ] 각 Piece의 Move Strategy를 구현한다.
 - [ ] Piece의 Move Strategy은 직접 요구사항을 분석하여 정의한다.
