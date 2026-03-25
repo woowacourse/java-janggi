@@ -1,5 +1,6 @@
 package domain.board;
 
+import static domain.util.AssertUtils.assertThatNoException;
 import static java.util.Collections.EMPTY_LIST;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -116,5 +117,12 @@ class WingTest {
             assertThatThrownBy(() -> new LeftWing(illegalPieces))
                     .isInstanceOf(IllegalArgumentException.class);
         }
+    }
+
+    @Test
+    void 상과_마가_1개씩_있다면_정상적으로_생성된다() {
+        List<Piece> pieces = List.of(new Horse(Side.CHO), new Elephant(Side.CHO));
+
+        assertThatNoException(() -> new LeftWing(pieces));
     }
 }
