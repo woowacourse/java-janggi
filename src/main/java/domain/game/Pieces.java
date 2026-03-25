@@ -13,4 +13,8 @@ public class Pieces {
     public static Pieces of(Arrangements arrangements) {
         return new Pieces(PositionLayout.build(arrangements));
     }
+
+    public Piece getPieceAt(Position position) {
+        return pieces.get(position);
+    }
 }

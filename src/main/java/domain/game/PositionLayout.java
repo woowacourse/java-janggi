@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.vo.Arrangements;
 import domain.vo.Col;
+import domain.vo.PieceType;
 import domain.vo.Row;
 import domain.vo.Team;
 import java.util.HashMap;

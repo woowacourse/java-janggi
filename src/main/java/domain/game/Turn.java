@@ -8,4 +8,8 @@ public class Turn {
     public Turn(Team team) {
         this.team = team;
     }
+
+    public String display() {
+        return team.getTeamName();
+    }
 }

@@ -24,6 +24,8 @@ public class GameConsole {
         );
 
         janggiGame.setupBoard(arrangements);
+
+        outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
     }
 
     private Arrangement readArrangement(Team team) {

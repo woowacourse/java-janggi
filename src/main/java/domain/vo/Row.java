@@ -22,4 +22,8 @@ public enum Row {
     public Row reverse() {
         return Row.values()[9 - this.ordinal()];
     }
+
+    public String getValue() {
+        return value;
+    }
 }

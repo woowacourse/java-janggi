@@ -1,6 +1,5 @@
 package domain.vo;
 
-import domain.game.PieceType;
 import java.util.Arrays;
 import java.util.List;
 

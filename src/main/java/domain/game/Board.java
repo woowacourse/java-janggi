@@ -12,4 +12,8 @@ public class Board {
     public static Board of(Arrangements arrangements) {
         return new Board(Pieces.of(arrangements));
     }
+
+    public Piece getPieceAt(Position position) {
+        return pieces.getPieceAt(position);
+    }
 }

@@ -1,5 +1,11 @@
 package io;
 
+import domain.game.Board;
+import domain.game.Piece;
+import domain.game.Position;
+import domain.game.Turn;
+import domain.vo.Col;
+import domain.vo.Row;
 import domain.vo.Team;
 
 public class OutputView {
@@ -17,5 +23,24 @@ public class OutputView {
 
     public void printErrorMessage(String message) {
         System.out.println(message);
+    }
+
+    public void printBoard(Board board, Turn turn) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("--------------------------------------\n");
+        stringBuilder.append("현재 턴: [").append(turn.display()).append(" 진영]\n\n");
+        stringBuilder.append("     a   b   c   d   e   f   g   h   i\n");
+
+        for (Row row : Row.values()) {
+            stringBuilder.append(String.format("%2s  ", row.getValue()));
+            for (Col col : Col.values()) {
+                Piece piece = board.getPieceAt(new Position(col, row));
+                stringBuilder.append(piece != null ? piece.display() : "...");
+                stringBuilder.append(" ");
+            }
+            stringBuilder.append("\n");
+        }
+
+        System.out.println(stringBuilder);
     }
 }
