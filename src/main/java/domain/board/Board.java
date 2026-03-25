@@ -10,9 +10,10 @@ import java.util.Map;
 
 public class Board {
 
-    private Map<Position, Piece> state = new LinkedHashMap<>();
+    private final Map<Position, Piece> state;
 
     public Board() {
+        state = new LinkedHashMap<>();
     }
 
     public void placePieces(Side side, Placement placement) {
