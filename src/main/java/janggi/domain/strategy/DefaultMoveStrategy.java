@@ -19,6 +19,6 @@ public class DefaultMoveStrategy implements MoveStrategy {
     }
 
     private boolean isMovableLast(Position position, Side side, BoardInterface boardInterface){
-        return boardInterface.isEnemy(side, position);
+        return boardInterface.isEnemy(side, position) || boardInterface.isEmpty(position);
     }
 }
