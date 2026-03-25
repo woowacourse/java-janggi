@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public enum PieceType {
@@ -9,7 +10,7 @@ public enum PieceType {
 
     MA("마", List.of(), List.of()),
 
-    SANG("상", List.of(), List.of()),
+    SANG("상",List.of(), List.of()),
 
     SA("사",
             List.of(new Position(1, 4), new Position(1, 6)),
@@ -31,7 +32,8 @@ public enum PieceType {
             List.of(
                     new Position(7, 1), new Position(7, 3), new Position(7, 5),
                     new Position(7, 7), new Position(7, 9)
-            ));
+            )),
+    NONE("+", List.of(), List.of());
 
     private String name;
     private List<Position> choPosition;
@@ -45,6 +47,12 @@ public enum PieceType {
 
     public String getName() {
         return name;
+    }
+
+    public List<Position> getAllPosition() {
+        List<Position> allPosition = new ArrayList<>(choPosition);
+        allPosition.addAll(hanPosition);
+        return allPosition;
     }
 
     public List<Position> getChoPosition() {

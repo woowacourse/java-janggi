@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 public abstract class Piece {
     private final Country country;
     private final PieceType pieceType;
@@ -12,5 +14,7 @@ public abstract class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
+
+    public abstract List<Position> getAvailablePositions(Position nowPosition);
 
 }
