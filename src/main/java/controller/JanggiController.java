@@ -4,6 +4,7 @@ import domain.Board;
 import domain.Country;
 import java.util.function.Supplier;
 
+//import domain.MaSangPosition;
 import service.JanggiService;
 import service.dto.BoardDto;
 import view.InputView;
@@ -37,9 +38,7 @@ public class JanggiController {
         outputView.printCountry(Country.HAN);
         int hanMasangChoice = doRetry(inputView::requestMaSangPosition);
 
-        // TODO: 장기판 초기화
-        Board board = new Board();
-
+        Board board = janggiService.createBoard(choMasangChoice, hanMasangChoice );
         outputView.printTurnStartMessage();
 
         BoardDto boardDto = janggiService.getBoard(board);
