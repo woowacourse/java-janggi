@@ -57,7 +57,7 @@ public class Cha implements Piece {
 
     @Override
     public boolean canMove(List<Piece> route) {
-        return false;
+        return route.isEmpty();
     }
 
     @Override

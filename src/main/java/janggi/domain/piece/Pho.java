@@ -60,7 +60,8 @@ public class Pho implements Piece {
         if (route.size() > 1) {
             return false;
         }
-        return route.stream().anyMatch(piece -> !piece.isSameType(type));
+        return route.stream()
+                .anyMatch(piece -> !piece.isSameType(type));
     }
 
     @Override
