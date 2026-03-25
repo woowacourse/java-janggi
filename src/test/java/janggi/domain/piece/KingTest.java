@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.domain.Position;
+import janggi.domain.Space;
 import janggi.domain.Team;
 import org.junit.jupiter.api.Test;
 
@@ -31,4 +32,14 @@ class KingTest {
             .withMessage("해당 위치로 궁이 이동할 수 없습니다.");
     }
 
+
+    @Test
+    void 도착지에_같은_팀의_말이_있을_경우_예외_처리_테스트() {
+        Piece piece = new King(Team.CHO);
+        Space space = new Sang(Team.CHO);
+
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> piece.validateArrival(space))
+            .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+    }
 }
