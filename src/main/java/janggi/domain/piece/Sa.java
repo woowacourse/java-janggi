@@ -23,19 +23,19 @@ public class Sa extends Started {
     }
 
     @Override
-    public boolean isMovable(Position start, Position end, BoardInterface boardInterface) {
-        List<Position> path = findPath(start, end);
-        return moveStrategy.isMovable(path, side, boardInterface);
-    }
-
-    private List<Position> findPath(Position start, Position end) {
-        for(List<Movement> movements : MOVE_RANGE) {
+    public List<Position> calculatePath(Position start, Position end) {
+        for (List<Movement> movements : MOVE_RANGE) {
             List<Position> calculatedPath = calculatePath(start, movements);
-            if(calculatedPath.getLast().equals(end)) {
+            if (calculatedPath.getLast().equals(end)) {
                 return calculatedPath;
             }
         }
         throw new IllegalArgumentException("올바른 도착 지점이 아닙니다.");
+    }
+
+    @Override
+    public boolean isMovable(List<Position> path, BoardInterface boardInterface) {
+        return moveStrategy.isMovable(path, side, boardInterface);
     }
 
     private List<Position> calculatePath(Position start, List<Movement> path) {
