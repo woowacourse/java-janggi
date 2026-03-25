@@ -44,6 +44,7 @@
 ## 2️⃣ 구현 기능 목록 (사이클 1: 보드 초기화 + 기물 이동)
 
 ## 1. 게임 준비 및 플레이어 설정
+
 - [x] **[UI]** 선수(초)와 후수(한) 플레이어의 이름을 입력받는다. `class InputView`
     - [x] [출력] 초 진영의 플레이어 이름 입력 안내문 출력 - `class OutputView`
     - [x] [입력] 초 진영의 플레이어 이름 입력 - `public String readPlayerName`
@@ -51,13 +52,17 @@
     - [x] [입력] 한 진영의 플레이어 이름 입력 - `public String readPlayerName`
     - [x] [예외 처리] 입력이 비어있는 경우, `IllegalArgumentException`을 발생시키고 재입력을 받는다.
 
+- [x] **[Domain]** 플레이어가 속할 진영을 관리한다. `class Side`
+    - [x] [규칙] 진영은 초와 한으로 나뉘고, 각각의 이름을 가진다 `private final String name`
+
 - [ ] **[Domain]** 플레이어를 관리할 일급 컬렉션을 생성한다. `class Players`
-    - [ ] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException`을 발생시킨다. `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
-    - [ ] [규칙] 각 진영의 플레이어 이름으로 플레이어 일급 컬렉션 생성 `public Players(String choPlayer, String hanPlayer)`
     - [ ] [규칙] 각 진영의 플레이어 이름으로 플레이어 객체 생성 `public Player(String name)`
+    - [ ] [규칙] 각 진영의 플레이어 이름으로 플레이어 일급 컬렉션 생성 `public Players(String choPlayer, String hanPlayer)`
+    - [ ] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException`을 발생시킨다. `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
 
 
 ## 2. 보드 초기화 및 출력
+
 - [ ] **[Domain]** 장기판과 전체 기물을 올바른 초기 위치에 배치한다.
     - *※ 1.1단계 제약에 따라 상/마 위치 자유 배치는 생략하고 기본 위치로 일괄 고정하여 구현한다.*
 
@@ -67,6 +72,7 @@
 
 
 ## 3. 기물 이동 로직
+
 - [ ] **[UI]** 현재 턴의 플레이어에게 이동할 기물과 도착 위치를 차례로 입력받는다.
     - [ ] [규칙] 게임은 항상 초(초)가 먼저 시작한다.
     - [ ] [예외 처리] 보드 밖의 좌표, 빈 공간, 또는 상대방의 기물을 선택한 경우 예외 발생 후 재입력.
@@ -94,6 +100,7 @@
 
 
 ## 4. 승패 판정 및 게임 종료 (1차 PR 이후 구현)
+
 - [ ] **[Domain]** 상대의 '장'이 잡혔는지 판단하여 게임 종료 여부를 결정한다.
     - [ ] [규칙] 기물 이동 후, 한쪽의 '장'이 보드판에서 사라졌다면 즉시 게임이 끝난다.
 
@@ -102,6 +109,7 @@
 
 
 ## 3️⃣ 입출력 요구 사항
+
 ### 실행 결과 예시
 
 ```
