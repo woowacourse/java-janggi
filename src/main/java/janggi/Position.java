@@ -23,6 +23,21 @@ public record Position(
         return new Path(List.of(this, new Position(row.next(), column.previous())));
     }
 
+    public Path moveDiagonal(Diagonal diagonal) {
+        Row nextRow = row.next();
+        Column nextColumn = column.next();
+
+        if (diagonal.isNorth()) {
+            nextRow = row.previous();
+        }
+
+        if (diagonal.isEast()) {
+            nextColumn = column.previous();
+        }
+
+        return new Path(List.of(this, new Position(nextRow, nextColumn)));
+    }
+
     public Path moveHorizontal(int distance) {
         Position to = new Position(
                 row,

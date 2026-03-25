@@ -1,7 +1,6 @@
 package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,14 +13,14 @@ class DiagonalTest {
         assertThat(Diagonal.of(
                 1,
                 1
-        ).isSouthAndEast()
-        ).isTrue();
+        ).isNorth()
+        ).isFalse();
 
         assertThat(Diagonal.of(
                         1,
                         -1
-                ).isSouthAndWest()
-        ).isTrue();
+                ).isNorth()
+        ).isFalse();
     }
 
     @DisplayName("columnDistance가 1이면 동쪽이다.")
@@ -30,13 +29,13 @@ class DiagonalTest {
         assertThat(Diagonal.of(
                         1,
                         1
-                ).isSouthAndEast()
+                ).isEast()
         ).isTrue();
 
         assertThat(Diagonal.of(
                         -1,
                         1
-                ).isNorthAndEast()
+                ).isEast()
         ).isTrue();
     }
 }
