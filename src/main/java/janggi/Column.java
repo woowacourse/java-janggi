@@ -1,6 +1,7 @@
 package janggi;
 
 public enum Column {
+    OUT,
     ONE,
     TWO,
     THREE,
@@ -9,6 +10,23 @@ public enum Column {
     SIX,
     SEVEN,
     EIGHT,
-    NINE,
-    OUT
+    NINE;
+
+    private static final Column[] CACHE_VALUES = values();
+
+
+    public Column next() {
+        if (this == OUT) {
+            return OUT;
+        }
+        return CACHE_VALUES[(this.ordinal() + 1) % CACHE_VALUES.length];
+    }
+
+
+    public Column previous() {
+        if (this == OUT) {
+            return OUT;
+        }
+        return CACHE_VALUES[(this.ordinal() - 1)];
+    }
 }
