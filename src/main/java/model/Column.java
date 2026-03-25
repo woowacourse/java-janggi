@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Column {
     private final int value;
     private static final int MAXIMUM = 9;
@@ -12,6 +14,20 @@ public class Column {
 
     public static Column from(int value) {
         return new Column(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Column column = (Column) o;
+        return value == column.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 
     private void validate(int value) {

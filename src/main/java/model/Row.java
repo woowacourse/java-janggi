@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Row {
     private static final int HAN_EDGE = 1;
     private static final int CHO_EDGE = 10;
@@ -46,6 +48,20 @@ public class Row {
             return CHO_EDGE;
         }
         return HAN_EDGE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Row row = (Row) o;
+        return value == row.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 
     private void validate(int value) {
