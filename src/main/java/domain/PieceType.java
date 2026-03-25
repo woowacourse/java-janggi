@@ -1,11 +1,11 @@
 package domain;
 
 public enum PieceType {
-    KING,
-    ROOK,
+    GENERAL,
+    CHARIOT,
     CANNON,
     HORSE,
     ELEPHANT,
-    ADVISOR,
-    PAWN
+    GUARD,
+    SOLDIER
 }
