@@ -1,6 +1,6 @@
 import static org.assertj.core.api.Assertions.*;
 
-import domain.Position;
+import domain.board.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
