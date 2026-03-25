@@ -1,6 +1,9 @@
 package domain;
 
 
+import domain.piece.Blank;
+import domain.piece.Piece;
+
 import java.util.Map;
 
 public class JanggiBoard {

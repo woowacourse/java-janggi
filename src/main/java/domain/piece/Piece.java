@@ -1,4 +1,7 @@
-package domain;
+package domain.piece;
+
+import domain.Position;
+import domain.Team;
 
 public abstract class Piece {
     private final Team team;
