@@ -1,2 +1,4 @@
-package view;public class OutputView {
+package view;
+
+public class OutputView {
 }
