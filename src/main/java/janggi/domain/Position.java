@@ -1,16 +1,10 @@
 package janggi.domain;
 
-public class Position {
+public record Position(int row, int column) {
 
-    private final int row;
-    private final int column;
-
-    public Position(int row, int column) {
+    public Position {
         validateRow(row);
         validateColumn(column);
-
-        this.row = row;
-        this.column = column;
     }
 
     private void validateRow(int row) {
