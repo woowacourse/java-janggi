@@ -1,7 +1,8 @@
-package janggi.domain;
+package janggi.domain.status;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
+import janggi.domain.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

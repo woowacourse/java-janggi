@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.status;
 
 public enum Team {
     CHO, HAN;

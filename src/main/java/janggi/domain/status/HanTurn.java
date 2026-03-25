@@ -1,4 +1,6 @@
-package janggi.domain;
+package janggi.domain.status;
+
+import janggi.domain.Point;
 
 public class HanTurn implements GameStatus {
 

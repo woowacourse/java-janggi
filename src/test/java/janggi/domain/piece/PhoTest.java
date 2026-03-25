@@ -1,8 +1,10 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.domain.Point;
+import janggi.domain.status.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
