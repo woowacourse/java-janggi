@@ -139,23 +139,23 @@
       `public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState)`
     - [x] [규칙] 기물의 상태를 포장된 객체로 반환 `public PieceVO toVO()`
 
-- [ ] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`
-    - [x] [규칙] ※ 1.1단계 제약에 따라 상/마 위치 자유 배치는 생략하고 기본 위치로 일괄 고정하여 구현한다.*
-    - [ ] [규칙] 각 진영에 속한 `졸(병) 포 차 마 상 사 궁` 을 배치한다.
+- [x] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`
+    - [x] [규칙] ※ 요구사항 분석과 미션 진행 설계에 따라 상/마 자유 배치 생략, 기본 위치로 일괄 고정.
+    - [x] [규칙] 각 진영에 속한 `졸(병) 포 차 마 상 사 궁` 을 배치한다.
         ![](https://i.namu.wiki/i/j-sZdZbz3kD7bGBzAq8G4Rbkl-gfasbRzB9hFgQp3tqpnfo-cLccIqPqEjiUi30MadlJdqvP-Jkw5NUqhKJBdQ.svg)
-      - [ ] [규칙] `졸(병)` 은 5개, 각 진영 첫 번째 행 (초-6, 한-3) 양 끝 열 (0, 8) 에서부터, 한 칸의 간격을 두고 배치한다.
+      - [x] [규칙] `졸(병)` 은 5개, 각 진영 첫 번째 행 (초-6, 한-3) 양 끝 열 (0, 8) 에서부터, 한 칸의 간격을 두고 배치한다.
         ![](https://velog.velcdn.com/images/nn98/post/9729b224-4b37-4fbe-b08d-9a7148b5fcad/image.png)
-      - [ ] [규칙] `포` 는 2개, 각 진영 두 번째 행 (초-7, 한-2) 양 끝 열 (0, 8) 에서 한 칸의 간격을 두고 배치한다.
+      - [x] [규칙] `포` 는 2개, 각 진영 두 번째 행 (초-7, 한-2) 양 끝 열 (0, 8) 에서 한 칸의 간격을 두고 배치한다.
         ![](https://velog.velcdn.com/images/nn98/post/7b636ac0-e9da-4651-8dc3-1c29b272cf68/image.png)
-      - [ ] [규칙] `차` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝 열 (0, 8) 에 배치한다.
+      - [x] [규칙] `차` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝 열 (0, 8) 에 배치한다.
         ![](https://velog.velcdn.com/images/nn98/post/d80c5ac6-9650-499f-add7-4baa9a8ec491/image.png)
-      - [ ] [규칙] `상` 은 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 한 칸 떨어진 열 (1, 7) 에 배치한다.
+      - [x] [규칙] `상` 은 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 한 칸 떨어진 열 (1, 7) 에 배치한다.
         ![](https://velog.velcdn.com/images/nn98/post/abe72e90-a785-4b61-a542-caa5c54bde56/image.png)
-      - [ ] [규칙] `마` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 두 칸 떨어진 열 (2, 6) 에 배치한다.
+      - [x] [규칙] `마` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 두 칸 떨어진 열 (2, 6) 에 배치한다.
         ![](https://velog.velcdn.com/images/nn98/post/43ca2acf-71cf-48e1-80c9-f93d737225e1/image.png)
-      - [ ] [규칙] `사` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 세 칸 떨어진 열 (3, 5) 에 배치한다.
+      - [x] [규칙] `사` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 세 칸 떨어진 열 (3, 5) 에 배치한다.
         ![](https://velog.velcdn.com/images/nn98/post/8eb3d297-6ba9-4209-9c55-efef637f6bae/image.png)
-      - [ ] [규칙] `궁` 은 1개, 각 진영 마지막에서 한 칸 윗 행 (초-8, 한-1) 중간 열 (4) 에 배치한다.
+      - [x] [규칙] `궁` 은 1개, 각 진영 마지막에서 한 칸 윗 행 (초-8, 한-1) 중간 열 (4) 에 배치한다.
       - ![](https://velog.velcdn.com/images/nn98/post/7e935174-b161-4812-9e91-111a3a8c5bca/image.png)
 
 - [ ] **[Domain/UI]** 현재 장기판의 상태를 출력한다. `class OutputView`
