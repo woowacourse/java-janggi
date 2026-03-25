@@ -6,10 +6,6 @@ public class Advisor extends Piece {
         super(team);
     }
 
-    @Override
-    public String displayName() {
-        return "사";
-    }
 
     @Override
     public PieceType pieceType() {

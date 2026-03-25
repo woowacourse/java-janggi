@@ -6,10 +6,6 @@ public class Horse extends Piece {
         super(team);
     }
 
-    @Override
-    public String displayName() {
-        return "마";
-    }
 
     @Override
     public PieceType pieceType() {

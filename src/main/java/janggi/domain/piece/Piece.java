@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-public abstract class Piece implements State {
+public abstract class Piece {
     private final Team team;
 
     public Piece(Team team) {
@@ -11,13 +11,17 @@ public abstract class Piece implements State {
         return team == otherTeam;
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public Team findTeam() {
         return team;
     }
+
+    public abstract PieceType pieceType();
+
+    //public MoveRule moveRule
+
+
 }

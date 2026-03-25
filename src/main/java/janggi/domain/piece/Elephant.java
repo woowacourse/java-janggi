@@ -6,10 +6,6 @@ public class Elephant extends Piece {
         super(team);
     }
 
-    @Override
-    public String displayName() {
-        return "상";
-    }
 
     @Override
     public PieceType pieceType() {

@@ -11,9 +11,4 @@ public class Soldier extends Piece {
         return PieceType.SOLDIER;
     }
 
-    @Override
-    public String displayName() {
-        return "졸";
-    }
-
 }

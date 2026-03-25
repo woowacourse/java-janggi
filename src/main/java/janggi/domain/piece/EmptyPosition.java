@@ -6,10 +6,6 @@ public class EmptyPosition extends Piece {
         super(team);
     }
 
-    @Override
-    public String displayName() {
-        return "X";
-    }
 
     @Override
     public boolean isEmpty() {

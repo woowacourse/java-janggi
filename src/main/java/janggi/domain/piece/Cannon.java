@@ -6,10 +6,6 @@ public class Cannon extends Piece {
         super(team);
     }
 
-    @Override
-    public String displayName() {
-        return "포";
-    }
 
     @Override
     public PieceType pieceType() {

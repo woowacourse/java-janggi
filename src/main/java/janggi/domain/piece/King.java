@@ -7,11 +7,6 @@ public class King extends Piece {
     }
 
     @Override
-    public String displayName() {
-        return "장";
-    }
-
-    @Override
     public PieceType pieceType() {
         return PieceType.KING;
     }
