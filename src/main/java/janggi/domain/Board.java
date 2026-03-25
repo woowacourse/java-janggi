@@ -14,7 +14,8 @@ public class Board {
         this.state = new LinkedHashMap<>();
     }
 
-    public void init(List<PositionInfo> ) {
-        state =
+    public void init(List<PositionInfo> positionInfos) {
+        positionInfos.stream()
+                .forEach(info -> state.put(info.point(), info.piece()));
     }
 }
