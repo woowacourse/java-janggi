@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.side.TeamType;
 import java.util.List;
 
 public class Turns {
@@ -8,5 +9,9 @@ public class Turns {
 
     public Turns(List<Turn> value) {
         this.value = value;
+    }
+
+    public TeamType getFirstTurn() {
+        return TeamType.CHU;
     }
 }

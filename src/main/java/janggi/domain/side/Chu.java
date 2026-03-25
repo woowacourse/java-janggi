@@ -1,8 +1,11 @@
 package janggi.domain.side;
 
 import janggi.domain.Pieces;
+import janggi.domain.Position;
+import janggi.domain.piece.Piece;
 import janggi.dto.BoardSpot;
 import java.util.List;
+import java.util.Optional;
 
 public class Chu implements Team {
 
@@ -24,6 +27,11 @@ public class Chu implements Team {
     @Override
     public List<BoardSpot> makeSpots() {
         return pieces.makeSpots();
+    }
+
+    @Override
+    public Optional<Piece> findPiece(Position position) {
+        return pieces.findPiece(position);
     }
 
     @Override

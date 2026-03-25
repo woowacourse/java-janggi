@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Pieces {
 
@@ -106,5 +107,9 @@ public class Pieces {
             ));
         }
         return boardSpots;
+    }
+
+    public Optional<Piece> findPiece(Position position) {
+        return Optional.ofNullable(value.get(position));
     }
 }

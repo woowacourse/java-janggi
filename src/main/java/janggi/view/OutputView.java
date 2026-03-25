@@ -68,4 +68,12 @@ public class OutputView {
     private String makeKey(int x, int y) {
         return x + "," + y;
     }
+
+    public void printTurnNotice(String nowTurn) {
+        printMessage(nowTurn + "의 차례입니다.");
+    }
+
+    public void printAskPiecePosition() {
+        printMessage("움직일 기물의 좌표를 입력해주세요.");
+    }
 }
