@@ -15,6 +15,8 @@ public abstract class Piece implements Space {
 
     public abstract void validateMove(Position from, Position to);
 
+    public abstract List<Position> getRoutes(Position from, Position to);
+
     public void validateArrival(Space space) {
         if (space.isBlank()) {
             return;
@@ -28,8 +30,8 @@ public abstract class Piece implements Space {
         throw new IllegalArgumentException("이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
 
-    public void validateRoutes(List<Piece> pieces){
-        if (!pieces.isEmpty()){
+    public void validateRoutes(List<Piece> pieces) {
+        if (!pieces.isEmpty()) {
             throw new IllegalArgumentException("이동 경로 사이에 다른 말이 있으면 안됩니다.");
         }
     }

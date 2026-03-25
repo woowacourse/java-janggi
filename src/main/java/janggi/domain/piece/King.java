@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.List;
 
 public class King extends Piece {
 
@@ -15,6 +16,11 @@ public class King extends Piece {
             return;
         }
         throw new IllegalArgumentException("해당 위치로 궁이 이동할 수 없습니다.");
+    }
+
+    @Override
+    public List<Position> getRoutes(Position from, Position to) {
+        return List.of();
     }
 
     private boolean moveStrategy(Position from, Position to) {
