@@ -43,10 +43,7 @@ class PathTest {
         ));
 
         //when & then
-        assertThat(path.getCourse())
-                .containsExactly(
-                        new Position(Row.ZERO, Column.EIGHT),
-                        new Position(Row.ONE, Column.EIGHT)
-                );
+        assertThat(path.getCourse().getDestination())
+                .isEqualTo(new Position(Row.ONE, Column.EIGHT));
     }
 }
