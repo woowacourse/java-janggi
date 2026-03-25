@@ -23,7 +23,7 @@ public class Sa extends Started {
     }
 
     @Override
-    public List<Position> calculatePath(Position start, Position end) {
+    public List<Position> findRoute(Position start, Position end) {
         for (List<Movement> movements : MOVE_RANGE) {
             List<Position> calculatedPath = calculatePath(start, movements);
             if (calculatedPath.getLast().equals(end)) {
