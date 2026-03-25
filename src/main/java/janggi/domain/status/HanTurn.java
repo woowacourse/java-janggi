@@ -13,20 +13,10 @@ public class HanTurn implements GameStatus {
 
     @Override
     public GameStatus move(Point from, Point to, Board board) {
-        validateFromPoint(from, board);
-        validateOfPoint(to, board);
+        if (board.isKingDie(to, team)) {
+            return new FinishedGame(Team.CHO);
+        }
+        board.move(from, to, team);
         return new ChoTurn();
-    }
-
-    private void validateOfPoint(Point to, Board board) {
-        if (!board.isEmptyPoint(to) && board.isSameTeam(to, team)) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void validateFromPoint(Point from, Board board) {
-        if (board.isEmptyPoint(from) || !board.isSameTeam(from, team)) {
-            throw new IllegalArgumentException();
-        }
     }
 }
