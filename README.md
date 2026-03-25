@@ -46,9 +46,9 @@
 ## 1. 게임 준비 및 플레이어 설정
 - [ ] **[UI]** 선수(초)와 후수(한) 플레이어의 이름을 입력받는다. `class InputView`
     - [ ] [출력] 초 진영의 플레이어 이름 입력 안내문 출력 - `class OutputView`
-    - [ ] [입력] 초 진영의 플레이어 이름 입력 - `public String readPlayerName`
+    - [x] [입력] 초 진영의 플레이어 이름 입력 - `public String readPlayerName`
     - [ ] [출력] 한 진영의 플레이어 이름 입력 안내문 출력 - `class OutputView`
-    - [ ] [입력] 한 진영의 플레이어 이름 입력 - `public String readPlayerName`
+    - [x] [입력] 한 진영의 플레이어 이름 입력 - `public String readPlayerName`
     - [ ] [예외 처리] 입력이 비어있는 경우, `IllegalArgumentException`을 발생시키고 재입력을 받는다.
 
 - [ ] **[Domain]** 플레이어를 관리할 일급 컬렉션을 생성한다. `class Players`
@@ -85,7 +85,7 @@
 
 - [ ] **[UI]** 선택한 기물이 이동할 수 있는 유효한 위치 목록을 출력한다.
 
-- [ ] **[UI]** 도착 위치를 입력받는다.
+- [ ] **[UI]** 도착 위치를 입력받는다. `class InputView`
 
 - [ ] **[Domain]** 검증을 통과하면 기물을 이동시키고 장기판을 갱신한다.
 
