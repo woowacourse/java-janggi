@@ -1,6 +1,6 @@
-package domain.piece;
+package janggi.domain.piece;
 
-import domain.side.Side;
+import janggi.domain.side.Side;
 
 public enum PieceName {
     CHARIOT("車", "車"),

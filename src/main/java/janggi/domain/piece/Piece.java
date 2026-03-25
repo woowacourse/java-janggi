@@ -1,8 +1,8 @@
-package domain.piece;
+package janggi.domain.piece;
 
-import domain.board.Board;
-import domain.board.Point;
-import domain.side.Side;
+import janggi.domain.board.Board;
+import janggi.domain.board.Point;
+import janggi.domain.side.Side;
 import java.util.List;
 
 public abstract class Piece {

@@ -1,14 +1,14 @@
-package domain.piece;
+package janggi.domain.piece;
 
-import domain.board.Board;
-import domain.board.Point;
-import domain.side.Side;
+import janggi.domain.board.Board;
+import janggi.domain.board.Point;
+import janggi.domain.side.Side;
 import java.util.List;
 
-public class Chariot extends Piece {
-    private static final PieceName NAME = PieceName.CHARIOT;
+public class General extends Piece {
+    private static final PieceName NAME = PieceName.GENERAL;
 
-    public Chariot(Side side) {
+    public General(Side side) {
         super(NAME, side);
     }
 

@@ -1,13 +1,13 @@
-package domain.board;
+package janggi.domain.board;
 
-import domain.board.setup.BoardSetUp;
-import domain.piece.Advisor;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.General;
-import domain.piece.Piece;
-import domain.piece.Soldier;
-import domain.side.Side;
+import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.piece.Advisor;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
+import janggi.domain.side.Side;
 import java.util.HashMap;
 import java.util.Map;
 

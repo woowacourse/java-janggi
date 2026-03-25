@@ -1,10 +1,10 @@
-package domain.board.setup;
+package janggi.domain.board.setup;
 
-import domain.board.Point;
-import domain.piece.Elephant;
-import domain.piece.Horse;
-import domain.piece.Piece;
-import domain.side.Side;
+import janggi.domain.board.Point;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Piece;
+import janggi.domain.side.Side;
 import java.util.HashMap;
 import java.util.Map;
 

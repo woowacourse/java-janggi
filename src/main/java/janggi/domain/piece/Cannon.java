@@ -1,14 +1,14 @@
-package domain.piece;
+package janggi.domain.piece;
 
-import domain.board.Board;
-import domain.board.Point;
-import domain.side.Side;
+import janggi.domain.board.Board;
+import janggi.domain.board.Point;
+import janggi.domain.side.Side;
 import java.util.List;
 
-public class Advisor extends Piece {
-    private static final PieceName NAME = PieceName.ADVISOR;
+public class Cannon extends Piece {
+    private static final PieceName NAME = PieceName.CANNON;
 
-    public Advisor(Side side) {
+    public Cannon(Side side) {
         super(NAME, side);
     }
 

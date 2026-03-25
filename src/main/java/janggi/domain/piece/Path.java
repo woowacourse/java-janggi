@@ -1,6 +1,6 @@
-package domain.piece;
+package janggi.domain.piece;
 
-import domain.board.Point;
+import janggi.domain.board.Point;
 import java.util.List;
 
 public class Path {
