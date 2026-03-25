@@ -9,7 +9,7 @@ import java.util.Map;
 public class OutputView {
 
     private static final String EMPTY_CELL = "　　";
-    private static final String COLUMN_INDEXES = "　　║　　０　　　　１　　　　２　　　　３　　　　４　　　　５　　　　６　　　　７　　　　８";
+    private static final String COLUMN_INDEXES = "　　║　　0　　　　1　　　　2　　　　3　　　　4　　　　5　　　　6　　　　7　　　　8";
     private static final String DIVIDER = "　　║===============================================================";
     private static final String VERTICAL_LINE = "　　║　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃";
 
