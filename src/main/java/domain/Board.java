@@ -56,10 +56,14 @@ public class Board {
         board.put(to, fromPiece);
     }
 
-    public void diagonalMove(final Position from, final Position to) {
-        Piece fromPiece = findPieceByPosition(from);
-        board.put(to, fromPiece);
+    public boolean isExistPosition(Position tempPosition) {
+        return board.containsKey(tempPosition);
     }
+
+//    public void diagonalMove(final Position from, final Position to) {
+//        Piece fromPiece = findPieceByPosition(from);
+//        board.put(to, fromPiece);
+//    }
 
     public Piece findPieceByPosition(final Position position) {
         return board.get(position);

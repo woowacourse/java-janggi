@@ -1,9 +1,13 @@
 package domain.strategy;
 
-public class ElephantMoveStrategy implements MoveStrategy{
+import domain.Board;
+import domain.vo.Position;
+
+public class ElephantMoveStrategy implements MoveStrategy {
+
 
     @Override
-    public boolean canMove() {
+    public boolean canMove(Position from, Position to, Board board) {
         return false;
     }
 }

@@ -1,9 +1,12 @@
 package domain.strategy;
 
-public class HorseMoveStrategy implements MoveStrategy{
+import domain.Board;
+import domain.vo.Position;
+
+public class HorseMoveStrategy implements MoveStrategy {
 
     @Override
-    public boolean canMove() {
+    public boolean canMove(Position from, Position to, Board board) {
         return false;
     }
 }
