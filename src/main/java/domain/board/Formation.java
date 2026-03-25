@@ -35,4 +35,5 @@ public enum Formation {
     public List<Integer> horseFormations() {
         return horseFormations;
     }
+
 }

@@ -5,6 +5,7 @@ import domain.piece.Piece;
 import domain.point.Point;
 
 public class Intersection {
+
     private final Point point;
     private Piece piece;
 
@@ -24,4 +25,5 @@ public class Intersection {
     public boolean isSamePiece(Intersection intersection) {
         return this.piece.equals(intersection.piece);
     }
+
 }

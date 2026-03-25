@@ -3,6 +3,7 @@ package domain.point;
 import java.util.Objects;
 
 public class Point {
+
     private final int y;
     private final int x;
 
@@ -35,4 +36,5 @@ public class Point {
     public int hashCode() {
         return Objects.hash(y, x);
     }
+
 }

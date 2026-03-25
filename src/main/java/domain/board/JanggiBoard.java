@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JanggiBoard {
+
     private final Map<Point, Intersection> intersections;
 
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
@@ -36,4 +37,5 @@ public class JanggiBoard {
     public Intersection getIntersection(Point point) {
         return intersections.get(point);
     }
+
 }
