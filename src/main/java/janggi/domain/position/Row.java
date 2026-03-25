@@ -20,4 +20,9 @@ public record Row(
     public Row add(int row) {
         return new Row(this.row + row);
     }
+
+    public boolean isExceed() {
+        return
+
+    }
 }
