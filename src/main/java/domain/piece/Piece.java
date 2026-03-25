@@ -22,4 +22,12 @@ public class Piece {
         this.team = team;
         this.pieceType = pieceType;
     }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
 }
