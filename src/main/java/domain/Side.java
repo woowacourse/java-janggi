@@ -13,4 +13,12 @@ public enum Side {
     public boolean isHan() {
         return this == HAN;
     }
+
+    public Side change() {
+        if (this == HAN) {
+            return CHU;
+        }
+
+        return HAN;
+    }
 }
