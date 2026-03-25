@@ -30,7 +30,7 @@
 - [ ] 입력받은 위치 값(목적지)으로 이동 가능 여부를 반환할 수 있다.
   - [x] General(장군)
   - [x] Guard(사)
-  - [ ] Soldier(졸)
+  - [x] Soldier(초/한 각각 생성)
   - [ ] Horse(마)
   - [ ] Elephant(상)
   - [ ] Chariot(차)
