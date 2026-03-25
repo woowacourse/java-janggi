@@ -21,10 +21,10 @@ public class Path {
         return path.getLast();
     }
 
-    public List<Position> getCourse() {
+    public Path getCourse() {
         int startIdx = 0;
         int toIdx = path.size() - 1;
 
-        return path.subList(startIdx, toIdx);
+        return new Path(path.subList(startIdx, toIdx));
     }
 }
