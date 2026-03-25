@@ -11,11 +11,13 @@ public class Cha extends Gimul{
 
     @Override
     public Path getLegalPath(Position from, Position to) {
-        if (from.row() != to.row() && from.column() != to.column()) {
-            throw new IllegalArgumentException();
+        if ((!from.isSameRow(to) && !from.isSameColumn(to)) || from.equals(to)) {
+            throw new IllegalArgumentException("해당 경로로는 이동할 수 없습니다.");
         }
 
-        ArrayList<Position> positions = new ArrayList<>();
+        if (from.isSameRow(to)) {
+
+        }
 
         return null;
     }
