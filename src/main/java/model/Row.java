@@ -1,9 +1,15 @@
 package model;
 
 public class Row {
+    private static final int HAN_EDGE = 1;
+    private static final int CHO_EDGE = 10;
+    private static final int HAN_SOLDIER = 4;
+    private static final int CHO_SOLDIER = 7;
+    private static final int HAN_GENERAL = 2;
+    private static final int CHO_GENERAL = 9;
+    private static final int HAN_CANNON = 3;
+    private static final int CHO_CANNON = 8;
     private final int value;
-    private static final int MAXIMUM = 10;
-    private static final int MINIMUM = 1;
 
     private Row(int value) {
         validate(value);
@@ -14,8 +20,36 @@ public class Row {
         return new Row(value);
     }
 
+    public static int soldier(Country country) {
+        if (country == Country.CHO) {
+            return CHO_SOLDIER;
+        }
+        return HAN_SOLDIER;
+    }
+
+    public static int cannon(Country country) {
+        if (country == Country.CHO) {
+            return CHO_CANNON;
+        }
+        return HAN_CANNON;
+    }
+
+    public static int general(Country country) {
+        if (country == Country.CHO) {
+            return CHO_GENERAL;
+        }
+        return HAN_GENERAL;
+    }
+
+    public static int edgePiece(Country country) {
+        if (country == Country.CHO) {
+            return CHO_EDGE;
+        }
+        return HAN_EDGE;
+    }
+
     private void validate(int value) {
-        if (value > MAXIMUM || value < MINIMUM) {
+        if (value < HAN_EDGE || value > CHO_EDGE) {
             throw new IllegalArgumentException("범위에 맞지 않는 숫자입니다.");
         }
     }
