@@ -2,6 +2,7 @@ package controller;
 
 import domain.Board;
 import domain.BoardInitializer;
+import domain.Position;
 import view.InputView;
 import view.OutputView;
 
@@ -20,5 +21,6 @@ public class JanggiController {
     public void play() {
         Board board = new Board(boardInitializer);
         outputView.printBoard(board.getBoard());
+        Position startPosition = inputView.requestPiecePosition();
     }
 }

@@ -34,4 +34,8 @@ public class OutputView {
 
         System.out.print(" " + PieceView.from(piece) + " ");
     }
+
+    public static void printErrorMessage(String message) {
+        System.out.println(message);
+    }
 }
