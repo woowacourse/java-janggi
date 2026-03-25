@@ -9,6 +9,7 @@ public final class Position {
     private static final int MAXIMUM_COLUMN = 9;
     private static final int MINIMUM_ROW = 1;
     private static final int MINIMUM_COLUMN = 1;
+    private static final int ROW_FLIP_VALUE = 11;
     private static final Map<Integer, Map<Integer, Position>> CACHE;
 
     static {
@@ -34,6 +35,10 @@ public final class Position {
             secondaryMap.put(column, new Position(row, column));
         }
         return secondaryMap.get(column);
+    }
+
+    public Position flipAroundMiddleRow() {
+        return Position.valueOf(ROW_FLIP_VALUE - row, column);
     }
 
     private void validateRowRange(final int row) {
