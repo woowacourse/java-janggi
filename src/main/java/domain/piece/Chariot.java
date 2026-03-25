@@ -4,7 +4,7 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 
-public class Chariot extends Piece implements StaticPositioned {
+public class Chariot extends StaticPositionedPiece {
 
     private static final int FAR_FROM_BASE_ROW = 0;
     private static final List<Integer> INITAL_FILES = List.of(1, 9);

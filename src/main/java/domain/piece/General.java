@@ -4,7 +4,7 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 
-public class General extends Piece implements StaticPositioned {
+public class General extends StaticPositionedPiece {
 
     private static final int INITIAL_FILE = 5;
     private static final int FAR_FROM_BASE_ROW = 1;

@@ -4,7 +4,7 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 
-public class Soldier extends Piece implements StaticPositioned {
+public class Soldier extends StaticPositionedPiece {
 
     private static final int FAR_FROM_BASE_ROW = 3;
     private static final List<Integer> INITAL_FILES = List.of(1, 3, 5, 7, 9);
