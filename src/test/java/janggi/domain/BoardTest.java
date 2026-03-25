@@ -51,5 +51,19 @@ public class BoardTest {
 
             assertThat(actual).isEqualTo(expected);
         }
+
+        @Test
+        @DisplayName("빈 칸인 경우")
+        void success_3() {
+            Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
+            Position position = Position.valueOf(1, 5);
+            Map<Position, Piece> positionPieceMap = Map.of();
+            Board board = new Board(positionPieceMap);
+            boolean expected = false;
+
+            boolean actual = board.checkPieceOfTeam(blueTeam, position);
+
+            assertThat(actual).isEqualTo(expected);
+        }
     }
 }
