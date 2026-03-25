@@ -5,4 +5,7 @@ public record Position(
         Column column
 ) {
 
+    public static Position OffsetFrom(int row, int col) {
+        return null;
+    }
 }
