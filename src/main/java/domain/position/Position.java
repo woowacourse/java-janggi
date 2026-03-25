@@ -11,10 +11,10 @@ public final class Position {
     }
 
     private void validate(int x, int y) {
-        if (x <= 0 || x >= 10) {
-            throw new IllegalArgumentException("x값은 1이상 9이하여야 합니다.");
+        if (x < 0 || x > 8) {
+            throw new IllegalArgumentException("x값은 0이상 8이하여야 합니다.");
         }
-        if (y <= 0 || y >= 10) {
+        if (y < 0 || y > 9) {
             throw new IllegalArgumentException("x값은 0이상 9이하여야 합니다.");
         }
     }
