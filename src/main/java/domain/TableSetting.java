@@ -1,26 +1,40 @@
 package domain;
 
+import domain.piece.PieceType;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public enum TableSetting {
-    LEFT_TABLE(List.of("상", "마", "상", "마")),
-    RIGHT_TABLE(List.of("마", "상", "마", "상")),
-    INSIDE_TABLE(List.of("마", "상", "상", "마")),
-    OUTSIDE_TABLE(List.of("상", "마", "마", "상")),
+    LEFT_TABLE(List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE), "상마상마"),
+    RIGHT_TABLE(List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT), "마상마상"),
+    INSIDE_TABLE(List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT, PieceType.HORSE), "마상상마"),
+    OUTSIDE_TABLE(List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT), "상마마상"),
     ;
 
-    private final List<String> names;
+    private final List<PieceType> formation;
+    private final String name;
 
-    TableSetting(List<String> names) {
-        this.names = names;
+    TableSetting(List<PieceType> formation, String name) {
+        this.formation = formation;
+        this.name = name;
     }
 
-    public static TableSetting from(List<String> names) {
+    public static TableSetting from(String name) {
         for (TableSetting tableSetting : TableSetting.values()) {
-            if (tableSetting.names.equals(names)) {
+            if (tableSetting.name.equals(name)) {
                 return tableSetting;
             }
         }
         throw new IllegalArgumentException("[ERROR] 존재하지 않는 상차림입니다.");
+    }
+
+    public List<PieceType> getFormation(Country country) {
+        List<PieceType> pieceTypes = new ArrayList<>(this.formation);
+        if (country == Country.HAN) {
+            Collections.reverse(pieceTypes);
+            return pieceTypes;
+        }
+        return pieceTypes;
     }
 }

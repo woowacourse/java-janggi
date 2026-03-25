@@ -1,9 +1,11 @@
 package domain;
 
+import java.util.Objects;
+
 public class Position {
-    private static final int INITIAL_POSITION = 0;
-    private static final int X_MAXIMUM_POSITION = 8;
-    private static final int Y_MAXIMUM_POSITION = 9;
+    public static final int INITIAL_POSITION = 0;
+    public static final int X_MAXIMUM_POSITION = 8;
+    public static final int Y_MAXIMUM_POSITION = 9;
 
     private final int x;
     private final int y;
@@ -26,5 +28,19 @@ public class Position {
 
     private boolean isYInvalidRange(int y) {
         return y < INITIAL_POSITION || y > Y_MAXIMUM_POSITION;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Position position = (Position) object;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

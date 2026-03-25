@@ -28,7 +28,7 @@ public class JanggiController {
         List<TableSetting> tableSettings = new ArrayList<>();
         for (Country country : Country.values()) {
             String input = inputView.readTableSetting(country.getName());
-            List<String> tableNames = InputParser.parseTableSetting(input);
+            String tableNames = InputParser.parseTableSetting(input);
 
             TableSetting tableSetting = TableSetting.from(tableNames);
             tableSettings.add(tableSetting);

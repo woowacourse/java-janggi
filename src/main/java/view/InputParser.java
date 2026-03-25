@@ -6,10 +6,10 @@ import java.util.List;
 public class InputParser {
     private static final int POSITION_COUNT = 2;
 
-    public static List<String> parseTableSetting(String input) {
+    public static String parseTableSetting(String input) {
         input = input.replace(" ", "");
 
-        return Arrays.stream(input.split("")).toList();
+        return input;
     }
 
     public static List<Integer> parsePosition(String input) {
