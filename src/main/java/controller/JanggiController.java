@@ -19,17 +19,17 @@ public class JanggiController {
     public void run() {
         outputView.printEnterChoPlayerNamePrompt();
         String choPlayerName = inputView.readPlayerName();
-
-        outputView.printEnterChoPlayerNamePrompt();
-        String hanPlayerName = inputView.readPlayerName();
-
         Player choPlayer = Player.cho(choPlayerName);
+
+        outputView.printEnterHanPlayerNamePrompt();
+        String hanPlayerName = inputView.readPlayerName();
         Player hanPlayer = Player.han(hanPlayerName);
 
-        outputView.printEnterChoElephantSetup();
+        outputView.printChoiceChoElephantSetupPrompt();
+        ;
         ElephantSetup choElephantSetup = inputView.readElephantSetup();
 
-        outputView.printEnterHanElephantSetup();
+        outputView.printChoiceHanElephantSetupPrompt();
         ElephantSetup hanElephantSetup = inputView.readElephantSetup();
 
         Board board = Board.init(choElephantSetup, hanElephantSetup);
