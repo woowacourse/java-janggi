@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Type;
+import janggi.domain.piece.strategy.GeneralAndGuardStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class PieceTest {
@@ -20,7 +22,7 @@ public class PieceTest {
     @DisplayName("졸/병 테스트")
     @Nested
     class Soldier {
-        public static Stream<Arguments> successMovePositions() {
+        private static Stream<Arguments> successMovePositions() {
             return Stream.of(
                     Arguments.of(new Position(6, 0), new Position(5, 0)),
                     Arguments.of(new Position(5, 1), new Position(4, 1)),
@@ -40,7 +42,7 @@ public class PieceTest {
             assertTrue(result);
         }
 
-        public static Stream<Arguments> exceptionMovePositions() {
+        private static Stream<Arguments> exceptionMovePositions() {
             return Stream.of(
                     Arguments.of(new Position(6, 0), new Position(5, 1)),
                     Arguments.of(new Position(6, 0), new Position(6, 2)),
@@ -91,6 +93,46 @@ public class PieceTest {
             Piece piece = new Piece(Type.SOLDIER, Camp.CHO, new SoldierStrategy());
 
             assertThatThrownBy(() -> piece.canMove(new Position(3, 0), new Position(2, 0)))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+        }
+    }
+
+    @DisplayName("궁/사 테스트")
+    @Nested
+    class GeneralAndGuard {
+
+        private static Stream<Arguments> successMovePositions() {
+            return Stream.of(
+                    Arguments.of(Type.GENERAL, new Position(1, 4), new Position(1, 5)),
+                    Arguments.of(Type.GENERAL, new Position(1, 4), new Position(1, 3)),
+                    Arguments.of(Type.GENERAL, new Position(1, 4), new Position(0, 4)),
+                    Arguments.of(Type.GENERAL, new Position(1, 4), new Position(2, 4)),
+
+                    Arguments.of(Type.GUARD, new Position(1, 4), new Position(1, 5)),
+                    Arguments.of(Type.GUARD, new Position(1, 4), new Position(1, 3)),
+                    Arguments.of(Type.GUARD, new Position(1, 4), new Position(0, 4)),
+                    Arguments.of(Type.GUARD, new Position(1, 4), new Position(2, 4))
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("successMovePositions")
+        void 궁과_사는_상하좌우_1칸_이동한다(Type type, Position from, Position to) {
+            //given
+            Piece piece = new Piece(type, Camp.CHO, new GeneralAndGuardStrategy());
+            //when
+            boolean result = piece.canMove(from, to);
+            //then
+            assertTrue(result);
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {"GENERAL, GUARD"})
+        void 궁과_사는_1칸_이동이_아니면_예외가_발생한다(Type type) {
+            Piece piece = new Piece(type, Camp.CHO, new GeneralAndGuardStrategy());
+
+            assertThatThrownBy(() -> piece.canMove(new Position(3, 0), new Position(5, 0)))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
