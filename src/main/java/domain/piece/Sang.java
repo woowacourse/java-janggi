@@ -12,6 +12,7 @@ import static domain.direction.Direction.WEST;
 import domain.direction.Direction;
 import domain.player.Team;
 import domain.position.Position;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sang extends Piece {
@@ -44,6 +45,19 @@ public class Sang extends Piece {
 
     @Override
     public List<Position> getPath(Position src, Position dest) {
-        return List.of();
+        for (List<Direction> path : paths) {
+            int nextX = src.getX() + path.get(0).getOffsetX() + path.get(1).getOffsetX() + path.get(2).getOffsetX();
+            int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY() + path.get(2).getOffsetX();
+            Position nextPosition = new Position(nextX, nextY);
+            if (dest.equals(nextPosition)) {
+                List<Position> positionList = new ArrayList<>();
+                for (Direction direction : path) {
+                    positionList.add(
+                            new Position(src.getX() + direction.getOffsetX(), src.getY() + direction.getOffsetY()));
+                }
+                return positionList;
+            }
+        }
+        throw new IllegalArgumentException("목적지로 이동할 수 없습니다.");
     }
 }
