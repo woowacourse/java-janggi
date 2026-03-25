@@ -1,6 +1,6 @@
 package domain.game;
 
-import domain.state.GameState;
+import domain.vo.Arrangements;
 
 public class Board {
     private final Pieces pieces;
@@ -9,4 +9,6 @@ public class Board {
         this.pieces = pieces;
     }
 
+//    public static Board of(Arrangements arrangements) {
+//    }
 }

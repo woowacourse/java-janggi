@@ -2,6 +2,7 @@ package io;
 
 import domain.game.JanggiGame;
 import domain.vo.Arrangement;
+import domain.vo.Arrangements;
 import domain.vo.Team;
 import java.util.function.Supplier;
 
@@ -17,8 +18,12 @@ public class GameConsole {
     }
 
     public void run() {
-        Arrangement hanArrange =  readArrangement(Team.HAN);
-        Arrangement choArrange =  readArrangement(Team.CHO);
+        Arrangements arrangements = new Arrangements(
+                readArrangement(Team.HAN),
+                readArrangement(Team.CHO)
+        );
+
+        janggiGame.setupBoard(arrangements);
     }
 
     private Arrangement readArrangement(Team team) {
