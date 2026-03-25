@@ -2,6 +2,8 @@ package domain.coordination;
 
 import util.ErrorMessage;
 
+import java.util.Objects;
+
 public class Column {
 
     private static final int MIN = 1;
@@ -18,5 +20,17 @@ public class Column {
         if (!(index >= MIN && index <= MAX)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_COORDINATION.getMessage());
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Column column = (Column) o;
+        return index == column.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(index);
     }
 }
