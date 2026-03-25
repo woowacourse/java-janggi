@@ -18,7 +18,7 @@ public class Piece {
     }
 
     public boolean canMove(Position from, Position to) {
-        List<Position> path = moveStrategy.findPath(from, to);
+        List<Position> path = moveStrategy.findPath(from, to, camp);
         return true;
     }
 
