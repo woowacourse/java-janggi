@@ -37,4 +37,12 @@ public record Position(
     public Position moveSouthAndWest() {
         return new Position(row.next(), column.previous());
     }
+
+    public boolean isSameRow(Position other) {
+        return this.row == other.row;
+    }
+
+    public boolean isSameColumn(Position other) {
+        return this.column == other.column;
+    }
 }

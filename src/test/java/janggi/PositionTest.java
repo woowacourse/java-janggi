@@ -1,7 +1,6 @@
 package janggi;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -88,7 +87,27 @@ class PositionTest {
         assertThat(position.moveSouthAndWest()).isEqualTo(new Position(Row.SEVEN, Column.TWO));
     }
 
+    @DisplayName("같은 행이면 true를 반환한다.")
+    @Test
+    void isSameRow() {
+        //given
+        Position position = new Position(Row.SIX, Column.THREE);
+        Position other = new Position(Row.SIX, Column.FIVE);
 
+        //when & then
+        assertThat(position.isSameRow(other))
+                .isEqualTo(true);
+    }
 
+    @DisplayName("같은 열이면 true를 반환한다.")
+    @Test
+    void isSameCollumn() {
+        //given
+        Position position = new Position(Row.SIX, Column.THREE);
+        Position other = new Position(Row.FIVE, Column.THREE);
 
+        //when & then
+        assertThat(position.isSameColumn(other))
+                .isEqualTo(true);
+    }
 }
