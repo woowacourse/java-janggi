@@ -7,9 +7,9 @@ import domain.piece.PieceType;
 import java.util.List;
 
 public enum Formation {
-    MA_SANG_MA_SANG(List.of(MA, SANG, MA, SANG), 1),
-    MA_SANG_SANG_MA(List.of(MA, SANG, SANG, MA), 2),
-    SANG_MA_SANG_MA(List.of(SANG, MA, SANG, MA), 3),
+    SANG_MA_SANG_MA(List.of(SANG, MA, SANG, MA), 1),
+    MA_SANG_MA_SANG(List.of(MA, SANG, MA, SANG), 2),
+    MA_SANG_SANG_MA(List.of(MA, SANG, SANG, MA), 3),
     SANG_MA_MA_SANG(List.of(SANG, MA, MA, SANG), 4);
 
     private final List<PieceType> formation;
