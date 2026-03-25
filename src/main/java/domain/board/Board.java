@@ -4,9 +4,12 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
+import dto.BoardResponseDto;
+import dto.PieceDto;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -71,9 +74,29 @@ public class Board {
     }
 
     private void placeHorseAndElephantBySide(Side side, Placement placement, int row) {
-        state.put(Position.of(row, 2), Piece.of(side, placement.getColumnTwoType()));
-        state.put(Position.of(row, 3), Piece.of(side, placement.getColumnThreeType()));
-        state.put(Position.of(row, 7), Piece.of(side, placement.getColumnSevenType()));
-        state.put(Position.of(row, 8), Piece.of(side, placement.getColumnEightType()));
+        if (side == Side.CHO) placeCho(side, placement, row);
+        if (side == Side.HAN) placeHan(side, placement, row);
+    }
+
+    private void placeCho(Side side, Placement placement, int row) {
+        state.put(Position.of(row, 2), Piece.of(side, placement.getFirstPieceType()));
+        state.put(Position.of(row, 3), Piece.of(side, placement.getSecondPieceType()));
+        state.put(Position.of(row, 7), Piece.of(side, placement.getThirdPieceType()));
+        state.put(Position.of(row, 8), Piece.of(side, placement.getFourthPieceType()));
+    }
+
+    private void placeHan(Side side, Placement placement, int row) {
+        state.put(Position.of(row, 8), Piece.of(side, placement.getFirstPieceType()));
+        state.put(Position.of(row, 7), Piece.of(side, placement.getSecondPieceType()));
+        state.put(Position.of(row, 3), Piece.of(side, placement.getThirdPieceType()));
+        state.put(Position.of(row, 2), Piece.of(side, placement.getFourthPieceType()));
+    }
+
+    public BoardResponseDto findState() {
+        return new BoardResponseDto(state.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> PieceDto.of(entry.getValue()))
+                ));
     }
 }

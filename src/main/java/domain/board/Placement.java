@@ -13,25 +13,25 @@ public enum Placement {
 
     private final int code;
     private final String name;
-    private final PieceType columnTwoType;
-    private final PieceType columnThreeType;
-    private final PieceType columnSevenType;
-    private final PieceType columnEightType;
+    private final PieceType firstPieceType;
+    private final PieceType secondPieceType;
+    private final PieceType thirdPieceType;
+    private final PieceType fourthPieceType;
 
     Placement(
             int code,
             String name,
-            PieceType columnTwoType,
-            PieceType columnThreeType,
-            PieceType columnSevenType,
-            PieceType columnEightType
+            PieceType firstPieceType,
+            PieceType secondPieceType,
+            PieceType thirdPieceType,
+            PieceType fourthPieceType
     ) {
         this.code = code;
         this.name = name;
-        this.columnTwoType = columnTwoType;
-        this.columnThreeType = columnThreeType;
-        this.columnSevenType = columnSevenType;
-        this.columnEightType = columnEightType;
+        this.firstPieceType = firstPieceType;
+        this.secondPieceType = secondPieceType;
+        this.thirdPieceType = thirdPieceType;
+        this.fourthPieceType = fourthPieceType;
     }
 
     public static Placement from(int code) {
@@ -41,19 +41,19 @@ public enum Placement {
                 .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 코드값 입니다."));
     }
 
-    public PieceType getColumnTwoType() {
-        return columnTwoType;
+    public PieceType getFirstPieceType() {
+        return firstPieceType;
     }
 
-    public PieceType getColumnThreeType() {
-        return columnThreeType;
+    public PieceType getSecondPieceType() {
+        return secondPieceType;
     }
 
-    public PieceType getColumnSevenType() {
-        return columnSevenType;
+    public PieceType getThirdPieceType() {
+        return thirdPieceType;
     }
 
-    public PieceType getColumnEightType() {
-        return columnEightType;
+    public PieceType getFourthPieceType() {
+        return fourthPieceType;
     }
 }
