@@ -34,7 +34,6 @@ public class PhoTest {
         Piece pho = new Pho(Team.CHO);
         Point from = Point.of(0, 0);
         Point to = Point.of(1, 1);
-
         // when & then
         assertThatThrownBy(() -> pho.getRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
