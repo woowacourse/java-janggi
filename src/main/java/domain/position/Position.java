@@ -12,6 +12,14 @@ public class Position {
         this.column = new Column(column);
     }
 
+    public int getRow(){
+        return row.row();
+    }
+
+    public int getColumn(){
+        return column.column();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

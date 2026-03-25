@@ -22,5 +22,15 @@ public abstract class Piece implements Place {
     }
 
     public abstract PieceSymbol getSymbol();
+
+    @Override
+    public boolean isSameSide(Side side) {
+        return this.side == side;
+    }
+
+    @Override
+    public Side getSide() {
+        return side;
+    }
 }
 
