@@ -15,14 +15,14 @@ public enum Column {
     EIGHT,
     NINE;
 
-    private static final Column[] CACHE_VALUES = values();
+    private static final List<Column> CACHE_VALUES = Arrays.asList(values());
 
 
     public Column next() {
         if (this == OUT) {
             return OUT;
         }
-        return CACHE_VALUES[(this.ordinal() + 1) % CACHE_VALUES.length];
+        return CACHE_VALUES.get((this.ordinal() + 1) % CACHE_VALUES.size());
     }
 
 
@@ -30,7 +30,7 @@ public enum Column {
         if (this == OUT) {
             return OUT;
         }
-        return CACHE_VALUES[(this.ordinal() - 1)];
+        return CACHE_VALUES.get(this.ordinal() - 1);
     }
 
     public List<Column> to(Column other) {
@@ -39,20 +39,11 @@ public enum Column {
         }
 
         if (this.ordinal() > other.ordinal()) {
-            List<Column> result = Arrays.asList(Arrays.copyOfRange(
-                    CACHE_VALUES,
-                    other.ordinal(),
-                    this.ordinal() + 1
-            ));
-
-            return result.reversed();
+            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + 1).reversed();
         }
 
-        return Arrays.asList(Arrays.copyOfRange(
-                CACHE_VALUES,
-                this.ordinal(),
-                other.ordinal() + 1)
-        );
+        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + 1);
+
     }
 
 }
