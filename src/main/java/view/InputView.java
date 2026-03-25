@@ -11,7 +11,8 @@ public class InputView {
     }
 
     public int requestMaSangPosition() {
-        System.out.println("마,상의 위치를 번호로 입력해 주세요. (1~4 중에 입력)");
+        System.out.println("[차 ( ) ( ) 사 ＋ 사 ( ) ( ) 차] ◀︎ 위치 선택");
+        System.out.println("\n마,상의 위치를 번호로 입력해 주세요. (1~4 중에 입력)");
         System.out.println("""
                 1. 마상상마
                 2. 마상마상
