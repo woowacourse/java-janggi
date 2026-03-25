@@ -1,5 +1,8 @@
 package janggi;
 
+import janggi.domain.Player;
+import janggi.domain.Players;
+import janggi.domain.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.function.Supplier;
@@ -19,23 +22,15 @@ public class Runner {
     }
 
     private void initialPlayers() {
-        Player choPlayer = new Player(readChoPlayerName());
-        Player hanPlayer = new Player(readHanPlayerName());
-
-        return new Players(choPlayer, hanPlayer);
+        String choPlayerName = readPlayerName(Side.CHO);
+        String hanPlayerName = readPlayerName(Side.HAN);
+        return new Players(choPlayerName, hanPlayerName);
     }
 
-    private String readChoPlayerName() {
+    private String readPlayerName(Side side) {
         return retry(() -> {
-            outputView.printChoPlayerNameNotice();
-            return inputView.readChoPlayerName();
-        });
-    }
-
-    private String readHanPlayerName() {
-        return retry(() -> {
-            outputView.printHanPlayerNameNotice();
-            return inputView.readHanPlayerName();
+            outputView.printPlayerNameNotice(side.getDisplayName());
+            return inputView.readPlayerName();
         });
     }
 

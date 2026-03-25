@@ -52,13 +52,12 @@
     - [x] [입력] 한 진영의 플레이어 이름 입력 - `public String readPlayerName`
     - [x] [예외 처리] 입력이 비어있는 경우, `IllegalArgumentException`을 발생시키고 재입력을 받는다.
 
-- [x] **[Domain]** 플레이어가 속할 진영을 관리한다. `class Side`
-    - [x] [규칙] 진영은 초와 한으로 나뉘고, 각각의 이름을 가진다 `private final String name`
+- [x] **[Domain]** 플레이어가 속할 진영을 관리하는 클래스 `class Side`
+    - [x] [규칙] 진영은 초와 한으로 나뉘고, 각각의 이름을 가진다 `private final String displayName`
 
-- [ ] **[Domain]** 플레이어를 관리할 일급 컬렉션을 생성한다. `class Players`
-    - [ ] [규칙] 각 진영의 플레이어 이름으로 플레이어 객체 생성 `public Player(String name)`
-    - [ ] [규칙] 각 진영의 플레이어 이름으로 플레이어 일급 컬렉션 생성 `public Players(String choPlayer, String hanPlayer)`
-    - [ ] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException`을 발생시킨다. `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
+- [x] **[Domain]** 플레이어를 관리하는 클래스 `class Player`
+    - [x] [규칙] 플레이어는 진영을 가지고, 각각의 이름을 가진다.
+      `private final Side side` `private final String nickname`
 
 
 ## 2. 보드 초기화 및 출력

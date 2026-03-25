@@ -10,11 +10,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printChoPlayerNameNotice() {
-        printLine(Message.CHO_PLAYER_NAME_NOTICE);
-    }
-
-    public void printHanPlayerNameNotice() {
-        printLine(Message.HAN_PLAYER_NAME_NOTICE);
+    public void printPlayerNameNotice(String sideName) {
+        printLine(String.format(Message.PLAYER_NAME_NOTICE, sideName));
     }
 }

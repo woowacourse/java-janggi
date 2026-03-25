@@ -6,13 +6,7 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public String readChoPlayerName() {
-        String playerName = scanner.nextLine();
-        validateNotBlank(playerName);
-        return playerName;
-    }
-
-    public String readHanPlayerName() {
+    public String readPlayerName() {
         String playerName = scanner.nextLine();
         validateNotBlank(playerName);
         return playerName;
