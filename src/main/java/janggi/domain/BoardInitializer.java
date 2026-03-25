@@ -17,16 +17,16 @@ public class BoardInitializer {
     private static final int ROW_LEN = 10;
     private static final int COL_LEN = 9;
 
-    private static final  List<Integer> soldierCol = List.of(0, 2, 4, 6, 8);
-    private static final   List<Integer> cannonCol = List.of(1,7);
-    private static final   List<Integer> tankCol = List.of(0,8);
-    private static final  List<Integer> horseCol = List.of(1,7);
-    private static final  List<Integer> elephantCol = List.of(2,6);
-    private static final   List<Integer> advisorCol = List.of(3, 5);
-    private static final    int kingCol=4;
+    private static final List<Integer> soldierCol = List.of(0, 2, 4, 6, 8);
+    private static final List<Integer> cannonCol = List.of(1, 7);
+    private static final List<Integer> tankCol = List.of(0, 8);
+    private static final List<Integer> horseCol = List.of(1, 7);
+    private static final List<Integer> elephantCol = List.of(2, 6);
+    private static final List<Integer> advisorCol = List.of(3, 5);
+    private static final int kingCol = 4;
 
 
-    public static List<List<Piece>> createBoard(){
+    public static List<List<Piece>> createBoard() {
         List<List<Piece>> board = new ArrayList<>();
 
         initBoard(board);
@@ -39,6 +39,12 @@ public class BoardInitializer {
         initKing(board);
         initCannon(board);
         initSoldier(board);
+        return board;
+    }
+
+    public static List<List<Piece>> createEmptyBoard() {
+        List<List<Piece>> board = new ArrayList<>();
+        initBoard(board);
         return board;
     }
 

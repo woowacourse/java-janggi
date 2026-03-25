@@ -1,0 +1,20 @@
+package janggi.domain;
+
+import janggi.domain.piece.Team;
+
+public class JanggiGame {
+    public Team currentTurn = Team.CHO;
+    private boolean isFinished = false;
+
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+
+    public Team findCurrentTeam() {
+        return currentTurn;
+    }
+
+
+}
