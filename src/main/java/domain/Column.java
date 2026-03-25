@@ -1,3 +1,5 @@
+package domain;
+
 public class Column {
     private static final int COLUMN_MAX_SIZE = 8;
     private final int column;
