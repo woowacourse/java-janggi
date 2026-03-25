@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.dynasty.Dynasty;
 
-public record Piece (
+public record Piece(
         Dynasty dynasty,
         MoveStrategy moveStrategy
 ) {
@@ -10,4 +10,5 @@ public record Piece (
     public boolean isSameDynasty(Dynasty dynasty) {
         return this.dynasty.equals(dynasty);
     }
+
 }

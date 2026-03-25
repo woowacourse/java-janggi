@@ -16,4 +16,5 @@ public enum Dynasty {
     public Direction front() {
         return front;
     }
+    
 }

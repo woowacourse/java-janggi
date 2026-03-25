@@ -47,4 +47,5 @@ public enum Direction {
     public int column() {
         return column;
     }
+    
 }

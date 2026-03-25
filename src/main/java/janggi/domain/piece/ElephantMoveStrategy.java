@@ -3,13 +3,11 @@ package janggi.domain.piece;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ElephantMoveStrategy implements MoveStrategy {
-
 
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
@@ -20,7 +18,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                     return;
                 }
                 Position next = to.add(dir.next().row(), dir.next().column());
-                if(board.containsKey(next)) {
+                if (board.containsKey(next)) {
                     return;
                 }
 
@@ -30,7 +28,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 }
 
                 Position prev = to.add(dir.prev().row(), dir.prev().column());
-                if(board.containsKey(prev)) {
+                if (board.containsKey(prev)) {
                     return;
                 }
 

@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
-
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         return List.of();

@@ -29,16 +29,9 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return canMovePositions;
     }
 
-    private static Piece getFromPiece(Map<Position, Piece> board, Position from) {
-        Piece piece = board.get(from);
-        if (piece == null) {
-            throw new IllegalStateException("");
-        }
-        return piece;
-    }
-
     @Override
     public boolean canMove(Map<Position, Piece> board, Position from, Position to) {
         return false;
     }
+    
 }
