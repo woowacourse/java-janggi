@@ -13,7 +13,6 @@ public class InputView {
 
     public ElephantSetup readElephantSetup() {
         String setup = SCANNER.nextLine();
-        // TODO: 상차림 매핑 추가
-        return ElephantSetup.InnerElephantSetup;
+        return ElephantSetup.of(Integer.parseInt(setup));
     }
 }
