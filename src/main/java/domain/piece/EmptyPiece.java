@@ -4,7 +4,7 @@ import domain.Side;
 
 public class EmptyPiece extends Piece {
 
-    public EmptyPiece(Side side) {
-        super(side);
+    public EmptyPiece() {
+        super(Side.NEUTRAL);
     }
 }

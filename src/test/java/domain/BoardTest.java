@@ -1,6 +1,7 @@
 package domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.piece.King;
@@ -46,4 +47,97 @@ class BoardTest {
         assertThat(board.isPieceAt(chuKingPosition, king)).isTrue();
     }
 
+//    - [ ] 검증: 장기판 범위를 초과한 좌표 입력은 예외를 발생한다.
+//    - [ ] 검증: 기물이 존재하지 않는 좌표 입력은 예외를 발생한다.
+//    - [ ] 검증: 상대 기물이 위치하는 좌표 입력은 예외를 발생한다.
+
+    @Test
+    @DisplayName("장기판 범위 내의 좌표 입력은 정상 작동한다.")
+    void moveTest() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(9, 0);
+        Position destination = new Position(8, 0);
+
+        // when - then
+        assertDoesNotThrow(() -> board.move(start, destination));
+    }
+
+    @Test
+    @DisplayName("0부터 9 범위를 넘어간 열 좌표 입력은 예외를 발생한다.")
+    void boardRange_Col_Error_Test() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(10, 4);
+        Position destination = new Position(4, 4);
+
+        // when - then
+        assertThatThrownBy(() -> board.move(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("0부터 8 범위를 넘어간 행 좌표 입력은 예외를 발생한다.")
+    void boardRange_Row_Error_Test() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(4, 9);
+        Position destination = new Position(4, 4);
+
+        // when - then
+        assertThatThrownBy(() -> board.move(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("음수 좌표 입력은 예외를 발생한다.")
+    void boardRange_Negative_Error_Test() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(-1, 4);
+        Position destination = new Position(4, 4);
+
+        // when - then
+        assertThatThrownBy(() ->board.move(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("기물이 존재하지 않는 시작 좌표 입력은 예외를 발생한다.")
+    void emptyPiece_Start_Error_Test() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(8, 0);
+        Position destination = new Position(7, 0);
+
+        // when - then
+        assertThatThrownBy(() -> board.move(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("상대 기물이 위치하는 시작 좌표 입력은 예외를 발생한다.")
+    void oppositeSide_Piece_Start_Error_Test() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(3, 0);
+        Position destination = new Position(4, 0);
+
+        // when - then
+        assertThatThrownBy(() -> board.move(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("아군 기물이 위치하는 도착 좌표 입력은 예외를 발생한다.")
+    void ourSide_Piece_Destination_Error_Test() {
+        // given
+        Board board = new Board(boardInitializer);
+        Position start = new Position(9, 0);
+        Position destination = new Position(6, 0);
+
+        // when - then
+        assertThatThrownBy(() -> board.move(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }

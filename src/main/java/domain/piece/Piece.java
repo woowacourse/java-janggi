@@ -19,6 +19,10 @@ public abstract class Piece {
         return side.isHan();
     }
 
+    public boolean isFriendly(Side side) {
+        return this.side == side;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
