@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.mouveRule.MoveRule;
+
 public class EmptyPosition extends Piece {
 
     public EmptyPosition(Team team) {
@@ -15,5 +17,10 @@ public class EmptyPosition extends Piece {
     @Override
     public PieceType pieceType() {
         return PieceType.EMPTY;
+    }
+
+    @Override
+    public MoveRule moveRule() {
+        return null;
     }
 }

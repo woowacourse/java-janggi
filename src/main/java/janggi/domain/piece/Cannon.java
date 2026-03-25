@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.mouveRule.MoveRule;
+
 public class Cannon extends Piece {
 
     public Cannon(Team team) {
@@ -10,5 +12,10 @@ public class Cannon extends Piece {
     @Override
     public PieceType pieceType() {
         return PieceType.CANNON;
+    }
+
+    @Override
+    public MoveRule moveRule() {
+        return null;
     }
 }
