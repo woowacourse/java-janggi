@@ -20,4 +20,8 @@ public abstract class Piece {
     public String getPieceString() {
         return pieceType.getSymbol();
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }
