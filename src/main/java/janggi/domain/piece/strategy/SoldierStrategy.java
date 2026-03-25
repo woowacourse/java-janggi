@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece.strategy;
 
+import janggi.domain.Position;
 import java.util.List;
 
 public class SoldierStrategy implements MoveStrategy {

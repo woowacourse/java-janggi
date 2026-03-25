@@ -1,7 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 public enum Type {
-
     GENERAL("將"),
     CHARIOT("車"),
     HORSE("馬"),
@@ -14,9 +13,5 @@ public enum Type {
 
     Type(String hanja) {
         this.hanja = hanja;
-    }
-
-    public String getHanja() {
-        return hanja;
     }
 }
