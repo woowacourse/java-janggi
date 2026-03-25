@@ -1,0 +1,12 @@
+package domain;
+
+public abstract class Piece {
+    private final Country country;
+    private final PieceType pieceType;
+
+    public Piece(Country country, PieceType pieceType) {
+        this.country = country;
+        this.pieceType = pieceType;
+    }
+
+}
