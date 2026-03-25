@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.team.Team;
 import java.util.Map;
 
 public class Board {
@@ -14,5 +15,9 @@ public class Board {
 
     public Map<Position, Piece> getPositionPieceMap() {
         return positionPieceMap;
+    }
+
+    public boolean isBlank(final Position position) {
+        return !positionPieceMap.containsKey(position);
     }
 }
