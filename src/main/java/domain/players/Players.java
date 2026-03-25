@@ -14,13 +14,8 @@ public class Players {
     }
 
     public void initPlacementBySide(Side side, int placementCode) {
-        // if side placement 받아서 side가 한이면
-        if (side == Side.HAN) {
-            hanPlayer.initBoard(placementCode);
-        }
-        if (side == Side.CHO) {
-            choPlayer.initBoard(placementCode);
-        }
+        if (side == Side.HAN) hanPlayer.initBoard(placementCode);
+        if (side == Side.CHO) choPlayer.initBoard(placementCode);
     }
 
     public BoardResponseDto findBoardState() {
