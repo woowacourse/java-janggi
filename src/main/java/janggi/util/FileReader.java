@@ -30,7 +30,6 @@ public class FileReader {
 
     private static List<String> readLines(BufferedReader reader) throws IOException {
         List<String> lines = new ArrayList<>();
-        reader.readLine();
         String line;
         while ((line = reader.readLine()) != null) {
             lines.add(line);
