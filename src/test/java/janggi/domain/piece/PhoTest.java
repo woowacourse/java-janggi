@@ -18,7 +18,7 @@ public class PhoTest {
     @DisplayName("포가 움직일 때, 경유지는 두 곳이다.")
     void straight_back_route(int column, int row) {
         // given
-        Piece pho = new Pho(Team.CHO);
+        Piece pho = new Pho(Team.CHO, "Pho");
         Point from = Point.of(5,5);
         Point to = Point.of(column, row);
 
