@@ -8,11 +8,11 @@ import java.util.List;
 public class Cha implements Piece {
 
     private final Team team;
-    private final String name;
+    private final PieceType type;
 
-    public Cha(Team team, String pieceName) {
+    public Cha(Team team) {
         this.team = team;
-        this.name = pieceName;
+        this.type = PieceType.CHA;
     }
 
     @Override
@@ -58,5 +58,10 @@ public class Cha implements Piece {
     @Override
     public boolean canMove(List<Piece> route) {
         return false;
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
     }
 }

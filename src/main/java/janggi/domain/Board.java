@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.LinkedHashMap;
@@ -19,8 +20,12 @@ public class Board {
         positionInfos.forEach(info -> state.put(info.point(), info.piece()));
     }
 
-    public void move(Point from, Point to) {
-
+    public void move(Point from, Point to, Team team) {
+        validateFromPoint(from, team);
+        validateToPoint(to, team);
+        Piece piece = state.get(from);
+        state.remove(from);
+        state.put(to, piece);
     }
 
     public boolean isEmptyPoint(Point point) {
@@ -33,5 +38,23 @@ public class Board {
 
     public Piece getPointAt(Point point) {
         return state.get(point);
+    }
+
+    public boolean isKingDie(Point to, Team team) {
+        Piece piece = state.get(to);
+        return piece.isSameType(PieceType.JANG) && piece.isSameTeam(team);
+    }
+
+    private void validateToPoint(Point to, Team team) {
+        if (!isEmptyPoint(to) && isSameTeam(to, team)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateFromPoint(Point from, Team team) {
+        Piece piece = state.get(from);
+        if (isEmptyPoint(from) || !piece.isSameTeam(team)) {
+            throw new IllegalArgumentException();
+        }
     }
 }

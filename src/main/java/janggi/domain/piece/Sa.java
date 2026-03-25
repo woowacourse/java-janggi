@@ -7,11 +7,11 @@ import java.util.List;
 public class Sa implements Piece {
 
     private final Team team;
-    private final String name;
+    private final PieceType type;
 
-    public Sa(Team team, String pieceName) {
+    public Sa(Team team) {
         this.team = team;
-        this.name = pieceName;
+        this.type = PieceType.SA;
     }
 
     @Override
@@ -42,4 +42,10 @@ public class Sa implements Piece {
                 .filter(piece -> piece.isSameTeam(team))
                 .count() == 0;
     }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
+    }
+
 }

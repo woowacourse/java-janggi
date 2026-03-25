@@ -12,11 +12,11 @@ public class Sang implements Piece {
     private static final int DISTANCE_MIN = 2;
 
     private final Team team;
-    private final String name;
+    private final PieceType type;
 
     public Sang(Team team, String pieceName) {
         this.team = team;
-        this.name = pieceName;
+        this.type = PieceType.SANG;
     }
 
     @Override
@@ -51,5 +51,10 @@ public class Sang implements Piece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
     }
 }

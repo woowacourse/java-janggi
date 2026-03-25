@@ -10,7 +10,7 @@ import java.util.List;
 
 public class JanggiApplication {
     public static void main(String[] args) {
-        List<PositionInfo> positionInfos = FileParser.readCsvFile("/janggi.csv");
+        List<PositionInfo> positionInfos = FileParser.readCsvFile("/test.csv");
         Board board = new Board();
         board.init(positionInfos);
         JanggiGame game = new JanggiGame(board);

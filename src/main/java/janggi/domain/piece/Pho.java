@@ -2,30 +2,69 @@ package janggi.domain.piece;
 
 import janggi.domain.Point;
 import janggi.domain.status.Team;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pho implements Piece {
 
     private final Team team;
-    private final String name;
+    private final PieceType type;
 
-    public Pho(Team team, String pieceName) {
+    public Pho(Team team) {
         this.team = team;
-        this.name = pieceName;
-    }
-
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return false;
-    }
-
-    @Override
-    public List<Point> getRoute(Point from, Point to) {
-        return List.of();
+        this.type = PieceType.PHO;
     }
 
     @Override
     public boolean isSameTeam(Team team) {
-        return false;
+        return this.team.equals(team);
+    }
+
+    @Override
+    public List<Point> getRoute(Point from, Point to) {
+        int pathX = to.getX() - from.getX();
+        int pathY = to.getY() - from.getY();
+        List<Point> route = new ArrayList<>();
+
+        if (pathY != 0 && pathX != 0) {
+            throw new IllegalArgumentException();
+        }
+
+        if (pathX == 0) {
+            if (from.getY() > to.getY()) {
+                for (int i = to.getY() + 1; i < from.getY(); i++) {
+                    route.add(Point.of(from.getX(), i));
+                }
+                return route;
+            }
+            for (int i = from.getY() + 1; i < to.getY(); i++) {
+                route.add(Point.of(from.getX(), i));
+            }
+            return route;
+        }
+
+        if (from.getX() > to.getX()) {
+            for (int i = to.getX() + 1; i < from.getX(); i++) {
+                route.add(Point.of(i, from.getY()));
+            }
+            return route;
+        }
+        for (int i = from.getX() + 1; i < to.getX(); i++) {
+            route.add(Point.of(i, from.getY()));
+        }
+        return route;
+    }
+
+    @Override
+    public boolean canMove(List<Piece> route) {
+        if (route.size() > 1) {
+            return false;
+        }
+        return route.stream().anyMatch(piece -> !piece.isSameType(type));
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
     }
 }

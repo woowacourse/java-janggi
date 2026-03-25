@@ -12,11 +12,11 @@ public class Ma implements Piece {
     private static final int DISTANCE_MIN = 1;
 
     private final Team team;
-    private final String name;
+    private final PieceType type;
 
-    public Ma(Team team, String pieceName) {
+    public Ma(Team team) {
         this.team = team;
-        this.name = pieceName;
+        this.type = PieceType.MA;
     }
 
     @Override
@@ -44,5 +44,10 @@ public class Ma implements Piece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
     }
 }
