@@ -29,7 +29,6 @@ class HorseMoveStrategyTest {
         // when
         List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);
 
-        System.out.println(positions);
         // then
         Assertions.assertThat(positions)
                 .containsExactlyInAnyOrder(
