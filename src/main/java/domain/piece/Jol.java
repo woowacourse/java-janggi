@@ -48,6 +48,14 @@ public class Jol extends Piece {
 
     @Override
     public List<Position> getPath(Position src, Position dest) {
-        return List.of();
+        for(Direction path : paths) {
+            int x = src.getX() + path.getOffsetX();
+            int y = src.getY() + path.getOffsetY();
+            Position nextPosition = new Position(x,y);
+            if(dest.equals(nextPosition)) {
+                return List.of(nextPosition);
+            }
+        }
+        throw new IllegalArgumentException("목적지로 이동할 수 없습니다.");
     }
 }
