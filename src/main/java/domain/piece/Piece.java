@@ -9,8 +9,13 @@ public abstract class Piece {
     // THINK
     // protected final MoveRule moveRule;
 
-    public Piece(Team team, PieceType pieceType) {
+    protected Piece(Team team, PieceType pieceType) {
         this.team = team;
+        this.pieceType = pieceType;
+    }
+
+    protected Piece(PieceType pieceType) {
+        this.team = null;
         this.pieceType = pieceType;
     }
 
