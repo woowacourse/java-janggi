@@ -16,12 +16,13 @@ public record Position(
         return new Position(this.row.add(row), this.column.add(column));
     }
 
-    public List<Position> north(Position from) {
+    public List<Position> findPositionsByDirection(Direction dir) {
         List<Position> northPositions = new ArrayList<>();
+        Position cur = this;
         while (true) {
             try {
-                from = from.add(-1, 0);
-                northPositions.add(from);
+                cur = cur.add(dir.row(), dir.column());
+                northPositions.add(cur);
             } catch (IllegalArgumentException e) {
                 break;
             }

@@ -21,8 +21,4 @@ public record Row(
         return new Row(this.row + row);
     }
 
-    public boolean isExceed() {
-        return
-
-    }
 }
