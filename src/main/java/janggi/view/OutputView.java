@@ -1,10 +1,13 @@
 package janggi.view;
 
 import janggi.domain.Position;
+import janggi.domain.PieceVO;
+import janggi.util.PieceLabelMapper;
 import janggi.dto.BoardDTO;
 import java.util.Map;
 
 public class OutputView {
+
     private static final String EMPTY_CELL = "　　";
     private static final String COLUMN_INDEXES = "　　║　　０　　　　１　　　　２　　　　３　　　　４　　　　５　　　　６　　　　７　　　　８";
     private static final String DIVIDER = "　　║===============================================================";
@@ -19,33 +22,37 @@ public class OutputView {
         }
     }
 
-    private void renderRow(int row, Map<Position, String> status) {
-        StringBuilder sb = new StringBuilder(toFullWidth(row) + "　║");
+    private void renderRow(int row, Map<Position, PieceVO> status) {
+        StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
         for (int col = 0; col < 9; col++) {
-            String piece = status.getOrDefault(new Position(row, col), EMPTY_CELL);
-            sb.append("［").append(piece).append("］");
-            appendLink(sb, col);
+            sb.append("［").append(getLabel(status, row, col)).append("］");
+            if (col < 8) sb.append("━");
         }
         printLine(sb.toString());
     }
 
-    private void appendLink(StringBuilder sb, int col) {
-        if (col < 8) sb.append("━");
+    private String getLabel(Map<Position, PieceVO> status, int r, int c) {
+        PieceVO vo = status.get(new Position(r, c));
+        return vo == null ? EMPTY_CELL : PieceLabelMapper.toFullWidth(vo);
     }
 
     private void renderVerticalLine(int row) {
         if (row < 9) printLine(VERTICAL_LINE);
     }
 
+    private String toFullWidthRow(int i) {
+        return String.valueOf((char) ('０' + i));
+    }
+
     public void printLine(String message) {
         System.out.println(message);
     }
 
-    public void printPlayerNameNotice(String sideName) {
-        printLine(String.format(Message.PLAYER_NAME_NOTICE, sideName));
+    private void printNewLine() {
+        System.out.println();
     }
 
-    private String toFullWidth(int i) {
-        return String.valueOf((char) ('０' + i));
+    public void printPlayerNameNotice(String sideName) {
+        printLine(String.format(Message.PLAYER_NAME_NOTICE, sideName)); // 기존 규격 유지
     }
 }

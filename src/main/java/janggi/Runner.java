@@ -1,8 +1,10 @@
 package janggi;
 
+import janggi.domain.Board;
 import janggi.domain.Player;
 import janggi.domain.Players;
 import janggi.domain.Side;
+import janggi.dto.BoardDTO;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.function.Supplier;
@@ -19,12 +21,14 @@ public class Runner {
 
     public void run() {
         Players players = initialPlayers();
+        Board board = Board.initialize();
+        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()));
     }
 
-    private void initialPlayers() {
+    private Players initialPlayers() {
         String choPlayerName = readPlayerName(Side.CHO);
         String hanPlayerName = readPlayerName(Side.HAN);
-        return new Players(choPlayerName, hanPlayerName);
+        return Players.from(choPlayerName, hanPlayerName);
     }
 
     private String readPlayerName(Side side) {

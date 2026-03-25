@@ -23,7 +23,7 @@ public class Piece {
         return pieceType.determineDestinations(routes, boardState, toVO());
     }
 
-    private PieceVO toVO() {
+    public PieceVO toVO() {
         return new PieceVO(side, pieceType, pieceNumber);
     }
 }
