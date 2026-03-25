@@ -26,4 +26,12 @@ public record Position(int row, int column) {
     public int calculateColumnDistance(Position other) {
         return column - other.column;
     }
+
+    public Position moveRow(int direction) {
+        return new Position(row + direction, column);
+    }
+
+    public Position moveCol(int direction) {
+        return new Position(row, column + direction);
+    }
 }
