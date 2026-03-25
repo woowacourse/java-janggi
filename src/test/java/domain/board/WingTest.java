@@ -26,14 +26,14 @@ class WingTest {
         @ParameterizedTest
         @MethodSource("lessPieces")
         void 기물_개수가_2개_미만이면_예외를_던진다(List<Piece> lessPieces) {
-            assertThatThrownBy(() -> new Wing(lessPieces))
+            assertThatThrownBy(() -> new LeftWing(lessPieces))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @ParameterizedTest
         @MethodSource("morePieces")
         void 기물_개수가_2개_초과면_예외를_던진다(List<Piece> morePieces) {
-            assertThatThrownBy(() -> new Wing(morePieces))
+            assertThatThrownBy(() -> new LeftWing(morePieces))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -79,7 +79,7 @@ class WingTest {
             List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
 
             // when and then
-            assertThatThrownBy(() -> new Wing(illegalPieces))
+            assertThatThrownBy(() -> new LeftWing(illegalPieces))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -89,7 +89,7 @@ class WingTest {
             List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), new Elephant(Side.CHO));
 
             // when and then
-            assertThatThrownBy(() -> new Wing(illegalPieces))
+            assertThatThrownBy(() -> new LeftWing(illegalPieces))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -103,7 +103,7 @@ class WingTest {
             List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), DEFAULT_PIECE);
 
             // when and then
-            assertThatThrownBy(() -> new Wing(illegalPieces))
+            assertThatThrownBy(() -> new LeftWing(illegalPieces))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -113,7 +113,7 @@ class WingTest {
             List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
 
             // when and then
-            assertThatThrownBy(() -> new Wing(illegalPieces))
+            assertThatThrownBy(() -> new LeftWing(illegalPieces))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

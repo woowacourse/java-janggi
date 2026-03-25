@@ -1,11 +1,13 @@
 package domain.board;
 
+import domain.game.Side;
 import domain.piece.Elephant;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import java.util.List;
+import java.util.Map;
 
-public class Wing {
+public abstract class Wing {
 
     private static final int WING_SIZE = 2;
     private static final int ELEPHANT_COUNT = 1;
@@ -52,4 +54,6 @@ public class Wing {
             throw new IllegalArgumentException("마의 기물 수는 " + HORSE_COUNT + "개여야 합니다(현재 기물 수: " + count + "개).");
         }
     }
+
+    public abstract Map<Intersection, Piece> setUpPieces(Side side);
 }
