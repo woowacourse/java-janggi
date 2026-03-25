@@ -2,7 +2,9 @@ package domain.piece;
 
 import domain.Position;
 
-public class EmptyPiece implements Piece {
+public class Cha extends ActivePiece{
+
+
 
     @Override
     public boolean canMove(Position source, Position target) {

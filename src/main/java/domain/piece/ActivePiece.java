@@ -15,5 +15,4 @@ public abstract class ActivePiece implements Piece {
         return this.team == other;
     }
 
-    public abstract boolean canMove(Position source, Position target);
 }
