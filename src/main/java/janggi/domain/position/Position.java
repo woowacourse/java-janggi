@@ -2,6 +2,7 @@ package janggi.domain.position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public record Position(
         Row row,
@@ -28,6 +29,14 @@ public record Position(
             }
         }
         return positions;
+    }
+
+    public Optional<Position> findPositionByDirection(Direction dir) {
+        try {
+            return Optional.of(this.add(dir.row(), dir.column()));
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
     }
 
 }
