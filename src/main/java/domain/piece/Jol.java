@@ -17,7 +17,7 @@ public class Jol extends Piece {
 
 
     public Jol(Team team) {
-        super(team);
+        super(team, PieceType.JOL);
 
         if (team.isCho()) {
             paths = List.of(

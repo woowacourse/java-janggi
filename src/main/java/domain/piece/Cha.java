@@ -9,7 +9,7 @@ import java.util.List;
 public class Cha extends Piece {
 
     public Cha(Team team) {
-        super(team);
+        super(team, PieceType.CHA);
     }
 
     @Override

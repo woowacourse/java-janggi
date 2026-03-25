@@ -29,7 +29,7 @@ public class Jang extends Piece {
     );
 
     public Jang(Team team) {
-        super(team);
+        super(team, PieceType.JANG);
     }
 
     @Override

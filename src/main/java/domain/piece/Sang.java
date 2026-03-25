@@ -30,7 +30,7 @@ public class Sang extends Piece {
     );
 
     public Sang(Team team) {
-        super(team);
+        super(team, PieceType.SANG);
     }
 
     @Override

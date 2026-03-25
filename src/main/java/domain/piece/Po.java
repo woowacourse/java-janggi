@@ -9,7 +9,7 @@ import java.util.List;
 public class Po extends Piece {
 
     public Po(Team team) {
-        super(team);
+        super(team, PieceType.PO);
     }
 
     @Override
