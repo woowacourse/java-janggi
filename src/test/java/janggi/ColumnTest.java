@@ -74,4 +74,16 @@ class ColumnTest {
                         Column.SEVEN
                 );
     }
+
+    @DisplayName("두 열 사이의 거리를 반환한다.")
+    @Test
+    void getDistance() {
+        //given
+        Column eight = Column.EIGHT;
+        Column seven = Column.SEVEN;
+
+        //when & then
+        assertThat(eight.getDistance(seven))
+                .isEqualTo(1);
+    }
 }
