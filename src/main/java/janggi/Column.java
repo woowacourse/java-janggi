@@ -42,4 +42,7 @@ public enum Column {
 
     }
 
+    public int getDistance(Column other) {
+        return Math.abs(this.ordinal() - other.ordinal());
+    }
 }

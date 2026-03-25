@@ -23,6 +23,14 @@ public record Position(
         return new Path(rows.stream().map(row -> new Position(row, this.column)).toList());
     }
 
+    public int getRowDistance(Position other) {
+        return this.row.getDistance(other.row);
+    }
+
+    public int getColumnDistance(Position other) {
+        return this.column.getDistance(other.column);
+    }
+
     public Position moveEast() {
         return new Position(row, column.next());
     }
