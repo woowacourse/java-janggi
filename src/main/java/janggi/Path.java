@@ -1,10 +1,22 @@
 package janggi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Path {
 
     private final List<Position> path;
+
+    public static Path concatenate(Path first, Path second) {
+        List<Position> path = new ArrayList<>();
+        if (!first.path.getLast().equals(second.path.getFirst())) {
+            throw new IllegalArgumentException("연결할 수 없습니다.");
+        }
+
+        path.addAll(first.path);
+        path.addAll(second.path.subList(1, second.path.size()));
+        return new Path(path);
+    }
 
     public Path(List<Position> path) {
         validate(path);
@@ -27,4 +39,5 @@ public class Path {
 
         return new Path(path.subList(startIdx, toIdx));
     }
+
 }

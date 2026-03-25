@@ -46,4 +46,25 @@ class PathTest {
         assertThat(path.getCourse().getDestination())
                 .isEqualTo(new Position(Row.ONE, Column.EIGHT));
     }
+
+    @DisplayName("다른 경로와 연결 시 뒷 부분에 붙는다.")
+    @Test
+    void concatenate() {
+        //given
+        Path path1 = new Path(List.of(
+                new Position(Row.ONE, Column.EIGHT),
+                new Position(Row.ONE, Column.SEVEN)
+        ));
+        Path path2 = new Path(List.of(
+                new Position(Row.ONE, Column.SEVEN),
+                new Position(Row.TWO, Column.SEVEN)
+        ));
+
+        //when& then
+        assertThat(Path.concatenate(path1, path2).getDestination())
+                .isEqualTo(new Position(Row.TWO, Column.SEVEN));
+
+    }
+
+
 }
