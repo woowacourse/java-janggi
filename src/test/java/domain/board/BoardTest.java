@@ -1,29 +1,31 @@
-package domain;
+package domain.board;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import domain.Position;
+import domain.Side;
 import domain.piece.King;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
 class BoardTest {
-    private final BoardInitializer boardInitializer = new BoardInitializer();
+    private final BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer();
 
     @Test
     @DisplayName("장기판을 생성한다.")
     void BoardTest() {
         // given - when - then
-        assertDoesNotThrow(() -> new Board(boardInitializer));
+        assertDoesNotThrow(() -> new Board(basicBoardInitializer));
     }
 
     @Test
     @DisplayName("정해진 위치에 있는지 확인한다.")
     void isPlaceAt_HanKing_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
 
         // when
         Position hanKingPosition = new Position(1, 4);
@@ -37,7 +39,7 @@ class BoardTest {
     @DisplayName("기물이 정해진 위치에 있는지 확인한다.")
     void isPlaceAt_ChuKing_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
 
         // when
         Position chuKingPosition = new Position(8, 4);
@@ -47,15 +49,11 @@ class BoardTest {
         assertThat(board.isPieceAt(chuKingPosition, king)).isTrue();
     }
 
-//    - [ ] 검증: 장기판 범위를 초과한 좌표 입력은 예외를 발생한다.
-//    - [ ] 검증: 기물이 존재하지 않는 좌표 입력은 예외를 발생한다.
-//    - [ ] 검증: 상대 기물이 위치하는 좌표 입력은 예외를 발생한다.
-
     @Test
     @DisplayName("장기판 범위 내의 좌표 입력은 정상 작동한다.")
     void moveTest() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(9, 0);
         Position destination = new Position(8, 0);
 
@@ -67,7 +65,7 @@ class BoardTest {
     @DisplayName("0부터 9 범위를 넘어간 열 좌표 입력은 예외를 발생한다.")
     void boardRange_Col_Error_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(10, 4);
         Position destination = new Position(4, 4);
 
@@ -80,7 +78,7 @@ class BoardTest {
     @DisplayName("0부터 8 범위를 넘어간 행 좌표 입력은 예외를 발생한다.")
     void boardRange_Row_Error_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(4, 9);
         Position destination = new Position(4, 4);
 
@@ -93,7 +91,7 @@ class BoardTest {
     @DisplayName("음수 좌표 입력은 예외를 발생한다.")
     void boardRange_Negative_Error_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(-1, 4);
         Position destination = new Position(4, 4);
 
@@ -106,7 +104,7 @@ class BoardTest {
     @DisplayName("기물이 존재하지 않는 시작 좌표 입력은 예외를 발생한다.")
     void emptyPiece_Start_Error_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(8, 0);
         Position destination = new Position(7, 0);
 
@@ -119,7 +117,7 @@ class BoardTest {
     @DisplayName("상대 기물이 위치하는 시작 좌표 입력은 예외를 발생한다.")
     void oppositeSide_Piece_Start_Error_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(3, 0);
         Position destination = new Position(4, 0);
 
@@ -132,7 +130,7 @@ class BoardTest {
     @DisplayName("아군 기물이 위치하는 도착 좌표 입력은 예외를 발생한다.")
     void ourSide_Piece_Destination_Error_Test() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(9, 0);
         Position destination = new Position(6, 0);
 
@@ -145,7 +143,7 @@ class BoardTest {
     @DisplayName("기물 이동을 마치면 턴이 종료된다.")
     void endTurnTest() {
         // given
-        Board board = new Board(boardInitializer);
+        Board board = new Board(basicBoardInitializer);
         Position start = new Position(9, 0);
         Position destination = new Position(8, 0);
 

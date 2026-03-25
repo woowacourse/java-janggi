@@ -1,5 +1,7 @@
-package domain;
+package domain.board;
 
+import domain.Position;
+import domain.Side;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 
@@ -12,7 +14,7 @@ public class Board {
     private static final int ROW_SIZE = 9;
     private static final int POSITION_THRESHOLD = 0;
 
-    private Piece[][] board = new Piece[COL_SIZE][ROW_SIZE];
+    private final Piece[][] board = new Piece[COL_SIZE][ROW_SIZE];
     private Side turn;
 
     public Board(BoardInitializer boardInitializer) {
@@ -22,18 +24,38 @@ public class Board {
                 board[i][j] = initializedPosition.getOrDefault(new Position(i, j), new EmptyPiece());
             }
         }
-        turn = boardInitializer.getFirstTurn();
+        turn = boardInitializer.getFirstTurnSide();
     }
 
     public boolean isPieceAt(Position position, Piece piece) {
         return board[position.col()][position.row()].equals(piece);
     }
 
-    public void move(Position start, Position destination) {
+    public Piece getPieceBy(Position start) {
         validateRange(start);
-        validateRange(destination);
         validateStartPosition(start);
-        validateDestination(destination);
+        return board[start.col()][start.row()];
+    }
+
+    private boolean isCurrentTurnPiece(Position position) {
+        return board[position.col()][position.row()].isFriendly(turn);
+    }
+
+    public boolean isAvailableDestination(Position destination) {
+        if (destination.col() < POSITION_THRESHOLD || destination.col() >= COL_SIZE) {
+            return true;
+        }
+
+        if (destination.row() < POSITION_THRESHOLD || destination.row() >= ROW_SIZE) {
+            return true;
+        }
+
+        return isCurrentTurnPiece(destination);
+    }
+
+    public void move(Position start, Position destination) {
+        validateStartPosition(start);
+//        validateDestination(destination);
 
         board[destination.col()][destination.row()] = board[start.col()][start.row()];
         board[start.col()][start.row()] = new EmptyPiece();
@@ -43,10 +65,6 @@ public class Board {
 
     private void endTurn() {
         turn = turn.change();
-    }
-
-    private boolean isCurrentTurnPiece(Position position) {
-        return board[position.col()][position.row()].isFriendly(turn);
     }
 
     private void validateRange(Position position) {
@@ -65,7 +83,7 @@ public class Board {
         }
     }
 
-    private void validateDestination(Position destination) {
+    private void validateCurrentTurnPiece(Position destination) {
         if (isCurrentTurnPiece(destination)) {
             throw new IllegalArgumentException("아군 기물이 있는 위치는 이동할 수 없습니다.");
         }

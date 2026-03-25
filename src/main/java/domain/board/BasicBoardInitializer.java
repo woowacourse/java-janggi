@@ -1,11 +1,13 @@
-package domain;
+package domain.board;
 
+import domain.Position;
+import domain.Side;
 import domain.piece.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BoardInitializer {
+public class BasicBoardInitializer implements BoardInitializer {
 
     public Map<Position, Piece> initialize() {
         Map<Position, Piece> piecesPosition = new HashMap<>();
@@ -49,7 +51,7 @@ public class BoardInitializer {
         return piecesPosition;
     }
 
-    public Side getFirstTurn() {
+    public Side getFirstTurnSide() {
         return Side.CHU;
     }
 }

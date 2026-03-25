@@ -1,7 +1,7 @@
 package controller;
 
-import domain.Board;
-import domain.BoardInitializer;
+import domain.board.Board;
+import domain.board.BoardInitializer;
 import domain.Position;
 import view.InputView;
 import view.OutputView;
