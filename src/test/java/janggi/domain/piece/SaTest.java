@@ -24,7 +24,7 @@ class SaTest {
 
         Sa sa = new Sa(Side.CHO);
 
-        List<Position> actual = sa.calculatePath(startPosition, endPosition);
+        List<Position> actual = sa.findRoute(startPosition, endPosition);
 
         assertThat(actual.getLast()).isEqualTo(endPosition);
     }
@@ -42,7 +42,7 @@ class SaTest {
 
         Sa sa = new Sa(Side.CHO);
 
-        assertThatThrownBy(() -> sa.calculatePath(startPosition, endPosition))
+        assertThatThrownBy(() -> sa.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("올바른 도착 지점이 아닙니다.");
     }
