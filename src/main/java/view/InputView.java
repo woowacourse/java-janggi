@@ -17,7 +17,7 @@ public class InputView {
         return sc.nextLine();
     }
 
-    public int askChoPositionInput(String input) {
+    public int askChoPositionInput() {
         System.out.println("선공 배치 선택 (1 - 상마상마, 2 - 마상마상, 3 - 마상상마, 4 - 상마마상)");
         try {
             return Integer.parseInt(sc.nextLine());
@@ -26,7 +26,7 @@ public class InputView {
         }
     }
 
-    public int askHanPositionInput(String input) {
+    public int askHanPositionInput() {
         System.out.println("후공 배치 선택 (1 - 상마상마, 2 - 마상마상, 3 - 마상상마, 4 - 상마마상)");
         try {
             return Integer.parseInt(sc.nextLine());
