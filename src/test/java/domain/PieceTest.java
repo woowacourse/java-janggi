@@ -21,4 +21,12 @@ public class PieceTest {
 
         assertThat(camp).isEqualTo(Camp.CHO);
     }
+
+    @Test
+    @DisplayName("기물은 자신의 타입 정보를 알고 있다.")
+    void determine_Self_Type() {
+        PieceType pieceType = piece.type();
+
+        assertThat(pieceType).isEqualTo(PieceType.CANNON);
+    }
 }

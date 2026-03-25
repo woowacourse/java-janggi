@@ -12,4 +12,8 @@ public class Piece {
     public Camp camp() {
         return this.camp;
     }
+
+    public PieceType type() {
+        return this.pieceType;
+    }
 }
