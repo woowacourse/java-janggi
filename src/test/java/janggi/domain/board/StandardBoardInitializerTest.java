@@ -1,8 +1,6 @@
-package janggi.domain;
+package janggi.domain.board;
 
-import janggi.domain.board.BoardInitializer;
-import janggi.domain.board.ElephantSetting;
-import janggi.domain.board.StandardBoardInitializer;
+import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Type;
@@ -11,7 +9,7 @@ import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class JanggiBoardInitializerTest {
+public class StandardBoardInitializerTest {
 
     @Test
     void 초_마상마상_한_상마상마_으로_보드를_초기화한다() {
