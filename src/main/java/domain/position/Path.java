@@ -4,22 +4,22 @@ import java.util.List;
 
 public final class Path {
 
-    private final Position start;
-    private final Position end;
+    private final Position src;
+    private final Position dest;
     private final List<Position> waypoints;
 
-    public Path(Position start, Position end, List<Position> waypoints) {
-        this.start = start;
-        this.end = end;
+    public Path(Position src, Position dest, List<Position> waypoints) {
+        this.src = src;
+        this.dest = dest;
         this.waypoints = List.copyOf(waypoints);
     }
 
-    public Position getStart() {
-        return start;
+    public Position getSrc() {
+        return src;
     }
 
-    public Position getEnd() {
-        return end;
+    public Position getDest() {
+        return dest;
     }
 
     public List<Position> getWaypoints() {
