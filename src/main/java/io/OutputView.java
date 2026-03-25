@@ -14,4 +14,8 @@ public class OutputView {
         String message = String.format(REQUEST_SETUP, team.getTeamName());
         System.out.println(message);
     }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
 }

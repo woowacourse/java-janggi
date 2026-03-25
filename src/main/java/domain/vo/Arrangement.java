@@ -19,7 +19,7 @@ public enum Arrangement {
         return Arrays.stream(values())
                 .filter(arrangement -> arrangement.value.equals(setupCommand))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("1~4까지의 숫자만 입력 가능합니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 1~4까지의 숫자만 입력 가능합니다."));
     }
 
 }

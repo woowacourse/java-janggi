@@ -23,11 +23,11 @@
 - [x] **1. [출력] 상차림 예시를 출력한다.**
 - [x] **2. [입력] 상차림을 입력받는다.**
   - [x] [입력] 한의 상차림을 입력받는다.
-    - [ ] [예외 처리] 빈 입력일 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
-    - [ ] [예외 처리] 1~4 외의 문자를 입력한 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
+    - [x] [예외 처리] 빈 입력일 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
+    - [x] [예외 처리] 1~4 외의 문자를 입력한 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
   - [x] [입력] 초의 상차림을 입력받는다.
-    - [ ] [예외 처리] 빈 입력일 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
-    - [ ] [예외 처리] 1~4 외의 문자를 입력한 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
+    - [x] [예외 처리] 빈 입력일 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
+    - [x] [예외 처리] 1~4 외의 문자를 입력한 경우 `IllegalArgumentException` 을 발생시키고, 재입력을 받는다.
 - [ ] **3. [중간 과정] 입력받은 상차림을 기준으로 기물을 배치한다.**
 - [ ] **4. [출력] 현재 보드의 기물 배치를 출력한다.**
 

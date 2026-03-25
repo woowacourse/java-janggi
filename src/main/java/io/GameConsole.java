@@ -3,6 +3,7 @@ package io;
 import domain.game.JanggiGame;
 import domain.vo.Arrangement;
 import domain.vo.Team;
+import java.util.function.Supplier;
 
 public class GameConsole {
     private final OutputView outputView;
@@ -16,11 +17,23 @@ public class GameConsole {
     }
 
     public void run() {
-        outputView.printSetupTable(Team.HAN);
-        Arrangement hanArrangement = Arrangement.toArrangement(inputView.readSetupCommand());
+        Arrangement hanArrange =  readArrangement(Team.HAN);
+        Arrangement choArrange =  readArrangement(Team.CHO);
+    }
 
-        outputView.printSetupTable(Team.CHO);
-        Arrangement choArrangement = Arrangement.toArrangement(inputView.readSetupCommand());
+    private Arrangement readArrangement(Team team) {
+        return retryUntilSuccess(() -> {
+            outputView.printSetupTable(team);
+            return Arrangement.toArrangement(inputView.readSetupCommand());
+        });
+    }
 
+    private <T> T retryUntilSuccess(Supplier<T> action) {
+        try {
+            return action.get();
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return retryUntilSuccess(action);
+        }
     }
 }
