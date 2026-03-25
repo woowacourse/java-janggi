@@ -11,10 +11,11 @@ import static domain.direction.Direction.WEST;
 
 import domain.direction.Direction;
 import domain.player.Team;
+import domain.position.Path;
 import domain.position.Position;
 import java.util.List;
 
-public class Sa extends Piece{
+public class Sa extends Piece {
 
     private final List<Direction> paths = List.of(
             NORTH,
@@ -31,26 +32,14 @@ public class Sa extends Piece{
         super(team);
     }
 
-
     @Override
-    protected List<Position> getRawPositions(Position src) {
-        return paths.stream()
-                .map(path -> {
-                    int x = src.getX() + path.getOffsetX();
-                    int y = src.getY() + path.getOffsetY();
-                    return new Position(x, y);
-                })
-                .toList();
-    }
-
-    @Override
-    public List<Position> getPath(Position src, Position dest) {
-        for(Direction path : paths) {
+    public Path getPath(Position src, Position dest) {
+        for (Direction path : paths) {
             int x = src.getX() + path.getOffsetX();
             int y = src.getY() + path.getOffsetY();
-            Position nextPosition = new Position(x,y);
-            if(dest.equals(nextPosition)) {
-                return List.of(nextPosition);
+            Position nextPosition = new Position(x, y);
+            if (dest.equals(nextPosition)) {
+                return new Path(src, dest, List.of());
             }
         }
         throw new IllegalArgumentException("목적지로 이동할 수 없습니다.");
