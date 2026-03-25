@@ -1,9 +1,8 @@
 package janggi;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Cha extends Gimul{
+public class Cha extends Gimul {
 
     protected Cha(Team team) {
         super(team);
@@ -16,10 +15,10 @@ public class Cha extends Gimul{
         }
 
         if (from.isSameRow(to)) {
-
+            return from.moveHorizontal(to);
         }
 
-        return null;
+        return from.moveVertical(to);
     }
 
     @Override
