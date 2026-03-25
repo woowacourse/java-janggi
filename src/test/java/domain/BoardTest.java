@@ -1,5 +1,7 @@
 package domain;
 
+import domain.vo.Position;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,5 +16,21 @@ class BoardTest {
         // when
         // then
         assertDoesNotThrow(Board::of);
+    }
+
+    @Test
+    @DisplayName("기물의 직선 이동 경로에 다른 기물이 없으면 이동한다.")
+    void 기물_직선_이동() {
+        // given
+        Board board = Board.of();
+
+        // when
+        Position from = Position.of(0, 0);
+        Position to = Position.of(1, 0);
+        board.move(from, to);
+
+        // then
+        Piece findPiece = board.findPieceByPosition(to);
+        Assertions.assertEquals(Type.CHARIOT, findPiece.getType());
     }
 }

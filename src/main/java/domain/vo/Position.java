@@ -1,5 +1,7 @@
 package domain.vo;
 
+import java.util.Objects;
+
 public class Position {
 
     private final int row;
@@ -38,5 +40,17 @@ public class Position {
 
     public int getCol() {
         return this.col;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        Position position = (Position) object;
+        return row == position.row && col == position.col;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
     }
 }
