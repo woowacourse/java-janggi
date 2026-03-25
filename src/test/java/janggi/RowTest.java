@@ -16,20 +16,13 @@ class RowTest {
                 .isEqualTo(Row.ONE);
     }
 
-    @DisplayName("1번 행에서 위로 이동하면 OUT으로 간다.")
+    @DisplayName("1번 행에서 위로 이동하면 예외가 발생한다.")
     @Test
     void previous_OUT() {
         Row row = Row.ONE;
-        assertThat(row.previous())
-                .isEqualTo(Row.OUT);
-    }
-
-    @DisplayName("OUT에서 위로 이동하면 여전히 OUT이다.")
-    @Test
-    void previous_OUT_from_OUT() {
-        Row row = Row.OUT;
-        assertThat(row.previous())
-                .isEqualTo(Row.OUT);
+        assertThatThrownBy(row::previous)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("보드 밖으로는 이동할 수 없습니다.");
     }
 
     @DisplayName("아래로 이동한다.")
@@ -40,20 +33,13 @@ class RowTest {
                 .isEqualTo(Row.THREE);
     }
 
-    @DisplayName("0번 행에서 아래로 이동하면 OUT으로 간다.")
+    @DisplayName("0번 행에서 아래로 이동하면 예외가 발생한다.")
     @Test
     void next_OUT() {
         Row row = Row.ZERO;
-        assertThat(row.next())
-                .isEqualTo(Row.OUT);
-    }
-
-    @DisplayName("OUT에서 아래로 이동하면 여전히 OUT이다.")
-    @Test
-    void next_OUT_from_OUT() {
-        Row row = Row.OUT;
-        assertThat(row.next())
-                .isEqualTo(Row.OUT);
+        assertThatThrownBy(row::next)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("보드 밖으로는 이동할 수 없습니다.");
     }
 
     @DisplayName("자신과 other 사이에 있는 row들을 반환한다.")
@@ -86,18 +72,5 @@ class RowTest {
                         Row.NINE,
                         Row.EIGHT
                 );
-    }
-
-    @DisplayName("자신 또는 other이 out이면 예외가 발생한다.")
-    @Test
-    void to_out() {
-        //given
-        Row out = Row.OUT;
-        Row zero = Row.ZERO;
-
-        //when & then
-        assertThatThrownBy(() -> out.to(zero))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("보드의 바깥 위치가 포함돼 있습니다.");
     }
 }
