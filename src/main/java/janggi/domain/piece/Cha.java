@@ -9,7 +9,7 @@ import janggi.domain.strategy.DefaultMoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cha extends Started {
+public class Cha extends BasePiece {
     public Cha(Side side) {
         super(new DefaultMoveStrategy(), side);
     }

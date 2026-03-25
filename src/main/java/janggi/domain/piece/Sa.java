@@ -9,7 +9,7 @@ import janggi.domain.strategy.DefaultMoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sa extends Started {
+public class Sa extends BasePiece {
     private final List<List<Movement>> MOVE_RANGE = List.of(
             List.of(Movement.UP),
             List.of(Movement.DOWN),

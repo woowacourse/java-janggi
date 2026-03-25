@@ -9,7 +9,7 @@ import janggi.domain.strategy.DefaultMoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pawn extends Started {
+public class Pawn extends BasePiece {
     private final List<List<Movement>> MOVE_RANGE;
 
     public Pawn(Side side, List<List<Movement>> moveRange) {

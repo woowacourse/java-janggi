@@ -9,7 +9,7 @@ import janggi.domain.strategy.PoMoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Po extends Started {
+public class Po extends BasePiece {
     public Po(Side side) {
         super(new PoMoveStrategy(), side);
     }
