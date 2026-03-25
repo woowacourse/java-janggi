@@ -1,13 +1,12 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.BoardDesignPolicy;
-import janggi.domain.board.BoardDesignPolicyImpl;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
+import janggi.fixture.FakeBoardDesignPolicy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,14 +48,6 @@ class ChariotMoveStrategyTest {
                         Position.from(9, 5),
                         Position.from(10, 5)
                 );
-    }
-
-    static class FakeBoardDesignPolicy implements BoardDesignPolicy {
-
-        @Override
-        public Map<Position, Piece> initBoard() {
-            return new HashMap<>(Map.of());
-        }
     }
 
 }

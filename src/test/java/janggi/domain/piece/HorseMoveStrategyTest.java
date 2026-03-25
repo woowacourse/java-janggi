@@ -6,6 +6,8 @@ import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import janggi.fixture.FakeBoardDesignPolicy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,7 @@ class HorseMoveStrategyTest {
     @Test
     public void 말_기물의_이동가능한_위치_목록을_반환한다() {
         // given
-        BoardDesignPolicy boardDesignPolicy = new HorseMoveStrategyTest.FakeBoardDesignPolicy();
+        BoardDesignPolicy boardDesignPolicy = new FakeBoardDesignPolicy();
         Map<Position, Piece> board = boardDesignPolicy.initBoard();
         MoveStrategy moveStrategy = new HorseMoveStrategy();
         Dynasty dynasty = Dynasty.CHO;
@@ -37,14 +39,6 @@ class HorseMoveStrategyTest {
                         Position.from(7, 4),
                         Position.from(7, 6)
                 );
-    }
-
-    static class FakeBoardDesignPolicy implements BoardDesignPolicy {
-
-        @Override
-        public Map<Position, Piece> initBoard() {
-            return new HashMap<>(Map.of());
-        }
     }
 
 }
