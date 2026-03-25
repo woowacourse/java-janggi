@@ -14,7 +14,7 @@ public class Board {
         this.board = new HashMap<>();
     }
 
-    private void place(Position position, Piece piece) {
+    public void place(Position position, Piece piece) {
         board.put(position, piece);
     }
 
