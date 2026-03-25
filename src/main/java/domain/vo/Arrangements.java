@@ -8,4 +8,12 @@ public class Arrangements {
         this.hanArrangement = hanArrangement;
         this.choArrangement = choArrangement;
     }
+
+    public Arrangement getHan() {
+        return hanArrangement;
+    }
+
+    public Arrangement getCho() {
+        return choArrangement;
+    }
 }

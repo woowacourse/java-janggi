@@ -1,6 +1,6 @@
 package domain.game;
 
-import domain.vo.Arrangement;
+import domain.vo.Arrangements;
 import domain.vo.Col;
 import domain.vo.Row;
 import domain.vo.Team;
@@ -26,24 +26,31 @@ public class PositionLayout {
 
     private static final List<Col> INNER_COLS = List.of(Col.B, Col.C, Col.G, Col.H);
 
-    public static Map<Position, Piece> build(Team team, Arrangement arrangement) {
+    public static Map<Position, Piece> build(Arrangements arrangements) {
         Map<Position, Piece> result = new HashMap<>();
 
         hanPiecesLayout.forEach((position, pieceType) -> {
-            Position actualPosition = position;
-            if (team == Team.CHO) {
-                actualPosition = new Position(position.col(), position.row().reverse());
-            }
-            result.put(actualPosition, new Piece(team, pieceType));
+            result.put(position, new Piece(Team.HAN, pieceType));
         });
 
-        List<PieceType> innerPieces = arrangement.getInnerPieces();
+        List<PieceType> innerPieces = arrangements.getHan().getInnerPieces();
         for (int i = 0; i < INNER_COLS.size(); i++) {
-            Row row = (team == Team.HAN) ? Row.ZERO.reverse() : Row.ZERO;
+            Row row = Row.ZERO;
             Position pos = new Position(INNER_COLS.get(i), row);
-            result.put(pos, new Piece(team, innerPieces.get(i)));
+            result.put(pos, new Piece(Team.HAN, innerPieces.get(i)));
         }
 
+        hanPiecesLayout.forEach((position, pieceType) -> {
+            Position actualPosition = new Position(position.col(), position.row().reverse());
+            result.put(actualPosition, new Piece(Team.CHO, pieceType));
+        });
+
+        innerPieces = arrangements.getCho().getInnerPieces();
+        for (int i = 0; i < INNER_COLS.size(); i++) {
+            Row row = Row.ZERO.reverse();
+            Position pos = new Position(INNER_COLS.get(i), row);
+            result.put(pos, new Piece(Team.CHO, innerPieces.get(i)));
+        }
 
         return result;
     }

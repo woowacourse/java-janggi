@@ -9,6 +9,7 @@ public class Board {
         this.pieces = pieces;
     }
 
-//    public static Board of(Arrangements arrangements) {
-//    }
+    public static Board of(Arrangements arrangements) {
+        return new Board(Pieces.of(arrangements));
+    }
 }
