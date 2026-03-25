@@ -75,8 +75,28 @@
     - [x] [규칙] 보드의 행 최솟값을 표시 `private final int BOARD_MIN_ROW`
     - [x] [규칙] 보드의 열 최댓값을 표시 `private final int BOARD_MAX_COLUMN`
     - [x] [규칙] 보드의 열 최솟값을 표시 `private final int BOARD_MIN_COLUMN`
+    - [x] [규칙] 이동할 거리를 받아 이동한 결과를 새로운 객체로 리턴한다 `public Position of(int row, int column)`
     - [x] [예외 처리] 클래스 생성 시, 보드의 행 / 열 범위를 벗어나는 위치면 `IllegalArgumentException` 을 발생시킨다.
       `private void validateBounds(int row, int column)`
+
+- [x] **[Domain]** 각 기물의 최소 이동 단위를 관리하는 클래스 `enum Direction`
+    - [x] [규칙] 각 기물의 모든 최소 이동 단위 경우의 수를 정의
+      - E(0, 1)
+      - W(0, -1)
+      - S(1, 0)
+      - N(-1, 0)
+      - NE(-1, 1)
+      - NW(-1, -1)
+      - SE(1, 1)
+      - SW(1, -1)
+    - [x] [규칙] 각 이동 단위는 초기 위치 `class Positoin` 을 받아, 이동 위치 `class Position` 를 반환한다.
+      `public Static Position move(Position currentPosition)`
+
+- [ ] **[Domain]** 각 기물의 정보를 관리하는 클래스 `class Piece`
+    - [ ] [규칙] 기물의 고유한 식별자 `private final String pieceNumber`
+    - [ ] [규칙] 기물의 고유한 종류 `private final PieceType`
+    - [ ] [규칙] 기물의 고유한 이동 규칙에 따라, 이동 가능한 경로를 반환 `public Paths calculateAccessiblePaths(Position currentLocation)`
+    - [ ] [출력] `BoardDTO`를 전달받아 장기판의 기물 배치 상태를 콘솔에 출력한다. `public void printBoardStatus(BoardDTO boardDto)`
 
 - [ ] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`
     - [x] [규칙] ※ 1.1단계 제약에 따라 상/마 위치 자유 배치는 생략하고 기본 위치로 일괄 고정하여 구현한다.*
