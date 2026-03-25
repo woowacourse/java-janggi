@@ -2,11 +2,15 @@
 
 장기 미션 저장소
 
+## 역할, 책임, 협력
+
 ## 기능 요구사항
 
 ### 1-1. 보드 초기화
 
 협력명: 장기판을 초기화 한다.
+
+![img_1.png](img_1.png)
 
 필요한 메시지(행동)
 - 장기판을 초기화 하라
@@ -26,14 +30,14 @@
 - Board
 - Players
 
+#### Players
+- [x] 각 플레이어별 
+- 진영 side ENUM
+
 #### Player
 - [x] 진영별 배치를 선택한다.
 - 진영 side ENUM
-
-#### Piece
-- [x] 기물 타입의 기물을 생성한다.
-- 진영 side ENUM
-- 기물 종류 type ENUM
+- Board
 
 #### Board
 - [x] 각 진영별 기물 배치를 초기화한다.
@@ -43,6 +47,17 @@
 - MAX_COLUMN
 - MIN_COLUMN
 
+#### Piece
+- [x] 기물 타입의 기물을 생성한다.
+- 진영 side ENUM
+- 기물 종류 type ENUM
+
 #### Position
 - row
 - column
+
+### 1-2. 기물 이동
+
+협력명: 장기 기물을 이동한다.
+
+![img.png](img.png)
