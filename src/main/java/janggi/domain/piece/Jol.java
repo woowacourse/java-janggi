@@ -46,7 +46,9 @@ public class Jol implements Piece {
 
     @Override
     public boolean canMove(List<Piece> route) {
-        return false;
+        return route.stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .count() == 0;
     }
 }
 
