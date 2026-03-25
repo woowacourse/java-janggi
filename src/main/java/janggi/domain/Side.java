@@ -5,9 +5,9 @@ public enum Side {
     HAN("한"),
     ;
 
-    private final String name;
+    private final String displayName;
 
-    Side(String name) {
-        this.name = name;
+    Side(String displayName) {
+        this.displayName = displayName;
     }
 }
