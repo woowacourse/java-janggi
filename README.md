@@ -110,6 +110,140 @@ ex) 기물들 이동, 잡기
 * BoardSetup
   - 장기판의 초기 기물 배치를 생성한다.
 
-
-
 ---
+
+## 클래스 다이어그램
+```mermaid
+classDiagram
+    direction TB
+
+    %% 상단: 게임과 전체 구조
+    class Game {
+        playerSetUp : Map[Side, PlayerSetUp]
+        +movePiece(Point from, Point to)
+        +availablePoints(Point target) List[Point]
+    }
+
+    class PlayerSetUp {
+        player : Player
+        side : Side
+        boardSetUp : BoardSetUp
+    }
+
+    class Player {
+        +name : String
+    }
+
+    class BoardSetUp {
+        <<interface>>
+        board : List[List[Piece]]
+    }
+
+    class Board {
+        +grid : List[List[Piece]]
+        +getBoard() List[List[Piece]]
+        +isTherePiece(Point target) Piece
+        +availablePoints(Point target) List[Point]
+        +movePiece(from, to) void
+    }
+
+    class Point {
+        +x
+        +y
+    }
+
+    class Path {
+        path : List[Point]
+    }
+
+    class Side {
+        <<enum>>
+        HAN
+        CHO
+    }
+
+    %% 중간: 추상 피스 및 전략 구조
+    class Piece {
+        <<interface>>
+        +name : String
+        +side : enum
+        +moveStrategy : MoveStrategy
+        +availablePoints(from, to, board) List[Point]
+        +isSameSide(Side side) bool
+        -path(Point from) List[Path]
+    }
+
+    class MoveStrategy {
+        <<interface>>
+        +isValidPath(path, board) bool
+    }
+
+    %% 하단: 기물 및 전략 구현체
+    class Cha {
+        +moveStrategy : ChaMoveStrategy
+    }
+    class Ma {
+        +moveStrategy : MaMoveStrategy
+    }
+    class Sang {
+        +moveStrategy : SangMoveStrategy
+    }
+    class Po {
+        +moveStrategy : PoMoveStrategy
+    }
+    class Jol {
+        +moveStrategy : JolMoveStrategy
+    }
+    class King {
+        +moveStrategy : KingMoveStrategy
+    }
+
+    class ChaMoveStrategy {
+        +isValidPath(path, board) bool
+    }
+    class MaMoveStrategy {
+        +isValidPath(path, board) bool
+    }
+    class SangMoveStrategy {
+        +isValidPath(path, board) bool
+    }
+    class PoMoveStrategy {
+        +isValidPath(path, board) bool
+    }
+    class JolMoveStrategy {
+        +isValidPath(path, board) bool
+    }
+    class KingMoveStrategy {
+        +isValidPath(path, board) bool
+    }
+
+    %% 관계선
+    Game --> PlayerSetUp
+    Game --> Board
+    PlayerSetUp --> Player
+    PlayerSetUp --> BoardSetUp
+    Board ..> BoardSetUp
+    Board --> Piece : "manages"
+    Board --> Point
+    Path <.. Piece
+    Piece <|-- Cha
+    Piece <|-- Ma
+    Piece <|-- Sang
+    Piece <|-- Po
+    Piece <|-- Jol
+    Piece <|-- King
+
+    Cha --> MoveStrategy : "uses"
+    Ma --> MoveStrategy : "uses"
+    Sang --> MoveStrategy : "uses"
+    Po --> MoveStrategy : "uses"
+    Jol --> MoveStrategy : "uses"
+    King --> MoveStrategy : "uses"
+
+    MoveStrategy <|.. ChaMoveStrategy
+    MoveStrategy <|.. MaMoveStrategy
+    MoveStrategy <|.. SangMoveStrategy
+    MoveStrategy <|.. PoMoveStrategy
+    MoveStrategy <|.. JolMoveStrategy
+    MoveStrategy <|.. KingMoveStrategy
+```
