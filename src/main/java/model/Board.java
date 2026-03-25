@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
 import model.pieces.Piece;
 
 import java.util.HashMap;
@@ -19,7 +17,6 @@ public class Board {
     }
 
     public boolean isPieceAt(Position position, Piece piece) {
-        return board.get(position)
-                .equals(piece);
+        return piece.equals(board.get(position));
     }
 }

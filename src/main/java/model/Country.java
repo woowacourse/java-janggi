@@ -3,12 +3,13 @@ package model;
 public enum Country {
     HAN("한"), CHO("초");
 
-    private final String country;
-    Country(String country) {
-        this.country = country;
+    private final String title;
+
+    Country(String title) {
+        this.title = title;
     }
 
-    public String country() {
-        return country;
+    public String title() {
+        return title;
     }
 }
