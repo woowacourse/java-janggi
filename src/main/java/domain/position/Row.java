@@ -1,11 +1,12 @@
 package domain.position;
 
+import static domain.common.Constant.MAX_ROW;
+import static domain.common.Constant.MIN_ROW;
+
 import java.util.Objects;
 
 public record Row(int row) {
 
-    private static final int MIN_ROW = 1;
-    private static final int MAX_ROW = 10;
 
     public Row {
         validateRange(row);

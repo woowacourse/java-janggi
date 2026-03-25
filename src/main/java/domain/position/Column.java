@@ -1,11 +1,11 @@
 package domain.position;
 
+import static domain.common.Constant.MAX_COLUMN;
+import static domain.common.Constant.MIN_COLUMN;
+
 import java.util.Objects;
 
 public record Column(int column) {
-
-    private static final int MIN_COLUMN = 1;
-    private static final int MAX_COLUMN = 9;
 
     public Column {
         validateColumn(column);
