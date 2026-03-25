@@ -1,6 +1,5 @@
 package domain;
 
-public class Piece {
-
-    public Piece () {}
+public interface Piece {
+    void move();
 }
