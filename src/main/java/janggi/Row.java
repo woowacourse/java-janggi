@@ -46,6 +46,6 @@ public enum Row {
     }
 
     public int getDistance(Row other) {
-        return Math.abs(this.ordinal() - other.ordinal());
+        return this.ordinal() - other.ordinal();
     }
 }

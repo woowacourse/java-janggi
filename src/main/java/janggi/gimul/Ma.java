@@ -13,15 +13,56 @@ public class Ma extends Gimul{
 
     @Override
     public Path getLegalPath(Position from, Position to) {
-        int rowDistance = from.getRowDistance(to);
-        int columnDistance = from.getColumnDistance(to);
+        int rowDistance = to.getRowDistance(from);
+        int columnDistance = to.getColumnDistance(from);
 
-        if ((rowDistance != 1 || columnDistance != 2)
-                && (rowDistance != 2 || columnDistance != 1)) {
+        int absRowDistance = Math.abs(rowDistance);
+        int absColumnDistance = Math.abs(columnDistance);
+
+        if ((absRowDistance != 1 || absColumnDistance != 2)
+                && (absRowDistance != 2 || absColumnDistance != 1)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        return null;
+        Path first = from.moveVertical(-1);
+        Path second = first.getDestination().moveNorthAndWest();
+
+        if (rowDistance == -2 && columnDistance == 1) {
+            first = from.moveVertical(-1);
+            second = first.getDestination().moveNorthAndEast();
+        }
+
+        if (rowDistance == -1 && columnDistance == 2) {
+            first = from.moveHorizontal(1);
+            second = first.getDestination().moveNorthAndEast();
+        }
+
+        if (rowDistance == 1 && columnDistance == 2) {
+            first = from.moveHorizontal(1);
+            second = first.getDestination().moveSouthAndEast();
+        }
+
+        if (rowDistance == 2 && columnDistance == 1) {
+            first = from.moveVertical(1);
+            second = first.getDestination().moveSouthAndEast();
+        }
+
+        if (rowDistance == 2 && columnDistance == -1) {
+            first = from.moveVertical(1);
+            second = first.getDestination().moveSouthAndWest();
+        }
+
+        if (rowDistance == 1 && columnDistance == -2) {
+            first = from.moveHorizontal(-1);
+            second = first.getDestination().moveSouthAndWest();
+        }
+
+        if (rowDistance == -1 && columnDistance == -2) {
+            first = from.moveHorizontal(-1);
+            second = first.getDestination().moveNorthAndWest();
+        }
+
+        return Path.concatenate(first, second);
     }
 
     @Override

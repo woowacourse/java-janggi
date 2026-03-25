@@ -83,6 +83,6 @@ class RowTest {
 
         //when & then
         assertThat(eight.getDistance(zero))
-                .isEqualTo(2);
+                .isEqualTo(-2);
     }
 }

@@ -15,6 +15,7 @@ public class Path {
 
         path.addAll(first.path);
         path.addAll(second.path.subList(1, second.path.size()));
+
         return new Path(path);
     }
 
