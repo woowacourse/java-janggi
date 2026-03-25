@@ -1,7 +1,7 @@
 package janggi.domain.strategy;
 
-import janggi.domain.Piece;
-import janggi.domain.PieceType;
+import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Space;
 import janggi.domain.Team;
@@ -19,16 +19,14 @@ public class BasicPlacementStrategy implements InitializeStrategy {
             File file = new File("resources\\data\\BasicPlacement.csv");
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = br.readLine(); // header skip
-            while(line != null) {
-                line = br.readLine();
-
+            while((line = br.readLine()) != null) {
                 List<String> parts = List.of(line.split(","));
                 int x = Integer.parseInt(parts.get(0));
                 int y = Integer.parseInt(parts.get(1));
                 Team team = Team.from(parts.get(2));
                 PieceType pieceType = PieceType.from(parts.get(3));
 
-                blankBoard.put(new Position(x,y), new Piece(team, pieceType));
+                blankBoard.put(new Position(x,y), PieceFactory.createPiece(team, pieceType));
             }
         } catch (Exception e) {
             throw new IllegalArgumentException("기물 초기화 실패");
