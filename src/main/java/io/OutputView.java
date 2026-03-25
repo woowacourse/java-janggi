@@ -1,6 +1,7 @@
 package io;
 
 import domain.game.Board;
+import domain.game.JanggiGame;
 import domain.game.Piece;
 import domain.game.Position;
 import domain.game.Turn;
@@ -15,6 +16,7 @@ public class OutputView {
             2. 마-상-상-마 (Horse-Elephant-Elephant-Horse)
             3. 상-마-마-상 (Elephant-Horse-Horse-Elephant)
             4. 상-마-상-마 (Elephant-Horse-Elephant-Horse)""";
+    private static final String REQUEST_MOVE = "[%s 진영] {출발 좌표} {도착 좌표} 형식으로 입력해 수를 두세요. (ex. e6 e5)";
 
     public void printSetupTable(Team team) {
         String message = String.format(REQUEST_SETUP, team.getTeamName());
@@ -42,5 +44,9 @@ public class OutputView {
         }
 
         System.out.println(stringBuilder);
+    }
+
+    public void printPieceMovement(Turn turn) {
+        System.out.printf((REQUEST_MOVE) + "%n", turn.display());
     }
 }
