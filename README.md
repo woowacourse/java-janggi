@@ -106,14 +106,18 @@
     - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
       `List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO)`
 
+- [ ] **[Domain]** 기물의 이동 규칙(전략)을 관리하는 구현체 클래스 `class Strategy implements MoveStrategy`
+    - [x] * `1.1단계 - 보드 초기화` 를 선행하기 위해 비워 둠 
+    - [ ] [규칙] 각 기물별 이동 규칙을 구현하고, 동일성이 존대한다면 묶는다
+
 - [x] **[`Domain/VO`]** 기물의 이동 가능성을 판정하기 위한 최소 정보를 전달할 클래스 `record PieceVO`
     - [x] [규칙] 기물의 진영을 전달 `Side side`
     - [x] [규칙] 같은 진영인지 판별 `public boolean isSameSide(PieceVO)`
     - [x] [규칙] 기물의 종류를 전달 `PieceType pieceType`
     - [x] [규칙] 기물의 종류를 판별 -> 현재 필요한 건 포 여부 뿐 `public boolean isCannon()`
 
-- [ ] **[Domain]** 기물의 종류, 이동 규칙을 관리하는 클래스 `enum PieceType`
-    - [ ] [규칙] 기물의 종류 `PieceType`
+- [x] **[Domain]** 기물의 종류, 이동 규칙을 관리하는 클래스 `enum PieceType`
+    - [x] [규칙] 기물의 종류 `PieceType`
       - General
       - Guard
       - Horse
@@ -121,7 +125,8 @@
       - Chariot
       - Cannon
       - Soldier
-    - [ ] [규칙] 기물의 이동 규칙 `class Strategy implements MoveStrategy`
+    - [x] [규칙] 기물의 이동 규칙 `class Strategy implements MoveStrategy`
+      - [x] [규칙] * `1.1단계 - 보드 초기화` 를 선행하기 위해 비워 둠
 
 - [ ] **[Domain]** 기물의 정보를 관리하는 클래스 `class Piece`
     - [ ] [규칙] 기물의 고유한 식별자 `private final String pieceNumber`
