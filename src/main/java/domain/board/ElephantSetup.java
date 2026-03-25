@@ -5,41 +5,67 @@ import static domain.piece.PieceType.HORSE;
 
 import domain.piece.PieceType;
 import domain.piece.Position;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public enum ElephantSetup {
-    InnerElephantSetup(Map.of(
-            Position.of(1, 2), HORSE,
-            Position.of(1, 3), ELEPHANT,
-            Position.of(1, 7), ELEPHANT,
-            Position.of(1, 8), HORSE
-    )),
-    OuterElephantSetup(Map.of(
-            Position.of(1, 2), ELEPHANT,
-            Position.of(1, 3), HORSE,
-            Position.of(1, 7), HORSE,
-            Position.of(1, 8), ELEPHANT
-    )),
-    RightElephantSetup(Map.of(
-            Position.of(1, 2), HORSE,
-            Position.of(1, 3), ELEPHANT,
-            Position.of(1, 7), HORSE,
-            Position.of(1, 8), ELEPHANT
-    )),
-    LeftElephantSetup(Map.of(
-            Position.of(1, 2), ELEPHANT,
-            Position.of(1, 3), HORSE,
-            Position.of(1, 7), ELEPHANT,
-            Position.of(1, 8), HORSE
-    ));
 
+    InnerElephantSetup("마상상마(馬象象馬)",
+            Map.of(
+                    Position.of(1, 2), HORSE,
+                    Position.of(1, 3), ELEPHANT,
+                    Position.of(1, 7), ELEPHANT,
+                    Position.of(1, 8), HORSE
+            )),
+    OuterElephantSetup("상마마상(象馬馬象)",
+            Map.of(
+                    Position.of(1, 2), ELEPHANT,
+                    Position.of(1, 3), HORSE,
+                    Position.of(1, 7), HORSE,
+                    Position.of(1, 8), ELEPHANT
+            )),
+    RightElephantSetup("마상마상(馬象馬象)",
+            Map.of(
+                    Position.of(1, 2), HORSE,
+                    Position.of(1, 3), ELEPHANT,
+                    Position.of(1, 7), HORSE,
+                    Position.of(1, 8), ELEPHANT
+            )),
+    LeftElephantSetup("상마상마(象馬象馬)",
+            Map.of(
+                    Position.of(1, 2), ELEPHANT,
+                    Position.of(1, 3), HORSE,
+                    Position.of(1, 7), ELEPHANT,
+                    Position.of(1, 8), HORSE
+            ));
+
+    private final String description;
     private final Map<Position, PieceType> piecePositions;
 
-    ElephantSetup(final Map<Position, PieceType> piecePositions) {
+    ElephantSetup(final String description, final Map<Position, PieceType> piecePositions) {
+        this.description = description;
         this.piecePositions = piecePositions;
     }
 
     public Map<Position, PieceType> getPiecePositions() {
         return piecePositions;
+    }
+
+    public static List<String> descriptions() {
+        return Arrays.stream(values())
+                .map(setup -> setup.description)
+                .toList();
+    }
+
+    public static ElephantSetup of(int number) {
+        validateRange(number);
+        return values()[number - 1];
+    }
+
+    private static void validateRange(final int number) {
+        if (number < 1 || number > ElephantSetup.values().length) {
+            throw new IllegalArgumentException("주어진 숫자 범위를 벗어났습니다.");
+        }
     }
 }
