@@ -36,4 +36,9 @@ public class Ma implements Piece {
         }
         return List.of(Point.of(from.getColumn(), from.getRow() + (pathY / DISTANCE_MAX)));
     }
+
+    @Override
+    public boolean canMove(List<Piece> route) {
+        return route.isEmpty();
+    }
 }
