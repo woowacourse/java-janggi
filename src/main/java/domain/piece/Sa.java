@@ -44,7 +44,7 @@ public class Sa extends Piece{
     }
 
     @Override
-    protected List<Position> getPaths(Position src, Position dest) {
+    public List<Position> getPath(Position src, Position dest) {
         return List.of();
     }
 }

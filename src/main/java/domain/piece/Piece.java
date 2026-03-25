@@ -12,16 +12,16 @@ public abstract class Piece {
         this.team = team;
     }
 
-    //RawMove를 계산해서 dest가 있는지 없는지 판단.
-    public boolean canMove(Position src, Position dest) {
+    //이동이 가능한지 안되는지 판단.
+    protected boolean canMoveByMovingRule(Position src, Position dest) {
         return getRawPositions(src).contains(dest);
     }
 
-    //이동규칙에 따라 포지션 계산
+    //이동규칙에 따라 포지션 계산 -> List<List<>> ->
     protected abstract List<Position> getRawPositions(Position src);
 
     //경로 계산.
-    protected abstract List<Position> getPaths(Position src, Position dest);
+    public abstract List<Position> getPath(Position src, Position dest);
 
 
 }

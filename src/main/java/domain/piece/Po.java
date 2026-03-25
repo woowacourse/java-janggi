@@ -31,7 +31,31 @@ public class Po extends Piece {
     }
 
     @Override
-    protected List<Position> getPaths(Position src, Position dest) {
-        return List.of();
+    public List<Position> getPath(Position src, Position dest) {
+        List<Position> path = new ArrayList<>();
+        if(src.getX() == dest.getX()) {
+            if(src.getY() > dest.getY()) {
+                for(int i = src.getY() - 1; i >= dest.getY(); i--) {
+                    path.add(new Position(src.getX(), i));
+                }
+                return path;
+            }
+            for(int i = src.getY() + 1; i <= dest.getY(); i++) {
+                path.add(new Position(src.getX(), i));
+            }
+            return path;
+        }
+        if(src.getX() > dest.getX()) {
+            for(int i = src.getX() - 1; i >= dest.getX(); i--) {
+                path.add(new Position(i, src.getY()));
+            }
+            return path;
+        }
+
+        for(int i = src.getX() + 1; i <= dest.getX(); i++) {
+            path.add(new Position(i, src.getY()));
+        }
+
+        return path;
     }
 }
