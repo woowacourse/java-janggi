@@ -8,9 +8,11 @@ import java.util.List;
 public class Cha implements Piece {
 
     private final Team team;
+    private final String name;
 
-    public Cha(Team team) {
+    public Cha(Team team, String pieceName) {
         this.team = team;
+        this.name = pieceName;
     }
 
     @Override

@@ -12,9 +12,11 @@ public class Ma implements Piece {
     private static final int DISTANCE_MIN = 1;
 
     private final Team team;
+    private final String name;
 
-    public Ma(Team team) {
+    public Ma(Team team, String pieceName) {
         this.team = team;
+        this.name = pieceName;
     }
 
     @Override

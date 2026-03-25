@@ -18,7 +18,7 @@ public class PhoTest {
     @DisplayName("포가 움직일 때, 경유지는 두 곳이다.")
     void straight_back_route(int column, int row) {
         // given
-        Piece pho = new Pho(Team.CHO);
+        Piece pho = new Pho(Team.CHO, "Pho");
         Point from = Point.of(5,5);
         Point to = Point.of(column, row);
 
@@ -33,7 +33,7 @@ public class PhoTest {
     @DisplayName("이동할 수 없는 위치를 목적지로 할 경우 예외 발생")
     void destination_exception() {
         // given
-        Piece pho = new Pho(Team.CHO);
+        Piece pho = new Pho(Team.CHO, "포");
         Point from = Point.of(0, 0);
         Point to = Point.of(1, 1);
         // when & then

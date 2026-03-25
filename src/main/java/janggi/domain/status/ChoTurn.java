@@ -1,5 +1,6 @@
 package janggi.domain.status;
 
+import janggi.domain.Board;
 import janggi.domain.Point;
 
 public class ChoTurn implements GameStatus{
@@ -11,7 +12,10 @@ public class ChoTurn implements GameStatus{
     }
 
     @Override
-    public GameStatus move(Point from, Point to) {
+    public GameStatus move(Point from, Point to, Board board) {
+        if (!board.isSameTeam(from, team)) {
+            throw new IllegalArgumentException();
+        }
         return new HanTurn();
     }
 }
