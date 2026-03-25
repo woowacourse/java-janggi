@@ -2,6 +2,14 @@ package domain.janggigame;
 
 import domain.piece.Side;
 import domain.players.Players;
+import dto.BoardResponseDto;
+import util.Parser;
+import view.InputView;
+import view.OutputView;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class JanggiGame {
     private final Players players;
@@ -11,20 +19,38 @@ public class JanggiGame {
     }
 
     public void run() {
+        selectSide();
         HanPlayerPlacement();
         ChoPlayerPlacement();
     }
 
+    private void selectSide() {
+        String input = InputView.inputSideChoice();
+        int sideCode = Parser.parseToSideCode(input);
+        Side side = generateSide(sideCode);
+        OutputView.printSideChoiceResult(side);
+    }
+
+    private Side generateSide(int sideCode) {
+        List<Side> sides = Arrays.asList(Side.values());
+        Collections.shuffle(sides);
+
+        return sides.get(sideCode - 1);
+    }
+
     private void HanPlayerPlacement() {
-        // 상배치 코드입력 받고
-        players.initPlacementBySide(Side.HAN, 1);
-        // 출력
+        String input = InputView.inputHanPlacementCode();
+        int code = Parser.parseToPlacementCode(input);
+        players.initPlacementBySide(Side.HAN, code);
+        BoardResponseDto nowBoardState = players.findBoardState();
+        OutputView.printBoard(nowBoardState);
     }
 
     private void ChoPlayerPlacement() {
-        // 상배치 코드입력 받고
-        players.initPlacementBySide(Side.CHO, 2);
-        // 출력
+        String input = InputView.inputChoPlacementCode();
+        int code = Parser.parseToPlacementCode(input);
+        players.initPlacementBySide(Side.CHO, code);
+        BoardResponseDto nowBoardState = players.findBoardState();
+        OutputView.printBoard(nowBoardState);
     }
-
 }

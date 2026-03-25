@@ -3,6 +3,7 @@ package domain.player;
 import domain.board.Board;
 import domain.board.Placement;
 import domain.piece.Side;
+import dto.BoardResponseDto;
 
 public class Player {
     private final Side side;
@@ -19,5 +20,9 @@ public class Player {
 
     public void initBoard(int placementCode) {
         board.placePieces(side, Placement.from(placementCode));
+    }
+
+    public BoardResponseDto findBoardState() {
+        return board.findState();
     }
 }

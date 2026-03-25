@@ -1,8 +1,8 @@
 package domain.players;
 
-import domain.board.Placement;
 import domain.piece.Side;
 import domain.player.Player;
+import dto.BoardResponseDto;
 
 public class Players {
     private final Player choPlayer;
@@ -21,5 +21,9 @@ public class Players {
         if (side == Side.CHO) {
             choPlayer.initBoard(placementCode);
         }
+    }
+
+    public BoardResponseDto findBoardState() {
+        return hanPlayer.findBoardState();
     }
 }

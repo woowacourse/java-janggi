@@ -1,7 +1,7 @@
 package domain.piece;
 
 public enum PieceType {
-    GENERAL("장"),
+    GENERAL("궁"),
     CHARIOT("차"),
     CANON("포"),
     HORSE("마"),
@@ -14,5 +14,8 @@ public enum PieceType {
     PieceType(String name) {
         this.name = name;
     }
-}
 
+    public String getName() {
+        return name;
+    }
+}

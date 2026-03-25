@@ -24,6 +24,10 @@ public final class Piece {
         return side;
     }
 
+    public String getTypeName() {
+        return pieceType.getName();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
