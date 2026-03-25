@@ -21,6 +21,7 @@ public class JanggiController {
     public void run() {
         List<TableSetting> tableSettings = makeTableSetting();
         Position from = makeFromPosition();
+        Position to = makeToPosition();
     }
 
     private List<TableSetting> makeTableSetting() {
@@ -37,6 +38,12 @@ public class JanggiController {
 
     private Position makeFromPosition() {
         String input = inputView.readFromPosition();
+        List<Integer> positions = InputParser.parsePosition(input);
+        return new Position(positions.get(0), positions.get(1));
+    }
+
+    private Position makeToPosition() {
+        String input = inputView.readToPosition();
         List<Integer> positions = InputParser.parsePosition(input);
         return new Position(positions.get(0), positions.get(1));
     }

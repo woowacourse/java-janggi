@@ -17,4 +17,9 @@ public class InputView {
         System.out.println(LINE_SEPARATOR + "움직일 기물의 좌표를 입력하세요.");
         return scanner.nextLine();
     }
+
+    public String readToPosition() {
+        System.out.println(LINE_SEPARATOR + "움직이고 싶은 좌표를 입력하세요.");
+        return scanner.nextLine();
+    }
 }
