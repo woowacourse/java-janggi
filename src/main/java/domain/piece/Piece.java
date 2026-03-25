@@ -14,5 +14,5 @@ public abstract class Piece {
 
 
     //경로 계산.
-    public abstract Path getPath(Position src, Position dest);
+    public abstract Path calculatePath(Position src, Position dest);
 }

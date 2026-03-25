@@ -37,7 +37,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    public Path getPath(Position src, Position dest) {
+    public Path calculatePath(Position src, Position dest) {
         for (Direction path : paths) {
             int x = src.getX() + path.getOffsetX();
             int y = src.getY() + path.getOffsetY();

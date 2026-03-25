@@ -13,7 +13,7 @@ public class Cha extends Piece {
     }
 
     @Override
-    public Path getPath(Position src, Position dest) {
+    public Path calculatePath(Position src, Position dest) {
         List<Position> path = new ArrayList<>();
         if (src.getX() == dest.getX()) {
             if (src.getY() > dest.getY()) {
