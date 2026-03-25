@@ -1,6 +1,10 @@
 package domain.piece;
 
+import domain.board.Board;
+import domain.Position;
 import domain.Side;
+
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -22,6 +26,8 @@ public abstract class Piece {
     public boolean isFriendly(Side side) {
         return this.side == side;
     }
+
+    public abstract List<Position> getPossibleMoves(Board board, Position start);
 
     @Override
     public boolean equals(Object o) {
