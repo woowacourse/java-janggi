@@ -9,4 +9,16 @@ public enum Team {
     Team(int direction) {
         this.direction = direction;
     }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public boolean isHan() {
+        return this == HAN;
+    }
+
+    public boolean isCho() {
+        return this == CHO;
+    }
 }
