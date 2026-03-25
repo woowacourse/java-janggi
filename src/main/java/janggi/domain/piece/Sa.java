@@ -11,6 +11,14 @@ public class Sa extends Piece {
 
     @Override
     public void validateMove(Position from, Position to) {
+        if (moveStrategy(from, to)) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 위치로 사가 이동할 수 없습니다.");
+    }
 
+    private boolean moveStrategy(Position from, Position to) {
+        return (Math.abs(from.x() - to.x()) == 0 && Math.abs(from.y() - to.y()) == 1) ||
+            (Math.abs(from.x() - to.x()) == 1 && Math.abs(from.y() - to.y()) == 0);
     }
 }
