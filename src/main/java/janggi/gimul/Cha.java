@@ -1,5 +1,8 @@
-package janggi;
+package janggi.gimul;
 
+import janggi.Path;
+import janggi.Position;
+import janggi.Team;
 import java.util.List;
 
 public class Cha extends Gimul {
