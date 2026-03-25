@@ -18,31 +18,6 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printChoNameInput() {
-        System.out.println("선공 닉네임을 입력하세요.");
-    }
-
-    public void printHanNameInput() {
-        System.out.println("후공 이름을 입력하세요.");
-    }
-
-    public void printChoPositionInput() {
-        System.out.println("선공 배치 선택 (1 - 상마상마, 2 - 마상마상, 3 - 마상상마, 4 - 상마마상)");
-    }
-
-    public void printHanPositionInput() {
-        System.out.println("후공 배치 선택 (1 - 상마상마, 2 - 마상마상, 3 - 마상상마, 4 - 상마마상)");
-    }
-
-    public void printPieceSelectInput() {
-        System.out.println("기물 선택");
-    }
-
-    public void printPieceMovePositionInput() {
-        System.out.println("이동 위치");
-    }
-
-
     private void printColumnHeader() {
         StringBuilder sb = new StringBuilder();
         sb.append("       ");
