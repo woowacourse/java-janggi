@@ -16,7 +16,7 @@ public class Pawn extends Piece {
 
     @Override
     public List<Position> getPossibleMoves(Board board, Position start) {
-         List<Position> possiblePositions = new ArrayList<>();
+        List<Position> possiblePositions = new ArrayList<>();
         int[] dx = {0, -1, 1, 0};
         int[] dy = {-1, 0, 0, 1};
 
@@ -27,10 +27,9 @@ public class Pawn extends Piece {
                 Position destination = new Position(nCol, nRow);
 
                 if (board.isAvailableDestination(destination)) {
-                    continue;
+                    possiblePositions.add(destination);
                 }
 
-                possiblePositions.add(destination);
             }
 
             return possiblePositions;
@@ -42,10 +41,8 @@ public class Pawn extends Piece {
             Position destination = new Position(nCol, nRow);
 
             if (board.isAvailableDestination(destination)) {
-                continue;
+                possiblePositions.add(destination);
             }
-
-            possiblePositions.add(destination);
         }
 
         return possiblePositions;

@@ -37,20 +37,20 @@ public class Board {
         return board[start.col()][start.row()];
     }
 
-    private boolean isCurrentTurnPiece(Position position) {
-        return board[position.col()][position.row()].isFriendly(turn);
+    private boolean isOpponentTurnPiece(Position position) {
+        return !board[position.col()][position.row()].isFriendly(turn);
     }
 
     public boolean isAvailableDestination(Position destination) {
         if (destination.col() < POSITION_THRESHOLD || destination.col() >= COL_SIZE) {
-            return true;
+            return false;
         }
 
         if (destination.row() < POSITION_THRESHOLD || destination.row() >= ROW_SIZE) {
-            return true;
+            return false;
         }
 
-        return isCurrentTurnPiece(destination);
+        return isOpponentTurnPiece(destination);
     }
 
     public void move(Position start, Position destination) {
@@ -78,13 +78,13 @@ public class Board {
     }
 
     private void validateStartPosition(Position start) {
-        if (!isCurrentTurnPiece(start)) {
+        if (isOpponentTurnPiece(start)) {
             throw new IllegalArgumentException("아군 기물만 이동 가능합니다.");
         }
     }
 
     private void validateCurrentTurnPiece(Position destination) {
-        if (isCurrentTurnPiece(destination)) {
+        if (!isOpponentTurnPiece(destination)) {
             throw new IllegalArgumentException("아군 기물이 있는 위치는 이동할 수 없습니다.");
         }
     }
