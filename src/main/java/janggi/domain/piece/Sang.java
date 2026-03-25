@@ -12,9 +12,11 @@ public class Sang implements Piece {
     private static final int DISTANCE_MIN = 2;
 
     private final Team team;
+    private final String name;
 
-    public Sang(Team team) {
+    public Sang(Team team, String pieceName) {
         this.team = team;
+        this.name = pieceName;
     }
 
     @Override
