@@ -1,92 +1,56 @@
 package janggi;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PositionTest {
 
-    @DisplayName("동쪽으로 이동한다.")
-    @Test
-    void moveEast() {
-        //given
-        Position position = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(position.moveEast()).isEqualTo(new Position(Row.SIX, Column.FOUR));
-    }
-
-    @DisplayName("서쪽으로 이동한다.")
-    @Test
-    void moveWest() {
-        //given
-        Position position = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(position.moveWest()).isEqualTo(new Position(Row.SIX, Column.TWO));
-    }
-
-    @DisplayName("남쪽으로 이동한다.")
-    @Test
-    void moveSouth() {
-        //given
-        Position position = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(position.moveSouth()).isEqualTo(new Position(Row.SEVEN, Column.THREE));
-    }
-
-    @DisplayName("북쪽으로 이동한다.")
-    @Test
-    void moveNorth() {
-        //given
-        Position position = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(position.moveNorth()).isEqualTo(new Position(Row.FIVE, Column.THREE));
-    }
-
     @DisplayName("북서쪽으로 이동한다.")
     @Test
     void moveNorthAndWest() {
         //given
-        Position position = new Position(Row.SIX, Column.THREE);
+        Position from = new Position(Row.SIX, Column.THREE);
 
         //when & then
-        assertThat(position.moveNorthAndWest()).isEqualTo(new Position(Row.FIVE, Column.TWO));
+        assertThat(from.moveNorthAndWest().getDestination())
+                .isEqualTo(new Position(Row.FIVE, Column.TWO));
     }
 
     @DisplayName("북동쪽으로 이동한다.")
     @Test
     void moveNorthAndEast() {
         //given
-        Position position = new Position(Row.SIX, Column.THREE);
+        Position from = new Position(Row.SIX, Column.THREE);
 
         //when & then
-        assertThat(position.moveNorthAndEast()).isEqualTo(new Position(Row.FIVE, Column.FOUR));
-    }
-
-    @DisplayName("남동쪽으로 이동한다.")
-    @Test
-    void moveSouthAndEast() {
-        //given
-        Position position = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(position.moveSouthAndEast()).isEqualTo(new Position(Row.SEVEN, Column.FOUR));
+        assertThat(from.moveNorthAndEast().getDestination())
+                .isEqualTo(new Position(Row.FIVE, Column.FOUR));
     }
 
     @DisplayName("남서쪽으로 이동한다.")
     @Test
     void moveSouthAndWest() {
         //given
-        Position position = new Position(Row.SIX, Column.THREE);
+        Position from = new Position(Row.SIX, Column.THREE);
 
         //when & then
-        assertThat(position.moveSouthAndWest()).isEqualTo(new Position(Row.SEVEN, Column.TWO));
+        assertThat(from.moveSouthAndWest().getDestination())
+                .isEqualTo(new Position(Row.SEVEN, Column.TWO));
     }
+
+    @DisplayName("남동쪽으로 이동한다.")
+    @Test
+    void moveSouthAndEast() {
+        //given
+        Position from = new Position(Row.SIX, Column.THREE);
+
+        //when & then
+        assertThat(from.moveSouthAndEast().getDestination())
+                .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
+    }
+
 
     @DisplayName("같은 행이면 true를 반환한다.")
     @Test
@@ -131,6 +95,6 @@ class PositionTest {
 
         //when & then
         Path path = from.moveVertical(3);
-        assertThat(path.getDestination()).isEqualTo( new Position(Row.NINE, Column.THREE));
+        assertThat(path.getDestination()).isEqualTo(new Position(Row.NINE, Column.THREE));
     }
 }

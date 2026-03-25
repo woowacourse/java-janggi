@@ -6,6 +6,23 @@ public record Position(
         Row row,
         Column column
 ) {
+
+    public Path moveNorthAndEast() {
+        return new Path(List.of(this, new Position(row.previous(), column.next())));
+    }
+
+    public Path moveNorthAndWest() {
+        return new Path(List.of(this, new Position(row.previous(), column.previous())));
+    }
+
+    public Path moveSouthAndEast() {
+        return new Path(List.of(this, new Position(row.next(), column.next())));
+    }
+
+    public Path moveSouthAndWest() {
+        return new Path(List.of(this, new Position(row.next(), column.previous())));
+    }
+
     public Path moveHorizontal(int distance) {
         Position to = new Position(
                 row,
@@ -18,14 +35,6 @@ public record Position(
         List<Column> columns = this.column.to(to.column);
         return new Path(columns.stream().map(column -> new Position(this.row, column)).toList());
     }
-
-//    public Path moveVertical(Position to) {
-//        if (!this.column.equals(to.column)) {
-//            throw new IllegalArgumentException("같은 열이 아닙니다.");
-//        }
-//        List<Row> rows = this.row.to(to.row);
-//        return new Path(rows.stream().map(row -> new Position(row, this.column)).toList());
-//    }
 
     public Path moveVertical(int distance) {
         Position to = new Position(
@@ -44,40 +53,6 @@ public record Position(
 
     public int getColumnDistance(Position other) {
         return this.column.getDistance(other.column);
-    }
-
-    public Position moveEast() {
-        return new Position(row, column.next());
-    }
-
-    public Position moveWest() {
-        return new Position(row, column.previous());
-    }
-
-
-    public Position moveSouth() {
-        return new Position(row.next(), column);
-    }
-
-
-    public Position moveNorth() {
-        return new Position(row.previous(), column);
-    }
-
-    public Position moveNorthAndWest() {
-        return new Position(row.previous(), column.previous());
-    }
-
-    public Position moveNorthAndEast() {
-        return new Position(row.previous(), column.next());
-    }
-
-    public Position moveSouthAndEast() {
-        return new Position(row.next(), column.next());
-    }
-
-    public Position moveSouthAndWest() {
-        return new Position(row.next(), column.previous());
     }
 
     public boolean isSameRow(Position other) {
