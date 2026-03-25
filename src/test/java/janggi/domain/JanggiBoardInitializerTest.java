@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.board.BoardInitializer;
+import janggi.domain.board.ElephantSetting;
 import janggi.domain.board.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
@@ -10,13 +11,31 @@ import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class BoardInitializerTest {
+public class JanggiBoardInitializerTest {
 
     @Test
-    void 보드의_기물들을_초기화한다() {
+    void 초_마상마상_한_상마상마_으로_보드를_초기화한다() {
         // given
-        BoardInitializer initializer = new StandardBoardInitializer();
+        BoardInitializer initializer = new StandardBoardInitializer(ElephantSetting.CHO_RIGHT_ELEPHANT,
+                ElephantSetting.HAN_LEFT_ELEPHANT);
         Map<Position, Piece> expectedBoard = createExpectedBoard();
+        expectedBoard.putAll(createChoLeftHanRightBoard());
+        // when
+        Map<Position, Piece> board = initializer.initialize();
+        // then
+        SoftAssertions.assertSoftly(assertSoftly -> {
+            assertSoftly.assertThat(board).hasSize(32);
+            assertSoftly.assertThat(board).isEqualTo(expectedBoard);
+        });
+    }
+
+    @Test
+    void 초_마상상마_한_상마마상_으로_보드를_초기화한다() {
+        // given
+        BoardInitializer initializer = new StandardBoardInitializer(ElephantSetting.CHO_INNER_ELEPHANT,
+                ElephantSetting.HAN_OUTER_ELEPHANT);
+        Map<Position, Piece> expectedBoard = createExpectedBoard();
+        expectedBoard.putAll(createChoInnerHanOuterBoard());
         // when
         Map<Position, Piece> board = initializer.initialize();
         // then
@@ -30,8 +49,6 @@ public class BoardInitializerTest {
         Map<Position, Piece> expectedBoard = new HashMap<>();
 
         putPieces(expectedBoard, Type.CHARIOT, Camp.CHO, createPosition(0, 0), createPosition(0, 8));
-        putPieces(expectedBoard, Type.ELEPHANT, Camp.CHO, createPosition(0, 1), createPosition(0, 6));
-        putPieces(expectedBoard, Type.HORSE, Camp.CHO, createPosition(0, 2), createPosition(0, 7));
         putPieces(expectedBoard, Type.GUARD, Camp.CHO, createPosition(0, 3), createPosition(0, 5));
         putPieces(expectedBoard, Type.GENERAL, Camp.CHO, createPosition(1, 4));
         putPieces(expectedBoard, Type.CANNON, Camp.CHO, createPosition(2, 1), createPosition(2, 7));
@@ -41,8 +58,6 @@ public class BoardInitializerTest {
                 createPosition(3, 8));
 
         putPieces(expectedBoard, Type.CHARIOT, Camp.HAN, createPosition(9, 0), createPosition(9, 8));
-        putPieces(expectedBoard, Type.ELEPHANT, Camp.HAN, createPosition(9, 1), createPosition(9, 6));
-        putPieces(expectedBoard, Type.HORSE, Camp.HAN, createPosition(9, 2), createPosition(9, 7));
         putPieces(expectedBoard, Type.GUARD, Camp.HAN, createPosition(9, 3), createPosition(9, 5));
         putPieces(expectedBoard, Type.GENERAL, Camp.HAN, createPosition(8, 4));
         putPieces(expectedBoard, Type.CANNON, Camp.HAN, createPosition(7, 1), createPosition(7, 7));
@@ -52,6 +67,30 @@ public class BoardInitializerTest {
                 createPosition(6, 8));
 
         return expectedBoard;
+    }
+
+    private Map<Position, Piece> createChoLeftHanRightBoard() {
+        Map<Position, Piece> board = new HashMap<>();
+
+        putPieces(board, Type.ELEPHANT, Camp.CHO, createPosition(0, 1), createPosition(0, 6));
+        putPieces(board, Type.HORSE, Camp.CHO, createPosition(0, 2), createPosition(0, 7));
+
+        putPieces(board, Type.ELEPHANT, Camp.HAN, createPosition(9, 1), createPosition(9, 6));
+        putPieces(board, Type.HORSE, Camp.HAN, createPosition(9, 2), createPosition(9, 7));
+
+        return board;
+    }
+
+    private Map<Position, Piece> createChoInnerHanOuterBoard() {
+        Map<Position, Piece> board = new HashMap<>();
+
+        putPieces(board, Type.ELEPHANT, Camp.CHO, createPosition(0, 2), createPosition(0, 6));
+        putPieces(board, Type.HORSE, Camp.CHO, createPosition(0, 1), createPosition(0, 7));
+
+        putPieces(board, Type.ELEPHANT, Camp.HAN, createPosition(9, 1), createPosition(9, 7));
+        putPieces(board, Type.HORSE, Camp.HAN, createPosition(9, 2), createPosition(9, 6));
+
+        return board;
     }
 
     //TODO: moveStrategy 변경
