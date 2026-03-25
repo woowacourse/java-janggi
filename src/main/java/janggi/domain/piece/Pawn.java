@@ -17,13 +17,13 @@ public class Pawn extends BasePiece {
         MOVE_RANGE = moveRange;
     }
 
-    public Pawn from(Side side) {
+    public static Pawn from(Side side) {
         List<List<Movement>> moveRange = new ArrayList<>(List.of(List.of(Movement.LEFT), List.of(Movement.RIGHT)));
         moveRange.add(calculateForwardMovement(side));
         return new Pawn(side, moveRange);
     }
 
-    private List<Movement> calculateForwardMovement(Side side){
+    private static List<Movement> calculateForwardMovement(Side side){
         if (side.equals(Side.CHO)) {
             return List.of(Movement.UP);
         }
