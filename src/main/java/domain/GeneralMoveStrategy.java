@@ -9,12 +9,10 @@ public class GeneralMoveStrategy extends MoveStrategy {
     private final static int[] DC = {1, 0, -1, 0};
 
     private final List<Position> destinations;
-    private final List<Position> routePositions;
 
     private GeneralMoveStrategy(Position position) {
         super(position);
         this.destinations = setupDestinations();
-        this.routePositions = List.of();
     }
 
     public static GeneralMoveStrategy of(Position position) {
