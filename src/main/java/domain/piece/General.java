@@ -20,4 +20,11 @@ public class General extends Piece implements StaticPositioned {
 
         return List.of(new Intersection(intialRow, INITIAL_FILE));
     }
+
+    @Override
+    public String toString() {
+        return "General{" +
+                "side=" + side +
+                '}';
+    }
 }

@@ -11,6 +11,10 @@ public abstract class Piece {
         this.side = side;
     }
 
+    public boolean hasDifferentSide(Side side) {
+        return this.side != side;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Piece piece)) {
@@ -22,5 +26,12 @@ public abstract class Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(side);
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "side=" + side +
+                '}';
     }
 }

@@ -16,4 +16,11 @@ public class Horse extends Piece {
 
         return super.equals(other);
     }
+
+    @Override
+    public String toString() {
+        return "Horse{" +
+                "side=" + side +
+                '}';
+    }
 }

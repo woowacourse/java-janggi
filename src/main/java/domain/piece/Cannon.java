@@ -22,4 +22,11 @@ public class Cannon extends Piece implements StaticPositioned {
                 .map(file -> new Intersection(initialRow, file))
                 .toList();
     }
+
+    @Override
+    public String toString() {
+        return "Cannon{" +
+                "side=" + side +
+                '}';
+    }
 }

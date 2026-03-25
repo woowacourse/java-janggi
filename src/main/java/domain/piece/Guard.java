@@ -22,4 +22,11 @@ public class Guard extends Piece implements StaticPositioned {
                 .map(file -> new Intersection(initialRow, file))
                 .toList();
     }
+
+    @Override
+    public String toString() {
+        return "Guard{" +
+                "side=" + side +
+                '}';
+    }
 }
