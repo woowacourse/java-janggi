@@ -7,25 +7,29 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PieceTest {
-    Piece piece;
+    Piece choPiece;
+    Piece hanPiece;
 
     @BeforeEach
     void setUp() {
-        piece = new Piece(Camp.CHO, PieceType.CANNON);
+        choPiece = new Piece(Camp.CHO, PieceType.CANNON);
+        hanPiece = new Piece(Camp.HAN, PieceType.CANNON);
     }
 
     @Test
     @DisplayName("기물은 자신의 진영 정보를 알고 있다.")
     void determine_ChoOrHan() {
-        Camp camp = piece.camp();
+        Camp choCamp = choPiece.camp();
+        Camp hanCamp = hanPiece.camp();
 
-        assertThat(camp).isEqualTo(Camp.CHO);
+        assertThat(choCamp).isEqualTo(Camp.CHO);
+        assertThat(hanCamp).isEqualTo(Camp.HAN);
     }
 
     @Test
     @DisplayName("기물은 자신의 타입 정보를 알고 있다.")
     void determine_Self_Type() {
-        PieceType pieceType = piece.type();
+        PieceType pieceType = choPiece.type();
 
         assertThat(pieceType).isEqualTo(PieceType.CANNON);
     }
