@@ -16,6 +16,10 @@ public enum Column {
 
     private static final List<Column> CACHE_VALUES = Arrays.asList(values());
 
+    public static Column of(int ordinal) {
+        return CACHE_VALUES.get(ordinal);
+    }
+
 
     public Column next() {
         if (this == NINE) {

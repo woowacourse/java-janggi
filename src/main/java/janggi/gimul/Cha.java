@@ -18,10 +18,10 @@ public class Cha extends Gimul {
         }
 
         if (from.isSameRow(to)) {
-            return from.moveHorizontal(to);
+            return from.moveHorizontal(from.getColumnDistance(to));
         }
 
-        return from.moveVertical(to);
+        return from.moveVertical(from.getRowDistance(to));
     }
 
     @Override

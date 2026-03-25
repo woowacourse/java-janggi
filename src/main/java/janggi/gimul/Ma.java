@@ -13,6 +13,14 @@ public class Ma extends Gimul{
 
     @Override
     public Path getLegalPath(Position from, Position to) {
+        int rowDistance = from.getRowDistance(to);
+        int columnDistance = from.getColumnDistance(to);
+
+        if ((rowDistance != 1 || columnDistance != 2)
+                && (rowDistance != 2 || columnDistance != 1)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+
         return null;
     }
 
