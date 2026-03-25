@@ -30,8 +30,6 @@ public class Ma extends Piece {
 
     public Ma(Team team) {
         super(team, PieceType.MA);
-    }    public Ma(Team team) {
-        super(team);
     }
 
     @Override
