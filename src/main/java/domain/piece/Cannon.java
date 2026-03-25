@@ -4,14 +4,13 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 
-public class Cannon implements StaticPositioned {
+public class Cannon extends Piece implements StaticPositioned {
 
     private static final int FAR_FROM_BASE_ROW = 2;
     private static final List<Integer> INITAL_FILES = List.of(2, 8);
-    private final Side side;
 
     public Cannon(Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override

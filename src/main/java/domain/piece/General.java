@@ -4,15 +4,13 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 
-public class General implements StaticPositioned {
+public class General extends Piece implements StaticPositioned {
 
     private static final int INITIAL_FILE = 5;
     private static final int FAR_FROM_BASE_ROW = 1;
 
-    private final Side side;
-
     public General(Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override
