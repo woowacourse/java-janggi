@@ -1,6 +1,7 @@
 package controller;
 
 import domain.Country;
+import domain.Position;
 import domain.TableSetting;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class JanggiController {
 
     public void run() {
         List<TableSetting> tableSettings = makeTableSetting();
+        Position from = makeFromPosition();
     }
 
     private List<TableSetting> makeTableSetting() {
@@ -31,5 +33,11 @@ public class JanggiController {
             tableSettings.add(tableSetting);
         }
         return tableSettings;
+    }
+
+    private Position makeFromPosition() {
+        String input = inputView.readFromPosition();
+        List<Integer> positions = InputParser.parsePosition(input);
+        return new Position(positions.get(0), positions.get(1));
     }
 }

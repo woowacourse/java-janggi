@@ -7,7 +7,14 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public String readTableSetting(String countryName) {
-        System.out.printf("%s의 상차림을 입력하세요. (ex - 상마상마(왼상차림), 마상마상(오른상차림), 마상상마(안상차림), 상마마상(바깥상차림))" + LINE_SEPARATOR, countryName);
+        System.out.printf(LINE_SEPARATOR + "%s의 상차림을 입력하세요. (ex - 상마상마(왼상차림), 마상마상(오른상차림), 마상상마(안상차림), 상마마상(바깥상차림))"
+                        + LINE_SEPARATOR,
+                countryName);
+        return scanner.nextLine();
+    }
+
+    public String readFromPosition() {
+        System.out.println(LINE_SEPARATOR + "움직일 기물의 좌표를 입력하세요.");
         return scanner.nextLine();
     }
 }
