@@ -12,7 +12,7 @@ public class Point {
 
     static {
         List<List<Point>> temp = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 9; i++) {
             List<Point> row = new ArrayList<>();
             addColumn(row, i);
             temp.add(row);
@@ -38,7 +38,7 @@ public class Point {
     }
 
     private static void addColumn(List<Point> row, int column) {
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i < 10; i++) {
             row.add(new Point(column, i));
         }
     }
