@@ -1,0 +1,40 @@
+package janggi.gimul;
+
+import janggi.Path;
+import janggi.Position;
+import janggi.Team;
+import java.util.List;
+
+public class Byeong extends Gimul {
+    protected Byeong(Team team) {
+        super(team);
+    }
+
+    @Override
+    public Path getLegalPath(Position from, Position to) {
+        int rowDistance = to.getRowDistance(from);
+        int columnDistance = to.getColumnDistance(from);
+
+        int absRowDistance = Math.abs(rowDistance);
+        int absColumnDistance = Math.abs(columnDistance);
+
+        if ((absRowDistance != 1 || absColumnDistance != 0) && (absRowDistance != 0 || absColumnDistance != 1)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+
+        if (rowDistance != 0) {
+            if ((Team.CHO.equals(team) && rowDistance == 1) ||
+                    (Team.HAN.equals(team) && rowDistance == -1)) {
+                throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+            }
+            return from.moveVertical(rowDistance);
+        }
+
+        return from.moveHorizontal(columnDistance);
+    }
+
+    @Override
+    public boolean canPassThrough(List<Gimul> gimuls) {
+        return gimuls.isEmpty();
+    }
+}
