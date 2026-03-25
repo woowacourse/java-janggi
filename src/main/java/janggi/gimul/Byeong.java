@@ -18,20 +18,21 @@ public class Byeong extends Gimul {
         int absRowDistance = Math.abs(rowDistance);
         int absColumnDistance = Math.abs(columnDistance);
 
-        if ((absRowDistance != 1 || absColumnDistance != 0) && (absRowDistance != 0 || absColumnDistance != 1)) {
+        if ((absRowDistance + absColumnDistance) >= 2) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        if (rowDistance != 0) {
-            if ((Team.CHO.equals(team) && rowDistance == 1) ||
-                    (Team.HAN.equals(team) && rowDistance == -1)) {
-                throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-            }
-            return from.moveVertical(rowDistance);
+        if (rowDistance == 0) {
+            return from.moveHorizontal(columnDistance);
         }
 
-        return from.moveHorizontal(columnDistance);
+        if ((Team.CHO.equals(team) && rowDistance == 1) ||
+                (Team.HAN.equals(team) && rowDistance == -1)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+        return from.moveVertical(rowDistance);
     }
+
 
     @Override
     public boolean canPassThrough(List<Gimul> gimuls) {
