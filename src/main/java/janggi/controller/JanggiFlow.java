@@ -1,6 +1,8 @@
 package janggi.controller;
 
+import janggi.domain.piece.Piece;
 import janggi.strategy.ArrangementStrategy;
+import janggi.strategy.BoardAssembler;
 import janggi.strategy.SangMaSangMa;
 import janggi.view.ApplicationView;
 import java.util.List;
@@ -18,6 +20,9 @@ public class JanggiFlow {
     public void process() {
         int decisionNumber = view.requestArrangementStrategyDecision(strategies);
         ArrangementStrategy strategy = findStrategyWithCorrespondingDecisionNumber(decisionNumber);
+        BoardAssembler assembler = new BoardAssembler();
+        Piece[][] pieces = assembler.assemble(strategy, strategy);
+        System.out.println(pieces);
     }
 
     private ArrangementStrategy findStrategyWithCorrespondingDecisionNumber(int decisionNumber) {
