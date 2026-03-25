@@ -21,4 +21,8 @@ public class Piece {
     public Type getType() {
         return type;
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }
