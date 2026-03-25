@@ -31,7 +31,7 @@
 - 진영 side ENUM
 
 #### Piece
-- [ ] 기물 타입의 기물을 생성한다.
+- [x] 기물 타입의 기물을 생성한다.
 - 진영 side ENUM
 - 기물 종류 type ENUM
 
