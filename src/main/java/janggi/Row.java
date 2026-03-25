@@ -16,10 +16,10 @@ public enum Row {
     NINE,
     ZERO;
 
-    private static final Row[] CACHE_VALUES = values();
+    private static final List<Row> CACHE_VALUES = Arrays.asList(values());
 
     public static Row of(int ordinal) {
-        return CACHE_VALUES[ordinal];
+        return CACHE_VALUES.get(ordinal);
     }
 
     public Row previous() {
@@ -27,7 +27,7 @@ public enum Row {
             return OUT;
         }
 
-        return CACHE_VALUES[this.ordinal() - 1];
+        return CACHE_VALUES.get(this.ordinal() - 1);
     }
 
     public Row next() {
@@ -35,7 +35,7 @@ public enum Row {
             return OUT;
         }
 
-        return CACHE_VALUES[(this.ordinal() + 1) % CACHE_VALUES.length];
+        return CACHE_VALUES.get((this.ordinal() + 1) % CACHE_VALUES.size());
     }
 
     public List<Row> to(Row other) {
@@ -44,19 +44,10 @@ public enum Row {
         }
 
         if (this.ordinal() > other.ordinal()) {
-            List<Row> result = Arrays.asList(Arrays.copyOfRange(
-                    CACHE_VALUES,
-                    other.ordinal(),
-                    this.ordinal() + 1
-            ));
-
-            return result.reversed();
+            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + 1).reversed();
         }
 
-        return Arrays.asList(Arrays.copyOfRange(
-                CACHE_VALUES,
-                this.ordinal(),
-                other.ordinal() + 1)
-        );
+        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + 1);
+
     }
 }
