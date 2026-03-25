@@ -2,6 +2,7 @@ package domain.piece;
 
 public enum PieceType {
 
+    GENERAL,  // 궁
     CHARIOT,  // 차
     CANNON,   // 포
     HORSE,    // 마
