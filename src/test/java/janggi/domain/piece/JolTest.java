@@ -19,13 +19,9 @@ public class JolTest {
         Point from = Point.of(3, 3);
         Point to = Point.of(3,2);
 
-        // when
-        List<Point> route = piece.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
-
-        // then
-        assertThat(route.size()).isEqualTo(0);
-        assertThat(piece.canMove(pieces)).isFalse();
+        // when & then
+        assertThatThrownBy(() -> piece.getRoute(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -36,13 +32,9 @@ public class JolTest {
         Point from = Point.of(3, 3);
         Point to = Point.of(3,4);
 
-        // when
-        List<Point> route = piece.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
-
-        // then
-        assertThat(route.size()).isEqualTo(0);
-        assertThat(piece.canMove(pieces)).isFalse();
+        // when & then
+        assertThatThrownBy(() -> piece.getRoute(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
