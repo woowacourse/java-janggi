@@ -1,5 +1,7 @@
 package domain.vo;
 
+import java.util.Arrays;
+
 public enum Row {
     ZERO("0"),
     ONE("1"),
@@ -25,5 +27,12 @@ public enum Row {
 
     public String getValue() {
         return value;
+    }
+
+    public static Row toRow(char character) {
+        return Arrays.stream(Row.values())
+                .filter(row -> row.value.equals(String.valueOf(character)))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 좌표 형식이 틀렸습니다."));
     }
 }

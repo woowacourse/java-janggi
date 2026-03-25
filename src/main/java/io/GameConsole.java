@@ -3,6 +3,7 @@ package io;
 import domain.game.JanggiGame;
 import domain.vo.Arrangement;
 import domain.vo.Arrangements;
+import domain.vo.Coordinate;
 import domain.vo.Team;
 import java.util.function.Supplier;
 
@@ -27,7 +28,16 @@ public class GameConsole {
 
         outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
 
-        outputView.printPieceMovement(janggiGame.getTurn());
+        while (true) {
+            Coordinate coordinate = readPieceMovement();
+        }
+    }
+
+    private Coordinate readPieceMovement() {
+        return retryUntilSuccess(() -> {
+            outputView.printPieceMovement(janggiGame.getTurn());
+            return Coordinate.toCoordinate(inputView.readMoveCommand(janggiGame.getTurn()));
+        });
     }
 
     private Arrangement readArrangement(Team team) {
