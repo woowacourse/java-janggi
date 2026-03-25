@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
@@ -27,10 +28,25 @@ class BoardTest {
         // when
         Position from = Position.of(0, 0);
         Position to = Position.of(1, 0);
-        board.move(from, to);
+        board.straightMove(from, to);
 
         // then
         Piece findPiece = board.findPieceByPosition(to);
         Assertions.assertEquals(Type.CHARIOT, findPiece.getType());
+    }
+
+    @Test
+    @DisplayName("기물의 대각선 이동 경로에 다른 기물이 없으면 이동한다.")
+    void 기물_대각선_이동() {
+        // given
+        Board board = Board.of();
+        Position to = Position.of(3, 3);
+
+        // when
+        board.straightMove(Position.of(0, 1), Position.of(1, 1));
+        board.diagonalMove(Position.of(1, 1), to);
+
+        // then
+        assertEquals(Type.ELEPHANT, board.findPieceByPosition(to).getType());
     }
 }

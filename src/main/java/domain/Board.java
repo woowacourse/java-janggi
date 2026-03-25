@@ -51,7 +51,12 @@ public class Board {
         return new Board();
     }
 
-    public void move(final Position from, final Position to) {
+    public void straightMove(final Position from, final Position to) {
+        Piece fromPiece = findPieceByPosition(from);
+        board.put(to, fromPiece);
+    }
+
+    public void diagonalMove(final Position from, final Position to) {
         Piece fromPiece = findPieceByPosition(from);
         board.put(to, fromPiece);
     }
