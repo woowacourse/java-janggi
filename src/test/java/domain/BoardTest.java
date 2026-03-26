@@ -137,4 +137,13 @@ public class BoardTest {
             assertThat(pieceInfo.getCountry()).isEqualTo(Country.HAN);
         }
     }
+
+    @Test
+    @DisplayName("초기 기물이 모두 잘 생성되었는지 확인한다.")
+    void fullStateCountTest() {
+        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        Map<Position, PieceInfo> peaceInfos = board.getPieceInfos();
+
+        assertThat(peaceInfos.size()).isEqualTo(32);
+    }
 }

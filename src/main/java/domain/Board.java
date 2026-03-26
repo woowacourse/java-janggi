@@ -1,7 +1,12 @@
 package domain;
 
+import static domain.Position.INITIAL_POSITION;
+import static domain.Position.X_MAXIMUM_POSITION;
+import static domain.Position.Y_MAXIMUM_POSITION;
+
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
+import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
 import java.util.LinkedHashMap;
@@ -28,6 +33,17 @@ public class Board {
             initializeFixedSettings(initialPosition);
         }
         initializeTableSettings(choTableSetting, hanTableSetting);
+
+        for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
+            EmptyState emptyState = new EmptyState();
+            for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
+                Position position = new Position(x, y);
+
+                if (!board.containsKey(position)) {
+                    board.put(position, emptyState);
+                }
+            }
+        }
     }
 
     private void initializeFixedSettings(InitialPosition initialPosition) {
@@ -59,7 +75,9 @@ public class Board {
     public Map<Position, PieceInfo> getPieceInfos() {
         Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
         for (Entry<Position, State> entry : board.entrySet()) {
-            pieceInfos.put(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
+            if (!entry.getValue().isEmpty()) {
+                pieceInfos.put(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
+            }
         }
         return pieceInfos;
     }

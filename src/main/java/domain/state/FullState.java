@@ -12,4 +12,9 @@ public class FullState implements State {
     public Piece getPiece() {
         return piece;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
 }
