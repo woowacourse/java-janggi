@@ -1,11 +1,9 @@
 package domain.point;
 
-import java.util.Objects;
-
-public class Point {
-
-    private final int y;
-    private final int x;
+public record Point(
+        int y,
+        int x
+) {
 
     public Point(int y, int x) {
         validate(y, x);
@@ -20,21 +18,12 @@ public class Point {
         throw new IllegalArgumentException();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Point point = (Point) o;
-        return y == point.y && x == point.x;
+    public boolean isSameFile(Point other) {
+        return this.y == other.y;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(y, x);
+    public boolean isSameRow(Point other) {
+        return this.x == other.x;
     }
 
 }
