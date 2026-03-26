@@ -10,10 +10,11 @@ public class InputView {
     private static final String COMMA_DELIMITER = ",";
 
     private static final String REQUEST_MOVING_START_PIECE_POSITION = "\n이동할 기물의 좌표를 입력해주세요. (e.g. 2,3)";
+    private static final String REQUEST_PIECE_DESTINATION = "\n움직일 좌표의 번호를 선택해주세요.";
 
     private final Scanner sc = new Scanner(System.in);
 
-    public Position requestPiecePosition() {
+    public Position requestStartPiecePosition() {
         try {
             System.out.println(REQUEST_MOVING_START_PIECE_POSITION);
             List<String> strings = splitCoordinate(userInput());
@@ -21,6 +22,15 @@ public class InputView {
             int row = Integer.parseInt(strings.get(1));
 
             return new Position(col, row);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+        }
+    }
+
+    public int requestPieceDestination() {
+        try {
+            System.out.println(REQUEST_PIECE_DESTINATION);
+            return Integer.parseInt(userInput());
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력 가능합니다.");
         }

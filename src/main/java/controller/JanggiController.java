@@ -3,7 +3,6 @@ package controller;
 import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.Position;
-import domain.piece.Piece;
 import view.InputView;
 import view.OutputView;
 
@@ -23,8 +22,14 @@ public class JanggiController {
 
     public void play() {
         Board board = new Board(boardInitializer);
+
         outputView.printBoard(board.getBoard());
-        Position startPosition = inputView.requestPiecePosition();
-        outputView.printAvailablePositions(board.getPieceBy(startPosition).getPossibleMoves(board, startPosition));
+
+        Position startPosition = inputView.requestStartPiecePosition();
+        List<Position> possibleMoves = board.getPieceBy(startPosition).getPossibleMoves(board, startPosition);
+
+        outputView.printAvailablePositions(possibleMoves);
+        Position destination = possibleMoves.get(inputView.requestPieceDestination() - 1);
+        board.move(startPosition, destination);
     }
 }
