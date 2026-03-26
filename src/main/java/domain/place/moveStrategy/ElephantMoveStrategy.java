@@ -31,11 +31,8 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private boolean isFirstStepClear(BoardView board, Position from, Direction direction) {
-        if (!isStepInBounds(from, direction)) {
-            return false;
-        }
-        Position next = from.move(direction);
-        return board.isEmpty(next);
+        return isStepInBounds(from, direction)
+                && board.isEmpty(from.move(direction));
     }
 
     private boolean canReachViaDiagonalPath(BoardView board, Position from, Position to, Direction direction) {
