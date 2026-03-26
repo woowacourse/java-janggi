@@ -1,16 +1,14 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
+import janggi.domain.BoardView;
 import janggi.domain.mouveRule.MoveRule;
 import janggi.domain.vo.Position;
 
 public abstract class Piece {
     private final Team team;
-//    private final MoveRule moveRule;
 
     public Piece(Team team) {
         this.team = team;
-
     }
 
     public boolean isSameTeam(Team otherTeam) {
@@ -27,12 +25,11 @@ public abstract class Piece {
 
     public abstract PieceType pieceType();
 
-    public void move(Position from, Position to, Board board) {
-
-        moveRule().move(from, to, board);
+    public boolean canMove(Position from, Position to, BoardView board) {
+        return moveRule().canMove(from, to, board);
     }
 
-    public abstract MoveRule moveRule();
+    protected abstract MoveRule moveRule();
 
 
 }

@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.mouveRule.HorseMoveRule;
 import janggi.domain.mouveRule.MoveRule;
 
 public class Horse extends Piece {
@@ -15,7 +16,7 @@ public class Horse extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return null;
+        return new HorseMoveRule();
     }
 
 }
