@@ -8,7 +8,7 @@ public record PieceDto(
         Side side
 ) {
 
-    public static PieceDto of(Piece piece) {
+    public static PieceDto from(Piece piece) {
         return new PieceDto(piece.getTypeName(), piece.getSide());
     }
 }

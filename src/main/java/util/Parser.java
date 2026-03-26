@@ -1,7 +1,5 @@
 package util;
 
-import domain.piece.Side;
-
 public class Parser {
 
     public static int parseToPlacementCode(String input) {

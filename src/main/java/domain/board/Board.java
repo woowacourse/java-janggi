@@ -96,7 +96,7 @@ public class Board {
         return new BoardResponseDto(state.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        entry -> PieceDto.of(entry.getValue()))
+                        entry -> PieceDto.from(entry.getValue()))
                 ));
     }
 }
