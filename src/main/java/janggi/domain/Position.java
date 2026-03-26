@@ -11,7 +11,6 @@ public class Position {
             for (Column column : Column.values()) {
                 CACHE.put(toKey(row, column), new Position(row, column));
             }
-
         }
     }
 
