@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -42,5 +44,16 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public List<Integer> calculateDistance(Position to) {
+        List<Integer> distances = new ArrayList<>();
+        distances.add(to.x - this.x);
+        distances.add(to.y - this.y);
+        return distances;
+    }
+
+    public Position nextPosition(Direction direction) {
+        return new Position(x + direction.getX(), y + direction.getY());
     }
 }
