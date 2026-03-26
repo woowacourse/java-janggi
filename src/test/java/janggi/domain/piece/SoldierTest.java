@@ -29,10 +29,10 @@ class SoldierTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("path(): ")
-    void path(Side side, Point point, List<Path> expected) {
+    void path(Side side, List<Directions> expected) {
         Soldier soldier = new Soldier(side);
 
-        List<Path> directions = soldier.path(point);
+        List<Directions> directions = soldier.directions();
 
         assertThat(directions.equals(expected)).isTrue();
     }

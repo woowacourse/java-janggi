@@ -1,6 +1,7 @@
 package janggi.domain.board.coordinate;
 
 import janggi.domain.piece.Direction;
+import janggi.domain.piece.Directions;
 import java.util.List;
 
 public class Path {
@@ -10,8 +11,8 @@ public class Path {
         this.path = path;
     }
 
-    public Path(List<Direction> directions, Point from, PathStrategy pathStrategy) {
-        this(pathStrategy.calculate(directions, from));
+    public Path(Directions directions, Point from) {
+        this(directions.pathStrategy().calculate(directions, from));
     }
 
     public List<Point> getPath() {

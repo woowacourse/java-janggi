@@ -5,6 +5,7 @@ import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
+import janggi.domain.piece.Directions;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
@@ -25,12 +26,12 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Path> path(Point from) {
-        List<Path> paths = new ArrayList<>();
-        paths.add(convertToPath(List.of(Direction.NORTH), from));
-        paths.add(convertToPath(List.of(Direction.SOUTH), from));
-        paths.add(convertToPath(List.of(Direction.WEST), from));
-        paths.add(convertToPath(List.of(Direction.EAST), from));
+    public List<Directions> directions() {
+        List<Directions> paths = new ArrayList<>();
+        paths.add(new Directions(List.of(Direction.NORTH), pathStrategy));
+        paths.add(new Directions(List.of(Direction.SOUTH), pathStrategy));
+        paths.add(new Directions(List.of(Direction.WEST), pathStrategy));
+        paths.add(new Directions(List.of(Direction.EAST), pathStrategy));
 
         return paths;
     }

@@ -3,7 +3,7 @@ package janggi.domain.piece.unit;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
-import janggi.domain.piece.Direction;
+import janggi.domain.piece.Directions;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -30,13 +30,9 @@ public abstract class Piece {
         return Side.isSameSide(this.side, side);
     }
 
-    protected final Path convertToPath(List<Direction> directions, Point from) {
-        return new Path(directions, from, pathStrategy);
-    }
-
     public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
 
-    public abstract List<Path> path(Point from);
+    public abstract List<Directions> directions();
 
     protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
 

@@ -1,8 +1,9 @@
 package janggi.domain.board;
 
-import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.piece.Directions;
 import janggi.domain.piece.unit.Advisor;
 import janggi.domain.piece.unit.Cannon;
 import janggi.domain.piece.unit.Chariot;
@@ -80,15 +81,26 @@ public class Board {
         return Collections.unmodifiableMap(board);
     }
 
-    public List<Point> destinations(Point from){
-        Piece piece = board.getOrDefault(from,new Empty());
-        List<Path> paths = piece.path(from);
+    public List<Point> destinations(Point from) {
+        Piece piece = board.getOrDefault(from, new Empty());
+        List<Path> paths = convertToPath(piece.directions(), from);
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
-        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
+        return piece.availablePoints(paths, piecesOnPaths);
     }
-    
-    private Map<Point, Piece> findPiecesOnPaths(List<Path> paths){
-        Map<Point,Piece> piecesOnPaths = new HashMap<>();
+
+    public List<Path> convertToPath(List<Directions> directionsBundle, Point from) {
+        return directionsBundle.stream()
+                .map(directions -> convertToPath(directions, from))
+                .toList();
+    }
+
+    private final Path convertToPath(Directions directions, Point from) {
+        return new Path(directions, from);
+    }
+
+
+    private Map<Point, Piece> findPiecesOnPaths(List<Path> paths) {
+        Map<Point, Piece> piecesOnPaths = new HashMap<>();
 
         for (Path path : paths) {
             Map<Point, Piece> piecesOnPath = findPiecesOnPath(path);
