@@ -20,8 +20,8 @@ public class JanggiFlow {
     public void process() {
         int decisionNumber = view.requestArrangementStrategyDecision(strategies);
         ArrangementStrategy strategy = findStrategyWithCorrespondingDecisionNumber(decisionNumber);
-        BoardAssembler assembler = new BoardAssembler();
-        Piece[][] pieces = assembler.assemble(strategy, strategy);
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        Piece[][] pieces = assembler.assemble();
         System.out.println(pieces);
     }
 

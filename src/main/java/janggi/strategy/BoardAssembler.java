@@ -17,13 +17,25 @@ public class BoardAssembler {
     private static final int DEFAULT_ROWS = 10;
     private static final int DEFAULT_COLS = 9;
 
-    public Piece[][] assemble(ArrangementStrategy cho, ArrangementStrategy han) {
+    private final ArrangementStrategy hanStrategy;
+    private final ArrangementStrategy choStrategy;
+
+    private BoardAssembler(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
+        this.hanStrategy = hanStrategy;
+        this.choStrategy = choStrategy;
+    }
+
+    public static BoardAssembler of(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
+        return new BoardAssembler(hanStrategy, choStrategy);
+    }
+
+    public Piece[][] assemble() {
         Piece[][] arrangement = new Piece[DEFAULT_ROWS][DEFAULT_COLS];
 
         setupCommonPieces(arrangement);
 
-        cho.place(arrangement, Side.CHO);
-        han.place(arrangement, Side.HAN);
+        hanStrategy.place(arrangement, Side.HAN);
+        choStrategy.place(arrangement, Side.CHO);
 
         return arrangement;
     }
