@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Objects;
+import model.pieces.rule.Direction;
 
 public class Row {
     private static final int HAN_EDGE = 1;

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Objects;
+import model.pieces.rule.Direction;
 
 public class Column {
     private final int value;

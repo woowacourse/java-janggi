@@ -1,4 +1,4 @@
-package model;
+package model.pieces.rule;
 
 public enum Direction {
     UP(-1, 0),

@@ -1,4 +1,4 @@
-package model;
+package model.pieces.rule;
 
 public class Step {
     private final Direction direction;
@@ -8,8 +8,4 @@ public class Step {
         this.direction = direction;
         this.mustBeEmpty = mustBeEmpty;
     }
-
-
-
-
 }
