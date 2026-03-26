@@ -1,5 +1,6 @@
-package domain;
+package domain.board;
 
+import domain.Position;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;

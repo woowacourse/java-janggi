@@ -9,4 +9,9 @@ public enum Team {
     Team(String teamName) {
         this.teamName = teamName;
     }
+
+    @Override
+    public String toString() {
+        return teamName;
+    }
 }

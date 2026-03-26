@@ -9,8 +9,8 @@ public class Column {
     }
 
     private void validate(int value) {
-        if (value <= 0 || value > 10) {
-            throw new IllegalArgumentException("열의 위치는 1-10 사이에 있어야 합니다.");
+        if (value <= 0 || value > 9) {
+            throw new IllegalArgumentException("열의 위치는 1-9 사이에 있어야 합니다.");
         }
     }
 
