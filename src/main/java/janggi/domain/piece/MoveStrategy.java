@@ -11,4 +11,6 @@ public interface MoveStrategy {
 
     boolean canMove(Map<Position, Piece> board, Position from, Position to);
 
+    PieceType pieceType();
+
 }

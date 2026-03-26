@@ -44,8 +44,13 @@ public class CannonMoveStrategy implements MoveStrategy {
         return false;
     }
 
+    @Override
+    public PieceType pieceType() {
+        return PieceType.CANNON;
+    }
+
     private boolean isCannon(Piece piece) {
-        return piece.moveStrategy() instanceof CannonMoveStrategy;
+        return PieceType.CANNON.equals(piece.pieceType());
     }
 
 }

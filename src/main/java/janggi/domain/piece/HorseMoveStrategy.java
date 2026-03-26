@@ -36,4 +36,9 @@ public class HorseMoveStrategy implements MoveStrategy {
         return false;
     }
 
+    @Override
+    public PieceType pieceType() {
+        return PieceType.HORSE;
+    }
+
 }

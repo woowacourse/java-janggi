@@ -47,4 +47,9 @@ public class ElephantMoveStrategy implements MoveStrategy {
         return false;
     }
 
+    @Override
+    public PieceType pieceType() {
+        return PieceType.ELEPHANT;
+    }
+
 }
