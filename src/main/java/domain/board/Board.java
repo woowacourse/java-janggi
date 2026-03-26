@@ -82,6 +82,10 @@ public class Board {
         endTurn();
     }
 
+    public Side getTurn() {
+        return turn;
+    }
+
     private void endTurn() {
         turn = turn.change();
     }

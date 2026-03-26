@@ -1,16 +1,15 @@
 package view;
 
 import domain.Position;
+import domain.Side;
 import domain.piece.Piece;
 import view.message.PieceView;
 
 import java.util.List;
+import view.message.SideView;
 
 public class OutputView {
 
-    public static final String RESET = "\u001B[0m";
-    public static final String RED = "\u001B[31m";
-    public static final String BLUE = "\u001B[34m";
 
     public void printBoard(Piece[][] board) {
         System.out.println("   0  1   2  3   4   5  6   7  8");
@@ -32,17 +31,17 @@ public class OutputView {
     }
 
     private void printPieceBySide(Piece piece) {
-        if (piece.isHan()) {
-            System.out.print(" " + RED + PieceView.from(piece) + RESET + " ");
+        Side side = piece.getSide();
+
+        if (piece.isNeutral()) {
+            System.out.print(" " + PieceView.from(piece) + " ");
             return;
         }
+        System.out.print(" " + SideView.getSideColor(side) + PieceView.from(piece) + SideView.getResetColor() + " ");
+    }
 
-        if (piece.isChu()) {
-            System.out.print(" " + BLUE + PieceView.from(piece) + RESET + " ");
-            return;
-        }
-
-        System.out.print(" " + PieceView.from(piece) + " ");
+    public void printCanNotMovablePieceError() {
+        System.out.println("해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.");
     }
 
     public static void printErrorMessage(String message) {

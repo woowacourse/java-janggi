@@ -15,6 +15,10 @@ public abstract class Piece {
         this.side = side;
     }
 
+    public Side getSide() {
+        return this.side;
+    }
+
     public boolean isChu() {
         return side.isChu();
     }

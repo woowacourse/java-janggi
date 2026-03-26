@@ -23,13 +23,33 @@ public class JanggiController {
     public void play() {
         Board board = new Board(boardInitializer);
 
-        outputView.printBoard(board.getBoard());
+        while (true) {
+            outputView.printBoard(board.getBoard());
+            // startPosition 입력 + 도메인 검증까지 묶어서 retry
+            Position startPosition = RetryInput.read(() -> {
+                Position position = inputView.requestStartPiecePosition(board.getTurn());
+                board.getPieceBy(position); // 도메인 검증 포함
+                return position;
+            });
 
-        Position startPosition = inputView.requestStartPiecePosition();
-        List<Position> possibleMoves = board.getPieceBy(startPosition).getPossibleMoves(board, startPosition);
+            List<Position> possibleMoves = board.getPieceBy(startPosition).getPossibleMoves(board, startPosition);
+            int possibleMovesCount = possibleMoves.size();
+            if (possibleMovesCount == 0) {
+                outputView.printCanNotMovablePieceError();
+                continue;
+            }
+            outputView.printAvailablePositions(possibleMoves);
 
-        outputView.printAvailablePositions(possibleMoves);
-        Position destination = possibleMoves.get(inputView.requestPieceDestination() - 1);
-        board.move(startPosition, destination);
+            // destination도 별도로 retry
+            Position destination = RetryInput.read(() -> {
+                int index = inputView.requestPieceDestination();
+                if (index > possibleMovesCount) {
+                    throw new IllegalArgumentException("번호 중에 선택하세요.");
+                }
+                return possibleMoves.get(index - 1);
+            });
+
+            board.move(startPosition, destination);
+        }
     }
 }
