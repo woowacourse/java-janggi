@@ -40,6 +40,30 @@ public class Position {
         return new Position(row, column.left());
     }
 
+    public Position moveRightUp() {
+        return new Position(row.up(), column.right());
+    }
+
+    public Position moveLeftUp() {
+        return new Position(row.up(), column.left());
+    }
+
+    public Position moveRightDown() {
+        return new Position(row.down(), column.right());
+    }
+
+    public Position moveLeftDown() {
+        return new Position(row.down(), column.left());
+    }
+
+    public boolean isSameRow(Position departure) {
+        return this.row.equals(departure.row);
+    }
+
+    public boolean isSameColumn(Position departure) {
+        return this.column.equals(departure.column);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
