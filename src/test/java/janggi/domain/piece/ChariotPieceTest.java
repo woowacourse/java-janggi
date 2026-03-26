@@ -87,4 +87,15 @@ class ChariotPieceTest {
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
+
+    @Test
+    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 아무 기물이 없다면 이동 가능하다.")
+    void testMoveNoPieceInPath() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+    }
+
+
 }
