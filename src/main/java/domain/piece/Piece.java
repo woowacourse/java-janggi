@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.PathPieces;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
@@ -22,8 +23,12 @@ public abstract class Piece {
 
     //경로 계산.
     public Path calculatePath(Position src, Position dest) {
-        return pathGenerator.calculatePath(src,dest);
-    };
+        return pathGenerator.calculatePath(src, dest);
+    }
+
+    public boolean validatePath(PathPieces pathPieces) {
+        return movementStrategy.validatePath(pathPieces);
+    }
 
     public String getPieceString() {
         return pieceType.getSymbol();
@@ -31,9 +36,5 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
-    }
-
-    public MovementStrategy getMovementStrategy() {
-        return movementStrategy;
     }
 }
