@@ -43,4 +43,8 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 좌표는 숫자만 입력 가능합니다.");
         }
     }
+
+    public void close() {
+        scanner.close();
+    }
 }

@@ -1,8 +1,6 @@
 package janggi;
 
 import janggi.domain.Board;
-import janggi.domain.Paths;
-import janggi.domain.Piece;
 import janggi.domain.Player;
 import janggi.domain.Players;
 import janggi.domain.Position;
@@ -26,17 +24,25 @@ public class Runner {
     public void run() {
         Players players = initialPlayers();
         Board board = Board.initialize();
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()));
+        printBoard(board);
 
         playerTurn(players, board);
     }
 
     private void playerTurn(Players players, Board board) {
+        Position selected = selectPosition();
+        List<Position> destinations = board.calculateDestinations(selected);
+        System.out.println(destinations);
+//        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
+        movePiece(board, selected, destinations);
+    }
 
-        Position position = new Position(x, y);
-        List<Position> destinations = board.determineDestinations(position);
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), position, destinations);
-        movePiece(boardDto, position);
+    private Position selectPosition() {
+        outputView.printMovePositionRowNotice();
+        int row = inputView.readTargetRow();
+        outputView.printMovePositionColumnNotice();
+        int column = inputView.readTargetColumn();
+        return new Position(row, column);
     }
 
     private Players initialPlayers() {
@@ -69,8 +75,15 @@ public class Runner {
         });
     }
 
-    private void movePiece(BoardDTO boardDTO, Position position) {
-        outputView.printBoardStatus(boardDTO, position);
+    private void movePiece(Board board, Position selected, List<Position> destinations) {
+        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
+        Position target = selectPosition();
+        board.movePiece(selected, target);
+        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), target, destinations);
+    }
+
+    private void printBoard(Board board) {
+        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()));
     }
 
     private <T> T retry(Supplier<T> supplier) {

@@ -22,8 +22,12 @@ public class StepMoveStrategy implements MoveStrategy {
 
     private void addStepPath(Position current, Direction baseDir, Paths paths) {
         Path path = new Path();
-        path.makePath(baseDir.move(current));
-        paths.addPath(path);
+        try {
+            path.makePath(baseDir.move(current));
+            paths.addPath(path);
+        } catch (IllegalArgumentException exception) {
+
+        }
     }
 
     @Override

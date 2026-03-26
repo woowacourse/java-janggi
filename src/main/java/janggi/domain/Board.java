@@ -10,7 +10,7 @@ public class Board {
     private final Map<Position, Piece> piecePosition;
 
     private Board(Map<Position, Piece> piecePosition) {
-        this.piecePosition = Collections.unmodifiableMap(new HashMap<>(piecePosition));
+        this.piecePosition = new HashMap<>(piecePosition);
     }
 
     public static Board initialize() {
@@ -57,28 +57,36 @@ public class Board {
     public Map<Position, PieceVO> getPiecePosition() {
         Map<Position, PieceVO> piecePositions = new HashMap<>(piecePosition.size());
         this.piecePosition.forEach((position, piece) -> piecePositions.put(position, piece.toVO()));
-        return piecePositions;
+        return Collections.unmodifiableMap(piecePositions);
     }
 
-    public List<Position> calculateDestinations(Position position) {
-        Piece piece = piecePosition.get(position);
-        Paths moveablePaths = piece.calculatePaths(position); // 굳이 불필요한 헬퍼(calculatePaths)를 거치지 않고 직접 호출
-        Map<Position, PieceVO> boardState = generateStateByPaths(moveablePaths); // 불필요한 파라미터 제거
+    public List<Position> calculateDestinations(Position currentPosition) {
+        Piece piece = piecePosition.get(currentPosition);
+        Paths moveablePaths = piece.calculatePaths(currentPosition);
+        Map<Position, PieceVO> boardState = generateStateByPaths(moveablePaths);
 
         return piece.determineDestinations(moveablePaths, boardState);
     }
 
-    private Map<Position, PieceVO> generateStateByPaths(Piece piece, Position position, Paths moveablePaths) {
-        Map<Position, PieceVO> piecePositions = new HashMap<>();
-        moveablePaths.iterator().forEachRemaining(positions -> {
-            po
+    private Map<Position, PieceVO> generateStateByPaths(Paths moveablePaths) {
+        Map<Position, PieceVO> boardState = new HashMap<>();
+        moveablePaths.forEach(path -> {
+            generateStateByPath(path, boardState);
         });
-        for (Path path : moveablePaths) {
-
-        }
+        return boardState;
     }
 
-    private Paths calculatePaths(Piece piece, Position position) {
-        return piece.calculatePaths(position);
+    private void generateStateByPath(Path path, Map<Position, PieceVO> boardState) {
+        path.forEach(position -> {
+            Piece piece = piecePosition.get(position);
+            if (piece != null) {
+                boardState.put(position, piece.toVO());
+            }
+        });
+    }
+
+    public void movePiece(Position selected, Position target) {
+        Piece movingPiece = piecePosition.remove(selected);
+        piecePosition.put(target, movingPiece);
     }
 }

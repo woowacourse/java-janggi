@@ -10,5 +10,6 @@ public class Application {
         OutputView outputView = new OutputView();
         Runner runner = new Runner(outputView, inputView);
         runner.run();
+        inputView.close();
     }
 }

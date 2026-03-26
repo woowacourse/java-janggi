@@ -8,7 +8,7 @@ public class Turn {
     }
 
     public void switchTurn() {
-        this.current = current.opposite ();
+        this.current = current.opposite();
     }
 
     public boolean isCurrent(Side side) {
