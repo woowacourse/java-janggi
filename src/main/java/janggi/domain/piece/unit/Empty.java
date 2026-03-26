@@ -21,7 +21,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Pattern> directions() {
+    public List<Pattern> patterns() {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 

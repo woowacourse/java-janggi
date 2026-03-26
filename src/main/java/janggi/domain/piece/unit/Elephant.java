@@ -26,7 +26,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Pattern> directions() {
+    public List<Pattern> patterns() {
         List<Pattern> directions = new ArrayList<>();
 
         directions.add(

@@ -32,7 +32,7 @@ public abstract class Piece {
 
     public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
 
-    public abstract List<Pattern> directions();
+    public abstract List<Pattern> patterns();
 
     protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
 

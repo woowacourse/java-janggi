@@ -26,7 +26,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Pattern> directions() {
+    public List<Pattern> patterns() {
         List<Pattern> directions = new ArrayList<>();
         if (Side.HAN.equals(side)) {
             directions.add(new Pattern(List.of(Direction.NORTH),pathStrategy));

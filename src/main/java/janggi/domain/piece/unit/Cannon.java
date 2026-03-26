@@ -26,7 +26,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Pattern> directions() {
+    public List<Pattern> patterns() {
         List<Pattern> paths = new ArrayList<>();
         paths.add(new Pattern(List.of(Direction.NORTH), pathStrategy));
         paths.add(new Pattern(List.of(Direction.SOUTH), pathStrategy));

@@ -83,7 +83,7 @@ public class Board {
 
     public List<Point> destinations(Point from) {
         Piece piece = board.getOrDefault(from, new Empty());
-        List<Path> paths = convertToPath(piece.directions(), from);
+        List<Path> paths = convertToPath(piece.patterns(), from);
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
         return piece.availablePoints(paths, piecesOnPaths);
     }

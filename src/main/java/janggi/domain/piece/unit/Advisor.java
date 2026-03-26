@@ -26,7 +26,7 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public List<Pattern> directions() {
+    public List<Pattern> patterns() {
         List<Pattern> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
             Pattern path = new Pattern(List.of(value), pathStrategy);

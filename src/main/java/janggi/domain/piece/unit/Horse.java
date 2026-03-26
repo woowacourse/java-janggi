@@ -30,7 +30,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Pattern> directions() {
+    public List<Pattern> patterns() {
         List<Pattern> directions = new ArrayList<>();
 
         directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST), pathStrategy));

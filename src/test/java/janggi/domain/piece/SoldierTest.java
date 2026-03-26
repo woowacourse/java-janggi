@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class SoldierTest {
     private static PathStrategy fixedPathStrategy = new FixedPathStrategy();
 
-    public static Stream<Arguments> path() {
+    public static Stream<Arguments> patterns() {
         return Stream.of(
                 Arguments.of(Side.CHO, List.of(
                         new Pattern(List.of(Direction.NORTH), fixedPathStrategy),
@@ -39,14 +39,12 @@ class SoldierTest {
 
     @ParameterizedTest
     @MethodSource
-    @DisplayName("path(): 이동 경로의 상대 방향을 전달한다.")
-    void path(Side side, List<Pattern> expected) {
+    @DisplayName("patterns(): 이동 경로의 상대 방향을 전달한다.")
+    void patterns(Side side, List<Pattern> expected) {
         Soldier soldier = new Soldier(side);
 
-        List<Pattern> pattern = soldier.directions();
+        List<Pattern> patterns = soldier.patterns();
 
-        pattern.forEach( directions ->
-                assertThat(expected.contains(pattern)).isTrue()
-        );
+        assertThat(patterns).isEqualTo(expected);
     }
 }
