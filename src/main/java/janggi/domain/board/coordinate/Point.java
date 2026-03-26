@@ -1,4 +1,4 @@
-package janggi.domain.coordinate;
+package janggi.domain.board.coordinate;
 
 public record Point(
         int x,

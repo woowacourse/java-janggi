@@ -1,5 +1,6 @@
-package janggi.domain.coordinate;
+package janggi.domain.board.coordinate;
 
+import janggi.domain.piece.Direction;
 import java.util.ArrayList;
 import java.util.List;
 

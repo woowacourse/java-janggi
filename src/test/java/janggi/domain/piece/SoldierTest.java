@@ -2,8 +2,9 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.coordinate.Path;
-import janggi.domain.coordinate.Point;
+import janggi.domain.board.coordinate.Path;
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.stream.Stream;

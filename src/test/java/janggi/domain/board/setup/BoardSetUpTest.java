@@ -2,10 +2,10 @@ package janggi.domain.board.setup;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.coordinate.Point;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Horse;
-import janggi.domain.piece.Piece;
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.unit.Elephant;
+import janggi.domain.piece.unit.Horse;
+import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.Map;
 import java.util.stream.Stream;

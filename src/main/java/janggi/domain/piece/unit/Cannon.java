@@ -1,20 +1,21 @@
-package janggi.domain.piece;
+package janggi.domain.piece.unit;
 
-import janggi.domain.coordinate.Direction;
-import janggi.domain.coordinate.FixedPathStrategy;
-import janggi.domain.coordinate.Path;
-import janggi.domain.coordinate.PathStrategy;
-import janggi.domain.coordinate.Point;
+import janggi.domain.board.coordinate.LinearPathStrategy;
+import janggi.domain.board.coordinate.Path;
+import janggi.domain.board.coordinate.PathStrategy;
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Chariot extends Piece {
-    private static final PieceName NAME = PieceName.CHARIOT;
-    private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+public class Cannon extends Piece {
+    private static final PieceName NAME = PieceName.CANNON;
+    private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
 
-    public Chariot(Side side) {
+    public Cannon(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
     }
 
@@ -36,7 +37,7 @@ public class Chariot extends Piece {
 
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return List.of();
+        return null;
     }
 
     @Override

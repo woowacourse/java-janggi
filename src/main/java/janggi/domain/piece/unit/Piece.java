@@ -1,9 +1,10 @@
-package janggi.domain.piece;
+package janggi.domain.piece.unit;
 
-import janggi.domain.coordinate.Direction;
-import janggi.domain.coordinate.Path;
-import janggi.domain.coordinate.PathStrategy;
-import janggi.domain.coordinate.Point;
+import janggi.domain.board.coordinate.Path;
+import janggi.domain.board.coordinate.PathStrategy;
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;

@@ -1,21 +1,21 @@
-package janggi.domain.piece;
+package janggi.domain.piece.unit;
 
-import janggi.domain.board.Board;
-import janggi.domain.coordinate.Direction;
-import janggi.domain.coordinate.FixedPathStrategy;
-import janggi.domain.coordinate.Path;
-import janggi.domain.coordinate.PathStrategy;
-import janggi.domain.coordinate.Point;
+import janggi.domain.board.coordinate.FixedPathStrategy;
+import janggi.domain.board.coordinate.Path;
+import janggi.domain.board.coordinate.PathStrategy;
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Advisor extends Piece {
-    private static final PieceName NAME = PieceName.ADVISOR;
+public class Chariot extends Piece {
+    private static final PieceName NAME = PieceName.CHARIOT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
 
-    public Advisor(Side side) {
+    public Chariot(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
     }
 
@@ -27,17 +27,17 @@ public class Advisor extends Piece {
     @Override
     public List<Path> path(Point from) {
         List<Path> paths = new ArrayList<>();
-        for (Direction value : Direction.values()) {
-            Path path = convertToPath(List.of(value), from);
-            paths.add(path);
-        }
+        paths.add(convertToPath(List.of(Direction.NORTH), from));
+        paths.add(convertToPath(List.of(Direction.SOUTH), from));
+        paths.add(convertToPath(List.of(Direction.WEST), from));
+        paths.add(convertToPath(List.of(Direction.EAST), from));
 
         return paths;
     }
 
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return null;
+        return List.of();
     }
 
     @Override

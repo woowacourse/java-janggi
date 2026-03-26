@@ -1,15 +1,15 @@
 package janggi.domain.board;
 
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.coordinate.Path;
-import janggi.domain.coordinate.Point;
-import janggi.domain.piece.Advisor;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Empty;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Soldier;
+import janggi.domain.board.coordinate.Path;
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.unit.Advisor;
+import janggi.domain.piece.unit.Cannon;
+import janggi.domain.piece.unit.Chariot;
+import janggi.domain.piece.unit.Empty;
+import janggi.domain.piece.unit.General;
+import janggi.domain.piece.unit.Piece;
+import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.HashMap;
