@@ -50,6 +50,8 @@ public class Cannon extends Piece {
                             break;
                         }
                     }
+
+                    break;
                 }
             }
         }

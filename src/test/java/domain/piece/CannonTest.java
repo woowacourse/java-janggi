@@ -50,6 +50,28 @@ class CannonTest {
         }
     }
 
+    static class norMalPieceMultiJumpTestInitializer implements BoardInitializer {
+
+        @Override
+        public Map<Position, Piece> initialize() {
+            Map<Position, Piece> piecesPosition = new HashMap<>();
+
+            piecesPosition.put(new Position(7, 4), new Cannon(Side.CHU));
+            piecesPosition.put(new Position(6, 4), new Pawn(Side.CHU));
+
+            piecesPosition.put(new Position(3, 4), new Pawn(Side.HAN));
+            piecesPosition.put(new Position(2, 4), new King(Side.HAN));
+
+
+            return piecesPosition;
+        }
+
+        @Override
+        public Side getFirstTurnSide() {
+            return Side.CHU;
+        }
+    }
+
     @Test
     @DisplayName("포는 상/하/좌/우 4가지 방향으로 포를 제외한 다른 1개의 기물을 뛰어 넘은 후, n 칸 이동 가능하다.")
     void getPossibleMovesTest() {
@@ -113,11 +135,25 @@ class CannonTest {
         List<Position> possibleMoves = cannon.getPossibleMoves(board, start);
 
         // then
-        for (Position possibleMove : possibleMoves) {
-            System.out.println(possibleMove.col() + "" + possibleMove.row());
-        }
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
         assertThat(possibleMoves).doesNotContain(new Position(1, 4));
     }
 
+    @Test
+    @DisplayName("포는 일반 기물을 여러 개 뛰어넘을 수 없다.")
+    void doesNotMultiJumpTest() {
+        // given
+        Board board = new Board(new norMalPieceMultiJumpTestInitializer());
+        Position start = new Position(7, 4);
+        Piece cannon = board.getPieceBy(start);
+
+        // when
+        List<Position> possibleMoves = cannon.getPossibleMoves(board, start);
+
+        // then
+        assertThat(possibleMoves).doesNotContain(
+                new Position(2, 4),
+                new Position(1, 4),
+                new Position(0, 4));
+    }
 }
