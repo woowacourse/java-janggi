@@ -1,4 +1,4 @@
-package janggi.position;
+package janggi.model.position;
 
 import java.util.ArrayList;
 import java.util.List;

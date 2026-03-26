@@ -1,16 +1,9 @@
 package janggi.model.turn;
 
-import janggi.model.piece.Piece;
-import janggi.model.position.absolute.Position;
-import java.util.Map;
+import janggi.model.position.Position;
 
 public interface Turn {
 
-    Turn play(Position from, Position to);
-
-    boolean isGameOver();
-
-    Map<Position, Piece> getBoard();
-
-    boolean isChoTurn();
+    public Turn play(Position from, Position to);
+    public boolean isGameOver();
 }

@@ -1,8 +1,6 @@
 package janggi.model.turn;
 
-import janggi.model.piece.Piece;
-import janggi.model.position.absolute.Position;
-import java.util.Map;
+import janggi.model.position.Position;
 
 public class GameOver implements Turn {
     @Override
@@ -13,15 +11,5 @@ public class GameOver implements Turn {
     @Override
     public boolean isGameOver() {
         return true;
-    }
-
-    @Override
-    public Map<Position, Piece> getBoard() {
-        throw new IllegalStateException("게임이 이미 종료됐습니다.");
-    }
-
-    @Override
-    public boolean isChoTurn() {
-        throw new IllegalStateException("게임이 이미 종료됐습니다.");
     }
 }

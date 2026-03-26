@@ -2,13 +2,15 @@ package janggi.turn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.Board;
-import janggi.Team;
-import janggi.gimul.Gimul;
-import janggi.gimul.Ma;
-import janggi.position.Column;
-import janggi.position.Position;
-import janggi.position.Row;
+import janggi.model.Board;
+import janggi.model.Team;
+import janggi.model.gimul.Gimul;
+import janggi.model.gimul.Ma;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
+import janggi.model.turn.ChoTurn;
+import janggi.model.turn.HanTurn;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;

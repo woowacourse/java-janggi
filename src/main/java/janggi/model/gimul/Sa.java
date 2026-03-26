@@ -1,10 +1,10 @@
-package janggi.gimul;
+package janggi.model.gimul;
 
-import janggi.Team;
-import janggi.position.DiagonalDelta;
-import janggi.position.Position;
-import janggi.position.PositionDelta;
-import janggi.position.PositionPath;
+import janggi.model.Team;
+import janggi.model.position.DiagonalDelta;
+import janggi.model.position.Position;
+import janggi.model.position.PositionDelta;
+import janggi.model.position.PositionPath;
 import java.util.List;
 
 public class Sa extends Gimul {
@@ -39,5 +39,10 @@ public class Sa extends Gimul {
     @Override
     public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
         return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
+    }
+
+    @Override
+    public String getSymbol() {
+        return "사";
     }
 }

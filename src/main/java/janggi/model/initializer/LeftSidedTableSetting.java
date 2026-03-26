@@ -1,12 +1,12 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
-import janggi.model.piece.Piece;
-import janggi.model.piece.diagonalMove.Ma;
-import janggi.model.piece.diagonalMove.Sang;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.Row;
+import janggi.model.gimul.Gimul;
+import janggi.model.gimul.Ma;
+import janggi.model.gimul.Sang;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +34,8 @@ public class LeftSidedTableSetting extends BoardInitializerWithConst {
     );
 
     @Override
-    protected Map<Position, Piece> initMa() {
-        Map<Position, Piece> board = new HashMap<>();
+    protected Map<Position, Gimul> initMa() {
+        Map<Position, Gimul> board = new HashMap<Position, Gimul>();
 
         Ma cho = new Ma(Team.CHO);
         Ma han = new Ma(Team.HAN);
@@ -52,8 +52,8 @@ public class LeftSidedTableSetting extends BoardInitializerWithConst {
     }
 
     @Override
-    protected Map<Position, Piece> initSang() {
-        Map<Position, Piece> board = new HashMap<>();
+    protected Map<Position, Gimul> initSang() {
+        Map<Position, Gimul> board = new HashMap<Position, Gimul>();
 
         Sang cho = new Sang(Team.CHO);
         Sang han = new Sang(Team.HAN);

@@ -1,8 +1,8 @@
-package janggi.gimul;
+package janggi.model.gimul;
 
-import janggi.position.PositionPath;
-import janggi.position.Position;
-import janggi.Team;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Position;
+import janggi.model.Team;
 import java.util.List;
 
 public abstract class Gimul {
@@ -14,6 +14,7 @@ public abstract class Gimul {
 
     public abstract PositionPath getLegalPath(Position from, Position to);
     public abstract boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo);
+    public abstract String getSymbol();
 
     public boolean isSameTeam(Gimul other){
         return this.team.equals(other.team);

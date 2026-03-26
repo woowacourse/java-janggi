@@ -1,69 +1,21 @@
 package janggi.controller;
 
-import janggi.model.Janggi;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.Row;
-import janggi.view.BoardType;
-import janggi.view.InputView;
+import janggi.model.Board;
+import janggi.model.initializer.BoardInitializer;
 import janggi.view.OutputView;
-import janggi.view.dto.GameStatus;
-import java.util.List;
 
 public class JanggiController {
 
     private final OutputView outputView;
-    private final InputView inputView;
+    private final BoardInitializer boardInitializer;
 
-    public JanggiController(OutputView outputView, InputView inputView) {
+    public JanggiController(OutputView outputView, BoardInitializer boardInitializer) {
         this.outputView = outputView;
-        this.inputView = inputView;
+        this.boardInitializer = boardInitializer;
     }
 
-    public void run() {
-        Janggi janggi = setUpJanggi();
-
-        while (!janggi.isGameOver()) {
-            outputView.printGameStatus(GameStatus.from(janggi));
-
-            janggi = janggi.play(
-                    readFromPosition(),
-                    readToPosition()
-            );
-        }
+    public void initializeBoard() {
+        Board board = boardInitializer.init();
+        outputView.printBoard(board);
     }
-
-    private Janggi setUpJanggi() {
-        outputView.printBoardInitialTypeMessage();
-        BoardType boarType = inputView.readBoardInitializeType();
-        return Janggi.of(boarType.getBoard());
-    }
-
-    private Position readFromPosition() {
-        outputView.printFromPositionMessage();
-        return convertPositionInfoToPosition(inputView.readPosition());
-    }
-
-    private Position readToPosition() {
-        outputView.printToPositionMessage();
-        return convertPositionInfoToPosition(inputView.readPosition());
-    }
-
-    private Position convertPositionInfoToPosition(List<Integer> positionInfo) {
-        int rowIndex = 0;
-        int rowNumber = positionInfo.get(rowIndex);
-
-        if (rowNumber == 0) {
-            rowNumber = 10;
-        }
-
-        int columnIndex = 1;
-        Integer columnNumber = positionInfo.get(columnIndex);
-
-        Row row = Row.of(rowNumber);
-        Column column = Column.of(columnNumber);
-
-        return new Position(row, column);
-    }
-
 }

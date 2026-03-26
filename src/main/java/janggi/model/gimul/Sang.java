@@ -1,15 +1,15 @@
-package janggi.gimul;
+package janggi.model.gimul;
 
-import janggi.Team;
-import janggi.position.DiagonalDelta;
-import janggi.position.Position;
-import janggi.position.PositionDelta;
-import janggi.position.PositionPath;
+import janggi.model.Team;
+import janggi.model.position.DiagonalDelta;
+import janggi.model.position.Position;
+import janggi.model.position.PositionDelta;
+import janggi.model.position.PositionPath;
 import java.util.List;
 
-public class Ma extends Gimul {
+public class Sang extends Gimul {
 
-    public Ma(Team team) {
+    public Sang(Team team) {
         super(team);
     }
 
@@ -17,7 +17,7 @@ public class Ma extends Gimul {
     public PositionPath getLegalPath(Position from, Position to) {
         PositionDelta positionDelta = PositionDelta.between(from, to);
 
-        if (positionDelta.isMoreThanOneStepAndDiagonal()) {
+        if (positionDelta.isMoreThanOneStepAndDoubleDiagonal()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
@@ -40,5 +40,10 @@ public class Ma extends Gimul {
     @Override
     public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
         return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
+    }
+
+    @Override
+    public String getSymbol() {
+        return "상";
     }
 }

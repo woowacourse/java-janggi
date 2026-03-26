@@ -1,12 +1,13 @@
-package janggi.gimul;
+package janggi.model.gimul;
 
-import janggi.Team;
-import janggi.position.Position;
-import janggi.position.PositionPath;
+import janggi.model.Team;
+import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
 import java.util.List;
 
-public class Pho extends Gimul {
-    public Pho(Team team) {
+public class Cha extends Gimul {
+
+    public Cha(Team team) {
         super(team);
     }
 
@@ -25,8 +26,11 @@ public class Pho extends Gimul {
 
     @Override
     public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
-        return gimulsOnPath.size() == 1
-                && !(gimulsOnPath.getFirst() instanceof Pho)
-                && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
+    }
+
+    @Override
+    public String getSymbol() {
+        return "차";
     }
 }

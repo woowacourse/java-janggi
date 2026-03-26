@@ -1,8 +1,7 @@
-package janggi;
+package janggi.model;
 
-<<<<<<< HEAD
 import janggi.controller.JanggiController;
-import janggi.view.InputView;
+import janggi.model.initializer.OutsideTableSetting;
 import janggi.view.OutputView;
 
 public class JanggiApplication {
@@ -11,14 +10,9 @@ public class JanggiApplication {
 
         JanggiController controller = new JanggiController(
                 new OutputView(),
-                new InputView()
+                new OutsideTableSetting()
         );
 
-        controller.run();
-=======
-public class JanggiApplication {
-
-    public static void main(String[] args) {
->>>>>>> abee46e (chore: 초기 세팅)
+        controller.initializeBoard();
     }
 }

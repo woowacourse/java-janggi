@@ -1,4 +1,4 @@
-package janggi.position;
+package janggi.model.position;
 
 public record DiagonalDelta(
         int rowDistance,
