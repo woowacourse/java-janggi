@@ -1,32 +1,23 @@
 package domain.piece.move;
 
-public enum Direction {
+import domain.point.Point;
 
-    UP(-1, 0),
-    DOWN(1, 0),
-    LEFT(0, -1),
-    RIGHT(0, 1),
+import java.util.List;
 
-    LEFT_UP(-1, -1),
-    LEFT_DOWN(1, -1),
-    RIGHT_UP(-1, 1),
-    RIGHT_DOWN(1, 1),
-    ;
+public class Direction {
 
-    private final int dy;
-    private final int dx;
+    List<Vector> vectors;
 
-    Direction(int dy, int dx) {
-        this.dy = dy;
-        this.dx = dx;
+    public Direction(List<Vector> vectors) {
+        this.vectors = vectors;
     }
 
-    public int dy() {
-        return dy;
-    }
+    public boolean canReach(Point start, Point target) {
+        int dy = vectors.stream().mapToInt(Vector::dy).sum();
+        int dx = vectors.stream().mapToInt(Vector::dx).sum();
 
-    public int dx() {
-        return dx;
+        Point destination = start.movePoint(dy, dx);
+        return destination.equals(target);
     }
 
 }

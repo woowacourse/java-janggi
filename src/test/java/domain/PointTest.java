@@ -1,6 +1,6 @@
 package domain;
 
-import domain.piece.move.Direction;
+import domain.piece.move.Vector;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -63,7 +63,7 @@ public class PointTest {
         void increaseRowWhenMovingDown() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.DOWN);
+            Point actual = point.next(Vector.DOWN);
             Point expected = new Point(2, 1);
 
             Assertions.assertThat(actual)
@@ -75,7 +75,7 @@ public class PointTest {
         void increaseRowWhenMovingUp() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.UP);
+            Point actual = point.next(Vector.UP);
             Point expected = new Point(0, 1);
 
             Assertions.assertThat(actual)
@@ -87,7 +87,7 @@ public class PointTest {
         void decreaseFileWhenMovingLeft() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.LEFT);
+            Point actual = point.next(Vector.LEFT);
             Point expected = new Point(1, 0);
 
             Assertions.assertThat(actual)
@@ -99,7 +99,7 @@ public class PointTest {
         void increaseFileWhenMovingRight() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.RIGHT);
+            Point actual = point.next(Vector.RIGHT);
             Point expected = new Point(1, 2);
 
             Assertions.assertThat(actual)
@@ -111,7 +111,7 @@ public class PointTest {
         void decreaseRowAndFileWhenMovingLeftAndUp() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.LEFT_UP);
+            Point actual = point.next(Vector.LEFT_UP);
             Point expected = new Point(0, 0);
 
             Assertions.assertThat(actual)
@@ -123,7 +123,7 @@ public class PointTest {
         void increaseRowAndDecreaseFileWhenMovingLeftAndDown() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.LEFT_DOWN);
+            Point actual = point.next(Vector.LEFT_DOWN);
             Point expected = new Point(2, 0);
 
             Assertions.assertThat(actual)
@@ -136,7 +136,7 @@ public class PointTest {
         void decreaseRowAndIncreaseFileWhenMovingRightUp() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.RIGHT_UP);
+            Point actual = point.next(Vector.RIGHT_UP);
             Point expected = new Point(0, 2);
 
             Assertions.assertThat(actual)
@@ -149,7 +149,7 @@ public class PointTest {
         void increaseRowAndFileWhenMovingRightDown() {
             Point point = new Point(1, 1);
 
-            Point actual = point.next(Direction.RIGHT_DOWN);
+            Point actual = point.next(Vector.RIGHT_DOWN);
             Point expected = new Point(2, 2);
 
             Assertions.assertThat(actual)
@@ -162,7 +162,7 @@ public class PointTest {
             Point point = new Point(0, 0);
 
             Assertions.assertThatThrownBy(() -> {
-                point.next(Direction.LEFT_UP);
+                point.next(Vector.LEFT_UP);
             }).isInstanceOf(IllegalArgumentException.class);
 
         }

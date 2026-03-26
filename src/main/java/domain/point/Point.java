@@ -1,8 +1,6 @@
 package domain.point;
 
-import domain.piece.move.Direction;
-
-import java.util.List;
+import domain.piece.move.Vector;
 
 public record Point(
         int y,
@@ -38,7 +36,7 @@ public record Point(
         return this.x == other.x;
     }
 
-    public Point next(Direction direction) {
-        return new Point(y + direction.dy(), x + direction.dx());
+    public Point next(Vector vector) {
+        return new Point(y + vector.dy(), x + vector.dx());
     }
 }

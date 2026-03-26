@@ -1,7 +1,7 @@
 package domain;
 
 import domain.piece.move.Direction;
-import domain.piece.move.Directions;
+import domain.piece.move.Vector;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ public class DirectionTest {
         Point current = new Point(0, 0);
         Point target = new Point(2, 1);
 
-        Directions directions = new Directions(List.of(Direction.DOWN, Direction.RIGHT_DOWN));
+        Direction directions = new Direction(List.of(Vector.DOWN, Vector.RIGHT_DOWN));
 
         Assertions.assertThat(directions.canReach(current, target))
                 .isTrue();
