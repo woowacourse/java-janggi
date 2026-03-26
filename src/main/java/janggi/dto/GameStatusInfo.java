@@ -1,6 +1,7 @@
 package janggi.dto;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.status.Team;
 import java.util.List;
 
 public record GameStatusInfo(
@@ -19,9 +20,12 @@ public record GameStatusInfo(
         return row.stream()
                 .map(point -> {
                     if (point == null) {
-                        return "+";
+                        return "\u001B[0m+";
                     }
-                    return point.getType().getName();
+                    if (point.isSameTeam(Team.CHO)) {
+                        return "\u001B[32m" + point.getType().getName() + "\u001B[0m";
+                    }
+                    return "\u001B[31m" + point.getType().getName() + "\u001B[0m";
                 }).toList();
     }
 }
