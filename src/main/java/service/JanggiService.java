@@ -11,11 +11,9 @@ import service.dto.BoardDto;
 public class JanggiService {
 
     public Board createBoard(int choMasangChoice, int hanMasangChoice){
-        // TODO : 마상관련 처리 필요
-//        MaSangPosition cha = MaSangPosition.getChoMaFromNumber(choMasangChoice);
-//        MaSangPosition han = MaSangPosition.getHanMaFromNumber(hanMasangChoice);
-//        return new Board(cha,han);
-        return new Board();
+        List<PieceType> masang = new ArrayList<>(createMasang(choMasangChoice));
+        masang.addAll(createMasang(hanMasangChoice));
+        return new Board(masang);
     }
 
 
@@ -31,4 +29,15 @@ public class JanggiService {
         }
         return new BoardDto(boardAll);
     }
+
+    private List<PieceType> createMasang(int num) {
+        return switch (num) {
+            case 1 -> List.of(PieceType.MA,PieceType.SANG,PieceType.SANG,PieceType.MA);
+            case 2 -> List.of(PieceType.MA,PieceType.SANG,PieceType.MA,PieceType.SANG);
+            case 3 -> List.of(PieceType.SANG,PieceType.MA,PieceType.SANG,PieceType.MA);
+            case 4 -> List.of(PieceType.SANG,PieceType.MA,PieceType.MA,PieceType.SANG);
+            default -> throw new IllegalArgumentException("올바르지 않은 입력입니다.");
+        };
+    }
+
 }

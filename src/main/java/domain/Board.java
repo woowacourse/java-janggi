@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import domain.pieces.Cha;
@@ -15,7 +16,7 @@ import domain.pieces.Sang;
 public class Board {
     private final Map<Position, Piece> board;
 
-    public Board() {
+    public Board(List<PieceType> cho) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (PieceType type : PieceType.values()) {
             if (type == PieceType.NONE) continue;
@@ -29,8 +30,16 @@ public class Board {
             }
         }
 
+        for (MaSang maSang : MaSang.values()) {
+            PieceType pieceType = cho.get(maSang.getIndex());
+            pieces.put(maSang.getPosition(), createPiece(pieceType, maSang.getCountry()));
+        }
+
         this.board = pieces;
     }
+
+
+
 
     public PieceType getPiece(Position position) {
         if(!board.containsKey(position)) {
