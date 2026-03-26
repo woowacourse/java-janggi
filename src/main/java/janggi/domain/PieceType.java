@@ -1,16 +1,14 @@
 package janggi.domain;
 
-public enum Team {
-    CHO("초나라"),
-    HAN("한나라");
-
+public enum PieceType {
+    ZOL("졸");
     private final String name;
 
-    Team(String name) {
+    PieceType(String name) {
         this.name = name;
     }
 
-    public String getName() {
+    public String getName(){
         return name;
     }
 }
