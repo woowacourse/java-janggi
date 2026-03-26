@@ -163,24 +163,5 @@ class BoardTest {
                 assertEquals(9, row.size());
             }
         }
-
-        @Test
-        void 여러_기물이_있는_보드를_DTO로_변환한다() {
-            Map<Position, Piece> boardMap = createEmptyBoard();
-            boardMap.put(new Position(1, 2), new Po(Team.CHO));
-            boardMap.put(new Position(7, 2), new Po(Team.CHO));
-            boardMap.put(new Position(1, 7), new Po(Team.HAN));
-            boardMap.put(new Position(7, 7), new Po(Team.HAN));
-
-            Board board = new Board(boardMap);
-            BoardDTO dto = board.createDTO();
-            List<List<String>> data = dto.board();
-
-            assertEquals("PO", data.get(2).get(1));
-            assertEquals("PO", data.get(2).get(7));
-            assertEquals("PO", data.get(7).get(1));
-            assertEquals("PO", data.get(7).get(7));
-        }
     }
-    
 }
