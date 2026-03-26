@@ -36,7 +36,7 @@ class ElephantMoveStrategyTest {
     void horse_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
         ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
 
-        assertThat(moveStrategy.isValidPath(expectedTarget, piecePositions)).isTrue();
+        assertThat(moveStrategy.isInvalidPath(expectedTarget, piecePositions)).isTrue();
     }
 
     @ParameterizedTest
@@ -45,7 +45,7 @@ class ElephantMoveStrategyTest {
     void horse_non_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
         ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
 
-        assertThat(moveStrategy.isValidPath(expectedTarget, piecePositions)).isFalse();
+        assertThat(moveStrategy.isInvalidPath(expectedTarget, piecePositions)).isFalse();
     }
 
 

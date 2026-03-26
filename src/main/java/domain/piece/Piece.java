@@ -22,8 +22,8 @@ public abstract class Piece {
         return moveStrategy.isMoveAble(destination);
     };
 
-    public boolean isRouteBlockedBy(Position destination, List<Position> piecePositions) {
-        return moveStrategy.isValidPath(destination, piecePositions);
+    public boolean isInvalidPath(Position destination, List<Position> piecePositions) {
+        return moveStrategy.isInvalidPath(destination, piecePositions);
     }
 
     public String name () {

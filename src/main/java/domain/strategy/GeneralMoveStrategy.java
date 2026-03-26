@@ -38,7 +38,7 @@ public class GeneralMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isValidPath(Position destination, List<Position> piecePositions) {
+    public boolean isInvalidPath(Position destination, List<Position> piecePositions) {
         return false;
     }
 }
