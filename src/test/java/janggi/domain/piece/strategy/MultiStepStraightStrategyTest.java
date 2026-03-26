@@ -72,7 +72,7 @@ public class MultiStepStraightStrategyTest {
 
     @ParameterizedTest
     @MethodSource("createPositionsAndPath")
-    void 차는_한_방향으로만_1칸_이상_이동_할_수_있다(Position from, Position to, int size, List<Position> expectedPath) {
+    void 차와_포는_한_방향으로만_1칸_이상_이동_할_수_있다(Position from, Position to, int size, List<Position> expectedPath) {
         List<Position> path = strategy.findPath(from, to, Camp.HAN);
 
         SoftAssertions.assertSoftly(assertSoftly -> {
@@ -82,7 +82,7 @@ public class MultiStepStraightStrategyTest {
     }
 
     @Test
-    void 차는_한_방향으로_이동하지_않으면_예외가_발생한다() {
+    void 차와_포는_한_방향으로_이동하지_않으면_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(0, 0), new Position(5, 5), Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
