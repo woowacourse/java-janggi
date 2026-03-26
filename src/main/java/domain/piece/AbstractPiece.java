@@ -1,7 +1,10 @@
 package domain.piece;
 
+import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import util.ErrorMessage;
+
+import java.util.Map;
 
 public abstract class AbstractPiece implements Piece {
 
@@ -25,6 +28,12 @@ public abstract class AbstractPiece implements Piece {
         if (!isEmptyPiece(piece)) {
             validateSameTeam(piece);
         }
+    }
+
+    protected void validateSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+        Piece fromPiece = board.get(from);
+        Piece toPiece = board.get(to);
+        fromPiece.isSameTeam(toPiece);
     }
 
     private boolean isEmptyPiece(Piece piece) {

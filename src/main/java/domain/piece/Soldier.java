@@ -22,17 +22,12 @@ public class Soldier extends AbstractPiece {
         validateSameTeam(from, to, board);
     }
 
-    private void validateSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        Piece fromPiece = board.get(from);
-        Piece toPiece = board.get(to);
-        fromPiece.isSameTeam(toPiece);
-    }
-
     private void validateLocation(Coordination from, Coordination to) {
         List<Integer> different = List.of(from.differentColumn(to), from.differentRow(to));
 
         if (team.isCho()) {
             validateLocation(CHO_MOVABLE_LOCATION, different);
+            return;
         }
         validateLocation(HAN_MOVABLE_LOCATION, different);
     }
