@@ -1,6 +1,8 @@
 package janggi.strategy;
 
+import janggi.domain.Side;
 import janggi.domain.piece.Cha;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.Ma;
@@ -8,7 +10,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
-import janggi.domain.Side;
 import java.util.List;
 import java.util.function.Function;
 
@@ -37,12 +38,24 @@ public class BoardAssembler {
         hanStrategy.place(arrangement, Side.HAN);
         choStrategy.place(arrangement, Side.CHO);
 
+        setupEmptyPieces(arrangement);
+
         return arrangement;
     }
 
     private void setupCommonPieces(Piece[][] grid) {
         setUpOneSide(grid, Side.HAN);
         setUpOneSide(grid, Side.CHO);
+    }
+
+    private void setupEmptyPieces(Piece[][] arrangement) {
+        for (int i = 0; i < DEFAULT_ROWS; i++) {
+            for (int j = 0; j < DEFAULT_COLS; j++) {
+                if (arrangement[i][j] == null) {
+                    arrangement[i][j] = new EmptyPiece();
+                }
+            }
+        }
     }
 
     private void setUpOneSide(Piece[][] grid, Side side) {

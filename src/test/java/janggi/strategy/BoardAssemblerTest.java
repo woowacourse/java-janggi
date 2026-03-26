@@ -1,6 +1,7 @@
 package janggi.strategy;
 
 import janggi.domain.piece.Cha;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
@@ -32,7 +33,7 @@ class BoardAssemblerTest {
         Assertions.assertThat(board[9][1]).isInstanceOf(Ma.class);   // MaSangMaSang의 첫 번째 마
         Assertions.assertThat(board[9][2]).isInstanceOf(Sang.class); // MaSangMaSang의 첫 번째 상
 
-        Assertions.assertThat(board[4][0]).isNull();
+        Assertions.assertThat(board[4][0]).isInstanceOf(EmptyPiece.class);
     }
 
 }
