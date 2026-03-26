@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.mouveRule.SoldierMoveRule;
 
 public class Soldier extends Piece {
 
@@ -15,7 +16,6 @@ public class Soldier extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return null;
+        return new SoldierMoveRule(findTeam());
     }
-
 }
