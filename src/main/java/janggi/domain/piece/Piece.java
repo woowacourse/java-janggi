@@ -19,6 +19,10 @@ public class Piece {
         return true;
     }
 
+    public boolean isSameCamp(Camp camp) {
+        return this.camp == camp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
