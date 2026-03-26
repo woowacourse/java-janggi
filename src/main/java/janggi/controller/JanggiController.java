@@ -1,12 +1,12 @@
 package janggi.controller;
 
-import java.util.List;
-
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
+import janggi.domain.board.Position;
 import janggi.dto.BoardDto;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.List;
 
 public class JanggiController {
     private final InputView inputView;
@@ -19,7 +19,50 @@ public class JanggiController {
 
     public void start() {
         List<Integer> openingFormationChoices = inputView.readOpeningFormationChoice();
-        Board board = BoardInitializer.initializeBoard(openingFormationChoices.getFirst(), openingFormationChoices.getLast());
-        outputView.printBoardMap(BoardDto.from(board));
+        Board board = BoardInitializer.initializeBoard(openingFormationChoices.getFirst(),
+                openingFormationChoices.getLast());
+
+        while (true) {
+            try {
+                outputView.printBoardMap(BoardDto.from(board));
+                Position startPiecePosition = getStartPiecePosition();
+
+                if (!board.isPresentAt(startPiecePosition)) {
+                    throw new IllegalArgumentException("해당 좌표에는 기물이 존재하지 않습니다.");
+                }
+
+                Position endPiecePosition = getEndPiecePosition();
+                if (!board.canMove(startPiecePosition, endPiecePosition)) {
+                    continue;
+                }
+                playTurn(board, startPiecePosition, endPiecePosition);
+
+            } catch (IllegalArgumentException e) {
+
+            }
+        }
     }
+
+    private static void playTurn(Board board, Position startPiecePosition, Position endPiecePosition) {
+        if (board.determineMoving(startPiecePosition, endPiecePosition)) {
+            board.changePiecePosition(startPiecePosition, endPiecePosition);
+            changeTurn(board);
+        }
+    }
+
+    private static void changeTurn(Board board) {
+        board.changeTurn();
+    }
+
+    private Position getEndPiecePosition() {
+        List<Integer> endPosition = inputView.readEndPiecePosition();
+        return new Position(endPosition.getFirst(), endPosition.getLast());
+    }
+
+    private Position getStartPiecePosition() {
+        List<Integer> startPosition = inputView.readStartPiecePosition();
+        return new Position(startPosition.getFirst(), startPosition.getLast());
+    }
+
+
 }

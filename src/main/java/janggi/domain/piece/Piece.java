@@ -25,6 +25,10 @@ public abstract class Piece {
         return piece.team.equals(this.team);
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     protected boolean isHan() {
         return team == Team.HAN;
     }
