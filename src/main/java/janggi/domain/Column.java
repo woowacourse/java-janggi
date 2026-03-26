@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Column {
-    private static final int MIN = 1;
-    private static final int MAX = 10;
+    private static final int MIN = 0;
+    private static final int MAX = 9;
     private static final Map<Integer, Column> CACHE = new HashMap<>();
 
     static {
