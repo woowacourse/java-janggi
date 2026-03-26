@@ -29,6 +29,10 @@ public class Board {
         validateToPoint(to, team);
         Piece piece = state.get(from);
         List<Point> route = piece.getRoute(from, to);
+        Piece targetPiece = state.get(to);
+        if (targetPiece != null && !piece.canCapture(targetPiece)) {
+            throw new IllegalArgumentException("이 기물은 해당 타겟을 잡을 수 없습니다.");
+        }
         if (!piece.canMove(getPieces(route))) {
             throw new IllegalArgumentException("해당 기물의 이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
         }

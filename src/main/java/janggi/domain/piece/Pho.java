@@ -64,4 +64,9 @@ public class Pho implements Piece {
     public PieceType getType() {
         return type;
     }
+
+    @Override
+    public boolean canCapture(Piece target) {
+        return !target.isSameType(PieceType.PHO);
+    }
 }

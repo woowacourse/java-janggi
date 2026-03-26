@@ -10,4 +10,8 @@ public interface Piece {
     boolean isSameTeam(Team team);
     boolean isSameType(PieceType type);
     PieceType getType();
+
+    default boolean canCapture(Piece targetPiece) {
+        return true;
+    }
 }
