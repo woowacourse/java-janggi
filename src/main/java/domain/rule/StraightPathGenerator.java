@@ -20,39 +20,49 @@ public class StraightPathGenerator implements PathGenerator {
     }
 
     private boolean validateMove(Position src,Position dest) {
-        if(src.equals(dest)) return false;
+        if(src.equals(dest)) {
+            return false;
+        }
 
         return src.getX() == dest.getX() || src.getY() == dest.getY();
     }
 
     private Direction determineDirection(Position src, Position dest) {
         if(src.getX() == dest.getX()) {
-            if(src.getY() > dest.getY()) {
-                return Direction.SOUTH;
-            }
-            return Direction.NORTH;
+            return getDirectionWhenXSame(src, dest);
         }
 
         if(src.getY() == dest.getY()) {
-            if(src.getX() > dest.getX()) {
-                return Direction.WEST;
-            }
-            return Direction.EAST;
+            return getDirectionWhenYSame(src, dest);
         }
 
         throw new IllegalArgumentException("갈 수 있는 경로가 없습니다.");
     }
 
+    private Direction getDirectionWhenXSame(Position src, Position dest) {
+        if(src.getY() > dest.getY()) {
+            return Direction.SOUTH;
+        }
+        return Direction.NORTH;
+    }
+
+    private Direction getDirectionWhenYSame(Position src, Position dest) {
+        if(src.getX() > dest.getX()) {
+            return Direction.WEST;
+        }
+        return Direction.EAST;
+    }
+
     private Path bulidPath(Position src, Position dest, Direction direction) {
         List<Position> path = new ArrayList<>();
+        Position nextPosition = src;
 
-        Position tmp = direction.move(src);
-        path.add(tmp);
-        while (!tmp.equals(dest)) {
-            tmp = direction.move(tmp);
-            path.add(tmp);
+        while (!nextPosition.equals(dest)) {
+            nextPosition = direction.move(nextPosition);
+            path.add(nextPosition);
         }
 
         return new Path(src, dest, path);
     }
 }
+
