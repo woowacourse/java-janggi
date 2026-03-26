@@ -1,8 +1,10 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.Space;
 import janggi.domain.Team;
@@ -84,5 +86,21 @@ class PhoTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateRoutes(pieces))
                 .withMessage("포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
+    }
+
+    @Test
+    void 포_경로_반환_테스트() {
+        Piece piece = new Pho(Team.CHO);
+
+        Position from = new Position(0, 0);
+        Position to = new Position(5, 0);
+        Path actual = piece.getPath(from, to);
+
+        Path expect = new Path(List.of(
+                new Position(2, 0),
+                new Position(3, 0),
+                new Position(4, 0)
+        ));
+        assertThat(actual).isEqualTo(expect);
     }
 }
