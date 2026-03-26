@@ -35,8 +35,8 @@ public abstract class Piece {
         return pieceType.getSymbol();
     }
 
-    public Team getTeam() {
-        return team;
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
     }
 
     @Override
