@@ -1,0 +1,58 @@
+package domain.rule;
+
+import static domain.TestUtil.createPosition;
+import static domain.direction.Direction.EAST;
+import static domain.direction.Direction.NORTH;
+import static domain.direction.Direction.NORTH_EAST;
+import static domain.direction.Direction.NORTH_WEST;
+import static domain.direction.Direction.SOUTH;
+import static domain.direction.Direction.SOUTH_EAST;
+import static domain.direction.Direction.SOUTH_WEST;
+import static domain.direction.Direction.WEST;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import domain.direction.Direction;
+import domain.position.Path;
+import domain.position.Position;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+class ListPathGeneratorTest {
+
+    ListPathGenerator listPathGenerator;
+    private static final List<List<Direction>> sangPaths = List.of(
+            List.of(NORTH, NORTH_EAST, NORTH_EAST),
+            List.of(NORTH, NORTH_WEST, NORTH_WEST),
+            List.of(SOUTH, SOUTH_EAST, SOUTH_EAST),
+            List.of(SOUTH, SOUTH_WEST, SOUTH_WEST),
+            List.of(EAST, NORTH_EAST, NORTH_EAST),
+            List.of(EAST, SOUTH_EAST, SOUTH_EAST),
+            List.of(WEST, NORTH_WEST, NORTH_WEST),
+            List.of(WEST, SOUTH_WEST, SOUTH_WEST)
+    );
+
+    @Test
+    void 리스트를_받으면_이동규칙으로_Path객체를_만든다() {
+        listPathGenerator = new ListPathGenerator(sangPaths);
+
+        Path path = listPathGenerator.calculatePath(new Position(1, 1), new Position(3, 4));
+
+        assertEquals(createPosition(1, 1), path.getSrc());
+        List<Position> waypoints = path.getWaypoints();
+        assertEquals(2, waypoints.size());
+        assertEquals(createPosition(1, 2), waypoints.getFirst());
+        assertEquals(createPosition(2, 3), waypoints.getLast());
+
+        assertEquals(createPosition(3, 4), path.getDest());
+    }
+
+
+    @Test
+    void 이동할_수_없는_위치를_입력하면_에러를_던진다() {
+        listPathGenerator = new ListPathGenerator(sangPaths);
+        
+        assertThrows(IllegalArgumentException.class,
+                () -> listPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
+    }
+}
