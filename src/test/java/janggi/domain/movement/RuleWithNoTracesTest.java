@@ -26,7 +26,7 @@ public class RuleWithNoTracesTest {
         List<Movement> movementOrder = List.of(
             new Movement(1, Direction.valueOf(0, 1), boardMediator),
             new Movement(2, Direction.valueOf(-1, 1), boardMediator));
-        Rule ruleWithNoTraces = new ruleWithNoTraces(movementOrder);
+        Rule ruleWithNoTraces = new RuleWithNoTraces(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 
         List<Position> actual = ruleWithNoTraces.execute(Position.valueOf(5, 3), boardMediator);
