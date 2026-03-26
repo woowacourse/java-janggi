@@ -1,5 +1,7 @@
 package domain.board;
 
+import domain.Direction;
+
 import java.util.Objects;
 
 public class Position {
@@ -48,5 +50,8 @@ public class Position {
         return y;
     }
 
+    public Position next(Direction direction) {
+        return new Position(x + direction.getDx(), y + direction.getDy());
+    }
 
 }
