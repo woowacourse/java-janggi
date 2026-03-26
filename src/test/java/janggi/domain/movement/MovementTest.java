@@ -18,7 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class StraightMovementTest {
+class MovementTest {
 
     @Nested
     @DisplayName("도달 여부 판정 테스트")
@@ -39,10 +39,10 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 1;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             boolean expected = true;
 
-            boolean actual = straightMovement.canReach(from);
+            boolean actual = Movement.canReach(from);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -53,10 +53,10 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             boolean expected = false;
 
-            boolean actual = straightMovement.canReach(from);
+            boolean actual = Movement.canReach(from);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -82,10 +82,10 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             Position expected = Position.valueOf(5, 5);
 
-            Position actual = straightMovement.calculateDestination(from);
+            Position actual = Movement.calculateDestination(from);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -98,10 +98,10 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             Position expected = Position.valueOf(5, 6);
 
-            Position actual = straightMovement.calculateDestination(from);
+            Position actual = Movement.calculateDestination(from);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -113,10 +113,10 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             Position expected = Position.valueOf(5, 7);
 
-            Position actual = straightMovement.calculateDestination(from);
+            Position actual = Movement.calculateDestination(from);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -143,10 +143,10 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = straightMovement.calculateTraces(from);
+            List<Position> actual = Movement.calculateTraces(from);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -159,11 +159,11 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
-                Position.valueOf(5, 6));
+                    Position.valueOf(5, 6));
 
-            List<Position> actual = straightMovement.calculateTraces(from);
+            List<Position> actual = Movement.calculateTraces(from);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -175,11 +175,11 @@ class StraightMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
-            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Movement Movement = new Movement(maxDistance, direction, boardMediator);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
-                Position.valueOf(5, 6), Position.valueOf(5, 7));
+                    Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = straightMovement.calculateTraces(from);
+            List<Position> actual = Movement.calculateTraces(from);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
