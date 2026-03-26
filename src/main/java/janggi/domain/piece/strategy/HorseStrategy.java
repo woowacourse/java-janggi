@@ -9,26 +9,21 @@ public class HorseStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position from, Position to, Camp camp) {
-        int rowDifference = to.calculateRowDistance(from);
-        int colDifference = to.calculateColumnDistance(from);
+        DirectionInformation directionInformation = new DirectionInformation(from, to);
 
-        int absRowDifference = Math.abs(rowDifference);
-        int absColDifference = Math.abs(colDifference);
+        validateHorseMovement(directionInformation);
 
-        validateHorseMovement(absRowDifference, absColDifference);
-
-        int rowDirection = rowDifference / absRowDifference;
-        int colDirection = colDifference / absColDifference;
-
-        if (absRowDifference > absColDifference) {
-            return createRowFirstPath(from, rowDirection, colDirection);
+        if (directionInformation.isRowBiggerThanCol()) {
+            return createRowFirstPath(from, directionInformation);
         }
-        return createColFirstPath(from, rowDirection, colDirection);
+        return createColFirstPath(from, directionInformation);
     }
 
-    private List<Position> createRowFirstPath(Position from, int rowDirection, int colDirection) {
+    private List<Position> createRowFirstPath(Position from, DirectionInformation directionInformation) {
         List<Position> path = new ArrayList<>();
 
+        int rowDirection = directionInformation.calculateRowDirection();
+        int colDirection = directionInformation.calculateColDirection();
         from = from.moveRow(rowDirection);
         path.add(from);
 
@@ -37,9 +32,11 @@ public class HorseStrategy implements MoveStrategy {
         return path;
     }
 
-    private List<Position> createColFirstPath(Position from, int rowDirection, int colDirection) {
+    private List<Position> createColFirstPath(Position from, DirectionInformation directionInformation) {
         List<Position> path = new ArrayList<>();
 
+        int rowDirection = directionInformation.calculateRowDirection();
+        int colDirection = directionInformation.calculateColDirection();
         from = from.moveCol(colDirection);
         path.add(from);
 
@@ -48,8 +45,9 @@ public class HorseStrategy implements MoveStrategy {
         return path;
     }
 
-    private void validateHorseMovement(int rowDifference, int colDifference) {
-        if ((rowDifference != 1 || colDifference != 2) && (rowDifference != 2 || colDifference != 1)) {
+    private void validateHorseMovement(DirectionInformation directionInformation) {
+        if ((directionInformation.rowDifference() != 1 || directionInformation.colDifference() != 2)
+                && (directionInformation.rowDifference() != 2 || directionInformation.colDifference() != 1)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
     }
