@@ -18,9 +18,9 @@ public class Board {
     private Side turn;
 
     public Board(BoardInitializer boardInitializer) {
+        Map<Position, Piece> initializedPosition = boardInitializer.initialize();
         for (int i = 0; i < COL_SIZE; i++) {
             for (int j = 0; j < ROW_SIZE; j++) {
-                Map<Position, Piece> initializedPosition = boardInitializer.initialize();
                 board[i][j] = initializedPosition.getOrDefault(new Position(i, j), new EmptyPiece());
             }
         }
@@ -54,8 +54,10 @@ public class Board {
     }
 
     public void move(Position start, Position destination) {
+        validateRange(start);
+        validateRange(destination);
         validateStartPosition(start);
-//        validateDestination(destination);
+        validateDestination(destination);
 
         board[destination.col()][destination.row()] = board[start.col()][start.row()];
         board[start.col()][start.row()] = new EmptyPiece();
@@ -83,7 +85,7 @@ public class Board {
         }
     }
 
-    private void validateCurrentTurnPiece(Position destination) {
+    private void validateDestination(Position destination) {
         if (!isOpponentTurnPiece(destination)) {
             throw new IllegalArgumentException("아군 기물이 있는 위치는 이동할 수 없습니다.");
         }
