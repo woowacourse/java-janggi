@@ -1,9 +1,10 @@
-package janggi.domain.controller;
+package janggi.controller;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.game.Game;
 import janggi.dto.DynastyDto;
 import janggi.dto.BoardDto;
 import janggi.util.HorseElephantPositionMapper;
@@ -24,6 +25,7 @@ public class JanggiController {
     }
 
     public void run() {
+        // 장기판 상차림 입력
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = new EnumMap<>(Dynasty.class);
         for (Dynasty dynasty : Dynasty.values()) {
             int ordinal = inputView.readHorseElephantPosition(DynastyDto.from(dynasty));
@@ -31,9 +33,20 @@ public class JanggiController {
             horseElephantPositions.put(dynasty, position);
         }
 
-        BoardDesignPolicy policy = new BoardDesignPolicy(horseElephantPositions);
-        Board board = new Board(policy);
-        outputView.printBoard(BoardDto.from(board.board()));
+
+        // 장기판 초기화
+//        BoardDesignPolicy policy = new BoardDesignPolicy(horseElephantPositions);
+//        Board board = new Board(policy);
+
+        Game game = Game.initGame(horseElephantPositions);
+        outputView.printBoard(BoardDto.from(game.boardMap()));
+
+        // 움직이고 싶은 기물의 좌표 입력
+        inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty()));
+
+
+
+
 
     }
 

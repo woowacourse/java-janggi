@@ -1,21 +1,25 @@
 package janggi.view;
-
-import janggi.domain.board.BoardDesignPolicy;
-import janggi.domain.board.HorseElephantPosition;
-import janggi.domain.dynasty.Dynasty;
-import janggi.domain.piece.Piece;
-import janggi.domain.position.Position;
 import janggi.dto.BoardDto;
 
 import java.util.List;
-import java.util.Map;
 
 public class OutputView {
 
     public void printBoard(BoardDto boardDto) {
+        // 상단 가로 좌표 출력 (1~9)
+        System.out.print("   ");
+        for (int col = 1; col <= 9; col++) {
+            System.out.print(col + "  ");
+        }
+        System.out.println();
+
+        int rowIndex = 1;
         for (List<String> piecesByRow : boardDto.board()) {
+            // 좌측 세로 좌표 출력 (1~10)
+            System.out.printf("%2d ", rowIndex++);
+
             for (String pieceName : piecesByRow) {
-                System.out.print(pieceName);
+                System.out.print(pieceName + " ");
             }
             System.out.println();
         }

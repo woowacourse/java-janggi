@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.domain.controller.JanggiController;
+import janggi.controller.JanggiController;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
