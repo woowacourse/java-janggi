@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class InitializeStrategy {
-    public Map<Position, Piece> initialize(Team team){
+    public Map<Position, Piece> initialize(Team team) {
         Map<Position, Piece> pieces = new HashMap<>();
 
         pieces.putAll(initializeDefaultFormation(team));
@@ -29,9 +29,9 @@ public abstract class InitializeStrategy {
         return initializeHanDefaultFormation();
     }
 
-    abstract Map<Position, Piece> initializeElephantHorseFormation(Team team);
+    protected abstract Map<Position, Piece> initializeElephantHorseFormation(Team team);
 
-    private Map<Position, Piece> initializeChoDefaultFormation() {
+    private Map<Position, Piece> initializeHanDefaultFormation() {
         Map<Position, Piece> pieces = new HashMap<>();
 
         pieces.put(Position.from(1, 1), new Rook(Team.HAN));
@@ -52,7 +52,7 @@ public abstract class InitializeStrategy {
         return pieces;
     }
 
-    private Map<Position, Piece> initializeHanDefaultFormation() {
+    private Map<Position, Piece> initializeChoDefaultFormation() {
         Map<Position, Piece> pieces = new HashMap<>();
 
         pieces.put(Position.from(10, 1), new Rook(Team.CHO));

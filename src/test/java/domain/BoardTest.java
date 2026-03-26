@@ -1,7 +1,15 @@
 package domain;
 
+import domain.piece.Cannon;
 import domain.piece.Elephant;
+import domain.piece.Guard;
 import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Pawn;
+import domain.piece.Piece;
+import domain.piece.Rook;
+import java.util.Collections;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,15 +21,60 @@ import strategy.OuterElephantFormationStrategy;
 import strategy.RightElephantFormationStrategy;
 
 class BoardTest {
+    private final InitializeStrategy noElephantHorseStrategy = new NoOpElephantHorseStrategy();
+
+    static class NoOpElephantHorseStrategy extends InitializeStrategy {
+        @Override
+        protected Map<Position, Piece> initializeElephantHorseFormation(Team team) {
+            return Collections.emptyMap();
+        }
+    }
+
     /**
-     * 보드판 전체 초기화 테스트 로직
+     * 1. 한나라 기본 기물이 올바르게 배치된다.(상,마 제외)
      */
+    @Test
+    void 한나라_기본_기물들이_올바르게_배치된다() {
+        Board board = new Board(noElephantHorseStrategy, noElephantHorseStrategy);
+
+        assertThat(board.isExistSameType(Position.from(1, 1), new Rook(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(1, 9), new Rook(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(1, 4), new Guard(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(1, 6), new Guard(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(1, 5), new King(Team.HAN))).isEqualTo(true);
+
+        assertThat(board.isExistSameType(Position.from(3, 2), new Cannon(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(3, 8), new Cannon(Team.HAN))).isEqualTo(true);
+
+        assertThat(board.isExistSameType(Position.from(4, 1), new Pawn(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(4, 3), new Pawn(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(4, 5), new Pawn(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(4, 7), new Pawn(Team.HAN))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(4, 9), new Pawn(Team.HAN))).isEqualTo(true);
+    }
+
     /**
-     * 1. 한나라 전체 기물이 올바르게 배치된다.
+     * 2. 초나라 기본 기물이 올바르게 배치된다. (상,마 제외)
      */
-    /**
-     * 2. 초나라 전체 기물이 올바르게 배치된다.
-     */
+    @Test
+    void 초나라_기본_기물들이_올바르게_배치된다() {
+        Board board = new Board(noElephantHorseStrategy, noElephantHorseStrategy);
+
+        assertThat(board.isExistSameType(Position.from(10, 1), new Rook(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(10, 4), new Guard(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(10, 5), new King(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(10, 6), new Guard(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(10, 9), new Rook(Team.CHO))).isEqualTo(true);
+
+        assertThat(board.isExistSameType(Position.from(8, 2), new Cannon(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(8, 8), new Cannon(Team.CHO))).isEqualTo(true);
+
+        assertThat(board.isExistSameType(Position.from(7, 1), new Pawn(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(7, 3), new Pawn(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(7, 5), new Pawn(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(7, 7), new Pawn(Team.CHO))).isEqualTo(true);
+        assertThat(board.isExistSameType(Position.from(7, 9), new Pawn(Team.CHO))).isEqualTo(true);
+    }
 
     /**
      * 상마상마 차림 검증 로직
