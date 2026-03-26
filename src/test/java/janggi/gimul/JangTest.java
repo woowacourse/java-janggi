@@ -98,13 +98,13 @@ class JangTest {
     void canPassThrough() {
         //given
         List<Gimul> gimuls = List.of(
-                new Cha(Team.CHO),
-                new Cha(Team.HAN)
+                new Cha(Team.CHO)
         );
+        Cha gimulAtTo = new Cha(Team.HAN);
         Jang jang = new Jang(Team.CHO);
 
         //when & then
-        assertThat(jang.canPassThrough(gimuls))
+        assertThat(jang.canPassThrough(gimuls, gimulAtTo))
                 .isFalse();
     }
 }

@@ -21,21 +21,16 @@ public enum Row {
         return CACHE_VALUES.get(ordinal);
     }
 
-    public Row previous() {
-        if (this == ONE) {
-            throw new IllegalStateException("보드 밖으로는 이동할 수 없습니다.");
+    public Row moved(int displacement) {
+        int nextValue = this.ordinal() + displacement;
+
+        if (nextValue > ZERO.ordinal() ||nextValue < ONE.ordinal()) {
+            throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
         }
 
-        return CACHE_VALUES.get(this.ordinal() - 1);
+        return CACHE_VALUES.get(nextValue);
     }
 
-    public Row next() {
-        if (this == ZERO) {
-            throw new IllegalStateException("보드 밖으로는 이동할 수 없습니다.");
-        }
-
-        return CACHE_VALUES.get(this.ordinal() + 1);
-    }
 
     public List<Row> to(Row other) {
         if (this.ordinal() > other.ordinal()) {

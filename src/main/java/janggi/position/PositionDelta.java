@@ -1,14 +1,28 @@
 package janggi.position;
 
-public record PositionConnection(
+public record PositionDelta(
         int rowDistance,
         int columnDistance
 ) {
 
-    public static PositionConnection of(Position from, Position to) {
-        return new PositionConnection(
+    public static PositionDelta between(Position from, Position to) {
+        return new PositionDelta(
                 to.getRowDistance(from),
                 to.getColumnDistance(from)
+        );
+    }
+
+    public PositionDelta movedHorizontally(int columnDistance) {
+        return new PositionDelta(
+                rowDistance,
+                this.columnDistance - columnDistance
+        );
+    }
+
+    public PositionDelta movedVertically(int rowDistance) {
+        return new PositionDelta(
+                this.rowDistance - rowDistance,
+                columnDistance
         );
     }
 
@@ -49,17 +63,20 @@ public record PositionConnection(
         return columnDistance == 0;
     }
 
-    public int straightDistance() {
-        return isHorizontalLonger() ? columnDistance : rowDistance;
-    }
-
-    public int diagonalDistance() {
-        return isHorizontalLonger() ? rowDistance / getAbsColumnDistance()
-                : columnDistance / getAbsColumnDistance();
-    }
-
-    public boolean isHorizontalLonger() {
+    public boolean isHorizontalLongerThanVertical() {
         return getAbsColumnDistance() > getAbsRowDistance();
     }
 
+    public int getUnitDistance() {
+        int unit = rowDistance;
+        if (getAbsRowDistance() < getAbsColumnDistance()) {
+            unit = columnDistance;
+        }
+
+        if (unit > 0) {
+            return 1;
+        }
+
+        return -1;
+    }
 }

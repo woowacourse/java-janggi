@@ -1,6 +1,7 @@
 package janggi.gimul;
 
-import janggi.position.PositionConnection;
+import janggi.position.DiagonalDelta;
+import janggi.position.PositionDelta;
 import janggi.position.PositionPath;
 import janggi.position.Position;
 import janggi.Team;
@@ -8,30 +9,36 @@ import java.util.List;
 
 public class Ma extends Gimul {
 
-    protected Ma(Team team) {
+    public Ma(Team team) {
         super(team);
     }
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
-        PositionConnection positionConnection = PositionConnection.of(from, to);
+        PositionDelta positionDelta = PositionDelta.between(from, to);
 
-        if (positionConnection.isMoreThanOneStepAndDiagonal()) {
+        if (positionDelta.isMoreThanOneStepAndDiagonal()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        if (positionConnection.isHorizontalLonger()) {
-            PositionPath first = from.moveHorizontal(positionConnection.straightDistance());
-            PositionPath second = first.getDestination().moveVertical(positionConnection.diagonalDistance());
-            return PositionPath.concatenate(first, second);
+        int firstDistance = positionDelta.getUnitDistance();
+        PositionPath first = from.moveVertical(firstDistance);
+        PositionDelta moved = positionDelta.movedVertically(firstDistance);
+
+        if (positionDelta.isHorizontalLongerThanVertical()) {
+            first = from.moveHorizontal(firstDistance);
+            moved = positionDelta.movedHorizontally(firstDistance);
         }
-        PositionPath first = from.moveVertical(positionConnection.straightDistance());
-        PositionPath second = first.getDestination().moveHorizontal(positionConnection.diagonalDistance());
+
+        PositionPath second = first.getDestination().moveDiagonal(
+                new DiagonalDelta(moved.rowDistance(), moved.columnDistance())
+        );
+
         return PositionPath.concatenate(first, second);
     }
 
     @Override
-    public boolean canPassThrough(List<Gimul> gimuls) {
-        return gimuls.isEmpty();
+    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
     }
 }

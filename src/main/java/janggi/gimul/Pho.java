@@ -6,7 +6,7 @@ import janggi.Team;
 import java.util.List;
 
 public class Pho extends Gimul{
-    protected Pho(Team team) {
+    public Pho(Team team) {
         super(team);
     }
 
@@ -23,11 +23,8 @@ public class Pho extends Gimul{
         return from.moveVertical(to.getRowDistance(from));
     }
 
-
     @Override
-    public boolean canPassThrough(List<Gimul> gimuls) {
-        return  gimuls.size() == 1 && gimuls.stream()
-                .noneMatch(gimul -> gimul instanceof Pho);
-
+    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
+        return gimulsOnPath.size() == 1 && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
     }
 }

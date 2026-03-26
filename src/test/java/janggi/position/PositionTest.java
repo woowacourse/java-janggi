@@ -6,52 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PositionTest {
-
-    @DisplayName("북서쪽으로 이동한다.")
-    @Test
-    void moveNorthAndWest() {
-        //given
-        Position from = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(from.moveNorthAndWest().getDestination())
-                .isEqualTo(new Position(Row.FIVE, Column.TWO));
-    }
-
-    @DisplayName("북동쪽으로 이동한다.")
-    @Test
-    void moveNorthAndEast() {
-        //given
-        Position from = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(from.moveNorthAndEast().getDestination())
-                .isEqualTo(new Position(Row.FIVE, Column.FOUR));
-    }
-
-    @DisplayName("남서쪽으로 이동한다.")
-    @Test
-    void moveSouthAndWest() {
-        //given
-        Position from = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(from.moveSouthAndWest().getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.TWO));
-    }
-
-    @DisplayName("남동쪽으로 이동한다.")
-    @Test
-    void moveSouthAndEast() {
-        //given
-        Position from = new Position(Row.SIX, Column.THREE);
-
-        //when & then
-        assertThat(from.moveSouthAndEast().getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
-    }
-
-
     @DisplayName("같은 행이면 true를 반환한다.")
     @Test
     void isSameRow() {

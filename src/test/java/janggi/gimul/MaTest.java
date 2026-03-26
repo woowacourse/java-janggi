@@ -49,13 +49,25 @@ class MaTest {
     void canPassThrough() {
         //given
         List<Gimul> gimuls = List.of(
-                new Cha(Team.CHO),
-                new Cha(Team.HAN)
+                new Cha(Team.CHO)
         );
+        Cha gimulAtTo = new Cha(Team.HAN);
+
         Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThat(ma.canPassThrough(gimuls))
+        assertThat(ma.canPassThrough(gimuls, gimulAtTo))
                 .isFalse();
+    }
+
+    @DisplayName("같은 팀이면 true를 반환한다.")
+    @Test
+    void isSameTeam() {
+        //given
+        Ma ma = new Ma(Team.CHO);
+
+        //when & then
+        assertThat(ma.isSameTeam(Team.CHO)).isTrue();
+        assertThat(ma.isSameTeam(Team.HAN)).isFalse();
     }
 }

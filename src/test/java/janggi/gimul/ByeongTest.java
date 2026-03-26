@@ -111,14 +111,13 @@ class ByeongTest {
     void canPassThrough() {
         //given
         List<Gimul> gimuls = List.of(
-                new Cha(Team.CHO),
-                new Cha(Team.HAN)
+                new Cha(Team.CHO)
         );
+        Cha gimulAtTo = new Cha(Team.HAN);
         Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(byeong.canPassThrough(gimuls))
+        assertThat(byeong.canPassThrough(gimuls, gimulAtTo))
                 .isFalse();
     }
-
 }

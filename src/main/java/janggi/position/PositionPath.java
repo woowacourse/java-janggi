@@ -2,6 +2,7 @@ package janggi.position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class PositionPath {
 
@@ -41,4 +42,7 @@ public class PositionPath {
         return new PositionPath(path.subList(startIdx, toIdx));
     }
 
+    public Stream<Position> stream() {
+        return path.stream();
+    }
 }

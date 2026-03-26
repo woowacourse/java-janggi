@@ -99,13 +99,13 @@ class SaTest {
     void canPassThrough() {
         //given
         List<Gimul> gimuls = List.of(
-                new Cha(Team.CHO),
-                new Cha(Team.HAN)
+                new Cha(Team.CHO)
         );
+        Cha gimulAtTo = new Cha(Team.HAN);
         Sa sa = new Sa(Team.HAN);
 
         //when & then
-        assertThat(sa.canPassThrough(gimuls))
+        assertThat(sa.canPassThrough(gimuls, gimulAtTo))
                 .isFalse();
     }
 }

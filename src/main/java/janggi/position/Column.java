@@ -20,21 +20,14 @@ public enum Column {
         return CACHE_VALUES.get(ordinal);
     }
 
+    public Column moved(int displacement) {
+        int nextValue = this.ordinal() + displacement;
 
-    public Column next() {
-        if (this == NINE) {
-            throw new IllegalStateException("보드 밖으로는 이동할 수 없습니다.");
+        if (nextValue > NINE.ordinal() ||nextValue < ONE.ordinal()) {
+            throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
         }
 
-        return CACHE_VALUES.get(this.ordinal() + 1);
-    }
-
-
-    public Column previous() {
-        if (this == ONE) {
-            throw new IllegalStateException("보드 밖으로는 이동할 수 없습니다.");
-        }
-        return CACHE_VALUES.get(this.ordinal() - 1);
+        return CACHE_VALUES.get(nextValue);
     }
 
     public List<Column> to(Column other) {
