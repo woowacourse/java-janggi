@@ -1,5 +1,6 @@
 package janggi.position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record Position(
@@ -7,10 +8,22 @@ public record Position(
         Column column
 ) {
     public PositionPath moveDiagonal(DiagonalDelta diagonalDelta) {
-        Row nextRow = row.moved(diagonalDelta.rowDistance());
-        Column nextColumn = column.moved(diagonalDelta.columnDistance());
+        int rowUnitDistance = diagonalDelta.getRowUnitDistance();
+        int columnUnitDistance = diagonalDelta.getColumnUnitDistance();
 
-        return new PositionPath(List.of(this, new Position(nextRow, nextColumn)));
+        Row nextRow = row;
+        Column nextColumn = column;
+
+        List<Position> positions = new ArrayList<>();
+        positions.add(new Position(nextRow, nextColumn));
+
+        for (int i = 0; i < diagonalDelta.getCountOfUnitDiagonal(); i++) {
+            nextRow = nextRow.moved(rowUnitDistance);
+            nextColumn = nextColumn.moved(columnUnitDistance);
+            positions.add(new Position(nextRow, nextColumn));
+        }
+
+        return new PositionPath(positions);
     }
 
 

@@ -3,11 +3,11 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.Column;
-import janggi.position.PositionPath;
-import janggi.position.Position;
-import janggi.position.Row;
 import janggi.Team;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.PositionPath;
+import janggi.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,8 +25,8 @@ class ByeongTest {
         PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("한나라일때, 남쪽으로 한칸 이동한다.")
@@ -41,8 +41,8 @@ class ByeongTest {
         PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.EIGHT, Column.FIVE));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("동쪽으로 한칸 이동한다.")
@@ -57,8 +57,8 @@ class ByeongTest {
         PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.SIX));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -73,8 +73,8 @@ class ByeongTest {
         PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("초나라일때 남쪽으로 움직이면 예외가 발생한다.")
@@ -110,14 +110,29 @@ class ByeongTest {
     @Test
     void canPassThrough() {
         //given
-        List<Gimul> gimuls = List.of(
+        List<Gimul> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
         Cha gimulAtTo = new Cha(Team.HAN);
         Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(byeong.canPassThrough(gimuls, gimulAtTo))
+        assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
+                .isFalse();
+    }
+
+    @DisplayName("to에 있는 기물이 같은 팀이면 false를 반환한다.")
+    @Test
+    void canPassThrough_sameTeam() {
+        //given
+        List<Gimul> gimulsOnPath = List.of(
+                new Cha(Team.CHO)
+        );
+        Cha gimulAtTo = new Cha(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO);
+
+        //when & then
+        assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 }

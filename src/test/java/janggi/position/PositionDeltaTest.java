@@ -14,9 +14,6 @@ class PositionDeltaTest {
 
         assertThat(new PositionDelta(0, 1).isMoreThanOneStep())
                 .isTrue();
-
-        assertThat(new PositionDelta(1, 1).isMoreThanOneStep())
-                .isFalse();
     }
 
     @DisplayName("대각선을 포함해서 한 칸을 이동하면 false를 반환한다.")

@@ -3,11 +3,11 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.Column;
-import janggi.position.PositionPath;
-import janggi.position.Position;
-import janggi.position.Row;
 import janggi.Team;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.PositionPath;
+import janggi.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -97,14 +97,29 @@ class JangTest {
     @Test
     void canPassThrough() {
         //given
-        List<Gimul> gimuls = List.of(
+        List<Gimul> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
         Cha gimulAtTo = new Cha(Team.HAN);
         Jang jang = new Jang(Team.CHO);
 
         //when & then
-        assertThat(jang.canPassThrough(gimuls, gimulAtTo))
+        assertThat(jang.canPassThrough(gimulsOnPath, gimulAtTo))
+                .isFalse();
+    }
+
+    @DisplayName("to에 있는 기물이 같은 팀이면 false를 반환한다.")
+    @Test
+    void canPassThrough_sameTeam() {
+        //given
+        List<Gimul> gimulsOnPath = List.of(
+                new Cha(Team.CHO)
+        );
+        Cha gimulAtTo = new Cha(Team.CHO);
+        Jang jang = new Jang(Team.CHO);
+
+        //when & then
+        assertThat(jang.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 }

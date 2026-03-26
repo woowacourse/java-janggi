@@ -1,10 +1,10 @@
 package janggi.gimul;
 
+import janggi.Team;
 import janggi.position.DiagonalDelta;
+import janggi.position.Position;
 import janggi.position.PositionDelta;
 import janggi.position.PositionPath;
-import janggi.position.Position;
-import janggi.Team;
 import java.util.List;
 
 public class Jang extends Gimul {
@@ -33,11 +33,11 @@ public class Jang extends Gimul {
                 positionDelta.columnDistance()
         );
 
-        return from.moveDiagonal(diagonalDelta);
+        return from.moveDiagonal(diagonalDelta).removeFromAndTo();
     }
 
     @Override
     public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
-        return gimulsOnPath.isEmpty() && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
     }
 }

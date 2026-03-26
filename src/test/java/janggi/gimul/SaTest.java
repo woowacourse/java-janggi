@@ -3,11 +3,11 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.Column;
-import janggi.position.PositionPath;
-import janggi.position.Position;
-import janggi.position.Row;
 import janggi.Team;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.PositionPath;
+import janggi.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,8 +40,8 @@ class SaTest {
         PositionPath positionPath = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("북쪽으로 한칸 이동한다.")
@@ -56,8 +56,8 @@ class SaTest {
         PositionPath positionPath = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.EIGHT, Column.FIVE));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
 
@@ -73,8 +73,8 @@ class SaTest {
         PositionPath positionPath = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.SIX));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -89,8 +89,8 @@ class SaTest {
         PositionPath positionPath = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
 
@@ -98,14 +98,29 @@ class SaTest {
     @Test
     void canPassThrough() {
         //given
-        List<Gimul> gimuls = List.of(
+        List<Gimul> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
         Cha gimulAtTo = new Cha(Team.HAN);
         Sa sa = new Sa(Team.HAN);
 
         //when & then
-        assertThat(sa.canPassThrough(gimuls, gimulAtTo))
+        assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
+                .isFalse();
+    }
+
+    @DisplayName("to에 있는 기물이 같은 팀이면 false를 반환한다.")
+    @Test
+    void canPassThrough_sameTeam() {
+        //given
+        List<Gimul> gimulsOnPath = List.of(
+                new Cha(Team.CHO)
+        );
+        Sa gimulAtTo = new Sa(Team.CHO);
+        Sa sa = new Sa(Team.CHO);
+
+        //when & then
+        assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 }

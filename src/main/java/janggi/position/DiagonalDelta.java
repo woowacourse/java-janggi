@@ -18,4 +18,22 @@ public record DiagonalDelta(
     public boolean isEast() {
         return columnDistance > 0;
     }
+
+    public int getRowUnitDistance() {
+        if (rowDistance < 0) {
+            return -1;
+        }
+        return 1;
+    }
+
+    public int getColumnUnitDistance() {
+        if (columnDistance < 0) {
+            return -1;
+        }
+        return 1;
+    }
+
+    public int getCountOfUnitDiagonal() {
+        return Math.abs(rowDistance);
+    }
 }

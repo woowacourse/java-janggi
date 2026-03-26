@@ -32,14 +32,13 @@ public class Board {
         PositionPath legalPath = gimulAtFrom.getLegalPath(from, to);
 
         List<Gimul> gimulsOnPath = legalPath.stream()
-                .skip(1)
                 .filter(board::containsKey)
                 .map(board::get)
                 .toList();
 
-        if (!gimulAtFrom.canPassThrough(gimulsOnPath,  board.get(to))
-                || gimulsOnPath.getLast().isSameTeam(gimulAtFrom)
-        ) {
+        Gimul gimulAtTo = board.get(to);
+
+        if (!gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
             throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
         }
 

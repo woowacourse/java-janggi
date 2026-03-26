@@ -3,11 +3,11 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.Column;
-import janggi.position.PositionPath;
-import janggi.position.Position;
-import janggi.position.Row;
 import janggi.Team;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.PositionPath;
+import janggi.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +55,7 @@ class PhoTest {
 
         //then
         assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+                .isEqualTo(new Position(Row.SIX, Column.FOUR));
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -71,7 +71,7 @@ class PhoTest {
 
         //then
         assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.NINE, Column.THREE));
+                .isEqualTo(new Position(Row.EIGHT, Column.THREE));
     }
 
     @DisplayName("아무런 기물이 없으면 예외가 발생한다.")
@@ -93,6 +93,21 @@ class PhoTest {
 
         //when & then
         assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO)), null))
+                .isFalse();
+    }
+
+    @DisplayName("to에 있는 기물이 같은 팀이면 false를 반환한다.")
+    @Test
+    void canPassThrough_sameTeam() {
+        //given
+        List<Gimul> gimulsOnPath = List.of(
+                new Cha(Team.CHO)
+        );
+        Pho gimulAtTo = new Pho(Team.CHO);
+        Pho pho = new Pho(Team.CHO);
+
+        //when & then
+        assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 }
