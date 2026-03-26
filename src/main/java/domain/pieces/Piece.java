@@ -22,10 +22,14 @@ public abstract class Piece {
     public abstract List<Position> getAvailablePositions(Position nowPosition);
 
 
-    protected abstract boolean canMovePosition(Position start, Position end);
+    public abstract boolean canMovePosition(Position start, Position end);
 
-    protected boolean isSameCountry(Country endCountry) {
-        return country.equals(endCountry);
+    public boolean isDifferentCountry(Country endCountry) {
+        return !country.equals(endCountry);
+    }
+
+    public Country getCountry() {
+        return country;
     }
 
     @Override

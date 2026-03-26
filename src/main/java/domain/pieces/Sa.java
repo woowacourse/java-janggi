@@ -24,7 +24,7 @@ public class Sa extends Piece {
     }
 
     @Override
-    protected boolean canMovePosition(Position start, Position end) {
+    public boolean canMovePosition(Position start, Position end) {
         int diffX = end.getX() - start.getX();
         int diffY = end.getY() - start.getY();
 

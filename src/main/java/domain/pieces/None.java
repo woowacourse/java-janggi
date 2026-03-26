@@ -18,7 +18,7 @@ public class None extends Piece {
     }
 
     @Override
-    protected boolean canMovePosition(Position start, Position end) {
+    public boolean canMovePosition(Position start, Position end) {
         return true;
     }
 }

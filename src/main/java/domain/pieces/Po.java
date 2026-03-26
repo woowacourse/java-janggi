@@ -24,7 +24,7 @@ public class Po extends Piece {
     }
 
     @Override
-    protected boolean canMovePosition(Position start, Position end) {
+    public boolean canMovePosition(Position start, Position end) {
         return start.getX() == end.getX() || start.getY() == end.getY();
     }
 }
