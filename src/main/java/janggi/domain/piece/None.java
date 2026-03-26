@@ -17,8 +17,8 @@ public class None extends BasePiece {
     }
 
     @Override
-    public boolean isMovable(List<Position> path, BoardInterface boardInterface) {
-        return false;
+    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
+        throw new IllegalArgumentException("이동할 수 없는 말입니다.");
     }
 
     @Override

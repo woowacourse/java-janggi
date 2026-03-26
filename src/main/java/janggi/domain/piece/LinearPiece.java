@@ -28,8 +28,10 @@ public abstract class LinearPiece extends ActivePiece {
     }
 
     @Override
-    public boolean isMovable(List<Position> path, BoardInterface boardInterface) {
-        return routePolicy.isMovable(path, side, boardInterface);
+    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
+        if(!routePolicy.isMovable(path, side, boardInterface)){
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
+        }
     }
 
     private List<Position> calculatePath(Position start, boolean isVertical, int dist) {
