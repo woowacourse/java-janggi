@@ -1,13 +1,11 @@
-import domain.board.Board;
+package domain.board;
+
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.General;
 import domain.piece.Guard;
 import domain.piece.Piece;
 
-import domain.board.BoardFactory;
-import domain.board.InitializeSetting;
-import domain.board.Position;
 import domain.piece.Soldier;
 
 import org.junit.jupiter.api.BeforeEach;

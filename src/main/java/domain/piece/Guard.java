@@ -7,7 +7,19 @@ import java.util.List;
 public record Guard(PieceType pieceType) implements Piece {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
-        return List.of();
+
+        int dx = to.getX() - from.getX();
+        int dy = to.getY() - from.getY();
+
+        boolean isMoveUp = dx == 0 && dy == 1;
+        boolean isMoveLeft = dx == -1 && dy == 0;
+        boolean isMoveRight = dx == 1 && dy == 0;
+        boolean isMoveDown = dx == 0 && dy == -1;
+
+        if(!(isMoveLeft || isMoveRight || isMoveUp || isMoveDown)) {
+            throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
+        }
+        return List.of(to);
     }
 
     @Override

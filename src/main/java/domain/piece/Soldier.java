@@ -1,13 +1,26 @@
 package domain.piece;
 
+import domain.Direction;
 import domain.board.Position;
 
 import java.util.List;
 
 public record Soldier(PieceType pieceType) implements Piece {
+
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
-        return List.of();
+
+        int dx = to.getX() - from.getX();
+        int dy = to.getY() - from.getY();
+
+        boolean isMoveUp = dx == 0 && dy == 1;
+        boolean isMoveLeft = dx == -1 && dy == 0;
+        boolean isMoveRight = dx == 1 && dy == 0;
+
+        if(!(isMoveLeft || isMoveRight || isMoveUp)) {
+            throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
+        }
+        return List.of(to);
     }
 
     @Override
