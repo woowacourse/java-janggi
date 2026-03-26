@@ -17,7 +17,7 @@ public record Name(String name) {
 
     private static void validateContainsNumber(String name) {
         if (name.matches(MATCH_NUMBER_PATTERN)) {
-            throw new IllegalArgumentException("[ERROR] 이름은 한글만 가능합니다.");
+            throw new IllegalArgumentException("[ERROR] 이름은 한글, 영문만 가능합니다.");
         }
     }
 
