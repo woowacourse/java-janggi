@@ -19,4 +19,11 @@ public enum Team {
     public String getPrefix() {
         return prefix;
     }
+
+    public Team getEnemy() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
+    }
 }

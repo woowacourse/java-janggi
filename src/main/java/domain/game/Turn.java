@@ -12,4 +12,8 @@ public class Turn {
     public String display() {
         return team.getTeamName();
     }
+
+    public Turn changeTeam() {
+        return new Turn(team.getEnemy());
+    }
 }

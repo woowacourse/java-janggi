@@ -28,11 +28,12 @@ public class GameConsole {
 
         while (true) {
             outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
-            readPieceMovement();
+            movePiece();
+            janggiGame.nextTurn();
         }
     }
 
-    private void readPieceMovement() {
+    private void movePiece() {
         retryUntilSuccess(() -> {
             outputView.printPieceMovement(janggiGame.getTurn());
             janggiGame.move(Coordinate.toCoordinate(inputView.readMoveCommand(janggiGame.getTurn())));

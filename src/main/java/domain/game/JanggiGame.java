@@ -25,5 +25,10 @@ public class JanggiGame {
 
     public void move(Coordinate coordinate) {
         this.board = board.move(coordinate);
+
+    }
+
+    public void nextTurn() {
+        this.turn = turn.changeTeam();
     }
 }
