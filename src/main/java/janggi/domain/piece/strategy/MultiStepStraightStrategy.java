@@ -26,6 +26,10 @@ public class MultiStepStraightStrategy implements MoveStrategy {
         if (sum != rowDiff && sum != colDiff) {
             throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
+
+        if (rowDiff == 0 && colDiff == 0) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+        }
     }
 
     private List<Position> createRowPath(Position from, int rowDiff) {

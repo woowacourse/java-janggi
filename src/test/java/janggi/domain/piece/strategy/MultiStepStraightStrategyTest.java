@@ -87,4 +87,11 @@ public class MultiStepStraightStrategyTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
     }
+
+    @Test
+    void 차와_포는_제자리_이동_시_예외가_발생한다1() {
+        assertThatThrownBy(() -> strategy.findPath(new Position(0, 0), new Position(0, 0), Camp.CHO))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+    }
 }
