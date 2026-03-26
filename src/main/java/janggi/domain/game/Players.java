@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.game;
 
 import janggi.dto.PlayerDTO;
 import java.util.Set;

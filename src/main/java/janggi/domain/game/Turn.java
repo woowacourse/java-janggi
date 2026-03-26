@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.game;
 
 public class Turn {
     private Side current;

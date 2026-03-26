@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.route;
 
+import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

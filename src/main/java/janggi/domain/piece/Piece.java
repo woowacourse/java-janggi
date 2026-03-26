@@ -1,5 +1,8 @@
-package janggi.domain;
+package janggi.domain.piece;
 
+import janggi.domain.board.Position;
+import janggi.domain.game.Side;
+import janggi.domain.route.Paths;
 import java.util.List;
 import java.util.Map;
 

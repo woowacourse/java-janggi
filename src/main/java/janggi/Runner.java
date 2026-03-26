@@ -1,9 +1,9 @@
 package janggi;
 
-import janggi.domain.Board;
-import janggi.domain.Players;
-import janggi.domain.Position;
-import janggi.domain.Side;
+import janggi.domain.board.Board;
+import janggi.domain.game.Players;
+import janggi.domain.board.Position;
+import janggi.domain.game.Side;
 import janggi.dto.BoardDTO;
 import janggi.dto.PlayerDTO;
 import janggi.view.InputView;

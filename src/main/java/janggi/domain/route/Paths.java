@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.route;
 
 import java.util.ArrayList;
 import java.util.Iterator;

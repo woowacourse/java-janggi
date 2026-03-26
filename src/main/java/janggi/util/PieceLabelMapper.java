@@ -1,8 +1,8 @@
 package janggi.util;
 
-import janggi.domain.PieceType;
-import janggi.domain.PieceVO;
-import janggi.domain.Side;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.PieceVO;
+import janggi.domain.game.Side;
 import java.util.Map;
 
 public class PieceLabelMapper {

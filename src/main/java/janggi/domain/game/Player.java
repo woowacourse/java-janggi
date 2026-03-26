@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.game;
 
+import janggi.domain.piece.PieceVO;
 import janggi.dto.PlayerDTO;
 
 public class Player {

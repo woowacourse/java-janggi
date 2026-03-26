@@ -1,5 +1,8 @@
-package janggi.domain;
+package janggi.domain.piece;
 
+import janggi.domain.board.Direction;
+import janggi.domain.board.Position;
+import janggi.domain.route.Paths;
 import janggi.domain.strategy.CannonMoveStrategy;
 import janggi.domain.strategy.ElephantMoveStrategy;
 import janggi.domain.strategy.HorseMoveStrategy;

@@ -1,9 +1,9 @@
 package janggi.domain.strategy;
 
-import janggi.domain.Direction;
-import janggi.domain.Paths;
-import janggi.domain.PieceVO;
-import janggi.domain.Position;
+import janggi.domain.board.Direction;
+import janggi.domain.route.Paths;
+import janggi.domain.piece.PieceVO;
+import janggi.domain.board.Position;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;

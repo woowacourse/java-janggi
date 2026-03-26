@@ -2,6 +2,12 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.Position;
+import janggi.domain.game.Side;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.PieceVO;
+import janggi.domain.route.Path;
+import janggi.domain.route.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

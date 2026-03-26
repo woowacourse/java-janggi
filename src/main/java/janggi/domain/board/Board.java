@@ -1,5 +1,11 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.route.Path;
+import janggi.domain.route.Paths;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.PieceVO;
+import janggi.domain.game.Side;
 import janggi.dto.PlayerDTO;
 import java.util.Collections;
 import java.util.HashMap;

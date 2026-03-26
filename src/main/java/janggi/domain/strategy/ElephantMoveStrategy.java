@@ -1,10 +1,10 @@
 package janggi.domain.strategy;
 
-import janggi.domain.Direction;
-import janggi.domain.Path;
-import janggi.domain.Paths;
-import janggi.domain.PieceVO;
-import janggi.domain.Position;
+import janggi.domain.board.Direction;
+import janggi.domain.route.Path;
+import janggi.domain.route.Paths;
+import janggi.domain.piece.PieceVO;
+import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
