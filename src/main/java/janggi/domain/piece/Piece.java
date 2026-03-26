@@ -24,6 +24,10 @@ public abstract class Piece {
         return piece.team.equals(this.team);
     }
 
+    protected boolean isHan() {
+        return team == Team.HAN;
+    }
+
     abstract public boolean canMove(Position from, Position to);
 
     abstract public List<Position> findPath(Position from, Position to);
