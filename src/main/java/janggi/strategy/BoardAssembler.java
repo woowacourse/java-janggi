@@ -4,7 +4,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Gung;
-import janggi.domain.piece.Jol;
+import janggi.domain.piece.Jolbyeong;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Po;
@@ -78,7 +78,7 @@ public class BoardAssembler {
         SA(0, List.of(3, 5), Sa::new),
         GUNG(1, List.of(4), Gung::new),
         PO(2, List.of(1, 7), Po::new),
-        JOL(3, List.of(0, 2, 4, 6, 8), Jol::new);
+        JOL(3, List.of(0, 2, 4, 6, 8), Jolbyeong::new);
 
         private final int row;
         private final List<Integer> cols;
