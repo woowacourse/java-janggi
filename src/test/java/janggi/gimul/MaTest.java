@@ -3,10 +3,10 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.Column;
-import janggi.Path;
-import janggi.Position;
-import janggi.Row;
+import janggi.position.Column;
+import janggi.position.PositionPath;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +22,10 @@ class MaTest {
         Ma ma = new Ma(Team.CHO);
 
         //when
-        Path path = ma.getLegalPath(from, to);
+        PositionPath positionPath = ma.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.FIVE, Column.SIX));
     }
 

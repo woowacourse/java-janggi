@@ -3,10 +3,10 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.Column;
-import janggi.Path;
-import janggi.Position;
-import janggi.Row;
+import janggi.position.Column;
+import janggi.position.PositionPath;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -36,10 +36,10 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SIX, Column.FIVE));
     }
 
@@ -52,10 +52,10 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.EIGHT, Column.FIVE));
     }
 
@@ -69,10 +69,10 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SEVEN, Column.SIX));
     }
 
@@ -85,10 +85,10 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        Path path = jang.getLegalPath(from, to);
+        PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
     }
 

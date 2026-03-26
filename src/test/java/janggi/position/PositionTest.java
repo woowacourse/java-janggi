@@ -1,4 +1,4 @@
-package janggi;
+package janggi.position;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -83,8 +83,8 @@ class PositionTest {
         Position from = new Position(Row.SIX, Column.THREE);
 
         //when & then
-        Path path = from.moveHorizontal(3);
-        assertThat(path.getDestination()).isEqualTo(new Position(Row.SIX, Column.SIX));
+        PositionPath positionPath = from.moveHorizontal(3);
+        assertThat(positionPath.getDestination()).isEqualTo(new Position(Row.SIX, Column.SIX));
     }
 
     @DisplayName("다른 위치가 들어올때 수직 이동 경로를 반환한다.")
@@ -94,7 +94,7 @@ class PositionTest {
         Position from = new Position(Row.SIX, Column.THREE);
 
         //when & then
-        Path path = from.moveVertical(3);
-        assertThat(path.getDestination()).isEqualTo(new Position(Row.NINE, Column.THREE));
+        PositionPath positionPath = from.moveVertical(3);
+        assertThat(positionPath.getDestination()).isEqualTo(new Position(Row.NINE, Column.THREE));
     }
 }

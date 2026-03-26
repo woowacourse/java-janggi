@@ -1,4 +1,4 @@
-package janggi;
+package janggi.position;
 
 import java.util.Arrays;
 import java.util.List;
