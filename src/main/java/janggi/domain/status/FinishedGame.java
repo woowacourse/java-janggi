@@ -23,6 +23,6 @@ public class FinishedGame implements GameStatus {
 
     @Override
     public GameStatus move(Point from, Point to, Board board) {
-        throw new RuntimeException("게임이 종료되었습니다.\n 승자는 "+ winner.name());
+        throw new RuntimeException("[ERROR] 이미 게임이 종료되었습니다.\n 승자는 "+ winner.name());
     }
 }

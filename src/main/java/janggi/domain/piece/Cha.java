@@ -28,7 +28,7 @@ public class Cha implements Piece {
         int pathY = to.getY() - from.getY();
 
         if (pathY != 0 && pathX != 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
 
         int signX = Integer.compare(pathX, 0);

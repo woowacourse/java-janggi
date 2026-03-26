@@ -33,7 +33,7 @@ public class Ma implements Piece {
 
         if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN) ||
                 (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
         if (distanceX == DISTANCE_MAX) {
             return List.of(Point.of(from.getX() + (pathX / DISTANCE_MAX), from.getY()));

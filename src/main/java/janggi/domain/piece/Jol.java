@@ -33,10 +33,10 @@ public class Jol implements Piece {
         int distanceY = abs(pathY);
 
         if (distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX + distanceY > MAX_DISTANCE)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
         if ((team.equals(Team.CHO) && signY < 0) || (team.equals(Team.HAN) && signY > 0)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
         return List.of(to);
     }

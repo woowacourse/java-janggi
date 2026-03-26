@@ -11,10 +11,10 @@ public record PositionInfo(
         Point point
 ) {
     public static PositionInfo from(List<String> data) {
-        int x = Integer.parseInt(data.get(2));
-        int y = Integer.parseInt(data.get(3));
         Team team = team(data.get(0));
         String pieceName = data.get(1);
+        int x = Integer.parseInt(data.get(2));
+        int y = Integer.parseInt(data.get(3));
         return new PositionInfo(
                 PieceType.createPiece(team, PieceType.valueOf(pieceName)),
                 Point.of(x, y)

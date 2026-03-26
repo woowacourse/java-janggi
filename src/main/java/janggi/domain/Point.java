@@ -30,7 +30,7 @@ public class Point {
 
     public static Point of(int x, int y) {
         if (x < 0 || x >= ROW_RANGE || y < 0 || y >= COLUMN_RANGE) {
-            throw new IllegalArgumentException("장기판 범위를 벗어났습니다.");
+            throw new IllegalArgumentException("[ERROR] 장기판 범위를 벗어났습니다.");
         }
         return CACHE.get(y).get(x);
     }

@@ -31,7 +31,7 @@ public class Sa implements Piece {
         int distanceY = abs(pathY);
 
         if ( distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX == 0 && distanceY == 0)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
         return List.of(to);
     }
