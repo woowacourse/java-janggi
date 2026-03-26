@@ -50,6 +50,6 @@ public class Chariot implements Piece {
 
     @Override
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
-        return List.of();
+        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
 }

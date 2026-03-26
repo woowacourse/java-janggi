@@ -55,10 +55,10 @@ public class ChariotTest {
         @DisplayName("차는 적군을 뛰어넘어 갈 수 없다.")
         void test1() {
             positionPieceMap.put(Position.valueOf(5, 3), chariot);
-            positionPieceMap.put(Position.valueOf(5, 1), ally1);
-            positionPieceMap.put(Position.valueOf(3, 3), ally2);
-            positionPieceMap.put(Position.valueOf(5, 6), ally3);
-            positionPieceMap.put(Position.valueOf(7, 3), ally4);
+            positionPieceMap.put(Position.valueOf(5, 1), enemy1);
+            positionPieceMap.put(Position.valueOf(3, 3), enemy2);
+            positionPieceMap.put(Position.valueOf(5, 6), enemy3);
+            positionPieceMap.put(Position.valueOf(7, 3), enemy4);
             List<Position> expected = List.of(Position.valueOf(3, 3), Position.valueOf(4, 3), Position.valueOf(5, 1),
                     Position.valueOf(5, 2), Position.valueOf(5, 4),
                     Position.valueOf(5, 5), Position.valueOf(5, 6),

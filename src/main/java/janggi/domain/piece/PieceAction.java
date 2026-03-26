@@ -13,7 +13,7 @@ public class PieceAction {
         this.rules = rules;
     }
 
-    public List<Position> calculateMovablePositions(BoardMediator boardMediator, Position from) {
+    public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
         return rules.stream()
                 .map(rule -> rule.execute(from, boardMediator))
                 .flatMap(Collection::stream)
