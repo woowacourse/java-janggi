@@ -20,12 +20,16 @@ public abstract class Piece {
         if (!(o instanceof Piece piece)) {
             return false;
         }
-        return side == piece.side;
+        if (side != piece.side) {
+            return false;
+        }
+
+        return this.getClass().equals(piece.getClass());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(side);
+        return Objects.hash(side, this.getClass());
     }
 
     @Override
