@@ -34,12 +34,6 @@ public class JanggiController {
         board.putAll(hanBoard);
 
         outputView.printBoard(board);
-
-
-
-
-
-
     }
 
     private Map<Position, Piece> initialBoard(int input,Team team) {
