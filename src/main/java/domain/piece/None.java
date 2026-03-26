@@ -1,9 +1,9 @@
 package domain.piece;
 
+import domain.Team;
 import domain.strategy.MoveStrategy;
 import domain.PieceProperty;
 import domain.PieceType;
-import domain.Team;
 
 public class None extends Piece {
 

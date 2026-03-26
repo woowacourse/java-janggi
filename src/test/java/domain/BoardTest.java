@@ -1,9 +1,12 @@
 package domain;
 
 import domain.piece.Horse;
+import domain.piece.None;
 import domain.piece.Piece;
 import domain.strategy.HorseMoveStrategy;
+import domain.strategy.NoneMoveableStrategy;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -27,4 +30,26 @@ class BoardTest {
         Assertions.assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
     }
 
+    @Test
+    @DisplayName("플레이어가 선택한 기물을 이동시키면, 기물이 있던 자리는 빈 칸이 된다.")
+    void board_move_piece_test() {
+        Map<Position, Piece> testBoard = new HashMap<>();
+
+        Position selectPosition = Position.of(3, 3);
+        Position targetPosition = Position.of(5, 2);
+
+        Piece select = new Horse(Team.GREEN, HorseMoveStrategy.of(selectPosition));
+        Piece target = new Horse(Team.RED, HorseMoveStrategy.of(targetPosition));
+
+        testBoard.put(select.position(), select);
+        testBoard.put(target.position(), target);
+
+        Board board = Board.of(testBoard);
+
+        board.movePiece(selectPosition, targetPosition);
+
+        Assertions.assertThat(board.greenPieces()).hasSize(1);
+        Assertions.assertThat(board.redPieces()).hasSize(0);
+        Assertions.assertThat(board.nonePieces()).hasSize(1);
+    }
 }

@@ -1,6 +1,8 @@
 package domain;
 
+import domain.piece.None;
 import domain.piece.Piece;
+import domain.strategy.NoneMoveableStrategy;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,13 @@ public class Board {
 
     public static Board of(Map<Position, Piece> board) {
         return new Board(board);
+    }
+
+    public void movePiece(Position piecePosition, Position targetPosition) {
+        Piece piece = board.get(piecePosition);
+
+        board.replace(targetPosition, piece);
+        board.replace(piecePosition, new None(Team.NONE, new NoneMoveableStrategy(piecePosition)));
     }
 
     public boolean isMoveable(Position piecePosition, Position targetPosition) {
@@ -40,7 +49,6 @@ public class Board {
             return board.get(targetPosition).isGreenTeam();
         }
         return false;
-
     }
 
     private List<Position> findSameTeamPositions(Piece piece) {
@@ -60,6 +68,12 @@ public class Board {
 
     public List<Piece> redPieces() {
         return board.values().stream().filter(Piece::isRedTeam)
+                .toList();
+    }
+
+    public List<Piece> nonePieces() {
+        return board.values().stream()
+                .filter(Piece::isNoneTeam)
                 .toList();
     }
 

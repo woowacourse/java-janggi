@@ -38,6 +38,10 @@ public abstract class Piece {
         return this.pieceProperty.team().equals(Team.RED);
     }
 
+    public boolean isNoneTeam() {
+        return this.pieceProperty.team().equals(Team.NONE);
+    }
+
     public Position position() {
         return moveStrategy.position();
     }
