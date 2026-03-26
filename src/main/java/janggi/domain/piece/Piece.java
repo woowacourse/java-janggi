@@ -8,9 +8,11 @@ import java.util.List;
 public abstract class Piece implements Space {
 
     private final Team team;
+    private final PieceType pieceType;
 
-    public Piece(Team team) {
+    public Piece(Team team, PieceType pieceType) {
         this.team = team;
+        this.pieceType = pieceType;
     }
 
     public abstract void validateMove(Position from, Position to);
@@ -43,5 +45,9 @@ public abstract class Piece implements Space {
     @Override
     public boolean isBlank() {
         return false;
+    }
+
+    public boolean isSameType(Piece piece) {
+        return this.pieceType == piece.pieceType;
     }
 }
