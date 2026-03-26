@@ -6,9 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TurnManagerTest {
 
+    TurnManager turnManager;
+
     @BeforeEach
     public void setUp(){
-        TurnManager turnManager = new TurnManager();
+        turnManager = new TurnManager();
     }
 
     @Test
