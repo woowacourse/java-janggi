@@ -6,6 +6,8 @@ import domain.vo.Position;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
+    private static final int CANNON_REQUIRED_PIECE_COUNT = 1;
+
     @Override
     public boolean canMove(Position from, Position to, Board board) {
         if (isNotCorrectPath(from, to)) 
@@ -33,7 +35,7 @@ public class CannonMoveStrategy implements MoveStrategy {
                 pieceCount += 1;
             }
 
-            if (pieceCount > 1) {
+            if (pieceCount > CANNON_REQUIRED_PIECE_COUNT) {
                 return false;
             }
         }
@@ -42,7 +44,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     private boolean isCannonValidTarget(Position from, Position to, Board board, int pieceCount) {
         if (!isCannon(board, to.getRow(), to.getCol())
                 && board.isAnotherTeam(from, to)
-                && pieceCount == 1) {
+                && pieceCount == CANNON_REQUIRED_PIECE_COUNT) {
             return true;
         }
         return false;
