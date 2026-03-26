@@ -37,9 +37,6 @@ class BoardTest {
         // when
         List<List<String>> result = board.getFormatBoard();
 
-        StringBuilder target = new StringBuilder();
-        result.forEach(list -> list.forEach(target::append));
-
         // then
         assertThat(result.size()).isEqualTo(10);
         for (List<String> row : result) {
