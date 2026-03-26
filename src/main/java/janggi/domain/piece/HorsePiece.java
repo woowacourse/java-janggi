@@ -88,6 +88,6 @@ public class HorsePiece extends Piece {
                 return !isSameTeam(positionPieces.get(position));
             }
         }
-        return false;
+        return true;
     }
 }

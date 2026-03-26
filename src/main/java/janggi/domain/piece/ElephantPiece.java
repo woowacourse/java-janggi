@@ -96,6 +96,6 @@ public class ElephantPiece extends Piece {
                 return !isSameTeam(positionPieces.get(position));
             }
         }
-        return false;
+        return true;
     }
 }
