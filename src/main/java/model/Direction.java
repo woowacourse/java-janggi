@@ -10,11 +10,19 @@ public enum Direction {
     DOWN_LEFT(1, -1),
     DOWN_RIGHT(1, 1);
 
-    private final int row;
-    private final int col;
+    private final int rowOffset;
+    private final int colOffset;
 
-    Direction(int row, int col) {
-        this.row = row;
-        this.col = col;
+    Direction(int rowOffset, int colOffset) {
+        this.rowOffset = rowOffset;
+        this.colOffset = colOffset;
+    }
+
+    public int moveRow(int x) {
+        return x + this.rowOffset;
+    }
+
+    public int moveCol(int y) {
+        return y + this.colOffset;
     }
 }

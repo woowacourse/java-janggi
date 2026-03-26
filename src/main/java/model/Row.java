@@ -50,6 +50,10 @@ public class Row {
         return HAN_EDGE;
     }
 
+    public int move(Direction direction) {
+        return direction.moveRow(value);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

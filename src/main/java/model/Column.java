@@ -16,6 +16,10 @@ public class Column {
         return new Column(value);
     }
 
+    public Column move(Direction direction) {
+        return Column.from(direction.moveCol(value));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
