@@ -42,6 +42,8 @@ public class Board implements BoardView {
     }
 
     public void move(Position from, Position to, Side side) {
+        validateNotSamePosition(from, to);
+
         Place place = board.get(from);
         validateSourcePiece(place, side);
 
@@ -50,6 +52,12 @@ public class Board implements BoardView {
         }
 
         change(from, to);
+    }
+
+    private void validateNotSamePosition(Position from, Position to){
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("[ERROR] 같은 위치로는 이동할 수 없습니다.");
+        }
     }
 
     private void validateSourcePiece(Place place, Side side) {
@@ -89,6 +97,9 @@ public class Board implements BoardView {
         }
 
         Place fromPlace = board.get(from);
+        if (fromPlace.isEmpty()) {
+            return false;
+        }
         Side fromSide = fromPlace.getSide();
         return toPlace.isSameSide(fromSide);
     }
