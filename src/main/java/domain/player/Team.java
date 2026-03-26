@@ -1,8 +1,8 @@
 package domain.player;
 
 public enum Team {
-    CHO(0),
-    HAN(9),
+    CHO(9),
+    HAN(0),
     NULL(-1);
 
     private final int column;
