@@ -16,4 +16,12 @@ public abstract class PieceImpl implements Piece {
     public final boolean isCho() {
         return side.isCho();
     }
+
+    @Override
+    public final boolean isSameSide(Piece destinationPiece) {
+        if (isHan() && destinationPiece.isHan()) {
+            return true;
+        }
+        return isCho() && destinationPiece.isCho();
+    }
 }

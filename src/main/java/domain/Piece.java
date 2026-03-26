@@ -8,4 +8,8 @@ public interface Piece {
     boolean isCho();
 
     boolean isMovable(Map<Position, Piece> pieces, Position departure, Position destination);
+
+    boolean isSameSide(Piece destinationPiece);
+
+    boolean isPo();
 }
