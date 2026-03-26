@@ -31,8 +31,16 @@ public class InputView {
     public PositionDto readPieceWantToMove(DynastyDto dynastyDto) {
         System.out.printf("현재 턴은 %s입니다.\n", dynastyDto.dynastyName());
         System.out.println("움직이고 싶은 기물을 선택해주세요.(좌표로 입력해주세요. 예시: 1, 3)");
-        String input = scanner.nextLine();
+        return readPosition();
+    }
 
+    public PositionDto readPositionToMove() {
+        System.out.println("움직이고 싶은 위치를 선택해주세요.(좌표로 입력해주세요)");
+        return readPosition();
+    }
+
+    private PositionDto readPosition() {
+        String input = scanner.nextLine();
         List<Integer> position = Arrays.stream(input.split(",", 2))
                 .map(str -> {
                     try {
@@ -45,5 +53,4 @@ public class InputView {
 
         return PositionDto.from(position);
     }
-
 }

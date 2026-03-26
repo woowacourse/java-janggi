@@ -1,10 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.dynasty.Dynasty;
-import janggi.domain.piece.ElephantMoveStrategy;
-import janggi.domain.piece.HorseMoveStrategy;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +14,7 @@ import static janggi.domain.piece.PieceType.HORSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class BoardDesignPolicyTest {
+class DefaultBoardDesignPolicyTest {
 
     @ParameterizedTest
     @EnumSource(HorseElephantPosition.class)
@@ -28,10 +25,10 @@ class BoardDesignPolicyTest {
                 Dynasty.CHO, horseElephantPosition,
                 Dynasty.HAN, horseElephantPosition
         );
-        BoardDesignPolicy boardDesignPolicy = new BoardDesignPolicy(horseElephantPositionMap);
+        DefaultBoardDesignPolicy defaultBoardDesignPolicy = new DefaultBoardDesignPolicy(horseElephantPositionMap);
 
         // when
-        Map<Position, Piece> board = boardDesignPolicy.initBoard();
+        Map<Position, Piece> board = defaultBoardDesignPolicy.initBoard();
 
         // then
         assertThat(board).hasSize(32);

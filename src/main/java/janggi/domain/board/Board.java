@@ -29,4 +29,13 @@ public class Board {
         return piece.canMovePosition(board, from);
     }
 
+    public void movePiece(Position from, Position to, Dynasty currentTurn) {
+        List<Position> positions = canMovePosition(from, currentTurn);
+        if(!positions.contains(to)) {
+            throw new IllegalArgumentException("해당 위치에 해당 기물을 옮길 수 없습니다.");
+        }
+
+        Piece fromPiece = board.remove(from);
+        board.put(to, fromPiece);
+    }
 }

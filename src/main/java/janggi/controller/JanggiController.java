@@ -37,12 +37,18 @@ public class JanggiController {
         outputView.printBoard(BoardDto.from(game.boardMap()));
 
         // 움직이고 싶은 기물의 좌표 입력 받기
-        PositionDto positionDto = inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty()));
-        Position from = Position.from(positionDto.row(), positionDto.column());
+        PositionDto fromDto = inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty()));
+        Position from = Position.from(fromDto.row(), fromDto.column());
 
         // 움직이고 싶은 기물이 이동할 수 있는 곳 찾기
         List<Position> positions = game.canMovePosition(from);
         outputView.printCanMovePositions(PositionDto.fromPositions(positions));
+
+        // 움직일 곳 입력 받기
+        PositionDto toDto = inputView.readPositionToMove();
+        Position to = Position.from(toDto.row(), toDto.column());
+
+        game.movePiece(from, to);
     }
 
 }

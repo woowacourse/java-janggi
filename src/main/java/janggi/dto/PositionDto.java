@@ -18,8 +18,4 @@ public record PositionDto(
                 .toList();
     }
 
-    public String get() {
-        return "(" + row + "," + column + ")";
-    }
-
 }

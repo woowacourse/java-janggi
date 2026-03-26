@@ -3,7 +3,7 @@ package janggi.domain.game;
 import static janggi.domain.dynasty.Dynasty.CHO;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardDesignPolicy;
+import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
@@ -22,7 +22,7 @@ public class Game {
     }
 
     public static Game initGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
-        BoardDesignPolicy policy = new BoardDesignPolicy(horseElephantPositions);
+        DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(horseElephantPositions);
         return new Game(new Board(policy), new CurrentTurn(CHO));
     }
 
@@ -42,4 +42,7 @@ public class Game {
         return currentTurn;
     }
 
+    public void movePiece(Position from, Position to) {
+        board.movePiece(from, to, currentTurn.currentDynasty());
+    }
 }
