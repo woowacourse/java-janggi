@@ -95,7 +95,7 @@ public class StandardBoardInitializerTest {
     private void putPieces(Map<Position, Piece> board, PieceRule pieceRule, Camp camp,
                            Position... positions) {
         for (Position position : positions) {
-            board.put(position, new Piece(pieceRule, camp, null));
+            board.put(position, new Piece(pieceRule, camp));
         }
     }
 

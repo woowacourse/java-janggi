@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Position;
-import janggi.domain.piece.strategy.MoveStrategy;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +9,7 @@ public class Piece {
     private final PieceRule pieceRule;
     private final Camp camp;
 
-    public Piece(PieceRule pieceRule, Camp camp, MoveStrategy moveStrategy) {
+    public Piece(PieceRule pieceRule, Camp camp) {
         this.pieceRule = pieceRule;
         this.camp = camp;
     }
