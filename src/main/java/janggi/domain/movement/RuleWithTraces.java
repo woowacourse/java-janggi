@@ -20,12 +20,12 @@ public class RuleWithTraces implements Rule {
         final List<Movement> movementOrderWithoutLast = getMovementOrderWithoutLast();
         final Movement lastMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
-        for (final Movement movement: movementOrderWithoutLast) {
-            traces.addAll(movement.calculateTraces(from, piece));
-            traces.add(movement.calculateDestination(from, piece));
+        for (final Movement movement : movementOrderWithoutLast) {
+            traces.addAll(movement.calculateTraces(from, piece, boardMediator));
+            traces.add(movement.calculateDestination(from, piece, boardMediator));
             from = traces.getLast();
         }
-        traces.addAll(lastMovement.calculateTraces(from, piece));
+        traces.addAll(lastMovement.calculateTraces(from, piece, boardMediator));
         return traces;
     }
 

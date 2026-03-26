@@ -1,11 +1,31 @@
 package janggi.domain.piece;
 
+import static janggi.domain.Position.MAXIMUM_COLUMN;
+import static janggi.domain.Position.MAXIMUM_ROW;
+
 import janggi.domain.PieceType;
+import janggi.domain.Position;
+import janggi.domain.board.BoardMediator;
+import janggi.domain.movement.Direction;
+import janggi.domain.movement.Movement;
+import janggi.domain.movement.Rule;
+import janggi.domain.movement.RuleWithTraces;
 import janggi.domain.team.TeamType;
+import java.util.List;
 
 public class Chariot implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.CHARIOT;
+    private static final PieceAction PIECE_ACTION;
+
+    static {
+        final List<Rule> rules = List.of(
+                new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(1, 0)))),
+                new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(-1, 0)))),
+                new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, 1)))),
+                new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, -1)))));
+        PIECE_ACTION = new PieceAction(rules);
+    }
 
     private final TeamType teamType;
 
@@ -28,4 +48,8 @@ public class Chariot implements Piece {
         return this.teamType == teamType;
     }
 
+    @Override
+    public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
+        return List.of();
+    }
 }

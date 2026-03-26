@@ -7,17 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movement {
-    private final BoardMediator boardMediator;
     private final int maxDistance;
     private final Direction direction;
 
-    public Movement(int maxDistance, Direction direction, BoardMediator boardMediator) {
+    public Movement(int maxDistance, Direction direction) {
         this.maxDistance = maxDistance;
         this.direction = direction;
-        this.boardMediator = boardMediator;
     }
 
-    public boolean canReach(final Position from) {
+    public boolean canReach(final Position from, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
@@ -27,7 +25,7 @@ public class Movement {
         return true;
     }
 
-    public Position calculateDestination(final Position from, final Piece piece) {
+    public Position calculateDestination(final Position from, final Piece piece, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
@@ -41,7 +39,7 @@ public class Movement {
         return from.calculateNext(maxDistance, direction);
     }
 
-    public List<Position> calculateTraces(final Position from, final Piece piece) {
+    public List<Position> calculateTraces(final Position from, final Piece piece, final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);

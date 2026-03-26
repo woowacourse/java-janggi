@@ -17,10 +17,10 @@ public class RuleWithNoTraces implements Rule {
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
         for (final Movement movement : movementOrder) {
-            if (!movement.canReach(from)) {
+            if (!movement.canReach(from, boardMediator)) {
                 return List.of();
             }
-            from = movement.calculateDestination(from, piece);
+            from = movement.calculateDestination(from, piece, boardMediator);
         }
 
         return List.of(from);

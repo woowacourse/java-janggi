@@ -1,7 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.PieceType;
+import janggi.domain.Position;
+import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
+import java.util.List;
 
 public class Elephant implements Piece {
 
@@ -26,5 +29,10 @@ public class Elephant implements Piece {
     @Override
     public boolean belongsToTeam(final TeamType teamType) {
         return this.teamType == teamType;
+    }
+
+    @Override
+    public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
+        return List.of();
     }
 }

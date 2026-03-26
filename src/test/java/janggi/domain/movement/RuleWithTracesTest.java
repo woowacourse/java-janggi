@@ -25,15 +25,15 @@ public class RuleWithTracesTest {
     @DisplayName("이동 가능한 자취 경로 계산 테스트")
     public void execute() {
         Map<Position, Piece> positionPieceMap = Map.of(
-            Position.valueOf(5, 3), new Chariot(TeamType.RED),
-            Position.valueOf(8, 3), new Elephant(TeamType.BLUE));
+                Position.valueOf(5, 3), new Chariot(TeamType.RED),
+                Position.valueOf(8, 3), new Elephant(TeamType.BLUE));
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         Direction direction = Direction.valueOf(1, 0);
         Rule ruleWithTraces = new RuleWithTraces(
-            List.of(new Movement(MAXIMUM_ROW, direction, boardMediator)));
+                List.of(new Movement(MAXIMUM_ROW, direction)));
         List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),
-            Position.valueOf(8, 3));
+                Position.valueOf(8, 3));
 
         List<Position> actual = ruleWithTraces.execute(Position.valueOf(5, 3), boardMediator);
 

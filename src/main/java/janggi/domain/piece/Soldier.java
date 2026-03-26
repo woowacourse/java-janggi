@@ -1,7 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.PieceType;
+import janggi.domain.Position;
+import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
+import java.util.List;
 
 public class Soldier implements Piece {
 
@@ -27,4 +30,8 @@ public class Soldier implements Piece {
         return this.teamType == teamType;
     }
 
+    @Override
+    public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
+        return List.of();
+    }
 }

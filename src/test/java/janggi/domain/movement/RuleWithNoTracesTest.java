@@ -20,12 +20,12 @@ public class RuleWithNoTracesTest {
     @DisplayName("이동 가능한 목적지 계산 테스트")
     public void execute() {
         Map<Position, Piece> positionPieceMap = Map.of(
-            Position.valueOf(5, 3), new Elephant(TeamType.RED));
+                Position.valueOf(5, 3), new Elephant(TeamType.RED));
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         List<Movement> movementOrder = List.of(
-            new Movement(1, Direction.valueOf(0, 1), boardMediator),
-            new Movement(2, Direction.valueOf(-1, 1), boardMediator));
+                new Movement(1, Direction.valueOf(0, 1)),
+                new Movement(2, Direction.valueOf(-1, 1)));
         Rule ruleWithNoTraces = new RuleWithNoTraces(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 
