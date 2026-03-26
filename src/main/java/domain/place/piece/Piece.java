@@ -18,7 +18,7 @@ public abstract class Piece implements Place {
 
     @Override
     public String getFormat() {
-        return side.getName() + getSymbol().display();
+        return side.colorize(getSymbol().display());
     }
 
     @Override
