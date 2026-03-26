@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class JanggiBoard {
@@ -14,6 +15,10 @@ public class JanggiBoard {
         this.janggiBoard = janggiBoard;
         initializeBoard();
         setupInitialPieces();
+    }
+
+    public Map<Position, Piece> getJanggiBoard() {
+        return Collections.unmodifiableMap(janggiBoard);
     }
 
     private void initializeBoard() {

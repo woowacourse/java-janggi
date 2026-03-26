@@ -10,6 +10,10 @@ public abstract class Piece {
         this.team = team;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     public void canMove(Position targetPosition) {
         // moveStrategy.movable();
     }
