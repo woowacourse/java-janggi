@@ -25,7 +25,7 @@ public class Ma extends PieceImpl {
             departure.moveRight().moveRightUp(),
             departure.moveRight().moveRightDown());
         if (!movableDestinations.contains(destination)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("마의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
     }
 

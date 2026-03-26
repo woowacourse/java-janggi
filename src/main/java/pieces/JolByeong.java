@@ -20,7 +20,7 @@ public class JolByeong extends PieceImpl {
             departure.moveLeft(),
             departure.moveRight());
         if (!movableDestinations.contains(destination)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("졸병의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
     }
 

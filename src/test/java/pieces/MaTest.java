@@ -19,7 +19,7 @@ class MaTest {
     @DisplayName("마의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
     class CanMove {
         @Test
-        void 위_한_칸_우상향_한_칸_이동할_수_있다() {
+        void 상_1칸_우상향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -30,7 +30,7 @@ class MaTest {
         }
 
         @Test
-        void 위_한_칸_좌상향_한_칸_이동할_수_있다() {
+        void 상_1칸_좌상향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -41,7 +41,7 @@ class MaTest {
         }
 
         @Test
-        void 아래_한_칸_우하향_한_칸_이동할_수_있다() {
+        void 하_1칸_우하향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -52,7 +52,7 @@ class MaTest {
         }
 
         @Test
-        void 아래_한_칸_좌하향_한_칸_이동할_수_있다() {
+        void 하_1칸_좌하향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -63,7 +63,7 @@ class MaTest {
         }
 
         @Test
-        void 좌_한_칸_좌상향_한_칸_이동할_수_있다() {
+        void 좌_1칸_좌상향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -74,7 +74,7 @@ class MaTest {
         }
 
         @Test
-        void 좌_한_칸_좌하향_한_칸_이동할_수_있다() {
+        void 좌_1칸_좌하향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -85,7 +85,7 @@ class MaTest {
         }
 
         @Test
-        void 우_한_칸_우상향_한_칸_이동할_수_있다() {
+        void 우_1칸_우상향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -96,7 +96,7 @@ class MaTest {
         }
 
         @Test
-        void 우_한_칸_우하향_한_칸_이동할_수_있다() {
+        void 우_1칸_우하향_1칸_이동할_수_있다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -107,7 +107,7 @@ class MaTest {
         }
 
         @Test
-        void 두_칸_위쪽이_도착지인_경우_예외를_던진다() {
+        void 상_2칸이_도착지인_경우_예외를_던진다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -118,11 +118,11 @@ class MaTest {
         }
 
         @Test
-        void 대각선이_도착지인_경우_예외를_던진다() {
+        void 우상향이_도착지인_경우_예외를_던진다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
-            Position destination = departure.moveUp().moveRight();
+            Position destination = departure.moveRightUp();
             // when & then
             assertThatThrownBy(() -> ma.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -133,7 +133,7 @@ class MaTest {
     @DisplayName("마의 이동 경로를 검증한다")
     class PathPosition {
         @Test
-        void 출발지와_도착지_사이에는_한_칸의_이동_경로만_존재한다() {
+        void 출발지와_도착지_사이에는_1칸의_이동_경로만_존재한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -145,7 +145,7 @@ class MaTest {
         }
 
         @Test
-        void 위_한_칸_우상향_한_칸이_도착지인_경우_위_한_칸_포지션을_반환한다() {
+        void 상_1칸_우상향_1칸이_도착지인_경우_상_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -158,7 +158,7 @@ class MaTest {
         }
 
         @Test
-        void 위_한_칸_좌상향_한_칸이_도착지인_경우_위_한_칸_포지션을_반환한다() {
+        void 상_1칸_좌상향_1칸이_도착지인_경우_상_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -171,7 +171,7 @@ class MaTest {
         }
 
         @Test
-        void 아래_한_칸_우하향_한_칸이_도착지인_경우_아래_한_칸_포지션을_반환한다() {
+        void 하_1칸_우하향_1칸이_도착지인_경우_하_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -184,7 +184,7 @@ class MaTest {
         }
 
         @Test
-        void 아래_한_칸_좌하향_한_칸이_도착지인_경우_아래_한_칸_포지션을_반환한다() {
+        void 하_1칸_좌하향_1칸이_도착지인_경우_하_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -197,7 +197,7 @@ class MaTest {
         }
 
         @Test
-        void 좌_한_칸_좌상향_한_칸이_도착지인_경우_왼쪽_한_칸_포지션을_반환한다() {
+        void 좌_1칸_좌상향_1칸이_도착지인_경우_화_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -210,7 +210,7 @@ class MaTest {
         }
 
         @Test
-        void 좌_한_칸_좌하향_한_칸이_도착지인_경우_왼쪽_한_칸_포지션을_반환한다() {
+        void 좌_1칸_좌하향_1칸이_도착지인_경우_좌_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -223,7 +223,7 @@ class MaTest {
         }
 
         @Test
-        void 우_한_칸_우상향_한_칸이_도착지인_경우_오른쪽_한_칸_포지션을_반환한다() {
+        void 우_1칸_우상향_1칸이_도착지인_경우_우_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
@@ -236,7 +236,7 @@ class MaTest {
         }
 
         @Test
-        void 우_한_칸_우하향_한_칸이_도착지인_경우_오른쪽_한_칸_포지션을_반환한다() {
+        void 우_1칸_우하향_1칸이_도착지인_경우_우_1칸_포지션을_반환한다() {
             // given
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;

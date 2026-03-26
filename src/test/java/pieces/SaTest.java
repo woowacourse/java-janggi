@@ -19,7 +19,7 @@ class SaTest {
     @DisplayName("사의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
     class CanMove {
         @Test
-        void 위쪽으로_한_칸_이동할_수_있다() {
+        void 상_1칸_이동할_수_있다() {
             // given
             Piece sa = new Sa(Side.HAN);
             Position departure = DEFAULT;
@@ -30,7 +30,7 @@ class SaTest {
         }
 
         @Test
-        void 아래쪽으로_한_칸_이동할_수_있다() {
+        void 하_1칸_이동할_수_있다() {
             // given
             Piece sa = new Sa(Side.HAN);
             Position departure = DEFAULT;
@@ -41,7 +41,7 @@ class SaTest {
         }
 
         @Test
-        void 왼쪽으로_한_칸_이동할_수_있다() {
+        void 좌_1칸_이동할_수_있다() {
             // given
             Piece sa = new Sa(Side.HAN);
             Position departure = DEFAULT;
@@ -52,7 +52,7 @@ class SaTest {
         }
 
         @Test
-        void 오른쪽으로_한_칸_이동할_수_있다() {
+        void 우_1칸_이동할_수_있다() {
             // given
             Piece sa = new Sa(Side.HAN);
             Position departure = DEFAULT;
@@ -63,7 +63,7 @@ class SaTest {
         }
 
         @Test
-        void 두_칸_위쪽이_도착지인_경우_예외를_던진다() {
+        void 상_2칸이_도착지인_경우_예외를_던진다() {
             // given
             Piece sa = new Sa(Side.HAN);
             Position departure = DEFAULT;
@@ -74,11 +74,11 @@ class SaTest {
         }
 
         @Test
-        void 대각선이_도착지인_경우_예외를_던진다() {
+        void 우상향이_도착지인_경우_예외를_던진다() {
             // given
             Piece sa = new Sa(Side.HAN);
             Position departure = DEFAULT;
-            Position destination = departure.moveUp().moveRight();
+            Position destination = departure.moveRightUp();
             // when & then
             assertThatThrownBy(() -> sa.askMoveContext(departure, destination))
                     .isInstanceOf(IllegalArgumentException.class);
