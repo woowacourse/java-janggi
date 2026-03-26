@@ -51,9 +51,11 @@ class BoardTest {
     @Test
     @DisplayName("기물의 이동 규칙에 어긋나는 좌표로 이동 시 예외")
     void 규칙_위반_이동_예외_테스트() {
+        //given
         Position from = new Position(3, 1);
         Position to = new Position(7, 1);
 
+        //when & then
         assertThatThrownBy(() -> board.move(from, to, Side.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 기물이 가지 못하는 자리입니다.");
@@ -62,9 +64,11 @@ class BoardTest {
     @Test
     @DisplayName("기물 선택에서 없는 부분 예외")
     void 기물_선택_없는_부분_예외_테스트() {
+        //given
         Position from = new Position(4, 1);
         Position to = new Position(7, 1);
 
+        //when & then
         assertThatThrownBy(() -> board.move(from, to, Side.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 선택한 위치에 기물이 없습니다.");
@@ -73,9 +77,11 @@ class BoardTest {
     @Test
     @DisplayName("상대 기물 선택 예외")
     void 상대_기물_선택_예외_테스트() {
+        //given
         Position from = new Position(3, 1);
         Position to = new Position(7, 1);
 
+        //when & then
         assertThatThrownBy(() -> board.move(from, to, Side.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 본인의 기물을 선택해야 합니다.");
