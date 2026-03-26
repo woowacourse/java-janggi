@@ -22,7 +22,7 @@ class ColumnTest {
     }
 
     @Test
-    @DisplayName("column와 row가 경계값 내에 있으면 정상적으로 생성된다 (1 ≤ row ≤ 9, 1 ≤ column ≤ 10)")
+    @DisplayName("column와 row가 경계값 내에 있으면 정상적으로 생성된다 (1 ≤ row ≤ 10, 1 ≤ column ≤ 9)")
     void 정상_범위() {
         assertThatCode(() -> new Position(10, 9))
                 .doesNotThrowAnyException();
