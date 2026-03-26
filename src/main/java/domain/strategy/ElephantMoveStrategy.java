@@ -7,118 +7,78 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
-        int currentRow = from.getRow();
-        int currentCol = from.getCol();
+        // row차이 :     3      -3      2       -2
+        // col차이 :   2 -2    2 -2    3 -3    3 -3
 
-        int targetRow = to.getRow();
-        int targetCol = to.getCol();
+        if (isNotCorrectPath(from, to))
+            return false;
 
-        if (Math.abs(currentRow - targetRow) == 3) {
-            if (targetRow > currentRow) {
-                currentRow += 1;
-                if (board.isExistPosition(Position.of(currentRow, currentCol))) {
-                    return false;
-                }
-                if (currentCol < targetCol) {
-                    if (board.isExistPosition(Position.of(currentRow + 1, currentCol + 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow + 2, currentCol + 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol + 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
-                if (currentCol > targetCol) {
-                    if (board.isExistPosition(Position.of(currentRow + 1, currentCol - 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow + 2, currentCol - 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol - 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
+        int nx = 0, ny = 0;
+        if (from.getRow() - to.getRow() == 3) { // 아래
+            if (from.getCol() - to.getCol() == 2) { // 왼쪽
+                nx = -3;
+                ny = -2;
             }
-
-            if (targetRow < currentRow) {
-                currentRow -= 1;
-                if (board.isExistPosition(Position.of(currentRow, currentCol))) {
-                    return false;
-                }
-                if (currentCol < targetCol) {
-                    if (board.isExistPosition(Position.of(currentRow - 1, currentCol + 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow - 2, currentCol + 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol + 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
-                if (currentCol > targetCol) {
-                    if (board.isExistPosition(Position.of(currentRow - 1, currentCol - 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow - 2, currentCol - 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol - 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
+            if (from.getCol() - to.getCol() == -2) { // 오른쪽
+                nx = -3;
+                ny = 2;
+            }
+        }
+        if (from.getRow() - to.getRow() == -3) { // 위
+            if (from.getCol() - to.getCol() == 2) { // 왼쪽
+                nx = 3;
+                ny = -2;
+            }
+            if (from.getCol() - to.getCol() == -2) { // 오른쪽
+                nx = 3;
+                ny = 2;
+            }
+        }
+        if (from.getRow() - to.getRow() == 2) {
+            if (from.getCol() - to.getCol() == 3) { // 왼쪽 아래대각 아래대각
+                nx = -2;
+                ny = -3;
+            }
+            if (from.getCol() - to.getCol() == -3) { // 오른쪽 아래대각 아래대각
+                nx = -2;
+                ny = 3;
+            }
+        }
+        if (from.getRow() - to.getRow() == -2) {
+            if (from.getCol() - to.getCol() == 3) { // 왼쪽 위대각 위대각
+                nx = 2;
+                ny = -3;
+            }
+            if (from.getCol() - to.getCol() == -3) { // 오른쪽 위대각 위대각
+                nx = 2;
+                ny = 3;
             }
         }
 
-        if (Math.abs(currentRow - targetRow) == 2) {
-            if (targetCol > currentCol) {
-                currentCol += 1;
-                if (board.isExistPosition(Position.of(currentRow, currentCol))) {
-                    return false;
-                }
+        int row = from.getRow();
+        int col = from.getCol();
+//        if (board.isExistPosition(직전)){
+//            return false;
+//        }
+//        if (board.isExistPosition(첫번쨰 대각)) {
+//            return false;
+//        }
 
-                if (currentRow < targetRow) {
-                    if (board.isExistPosition(Position.of(currentRow + 1, currentCol + 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow + 2, currentCol + 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol + 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
-                if (currentRow > targetRow) {
-                    if (board.isExistPosition(Position.of(currentRow - 1, currentCol + 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow - 2, currentCol + 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol + 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
-            }
-
-            if (targetCol < currentCol) {
-                currentCol -= 1;
-                if (board.isExistPosition(Position.of(currentRow, currentCol))) {
-                    return false;
-                }
-
-                if (currentRow < targetRow) {
-                    if (board.isExistPosition(Position.of(currentRow + 1, currentCol - 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow + 2, currentCol - 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol - 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
-                if (currentRow > targetRow) {
-                    if (board.isExistPosition(Position.of(currentRow - 1, currentCol - 1))) {
-                        return false;
-                    }
-                    if (board.isExistPosition(Position.of(currentRow - 2, currentCol - 2))) {
-                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol - 2), Position.of(targetRow, targetCol));
-                    }
-                    return true;
-                }
-            }
-        }
 
         return true;
+    }
+
+    private boolean isNotCorrectPath(Position from, Position to) {
+        if (Math.abs(from.getRow() - to.getRow()) == 2) {
+            if (Math.abs(from.getCol() - to.getCol()) != 3) {
+                return true;
+            }
+        }
+        if (Math.abs(from.getRow() - to.getRow()) == 3) {
+            if (Math.abs(from.getCol() - to.getCol()) != 2) {
+                return true;
+            }
+        }
+        return false;
     }
 }
