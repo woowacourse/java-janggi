@@ -13,6 +13,6 @@ public class Chariot extends ActivePiece {
 
     @Override
     public boolean canMove(Position source, Position target) {
-        return false;
+        return source.isSameCol(target) || source.isSameRow(target);
     }
 }

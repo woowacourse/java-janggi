@@ -12,6 +12,6 @@ public class Cannon extends ActivePiece {
 
     @Override
     public boolean canMove(Position source, Position target) {
-        return false;
+        return source.isSameCol(target) || source.isSameRow(target);
     }
 }

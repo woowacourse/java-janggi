@@ -14,6 +14,10 @@ public class Column {
         }
     }
 
+    public int diff(Column other) {
+        return this.value - other.value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

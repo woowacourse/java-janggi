@@ -3,14 +3,27 @@ package domain.activePiece;
 import domain.Position;
 import domain.piece.PieceType;
 import domain.piece.Team;
+import java.util.List;
 
 public class Horse extends ActivePiece {
+
+    private final List<Integer> dx = List.of(1, 2, 2, 1, -1, -2, -2, -1);
+    private final List<Integer> dy = List.of(2, 1, -1, -2, -2, -1, 1, 2);
+
     protected Horse(Team team) {
         super(team, PieceType.MA);
     }
 
     @Override
     public boolean canMove(Position source, Position target) {
+        int rowDiff = target.rowDiff(source);
+        int colDiff = target.columnDiff(source);
+
+        for (int i = 0; i < dx.size(); i++) {
+            if (dx.get(i) == rowDiff && dy.get(i) == colDiff) {
+                return true;
+            }
+        }
         return false;
     }
 }

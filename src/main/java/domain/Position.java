@@ -17,4 +17,11 @@ public class Position {
         return other.column.equals(this.column);
     }
 
+    public int rowDiff(Position other) {
+        return this.row.diff(other.row);
+    }
+
+    public int columnDiff(Position other) {
+        return this.column.diff(other.column);
+    }
 }
