@@ -7,18 +7,16 @@ import java.util.Objects;
 
 public class Piece {
 
-    private final Type type;
+    private final PieceRule pieceRule;
     private final Camp camp;
-    private final MoveStrategy moveStrategy;
 
-    public Piece(Type type, Camp camp, MoveStrategy moveStrategy) {
-        this.type = type;
+    public Piece(PieceRule pieceRule, Camp camp, MoveStrategy moveStrategy) {
+        this.pieceRule = pieceRule;
         this.camp = camp;
-        this.moveStrategy = moveStrategy;
     }
 
     public boolean canMove(Position from, Position to) {
-        List<Position> path = moveStrategy.findPath(from, to, camp);
+        List<Position> path = pieceRule.findPath(from, to, camp);
         return true;
     }
 
@@ -28,11 +26,11 @@ public class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return type == piece.type && camp == piece.camp && Objects.equals(moveStrategy, piece.moveStrategy);
+        return pieceRule == piece.pieceRule && camp == piece.camp;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, camp, moveStrategy);
+        return Objects.hash(pieceRule, camp);
     }
 }

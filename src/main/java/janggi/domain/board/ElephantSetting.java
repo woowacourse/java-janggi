@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Type;
+import janggi.domain.piece.PieceRule;
 import java.util.Map;
 
 public enum ElephantSetting {
@@ -14,10 +14,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(0, 7), new Piece(Type.ELEPHANT, Camp.CHO, null),
-                    new Position(0, 6), new Piece(Type.HORSE, Camp.CHO, null),
-                    new Position(0, 2), new Piece(Type.ELEPHANT, Camp.CHO, null),
-                    new Position(0, 1), new Piece(Type.HORSE, Camp.CHO, null)
+                    new Position(0, 7), new Piece(PieceRule.ELEPHANT, Camp.CHO, null),
+                    new Position(0, 6), new Piece(PieceRule.HORSE, Camp.CHO, null),
+                    new Position(0, 2), new Piece(PieceRule.ELEPHANT, Camp.CHO, null),
+                    new Position(0, 1), new Piece(PieceRule.HORSE, Camp.CHO, null)
             );
         }
     },
@@ -25,10 +25,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(0, 7), new Piece(Type.HORSE, Camp.CHO, null),
-                    new Position(0, 6), new Piece(Type.ELEPHANT, Camp.CHO, null),
-                    new Position(0, 2), new Piece(Type.HORSE, Camp.CHO, null),
-                    new Position(0, 1), new Piece(Type.ELEPHANT, Camp.CHO, null)
+                    new Position(0, 7), new Piece(PieceRule.HORSE, Camp.CHO, null),
+                    new Position(0, 6), new Piece(PieceRule.ELEPHANT, Camp.CHO, null),
+                    new Position(0, 2), new Piece(PieceRule.HORSE, Camp.CHO, null),
+                    new Position(0, 1), new Piece(PieceRule.ELEPHANT, Camp.CHO, null)
             );
         }
     },
@@ -36,10 +36,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(0, 7), new Piece(Type.HORSE, Camp.CHO, null),
-                    new Position(0, 6), new Piece(Type.ELEPHANT, Camp.CHO, null),
-                    new Position(0, 2), new Piece(Type.ELEPHANT, Camp.CHO, null),
-                    new Position(0, 1), new Piece(Type.HORSE, Camp.CHO, null)
+                    new Position(0, 7), new Piece(PieceRule.HORSE, Camp.CHO, null),
+                    new Position(0, 6), new Piece(PieceRule.ELEPHANT, Camp.CHO, null),
+                    new Position(0, 2), new Piece(PieceRule.ELEPHANT, Camp.CHO, null),
+                    new Position(0, 1), new Piece(PieceRule.HORSE, Camp.CHO, null)
             );
         }
     },
@@ -47,10 +47,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(0, 7), new Piece(Type.ELEPHANT, Camp.CHO, null),
-                    new Position(0, 6), new Piece(Type.HORSE, Camp.CHO, null),
-                    new Position(0, 2), new Piece(Type.HORSE, Camp.CHO, null),
-                    new Position(0, 1), new Piece(Type.ELEPHANT, Camp.CHO, null)
+                    new Position(0, 7), new Piece(PieceRule.ELEPHANT, Camp.CHO, null),
+                    new Position(0, 6), new Piece(PieceRule.HORSE, Camp.CHO, null),
+                    new Position(0, 2), new Piece(PieceRule.HORSE, Camp.CHO, null),
+                    new Position(0, 1), new Piece(PieceRule.ELEPHANT, Camp.CHO, null)
             );
         }
     },
@@ -58,10 +58,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(9, 1), new Piece(Type.ELEPHANT, Camp.HAN, null),
-                    new Position(9, 2), new Piece(Type.HORSE, Camp.HAN, null),
-                    new Position(9, 6), new Piece(Type.ELEPHANT, Camp.HAN, null),
-                    new Position(9, 7), new Piece(Type.HORSE, Camp.HAN, null)
+                    new Position(9, 1), new Piece(PieceRule.ELEPHANT, Camp.HAN, null),
+                    new Position(9, 2), new Piece(PieceRule.HORSE, Camp.HAN, null),
+                    new Position(9, 6), new Piece(PieceRule.ELEPHANT, Camp.HAN, null),
+                    new Position(9, 7), new Piece(PieceRule.HORSE, Camp.HAN, null)
             );
         }
     },
@@ -69,10 +69,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(9, 1), new Piece(Type.HORSE, Camp.HAN, null),
-                    new Position(9, 2), new Piece(Type.ELEPHANT, Camp.HAN, null),
-                    new Position(9, 6), new Piece(Type.HORSE, Camp.HAN, null),
-                    new Position(9, 7), new Piece(Type.ELEPHANT, Camp.HAN, null)
+                    new Position(9, 1), new Piece(PieceRule.HORSE, Camp.HAN, null),
+                    new Position(9, 2), new Piece(PieceRule.ELEPHANT, Camp.HAN, null),
+                    new Position(9, 6), new Piece(PieceRule.HORSE, Camp.HAN, null),
+                    new Position(9, 7), new Piece(PieceRule.ELEPHANT, Camp.HAN, null)
             );
         }
     },
@@ -80,10 +80,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(9, 1), new Piece(Type.HORSE, Camp.HAN, null),
-                    new Position(9, 2), new Piece(Type.ELEPHANT, Camp.HAN, null),
-                    new Position(9, 6), new Piece(Type.ELEPHANT, Camp.HAN, null),
-                    new Position(9, 7), new Piece(Type.HORSE, Camp.HAN, null)
+                    new Position(9, 1), new Piece(PieceRule.HORSE, Camp.HAN, null),
+                    new Position(9, 2), new Piece(PieceRule.ELEPHANT, Camp.HAN, null),
+                    new Position(9, 6), new Piece(PieceRule.ELEPHANT, Camp.HAN, null),
+                    new Position(9, 7), new Piece(PieceRule.HORSE, Camp.HAN, null)
             );
         }
     },
@@ -91,10 +91,10 @@ public enum ElephantSetting {
         @Override
         public Map<Position, Piece> makeElephants() {
             return Map.of(
-                    new Position(9, 1), new Piece(Type.ELEPHANT, Camp.HAN, null),
-                    new Position(9, 2), new Piece(Type.HORSE, Camp.HAN, null),
-                    new Position(9, 6), new Piece(Type.HORSE, Camp.HAN, null),
-                    new Position(9, 7), new Piece(Type.ELEPHANT, Camp.HAN, null)
+                    new Position(9, 1), new Piece(PieceRule.ELEPHANT, Camp.HAN, null),
+                    new Position(9, 2), new Piece(PieceRule.HORSE, Camp.HAN, null),
+                    new Position(9, 6), new Piece(PieceRule.HORSE, Camp.HAN, null),
+                    new Position(9, 7), new Piece(PieceRule.ELEPHANT, Camp.HAN, null)
             );
         }
     };
