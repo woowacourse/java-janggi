@@ -35,8 +35,17 @@ public class InputView {
         }
     }
 
-    public List<Integer> printPieceSelectInput() {
-        System.out.println("기물 선택");
+    public List<Integer> askSourcePosition() {
+        System.out.println("기물 위치를 입력하세요.");
+        return askPosition();
+    }
+
+    public List<Integer> askDestinationPosition() {
+        System.out.println("이동 위치를 입력하세요.");
+        return askPosition();
+    }
+
+    private List<Integer> askPosition() {
         try {
             List<String> splitString = List.of(sc.nextLine().split(" "));
             return splitString.stream()
