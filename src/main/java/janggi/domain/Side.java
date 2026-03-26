@@ -2,7 +2,8 @@ package janggi.domain;
 
 public enum Side {
     CHO("초"),
-    HAN("한");
+    HAN("한"),
+    EMPTY("없음");
 
     private final String name;
 

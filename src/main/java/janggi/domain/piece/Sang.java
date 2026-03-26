@@ -19,6 +19,6 @@ public class Sang extends StepPiece {
     );
 
     public Sang(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side);
+        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.SANG);
     }
 }

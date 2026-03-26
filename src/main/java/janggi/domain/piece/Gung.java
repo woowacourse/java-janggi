@@ -15,6 +15,6 @@ public class Gung extends StepPiece {
     );
 
     public Gung(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side);
+        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.GUNG);
     }
 }

@@ -9,10 +9,10 @@ import janggi.domain.policy.RoutePolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LinearPiece extends BasePiece {
+public abstract class LinearPiece extends ActivePiece {
 
-    public LinearPiece(RoutePolicy routePolicy, Side side) {
-        super(routePolicy, side);
+    public LinearPiece(RoutePolicy routePolicy, Side side, PieceType pieceType) {
+        super(routePolicy, side, pieceType);
     }
 
     @Override

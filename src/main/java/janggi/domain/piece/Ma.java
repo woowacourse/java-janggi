@@ -19,6 +19,6 @@ public class Ma extends StepPiece {
     );
 
     public Ma(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side);
+        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.MA);
     }
 }

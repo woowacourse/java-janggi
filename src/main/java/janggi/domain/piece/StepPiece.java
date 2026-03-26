@@ -9,11 +9,11 @@ import janggi.domain.policy.RoutePolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class StepPiece extends BasePiece {
+public abstract class StepPiece extends ActivePiece {
     private final List<List<Movement>> moveRange;
 
-    public StepPiece(List<List<Movement>> moveRange, RoutePolicy routePolicy, Side side) {
-        super(routePolicy, side);
+    public StepPiece(List<List<Movement>> moveRange, RoutePolicy routePolicy, Side side, PieceType pieceType) {
+        super(routePolicy, side, pieceType);
         this.moveRange = moveRange;
     }
 

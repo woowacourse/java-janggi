@@ -5,6 +5,6 @@ import janggi.domain.policy.JumpPolicy;
 
 public class Po extends LinearPiece {
     public Po(Side side) {
-        super(new JumpPolicy(), side);
+        super(new JumpPolicy(), side, PieceType.PO);
     }
 }

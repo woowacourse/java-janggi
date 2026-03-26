@@ -9,11 +9,11 @@ import janggi.domain.policy.ClearPathPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pawn extends BasePiece {
+public class Pawn extends ActivePiece {
     private final List<List<Movement>> MOVE_RANGE;
 
     public Pawn(Side side, List<List<Movement>> moveRange) {
-        super(new ClearPathPolicy(), side);
+        super(new ClearPathPolicy(), side, PieceType.PAWN);
         MOVE_RANGE = moveRange;
     }
 

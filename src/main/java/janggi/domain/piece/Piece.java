@@ -9,4 +9,5 @@ public interface Piece {
     List<Position> findRoute(Position start, Position end);
     boolean isMovable(List<Position> path, BoardInterface boardInterface);
     boolean isPo();
+    boolean isEqualPieceType(PieceType pieceType);
 }
