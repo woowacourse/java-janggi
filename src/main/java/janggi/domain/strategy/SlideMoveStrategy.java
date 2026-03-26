@@ -51,7 +51,7 @@ public class SlideMoveStrategy implements MoveStrategy {
 
     private boolean processAndCheckBlocked(Position pos, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
         PieceVO target = state.get(pos);
-        if (target == null || target.isSameSide(me)) {
+        if (target == null || !target.isSameSide(me)) {
             dests.add(pos);
         }
         return target != null;

@@ -65,6 +65,8 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     private void addIfValid(Position dest, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
         PieceVO target = state.get(dest);
-        if (target == null || target.isSameSide(me)) dests.add(dest);
+        if (target == null || !target.isSameSide(me)) {
+            dests.add(dest);
+        }
     }
 }

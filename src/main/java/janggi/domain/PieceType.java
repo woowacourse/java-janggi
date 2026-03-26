@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.strategy.CannonMoveStrategy;
 import janggi.domain.strategy.ElephantMoveStrategy;
 import janggi.domain.strategy.HorseMoveStrategy;
 import janggi.domain.strategy.MoveStrategy;
@@ -17,7 +18,7 @@ public enum PieceType {
     PALACE(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new StepMoveStrategy()),
     GUARD(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new StepMoveStrategy()),
     CHARIOT(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new SlideMoveStrategy()),
-    CANNON(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), null),
+    CANNON(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new CannonMoveStrategy()),
     HORSE(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new HorseMoveStrategy()),
     ELEPHANT(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new ElephantMoveStrategy()),
     CHO_SOLDIER(EnumSet.of(Direction.N, Direction.E, Direction.W), new StepMoveStrategy()),
