@@ -9,6 +9,7 @@ import janggi.domain.coordinate.Point;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Advisor extends Piece {
     private static final PieceName NAME = PieceName.ADVISOR;
@@ -19,12 +20,12 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(Point from, Point to, Board board) {
+    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
         return List.of();
     }
 
     @Override
-    protected List<Path> path(Point from) {
+    public List<Path> path(Point from) {
         List<Path> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
             Path path = convertToPath(List.of(value), from);
@@ -35,7 +36,12 @@ public class Advisor extends Piece {
     }
 
     @Override
-    protected List<Path> filterPath(Path path, Board board) {
-        return List.of();
+    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+        return null;
+    }
+
+    @Override
+    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
+        return false;
     }
 }

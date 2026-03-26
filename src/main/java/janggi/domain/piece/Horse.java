@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.Board;
 import janggi.domain.coordinate.Direction;
 import janggi.domain.coordinate.FixedPathStrategy;
 import janggi.domain.coordinate.Path;
@@ -9,6 +8,7 @@ import janggi.domain.coordinate.Point;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Horse extends Piece {
     private static final PieceName NAME = PieceName.HORSE;
@@ -19,12 +19,16 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(Point from, Point to, Board board) {
-        return List.of();
+    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
+        return paths.stream()
+                .filter(path -> isValidPath(path, piecesOnPaths))
+                .map(path -> cutPath(path, piecesOnPaths))
+                .map(path -> path.getPath().getLast())
+                .toList();
     }
 
     @Override
-    protected List<Path> path(Point from) {
+    public List<Path> path(Point from) {
         List<Path> directions = new ArrayList<>();
 
         directions.add(convertToPath(List.of(Direction.NORTH, Direction.NORTH_WEST), from));
@@ -43,7 +47,16 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected List<Path> filterPath(Path path, Board board) {
-        return List.of();
+    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+        return path;
+    }
+
+    @Override
+    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
+        List<Point> points = path.getPath();
+
+        return points.stream()
+                .limit(points.size()-1)
+                .noneMatch(piecesOnPaths::containsKey);
     }
 }

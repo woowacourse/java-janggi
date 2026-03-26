@@ -13,5 +13,7 @@ public class Path {
         this(pathStrategy.calculate(directions, from));
     }
 
-
+    public List<Point> getPath() {
+        return path;
+    }
 }

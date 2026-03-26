@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.Board;
 import janggi.domain.coordinate.Path;
 import janggi.domain.coordinate.Point;
 import janggi.domain.side.Side;
 import java.util.List;
+import java.util.Map;
 
 public class Empty extends Piece {
     private static final PieceName NAME = PieceName.NONE;
@@ -14,17 +14,17 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(Point from, Point to, Board board) {
+    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 
     @Override
-    protected List<Path> path(Point from) {
+    public List<Path> path(Point from) {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 
     @Override
-    protected List<Path> filterPath(Path path, Board board) {
+    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 }

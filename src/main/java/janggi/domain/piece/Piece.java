@@ -1,12 +1,12 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.Board;
 import janggi.domain.coordinate.Direction;
 import janggi.domain.coordinate.Path;
 import janggi.domain.coordinate.PathStrategy;
 import janggi.domain.coordinate.Point;
 import janggi.domain.side.Side;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -33,11 +33,13 @@ public abstract class Piece {
         return new Path(directions, from, pathStrategy);
     }
 
-    public abstract List<Point> availablePoints(Point from, Point to, Board board);
+    public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
 
-    protected abstract List<Path> path(Point from);
+    public abstract List<Path> path(Point from);
 
-    protected abstract List<Path> filterPath(Path path, Board board);
+    protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
+
+    protected abstract boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths);
 
     @Override
     public int hashCode() {

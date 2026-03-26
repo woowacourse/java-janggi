@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.coordinate.Path;
 import janggi.domain.coordinate.Point;
 import janggi.domain.piece.Advisor;
 import janggi.domain.piece.Cannon;
@@ -12,6 +13,7 @@ import janggi.domain.piece.Soldier;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -25,11 +27,7 @@ public class Board {
 //        validatePiece(board);
         this.board = board;
 
-        board.getOrDefault(new Point(1,2),new Empty());
-    }
-
-    public final Map<Point, Piece> getBoard(){
-        return Collections.unmodifiableMap(board);
+        board.getOrDefault(new Point(1, 2), new Empty());
     }
 
     public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
@@ -76,5 +74,39 @@ public class Board {
         board.put(new Point(8, 9), new Chariot(Side.HAN));
 
         return board;
+    }
+
+    public final Map<Point, Piece> getBoard() {
+        return Collections.unmodifiableMap(board);
+    }
+
+    public List<Point> destinations(Point from){
+        Piece piece = board.getOrDefault(from,new Empty());
+        List<Path> paths = piece.path(from);
+        Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
+        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
+    }
+    
+    private Map<Point, Piece> findPiecesOnPaths(List<Path> paths){
+        Map<Point,Piece> piecesOnPaths = new HashMap<>();
+
+        for (Path path : paths) {
+            Map<Point, Piece> piecesOnPath = findPiecesOnPath(path);
+            piecesOnPaths.putAll(piecesOnPath);
+        }
+        return piecesOnPaths;
+    }
+
+    private Map<Point, Piece> findPiecesOnPath(Path path) {
+        Map<Point, Piece> pieces = new HashMap<>();
+        for (Point point : path.getPath()) {
+            Piece piece = board.getOrDefault(point, new Empty());
+            pieces.put(point, piece);
+        }
+        return pieces;
+    }
+
+    public boolean isTherePiece(Point point) {
+        return board.containsKey(point);
     }
 }
