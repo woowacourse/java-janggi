@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
-
 import java.util.Map;
 
 public class Board {
@@ -11,6 +10,10 @@ public class Board {
 
     public Board(BoardDesignPolicy boardDesignPolicy) {
         this.board = boardDesignPolicy.initBoard();
+    }
+
+    public Map<Position, Piece> pieces() {
+        return Map.copyOf(board);
     }
 
 }

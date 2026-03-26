@@ -4,8 +4,8 @@ public record Column(
         int column
 ) {
 
-    private static final int MIN_COLUMN = 1;
-    private static final int MAX_COLUMN = 9;
+    public static final int MIN_COLUMN = 1;
+    public static final int MAX_COLUMN = 9;
 
     public Column {
         validate(column);

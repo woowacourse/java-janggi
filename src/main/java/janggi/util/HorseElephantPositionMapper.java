@@ -1,4 +1,4 @@
-package janggi.dto;
+package janggi.util;
 
 import janggi.domain.board.HorseElephantPosition;
 import java.util.HashMap;
@@ -13,6 +13,9 @@ public class HorseElephantPositionMapper {
         horseElephantPositionMap.put(2, HorseElephantPosition.HEEH);
         horseElephantPositionMap.put(3, HorseElephantPosition.EHEH);
         horseElephantPositionMap.put(4, HorseElephantPosition.EHHE);
+    }
+
+    private HorseElephantPositionMapper() {
     }
 
     public static HorseElephantPosition from(int ordinal) {

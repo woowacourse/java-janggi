@@ -4,8 +4,10 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Position;
 import janggi.dto.DynastyDto;
-import janggi.dto.HorseElephantPositionMapper;
+import janggi.util.HorseElephantPositionMapper;
 import janggi.view.InputView;
 import java.util.EnumMap;
 import java.util.Map;
@@ -28,6 +30,9 @@ public class JanggiController {
 
         BoardDesignPolicy policy = new BoardDesignPolicy(horseElephantPositions);
         Board board = new Board(policy);
+
+        Map<Position, Piece> pieces = board.pieces();
+
     }
 
 }
