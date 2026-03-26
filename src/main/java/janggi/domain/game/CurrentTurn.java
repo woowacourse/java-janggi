@@ -9,4 +9,5 @@ public record CurrentTurn(
     public CurrentTurn changeTurn() {
         return new CurrentTurn(currentDynasty.next());
     }
+    
 }

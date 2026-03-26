@@ -1,6 +1,6 @@
 package janggi.view;
-import janggi.dto.BoardDto;
 
+import janggi.dto.BoardDto;
 import java.util.List;
 
 public class OutputView {
@@ -25,12 +25,4 @@ public class OutputView {
         }
     }
 
-//    public static void main(String[] args) {
-//        Map<Position, Piece> board = new BoardDesignPolicy(
-//                Map.of(
-//                        Dynasty.CHO, HorseElephantPosition.HEHE,
-//                        Dynasty.HAN, HorseElephantPosition.HEEH)
-//        ).initBoard();
-//        new OutputView().printBoard(BoardDto.from(board));
-//    }
 }

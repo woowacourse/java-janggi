@@ -2,7 +2,6 @@ package janggi.view;
 
 import janggi.dto.DynastyDto;
 import janggi.dto.PositionDto;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -42,8 +41,7 @@ public class InputView {
                         throw new IllegalArgumentException("좌표는 숫자입니다.");
                     }
 
-                })
-                .toList();
+                }).toList();
 
         return PositionDto.from(position);
     }
