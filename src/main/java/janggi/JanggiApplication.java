@@ -3,6 +3,7 @@ package janggi;
 import janggi.domain.Board;
 import janggi.domain.JanggiGame;
 import janggi.domain.Point;
+import janggi.dto.GameStatusInfo;
 import janggi.dto.PositionInfo;
 import janggi.ui.InputView;
 import janggi.ui.OutputView;
@@ -19,6 +20,7 @@ public class JanggiApplication {
         while (!game.isFinished()) {
             List<Point> points = InputView.readPoints();
             game.play(points.get(0), points.get(1));
+            OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
         }
         OutputView.printWinner(game.getWinner());
     }

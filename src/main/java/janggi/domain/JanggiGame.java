@@ -1,8 +1,10 @@
 package janggi.domain;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.Team;
+import java.util.List;
 
 public class JanggiGame {
 
@@ -23,6 +25,10 @@ public class JanggiGame {
             throw new RuntimeException("게임이 아직 끝나지 않았습니다.");
         }
         return gameStatus.getTeam();
+    }
+
+    public List<List<Piece>> getBoardStatus() {
+        return board.getPoints();
     }
 
     public void play(Point from, Point to) {
