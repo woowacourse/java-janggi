@@ -23,13 +23,13 @@ public final class Position {
     private final int column;
 
     private Position(final int row, final int column) {
-        validateRowRange(row);
-        validateColumnRange(column);
         this.row = row;
         this.column = column;
     }
 
     public static Position valueOf(final int row, final int column) {
+        validateRowRange(row);
+        validateColumnRange(column);
         final Map<Integer, Position> secondaryMap = CACHE.get(row);
         if (!secondaryMap.containsKey(column)) {
             secondaryMap.put(column, new Position(row, column));
@@ -41,13 +41,13 @@ public final class Position {
         return Position.valueOf(ROW_FLIP_VALUE - row, column);
     }
 
-    private void validateRowRange(final int row) {
+    private static void validateRowRange(final int row) {
         if (row < MINIMUM_ROW || row > MAXIMUM_ROW) {
             throw new IllegalArgumentException("행 입력은 1~10을 입력해야 합니다.");
         }
     }
 
-    private void validateColumnRange(final int column) {
+    private static void validateColumnRange(final int column) {
         if (column < MINIMUM_COLUMN || column > MAXIMUM_COLUMN) {
             throw new IllegalArgumentException("열 입력은 1~9을 입력해야 합니다.");
         }
