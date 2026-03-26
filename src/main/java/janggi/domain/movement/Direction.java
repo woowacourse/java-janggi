@@ -45,12 +45,20 @@ public final class Direction {
     }
 
     private static void validateColumnDirectionRange(final int columnDirection) {
-        if (columnDirection < MINIMUM_COLUMN_DIRECTION || columnDirection > MAXIMUM_COLUMN_DIRECTION) {
+        if (columnDirection < MINIMUM_COLUMN_DIRECTION
+            || columnDirection > MAXIMUM_COLUMN_DIRECTION) {
             throw new IllegalArgumentException(String.format(
-                "행 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_COLUMN_DIRECTION, MAXIMUM_COLUMN_DIRECTION));
+                "행 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_COLUMN_DIRECTION,
+                MAXIMUM_COLUMN_DIRECTION));
         }
     }
 
+    public int getRowDirection() {
+        return rowDirection;
+    }
 
+    public int getColumnDirection() {
+        return columnDirection;
+    }
 
 }

@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.movement.Direction;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -51,5 +52,13 @@ public final class Position {
         if (column < MINIMUM_COLUMN || column > MAXIMUM_COLUMN) {
             throw new IllegalArgumentException("열 입력은 1~9을 입력해야 합니다.");
         }
+    }
+
+    public Position calculateNext(final int distance, final Direction direction) {
+        final int nextRow = row + direction.getRowDirection() * distance;
+        final int nextColumn = column + direction.getColumnDirection() * distance;
+
+        return Position.valueOf(Math.clamp(nextRow, MINIMUM_ROW, MAXIMUM_ROW),
+            Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));
     }
 }
