@@ -10,6 +10,7 @@ import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class Board implements BoardView {
     private final Map<Position, Place> board;
 
     public Board(Map<Position, Place> board) {
-        this.board = Map.copyOf(board);
+        this.board = new HashMap<>(board);
     }
 
     public List<List<String>> getFormatBoard() {
@@ -26,6 +27,7 @@ public class Board implements BoardView {
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             result.add(getFormatRow(row));
         }
+
         return result;
     }
 
@@ -41,7 +43,6 @@ public class Board implements BoardView {
 
     public void move(Position from, Position to, Side side) {
         Place place = board.get(from);
-
         validateSourcePiece(place, side);
 
         if (!place.canMove(this, from, to)) {
