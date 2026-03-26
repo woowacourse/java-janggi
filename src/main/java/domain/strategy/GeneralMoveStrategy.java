@@ -7,6 +7,26 @@ public class GeneralMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
+        if (isNotCorrectPath(from, to))
+            return false;
+
+        if (board.isAnotherTeam(from, to)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isNotCorrectPath(Position from, Position to) {
+        if (from.getRow() == to.getRow()) {
+            if (Math.abs(from.getCol() - to.getCol()) != 1) {
+                return true;
+            }
+        }
+        if (from.getCol() == to.getCol()) {
+            if (Math.abs(from.getRow() - to.getRow()) != 1) {
+                return true;
+            }
+        }
         return false;
     }
 }
