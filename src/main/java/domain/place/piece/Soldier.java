@@ -1,6 +1,6 @@
 package domain.place.piece;
 
-public class Soldier extends Piece{
+public class Soldier extends Piece {
 
     public Soldier(Side side) {
         super(side);
@@ -10,4 +10,5 @@ public class Soldier extends Piece{
     public PieceSymbol getSymbol() {
         return PieceSymbol.SOLDIER;
     }
+
 }

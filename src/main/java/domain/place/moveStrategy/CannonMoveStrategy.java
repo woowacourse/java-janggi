@@ -4,15 +4,16 @@ import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
 
-public class ChariotMoveStrategy implements MoveStrategy {
+public class CannonMoveStrategy implements MoveStrategy {
 
     private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
             Direction.DOWN, Direction.LEFT, Direction.RIGHT, Direction.TOP
     );
+    private static final int REQUIRED_OBSTACLE_COUNT = 1;
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameTeam(from, to)) {
+        if (board.isSameTeam(from, to) || board.isCannon(to)) {
             return false;
         }
 
@@ -47,15 +48,23 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
         Position currentPosition = from.move(direction);
+        int obstacleCount = 0;
 
         while (!to.equals(currentPosition)) {
-
-            if (!board.isEmpty(currentPosition)) {
+            obstacleCount += countObstacle(board, currentPosition);
+            if (board.isCannon(currentPosition)) {
                 return false;
             }
+
             currentPosition = currentPosition.move(direction);
         }
+        return obstacleCount == REQUIRED_OBSTACLE_COUNT;
+    }
 
-        return true;
+    private int countObstacle(BoardView board, Position position) {
+        if (board.isEmpty(position)) {
+            return 0;
+        }
+        return 1;
     }
 }

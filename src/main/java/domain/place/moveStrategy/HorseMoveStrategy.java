@@ -36,14 +36,14 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     private boolean isPathClear(Position from, Position to, Direction direction) {
-        Position currentPosition = from.move(direction);
+        Position step1 = from.move(direction);
 
         List<Direction> diagonal = DIAGONAL_DIRECTIONS.stream()
                 .filter(dig -> isAlignedWith(direction, dig))
                 .toList();
 
         return diagonal.stream()
-                .map(currentPosition::move)
+                .map(step1::move)
                 .anyMatch(to::equals);
     }
 }

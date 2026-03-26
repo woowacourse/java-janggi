@@ -6,7 +6,7 @@ import java.util.List;
 
 public class HanSoldierMoveStrategy implements MoveStrategy {
 
-    private static final List<Direction> directions = List.of(
+    private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
             Direction.DOWN, Direction.LEFT, Direction.RIGHT
     );
 
@@ -23,7 +23,7 @@ public class HanSoldierMoveStrategy implements MoveStrategy {
         int currentRow = from.getRow();
         int currentColumn = from.getColumn();
 
-        return directions.stream()
+        return ORTHOGONAL_DIRECTIONS.stream()
                 .filter(d -> Position.isNotOutOfBounds(currentRow + d.getRow(), currentColumn + d.getColumn()))
                 .map(from::move)
                 .anyMatch(to::equals);

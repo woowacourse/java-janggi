@@ -11,8 +11,10 @@ public abstract class Piece implements Place {
         this.side = side;
     }
 
+    public abstract PieceSymbol getSymbol();
+
     @Override
-    public String getFormat(){
+    public String getFormat() {
         return side.getName() + getSymbol().display();
     }
 
@@ -20,8 +22,6 @@ public abstract class Piece implements Place {
     public boolean isEmpty() {
         return false;
     }
-
-    public abstract PieceSymbol getSymbol();
 
     @Override
     public boolean isSameSide(Side side) {
@@ -31,6 +31,11 @@ public abstract class Piece implements Place {
     @Override
     public Side getSide() {
         return side;
+    }
+
+    @Override
+    public boolean isCannon() {
+        return false;
     }
 }
 

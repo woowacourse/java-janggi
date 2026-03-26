@@ -41,15 +41,15 @@ public enum HorseElephantFormation {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 배치 입력입니다."));
     }
 
-    public List<Function<Side, Place>> getFormationMethod() {
-        return formationMethod;
-    }
-
     private static Place horse(Side side) {
         return new Horse(side);
     }
 
     private static Place elephant(Side side) {
         return new Elephant(side);
+    }
+
+    public List<Function<Side, Place>> getFormationMethod() {
+        return formationMethod;
     }
 }

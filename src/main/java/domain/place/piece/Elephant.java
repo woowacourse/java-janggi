@@ -1,6 +1,6 @@
 package domain.place.piece;
 
-public class Elephant extends Piece{
+public class Elephant extends Piece {
 
     public Elephant(Side side) {
         super(side);

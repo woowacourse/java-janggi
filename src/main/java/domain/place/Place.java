@@ -7,6 +7,8 @@ public interface Place {
 
     boolean isSameSide(Side side);
 
+    boolean isCannon();
+
     String getFormat();
 
     Side getSide();

@@ -23,4 +23,9 @@ public class Empty implements Place {
     public String getFormat() {
         return "  ";
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }

@@ -1,6 +1,6 @@
 package domain.place.piece;
 
-public class Horse extends Piece{
+public class Horse extends Piece {
 
     public Horse(Side side) {
         super(side);

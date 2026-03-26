@@ -1,9 +1,9 @@
 package domain.board;
 
 import static domain.common.Constant.MAX_COLUMN;
+import static domain.common.Constant.MAX_ROW;
 import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
-import static domain.common.Constant.MAX_ROW;
 
 import domain.place.Place;
 import domain.place.piece.Side;
@@ -39,6 +39,12 @@ public class Board implements BoardView {
     }
 
     @Override
+    public boolean isCannon(Position position) {
+        Place place = board.get(position);
+        return place.isCannon();
+    }
+
+    @Override
     public boolean isEmpty(Position position) {
         Place place = board.get(position);
         return place.isEmpty();
@@ -56,5 +62,4 @@ public class Board implements BoardView {
         Side fromSide = fromPlace.getSide();
         return toPlace.isSameSide(fromSide);
     }
-
 }

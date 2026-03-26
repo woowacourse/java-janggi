@@ -3,7 +3,7 @@ package domain.place.piece;
 public enum Side {
     CHO("C", 10, -1),
     HAN("H", 1, 1),
-    EMPTY("", 1,1);
+    EMPTY("", 1, 1);
 
     private final String name;
     private final int startLine;

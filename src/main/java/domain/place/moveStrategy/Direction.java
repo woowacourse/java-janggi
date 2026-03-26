@@ -2,8 +2,8 @@ package domain.place.moveStrategy;
 
 
 public enum Direction {
-    TOP(1,0),
-    DOWN(-1,0),
+    TOP(1, 0),
+    DOWN(-1, 0),
     LEFT(0, -1),
     RIGHT(0, 1),
     LEFT_TOP(1, -1),
@@ -14,16 +14,16 @@ public enum Direction {
     private final int row;
     private final int column;
 
-    Direction(int row, int column){
+    Direction(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    public int getRow(){
+    public int getRow() {
         return row;
     }
 
-    public int getColumn(){
+    public int getColumn() {
         return column;
     }
 
