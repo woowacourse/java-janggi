@@ -67,11 +67,11 @@ public class Board {
 
     public boolean isAnotherTeam(Position from, Position to) {
         if (findPieceByPosition(to).isEmpty()) {
-            return false;
+            return true;
         }
 
         Piece targetPiece = findPieceByPosition(to).get();
         Piece currentPiece = findPieceByPosition(from).get();
-        return currentPiece.getTeam() == targetPiece.getTeam();
+        return currentPiece.getTeam() != targetPiece.getTeam();
     }
 }

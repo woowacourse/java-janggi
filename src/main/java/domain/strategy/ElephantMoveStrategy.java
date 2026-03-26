@@ -7,49 +7,47 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
-        // row차이 :     3      -3      2       -2
-        // col차이 :   2 -2    2 -2    3 -3    3 -3
 
         if (isNotCorrectPath(from, to))
             return false;
 
         int nx = 0, ny = 0;
-        if (from.getRow() - to.getRow() == 3) { // 아래
-            if (from.getCol() - to.getCol() == 2) { // 왼쪽
+        if (from.getRow() - to.getRow() == 3) {
+            if (from.getCol() - to.getCol() == 2) {
                 nx = -3;
                 ny = -2;
             }
-            if (from.getCol() - to.getCol() == -2) { // 오른쪽
+            if (from.getCol() - to.getCol() == -2) {
                 nx = -3;
                 ny = 2;
             }
         }
-        if (from.getRow() - to.getRow() == -3) { // 위
-            if (from.getCol() - to.getCol() == 2) { // 왼쪽
+        if (from.getRow() - to.getRow() == -3) {
+            if (from.getCol() - to.getCol() == 2) {
                 nx = 3;
                 ny = -2;
             }
-            if (from.getCol() - to.getCol() == -2) { // 오른쪽
+            if (from.getCol() - to.getCol() == -2) {
                 nx = 3;
                 ny = 2;
             }
         }
         if (from.getRow() - to.getRow() == 2) {
-            if (from.getCol() - to.getCol() == 3) { // 왼쪽 아래대각 아래대각
+            if (from.getCol() - to.getCol() == 3) {
                 nx = -2;
                 ny = -3;
             }
-            if (from.getCol() - to.getCol() == -3) { // 오른쪽 아래대각 아래대각
+            if (from.getCol() - to.getCol() == -3) {
                 nx = -2;
                 ny = 3;
             }
         }
         if (from.getRow() - to.getRow() == -2) {
-            if (from.getCol() - to.getCol() == 3) { // 왼쪽 위대각 위대각
+            if (from.getCol() - to.getCol() == 3) {
                 nx = 2;
                 ny = -3;
             }
-            if (from.getCol() - to.getCol() == -3) { // 오른쪽 위대각 위대각
+            if (from.getCol() - to.getCol() == -3) {
                 nx = 2;
                 ny = 3;
             }
@@ -57,15 +55,28 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
         int row = from.getRow();
         int col = from.getCol();
-//        if (board.isExistPosition(직전)){
-//            return false;
-//        }
-//        if (board.isExistPosition(첫번쨰 대각)) {
-//            return false;
-//        }
 
+        if (Math.abs(nx) == 3) {
+            if (board.isExistPosition(Position.of(row + nx / 3, col))) {
+                return false;
+            }
+            if (board.isExistPosition(Position.of(row + nx * 2 / 3, col + ny / 2))) {
+                return false;
+            }
+        }
+        if (Math.abs(nx) == 2) {
+            if (board.isExistPosition(Position.of(row, col + ny / 3))) {
+                return false;
+            }
+            if (board.isExistPosition(Position.of(row + nx / 2, col + ny * 2 / 3))) {
+                return false;
+            }
+        }
 
-        return true;
+        if (board.isAnotherTeam(from, to)) {
+            return true;
+        }
+        return false;
     }
 
     private boolean isNotCorrectPath(Position from, Position to) {

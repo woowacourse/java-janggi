@@ -38,10 +38,9 @@ public class ChariotMoveStrategy implements MoveStrategy{
 
             if (row == to.getRow() && col == to.getCol()) {
                 if (board.isAnotherTeam(from, to)) {
-                    return false;
+                    return true;
                 }
-
-                return true;
+                return false;
             }
             if (board.isExistPosition(Position.of(row, col))) {
                 return false;
