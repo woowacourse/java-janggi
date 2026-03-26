@@ -2,7 +2,6 @@ package domain.board;
 
 import domain.piece.None;
 import domain.piece.Piece;
-import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import dto.BoardDTO;
@@ -35,7 +34,7 @@ public class Board {
     public void move(Position src, Position dest) {
         Piece movePiece = findPiece(src);
 
-        board.put(src, new None(Team.NULL));
+        board.put(src, new None());
         board.put(dest, movePiece);
     }
 
@@ -55,4 +54,6 @@ public class Board {
     private Piece findPiece(Position position) {
         return board.get(position);
     }
+
+    // path 받아서 pathPieces 생성하는 메서드 구현
 }
