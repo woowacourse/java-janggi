@@ -62,8 +62,7 @@ class SoldierTest {
         private static final Side DIFFERENT_SIDE = Side.CHO;
         private static final Soldier SAME_SIDE_PEICE = new Soldier(SIDE);
         private static final Soldier DIFFERENT_SIDE_PEICE = new Soldier(DIFFERENT_SIDE);
-
-        private final Intersection currentIntersection = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
+        private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
 
         @Nested
         class 아군_기물이_있는_위치로는_이동할_수_없다 {
@@ -73,14 +72,14 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int forwardRow = SIDE.getForwardedRow(currentIntersection.row());
-                Intersection forwardIntersection = new Intersection(forwardRow, currentIntersection.file());
+                int forwardRow = SIDE.getForwardedRow(CURRENT_INTERSECTION.row());
+                Intersection forwardIntersection = new Intersection(forwardRow, CURRENT_INTERSECTION.file());
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         forwardIntersection, SAME_SIDE_PEICE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, forwardIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, aliavePieces);
 
                 // then
                 assertThat(canMove).isFalse();
@@ -91,14 +90,14 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int leftFile = SIDE.getLeftFile(currentIntersection.row());
-                Intersection leftIntersection = new Intersection(currentIntersection.row(), leftFile);
+                int leftFile = SIDE.getLeftFile(CURRENT_INTERSECTION.row());
+                Intersection leftIntersection = new Intersection(CURRENT_INTERSECTION.row(), leftFile);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         leftIntersection, SAME_SIDE_PEICE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, leftIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, aliavePieces);
 
                 // then
                 assertThat(canMove).isFalse();
@@ -109,14 +108,14 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int rightFile = SIDE.getRightFile(currentIntersection.row());
-                Intersection rightIntersection = new Intersection(currentIntersection.row(), rightFile);
+                int rightFile = SIDE.getRightFile(CURRENT_INTERSECTION.row());
+                Intersection rightIntersection = new Intersection(CURRENT_INTERSECTION.row(), rightFile);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         rightIntersection, SAME_SIDE_PEICE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, rightIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, aliavePieces);
 
                 // then
                 assertThat(canMove).isFalse();
@@ -131,14 +130,14 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int forwardRow = SIDE.getForwardedRow(currentIntersection.row());
-                Intersection forwardIntersection = new Intersection(forwardRow, currentIntersection.file());
+                int forwardRow = SIDE.getForwardedRow(CURRENT_INTERSECTION.row());
+                Intersection forwardIntersection = new Intersection(forwardRow, CURRENT_INTERSECTION.file());
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         forwardIntersection, DIFFERENT_SIDE_PEICE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, forwardIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, aliavePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -149,14 +148,14 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int leftFile = SIDE.getLeftFile(currentIntersection.row());
-                Intersection leftIntersection = new Intersection(currentIntersection.row(), leftFile);
+                int leftFile = SIDE.getLeftFile(CURRENT_INTERSECTION.row());
+                Intersection leftIntersection = new Intersection(CURRENT_INTERSECTION.row(), leftFile);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         leftIntersection, DIFFERENT_SIDE_PEICE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, leftIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, aliavePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -167,14 +166,14 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int rightFile = SIDE.getRightFile(currentIntersection.row());
-                Intersection rightIntersection = new Intersection(currentIntersection.row(), rightFile);
+                int rightFile = SIDE.getRightFile(CURRENT_INTERSECTION.row());
+                Intersection rightIntersection = new Intersection(CURRENT_INTERSECTION.row(), rightFile);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         rightIntersection, DIFFERENT_SIDE_PEICE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, rightIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, aliavePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -189,12 +188,12 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int forwardRow = SIDE.getForwardedRow(currentIntersection.row());
-                Intersection forwardIntersection = new Intersection(forwardRow, currentIntersection.file());
+                int forwardRow = SIDE.getForwardedRow(CURRENT_INTERSECTION.row());
+                Intersection forwardIntersection = new Intersection(forwardRow, CURRENT_INTERSECTION.file());
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, forwardIntersection, emptyAlivePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, emptyAlivePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -205,12 +204,12 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int leftFile = SIDE.getLeftFile(currentIntersection.row());
-                Intersection leftIntersection = new Intersection(currentIntersection.row(), leftFile);
+                int leftFile = SIDE.getLeftFile(CURRENT_INTERSECTION.row());
+                Intersection leftIntersection = new Intersection(CURRENT_INTERSECTION.row(), leftFile);
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, leftIntersection, emptyAlivePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, emptyAlivePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -221,12 +220,12 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int rightFile = SIDE.getRightFile(currentIntersection.row());
-                Intersection rightIntersection = new Intersection(currentIntersection.row(), rightFile);
+                int rightFile = SIDE.getRightFile(CURRENT_INTERSECTION.row());
+                Intersection rightIntersection = new Intersection(CURRENT_INTERSECTION.row(), rightFile);
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
                 // when
-                boolean canMove = soldier.canMove(currentIntersection, rightIntersection, emptyAlivePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, emptyAlivePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -238,12 +237,12 @@ class SoldierTest {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            int backwardRow = SIDE.getBackwardRow(currentIntersection.row());
-            Intersection backwordIntersection = new Intersection(backwardRow, currentIntersection.file());
+            int backwardRow = SIDE.getBackwardRow(CURRENT_INTERSECTION.row());
+            Intersection backwordIntersection = new Intersection(backwardRow, CURRENT_INTERSECTION.file());
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
-            boolean canMove = soldier.canMove(currentIntersection, backwordIntersection, emptyAlivePieces);
+            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, backwordIntersection, emptyAlivePieces);
 
             // then
             assertThat(canMove).isFalse();
