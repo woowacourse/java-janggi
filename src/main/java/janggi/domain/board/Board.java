@@ -1,0 +1,50 @@
+package janggi.domain.board;
+
+import janggi.domain.Position;
+import janggi.domain.Side;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.turn.TurnState;
+
+import java.util.List;
+import java.util.Map;
+
+public class Board implements BoardInterface {
+    private final Map<Position, Piece> board;
+
+    public Board(Map<Position, Piece> board) {
+        this.board = board;
+    }
+
+    @Override
+    public boolean isEmpty(Position position) {
+        return board.get(position).isEqualPieceType(PieceType.NONE);
+    }
+
+    @Override
+    public boolean isPo(Position position) {
+        return board.get(position).isEqualPieceType(PieceType.PO);
+    }
+
+    @Override
+    public boolean isEnemy(Side side, Position position) {
+        return !board.get(position).isEqualSide(side);
+    }
+
+    @Override
+    public boolean isAlly(Side side, Position position) {
+        return board.get(position).isEqualSide(side);
+    }
+
+    public TurnState move(Position start, Position end) {
+        Piece piece = board.get(start);
+        List<Position> route = piece.findRoute(start, end);
+
+        piece.validateRoute(route, this);
+        if (board.get(end).isGung()) {
+            return TurnState.FINISH;
+        }
+        board.put(start, piece);
+        return TurnState.RUNNING;
+    }
+}
