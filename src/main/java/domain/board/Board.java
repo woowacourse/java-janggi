@@ -39,7 +39,7 @@ public class Board {
         board.put(dest, movePiece);
     }
 
-    public BoardDTO print() {
+    public BoardDTO createDTO() {
         List<List<String>> stringBoard = new ArrayList<>();
         for (int y = 0; y < 10; y++) {
             List<String> lineOfStringBoard = new ArrayList<>();

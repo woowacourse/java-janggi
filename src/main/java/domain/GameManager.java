@@ -18,7 +18,7 @@ public class GameManager {
 
     public void run() {
         Board board = initialize();
-        outputView.printBoard(board.print().board());
+        outputView.printBoard(board.createDTO().board());
     }
 
     private Board initialize() {
