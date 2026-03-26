@@ -1,6 +1,7 @@
 package domain.strategy;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import domain.board.PathPieces;
 import domain.piece.Cha;
@@ -14,7 +15,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PoMovementStrategyTest {
-
 
     PoMovementStrategy poMovementStrategy = new PoMovementStrategy();
 
