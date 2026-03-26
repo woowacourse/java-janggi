@@ -22,4 +22,8 @@ public record Position(int x, int y) {
     public int calculateDx(Position to) {
         return to.x - this.x;
     }
+
+    public int calculateDy(Position to) {
+        return to.y - this.y;
+    }
 }

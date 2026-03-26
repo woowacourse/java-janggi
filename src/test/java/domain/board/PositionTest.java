@@ -1,6 +1,5 @@
 package domain.board;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -86,5 +85,16 @@ public class PositionTest {
         int dx = from.calculateDx(to);
 
         assertThat(dx).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("도착지점을 받으면 도착위치와 현재위치의 y좌표 차를 구한다.")
+    void YCoordinateDifference_When_ReceiveDestination() {
+        Position from = new Position(1, 2);
+        Position to = new Position(1, 6);
+
+        int dy = from.calculateDy(to);
+
+        assertThat(dy).isEqualTo(4);
     }
 }
