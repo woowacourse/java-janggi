@@ -18,7 +18,7 @@ public class SangTest {
     @DisplayName("상이 움직일 때, 경유지는 두 곳이다.")
     void straight_back_route(int column, int row) {
         // given
-        Piece sang = new Sang(Team.CHO, "상");
+        Piece sang = new Sang(Team.CHO);
         Point from = Point.of(5,5);
         Point to = Point.of(column, row);
 
@@ -33,7 +33,7 @@ public class SangTest {
     @DisplayName("이동할 수 없는 위치를 목적지로 할 경우 예외 발생")
     void destination_exception() {
         // given
-        Piece sang = new Sang(Team.CHO, "상");
+        Piece sang = new Sang(Team.CHO);
         Point from = Point.of(0,0);
         Point to = Point.of(1, 1);
 

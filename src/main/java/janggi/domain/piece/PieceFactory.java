@@ -13,7 +13,7 @@ public class PieceFactory {
             return new Ma(team);
         }
         if (pieceType.equals(PieceType.SANG)) {
-            return new Sang(team, pieceName);
+            return new Sang(team);
         }
         if (pieceType.equals(PieceType.CHA)) {
             return new Cha(team);
