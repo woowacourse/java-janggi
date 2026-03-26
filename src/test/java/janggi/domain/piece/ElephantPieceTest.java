@@ -1,13 +1,15 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.board.Position;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantPieceTest {
 
@@ -26,7 +28,7 @@ class ElephantPieceTest {
 
 
     @ParameterizedTest
-    @DisplayName("마는 직선 한 칸 대각선으로 한 칸 이외에 이동이 불가능하다.")
+    @DisplayName("상은 직선 한 칸 대각선으로 한 칸 이외에 이동이 불가능하다.")
     @CsvSource({
             "5, 4, 4, 3", "5, 4, 6, 1",
             "5, 4, 3, 4", "5, 4, 7, 2",
@@ -54,6 +56,41 @@ class ElephantPieceTest {
                                  int pathX1, int pathY1, int pathX2, int pathY2) {
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
         List<Position> path = elephantPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
-        assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(pathX2, pathY2), new Position(nextX, nextY));
+        assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(pathX2, pathY2),
+                new Position(nextX, nextY));
+    }
+
+    @Test
+    @DisplayName("마 이동 경로에 기물이 2개 있다면 이동할 수 없다.")
+    void testMoveOtherPiecesInPath() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 5), new CannonPiece(Team.HAN));
+        positionPieces.put(new Position(6, 6), new CannonPiece(Team.HAN));
+
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+    }
+
+    @Test
+    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 같은 진영 기물이 있다면 이동할 수 없다.")
+    void testNotMoveIfSameTeamPieceInDestination() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
+
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    }
+
+    @Test
+    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 상대 진영 기물이 있다면 이동할 수 없다.")
+    void testNotMoveIfOtherTeamPieceInDestination() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO));
+
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }

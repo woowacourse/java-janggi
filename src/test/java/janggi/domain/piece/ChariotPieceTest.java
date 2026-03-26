@@ -1,15 +1,16 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.board.Position;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ChariotPieceTest {
     @ParameterizedTest
@@ -51,5 +52,39 @@ class ChariotPieceTest {
 
         List<Position> result = chariotPiece.findPath(from, to);
         assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3), new Position(5, 3));
+    }
+
+    @Test
+    @DisplayName("차 이동 경로에 기물 2개 존재하면 이동할 수 없다.")
+    void testMoveOtherPiecesInPath() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
+
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    }
+
+    @Test
+    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 같은 진영 기물이 존재한다면 이동할 수 없다.")
+    void testNotMoveIfSameTeamPieceInDestination() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
+
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    }
+
+    @Test
+    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 상대 진영 기물이 존재한다면 이동할 수 없다.")
+    void testNotMoveIfOtherTeamPieceInDestination() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO));
+
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }

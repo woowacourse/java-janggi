@@ -1,13 +1,15 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.board.Position;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class HorsePieceTest {
 
@@ -55,5 +57,38 @@ class HorsePieceTest {
         HorsePiece horsePiece = new HorsePiece(Team.HAN);
         List<Position> path = horsePiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(nextX, nextY));
+    }
+
+    @Test
+    @DisplayName("마 이동 경로에 기물이 1개 있다면 이동할 수 없다.")
+    void testMoveOtherPiecesInPath() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN));
+
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
+        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(6, 7))).isFalse();
+    }
+
+    @Test
+    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 같은 진영 기물이 있다면 이동할 수 없다.")
+    void testNotMoveIfSameTeamPieceInDestination() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
+
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
+        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    }
+
+    @Test
+    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 상대 진영 기물이 있다면 이동할 수 없다.")
+    void testNotMoveIfOtherTeamPieceInDestination() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO));
+
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
+        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }
