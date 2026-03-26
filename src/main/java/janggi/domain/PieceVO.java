@@ -4,9 +4,9 @@ public record PieceVO(Side side, PieceType type, String pieceNumber) {
 
     public boolean isSameSide(PieceVO other) {
         if (other == null) {
-            return true;
+            return false;
         }
-        return this.side != other.side();
+        return this.side == other.side();
     }
 
     public boolean isCannon() {
