@@ -13,4 +13,8 @@ public record Position(
     public Position move(final Position offset) {
         return Position.of(column + offset.column, row + offset.row);
     }
+
+    public static Position up() {
+        return new Position(0, 1);
+    }
 }

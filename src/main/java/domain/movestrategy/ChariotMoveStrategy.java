@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
+    // TODO: 수직 수평에 장애물 있으면 해당 칸까지만 이동 가능, 이동할 위치에 아군이 있으면 이동 불가
     @Override
     public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
         List<Position> movable = new ArrayList<>();

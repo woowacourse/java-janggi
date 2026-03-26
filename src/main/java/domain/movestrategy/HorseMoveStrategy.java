@@ -25,6 +25,7 @@ public class HorseMoveStrategy implements MoveStrategy {
             Position.of(0, -1)
     );
 
+    // TODO: 경로 중간에 가로막히면 진행 불가 추가
     @Override
     public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
         return OFFSET_POSITIONS.stream()

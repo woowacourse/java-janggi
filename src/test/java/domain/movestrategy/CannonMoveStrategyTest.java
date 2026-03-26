@@ -2,44 +2,103 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Position;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CannonMoveStrategyTest {
 
     @Test
-    @DisplayName("포는 수직/수평으로 이동할 수 있다.")
-    public void moveTest() {
+    void 포는_장애물이_없으면_이동_불가() {
         // given
-        Position from = Position.of(1, 1);
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(5, 5);
 
-        List<Position> expected = List.of(
-                Position.of(1, 2),
-                Position.of(1, 3),
-                Position.of(1, 4),
-                Position.of(1, 5),
-                Position.of(1, 6),
-                Position.of(1, 7),
-                Position.of(1, 8),
-                Position.of(1, 9),
-                Position.of(2, 1),
-                Position.of(3, 1),
-                Position.of(4, 1),
-                Position.of(5, 1),
-                Position.of(6, 1),
-                Position.of(7, 1),
-                Position.of(8, 1),
-                Position.of(9, 1),
-                Position.of(10, 1)
-        );
+        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+
+        CannonMoveStrategy strategy = new CannonMoveStrategy();
 
         // when
-        List<Position> movable = new CannonMoveStrategy().calculateMovablePositions(from, Map.of());
+        List<Position> result = strategy.calculateMovablePositions(from, pieces);
 
         // then
-        assertThat(movable).containsAll(expected);
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void 포는_하나를_넘고_그_이후_이동_가능() {
+        // given
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(5, 5);
+
+        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+
+        // 장애물
+        pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.SOLDIER));
+
+        CannonMoveStrategy strategy = new CannonMoveStrategy();
+
+        // when
+        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+
+        // then
+        assertThat(result).contains(
+                Position.of(7, 5),
+                Position.of(8, 5),
+                Position.of(9, 5),
+                Position.of(10, 5)
+        );
+    }
+
+    @Test
+    void 포는_두번째_기물까지_이동_가능() {
+        // given
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(5, 5);
+
+        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+
+        // 첫 번째 장애물
+        pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.SOLDIER));
+
+        // 두 번째 기물
+        pieces.put(Position.of(8, 5), Piece.hanPieceOf(PieceType.SOLDIER));
+
+        CannonMoveStrategy strategy = new CannonMoveStrategy();
+
+        // when
+        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+
+        // then
+        assertThat(result).contains(
+                Position.of(7, 5),
+                Position.of(8, 5) // 여기까지 가능
+        );
+
+        assertThat(result).doesNotContain(Position.of(9, 5));
+    }
+
+    @Test
+    void 포는_포를_넘을_수_없다() {
+        // given
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(5, 5);
+
+        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+
+        // 첫 번째 기물이 포
+        pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.CANNON));
+
+        CannonMoveStrategy strategy = new CannonMoveStrategy();
+
+        // when
+        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+
+        // then
+        assertThat(result).isEmpty();
     }
 }

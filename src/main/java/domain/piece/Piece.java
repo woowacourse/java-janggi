@@ -30,4 +30,12 @@ public class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
+
+    public boolean isCannon() {
+        return pieceType == PieceType.CANNON;
+    }
+
+    public boolean isOpposite(Piece other) {
+        return this.team != other.team;
+    }
 }

@@ -18,6 +18,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
             Position.of(2, -3)
     );
 
+    // TODO: 경로에 장애물 있으면 이동 불가, 이동할 위치에 아군 있으면 이동 불가
     @Override
     public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
         return OFFSET_POSITIONS.stream()
