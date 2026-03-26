@@ -14,7 +14,7 @@ public class Sang implements Piece {
     private final Team team;
     private final PieceType type;
 
-    public Sang(Team team, String pieceName) {
+    public Sang(Team team) {
         this.team = team;
         this.type = PieceType.SANG;
     }
@@ -45,7 +45,8 @@ public class Sang implements Piece {
         }
         return List.of(
                 Point.of(from.getX(), from.getY() + (pathY / DISTANCE_MAX)),
-                Point.of(from.getX() + signX,  from.getY() + signY * DISTANCE_MIN));
+                Point.of(from.getX() + signX,  from.getY() + signY * DISTANCE_MIN)
+        );
     }
 
     @Override

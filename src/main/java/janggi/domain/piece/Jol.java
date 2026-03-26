@@ -4,10 +4,11 @@ import static java.lang.Math.abs;
 
 import janggi.domain.Point;
 import janggi.domain.status.Team;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Jol implements Piece {
+
+    private static final int MAX_DISTANCE = 1;
 
     private final Team team;
     private final PieceType type;
@@ -27,21 +28,17 @@ public class Jol implements Piece {
         int pathX = to.getX() - from.getX();
         int pathY = to.getY() - from.getY();
 
-        if (team.equals(Team.CHO)) {
-            if ((pathY == 1 && pathX == 0) ||
-                    (abs(pathX) == 1 && pathY == 0)
-            ) {
-                return List.of(to);
-            }
+        int signY = Integer.compare(pathY, 0);
+        int distanceX = abs(pathX);
+        int distanceY = abs(pathY);
+
+        if (distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX + distanceY > MAX_DISTANCE)) {
             throw new IllegalArgumentException();
         }
-
-        if ((pathY == -1 && pathX == 0) ||
-                (abs(pathX) == 1 && pathY == 0)
-        ) {
-            return List.of(to);
+        if ((team.equals(Team.CHO) && signY < 0) || (team.equals(Team.HAN) && signY > 0)) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        return List.of(to);
     }
 
     @Override
