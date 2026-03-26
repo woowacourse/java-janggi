@@ -55,16 +55,8 @@ public class Board {
     }
 
     private List<Piece> getBlockedPiece(Position from, Position to, Piece selectedPiece) {
-        List<Position> routes = selectedPiece.getRoutes(from, to);
-        List<Piece> pieces = new ArrayList<>();
-        for (Position route : routes) {
-            Space routeSpace = piecesInfo.get(route);
-            if (routeSpace.isBlank()) {
-                continue;
-            }
-            pieces.add((Piece) routeSpace);
-        }
-        return pieces;
+        Path path = selectedPiece.getPath(from, to);
+        return path.getBlockedPieces(piecesInfo);
     }
 
     private void applyMove(Position from, Position to, Piece selectedPiece) {
