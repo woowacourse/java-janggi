@@ -1,8 +1,8 @@
 package janggi.domain.board.coordinate;
 
-import janggi.domain.piece.Directions;
+import janggi.domain.piece.Pattern;
 import java.util.List;
 
 public interface PathStrategy {
-    List<Point> calculate(Directions directions, Point from);
+    List<Point> calculate(Pattern pattern, Point from);
 }

@@ -5,7 +5,7 @@ import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Directions;
+import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
@@ -26,25 +26,25 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Directions> directions() {
-        List<Directions> directions = new ArrayList<>();
+    public List<Pattern> directions() {
+        List<Pattern> directions = new ArrayList<>();
 
         directions.add(
-                new Directions(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST), pathStrategy));
+                new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST), pathStrategy));
         directions.add(
-                new Directions(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST), pathStrategy));
+                new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST), pathStrategy));
         directions.add(
-                new Directions(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST), pathStrategy));
+                new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST), pathStrategy));
         directions.add(
-                new Directions(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST), pathStrategy));
+                new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST), pathStrategy));
         directions.add(
-                new Directions(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST), pathStrategy));
+                new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST), pathStrategy));
         directions.add(
-                new Directions(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST), pathStrategy));
+                new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST), pathStrategy));
         directions.add(
-                new Directions(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST), pathStrategy));
+                new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST), pathStrategy));
         directions.add(
-                new Directions(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST), pathStrategy));
+                new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST), pathStrategy));
 
         return directions;
     }

@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.piece.Directions;
+import janggi.domain.piece.Pattern;
 import janggi.domain.piece.unit.Advisor;
 import janggi.domain.piece.unit.Cannon;
 import janggi.domain.piece.unit.Chariot;
@@ -88,14 +88,14 @@ public class Board {
         return piece.availablePoints(paths, piecesOnPaths);
     }
 
-    public List<Path> convertToPath(List<Directions> directionsBundle, Point from) {
-        return directionsBundle.stream()
+    public List<Path> convertToPath(List<Pattern> patternBundle, Point from) {
+        return patternBundle.stream()
                 .map(directions -> convertToPath(directions, from))
                 .toList();
     }
 
-    private final Path convertToPath(Directions directions, Point from) {
-        return new Path(directions, from);
+    private final Path convertToPath(Pattern pattern, Point from) {
+        return new Path(pattern, from);
     }
 
 

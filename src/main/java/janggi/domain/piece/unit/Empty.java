@@ -2,7 +2,7 @@ package janggi.domain.piece.unit;
 
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
-import janggi.domain.piece.Directions;
+import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Directions> directions() {
+    public List<Pattern> directions() {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 

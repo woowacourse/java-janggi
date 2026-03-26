@@ -3,8 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.board.coordinate.PathStrategy;
 import java.util.List;
 
-public record Directions(
-        List<Direction> value,
+public record Pattern(
+        List<Direction> pattern,
         PathStrategy pathStrategy
 ) {
 

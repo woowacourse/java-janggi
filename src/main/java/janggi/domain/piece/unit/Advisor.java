@@ -5,7 +5,7 @@ import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Directions;
+import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
@@ -26,10 +26,10 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public List<Directions> directions() {
-        List<Directions> paths = new ArrayList<>();
+    public List<Pattern> directions() {
+        List<Pattern> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
-            Directions path = new Directions(List.of(value), pathStrategy);
+            Pattern path = new Pattern(List.of(value), pathStrategy);
             paths.add(path);
         }
 

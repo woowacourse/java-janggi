@@ -5,7 +5,7 @@ import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Directions;
+import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
@@ -26,17 +26,17 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Directions> directions() {
-        List<Directions> directions = new ArrayList<>();
+    public List<Pattern> directions() {
+        List<Pattern> directions = new ArrayList<>();
         if (Side.HAN.equals(side)) {
-            directions.add(new Directions(List.of(Direction.NORTH),pathStrategy));
-            directions.add(new Directions(List.of(Direction.WEST), pathStrategy));
-            directions.add(new Directions(List.of(Direction.EAST), pathStrategy));
+            directions.add(new Pattern(List.of(Direction.NORTH),pathStrategy));
+            directions.add(new Pattern(List.of(Direction.WEST), pathStrategy));
+            directions.add(new Pattern(List.of(Direction.EAST), pathStrategy));
         }
         if (Side.CHO.equals(side)) {
-            directions.add(new Directions(List.of(Direction.SOUTH), pathStrategy));
-            directions.add(new Directions(List.of(Direction.WEST), pathStrategy));
-            directions.add(new Directions(List.of(Direction.EAST), pathStrategy));
+            directions.add(new Pattern(List.of(Direction.SOUTH), pathStrategy));
+            directions.add(new Pattern(List.of(Direction.WEST), pathStrategy));
+            directions.add(new Pattern(List.of(Direction.EAST), pathStrategy));
         }
         return directions;
     }
