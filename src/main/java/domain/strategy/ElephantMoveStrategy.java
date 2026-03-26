@@ -7,17 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ElephantStrategy extends MoveStrategy {
+public class ElephantMoveStrategy extends MoveStrategy {
 
     private final Map<Position, List<Position>> moves;
 
-    public ElephantStrategy(Position position) {
+    public ElephantMoveStrategy(Position position) {
         super(position);
         this.moves = setupDestinationAndRoutesFrom();
     }
 
-    public static ElephantStrategy of(Position position) {
-        return new ElephantStrategy(position);
+    public static ElephantMoveStrategy of(Position position) {
+        return new ElephantMoveStrategy(position);
     }
 
     private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {

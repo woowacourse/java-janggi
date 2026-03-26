@@ -10,13 +10,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ElephantStrategyTest {
+class ElephantMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("상 기물은 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 같은 대각선으로 2번 이동할 수 있어야 한다.")
     void horse_move_test(Position position, Position expectedTarget) {
-        ElephantStrategy moveStrategy = ElephantStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
 
         assertThat(moveStrategy.isMoveAble(expectedTarget)).isTrue();
     }
@@ -25,7 +25,7 @@ class ElephantStrategyTest {
     @MethodSource("nonMovablePositions")
     @DisplayName("상 기물은 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 같은 대각선 2번 외에는 이동할 수 없어야 한다.")
     void horse_move_test_negative(Position position, Position expectedTarget) {
-        ElephantStrategy moveStrategy = ElephantStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
 
         assertThat(moveStrategy.isMoveAble(expectedTarget)).isFalse();
     }
@@ -34,7 +34,7 @@ class ElephantStrategyTest {
     @MethodSource("moveablePositionsAndBlockedPositions")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
     void horse_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
-        ElephantStrategy moveStrategy = ElephantStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
 
         assertThat(moveStrategy.isRouteBlockedBy(expectedTarget, piecePositions)).isTrue();
     }
@@ -43,7 +43,7 @@ class ElephantStrategyTest {
     @MethodSource("moveablePositionsAndNonBlockedPositions")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
     void horse_non_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
-        ElephantStrategy moveStrategy = ElephantStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
 
         assertThat(moveStrategy.isRouteBlockedBy(expectedTarget, piecePositions)).isFalse();
     }
