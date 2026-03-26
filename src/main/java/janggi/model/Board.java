@@ -46,6 +46,7 @@ public class Board {
 
         Map<Position, Gimul> movedBoard = new HashMap<>(board);
         movedBoard.put(to, gimulAtFrom);
+        movedBoard.remove(from);
 
         return new Board(movedBoard);
     }
@@ -54,14 +55,19 @@ public class Board {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("    0  1  2  3  4  5  6  7  8\n");
+        sb.append("    1  2  3  4  5  6  7  8  9\n");
         sb.append("  ┌───────────────────────────┐\n");
 
-        for (int row = 0; row < 10; row++) {
-            sb.append(row).append(" │");
+        for (int row = 1; row <= 10; row++) {
+            int displayRow = row;
+
+            if (row == 10) {
+                displayRow = 0;
+            }
+            sb.append(displayRow).append(" │");
 
             for (int col = 0; col < 9; col++) {
-                Position position = new Position(Row.of(row), Column.of(col));
+                Position position = new Position(Row.of(row - 1), Column.of(col));
                 Gimul gimul = board.get(position);
 
                 String symbol = (gimul == null) ? "·" : gimul.getSymbol();

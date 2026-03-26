@@ -1,7 +1,6 @@
 package janggi.controller;
 
 import janggi.model.Janggi;
-import janggi.model.initializer.BoardInitializer;
 import janggi.model.initializer.InsideTableSetting;
 import janggi.model.initializer.LeftSidedTableSetting;
 import janggi.model.initializer.OutsideTableSetting;
@@ -17,7 +16,6 @@ public class JanggiController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private BoardInitializer boardInitializer;
 
     public JanggiController(OutputView outputView, InputView inputView) {
         this.outputView = outputView;
@@ -29,6 +27,7 @@ public class JanggiController {
         Janggi janggi = initializeBoard(boardType);
 
         while (!janggi.isGameOver()) {
+            janggi.withBoard(outputView::printBoard);
             Position from = readFromPosition();
             Position to = readToPosition();
             janggi = janggi.play(from, to);
@@ -54,6 +53,7 @@ public class JanggiController {
         if (boardType == 4) {
             return Janggi.of(new OutsideTableSetting().init());
         }
+
         throw new IllegalArgumentException("유효한 유형 번호를 입력하세요.");
     }
 
