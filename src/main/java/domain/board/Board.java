@@ -37,10 +37,6 @@ public class Board {
         return board[start.col()][start.row()];
     }
 
-    private boolean isOpponentTurnPiece(Position position) {
-        return !board[position.col()][position.row()].isFriendly(turn);
-    }
-
     public boolean isAvailableDestination(Position destination) {
         if (destination.col() < POSITION_THRESHOLD || destination.col() >= COL_SIZE) {
             return false;
@@ -50,7 +46,11 @@ public class Board {
             return false;
         }
 
-        return isOpponentTurnPiece(destination);
+        return isNotFriendlyPiece(destination);
+    }
+
+    public boolean isOpponentPiece(Position position) {
+        return isNotFriendlyPiece(position) && !board[position.col()][position.row()].isNeutral();
     }
 
     public void move(Position start, Position destination) {
@@ -69,6 +69,10 @@ public class Board {
         turn = turn.change();
     }
 
+    private boolean isNotFriendlyPiece(Position position) {
+        return !board[position.col()][position.row()].isFriendly(turn);
+    }
+
     private void validateRange(Position position) {
         if (position.col() < POSITION_THRESHOLD || position.col() >= COL_SIZE) {
             throw new IllegalArgumentException(String.format("잘못된 열 좌표: %d (열 좌표는 0 에서 9 사이여야 합니다.)", position.col()));
@@ -80,13 +84,13 @@ public class Board {
     }
 
     private void validateStartPosition(Position start) {
-        if (isOpponentTurnPiece(start)) {
+        if (isNotFriendlyPiece(start)) {
             throw new IllegalArgumentException("아군 기물만 이동 가능합니다.");
         }
     }
 
     private void validateDestination(Position destination) {
-        if (!isOpponentTurnPiece(destination)) {
+        if (!isNotFriendlyPiece(destination)) {
             throw new IllegalArgumentException("아군 기물이 있는 위치는 이동할 수 없습니다.");
         }
     }

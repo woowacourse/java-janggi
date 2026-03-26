@@ -14,6 +14,10 @@ public enum Side {
         return this == HAN;
     }
 
+    public boolean isNeutral() {
+        return this == NEUTRAL;
+    }
+
     public Side change() {
         if (this == HAN) {
             return CHU;

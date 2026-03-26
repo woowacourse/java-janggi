@@ -23,6 +23,10 @@ public abstract class Piece {
         return side.isHan();
     }
 
+    public boolean isNeutral() {
+        return side.isNeutral();
+    }
+
     public boolean isFriendly(Side side) {
         return this.side == side;
     }
