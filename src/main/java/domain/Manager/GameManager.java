@@ -6,6 +6,7 @@ import static domain.player.Team.HAN;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
+import domain.piece.Piece;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
@@ -26,8 +27,15 @@ public class GameManager {
         outputView.printBoard(board.createDTO().board());
         //for문 (턴마다 반복)
         Position src = createPosition();
+        //src의 피스가 같은팀인지 판단하기. 아니면 재입력.
         Position dest = createPosition();
         // 이동 - 잡았으면 플레이어에 추가
+        if(board.canMove(src, dest)) {
+            Piece piece = board.move(src,dest);
+            if(!piece.isNone()) {
+                //add.
+            }
+        }
         outputView.printBoard(board.createDTO().board());
         // 턴 넘기기
 
