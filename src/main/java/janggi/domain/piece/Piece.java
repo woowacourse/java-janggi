@@ -1,26 +1,34 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Board;
+import janggi.domain.coodinate.Direction;
 import janggi.domain.coodinate.Path;
+import janggi.domain.coodinate.PathStrategy;
 import janggi.domain.coodinate.Point;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
+    protected PathStrategy pathStrategy;
     protected PieceName name;
-    protected Side side;
 
-    public Piece(PieceName name, Side side) {
+    public Piece(PieceName name, Side side, PathStrategy pathStrategy) {
         this.name = name;
         this.side = side;
+        this.pathStrategy = pathStrategy;
     }
+
+    protected Side side;
 
     public final Side getSide() {
         return side;
     }
     public final boolean isSameSide(Side side) {
         return Side.isSameSide(this.side,side);
+    }
+    protected final Path convertToPath(List<Direction> directions, Point from) {
+        return new Path(directions, from, pathStrategy);
     }
 
     public abstract List<Point> availablePoints(Point from, Point to, Board board);
