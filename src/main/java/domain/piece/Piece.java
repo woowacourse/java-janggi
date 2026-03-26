@@ -29,8 +29,8 @@ public abstract class Piece {
     }
 
     @Override
-    public String toString() {
-        return "Piece{" +
+    public final String toString() {
+        return getClass().getSimpleName() + "{" +
                 "side=" + side +
                 '}';
     }
