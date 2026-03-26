@@ -2,6 +2,8 @@ package domain.point;
 
 import domain.piece.move.Direction;
 
+import java.util.List;
+
 public record Point(
         int y,
         int x
@@ -13,11 +15,19 @@ public record Point(
         this.x = x;
     }
 
+    public Point movePoint(int y, int x) {
+        return new Point(this.y + y, this.x + x);
+    }
+
     private void validate(int y, int x) {
-        if (0 <= y && y <= 9 && 0 <= x && x <= 8) {
+        if (checkPointRange(y, x)) {
             return;
         }
         throw new IllegalArgumentException();
+    }
+
+    private boolean checkPointRange(int y, int x) {
+        return 0 <= y && y <= 9 && 0 <= x && x <= 8;
     }
 
     public boolean isSameFile(Point other) {
