@@ -3,8 +3,11 @@ package controller;
 import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.Position;
+import domain.piece.Piece;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class JanggiController {
 
@@ -22,5 +25,6 @@ public class JanggiController {
         Board board = new Board(boardInitializer);
         outputView.printBoard(board.getBoard());
         Position startPosition = inputView.requestPiecePosition();
+        outputView.printAvailablePositions(board.getPieceBy(startPosition).getPossibleMoves(board, startPosition));
     }
 }

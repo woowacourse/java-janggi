@@ -1,7 +1,10 @@
 package view;
 
+import domain.Position;
 import domain.piece.Piece;
 import view.message.PieceView;
+
+import java.util.List;
 
 public class OutputView {
 
@@ -18,6 +21,13 @@ public class OutputView {
                 printPieceBySide(board[i][j]);
             }
             System.out.println();
+        }
+    }
+
+    public void printAvailablePositions(List<Position> possibleMoves) {
+        int index = 1;
+        for (Position possibleMove : possibleMoves) {
+            System.out.printf("%d. (%d, %d)\n", index++, possibleMove.col(), possibleMove.row());
         }
     }
 
