@@ -26,19 +26,16 @@ public class ListPathGenerator implements PathGenerator {
     }
 
     private Optional<Path> tryBuildPath(Position src, Position dest, List<Direction> directionPath) {
-        try {
-            List<Position> waypoints = new ArrayList<>();
-            Position current = src;
-            for (Direction direction : directionPath) {
-                current = direction.move(current);
-                waypoints.add(current);
-            }
+        List<Position> waypoints = new ArrayList<>();
+        Position current = src;
+        for (Direction direction : directionPath) {
+            current = direction.move(current);
+            waypoints.add(current);
+        }
 
-            if (dest.equals(current)) {
-                waypoints.removeLast();
-                return Optional.of(new Path(src, dest, waypoints));
-            }
-        } catch (IllegalArgumentException e) {
+        if (dest.equals(current)) {
+            waypoints.removeLast();
+            return Optional.of(new Path(src, dest, waypoints));
         }
         return Optional.empty();
     }
