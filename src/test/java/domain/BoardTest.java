@@ -9,8 +9,6 @@ import domain.piece.Team;
 import domain.point.Point;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
@@ -29,7 +27,7 @@ public class BoardTest {
                 Arrays.asList(actualIntersection));
 
         JanggiBoard janggiBoard = new JanggiBoard(testIntersectionGenerator);
-        Intersection expectedIntersection = janggiBoard.getIntersection(point);
+        Intersection expectedIntersection = janggiBoard.findIntersection(point);
 
         Assertions.assertThat(actualIntersection.isSamePiece(expectedIntersection))
                 .isTrue();
@@ -52,7 +50,7 @@ public class BoardTest {
         ).toList();
 
         List<Intersection> actual = elephantAndHorsePoints.stream()
-                .map(janggiBoard::getIntersection)
+                .map(janggiBoard::findIntersection)
                 .toList();
 
         List<Intersection> expected =
