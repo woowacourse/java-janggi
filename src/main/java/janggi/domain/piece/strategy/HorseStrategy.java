@@ -46,8 +46,11 @@ public class HorseStrategy implements MoveStrategy {
     }
 
     private void validateHorseMovement(DirectionInformation directionInformation) {
-        if ((directionInformation.rowDifference() != 1 || directionInformation.colDifference() != 2)
-                && (directionInformation.rowDifference() != 2 || directionInformation.colDifference() != 1)) {
+        int absRowDifference = directionInformation.calculateAbsRowDifference();
+        int absColDifference = directionInformation.calculateAbsColDifference();
+
+        if ((absRowDifference != 1 || absColDifference != 2)
+                && (absRowDifference != 2 || absColDifference != 1)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
     }

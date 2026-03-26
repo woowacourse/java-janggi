@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 public enum Camp {
 
-    HAN(1),
-    CHO(-1);
+    HAN(-1),
+    CHO(1);
 
     private final int forwardDirection;
 

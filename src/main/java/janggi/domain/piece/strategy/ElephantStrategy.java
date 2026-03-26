@@ -20,8 +20,8 @@ public class ElephantStrategy implements MoveStrategy {
     }
 
     private void validateElephantMovement(DirectionInformation directionInfo) {
-        if ((directionInfo.rowDifference() != 2 || directionInfo.colDifference() != 3)
-                && (directionInfo.rowDifference() != 3 || directionInfo.colDifference() != 2)) {
+        if ((directionInfo.calculateAbsRowDifference() != 2 || directionInfo.calculateAbsColDifference() != 3)
+                && (directionInfo.calculateAbsRowDifference() != 3 || directionInfo.calculateAbsColDifference() != 2)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
     }

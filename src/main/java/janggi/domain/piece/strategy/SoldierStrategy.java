@@ -8,15 +8,17 @@ public class SoldierStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position from, Position to, Camp camp) {
-        int rowDiff = from.calculateRowDistance(to);
-        camp.validateForwardDirection(rowDiff);
+        DirectionInformation directionInformation = new DirectionInformation(from, to);
 
-        rowDiff = Math.abs(rowDiff);
-        int colDiff = Math.abs(from.calculateColumnDistance(to));
+        camp.validateForwardDirection(directionInformation.rowDifference());
+        validateSoldierMovement(directionInformation);
 
-        if (rowDiff + colDiff != 1) {
+        return List.of(to);
+    }
+
+    private void validateSoldierMovement(DirectionInformation directionInformation) {
+        if (directionInformation.calculateAbsRowDifference() + directionInformation.calculateAbsColDifference() != 1) {
             throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
-        return List.of(to);
     }
 }
