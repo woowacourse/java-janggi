@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.piece.None;
 import domain.piece.Piece;
+import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import dto.BoardDTO;
@@ -47,6 +48,10 @@ public class Board {
         }
 
         return new BoardDTO(stringBoard);
+    }
+
+    public boolean isPieceSameTeam(Position src, Team team) {
+        return findPiece(src).isSameTeam(team);
     }
 
     private PathPieces findPieceInPath(Path path) {
