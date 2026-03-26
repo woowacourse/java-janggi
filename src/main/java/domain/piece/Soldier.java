@@ -68,7 +68,7 @@ public class Soldier extends StaticPositionedPiece {
     ) {
         Piece rightPiece = alivePieces.placedAt(destination);
 
-        if (!destination.isOutOfBoard()) {
+        if (destination.isOutOfBoard()) {
             return;
         }
 
