@@ -1,11 +1,9 @@
-
-
 public class Application {
     public static void main(String[] args) {
-        try{
+        try {
             Janggi janggi = new Janggi();
             janggi.run();
-        }catch (IllegalArgumentException | IllegalStateException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println(e.getMessage());
         }
     }

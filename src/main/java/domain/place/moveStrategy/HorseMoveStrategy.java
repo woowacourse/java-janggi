@@ -36,7 +36,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     private boolean isPathClear(Position from, Position to, Direction direction) {
-        if(!isStepInBounds(from, direction)){
+        if (!isStepInBounds(from, direction)) {
             return false;
         }
         Position step1 = from.move(direction);
@@ -44,7 +44,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         return isStep2Clear(step1, to, direction);
     }
 
-    private boolean isStep2Clear(Position step1, Position to, Direction direction){
+    private boolean isStep2Clear(Position step1, Position to, Direction direction) {
         List<Direction> diagonal = DIAGONAL_DIRECTIONS.stream()
                 .filter(dig -> isAlignedWith(direction, dig))
                 .filter(dig -> isStepInBounds(step1, dig))

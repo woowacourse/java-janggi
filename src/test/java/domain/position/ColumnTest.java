@@ -1,7 +1,6 @@
 package domain.position;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -54,7 +54,7 @@ public class Board implements BoardView {
         change(from, to);
     }
 
-    private void validateNotSamePosition(Position from, Position to){
+    private void validateNotSamePosition(Position from, Position to) {
         if (from.equals(to)) {
             throw new IllegalArgumentException("[ERROR] 같은 위치로는 이동할 수 없습니다.");
         }

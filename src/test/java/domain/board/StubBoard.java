@@ -15,7 +15,7 @@ import java.util.Map;
 public class StubBoard {
     private final Map<Position, Place> board;
 
-    public StubBoard(){
+    public StubBoard() {
         this.board = new HashMap<>();
         setUpEmpty();
     }
@@ -28,11 +28,13 @@ public class StubBoard {
         }
     }
 
-    public StubBoard put(Position position,Piece piece){
-        board.put(position,piece);
+    public StubBoard put(Position position, Piece piece) {
+        board.put(position, piece);
 
         return this;
     }
 
-    public Board create(){ return new Board(new HashMap<>(board)); }
+    public Board create() {
+        return new Board(new HashMap<>(board));
+    }
 }

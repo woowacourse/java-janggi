@@ -43,10 +43,9 @@ public class Position {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Position)) {
+        if (!(o instanceof Position position)) {
             return false;
         }
-        Position position = (Position) o;
         return row.equals(position.row) && column.equals(position.column);
     }
 

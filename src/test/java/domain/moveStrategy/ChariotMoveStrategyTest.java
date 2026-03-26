@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 class ChariotMoveStrategyTest {
     @Test
     @DisplayName("차는 우로 이동 가능하다.")
-    void 차_정상_우_이동(){
+    void 차_정상_우_이동() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -34,10 +34,10 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차는 좌로 이동 가능하다.")
-    void 차_정상_좌_이동(){
+    void 차_정상_좌_이동() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -53,10 +53,10 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차는 위로 이동 가능하다.")
-    void 차_정상_위_이동(){
+    void 차_정상_위_이동() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -72,10 +72,10 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차는 아래로 이동 가능하다.")
-    void 차_정상_아래_이동(){
+    void 차_정상_아래_이동() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -91,11 +91,11 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차는 상대편을 먹을 수 있다.")
-    void 차_정상_상대편_잡기_이동(){
+    void 차_정상_상대편_잡기_이동() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        stubBoard.put(new Position(3,7), new Chariot(Side.HAN, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 7), new Chariot(Side.HAN, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -111,11 +111,11 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차가 장애물을 중간에 만나면 이동 불가능하다.")
-    void 차_장애물_이동_불가(){
+    void 차_장애물_이동_불가() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        stubBoard.put(new Position(3,6), new Chariot(Side.HAN, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 6), new Chariot(Side.HAN, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -131,11 +131,11 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차가 자신의 팀을 만나면 이동 불가능하다.")
-    void 차_같은팀으로_이동_불가(){
+    void 차_같은팀으로_이동_불가() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        stubBoard.put(new Position(3,7), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3, 7), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);

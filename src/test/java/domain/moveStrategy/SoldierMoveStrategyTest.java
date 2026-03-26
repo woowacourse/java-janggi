@@ -20,11 +20,11 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_앞으로_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(2,1), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(2, 1), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(2,1);
-        Position to = new Position(1,1);
+        Position from = new Position(2, 1);
+        Position to = new Position(1, 1);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -40,11 +40,11 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_좌측_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(2,2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(2, 2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(2,2);
-        Position to = new Position(2,1);
+        Position from = new Position(2, 2);
+        Position to = new Position(2, 1);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -60,11 +60,11 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_우측_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(2,2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(2, 2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(2,2);
-        Position to = new Position(2,3);
+        Position from = new Position(2, 2);
+        Position to = new Position(2, 3);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -80,11 +80,11 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_뒤로_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(1,2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(1, 2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(1,2);
-        Position to = new Position(2,2);
+        Position from = new Position(1, 2);
+        Position to = new Position(2, 2);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -100,11 +100,11 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_대각선_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(2,2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(2, 2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(2,2);
-        Position to = new Position(3,3);
+        Position from = new Position(2, 2);
+        Position to = new Position(3, 3);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -120,11 +120,11 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_두칸_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(1,1), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(1, 1), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(1,1);
-        Position to = new Position(3,1);
+        Position from = new Position(1, 1);
+        Position to = new Position(3, 1);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -140,12 +140,12 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_아군_위치_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(2,2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        stub.put(new Position(2,3), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(2, 2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(2, 3), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(2,2);
-        Position to = new Position(2,3);
+        Position from = new Position(2, 2);
+        Position to = new Position(2, 3);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -161,12 +161,12 @@ class SoldierMoveStrategyTest {
     void 초나라_졸_적군_공격_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(2,2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        stub.put(new Position(2,3), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stub.put(new Position(2, 2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stub.put(new Position(2, 3), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(2,2);
-        Position to = new Position(2,3);
+        Position from = new Position(2, 2);
+        Position to = new Position(2, 3);
 
         MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
@@ -182,11 +182,11 @@ class SoldierMoveStrategyTest {
     void 한나라_졸_앞으로_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(9,2), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stub.put(new Position(9, 2), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(9,2);
-        Position to = new Position(10,2);
+        Position from = new Position(9, 2);
+        Position to = new Position(10, 2);
 
         MoveStrategy moveStrategy = new HanSoldierMoveStrategy();
 
@@ -202,11 +202,11 @@ class SoldierMoveStrategyTest {
     void 한나라_졸_좌우_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(9,5), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stub.put(new Position(9, 5), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(9,5);
-        Position to = new Position(9,6);
+        Position from = new Position(9, 5);
+        Position to = new Position(9, 6);
 
         MoveStrategy moveStrategy = new HanSoldierMoveStrategy();
 
@@ -222,11 +222,11 @@ class SoldierMoveStrategyTest {
     void 한나라_졸_뒤로_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(10,5), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stub.put(new Position(10, 5), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(10,5);
-        Position to = new Position(9,5);
+        Position from = new Position(10, 5);
+        Position to = new Position(9, 5);
 
         MoveStrategy moveStrategy = new HanSoldierMoveStrategy();
 
