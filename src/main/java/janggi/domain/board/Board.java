@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.coodinate.Point;
 import janggi.domain.piece.Advisor;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;

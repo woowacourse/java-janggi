@@ -1,7 +1,8 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.Point;
+import janggi.domain.coodinate.Path;
+import janggi.domain.coodinate.Point;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Objects;

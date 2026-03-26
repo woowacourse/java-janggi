@@ -1,6 +1,6 @@
 package janggi.domain.board.setup;
 
-import janggi.domain.board.Point;
+import janggi.domain.coodinate.Point;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;

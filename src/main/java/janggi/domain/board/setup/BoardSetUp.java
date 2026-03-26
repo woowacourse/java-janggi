@@ -1,6 +1,6 @@
 package janggi.domain.board.setup;
 
-import janggi.domain.board.Point;
+import janggi.domain.coodinate.Point;
 import janggi.domain.piece.Piece;
 import janggi.domain.side.Side;
 import java.util.Map;
