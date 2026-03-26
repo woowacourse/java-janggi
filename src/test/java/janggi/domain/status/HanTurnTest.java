@@ -33,7 +33,7 @@ public class HanTurnTest {
     void turn_change() {
         // given
         Point from = Point.of(1, 1);
-        Point to = Point.of(2, 3);
+        Point to = Point.of(1, 2);
 
         // when
         GameStatus status = new HanTurn();
