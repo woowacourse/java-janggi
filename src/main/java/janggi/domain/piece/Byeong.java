@@ -28,18 +28,27 @@ public class Byeong extends Piece {
     }
 
     private boolean xMoveStrategy(Position from, Position to) {
-        return Math.abs(from.x() - to.x()) == 1 && Math.abs(from.y() - to.y()) == 0;
+        int dx = from.diffX(to);
+        int dy = from.diffY(to);
+
+        return Math.abs(dx) == 1 && Math.abs(dy) == 0;
     }
 
     private boolean HanYMoveStrategy(Position from, Position to) {
-        return Math.abs(from.x() - to.x()) == 0 &&
-                (from.y() - to.y()) == 1 &&
+        int dx = from.diffX(to);
+        int dy = from.diffY(to);
+
+        return Math.abs(dx) == 0 &&
+                dy == 1 &&
                 this.isEqualTeam(Team.HAN);
     }
 
     private boolean ChoYMoveStrategy(Position from, Position to) {
-        return Math.abs(from.x() - to.x()) == 0 &&
-                (from.y() - to.y()) == -1 &&
+        int dx = from.diffX(to);
+        int dy = from.diffY(to);
+
+        return Math.abs(dx) == 0 &&
+                dy == -1 &&
                 this.isEqualTeam(Team.CHO);
     }
 }

@@ -24,7 +24,10 @@ public class Ma extends Piece {
     }
 
     private boolean moveStrategy(Position from, Position to) {
-        return (Math.abs(from.x() - to.x()) == 1 && Math.abs(from.y() - to.y()) == 2) ||
-            (Math.abs(from.x() - to.x()) == 2 && Math.abs(from.y() - to.y()) == 1);
+        int dx = from.diffX(to);
+        int dy = from.diffY(to);
+
+        return (Math.abs(dx) == 1 && Math.abs(dy) == 2) ||
+                (Math.abs(dx) == 2 && Math.abs(dy) == 1);
     }
 }
