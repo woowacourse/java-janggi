@@ -20,7 +20,7 @@ public class Byeong extends Piece {
 
     @Override
     public Path getPath(Position from, Position to) {
-        return null;
+        return Path.EMPTY;
     }
 
     private boolean moveStrategy(Position from, Position to) {
