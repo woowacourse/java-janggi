@@ -13,6 +13,10 @@ public class Piece {
         return this.pieceType;
     }
 
+    public TeamColor getTeamColor() {
+        return this.teamColor;
+    }
+
     public static Piece of(TeamColor teamColor, PieceType pieceType) {
         return new Piece(teamColor,pieceType);
     }
