@@ -15,14 +15,14 @@ class BoardTest {
         // given
         // when
         // then
-        assertDoesNotThrow(Board::of);
+        assertDoesNotThrow(() -> BoardFactory.setUp());
     }
 
     @Test
     @DisplayName("기물의 직선 이동 경로에 다른 기물이 없으면 이동한다.")
     void 기물_직선_이동() {
         // given
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position from = Position.of(0, 0);
@@ -38,7 +38,7 @@ class BoardTest {
     @DisplayName("기물의 대각선 이동 경로에 다른 기물이 없으면 이동한다.")
     void 기물_대각선_이동() {
         // given
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
         Position to = Position.of(3, 3);
 
         // when

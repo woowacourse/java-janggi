@@ -1,6 +1,7 @@
 package domain.strategy;
 
 import domain.Board;
+import domain.BoardFactory;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ class HorseMoveStrategyTest {
     void 초나라_마_정마_이동() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position from = Position.of(0, 2);
@@ -29,7 +30,7 @@ class HorseMoveStrategyTest {
     void 한나라_마_정마_이동() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position from = Position.of(9, 2);
@@ -44,7 +45,7 @@ class HorseMoveStrategyTest {
     void 초나라_마_이동_경로에_기물이_있으면_이동_불가() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position from = Position.of(0, 2);
@@ -59,7 +60,7 @@ class HorseMoveStrategyTest {
     void 마_목적지에_같은_팀_기물이_있으면_이동_불가() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position from = Position.of(0, 2);

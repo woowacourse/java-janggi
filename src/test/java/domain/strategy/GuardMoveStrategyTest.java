@@ -1,6 +1,7 @@
 package domain.strategy;
 
 import domain.Board;
+import domain.BoardFactory;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,7 @@ class GuardMoveStrategyTest {
     void 사_정상_이동() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position position = Position.of(0, 3);
@@ -28,7 +29,7 @@ class GuardMoveStrategyTest {
     void 사_목적지에_같은_팀_기물이_있으면_이동_불가() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position position = Position.of(0, 3);
@@ -44,7 +45,7 @@ class GuardMoveStrategyTest {
     void 사_목적지에_다른_팀_기물이_있으면_정상_이동() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
-        Board board = Board.of();
+        Board board = BoardFactory.setUp();
 
         // when
         Position position = Position.of(0, 3);

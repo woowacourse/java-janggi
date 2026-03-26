@@ -7,6 +7,8 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
+
+
         return false;
     }
 }
