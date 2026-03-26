@@ -7,7 +7,7 @@ import domain.TeamColor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OuterFomrationStrategy implements InitialFormationStrategy {
+public class RightFormationStrategy implements InitialFormationStrategy {
 
     @Override
     public Map<Position, Piece> setupFormation(TeamColor teamColor) {
@@ -16,8 +16,8 @@ public class OuterFomrationStrategy implements InitialFormationStrategy {
 
         formation.put(Position.of(1, y), Piece.of(teamColor, PieceType.ELEPHANT));
         formation.put(Position.of(2, y), Piece.of(teamColor, PieceType.HORSE));
-        formation.put(Position.of(6, y), Piece.of(teamColor, PieceType.HORSE));
-        formation.put(Position.of(7, y), Piece.of(teamColor, PieceType.ELEPHANT));
+        formation.put(Position.of(6, y), Piece.of(teamColor, PieceType.ELEPHANT));
+        formation.put(Position.of(7, y), Piece.of(teamColor, PieceType.HORSE));
         return formation;
     }
 }

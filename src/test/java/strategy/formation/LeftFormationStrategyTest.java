@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class LeftFomrationStrategyTest {
+public class LeftFormationStrategyTest {
 
     private InitialFormationStrategy initialFormationStrategy;
 
     @BeforeEach
     public void setUp() {
-        initialFormationStrategy = new LeftFomrationStrategy();
+        initialFormationStrategy = new LeftFormationStrategy();
     }
 
     @Test

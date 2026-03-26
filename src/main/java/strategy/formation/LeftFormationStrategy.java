@@ -7,7 +7,7 @@ import domain.TeamColor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LeftFomrationStrategy implements InitialFormationStrategy {
+public class LeftFormationStrategy implements InitialFormationStrategy {
 
     @Override
     public Map<Position, Piece> setupFormation(TeamColor teamColor) {
