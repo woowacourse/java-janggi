@@ -1,13 +1,15 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.direction.Direction;
+import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.List;
 
 public class General extends StaticPositionedPiece {
 
     private static final int INITIAL_FILE = 5;
-    private static final int FAR_FROM_BASE_ROW = 1;
+    private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(1);
 
     public General(Side side) {
         super(side);
@@ -15,9 +17,11 @@ public class General extends StaticPositionedPiece {
 
     @Override
     public List<Intersection> initAt() {
-        int baseRow = side.getBaseRow();
-        int intialRow = side.getForwardedRow(baseRow, FAR_FROM_BASE_ROW);
+        Direction forwardDirection = side.getForwardDirection();
 
-        return List.of(new Intersection(intialRow, INITIAL_FILE));
+        return List.of(forwardDirection.moveForward(
+                new Intersection(side.getBaseRow(), INITIAL_FILE),
+                FAR_FROM_BASE_ROW
+        ));
     }
 }

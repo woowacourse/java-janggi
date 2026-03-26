@@ -43,4 +43,9 @@ public class Right implements Direction {
                 currentIntersection.file() + moveAmount.amount()
         );
     }
+
+    @Override
+    public Direction reverse() {
+        return new Left();
+    }
 }

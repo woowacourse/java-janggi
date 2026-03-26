@@ -13,4 +13,6 @@ public interface Direction {
     Intersection moveForwardLeft(Intersection currentIntersection, MoveAmount moveAmount);
 
     Intersection moveForwardRight(Intersection currentIntersection, MoveAmount moveAmount);
+
+    Direction reverse();
 }

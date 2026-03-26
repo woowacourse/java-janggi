@@ -3,6 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
+import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ class SoldierTest {
 
         private static final int DEFAULT_ROW = 5;
         private static final int DEFAULT_FILE = 5;
+        private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
         private static final Side SIDE = Side.HAN;
         private static final Side DIFFERENT_SIDE = Side.CHO;
         private static final Soldier SAME_SIDE_PEICE = new Soldier(SIDE);
@@ -72,8 +74,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int forwardRow = SIDE.getForwardedRow(CURRENT_INTERSECTION.row());
-                Intersection forwardIntersection = new Intersection(forwardRow, CURRENT_INTERSECTION.file());
+                Intersection forwardIntersection = SIDE.getForwardDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         forwardIntersection, SAME_SIDE_PEICE
                 ));
@@ -90,8 +92,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int leftFile = SIDE.getLeftFile(CURRENT_INTERSECTION.row());
-                Intersection leftIntersection = new Intersection(CURRENT_INTERSECTION.row(), leftFile);
+                Intersection leftIntersection = SIDE.getLeftDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         leftIntersection, SAME_SIDE_PEICE
                 ));
@@ -108,8 +110,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int rightFile = SIDE.getRightFile(CURRENT_INTERSECTION.row());
-                Intersection rightIntersection = new Intersection(CURRENT_INTERSECTION.row(), rightFile);
+                Intersection rightIntersection = SIDE.getRightDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         rightIntersection, SAME_SIDE_PEICE
                 ));
@@ -130,8 +132,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int forwardRow = SIDE.getForwardedRow(CURRENT_INTERSECTION.row());
-                Intersection forwardIntersection = new Intersection(forwardRow, CURRENT_INTERSECTION.file());
+                Intersection forwardIntersection = SIDE.getForwardDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         forwardIntersection, DIFFERENT_SIDE_PEICE
                 ));
@@ -148,8 +150,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int leftFile = SIDE.getLeftFile(CURRENT_INTERSECTION.row());
-                Intersection leftIntersection = new Intersection(CURRENT_INTERSECTION.row(), leftFile);
+                Intersection leftIntersection = SIDE.getLeftDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         leftIntersection, DIFFERENT_SIDE_PEICE
                 ));
@@ -166,8 +168,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int rightFile = SIDE.getRightFile(CURRENT_INTERSECTION.row());
-                Intersection rightIntersection = new Intersection(CURRENT_INTERSECTION.row(), rightFile);
+                Intersection rightIntersection = SIDE.getRightDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
                         rightIntersection, DIFFERENT_SIDE_PEICE
                 ));
@@ -188,8 +190,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int forwardRow = SIDE.getForwardedRow(CURRENT_INTERSECTION.row());
-                Intersection forwardIntersection = new Intersection(forwardRow, CURRENT_INTERSECTION.file());
+                Intersection forwardIntersection = SIDE.getForwardDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
                 // when
@@ -204,8 +206,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int leftFile = SIDE.getLeftFile(CURRENT_INTERSECTION.row());
-                Intersection leftIntersection = new Intersection(CURRENT_INTERSECTION.row(), leftFile);
+                Intersection leftIntersection = SIDE.getLeftDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
                 // when
@@ -220,8 +222,8 @@ class SoldierTest {
                 // given
                 Soldier soldier = new Soldier(SIDE);
 
-                int rightFile = SIDE.getRightFile(CURRENT_INTERSECTION.row());
-                Intersection rightIntersection = new Intersection(CURRENT_INTERSECTION.row(), rightFile);
+                Intersection rightIntersection = SIDE.getRightDirection()
+                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
                 // when
@@ -237,8 +239,8 @@ class SoldierTest {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            int backwardRow = SIDE.getBackwardRow(CURRENT_INTERSECTION.row());
-            Intersection backwordIntersection = new Intersection(backwardRow, CURRENT_INTERSECTION.file());
+            Intersection backwordIntersection = SIDE.getBackwardDirection()
+                    .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when

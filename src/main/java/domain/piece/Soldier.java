@@ -1,14 +1,17 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.direction.Direction;
+import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Soldier extends StaticPositionedPiece {
 
-    private static final int FAR_FROM_BASE_ROW = 3;
+    private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(3);
     private static final List<Integer> INITAL_FILES = List.of(1, 3, 5, 7, 9);
+    private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
     public Soldier(Side side) {
         super(side);
@@ -16,12 +19,16 @@ public class Soldier extends StaticPositionedPiece {
 
     @Override
     public List<Intersection> initAt() {
-        int baseRow = side.getBaseRow();
-        int initialRow = side.getForwardedRow(baseRow, FAR_FROM_BASE_ROW);
+        Direction forwardDirection = side.getForwardDirection();
 
         return INITAL_FILES.stream()
-                .map(file -> new Intersection(initialRow, file))
+                .map(this::currentIntersection)
+                .map(intersection -> forwardDirection.moveForward(intersection, FAR_FROM_BASE_ROW))
                 .toList();
+    }
+
+    private Intersection currentIntersection(int file) {
+        return new Intersection(side.getBaseRow(), file);
     }
 
     public boolean canMove(
@@ -39,16 +46,16 @@ public class Soldier extends StaticPositionedPiece {
     ) {
         List<Intersection> movableIntersections = new ArrayList<>();
 
-        int forwardRow = side.getForwardedRow(from.row());
-        Intersection forwardIntersection = new Intersection(forwardRow, from.file());
+        Intersection forwardIntersection = side.getForwardDirection()
+                .moveForward(from, MOVE_AMOUNT);
         addIfMovable(forwardIntersection, alivePieces, movableIntersections);
 
-        int leftFile = side.getLeftFile(from.file());
-        Intersection leftIntersection = new Intersection(from.row(), leftFile);
+        Intersection leftIntersection = side.getLeftDirection()
+                .moveForward(from, MOVE_AMOUNT);
         addIfMovable(leftIntersection, alivePieces, movableIntersections);
 
-        int rightFile = side.getRightFile(from.file());
-        Intersection rightIntersection = new Intersection(from.row(), rightFile);
+        Intersection rightIntersection = side.getRightDirection()
+                .moveForward(from, MOVE_AMOUNT);
         addIfMovable(rightIntersection, alivePieces, movableIntersections);
 
         return List.copyOf(movableIntersections);

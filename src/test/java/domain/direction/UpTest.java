@@ -3,6 +3,7 @@ package domain.direction;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -103,5 +104,17 @@ class UpTest {
 
         // then
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void 반대_방향으로_아래쪽을_반환한다() {
+        // given
+        Up up = new Up();
+
+        // when
+        Direction reverseDirection = up.reverse();
+
+        // then
+        assertThat(reverseDirection).isInstanceOf(Down.class);
     }
 }

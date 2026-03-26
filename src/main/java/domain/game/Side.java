@@ -1,63 +1,51 @@
 package domain.game;
 
+import domain.direction.Direction;
+import domain.direction.Down;
+import domain.direction.Left;
+import domain.direction.Right;
+import domain.direction.Up;
+
 public enum Side {
-    HAN(1, 1, 1),
-    CHO(10, -1, -1),
+    HAN(1, new Down(), new Right()),
+    CHO(10, new Up(), new Left()),
     ;
 
-    private static final int DEFAULT_MOVE_AMOUNT = 1;
-
     private final int baseRow;
-    private final int forwardDirection;
-    private final int backwardDirection;
-    private final int leftDirection;
-    private final int rightDirection;
+    private final Direction forwardDirection;
+    private final Direction backwardDirection;
+    private final Direction leftDirection;
+    private final Direction rightDirection;
 
     Side(
             int baseRow,
-            int forwardDirection,
-            int leftDirection
+            Direction forwardDirection,
+            Direction leftDirection
     ) {
         this.baseRow = baseRow;
         this.forwardDirection = forwardDirection;
-        this.backwardDirection = forwardDirection * -1;
+        this.backwardDirection = forwardDirection.reverse();
         this.leftDirection = leftDirection;
-        this.rightDirection = leftDirection * -1;
+        this.rightDirection = leftDirection.reverse();
     }
 
     public int getBaseRow() {
         return baseRow;
     }
 
-    public int getForwardedRow(int currentRow) {
-        return getForwardedRow(currentRow, DEFAULT_MOVE_AMOUNT);
+    public Direction getForwardDirection() {
+        return forwardDirection;
     }
 
-    public int getForwardedRow(int currentRow, int forwardAmount) {
-        return currentRow + (forwardDirection * forwardAmount);
+    public Direction getBackwardDirection() {
+        return backwardDirection;
     }
 
-    public int getBackwardRow(int currentRow) {
-        return getBackwardRow(backwardDirection, DEFAULT_MOVE_AMOUNT);
+    public Direction getLeftDirection() {
+        return leftDirection;
     }
 
-    public int getBackwardRow(int currentRow, int forwardAmount) {
-        return currentRow + (backwardDirection * forwardAmount);
-    }
-
-    public int getLeftFile(int currentFile) {
-        return getLeftFile(currentFile, DEFAULT_MOVE_AMOUNT);
-    }
-
-    public int getLeftFile(int currentFile, int moveAmount) {
-        return currentFile + (leftDirection * moveAmount);
-    }
-
-    public int getRightFile(int currentFile) {
-        return getRightFile(currentFile, DEFAULT_MOVE_AMOUNT);
-    }
-
-    public int getRightFile(int currentFile, int moveAmount) {
-        return currentFile + (rightDirection * moveAmount);
+    public Direction getRightDirection() {
+        return rightDirection;
     }
 }
