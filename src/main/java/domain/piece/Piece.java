@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
 
 import java.util.Map;

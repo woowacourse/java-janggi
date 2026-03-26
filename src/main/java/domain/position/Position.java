@@ -1,7 +1,6 @@
 package domain.position;
 
-import domain.piece.Direction;
-import domain.piece.Piece;
+import domain.board.Direction;
 
 import java.util.Objects;
 
@@ -20,10 +19,6 @@ public final class Position {
     public static Position of(int row, int column) {
         validateRange(row, column);
         return new Position(new Coordinate(row, column));
-    }
-
-    public static Position of(Position position) {
-        return new Position(new Coordinate(position.getRow(), position.getColumn()));
     }
 
     private static void validateRange(int row, int column) {
