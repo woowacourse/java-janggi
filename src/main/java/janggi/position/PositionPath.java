@@ -21,28 +21,18 @@ public class PositionPath {
     }
 
     public PositionPath(List<Position> path) {
-        validate(path);
         this.path = path;
-    }
-
-    private void validate(List<Position> path) {
-        if (path.isEmpty()) {
-            throw new IllegalArgumentException("빈 경로입니다.");
-        }
     }
 
     public Position getDestination() {
         return path.getLast();
     }
 
-    public PositionPath getCourse() {
-        int startIdx = 0;
-        int toIdx = path.size() - 1;
-
-        return new PositionPath(path.subList(startIdx, toIdx));
-    }
-
     public Stream<Position> stream() {
         return path.stream();
+    }
+
+    public PositionPath removeFromAndTo() {
+        return new PositionPath(path.subList(1, path.size() - 1));
     }
 }

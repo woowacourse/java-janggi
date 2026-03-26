@@ -1,8 +1,8 @@
 package janggi.gimul;
 
-import janggi.position.PositionPath;
-import janggi.position.Position;
 import janggi.Team;
+import janggi.position.Position;
+import janggi.position.PositionPath;
 import java.util.List;
 
 public class Cha extends Gimul {
@@ -18,14 +18,14 @@ public class Cha extends Gimul {
         }
 
         if (from.isSameRow(to)) {
-            return from.moveHorizontal(to.getColumnDistance(from));
+            return from.moveHorizontal(to.getColumnDistance(from)).removeFromAndTo();
         }
 
-        return from.moveVertical(to.getRowDistance(from));
+        return from.moveVertical(to.getRowDistance(from)).removeFromAndTo();
     }
 
     @Override
     public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
-        return gimulsOnPath.isEmpty() && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
     }
 }

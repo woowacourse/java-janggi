@@ -1,8 +1,8 @@
 package janggi.gimul;
 
-import janggi.position.PositionPath;
-import janggi.position.Position;
 import janggi.Team;
+import janggi.position.Position;
+import janggi.position.PositionPath;
 import java.util.List;
 
 public class Byeong extends Gimul {
@@ -23,18 +23,18 @@ public class Byeong extends Gimul {
         }
 
         if (rowDistance == 0) {
-            return from.moveHorizontal(columnDistance);
+            return from.moveHorizontal(columnDistance).removeFromAndTo();
         }
 
         if ((Team.CHO.equals(team) && rowDistance == 1) ||
                 (Team.HAN.equals(team) && rowDistance == -1)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-        return from.moveVertical(rowDistance);
+        return from.moveVertical(rowDistance).removeFromAndTo();
     }
 
     @Override
     public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
-        return gimulsOnPath.isEmpty() && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
     }
 }
