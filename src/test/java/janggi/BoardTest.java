@@ -3,11 +3,13 @@ package janggi;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.gimul.Gimul;
-import janggi.gimul.Ma;
-import janggi.position.Column;
-import janggi.position.Position;
-import janggi.position.Row;
+import janggi.model.Board;
+import janggi.model.Team;
+import janggi.model.gimul.Gimul;
+import janggi.model.gimul.Ma;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;

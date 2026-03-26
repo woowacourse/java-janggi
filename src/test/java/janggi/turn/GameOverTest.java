@@ -3,9 +3,10 @@ package janggi.turn;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.Column;
-import janggi.position.Position;
-import janggi.position.Row;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
+import janggi.model.turn.GameOver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
