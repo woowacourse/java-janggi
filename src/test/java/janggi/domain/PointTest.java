@@ -21,4 +21,16 @@ public class PointTest {
         assertThat(point.getX()).isEqualTo(column);
         assertThat(point.getY()).isEqualTo(row);
     }
+
+    @Test
+    void test() {
+        // given
+        Point p = null;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+                p = Point.of(i, j);
+            }
+        }
+        System.out.println(p.getSize());
+    }
 }
