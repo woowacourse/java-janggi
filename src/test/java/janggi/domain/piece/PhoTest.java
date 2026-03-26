@@ -25,7 +25,7 @@ public class PhoTest {
         List<PositionInfo> info = new ArrayList<>();
         info.add(PositionInfo.from(List.of("HAN", "PHO", "1", "1")));
         info.add(PositionInfo.from(List.of("HAN", "CHA", "1", "2")));
-        info.add(PositionInfo.from(List.of("HAN", "CHA", "1", "3")));
+        info.add(PositionInfo.from(List.of("CHO", "CHA", "1", "3")));
         info.add(PositionInfo.from(List.of("CHO", "PHO", "1", "5")));
         info.add(PositionInfo.from(List.of("CHO", "PHO", "1", "6")));
         board.init(info);
