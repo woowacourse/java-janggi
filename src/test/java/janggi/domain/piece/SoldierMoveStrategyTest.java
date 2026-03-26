@@ -3,13 +3,13 @@ package janggi.domain.piece;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
-import janggi.fixture.FakeBoardDesignPolicy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -19,14 +19,12 @@ import static janggi.domain.dynasty.Dynasty.HAN;
 
 class SoldierMoveStrategyTest {
 
-    private BoardDesignPolicy boardDesignPolicy;
     private Map<Position, Piece> board;
     private MoveStrategy moveStrategy;
 
     @BeforeEach
     void setUp() {
-        boardDesignPolicy = new FakeBoardDesignPolicy();
-        board = boardDesignPolicy.initBoard();
+        board = new HashMap<>();
         moveStrategy = new SoldierMoveStrategy();
     }
 

@@ -1,7 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.dynasty.Dynasty;
-
 public enum HorseElephantPosition {
 
     HEHE(2, 3, 7, 8),
@@ -9,16 +7,32 @@ public enum HorseElephantPosition {
     EHEH(3, 2, 8, 7),
     EHHE(3, 2, 7, 8);
 
-    private final int firstHorseColumn;
-    private final int firstElephantColumn;
-    private final int secondHorseColumn;
-    private final int secondElephantColumn;
+    private final int leftHorseColumn;
+    private final int leftElephantColumn;
+    private final int rightHorseColumn;
+    private final int rightElephantColumn;
 
-    HorseElephantPosition(int firstHorseColumn, int firstElephantColumn,
-                          int secondHorseColumn, int secondElephantColumn) {
-        this.firstHorseColumn = firstHorseColumn;
-        this.firstElephantColumn = firstElephantColumn;
-        this.secondHorseColumn = secondHorseColumn;
-        this.secondElephantColumn = secondElephantColumn;
+    HorseElephantPosition(int leftHorseColumn, int leftElephantColumn,
+                          int rightHorseColumn, int rightElephantColumn) {
+        this.leftHorseColumn = leftHorseColumn;
+        this.leftElephantColumn = leftElephantColumn;
+        this.rightHorseColumn = rightHorseColumn;
+        this.rightElephantColumn = rightElephantColumn;
+    }
+
+    public int leftHorseColumn() {
+        return leftHorseColumn;
+    }
+
+    public int leftElephantColumn() {
+        return leftElephantColumn;
+    }
+
+    public int rightHorseColumn() {
+        return rightHorseColumn;
+    }
+
+    public int rightElephantColumn() {
+        return rightElephantColumn;
     }
 }

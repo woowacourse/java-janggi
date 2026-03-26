@@ -1,12 +1,11 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
-import janggi.fixture.FakeBoardDesignPolicy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +15,7 @@ class ChariotMoveStrategyTest {
     @Test
     public void 차_기물의_이동가능한_위치_목록을_반환한다() {
         // given
-        BoardDesignPolicy boardDesignPolicy = new FakeBoardDesignPolicy();
-        Map<Position, Piece> board = boardDesignPolicy.initBoard();
+        Map<Position, Piece> board = new HashMap<>();
         MoveStrategy moveStrategy = new ChariotMoveStrategy();
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
