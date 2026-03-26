@@ -7,7 +7,7 @@ import domain.piece.Team;
 
 public class Chariot extends ActivePiece {
 
-    protected Chariot(Team team) {
+    public Chariot(Team team) {
         super(team, PieceType.CHA);
     }
 

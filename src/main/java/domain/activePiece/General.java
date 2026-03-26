@@ -9,7 +9,7 @@ public class General extends ActivePiece {
     private final List<Integer> dx = List.of(-1, 1, 0, 0);
     private final List<Integer> dy = List.of(0, 0, -1, 1);
 
-    protected General(Team team) {
+    public General(Team team) {
         super(team, PieceType.GENERAL);
     }
 

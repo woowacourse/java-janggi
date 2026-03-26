@@ -9,7 +9,7 @@ public class Guard extends ActivePiece {
     private final List<Integer> dx = List.of(-1, 1, 0, 0);
     private final List<Integer> dy = List.of(0, 0, -1, 1);
 
-    protected Guard(Team team) {
+    public Guard(Team team) {
         super(team, PieceType.SA);
     }
 

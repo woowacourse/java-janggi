@@ -6,7 +6,7 @@ import domain.piece.Team;
 
 public class Cannon extends ActivePiece {
 
-    protected Cannon(Team team) {
+    public Cannon(Team team) {
         super(team, PieceType.PHO);
     }
 

@@ -9,7 +9,7 @@ public class Soldier extends ActivePiece {
     private final List<Integer> dx = List.of(-1, 1);
     private final List<Integer> dy = List.of(0, 0);
 
-    protected Soldier(Team team) {
+    public Soldier(Team team) {
         super(team, PieceType.BYEONG);
     }
 
