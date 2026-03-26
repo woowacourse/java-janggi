@@ -14,4 +14,6 @@ public interface Piece {
     boolean belongsToTeam(TeamType teamType);
 
     List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator);
+
+    boolean canKill(PieceType pieceType);
 }

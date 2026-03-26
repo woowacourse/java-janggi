@@ -3,12 +3,26 @@ package janggi.domain.piece;
 import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
+import janggi.domain.movement.Direction;
+import janggi.domain.movement.Rule;
+import janggi.domain.movement.RuleOfCannon;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
 public class Cannon implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.CANNON;
+    private static final PieceAction PIECE_ACTION;
+    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of(PieceType.CANNON);
+
+    static {
+        final List<Rule> rules = List.of(
+            new RuleOfCannon(Direction.valueOf(1, 0)),
+            new RuleOfCannon(Direction.valueOf(-1, 0)),
+            new RuleOfCannon(Direction.valueOf(0, 1)),
+            new RuleOfCannon(Direction.valueOf(0, -1)));
+        PIECE_ACTION = new PieceAction(rules);
+    }
 
     private final TeamType teamType;
 
@@ -33,6 +47,11 @@ public class Cannon implements Piece {
 
     @Override
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
-        return List.of();
+        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+    }
+
+    @Override
+    public boolean canKill(final PieceType pieceType) {
+        return !UNCATCHABLE_PIECE_TYPES.contains(pieceType);
     }
 }

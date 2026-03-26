@@ -17,6 +17,7 @@ public class Chariot implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.CHARIOT;
     private static final PieceAction PIECE_ACTION;
+    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     static {
         final List<Rule> rules = List.of(
@@ -51,5 +52,10 @@ public class Chariot implements Piece {
     @Override
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+    }
+
+    @Override
+    public boolean canKill(final PieceType pieceType) {
+        return !UNCATCHABLE_PIECE_TYPES.contains(pieceType);
     }
 }

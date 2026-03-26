@@ -9,6 +9,7 @@ import java.util.List;
 public class Elephant implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.ELEPHANT;
+    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     private final TeamType teamType;
 
@@ -34,5 +35,10 @@ public class Elephant implements Piece {
     @Override
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
         return List.of();
+    }
+
+    @Override
+    public boolean canKill(final PieceType pieceType) {
+        return !UNCATCHABLE_PIECE_TYPES.contains(pieceType);
     }
 }

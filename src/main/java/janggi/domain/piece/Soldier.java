@@ -9,6 +9,7 @@ import java.util.List;
 public class Soldier implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.SOLDIER;
+    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
     private final TeamType teamType;
 
     public Soldier(final TeamType teamType) {
@@ -33,5 +34,10 @@ public class Soldier implements Piece {
     @Override
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
         return List.of();
+    }
+
+    @Override
+    public boolean canKill(final PieceType pieceType) {
+        return !UNCATCHABLE_PIECE_TYPES.contains(pieceType);
     }
 }
