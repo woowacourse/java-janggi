@@ -12,7 +12,7 @@ public class Board {
         this.board = boardDesignPolicy.initBoard();
     }
 
-    public Map<Position, Piece> pieces() {
+    public Map<Position, Piece> board() {
         return Map.copyOf(board);
     }
 
