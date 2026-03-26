@@ -1,11 +1,11 @@
 package janggi;
 
 import janggi.domain.Board;
-import janggi.domain.Player;
 import janggi.domain.Players;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.dto.BoardDTO;
+import janggi.dto.PlayerDTO;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -15,37 +15,47 @@ public class Runner {
 
     private final OutputView outputView;
     private final InputView inputView;
+    private final Board board;
 
     public Runner(OutputView outputView, InputView inputView) {
         this.outputView = outputView;
         this.inputView = inputView;
+        this.board = Board.initialize();
     }
 
     public void run() {
         Players players = initialPlayers();
-        Board board = Board.initialize();
-        printBoard(board);
-        Side currentSide = Side.CHO;
-        printPlayerTurnNotice(players, currentSide);
-        playerTurn(players, board);
-        printPlayerTurnNotice(players, currentSide.opposite());
-
+        printBoard();
+        play(players);
     }
 
-    private void playerTurn(Players players, Board board) {
-        Position selected = selectPosition();
-//        outputView.printPiecePositionNotice(selected.row(), selected.column());
+    private void play(Players players) {
+        while (true) {
+            PlayerDTO currentPlayer = players.getCurrentPlayer();
+            printPlayerTurnNotice(currentPlayer);
+            playerTurn(players);
+            players.switchTurn();
+        }
+    }
+
+    private void playerTurn(Players players) {
+        Position selected = selectPiecePosition();
+        if (!board.isThereOwnPiece(selected, players.getCurrentPlayer())) {
+            outputView.printNotOwnPiece();
+            players.switchTurn();
+            return;
+        }
         List<Position> destinations = board.calculateDestinations(selected);
-        System.out.println("destinations" + destinations);
-        movePiece(board, selected, destinations);
+        movePiece(selected, destinations);
     }
 
-    private Position selectPosition() {
-        outputView.printMovePositionRowNotice();
-        int row = inputView.readTargetRow();
-        outputView.printMovePositionColumnNotice();
-        int column = inputView.readTargetColumn();
-        return new Position(row, column);
+    private Position selectPiecePosition() {
+        outputView.printSelectPiecePosition();
+        Position position = readTargetPosition();
+        if (!board.isPieceExist(position)) {
+            outputView.printPieceNotExist();
+        }
+        return position;
     }
 
     private Players initialPlayers() {
@@ -61,16 +71,14 @@ public class Runner {
         });
     }
 
-    private void printPlayerTurnNotice(Players players, Side currentSide) {
-        Player player = players.findBySide(currentSide);
-        outputView.printPlayerTurnNotice(currentSide.getDisplayName(), player.getNickname());
+    private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
+        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.side().getDisplayName());
     }
 
     private Position readTargetPosition() {
         return retry(() -> {
             outputView.printMovePositionRowNotice();
             int row = inputView.readTargetRow();
-
             outputView.printMovePositionColumnNotice();
             int column = inputView.readTargetColumn();
 
@@ -78,14 +86,19 @@ public class Runner {
         });
     }
 
-    private void movePiece(Board board, Position selected, List<Position> destinations) {
+    private void movePiece(Position selected, List<Position> destinations) {
         outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
-        Position target = selectPosition();
+        Position target = selectTargetPosition();
         board.movePiece(selected, target);
         outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), target);
     }
 
-    private void printBoard(Board board) {
+    private Position selectTargetPosition() {
+        outputView.printSelectTargetPosition();
+        return readTargetPosition();
+    }
+
+    private void printBoard() {
         outputView.printBoardSettingNotice();
         outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()));
     }

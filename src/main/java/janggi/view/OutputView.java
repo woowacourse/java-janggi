@@ -37,6 +37,8 @@ public class OutputView {
             renderRow(row, boardDto.piecePosition(), selected, movables);
             renderVerticalLine(row);
         }
+        printLine(DIVIDER);
+        printLine(COLUMN_INDEXES);
     }
 
     private void renderRow(int row, Map<Position, PieceVO> status, Position selected, List<Position> movables) {
@@ -52,17 +54,13 @@ public class OutputView {
     private String getFormattedCell(Map<Position, PieceVO> status, Position current, Position selected, List<Position> movables) {
         PieceVO vo = status.get(current);
         String label = (vo == null) ? EMPTY_CELL : PieceLabelMapper.toFullWidth(vo);
-
         String cell = "［" + label + "］";
-
         if (current.equals(selected)) {
             return ANSI_BLUE + cell + ANSI_RESET;
         }
-
         if (movables != null && movables.contains(current)) {
             return ANSI_GREEN + cell + ANSI_RESET;
         }
-
         return cell;
     }
 
@@ -82,16 +80,8 @@ public class OutputView {
         printLine(String.format(Message.PLAYER_NAME_NOTICE, displayName));
     }
 
-    public void printPlayerTurnNotice(String sideName, String playerName) {
+    public void printPlayerTurnNotice(String playerName, String sideName) {
         printLine(String.format(Message.PLAYER_TURN_NOTICE, sideName, playerName));
-    }
-
-    public void printPieceToMoveNotice() {
-        printLine(Message.INPUT_PIECE_TO_MOVE_NOTICE);
-    }
-
-    public void printPiecePositionNotice(String pieceName, int row, int column) {
-        printLine(String.format(Message.PIECE_POSITION_NOTICE, pieceName, row, column));
     }
 
     public void printMovePositionRowNotice() {
@@ -100,5 +90,21 @@ public class OutputView {
 
     public void printMovePositionColumnNotice() {
         printLine(Message.MOVE_POSITION_COLUMN_NOTICE);
+    }
+
+    public void printSelectPiecePosition() {
+        printLine(Message.INPUT_PIECE_TO_MOVE_NOTICE);
+    }
+
+    public void printSelectTargetPosition() {
+        printLine(Message.INPUT_TARGET_TO_MOVE_NOTICE);
+    }
+
+    public void printPieceNotExist() {
+        printLine(Message.TARGET_POSITION_IS_NOT_MOVEABLE);
+    }
+
+    public void printNotOwnPiece() {
+        printLine(Message.TARGET_PIECE_IS_NOT_OWNED);
     }
 }

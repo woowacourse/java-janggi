@@ -1,12 +1,14 @@
 package janggi.domain;
 
+import janggi.dto.PlayerDTO;
+
 public class Player {
 
-    private final String nickname;
+    private final String name;
     private final Side side;
 
     public Player(String name, Side side) {
-        this.nickname = name;
+        this.name = name;
         this.side = side;
     }
 
@@ -14,11 +16,11 @@ public class Player {
         return turn.isCurrent(this.side);
     }
 
-    public String getNickname() {
-        return nickname;
+    public PlayerDTO mapToVO() {
+        return new PlayerDTO(name, side);
     }
 
-    public Side getSide() {
-        return side;
+    public boolean isOwnPiece(PieceVO pieceVo) {
+        return side.isSameSide(pieceVo.side());
     }
 }

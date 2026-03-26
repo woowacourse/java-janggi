@@ -44,7 +44,7 @@ public class StepMoveStrategy implements MoveStrategy {
         Position dest = route.iterator().next();
         PieceVO target = state.get(dest);
 
-        if (target == null || !target.isSameSide(me)) {
+        if (target == null || target.isSameSide(me)) {
             dests.add(dest);
         }
     }

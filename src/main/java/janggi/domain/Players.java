@@ -1,14 +1,12 @@
 package janggi.domain;
 
-import java.util.HashSet;
+import janggi.dto.PlayerDTO;
 import java.util.Set;
 
 public class Players {
 
-    private static final int REQUIRED_PLAYER_COUNT = 2;
-
     private final Set<Player> players;
-    private Turn turn;
+    private final Turn turn;
 
     private Players(Set<Player> players) {
         this.players = players;
@@ -16,23 +14,28 @@ public class Players {
     }
 
     public static Players from(String choPlayerName, String hanPlayerName) {
+        validateDuplicatedNames(choPlayerName, hanPlayerName);
         Player choPlayer = new Player(choPlayerName, Side.CHO);
         Player hanPlayer = new Player(hanPlayerName, Side.HAN);
-        Set<Player> players = Set.of(choPlayer, hanPlayer);
-        validateDuplicatedPlayers(players);
-        return new Players(players);
+
+        return new Players(Set.of(choPlayer, hanPlayer));
     }
 
-    public static void validateDuplicatedPlayers(Set<Player> players) {
-        if (players.size() < REQUIRED_PLAYER_COUNT) {
+    private static void validateDuplicatedNames(String choPlayerName, String hanPlayerName) {
+        if (choPlayerName.equals(hanPlayerName)) {
             throw new IllegalArgumentException("[ERROR] 플레이어는 중복된 이름을 가질 수 없습니다.");
         }
     }
 
-    public Player findBySide(Side side) {
+    public PlayerDTO getCurrentPlayer() {
         return players.stream()
-                .filter(player -> player.getSide() == side)
+                .filter(player -> player.isMyTurn(turn))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 진영의 플레이어가 존재하지 않습니다."));
+                .map(Player::mapToVO)
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 현재 턴에 해당하는 플레이어가 없습니다."));
+    }
+
+    public void switchTurn() {
+        turn.switchTurn();
     }
 }

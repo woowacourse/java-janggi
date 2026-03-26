@@ -20,10 +20,10 @@ public class Piece {
     }
 
     public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState) {
-        return pieceType.determineDestinations(routes, boardState, toVO());
+        return pieceType.determineDestinations(routes, boardState, mapToVO());
     }
 
-    public PieceVO toVO() {
+    public PieceVO mapToVO() {
         return new PieceVO(side, pieceType, pieceNumber);
     }
 }

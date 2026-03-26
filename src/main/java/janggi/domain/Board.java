@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.dto.PlayerDTO;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,16 +57,13 @@ public class Board {
     //    !------------임시---------------!
     public Map<Position, PieceVO> getPiecePosition() {
         Map<Position, PieceVO> piecePositions = new HashMap<>(piecePosition.size());
-        this.piecePosition.forEach((position, piece) -> piecePositions.put(position, piece.toVO()));
+        this.piecePosition.forEach((position, piece) -> piecePositions.put(position, piece.mapToVO()));
         return Collections.unmodifiableMap(piecePositions);
     }
 
     public List<Position> calculateDestinations(Position currentPosition) {
         Piece piece = piecePosition.get(currentPosition);
         Paths moveablePaths = piece.calculatePaths(currentPosition);
-        moveablePaths.forEach(move -> {
-            System.out.println(move.toString());
-        });
         Map<Position, PieceVO> boardState = generateStateByPaths(moveablePaths);
 
         return piece.determineDestinations(moveablePaths, boardState);
@@ -83,7 +81,7 @@ public class Board {
         path.forEach(position -> {
             Piece piece = piecePosition.get(position);
             if (piece != null) {
-                boardState.put(position, piece.toVO());
+                boardState.put(position, piece.mapToVO());
             }
         });
     }
@@ -91,5 +89,16 @@ public class Board {
     public void movePiece(Position selected, Position target) {
         Piece movingPiece = piecePosition.remove(selected);
         piecePosition.put(target, movingPiece);
+    }
+
+    public boolean isPieceExist(Position position) {
+        return piecePosition.containsKey(position);
+    }
+
+    public boolean isThereOwnPiece(Position selected, PlayerDTO currentPlayer) {
+        PieceVO piece = piecePosition.get(selected).mapToVO();
+        Side pieceSide = piece.side();
+        Side playerSide = currentPlayer.side();
+        return pieceSide.isSameSide(playerSide);
     }
 }
