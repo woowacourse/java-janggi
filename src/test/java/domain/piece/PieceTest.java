@@ -25,11 +25,11 @@ public class PieceTest {
     static Stream<Arguments> expectedSoldierPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 1), new Position(1, 2))),
+                        List.of(new Position(1, 2))),
                 Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(1, 1), new Position(0, 1))),
+                        List.of(new Position(0, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(1, 1), new Position(2, 1)))
+                        List.of(new Position(2, 1)))
         );
     }
 
@@ -46,13 +46,13 @@ public class PieceTest {
     static Stream<Arguments> expectedGuardPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 1), new Position(1, 2))),
+                        List.of(new Position(1, 2))),
                 Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(1, 1), new Position(0, 1))),
+                        List.of(new Position(0, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(1, 1), new Position(2, 1))),
+                        List.of(new Position(2, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(1, 0),
-                        List.of(new Position(1, 1), new Position(1, 0)))
+                        List.of(new Position(1, 0)))
         );
     }
 
@@ -69,21 +69,21 @@ public class PieceTest {
     static Stream<Arguments> expectedElephantPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(4, 4), new Position(6, 7),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(5, 6), new Position(6, 7))),
+                        List.of(new Position(4, 5), new Position(5, 6), new Position(6, 7))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 7),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(3, 6), new Position(2, 7))),
+                        List.of(new Position(4, 5), new Position(3, 6), new Position(2, 7))),
                 Arguments.arguments(new Position(4, 4), new Position(7, 6),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 5), new Position(7, 6))),
+                        List.of(new Position(5, 4), new Position(6, 5), new Position(7, 6))),
                 Arguments.arguments(new Position(4, 4), new Position(7, 2),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 3), new Position(7, 2))),
+                        List.of(new Position(5, 4), new Position(6, 3), new Position(7, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(6, 1),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(5, 2), new Position(6, 1))),
+                        List.of(new Position(4, 3), new Position(5, 2), new Position(6, 1))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 1),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(3, 2), new Position(2, 1))),
+                        List.of(new Position(4, 3), new Position(3, 2), new Position(2, 1))),
                 Arguments.arguments(new Position(4, 4), new Position(1, 2),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 3), new Position(1, 2))),
+                        List.of(new Position(3, 4), new Position(2, 3), new Position(1, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(1, 6),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 5), new Position(1, 6)))
+                        List.of(new Position(3, 4), new Position(2, 5), new Position(1, 6)))
         );
     }
 
@@ -100,21 +100,21 @@ public class PieceTest {
     static Stream<Arguments> expectedHorsePaths() {
         return Stream.of(
                 Arguments.arguments(new Position(4, 4), new Position(5, 6),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(5, 6))),
+                        List.of(new Position(4, 5), new Position(5, 6))),
                 Arguments.arguments(new Position(4, 4), new Position(3, 6),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(3, 6))),
+                        List.of(new Position(4, 5), new Position(3, 6))),
                 Arguments.arguments(new Position(4, 4), new Position(6, 5),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 5))),
+                        List.of(new Position(5, 4), new Position(6, 5))),
                 Arguments.arguments(new Position(4, 4), new Position(6, 3),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 3))),
+                        List.of(new Position(5, 4), new Position(6, 3))),
                 Arguments.arguments(new Position(4, 4), new Position(5, 2),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(5, 2))),
+                        List.of(new Position(4, 3), new Position(5, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(3, 2),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(3, 2))),
+                        List.of(new Position(4, 3), new Position(3, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 3),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 3))),
+                        List.of(new Position(3, 4), new Position(2, 3))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 5),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 5)))
+                        List.of(new Position(3, 4), new Position(2, 5)))
         );
     }
 
@@ -131,17 +131,13 @@ public class PieceTest {
     static Stream<Arguments> expectedCannonPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(4, 4), new Position(4, 0),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(4, 2), new Position(4, 1),
-                                new Position(4, 0))),
+                        List.of(new Position(4, 3), new Position(4, 2), new Position(4, 1), new Position(4, 0))),
                 Arguments.arguments(new Position(4, 4), new Position(0, 4),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 4), new Position(1, 4),
-                                new Position(0, 4))),
+                        List.of(new Position(3, 4), new Position(2, 4), new Position(1, 4), new Position(0, 4))),
                 Arguments.arguments(new Position(4, 4), new Position(8, 4),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 4), new Position(7, 4),
-                                new Position(8, 4))),
+                        List.of(new Position(5, 4), new Position(6, 4), new Position(7, 4), new Position(8, 4))),
                 Arguments.arguments(new Position(4, 4), new Position(4, 8),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(4, 6), new Position(4, 7),
-                                new Position(4, 8)))
+                        List.of(new Position(4, 5), new Position(4, 6), new Position(4, 7), new Position(4, 8)))
         );
     }
 
@@ -158,17 +154,13 @@ public class PieceTest {
     static Stream<Arguments> expectedChariotPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(4, 4), new Position(4, 0),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(4, 2), new Position(4, 1),
-                                new Position(4, 0))),
+                        List.of(new Position(4, 3), new Position(4, 2), new Position(4, 1), new Position(4, 0))),
                 Arguments.arguments(new Position(4, 4), new Position(0, 4),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 4), new Position(1, 4),
-                                new Position(0, 4))),
+                        List.of(new Position(3, 4), new Position(2, 4), new Position(1, 4), new Position(0, 4))),
                 Arguments.arguments(new Position(4, 4), new Position(8, 4),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 4), new Position(7, 4),
-                                new Position(8, 4))),
+                        List.of(new Position(5, 4), new Position(6, 4), new Position(7, 4), new Position(8, 4))),
                 Arguments.arguments(new Position(4, 4), new Position(4, 8),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(4, 6), new Position(4, 7),
-                                new Position(4, 8)))
+                        List.of(new Position(4, 5), new Position(4, 6), new Position(4, 7), new Position(4, 8)))
         );
     }
 
@@ -185,13 +177,13 @@ public class PieceTest {
     static Stream<Arguments> expectedGeneralPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 1), new Position(1, 2))),
+                        List.of(new Position(1, 2))),
                 Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(1, 1), new Position(0, 1))),
+                        List.of(new Position(0, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(1, 1), new Position(2, 1))),
+                        List.of(new Position(2, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(1, 0),
-                        List.of(new Position(1, 1), new Position(1, 0)))
+                        List.of(new Position(1, 0)))
         );
     }
 

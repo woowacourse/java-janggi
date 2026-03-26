@@ -6,6 +6,7 @@ import static domain.Position.Y_MAXIMUM_POSITION;
 
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
+import domain.piece.PieceType;
 import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
@@ -69,6 +70,55 @@ public class Board {
             board.put(HAN_VARIABLE_POSITIONS.get(index), new FullState(
                     new Piece(new PieceInfo(hanTableSetting.getFormation(Country.HAN).get(index), Country.HAN))
             ));
+        }
+    }
+
+    public void move(Position from, Position to) {
+        Piece piece = board.get(from).getPiece();
+        List<Position> paths = piece.path(from, to);
+
+        if (!board.get(to).isEmpty()) {
+            PieceType fromPieceType = board.get(from).getPiece().getPieceInfo().getPieceType();
+            PieceType toPieceType = board.get(to).getPiece().getPieceInfo().getPieceType();
+            if (fromPieceType != toPieceType) {
+                throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
+            }
+        }
+
+        PieceType pieceType = piece.getPieceInfo().getPieceType();
+        if (pieceType == PieceType.CANNON) {
+            checkCannonPath(paths);
+        }
+        if (pieceType != PieceType.CANNON) {
+            checkPathExceptCannon(paths);
+        }
+        board.put(to, new FullState(piece));
+        board.put(from, new EmptyState());
+    }
+
+    private void checkPathExceptCannon(List<Position> paths) {
+        for (int index = 0; index < paths.size() - 1; index++) {
+            if (!board.get(paths.get(index)).isEmpty()) {
+                throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
+            }
+        }
+    }
+
+    private void checkCannonPath(List<Position> paths) {
+        int pieceCount = 0;
+        for (int index = 0; index < paths.size() - 1; index++) {
+            domain.state.State state = board.get(paths.get(index));
+            if (!state.isEmpty()) {
+                PieceType pieceType = state.getPiece().getPieceInfo().getPieceType();
+                if (pieceType == PieceType.CANNON) {
+                    throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
+                }
+                pieceCount++;
+            }
+        }
+
+        if (pieceCount != 1) {
+            throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
         }
     }
 

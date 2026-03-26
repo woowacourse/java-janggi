@@ -24,7 +24,6 @@ public class Piece {
 
         validateSoldierDirection(directions);
         List<Position> path = new ArrayList<>();
-        path.add(from);
         Position position = from;
         for (Direction direction : directions) {
             position = position.nextPosition(direction);
