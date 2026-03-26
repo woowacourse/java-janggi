@@ -43,17 +43,17 @@ public class OutputView {
     public static void printBoard(List<List<String>> boardFormats) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("  ");
+        sb.append(" ");
         for (int i = MIN_COLUMN; i <= MAX_COLUMN; i++) {
-            sb.append(i).append(" ");
+            sb.append(String.format("%2d", i)).append(" ");
         }
         sb.append("\n");
 
         int rowNumber = MIN_ROW;
         for (List<String> row : boardFormats) {
-            sb.append(rowNumber).append(" ");
+            sb.append(String.format("%2d ", rowNumber));
             for (String format : row) {
-                sb.append(format);
+                sb.append(format).append(" ");
             }
             sb.append("\n");
             rowNumber++;
