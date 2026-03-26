@@ -16,7 +16,7 @@ public class StraightPathGenerator implements PathGenerator {
 
         Direction direction = determineDirection(src, dest);
 
-        return bulidPath(src, dest, direction);
+        return buildPath(src, dest, direction);
     }
 
     private boolean validateMove(Position src,Position dest) {
@@ -53,13 +53,13 @@ public class StraightPathGenerator implements PathGenerator {
         return Direction.EAST;
     }
 
-    private Path bulidPath(Position src, Position dest, Direction direction) {
+    private Path buildPath(Position src, Position dest, Direction direction) {
         List<Position> path = new ArrayList<>();
-        Position nextPosition = src;
+        Position current = src;
 
-        while (!nextPosition.equals(dest)) {
-            nextPosition = direction.move(nextPosition);
-            path.add(nextPosition);
+        while (!current.equals(dest)) {
+            current = direction.move(current);
+            path.add(current);
         }
 
         return new Path(src, dest, path);
