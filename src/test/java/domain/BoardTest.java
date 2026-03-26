@@ -1,6 +1,7 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
@@ -14,6 +15,27 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class BoardTest {
+    @Test
+    @DisplayName("from 좌표에 기물이 존재하지 않는 경우 예외가 발생한다.")
+    void existPieceFromPositionExceptionTest() {
+        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+
+        assertThatThrownBy(() -> board.validateFromPosition(new Position(1, 1), Country.CHO))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("from 좌표의 기물이 본인 진영이 아닌 경우 예외가 발생한다.")
+    void notMyCountryFromPositionExceptionTest() {
+        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+
+        assertThatThrownBy(() -> board.validateFromPosition(new Position(0, 9), Country.CHO))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 본인 진영의 기물이 아닙니다.");
+    }
+
+
     @Test
     @DisplayName("졸・병(卒·兵) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     void soldierPositionTest() {

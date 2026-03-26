@@ -73,6 +73,17 @@ public class Board {
         }
     }
 
+
+    public void validateFromPosition(Position from, Country country) {
+        State fromState = board.get(from);
+        if (fromState.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
+        }
+        if (fromState.getPiece().getPieceInfo().getCountry() != country) {
+            throw new IllegalArgumentException("[ERROR] 본인 진영의 기물이 아닙니다.");
+        }
+    }
+
     public void move(Position from, Position to) {
         Piece piece = board.get(from).getPiece();
         List<Position> paths = piece.path(from, to);

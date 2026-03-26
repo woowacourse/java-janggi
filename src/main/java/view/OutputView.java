@@ -12,11 +12,15 @@ import java.util.Map;
 public class OutputView {
     private static final List<String> POSITION_NUMBERS = List.of("０", "１", "２", "３", "４", "５", "６", "７", "８", "９");
 
+    public void printTurn(String countryName) {
+        System.out.printf("%s의 차례입니다.", countryName);
+    }
+
     public void printBoard(Map<Position, PieceInfo> pieceInfos) {
         System.out.println();
 
         List<String> yPositionNumbers = POSITION_NUMBERS.reversed();
-        for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
+        for (int y = Y_MAXIMUM_POSITION; y >= INITIAL_POSITION; y--) {
             System.out.print(yPositionNumbers.get(y));
 
             for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {

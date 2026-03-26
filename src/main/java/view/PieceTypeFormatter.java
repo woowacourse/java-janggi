@@ -33,7 +33,7 @@ public enum PieceTypeFormatter {
                 .filter(pieceTypeFormatter -> pieceTypeFormatter.pieceType == pieceType)
                 .map(PieceTypeFormatter::getPieceName)
                 .findAny()
-                .orElseThrow(() -> new IllegalStateException("ERROR] 존재하지 않는 카드 문양입니다."));
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 기물 종류입니다."));
 
         if (pieceType == PieceType.SOLDIER) {
             return getSoldierName(country);
@@ -46,23 +46,23 @@ public enum PieceTypeFormatter {
 
     private static String getSoldierName(Country country) {
         if (country == Country.CHO) {
-            return RED + CHO_SOLDIER.pieceName + EXIT;
+            return BLUE + CHO_SOLDIER.pieceName + EXIT;
         }
-        return BLUE + HAN_SOLDIER.pieceName + EXIT;
+        return RED + HAN_SOLDIER.pieceName + EXIT;
     }
 
     private static String getGeneralName(Country country) {
         if (country == Country.CHO) {
-            return RED + CHO_GENERAL.pieceName + EXIT;
+            return BLUE + CHO_GENERAL.pieceName + EXIT;
         }
-        return BLUE + HAN_GENERAL.pieceName + EXIT;
+        return RED + HAN_GENERAL.pieceName + EXIT;
     }
 
     private static String getOtherName(Country country, String pieceName) {
         if (country == Country.CHO) {
-            return RED + pieceName + EXIT;
+            return BLUE + pieceName + EXIT;
         }
-        return BLUE + pieceName + EXIT;
+        return RED + pieceName + EXIT;
     }
 
     public String getPieceName() {
