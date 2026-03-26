@@ -34,4 +34,8 @@ public record Position(int row, int column) {
     public Position moveCol(int direction) {
         return new Position(row, column + direction);
     }
+
+    public Position moveDiagonal(int rowDirection, int colDirection) {
+        return new Position(row + rowDirection, column + colDirection);
+    }
 }
