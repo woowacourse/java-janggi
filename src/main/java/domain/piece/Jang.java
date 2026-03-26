@@ -31,5 +31,4 @@ public class Jang extends Piece {
     public Jang(Team team) {
         super(team, PieceType.JANG, new BlockedMovementStrategy(), new ListPathGenerator(paths));
     }
-
 }
