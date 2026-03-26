@@ -62,6 +62,7 @@ public class StraightPathGenerator implements PathGenerator {
             path.add(current);
         }
 
+        path.removeLast();
         return new Path(src, dest, path);
     }
 }
