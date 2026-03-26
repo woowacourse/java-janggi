@@ -13,7 +13,7 @@ class GuardTest {
 
     @BeforeEach
     void setUp() {
-        guard = new Guard(PieceType.GUARD);
+        guard = new Guard(PieceType.GUARD, Team.CHO);
     }
 
     @Test

@@ -14,7 +14,7 @@ class ChariotTest {
 
     @BeforeEach
     void setUp() {
-        chariot = new Chariot(PieceType.CHARIOT);
+        chariot = new Chariot(PieceType.CHARIOT, Team.CHO);
     }
 
     @Test

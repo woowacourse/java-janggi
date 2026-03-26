@@ -4,7 +4,7 @@ import domain.board.Position;
 
 import java.util.List;
 
-public record General(PieceType pieceType) implements Piece {
+public record General(PieceType pieceType, Team team) implements Piece {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
         int dx = to.getX() - from.getX();

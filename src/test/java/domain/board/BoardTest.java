@@ -24,7 +24,7 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = BoardFactory.createBoard(InitializeSetting.RIGHT_ELEPHANT_SETTING);
+        board = BoardFactory.createBoard(InitializeSetting.RIGHT_ELEPHANT_SETTING, InitializeSetting.RIGHT_ELEPHANT_SETTING);
     }
 
     @Nested

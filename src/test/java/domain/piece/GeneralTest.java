@@ -13,7 +13,7 @@ class GeneralTest {
 
     @BeforeEach
     void setUp() {
-        general = new General(PieceType.GENERAL);
+        general = new General(PieceType.GENERAL, Team.CHO);
     }
 
     @Test

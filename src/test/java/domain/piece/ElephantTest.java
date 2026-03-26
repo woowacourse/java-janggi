@@ -13,7 +13,7 @@ class ElephantTest {
 
     @BeforeEach
     void setUp() {
-        elephant = new Elephant(PieceType.ELEPHANT);
+        elephant = new Elephant(PieceType.ELEPHANT, Team.CHO);
     }
 
     @Test

@@ -1,11 +1,10 @@
 package domain.piece;
 
-import domain.Direction;
 import domain.board.Position;
 
 import java.util.List;
 
-public record Soldier(PieceType pieceType) implements Piece {
+public record Soldier(PieceType pieceType, Team team) implements Piece {
 
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
@@ -13,11 +12,16 @@ public record Soldier(PieceType pieceType) implements Piece {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
-        boolean isMoveUp = dx == 0 && dy == 1;
+        int straight = 1;
+        if (team == Team.HAN) {
+            straight = -1;
+        }
+
+        boolean isMoveStraight = dx == 0 && dy == straight;
         boolean isMoveLeft = dx == -1 && dy == 0;
         boolean isMoveRight = dx == 1 && dy == 0;
 
-        if(!(isMoveLeft || isMoveRight || isMoveUp)) {
+        if (!(isMoveLeft || isMoveRight || isMoveStraight)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
         return List.of(to);

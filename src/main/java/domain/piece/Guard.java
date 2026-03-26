@@ -4,7 +4,7 @@ import domain.board.Position;
 
 import java.util.List;
 
-public record Guard(PieceType pieceType) implements Piece {
+public record Guard(PieceType pieceType, Team team) implements Piece {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
 

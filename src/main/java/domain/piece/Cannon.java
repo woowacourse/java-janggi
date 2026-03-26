@@ -6,7 +6,7 @@ import domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Cannon(PieceType pieceType) implements Piece {
+public record Cannon(PieceType pieceType, Team team) implements Piece {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
         int dx = to.getX() - from.getX();

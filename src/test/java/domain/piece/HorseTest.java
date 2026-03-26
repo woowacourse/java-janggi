@@ -13,7 +13,7 @@ class HorseTest {
 
     @BeforeEach
     void setUp() {
-        horse = new Horse(PieceType.HORSE);
+        horse = new Horse(PieceType.HORSE, Team.CHO);
     }
 
     @Test

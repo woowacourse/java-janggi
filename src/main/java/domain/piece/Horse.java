@@ -5,7 +5,7 @@ import domain.board.Position;
 
 import java.util.List;
 
-public record Horse(PieceType pieceType) implements Piece {
+public record Horse(PieceType pieceType, Team team) implements Piece {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
 

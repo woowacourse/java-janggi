@@ -19,6 +19,7 @@ public class Board {
     public void move(Position from, Position to){
         // 해당 위치(from)에 기물이 위치하고 있는지
         // (1) piece 가 해당 도착지(to)로 도착하는 경로 반환  : Piece의 getPathPositions 호출
+        // 상대편 위치, 지금할껀지 or 있다가 할껀지, 초/한
         // (2) 1에서 받은 값으로 getPathWithPiece 호출하여 Piece의 canMove 호출
     }
 
