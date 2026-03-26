@@ -22,7 +22,9 @@ class InitialFormationStrategyTest {
 
     @Test
     void 한나라_고정_기물들이_올바른_위치에_배치된다() {
-        Map<Position, Piece> result = strategy.placeFixedPieces(TeamColor.HAN);
+        Map<Position, Piece> result = strategy.setUpPieces(TeamColor.HAN);
+
+        assertThat(result).hasSize(12);
 
         // 한나라는 위쪽 진영 (y = 0 ~ 3)
         // 1. 차
@@ -48,7 +50,9 @@ class InitialFormationStrategyTest {
 
     @Test
     void 초나라_고정_기물들이_올바른_위치에_배치된다() {
-        Map<Position, Piece> result = strategy.placeFixedPieces(TeamColor.CHO);
+        Map<Position, Piece> result = strategy.setUpPieces(TeamColor.CHO);
+
+        assertThat(result).hasSize(12);
 
         // 초나라는 아래쪽 진영 (y = 6 ~ 9)
         // 1. 차
@@ -73,9 +77,9 @@ class InitialFormationStrategyTest {
     }
 }
 
-class TestStrategy implements InitialFormationStrategy {
+class TestStrategy extends InitialFormationStrategy {
     @Override
-    public Map<Position, Piece> setupFormation(TeamColor teamColor) {
+    protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
         return Map.of();
     }
 }

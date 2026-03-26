@@ -20,9 +20,9 @@ public class OuterFormationStrategyTest {
 
     @Test
     public void 한나라_바깥상차림일_때_마와_상의_좌표가_올바르다() {
-        Map<Position, Piece> formation = initialFormationStrategy.setupFormation(TeamColor.HAN);
+        Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.HAN);
 
-        assertThat(formation.size()).isEqualTo(4);
+        assertThat(formation.size()).isEqualTo(16);
 
         // 상좌표 검증 - 한상1(1,0), 한상2(7,0)
         assertThat(formation.get(Position.of(1, 0)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
@@ -31,13 +31,14 @@ public class OuterFormationStrategyTest {
         // 마좌표 검증 - 한마1(2,0), 한마2(6,0)
         assertThat(formation.get(Position.of(2, 0)).getPieceType()).isEqualTo(PieceType.HORSE);
         assertThat(formation.get(Position.of(6, 0)).getPieceType()).isEqualTo(PieceType.HORSE);
+        assertThat(formation.get(Position.of(4, 1)).getPieceType()).isEqualTo(PieceType.KING);
     }
 
     @Test
     public void 초나라_바깥상차림일_때_마와_상의_좌표가_올바르다() {
-        Map<Position, Piece> formation = initialFormationStrategy.setupFormation(TeamColor.CHO);
+        Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.CHO);
 
-        assertThat(formation.size()).isEqualTo(4);
+        assertThat(formation.size()).isEqualTo(16);
 
         // 상좌표 검증 - 초상1(1,9), 초상2(7,9)
         assertThat(formation.get(Position.of(1, 9)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
@@ -46,5 +47,6 @@ public class OuterFormationStrategyTest {
         // 마좌표 검증 - 초마1(2,9), 초마2(6,9)
         assertThat(formation.get(Position.of(2, 9)).getPieceType()).isEqualTo(PieceType.HORSE);
         assertThat(formation.get(Position.of(6, 9)).getPieceType()).isEqualTo(PieceType.HORSE);
+        assertThat(formation.get(Position.of(4, 8)).getPieceType()).isEqualTo(PieceType.KING);
     }
 }

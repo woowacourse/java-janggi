@@ -7,10 +7,10 @@ import domain.TeamColor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RightFormationStrategy implements InitialFormationStrategy {
+public class RightFormationStrategy extends InitialFormationStrategy {
 
     @Override
-    public Map<Position, Piece> setupFormation(TeamColor teamColor) {
+    protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
         Map<Position, Piece> formation = new HashMap<>();
         int y = teamColor == TeamColor.CHO ? 9 : 0;
 

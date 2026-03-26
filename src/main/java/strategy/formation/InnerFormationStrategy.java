@@ -7,9 +7,10 @@ import domain.TeamColor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InnerFormationStrategy implements  InitialFormationStrategy{
+public class InnerFormationStrategy extends InitialFormationStrategy {
 
-    public Map<Position, Piece> setupFormation(TeamColor teamColor) {
+    @Override
+    protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
         Map<Position, Piece> formation = new HashMap<>();
         int y;
         if (teamColor.equals(TeamColor.CHO)) {

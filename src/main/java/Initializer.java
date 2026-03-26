@@ -19,10 +19,8 @@ public class Initializer {
 
     public InitialGameState initialize() {
         Map<Position, Piece> board = new HashMap<>();
-        board.putAll(choStrategy.placeFixedPieces(TeamColor.CHO));
-        board.putAll(choStrategy.setupFormation(TeamColor.CHO));
-        board.putAll(hanStrategy.placeFixedPieces(TeamColor.HAN));
-        board.putAll(choStrategy.setupFormation(TeamColor.HAN));
+        board.putAll(choStrategy.setUpPieces(TeamColor.CHO));
+        board.putAll(hanStrategy.setUpPieces(TeamColor.HAN));
 
         List<Piece> choPieces = board.values().stream()
                 .filter(piece -> piece.getTeamColor() == TeamColor.CHO)
