@@ -58,7 +58,7 @@ public class BoardTest {
 
         Map<Position, PieceInfo> peaceInfos = board.getPieceInfos();
         List<Position> choPositions = List.of(new Position(1, 0), new Position(2, 0), new Position(6, 0),
-                new Position(8, 0));
+                new Position(7, 0));
         List<Position> hanPositions = List.of(new Position(1, 9), new Position(2, 9), new Position(6, 9),
                 new Position(7, 9));
 

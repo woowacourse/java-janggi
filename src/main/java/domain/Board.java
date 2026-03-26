@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 public class Board {
     private static final List<Position> CHO_VARIABLE_POSITIONS = List.of(new Position(1, 0), new Position(2, 0),
             new Position(6, 0),
-            new Position(8, 0));
+            new Position(7, 0));
     private static final List<Position> HAN_VARIABLE_POSITIONS = List.of(new Position(1, 9), new Position(2, 9),
             new Position(6, 9),
             new Position(7, 9));
