@@ -16,11 +16,22 @@ public class Board {
         board.put(position, piece);
     }
 
+    public void remove(Position position) {
+        board.remove(position);
+    }
+
     public boolean isPieceAt(Position position, Piece piece) {
         return piece.equals(board.get(position));
     }
 
     public Piece findPiece(Position position) {
         return board.get(position);
+    }
+
+    public boolean isPathEmpty(Position position) {
+        if (findPiece(position) == null) {
+            return true;
+        }
+        return false;
     }
 }

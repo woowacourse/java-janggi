@@ -11,6 +11,17 @@ public class HorseMoveRule extends MoveRule {
     private static List<MovePattern> createPatterns() {
         List<MovePattern> patterns = new ArrayList<>();
 
+        // 위쪽 방향
+        patterns.add(new MovePattern(List.of(
+                new Step(Direction.UP, true),
+                new Step(Direction.UP_LEFT, false)
+        )));
+
+        patterns.add(new MovePattern(List.of(
+                new Step(Direction.UP, true),
+                new Step(Direction.UP_RIGHT, false)
+        )));
+
         // 오른쪽 방향
         patterns.add(new MovePattern(List.of(
                 new Step(Direction.RIGHT, true),
@@ -42,17 +53,6 @@ public class HorseMoveRule extends MoveRule {
         patterns.add(new MovePattern(List.of(
                 new Step(Direction.LEFT, true),
                 new Step(Direction.UP_LEFT, false)
-        )));
-
-        // 위쪽 방향
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.UP, true),
-                new Step(Direction.UP_LEFT, false)
-        )));
-
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.UP, true),
-                new Step(Direction.UP_RIGHT, false)
         )));
 
         return patterns;

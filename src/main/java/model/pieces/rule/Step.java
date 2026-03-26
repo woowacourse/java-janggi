@@ -8,4 +8,12 @@ public class Step {
         this.direction = direction;
         this.mustBeEmpty = mustBeEmpty;
     }
+
+    public Direction direction() {
+        return direction;
+    }
+
+    public boolean mustBeEmpty() {
+        return mustBeEmpty;
+    }
 }

@@ -8,4 +8,8 @@ public abstract class MoveRule {
     protected MoveRule(List<MovePattern> movePatterns) {
         this.movePatterns = movePatterns;
     }
+
+    public List<MovePattern> movePatterns() {
+        return movePatterns;
+    }
 }

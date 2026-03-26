@@ -17,8 +17,8 @@ public class Column {
         return new Column(value);
     }
 
-    public Column move(Direction direction) {
-        return Column.from(direction.moveCol(value));
+    public int move(Direction direction) {
+        return direction.moveCol(value);
     }
 
     @Override

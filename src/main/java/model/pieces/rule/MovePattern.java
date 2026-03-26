@@ -7,6 +7,10 @@ public class MovePattern {
     private List<Step> steps;
 
     public MovePattern(List<Step> step) {
-        this.steps = new ArrayList<>();
+        this.steps = step;
+    }
+
+    public List<Step> steps() {
+        return steps;
     }
 }
