@@ -75,7 +75,7 @@ class PawnTest {
         List<Position> possibleMoves = pawn.getPossibleMoves(board, start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(4, 0), new Position(3, 1));
+        assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(3, 1));
     }
 
     @Test
@@ -90,7 +90,7 @@ class PawnTest {
         List<Position> possibleMoves = pawn.getPossibleMoves(board, start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(5, 0), new Position(6, 1));
+        assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(6, 1));
     }
 
     @Test

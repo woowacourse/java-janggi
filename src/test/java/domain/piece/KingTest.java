@@ -77,7 +77,7 @@ class KingTest {
         List<Position> possibleMoves = king.getPossibleMoves(board, start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(1, 3), new Position(2, 4), new Position(0, 4), new Position(1, 5));
+        assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4), new Position(1, 5));
     }
 
     @Test
@@ -92,7 +92,7 @@ class KingTest {
         List<Position> possibleMoves = king.getPossibleMoves(board, start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(5, 0), new Position(7, 0), new Position(6, 1));
+        assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
     }
 
     @Test

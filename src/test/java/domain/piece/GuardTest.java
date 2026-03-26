@@ -74,7 +74,7 @@ public class GuardTest {
         List<Position> possibleMoves = guard.getPossibleMoves(board, start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(4, 0), new Position(2, 0), new Position(3, 1));
+        assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(2, 0), new Position(3, 1));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class GuardTest {
         List<Position> possibleMoves = guard.getPossibleMoves(board, start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(5, 0), new Position(7, 0), new Position(6, 1));
+        assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
     }
 
     @Test
