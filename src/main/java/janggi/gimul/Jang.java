@@ -1,6 +1,7 @@
 package janggi.gimul;
 
 import janggi.Diagonal;
+import janggi.Distance;
 import janggi.Path;
 import janggi.Position;
 import janggi.Team;
