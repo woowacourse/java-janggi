@@ -11,7 +11,7 @@ public class Position {
     private final int y;
 
     public Position(int x, int y) {
-//        validateBoardSize(x, y);
+        validateBoardSize(x, y);
         this.x = x;
         this.y = y;
     }

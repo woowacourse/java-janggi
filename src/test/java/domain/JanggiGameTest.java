@@ -2,14 +2,19 @@ package domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+
+import testUtil.BoardTestUtil;
 
 class JanggiGameTest {
 
     @Test
     void 턴_변경_정상_테스트() {
-//        JanggiGame janggiGame = new JanggiGame(new Board(MaSangPosition.MA_SANG_MA_SANG, MaSangPosition.MA_SANG_MA_SANG));
-        JanggiGame janggiGame = new JanggiGame(new Board());
+        List<PieceType> maSang = BoardTestUtil.createMasangSangMa();
+        JanggiGame janggiGame = new JanggiGame(new Board(maSang));
+
         janggiGame.play();
 
         Country country = janggiGame.getCountry();
