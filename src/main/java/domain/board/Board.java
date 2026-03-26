@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Piece;
+import domain.piece.Piece;
 
 import java.util.Map;
 

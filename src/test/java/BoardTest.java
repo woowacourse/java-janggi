@@ -1,10 +1,15 @@
 import domain.board.Board;
-import domain.Piece;
-import domain.PieceType;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Piece;
+
 import domain.board.BoardFactory;
 import domain.board.InitializeSetting;
 import domain.board.Position;
-import org.assertj.core.api.Assertions;
+import domain.piece.Soldier;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,6 +18,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BoardTest {
     private Board board;
@@ -29,7 +36,7 @@ public class BoardTest {
         @MethodSource("soldierProvider")
         void 졸을_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            Assertions.assertThat(piece.pieceType()).isEqualTo(PieceType.SOLDIER);
+            assertThat(piece).isInstanceOf(Soldier.class);
         }
 
         static Stream<Arguments> soldierProvider() {
@@ -46,7 +53,7 @@ public class BoardTest {
         @MethodSource("chariotProvider")
         void 차를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            Assertions.assertThat(piece.pieceType()).isEqualTo(PieceType.CHARIOT);
+            assertThat(piece).isInstanceOf(Chariot.class);
         }
 
         static Stream<Arguments> chariotProvider() {
@@ -60,7 +67,7 @@ public class BoardTest {
         @MethodSource("guardProvider")
         void 사를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            Assertions.assertThat(piece.pieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(piece).isInstanceOf(Guard.class);
         }
 
         static Stream<Arguments> guardProvider() {
@@ -74,7 +81,7 @@ public class BoardTest {
         @Test
         void 궁을_올바른_위치에_초기화한다() {
             Piece piece = board.getPiece(new Position(4, 1));
-            Assertions.assertThat(piece.pieceType()).isEqualTo(PieceType.GENERAL);
+            assertThat(piece).isInstanceOf(General.class);
         }
 
 
@@ -82,7 +89,7 @@ public class BoardTest {
         @MethodSource("cannonProvider")
         void 포를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            Assertions.assertThat(piece.pieceType()).isEqualTo(PieceType.CANNON);
+            assertThat(piece).isInstanceOf(Cannon.class);
         }
 
         static Stream<Arguments> cannonProvider() {
@@ -91,9 +98,5 @@ public class BoardTest {
                     Arguments.of(new Position(7, 2))
             );
         }
-
-
     }
-
-
 }

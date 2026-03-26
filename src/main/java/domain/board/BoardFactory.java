@@ -1,7 +1,14 @@
 package domain.board;
 
-import domain.Piece;
-import domain.PieceType;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Soldier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,30 +26,38 @@ public class BoardFactory {
     public static Board createBoard(InitializeSetting initializeSetting) {
         Map<Position, Piece> pieces = new HashMap<>();
 
-        List<PieceType> initialSetting = initializeSetting.getInitialSetting();
+
         for (Integer soliderColumns : SOLDIER_COLUMNS) {
-            pieces.put(new Position(soliderColumns, 3), new Piece(PieceType.SOLDIER));
+            pieces.put(new Position(soliderColumns, 3), new Soldier(PieceType.SOLDIER));
         }
 
         for (Integer chariotColumn : CHARIOT_COLUMNS) {
-            pieces.put(new Position(chariotColumn, 0), new Piece(PieceType.CHARIOT));
+            pieces.put(new Position(chariotColumn, 0), new Chariot(PieceType.CHARIOT));
         }
 
         for (Integer guardColumn : GUARD_COLUMNS) {
-            pieces.put(new Position(guardColumn, 0), new Piece(PieceType.GUARD));
+            pieces.put(new Position(guardColumn, 0), new Guard(PieceType.GUARD));
         }
 
         for (Integer cannonColumn : CANNON_COLUMNS) {
-            pieces.put(new Position(cannonColumn, 2), new Piece(PieceType.CANNON));
+            pieces.put(new Position(cannonColumn, 2), new Cannon(PieceType.CANNON));
         }
 
-        pieces.put(new Position(4, 1), new Piece(PieceType.GENERAL));
+        pieces.put(new Position(4, 1), new General(PieceType.GENERAL));
 
-        pieces.put(new Position(1, 0), new Piece(initialSetting.get(0)));
-        pieces.put(new Position(2, 0), new Piece(initialSetting.get(1)));
-        pieces.put(new Position(6, 0), new Piece(initialSetting.get(2)));
-        pieces.put(new Position(7, 0), new Piece(initialSetting.get(3)));
+        List<PieceType> initialSetting = initializeSetting.getInitialSetting();
+        pieces.put(new Position(1, 0), createPiece(initialSetting.get(0)));
+        pieces.put(new Position(2, 0), createPiece(initialSetting.get(1)));
+        pieces.put(new Position(6, 0), createPiece(initialSetting.get(2)));
+        pieces.put(new Position(7, 0), createPiece(initialSetting.get(3)));
 
         return new Board(pieces);
+    }
+
+    private static Piece createPiece(PieceType pieceType) {
+        if (pieceType == PieceType.ELEPHANT) {
+            return new Elephant(pieceType);
+        }
+        return new Horse(pieceType);
     }
 }

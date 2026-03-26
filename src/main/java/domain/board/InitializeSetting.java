@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.PieceType;
+import domain.piece.PieceType;
 
 import java.util.List;
 
@@ -19,4 +19,7 @@ public enum InitializeSetting {
     public List<PieceType> getInitialSetting() {
         return initialSetting;
     }
+
+
+
 }
