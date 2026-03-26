@@ -4,6 +4,7 @@ import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.ElephantMoveStrategy;
 import janggi.domain.piece.HorseMoveStrategy;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +12,8 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.Map;
 
+import static janggi.domain.piece.PieceType.ELEPHANT;
+import static janggi.domain.piece.PieceType.HORSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -37,14 +40,14 @@ class BoardDesignPolicyTest {
     }
 
     private static void assertHorseElephantPositionByRow(HorseElephantPosition horseElephantPosition, Map<Position, Piece> board, int row) {
-        assertThat(board.get(Position.from(row, horseElephantPosition.leftHorseColumn())).moveStrategy())
-                .isInstanceOf(HorseMoveStrategy.class);
-        assertThat(board.get(Position.from(row, horseElephantPosition.leftElephantColumn())).moveStrategy())
-                .isInstanceOf(ElephantMoveStrategy.class);
-        assertThat(board.get(Position.from(row, horseElephantPosition.rightHorseColumn())).moveStrategy())
-                .isInstanceOf(HorseMoveStrategy.class);
-        assertThat(board.get(Position.from(row, horseElephantPosition.rightElephantColumn())).moveStrategy())
-                .isInstanceOf(ElephantMoveStrategy.class);
+        assertThat(board.get(Position.from(row, horseElephantPosition.leftHorseColumn())).pieceType())
+                .isEqualTo(HORSE);
+        assertThat(board.get(Position.from(row, horseElephantPosition.leftElephantColumn())).pieceType())
+                .isEqualTo(ELEPHANT);
+        assertThat(board.get(Position.from(row, horseElephantPosition.rightHorseColumn())).pieceType())
+                .isEqualTo(HORSE);
+        assertThat(board.get(Position.from(row, horseElephantPosition.rightElephantColumn())).pieceType())
+                .isEqualTo(ELEPHANT);
     }
 
 }
