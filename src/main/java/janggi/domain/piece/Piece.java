@@ -8,4 +8,12 @@ public abstract class Piece {
         this.name = name;
         this.team = team;
     }
+
+    public String getPieceName() {
+        return name.getName();
+    }
+
+    public String getTeamName() {
+        return team.name();
+    }
 }

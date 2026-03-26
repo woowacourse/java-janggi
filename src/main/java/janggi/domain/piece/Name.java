@@ -1,14 +1,13 @@
 package janggi.domain.piece;
 
 public enum Name {
-    GENERAL("궁"),
-    CHARIOT("차"),
-    CANNON("포"),
-    HORSE("마"),
-    ELEPHANT("상"),
-    GUARD("사"),
-    SOLDIER("병");
-
+    GENERAL("將"),
+    CHARIOT("車"),
+    CANNON("包"),
+    HORSE("馬"),
+    ELEPHANT("象"),
+    GUARD("士"),
+    SOLDIER("兵");
 
     private String name;
 
