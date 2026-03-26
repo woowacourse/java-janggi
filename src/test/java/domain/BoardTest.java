@@ -1,9 +1,11 @@
 package domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import testUtil.BoardTestUtil;
@@ -46,6 +48,37 @@ class BoardTest {
         assertThat(board.getPiece(new Position(10,3))).isEqualTo(ma);
         assertThat(board.getPiece(new Position(10,7))).isEqualTo(sang);
         assertThat(board.getPiece(new Position(10,8))).isEqualTo(ma);
+    }
+
+    @DisplayName("도착좌표에 아무것도 없을때 말의 이동 정상 테스트")
+    @Test
+    void 도착_좌표_아무것도_없을때_이동_정상_테스트(){
+        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
+        Board board = new Board(pieces);
+
+        board.move(new Position(1,3), new Position(3,4));
+
+        assertThat(board.getPiece(new Position(3,4))).isEqualTo(PieceType.MA);
+    }
+
+    @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 이동 규칙 위반")
+    @Test
+    void 이동_규칙_위반_예외_테스트(){
+        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
+        Board board = new Board(pieces);
+
+        assertThatThrownBy(() -> board.move(new Position(1,3), new Position(3,3)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 도착지에 같은 팀 말이 존재")
+    @Test
+    void 도착지에_같은_팀말_존재_예외_테스트(){
+        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
+        Board board = new Board(pieces);
+
+        assertThatThrownBy(() -> board.move(new Position(1,1), new Position(1,3)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }
