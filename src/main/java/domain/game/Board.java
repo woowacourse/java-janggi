@@ -25,8 +25,8 @@ public class Board {
         return pieces.getPieceAt(position);
     }
 
-    public Board move(Coordinate coordinate) {
-        validateMove(coordinate.getStart(), coordinate.getEnd());
+    public Board move(Coordinate coordinate, Team team) {
+        validateMove(coordinate, team);
         return new Board(pieces.move(coordinate.getStart(), coordinate.getEnd()));
     }
 
@@ -52,9 +52,16 @@ public class Board {
         return piece != null && piece.getTeam() != team;
     }
 
-    private void validateMove(Position from, Position to) {
+    private void validateMove(Coordinate coordinate, Team team) {
+        Position from = coordinate.getStart();
+        Position to = coordinate.getEnd();
+
         Piece piece = pieces.at(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 없습니다: " + from));
+
+        if (!piece.isOwnedBy(team)) {
+            throw new IllegalArgumentException("[ERROR] 출발 좌표의 기물이 상대 기물입니다.");
+        }
 
         Movement movement = MovementFactory.create(piece);
         List<Path> paths = movement.candidatePaths(from);

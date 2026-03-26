@@ -16,4 +16,9 @@ public class Turn {
     public Turn changeTeam() {
         return new Turn(team.getEnemy());
     }
+
+    public Team getTeam() {
+        return team;
+    }
+
 }

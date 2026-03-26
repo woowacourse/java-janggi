@@ -27,4 +27,8 @@ public class Piece {
     public boolean isCannon() {
         return pieceType == PieceType.CANNON;
     }
+
+    public boolean isOwnedBy(Team team) {
+        return this.team == team;
+    }
 }
