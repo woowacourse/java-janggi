@@ -36,4 +36,11 @@ public class JanggiBoard implements Board {
         }
         return false;
     }
+
+    public void movePiece(Position from, Position to) {
+        Piece piece = board.get(from);
+        piece.validateMove(from, to, this);
+        board.put(to, piece);
+        board.remove(from);
+    }
 }
