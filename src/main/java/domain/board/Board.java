@@ -27,6 +27,10 @@ public class Board {
         turn = boardInitializer.getFirstTurnSide();
     }
 
+    public boolean isEmpty(Position position) {
+        return board[position.col()][position.row()].isNeutral();
+    }
+
     public boolean isPieceAt(Position position, Piece piece) {
         return board[position.col()][position.row()].equals(piece);
     }
