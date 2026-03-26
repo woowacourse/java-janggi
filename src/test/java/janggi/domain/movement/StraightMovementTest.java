@@ -8,8 +8,11 @@ import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.board.BoardMediatorImpl;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -63,19 +66,18 @@ class StraightMovementTest {
     @DisplayName("목적지 계산 테스트")
     class CalculateDestination {
 
-        Board board;
+        Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
         BoardMediator boardMediator;
         @BeforeEach
         void setUp() {
-            board = new Board(Map.of(Position.valueOf(5, 6), new Soldier(TeamType.BLUE)));
-            boardMediator = new BoardMediatorImpl(board);
+            positionPieceMap.put(Position.valueOf(5, 3), new Chariot(TeamType.RED));
         }
 
         @Test
         @DisplayName("경로에 아군이 있는 경우")
         void success_1() {
-            board = new Board(Map.of(Position.valueOf(5, 6), new Soldier(TeamType.RED)));
-            boardMediator = new BoardMediatorImpl(board);
+            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.RED));
+            boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
@@ -90,8 +92,8 @@ class StraightMovementTest {
         @Test
         @DisplayName("경로에 적군이 있는 경우")
         void success_2() {
-            board = new Board(Map.of(Position.valueOf(5, 6), new Soldier(TeamType.BLUE)));
-            boardMediator = new BoardMediatorImpl(board);
+            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.BLUE));
+            boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);
@@ -106,8 +108,7 @@ class StraightMovementTest {
         @Test
         @DisplayName("경로에 기물이 없는 경우")
         void success_3() {
-            board = new Board(Map.of());
-            boardMediator = new BoardMediatorImpl(board);
+            boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.valueOf(0, 1);

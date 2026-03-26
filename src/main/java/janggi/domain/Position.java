@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.movement.Direction;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class Position {
 
@@ -22,6 +23,20 @@ public final class Position {
 
     private final int row;
     private final int column;
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        final Position position = (Position) object;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
 
     private Position(final int row, final int column) {
         this.row = row;

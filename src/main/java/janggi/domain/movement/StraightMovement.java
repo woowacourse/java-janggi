@@ -2,6 +2,7 @@ package janggi.domain.movement;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
+import janggi.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +30,15 @@ public class StraightMovement implements Movement {
 
     @Override
     public Position calculateDestination(final Position from) {
+        Piece fromPiece = boardMediator.getPieceInPosition(from);
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
-                return to;
+                Piece toPiece = boardMediator.getPieceInPosition(to);
+                if (toPiece.belongsToTeam(fromPiece.getTeamType())) {
+                    return from.calculateNext(distance - 1, direction);
+                }
+                return from.calculateNext(distance, direction);
             }
         }
         return from.calculateNext(maxDistance, direction);
