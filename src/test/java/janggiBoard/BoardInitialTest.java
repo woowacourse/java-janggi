@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
@@ -108,7 +109,7 @@ public class BoardInitialTest {
     }
 
     @Test
-    void 힌나라_궁이_제대로된_위치에_초기화_되었는지_확인한다() {
+    void 한나라_궁이_제대로된_위치에_초기화_되었는지_확인한다() {
         Map<Position, Piece> board = janggiBoard.getJanggiBoard();
         assertThat(board.get(new Position(1, 4))).isInstanceOf(King.class);
         assertThat(board.get(new Position(1, 4)).getTeam()).isEqualTo(Team.HAN);
@@ -142,36 +143,30 @@ public class BoardInitialTest {
     }
 
     @Test
-    void 한나라_졸이_제대로된_위치에_초기화_되었는지_확인한다() {
+    void 한나라_졸_위치들을_한번에_검증한다() {
         Map<Position, Piece> board = janggiBoard.getJanggiBoard();
-        assertThat(board.get(new Position(3, 0))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(3, 2))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(3, 4))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(3, 6))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(3, 8))).isInstanceOf(Pawn.class);
-
-        assertThat(board.get(new Position(3, 0)).getTeam()).isEqualTo(Team.HAN);
-        assertThat(board.get(new Position(3, 2)).getTeam()).isEqualTo(Team.HAN);
-        assertThat(board.get(new Position(3, 4)).getTeam()).isEqualTo(Team.HAN);
-        assertThat(board.get(new Position(3, 6)).getTeam()).isEqualTo(Team.HAN);
-        assertThat(board.get(new Position(3, 8)).getTeam()).isEqualTo(Team.HAN);
+        assertThat(List.of(new Position(3, 0),
+                new Position(3, 2),
+                new Position(3, 4),
+                new Position(3,6),
+                new Position(3,8)))
+                .allSatisfy(pos -> {
+                    assertThat(board.get(pos)).isInstanceOf(Pawn.class);
+                    assertThat(board.get(pos).getTeam()).isEqualTo(Team.HAN);
+                });
     }
 
     @Test
-    void 초나라_졸이_제대로된_위치에_초기화_되었는지_확인한다() {
+    void 초나라_졸_위치들을_한번에_검증한다() {
         Map<Position, Piece> board = janggiBoard.getJanggiBoard();
-        assertThat(board.get(new Position(6, 0))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(6, 2))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(6, 4))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(6, 6))).isInstanceOf(Pawn.class);
-        assertThat(board.get(new Position(6, 8))).isInstanceOf(Pawn.class);
-
-        assertThat(board.get(new Position(6, 0)).getTeam()).isEqualTo(Team.CHO);
-        assertThat(board.get(new Position(6, 2)).getTeam()).isEqualTo(Team.CHO);
-        assertThat(board.get(new Position(6, 4)).getTeam()).isEqualTo(Team.CHO);
-        assertThat(board.get(new Position(6, 6)).getTeam()).isEqualTo(Team.CHO);
-        assertThat(board.get(new Position(6, 8)).getTeam()).isEqualTo(Team.CHO);
+        assertThat(List.of(new Position(6, 0),
+                new Position(6, 2),
+                new Position(6, 4),
+                new Position(6,6),
+                new Position(6,8)))
+                .allSatisfy(pos -> {
+                    assertThat(board.get(pos)).isInstanceOf(Pawn.class);
+                    assertThat(board.get(pos).getTeam()).isEqualTo(Team.CHO);
+                });
     }
-
-
 }
