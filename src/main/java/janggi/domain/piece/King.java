@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.mouveRule.KingMoveRule;
 import janggi.domain.mouveRule.MoveRule;
 
 public class King extends Piece {
@@ -15,6 +16,6 @@ public class King extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return null;
+        return new KingMoveRule();
     }
 }
