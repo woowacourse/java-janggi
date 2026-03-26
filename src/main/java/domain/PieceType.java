@@ -33,7 +33,7 @@ public enum PieceType {
                     new Position(7, 1), new Position(7, 3), new Position(7, 5),
                     new Position(7, 7), new Position(7, 9)
             )),
-    NONE("+", List.of(), List.of());
+    NONE("＋", List.of(), List.of());
 
     private String name;
     private List<Position> choPosition;

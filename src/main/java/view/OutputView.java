@@ -22,7 +22,7 @@ public class OutputView {
         System.out.println("게임을 종료합니다.");
     }
 
-    public void printErrorMessage(String message){
+    public void printErrorMessage(String message) {
         System.out.println(message);
     }
 
@@ -35,11 +35,13 @@ public class OutputView {
     }
 
     public void printBoard(BoardDto boardDto) {
-        for (BoardDto.Row dto : boardDto.rows()){
-            System.out.println(String.join(" ",dto.row()));
+        for (BoardDto.Row dto : boardDto.rows()) {
+            for (String r : dto.row()) {
+                System.out.printf("%-3s", r);
+            }
+            System.out.println();
         }
-
     }
 
 
-}
+    }
