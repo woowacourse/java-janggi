@@ -38,7 +38,7 @@ public class UpToDownSoldierMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isRouteBlockedBy(Position targetPosition, List<Position> piecePositions) {
+    public boolean isValidPath(Position targetPosition, List<Position> piecePositions) {
         return false;
     }
 }

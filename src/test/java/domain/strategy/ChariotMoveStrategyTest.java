@@ -1,7 +1,6 @@
 package domain.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import domain.Position;
 import java.util.List;
@@ -38,7 +37,7 @@ class ChariotMoveStrategyTest {
         List<Position> piecePositions = List.of(Position.of(4, 8));
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
-        assertThat(moveStrategy.isRouteBlockedBy(target, piecePositions)).isTrue();
+        assertThat(moveStrategy.isValidPath(target, piecePositions)).isTrue();
     }
 
     @Test
@@ -49,7 +48,7 @@ class ChariotMoveStrategyTest {
         List<Position> piecePositions = List.of(Position.of(4, 3));
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
-        assertThat(moveStrategy.isRouteBlockedBy(target, piecePositions)).isFalse();
+        assertThat(moveStrategy.isValidPath(target, piecePositions)).isFalse();
     }
 
 

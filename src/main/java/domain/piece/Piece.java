@@ -23,7 +23,7 @@ public abstract class Piece {
     };
 
     public boolean isRouteBlockedBy(Position destination, List<Position> piecePositions) {
-        return moveStrategy.isRouteBlockedBy(destination, piecePositions);
+        return moveStrategy.isValidPath(destination, piecePositions);
     }
 
     public String name () {

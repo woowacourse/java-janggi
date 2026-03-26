@@ -34,7 +34,7 @@ public class HorseMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isRouteBlockedBy(Position destination, List<Position> piecePositions) {
+    public boolean isValidPath(Position destination, List<Position> piecePositions) {
         List<Position> route = moves.get(destination);
 
         return piecePositions.stream().anyMatch(route::contains);

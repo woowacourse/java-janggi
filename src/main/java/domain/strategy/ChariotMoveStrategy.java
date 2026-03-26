@@ -27,7 +27,7 @@ public class ChariotMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isRouteBlockedBy(Position destination, List<Position> piecePositions) {
+    public boolean isValidPath(Position destination, List<Position> piecePositions) {
         if (position.row() == destination.row()) {
             List<Position> routePositons = getLeftOrRightRoutePositions(destination);
             return piecePositions.stream().anyMatch(routePositons::contains);
