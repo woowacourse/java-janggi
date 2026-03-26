@@ -12,7 +12,9 @@ import domain.piece.Po;
 import domain.piece.Sang;
 import domain.player.Team;
 import domain.position.Position;
+import dto.BoardDTO;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -109,4 +111,76 @@ class BoardTest {
             assertEquals(new None(), board.move(new Position(0, 0), new Position(3, 0)));
         }
     }
+
+    @Nested
+    class BoardDTO_생성_테스트 {
+        @Test
+        void 빈_보드를_DTO로_변환하면_모든_칸이_None_기물이다() {
+            Map<Position, Piece> boardMap = createEmptyBoard();
+            Board board = new Board(boardMap);
+
+            BoardDTO dto = board.createDTO();
+            List<List<String>> data = dto.board();
+
+            assertEquals(10, data.size());
+            assertEquals(9, data.get(0).size());
+            
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 9; x++) {
+                    assertEquals("  ", data.get(y).get(x));
+                }
+            }
+        }
+
+        @Test
+        void 기물이_있는_보드를_DTO로_변환하면_기물의_문자열이_표시된다() {
+            Map<Position, Piece> boardMap = createEmptyBoard();
+            boardMap.put(new Position(0, 0), new Cha(Team.CHO));
+            boardMap.put(new Position(4, 1), new Sang(Team.CHO));
+            boardMap.put(new Position(3, 5), new Po(Team.HAN));
+
+            Board board = new Board(boardMap);
+            BoardDTO dto = board.createDTO();
+            List<List<String>> data = dto.board();
+
+            assertEquals("CH", data.get(0).get(0));
+            assertEquals("SD", data.get(1).get(4));
+            assertEquals("PO", data.get(5).get(3));
+        }
+
+        @Test
+        void DTO는_정확한_크기의_2차원_리스트를_반환한다() {
+            Map<Position, Piece> boardMap = createEmptyBoard();
+            boardMap.put(new Position(0, 0), new Cha(Team.CHO));
+            boardMap.put(new Position(8, 9), new Jol(Team.HAN));
+
+            Board board = new Board(boardMap);
+            BoardDTO dto = board.createDTO();
+            List<List<String>> data = dto.board();
+
+            assertEquals(10, data.size());
+            for (List<String> row : data) {
+                assertEquals(9, row.size());
+            }
+        }
+
+        @Test
+        void 여러_기물이_있는_보드를_DTO로_변환한다() {
+            Map<Position, Piece> boardMap = createEmptyBoard();
+            boardMap.put(new Position(1, 2), new Po(Team.CHO));
+            boardMap.put(new Position(7, 2), new Po(Team.CHO));
+            boardMap.put(new Position(1, 7), new Po(Team.HAN));
+            boardMap.put(new Position(7, 7), new Po(Team.HAN));
+
+            Board board = new Board(boardMap);
+            BoardDTO dto = board.createDTO();
+            List<List<String>> data = dto.board();
+
+            assertEquals("PO", data.get(2).get(1));
+            assertEquals("PO", data.get(2).get(7));
+            assertEquals("PO", data.get(7).get(1));
+            assertEquals("PO", data.get(7).get(7));
+        }
+    }
+    
 }
