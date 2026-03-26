@@ -66,4 +66,29 @@ class RowTest {
         }
     }
 
+    @Nested
+    @DisplayName("Row의 높이를 비교한다")
+    class IsLowerThan {
+        @Test
+        void ROW가_다른_ROW_보다_낮을_경우_TRUE를_반환한다() {
+            // given
+            Row row = new Row(1);
+            Row other = new Row(2);
+            // when
+            boolean isLower = row.isLowerThan(other);
+            // then
+            assertThat(isLower).isTrue();
+        }
+
+        @Test
+        void ROW가_다른_ROW_보다_높을_경우_FALSE를_반환한다() {
+            // given
+            Row row = new Row(1);
+            Row other = new Row(0);
+            // when
+            boolean isLower = row.isLowerThan(other);
+            // then
+            assertThat(isLower).isFalse();
+        }
+    }
 }

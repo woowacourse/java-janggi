@@ -22,4 +22,8 @@ public record Row(int index) {
     public Row down() {
         return new Row(this.index + Math.negateExact(ONE_SPACE));
     }
+
+    public boolean isLowerThan(Row other) {
+        return this.index < other.index;
+    }
 }

@@ -64,6 +64,14 @@ public class Position {
         return this.column.equals(departure.column);
     }
 
+    public boolean isLowerRowThan(Position destination) {
+        return this.row.isLowerThan(destination.row);
+    }
+
+    public boolean isLeftColumn(Position destination) {
+        return this.column.isLeft(destination.column);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

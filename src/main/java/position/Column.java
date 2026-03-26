@@ -22,4 +22,8 @@ public record Column(int index) {
     public Column left() {
         return new Column(this.index + Math.negateExact(ONE_SPACE));
     }
+
+    public boolean isLeft(Column column) {
+        return this.index < column.index;
+    }
 }
