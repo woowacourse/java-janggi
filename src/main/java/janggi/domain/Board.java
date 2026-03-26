@@ -2,12 +2,14 @@ package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.strategy.InitializeStrategy;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Board {
+
+    private static final int HORIZONTAL_LENGTH = 10;
+    private static final int VERTICAL_LENGTH = 9;
 
     private final Map<Position, Space> piecesInfo;
 
@@ -19,13 +21,17 @@ public class Board {
     private Map<Position, Space> generateBlankBoard() {
         Map<Position, Space> blankBoard = new HashMap<>();
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
-                blankBoard.put(new Position(j, i), new Blank());
-            }
+        for (int y = 0; y < HORIZONTAL_LENGTH; y++) {
+            putHorizontal(blankBoard, y);
         }
 
         return blankBoard;
+    }
+
+    private void putHorizontal(Map<Position, Space> blankBoard, int y) {
+        for (int x = 0; x < VERTICAL_LENGTH; x++) {
+            blankBoard.put(new Position(x, y), new Blank());
+        }
     }
 
     public void move(Position from, Position to) {
