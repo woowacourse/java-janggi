@@ -2,7 +2,8 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.team.Team;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -26,5 +27,16 @@ public class Board {
             throw new IllegalStateException("요청된 위치에는 기물이 존재하지 않습니다.");
         }
         return positionPieceMap.get(position);
+    }
+
+    public Map<Position, Piece> offerSelectedPieceMap(final List<Position> positions) {
+        final Map<Position, Piece> selected = new LinkedHashMap<>();
+        positions.forEach(position -> {
+            if (!isBlank(position)) {
+                selected.put(position, findPieceByPosition(position));
+            }
+        });
+
+        return selected;
     }
 }
