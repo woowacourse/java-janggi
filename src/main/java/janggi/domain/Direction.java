@@ -1,5 +1,8 @@
 package janggi.domain;
 
+import java.util.Collections;
+import java.util.List;
+
 public enum Direction {
     E(0, 1),
     W(0, -1),
@@ -21,5 +24,13 @@ public enum Direction {
 
     public Position move(Position currentPosition) {
         return currentPosition.move(this.row, this.col);
+    }
+
+    public List<Direction> getAdjacentDiagonals() {
+        if (this == N) return List.of(NE, NW);
+        if (this == S) return List.of(SE, SW);
+        if (this == E) return List.of(NE, SE);
+        if (this == W) return List.of(NW, SW);
+        return Collections.emptyList();
     }
 }
