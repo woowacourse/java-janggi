@@ -32,14 +32,14 @@
   - [x] Guard(사)
   - [x] Soldier(초/한 각각 생성)
   - [x] Horse(마)
-  - [ ] Elephant(상)
+  - [x] Elephant(상)
   - [ ] Chariot(차)
   - [ ] Cannon(포)
 
 - [ ] 입력받은 위치들(아군, 적군)이 이동경로에 포함되는지 여부를 반환할 수 있다.
   - 목적지만을 확인하는 기물(졸, 장, 사)는 `false` 반환 - [x] General(장군)
   - [x] Horse(마)
-  - [ ] Elephant(상)
+  - [x] Elephant(상)
   - [ ] Chariot(차)
   - [ ] Cannon(포)
 
