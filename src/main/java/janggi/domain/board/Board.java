@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 
@@ -14,5 +14,9 @@ public class Board {
 
     public Map<Position, Piece> getBoard() {
         return Collections.unmodifiableMap(board);
+    }
+
+    public boolean isPresentAt(Position position) {
+        return board.containsKey(position);
     }
 }

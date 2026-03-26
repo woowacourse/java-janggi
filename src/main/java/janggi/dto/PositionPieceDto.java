@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 
 public record PositionPieceDto(int x, int y, String pieceName, String teamName) {
