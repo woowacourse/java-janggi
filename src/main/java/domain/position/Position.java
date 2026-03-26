@@ -17,7 +17,7 @@ public final class Position {
             throw new IllegalArgumentException("x값은 0이상 8이하여야 합니다.");
         }
         if (y < 0 || y > 9) {
-            throw new IllegalArgumentException("x값은 0이상 9이하여야 합니다.");
+            throw new IllegalArgumentException("y값은 0이상 9이하여야 합니다.");
         }
     }
 
