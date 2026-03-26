@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Cha extends Gimul {
 
-    protected Cha(Team team) {
+    public Cha(Team team) {
         super(team);
     }
 
@@ -25,7 +25,7 @@ public class Cha extends Gimul {
     }
 
     @Override
-    public boolean canPassThrough(List<Gimul> gimuls) {
-        return gimuls.isEmpty();
+    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
     }
 }

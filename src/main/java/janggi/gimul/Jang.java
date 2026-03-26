@@ -1,40 +1,43 @@
 package janggi.gimul;
 
-import janggi.position.DiagonalMove;
-import janggi.position.PositionConnection;
+import janggi.position.DiagonalDelta;
+import janggi.position.PositionDelta;
 import janggi.position.PositionPath;
 import janggi.position.Position;
 import janggi.Team;
 import java.util.List;
 
 public class Jang extends Gimul {
-    protected Jang(Team team) {
+    public Jang(Team team) {
         super(team);
     }
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
-        PositionConnection positionConnection = PositionConnection.of(from, to);
+        PositionDelta positionDelta = PositionDelta.between(from, to);
 
-        if (positionConnection.isMoreThanOneStepIncludingDiagonal()) {
+        if (positionDelta.isMoreThanOneStepIncludingDiagonal()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        if (positionConnection.isHorizontal()) {
-            return from.moveHorizontal(positionConnection.columnDistance());
+        if (positionDelta.isHorizontal()) {
+            return from.moveHorizontal(positionDelta.columnDistance());
         }
 
-        if (positionConnection.isVertical()) {
-            return from.moveVertical(positionConnection.rowDistance());
+        if (positionDelta.isVertical()) {
+            return from.moveVertical(positionDelta.rowDistance());
         }
 
-        DiagonalMove diagonalMove = DiagonalMove.of(positionConnection.rowDistance(), positionConnection.columnDistance());
+        DiagonalDelta diagonalDelta = new DiagonalDelta(
+                positionDelta.rowDistance(),
+                positionDelta.columnDistance()
+        );
 
-        return from.moveDiagonal(diagonalMove);
+        return from.moveDiagonal(diagonalDelta);
     }
 
     @Override
-    public boolean canPassThrough(List<Gimul> gimuls) {
-        return gimuls.isEmpty();
+    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
     }
 }

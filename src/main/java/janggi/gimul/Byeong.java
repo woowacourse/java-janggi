@@ -6,7 +6,7 @@ import janggi.Team;
 import java.util.List;
 
 public class Byeong extends Gimul {
-    protected Byeong(Team team) {
+    public Byeong(Team team) {
         super(team);
     }
 
@@ -33,9 +33,8 @@ public class Byeong extends Gimul {
         return from.moveVertical(rowDistance);
     }
 
-
     @Override
-    public boolean canPassThrough(List<Gimul> gimuls) {
-        return gimuls.isEmpty();
+    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
+        return gimulsOnPath.isEmpty() && (gimulAtTo == null || this.isSameTeam(gimulAtTo));
     }
 }

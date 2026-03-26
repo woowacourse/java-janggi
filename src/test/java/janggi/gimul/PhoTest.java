@@ -81,7 +81,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of()))
+        assertThat(pho.canPassThrough(List.of(), null))
                 .isFalse();
     }
 
@@ -92,7 +92,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO))))
+        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO)), null))
                 .isFalse();
     }
 }

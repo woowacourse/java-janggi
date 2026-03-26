@@ -6,37 +6,13 @@ public record Position(
         Row row,
         Column column
 ) {
-
-    public PositionPath moveNorthAndEast() {
-        return new PositionPath(List.of(this, new Position(row.previous(), column.next())));
-    }
-
-    public PositionPath moveNorthAndWest() {
-        return new PositionPath(List.of(this, new Position(row.previous(), column.previous())));
-    }
-
-    public PositionPath moveSouthAndEast() {
-        return new PositionPath(List.of(this, new Position(row.next(), column.next())));
-    }
-
-    public PositionPath moveSouthAndWest() {
-        return new PositionPath(List.of(this, new Position(row.next(), column.previous())));
-    }
-
-    public PositionPath moveDiagonal(DiagonalMove diagonalMove) {
-        Row nextRow = row.next();
-        Column nextColumn = column.next();
-
-        if (diagonalMove.isNorth()) {
-            nextRow = row.previous();
-        }
-
-        if (diagonalMove.isEast()) {
-            nextColumn = column.previous();
-        }
+    public PositionPath moveDiagonal(DiagonalDelta diagonalDelta) {
+        Row nextRow = row.moved(diagonalDelta.rowDistance());
+        Column nextColumn = column.moved(diagonalDelta.columnDistance());
 
         return new PositionPath(List.of(this, new Position(nextRow, nextColumn)));
     }
+
 
     public PositionPath moveHorizontal(int distance) {
         Position to = new Position(

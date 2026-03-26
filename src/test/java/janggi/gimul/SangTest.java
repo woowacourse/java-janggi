@@ -49,13 +49,13 @@ class SangTest {
     void canPassThrough() {
         //given
         List<Gimul> gimuls = List.of(
-                new Cha(Team.CHO),
-                new Cha(Team.HAN)
+                new Cha(Team.CHO)
         );
+        Cha gimulAtTo = new Cha(Team.HAN);
         Sang sang = new Sang(Team.CHO);
 
         //when & then
-        assertThat(sang.canPassThrough(gimuls))
+        assertThat(sang.canPassThrough(gimuls,gimulAtTo))
                 .isFalse();
     }
 

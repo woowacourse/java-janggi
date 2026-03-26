@@ -8,38 +8,25 @@ import org.junit.jupiter.api.Test;
 
 class ColumnTest {
 
-    @DisplayName("오른쪽으로 이동한다.")
+    @DisplayName("displacement만큼 이동한다.")
     @Test
-    void next() {
-        Column column = Column.TWO;
-        assertThat(column.next())
-                .isEqualTo(Column.THREE);
-    }
+    void moved() {
+        assertThat(Column.ONE.moved(3))
+                .isEqualTo(Column.FOUR);
 
-    @DisplayName("9번 열에서 오른쪽으로 예외가 발생한다.")
-    @Test
-    void next_OUT() {
-        Column column = Column.NINE;
-        assertThatThrownBy(column::next)
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("보드 밖으로는 이동할 수 없습니다.");
-
-    }
-
-    @DisplayName("왼쪽으로 이동한다.")
-    @Test
-    void previous() {
-        Column column = Column.TWO;
-        assertThat(column.previous())
+        assertThat(Column.FOUR.moved(-3))
                 .isEqualTo(Column.ONE);
     }
 
-    @DisplayName("1번 열에서 왼쪽으로 이동하면 예외가 발생한다.")
+    @DisplayName("displacement만큼 이동했을 때 보드 밖으로 나가면 예외가 발생한다.")
     @Test
-    void previous_OUT() {
-        Column column = Column.ONE;
-        assertThatThrownBy(column::previous)
-                .isInstanceOf(IllegalStateException.class)
+    void moved_OUT() {
+        assertThatThrownBy(() -> Column.NINE.moved(3))
+                .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("보드 밖으로는 이동할 수 없습니다.");
+
+        assertThatThrownBy(() -> Column.ONE.moved(-3))
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("보드 밖으로는 이동할 수 없습니다.");
     }
 
