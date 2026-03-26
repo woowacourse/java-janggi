@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
 import org.assertj.core.api.Assertions;
