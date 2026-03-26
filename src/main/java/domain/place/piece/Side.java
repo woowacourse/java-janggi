@@ -1,8 +1,8 @@
 package domain.place.piece;
 
 public enum Side {
-    CHO("C", 1, 1),
-    HAN("H", 10, -1),
+    CHO("C", 10, -1),
+    HAN("H", 1, 1),
     EMPTY("", 1,1);
 
     private final String name;

@@ -7,7 +7,7 @@ import java.util.List;
 public class HanSoldierMoveStrategy implements MoveStrategy {
 
     private static final List<Direction> directions = List.of(
-            Direction.TOP, Direction.LEFT, Direction.RIGHT
+            Direction.DOWN, Direction.LEFT, Direction.RIGHT
     );
 
     @Override
@@ -25,7 +25,7 @@ public class HanSoldierMoveStrategy implements MoveStrategy {
 
         return directions.stream()
                 .filter(d -> Position.isNotOutOfBounds(currentRow + d.getRow(), currentColumn + d.getColumn()))
-                .map(d -> new Position(currentRow + d.getRow(), currentColumn + d.getColumn()))
+                .map(from::move)
                 .anyMatch(to::equals);
     }
 }

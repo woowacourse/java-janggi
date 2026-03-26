@@ -23,16 +23,16 @@ class BoardTest {
 
         // then
         assertThat(target.toString()).isEqualTo(
-                "C차C상C마C사  C사C상C마C차" +
-                        "        C궁        " +
-                        "  C포          C포  " +
-                        "C졸  C졸  C졸  C졸  C졸" +
-                        "                  " +
-                        "                  " +
-                        "H졸  H졸  H졸  H졸  H졸" +
-                        "  H포          H포  " +
+                "H차H마H상H사  H사H마H상H차" +
                         "        H궁        " +
-                        "H차H마H상H사  H사H마H상H차"
+                        "  H포          H포  " +
+                        "H졸  H졸  H졸  H졸  H졸" +
+                        "                  " +
+                        "                  " +
+                        "C졸  C졸  C졸  C졸  C졸" +
+                        "  C포          C포  " +
+                        "        C궁        " +
+                        "C차C상C마C사  C사C상C마C차"
         );
     }
 }

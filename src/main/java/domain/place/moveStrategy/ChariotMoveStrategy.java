@@ -22,9 +22,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return directions.stream()
                 .filter(d -> isAlignedWithAxis(from, to, d))
                 .filter(d -> isHeadingTowardsTarget(from, to, d))
-                .map(d -> isPathClear(board, from, to, d))
-                .findFirst()
-                .orElse(false);
+                .anyMatch(d -> isPathClear(board, from, to, d));
     }
 
     private boolean isAlignedWithAxis(Position from, Position to, Direction direction) {
@@ -47,18 +45,14 @@ public class ChariotMoveStrategy implements MoveStrategy {
     }
 
     private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
-        int currentRow = from.getRow() + direction.getRow();
-        int currentColumn = from.getColumn() + direction.getColumn();
+        Position currentPosition = from.move(direction);
 
-        while (currentRow != to.getRow() || currentColumn != to.getColumn()) {
-            Position currentPosition = new Position(currentRow, currentColumn);
+        while (!to.equals(currentPosition)) {
 
             if (!board.isEmpty(currentPosition)) {
                 return false;
             }
-
-            currentRow += direction.getRow();
-            currentColumn += direction.getColumn();
+            currentPosition = currentPosition.move(direction);
         }
 
         return true;

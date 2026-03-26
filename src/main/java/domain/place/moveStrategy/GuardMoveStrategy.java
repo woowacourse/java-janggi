@@ -25,7 +25,7 @@ public class GuardMoveStrategy implements MoveStrategy {
 
         return directions.stream()
                 .filter(d -> Position.isNotOutOfBounds(currentRow + d.getRow(), currentColumn + d.getColumn()))
-                .map(d -> new Position(currentRow + d.getRow(), currentColumn + d.getColumn()))
+                .map(from::move)
                 .anyMatch(to::equals);
     }
 }

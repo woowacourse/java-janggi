@@ -5,6 +5,7 @@ import static domain.common.Constant.MAX_ROW;
 import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
 
+import domain.place.moveStrategy.Direction;
 import java.util.Objects;
 
 public class Position {
@@ -31,6 +32,10 @@ public class Position {
 
     public int getColumn() {
         return column.column();
+    }
+
+    public Position move(Direction direction) {
+        return new Position(getRow() + direction.getRow(), getColumn() + direction.getColumn());
     }
 
     @Override
