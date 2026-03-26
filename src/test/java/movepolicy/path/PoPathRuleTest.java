@@ -1,10 +1,14 @@
-package domain;
+package movepolicy.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import pieces.Gung;
+import pieces.Piece;
+import pieces.Po;
+import pieces.Side;
 
 class PoPathRuleTest {
 

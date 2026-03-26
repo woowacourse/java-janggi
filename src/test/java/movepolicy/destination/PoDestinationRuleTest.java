@@ -1,9 +1,13 @@
-package domain;
+package movepolicy.destination;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
+import pieces.Gung;
+import pieces.Piece;
+import pieces.Po;
+import pieces.Side;
 
 class PoDestinationRuleTest {
 

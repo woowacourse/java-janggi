@@ -1,4 +1,6 @@
-package domain;
+package position;
+
+import java.util.Objects;
 
 public class Position {
     private final Row row;
@@ -36,5 +38,19 @@ public class Position {
 
     public Position moveLeft() {
         return new Position(row, column.left());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Position position = (Position) o;
+        return Objects.equals(row, position.row) && Objects.equals(column, position.column);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }

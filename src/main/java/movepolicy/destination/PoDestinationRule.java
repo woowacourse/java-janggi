@@ -1,4 +1,6 @@
-package domain;
+package movepolicy.destination;
+
+import pieces.Piece;
 
 public class PoDestinationRule implements DestinationRule {
     @Override

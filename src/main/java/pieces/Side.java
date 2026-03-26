@@ -1,4 +1,4 @@
-package domain;
+package pieces;
 
 public enum Side {
     HAN, CHO;

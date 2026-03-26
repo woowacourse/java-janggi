@@ -1,6 +1,7 @@
-package domain;
+package movepolicy.path;
 
 import java.util.List;
+import pieces.Piece;
 
 public class EmptyPathRule implements PathRule{
 

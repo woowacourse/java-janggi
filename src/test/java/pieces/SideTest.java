@@ -1,4 +1,4 @@
-package domain;
+package pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

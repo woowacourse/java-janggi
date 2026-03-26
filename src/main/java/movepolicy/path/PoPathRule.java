@@ -1,6 +1,7 @@
-package domain;
+package movepolicy.path;
 
 import java.util.List;
+import pieces.Piece;
 
 public class PoPathRule implements PathRule {
     private static final int PATH_PIECES_SIZE_THRESHOLD = 1;

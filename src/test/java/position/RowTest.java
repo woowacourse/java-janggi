@@ -1,4 +1,4 @@
-package domain;
+package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -7,62 +7,63 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class ColumnTest {
+class RowTest {
     private static final int MINIMUM_BOUNDARY = 0;
-    private static final int MAXIMUM_BOUNDARY = 8;
+    private static final int MAXIMUM_BOUNDARY = 9;
     private static final int ONE_SPACE = 1;
 
     @Test
-    void COLUMN의_범위가_8을_넘을_경우_예외를_던진다() {
-        assertThatThrownBy(() -> new Column(9))
+    void ROW의_범위가_9를_넘을_경우_예외를_던진다() {
+        assertThatThrownBy(() -> new Row(10))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void COLUMN의_범위가_0보다_작을_경우_예외를_던진다() {
-        assertThatThrownBy(() -> new Column(-1))
+    void ROW의_범위가_0보다_작을_경우_예외를_던진다() {
+        assertThatThrownBy(() -> new Row(-1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Nested
-    @DisplayName("COLUMN의 이동을 검증한다")
+    @DisplayName("ROW의 이동을 검증한다")
     class Move {
         @Test
-        void COLUMN이_오른쪽으로_한_칸_이동한다() {
+        void ROW가_위로_한_칸_이동한다() {
             // given
-            Column prev = new Column(1);
+            Row prev = new Row(1);
             // when
-            Column cur = prev.right();
+            Row cur = prev.up();
             // then
             assertThat(cur.index()).isEqualTo(prev.index() + ONE_SPACE);
         }
 
         @Test
-        void COLUMN이_왼쪽으로_한_칸_이동한다() {
+        void ROW가_아래로_한_칸_이동한다() {
             // given
-            Column prev = new Column(1);
+            Row prev = new Row(1);
             // when
-            Column cur = prev.left();
+            Row cur = prev.down();
             // then
             assertThat(cur.index()).isEqualTo(prev.index() - ONE_SPACE);
         }
 
         @Test
-        void COLUMN이_오른쪽으로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
+        void ROW가_위로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
             // given
-            Column prev = new Column(MAXIMUM_BOUNDARY);
+            Row prev = new Row(MAXIMUM_BOUNDARY);
             // when & then
-            assertThatThrownBy(prev::right)
+            assertThatThrownBy(prev::up)
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        void COLUMN이_왼쪽으로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
+        void ROW가_아래로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
             // given
-            Column prev = new Column(MINIMUM_BOUNDARY);
+            Row prev = new Row(MINIMUM_BOUNDARY);
             // when & then
-            assertThatThrownBy(prev::left)
+            assertThatThrownBy(prev::down)
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
+
 }

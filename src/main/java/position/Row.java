@@ -1,4 +1,4 @@
-package domain;
+package position;
 
 public record Row(int index) {
     private static final int MINIMUM_BOUNDARY = 0;
