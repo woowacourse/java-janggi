@@ -4,12 +4,15 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class Board {
+
+    private static final int Y = 9;
 
     private final Map<Point, Piece> state;
 
@@ -26,15 +29,11 @@ public class Board {
         validateToPoint(to, team);
         Piece piece = state.get(from);
         List<Point> route = piece.getRoute(from, to);
-        if (!piece.canMove(getPoints(route))) {
+        if (!piece.canMove(getPieces(route))) {
             throw new IllegalArgumentException("해당 기물의 이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
         }
         state.remove(from);
         state.put(to, piece);
-    }
-
-    public Piece getPointAt(Point point) {
-        return state.get(point);
     }
 
     public boolean isKingDie(Team team) {
@@ -43,7 +42,19 @@ public class Board {
                         piece.isSameTeam(team));
     }
 
-    private List<Piece> getPoints(List<Point> point) {
+    public List<List<Piece>> getPoints() {
+        List<List<Piece>> pieces = new ArrayList<>();
+        for (int i = 0; i < Y; i++) {
+            pieces.add(
+                    Point.getRow(i).stream()
+                            .map(state::get)
+                            .toList()
+            );
+        }
+        return pieces;
+    }
+
+    public List<Piece> getPieces(List<Point> point) {
         return point.stream()
                 .map(state::get)
                 .filter(Objects::nonNull)

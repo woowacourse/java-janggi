@@ -54,6 +54,7 @@ public class PhoTest {
         Piece pho = new Pho(Team.CHO);
         Point from = Point.of(0, 0);
         Point to = Point.of(1, 1);
+
         // when & then
         assertThatThrownBy(() -> pho.getRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -62,39 +63,48 @@ public class PhoTest {
     @Test
     @DisplayName("경유지에 뛰어넘을 기물이 1개만 있으면 움직일 수 있다.")
     void can_pho_move() {
+        // given
         Piece pho = new Pho(Team.CHO);
         Point from = Point.of(1, 1);
         Point to = Point.of(1, 3);
 
+        // when
         List<Point> route = pho.getRoute(from, to);
-        List<Piece> pieces = route.stream().map(point -> board.getPointAt(point)).toList();
+        List<Piece> pieces = board.getPieces(route);
 
+        // then
         assertThat(pho.canMove(pieces)).isTrue();
     }
 
     @Test
     @DisplayName("경유지에 뛰어넘을 기물이 2개 이상 있으면 움직일 수 없다.")
     void can_not_pho_move() {
+        // given
         Piece pho = new Pho(Team.CHO);
         Point from = Point.of(1, 1);
         Point to = Point.of(1, 4);
 
+        // when
         List<Point> route = pho.getRoute(from, to);
-        List<Piece> pieces = route.stream().map(point -> board.getPointAt(point)).toList();
+        List<Piece> pieces = board.getPieces(route);
 
+        // then
         assertThat(pho.canMove(pieces)).isFalse();
     }
 
     @Test
     @DisplayName("경유지에 뛰어넘을 기물이 포일 경우 움직일 수 없다.")
     void huddle_is_pho_can_not_move() {
+        // given
         Piece pho = new Pho(Team.CHO);
         Point from = Point.of(1, 5);
         Point to = Point.of(1, 7);
 
+        // when
         List<Point> route = pho.getRoute(from, to);
-        List<Piece> pieces = route.stream().map(point -> board.getPointAt(point)).toList();
+        List<Piece> pieces = board.getPieces(route);
 
+        // then
         assertThat(pho.canMove(pieces)).isFalse();
     }
 }

@@ -30,6 +30,10 @@ public class Point {
         return CACHE.get(x).get(y);
     }
 
+    public static List<Point> getRow(int x) {
+        return CACHE.get(x);
+    }
+
     public int getX() {
         return x;
     }
