@@ -11,6 +11,15 @@ public enum Col {
     H,
     I;
 
+    public boolean canShift(int delta) {
+        int next = this.ordinal() + delta;
+        return next >= 0 && next < Col.values().length;
+    }
+
+    public Col shift(int delta) {
+        return Col.values()[this.ordinal() + delta];
+    }
+
     public static Col toCol(char character) {
         String convertedCharacter = checkExistingColumn(character);
         return Col.valueOf(convertedCharacter.toUpperCase());

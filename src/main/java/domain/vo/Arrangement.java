@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum Arrangement {
     MASANGMASANG("1", List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT)),
-    MASANGSANGMA("2", List.of(PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT)),
+    MASANGSANGMA("2", List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT, PieceType.HORSE)),
     SANGMAMASANG("3", List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT)),
     SANGMASANGMA("4", List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE));
 

@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.state.GameState;
 import domain.vo.Arrangements;
+import domain.vo.Coordinate;
 import domain.vo.Team;
 
 public class JanggiGame {
@@ -20,5 +21,9 @@ public class JanggiGame {
 
     public Turn getTurn() {
         return turn;
+    }
+
+    public void move(Coordinate coordinate) {
+        this.board = board.move(coordinate);
     }
 }

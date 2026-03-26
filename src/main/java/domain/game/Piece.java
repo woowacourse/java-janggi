@@ -15,4 +15,16 @@ public class Piece {
     public String display() {
         return team.getPrefix() + pieceType.getDisplayName();
     }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public boolean isCannon() {
+        return pieceType == PieceType.CANNON;
+    }
 }

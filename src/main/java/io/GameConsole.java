@@ -26,17 +26,17 @@ public class GameConsole {
 
         janggiGame.setupBoard(arrangements);
 
-        outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
-
         while (true) {
-            Coordinate coordinate = readPieceMovement();
+            outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
+            readPieceMovement();
         }
     }
 
-    private Coordinate readPieceMovement() {
-        return retryUntilSuccess(() -> {
+    private void readPieceMovement() {
+        retryUntilSuccess(() -> {
             outputView.printPieceMovement(janggiGame.getTurn());
-            return Coordinate.toCoordinate(inputView.readMoveCommand(janggiGame.getTurn()));
+            janggiGame.move(Coordinate.toCoordinate(inputView.readMoveCommand(janggiGame.getTurn())));
+            return null;
         });
     }
 

@@ -13,7 +13,7 @@ public class PositionLayout {
     private static final Map<Position, PieceType> hanPiecesLayout = Map.ofEntries(
             Map.entry(new Position(Col.A, Row.ZERO), PieceType.CHARIOT),
             Map.entry(new Position(Col.D, Row.ZERO), PieceType.GUARD),
-            Map.entry(new Position(Col.E, Row.ZERO), PieceType.GENERAL),
+            Map.entry(new Position(Col.E, Row.ONE), PieceType.GENERAL),
             Map.entry(new Position(Col.F, Row.ZERO), PieceType.GUARD),
             Map.entry(new Position(Col.I, Row.ZERO), PieceType.CHARIOT),
             Map.entry(new Position(Col.B, Row.TWO), PieceType.CANNON),

@@ -21,6 +21,15 @@ public enum Row {
         this.value = value;
     }
 
+    public boolean canShift(int delta) {
+        int next = this.ordinal() + delta;
+        return next >= 0 && next < Row.values().length;
+    }
+
+    public Row shift(int delta) {
+        return Row.values()[this.ordinal() + delta];
+    }
+
     public Row reverse() {
         return Row.values()[9 - this.ordinal()];
     }
