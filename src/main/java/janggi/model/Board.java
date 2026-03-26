@@ -74,4 +74,16 @@ public class Board {
         sb.append("  └───────────────────────────┘\n");
         return sb.toString();
     }
+
+    public boolean isGameOver() {
+        return !isHanAlive() || !isChoAlive();
+    }
+
+    private boolean isChoAlive() {
+        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.CHO));
+    }
+
+    private boolean isHanAlive() {
+        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
+    }
 }

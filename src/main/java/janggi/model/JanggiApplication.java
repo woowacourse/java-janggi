@@ -1,7 +1,7 @@
 package janggi.model;
 
 import janggi.controller.JanggiController;
-import janggi.model.initializer.OutsideTableSetting;
+import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class JanggiApplication {
@@ -10,9 +10,9 @@ public class JanggiApplication {
 
         JanggiController controller = new JanggiController(
                 new OutputView(),
-                new OutsideTableSetting()
+                new InputView()
         );
 
-        controller.initializeBoard();
+        controller.run();
     }
 }
