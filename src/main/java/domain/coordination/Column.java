@@ -1,5 +1,8 @@
 package domain.coordination;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static util.ErrorMessage.INVALID_COORDINATION;
 
 public record Column(int index) {
@@ -19,5 +22,15 @@ public record Column(int index) {
 
     public int different(Column column) {
         return this.index - column.index();
+    }
+
+    public List<Column> between(Column column) {
+        int min = Math.min(this.index, column.index);
+        int max = Math.max(this.index, column.index);
+        List<Column> columns = new ArrayList<>();
+        for (int i = min + 1; i < max; i++) {
+            columns.add(new Column(i));
+        }
+        return columns;
     }
 }
