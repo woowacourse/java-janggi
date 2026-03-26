@@ -1,6 +1,8 @@
 package janggi.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Position {
@@ -29,5 +31,12 @@ public class Position {
 
     private static String toKey(Row x, Column y) {
         return x.getRow() + "," + y.getColumn();
+    }
+
+    public List<Integer> getPosition() {
+        List<Integer> position = new ArrayList<>();
+        position.add(x.getRow());
+        position.add(y.getColumn());
+        return position;
     }
 }
