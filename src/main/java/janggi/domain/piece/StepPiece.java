@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.BoardInterface;
+import janggi.domain.board.BoardInterface;
 import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Side;

@@ -1,6 +1,6 @@
 package janggi.domain.policy;
 
-import janggi.domain.BoardInterface;
+import janggi.domain.board.BoardInterface;
 import janggi.domain.Position;
 import janggi.domain.Side;
 

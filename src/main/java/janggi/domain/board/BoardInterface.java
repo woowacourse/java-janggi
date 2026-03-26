@@ -1,4 +1,7 @@
-package janggi.domain;
+package janggi.domain.board;
+
+import janggi.domain.Position;
+import janggi.domain.Side;
 
 public interface BoardInterface {
     boolean isEmpty(Position position);
