@@ -11,47 +11,8 @@ public class ElephantMoveStrategy implements MoveStrategy {
         if (isNotCorrectPath(from, to))
             return false;
 
-        int nx = 0, ny = 0;
-        if (from.getRow() - to.getRow() == 3) {
-            if (from.getCol() - to.getCol() == 2) {
-                nx = -3;
-                ny = -2;
-            }
-            if (from.getCol() - to.getCol() == -2) {
-                nx = -3;
-                ny = 2;
-            }
-        }
-        if (from.getRow() - to.getRow() == -3) {
-            if (from.getCol() - to.getCol() == 2) {
-                nx = 3;
-                ny = -2;
-            }
-            if (from.getCol() - to.getCol() == -2) {
-                nx = 3;
-                ny = 2;
-            }
-        }
-        if (from.getRow() - to.getRow() == 2) {
-            if (from.getCol() - to.getCol() == 3) {
-                nx = -2;
-                ny = -3;
-            }
-            if (from.getCol() - to.getCol() == -3) {
-                nx = -2;
-                ny = 3;
-            }
-        }
-        if (from.getRow() - to.getRow() == -2) {
-            if (from.getCol() - to.getCol() == 3) {
-                nx = 2;
-                ny = -3;
-            }
-            if (from.getCol() - to.getCol() == -3) {
-                nx = 2;
-                ny = 3;
-            }
-        }
+        int nx = to.getRow() - from.getRow();
+        int ny = to.getCol() - from.getCol();
 
         int row = from.getRow();
         int col = from.getCol();
