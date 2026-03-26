@@ -81,7 +81,7 @@ class HorseTest {
 
     @Test
     @DisplayName("마는 아군 기물이 있는 위치로 이동할 수 없다.")
-    void DoesNotMoveTest() {
+    void doesNotMoveTest() {
         // given
         Board board = new Board(new HorseTestInitializer());
         Position start = new Position(9, 0);
@@ -96,7 +96,7 @@ class HorseTest {
 
     @Test
     @DisplayName("마는 상대 기물이 있는 위치로 이동할 수 있다.")
-    void MoveTest() {
+    void captureTest() {
         // given
         Board board = new Board(new HorseTestInitializer());
         Position start = new Position(9, 0);
