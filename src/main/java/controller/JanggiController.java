@@ -1,5 +1,6 @@
 package controller;
 
+import domain.Board;
 import domain.Country;
 import domain.Position;
 import domain.TableSetting;
@@ -20,6 +21,9 @@ public class JanggiController {
 
     public void run() {
         List<TableSetting> tableSettings = makeTableSetting();
+        Board board = new Board(tableSettings.get(0), tableSettings.get(1));
+        outputView.printBoard(board.getPieceInfos());
+        
         Position from = makeFromPosition();
         Position to = makeToPosition();
     }

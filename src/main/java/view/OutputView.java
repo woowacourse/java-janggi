@@ -1,5 +1,42 @@
 package view;
 
-public class OutputView {
+import static domain.Position.INITIAL_POSITION;
+import static domain.Position.X_MAXIMUM_POSITION;
+import static domain.Position.Y_MAXIMUM_POSITION;
 
+import domain.Position;
+import domain.piece.PieceInfo;
+import java.util.List;
+import java.util.Map;
+
+public class OutputView {
+    private static final List<String> POSITION_NUMBERS = List.of("０", "１", "２", "３", "４", "５", "６", "７", "８", "９");
+
+    public void printBoard(Map<Position, PieceInfo> pieceInfos) {
+        System.out.println();
+
+        List<String> yPositionNumbers = POSITION_NUMBERS.reversed();
+        for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
+            System.out.print(yPositionNumbers.get(y));
+
+            for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
+                PieceInfo pieceInfo = pieceInfos.get(new Position(x, y));
+
+                System.out.print("  ");
+                if (pieceInfo == null) {
+                    System.out.print("十");
+                    continue;
+                }
+                String pieceName = PieceTypeFormatter.from(pieceInfo.getPieceType(), pieceInfo.getCountry());
+                System.out.print(pieceName);
+            }
+            System.out.println();
+        }
+        printXPositionNumbers();
+    }
+
+    private void printXPositionNumbers() {
+        System.out.print("   ");
+        System.out.println(String.join("  ", POSITION_NUMBERS.subList(0, 9)));
+    }
 }
