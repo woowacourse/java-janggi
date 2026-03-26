@@ -1,27 +1,42 @@
 package domain.strategy;
 
+import domain.HorseMoveRule;
 import domain.Position;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HorseMoveStrategy extends MoveStrategy {
 
-    private static final int[] DR = {1, 1, -1, -1, 2, 2, -2, -2};
-    private static final int[] DC = {2, -2, 2, -2, 1, -1, 1, -1};
+    private final Map<Position, List<Position>> moves;
 
-    private final List<Position> destinations;
-
-    HorseMoveStrategy(Position position, List<Position> destinations) {
+    HorseMoveStrategy(Position position) {
         super(position);
-        this.destinations = destinations;
+        this.moves = setupDestinationAndRoutesFrom();
+    }
+
+    public static HorseMoveStrategy of(Position position) {
+        return new HorseMoveStrategy(position);
+    }
+
+    private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {
+        Map<Position, List<Position>> moves = new HashMap<>();
+        Arrays.stream(HorseMoveRule.values())
+                .forEach(horseMoveRule ->
+                        moves.putIfAbsent(horseMoveRule.destination(position), horseMoveRule.route(position)));
+        return moves;
     }
 
     @Override
-    public boolean isMoveAble(Position position) {
-        return false;
+    public boolean isMoveAble(Position destination) {
+        return moves.containsKey(destination);
     }
 
     @Override
     public boolean isRouteBlockedBy(Position destination, List<Position> piecePositions) {
-        return false;
+        List<Position> route = moves.get(destination);
+
+        return piecePositions.stream().anyMatch(route::contains);
     }
 }

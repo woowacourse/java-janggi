@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public enum HorseMoveRule {
+public enum ElephantMoveRule {
 
-    UP_CROSS_RIGHT(java.util.List.of(Position::up, Position::upCrossRight)),
-    UP_CROSS_LEFT(java.util.List.of(Position::up, Position::upCrossLeft)),
+    UP_CROSS_RIGHT_CROSS_RIGHT(List.of(Position::up, Position::upCrossRight, Position::upCrossRight)),
+    UP_CROSS_LEFT_CROSS_LEFT(List.of(Position::up, Position::upCrossLeft, Position::upCrossLeft)),
 
-    DOWN_CROSS_RIGHT(List.of(Position::down, Position::downCrossRight)),
-    DOWN_CROSS_LEFT(List.of(Position::down, Position::downCrossLeft)),
+    DOWN_CROSS_RIGHT_CROSS_RIGHT(List.of(Position::down, Position::downCrossRight, Position::downCrossRight)),
+    DOWN_CROSS_LEFT_CROSS_LEFT(List.of(Position::down, Position::downCrossLeft, Position::downCrossLeft)),
 
-    RIGHT_CROSS_UP(List.of(Position::right, Position::upCrossRight)),
-    RIGHT_CROSS_DOWN(List.of(Position::right, Position::downCrossRight)),
+    RIGHT_CROSS_UP_CROSS_UP(List.of(Position::right, Position::upCrossRight, Position::upCrossRight)),
+    RIGHT_CROSS_DOWN_CROSS_DOWN(List.of(Position::right, Position::downCrossRight, Position::downCrossRight)),
 
-    LEFT_CROSS_UP(List.of(Position::left, Position::upCrossLeft)),
-    LEFT_CROSS_DOWN(List.of(Position::left, Position::downCrossLeft)),
+    LEFT_CROSS_UP_CROSS_UP(List.of(Position::left, Position::upCrossLeft, Position::upCrossLeft)),
+    LEFT_CROSS_DOWN_CROSS_DOWN(List.of(Position::left, Position::downCrossLeft, Position::downCrossLeft)),
     ;
 
     private final List<Function<Position, Position>> moveSteps;
 
-    HorseMoveRule(List<Function<Position, Position>> moveSteps) {
+    ElephantMoveRule(List<Function<Position, Position>> moveSteps) {
         this.moveSteps = moveSteps;
     }
 
@@ -31,7 +31,6 @@ public enum HorseMoveRule {
         for (Function<Position, Position> stepAction : moveSteps) {
             position = stepAction.apply(position);
         }
-
         return position;
     }
 
