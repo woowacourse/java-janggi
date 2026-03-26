@@ -44,5 +44,6 @@ public class Game {
 
     public void movePiece(Position from, Position to) {
         board.movePiece(from, to, currentTurn.currentDynasty());
+        currentTurn.changeTurn();
     }
 }

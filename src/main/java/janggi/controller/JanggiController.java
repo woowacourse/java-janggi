@@ -49,6 +49,7 @@ public class JanggiController {
         Position to = Position.from(toDto.row(), toDto.column());
 
         game.movePiece(from, to);
+        outputView.printBoard(BoardDto.from(game.boardMap()));
     }
 
 }

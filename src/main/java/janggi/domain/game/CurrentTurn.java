@@ -2,12 +2,18 @@ package janggi.domain.game;
 
 import janggi.domain.dynasty.Dynasty;
 
-public record CurrentTurn(
-        Dynasty currentDynasty
-) {
+public class CurrentTurn {
+    private Dynasty currentDynasty;
 
-    public CurrentTurn changeTurn() {
-        return new CurrentTurn(currentDynasty.next());
+    public CurrentTurn(Dynasty currentDynasty) {
+        this.currentDynasty = currentDynasty;
     }
-    
+
+    public void changeTurn() {
+        this.currentDynasty = currentDynasty.next();
+    }
+
+    public Dynasty currentDynasty() {
+        return currentDynasty;
+    }
 }
