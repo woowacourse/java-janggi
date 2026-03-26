@@ -21,4 +21,20 @@ public class Position {
     public int column() {
         return column.index();
     }
+
+    public Position moveUp() {
+        return new Position(row.up(), column);
+    }
+
+    public Position moveDown() {
+        return new Position(row.down(), column);
+    }
+
+    public Position moveRight() {
+        return new Position(row, column.right());
+    }
+
+    public Position moveLeft() {
+        return new Position(row, column.left());
+    }
 }
