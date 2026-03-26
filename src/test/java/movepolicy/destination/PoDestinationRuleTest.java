@@ -42,7 +42,7 @@ class PoDestinationRuleTest {
         Piece departurePiece = new Po(Side.CHO);
         ;
         Piece destinationPiece = new Po(Side.HAN);
-        DestinationRule destinationRule = new NormalDestinationRule();
+        DestinationRule destinationRule = new BasicDestinationRule();
         // when
         boolean isMovable = destinationRule.validateDestination(departurePiece, destinationPiece);
         // then

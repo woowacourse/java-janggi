@@ -2,7 +2,7 @@ package pieces;
 
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.EmptyPathRule;
-import movepolicy.destination.NormalDestinationRule;
+import movepolicy.destination.BasicDestinationRule;
 import movepolicy.path.PathRule;
 import java.util.List;
 import position.Position;
@@ -32,7 +32,7 @@ public class Gung extends PieceImpl {
 
     @Override
     DestinationRule getDestinationRule() {
-        return new NormalDestinationRule();
+        return new BasicDestinationRule();
     }
 
     @Override

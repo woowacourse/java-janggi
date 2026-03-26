@@ -8,14 +8,14 @@ import pieces.Gung;
 import pieces.Piece;
 import pieces.Side;
 
-class NormalDestinationRuleTest {
+class BasicDestinationRuleTest {
 
     @Test
     void 출발지_기물이_NULL_이면_예외를_던진다() {
         // given
         Piece departurePiece = null;
         Piece destinationPiece = new Gung(Side.HAN);
-        DestinationRule destinationRule = new NormalDestinationRule();
+        DestinationRule destinationRule = new BasicDestinationRule();
         // when & then
         assertThatThrownBy(() ->
             destinationRule.validateDestination(departurePiece, destinationPiece))
@@ -28,7 +28,7 @@ class NormalDestinationRuleTest {
         Piece departurePiece = new Gung(Side.HAN);
         ;
         Piece destinationPiece = new Gung(Side.HAN);
-        DestinationRule destinationRule = new NormalDestinationRule();
+        DestinationRule destinationRule = new BasicDestinationRule();
         // when & then
         assertThatThrownBy(() ->
             destinationRule.validateDestination(departurePiece, destinationPiece))
@@ -41,7 +41,7 @@ class NormalDestinationRuleTest {
         Piece departurePiece = new Gung(Side.CHO);
         ;
         Piece destinationPiece = new Gung(Side.HAN);
-        DestinationRule destinationRule = new NormalDestinationRule();
+        DestinationRule destinationRule = new BasicDestinationRule();
         // when
         boolean isMovable = destinationRule.validateDestination(departurePiece, destinationPiece);
         // then

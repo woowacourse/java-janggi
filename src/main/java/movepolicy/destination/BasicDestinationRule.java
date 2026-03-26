@@ -2,7 +2,7 @@ package movepolicy.destination;
 
 import pieces.Piece;
 
-public class NormalDestinationRule implements DestinationRule {
+public class BasicDestinationRule implements DestinationRule {
     @Override
     public boolean validateDestination(Piece departurePiece, Piece destinationPiece) {
         if (departurePiece == null) {
