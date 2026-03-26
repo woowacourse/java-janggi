@@ -46,11 +46,16 @@ public class StraightMovement implements Movement {
 
     @Override
     public List<Position> calculateTraces(final Position from) {
+        final Piece fromPiece = boardMediator.getPieceInPosition(from);
         final List<Position> traces = new ArrayList<>();
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
-                break;
+                Piece toPiece = boardMediator.getPieceInPosition(to);
+                if (!toPiece.belongsToTeam(fromPiece.getTeamType())) {
+                    traces.add(to);
+                }
+                return traces;
             }
             traces.add(to);
         }
