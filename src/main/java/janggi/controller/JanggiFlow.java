@@ -1,28 +1,41 @@
 package janggi.controller;
 
-import janggi.domain.piece.Piece;
+import janggi.domain.Side;
+import janggi.domain.board.Board;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
+import janggi.strategy.MaSangMaSang;
+import janggi.strategy.MaSangSangMa;
+import janggi.strategy.SangMaMaSang;
 import janggi.strategy.SangMaSangMa;
 import janggi.view.ApplicationView;
 import java.util.List;
 
 public class JanggiFlow {
     private final ApplicationView view;
-
     private final List<ArrangementStrategy> strategies;
 
     public JanggiFlow(ApplicationView view) {
         this.view = view;
-        this.strategies = List.of(new SangMaSangMa());
+        this.strategies = List.of(
+                new MaSangMaSang(),
+                new MaSangSangMa(),
+                new SangMaMaSang(),
+                new SangMaSangMa()
+        );
     }
 
     public void process() {
-        int decisionNumber = view.requestArrangementStrategyDecision(strategies);
-        ArrangementStrategy strategy = findStrategyWithCorrespondingDecisionNumber(decisionNumber);
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
-        Piece[][] pieces = assembler.assemble();
-        System.out.println(pieces);
+        ArrangementStrategy hanStrategy = askStrategy(Side.HAN);
+        ArrangementStrategy choStrategy = askStrategy(Side.CHO);
+        Board board = Board.create(BoardAssembler.of(hanStrategy, choStrategy));
+
+        view.responseBoardArray(board.to2DArray());
+    }
+
+    public ArrangementStrategy askStrategy(Side side) {
+        int decisionNumber = view.requestArrangementStrategyDecision(side, strategies);
+        return findStrategyWithCorrespondingDecisionNumber(decisionNumber);
     }
 
     private ArrangementStrategy findStrategyWithCorrespondingDecisionNumber(int decisionNumber) {

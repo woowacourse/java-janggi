@@ -4,8 +4,10 @@ import janggi.domain.Side;
 
 public class EmptyPiece extends Piece {
 
+    private static final String PIECE_NAME = "ㆍ";
+
     public EmptyPiece() {
-        super(Side.NONE);
+        super(PIECE_NAME, Side.NONE);
     }
 
     @Override

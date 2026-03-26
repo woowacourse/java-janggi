@@ -4,8 +4,10 @@ import janggi.domain.piece.Piece;
 
 public class TeamPiece extends Piece {
 
+    private static final String PIECE_NAME = "test";
+
     public TeamPiece(Side side) {
-        super(side);
+        super(PIECE_NAME, side);
     }
 
     @Override

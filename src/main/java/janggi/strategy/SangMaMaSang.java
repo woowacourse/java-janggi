@@ -1,9 +1,9 @@
 package janggi.strategy;
 
+import janggi.domain.Side;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
-import janggi.domain.Side;
 
 public class SangMaMaSang extends ArrangementStrategy {
 
