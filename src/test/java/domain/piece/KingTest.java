@@ -77,7 +77,8 @@ class KingTest {
         List<Position> possibleMoves = king.getPossibleMoves(board, start);
 
         // then
-        assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4), new Position(1, 5));
+        assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4),
+                new Position(1, 5));
     }
 
     @Test
@@ -112,7 +113,7 @@ class KingTest {
 
     @Test
     @DisplayName("장은 상대 기물이 있는 위치로 이동할 수 있다.")
-    void getChuPossibleMoves__Test() {
+    void captureTest() {
         // given
         Board board = new Board(new HanSideKingInitializer());
         Position start = new Position(3, 7);

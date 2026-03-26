@@ -109,7 +109,7 @@ public class GuardTest {
 
     @Test
     @DisplayName("사는 상대 기물이 있는 위치로 이동할 수 있다.")
-    void getChuPossibleMoves__Test() {
+    void captureTest() {
         // given
         Board board = new Board(new HanSideGuardInitializer());
         Position start = new Position(3, 7);

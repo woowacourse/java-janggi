@@ -47,7 +47,6 @@ class PawnTest {
         public Map<Position, Piece> initialize() {
             Map<Position, Piece> piecesPosition = new HashMap<>();
 
-
             piecesPosition.put(new Position(6, 0), new Pawn(Side.CHU));
             piecesPosition.put(new Position(6, 2), new Pawn(Side.CHU));
             piecesPosition.put(new Position(6, 4), new Pawn(Side.CHU));
@@ -110,7 +109,7 @@ class PawnTest {
 
     @Test
     @DisplayName("졸은 상대 기물이 있는 위치로 이동할 수 있다.")
-    void getChuPossibleMoves__Test() {
+    void captureTest() {
         // given
         Board board = new Board(new HanSidePawnInitializer());
         Position start = new Position(3, 7);
