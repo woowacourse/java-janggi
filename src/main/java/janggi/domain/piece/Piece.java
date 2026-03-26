@@ -9,4 +9,5 @@ public interface Piece {
     boolean canMove(List<Piece> route);
     boolean isSameTeam(Team team);
     boolean isSameType(PieceType type);
+    PieceType getType();
 }

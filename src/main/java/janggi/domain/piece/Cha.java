@@ -55,4 +55,9 @@ public class Cha implements Piece {
     public boolean isSameType(PieceType type) {
         return this.type.equals(type);
     }
+
+    @Override
+    public PieceType getType() {
+        return type;
+    }
 }
