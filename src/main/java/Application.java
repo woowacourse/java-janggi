@@ -5,8 +5,8 @@ public class Application {
         try{
             Janggi janggi = new Janggi();
             janggi.run();
-        }catch (Exception e){
-            System.out.println(e);
+        }catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
