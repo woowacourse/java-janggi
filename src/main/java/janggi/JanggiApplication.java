@@ -7,6 +7,7 @@ import janggi.dto.GameStatusInfo;
 import janggi.dto.PositionInfo;
 import janggi.ui.InputView;
 import janggi.ui.OutputView;
+import janggi.util.Console;
 import janggi.util.FileParser;
 import java.util.List;
 
@@ -23,5 +24,6 @@ public class JanggiApplication {
             OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
         }
         OutputView.printWinner(game.getWinner());
+        Console.close();
     }
 }

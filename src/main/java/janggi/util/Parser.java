@@ -23,8 +23,8 @@ public class Parser {
     }
 
     public static Point parsePoint(String point) {
-        return Point.of(Integer.parseInt(point.split(COMMA)[0]),
-                Integer.parseInt(point.split(COMMA)[1])
+        return Point.of(Integer.parseInt(point.split(COMMA)[0].trim()),
+                Integer.parseInt(point.split(COMMA)[1].trim())
         );
     }
 }
