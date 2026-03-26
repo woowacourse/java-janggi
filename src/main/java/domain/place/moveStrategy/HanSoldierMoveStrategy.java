@@ -1,17 +1,17 @@
 package domain.place.moveStrategy;
 
-import domain.board.Board;
+import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
 
-public class HanSoldierMoveStrategy implements MoveStrategy{
+public class HanSoldierMoveStrategy implements MoveStrategy {
 
     private static final List<Direction> directions = List.of(
             Direction.TOP, Direction.LEFT, Direction.RIGHT
     );
 
     @Override
-    public boolean canMove(Board board, Position from, Position to) {
+    public boolean canMove(BoardView board, Position from, Position to) {
         if (board.isSameTeam(from, to)) {
             return false;
         }

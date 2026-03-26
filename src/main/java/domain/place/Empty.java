@@ -2,7 +2,7 @@ package domain.place;
 
 import domain.place.piece.Side;
 
-public class Empty implements Place{
+public class Empty implements Place {
 
     @Override
     public boolean isEmpty() {
@@ -20,7 +20,7 @@ public class Empty implements Place{
     }
 
     @Override
-    public String getFormat(){
+    public String getFormat() {
         return "  ";
     }
 }

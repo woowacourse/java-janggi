@@ -1,6 +1,6 @@
 package domain.place.moveStrategy;
 
-import domain.board.Board;
+import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public boolean canMove(Board board, Position from, Position to) {
+    public boolean canMove(BoardView board, Position from, Position to) {
         if (board.isSameTeam(from, to)) {
             return false;
         }
@@ -33,7 +33,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
 
         if (direction.getColumn() == 0) {
-            return from.getColumn() == to.getColumn(); 
+            return from.getColumn() == to.getColumn();
         }
 
         return false;
@@ -46,7 +46,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return Math.abs(vectorSum) < Math.abs(movedVectorSum);
     }
 
-    private boolean isPathClear(Board board, Position from, Position to, Direction direction) {
+    private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
         int currentRow = from.getRow() + direction.getRow();
         int currentColumn = from.getColumn() + direction.getColumn();
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class Board implements BoardView {
 
     private final Map<Position, Place> board;
 
@@ -29,11 +29,22 @@ public class Board {
         return result;
     }
 
-    public boolean isEmpty(Position position){
+    private void getFormatRow(int row, List<String> result) {
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+            Position position = new Position(row, column);
+            Place place = board.get(position);
+            String format = place.getFormat();
+            result.add(format);
+        }
+    }
+
+    @Override
+    public boolean isEmpty(Position position) {
         Place place = board.get(position);
         return place.isEmpty();
     }
 
+    @Override
     public boolean isSameTeam(Position from, Position to) {
         Place toPlace = board.get(to);
 
@@ -46,12 +57,4 @@ public class Board {
         return toPlace.isSameSide(fromSide);
     }
 
-    private void getFormatRow(int row, List<String> result) {
-        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Position position = new Position(row, column);
-            Place place = board.get(position);
-            String format = place.getFormat();
-            result.add(format);
-        }
-    }
 }

@@ -1,6 +1,6 @@
 package domain.place.moveStrategy;
 
-import domain.board.Board;
+import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class ChoSoldierMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public boolean canMove(Board board, Position from, Position to) {
+    public boolean canMove(BoardView board, Position from, Position to) {
         if (board.isSameTeam(from, to)) {
             return false;
         }

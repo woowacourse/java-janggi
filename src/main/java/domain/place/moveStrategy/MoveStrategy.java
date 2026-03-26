@@ -1,8 +1,8 @@
 package domain.place.moveStrategy;
 
-import domain.board.Board;
+import domain.board.BoardView;
 import domain.position.Position;
 
 public interface MoveStrategy {
-    boolean canMove(Board board, Position from, Position to);
+    boolean canMove(BoardView board, Position from, Position to);
 }
