@@ -3,9 +3,9 @@ package domain.moveStrategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
+import domain.board.StubBoard;
 import domain.place.moveStrategy.ChariotMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
-import domain.place.piece.Cannon;
 import domain.place.piece.Chariot;
 import domain.place.piece.Side;
 import domain.position.Position;

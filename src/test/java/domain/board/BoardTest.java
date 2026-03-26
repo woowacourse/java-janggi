@@ -2,7 +2,6 @@ package domain.board;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import domain.moveStrategy.StubBoard;
 import domain.place.moveStrategy.ChoSoldierMoveStrategy;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;

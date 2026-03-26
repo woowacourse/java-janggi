@@ -1,6 +1,7 @@
 package domain.moveStrategy;
 
 import domain.board.Board;
+import domain.board.StubBoard;
 import domain.place.moveStrategy.GeneralMoveStrategy;
 import domain.place.moveStrategy.GuardMoveStrategy;
 import domain.place.moveStrategy.HanSoldierMoveStrategy;

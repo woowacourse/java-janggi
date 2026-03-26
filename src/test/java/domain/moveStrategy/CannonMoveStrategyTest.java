@@ -3,6 +3,7 @@ package domain.moveStrategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
+import domain.board.StubBoard;
 import domain.place.moveStrategy.CannonMoveStrategy;
 import domain.place.moveStrategy.ChoSoldierMoveStrategy;
 import domain.place.moveStrategy.HanSoldierMoveStrategy;

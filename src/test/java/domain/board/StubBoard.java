@@ -1,11 +1,10 @@
-package domain.moveStrategy;
+package domain.board;
 
 import static domain.common.Constant.MAX_COLUMN;
 import static domain.common.Constant.MAX_ROW;
 import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
 
-import domain.board.Board;
 import domain.place.Empty;
 import domain.place.Place;
 import domain.place.piece.Piece;
@@ -35,5 +34,5 @@ public class StubBoard {
         return this;
     }
 
-    public Board create(){ return new Board(board); }
+    public Board create(){ return new Board(new HashMap<>(board)); }
 }
