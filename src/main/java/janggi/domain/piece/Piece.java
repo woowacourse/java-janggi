@@ -15,8 +15,11 @@ public abstract class Piece {
         this.side = side;
     }
 
+    public final Side getSide() {
+        return side;
+    }
     public final boolean isSameSide(Side side) {
-        return this.side.equals(side);
+        return Side.isSameSide(this.side,side);
     }
 
     public abstract List<Point> availablePoints(Point from, Point to, Board board);
@@ -24,10 +27,6 @@ public abstract class Piece {
     protected abstract List<Path> path(Point from);
 
     protected abstract List<Path> filterPath(Path path, Board board);
-
-    public final Side getSide() {
-        return side;
-    }
 
     @Override
     public final boolean equals(Object object) {

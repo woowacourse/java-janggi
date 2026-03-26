@@ -2,11 +2,14 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.Point;
+import janggi.domain.side.Side;
 import java.util.List;
 
-public class Empty extends Piece{
+public class Empty extends Piece {
+    private static final PieceName NAME = PieceName.NONE;
+
     public Empty() {
-        super(null,null);
+        super(NAME, Side.NONE);
     }
 
     @Override

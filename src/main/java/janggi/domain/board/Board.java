@@ -4,6 +4,7 @@ import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.Advisor;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Empty;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -22,6 +23,8 @@ public class Board {
 //        validateSize(board);
 //        validatePiece(board);
         this.board = board;
+
+        board.getOrDefault(new Point(1,2),new Empty());
     }
 
     public final Map<Point, Piece> getBoard(){

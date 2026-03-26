@@ -9,7 +9,8 @@ public enum PieceName {
     ELEPHANT("象", "象"),
     SOLDIER("卒", "兵"),
     ADVISOR("士", "士"),
-    GENERAL("楚", "漢");
+    GENERAL("楚", "漢"),
+    NONE("  ", "  ");
 
     private final String hanName;
     private final String choName;
