@@ -26,12 +26,12 @@ public class Game {
         return new Game(new Board(policy), new CurrentTurn(CHO));
     }
 
-    /**
-     * 움직일 수 있는 지점 1. 위치값 2. 보드한테 그 위치값에 있는 좌표 넘겨줘 3. 갖고온 것을 반환 움직인다. 1. from to 2. 보드한테 움직여라 3. 보드가 움직인 후 4. 턴 변경
-     */
-
     public List<Position> canMovePosition(Position from) {
-        return board.canMovePosition(from, currentTurn.currentDynasty());
+        List<Position> positions = board.canMovePosition(from, currentTurn.currentDynasty());
+        if (positions.isEmpty()) {
+            throw new IllegalStateException("선택된 기물이 이동할 수 있는 위치가 없습니다.");
+        }
+        return positions;
     }
 
     public Map<Position, Piece> boardMap() {
