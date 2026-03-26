@@ -14,7 +14,7 @@ class RowTest {
         Row row = new Row(input);
 
         //then
-        assertThat(row.getValue()).isEqualTo(3);
+        assertThat(row.value()).isEqualTo(3);
 
     }
 
@@ -25,7 +25,7 @@ class RowTest {
 
         assertThatThrownBy(() ->  new Row(input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("행의 최대 값은 9입니다.");
+                .hasMessageContaining("행의 최대 값은 8입니다.");
     }
 
 }

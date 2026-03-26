@@ -11,10 +11,10 @@ public class ColumnTest {
         int input = 3;
 
         //when
-        Column row = new Column(input);
+        Column column = new Column(input);
 
         //then
-        assertThat(row.getValue()).isEqualTo(3);
+        assertThat(column.value()).isEqualTo(3);
 
     }
 
@@ -25,6 +25,6 @@ public class ColumnTest {
 
         assertThatThrownBy(() ->  new Column(input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("열의 최대 값은 10입니다.");
+                .hasMessageContaining("열의 최대 값은 9입니다.");
     }
 }
