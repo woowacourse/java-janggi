@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PositionTest {
@@ -23,7 +24,7 @@ public class PositionTest {
         void generate_MinXCoordinate() {
             Position position = new Position(1, 1);
 
-            Assertions.assertThat(position.x()).isEqualTo(1);
+            assertThat(position.x()).isEqualTo(1);
         }
 
         @Test
@@ -38,7 +39,7 @@ public class PositionTest {
         void generate_MaxXCoordinate() {
             Position position = new Position(9, 1);
 
-            Assertions.assertThat(position.x()).isEqualTo(9);
+            assertThat(position.x()).isEqualTo(9);
         }
     }
 
@@ -56,7 +57,7 @@ public class PositionTest {
         void generate_Min_Y_Coordinate() {
             Position position = new Position(1, 1);
 
-            Assertions.assertThat(position.y()).isEqualTo(1);
+            assertThat(position.y()).isEqualTo(1);
         }
 
 
@@ -72,7 +73,18 @@ public class PositionTest {
         void generate_Max_Y_Coordinate() {
             Position position = new Position(1, 10);
 
-            Assertions.assertThat(position.y()).isEqualTo(10);
+            assertThat(position.y()).isEqualTo(10);
         }
+    }
+
+    @Test
+    @DisplayName("도착지점을 받으면 도착위치와 현재위치의 x좌표 차를 구한다.")
+    void XCoordinateDifference_When_ReceiveDestination() {
+        Position from = new Position(1, 2);
+        Position to = new Position(6, 2);
+
+        int dx = from.calculateDx(to);
+
+        assertThat(dx).isEqualTo(5);
     }
 }

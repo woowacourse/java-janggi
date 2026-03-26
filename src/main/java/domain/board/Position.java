@@ -18,4 +18,8 @@ public record Position(int x, int y) {
             throw new IllegalArgumentException(ERROR_INVALID_Y_COORDINATE);
         }
     }
+
+    public int calculateDx(Position to) {
+        return to.x - this.x;
+    }
 }
