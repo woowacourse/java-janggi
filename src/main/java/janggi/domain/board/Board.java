@@ -35,7 +35,7 @@ public class Board {
         choFormation.put(Position.of(2, 1), new Cannon(cho, new CannonStrategy()));
         choFormation.put(Position.of(2, 7), new Cannon(cho, new CannonStrategy()));
         for (int i = 0; i <= 8; i += 2) {
-            choFormation.put(Position.of(3, i), new Soldier(cho, new SoldierStrategy()));
+            choFormation.put(Position.of(3, i), new Soldier(cho, new SoldierStrategy(cho.direction())));
         }
         return choFormation;
     }
@@ -51,7 +51,7 @@ public class Board {
         choFormation.put(Position.of(7, 1), new Cannon(han, new CannonStrategy()));
         choFormation.put(Position.of(7, 7), new Cannon(han, new CannonStrategy()));
         for (int i = 0; i <= 8; i += 2) {
-            choFormation.put(Position.of(6, i), new Soldier(han, new SoldierStrategy()));
+            choFormation.put(Position.of(6, i), new Soldier(han, new SoldierStrategy(han.direction())));
         }
         return choFormation;
     }
