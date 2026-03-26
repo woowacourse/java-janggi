@@ -4,6 +4,7 @@ public enum Team {
 
     CHO(true),
     HAN(false),
+    NONE(false),
     ;
 
     private final boolean isCho;

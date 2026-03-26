@@ -7,9 +7,11 @@ import java.util.Map;
 
 import static util.ErrorMessage.NOT_EXISTS_PIECE;
 
-public class EmptyPiece implements Piece {
+public class EmptyPiece extends AbstractPiece {
 
-    public static final EmptyPiece INSTANCE = new EmptyPiece();
+    public EmptyPiece(Team team) {
+        super(team);
+    }
 
     @Override
     public boolean isEmpty() {
@@ -24,15 +26,5 @@ public class EmptyPiece implements Piece {
     @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         throw new PieceException(NOT_EXISTS_PIECE.getMessage());
-    }
-
-    @Override
-    public void isSameTeam(Piece piece) {
-        throw new PieceException(NOT_EXISTS_PIECE.getMessage());
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return false;
     }
 }

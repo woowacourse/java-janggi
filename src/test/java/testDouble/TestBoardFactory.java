@@ -4,6 +4,7 @@ import domain.board.PlacementOption;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
+import domain.piece.Team;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class TestBoardFactory {
 
     private static void placeColumns(Map<Coordination, Piece> map, int row) {
         for (int col = 1; col <= 9; col++) {
-            map.put(Coordination.of(col, row), EmptyPiece.INSTANCE);
+            map.put(Coordination.of(col, row), new EmptyPiece(Team.NONE));
         }
     }
 }
