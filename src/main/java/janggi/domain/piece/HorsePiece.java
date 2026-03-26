@@ -1,21 +1,80 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class HorsePiece extends Piece {
+    private static final List<List<Integer>> destinations = List.of(
+            List.of(1, 2), List.of(2, 1), List.of(1, -2), List.of(2, -1),
+            List.of(-1, 2), List.of(-2, 1), List.of(-1, -2), List.of(-2, -1)
+    );
+
     public HorsePiece(Team team) {
         super(team, Name.HORSE);
     }
 
-
     @Override
     public boolean canMove(Position from, Position to) {
+        int preX = from.getX();
+        int preY = from.getY();
+
+        int nextX = to.getX();
+        int nextY = to.getY();
+
+        for (List<Integer> destination : destinations) {
+            if (nextY - preY == destination.get(1)
+                    && nextX - preX == destination.get(0)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public List<Position> findPath(Position from, Position to) {
-        return List.of();
+        List<Position> path = new ArrayList<>();
+
+        int preX = from.getX();
+        int preY = from.getY();
+
+        int nextX = to.getX();
+        int nextY = to.getY();
+
+        if (Math.abs(preX - nextX) == 2) {
+            if (nextX > preX) {
+                path.add(new Position(preX + 1, preY));
+                if (nextY > preY) {
+                    path.add(new Position(preX + 2, preY + 1));
+                    return path;
+                }
+                path.add(new Position(preX + 2, preY - 1));
+                return path;
+            }
+            path.add(new Position(preX - 1, preY));
+            if (nextY > preY) {
+                path.add(new Position(preX - 2, preY + 1));
+                return path;
+            }
+            path.add(new Position(preX - 2, preY - 1));
+            return path;
+        }
+        if (nextY > preY) {
+            path.add(new Position(preX, preY + 1));
+            if (nextX > preX) {
+                path.add(new Position(preX + 1, preY + 2));
+                return path;
+            }
+            path.add(new Position(preX - 1, preY + 2));
+            return path;
+        }
+        path.add(new Position(preX, preY - 1));
+        if (nextX > preX) {
+            path.add(new Position(preX + 1, preY - 2));
+            return path;
+        }
+        path.add(new Position(preX - 1, preY - 2));
+        return path;
     }
 }
