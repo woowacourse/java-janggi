@@ -29,7 +29,7 @@ public class Advisor extends Piece {
     public List<Pattern> patterns() {
         List<Pattern> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
-            Pattern path = new Pattern(List.of(value), pathStrategy);
+            Pattern path = new Pattern(List.of(value));
             paths.add(path);
         }
 

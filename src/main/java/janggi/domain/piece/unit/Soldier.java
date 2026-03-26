@@ -28,15 +28,15 @@ public class Soldier extends Piece {
     @Override
     public List<Pattern> patterns() {
         List<Pattern> directions = new ArrayList<>();
-        if (Side.HAN.equals(side)) {
-            directions.add(new Pattern(List.of(Direction.NORTH),pathStrategy));
-            directions.add(new Pattern(List.of(Direction.WEST), pathStrategy));
-            directions.add(new Pattern(List.of(Direction.EAST), pathStrategy));
-        }
         if (Side.CHO.equals(side)) {
-            directions.add(new Pattern(List.of(Direction.SOUTH), pathStrategy));
-            directions.add(new Pattern(List.of(Direction.WEST), pathStrategy));
-            directions.add(new Pattern(List.of(Direction.EAST), pathStrategy));
+            directions.add(new Pattern(List.of(Direction.NORTH)));
+            directions.add(new Pattern(List.of(Direction.WEST)));
+            directions.add(new Pattern(List.of(Direction.EAST)));
+        }
+        if (Side.HAN.equals(side)) {
+            directions.add(new Pattern(List.of(Direction.SOUTH)));
+            directions.add(new Pattern(List.of(Direction.WEST)));
+            directions.add(new Pattern(List.of(Direction.EAST)));
         }
         return directions;
     }

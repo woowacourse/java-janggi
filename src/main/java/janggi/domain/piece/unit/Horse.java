@@ -33,14 +33,14 @@ public class Horse extends Piece {
     public List<Pattern> patterns() {
         List<Pattern> directions = new ArrayList<>();
 
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST), pathStrategy));
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST), pathStrategy));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST), pathStrategy));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST), pathStrategy));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST), pathStrategy));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST), pathStrategy));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST), pathStrategy));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST), pathStrategy));
+        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST)));
+        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST)));
+        directions.add(new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST)));
+        directions.add(new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST)));
+        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST)));
+        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST)));
+        directions.add(new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST)));
+        directions.add(new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST)));
 
         return directions;
     }

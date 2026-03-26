@@ -10,8 +10,8 @@ public class Path {
         this.path = path;
     }
 
-    public Path(Pattern pattern, Point from) {
-        this(pattern.pathStrategy().calculate(pattern, from));
+    public Path(Pattern pattern, Point from, PathStrategy pathStrategy) {
+        this(pathStrategy.calculate(pattern, from));
     }
 
     public List<Point> getPath() {

@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.board.coordinate.Path;
+import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.Pattern;
@@ -83,19 +84,19 @@ public class Board {
 
     public List<Point> destinations(Point from) {
         Piece piece = board.getOrDefault(from, new Empty());
-        List<Path> paths = convertToPath(piece.patterns(), from);
+        List<Path> paths = convertToPath(piece.patterns(), from, piece.pathStrategy());
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
         return piece.availablePoints(paths, piecesOnPaths);
     }
 
-    public List<Path> convertToPath(List<Pattern> patternBundle, Point from) {
-        return patternBundle.stream()
-                .map(directions -> convertToPath(directions, from))
+    public List<Path> convertToPath(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
+        return patterns.stream()
+                .map(pattern -> convertToPath(pattern, from, pathStrategy))
                 .toList();
     }
 
-    private final Path convertToPath(Pattern pattern, Point from) {
-        return new Path(pattern, from);
+    private Path convertToPath(Pattern pattern, Point from, PathStrategy pathStrategy) {
+        return new Path(pattern, from, pathStrategy);
     }
 
 

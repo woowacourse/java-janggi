@@ -30,6 +30,10 @@ public abstract class Piece {
         return Side.isSameSide(this.side, side);
     }
 
+    public final PathStrategy pathStrategy(){
+        return pathStrategy;
+    }
+
     public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
 
     public abstract List<Pattern> patterns();
@@ -37,6 +41,7 @@ public abstract class Piece {
     protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
 
     protected abstract boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths);
+
 
     @Override
     public int hashCode() {
