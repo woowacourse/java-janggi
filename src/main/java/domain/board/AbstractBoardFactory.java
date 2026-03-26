@@ -10,7 +10,7 @@ import java.util.Map;
 public abstract class AbstractBoardFactory implements FormationFactory {
 
     @Override
-    public Map<Position, Piece> createFormation(Team team, int formationNumber) {
+    public Map<Position, Piece> createFormation(Team team) {
         Map<Position, Piece> pieces = new HashMap<>();
         setFixedPieces(pieces, team);
         setVariablePieces(pieces, team);

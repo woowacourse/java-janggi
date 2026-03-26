@@ -26,4 +26,9 @@ public class Row {
         Row row = (Row) o;
         return value == row.value;
     }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(value);
+    }
 }

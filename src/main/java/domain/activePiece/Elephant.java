@@ -10,7 +10,7 @@ public class Elephant extends ActivePiece {
     private final List<Integer> dx = List.of(2, 3, -2, -3, -3, -2, 2, 3);
     private final List<Integer> dy = List.of(3, 2, 3, 2, -2, -3, -3, -2);
 
-    protected Elephant(Team team) {
+    public Elephant(Team team) {
         super(team, PieceType.SANG);
     }
 

@@ -16,4 +16,9 @@ public abstract class ActivePiece implements Piece {
     public boolean isSameTeam(Team other) {
         return this.team == other;
     }
+
+    @Override
+    public String toString() {
+        return team.colorize(type.getDisplayName());
+    }
 }

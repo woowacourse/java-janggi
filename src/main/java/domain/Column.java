@@ -26,4 +26,9 @@ public class Column {
         Column column = (Column) o;
         return value == column.value;
     }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(value);
+    }
 }

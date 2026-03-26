@@ -8,4 +8,9 @@ public class EmptyPiece implements Piece {
     public boolean canMove(Position source, Position target) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return PieceType.EMPTY.getDisplayName();
+    }
 }

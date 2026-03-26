@@ -10,7 +10,7 @@ public class Horse extends ActivePiece {
     private final List<Integer> dx = List.of(1, 2, 2, 1, -1, -2, -2, -1);
     private final List<Integer> dy = List.of(2, 1, -1, -2, -2, -1, 1, 2);
 
-    protected Horse(Team team) {
+    public Horse(Team team) {
         super(team, PieceType.MA);
     }
 
