@@ -22,12 +22,12 @@ public class Soldier extends ActivePiece {
         }
 
         if (isSameTeam(Team.CHO)) {
-            if (target.rowDiff(source) == 0 && target.columnDiff(source) == 1) {
+            if (target.rowDiff(source) == 1 && target.columnDiff(source) == 0) {
                 return true;
             }
         }
 
-        return target.rowDiff(source) == 0 && target.columnDiff(source) == -1;
+        return target.rowDiff(source) == -1 && target.columnDiff(source) == 0;
     }
 
     private boolean isValidDirection(Position source, Position target) {
@@ -35,7 +35,7 @@ public class Soldier extends ActivePiece {
         int colDiff = target.columnDiff(source);
 
         for (int i = 0; i < dx.size(); i++) {
-            if (dx.get(i) == rowDiff && dy.get(i) == colDiff) {
+            if (dx.get(i) == colDiff && dy.get(i) == rowDiff) {
                 return true;
             }
         }
