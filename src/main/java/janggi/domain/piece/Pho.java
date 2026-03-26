@@ -49,4 +49,12 @@ public class Pho extends Piece {
     public List<Position> getRoutes(Position from, Position to) {
         return List.of();
     }
+
+    private boolean moveStrategy(Position from, Position to) {
+        int dx = from.diffX(to);
+        int dy = from.diffY(to);
+
+        return (Math.abs(dx) == 0 && Math.abs(dy) > 1) ||
+                (Math.abs(dx) > 1 && Math.abs(dy) == 0);
+    }
 }
