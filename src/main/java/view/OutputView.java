@@ -45,7 +45,7 @@ public class OutputView {
 
         sb.append("  ");
         for (int i = MIN_COLUMN; i <= MAX_COLUMN; i++) {
-            sb.append(i).append("  ");
+            sb.append(i).append(" ");
         }
         sb.append("\n");
 
