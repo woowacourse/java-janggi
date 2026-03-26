@@ -1,11 +1,11 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Board;
-import janggi.domain.coodinate.Direction;
-import janggi.domain.coodinate.FixedPathStrategy;
-import janggi.domain.coodinate.Path;
-import janggi.domain.coodinate.PathStrategy;
-import janggi.domain.coodinate.Point;
+import janggi.domain.coordinate.Direction;
+import janggi.domain.coordinate.FixedPathStrategy;
+import janggi.domain.coordinate.Path;
+import janggi.domain.coordinate.PathStrategy;
+import janggi.domain.coordinate.Point;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;

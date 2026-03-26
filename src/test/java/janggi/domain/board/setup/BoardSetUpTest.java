@@ -2,7 +2,7 @@ package janggi.domain.board.setup;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.coodinate.Point;
+import janggi.domain.coordinate.Point;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;

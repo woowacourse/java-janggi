@@ -1,17 +1,18 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Board;
-import janggi.domain.coodinate.Direction;
-import janggi.domain.coodinate.Path;
-import janggi.domain.coodinate.PathStrategy;
-import janggi.domain.coodinate.Point;
+import janggi.domain.coordinate.Direction;
+import janggi.domain.coordinate.Path;
+import janggi.domain.coordinate.PathStrategy;
+import janggi.domain.coordinate.Point;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
-    protected PathStrategy pathStrategy;
     protected PieceName name;
+    protected Side side;
+    protected PathStrategy pathStrategy;
 
     public Piece(PieceName name, Side side, PathStrategy pathStrategy) {
         this.name = name;
@@ -19,14 +20,15 @@ public abstract class Piece {
         this.pathStrategy = pathStrategy;
     }
 
-    protected Side side;
 
     public final Side getSide() {
         return side;
     }
+
     public final boolean isSameSide(Side side) {
-        return Side.isSameSide(this.side,side);
+        return Side.isSameSide(this.side, side);
     }
+
     protected final Path convertToPath(List<Direction> directions, Point from) {
         return new Path(directions, from, pathStrategy);
     }
@@ -38,6 +40,13 @@ public abstract class Piece {
     protected abstract List<Path> filterPath(Path path, Board board);
 
     @Override
+    public int hashCode() {
+        int result = Objects.hashCode(name);
+        result = 31 * result + Objects.hashCode(side);
+        return result;
+    }
+
+    @Override
     public final boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -47,13 +56,6 @@ public abstract class Piece {
         }
 
         return name == piece.name && side == piece.side;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hashCode(name);
-        result = 31 * result + Objects.hashCode(side);
-        return result;
     }
 
 }

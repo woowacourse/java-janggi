@@ -1,4 +1,4 @@
-package janggi.domain.coodinate;
+package janggi.domain.coordinate;
 
 public enum Direction {
     NORTH(0, 1),

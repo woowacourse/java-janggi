@@ -4,7 +4,7 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.coodinate.Point;
+import janggi.domain.coordinate.Point;
 import janggi.domain.piece.Advisor;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;

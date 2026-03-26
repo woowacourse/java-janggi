@@ -1,4 +1,4 @@
-package janggi.domain.coodinate;
+package janggi.domain.coordinate;
 
 import java.util.List;
 
