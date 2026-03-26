@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public record Position(int x, int y) {
 

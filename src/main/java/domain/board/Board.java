@@ -1,4 +1,6 @@
-package domain;
+package domain.board;
+
+import domain.piece.Piece;
 
 import java.util.Map;
 import java.util.NoSuchElementException;

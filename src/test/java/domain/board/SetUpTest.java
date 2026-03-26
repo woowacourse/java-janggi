@@ -1,12 +1,13 @@
-package domain;
+package domain.board;
 
+import domain.piece.PieceType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static domain.PieceType.ELEPHANT;
-import static domain.PieceType.HORSE;
+import static domain.piece.PieceType.ELEPHANT;
+import static domain.piece.PieceType.HORSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SetUpTest {

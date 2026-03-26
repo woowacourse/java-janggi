@@ -1,4 +1,4 @@
-package domain;
+package domain.piece;
 
 public class Piece {
     private final Camp camp;

@@ -1,6 +1,8 @@
-package domain;
+package domain.board;
 
 
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

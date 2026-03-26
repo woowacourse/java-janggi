@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

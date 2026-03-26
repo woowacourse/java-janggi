@@ -1,4 +1,8 @@
-package domain;
+package domain.board;
+
+import domain.piece.Camp;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 
 import java.util.HashMap;
 import java.util.List;
