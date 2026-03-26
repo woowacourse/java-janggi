@@ -45,6 +45,15 @@ public enum PieceType {
         this.hanPosition = hanPosition;
     }
 
+    public static PieceType of(String name) {
+        for  (PieceType pieceType : PieceType.values()) {
+            if(pieceType.name.equals(name)){
+                return pieceType;
+            }
+        }
+        throw new IllegalArgumentException("존재하지 않는 기물입니다.");
+    }
+
     public String getName() {
         return name;
     }

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Board;
+import domain.JanggiGame;
 import domain.PieceType;
 import domain.Position;
 import service.dto.BoardDto;
+import service.dto.PositionDto;
 
 public class JanggiService {
 
@@ -14,6 +16,10 @@ public class JanggiService {
         List<PieceType> masang = new ArrayList<>(createMasang(choMasangChoice));
         masang.addAll(createMasang(hanMasangChoice));
         return new Board(masang);
+    }
+
+    public JanggiGame createJanggiGame(Board board){
+        return new JanggiGame(board);
     }
 
 
@@ -28,6 +34,14 @@ public class JanggiService {
             boardAll.add(new BoardDto.Row(values));
         }
         return new BoardDto(boardAll);
+    }
+
+    public List<PositionDto> getPiecePositions(JanggiGame janggiGame, PieceType pieceType){
+        List<PositionDto> positionDtos = new ArrayList<>();
+        for (Position position : janggiGame.getPiecesNowPosition(pieceType)){
+            positionDtos.add(new PositionDto(position.getX(), position.getY()));
+        };
+        return positionDtos;
     }
 
     private List<PieceType> createMasang(int num) {

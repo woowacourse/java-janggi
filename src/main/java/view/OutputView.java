@@ -1,7 +1,10 @@
 package view;
 
+import java.util.List;
+
 import domain.Country;
 import service.dto.BoardDto;
+import service.dto.PositionDto;
 
 public class OutputView {
     private final OutputViewFormatter formatter;
@@ -39,5 +42,12 @@ public class OutputView {
         }
     }
 
-
+    public void printPiecePossiblePosition(List<PositionDto> positionDtos) {
+        int num = 1;
+        for (PositionDto dto : positionDtos) {
+            System.out.printf("%d. [%d,%d]\n", num++, dto.x(), dto.y());
+        }
     }
+
+
+}

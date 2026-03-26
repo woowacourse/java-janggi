@@ -27,4 +27,10 @@ public class Po extends Piece {
     public boolean canMovePosition(Position start, Position end) {
         return start.getX() == end.getX() || start.getY() == end.getY();
     }
+
+    public boolean isAvailableRoute(List<Piece> pieces) {
+
+        return false;
+    }
+
 }

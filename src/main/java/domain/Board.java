@@ -1,7 +1,5 @@
 package domain;
 
-import static java.util.Arrays.stream;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +20,7 @@ public class Board {
     public Board(List<PieceType> choHan) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (PieceType type : PieceType.values()) {
-            if (type==PieceType.MA || type==PieceType.SANG || type==PieceType.NONE){
+            if (type == PieceType.MA || type == PieceType.SANG || type == PieceType.NONE) {
                 continue;
             }
 
@@ -47,16 +45,17 @@ public class Board {
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
         Piece endPiece = board.getOrDefault(end, None.INSTANCE);
 
-        if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))){
+        if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))) {
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
-        };
+        }
+        ;
         // TODO: 포와 졸 이동 로직 추가 필요
         killPiece(end, endPiece);
         board.put(end, startPiece);
     }
 
     private void killPiece(Position endPosition, Piece endPiece) {
-            board.put(endPosition, None.INSTANCE);
+        board.put(endPosition, None.INSTANCE);
     }
 
     public PieceType getPiece(Position position) {
@@ -64,6 +63,15 @@ public class Board {
             return PieceType.NONE;
         }
         return board.get(position).getPieceType();
+    }
+
+    public List<Position> getPiecesNowPosition(Country country, PieceType pieceType) {
+        return board.entrySet().stream()
+                .filter(entry ->
+                                entry.getValue().getPieceType() == pieceType &&
+                                entry.getValue().getCountry() == country)
+                .map(Map.Entry::getKey)
+                .toList();
     }
 
     private Piece createPiece(PieceType type, Country country) {

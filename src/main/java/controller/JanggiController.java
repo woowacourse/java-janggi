@@ -1,12 +1,15 @@
 package controller;
 
-import domain.Board;
-import domain.Country;
+import java.util.List;
 import java.util.function.Supplier;
 
-//import domain.MaSangPosition;
+import domain.Board;
+import domain.Country;
+import domain.JanggiGame;
+import domain.PieceType;
 import service.JanggiService;
 import service.dto.BoardDto;
+import service.dto.PositionDto;
 import view.InputView;
 import view.OutputView;
 
@@ -25,12 +28,11 @@ public class JanggiController {
     }
 
     public void run() {
-        init();
-
-
+        JanggiGame janggiGame = init();
+        requestMovePiece(janggiGame);
     }
 
-    private void init() {
+    private JanggiGame init() {
         outputView.printGameStartMessage();
         outputView.printCountry(Country.CHO);
         int choMasangChoice = doRetry(inputView::requestMaSangPosition);
@@ -38,11 +40,19 @@ public class JanggiController {
         outputView.printCountry(Country.HAN);
         int hanMasangChoice = doRetry(inputView::requestMaSangPosition);
 
-        Board board = janggiService.createBoard(choMasangChoice, hanMasangChoice );
+        Board board = janggiService.createBoard(choMasangChoice, hanMasangChoice);
         outputView.printTurnStartMessage();
 
         BoardDto boardDto = janggiService.getBoard(board);
         outputView.printBoard(boardDto);
+
+        return janggiService.createJanggiGame(board);
+    }
+
+    private void requestMovePiece(JanggiGame janggiGame) {
+        PieceType pieceType = doRetry(() -> PieceType.of(inputView.requestPiece()));
+        List<PositionDto> positionDtos = janggiService.getPiecePositions(janggiGame, pieceType);
+        outputView.printPiecePossiblePosition(positionDtos);
     }
 
 
@@ -51,7 +61,7 @@ public class JanggiController {
         while (true) {
             try {
                 return supplier.get();
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
                 retry++;
                 if (retry > MAX_RETRY) {

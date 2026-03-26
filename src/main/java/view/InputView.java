@@ -20,4 +20,9 @@ public class InputView {
                 4. 상마마상""");
         return Validator.validateNumber(scanner.nextLine());
     }
+
+    public String requestPiece() {
+        System.out.println("움질일 기물을 선택해주세요. (예: 병, 차, 마, 등) : ");
+        return scanner.nextLine();
+    }
 }
