@@ -42,6 +42,7 @@ public class JanggiController {
 
         // 움직이고 싶은 기물이 이동할 수 있는 곳 찾기
         List<Position> positions = game.canMovePosition(from);
+        outputView.printCanMovePositions(PositionDto.fromPositions(positions));
     }
 
 }

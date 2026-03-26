@@ -1,7 +1,9 @@
 package janggi.view;
 
 import janggi.dto.BoardDto;
+import janggi.dto.PositionDto;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class OutputView {
 
@@ -23,6 +25,17 @@ public class OutputView {
             }
             System.out.println();
         }
+    }
+
+    public void printCanMovePositions(List<PositionDto> positions) {
+        System.out.print("현재 이동 가능한 위치는");
+
+        StringJoiner stringJoiner = new StringJoiner(",");
+        for (PositionDto position : positions) {
+            stringJoiner.add(" (" + position.row() + "," + position.column() + ")");
+        }
+        System.out.println(stringJoiner + "입니다.");
+        System.out.println();
     }
 
 }
