@@ -38,4 +38,14 @@ public class AlivePieces {
     public boolean placedNotSameSide(Intersection intersection, Side side) {
         return !placedSameSide(intersection, side);
     }
+
+    public boolean placedOppositeSide(Intersection intersection, Side side) {
+        if (isEmpty(intersection)) {
+            return false;
+        }
+
+        Piece piece = placedAt(intersection);
+
+        return piece.side != side;
+    }
 }
