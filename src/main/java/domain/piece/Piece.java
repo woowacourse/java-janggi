@@ -39,6 +39,10 @@ public abstract class Piece {
         return this.team == team;
     }
 
+    public boolean isNone() {
+        return this.pieceType == PieceType.NONE;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
