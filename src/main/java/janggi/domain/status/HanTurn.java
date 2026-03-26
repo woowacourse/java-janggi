@@ -12,11 +12,16 @@ public class HanTurn implements GameStatus {
     }
 
     @Override
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
     public GameStatus move(Point from, Point to, Board board) {
-        if (board.isKingDie(to, team)) {
-            return new FinishedGame(Team.CHO);
-        }
         board.move(from, to, team);
+        if (board.isKingDie(Team.CHO)) {
+            return new FinishedGame(team);
+        }
         return new ChoTurn();
     }
 }
