@@ -1,4 +1,6 @@
-package janggi.domain;
+package janggi.domain.board;
+
+import java.util.Objects;
 
 public class Position {
     private final int x;
@@ -33,5 +35,17 @@ public class Position {
         if (1 > y || y > 10) {
             throw new IllegalArgumentException("Y 좌표의 범위는 1~10 사이여야 합니다.");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
