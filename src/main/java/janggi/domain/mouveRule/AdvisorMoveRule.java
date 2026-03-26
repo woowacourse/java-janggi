@@ -10,4 +10,4 @@ public class AdvisorMoveRule implements MoveRule {
         int colDis = Math.abs(to.getCol() - from.getCol());
         return rowDis <= 1 && colDis <= 1;
     }
-}//궁성 제한이니 일단 1칸 이동만
+}

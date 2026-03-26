@@ -9,7 +9,6 @@ public class Advisor extends Piece {
         super(team);
     }
 
-
     @Override
     public PieceType pieceType() {
         return PieceType.ADVISOR;

@@ -25,7 +25,6 @@ public class BoardInitializer {
     private static final List<Integer> advisorCol = List.of(3, 5);
     private static final int kingCol = 4;
 
-
     public static List<List<Piece>> createBoard() {
         List<List<Piece>> board = createEmptyBoard();
 

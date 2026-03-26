@@ -16,7 +16,7 @@ public class MoveCommand {
         Position to = new Position(input[2], input[3]);
 
         if (from.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 제자리 이동 ㄴㄴ");
+            throw new IllegalArgumentException("제자리 이동은 안됩니다.");
         }
 
         return new MoveCommand(from, to);

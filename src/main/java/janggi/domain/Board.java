@@ -33,13 +33,13 @@ public class Board implements BoardView {
         return findByPosition(position).isEmpty();
     }
 
-    public void move(Position from, Position to, Team currentTeam) {// TODO void 반환 로직
+    public void move(Position from, Position to, Team currentTeam) {// TODO 재입력 시도 로직에 따라 반환값 변경 고려
         Piece fromPiece = findByPosition(from);
         Piece toPiece = findByPosition(to);
 
-        validateCommonMove(currentTeam, fromPiece, toPiece);        // 공통 이동 검증 로직 시작
+        validateCommonMove(currentTeam, fromPiece, toPiece);
 
-        if (!fromPiece.canMove(from, to, this)) {// 기물별 규칙
+        if (!fromPiece.canMove(from, to, this)) {
             throw new IllegalArgumentException("해당 기물의 이동 규칙에 맞지 않습니다.");
         }
 
@@ -47,11 +47,9 @@ public class Board implements BoardView {
         place(to, fromPiece);
     }
 
-    // 우선 테스트때문에만 public으로 열어뒀었지만 일단 리플랙션으로함 ->PR
     private void place(Position to, Piece nextPiece) {
         board.get(to.getRow()).set(to.getCol(), nextPiece);
     }
-
 
     private void validateCommonMove(Team currentTeam, Piece fromPiece, Piece toPiece) {
         if (!fromPiece.isSameTeam(currentTeam)) {
@@ -66,6 +64,4 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("이미 도착지점에 플레이어님의 진영 기물이 있습니다.");
         }
     }
-
-
 }

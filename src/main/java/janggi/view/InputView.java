@@ -13,7 +13,6 @@ public class InputView {
         System.out.println("ex 1 1 2 2");
 
         String rawInput = scanner.nextLine();
-        String[] input = rawInput.split(" "); // TODO 검증
         int[] numbers = Arrays.stream(rawInput.split(" "))
                 .mapToInt(Integer::parseInt)
                 .toArray();

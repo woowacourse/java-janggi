@@ -9,7 +9,6 @@ public class Cannon extends Piece {
         super(team);
     }
 
-
     @Override
     public PieceType pieceType() {
         return PieceType.CANNON;

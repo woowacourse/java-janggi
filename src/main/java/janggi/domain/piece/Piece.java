@@ -31,5 +31,4 @@ public abstract class Piece {
 
     protected abstract MoveRule moveRule();
 
-
 }

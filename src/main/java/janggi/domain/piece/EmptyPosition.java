@@ -8,7 +8,6 @@ public class EmptyPosition extends Piece {
         super(team);
     }
 
-
     @Override
     public boolean isEmpty() {
         return true;

@@ -9,7 +9,6 @@ public class Elephant extends Piece {
         super(team);
     }
 
-
     @Override
     public PieceType pieceType() {
         return PieceType.ELEPHANT;

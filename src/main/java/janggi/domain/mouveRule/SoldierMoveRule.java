@@ -11,8 +11,6 @@ public final class SoldierMoveRule implements MoveRule {
     public SoldierMoveRule(Team team) {
         this.team = team;
     }
-    // 한이 위쪽배치임 -> 행증가가 전진
-    // 초가아래 배치 ->   행 감소가 전진
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
@@ -21,6 +19,8 @@ public final class SoldierMoveRule implements MoveRule {
         return isForward(rowDis, colDis) || isSideStep(rowDis, colDis);
     }
 
+    // 한이 위쪽배치임 -> 행증가가 전진
+    // 초가아래 배치 ->   행 감소가 전진
     private boolean isForward(int rowDis, int colDis) {
         int forwardDirection = (team == Team.CHO) ? -1 : 1;
         return rowDis == forwardDirection && colDis == 0;
