@@ -3,6 +3,7 @@ package domain.moveStrategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
+import domain.place.moveStrategy.ElephantMoveStrategy;
 import domain.place.moveStrategy.HorseMoveStrategy;
 import domain.place.piece.Elephant;
 import domain.place.piece.Horse;
@@ -18,7 +19,7 @@ class HorseMoveStrategyTest {
     void 마_정상_우측_위대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -36,7 +37,7 @@ class HorseMoveStrategyTest {
     void 마_정상_우측_아래대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -54,7 +55,7 @@ class HorseMoveStrategyTest {
     void 마_정상_좌측_위대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -72,7 +73,7 @@ class HorseMoveStrategyTest {
     void 마_정상_좌측_아래대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -90,7 +91,7 @@ class HorseMoveStrategyTest {
     void 마_정상_위_우대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -108,7 +109,7 @@ class HorseMoveStrategyTest {
     void 마_정상_위_좌대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -126,7 +127,7 @@ class HorseMoveStrategyTest {
     void 마_정상_아래_우대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -144,7 +145,7 @@ class HorseMoveStrategyTest {
     void 마_정상_아래_좌대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -162,8 +163,8 @@ class HorseMoveStrategyTest {
     void 마_상대팀_잡기_가능() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
-        stubBoard.put(new Position(6, 7), new Elephant(Side.HAN));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
+        stubBoard.put(new Position(6, 7), new Elephant(Side.HAN, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -181,8 +182,8 @@ class HorseMoveStrategyTest {
     void 마_같은팀_도착지_이동_불가() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
-        stubBoard.put(new Position(6, 7), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
+        stubBoard.put(new Position(6, 7), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);
@@ -200,8 +201,8 @@ class HorseMoveStrategyTest {
     void 마_경로_장애물_이동_불가() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO));
-        stubBoard.put(new Position(5, 6), new Elephant(Side.HAN)); // 막힘
+        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
+        stubBoard.put(new Position(5, 6), new Elephant(Side.HAN, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(5, 5);

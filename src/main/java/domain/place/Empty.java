@@ -16,7 +16,7 @@ public class Empty implements Place {
 
     @Override
     public Side getSide() {
-        return Side.EMPTY;
+        throw new IllegalArgumentException("[EROOR] 빈칸은 진형이 없습니다.");
     }
 
     @Override

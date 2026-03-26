@@ -1,9 +1,11 @@
 package domain.place.piece;
 
+import domain.place.moveStrategy.MoveStrategy;
+
 public class Guard extends Piece {
 
-    public Guard(Side side) {
-        super(side);
+    public Guard(Side side, MoveStrategy moveStrategy) {
+        super(side, moveStrategy);
     }
 
     @Override

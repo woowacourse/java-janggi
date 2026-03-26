@@ -1,14 +1,15 @@
 package domain.place.piece;
 
 import domain.place.Place;
+import domain.place.moveStrategy.MoveStrategy;
 
 public abstract class Piece implements Place {
     protected final Side side;
+    protected final MoveStrategy moveStrategy;
 
-    // Todo 무브 인터페이스 추가
-
-    public Piece(Side side) {
+    public Piece(Side side, MoveStrategy moveStrategy) {
         this.side = side;
+        this.moveStrategy = moveStrategy;
     }
 
     public abstract PieceSymbol getSymbol();

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.place.moveStrategy.CannonMoveStrategy;
+import domain.place.moveStrategy.ChoSoldierMoveStrategy;
+import domain.place.moveStrategy.HanSoldierMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.piece.Cannon;
 import domain.place.piece.Side;
@@ -19,8 +21,8 @@ class CannonMoveStrategyTest {
     void 포_정상_이동(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO));
-        stubBoard.put(new Position(1,5), new Soldier(Side.CHO));
+        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1,5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -39,9 +41,9 @@ class CannonMoveStrategyTest {
     void 포_기물_넘어_이동(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO));
-        stubBoard.put(new Position(1,5), new Soldier(Side.CHO));
-        stubBoard.put(new Position(1,9), new Soldier(Side.HAN));
+        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1,5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1,9), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -60,8 +62,8 @@ class CannonMoveStrategyTest {
     void 포_동일_기물_넘기() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO));
-        stubBoard.put(new Position(1, 5), new Cannon(Side.CHO));
+        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1, 5), new Cannon(Side.CHO, new CannonMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -80,7 +82,7 @@ class CannonMoveStrategyTest {
     void 포_기물_없음(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO));
+        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -99,9 +101,9 @@ class CannonMoveStrategyTest {
     void 포_기물_여러개(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO));
-        stubBoard.put(new Position(1,5), new Soldier(Side.CHO));
-        stubBoard.put(new Position(1,6), new Soldier(Side.CHO));
+        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1,5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1,6), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -120,8 +122,8 @@ class CannonMoveStrategyTest {
     void 포_자신의_팀_위치로_이동불가(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO));
-        stubBoard.put(new Position(1,7), new Soldier(Side.CHO));
+        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1,7), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);

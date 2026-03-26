@@ -18,7 +18,7 @@ class ChariotMoveStrategyTest {
     void 차_정상_우_이동(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO));
+        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -37,7 +37,7 @@ class ChariotMoveStrategyTest {
     void 차_정상_좌_이동(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO));
+        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -56,7 +56,7 @@ class ChariotMoveStrategyTest {
     void 차_정상_위_이동(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO));
+        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -75,7 +75,7 @@ class ChariotMoveStrategyTest {
     void 차_정상_아래_이동(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO));
+        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -94,8 +94,8 @@ class ChariotMoveStrategyTest {
     void 차_정상_상대편_잡기_이동(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO));
-        stubBoard.put(new Position(3,7), new Chariot(Side.HAN));
+        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3,7), new Chariot(Side.HAN, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -114,8 +114,8 @@ class ChariotMoveStrategyTest {
     void 차_장애물_이동_불가(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO));
-        stubBoard.put(new Position(3,6), new Chariot(Side.HAN));
+        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3,6), new Chariot(Side.HAN, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);
@@ -134,8 +134,8 @@ class ChariotMoveStrategyTest {
     void 차_같은팀으로_이동_불가(){
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3,5), new Chariot(Side.CHO));
-        stubBoard.put(new Position(3,7), new Chariot(Side.CHO));
+        stubBoard.put(new Position(3,5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(3,7), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(3, 5);

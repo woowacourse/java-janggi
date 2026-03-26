@@ -18,7 +18,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_우측_위대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(7, 8);
@@ -36,7 +36,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_우측_아래대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(3, 8);
@@ -54,7 +54,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_좌측_위대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(7, 2);
@@ -72,7 +72,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_좌측_아래대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(3, 2);
@@ -90,7 +90,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_위_우대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(8, 7);
@@ -108,7 +108,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_위_좌대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(8, 3);
@@ -126,7 +126,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_아래_우대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(2, 7);
@@ -144,7 +144,7 @@ class ElephantMoveStrategyTest {
     void 상_정상_아래_좌대각_이동() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(2, 3);
@@ -162,8 +162,8 @@ class ElephantMoveStrategyTest {
     void 상_상대팀_잡기_가능() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
-        stubBoard.put(new Position(7, 8), new Elephant(Side.HAN));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
+        stubBoard.put(new Position(7, 8), new Elephant(Side.HAN, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(7, 8);
@@ -181,8 +181,8 @@ class ElephantMoveStrategyTest {
     void 상_같은팀_도착지_이동_불가() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
-        stubBoard.put(new Position(7, 8), new Elephant(Side.CHO));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
+        stubBoard.put(new Position(7, 8), new Elephant(Side.CHO, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(7, 8);
@@ -200,8 +200,8 @@ class ElephantMoveStrategyTest {
     void 상_첫번째_경로_차단() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
-        stubBoard.put(new Position(5, 6), new Elephant(Side.HAN));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
+        stubBoard.put(new Position(5, 6), new Elephant(Side.HAN, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(7, 8);
@@ -219,8 +219,8 @@ class ElephantMoveStrategyTest {
     void 상_두번째_경로_차단() {
         // given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO));
-        stubBoard.put(new Position(6, 7), new Elephant(Side.HAN));
+        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
+        stubBoard.put(new Position(6, 7), new Elephant(Side.HAN, new ElephantMoveStrategy()));
         Board board = stubBoard.create();
         Position from = new Position(5, 5);
         Position to = new Position(7, 8);

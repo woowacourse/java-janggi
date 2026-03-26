@@ -2,6 +2,8 @@ package domain.moveStrategy;
 
 import domain.board.Board;
 import domain.place.moveStrategy.GeneralMoveStrategy;
+import domain.place.moveStrategy.GuardMoveStrategy;
+import domain.place.moveStrategy.HanSoldierMoveStrategy;
 import domain.place.piece.General;
 import domain.place.piece.Guard;
 import domain.place.piece.Side;
@@ -19,7 +21,7 @@ class GeneralMoveStrategyTest {
     void 궁_위로_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new General(Side.CHO));
+        stub.put(new Position(5,5), new General(Side.CHO, new GeneralMoveStrategy()));
         Board board = stub.create();
 
         Position from = new Position(5,5);
@@ -37,7 +39,7 @@ class GeneralMoveStrategyTest {
     void 궁_아래로_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new General(Side.CHO));
+        stub.put(new Position(5,5), new General(Side.CHO, new GeneralMoveStrategy()));
         Board board = stub.create();
 
         Position from = new Position(5,5);
@@ -55,7 +57,7 @@ class GeneralMoveStrategyTest {
     void 궁_좌측_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new General(Side.CHO));
+        stub.put(new Position(5,5), new General(Side.CHO, new GeneralMoveStrategy()));
         Board board = stub.create();
 
         Position from = new Position(5,5);
@@ -73,7 +75,7 @@ class GeneralMoveStrategyTest {
     void 궁_우측_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new General(Side.CHO));
+        stub.put(new Position(5,5), new General(Side.CHO, new GeneralMoveStrategy()));
         Board board = stub.create();
 
         Position from = new Position(5,5);
@@ -91,7 +93,7 @@ class GeneralMoveStrategyTest {
     void 궁_두칸_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new General(Side.CHO));
+        stub.put(new Position(5,5), new General(Side.CHO, new GeneralMoveStrategy()));
         Board board = stub.create();
 
         Position from = new Position(5,5);
@@ -109,8 +111,8 @@ class GeneralMoveStrategyTest {
     void 궁_아군_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new General(Side.CHO));
-        stub.put(new Position(5,6), new Guard(Side.CHO));
+        stub.put(new Position(5,5), new General(Side.CHO, new GeneralMoveStrategy()));
+        stub.put(new Position(5,6), new Guard(Side.CHO, new GuardMoveStrategy()));
         Board board = stub.create();
 
         Position from = new Position(5,5);
@@ -128,8 +130,8 @@ class GeneralMoveStrategyTest {
     void 궁_적군_공격_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new General(Side.CHO));
-        stub.put(new Position(5,6), new Soldier(Side.HAN));
+        stub.put(new Position(5,5), new General(Side.CHO, new GeneralMoveStrategy()));
+        stub.put(new Position(5,6), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stub.create();
 
         Position from = new Position(5,5);
