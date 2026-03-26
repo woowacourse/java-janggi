@@ -16,5 +16,10 @@ public enum Dynasty {
     public Direction front() {
         return front;
     }
+
+    public Dynasty next() {
+        Dynasty[] values = Dynasty.values();
+        return values[(ordinal() + 1) % values.length];
+    }
     
 }
