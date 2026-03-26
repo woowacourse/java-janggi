@@ -28,10 +28,10 @@ class MaTest {
 
     private static Stream<Arguments> provideMaPaths() {
         return Stream.of(
-                Arguments.of(4, 4, 6, 6),
-                Arguments.of(4, 4, 2, 6),
-                Arguments.of(4, 4, 6, 2),
-                Arguments.of(4, 4, 2, 2),
+                Arguments.of(4, 4, 5, 6),
+                Arguments.of(4, 4, 3, 6),
+                Arguments.of(4, 4, 5, 2),
+                Arguments.of(4, 4, 3, 2),
                 Arguments.of(4, 4, 6, 5),
                 Arguments.of(4, 4, 6, 3),
                 Arguments.of(4, 4, 2, 5),
