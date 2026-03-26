@@ -8,6 +8,8 @@ import java.util.Objects;
 
 public class Path {
 
+    public static final Path EMPTY = new Path(List.of());
+
     private final List<Position> path;
 
     public Path(List<Position> path) {
