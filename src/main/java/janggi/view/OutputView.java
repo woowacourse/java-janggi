@@ -4,36 +4,62 @@ import janggi.domain.Position;
 import janggi.domain.PieceVO;
 import janggi.util.PieceLabelMapper;
 import janggi.dto.BoardDTO;
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
 
     private static final String EMPTY_CELL = "　　";
-    private static final String COLUMN_INDEXES = "　　║　　0　　　　1　　　　2　　　　3　　　　4　　　　5　　　　6　　　　7　　　　8";
-    private static final String DIVIDER = "　　║===============================================================";
+    private static final String COLUMN_INDEXES = "　　║　　０　　　　１　　　　２　　　　３　　　　４　　　　５　　　　６　　　　７　　　　８";
+    private static final String DIVIDER = "　　║==========================================================================================";
     private static final String VERTICAL_LINE = "　　║　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃";
 
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+
     public void printBoardStatus(BoardDTO boardDto) {
+        printBoardStatus(boardDto, null, null);
+    }
+
+    public void printBoardStatus(BoardDTO boardDto, Position selected) {
+        printBoardStatus(boardDto, selected, null);
+    }
+
+    public void printBoardStatus(BoardDTO boardDto, Position selected, List<Position> movables) {
         printLine(COLUMN_INDEXES);
         printLine(DIVIDER);
         for (int row = 0; row < 10; row++) {
-            renderRow(row, boardDto.piecePosition());
+            renderRow(row, boardDto.piecePosition(), selected, movables);
             renderVerticalLine(row);
         }
     }
 
-    private void renderRow(int row, Map<Position, PieceVO> status) {
+    private void renderRow(int row, Map<Position, PieceVO> status, Position selected, List<Position> movables) {
         StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
         for (int col = 0; col < 9; col++) {
-            sb.append("［").append(getLabel(status, row, col)).append("］");
+            Position current = new Position(row, col);
+            sb.append(getFormattedCell(status, current, selected, movables));
             if (col < 8) sb.append("━");
         }
         printLine(sb.toString());
     }
 
-    private String getLabel(Map<Position, PieceVO> status, int r, int c) {
-        PieceVO vo = status.get(new Position(r, c));
-        return vo == null ? EMPTY_CELL : PieceLabelMapper.toFullWidth(vo);
+    private String getFormattedCell(Map<Position, PieceVO> status, Position current, Position selected, List<Position> movables) {
+        PieceVO vo = status.get(current);
+        String label = (vo == null) ? EMPTY_CELL : PieceLabelMapper.toFullWidth(vo);
+
+        String cell = "［" + label + "］";
+
+        if (current.equals(selected)) {
+            return ANSI_BLUE + cell + ANSI_RESET;
+        }
+
+        if (movables != null && movables.contains(current)) {
+            return ANSI_GREEN + cell + ANSI_RESET;
+        }
+
+        return cell;
     }
 
     private void renderVerticalLine(int row) {
@@ -48,11 +74,27 @@ public class OutputView {
         System.out.println(message);
     }
 
-    private void printNewLine() {
-        System.out.println();
+    public void printPlayerNameNotice(String displayName) {
+        printLine(String.format(Message.PLAYER_NAME_NOTICE, displayName));
     }
 
-    public void printPlayerNameNotice(String sideName) {
-        printLine(String.format(Message.PLAYER_NAME_NOTICE, sideName)); // 기존 규격 유지
+    public void printPlayerTurnNotice(String sideName, String playerName) {
+        printLine(String.format(Message.PLAYER_TURN_NOTICE, sideName, playerName));
+    }
+
+    public void printPieceToMoveNotice() {
+        printLine(Message.INPUT_PIECE_TO_MOVE_NOTICE);
+    }
+
+    public void printPiecePositionNotice(String pieceName, int row, int column) {
+        printLine(String.format(Message.PIECE_POSITION_NOTICE, pieceName, row, column));
+    }
+
+    public void printMovePositionRowNotice() {
+        printLine(Message.MOVE_POSITION_ROW_NOTICE);
+    }
+
+    public void printMovePositionColumnNotice() {
+        printLine(Message.MOVE_POSITION_COLUMN_NOTICE);
     }
 }

@@ -9,10 +9,6 @@ public record PieceVO(Side side, PieceType type, String pieceNumber) {
         return this.side == other.side();
     }
 
-    public boolean isAlly(Side mySide) {
-        return this.side == mySide;
-    }
-
     public boolean isCannon() {
         return this.type == PieceType.CANNON;
     }

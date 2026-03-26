@@ -28,7 +28,6 @@ public class SlideMoveStrategy implements MoveStrategy {
             paths.addPath(path);
             addSlidePath(next, baseDir, paths);
         } catch (IllegalArgumentException e) {
-            return;
         }
     }
 

@@ -2,6 +2,7 @@ package janggi.domain;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -57,5 +58,27 @@ public class Board {
         Map<Position, PieceVO> piecePositions = new HashMap<>(piecePosition.size());
         this.piecePosition.forEach((position, piece) -> piecePositions.put(position, piece.toVO()));
         return piecePositions;
+    }
+
+    public List<Position> calculateDestinations(Position position) {
+        Piece piece = piecePosition.get(position);
+        Paths moveablePaths = piece.calculatePaths(position); // 굳이 불필요한 헬퍼(calculatePaths)를 거치지 않고 직접 호출
+        Map<Position, PieceVO> boardState = generateStateByPaths(moveablePaths); // 불필요한 파라미터 제거
+
+        return piece.determineDestinations(moveablePaths, boardState);
+    }
+
+    private Map<Position, PieceVO> generateStateByPaths(Piece piece, Position position, Paths moveablePaths) {
+        Map<Position, PieceVO> piecePositions = new HashMap<>();
+        moveablePaths.iterator().forEachRemaining(positions -> {
+            po
+        });
+        for (Path path : moveablePaths) {
+
+        }
+    }
+
+    private Paths calculatePaths(Piece piece, Position position) {
+        return piece.calculatePaths(position);
     }
 }

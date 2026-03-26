@@ -12,9 +12,35 @@ public class InputView {
         return playerName;
     }
 
+    public String readPieceName() {
+        String pieceName = scanner.nextLine();
+        validateNotBlank(pieceName);
+        return pieceName;
+    }
+
+    public int readTargetRow() {
+        String targetRow = scanner.nextLine();
+        validateNotBlank(targetRow);
+        return parseToInt(targetRow);
+    }
+
+    public int readTargetColumn() {
+        String targetColumn = scanner.nextLine();
+        validateNotBlank(targetColumn);
+        return parseToInt(targetColumn);
+    }
+
     private void validateNotBlank(String nickname) {
         if (nickname.isBlank()) {
-            throw new IllegalArgumentException("[ERROR] 플레이어의 이름은 공백이 될 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 입력값은 공백이 될 수 없습니다.");
+        }
+    }
+
+    private int parseToInt(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 좌표는 숫자만 입력 가능합니다.");
         }
     }
 }

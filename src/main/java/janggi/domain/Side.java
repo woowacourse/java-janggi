@@ -14,4 +14,11 @@ public enum Side {
     public String getDisplayName() {
         return displayName;
     }
+
+    public Side opposite() {
+        if (this.equals(CHO)) {
+            return HAN;
+        }
+        return CHO;
+    }
 }
