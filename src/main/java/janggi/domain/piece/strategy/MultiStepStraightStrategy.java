@@ -14,12 +14,10 @@ public class MultiStepStraightStrategy implements MoveStrategy {
 
         validateStraightMove(rowDiff, colDiff);
 
-        List<Position> path = new ArrayList<>();
-
-        path.addAll(createRowPath(from, rowDiff));
-        path.addAll(createColumnPath(from, colDiff));
-
-        return path;
+        if (rowDiff != 0) {
+            return createRowPath(from, rowDiff);
+        }
+        return createColumnPath(from, colDiff);
     }
 
     private void validateStraightMove(int rowDiff, int colDiff) {
@@ -31,10 +29,6 @@ public class MultiStepStraightStrategy implements MoveStrategy {
     }
 
     private List<Position> createRowPath(Position from, int rowDiff) {
-        if (rowDiff == 0) {
-            return List.of();
-        }
-
         List<Position> path = new ArrayList<>();
 
         int rowDirection = rowDiff / Math.abs(rowDiff);
@@ -43,15 +37,10 @@ public class MultiStepStraightStrategy implements MoveStrategy {
             path.add(from);
             rowDiff -= rowDirection;
         }
-
         return path;
     }
 
     private List<Position> createColumnPath(Position from, int colDiff) {
-        if (colDiff == 0) {
-            return List.of();
-        }
-
         List<Position> path = new ArrayList<>();
 
         int columnDirection = colDiff / Math.abs(colDiff);
@@ -60,7 +49,6 @@ public class MultiStepStraightStrategy implements MoveStrategy {
             path.add(from);
             colDiff -= columnDirection;
         }
-
         return path;
     }
 }
