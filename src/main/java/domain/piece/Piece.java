@@ -6,6 +6,7 @@ import domain.position.Path;
 import domain.position.Position;
 import domain.rule.PathGenerator;
 import domain.strategy.MovementStrategy;
+import java.util.Objects;
 
 public abstract class Piece {
 
@@ -36,5 +37,23 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return team == piece.team && 
+               pieceType == piece.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(team, pieceType);
     }
 }
