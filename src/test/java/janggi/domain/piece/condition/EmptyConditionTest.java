@@ -7,6 +7,7 @@ import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.EmptyConditionTestBoardInitializer;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Camp;
+import janggi.domain.piece.PieceRule;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ public class EmptyConditionTest {
         BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
         JanggiBoard board = new JanggiBoard(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
     }
@@ -50,7 +51,7 @@ public class EmptyConditionTest {
         BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
         JanggiBoard board = new JanggiBoard(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
     }
