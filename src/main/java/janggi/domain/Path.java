@@ -1,16 +1,28 @@
 package janggi.domain;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Path {
+public class Path implements Iterable<Position> {
 
     private final List<Position> positions;
 
-    public Path(List<Position> positions) {
-        this.positions = positions;
+    public Path() {
+        this.positions = new ArrayList<>();
     }
 
     public void makePath(Position nextPosition) {
         positions.add(nextPosition);
+    }
+
+    @Override
+    public Iterator<Position> iterator() {
+        return positions.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return positions.toString();
     }
 }
