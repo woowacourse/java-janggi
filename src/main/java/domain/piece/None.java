@@ -7,12 +7,7 @@ import domain.position.Position;
 public class None extends Piece{
 
     public None(Team team) {
-        super(team, PieceType.NONE, null);
-    }
-
-    @Override
-    public Path calculatePath(Position src, Position dest) {
-        return null;
+        super(team, PieceType.NONE, null, null);
     }
 
 }

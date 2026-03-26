@@ -13,12 +13,13 @@ import domain.direction.Direction;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+import domain.rule.ListPathGenerator;
 import domain.strategy.BlockedMovementStrategy;
 import java.util.List;
 
 public class Ma extends Piece {
 
-    private final List<List<Direction>> paths = List.of(
+    private static final List<List<Direction>> paths = List.of(
             List.of(NORTH, NORTH_EAST),
             List.of(NORTH, NORTH_WEST),
             List.of(SOUTH, SOUTH_EAST),
@@ -30,22 +31,7 @@ public class Ma extends Piece {
     );
 
     public Ma(Team team) {
-        super(team, PieceType.MA, new BlockedMovementStrategy());
+        super(team, PieceType.MA, new BlockedMovementStrategy(), new ListPathGenerator(paths));
     }
 
-    @Override
-    public Path calculatePath(Position src, Position dest) {
-        for (List<Direction> path : paths) {
-            try {
-                int nextX = src.getX() + path.get(0).getOffsetX() + path.get(1).getOffsetX();
-                int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY();
-                Position nextPosition = new Position(nextX, nextY);
-                if (dest.equals(nextPosition)) {
-                    return new Path(src, dest, List.of(nextPosition));
-                }
-            } catch (IllegalArgumentException e) {
-            }
-        }
-        throw new IllegalArgumentException("목적지로 이동할 수 없습니다.");
-    }
 }
