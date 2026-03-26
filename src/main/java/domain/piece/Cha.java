@@ -55,7 +55,8 @@ public class Cha extends Piece {
         Position tmp = direction.move(src);
         path.add(tmp);
         while (!tmp.equals(dest)) {
-            path.add(direction.move(tmp));
+            tmp = direction.move(tmp);
+            path.add(tmp);
         }
 
         return new Path(src, dest, path);
