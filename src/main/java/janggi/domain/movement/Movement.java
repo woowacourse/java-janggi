@@ -27,13 +27,12 @@ public class Movement {
         return true;
     }
 
-    public Position calculateDestination(final Position from) {
-        Piece fromPiece = boardMediator.getPieceInPosition(from);
+    public Position calculateDestination(final Position from, final Piece piece) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
                 Piece toPiece = boardMediator.getPieceInPosition(to);
-                if (toPiece.belongsToTeam(fromPiece.getTeamType())) {
+                if (toPiece.belongsToTeam(piece.getTeamType())) {
                     return from.calculateNext(distance - 1, direction);
                 }
                 return from.calculateNext(distance, direction);
@@ -42,14 +41,13 @@ public class Movement {
         return from.calculateNext(maxDistance, direction);
     }
 
-    public List<Position> calculateTraces(final Position from) {
-        final Piece fromPiece = boardMediator.getPieceInPosition(from);
+    public List<Position> calculateTraces(final Position from, final Piece piece) {
         final List<Position> traces = new ArrayList<>();
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
                 Piece toPiece = boardMediator.getPieceInPosition(to);
-                if (!toPiece.belongsToTeam(fromPiece.getTeamType())) {
+                if (!toPiece.belongsToTeam(piece.getTeamType())) {
                     traces.add(to);
                 }
                 return traces;

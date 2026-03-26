@@ -85,7 +85,7 @@ class MovementTest {
             Movement Movement = new Movement(maxDistance, direction, boardMediator);
             Position expected = Position.valueOf(5, 5);
 
-            Position actual = Movement.calculateDestination(from);
+            Position actual = Movement.calculateDestination(from, boardMediator.getPieceInPosition(from));
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -101,7 +101,7 @@ class MovementTest {
             Movement Movement = new Movement(maxDistance, direction, boardMediator);
             Position expected = Position.valueOf(5, 6);
 
-            Position actual = Movement.calculateDestination(from);
+            Position actual = Movement.calculateDestination(from, boardMediator.getPieceInPosition(from));
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -116,7 +116,7 @@ class MovementTest {
             Movement Movement = new Movement(maxDistance, direction, boardMediator);
             Position expected = Position.valueOf(5, 7);
 
-            Position actual = Movement.calculateDestination(from);
+            Position actual = Movement.calculateDestination(from, boardMediator.getPieceInPosition(from));
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -146,7 +146,7 @@ class MovementTest {
             Movement Movement = new Movement(maxDistance, direction, boardMediator);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = Movement.calculateTraces(from);
+            List<Position> actual = Movement.calculateTraces(from, boardMediator.getPieceInPosition(from));
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -163,7 +163,7 @@ class MovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                     Position.valueOf(5, 6));
 
-            List<Position> actual = Movement.calculateTraces(from);
+            List<Position> actual = Movement.calculateTraces(from, boardMediator.getPieceInPosition(from));
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -179,7 +179,7 @@ class MovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                     Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = Movement.calculateTraces(from);
+            List<Position> actual = Movement.calculateTraces(from, boardMediator.getPieceInPosition(from));
 
             assertThat(actual).hasSameElementsAs(expected);
         }
