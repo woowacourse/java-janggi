@@ -7,7 +7,7 @@ import java.util.List;
 public class Sa extends Piece {
 
     public Sa(Team team) {
-        super(team);
+        super(team, PieceType.SA);
     }
 
     @Override

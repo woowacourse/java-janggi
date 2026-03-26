@@ -7,7 +7,7 @@ import java.util.List;
 public class Byeong extends Piece {
 
     public Byeong(Team team) {
-        super(team);
+        super(team, PieceType.BYEONG);
     }
 
     @Override
