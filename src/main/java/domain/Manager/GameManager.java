@@ -19,20 +19,19 @@ import view.OutputView;
 public class GameManager {
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
-    private Player choPlayer;
-    private Player hanPlayer;
+    private Board board;
+    private TurnManager turnManager;
 
     public void run() {
-        Board board = initialize();
+        board = initialize();
         outputView.printBoard(board.createDTO().board());
-        //for문 (턴마다 반복)
-        Position src = createPosition();
-        //src의 피스가 같은팀인지 판단하기. 아니면 재입력.
-        Position dest = createPosition();
+        Position src = createSourcePosition();
+
+        Position dest = createDestPosition();
         // 이동 - 잡았으면 플레이어에 추가
-        if(board.canMove(src, dest)) {
-            Piece piece = board.move(src,dest);
-            if(!piece.isNone()) {
+        if (board.canMove(src, dest)) {
+            Piece piece = board.move(src, dest);
+            if (!piece.isNone()) {
                 //add.
             }
         }
@@ -51,7 +50,18 @@ public class GameManager {
         }
     }
 
-    private Position createPosition() {
+    private Position createSourcePosition() {
+        return retryOnInvalidInput(() -> {
+            List<Integer> numbers = inputView.askSourcePosition();
+            Position src = new Position(numbers.getFirst(), numbers.getLast());
+            if (!board.isPieceSameTeam(src, turnManager.currentTurnTeam())) {
+                throw new IllegalArgumentException("다른 팀입니다.");
+            }
+            return src;
+        });
+    }
+
+    private Position createDestPosition() {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askSourcePosition();
             return new Position(numbers.getFirst(), numbers.getLast());
@@ -60,10 +70,11 @@ public class GameManager {
 
     private Board initialize() {
         String choName = inputView.askChoPlayerName();
-        choPlayer = createPlayer(choName, CHO);
+        Player choPlayer = createPlayer(choName, CHO);
 
         String hanName = inputView.askHanPlayerName();
-        hanPlayer = createPlayer(hanName, HAN);
+        Player hanPlayer = createPlayer(hanName, HAN);
+        turnManager = new TurnManager(choPlayer, hanPlayer);
 
         int choPositionInput = inputView.askChoPositionInput();
         Formation choFormation = createFormation(choPositionInput);
@@ -73,10 +84,6 @@ public class GameManager {
 
         return BoardFactory.createWithFormation(choFormation, hanFormation);
     }
-
-//    private Position getSourcePosition() {
-//        inputView.
-//    }
 
     private Player createPlayer(String name, Team team) {
         return new Player(new Name(name), team);
