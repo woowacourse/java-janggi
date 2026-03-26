@@ -6,23 +6,29 @@ import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 import java.util.List;
 
-public class Board {
+public class Board implements BoardView {
     private final List<List<Piece>> board;
 
     public Board() {
         board = BoardInitializer.createBoard();
     }
 
-    public Board(String x) {//PR
-        board = BoardInitializer.createEmptyBoard();
+    private Board(List<List<Piece>> board) {
+        this.board = board;
     }
 
+    public static Board empty() {
+        return new Board(BoardInitializer.createEmptyBoard());
+    }
+
+    @Override
     public Piece findByPosition(Position position) {
         int row = position.getRow();
         int col = position.getCol();
         return board.get(row).get(col);
     }
 
+    @Override
     public boolean isEmptyPosition(Position position) {
         return findByPosition(position).isEmpty();
     }
@@ -33,14 +39,16 @@ public class Board {
 
         validateCommonMove(currentTeam, fromPiece, toPiece);        // 공통 이동 검증 로직 시작
 
-        fromPiece.move(from, to, this); // 기물별 이동 검증 로직
+        if (!fromPiece.canMove(from, to, this)) {// 기물별 규칙
+            throw new IllegalArgumentException("해당 기물의 이동 규칙에 맞지 않습니다.");
+        }
 
-        //여기오면 이상없으니깐 이제 실제 기물들 위치 변경
         place(from, new EmptyPosition(Team.OTHER));
         place(to, fromPiece);
     }
 
-    public void place(Position to, Piece nextPiece) {
+    // 우선 테스트때문에만 public으로 열어뒀었지만 일단 리플랙션으로함 ->PR
+    private void place(Position to, Piece nextPiece) {
         board.get(to.getRow()).set(to.getCol(), nextPiece);
     }
 

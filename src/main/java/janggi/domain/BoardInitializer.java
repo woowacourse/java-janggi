@@ -27,9 +27,7 @@ public class BoardInitializer {
 
 
     public static List<List<Piece>> createBoard() {
-        List<List<Piece>> board = new ArrayList<>();
-
-        initBoard(board);
+        List<List<Piece>> board = createEmptyBoard();
 
         initTank(board);
         initHorse(board);
