@@ -23,7 +23,7 @@ class SaTest {
         assertNotNull(path);
         assertEquals(src, path.getSrc());
         assertEquals(dest, path.getDest());
-        assertFalse(path.getWaypoints().isEmpty());
+        assertTrue(path.getWaypoints().isEmpty());
     }
 
     private static Stream<Arguments> provideSaPaths() {
