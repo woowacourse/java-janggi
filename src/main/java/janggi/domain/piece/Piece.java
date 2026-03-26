@@ -1,5 +1,8 @@
 package janggi.domain.piece;
 
+import janggi.domain.Position;
+import janggi.domain.board.Board;
+import java.util.List;
 import java.util.Objects;
 
 public class Piece {
@@ -10,6 +13,11 @@ public class Piece {
     public Piece(PieceRule pieceRule, Camp camp) {
         this.pieceRule = pieceRule;
         this.camp = camp;
+    }
+
+    public void validateMove(Position from, Position to, Board board) {
+        List<Position> path = pieceRule.findPath(from, to, camp);
+        pieceRule.checkPath(path, camp, board);
     }
 
     public boolean isSamePieceRule(PieceRule pieceRule) {
