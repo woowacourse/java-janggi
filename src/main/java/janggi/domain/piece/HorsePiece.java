@@ -1,7 +1,15 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Position;
+
 public class HorsePiece extends Piece {
-    public HorsePiece(Name name, Team team) {
-        super(name, team);
+    public HorsePiece(Team team) {
+        super(team, Name.HORSE);
+    }
+
+
+    @Override
+    public boolean canMove(Position from, Position to) {
+        return false;
     }
 }

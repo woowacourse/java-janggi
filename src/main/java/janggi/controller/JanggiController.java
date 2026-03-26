@@ -2,8 +2,8 @@ package janggi.controller;
 
 import java.util.List;
 
-import janggi.domain.Board;
-import janggi.domain.BoardInitializer;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardInitializer;
 import janggi.dto.BoardDto;
 import janggi.view.InputView;
 import janggi.view.OutputView;

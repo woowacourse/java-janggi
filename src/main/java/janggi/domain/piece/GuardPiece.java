@@ -1,7 +1,14 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Position;
+
 public class GuardPiece extends Piece {
-    public GuardPiece(Name name, Team team) {
-        super(name, team);
+    public GuardPiece(Team team) {
+        super(team, Name.GUARD);
+    }
+
+    @Override
+    public boolean canMove(Position from, Position to) {
+        return false;
     }
 }

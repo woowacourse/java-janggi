@@ -1,12 +1,14 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Position;
+
 public abstract class Piece {
     private final Team team;
     private final Name name;
 
-    public Piece(Name name, Team team) {
-        this.name = name;
+    public Piece(Team team, Name name) {
         this.team = team;
+        this.name = name;
     }
 
     public String getPieceName() {
@@ -16,4 +18,11 @@ public abstract class Piece {
     public String getTeamName() {
         return team.name();
     }
+
+    public boolean isSameTeam(Piece piece) {
+        return piece.team.equals(this.team);
+    }
+
+    abstract public boolean canMove(Position from, Position to);
+//    abstract public List<Position> getPath(Position from, Position to);
 }
