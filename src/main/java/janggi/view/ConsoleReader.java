@@ -1,5 +1,7 @@
 package janggi.view;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleReader implements Input {
@@ -18,6 +20,20 @@ public class ConsoleReader implements Input {
         validateIsBlank(input);
         validateIsNumeric(input);
         return parseToInt(input);
+    }
+
+    @Override
+    public List<Integer> readIntegers() {
+        String input = scanner.nextLine().trim();
+        validateIsBlank(input);
+        String[] strings = input.split("\\s*,\\s*");
+        List<Integer> integers = Arrays.stream(strings)
+                .map(s -> {
+                    validateIsBlank(s);
+                    validateIsNumeric(s);
+                    return parseToInt(s);
+                }).toList();
+        return List.copyOf(integers);
     }
 
     private void validateIsBlank(String input) {

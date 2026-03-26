@@ -15,4 +15,11 @@ public enum Side {
     public String getName() {
         return name;
     }
+
+    public Side switchTurn() {
+        if (this == HAN) {
+            return CHO;
+        }
+        return HAN;
+    }
 }

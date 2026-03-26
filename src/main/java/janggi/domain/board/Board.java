@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.Location;
 import janggi.domain.piece.Piece;
 import janggi.strategy.BoardAssembler;
 import java.util.ArrayList;
@@ -48,6 +49,15 @@ public class Board {
         return List.copyOf(pieces);
     }
 
-    private record Location(int row, int col) {
+    public void validateLocation(Location location) {
+        if (!boardState.containsKey(location)) {
+            throw new IllegalArgumentException("해당 좌표는 보드판에 존재하지 않습니다.");
+        }
+    }
+
+    public void validatePieceExist(Location location) {
+        if (boardState.get(location).isEmpty()) {
+            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
+        }
     }
 }

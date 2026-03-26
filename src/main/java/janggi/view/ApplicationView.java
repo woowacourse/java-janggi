@@ -37,6 +37,26 @@ public class ApplicationView {
         outputWriter.printStringMatrix(stringMatrix);
     }
 
+    public void responseCurrentSide(Side currentSide) {
+        outputWriter.printPromptMessage(currentSide.getName() + "팀의 차례입니다.");
+    }
+
+    public List<Integer> requestLocationOfPiece() {
+        outputWriter.printPromptMessage("이동 시킬 기물의 좌표를 입력해주세요. (,로 구분)");
+
+        return retry(inputReader::readIntegers);
+    }
+
+    public List<Integer> requestLocationToMove() {
+        outputWriter.printPromptMessage("해당 기물이 이동할 좌표를 입력해주세요. (,로 구분)");
+
+        return retry(inputReader::readIntegers);
+    }
+
+    public void responseErrorMessage(RuntimeException e) {
+        outputWriter.printErrorMessage(e);
+    }
+
     private <T> T retry(Supplier<T> supplier) {
         while (true) {
             try {
