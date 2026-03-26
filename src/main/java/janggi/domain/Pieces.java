@@ -24,67 +24,72 @@ public class Pieces {
         this.value = value;
     }
 
-    public Pieces move(int startX, int startY, int endX, int endY) {
-        Piece piece = value.get(new Position(startX, startY));
-        if (piece.canMove(startX, startY, endX, endY)) {
-            // TODO: move하기
-            // 기존 좌표 삭제 + 새 좌표 삽입
-        }
-        return new Pieces(new HashMap<>(value));
+    public Pieces move(Position piecePosition, Position targetPosition) {
+        Piece piece = value.get(piecePosition);
+        Map<Position, Piece> updatedValue = new HashMap<>(value);
+        updatedValue.remove(piecePosition);
+        updatedValue.put(targetPosition, piece);
+        return new Pieces(updatedValue);
+    }
+
+    public Pieces remove(Position position) {
+        Map<Position, Piece> updatedValue = new HashMap<>(value);
+        updatedValue.remove(position);
+        return new Pieces(updatedValue);
     }
 
     public static Pieces createHan() {
         Map<Position, Piece> pieces = new HashMap<>();
-        createChas(pieces, 10);
-        createMas(pieces, 10);
-        createSangs(pieces, 10);
-        createSas(pieces, 10);
-        createGung(pieces, 9);
-        createPos(pieces, 8);
+        createChas(pieces, 10, TeamType.HAN);
+        createMas(pieces, 10, TeamType.HAN);
+        createSangs(pieces, 10, TeamType.HAN);
+        createSas(pieces, 10, TeamType.HAN);
+        createGung(pieces, 9, TeamType.HAN);
+        createPos(pieces, 8, TeamType.HAN);
         createJols(pieces, 7, TeamType.HAN);
         return new Pieces(pieces);
     }
 
     public static Pieces createChu() {
         Map<Position, Piece> pieces = new HashMap<>();
-        createChas(pieces, 1);
-        createMas(pieces, 1);
-        createSangs(pieces, 1);
-        createSas(pieces, 1);
-        createGung(pieces, 2);
-        createPos(pieces, 3);
+        createChas(pieces, 1, TeamType.CHU);
+        createMas(pieces, 1, TeamType.CHU);
+        createSangs(pieces, 1, TeamType.CHU);
+        createSas(pieces, 1, TeamType.CHU);
+        createGung(pieces, 2, TeamType.CHU);
+        createPos(pieces, 3, TeamType.CHU);
         createJols(pieces, 4, TeamType.CHU);
         return new Pieces(pieces);
     }
 
 
-    private static void createChas(Map<Position, Piece> pieces, int indexY) {
-        pieces.put(new Position(1, indexY), new Cha());
-        pieces.put(new Position(9, indexY), new Cha());
+    private static void createChas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
+        pieces.put(new Position(1, indexY), new Cha(teamType));
+        pieces.put(new Position(9, indexY), new Cha(teamType));
     }
 
-    private static void createMas(Map<Position, Piece> pieces, int indexY) {
-        pieces.put(new Position(2, indexY), new Ma());
-        pieces.put(new Position(8, indexY), new Ma());
+    private static void createMas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
+        pieces.put(new Position(2, indexY), new Ma(teamType));
+        pieces.put(new Position(8, indexY), new Ma(teamType));
     }
 
-    private static void createSangs(Map<Position, Piece> pieces, int indexY) {
-        pieces.put(new Position(7, indexY), new Sang());
-        pieces.put(new Position(10 - 7, indexY), new Sang());
+    private static void createSangs(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
+        pieces.put(new Position(7, indexY), new Sang(teamType));
+        pieces.put(new Position(10 - 7, indexY), new Sang(teamType));
     }
 
-    private static void createSas(Map<Position, Piece> pieces, int indexY) {
-        pieces.put(new Position(4, indexY), new Sa());
-        pieces.put(new Position(10 - 4, indexY), new Sa());
+    private static void createSas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
+        pieces.put(new Position(4, indexY), new Sa(teamType));
+        pieces.put(new Position(10 - 4, indexY), new Sa(teamType));
     }
 
-    private static void createGung(Map<Position, Piece> pieces, int indexY) {
-        pieces.put(new Position(5, indexY), new Gung());
+    private static void createGung(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
+        pieces.put(new Position(5, indexY), new Gung(teamType));
     }
 
-    private static void createPos(Map<Position, Piece> pieces, int indexY) {
-        pieces.put(new Position(2, indexY), new Po());
-        pieces.put(new Position(10 - 2, indexY), new Po());
+    private static void createPos(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
+        pieces.put(new Position(2, indexY), new Po(teamType));
+        pieces.put(new Position(10 - 2, indexY), new Po(teamType));
     }
 
     private static void createJols(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
@@ -111,5 +116,10 @@ public class Pieces {
 
     public Optional<Piece> findPiece(Position position) {
         return Optional.ofNullable(value.get(position));
+    }
+
+    public void checkPieceCanMove(Position startPosition, Position endPosition) {
+        Piece piece = value.get(startPosition);
+        piece.isValidMovePattern(startPosition.getX(), startPosition.getY(), endPosition.getX(), endPosition.getY());
     }
 }

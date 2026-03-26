@@ -1,15 +1,21 @@
 package janggi.domain.piece;
 
+import janggi.domain.Board;
 import janggi.domain.Delta;
 import janggi.domain.MovePath;
+import janggi.domain.Position;
+import janggi.domain.side.TeamType;
 import java.util.List;
+import java.util.Optional;
 
 public class Cha implements Piece {
 
+    private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
 
-    public Cha() {
+    public Cha(TeamType teamType) {
+        this.teamType = teamType;
         pieceType = PieceType.CHA;
         paths = List.of(
             new MovePath(List.of(Delta.createUp())),
@@ -21,11 +27,33 @@ public class Cha implements Piece {
 
     // TODO: start 좌표는 유효한게 보장 되어 있는지? Pieces에서 Map 조회 후 반환하기.
     @Override
-    public boolean canMove(int startX, int startY, int endX, int endY) {
+    public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
+        return findMovePath(startX, startY, endX, endY).isPresent();
+    }
+
+    @Override
+    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
         if (isSamePosition(startX, startY, endX, endY)) {
+            return Optional.empty();
+        }
+        if (!isStraightDirection(startX, startY, endX, endY)) {
+            return Optional.empty();
+        }
+        int dx = endX - startX;
+        int dy = endY - startY;
+        return paths.stream()
+            .filter(path -> path.matchesDirection(dx, dy))
+            .findFirst();
+    }
+
+    @Override
+    public boolean isValidPath(Position start, Position end, Board board) {
+        Optional<MovePath> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
+        if (movePath.isEmpty()) {
             return false;
         }
-        return isStraightDirection(startX, startY, endX, endY);
+        return movePath.get().intermediatePositions(start, end).stream()
+            .noneMatch(board::hasPiece);
     }
 
     private boolean isSamePosition(int startX, int startY, int endX, int endY) {
@@ -39,5 +67,10 @@ public class Cha implements Piece {
     @Override
     public String nickname() {
         return pieceType.getNickname();
+    }
+
+    @Override
+    public boolean isSameType(TeamType nowTurn) {
+        return nowTurn == teamType;
     }
 }

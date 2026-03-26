@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class OutputView {
 
-    public void printMessage(String message) {
+    public static void printMessage(String message) {
         System.out.println(message);
     }
 
@@ -75,5 +75,9 @@ public class OutputView {
 
     public void printAskPiecePosition() {
         printMessage("움직일 기물의 좌표를 입력해주세요.");
+    }
+
+    public void printAskMovePosition(String nickname) {
+        printMessage(nickname + "의 목적 좌표를 입력해주세요.");
     }
 }

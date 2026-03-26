@@ -9,19 +9,6 @@ public class Position {
     private final int x;
     private final int y;
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public static Position makePosition(List<String> parsedPiecePosition) {
         if (parsedPiecePosition.size() != POSITION_SIZE) {
             throw new IllegalArgumentException("기물의 좌표는 두 개로 입력해야 합니다.");
@@ -35,8 +22,25 @@ public class Position {
         }
     }
 
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public String makePositionKey() {
         return x + "," + y;
+    }
+
+    public Position move(Delta delta) {
+        return new Position(x + delta.dx(), y + delta.dy());
     }
 
     @Override

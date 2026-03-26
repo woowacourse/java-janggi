@@ -35,8 +35,18 @@ public class Han implements Team {
     }
 
     @Override
-    public Team move(int startX, int startY, int endX, int endY) {
-        return null;
+    public Team remove(Position position) {
+        return new Han(pieces.remove(position));
+    }
+
+    @Override
+    public Team move(Position piecePosition, Position targetPosition) {
+        return new Han(pieces.move(piecePosition, targetPosition));
+    }
+
+    @Override
+    public void isPieceCanMove(Position startPosition, Position endPosition) {
+        pieces.checkPieceCanMove(startPosition, endPosition);
     }
 
     // TODO: 구현하기

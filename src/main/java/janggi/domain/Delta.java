@@ -41,4 +41,12 @@ public class Delta {
     public static Delta createRightDown() {
         return new Delta(1, -1);
     }
+
+    public int dx() {
+        return dx;
+    }
+
+    public int dy() {
+        return dy;
+    }
 }

@@ -136,15 +136,15 @@
 ```
 
 # 프로그램 흐름
-- [ ] 장기 게임 시작 문구 출력 (OutputView)
-- [ ] 장기판 초기화
-- [ ] 장기판 출력(OutputView)
+- [x] 장기 게임 시작 문구 출력 (OutputView)
+- [x] 장기판 초기화
+- [x] 장기판 출력(OutputView)
 - [ ] 초, 한 번갈아가며 진행(Turn)
-  - [ ] 움직일 기물 좌표 입력(InputView - 콤마로 구분하여 좌표 입력) 
-  - [ ] 입력값 검증 및 Position 객체 생성
-  - [ ] 기물 반환
-    - [ ] 장기판 내부 좌표인지 검증
-    - [ ] 기물 반환
+  - [x] 움직일 기물 좌표 입력(InputView - 콤마로 구분하여 좌표 입력) 
+  - [x] 입력값 검증 및 Position 객체 생성
+  - [x] 기물 반환
+    - [x] 장기판 내부 좌표인지 검증
+    - [x] 기물 반환
   - [ ] 반환된 기물의 목적 좌표 입력
     - [ ] 입력값 검증 및 Position 객체 생성
   - [ ] 기물 이동
@@ -155,6 +155,17 @@
     - [ ] 적 기물 잡았을 경우 score 갱신
   - [ ] 갱신된 장기판 출력(OutputView) 
 - [ ] 진행 후 Turns에 Board 상태 추가
+
+# TODO
+- Runner -> Board 참조를 Turns 참조로 변경
+  1. Runner에서 Position 직접 생성 x
+  2. Piece 존재 여부 확인(Turns.isExist) x
+     - 마지막 턴.isPieceExist() x
+  3. Piece 반환(보류)
+  4. 목적 좌표 Position 생성
+  5. 이동(Turns.doGame(Position, Position))
+  6. 갱신된 보드판 출력
+- 이동 시 장애물이 있는 경우(canMove.isFalse()) 처리
 
 # 도메인
 

@@ -14,5 +14,11 @@ public interface Team {
 
     Optional<Piece> findPiece(Position position);
 
-    Team move(int startX, int startY, int endX, int endY);
+    Team remove(Position position);
+
+    Team move(Position piecePosition, Position targetPosition);
+
+    void isPieceCanMove(Position startPosition, Position endPosition);
+
+
 }

@@ -2,14 +2,18 @@ package janggi.domain.piece;
 
 import janggi.domain.Delta;
 import janggi.domain.MovePath;
+import janggi.domain.side.TeamType;
 import java.util.List;
+import java.util.Optional;
 
-public class Sa implements Piece{
+public class Sa implements Piece {
 
+    private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
 
-    public Sa() {
+    public Sa(TeamType teamType) {
+        this.teamType = teamType;
         pieceType = PieceType.SA;
         paths = List.of(
             new MovePath(List.of(Delta.createUp())),
@@ -24,13 +28,25 @@ public class Sa implements Piece{
     }
 
     @Override
-    public boolean canMove(int startX, int startY, int endX, int endY) {
-        int distanceX = Math.abs(endX - startX);
-        int distanceY = Math.abs(endY - startY);
+    public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
+        return findMovePath(startX, startY, endX, endY).isPresent();
+    }
+
+    @Override
+    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
+        int dx = endX - startX;
+        int dy = endY - startY;
+        int distanceX = Math.abs(dx);
+        int distanceY = Math.abs(dy);
         if (isSamePosition(distanceX, distanceY)) {
-            return false;
+            return Optional.empty();
         }
-        return isOneStep(distanceX, distanceY);
+        if (!isOneStep(distanceX, distanceY)) {
+            return Optional.empty();
+        }
+        return paths.stream()
+            .filter(path -> path.matches(dx, dy))
+            .findFirst();
     }
 
     private boolean isSamePosition(int distanceX, int distanceY) {
@@ -44,5 +60,10 @@ public class Sa implements Piece{
     @Override
     public String nickname() {
         return pieceType.getNickname();
+    }
+
+    @Override
+    public boolean isSameType(TeamType nowTurn) {
+        return nowTurn == teamType;
     }
 }

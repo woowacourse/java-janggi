@@ -4,6 +4,7 @@ import janggi.domain.Delta;
 import janggi.domain.MovePath;
 import janggi.domain.side.TeamType;
 import java.util.List;
+import java.util.Optional;
 
 public class Jol implements Piece {
 
@@ -18,34 +19,24 @@ public class Jol implements Piece {
     }
 
     @Override
-    public boolean canMove(int startX, int startY, int endX, int endY) {
-        int distanceX = endX - startX;
-        int distanceY = endY - startY;
-        if (isSamePosition(distanceX, distanceY)) {
-            return false;
+    public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
+        return findMovePath(startX, startY, endX, endY).isPresent();
+    }
+
+    @Override
+    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
+        int dx = endX - startX;
+        int dy = endY - startY;
+        if (isSamePosition(dx, dy)) {
+            return Optional.empty();
         }
-        if (isHorizontalMove(distanceX, distanceY)) {
-            return true;
-        }
-        return isForwardMove(distanceX, distanceY);
+        return paths.stream()
+            .filter(path -> path.matches(dx, dy))
+            .findFirst();
     }
 
     private boolean isSamePosition(int distanceX, int distanceY) {
         return distanceX == 0 && distanceY == 0;
-    }
-
-    private boolean isHorizontalMove(int distanceX, int distanceY) {
-        return Math.abs(distanceX) == 1 && distanceY == 0;
-    }
-
-    private boolean isForwardMove(int distanceX, int distanceY) {
-        if (distanceX != 0) {
-            return false;
-        }
-        if (teamType == TeamType.HAN) {
-            return distanceY == -1;
-        }
-        return distanceY == 1;
     }
 
     private List<MovePath> createPaths() {
@@ -66,5 +57,10 @@ public class Jol implements Piece {
     @Override
     public String nickname() {
         return pieceType.getNickname();
+    }
+
+    @Override
+    public boolean isSameType(TeamType nowTurn) {
+        return teamType == nowTurn;
     }
 }
