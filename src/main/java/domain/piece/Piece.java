@@ -39,6 +39,10 @@ public abstract class Piece {
         return this.team == team;
     }
 
+    public boolean isSameTeam(Piece piece) {
+        return this.team == piece.team;
+    }
+
     public boolean isNone() {
         return this.pieceType == PieceType.NONE;
     }
@@ -52,8 +56,8 @@ public abstract class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return team == piece.team && 
-               pieceType == piece.pieceType;
+        return team == piece.team &&
+                pieceType == piece.pieceType;
     }
 
     @Override

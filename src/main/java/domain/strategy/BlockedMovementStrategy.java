@@ -11,7 +11,7 @@ public class BlockedMovementStrategy implements MovementStrategy {
         if (!waypointPieces.isEmpty()) {
             return false;
         }
-        if (pathPieces.getSrcPiece().getTeam() == pathPieces.getDestPiece().getTeam()) {
+        if (pathPieces.getSrcPiece().isSameTeam(pathPieces.getDestPiece())) {
             return false;
         }
         return true;
