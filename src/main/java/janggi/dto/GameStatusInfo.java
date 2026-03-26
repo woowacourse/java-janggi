@@ -9,8 +9,9 @@ public record GameStatusInfo(
     public static GameStatusInfo from(List<List<Piece>> board) {
         return new GameStatusInfo(
                 board.stream()
-                        .map(row -> getPieceNames(row))
+                        .map(GameStatusInfo::getPieceNames)
                         .toList()
+                        .reversed()
         );
     }
 

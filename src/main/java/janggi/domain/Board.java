@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class Board {
 
-    private static final int Y = 9;
+    private static final int Y = 10;
 
     private final Map<Point, Piece> state;
 

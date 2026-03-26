@@ -13,10 +13,10 @@ public class Point {
 
     static {
         List<List<Point>> temp = new ArrayList<>();
-        for(int i = 0; i < 9; i++) {
-            List<Point> y = new ArrayList<>();
-            addX(y, i);
-            temp.add(y);
+        for(int i = 0; i < 10; i++) {
+            List<Point> row = new ArrayList<>();
+            addX(row, i);
+            temp.add(row);
         }
         CACHE = Collections.unmodifiableList(temp);
     }
@@ -27,7 +27,7 @@ public class Point {
     }
 
     public static Point of(int x, int y) {
-        return CACHE.get(x).get(y);
+        return CACHE.get(y).get(x);
     }
 
     public static List<Point> getRow(int x) {
@@ -42,9 +42,9 @@ public class Point {
         return y;
     }
 
-    private static void addX(List<Point> y, int x) {
-        for(int i = 0; i < 10; i++) {
-            y.add(new Point(x, i));
+    private static void addX(List<Point> row, int y) {
+        for(int i = 0; i < 9; i++) {
+            row.add(new Point(i, y));
         }
     }
 }
