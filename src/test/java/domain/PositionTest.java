@@ -43,4 +43,36 @@ class PositionTest {
         assertThatThrownBy(() -> new Position(-1, -1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void 같은_행이면_true를_반환한다() {
+        Position position = new Position(1, 5);
+        Position otherPosition = new Position(1, 3);
+
+        assertThat(position.isSameRow(otherPosition)).isTrue();
+    }
+
+    @Test
+    void 다른_행이면_false를_반환한다() {
+        Position position = new Position(1, 5);
+        Position otherPosition = new Position(2, 5);
+
+        assertThat(position.isSameRow(otherPosition)).isFalse();
+    }
+
+    @Test
+    void 같은_열이면_true를_반환한다() {
+        Position position = new Position(1, 5);
+        Position otherPosition = new Position(3, 5);
+
+        assertThat(position.isSameCol(otherPosition)).isTrue();
+    }
+
+    @Test
+    void 다른_열이면_false를_반환한다() {
+        Position position = new Position(1, 5);
+        Position otherPosition = new Position(1, 6);
+
+        assertThat(position.isSameCol(otherPosition)).isFalse();
+    }
 }

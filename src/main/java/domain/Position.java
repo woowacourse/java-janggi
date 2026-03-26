@@ -8,4 +8,13 @@ public class Position {
         this.row = new Row(row);
         this.column = new Column(column);
     }
+
+    public boolean isSameRow(Position other) {
+        return other.row.equals(this.row);
+    }
+
+    public boolean isSameCol(Position other) {
+        return other.column.equals(this.column);
+    }
+
 }

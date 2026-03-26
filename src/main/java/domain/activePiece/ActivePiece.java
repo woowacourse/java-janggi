@@ -1,6 +1,8 @@
-package domain.piece;
+package domain.activePiece;
 
-import domain.Position;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
 
 public abstract class ActivePiece implements Piece {
     private final Team team;
@@ -14,5 +16,4 @@ public abstract class ActivePiece implements Piece {
     public boolean isSameTeam(Team other) {
         return this.team == other;
     }
-
 }

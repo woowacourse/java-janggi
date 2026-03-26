@@ -14,4 +14,12 @@ public class Column {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Column column = (Column) o;
+        return value == column.value;
+    }
 }
