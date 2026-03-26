@@ -11,7 +11,7 @@ public abstract class Piece {
 
     public abstract boolean isEmpty();
 
-    public boolean isSameSide(Side side) {
-        return this.side.equals(side);
+    public boolean isSameSide(Piece piece) {
+        return this.side.equals(piece.side);
     }
 }

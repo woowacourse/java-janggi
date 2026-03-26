@@ -49,10 +49,10 @@ public class BoardAssembler {
     }
 
     private void setupEmptyPieces(Piece[][] arrangement) {
-        for (int i = 0; i < DEFAULT_ROWS; i++) {
-            for (int j = 0; j < DEFAULT_COLS; j++) {
-                if (arrangement[i][j] == null) {
-                    arrangement[i][j] = new EmptyPiece();
+        for (int row = 0; row < DEFAULT_ROWS; row++) {
+            for (int col = 0; col < DEFAULT_COLS; col++) {
+                if (arrangement[row][col] == null) {
+                    arrangement[row][col] = new EmptyPiece();
                 }
             }
         }

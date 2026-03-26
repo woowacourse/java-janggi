@@ -1,6 +1,7 @@
 package janggi.strategy;
 
 
+import janggi.domain.TeamPiece;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
@@ -18,6 +19,7 @@ class SangMaMaSangTest {
         Piece[][] grid = new Piece[10][9];
         ArrangementStrategy strategy = new SangMaMaSang();
         Side side = Side.HAN;
+        Piece expectedSidePiece = new TeamPiece(side);
 
         // when
         strategy.place(grid, side);
@@ -32,10 +34,10 @@ class SangMaMaSangTest {
         Assertions.assertThat(rightMa).isInstanceOf(Ma.class);
         Assertions.assertThat(rightSang).isInstanceOf(Sang.class);
 
-        Assertions.assertThat(leftSang.isSameSide(side)).isTrue();
-        Assertions.assertThat(leftMa.isSameSide(side)).isTrue();
-        Assertions.assertThat(rightMa.isSameSide(side)).isTrue();
-        Assertions.assertThat(rightSang.isSameSide(side)).isTrue();
+        Assertions.assertThat(leftSang.isSameSide(expectedSidePiece)).isTrue();
+        Assertions.assertThat(leftMa.isSameSide(expectedSidePiece)).isTrue();
+        Assertions.assertThat(rightMa.isSameSide(expectedSidePiece)).isTrue();
+        Assertions.assertThat(rightSang.isSameSide(expectedSidePiece)).isTrue();
     }
 
     @Test
@@ -45,6 +47,7 @@ class SangMaMaSangTest {
         Piece[][] grid = new Piece[10][9];
         ArrangementStrategy strategy = new SangMaMaSang();
         Side side = Side.CHO;
+        Piece expectedSidePiece = new TeamPiece(side);
 
         // when
         strategy.place(grid, side);
@@ -59,9 +62,9 @@ class SangMaMaSangTest {
         Assertions.assertThat(rightMa).isInstanceOf(Ma.class);
         Assertions.assertThat(rightSang).isInstanceOf(Sang.class);
 
-        Assertions.assertThat(leftSang.isSameSide(side)).isTrue();
-        Assertions.assertThat(leftMa.isSameSide(side)).isTrue();
-        Assertions.assertThat(rightMa.isSameSide(side)).isTrue();
-        Assertions.assertThat(rightSang.isSameSide(side)).isTrue();
+        Assertions.assertThat(leftSang.isSameSide(expectedSidePiece)).isTrue();
+        Assertions.assertThat(leftMa.isSameSide(expectedSidePiece)).isTrue();
+        Assertions.assertThat(rightMa.isSameSide(expectedSidePiece)).isTrue();
+        Assertions.assertThat(rightSang.isSameSide(expectedSidePiece)).isTrue();
     }
 }
