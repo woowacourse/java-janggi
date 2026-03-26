@@ -7,11 +7,23 @@ import domain.TeamColor;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface InitialFormationStrategy {
+public abstract class InitialFormationStrategy {
 
-    Map<Position, Piece> setupFormation(TeamColor teamColor);
+    public final Map<Position, Piece> setUpPieces(TeamColor teamColor) {
 
-    default Map<Position, Piece> placeFixedPieces(TeamColor teamColor) {
+        Map<Position, Piece> formationPieces = setupFormation(teamColor);
+        Map<Position, Piece> fixedPieces = placeFixedPieces(teamColor);
+        Map<Position, Piece> allPieces = new HashMap<>();
+
+        allPieces.putAll(formationPieces);
+        allPieces.putAll(fixedPieces);
+
+        return allPieces;
+    }
+
+    protected abstract Map<Position, Piece> setupFormation(TeamColor teamColor);
+
+    private Map<Position, Piece> placeFixedPieces(TeamColor teamColor) {
         if (teamColor == TeamColor.HAN) {
             return createFixedMap(teamColor, 0, 1, 2, 3);
         }
