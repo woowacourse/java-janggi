@@ -3,12 +3,15 @@ package janggi.controller;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.Game;
+import janggi.domain.position.Position;
 import janggi.dto.BoardDto;
 import janggi.dto.DynastyDto;
+import janggi.dto.PositionDto;
 import janggi.util.HorseElephantPositionMapper;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiController {
@@ -33,10 +36,12 @@ public class JanggiController {
         Game game = Game.initGame(horseElephantPositions);
         outputView.printBoard(BoardDto.from(game.boardMap()));
 
-        // 움직이고 싶은 기물의 좌표 입력
-        inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty()));
+        // 움직이고 싶은 기물의 좌표 입력 받기
+        PositionDto positionDto = inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty()));
+        Position from = Position.from(positionDto.row(), positionDto.column());
 
-
+        // 움직이고 싶은 기물이 이동할 수 있는 곳 찾기
+        List<Position> positions = game.canMovePosition(from);
     }
 
 }
