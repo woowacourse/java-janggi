@@ -6,7 +6,7 @@ import janggi.domain.policy.ClearPathPolicy;
 
 import java.util.List;
 
-public class Ma extends StepPatternPiece {
+public class Ma extends StepPiece {
     private static final List<List<Movement>> MOVE_RANGE = List.of(
             List.of(Movement.UP, Movement.UP_LEFT),
             List.of(Movement.UP, Movement.UP_RIGHT),
