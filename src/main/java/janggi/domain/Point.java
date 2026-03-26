@@ -6,9 +6,10 @@ import java.util.List;
 
 public class Point {
 
-    private int x;
-    private int y;
     private static final List<List<Point>> CACHE;
+
+    private final int x;
+    private final int y;
 
     static {
         List<List<Point>> temp = new ArrayList<>();
