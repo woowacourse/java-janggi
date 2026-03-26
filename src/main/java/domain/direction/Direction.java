@@ -1,5 +1,7 @@
 package domain.direction;
 
+import domain.position.Position;
+
 public enum Direction {
 
     NORTH(0, 1),
@@ -25,5 +27,9 @@ public enum Direction {
 
     public int getOffsetY() {
         return offsetY;
+    }
+
+    public Position move(Position src) {
+        return new Position(src.getX() + this.offsetX, src.getY() + this.offsetY);
     }
 }
