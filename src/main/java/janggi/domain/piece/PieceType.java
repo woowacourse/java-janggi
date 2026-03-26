@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import java.util.Arrays;
+
 public enum PieceType {
 
     CHA("차"),
@@ -18,34 +20,9 @@ public enum PieceType {
     }
 
     public static PieceType from(String name) {
-        if (name.equals(CHA.name)) {
-            return CHA;
-        }
-
-        if (name.equals(PHO.name)) {
-            return PHO;
-        }
-
-        if (name.equals(MA.name)) {
-            return MA;
-        }
-
-        if (name.equals(SANG.name)) {
-            return SANG;
-        }
-
-        if (name.equals(SA.name)) {
-            return SA;
-        }
-
-        if (name.equals(BYEONG.name)) {
-            return BYEONG;
-        }
-
-        if (name.equals(KING.name)) {
-            return KING;
-        }
-
-        throw new IllegalArgumentException("적절하지 않은 기물 타입입니다.");
+        return Arrays.stream(values())
+                .filter(piece -> piece.name.equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("적절하지 않은 기물 타입입니다."));
     }
 }
