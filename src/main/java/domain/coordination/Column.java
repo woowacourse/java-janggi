@@ -20,6 +20,10 @@ public record Column(int index) {
         }
     }
 
+    public Column plus(int index) {
+        return new Column(this.index + index);
+    }
+
     public int different(Column column) {
         return this.index - column.index();
     }

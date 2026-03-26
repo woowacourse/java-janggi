@@ -14,6 +14,10 @@ public record Row(int index) {
         validateRange(index);
     }
 
+    public Row plus(int index) {
+        return new Row(this.index + index);
+    }
+
     public int different(Row row) {
         return this.index - row.index();
     }

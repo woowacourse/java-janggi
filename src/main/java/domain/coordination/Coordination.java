@@ -18,6 +18,12 @@ public class Coordination {
         return new Coordination(new Column(columnIndex), new Row(rowIndex));
     }
 
+    public Coordination plus(int column, int row) {
+        Column plusColumn = this.column.plus(column);
+        Row plusRow = this.row.plus(row);
+        return new Coordination(plusColumn, plusRow);
+    }
+
     public int differentColumn(Coordination other) {
         return other.differentColumn(this.column);
     }
