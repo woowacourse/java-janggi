@@ -9,8 +9,4 @@ public enum Team {
     Team(String nation) {
         this.nation = nation;
     }
-
-    public Team getNation() {
-        return this;
-    }
 }

@@ -3,7 +3,7 @@ package domain.strategy;
 import domain.Board;
 import domain.vo.Position;
 
-public class ChariotMoveStrategy implements MoveStrategy{
+public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {

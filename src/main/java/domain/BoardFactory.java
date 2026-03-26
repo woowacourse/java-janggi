@@ -10,7 +10,7 @@ public class BoardFactory {
 
     private BoardFactory() {}
 
-    public static Board of(Map<Position, Piece> board) {
+    public static Board of(final Map<Position, Piece> board) {
         return Board.of(board);
     }
 

@@ -10,11 +10,11 @@ public class Board {
 
     private final Map<Position, Piece> board;
 
-    private Board(Map<Position, Piece> board) {
+    private Board(final Map<Position, Piece> board) {
         this.board = board;
     }
 
-    public static Board of(Map<Position, Piece> board) {
+    public static Board of(final Map<Position, Piece> board) {
         return new Board(board);
     }
 
@@ -23,7 +23,7 @@ public class Board {
         board.put(to, fromPiece);
     }
 
-    public boolean isExistPosition(Position tempPosition) {
+    public boolean isExistPosition(final Position tempPosition) {
         return board.containsKey(tempPosition);
     }
 
@@ -31,7 +31,7 @@ public class Board {
         return Optional.ofNullable(board.get(position));
     }
 
-    public boolean isAnotherTeam(Position from, Position to) {
+    public boolean isAnotherTeam(final Position from, final Position to) {
         if (findPieceByPosition(to).isEmpty()) {
             return true;
         }
