@@ -10,11 +10,26 @@ public class SoliderPiece extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to) {
-        return false;
+        int preX = from.getX();
+        int preY = from.getY();
+
+        int nextY = to.getY();
+        int nextX = to.getX();
+
+        if (isHan()) {
+            if (nextY - preY == 1 && preX == nextX) {
+                return true;
+            }
+            return (Math.abs(nextX - preX) == 1) && (nextY == preY);
+        }
+        if (preY - nextY == 1 && preX == nextX) {
+            return true;
+        }
+        return (Math.abs(nextX - preX) == 1) && (nextY == preY);
     }
 
     @Override
     public List<Position> findPath(Position from, Position to) {
-        return List.of();
+        return List.of(to);
     }
 }
