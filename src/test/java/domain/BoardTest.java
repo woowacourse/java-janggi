@@ -30,7 +30,7 @@ class BoardTest {
         board.straightMove(from, to);
 
         // then
-        Piece findPiece = board.findPieceByPosition(to);
+        Piece findPiece = board.findPieceByPosition(to).get();
         Assertions.assertEquals(Type.CHARIOT, findPiece.getType());
     }
 

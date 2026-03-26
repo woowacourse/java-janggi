@@ -5,6 +5,7 @@ import domain.vo.Position;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
 
@@ -52,7 +53,7 @@ public class Board {
     }
 
     public void straightMove(final Position from, final Position to) {
-        Piece fromPiece = findPieceByPosition(from);
+        Piece fromPiece = findPieceByPosition(from).get();
         board.put(to, fromPiece);
     }
 
@@ -60,12 +61,17 @@ public class Board {
         return board.containsKey(tempPosition);
     }
 
-//    public void diagonalMove(final Position from, final Position to) {
-//        Piece fromPiece = findPieceByPosition(from);
-//        board.put(to, fromPiece);
-//    }
+    public Optional<Piece> findPieceByPosition(final Position position) {
+        return Optional.ofNullable(board.get(position));
+    }
 
-    public Piece findPieceByPosition(final Position position) {
-        return board.get(position);
+    public boolean isAnotherTeam(Position from, Position to) {
+        if (findPieceByPosition(to).isEmpty()) {
+            return false;
+        }
+
+        Piece targetPiece = findPieceByPosition(to).get();
+        Piece currentPiece = findPieceByPosition(from).get();
+        return currentPiece.getTeam() == targetPiece.getTeam();
     }
 }

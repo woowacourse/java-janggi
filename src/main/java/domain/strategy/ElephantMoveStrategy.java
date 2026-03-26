@@ -1,7 +1,6 @@
 package domain.strategy;
 
 import domain.Board;
-import domain.Piece;
 import domain.vo.Position;
 
 public class ElephantMoveStrategy implements MoveStrategy {
@@ -25,7 +24,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow + 2, currentCol + 2))) {
-                        return isOtherTeam(board, currentRow + 2, currentCol + 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol + 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -34,7 +33,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow + 2, currentCol - 2))) {
-                        return isOtherTeam(board, currentRow + 2, currentCol - 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol - 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -50,7 +49,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow - 2, currentCol + 2))) {
-                        return isOtherTeam(board, currentRow - 2, currentCol + 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol + 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -59,7 +58,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow - 2, currentCol - 2))) {
-                        return isOtherTeam(board, currentRow - 2, currentCol - 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol - 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -78,7 +77,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow + 2, currentCol + 2))) {
-                        return isOtherTeam(board, currentRow + 2, currentCol + 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol + 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -87,7 +86,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow - 2, currentCol + 2))) {
-                        return isOtherTeam(board, currentRow - 2, currentCol + 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol + 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -104,7 +103,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow + 2, currentCol - 2))) {
-                        return isOtherTeam(board, currentRow + 2, currentCol - 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow + 2, currentCol - 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -113,7 +112,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                         return false;
                     }
                     if (board.isExistPosition(Position.of(currentRow - 2, currentCol - 2))) {
-                        return isOtherTeam(board, currentRow - 2, currentCol - 2, targetRow, targetCol);
+                        return board.isAnotherTeam(Position.of(currentRow - 2, currentCol - 2), Position.of(targetRow, targetCol));
                     }
                     return true;
                 }
@@ -121,11 +120,5 @@ public class ElephantMoveStrategy implements MoveStrategy {
         }
 
         return true;
-    }
-
-    private boolean isOtherTeam(Board board, int currentRow, int currentCol, int targetRow, int targetCol) {
-        Piece currentPiece = board.findPieceByPosition(Position.of(currentRow, currentCol));
-        Piece targetPiece = board.findPieceByPosition(Position.of(targetRow, targetCol));
-        return currentPiece.getTeam() != targetPiece.getTeam();
     }
 }

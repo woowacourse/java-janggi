@@ -1,64 +1,57 @@
 package domain.strategy;
 
 import domain.Board;
-import domain.Piece;
 import domain.vo.Position;
 
 public class ChariotMoveStrategy implements MoveStrategy{
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
-        int currentRow = from.getRow();
-        int currentCol = from.getCol();
 
-        int targetRow = to.getRow();
-        int targetCol = to.getCol();
-
-        if (checkNotStraightPath(currentCol, targetCol, currentRow, targetRow))
+        if (isNotStraightPath(from, to))
             return false;
 
-        if (currentCol == targetCol) {
-            int min = Math.min(currentRow, targetRow) + 1;
-            int max = Math.max(currentRow, targetRow);
-
-            if (checkClearPath(board, min, max, currentCol))
-                return false;
-
-            if (board.isExistPosition(Position.of(targetRow, targetCol))) {
-                return isOtherTeam(board, currentRow, currentCol, targetRow, targetCol);
+        int nx = 0, ny = 0;
+        if (from.getRow() == to.getRow()) {
+            if (from.getCol() < to.getCol()) {
+                ny = 1;
+            }
+            if (from.getCol() > to.getCol()) {
+                ny = -1;
             }
         }
 
-        if (targetRow == currentRow) {
-            int min = Math.min(currentCol, targetCol) + 1;
-            int max = Math.max(currentCol, targetCol);
-
-            if (checkClearPath(board, min, max, currentCol))
-                return false;
-
-            if (board.isExistPosition(Position.of(targetRow, targetCol))) {
-                return isOtherTeam(board, currentRow, currentCol, targetRow, targetCol);
+        if (from.getCol() == to.getCol()) {
+            if (from.getRow() < to.getRow()) {
+                nx = 1;
+            }
+            if (from.getRow() > to.getRow()) {
+                nx = -1;
             }
         }
 
-        return true;
-    }
+        int row = from.getRow();
+        int col = from.getCol();
+        while (true) {
+            row += nx;
+            col += ny;
 
-    private boolean checkNotStraightPath(int currentCol, int targetCol, int currentRow, int targetRow) {
-        return currentCol != targetCol && currentRow != targetRow;
-    }
+            if (row == to.getRow() && col == to.getCol()) {
+                if (board.isAnotherTeam(from, to)) {
+                    return false;
+                }
 
-    private boolean isOtherTeam(Board board, int currentRow, int currentCol, int targetRow, int targetCol) {
-        Piece currentPiece = board.findPieceByPosition(Position.of(currentRow, currentCol));
-        Piece targetPiece = board.findPieceByPosition(Position.of(targetRow, targetCol));
-        return currentPiece.getTeam() != targetPiece.getTeam();
-    }
-
-    private boolean checkClearPath(Board board, int min, int max, int currentCol) {
-        for (int temp = min; temp < max; temp++) {
-            if (board.isExistPosition(Position.of(temp, currentCol))) {
                 return true;
             }
+            if (board.isExistPosition(Position.of(row, col))) {
+                return false;
+            }
+        }
+    }
+
+    private boolean isNotStraightPath(Position from, Position to) {
+        if (from.getCol() != to.getCol() && from.getRow() != to.getRow()) {
+            return true;
         }
         return false;
     }

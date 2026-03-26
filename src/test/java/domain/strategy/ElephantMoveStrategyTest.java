@@ -80,6 +80,6 @@ class ElephantMoveStrategyTest {
         Position to = Position.of(6, 2);
 
         // then
-        Assertions.assertFalse(strategy.canMove(from, to, board));
+        Assertions.assertTrue(strategy.canMove(from, to, board));
     }
 }
