@@ -11,19 +11,8 @@ public class CannonMoveStrategy implements MoveStrategy {
         if (isNotCorrectPath(from, to)) 
             return false;
 
-        int nx = 0, ny = 0;
-        if (from.getRow() < to.getRow()) {
-            nx = 1;
-        }
-        if (from.getRow() > to.getRow()) {
-            nx = -1;
-        }
-        if (from.getCol() < to.getCol()) {
-            ny = 1;
-        }
-        if (from.getCol() > to.getCol()) {
-            ny = -1;
-        }
+        int nx = determineNx(from, to);
+        int ny = determineNy(from, to);
 
         int pieceCount = 0;
         int row = from.getRow();
@@ -33,13 +22,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             col += ny;
 
             if (row == to.getRow() && col == to.getCol()) {
-                if (!isCannon(board, to.getRow(), to.getCol())
-                        && board.isAnotherTeam(from, to)
-                        && pieceCount == 1) {
-                    return true;
-                }
-
-                return false;
+                return isCannonValidTarget(from, to, board, pieceCount);
             }
 
             if (board.isExistPosition(Position.of(row, col))) {
@@ -54,6 +37,36 @@ public class CannonMoveStrategy implements MoveStrategy {
                 return false;
             }
         }
+    }
+
+    private boolean isCannonValidTarget(Position from, Position to, Board board, int pieceCount) {
+        if (!isCannon(board, to.getRow(), to.getCol())
+                && board.isAnotherTeam(from, to)
+                && pieceCount == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    private int determineNx(Position from, Position to) {
+        if (from.getRow() < to.getRow()) {
+            return 1;
+        }
+        if (from.getRow() > to.getRow()) {
+            return -1;
+        }
+        return 0;
+    }
+
+    private int determineNy(Position from, Position to) {
+        if (from.getCol() < to.getCol()) {
+            return 1;
+        }
+        if (from.getCol() > to.getCol()) {
+            return -1;
+        }
+
+        return 0;
     }
 
     private boolean isCannon(Board board, int row, int col) {
