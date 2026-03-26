@@ -17,7 +17,6 @@ public class Janggi {
         Players players = getPlayer();
         Board board = getBoard();
 
-        OutputView.printBoard(board.getFormatBoard());
         play(players, board);
     }
 
@@ -47,8 +46,6 @@ public class Janggi {
         while (true) {
             turn(players.getPlayerBySide(Side.CHO), board);
             turn(players.getPlayerBySide(Side.HAN), board);
-
-            //todo 장군 및 외통수 추가 시 종료 조건 및 반복
         }
     }
 
@@ -58,8 +55,6 @@ public class Janggi {
         Position to = getTo(player);
 
         board.move(from, to, player.getSide());
-
-        OutputView.printBoard(board.getFormatBoard());
     }
 
     private Position getFrom(Player player) {
