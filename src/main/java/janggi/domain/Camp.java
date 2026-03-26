@@ -1,20 +1,27 @@
 package janggi.domain;
 
 public enum Camp {
-    CHO(1),
-    HAN(-1);
+    CHO(1, 0),
+    HAN(-1, 9);
 
     private final int direction;
+    private final int initRowPosition;
 
-    Camp(int direction) {
+    Camp(int direction, int initRowPosition) {
         this.direction = direction;
+        this.initRowPosition = initRowPosition;
+    }
+
+
+    public boolean isCho(){
+        return this == CHO;
     }
 
     public int direction() {
         return direction;
     }
 
-    public boolean isCho(){
-        return this == CHO;
+    public int initRowPosition() {
+        return initRowPosition;
     }
 }
