@@ -36,11 +36,14 @@ public class Ma extends Piece {
     @Override
     public Path calculatePath(Position src, Position dest) {
         for (List<Direction> path : paths) {
-            int nextX = src.getX() + path.get(0).getOffsetX() + path.get(1).getOffsetX();
-            int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY();
-            Position nextPosition = new Position(nextX, nextY);
-            if (dest.equals(nextPosition)) {
-                return new Path(src, dest, List.of(nextPosition));
+            try {
+                int nextX = src.getX() + path.get(0).getOffsetX() + path.get(1).getOffsetX();
+                int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY();
+                Position nextPosition = new Position(nextX, nextY);
+                if (dest.equals(nextPosition)) {
+                    return new Path(src, dest, List.of(nextPosition));
+                }
+            } catch (IllegalArgumentException e) {
             }
         }
         throw new IllegalArgumentException("목적지로 이동할 수 없습니다.");

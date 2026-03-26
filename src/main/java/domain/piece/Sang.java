@@ -37,16 +37,19 @@ public class Sang extends Piece {
     @Override
     public Path calculatePath(Position src, Position dest) {
         for (List<Direction> path : paths) {
-            int nextX = src.getX() + path.get(0).getOffsetX() + path.get(1).getOffsetX() + path.get(2).getOffsetX();
-            int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY() + path.get(2).getOffsetX();
-            Position nextPosition = new Position(nextX, nextY);
-            if (dest.equals(nextPosition)) {
-                List<Position> positionList = new ArrayList<>();
-                for (Direction direction : path) {
-                    positionList.add(
-                            new Position(src.getX() + direction.getOffsetX(), src.getY() + direction.getOffsetY()));
+            try {
+                int nextX = src.getX() + path.get(0).getOffsetX() + path.get(1).getOffsetX() + path.get(2).getOffsetX();
+                int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY() + path.get(2).getOffsetX();
+                Position nextPosition = new Position(nextX, nextY);
+                if (dest.equals(nextPosition)) {
+                    List<Position> positionList = new ArrayList<>();
+                    for (Direction direction : path) {
+                        positionList.add(
+                                new Position(src.getX() + direction.getOffsetX(), src.getY() + direction.getOffsetY()));
+                    }
+                    return new Path(src, dest, positionList);
                 }
-                return new Path(src, dest, positionList);
+            } catch (IllegalArgumentException e) {
             }
         }
         throw new IllegalArgumentException("목적지로 이동할 수 없습니다.");
