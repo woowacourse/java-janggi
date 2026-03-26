@@ -66,4 +66,9 @@ public class Sa implements Piece {
     public boolean isSameType(TeamType nowTurn) {
         return nowTurn == teamType;
     }
+
+    @Override
+    public PieceType getPieceType() {
+        return pieceType;
+    }
 }

@@ -63,4 +63,9 @@ public class Jol implements Piece {
     public boolean isSameType(TeamType nowTurn) {
         return teamType == nowTurn;
     }
+
+    @Override
+    public PieceType getPieceType() {
+        return pieceType;
+    }
 }

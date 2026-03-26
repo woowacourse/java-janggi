@@ -183,7 +183,7 @@
 - Position
     - int x, int y
 - Board
-    - Side han, Side cho
+    - Side han, Side chu
 - JanggiRunner
 - InputView
 - OutputView
