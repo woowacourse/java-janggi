@@ -17,18 +17,11 @@ public class Board {
         this.board = board;
     }
 
-    public PathPieces findPieceInPath(Path path) {
-        List<Position> wayPoints = path.getWaypoints();
-        List<Piece> pieces = new ArrayList<>();
-
-        for (Position point : wayPoints) {
-            Piece pointPiece = findPiece(point);
-            if (!(pointPiece instanceof None)) {
-                pieces.add(pointPiece);
-            }
-        }
-
-        return new PathPieces(findPiece(path.getSrc()), pieces, findPiece(path.getDest()));
+    public boolean canMove(Position src, Position dest) {
+        Piece piece = findPiece(src);
+        Path path = piece.calculatePath(src, dest);
+        PathPieces pathPieces = findPieceInPath(path);
+        return piece.validatePath(pathPieces);
     }
 
     public void move(Position src, Position dest) {
@@ -51,9 +44,21 @@ public class Board {
         return new BoardDTO(stringBoard);
     }
 
+    private PathPieces findPieceInPath(Path path) {
+        List<Position> wayPoints = path.getWaypoints();
+        List<Piece> pieces = new ArrayList<>();
+
+        for (Position point : wayPoints) {
+            Piece pointPiece = findPiece(point);
+            if (!(pointPiece instanceof None)) {
+                pieces.add(pointPiece);
+            }
+        }
+
+        return new PathPieces(findPiece(path.getSrc()), pieces, findPiece(path.getDest()));
+    }
+
     private Piece findPiece(Position position) {
         return board.get(position);
     }
-
-    // path 받아서 pathPieces 생성하는 메서드 구현
 }
