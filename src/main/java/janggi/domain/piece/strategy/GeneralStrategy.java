@@ -5,7 +5,7 @@ import janggi.domain.Position;
 
 import java.util.List;
 
-public class DummyStrategy implements MoveStrategy{
+public class GeneralStrategy implements MoveStrategy{
     @Override
     public List<Path> findMovablePaths(Position current) {
         return List.of();
