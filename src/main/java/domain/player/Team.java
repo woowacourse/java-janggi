@@ -1,18 +1,14 @@
 package domain.player;
 
 public enum Team {
-    CHO(1),
-    HAN(-1),
-    NULL(0);
+    CHO(0),
+    HAN(9),
+    NULL(-1);
 
-    private final int direction;
+    private final int column;
 
-    Team(int direction) {
-        this.direction = direction;
-    }
-
-    public int getDirection() {
-        return direction;
+    Team(int column) {
+        this.column = column;
     }
 
     public boolean isHan() {
@@ -21,5 +17,9 @@ public enum Team {
 
     public boolean isCho() {
         return this == CHO;
+    }
+
+    public int getColumn() {
+        return column;
     }
 }

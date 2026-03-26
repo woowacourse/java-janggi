@@ -23,13 +23,13 @@ public class BoardFactory {
 
     public static Board createWithFormation(Formation choFormation, Formation hanFormation) {
         Map<Position, Piece> board = createBasicBoard();
-        putChoFormation(board, choFormation);
-        putHanFormation(board, hanFormation);
+        putFormation(board, choFormation, Team.CHO);
+        putFormation(board, hanFormation, Team.HAN);
         return new Board(board);
     }
 
-    private static void putChoFormation(Map<Position, Piece> board, Formation choFormation) {
-        List<PieceType> formation = choFormation.getFormation();
+    private static void putFormation(Map<Position, Piece> board, Formation inputFormation, Team team) {
+        List<PieceType> formation = inputFormation.getFormation();
         List<Integer> xPositions = List.of(1, 2, 6, 7);
 
         for (int i = 0; i < formation.size(); i++) {
@@ -37,25 +37,9 @@ public class BoardFactory {
             int x = xPositions.get(i);
 
             if (type == MA) {
-                board.put(new Position(x, 0), new Ma(Team.CHO));
+                board.put(new Position(x, team.getColumn()), new Ma(team));
             } else if (type == SANG) {
-                board.put(new Position(x, 0), new Sang(Team.CHO));
-            }
-        }
-    }
-
-    private static void putHanFormation(Map<Position, Piece> board, Formation hanFormation) {
-        List<PieceType> formation = hanFormation.getFormation();
-        List<Integer> xPositions = List.of(1, 2, 6, 7);
-
-        for (int i = 0; i < formation.size(); i++) {
-            PieceType type = formation.get(i);
-            int x = xPositions.get(i);
-
-            if (type == MA) {
-                board.put(new Position(x, 9), new Ma(Team.HAN));
-            } else if (type == SANG) {
-                board.put(new Position(x, 9), new Sang(Team.HAN));
+                board.put(new Position(x, team.getColumn()), new Sang(team));
             }
         }
     }
