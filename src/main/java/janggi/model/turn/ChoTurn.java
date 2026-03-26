@@ -3,6 +3,7 @@ package janggi.model.turn;
 import janggi.model.Board;
 import janggi.model.Team;
 import janggi.model.position.Position;
+import java.util.function.Consumer;
 
 public class ChoTurn implements Turn {
 
@@ -30,5 +31,10 @@ public class ChoTurn implements Turn {
     @Override
     public boolean isGameOver() {
         return false;
+    }
+
+    @Override
+    public void accept(Consumer<Board> consumer) {
+        consumer.accept(board);
     }
 }
