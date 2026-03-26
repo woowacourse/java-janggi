@@ -133,9 +133,9 @@
     - [x] [규칙] 기물의 고유한 식별자 `private final String pieceNumber`
     - [x] [규칙] 기물의 고유한 종류 `private final PieceType pieceType`
     - [x] [규칙] 기물의 소속 진영 `private final Side side`
-    - [x] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환  
+    - [x] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환
       `public Paths calculatePaths(Position current)`
-    - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
+    - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환
       `public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState)`
     - [x] [규칙] 기물의 상태를 포장된 객체로 반환 `public PieceVO toVO()`
 
