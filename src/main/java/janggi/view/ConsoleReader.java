@@ -3,6 +3,7 @@ package janggi.view;
 import java.util.Scanner;
 
 public class ConsoleReader implements Input {
+
     private static final String NUMERIC_FORMAT_REGEX = "-?\\d+";
 
     private final Scanner scanner;

@@ -4,6 +4,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 
 public abstract class ArrangementStrategy {
+
     protected final StrategyLabel label;
 
     protected ArrangementStrategy(StrategyLabel label) {

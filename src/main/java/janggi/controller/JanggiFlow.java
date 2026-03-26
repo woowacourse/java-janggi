@@ -12,6 +12,7 @@ import janggi.view.ApplicationView;
 import java.util.List;
 
 public class JanggiFlow {
+
     private final ApplicationView view;
     private final List<ArrangementStrategy> strategies;
 

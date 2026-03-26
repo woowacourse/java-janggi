@@ -14,5 +14,4 @@ public class Ma extends Piece {
     public boolean isEmpty() {
         return false;
     }
-
 }

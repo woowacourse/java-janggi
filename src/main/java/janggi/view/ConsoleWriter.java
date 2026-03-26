@@ -3,6 +3,7 @@ package janggi.view;
 import java.util.List;
 
 public class ConsoleWriter implements Output {
+
     @Override
     public void printPromptMessage(String promptMessage) {
         System.out.println(promptMessage);

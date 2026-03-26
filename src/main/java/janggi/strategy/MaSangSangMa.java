@@ -20,5 +20,4 @@ public class MaSangSangMa extends ArrangementStrategy {
         board[row][6] = new Sang(side);
         board[row][7] = new Ma(side);
     }
-
 }

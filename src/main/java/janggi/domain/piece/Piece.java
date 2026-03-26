@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Side;
 
 public abstract class Piece {
+
     protected final String name;
     protected final Side side;
 
