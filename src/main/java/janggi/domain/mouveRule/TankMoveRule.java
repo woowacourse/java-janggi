@@ -1,52 +1,56 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.Board;
+import janggi.domain.BoardView;
 import janggi.domain.vo.Position;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TankMoveRule implements MoveRule {
     @Override
-    public void move(Position from, Position to, Board board) {
+    public boolean canMove(Position from, Position to, BoardView board) {
         int fromRow = from.getRow();
         int fromCol = from.getCol();
-
         int toRow = to.getRow();
         int toCol = to.getCol();
 
-        if ((fromRow != toRow) && (fromCol != toCol)) {
-            throw new IllegalArgumentException("직선으로만 이동할 수 있습니다.");
+        if (!isStraightLine(fromRow, fromCol, toRow, toCol)) {
+            return false;
         }
-        validatePath(board, fromRow, toRow, fromCol, toCol);
 
+        return isPathClear(board, fromRow, fromCol, toRow, toCol);
     }
 
-    private static void validatePath(Board board, int fromRow, int toRow, int fromCol, int toCol) {
-        List<Position> pathPositions = new ArrayList<>();
-        int startIndex = -1;
-        int endIndex = -1;
+    private boolean isStraightLine(int fromRow, int fromCol, int toRow, int toCol) {
+        return fromRow == toRow || fromCol == toCol;
+    }
 
-        if (fromRow == toRow) { // 행이동
-            startIndex = Math.min(fromCol, toCol);
-            endIndex = Math.max(fromCol, toCol);
-
-            for (int index = startIndex + 1; index < endIndex; index++) {
-                pathPositions.add(new Position(toRow, index));
-            }
+    private boolean isPathClear(BoardView board, int fromRow, int fromCol, int toRow, int toCol) {
+        if (fromRow == toRow) {
+            return isHorizontalPathClear(board, fromRow, fromCol, toCol);
         }
 
-        if (fromCol == toCol) { // 열이동
-            startIndex = Math.min(fromRow, toRow);
-            endIndex = Math.max(fromRow, toRow);
-            for (int index = startIndex + 1; index < endIndex; index++) {
-                pathPositions.add(new Position(index, toCol));
-            }
-        }
+        return isVerticalPathClear(board, fromCol, fromRow, toRow);
+    }
 
-        for (Position position : pathPositions) {
-            if (!board.isEmptyPosition(position)) {
-                throw new IllegalArgumentException("중간 경로에 기물이 있습니다.");
+    private boolean isHorizontalPathClear(BoardView board, int row, int fromCol, int toCol) {
+        int start = Math.min(fromCol, toCol);
+        int end = Math.max(fromCol, toCol);
+
+        for (int col = start + 1; col < end; col++) {
+            if (!board.isEmptyPosition(new Position(row, col))) {
+                return false;
             }
         }
+        return true;
+    }
+
+    private boolean isVerticalPathClear(BoardView board, int col, int fromRow, int toRow) {
+        int start = Math.min(fromRow, toRow);
+        int end = Math.max(fromRow, toRow);
+
+        for (int row = start + 1; row < end; row++) {
+            if (!board.isEmptyPosition(new Position(row, col))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

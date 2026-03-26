@@ -1,7 +1,7 @@
 package janggi.domain.mouveRule;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static janggi.domain.BoardFixture.put;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.piece.Soldier;
@@ -10,27 +10,35 @@ import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
 
 class TankMoveRuleTest {
-    private Board board = new Board("테스트");
+    private Board board = Board.empty();
     private Position from;
     private Position to;
-    private final MoveRule moveRule = new TankMoveRule();
+    private MoveRule moveRule = new TankMoveRule();
+
 
     @Test
-    void 도착지점이_출발지점과_같은_행이거나_열이면_정상적으로_이동한다() {
+    void 도착지점이_출발지점과_같은_행이면_정상적으로_이동한다() {
         from = new Position(0, 0);
         to = new Position(0, 2);
 
-        assertDoesNotThrow(() -> moveRule.move(from, to, board));
+        assertThat(moveRule.canMove(from, to, board)).isTrue();
     }
 
     @Test
-    void 직선으로_이동할_수_없다면_예외가_발생한다() {
+    void 도착지점이_출발지점과_같은_열이면_정상적으로_이동한다() {
+        from = new Position(0, 0);
+        to = new Position(2, 0);
+
+        assertThat(moveRule.canMove(from, to, board)).isTrue();
+    }
+
+
+    @Test
+    void 대각선으로_이동할수_없다() {
         from = new Position(0, 0);
         to = new Position(3, 3);
 
-        assertThatThrownBy(() -> moveRule.move(from, to, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("직선으로만");
+        assertThat(moveRule.canMove(from, to, board)).isFalse();
     }
 
     @Test
@@ -39,10 +47,9 @@ class TankMoveRuleTest {
         to = new Position(0, 3);
 
         Position other = new Position(0, 2);
-        board.place(other, new Soldier(Team.HAN));
+        //board.place(other, new Soldier(Team.HAN));
+        put(board, other, new Soldier(Team.HAN));
 
-        assertThatThrownBy(() -> moveRule.move(from, to, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("중간 경로");
+        assertThat(moveRule.canMove(from, to, board)).isFalse();
     }
 }
