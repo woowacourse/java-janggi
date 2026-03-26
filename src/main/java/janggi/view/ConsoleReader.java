@@ -13,7 +13,7 @@ public class ConsoleReader implements Input {
     }
 
     @Override
-    public int readInteger() {
+    public int readInt() {
         String input = scanner.nextLine().trim();
         validateIsBlank(input);
         validateIsNumeric(input);

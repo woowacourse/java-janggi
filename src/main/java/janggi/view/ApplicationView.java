@@ -16,8 +16,7 @@ public class ApplicationView {
         this.inputReader = inputReader;
     }
 
-    public int
-    requestArrangementStrategyDecision(Side side, List<ArrangementStrategy> strategies) {
+    public int requestArrangementStrategyDecision(Side side, List<ArrangementStrategy> strategies) {
         outputWriter.printPromptMessage(side.getName() + "팀의 초기화 전략 번호를 입력해주세요.");
 
         for (ArrangementStrategy strategy : strategies) {
@@ -25,7 +24,7 @@ public class ApplicationView {
             outputWriter.printPromptMessage(strategyDecisionOption);
         }
 
-        return retry(inputReader::readInteger);
+        return retry(inputReader::readInt);
     }
 
     public void responseBoardArray(List<List<Piece>> board2DArray) {
