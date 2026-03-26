@@ -7,6 +7,8 @@ import java.util.StringJoiner;
 
 public class OutputView {
 
+    private static final String ERROR_PREFIX = "[ERROR] ";
+
     public void printBoard(BoardDto boardDto) {
         // 상단 가로 좌표 출력 (1~9)
         System.out.print("   ");
@@ -35,6 +37,11 @@ public class OutputView {
             stringJoiner.add(" (" + position.row() + "," + position.column() + ")");
         }
         System.out.println(stringJoiner + "입니다.");
+        System.out.println();
+    }
+
+    public void printErrorMessage(String errorMessage) {
+        System.out.println(ERROR_PREFIX + errorMessage);
         System.out.println();
     }
 

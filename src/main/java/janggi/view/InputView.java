@@ -41,16 +41,20 @@ public class InputView {
 
     private PositionDto readPosition() {
         String input = scanner.nextLine();
-        List<Integer> position = Arrays.stream(input.split(",", 2))
+        String[] split = input.split(",");
+        if (split.length != 2) {
+            throw new IllegalArgumentException("콤마로 구분된 두 개의 숫자를 올바르게 입력해주세요.");
+        }
+        List<Integer> position = Arrays.stream(split)
                 .map(str -> {
                     try {
-                        return Integer.parseInt(str.trim());
+                        return Integer.parseInt(str.strip());
                     } catch (NumberFormatException e) {
                         throw new IllegalArgumentException("좌표는 숫자입니다.");
                     }
-
                 }).toList();
 
         return PositionDto.from(position);
     }
+    
 }
