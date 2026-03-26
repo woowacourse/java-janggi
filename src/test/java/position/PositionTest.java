@@ -13,8 +13,8 @@ public class PositionTest {
     void of_ReturnsPosition_WhenCoordinateIsWithinBoard() {
         Position position = Position.of(1, 2);
 
-        assertThat(position.row()).isEqualTo(1);
-        assertThat(position.column()).isEqualTo(2);
+        assertThat(position.getRow()).isEqualTo(1);
+        assertThat(position.getColumn()).isEqualTo(2);
     }
 
     @Test

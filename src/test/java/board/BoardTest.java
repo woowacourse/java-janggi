@@ -50,4 +50,24 @@ public class BoardTest {
     void 장기판_존재하지_않는_포지션의_기물_조회_() {
 
     }
+
+    @Test
+    @DisplayName("졸이 기물의 이동했을 때 상대 진영의 기물을 포획할 수 있다.")
+    void 졸_기물_포획_성공() {
+        // given
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+        board.move(Position.of(7,1), Position.of(6,1), Side.HAN);
+        board.move(Position.of(6,1), Position.of(5,1), Side.HAN);
+
+        // when
+        Position startPosition = Position.of(4, 1);
+        Position endPosition = Position.of(5, 1);
+        board.move(startPosition, endPosition, Side.CHO);
+
+        // then
+        Piece piece = board.findBy(endPosition);
+        assertThat(piece).isEqualTo(Piece.of(Side.CHO, PieceType.PAWN));
+    }
 }

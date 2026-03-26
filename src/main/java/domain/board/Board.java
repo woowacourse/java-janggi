@@ -99,4 +99,25 @@ public class Board {
                         entry -> PieceDto.from(entry.getValue()))
                 ));
     }
+
+    public void move(Position from, Position to, Side side) {
+        if (!state.containsKey(from)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
+
+        Piece fromPiece = state.get(from);
+        Piece toPiece = state.get(to);
+
+        if (!fromPiece.isSameSide(side)) {
+            throw new IllegalArgumentException("본인 진영의 말만 이동할 수 있습니다.");
+        }
+        if (toPiece != null && toPiece.isSameSide(side)) {
+            throw new IllegalArgumentException("본인 진영의 말은 포획할 수 없습니다.");
+        }
+
+        if (fromPiece.canMove(state, from, to)) {
+            state.put(to, fromPiece);
+            state.remove(from);
+        }
+    }
 }

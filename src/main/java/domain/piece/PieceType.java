@@ -1,21 +1,27 @@
 package domain.piece;
 
 public enum PieceType {
-    GENERAL("궁"),
-    CHARIOT("차"),
-    CANON("포"),
-    HORSE("마"),
-    ELEPHANT("상"),
-    COUNSELOR("사"),
-    PAWN("병");
+    GENERAL("궁", new GeneralMovingCondition()),
+    CHARIOT("차", new ChariotMovingCondition()),
+    CANON("포", new CanonMovingCondition()),
+    HORSE("마", new HorseMovingCondition()),
+    ELEPHANT("상", new ElephantMovingCondition()),
+    COUNSELOR("사", new CounselorMovingCondition()),
+    PAWN("병", new PawnMovingCondition());
 
     private final String name;
+    private final MovingCondition movingCondition;
 
-    PieceType(String name) {
+    PieceType(String name, MovingCondition movingCondition) {
         this.name = name;
+        this.movingCondition = movingCondition;
     }
 
     public String getName() {
         return name;
+    }
+
+    public MovingCondition getMovingCondition() {
+        return movingCondition;
     }
 }
