@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.Position;
 import domain.Side;
+import domain.piece.Cannon;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 
@@ -35,6 +36,11 @@ public class Board {
         return board[position.col()][position.row()].equals(piece);
     }
 
+    public boolean isCannon(Position position) {
+        Piece piece = board[position.col()][position.row()];
+        return piece.equals(new Cannon(Side.HAN)) || piece.equals(new Cannon(Side.CHU));
+    }
+
     public Piece getPieceBy(Position start) {
         validateRange(start);
         validateStartPosition(start);
@@ -42,15 +48,22 @@ public class Board {
     }
 
     public boolean isAvailableDestination(Position destination) {
-        if (destination.col() < POSITION_THRESHOLD || destination.col() >= COL_SIZE) {
-            return false;
-        }
-
-        if (destination.row() < POSITION_THRESHOLD || destination.row() >= ROW_SIZE) {
+        if (isInvalidRange(destination)) {
             return false;
         }
 
         return isNotFriendlyPiece(destination);
+    }
+
+    public boolean isInvalidRange(Position destination) {
+        if (destination.col() < POSITION_THRESHOLD || destination.col() >= COL_SIZE) {
+            return true;
+        }
+        if (destination.row() < POSITION_THRESHOLD || destination.row() >= ROW_SIZE) {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean isOpponentPiece(Position position) {
