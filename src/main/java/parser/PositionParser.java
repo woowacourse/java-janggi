@@ -13,12 +13,11 @@ public class PositionParser {
     public static Position parsePosition(String input) {
 
         int[] coordinates = Arrays.stream(input.split(SEPARATOR))
-                .map(String::trim) // 앞뒤 공백 제거
-                .mapToInt(PositionParser::parseInt) // int 기본형으로 바로 변환
+                .map(String::trim)
+                .mapToInt(PositionParser::parseInt)
                 .toArray();
 
         validateSize(coordinates);
-
         return new Position(coordinates[0], coordinates[1]);
     }
 
