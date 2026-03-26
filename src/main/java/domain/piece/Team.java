@@ -6,9 +6,13 @@ public enum Team {
     HAN(false),
     ;
 
-    private final boolean isFirst;
+    private final boolean isCho;
 
-    Team(boolean isFirst) {
-        this.isFirst = isFirst;
+    Team(boolean isCho) {
+        this.isCho = isCho;
+    }
+
+    public boolean isCho() {
+        return isCho;
     }
 }

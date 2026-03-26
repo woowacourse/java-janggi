@@ -1,7 +1,8 @@
 package domain.piece;
 
-import domain.board.Board;
 import domain.coordination.Coordination;
+
+import java.util.Map;
 
 public interface Piece {
 
@@ -9,5 +10,9 @@ public interface Piece {
 
     Team team();
 
-    boolean canMove(Coordination from, Coordination to, Board board);
+    void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board);
+
+    void isSameTeam(Piece piece);
+
+    boolean isSameTeam(Team team);
 }

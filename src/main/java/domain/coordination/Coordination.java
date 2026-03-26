@@ -16,6 +16,22 @@ public class Coordination {
         return new Coordination(new Column(columnIndex), new Row(rowIndex));
     }
 
+    public int differentColumn(Coordination to) {
+        return to.differentColumn(this.column);
+    }
+
+    private int differentColumn(Column column) {
+        return this.column.different(column);
+    }
+
+    public int differentRow(Coordination to) {
+        return to.differentRow(this.row);
+    }
+
+    private int differentRow(Row row) {
+        return this.row.different(row);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -1,7 +1,8 @@
 package domain.piece;
 
-import domain.board.Board;
 import domain.coordination.Coordination;
+
+import java.util.Map;
 
 public class General extends AbstractPiece {
 
@@ -10,7 +11,7 @@ public class General extends AbstractPiece {
     }
 
     @Override
-    public boolean canMove(Coordination from, Coordination to, Board board) {
-        return false;
+    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+
     }
 }

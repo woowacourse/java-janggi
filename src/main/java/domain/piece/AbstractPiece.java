@@ -1,8 +1,11 @@
 package domain.piece;
 
+import domain.piece.error.PieceException;
+import util.ErrorMessage;
+
 public abstract class AbstractPiece implements Piece {
 
-    private final Team team;
+    protected final Team team;
 
     public AbstractPiece(Team team) {
         this.team = team;
@@ -15,5 +18,27 @@ public abstract class AbstractPiece implements Piece {
     @Override
     public boolean isEmpty() {
         return false;
+    }
+
+    @Override
+    public void isSameTeam(Piece piece) {
+        if (!isEmptyPiece(piece)) {
+            validateSameTeam(piece);
+        }
+    }
+
+    private boolean isEmptyPiece(Piece piece) {
+        return piece.isEmpty();
+    }
+
+    @Override
+    public boolean isSameTeam(Team team) {
+        return this.team.equals(team);
+    }
+
+    private void validateSameTeam(Piece piece) {
+        if (piece.isSameTeam(this.team)) {
+            throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
+        }
     }
 }
