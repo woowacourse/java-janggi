@@ -9,16 +9,16 @@ import java.util.List;
 
 public class OutputView {
 
-    public static final String INPUT_PLAYER_NAMES =
+    private static final String INPUT_PLAYER_NAMES =
             "초, 한 순서대로 이름을 입력해주세요(예, pobi,quda)";
 
-    public static final String HORSE_ELEPHANT_INPUT_FORMATION =
+    private static final String HORSE_ELEPHANT_INPUT_FORMATION =
             "%s의 상차림을 입력해주세요.(예, 상마상마,마상마상, 상마마상, 마상상마)\n";
 
-    public static final String INPUT_PIECE_MOVE =
+    private static final String INPUT_PIECE_MOVE =
             "%s(%s)가 이동할 기물을 선택해주세요.\n";
 
-    public static final String INPUT_POSITION_MOVE =
+    private static final String INPUT_POSITION_MOVE =
             "%s(%s)가 이동할 위치를 입력해주세요.\n";
 
     private OutputView() {
