@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.Space;
 import janggi.domain.Team;
@@ -46,8 +47,8 @@ public class Pho extends Piece {
     }
 
     @Override
-    public List<Position> getRoutes(Position from, Position to) {
-        return List.of();
+    public Path getPath(Position from, Position to) {
+        return null;
     }
 
     private boolean moveStrategy(Position from, Position to) {

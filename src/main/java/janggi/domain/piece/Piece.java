@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.Space;
 import janggi.domain.Team;
@@ -17,7 +18,7 @@ public abstract class Piece implements Space {
 
     public abstract void validateMove(Position from, Position to);
 
-    public abstract List<Position> getRoutes(Position from, Position to);
+    public abstract Path getPath(Position from, Position to);
 
     public void validateArrival(Space space) {
         if (space.isBlank()) {
