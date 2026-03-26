@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.Side;
-import janggi.domain.strategy.PoMoveStrategy;
+import janggi.domain.policy.JumpPolicy;
 
 public class Po extends LinearPiece {
     public Po(Side side) {
-        super(new PoMoveStrategy(), side);
+        super(new JumpPolicy(), side);
     }
 }

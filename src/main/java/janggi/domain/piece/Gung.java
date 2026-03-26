@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Movement;
 import janggi.domain.Side;
-import janggi.domain.strategy.DefaultMoveStrategy;
+import janggi.domain.policy.ClearPathPolicy;
 
 import java.util.List;
 
@@ -15,6 +15,6 @@ public class Gung extends StepPatternPiece {
     );
 
     public Gung(Side side) {
-        super(MOVE_RANGE, new DefaultMoveStrategy(), side);
+        super(MOVE_RANGE, new ClearPathPolicy(), side);
     }
 }

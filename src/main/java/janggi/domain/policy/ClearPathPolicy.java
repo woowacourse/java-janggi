@@ -1,4 +1,4 @@
-package janggi.domain.strategy;
+package janggi.domain.policy;
 
 import janggi.domain.BoardInterface;
 import janggi.domain.Position;
@@ -6,7 +6,7 @@ import janggi.domain.Side;
 
 import java.util.List;
 
-public class DefaultMoveStrategy implements MoveStrategy {
+public class ClearPathPolicy implements RoutePolicy {
     @Override
     public boolean isMovable(List<Position> path, Side side, BoardInterface boardInterface) {
         return isMovableFirst(path, boardInterface) && isMovableLast(path.getLast(),side,boardInterface);

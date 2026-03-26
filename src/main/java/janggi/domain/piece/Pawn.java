@@ -4,7 +4,7 @@ import janggi.domain.BoardInterface;
 import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.strategy.DefaultMoveStrategy;
+import janggi.domain.policy.ClearPathPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Pawn extends BasePiece {
     private final List<List<Movement>> MOVE_RANGE;
 
     public Pawn(Side side, List<List<Movement>> moveRange) {
-        super(new DefaultMoveStrategy(), side);
+        super(new ClearPathPolicy(), side);
         MOVE_RANGE = moveRange;
     }
 
@@ -43,7 +43,7 @@ public class Pawn extends BasePiece {
 
     @Override
     public boolean isMovable(List<Position> path, BoardInterface boardInterface) {
-        return moveStrategy.isMovable(path, side, boardInterface);
+        return routePolicy.isMovable(path, side, boardInterface);
     }
 
     private List<Position> calculatePath(Position start, List<Movement> path) {

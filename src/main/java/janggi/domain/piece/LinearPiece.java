@@ -4,15 +4,15 @@ import janggi.domain.BoardInterface;
 import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.strategy.MoveStrategy;
+import janggi.domain.policy.RoutePolicy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class LinearPiece extends BasePiece {
 
-    public LinearPiece(MoveStrategy moveStrategy, Side side) {
-        super(moveStrategy, side);
+    public LinearPiece(RoutePolicy routePolicy, Side side) {
+        super(routePolicy, side);
     }
 
     @Override
@@ -29,7 +29,7 @@ public abstract class LinearPiece extends BasePiece {
 
     @Override
     public boolean isMovable(List<Position> path, BoardInterface boardInterface) {
-        return moveStrategy.isMovable(path, side, boardInterface);
+        return routePolicy.isMovable(path, side, boardInterface);
     }
 
     private List<Position> calculatePath(Position start, boolean isVertical, int dist) {
