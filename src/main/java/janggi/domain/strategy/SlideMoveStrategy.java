@@ -5,6 +5,7 @@ import janggi.domain.Path;
 import janggi.domain.Paths;
 import janggi.domain.PieceVO;
 import janggi.domain.Position;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -21,18 +22,38 @@ public class SlideMoveStrategy implements MoveStrategy {
     }
 
     private void addSlidePath(Position current, Direction baseDir, Paths paths) {
+        Path path = new Path();
+        Position next = current;
         try {
-            Path path = new Path();
-            Position next = baseDir.move(current);
-            path.makePath(next);
-            paths.addPath(path);
-            addSlidePath(next, baseDir, paths);
+            while (true) {
+                next = baseDir.move(next);
+                path.makePath(next);
+            }
         } catch (IllegalArgumentException e) {
+            paths.addPath(path);
         }
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO) {
-        return null;
+    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPiece) {
+        List<Position> destinations = new ArrayList<>();
+        for (Path route : routes) {
+            validateSlidePath(route, boardState, destinations, movingPiece);
+        }
+        return destinations;
+    }
+
+    private void validateSlidePath(Path route, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+        for (Position pos : route) {
+            if (processAndCheckBlocked(pos, state, dests, me)) break;
+        }
+    }
+
+    private boolean processAndCheckBlocked(Position pos, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+        PieceVO target = state.get(pos);
+        if (target == null || !target.isSameSide(me)) {
+            dests.add(pos);
+        }
+        return target != null;
     }
 }

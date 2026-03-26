@@ -7,6 +7,7 @@ import janggi.domain.PieceVO;
 import janggi.domain.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,31 +38,32 @@ public class HorseMoveStrategy implements MoveStrategy {
             path.makePath(step2);
             paths.addPath(path);
         } catch (IllegalArgumentException ignored) {
-            // 보드 밖으로 나가는 좌표가 하나라도 발생하면 해당 경로는 물리적으로 불가하므로 폐기
+
         }
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO) {
+    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPiece) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
-            validateAndAddDestination(route, boardState, destinations);
+            validateHorsePath(route, boardState, destinations, movingPiece);
         }
         return destinations;
     }
 
-    private void validateAndAddDestination(Path route, Map<Position, PieceVO> boardState, List<Position> destinations) {
-        int step = 0;
-        for (Position pos : route) {
-            PieceVO target = boardState.get(pos);
+    private void validateHorsePath(Path route, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+        Iterator<Position> it = route.iterator();
+        Position transit = it.next(); // 멱 (1번째)
 
-            if (step == 0 && target != null) { // Depth 2: 멱(첫 번째 좌표)에 기물이 있으면 즉시 차단
-                break;
-            }
-            if (step == 1 && target == null) { // Depth 2: 목적지(두 번째 좌표)가 비어있으면 이동 가능
-                destinations.add(pos);
-            }
-            step++;
+        if (state.get(transit) == null) {
+            addIfValid(it.next(), state, dests, me); // 도착지 (2번째)
+        }
+    }
+
+    private void addIfValid(Position dest, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+        PieceVO target = state.get(dest);
+        if (target == null || !target.isSameSide(me)) {
+            dests.add(dest);
         }
     }
 }

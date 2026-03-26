@@ -25,15 +25,18 @@ public class Runner {
         Players players = initialPlayers();
         Board board = Board.initialize();
         printBoard(board);
-
+        Side currentSide = Side.CHO;
+        printPlayerTurnNotice(players, currentSide);
         playerTurn(players, board);
+        printPlayerTurnNotice(players, currentSide.opposite());
+
     }
 
     private void playerTurn(Players players, Board board) {
         Position selected = selectPosition();
+//        outputView.printPiecePositionNotice(selected.row(), selected.column());
         List<Position> destinations = board.calculateDestinations(selected);
-        System.out.println(destinations);
-//        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
+        System.out.println("destinations" + destinations);
         movePiece(board, selected, destinations);
     }
 
@@ -58,9 +61,9 @@ public class Runner {
         });
     }
 
-    private void printPlayerTurnNotice(Players players, Side side) {
-        Player player = players.findBySide(side);
-        outputView.printPlayerTurnNotice(side.getDisplayName(), player.getNickname());
+    private void printPlayerTurnNotice(Players players, Side currentSide) {
+        Player player = players.findBySide(currentSide);
+        outputView.printPlayerTurnNotice(currentSide.getDisplayName(), player.getNickname());
     }
 
     private Position readTargetPosition() {
@@ -79,10 +82,11 @@ public class Runner {
         outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
         Position target = selectPosition();
         board.movePiece(selected, target);
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), target, destinations);
+        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), target);
     }
 
     private void printBoard(Board board) {
+        outputView.printBoardSettingNotice();
         outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()));
     }
 

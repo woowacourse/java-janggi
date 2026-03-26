@@ -63,6 +63,9 @@ public class Board {
     public List<Position> calculateDestinations(Position currentPosition) {
         Piece piece = piecePosition.get(currentPosition);
         Paths moveablePaths = piece.calculatePaths(currentPosition);
+        moveablePaths.forEach(move -> {
+            System.out.println(move.toString());
+        });
         Map<Position, PieceVO> boardState = generateStateByPaths(moveablePaths);
 
         return piece.determineDestinations(moveablePaths, boardState);

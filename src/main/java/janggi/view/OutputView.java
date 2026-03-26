@@ -18,6 +18,10 @@ public class OutputView {
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_GREEN = "\u001B[32m";
 
+    public void printBoardSettingNotice() {
+        printLine(Message.BOARD_SETTING_NOTICE);
+    }
+
     public void printBoardStatus(BoardDTO boardDto) {
         printBoardStatus(boardDto, null, null);
     }

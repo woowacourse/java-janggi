@@ -7,6 +7,7 @@ import janggi.domain.PieceVO;
 import janggi.domain.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,29 +45,26 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO) {
+    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPiece) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
-            validateAndAddDestination(route, boardState, destinations);
+            validateElephantPath(route, boardState, destinations, movingPiece);
         }
         return destinations;
     }
 
-    private void validateAndAddDestination(Path route, Map<Position, PieceVO> boardState, List<Position> destinations) {
-        int step = 0;
-        for (Position pos : route) {
-            PieceVO target = boardState.get(pos);
+    private void validateElephantPath(Path route, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+        Iterator<Position> it = route.iterator();
+        Position transit1 = it.next();
+        Position transit2 = it.next();
 
-            if (step == 0 && target != null) { // Depth 2: 멱(첫 번째 좌표)에 기물이 있으면 즉시 차단
-                break;
-            }
-            if (step == 1 && target != null) { // Depth 2: 멱(두 번째 좌표)에 기물이 있으면 즉시 차단
-                break;
-            }
-            if (step == 2 && target == null) { // 최종 목적지가 비어있으면 이동 가능
-                destinations.add(pos);
-            }
-            step++;
+        if (state.get(transit1) == null && state.get(transit2) == null) {
+            addIfValid(it.next(), state, dests, me); // 최종 도착지
         }
+    }
+
+    private void addIfValid(Position dest, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+        PieceVO target = state.get(dest);
+        if (target == null || !target.isSameSide(me)) dests.add(dest);
     }
 }
