@@ -39,7 +39,7 @@ public class Sang extends Piece {
         for (List<Direction> path : paths) {
             try {
                 int nextX = src.getX() + path.get(0).getOffsetX() + path.get(1).getOffsetX() + path.get(2).getOffsetX();
-                int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY() + path.get(2).getOffsetX();
+                int nextY = src.getY() + path.get(0).getOffsetY() + path.get(1).getOffsetY() + path.get(2).getOffsetY();
                 Position nextPosition = new Position(nextX, nextY);
                 if (dest.equals(nextPosition)) {
                     List<Position> positionList = new ArrayList<>();
