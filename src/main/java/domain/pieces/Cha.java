@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Country;
-import domain.Piece;
 import domain.PieceType;
 import domain.Position;
 
@@ -22,5 +21,10 @@ public class Cha extends Piece {
         } catch(IndexOutOfBoundsException e){
         }
         return positions;
+    }
+
+    @Override
+    protected boolean canMovePosition(Position start, Position end) {
+        return start.getX() == end.getX() || start.getY() == end.getY();
     }
 }

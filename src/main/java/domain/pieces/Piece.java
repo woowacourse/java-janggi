@@ -1,5 +1,8 @@
-package domain;
+package domain.pieces;
 
+import domain.Country;
+import domain.PieceType;
+import domain.Position;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +20,13 @@ public abstract class Piece {
     }
 
     public abstract List<Position> getAvailablePositions(Position nowPosition);
+
+
+    protected abstract boolean canMovePosition(Position start, Position end);
+
+    protected boolean isSameCountry(Country endCountry) {
+        return country.equals(endCountry);
+    }
 
     @Override
     public boolean equals(Object o) {

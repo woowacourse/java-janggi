@@ -1,10 +1,6 @@
 package view;
 
-import java.util.Map;
-
 import domain.Country;
-import domain.Piece;
-import domain.Position;
 import service.dto.BoardDto;
 
 public class OutputView {

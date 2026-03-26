@@ -1,5 +1,6 @@
 package domain;
 
+import domain.pieces.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,5 +62,8 @@ public class Board {
         };
     }
 
-
+    private boolean existPiece(Piece endPiece) {
+        // TODO 구현 필요
+        return false;
+    }
 }
