@@ -3,6 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.*;
 
+import janggi.domain.movement.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ class DirectionTest {
             int row = 1;
             int column = 1;
 
-            assertDoesNotThrow(() -> Position.valueOf(row, column));
+            assertDoesNotThrow(() -> Direction.valueOf(row, column));
         }
 
         @Test
@@ -29,7 +30,7 @@ class DirectionTest {
             int column = 1;
 
             assertThatIllegalArgumentException()
-                .isThrownBy(() -> Position.valueOf(wrongRow, column));
+                .isThrownBy(() -> Direction.valueOf(wrongRow, column));
         }
 
         @Test
@@ -39,7 +40,7 @@ class DirectionTest {
             int column = 2;
 
             assertThatIllegalArgumentException()
-                .isThrownBy(() -> Position.valueOf(wrongRow, column));
+                .isThrownBy(() -> Direction.valueOf(wrongRow, column));
         }
     }
 }
