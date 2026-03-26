@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class Board {
 
-    private static final int Y = 10;
+    private static final int BOARD_HEIGHT = 10;
 
     private final Map<Point, Piece> state;
 
@@ -44,7 +44,7 @@ public class Board {
 
     public List<List<Piece>> getPoints() {
         List<List<Piece>> pieces = new ArrayList<>();
-        for (int i = 0; i < Y; i++) {
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
             pieces.add(
                     Point.getRow(i).stream()
                             .map(state::get)
