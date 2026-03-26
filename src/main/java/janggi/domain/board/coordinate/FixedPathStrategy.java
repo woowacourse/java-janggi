@@ -9,7 +9,7 @@ public class FixedPathStrategy implements PathStrategy {
     @Override
     public List<Point> calculate(Directions directions, Point from) {
         List<Point> path = new ArrayList<>();
-        for (Direction direction : directions.value()) {
+        for (Direction direction : directions.pattern()) {
             Point point = from.add(direction.getDx(), direction.getDy());
             path.add(point);
         }
