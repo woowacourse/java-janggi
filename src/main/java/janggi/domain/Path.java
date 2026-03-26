@@ -4,6 +4,7 @@ import janggi.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Path {
 
@@ -24,5 +25,19 @@ public class Path {
             pieces.add((Piece) routeSpace);
         }
         return pieces;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Path path1 = (Path) o;
+        return Objects.equals(path, path1.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(path);
     }
 }
