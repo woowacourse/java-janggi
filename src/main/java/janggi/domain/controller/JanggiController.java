@@ -1,5 +1,7 @@
 package janggi.domain.controller;
 
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.dto.DynastyDto;
@@ -23,7 +25,9 @@ public class JanggiController {
             HorseElephantPosition position = HorseElephantPositionMapper.from(ordinal);
             horseElephantPositions.put(dynasty, position);
         }
-        
+
+        BoardDesignPolicy policy = new BoardDesignPolicy(horseElephantPositions);
+        Board board = new Board(policy);
     }
 
 }
