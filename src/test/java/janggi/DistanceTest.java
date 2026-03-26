@@ -1,4 +1,4 @@
-package janggi.gimul;
+package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,8 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class DistanceTest {
-
-
     @DisplayName("한 칸을 이동하면 true를 반환한다.")
     @Test
     void isMoreThanOneStep() {
@@ -21,16 +19,16 @@ class DistanceTest {
                 .isFalse();
     }
 
-    @DisplayName("대각선을 포함해서 한 칸을 이동하면 true를 반환한다.")
+    @DisplayName("대각선을 포함해서 한 칸을 이동하면 false를 반환한다.")
     @Test
     void isMoreThanOneStepIncludingDiagonal() {
         assertThat(new Distance(1, 0).isMoreThanOneStepIncludingDiagonal())
-                .isTrue();
+                .isFalse();
 
         assertThat(new Distance(0, 1).isMoreThanOneStepIncludingDiagonal())
-                .isTrue();
+                .isFalse();
 
         assertThat(new Distance(1, 1).isMoreThanOneStepIncludingDiagonal())
-                .isTrue();
+                .isFalse();
     }
 }

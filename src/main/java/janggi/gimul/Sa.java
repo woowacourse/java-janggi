@@ -1,45 +1,36 @@
 package janggi.gimul;
 
+import janggi.Diagonal;
+import janggi.Distance;
 import janggi.Path;
 import janggi.Position;
 import janggi.Team;
 import java.util.List;
 
-public class Sa extends Gimul{
+public class Sa extends Gimul {
     protected Sa(Team team) {
         super(team);
     }
 
     @Override
     public Path getLegalPath(Position from, Position to) {
-        int rowDistance = to.getRowDistance(from);
-        int columnDistance = to.getColumnDistance(from);
+        Distance distance = Distance.of(from, to);
 
-        int absRowDistance = Math.abs(rowDistance);
-        int absColumnDistance = Math.abs(columnDistance);
-
-        if (absRowDistance >= 2 || absColumnDistance >= 2) {
+        if (distance.isMoreThanOneStepIncludingDiagonal()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        if (rowDistance == 1 && columnDistance == 1) {
-            return from.moveSouthAndEast();
-        }
-        if (rowDistance == 1 && columnDistance == -1) {
-            return from.moveSouthAndWest();
-        }
-        if (rowDistance == -1 && columnDistance == 1) {
-            return from.moveSouthAndEast();
-        }
-        if (rowDistance == -1 && columnDistance == -1) {
-            return from.moveNorthAndWest();
+        if (distance.isHorizontal()) {
+            return from.moveHorizontal(distance.columnDistance());
         }
 
-        if (absRowDistance == 0) {
-            return from.moveHorizontal(columnDistance);
+        if (distance.isVertical()) {
+            return from.moveVertical(distance.rowDistance());
         }
 
-        return from.moveVertical(rowDistance);
+        Diagonal diagonal = Diagonal.of(distance.rowDistance(), distance.columnDistance());
+
+        return from.moveDiagonal(diagonal);
     }
 
     @Override
