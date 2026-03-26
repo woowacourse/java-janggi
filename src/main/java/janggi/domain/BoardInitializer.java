@@ -8,9 +8,8 @@ import java.util.Map;
 public class BoardInitializer {
     public static Board initializeBoard() {
         Map<Position, Piece> board = new LinkedHashMap<>();
-
-        initializeHan(board);
-        initializeCho(board);
+        initializeHan(board, hanOpeningFormationChoice);
+        initializeCho(board, choOpeningFormationChoice);
 
         return new Board(board);
     }
