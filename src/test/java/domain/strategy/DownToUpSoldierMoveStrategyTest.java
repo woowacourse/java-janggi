@@ -1,8 +1,8 @@
-package domain;
+package domain.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.strategy.DownToUpSoldierMoveStrategy;
+import domain.Position;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
