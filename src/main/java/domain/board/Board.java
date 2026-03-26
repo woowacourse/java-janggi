@@ -24,11 +24,16 @@ public class Board {
         return piece.validatePath(pathPieces);
     }
 
-    public void move(Position src, Position dest) {
+    public Piece move(Position src, Position dest) {
+        if (!canMove(src, dest)) {
+            throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
+        }
         Piece movePiece = findPiece(src);
+        Piece destPiece = findPiece(dest);
 
         board.put(src, new None());
         board.put(dest, movePiece);
+        return destPiece;
     }
 
     public BoardDTO createDTO() {
