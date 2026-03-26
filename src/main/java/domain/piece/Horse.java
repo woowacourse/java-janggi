@@ -31,6 +31,7 @@ public record Horse(PieceType pieceType) implements Piece {
 
         return List.of(step1, step2);
     }
+
     private Direction decideXDirection(int dx) {
         if (dx > 0) {
             return Direction.RIGHT;
