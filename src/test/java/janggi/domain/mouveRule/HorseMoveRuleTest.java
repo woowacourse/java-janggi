@@ -1,7 +1,7 @@
 package janggi.domain.mouveRule;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static janggi.domain.BoardFixture.put;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.piece.Soldier;
@@ -10,7 +10,7 @@ import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
 
 class HorseMoveRuleTest {
-    private Board board = new Board("테스트");
+    private Board board = Board.empty();
     private Position from;
     private Position to;
     private final MoveRule moveRule = new HorseMoveRule();
@@ -20,7 +20,7 @@ class HorseMoveRuleTest {
         from = new Position(0, 0);
         to = new Position(2, 1);
 
-        assertDoesNotThrow(() -> moveRule.move(from, to, board));
+        assertThat(moveRule.canMove(from, to, board)).isTrue();
     }
 
     @Test
@@ -28,9 +28,7 @@ class HorseMoveRuleTest {
         from = new Position(0, 0);
         to = new Position(3, 3);
 
-        assertThatThrownBy(() -> moveRule.move(from, to, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("마는");
+        assertThat(moveRule.canMove(from, to, board)).isFalse();
     }
 
     @Test
@@ -39,12 +37,8 @@ class HorseMoveRuleTest {
         to = new Position(2, 1);
 
         Position other = new Position(1, 0);
-        board.place(other, new Soldier(Team.HAN));
+        put(board, other, new Soldier(Team.HAN));
 
-        assertThatThrownBy(() -> moveRule.move(from, to, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("이동경로에 기물이");
+        assertThat(moveRule.canMove(from, to, board)).isFalse();
     }
-
-
 }

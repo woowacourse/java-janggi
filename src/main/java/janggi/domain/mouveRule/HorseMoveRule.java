@@ -1,45 +1,46 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.Board;
+import janggi.domain.BoardView;
 import janggi.domain.vo.Position;
+import java.util.List;
 
 public class HorseMoveRule implements MoveRule {
 
+    private static final List<int[]> MOVE_PATTERNS = List.of(
+            //이동 가능, 막힘 -> 행보다 열이 작은게 더 직관적으로 이해가 편함
+            new int[]{2, 1, 1, 0},  // 아래2 오른1 , 막힘(1,0)
+            new int[]{2, -1, 1, 0},  // 아래2 왼1  , 막힘(1,0)
+            new int[]{-2, 1, -1, 0},  // 위2 오른1 , 막힘(-1,0)
+            new int[]{-2, -1, -1, 0},  // 위2 왼1  , 막힘(-1,0)
+            new int[]{1, 2, 0, 1},  // 아래1 오른2 , 막힘(0,1)
+            new int[]{1, -2, 0, -1},  // 아래1 왼2 , 막힘(0,-1)
+            new int[]{-1, 2, 0, 1},  // 위1 오른2 , 막힘(0,1)
+            new int[]{-1, -2, 0, -1}   // 위1 왼2 ,  막힘(0,-1)
+    );
+
     @Override
-    public void move(Position from, Position to, Board board) {
-
-        // 이동하는곳 확인
-
-        int[][] pattern = new int[4][6];
-
-        pattern[0] = new int[]{-1, 0, -2, -1, -2, 1};
-        pattern[1] = new int[]{0, 1, -1, 2, 1, 2};
-        pattern[2] = new int[]{1, 0, 2, -1, 2, 1};
-        pattern[3] = new int[]{0, -1, -1, -1, 1, -1};
-
-        boolean flag = false;
-
-        for (int[] x : pattern) {
-            int fromRow = from.getRow();
-            int fromCol = from.getCol();
-
-            if ((to.getRow() == (fromRow + x[2]) && to.getCol() == (fromCol + x[3]))
-                    || (to.getRow() == (fromRow + x[4]) && to.getCol() == (fromCol + x[5]))) {
-                flag = true;
-
-                Position blockPosition = new Position(x[0], x[1]);
-                if (!board.isEmptyPosition(blockPosition)) {
-                    throw new IllegalArgumentException("[ERROR] 이동경로에 기물이 있습니다.");
-                }
+    public boolean canMove(Position from, Position to, BoardView board) {
+        for (int[] pattern : MOVE_PATTERNS) {
+            if (matchesPattern(from, to, pattern) && isNotBlocked(from, pattern, board)) {
+                return true;
             }
         }
-
-        if (!flag) {
-            throw new IllegalArgumentException("[ERROR] 마는 직선이동 후 대각선으로만 이동가능합니다.");
-
-        }
-
-
+        return false;
     }
 
+    private boolean matchesPattern(Position from, Position to, int[] pattern) {
+        return to.getRow() == from.getRow() + pattern[0]
+                && to.getCol() == from.getCol() + pattern[1];
+    }
+
+    private boolean isNotBlocked(Position from, int[] pattern, BoardView board) {
+        int blockRow = from.getRow() + pattern[2];
+        int blockCol = from.getCol() + pattern[3];
+        return isInBounds(blockRow, blockCol)
+                && board.isEmptyPosition(new Position(blockRow, blockCol));
+    }
+
+    private boolean isInBounds(int row, int col) {
+        return row >= 0 && row <= 9 && col >= 0 && col <= 8;
+    }
 }
