@@ -4,7 +4,7 @@ import janggi.model.Board;
 import janggi.model.Team;
 import janggi.model.position.Position;
 
-public class ChoTurn implements Turn{
+public class ChoTurn implements Turn {
 
     private final Board board;
 
@@ -19,6 +19,10 @@ public class ChoTurn implements Turn{
                 from,
                 to
         );
+
+        if (movedBoard.isGameOver()) {
+            return new GameOver();
+        }
 
         return new HanTurn(movedBoard);
     }

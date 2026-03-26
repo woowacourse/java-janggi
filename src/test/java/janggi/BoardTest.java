@@ -1,5 +1,6 @@
 package janggi;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -111,5 +112,30 @@ class BoardTest {
         //when & then
         assertThatCode(() -> board.move(cho, from, to))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("기물패하면 게임 종료한다.")
+    @Test
+    void isGameOver() {
+        //given
+        Map<Position, Gimul> gameOverBoard = new HashMap<>();
+
+        gameOverBoard.put(
+                new Position(Row.SEVEN, Column.FIVE),
+                new Ma(Team.CHO)
+        );
+        gameOverBoard.put(
+                new Position(Row.SIX, Column.SEVEN),
+                new Ma(Team.CHO)
+        );
+        gameOverBoard.put(
+                new Position(Row.SIX, Column.FIVE),
+                new Ma(Team.CHO)
+        );
+
+        Board board = new Board(gameOverBoard);
+
+        //when & then
+        assertThat(board.isGameOver()).isTrue();
     }
 }

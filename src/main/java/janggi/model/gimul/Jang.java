@@ -21,11 +21,11 @@ public class Jang extends Gimul {
         }
 
         if (positionDelta.isHorizontal()) {
-            return from.moveHorizontal(positionDelta.columnDistance());
+            return from.moveHorizontal(positionDelta.columnDistance()).removeFromAndTo();
         }
 
         if (positionDelta.isVertical()) {
-            return from.moveVertical(positionDelta.rowDistance());
+            return from.moveVertical(positionDelta.rowDistance()).removeFromAndTo();
         }
 
         DiagonalDelta diagonalDelta = new DiagonalDelta(

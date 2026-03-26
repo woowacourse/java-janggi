@@ -24,7 +24,7 @@ public enum Row {
     public Row moved(int displacement) {
         int nextValue = this.ordinal() + displacement;
 
-        if (nextValue > ZERO.ordinal() ||nextValue < ONE.ordinal()) {
+        if (nextValue > ZERO.ordinal() || nextValue < ONE.ordinal()) {
             throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
         }
 
@@ -42,5 +42,12 @@ public enum Row {
 
     public int getDistance(Row other) {
         return this.ordinal() - other.ordinal();
+    }
+
+    public static Row toRow(int input) {
+        if (input == 0) {
+            return Row.of(9);
+        }
+        return Row.of(input - 1);
     }
 }

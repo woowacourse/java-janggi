@@ -17,6 +17,11 @@ public class Janggi {
     }
 
     public Janggi play(Position from, Position to) {
+
         return new Janggi(turn.play(from, to));
+    }
+
+    public boolean isGameOver() {
+        return turn.isGameOver();
     }
 }

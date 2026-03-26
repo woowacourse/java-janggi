@@ -42,8 +42,8 @@ class JangTest {
         PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("북쪽으로 한칸 이동한다.")
@@ -58,8 +58,8 @@ class JangTest {
         PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.EIGHT, Column.FIVE));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
 
@@ -75,8 +75,8 @@ class JangTest {
         PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.SIX));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -91,8 +91,8 @@ class JangTest {
         PositionPath positionPath = jang.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
     }
 
 

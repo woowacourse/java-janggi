@@ -4,34 +4,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
+    Scanner scanner = new Scanner(System.in);
 
-    private static final String POSITION_DELIMITER = ",";
-    private static final int POSITION_PART_COUNT = 2;
-    private static final int ROW_INDEX = 0;
-    private static final int COLUMN_INDEX = 1;
+    public int readBoardInitializeType() {
+        System.out.println();
 
-    private final Scanner scanner;
-
-    public InputView() {
-        this.scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        return Integer.parseInt(input);
     }
 
-    public BoardType readBoardInitializeType() {
-        int boardType = Parser.parse(scanner.nextLine());
-        return BoardType.of(boardType);
-    }
-
-    public List<Integer> readPosition() {
-        String[] parts = scanner.nextLine()
-                .split(POSITION_DELIMITER);
-
-        if (parts.length != POSITION_PART_COUNT) {
+    public List<Integer> readPositions() {
+        String input = scanner.nextLine();
+        String[] parts = input.split(",");
+        if (parts.length != 2) {
             throw new IllegalArgumentException("위치는 '행,열' 형식으로 입력하세요. (예: 3,5)");
         }
-
-        return List.of(
-                Parser.parse(parts[ROW_INDEX].trim()),
-                Parser.parse(parts[COLUMN_INDEX].trim())
-        );
+        return List.of(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
     }
+
 }
