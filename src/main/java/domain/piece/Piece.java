@@ -11,7 +11,6 @@ public abstract class Piece {
         this.team = team;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
