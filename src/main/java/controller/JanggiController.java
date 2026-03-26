@@ -13,5 +13,6 @@ public class JanggiController {
     public void run() {
         int choFormationNumber = inputView.initialFormation(Team.CHO);
         int hanFormationNumber = inputView.initialFormation(Team.HAN);
+
     }
 }

@@ -10,8 +10,8 @@ import java.util.function.Function;
 
 public enum PieceType {
     CHA(13.0, List.of(1, 9), Chariot::new),
-    MA(5.0, List.of(3, 7), null),
-    SANG(3.0, List.of(3, 7), null),
+    MA(5.0, List.of(2, 3, 7, 8), null),
+    SANG(3.0, List.of(2, 3, 7, 8), null),
     SA(3.0, List.of(4, 6), Guard::new),
     GENERAL(0.0, List.of(5), General::new),
     PHO(7.0, List.of(2, 8), Cannon::new),

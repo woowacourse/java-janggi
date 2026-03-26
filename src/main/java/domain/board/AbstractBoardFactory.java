@@ -7,12 +7,13 @@ import domain.piece.Team;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BoardFactory implements FormationFactory {
+public abstract class AbstractBoardFactory implements FormationFactory {
 
     @Override
     public Map<Position, Piece> createFormation(Team team, int formationNumber) {
         Map<Position, Piece> pieces = new HashMap<>();
         setFixedPieces(pieces, team);
+        setVariablePieces(pieces, team);
         return pieces;
     }
 
@@ -29,4 +30,6 @@ public class BoardFactory implements FormationFactory {
             pieces.put(new Position(row, column), type.createPiece(team));
         }
     }
+
+    protected abstract void setVariablePieces(Map<Position, Piece> pieces, Team team);
 }
