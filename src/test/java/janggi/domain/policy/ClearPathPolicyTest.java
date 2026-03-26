@@ -38,7 +38,7 @@ class ClearPathPolicyTest {
     void 기물은_모든_경로와_도착지에_모두_비어있는_경우_움직일_수_있다() {
         List<Position> path = List.of(new Position(1,1), new Position(1,2), new Position(2,1), new Position(2,2));
 
-        List<Position> isEmpty = List.of(new Position(1,1), new Position(1,2), new Position(2,1), new Position(2,2));
+        List<Position> isEmpty = List.of(new Position(1,2), new Position(2,1), new Position(2,2));
         List<Position> isEnemy = List.of();
         List<Position> isAlly = List.of();
 
@@ -51,7 +51,7 @@ class ClearPathPolicyTest {
     void 기물은_모든_경로가_모두_비어있고_도착지에_적이_있는_경우_움직일_수_있다() {
         List<Position> path = List.of(new Position(1,1), new Position(1,2), new Position(2,1), new Position(2,2));
 
-        List<Position> isEmpty = List.of(new Position(1,1), new Position(1,2), new Position(2,1));
+        List<Position> isEmpty = List.of(new Position(1,2), new Position(2,1));
         List<Position> isEnemy = List.of(new Position(2,2));
         List<Position> isAlly = List.of();
 
@@ -64,7 +64,7 @@ class ClearPathPolicyTest {
     void 기물은_모든_경로가_모두_비어있고_도착지에_아군이_있는_경우_움직일_수_없다() {
         List<Position> path = List.of(new Position(1,1), new Position(1,2), new Position(2,1), new Position(2,2));
 
-        List<Position> isEmpty = List.of(new Position(1,1), new Position(1,2), new Position(2,1));
+        List<Position> isEmpty = List.of(new Position(1,2), new Position(2,1));
         List<Position> isEnemy = List.of();
         List<Position> isAlly = List.of(new Position(2, 2));
 
@@ -77,7 +77,7 @@ class ClearPathPolicyTest {
     void 기물은_경로_중_일부에_기물이_있으면_움직일_수_없다() {
         List<Position> path = List.of(new Position(1,1), new Position(1,2), new Position(2,1), new Position(2,2));
 
-        List<Position> isEmpty = List.of(new Position(1,1), new Position(2,1), new Position(2,2));
+        List<Position> isEmpty = List.of(new Position(2,1), new Position(2,2));
         List<Position> isEnemy = List.of(new Position(1,2));
         List<Position> isAlly = List.of();
 

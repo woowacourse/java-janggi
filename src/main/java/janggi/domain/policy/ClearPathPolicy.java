@@ -10,8 +10,9 @@ import java.util.List;
 public class ClearPathPolicy implements RoutePolicy {
     @Override
     public boolean isMovable(List<Position> path, Side side, BoardInterface boardInterface) {
-        List<Position> pathBeforeTarget = new ArrayList<>(path);
+        List<Position> pathBeforeTarget = new ArrayList<>(path.subList(1, path.size()));
         Position target = pathBeforeTarget.removeLast();
+
 
         return isMovableFirst(pathBeforeTarget, boardInterface) && isMovableLast(target, side,boardInterface);
     }
