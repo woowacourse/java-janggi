@@ -1,4 +1,4 @@
-package janggi;
+package janggi.position;
 
 import java.util.List;
 
@@ -7,38 +7,38 @@ public record Position(
         Column column
 ) {
 
-    public Path moveNorthAndEast() {
-        return new Path(List.of(this, new Position(row.previous(), column.next())));
+    public PositionPath moveNorthAndEast() {
+        return new PositionPath(List.of(this, new Position(row.previous(), column.next())));
     }
 
-    public Path moveNorthAndWest() {
-        return new Path(List.of(this, new Position(row.previous(), column.previous())));
+    public PositionPath moveNorthAndWest() {
+        return new PositionPath(List.of(this, new Position(row.previous(), column.previous())));
     }
 
-    public Path moveSouthAndEast() {
-        return new Path(List.of(this, new Position(row.next(), column.next())));
+    public PositionPath moveSouthAndEast() {
+        return new PositionPath(List.of(this, new Position(row.next(), column.next())));
     }
 
-    public Path moveSouthAndWest() {
-        return new Path(List.of(this, new Position(row.next(), column.previous())));
+    public PositionPath moveSouthAndWest() {
+        return new PositionPath(List.of(this, new Position(row.next(), column.previous())));
     }
 
-    public Path moveDiagonal(Diagonal diagonal) {
+    public PositionPath moveDiagonal(DiagonalMove diagonalMove) {
         Row nextRow = row.next();
         Column nextColumn = column.next();
 
-        if (diagonal.isNorth()) {
+        if (diagonalMove.isNorth()) {
             nextRow = row.previous();
         }
 
-        if (diagonal.isEast()) {
+        if (diagonalMove.isEast()) {
             nextColumn = column.previous();
         }
 
-        return new Path(List.of(this, new Position(nextRow, nextColumn)));
+        return new PositionPath(List.of(this, new Position(nextRow, nextColumn)));
     }
 
-    public Path moveHorizontal(int distance) {
+    public PositionPath moveHorizontal(int distance) {
         Position to = new Position(
                 row,
                 Column.of(column.ordinal() + distance)
@@ -48,17 +48,17 @@ public record Position(
             throw new IllegalArgumentException("같은 행이 아닙니다.");
         }
         List<Column> columns = this.column.to(to.column);
-        return new Path(columns.stream().map(column -> new Position(this.row, column)).toList());
+        return new PositionPath(columns.stream().map(column -> new Position(this.row, column)).toList());
     }
 
-    public Path moveVertical(int distance) {
+    public PositionPath moveVertical(int distance) {
         Position to = new Position(
                 Row.of(row.ordinal() + distance),
                 column
         );
 
         List<Row> rows = this.row.to(to.row);
-        return new Path(rows.stream().map(row -> new Position(row, this.column)).toList());
+        return new PositionPath(rows.stream().map(row -> new Position(row, this.column)).toList());
     }
 
 

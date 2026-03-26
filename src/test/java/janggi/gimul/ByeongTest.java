@@ -3,10 +3,10 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.Column;
-import janggi.Path;
-import janggi.Position;
-import janggi.Row;
+import janggi.position.Column;
+import janggi.position.PositionPath;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +22,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        Path path = byeong.getLegalPath(from, to);
+        PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SIX, Column.FIVE));
     }
 
@@ -38,10 +38,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.HAN);
 
         //when
-        Path path = byeong.getLegalPath(from, to);
+        PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.EIGHT, Column.FIVE));
     }
 
@@ -54,10 +54,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        Path path = byeong.getLegalPath(from, to);
+        PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SEVEN, Column.SIX));
     }
 
@@ -70,10 +70,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        Path path = byeong.getLegalPath(from, to);
+        PositionPath positionPath = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SEVEN, Column.FOUR));
     }
 

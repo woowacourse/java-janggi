@@ -1,9 +1,9 @@
 package janggi.gimul;
 
-import janggi.Diagonal;
-import janggi.Distance;
-import janggi.Path;
-import janggi.Position;
+import janggi.position.DiagonalMove;
+import janggi.position.PositionConnection;
+import janggi.position.PositionPath;
+import janggi.position.Position;
 import janggi.Team;
 import java.util.List;
 
@@ -13,24 +13,24 @@ public class Jang extends Gimul {
     }
 
     @Override
-    public Path getLegalPath(Position from, Position to) {
-        Distance distance = Distance.of(from, to);
+    public PositionPath getLegalPath(Position from, Position to) {
+        PositionConnection positionConnection = PositionConnection.of(from, to);
 
-        if (distance.isMoreThanOneStepIncludingDiagonal()) {
+        if (positionConnection.isMoreThanOneStepIncludingDiagonal()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        if (distance.isHorizontal()) {
-            return from.moveHorizontal(distance.columnDistance());
+        if (positionConnection.isHorizontal()) {
+            return from.moveHorizontal(positionConnection.columnDistance());
         }
 
-        if (distance.isVertical()) {
-            return from.moveVertical(distance.rowDistance());
+        if (positionConnection.isVertical()) {
+            return from.moveVertical(positionConnection.rowDistance());
         }
 
-        Diagonal diagonal = Diagonal.of(distance.rowDistance(), distance.columnDistance());
+        DiagonalMove diagonalMove = DiagonalMove.of(positionConnection.rowDistance(), positionConnection.columnDistance());
 
-        return from.moveDiagonal(diagonal);
+        return from.moveDiagonal(diagonalMove);
     }
 
     @Override

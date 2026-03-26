@@ -1,13 +1,13 @@
-package janggi;
+package janggi.position;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Path {
+public class PositionPath {
 
     private final List<Position> path;
 
-    public static Path concatenate(Path first, Path second) {
+    public static PositionPath concatenate(PositionPath first, PositionPath second) {
         List<Position> path = new ArrayList<>();
         if (!first.path.getLast().equals(second.path.getFirst())) {
             throw new IllegalArgumentException("연결할 수 없습니다.");
@@ -16,10 +16,10 @@ public class Path {
         path.addAll(first.path);
         path.addAll(second.path.subList(1, second.path.size()));
 
-        return new Path(path);
+        return new PositionPath(path);
     }
 
-    public Path(List<Position> path) {
+    public PositionPath(List<Position> path) {
         validate(path);
         this.path = path;
     }
@@ -34,11 +34,11 @@ public class Path {
         return path.getLast();
     }
 
-    public Path getCourse() {
+    public PositionPath getCourse() {
         int startIdx = 0;
         int toIdx = path.size() - 1;
 
-        return new Path(path.subList(startIdx, toIdx));
+        return new PositionPath(path.subList(startIdx, toIdx));
     }
 
 }

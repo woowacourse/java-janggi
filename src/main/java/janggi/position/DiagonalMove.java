@@ -1,12 +1,11 @@
-package janggi;
+package janggi.position;
 
-
-public class Diagonal {
+public class DiagonalMove {
 
     private final Direction vertical;
     private final Direction horizontal;
 
-    private Diagonal(Direction vertical, Direction horizontal) {
+    private DiagonalMove(Direction vertical, Direction horizontal) {
         if (vertical == Direction.WEST || vertical == Direction.EAST) {
             throw new IllegalArgumentException("vertical은 수직 방향이어야 합니다.");
         }
@@ -19,7 +18,7 @@ public class Diagonal {
         this.horizontal = horizontal;
     }
 
-    public static Diagonal of(int rowDistance, int columnDistance) {
+    public static DiagonalMove of(int rowDistance, int columnDistance) {
         if (Math.abs(rowDistance) != 1 || Math.abs(columnDistance) != 1) {
             throw new IllegalArgumentException("대각선이 아닙니다.");
         }
@@ -36,7 +35,7 @@ public class Diagonal {
             horizontal = Direction.EAST;
         }
 
-        return new Diagonal(vertical, horizontal);
+        return new DiagonalMove(vertical, horizontal);
     }
 
     public boolean isNorth() {

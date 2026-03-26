@@ -3,10 +3,10 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.Column;
-import janggi.Path;
-import janggi.Position;
-import janggi.Row;
+import janggi.position.Column;
+import janggi.position.PositionPath;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -51,10 +51,10 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when
-        Path path = pho.getLegalPath(from, to);
+        PositionPath positionPath = pho.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SIX, Column.FIVE));
     }
 
@@ -67,10 +67,10 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when
-        Path path = pho.getLegalPath(from, to);
+        PositionPath positionPath = pho.getLegalPath(from, to);
 
         //then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.NINE, Column.THREE));
     }
 

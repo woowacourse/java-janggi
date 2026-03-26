@@ -1,7 +1,7 @@
 package janggi.gimul;
 
-import janggi.Path;
-import janggi.Position;
+import janggi.position.PositionPath;
+import janggi.position.Position;
 import janggi.Team;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class Byeong extends Gimul {
     }
 
     @Override
-    public Path getLegalPath(Position from, Position to) {
+    public PositionPath getLegalPath(Position from, Position to) {
         int rowDistance = to.getRowDistance(from);
         int columnDistance = to.getColumnDistance(from);
 

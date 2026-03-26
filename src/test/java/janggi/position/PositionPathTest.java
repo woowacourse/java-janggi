@@ -1,4 +1,4 @@
-package janggi;
+package janggi.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -7,12 +7,12 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PathTest {
+class PositionPathTest {
 
     @DisplayName("빈 경로는 예외가 발생한다.")
     @Test
     void emptyPath() {
-        assertThatThrownBy(() -> new Path(List.of()))
+        assertThatThrownBy(() -> new PositionPath(List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("빈 경로입니다.");
     }
@@ -21,14 +21,14 @@ class PathTest {
     @Test
     void getDestination() {
         //given
-        Path path = new Path(List.of(
+        PositionPath positionPath = new PositionPath(List.of(
                 new Position(Row.ZERO, Column.EIGHT),
                 new Position(Row.ONE, Column.EIGHT),
                 new Position(Row.ONE, Column.SEVEN)
         ));
 
         //when & then
-        assertThat(path.getDestination())
+        assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.ONE, Column.SEVEN));
     }
 
@@ -36,14 +36,14 @@ class PathTest {
     @Test
     void getCourse() {
         //given
-        Path path = new Path(List.of(
+        PositionPath positionPath = new PositionPath(List.of(
                 new Position(Row.ZERO, Column.EIGHT),
                 new Position(Row.ONE, Column.EIGHT),
                 new Position(Row.ONE, Column.SEVEN)
         ));
 
         //when & then
-        assertThat(path.getCourse().getDestination())
+        assertThat(positionPath.getCourse().getDestination())
                 .isEqualTo(new Position(Row.ONE, Column.EIGHT));
     }
 
@@ -51,17 +51,17 @@ class PathTest {
     @Test
     void concatenate() {
         //given
-        Path path1 = new Path(List.of(
+        PositionPath positionPath1 = new PositionPath(List.of(
                 new Position(Row.ONE, Column.EIGHT),
                 new Position(Row.ONE, Column.SEVEN)
         ));
-        Path path2 = new Path(List.of(
+        PositionPath positionPath2 = new PositionPath(List.of(
                 new Position(Row.ONE, Column.SEVEN),
                 new Position(Row.TWO, Column.SEVEN)
         ));
 
         //when& then
-        assertThat(Path.concatenate(path1, path2).getDestination())
+        assertThat(PositionPath.concatenate(positionPath1, positionPath2).getDestination())
                 .isEqualTo(new Position(Row.TWO, Column.SEVEN));
 
     }

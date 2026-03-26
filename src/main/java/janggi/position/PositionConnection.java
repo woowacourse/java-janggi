@@ -1,12 +1,12 @@
-package janggi;
+package janggi.position;
 
-public record Distance(
+public record PositionConnection(
         int rowDistance,
         int columnDistance
 ) {
 
-    public static Distance of(Position from, Position to) {
-        return new Distance(
+    public static PositionConnection of(Position from, Position to) {
+        return new PositionConnection(
                 to.getRowDistance(from),
                 to.getColumnDistance(from)
         );
