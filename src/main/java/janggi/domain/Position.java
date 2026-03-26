@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import java.util.Objects;
+
 public class Position {
     private final int x;
     private final int y;
@@ -14,5 +16,18 @@ public class Position {
         if(x < 1 || x > 9 || y < 1 || y > 10) {
             throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Position position)) {
+            return false;
+        }
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
