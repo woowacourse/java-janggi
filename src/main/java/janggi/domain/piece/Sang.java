@@ -3,6 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sang extends Piece {
 
@@ -20,7 +22,13 @@ public class Sang extends Piece {
 
     @Override
     public Path getPath(Position from, Position to) {
-        return null;
+        int dx = from.deltaX(to);
+        int dy = from.deltaY(to);
+
+        List<Position> positions = new ArrayList<>();
+        positions.add(new Position(from.x() + dx / 3, from.y() + dy / 3));
+        positions.add(new Position(from.x() + dx * 2 / 3, from.y() + dy * 2 / 3));
+        return new Path(positions);
     }
 
     private boolean moveStrategy(Position from, Position to) {
