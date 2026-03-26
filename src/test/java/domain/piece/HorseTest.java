@@ -21,8 +21,8 @@ class HorseTest {
     private static final int DEFAULT_FILE = 5;
     private static final Side SIDE = Side.HAN;
     private static final Side OPPOSITE_SIDE = Side.CHO;
-    private static final Soldier SAME_SIDE_PEICE = new Soldier(SIDE);
-    private static final Soldier OPPOSITE_SIDE_PEICE = new Soldier(OPPOSITE_SIDE);
+    private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
+    private static final Soldier OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
     private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
 
     private static final Intersection LEFT_DESTINATION = new Intersection(
@@ -65,7 +65,7 @@ class HorseTest {
                     CURRENT_INTERSECTION.file()
             );
             AlivePieces alivePieces = new AlivePieces(Map.of(
-                    forwardIntersection, SAME_SIDE_PEICE
+                    forwardIntersection, SAME_SIDE_PIECE
             ));
 
             // when
@@ -86,7 +86,7 @@ class HorseTest {
                     CURRENT_INTERSECTION.file()
             );
             AlivePieces alivePieces = new AlivePieces(Map.of(
-                    forwardIntersection, OPPOSITE_SIDE_PEICE
+                    forwardIntersection, OPPOSITE_SIDE_PIECE
             ));
 
             // when
@@ -123,8 +123,8 @@ class HorseTest {
         Horse horse = new Horse(SIDE);
 
         AlivePieces alivePieces = new AlivePieces(Map.of(
-                LEFT_DESTINATION, SAME_SIDE_PEICE,
-                RIGHT_DESTINATION, SAME_SIDE_PEICE
+                LEFT_DESTINATION, SAME_SIDE_PIECE,
+                RIGHT_DESTINATION, SAME_SIDE_PIECE
         ));
 
         // when
@@ -140,8 +140,8 @@ class HorseTest {
         Horse horse = new Horse(SIDE);
 
         AlivePieces alivePieces = new AlivePieces(Map.of(
-                LEFT_DESTINATION, OPPOSITE_SIDE_PEICE,
-                RIGHT_DESTINATION, OPPOSITE_SIDE_PEICE
+                LEFT_DESTINATION, OPPOSITE_SIDE_PIECE,
+                RIGHT_DESTINATION, OPPOSITE_SIDE_PIECE
         ));
 
         // when

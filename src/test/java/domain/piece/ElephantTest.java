@@ -6,14 +6,8 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class ElephantTest {
 
@@ -21,8 +15,8 @@ class ElephantTest {
     private static final int DEFAULT_FILE = 5;
     private static final Side SIDE = Side.HAN;
     private static final Side OPPOSITE_SIDE = Side.CHO;
-    private static final Soldier SAME_SIDE_PEICE = new Soldier(SIDE);
-    private static final Soldier OPPOSITE_SIDE_PEICE = new Soldier(OPPOSITE_SIDE);
+    private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
+    private static final Soldier OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
     private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
 
     private static final Intersection LEFT_PATH_NODE = new Intersection(
@@ -54,7 +48,7 @@ class ElephantTest {
         void 왼쪽_경로에_기물이_있으면_왼쪽_목적지로_이동할_수_없다() {
             // given
             Elephant elephant = new Elephant(SIDE);
-            AlivePieces alivePieces = new AlivePieces(Map.of(LEFT_PATH_NODE, OPPOSITE_SIDE_PEICE));
+            AlivePieces alivePieces = new AlivePieces(Map.of(LEFT_PATH_NODE, OPPOSITE_SIDE_PIECE));
 
             // when
             boolean canMove = elephant.canMove(CURRENT_INTERSECTION, LEFT_DESTINATION, alivePieces);
@@ -67,7 +61,7 @@ class ElephantTest {
         void 오른쪽_경로에_기물이_있으면_오른쪽_목적지로_이동할_수_없다() {
             // given
             Elephant elephant = new Elephant(SIDE);
-            AlivePieces alivePieces = new AlivePieces(Map.of(RIGHT_PATH_NODE, OPPOSITE_SIDE_PEICE));
+            AlivePieces alivePieces = new AlivePieces(Map.of(RIGHT_PATH_NODE, OPPOSITE_SIDE_PIECE));
 
             // when
             boolean canMove = elephant.canMove(CURRENT_INTERSECTION, RIGHT_DESTINATION, alivePieces);
@@ -80,7 +74,7 @@ class ElephantTest {
         void 양쪽_경로에_기물이_있으면_양쪽_목적지로_이동할_수_없다() {
             // given
             Elephant elephant = new Elephant(SIDE);
-            AlivePieces alivePieces = new AlivePieces(Map.of(BOTH_PATH_NODE, OPPOSITE_SIDE_PEICE));
+            AlivePieces alivePieces = new AlivePieces(Map.of(BOTH_PATH_NODE, OPPOSITE_SIDE_PIECE));
 
             // when
             List<Intersection> movableIntersections = elephant.movableIntersections(CURRENT_INTERSECTION, alivePieces);
@@ -132,8 +126,8 @@ class ElephantTest {
         Elephant elephant = new Elephant(SIDE);
 
         AlivePieces alivePieces = new AlivePieces(Map.of(
-                LEFT_DESTINATION, SAME_SIDE_PEICE,
-                RIGHT_DESTINATION, SAME_SIDE_PEICE
+                LEFT_DESTINATION, SAME_SIDE_PIECE,
+                RIGHT_DESTINATION, SAME_SIDE_PIECE
         ));
 
         // when
@@ -149,8 +143,8 @@ class ElephantTest {
         Elephant elephant = new Elephant(SIDE);
 
         AlivePieces alivePieces = new AlivePieces(Map.of(
-                LEFT_DESTINATION, OPPOSITE_SIDE_PEICE,
-                RIGHT_DESTINATION, OPPOSITE_SIDE_PEICE
+                LEFT_DESTINATION, OPPOSITE_SIDE_PIECE,
+                RIGHT_DESTINATION, OPPOSITE_SIDE_PIECE
         ));
 
         // when

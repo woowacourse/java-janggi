@@ -62,8 +62,8 @@ class SoldierTest {
         private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
         private static final Side SIDE = Side.HAN;
         private static final Side OPPOSITE_SIDE = Side.CHO;
-        private static final Soldier SAME_SIDE_PEICE = new Soldier(SIDE);
-        private static final Soldier OPPOSITE_SIDE_PEICE = new Soldier(OPPOSITE_SIDE);
+        private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
+        private static final Soldier OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
         private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
 
         @Nested
@@ -77,7 +77,7 @@ class SoldierTest {
                 Intersection forwardIntersection = SIDE.getForwardDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
-                        forwardIntersection, SAME_SIDE_PEICE
+                        forwardIntersection, SAME_SIDE_PIECE
                 ));
 
                 // when
@@ -95,7 +95,7 @@ class SoldierTest {
                 Intersection leftIntersection = SIDE.getLeftDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
-                        leftIntersection, SAME_SIDE_PEICE
+                        leftIntersection, SAME_SIDE_PIECE
                 ));
 
                 // when
@@ -113,7 +113,7 @@ class SoldierTest {
                 Intersection rightIntersection = SIDE.getRightDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
-                        rightIntersection, SAME_SIDE_PEICE
+                        rightIntersection, SAME_SIDE_PIECE
                 ));
 
                 // when
@@ -135,7 +135,7 @@ class SoldierTest {
                 Intersection forwardIntersection = SIDE.getForwardDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
-                        forwardIntersection, OPPOSITE_SIDE_PEICE
+                        forwardIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
                 // when
@@ -153,7 +153,7 @@ class SoldierTest {
                 Intersection leftIntersection = SIDE.getLeftDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
-                        leftIntersection, OPPOSITE_SIDE_PEICE
+                        leftIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
                 // when
@@ -171,7 +171,7 @@ class SoldierTest {
                 Intersection rightIntersection = SIDE.getRightDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
                 AlivePieces aliavePieces = new AlivePieces(Map.of(
-                        rightIntersection, OPPOSITE_SIDE_PEICE
+                        rightIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
                 // when
