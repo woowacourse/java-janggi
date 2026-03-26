@@ -1,10 +1,14 @@
 package janggi.domain.piece;
 
+import static java.lang.Math.abs;
+
 import janggi.domain.Point;
 import janggi.domain.status.Team;
 import java.util.List;
 
 public class Jang implements Piece {
+
+    private static final int MAX_DISTANCE = 1;
 
     private final Team team;
     private final PieceType type;
@@ -23,24 +27,19 @@ public class Jang implements Piece {
     public List<Point> getRoute(Point from, Point to) {
         int pathX = to.getX() - from.getX();
         int pathY = to.getY() - from.getY();
+        int distanceX = abs(pathX);
+        int distanceY = abs(pathY);
 
-        if (pathX == 1 && pathY == 1) {
-            return List.of(to);
+        if ( distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX == 0 && distanceY == 0)) {
+            throw new IllegalArgumentException();
         }
-        if (pathX == 1 && pathY == 0) {
-            return List.of(to);
-        }
-        if (pathY == 1 && pathX == 0) {
-            return List.of(to);
-        }
-        throw new IllegalArgumentException();
+        return List.of(to);
     }
 
     @Override
     public boolean canMove(List<Piece> route) {
         return route.stream()
-                .filter(piece -> piece.isSameTeam(team))
-                .count() == 0;
+                .noneMatch(piece -> piece.isSameTeam(team));
     }
 
     @Override

@@ -5,6 +5,7 @@ import janggi.domain.JanggiGame;
 import janggi.domain.Point;
 import janggi.dto.PositionInfo;
 import janggi.ui.InputView;
+import janggi.ui.OutputView;
 import janggi.util.FileParser;
 import java.util.List;
 
@@ -15,10 +16,10 @@ public class JanggiApplication {
         board.init(positionInfos);
         JanggiGame game = new JanggiGame(board);
 
-        while (true) {
+        while (!game.isFinished()) {
             List<Point> points = InputView.readPoints();
             game.play(points.get(0), points.get(1));
         }
-
+        OutputView.printWinner(game.getWinner());
     }
 }

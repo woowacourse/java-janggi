@@ -3,7 +3,7 @@ package janggi.domain.status;
 import janggi.domain.Board;
 import janggi.domain.Point;
 
-public class ChoTurn implements GameStatus{
+public class ChoTurn implements GameStatus {
 
     private final Team team;
 
@@ -12,11 +12,16 @@ public class ChoTurn implements GameStatus{
     }
 
     @Override
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
     public GameStatus move(Point from, Point to, Board board) {
-        if (board.isKingDie(to, team)) {
-            return new FinishedGame(Team.HAN);
-        }
         board.move(from, to, team);
+        if (board.isKingDie(Team.HAN)) {
+            return new FinishedGame(team);
+        }
         return new HanTurn();
     }
 }
