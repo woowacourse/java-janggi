@@ -4,9 +4,8 @@ import domain.piece.move.Direction;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 public class PointTest {
     @Test
@@ -55,56 +54,119 @@ public class PointTest {
                 .isTrue();
     }
 
-    @Test
-    @DisplayName("(1,1)에서 DOWN시 (2,1)로 가야한다.")
-    void increaseRowDirectionWhenMovingDown() {
-        int y = 1;
-        int x = 1;
-        Direction down = Direction.DOWN;
+    @Nested
+    @DisplayName("Point 위치 이동 검증")
+    class shouldUpdateDirectionWhenPointMove {
 
-        Point point = new Point(1, 1);
+        @Test
+        @DisplayName("DOWN시 Y축이 1증가해야한다.")
+        void increaseRowWhenMovingDown() {
+            Point point = new Point(1, 1);
 
-        Point actual = point.next(Direction.DOWN);
-        Point expected = new Point(2, 1);
+            Point actual = point.next(Direction.DOWN);
+            Point expected = new Point(2, 1);
 
-        Assertions.assertThat(actual)
-                .isEqualTo(expected);
-    }
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
 
-    @Test
-    @DisplayName("(1,1)에서 UP시 (0,1)로 가야한다.")
-    void increaseRowDirectionWhenMovingUp() {
-        Point point = new Point(1, 1);
+        @Test
+        @DisplayName("UP시 Y축이 1감소해야한다.")
+        void increaseRowWhenMovingUp() {
+            Point point = new Point(1, 1);
 
-        Point actual = point.next(Direction.UP);
-        Point expected = new Point(0, 1);
+            Point actual = point.next(Direction.UP);
+            Point expected = new Point(0, 1);
 
-        Assertions.assertThat(actual)
-                .isEqualTo(expected);
-    }
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
 
-    @Test
-    @DisplayName("(1,1)에서 LEFT시 (1,0)로 가야한다.")
-    void decreaseFileDirectionWhenMovingLeft() {
-        Point point = new Point(1, 1);
+        @Test
+        @DisplayName("LEFT시 X축이 1감소해야한다.")
+        void decreaseFileWhenMovingLeft() {
+            Point point = new Point(1, 1);
 
-        Point actual = point.next(Direction.LEFT);
-        Point expected = new Point(1, 0);
+            Point actual = point.next(Direction.LEFT);
+            Point expected = new Point(1, 0);
 
-        Assertions.assertThat(actual)
-                .isEqualTo(expected);
-    }
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
 
-    @Test
-    @DisplayName("(1,1)에서 DOWN시 (1,2)로 가야한다.")
-    void increaseFileDirectionWhenMovingRight() {
-        Point point = new Point(1, 1);
+        @Test
+        @DisplayName("RIGHT시 X축이 1증가해야한다.")
+        void increaseFileWhenMovingRight() {
+            Point point = new Point(1, 1);
 
-        Point actual = point.next(Direction.RIGHT);
-        Point expected = new Point(1, 2);
+            Point actual = point.next(Direction.RIGHT);
+            Point expected = new Point(1, 2);
 
-        Assertions.assertThat(actual)
-                .isEqualTo(expected);
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("LEFT_UP시 X축은 1감소하고 Y축도 1감소한다.")
+        void decreaseRowAndFileWhenMovingLeftAndUp() {
+            Point point = new Point(1, 1);
+
+            Point actual = point.next(Direction.LEFT_UP);
+            Point expected = new Point(0, 0);
+
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("LEFT_DOWN시 X축은 1감소하고 Y축은 1증가한다.")
+        void increaseRowAndDecreaseFileWhenMovingLeftAndDown() {
+            Point point = new Point(1, 1);
+
+            Point actual = point.next(Direction.LEFT_DOWN);
+            Point expected = new Point(2, 0);
+
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
+
+
+        @Test
+        @DisplayName("RIGHT_UP시 X축은 1증가하고 Y축은 1감소한다.")
+        void decreaseRowAndIncreaseFileWhenMovingRightUp() {
+            Point point = new Point(1, 1);
+
+            Point actual = point.next(Direction.RIGHT_UP);
+            Point expected = new Point(0, 2);
+
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
+
+
+        @Test
+        @DisplayName("RIGHT_DOWN시 X축은 1증가하고 Y축은 1증가한다.")
+        void increaseRowAndFileWhenMovingRightDown() {
+            Point point = new Point(1, 1);
+
+            Point actual = point.next(Direction.RIGHT_DOWN);
+            Point expected = new Point(2, 2);
+
+            Assertions.assertThat(actual)
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("이동 시, 장기판 범위를 이탈하면 예외가 발생한다.")
+        void shouldThrowException_WhenPointMovingIsOutOfBound() {
+            Point point = new Point(0, 0);
+
+            Assertions.assertThatThrownBy(() -> {
+                point.next(Direction.LEFT_UP);
+            }).isInstanceOf(IllegalArgumentException.class);
+
+        }
+
     }
 
 }
