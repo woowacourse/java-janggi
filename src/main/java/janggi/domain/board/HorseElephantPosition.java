@@ -35,4 +35,5 @@ public enum HorseElephantPosition {
     public int rightElephantColumn() {
         return rightElephantColumn;
     }
+    
 }
