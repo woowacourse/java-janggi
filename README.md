@@ -100,7 +100,7 @@
 - [ ] 선택에 따른 안내 문구를 출력한다.
 - [ ] 승패를 출력한다.
 
-# Controller
+# controller.Controller
 
 ## JanggiController
 

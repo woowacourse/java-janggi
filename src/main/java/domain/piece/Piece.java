@@ -27,4 +27,12 @@ public abstract class Piece {
     public int hashCode() {
         return Objects.hash(pieceType, team);
     }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
 }

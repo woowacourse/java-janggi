@@ -31,4 +31,12 @@ public class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
+
+    public Row getRow() {
+        return row;
+    }
+
+    public Column getColumn() {
+        return column;
+    }
 }
