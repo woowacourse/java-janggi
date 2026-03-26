@@ -28,7 +28,7 @@ public class JanggiService {
         for (int x = 1; x<= Position.MAX_ROW; x++){
             List<String> values= new ArrayList<>();
             for (int y = 1; y <= Position.MAX_COL; y++) {
-                PieceType pieceType = board.getPiece(new Position(x, y));
+                PieceType pieceType = board.getPiece(Position.create(x, y));
                 values.add(pieceType.getName());
             }
             boardAll.add(new BoardDto.Row(values));

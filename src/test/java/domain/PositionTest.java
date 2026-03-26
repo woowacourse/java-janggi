@@ -9,13 +9,13 @@ class PositionTest {
 
     @Test
     void 범위_벗어난_좌표_예외_테스트() {
-        assertThatThrownBy(() -> new Position(11, 9))
+        assertThatThrownBy(() -> Position.create(11, 9))
                 .isInstanceOf(IndexOutOfBoundsException.class);
     }
 
     @Test
     void 범위_안의_좌표_정상_테스트() {
-        assertThatCode(() -> new Position(10, 9))
+        assertThatCode(() -> Position.create(10, 9))
                 .doesNotThrowAnyException();
     }
 

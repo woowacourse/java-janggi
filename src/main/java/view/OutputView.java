@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 
 import domain.Country;
+import domain.PieceType;
 import service.dto.BoardDto;
 import service.dto.PositionDto;
 
@@ -42,12 +43,12 @@ public class OutputView {
         }
     }
 
-    public void printPiecePossiblePosition(List<PositionDto> positionDtos) {
+    public void printPiecePossiblePosition(PieceType pieceType,List<PositionDto> positionDtos) {
+        System.out.printf("['%s' 기물의 현재 좌표 목록]\n",pieceType.getName());
         int num = 1;
         for (PositionDto dto : positionDtos) {
             System.out.printf("%d. [%d,%d]\n", num++, dto.x(), dto.y());
         }
     }
-
 
 }

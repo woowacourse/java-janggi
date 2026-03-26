@@ -25,4 +25,10 @@ public class InputView {
         System.out.println("움질일 기물을 선택해주세요. (예: 병, 차, 마, 등) : ");
         return scanner.nextLine();
     }
+
+    public int requestStartPiecePosition() {
+        System.out.println("움직일 기물의 좌표의 번호를 선택해주세요. ");
+        return Validator.validateNumber(scanner.nextLine());
+    }
+
 }

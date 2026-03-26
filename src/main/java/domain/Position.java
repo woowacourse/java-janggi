@@ -10,10 +10,14 @@ public class Position {
     private final int x;
     private final int y;
 
-    public Position(int x, int y) {
+    private Position(int x, int y) {
         validateBoardSize(x, y);
         this.x = x;
         this.y = y;
+    }
+
+    public static Position create(int x, int y) {
+        return new Position(x, y);
     }
 
     private void validateBoardSize(int x, int y){

@@ -66,12 +66,16 @@ public class Board {
     }
 
     public List<Position> getPiecesNowPosition(Country country, PieceType pieceType) {
-        return board.entrySet().stream()
+        List<Position> positions = board.entrySet().stream()
                 .filter(entry ->
-                                entry.getValue().getPieceType() == pieceType &&
+                        entry.getValue().getPieceType() == pieceType &&
                                 entry.getValue().getCountry() == country)
                 .map(Map.Entry::getKey)
                 .toList();
+        if (positions.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 기물입니다. 장기판 위의 기물을 입력해주세요.");
+        }
+        return positions;
     }
 
     private Piece createPiece(PieceType type, Country country) {

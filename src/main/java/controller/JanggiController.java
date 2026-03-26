@@ -7,6 +7,7 @@ import domain.Board;
 import domain.Country;
 import domain.JanggiGame;
 import domain.PieceType;
+import domain.Position;
 import service.JanggiService;
 import service.dto.BoardDto;
 import service.dto.PositionDto;
@@ -29,7 +30,9 @@ public class JanggiController {
 
     public void run() {
         JanggiGame janggiGame = init();
-        requestMovePiece(janggiGame);
+        List<PositionDto> positionDtos = requestMovePiece(janggiGame);
+
+        Position start = requestStartPiecePosition(positionDtos);
     }
 
     private JanggiGame init() {
@@ -49,10 +52,20 @@ public class JanggiController {
         return janggiService.createJanggiGame(board);
     }
 
-    private void requestMovePiece(JanggiGame janggiGame) {
-        PieceType pieceType = doRetry(() -> PieceType.of(inputView.requestPiece()));
-        List<PositionDto> positionDtos = janggiService.getPiecePositions(janggiGame, pieceType);
-        outputView.printPiecePossiblePosition(positionDtos);
+    private List<PositionDto> requestMovePiece(JanggiGame janggiGame) {
+        return doRetry(() -> {
+            PieceType pt = PieceType.of(inputView.requestPiece());
+            List<PositionDto> dtos = janggiService.getPiecePositions(janggiGame, pt);
+            outputView.printPiecePossiblePosition(pt,dtos);
+            return dtos;
+        });
+    }
+
+    private Position requestStartPiecePosition(List<PositionDto> positionDtos ) {
+        return doRetry(() -> {
+            int choiceStart = inputView.requestStartPiecePosition();
+            return Position.create(positionDtos.get(choiceStart).x(), positionDtos.get(choiceStart).y());
+        });
     }
 
 

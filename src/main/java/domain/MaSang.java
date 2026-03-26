@@ -22,7 +22,7 @@ public enum MaSang {
     }
 
     public Position getPosition() {
-        return new Position(this.x, this.y);
+        return Position.create(this.x, this.y);
     }
 
     public Country getCountry() {
