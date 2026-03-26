@@ -24,6 +24,7 @@ class HorseTest {
     private static final Soldier SAME_SIDE_PEICE = new Soldier(SIDE);
     private static final Soldier OPPOSITE_SIDE_PEICE = new Soldier(OPPOSITE_SIDE);
     private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
+
     private static final Intersection LEFT_DESTINATION = new Intersection(
             CURRENT_INTERSECTION.row() - 2,
             CURRENT_INTERSECTION.file() - 1
@@ -120,7 +121,7 @@ class HorseTest {
     void 종착지에_아군_기물이_있다면_이동할_수_없다() {
         // given
         Horse horse = new Horse(SIDE);
-        
+
         AlivePieces alivePieces = new AlivePieces(Map.of(
                 LEFT_DESTINATION, SAME_SIDE_PEICE,
                 RIGHT_DESTINATION, SAME_SIDE_PEICE
@@ -154,7 +155,7 @@ class HorseTest {
     void 종착지에_기물이_없다면_이동할_수_있다() {
         // given
         Horse horse = new Horse(SIDE);
-        
+
         AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
         // when
