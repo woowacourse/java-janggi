@@ -4,7 +4,7 @@ import domain.player.Team;
 
 public class None extends Piece {
 
-    public None(Team team) {
-        super(team, PieceType.NONE, null, null);
+    public None() {
+        super(Team.NULL, PieceType.NONE, null, null);
     }
 }

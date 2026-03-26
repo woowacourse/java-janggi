@@ -65,7 +65,7 @@ public class BoardFactory {
 
         for (int y = 0; y <= 9; y++) {
             for (int x = 0; x <= 8; x++) {
-                board.put(new Position(x, y), new None(Team.NULL));
+                board.put(new Position(x, y), new None());
             }
         }
 
@@ -74,7 +74,7 @@ public class BoardFactory {
         board.put(new Position(1, 0), new Sang(Team.CHO));
         board.put(new Position(2, 0), new Ma(Team.CHO));
         board.put(new Position(3, 0), new Sa(Team.CHO));
-        board.put(new Position(4, 0), new None(Team.NULL));
+        board.put(new Position(4, 0), new None());
         board.put(new Position(5, 0), new Sa(Team.CHO));
         board.put(new Position(6, 0), new Ma(Team.CHO));
         board.put(new Position(7, 0), new Sang(Team.CHO));
@@ -94,7 +94,7 @@ public class BoardFactory {
         board.put(new Position(1, 9), new Sang(Team.HAN));
         board.put(new Position(2, 9), new Ma(Team.HAN));
         board.put(new Position(3, 9), new Sa(Team.HAN));
-        board.put(new Position(4, 9), new None(Team.NULL));
+        board.put(new Position(4, 9), new None());
         board.put(new Position(5, 9), new Sa(Team.HAN));
         board.put(new Position(6, 9), new Ma(Team.HAN));
         board.put(new Position(7, 9), new Sang(Team.HAN));
