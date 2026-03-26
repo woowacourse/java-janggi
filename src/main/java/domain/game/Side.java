@@ -5,6 +5,7 @@ import domain.direction.Down;
 import domain.direction.Left;
 import domain.direction.Right;
 import domain.direction.Up;
+import java.util.List;
 
 public enum Side {
     HAN(1, new Down(), new Right()),
@@ -47,5 +48,9 @@ public enum Side {
 
     public Direction getRightDirection() {
         return rightDirection;
+    }
+
+    public List<Direction> getAllDirections() {
+        return List.of(forwardDirection, backwardDirection, leftDirection, rightDirection);
     }
 }

@@ -14,6 +14,10 @@ public record Intersection(
         return isRowOutOfBoard() || isFileOutOfBoard();
     }
 
+    public boolean isInBoard() {
+        return !isOutOfBoard();
+    }
+
     private boolean isRowOutOfBoard() {
         return row < MINIMUM_ROW || row > MAXIMUM_ROW;
     }
