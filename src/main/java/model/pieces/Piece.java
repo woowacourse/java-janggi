@@ -5,12 +5,16 @@ import model.Country;
 
 public abstract class Piece {
     private final Country country;
+    private final PieceType pieceType;
 
-    public Piece(Country country) {
+    public Piece(Country country, PieceType pieceType) {
         this.country = country;
+        this.pieceType = pieceType;
     }
 
-    abstract public String mark(Country country);
+    public String mark() {
+        return country().color() + pieceType.symbol() + Country.RESET;
+    }
 
     @Override
     public boolean equals(Object o) {

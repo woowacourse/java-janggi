@@ -44,7 +44,7 @@ public class OutputView {
     }
 
     private static void printMark(Piece piece) {
-        System.out.printf(String.format("%s ", piece.mark(piece.country())));
+        System.out.printf(String.format("%s ", piece.mark()));
     }
 
     private static void printBoardLine(int row, int col) {
