@@ -5,6 +5,7 @@ import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ListPathGenerator implements PathGenerator {
 
@@ -16,22 +17,31 @@ public class ListPathGenerator implements PathGenerator {
 
     @Override
     public Path calculatePath(Position src, Position dest) {
-        for (List<Direction> path : paths) {
-            try {
-                List<Position> waypoints = new ArrayList<>();
-                Position nextPosition = src;
-                for (Direction direction : path) {
-                    nextPosition = direction.move(nextPosition);
-                    waypoints.add(nextPosition);
-                }
+        return paths.stream()
+                .map(directionPath -> tryBuildPath(src, dest, directionPath))
+                .filter(Optional::isPresent)
+                .findFirst()
+                .flatMap(optional -> optional)
+                .orElseThrow(() -> new IllegalArgumentException("목적지로 이동할 수 없습니다."));
+    }
 
-                if (dest.equals(nextPosition)) {
-                    waypoints.removeLast();
-                    return new Path(src, dest, waypoints);
-                }
-            } catch (IllegalArgumentException e) {
+    private Optional<Path> tryBuildPath(Position src, Position dest, List<Direction> directionPath) {
+        try {
+            List<Position> waypoints = new ArrayList<>();
+            Position current = src;
+            for (Direction direction : directionPath) {
+                current = direction.move(current);
+                waypoints.add(current);
             }
+
+            if (dest.equals(current)) {
+                waypoints.removeLast();
+                return Optional.of(new Path(src, dest, waypoints));
+            }
+        } catch (IllegalArgumentException e) {
         }
-        throw new IllegalArgumentException("목적지로 이동할 수 없습니다.");
+        return Optional.empty();
     }
 }
+
+
