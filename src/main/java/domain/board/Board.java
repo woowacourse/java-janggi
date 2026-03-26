@@ -38,6 +38,34 @@ public class Board implements BoardView {
         }
     }
 
+    public void move(Position from, Position to, Side side) {
+        Place place = board.get(from);
+
+        validateSourcePiece(place, side);
+
+        if (!place.canMove(this, from, to)) {
+            throw new IllegalArgumentException("[ERROR] 기물이 가지 못하는 자리입니다.");
+        }
+
+        change(from, to);
+    }
+
+    private void validateSourcePiece(Place place, Side side) {
+        if (place.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 선택한 위치에 기물이 없습니다.");
+        }
+
+        if (!place.isSameSide(side)) {
+            throw new IllegalArgumentException("[ERROR] 본인의 기물을 선택해야 합니다.");
+        }
+    }
+
+    private void change(Position from, Position to) {
+        Place piece = board.get(from);
+        board.put(from, new Empty());
+        board.put(to, piece);
+    }
+
     @Override
     public boolean isCannon(Position position) {
         Place place = board.get(position);
