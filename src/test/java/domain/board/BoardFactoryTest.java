@@ -21,15 +21,15 @@ class BoardFactoryTest {
         BoardDTO dto = board.createDTO();
         var data = dto.board();
 
-        assertEquals(choExpected[0], data.get(0).get(1));
-        assertEquals(choExpected[1], data.get(0).get(2));
-        assertEquals(choExpected[2], data.get(0).get(6));
-        assertEquals(choExpected[3], data.get(0).get(7));
+        assertEquals(hanExpected[0], data.get(0).get(1));
+        assertEquals(hanExpected[1], data.get(0).get(2));
+        assertEquals(hanExpected[2], data.get(0).get(6));
+        assertEquals(hanExpected[3], data.get(0).get(7));
 
-        assertEquals(hanExpected[0], data.get(9).get(1));
-        assertEquals(hanExpected[1], data.get(9).get(2));
-        assertEquals(hanExpected[2], data.get(9).get(6));
-        assertEquals(hanExpected[3], data.get(9).get(7));
+        assertEquals(choExpected[0], data.get(9).get(1));
+        assertEquals(choExpected[1], data.get(9).get(2));
+        assertEquals(choExpected[2], data.get(9).get(6));
+        assertEquals(choExpected[3], data.get(9).get(7));
     }
 
     static Stream<Arguments> provideFormations() {
