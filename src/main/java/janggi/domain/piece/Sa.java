@@ -24,8 +24,8 @@ public class Sa extends Piece {
     }
 
     private boolean moveStrategy(Position from, Position to) {
-        int dx = from.diffX(to);
-        int dy = from.diffY(to);
+        int dx = from.deltaX(to);
+        int dy = from.deltaY(to);
 
         return (Math.abs(dx) == 0 && Math.abs(dy) == 1) ||
                 (Math.abs(dx) == 1 && Math.abs(dy) == 0);

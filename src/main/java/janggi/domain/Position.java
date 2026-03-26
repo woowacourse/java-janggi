@@ -3,16 +3,16 @@ package janggi.domain;
 import java.util.Objects;
 
 public record Position(
-        int x,
-        int y
+    int x,
+    int y
 ) {
 
-    public int diffX(Position other) {
-        return x - other.x;
+    public int deltaX(Position other) {
+        return other.x - x;
     }
 
-    public int diffY(Position other) {
-        return y - other.y;
+    public int deltaY(Position other) {
+        return other.y - y;
     }
 
     @Override

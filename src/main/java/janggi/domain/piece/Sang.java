@@ -24,8 +24,8 @@ public class Sang extends Piece {
     }
 
     private boolean moveStrategy(Position from, Position to) {
-        int dx = from.diffX(to);
-        int dy = from.diffY(to);
+        int dx = from.deltaX(to);
+        int dy = from.deltaY(to);
 
         return (Math.abs(dx) == 3 && Math.abs(dy) == 2) ||
                 (Math.abs(dx) == 2 && Math.abs(dy) == 3);
