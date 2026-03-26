@@ -10,4 +10,12 @@ public class Path {
         this.route = route;
         this.destination = destination;
     }
+
+    public List<Position> route() {
+        return route;
+    }
+
+    public Position destination() {
+        return destination;
+    }
 }
