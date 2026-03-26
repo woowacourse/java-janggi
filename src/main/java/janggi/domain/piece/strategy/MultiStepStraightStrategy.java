@@ -5,7 +5,7 @@ import janggi.domain.piece.Camp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChariotStrategy implements MoveStrategy {
+public class MultiStepStraightStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position from, Position to, Camp camp) {

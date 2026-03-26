@@ -12,9 +12,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class ChariotStrategyTest {
+public class MultiStepStraightStrategyTest {
 
-    private final MoveStrategy strategy = new ChariotStrategy();
+    private final MoveStrategy strategy = new MultiStepStraightStrategy();
 
     private static Stream<Arguments> createPositionsAndPath() {
         return Stream.of(

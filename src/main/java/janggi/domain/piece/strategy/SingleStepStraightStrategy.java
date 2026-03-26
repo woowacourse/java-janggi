@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import java.util.List;
 
-public class GeneralAndGuardStrategy implements MoveStrategy {
+public class SingleStepStraightStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position from, Position to, Camp camp) {
