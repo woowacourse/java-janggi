@@ -1,5 +1,7 @@
 package domain.point;
 
+import domain.piece.move.Direction;
+
 public record Point(
         int y,
         int x
@@ -26,4 +28,7 @@ public record Point(
         return this.x == other.x;
     }
 
+    public Point next(Direction direction) {
+        return new Point(y + direction.dy(), x + direction.dx());
+    }
 }

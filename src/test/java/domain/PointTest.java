@@ -1,9 +1,12 @@
 package domain;
 
+import domain.piece.move.Direction;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class PointTest {
     @Test
@@ -32,7 +35,7 @@ public class PointTest {
 
     @Test
     @DisplayName("(0, 0)과 (0, 7)은 Y축이 같아야 한다")
-    void returnTrueWhenFilesMatch(){
+    void returnTrueWhenFilesMatch() {
         int y = 0;
         int seven = 7;
         int zero = 0;
@@ -43,13 +46,65 @@ public class PointTest {
 
     @Test
     @DisplayName("(0, 0)과 (7, 0)은 X축이 같아야 한다")
-    void returnTrueWhenRowsMatch(){
+    void returnTrueWhenRowsMatch() {
         int x = 0;
         int seven = 7;
         int zero = 0;
 
         Assertions.assertThat(new Point(seven, x).isSameRow(new Point(zero, x)))
                 .isTrue();
+    }
+
+    @Test
+    @DisplayName("(1,1)에서 DOWN시 (2,1)로 가야한다.")
+    void increaseRowDirectionWhenMovingDown() {
+        int y = 1;
+        int x = 1;
+        Direction down = Direction.DOWN;
+
+        Point point = new Point(1, 1);
+
+        Point actual = point.next(Direction.DOWN);
+        Point expected = new Point(2, 1);
+
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("(1,1)에서 UP시 (0,1)로 가야한다.")
+    void increaseRowDirectionWhenMovingUp() {
+        Point point = new Point(1, 1);
+
+        Point actual = point.next(Direction.UP);
+        Point expected = new Point(0, 1);
+
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("(1,1)에서 LEFT시 (1,0)로 가야한다.")
+    void decreaseFileDirectionWhenMovingLeft() {
+        Point point = new Point(1, 1);
+
+        Point actual = point.next(Direction.LEFT);
+        Point expected = new Point(1, 0);
+
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("(1,1)에서 DOWN시 (1,2)로 가야한다.")
+    void increaseFileDirectionWhenMovingRight() {
+        Point point = new Point(1, 1);
+
+        Point actual = point.next(Direction.RIGHT);
+        Point expected = new Point(1, 2);
+
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
     }
 
 }
