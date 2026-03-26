@@ -1,6 +1,8 @@
 package domain.place;
 
+import domain.board.BoardView;
 import domain.place.piece.Side;
+import domain.position.Position;
 
 public class Empty implements Place {
 
@@ -26,6 +28,11 @@ public class Empty implements Place {
 
     @Override
     public boolean isCannon() {
+        return false;
+    }
+
+    @Override
+    public boolean canMove(BoardView board, Position from, Position to) {
         return false;
     }
 }

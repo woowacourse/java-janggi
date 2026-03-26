@@ -9,8 +9,10 @@ import domain.place.Empty;
 import domain.place.Place;
 import domain.place.moveStrategy.CannonMoveStrategy;
 import domain.place.moveStrategy.ChariotMoveStrategy;
+import domain.place.moveStrategy.ChoSoldierMoveStrategy;
 import domain.place.moveStrategy.GeneralMoveStrategy;
 import domain.place.moveStrategy.GuardMoveStrategy;
+import domain.place.moveStrategy.HanSoldierMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.piece.Cannon;
 import domain.place.piece.Chariot;
@@ -79,7 +81,7 @@ public class BoardFactory {
         cannonSetUpFormation(board, side, startLine);
 
         startLine += direction;
-        sordierSetUpFormation(board, side, startLine);
+        soldierSetUpFormation(board, side, startLine);
     }
 
     private static void firstSetUpFormation(Map<Position, Place> board, Side side, int startLine){
@@ -88,13 +90,19 @@ public class BoardFactory {
     }
 
     private static void cannonSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        int cannonStartLine = startLine;
-        CANNON_COLS.forEach(c -> board.put(new Position(cannonStartLine, c), new Cannon(side, new CannonMoveStrategy())));
+        CANNON_COLS.forEach(c -> board.put(new Position(startLine, c), new Cannon(side, new CannonMoveStrategy())));
     }
 
-    private static void sordierSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        int soldierStartLine = startLine;
-        MoveStrategy soldierMoveStrategy = side.getSoliderMoveStrategy();
-        SOLDIER_COLS.forEach(c -> board.put(new Position(soldierStartLine, c), new Soldier(side, soldierMoveStrategy)));
+    private static void soldierSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
+        MoveStrategy soldierMoveStrategy = createSoldierMoveStrategy(side);
+
+        SOLDIER_COLS.forEach(c -> board.put(new Position(startLine, c), new Soldier(side, soldierMoveStrategy)));
+    }
+
+    private static MoveStrategy createSoldierMoveStrategy(Side side) {
+        if (side == Side.CHO) {
+            return new ChoSoldierMoveStrategy();
+        }
+        return new HanSoldierMoveStrategy();
     }
 }
