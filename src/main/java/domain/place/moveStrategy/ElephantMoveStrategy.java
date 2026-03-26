@@ -47,12 +47,27 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private boolean isValidElephantPath(BoardView board, Position current, Position to, Direction direction) {
+        if (!isStepInBounds(current, direction)) {
+            return false;
+        }
+
         Position step1 = current.move(direction);
         if (!board.isEmpty(step1)) {
             return false;
         }
 
+        if (!isStepInBounds(step1, direction)) {
+            return false;
+        }
+
         Position step2 = step1.move(direction);
         return to.equals(step2);
+    }
+
+    private boolean isStepInBounds(Position current, Direction direction) {
+        int nextRow = current.getRow() + direction.getRow();
+        int nextCol = current.getColumn() + direction.getColumn();
+
+        return Position.isNotOutOfBounds(nextRow, nextCol);
     }
 }

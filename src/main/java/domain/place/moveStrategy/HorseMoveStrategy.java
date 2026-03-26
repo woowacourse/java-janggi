@@ -36,14 +36,31 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     private boolean isPathClear(Position from, Position to, Direction direction) {
+        if(!isStepInBounds(from, direction)){
+            return false;
+        }
         Position step1 = from.move(direction);
 
+        return isStep2Clear(step1, to, direction);
+    }
+
+    private boolean isStep2Clear(Position step1, Position to, Direction direction){
         List<Direction> diagonal = DIAGONAL_DIRECTIONS.stream()
                 .filter(dig -> isAlignedWith(direction, dig))
                 .toList();
 
+        if(!isStepInBounds(step1, direction)){
+            return false;
+        }
         return diagonal.stream()
                 .map(step1::move)
                 .anyMatch(to::equals);
+    }
+
+    private boolean isStepInBounds(Position current, Direction direction) {
+        int nextRow = current.getRow() + direction.getRow();
+        int nextCol = current.getColumn() + direction.getColumn();
+
+        return Position.isNotOutOfBounds(nextRow, nextCol);
     }
 }

@@ -1,11 +1,10 @@
 package domain.place.piece;
 
 public enum Side {
-    CHO("C", 10, -1, "\u001B[31m"), // 빨강
-    HAN("H", 1, 1, "\u001B[34m");   // 파랑
+    CHO("C",10, -1, "\u001B[34m"), // 빨강
+    HAN("H",1, 1, "\u001B[31m");   // 파랑
 
     private static final String RESET = "\u001B[0m";
-
     private final String name;
     private final int startLine;
     private final int direction;

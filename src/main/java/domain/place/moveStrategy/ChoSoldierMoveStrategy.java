@@ -7,7 +7,7 @@ import java.util.List;
 public class ChoSoldierMoveStrategy implements MoveStrategy {
 
     private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
-            Direction.TOP, Direction.LEFT, Direction.RIGHT
+            Direction.DOWN, Direction.LEFT, Direction.RIGHT
     );
 
     @Override
