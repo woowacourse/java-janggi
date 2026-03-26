@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.mouveRule.ElephantMoveRule;
 import janggi.domain.mouveRule.MoveRule;
 
 public class Elephant extends Piece {
@@ -16,6 +17,6 @@ public class Elephant extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return null;
+        return new ElephantMoveRule();
     }
 }
