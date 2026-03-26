@@ -59,4 +59,66 @@ class StraightMovementTest {
         }
     }
 
+    @Nested
+    @DisplayName("목적지 계산 테스트")
+    class CalculateDestination {
+
+        Board board;
+        BoardMediator boardMediator;
+        @BeforeEach
+        void setUp() {
+            board = new Board(Map.of(Position.valueOf(5, 6), new Soldier(TeamType.BLUE)));
+            boardMediator = new BoardMediatorImpl(board);
+        }
+
+        @Test
+        @DisplayName("경로에 아군이 있는 경우")
+        void success_1() {
+            board = new Board(Map.of(Position.valueOf(5, 6), new Soldier(TeamType.RED)));
+            boardMediator = new BoardMediatorImpl(board);
+            Position from = Position.valueOf(5, 3);
+            int maxDistance = 4;
+            Direction direction = Direction.valueOf(0, 1);
+            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Position expected = Position.valueOf(5, 5);
+
+            Position actual = straightMovement.calculateDestination(from);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("경로에 적군이 있는 경우")
+        void success_2() {
+            board = new Board(Map.of(Position.valueOf(5, 6), new Soldier(TeamType.BLUE)));
+            boardMediator = new BoardMediatorImpl(board);
+            Position from = Position.valueOf(5, 3);
+            int maxDistance = 4;
+            Direction direction = Direction.valueOf(0, 1);
+            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Position expected = Position.valueOf(5, 6);
+
+            Position actual = straightMovement.calculateDestination(from);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("경로에 기물이 없는 경우")
+        void success_3() {
+            board = new Board(Map.of());
+            boardMediator = new BoardMediatorImpl(board);
+            Position from = Position.valueOf(5, 3);
+            int maxDistance = 4;
+            Direction direction = Direction.valueOf(0, 1);
+            Movement straightMovement = new StraightMovement(maxDistance, direction, boardMediator);
+            Position expected = Position.valueOf(5, 7);
+
+            Position actual = straightMovement.calculateDestination(from);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+    }
+
 }
