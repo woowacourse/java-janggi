@@ -13,6 +13,10 @@ public record Point(
         this.x = x;
     }
 
+    public boolean canMake(int y, int x){
+        return checkPointRange(this.y + y, this.x + x);
+    }
+
     public Point movePoint(int y, int x) {
         return new Point(this.y + y, this.x + x);
     }
