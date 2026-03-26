@@ -7,7 +7,7 @@ import java.util.List;
 public class HanSoldierMoveStrategy implements MoveStrategy {
 
     private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
-            Direction.DOWN, Direction.LEFT, Direction.RIGHT
+            Direction.TOP, Direction.LEFT, Direction.RIGHT
     );
 
     @Override
