@@ -14,4 +14,8 @@ public abstract class MoveStrategy {
     public abstract boolean isMoveAble(Position position);
 
     public abstract boolean isInvalidPath(Position destination, List<Position> piecePositions);
+
+    public Position position() {
+        return position;
+    }
 }

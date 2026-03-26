@@ -30,7 +30,15 @@ public abstract class Piece {
         return this.pieceProperty.pieceType();
     }
 
-    public Team team() {
-        return this.pieceProperty.team();
+    public boolean isGreenTeam() {
+        return this.pieceProperty.team().equals(Team.GREEN);
+    }
+
+    public boolean isRedTeam() {
+        return this.pieceProperty.team().equals(Team.RED);
+    }
+
+    public Position position() {
+        return moveStrategy.position();
     }
 }
