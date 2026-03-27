@@ -87,11 +87,17 @@ public class JanggiGenerator implements IntersectionGenerator {
     }
 
     private Formation getFormationByTeam(Team team) {
-        return team == Team.HAN ? hanFormation : choFormation;
+        if (team == Team.HAN) {
+            return hanFormation;
+        }
+        return choFormation;
     }
 
     private int getRow(Team team, int row) {
-        return team == Team.CHO ? MAX_ROW - row : row;
+        if (team == Team.CHO) {
+            return MAX_ROW - row;
+        }
+        return row;
     }
 
 }
