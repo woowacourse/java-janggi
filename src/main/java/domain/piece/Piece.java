@@ -35,6 +35,10 @@ public abstract class Piece {
         return this.side == side;
     }
 
+    public int forward() {
+        return side.getForward();
+    }
+
     public abstract List<Position> getPossibleMoves(Board board, Position start);
 
     @Override
