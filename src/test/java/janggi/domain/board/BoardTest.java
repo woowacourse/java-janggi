@@ -1,17 +1,17 @@
 package janggi.domain.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import janggi.domain.movestrategy.ChariotStrategy;
 import janggi.domain.piece.ChariotPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardTest {
 
@@ -20,10 +20,10 @@ class BoardTest {
     @BeforeEach
     void setUp() {
         Map<Position, Piece> boards = new LinkedHashMap<>();
-        boards.put(new Position(1, 1), new ChariotPiece(Team.HAN));
-        boards.put(new Position(9, 1), new ChariotPiece(Team.HAN));
-        boards.put(new Position(1, 10), new ChariotPiece(Team.CHO));
-        boards.put(new Position(9, 10), new ChariotPiece(Team.CHO));
+        boards.put(new Position(1, 1), new ChariotPiece(Team.HAN, new ChariotStrategy()));
+        boards.put(new Position(9, 1), new ChariotPiece(Team.HAN, new ChariotStrategy()));
+        boards.put(new Position(1, 10), new ChariotPiece(Team.CHO, new ChariotStrategy()));
+        boards.put(new Position(9, 10), new ChariotPiece(Team.CHO, new ChariotStrategy()));
         board = new Board(boards);
     }
 

@@ -1,33 +1,14 @@
 package janggi.domain.piece;
 
-import static java.lang.Math.abs;
-
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.MoveStrategy;
 import java.util.List;
 import java.util.Map;
 
 public class GeneralPiece extends Piece {
 
-    public GeneralPiece(Team team) {
-        super(team, Name.GENERAL);
-    }
-
-    @Override
-    public boolean canMove(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextX = to.getX();
-        int nextY = to.getY();
-
-        if (abs(preX - nextX) > 1) {
-            return false;
-        }
-        if (abs(preY - nextY) > 1) {
-            return false;
-        }
-
-        return abs(preX - nextX) + abs(preY - nextY) <= 1;
+    public GeneralPiece(Team team, MoveStrategy moveStrategy) {
+        super(team, Name.GENERAL, moveStrategy);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.MoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,25 +12,8 @@ public class ElephantPiece extends Piece {
             List.of(-2, 3), List.of(-3, 2), List.of(-2, -3), List.of(-3, -2)
     );
 
-    public ElephantPiece(Team team) {
-        super(team, Name.ELEPHANT);
-    }
-
-    @Override
-    public boolean canMove(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextY = to.getY();
-        int nextX = to.getX();
-
-        for (List<Integer> destination : destinations) {
-            if (nextY - preY == destination.get(1)
-                    && nextX - preX == destination.get(0)) {
-                return true;
-            }
-        }
-        return false;
+    public ElephantPiece(Team team, MoveStrategy moveStrategy) {
+        super(team, Name.ELEPHANT, moveStrategy);
     }
 
     @Override

@@ -3,6 +3,8 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.ChariotStrategy;
+import janggi.domain.movestrategy.ElephantStrategy;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ class ChariotPieceTest {
             "8, 3, 2, 4",
     })
     void testNotMovableChariot(int preX, int preY, int nextX, int nextY) {
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
@@ -37,7 +39,7 @@ class ChariotPieceTest {
             "8, 3, 8, 1",
     })
     void testMoveChariot(int preX, int preY, int nextX, int nextY) {
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
@@ -48,7 +50,7 @@ class ChariotPieceTest {
     void testFindDestinationPath() {
         Position from = new Position(2, 3);
         Position to = new Position(5, 3);
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
 
         List<Position> result = chariotPiece.findPath(from, to);
         assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3), new Position(5, 3));
@@ -59,10 +61,10 @@ class ChariotPieceTest {
     void testMoveOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN));
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
@@ -71,9 +73,9 @@ class ChariotPieceTest {
     void testNotMoveIfSameTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
@@ -82,9 +84,9 @@ class ChariotPieceTest {
     void testNotMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 
@@ -93,7 +95,7 @@ class ChariotPieceTest {
     void testMoveNoPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 

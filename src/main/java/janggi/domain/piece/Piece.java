@@ -1,16 +1,19 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.MoveStrategy;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
     private final Team team;
     private final Name name;
+    private final MoveStrategy moveStrategy;
 
-    public Piece(Team team, Name name) {
+    public Piece(Team team, Name name, MoveStrategy moveStrategy) {
         this.team = team;
         this.name = name;
+        this.moveStrategy = moveStrategy;
     }
 
     public String getPieceName() {
@@ -33,7 +36,11 @@ public abstract class Piece {
         return team == Team.HAN;
     }
 
-    abstract public boolean canMove(Position from, Position to);
+    public boolean canMove(Position from, Position to) {
+        return moveStrategy.canMove(from, to);
+    }
+
+    ;
 
     abstract public List<Position> findPath(Position from, Position to);
 

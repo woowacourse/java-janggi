@@ -3,6 +3,8 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.CannonStrategy;
+import janggi.domain.movestrategy.ElephantStrategy;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ class ElephantPieceTest {
             "5, 4, 7, 7", "5, 4, 8, 6",
     })
     void testMovableElephant(int preX, int preY, int nextX, int nextY) {
-        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
         assertThat(elephantPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -36,7 +38,7 @@ class ElephantPieceTest {
             "5, 4, 4, 7", "5, 4, 6, 5",
     })
     void testNotMovableElephant(int preX, int preY, int nextX, int nextY) {
-        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
         assertThat(elephantPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -54,7 +56,7 @@ class ElephantPieceTest {
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY,
                                  int pathX1, int pathY1, int pathX2, int pathY2) {
-        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
         List<Position> path = elephantPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(pathX2, pathY2),
                 new Position(nextX, nextY));
@@ -65,10 +67,10 @@ class ElephantPieceTest {
     void testMoveOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new CannonPiece(Team.HAN));
-        positionPieces.put(new Position(6, 6), new CannonPiece(Team.HAN));
+        positionPieces.put(new Position(5, 5), new CannonPiece(Team.HAN, new CannonStrategy()));
+        positionPieces.put(new Position(6, 6), new CannonPiece(Team.HAN, new CannonStrategy()));
 
-        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
         assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
@@ -77,9 +79,9 @@ class ElephantPieceTest {
     void testNotMoveIfSameTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
-        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
         assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
@@ -88,9 +90,9 @@ class ElephantPieceTest {
     void testNotMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
 
-        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
+        ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
         assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }

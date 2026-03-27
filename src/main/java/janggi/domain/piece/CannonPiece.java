@@ -1,24 +1,14 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.MoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CannonPiece extends Piece {
-    public CannonPiece(Team team) {
-        super(team, Name.CANNON);
-    }
-
-    @Override
-    public boolean canMove(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextX = to.getX();
-        int nextY = to.getY();
-
-        return (preX == nextX && preY != nextY) || (preX != nextX && preY == nextY);
+    public CannonPiece(Team team, MoveStrategy moveStrategy) {
+        super(team, Name.CANNON, moveStrategy);
     }
 
     @Override
