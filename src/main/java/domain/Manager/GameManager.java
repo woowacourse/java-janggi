@@ -25,18 +25,21 @@ public class GameManager {
     public void run() {
         board = initialize();
         outputView.printBoard(board.createDTO().board());
-        Position src = createSourcePosition();
 
-        Position dest = createDestPosition();
-        // 이동 - 잡았으면 플레이어에 추가
-        if (board.canMove(src, dest)) {
-            Piece piece = board.move(src, dest);
-            if (!piece.isNone()) {
-                //add.
-            }
+        while (turnManager.isGameRunning()) {
+            retryOnInvalidInput(() -> {
+                Position src = createSourcePosition();
+                Position dest = createDestPosition();
+                Piece piece = board.move(src, dest);
+                if (!piece.isNone()) {
+                    turnManager.currentTurn().addCatchedPiece(piece);
+                }
+                return null;
+            });
+
+            outputView.printBoard(board.createDTO().board());
+            turnManager.switchTurn();
         }
-        outputView.printBoard(board.createDTO().board());
-        // 턴 넘기기
 
     }
 
@@ -63,7 +66,7 @@ public class GameManager {
 
     private Position createDestPosition() {
         return retryOnInvalidInput(() -> {
-            List<Integer> numbers = inputView.askSourcePosition();
+            List<Integer> numbers = inputView.askDestinationPosition();
             return new Position(numbers.getFirst(), numbers.getLast());
         });
     }
