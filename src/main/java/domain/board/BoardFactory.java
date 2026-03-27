@@ -1,5 +1,9 @@
 package domain.board;
 
+import static common.Constants.MAX_COL;
+import static common.Constants.MAX_ROW;
+import static common.Constants.MIN_COL;
+import static common.Constants.MIN_ROW;
 import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 
@@ -47,9 +51,9 @@ public class BoardFactory {
     private static Map<Position, Piece> createBasicBoard() {
         Map<Position, Piece> board = new HashMap<>();
 
-        for (int y = 0; y <= 9; y++) {
-            for (int x = 0; x <= 8; x++) {
-                board.put(new Position(x, y), new None());
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            for (int col = MIN_COL; col <= MAX_COL; col++) {
+                board.put(new Position(col, row), new None());
             }
         }
 
