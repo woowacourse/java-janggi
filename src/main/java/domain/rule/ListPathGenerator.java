@@ -20,25 +20,26 @@ public class ListPathGenerator implements PathGenerator {
         return paths.stream()
                 .map(directionPath -> tryBuildPath(src, dest, directionPath))
                 .filter(Optional::isPresent)
+                .map(Optional::get)
                 .findFirst()
-                .flatMap(optional -> optional)
                 .orElseThrow(() -> new IllegalArgumentException("목적지로 이동할 수 없습니다."));
     }
 
     private Optional<Path> tryBuildPath(Position src, Position dest, List<Direction> directionPath) {
-        List<Position> waypoints = new ArrayList<>();
-        Position current = src;
-        for (Direction direction : directionPath) {
-            current = direction.move(current);
-            waypoints.add(current);
-        }
+        try {
+            List<Position> waypoints = new ArrayList<>();
+            Position current = src;
+            for (Direction direction : directionPath) {
+                current = direction.move(current);
+                waypoints.add(current);
+            }
 
-        if (dest.equals(current)) {
-            waypoints.removeLast();
-            return Optional.of(new Path(src, dest, waypoints));
+            if (dest.equals(current)) {
+                waypoints.removeLast();
+                return Optional.of(new Path(src, dest, waypoints));
+            }
+        } catch (IllegalArgumentException ignored) {
         }
         return Optional.empty();
     }
 }
-
-
