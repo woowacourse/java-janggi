@@ -2,15 +2,9 @@ package domain;
 
 public enum Side {
 
-    HAN(1),
-    CHU(-1),
-    NEUTRAL(0);
-
-    private final int forward;
-
-    Side(int forward) {
-        this.forward = forward;
-    }
+    HAN,
+    CHU,
+    NEUTRAL;
 
     public boolean isChu() {
         return this == CHU;
@@ -32,7 +26,11 @@ public enum Side {
         return HAN;
     }
 
-    public int getForward() {
-        return this.forward;
+    public Direction getForward() {
+        if (this == Side.HAN) {
+            return Direction.DOWN;
+        }
+
+        return Direction.UP;
     }
 }

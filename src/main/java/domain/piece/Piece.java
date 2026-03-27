@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Direction;
 import domain.board.Board;
 import domain.Position;
 import domain.Side;
@@ -35,7 +36,7 @@ public abstract class Piece {
         return this.side == side;
     }
 
-    public int forward() {
+    public Direction forward() {
         return side.getForward();
     }
 
