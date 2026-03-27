@@ -1,10 +1,19 @@
-package model;
+package model.position;
 
 import java.util.Objects;
+import model.move.Direction;
 
 public record Position(Row row, Column column) {
     public static Position of(int x, int y) {
         return new Position(Row.from(x), Column.from(y));
+    }
+
+    public Position move(Direction direction) {
+        return Position.of(row.move(direction), column.move(direction));
+    }
+
+    public boolean isSamePosition(Position to) {
+        return this == to;
     }
 
     @Override

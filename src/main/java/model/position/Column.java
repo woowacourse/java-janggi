@@ -1,7 +1,7 @@
-package model;
+package model.position;
 
 import java.util.Objects;
-import model.pieces.rule.Direction;
+import model.move.Direction;
 
 public class Column {
     private final int value;

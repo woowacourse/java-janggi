@@ -1,7 +1,8 @@
-package model;
+package model.position;
 
 import java.util.Objects;
-import model.pieces.rule.Direction;
+import model.board.Country;
+import model.move.Direction;
 
 public class Row {
     private static final int HAN_EDGE = 1;

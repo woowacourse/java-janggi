@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 import java.util.List;
 import model.pieces.Cannon;
@@ -6,6 +6,8 @@ import model.pieces.Chariot;
 import model.pieces.General;
 import model.pieces.Guard;
 import model.pieces.Soldier;
+import model.position.Position;
+import model.position.Row;
 
 public class Army {
     private static final List<Integer> SOLDIER_COLUMN = List.of(1, 3, 5, 7, 9);

@@ -1,7 +1,7 @@
 package view;
 
 import java.util.Scanner;
-import model.Country;
+import model.board.Country;
 
 public class InputView {
 

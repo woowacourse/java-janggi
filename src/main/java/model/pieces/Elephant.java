@@ -1,6 +1,6 @@
 package model.pieces;
 
-import model.Country;
+import model.board.Country;
 
 public class Elephant extends Piece {
 

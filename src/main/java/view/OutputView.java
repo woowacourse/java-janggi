@@ -1,8 +1,8 @@
 package view;
 
-import model.Board;
-import model.Country;
-import model.Position;
+import model.board.Board;
+import model.board.Country;
+import model.position.Position;
 import model.pieces.Piece;
 
 public class OutputView {

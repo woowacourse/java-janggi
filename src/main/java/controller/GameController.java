@@ -1,12 +1,12 @@
 package controller;
 
-import model.Army;
-import model.Board;
-import model.Country;
-import strategy.InnerElephant;
-import strategy.LeftElephant;
-import strategy.OuterElephant;
-import strategy.RightElephant;
+import model.board.Army;
+import model.board.Board;
+import model.board.Country;
+import model.board.strategy.InnerElephant;
+import model.board.strategy.LeftElephant;
+import model.board.strategy.OuterElephant;
+import model.board.strategy.RightElephant;
 import view.InputView;
 import view.OutputView;
 

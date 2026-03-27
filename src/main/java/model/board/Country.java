@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 public enum Country {
     HAN("한", "\u001B[31m"),

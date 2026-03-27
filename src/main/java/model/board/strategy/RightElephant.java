@@ -1,10 +1,10 @@
-package strategy;
+package model.board.strategy;
 
-import model.Board;
-import model.Country;
-import model.HorseElephantStrategy;
-import model.Position;
-import model.Row;
+import model.board.Board;
+import model.board.Country;
+import model.board.HorseElephantStrategy;
+import model.position.Position;
+import model.position.Row;
 import model.pieces.Elephant;
 import model.pieces.Horse;
 

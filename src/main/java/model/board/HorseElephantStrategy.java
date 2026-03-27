@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 public interface HorseElephantStrategy {
     int COLUMN_TWO = 2;
