@@ -25,21 +25,15 @@ public class RuleOfCannon implements Rule {
 
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
-        final Movement firstMovement = movementOrder.getFirst();
-        final Movement secondMovement = movementOrder.getLast();
+        final Movement findBridgeMovement = movementOrder.getFirst();
+        final Movement findTraceesMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
-
-        // 포다리로 이동
-        from = firstMovement.findFirstOccupiedPositionOrMax(from, piece, boardMediator);
-
-        // 포다리로 판정된 위치에 실제로는 기물이 없거나 위치에 포가 존재하는 경우 이동 불가능
+        from = findBridgeMovement.findFirstOccupiedPositionOrMax(from, piece, boardMediator);
         if (!boardMediator.existsInPosition(from)
                 || boardMediator.getPieceInPosition(from).getPieceType() == PieceType.CANNON) {
             return List.of();
         }
-
-        final List<Position> traces = new ArrayList<>(
-                secondMovement.calculateTraces(from, piece, boardMediator));
+        final List<Position> traces = new ArrayList<>(findTraceesMovement.calculateTraces(from, piece, boardMediator));
         return traces;
     }
 }
