@@ -1,19 +1,19 @@
 package janggi.model.gimul.linearMove;
 
 import janggi.model.Team;
-import janggi.model.gimul.Gimul;
+import janggi.model.gimul.AbstractGimul;
 import java.util.List;
 
-public class Pho extends AbstractLinearMoveGimul {
+public class Pho extends AbstractLinearMoveAbstractGimul {
     public Pho(Team team) {
         super(team);
     }
 
     @Override
-    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
+    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo) {
         return gimulsOnPath.size() == 1
                 && !(gimulsOnPath.getFirst() instanceof Pho)
-                && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
+                && !this.isSameTeam(abstractGimulAtTo);
     }
 
     @Override

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.gimul.linearMove.Cha;
-import janggi.model.gimul.Gimul;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
@@ -80,7 +80,7 @@ class ChaTest {
     @Test
     void canPassThrough() {
         //given
-        List<Gimul> gimulsOnPath = List.of(
+        List<AbstractGimul> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
         Cha gimulAtTo = new Cha(Team.HAN);
@@ -95,7 +95,7 @@ class ChaTest {
     @Test
     void canPassThrough_sameTeam() {
         //given
-        List<Gimul> gimulsOnPath = List.of(
+        List<AbstractGimul> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
         Cha gimulAtTo = new Cha(Team.CHO);

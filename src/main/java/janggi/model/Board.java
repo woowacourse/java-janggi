@@ -1,6 +1,6 @@
 package janggi.model;
 
-import janggi.model.gimul.Gimul;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Position, Gimul> board;
+    private final Map<Position, AbstractGimul> board;
 
-    public Board(Map<Position, Gimul> board) {
+    public Board(Map<Position, AbstractGimul> board) {
         this.board = board;
     }
 
@@ -26,25 +26,21 @@ public class Board {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }
 
-        Gimul gimulAtFrom = board.get(from);
+        AbstractGimul gimulAtFrom = board.get(from);
         if (!gimulAtFrom.isSameTeam(team)) {
             throw new IllegalArgumentException("상대편 기물을 움직일 수 없습니다.");
         }
 
         PositionPath legalPath = gimulAtFrom.getLegalPath(from, to);
 
-        List<Gimul> gimulsOnPath = legalPath.stream()
+        List<AbstractGimul> gimulsOnPath = legalPath.stream()
                 .filter(board::containsKey)
                 .map(board::get)
                 .toList();
 
-        Gimul gimulAtTo = board.get(to);
+        validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
 
-        if (!gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
-            throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
-        }
-
-        Map<Position, Gimul> movedBoard = new HashMap<>(board);
+        Map<Position, AbstractGimul> movedBoard = new HashMap<>(board);
         movedBoard.put(to, gimulAtFrom);
         movedBoard.remove(from);
 
@@ -68,9 +64,13 @@ public class Board {
 
             for (int col = 1; col <= 9; col++) {
                 Position position = new Position(Row.of(row), Column.of(col));
-                Gimul gimul = board.get(position);
 
-                String symbol = (gimul == null) ? "·" : gimul.getSymbol();
+                String symbol = "·";
+                if (board.containsKey(position)) {
+                    AbstractGimul gimul = board.get(position);
+                    symbol = gimul.getSymbol();
+                }
+
                 sb.append(" ").append(String.format("%-2s", symbol));
             }
 
@@ -92,4 +92,19 @@ public class Board {
     private boolean isHanAlive() {
         return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
     }
+
+    private void validateMovePathAndDestination(Position to, AbstractGimul gimulAtFrom,
+                                                List<AbstractGimul> gimulsOnPath) {
+        if ((!board.containsKey(to) && gimulAtFrom.canPassThrough(gimulsOnPath))) {
+            return;
+        }
+
+        AbstractGimul gimulAtTo = board.get(to);
+        if (gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
+    }
+
+
 }

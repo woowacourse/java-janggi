@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.model.Board;
 import janggi.model.Team;
-import janggi.model.gimul.Gimul;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.Ma;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
@@ -23,7 +23,7 @@ class ChoTurnTest {
 
     @BeforeEach
     void beforeEach() {
-        Map<Position, Gimul> board = new HashMap<>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
 
         board.put(
                 new Position(Row.SEVEN, Column.FIVE),
@@ -45,7 +45,6 @@ class ChoTurnTest {
                 new Position(Row.ONE, Column.ONE),
                 new Ma(Team.HAN)
         );
-
 
         this.board = new Board(board);
     }
