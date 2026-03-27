@@ -44,8 +44,13 @@ public class Piece {
         return "";
     }
 
+
     public boolean isDifferentTeam(Team team) {
         return this.team != team;
+    }
+
+    public boolean isDifferentTeam(Piece piece) {
+        return this.team != piece.team;
     }
 
     public boolean isNotNone() {
