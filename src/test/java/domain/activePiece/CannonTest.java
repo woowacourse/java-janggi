@@ -52,5 +52,4 @@ class CannonTest {
 
         assertThat(cannon.searchRoute(src, dest)).isNotEqualTo(routes);
     }
-
 }

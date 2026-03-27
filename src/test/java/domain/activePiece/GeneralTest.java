@@ -1,7 +1,6 @@
 package domain.activePiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import domain.Column;
 import domain.Position;
@@ -17,12 +16,13 @@ class GeneralTest {
     @Test
     void 정상_범위_입력() {
         Piece general = new General(Team.HAN);
-        assertThat(general.canMove(new Position(5,5), new Position(5,6))).isTrue();
+        assertThat(general.canMove(new Position(5, 5), new Position(5, 6))).isTrue();
     }
+
     @Test
     void 정상_범위가_아니면_거짓() {
         Piece general = new General(Team.HAN);
-        assertThat(general.canMove(new Position(5,5), new Position(6,6))).isFalse();
+        assertThat(general.canMove(new Position(5, 5), new Position(6, 6))).isFalse();
     }
 
     @Test
@@ -34,7 +34,7 @@ class GeneralTest {
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(1), new Column(3)), new Position(new Row(2), new Column(3))));
 
-        assertThat(general.searchRoute(src,dest)).isEqualTo(routes);
+        assertThat(general.searchRoute(src, dest)).isEqualTo(routes);
     }
 
     @Test
@@ -46,9 +46,6 @@ class GeneralTest {
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(1), new Column(3)), new Position(new Row(3), new Column(3))));
 
-        assertThat(general.searchRoute(src,dest)).isNotEqualTo(routes);
+        assertThat(general.searchRoute(src, dest)).isNotEqualTo(routes);
     }
-
-
-
 }

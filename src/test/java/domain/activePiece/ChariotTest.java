@@ -52,5 +52,4 @@ class ChariotTest {
 
         assertThat(chariot.searchRoute(src, dest)).isNotEqualTo(routes);
     }
-
 }

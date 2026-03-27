@@ -44,6 +44,6 @@ public class Soldier extends ActivePiece {
 
     @Override
     public List<Position> searchRoute(Position source, Position target) {
-        return List.of();
+        return List.of(source, target);
     }
 }
