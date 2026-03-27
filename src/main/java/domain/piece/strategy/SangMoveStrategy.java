@@ -4,28 +4,29 @@ import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class MaMoveStrategy implements MoveStrategy {
-    private static final int MA_MOVE_STEPS = 2;
-    private static final int DESTINATION_INDEX = 1;
+public class SangMoveStrategy implements MoveStrategy {
+    private static final int SANG_MOVE_STEPS = 3;
+    private static final int DESTINATION_INDEX = 2;
     private final int[][] dRow = {
-            {-1, -2}, // 1. 위 -> 오른쪽
-            {0, -1}, // 2. 오른쪽 -> 위
-            {0, 1}, // 3. 오른쪽 -> 아래
-            {1, 2}, // 4. 아래 -> 오른쪽
-            {1, 2}, // 5. 아래 -> 왼쪽
-            {0, 1}, // 6. 왼쪽 -> 아래
-            {0, -1}, // 7. 왼쪽 -> 위
-            {-1, -2}  // 8. 위 -> 왼쪽
+            {-1, -2, -3}, // 1. 위 -> 오른쪽
+            {0, -1, -2}, // 2. 오른쪽 -> 위
+            {0, 1, 2}, // 3. 오른쪽 -> 아래
+            {1, 2, 3}, // 4. 아래 -> 오른쪽
+            {1, 2, 3}, // 5. 아래 -> 왼쪽
+            {0, 1, 2}, // 6. 왼쪽 -> 아래
+            {0, -1, -2}, // 7. 왼쪽 -> 위
+            {-1, -2, -3}  // 8. 위 -> 왼쪽
     };
+
     private final int[][] dColumn = {
-            {0, 1}, // 1. 위 -> 오른쪽
-            {1, 2}, // 2. 오른쪽 -> 위
-            {1, 2}, // 3. 오른쪽 -> 아래
-            {0, 1}, // 4. 아래 -> 오른쪽
-            {0, -1}, // 5. 아래 -> 왼쪽
-            {-1, -2}, // 6. 왼쪽 -> 아래
-            {-1, -2}, // 7. 왼쪽 -> 위
-            {0, -1}  // 8. 위 -> 왼쪽
+            {0, 1, 2}, // 1. 위 -> 오른쪽
+            {1, 2, 3}, // 2. 오른쪽 -> 위
+            {1, 2, 3}, // 3. 오른쪽 -> 아래
+            {0, 1, 2}, // 4. 아래 -> 오른쪽
+            {0, -1, -2}, // 5. 아래 -> 왼쪽
+            {-1, -2, -3}, // 6. 왼쪽 -> 아래
+            {-1, -2, -3}, // 7. 왼쪽 -> 위
+            {0, -1, -2}  // 8. 위 -> 왼쪽
     };
 
     @Override
@@ -36,7 +37,7 @@ public class MaMoveStrategy implements MoveStrategy {
             Position destinationCandidate = start.go(dRowOfSpecificAction[DESTINATION_INDEX],
                     dColumnOfSpecificAction[DESTINATION_INDEX]);
             if (destination.equals(destinationCandidate)) {
-                return IntStream.range(0, MA_MOVE_STEPS)
+                return IntStream.range(0, SANG_MOVE_STEPS)
                         .mapToObj(i -> start.go(dRowOfSpecificAction[i], dColumnOfSpecificAction[i]))
                         .toList();
             }
