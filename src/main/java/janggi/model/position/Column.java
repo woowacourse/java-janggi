@@ -16,8 +16,9 @@ public enum Column {
 
     private static final List<Column> CACHE_VALUES = Arrays.asList(values());
 
-    public static Column of(int ordinal) {
-        return CACHE_VALUES.get(ordinal);
+    public static Column of(int columnNumber) {
+        int adjustValue = 1;
+        return CACHE_VALUES.get(columnNumber - adjustValue);
     }
 
     public Column moved(int displacement) {

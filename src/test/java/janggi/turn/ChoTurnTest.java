@@ -30,10 +30,6 @@ class ChoTurnTest {
                 new Ma(Team.CHO)
         );
         board.put(
-                new Position(Row.EIGHT, Column.SEVEN),
-                new Ma(Team.HAN)
-        );
-        board.put(
                 new Position(Row.SIX, Column.SEVEN),
                 new Ma(Team.CHO)
         );
@@ -41,6 +37,15 @@ class ChoTurnTest {
                 new Position(Row.SIX, Column.FIVE),
                 new Ma(Team.CHO)
         );
+        board.put(
+                new Position(Row.EIGHT, Column.SEVEN),
+                new Ma(Team.HAN)
+        );
+        board.put(
+                new Position(Row.ONE, Column.ONE),
+                new Ma(Team.HAN)
+        );
+
 
         this.board = new Board(board);
     }

@@ -66,8 +66,8 @@ public class Board {
             }
             sb.append(displayRow).append(" │");
 
-            for (int col = 0; col < 9; col++) {
-                Position position = new Position(Row.of(row - 1), Column.of(col));
+            for (int col = 1; col <= 9; col++) {
+                Position position = new Position(Row.of(row), Column.of(col));
                 Gimul gimul = board.get(position);
 
                 String symbol = (gimul == null) ? "·" : gimul.getSymbol();

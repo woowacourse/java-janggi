@@ -17,8 +17,14 @@ public enum Row {
 
     private static final List<Row> CACHE_VALUES = Arrays.asList(values());
 
-    public static Row of(int ordinal) {
-        return CACHE_VALUES.get(ordinal);
+    public static Row of(int rowNumber) {
+        int adjustValue = 1;
+
+        if (rowNumber == 0) {
+            rowNumber = 10;
+        }
+
+        return CACHE_VALUES.get(rowNumber - adjustValue);
     }
 
     public Row moved(int displacement) {
@@ -42,12 +48,5 @@ public enum Row {
 
     public int getDistance(Row other) {
         return this.ordinal() - other.ordinal();
-    }
-
-    public static Row toRow(int input) {
-        if (input == 0) {
-            return Row.of(9);
-        }
-        return Row.of(input - 1);
     }
 }
