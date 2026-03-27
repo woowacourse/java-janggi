@@ -1,12 +1,14 @@
 package janggi.view;
 
 import janggi.dto.BoardDto;
+import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
 import java.util.List;
 import java.util.StringJoiner;
 
 public class OutputView {
 
+    private static final String ANSI_RESET = "\u001B[0m";
     private static final String ERROR_PREFIX = "[ERROR] ";
 
     public void printBoard(BoardDto boardDto) {
@@ -18,12 +20,12 @@ public class OutputView {
         System.out.println();
 
         int rowIndex = 1;
-        for (List<String> piecesByRow : boardDto.board()) {
+        for (List<PieceDto> piecesByRow : boardDto.board()) {
             // 좌측 세로 좌표 출력 (1~10)
             System.out.printf("%2d ", rowIndex++);
 
-            for (String pieceName : piecesByRow) {
-                System.out.print(pieceName + " ");
+            for (PieceDto piece : piecesByRow) {
+                System.out.print(piece.name() + " " + ANSI_RESET);
             }
             System.out.println();
         }
