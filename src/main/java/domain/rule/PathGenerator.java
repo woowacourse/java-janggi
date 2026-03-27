@@ -4,5 +4,5 @@ import domain.position.Path;
 import domain.position.Position;
 
 public interface PathGenerator {
-    public Path calculatePath(Position src, Position dest);
+    Path calculatePath(Position src, Position dest);
 }
