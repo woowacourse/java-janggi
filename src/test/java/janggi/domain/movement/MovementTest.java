@@ -21,42 +21,107 @@ import org.junit.jupiter.api.Test;
 class MovementTest {
 
     @Nested
-    @DisplayName("도달 여부 판정 테스트")
-    class CanReach {
+    @DisplayName("잡기 여부 판정 테스트")
+    class CanKill {
 
-        Board board;
-        BoardMediator boardMediator;
+        Position from;
+        Piece me;
+        Map<Position, Piece> positionPieceMap;
 
         @BeforeEach
         void setUp() {
-            board = new Board(Map.of(Position.valueOf(5, 6), new Soldier(TeamType.BLUE)));
-            boardMediator = new BoardMediatorImpl(board);
+            from = Position.valueOf(5, 3);
+            me = new Soldier(TeamType.RED);
+            positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
         }
 
         @Test
-        @DisplayName("도달 가능한 경우")
+        @DisplayName("대상이 적군인 경우")
         void success_1() {
-            Position from = Position.valueOf(5, 3);
-            int maxDistance = 1;
+            positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.valueOf(0, 1);
-            Movement Movement = new Movement(maxDistance, direction);
+            Movement Movement = new Movement(1, direction);
             boolean expected = true;
 
-            boolean actual = Movement.canReach(from, boardMediator);
+            boolean actual = Movement.canKill(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
 
         @Test
-        @DisplayName("도달 불가능한 경우")
+        @DisplayName("대상이 아군인 경우")
         void success_2() {
-            Position from = Position.valueOf(5, 3);
-            int maxDistance = 4;
+            positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.RED));
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.valueOf(0, 1);
-            Movement Movement = new Movement(maxDistance, direction);
+            Movement Movement = new Movement(1, direction);
             boolean expected = false;
 
-            boolean actual = Movement.canReach(from, boardMediator);
+            boolean actual = Movement.canKill(me, from, boardMediator);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("대상이 없는 경우")
+        void success_3() {
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            Direction direction = Direction.valueOf(0, 1);
+            Movement Movement = new Movement(1, direction);
+            boolean expected = true;
+
+            boolean actual = Movement.canKill(me, from, boardMediator);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("장애물 여부 판정 테스트")
+    class IsBlocked {
+
+        Position from;
+        Piece me;
+        Map<Position, Piece> positionPieceMap;
+
+        @BeforeEach
+        void setUp() {
+            from = Position.valueOf(5, 3);
+            me = new Soldier(TeamType.RED);
+            positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
+        }
+
+        @Test
+        @DisplayName("기물이 없는 경우")
+        void success_1() {
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            Direction direction = Direction.valueOf(0, 1);
+            Movement Movement = new Movement(1, direction);
+            boolean expected = true;
+
+            boolean actual = Movement.isBlocked(from, boardMediator);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("기물이 있는 경우")
+        void success_2() {
+            positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            Direction direction = Direction.valueOf(0, 1);
+            Movement Movement = new Movement(1, direction);
+            boolean expected = false;
+
+            boolean actual = Movement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }

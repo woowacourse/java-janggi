@@ -16,8 +16,21 @@ public class Movement {
         this.direction = direction;
     }
 
-    // 최대 거리로 도달할 수 있는 경우 true, 아니라면 false.
-    public boolean canReach(final Position from, final BoardMediator boardMediator) {
+    public boolean canKill(final Piece me, final Position from, final BoardMediator boardMediator) {
+        for (int distance = 1; distance <= maxDistance; distance++) {
+            Position to = from.calculateNext(distance, direction);
+            if (!boardMediator.existsInPosition(to)) {
+                return true;
+            }
+            Piece target = boardMediator.getPieceInPosition(to);
+            if (me.canKill(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isBlocked(final Position from, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
@@ -27,7 +40,8 @@ public class Movement {
         return true;
     }
 
-    public Position calculateDestination(final Position from, final Piece piece, final BoardMediator boardMediator) {
+    public Position calculateDestination(final Position from, final Piece piece,
+        final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
@@ -41,7 +55,8 @@ public class Movement {
         return from.calculateNext(maxDistance, direction);
     }
 
-    public Position calculateBlockedPosition(final Position from, final Piece piece, final BoardMediator boardMediator) {
+    public Position calculateBlockedPosition(final Position from, final Piece piece,
+        final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
@@ -60,7 +75,7 @@ public class Movement {
             if (boardMediator.existsInPosition(to)) {
                 Piece toPiece = boardMediator.getPieceInPosition(to);
                 if (!toPiece.belongsToTeam(piece.getTeamType()) && piece.canKill(
-                    toPiece.getPieceType())) {
+                    toPiece)) {
                     traces.add(to);
                 }
                 return traces;
