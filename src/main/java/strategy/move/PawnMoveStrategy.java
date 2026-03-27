@@ -2,21 +2,13 @@ package strategy.move;
 
 import domain.Direction;
 import domain.MovePath;
+import domain.Position;
+import domain.Route;
 import domain.TeamColor;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PawnMoveStrategy implements MoveStrategy{
-
-    private static final List<MovePath> PATHS = List.of(
-            // 북쪽 베이스
-            new MovePath(List.of(Direction.NORTH)),
-            // 남쪽 베이스
-            new MovePath(List.of(Direction.SOUTH)),
-            // 동쪽 베이스
-            new MovePath(List.of(Direction.EAST)),
-            // 서쪽 베이스
-            new MovePath(List.of(Direction.WEST))
-    );
 
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {
@@ -34,6 +26,5 @@ public class PawnMoveStrategy implements MoveStrategy{
                 new MovePath(List.of(Direction.WEST))
         );
     }
-
 
 }

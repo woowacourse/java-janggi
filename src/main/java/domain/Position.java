@@ -11,6 +11,12 @@ public class Position {
         this.column = column;
     }
 
+    public Position next(Direction direction) {
+        int nextRow = this.row.value() + direction.dRow();
+        int nextCol = this.column.value() + direction.dColumn();
+
+        return Position.of(nextRow, nextCol);
+    }
     public static Position of(int row, int column) {
         return new Position(new Row(row), new Column(column));
     }
@@ -28,5 +34,7 @@ public class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
+
+
 
 }

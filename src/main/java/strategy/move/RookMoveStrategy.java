@@ -2,6 +2,8 @@ package strategy.move;
 
 import domain.Direction;
 import domain.MovePath;
+import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 
@@ -18,4 +20,6 @@ public class RookMoveStrategy implements MoveStrategy {
     public List<MovePath> getPaths(TeamColor teamColor) {
         return PATHS;
     }
+
+
 }
