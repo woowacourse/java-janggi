@@ -17,8 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MoveStrategyTest {
 
     @Nested
-    class 병_움직임_전략 {
-
+    class 병_이동_테스트 {
         @ParameterizedTest
         @EnumSource(Camp.class)
         void 각_진형_병은_앞과_양_옆으로_움직인다(Camp camp) {
@@ -56,6 +55,58 @@ class MoveStrategyTest {
                 }
                 assertThat(destinations).contains(Position.of(i, 4));
             }
+        }
+    }
+
+    @Nested
+    class 마_이동_테스트 {
+
+        @Test
+        void 마는_8방향으로_이동할_수_있다() {
+            MoveStrategy strategy = new HorseStrategy();
+            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
+            assertThat(paths).hasSize(8);
+        }
+
+        @Test
+        void 마는_직선_한칸_후_대각선_한칸으로_이동한다() {
+            MoveStrategy strategy = new HorseStrategy();
+            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
+
+            assertThat(paths.get(0).destination()).isEqualTo(Position.of(6, 5));
+            assertThat(paths.get(1).destination()).isEqualTo(Position.of(5, 6));
+            assertThat(paths.get(2).destination()).isEqualTo(Position.of(3, 6));
+            assertThat(paths.get(3).destination()).isEqualTo(Position.of(2, 5));
+            assertThat(paths.get(4).destination()).isEqualTo(Position.of(6, 3));
+            assertThat(paths.get(5).destination()).isEqualTo(Position.of(5, 2));
+            assertThat(paths.get(6).destination()).isEqualTo(Position.of(3, 2));
+            assertThat(paths.get(7).destination()).isEqualTo(Position.of(2, 3));
+        }
+    }
+
+    @Nested
+    class 상_이동_테스트 {
+
+        @Test
+        void 상은_8방향으로_이동할_수_있다() {
+            MoveStrategy strategy = new ElephantStrategy();
+            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
+            assertThat(paths).hasSize(8);
+        }
+
+        @Test
+        void 상은_직선_한칸_후_대각선_두칸으로_이동한다() {
+            MoveStrategy strategy = new ElephantStrategy();
+            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
+
+            assertThat(paths.get(0).destination()).isEqualTo(Position.of(7, 6));
+            assertThat(paths.get(1).destination()).isEqualTo(Position.of(6, 7));
+            assertThat(paths.get(2).destination()).isEqualTo(Position.of(2, 7));
+            assertThat(paths.get(3).destination()).isEqualTo(Position.of(1, 6));
+            assertThat(paths.get(4).destination()).isEqualTo(Position.of(7, 2));
+            assertThat(paths.get(5).destination()).isEqualTo(Position.of(6, 1));
+            assertThat(paths.get(6).destination()).isEqualTo(Position.of(2, 1));
+            assertThat(paths.get(7).destination()).isEqualTo(Position.of(1, 2));
         }
     }
 }
