@@ -27,7 +27,7 @@ class BoardTest {
         // when
         Position from = Position.of(0, 0);
         Position to = Position.of(1, 0);
-        board.straightMove(from, to);
+        board.move(from, to);
 
         // then
         Piece findPiece = board.findPieceByPosition(to).get();
@@ -42,7 +42,7 @@ class BoardTest {
         Position to = Position.of(3, 3);
 
         // when
-        board.straightMove(Position.of(0, 1), Position.of(1, 1));
+        board.move(Position.of(0, 1), Position.of(1, 1));
         // board.diagonalMove(Position.of(1, 1), to);
 
         // then

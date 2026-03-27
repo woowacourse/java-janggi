@@ -17,7 +17,7 @@ public class Board {
         return new Board(board);
     }
 
-    public void straightMove(final Position from, final Position to) {
+    public void move(final Position from, final Position to) {
         Piece fromPiece = findPieceByPosition(from).get();
         board.put(to, fromPiece);
     }

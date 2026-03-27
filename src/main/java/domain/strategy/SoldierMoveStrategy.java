@@ -22,32 +22,27 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     private boolean isWithdraw(final Position from, final Position to, final Board board) {
-        if (board.findPieceByPosition(from).get().getTeam() == Team.CHU) {
-            if (from.getRow() - to.getRow() == 1) {
-                return true;
-            }
+        Team team = board.findPieceByPosition(from).get().getTeam();
+        if (team == Team.CHU && from.getRow() - to.getRow() == 1) {
+            return true;
         }
 
-        if (board.findPieceByPosition(from).get().getTeam() == Team.HAN) {
-            if (from.getRow() - to.getRow() == -1) {
-                return true;
-            }
+        if (team == Team.HAN && from.getRow() - to.getRow() == -1) {
+            return true;
         }
+
         return false;
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (from.getRow() == to.getRow()) {
-            if (Math.abs(from.getCol() - to.getCol()) != 1) {
-                return true;
-            }
+        if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) != 1) {
+            return true;
         }
 
-        if (from.getCol() == to.getCol()) {
-            if (Math.abs(from.getRow() - to.getRow()) != 1) {
-                return true;
-            }
+        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) != 1) {
+            return true;
         }
+
         return false;
     }
 }

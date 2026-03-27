@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public class Position {
 
+    private static final int MAX_COLUMN = 8;
+    private static final int MAX_ROW = 9;
+
     private final int row;
     private final int col;
 
@@ -18,15 +21,15 @@ public class Position {
         validateColInRange(col);
     }
 
-    private void validateColInRange(final int col) {
-        if (0 > col || col > 8) {
-            throw new IllegalArgumentException("[ERROR] 열이 0~8 범위를 벗어났습니다.");
+    private void validateRowInRange(final int row) {
+        if (0 > row || row > MAX_ROW) {
+            throw new IllegalArgumentException("[ERROR] 행이 0~" + MAX_ROW + " 범위를 벗어났습니다.");
         }
     }
 
-    private void validateRowInRange(final int row) {
-        if (0 > row || row > 9) {
-            throw new IllegalArgumentException("[ERROR] 행이 0~9 범위를 벗어났습니다.");
+    private void validateColInRange(final int col) {
+        if (0 > col || col > MAX_COLUMN) {
+            throw new IllegalArgumentException("[ERROR] 열이 0~" + MAX_COLUMN + " 범위를 벗어났습니다.");
         }
     }
 

@@ -17,21 +17,12 @@ public class ElephantMoveStrategy implements MoveStrategy {
         int row = from.getRow();
         int col = from.getCol();
 
-        if (Math.abs(nx) == 3) {
-            if (board.isExistPosition(Position.of(row + nx / 3, col))) {
-                return false;
-            }
-            if (board.isExistPosition(Position.of(row + nx * 2 / 3, col + ny / 2))) {
-                return false;
-            }
+        if (board.isExistPosition(Position.of(row + nx / 3, col + ny / 3))) {
+            return false;
         }
-        if (Math.abs(nx) == 2) {
-            if (board.isExistPosition(Position.of(row, col + ny / 3))) {
-                return false;
-            }
-            if (board.isExistPosition(Position.of(row + nx / 2, col + ny * 2 / 3))) {
-                return false;
-            }
+
+        if (board.isExistPosition(Position.of(row + nx / 3 + nx / 2, col + ny / 3 + ny / 2))) {
+            return false;
         }
 
         if (board.isAnotherTeam(from, to)) {
@@ -41,15 +32,11 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (Math.abs(from.getRow() - to.getRow()) == 2) {
-            if (Math.abs(from.getCol() - to.getCol()) != 3) {
-                return true;
-            }
+        if (Math.abs(from.getRow() - to.getRow()) == 2 && Math.abs(from.getCol() - to.getCol()) != 3) {
+            return true;
         }
-        if (Math.abs(from.getRow() - to.getRow()) == 3) {
-            if (Math.abs(from.getCol() - to.getCol()) != 2) {
-                return true;
-            }
+        if (Math.abs(from.getRow() - to.getRow()) == 3 && Math.abs(from.getCol() - to.getCol()) != 2) {
+            return true;
         }
         return false;
     }

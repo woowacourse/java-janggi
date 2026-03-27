@@ -18,7 +18,7 @@ public class Piece {
         return new Piece(team, type, moveStrategy);
     }
 
-    public boolean isAnotherTeam(Piece anotherPiece) {
+    public boolean isAnotherTeam(final Piece anotherPiece) {
         return this.team != anotherPiece.team;
     }
 
