@@ -24,8 +24,8 @@ public class JanggiApplication {
         JanggiGame game = new JanggiGame(board);
 
         OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
+        OutputView.printStartGame();
         while (!game.isFinished()) {
-            OutputView.printStartGame();
             List<Point> points = InputView.readPoints();
             game.play(points.get(0), points.get(1));
             OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
