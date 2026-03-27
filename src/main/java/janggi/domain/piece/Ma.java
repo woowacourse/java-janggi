@@ -12,7 +12,7 @@ public class Ma extends BasePiece {
     private static final int DISTANCE_MIN = 1;
 
     public Ma(Team team) {
-        super(team);
+        super(team, PieceType.MA);
     }
 
     @Override
@@ -35,10 +35,5 @@ public class Ma extends BasePiece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.MA;
     }
 }

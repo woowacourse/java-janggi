@@ -10,7 +10,7 @@ import java.util.List;
 public class Pho extends BasePiece {
 
     public Pho(Team team) {
-        super(team);
+        super(team, PieceType.PHO);
     }
 
     @Override
@@ -44,11 +44,6 @@ public class Pho extends BasePiece {
         }
         return route.stream()
                 .anyMatch(piece -> !piece.isSameType(getType()));
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.PHO;
     }
 
     @Override

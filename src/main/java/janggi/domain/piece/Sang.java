@@ -12,7 +12,7 @@ public class Sang extends BasePiece {
     private static final int DISTANCE_MIN = 2;
 
     public Sang(Team team) {
-        super(team);
+        super(team, PieceType.SANG);
     }
 
     @Override
@@ -43,10 +43,5 @@ public class Sang extends BasePiece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.SANG;
     }
 }

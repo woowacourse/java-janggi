@@ -11,13 +11,13 @@ public class Jang extends BasePiece {
     private static final int MAX_DISTANCE = 1;
 
     public Jang(Team team) {
-        super(team);
+        super(team, PieceType.JANG);
     }
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getX() - from.getX();
-        int pathY = to.getY() - from.getY();
+        int pathX = Point.getPathX(from, to);
+        int pathY = Point.getPathY(from, to);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
@@ -31,10 +31,5 @@ public class Jang extends BasePiece {
     public boolean canMove(List<Piece> route) {
         return route.stream()
                 .noneMatch(piece -> piece.isSameTeam(team));
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.JANG;
     }
 }

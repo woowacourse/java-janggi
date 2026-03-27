@@ -11,7 +11,7 @@ public class Sa extends BasePiece {
     private static final int MAX_DISTANCE = 1;
 
     public Sa(Team team) {
-        super(team);
+        super(team, PieceType.SA);
     }
 
     @Override
@@ -36,10 +36,5 @@ public class Sa extends BasePiece {
     public boolean canMove(List<Piece> route) {
         return route.stream()
                 .noneMatch(piece -> piece.isSameTeam(team));
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.SA;
     }
 }

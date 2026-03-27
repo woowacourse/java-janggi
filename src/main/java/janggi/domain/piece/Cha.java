@@ -10,18 +10,13 @@ import java.util.List;
 public class Cha extends BasePiece {
 
     public Cha(Team team) {
-        super(team);
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
+        super(team, PieceType.CHA);
     }
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getX() - from.getX();
-        int pathY = to.getY() - from.getY();
+        int pathX = Point.getPathX(from, to);
+        int pathY = Point.getPathY(from, to);
 
         if (pathY != 0 && pathX != 0) {
             throw new IllegalArgumentException();
@@ -45,10 +40,5 @@ public class Cha extends BasePiece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.CHA;
     }
 }
