@@ -1,6 +1,6 @@
 package domain;
 
-import dto.BoardDTO;
+import domain.piece.Piece;
 import java.util.List;
 
 public class JanggiGame {
@@ -15,21 +15,46 @@ public class JanggiGame {
 
     public JanggiGame(Board board) {
         this.board = board;
+        this.gameStatus = GameStatus.GREEN_PLAYER_TURN;
     }
 
-//    public List<BoardDTO> pieceInfo() {
-//        if (gameStatus.equals(GameStatus.GREEN_PLAYER_TURN)) {
-//            return board.redPieceInfo();
-//        }
-//
-//        return board.redPieceInfo();
-//    }
+    public void validatePieceSelection(Position selectPosition) {
+        validateOutOfRange(selectPosition);
+        validateOwnPieceExistsAt(selectPosition);
+    }
 
-    private void validOutOfRange(Position targetPosition) {
+    public void move(Position selectPosition, Position destination) {
+        validateDestinationSelection(selectPosition, destination);
+        board.movePiece(selectPosition, destination);
+        gameStatus = gameStatus.changePlayerTurn();
+    }
+
+    private void validateDestinationSelection(Position selectPosition, Position destination) {
+        validateOutOfRange(destination);
+        if (!board.isMoveable(selectPosition, destination)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateOutOfRange(Position targetPosition) {
         if (targetPosition.row() > MAX_ROW || targetPosition.row() < MIN_ROW || targetPosition.col() > MAX_COL
                 || targetPosition.col() < MIN_COL) {
             throw new IllegalArgumentException();
         }
+    }
+
+    private void validateOwnPieceExistsAt(Position selectPosition) {
+        if (piecesInfo().stream().map(Piece::position).noneMatch(position -> position.equals(selectPosition))) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public List<Piece> piecesInfo() {
+        if (gameStatus.equals(GameStatus.GREEN_PLAYER_TURN)) {
+            return board.greenPieces();
+        }
+
+        return board.redPieces();
     }
 
 }
