@@ -12,28 +12,20 @@ public class InnerFormationStrategy extends InitialFormationStrategy {
     @Override
     protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
         Map<Position, Piece> formation = new HashMap<>();
-        int y;
+        int row;
         if (teamColor.equals(TeamColor.CHO)) {
-            y =9;
-            // 왼쪽 마 (x=1)
-            formation.put(Position.of(1, y), Piece.of(teamColor, PieceType.HORSE));
-            // 왼쪽 상 (x=2)
-            formation.put(Position.of(2, y), Piece.of(teamColor, PieceType.ELEPHANT));
-            // 오른쪽 상 (x=6)
-            formation.put(Position.of(6, y), Piece.of(teamColor, PieceType.ELEPHANT));
-            // 오른쪽 마 (x=7)
-            formation.put(Position.of(7, y), Piece.of(teamColor, PieceType.HORSE));
+            row = 9;
+            formation.put(Position.of(row, 1), Piece.of(teamColor, PieceType.HORSE));
+            formation.put(Position.of(row, 2), Piece.of(teamColor, PieceType.ELEPHANT));
+            formation.put(Position.of(row, 6), Piece.of(teamColor, PieceType.ELEPHANT));
+            formation.put(Position.of(row, 7), Piece.of(teamColor, PieceType.HORSE));
             return formation;
         }
-        y=0;
-        // 왼쪽 마 (x=1)
-        formation.put(Position.of(1, y), Piece.of(teamColor, PieceType.HORSE));
-        // 왼쪽 상 (x=2)
-        formation.put(Position.of(2, y), Piece.of(teamColor, PieceType.ELEPHANT));
-        // 오른쪽 상 (x=6)
-        formation.put(Position.of(6, y), Piece.of(teamColor, PieceType.ELEPHANT));
-        // 오른쪽 마 (x=7)
-        formation.put(Position.of(7, y), Piece.of(teamColor, PieceType.HORSE));
+        row = 0;
+        formation.put(Position.of(row, 1), Piece.of(teamColor, PieceType.HORSE));
+        formation.put(Position.of(row, 2), Piece.of(teamColor, PieceType.ELEPHANT));
+        formation.put(Position.of(row, 6), Piece.of(teamColor, PieceType.ELEPHANT));
+        formation.put(Position.of(row, 7), Piece.of(teamColor, PieceType.HORSE));
         return formation;
 
     }

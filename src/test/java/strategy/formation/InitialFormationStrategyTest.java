@@ -29,15 +29,15 @@ class InitialFormationStrategyTest {
 
             assertThat(result).hasSize(12);
             assertThat(result.get(Position.of(0, 0)).getPieceType()).isEqualTo(PieceType.ROOK);
-            assertThat(result.get(Position.of(8, 0)).getPieceType()).isEqualTo(PieceType.ROOK);
-            assertThat(result.get(Position.of(3, 0)).getPieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(result.get(Position.of(5, 0)).getPieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(result.get(Position.of(4, 1)).getPieceType()).isEqualTo(PieceType.KING);
-            assertThat(result.get(Position.of(1, 2)).getPieceType()).isEqualTo(PieceType.CANNON);
-            assertThat(result.get(Position.of(7, 2)).getPieceType()).isEqualTo(PieceType.CANNON);
-            assertThat(result.get(Position.of(0, 3)).getPieceType()).isEqualTo(PieceType.PAWN);
-            assertThat(result.get(Position.of(4, 3)).getPieceType()).isEqualTo(PieceType.PAWN);
-            assertThat(result.get(Position.of(8, 3)).getPieceType()).isEqualTo(PieceType.PAWN);
+            assertThat(result.get(Position.of(0, 8)).getPieceType()).isEqualTo(PieceType.ROOK);
+            assertThat(result.get(Position.of(0, 3)).getPieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(result.get(Position.of(0, 5)).getPieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(result.get(Position.of(1, 4)).getPieceType()).isEqualTo(PieceType.KING);
+            assertThat(result.get(Position.of(2, 1)).getPieceType()).isEqualTo(PieceType.CANNON);
+            assertThat(result.get(Position.of(2, 7)).getPieceType()).isEqualTo(PieceType.CANNON);
+            assertThat(result.get(Position.of(3, 0)).getPieceType()).isEqualTo(PieceType.PAWN);
+            assertThat(result.get(Position.of(3, 4)).getPieceType()).isEqualTo(PieceType.PAWN);
+            assertThat(result.get(Position.of(3, 8)).getPieceType()).isEqualTo(PieceType.PAWN);
         }
     }
 
@@ -48,16 +48,16 @@ class InitialFormationStrategyTest {
             Map<Position, Piece> result = strategy.setUpPieces(TeamColor.CHO);
 
             assertThat(result).hasSize(12);
-            assertThat(result.get(Position.of(0, 9)).getPieceType()).isEqualTo(PieceType.ROOK);
-            assertThat(result.get(Position.of(8, 9)).getPieceType()).isEqualTo(PieceType.ROOK);
-            assertThat(result.get(Position.of(3, 9)).getPieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(result.get(Position.of(5, 9)).getPieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(result.get(Position.of(4, 8)).getPieceType()).isEqualTo(PieceType.KING);
-            assertThat(result.get(Position.of(1, 7)).getPieceType()).isEqualTo(PieceType.CANNON);
+            assertThat(result.get(Position.of(9, 0)).getPieceType()).isEqualTo(PieceType.ROOK);
+            assertThat(result.get(Position.of(9, 8)).getPieceType()).isEqualTo(PieceType.ROOK);
+            assertThat(result.get(Position.of(9, 3)).getPieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(result.get(Position.of(9, 5)).getPieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(result.get(Position.of(8, 4)).getPieceType()).isEqualTo(PieceType.KING);
+            assertThat(result.get(Position.of(7, 1)).getPieceType()).isEqualTo(PieceType.CANNON);
             assertThat(result.get(Position.of(7, 7)).getPieceType()).isEqualTo(PieceType.CANNON);
-            assertThat(result.get(Position.of(0, 6)).getPieceType()).isEqualTo(PieceType.PAWN);
-            assertThat(result.get(Position.of(4, 6)).getPieceType()).isEqualTo(PieceType.PAWN);
-            assertThat(result.get(Position.of(8, 6)).getPieceType()).isEqualTo(PieceType.PAWN);
+            assertThat(result.get(Position.of(6, 0)).getPieceType()).isEqualTo(PieceType.PAWN);
+            assertThat(result.get(Position.of(6, 4)).getPieceType()).isEqualTo(PieceType.PAWN);
+            assertThat(result.get(Position.of(6, 8)).getPieceType()).isEqualTo(PieceType.PAWN);
         }
     }
 }

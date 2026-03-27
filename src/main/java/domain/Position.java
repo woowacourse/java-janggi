@@ -30,7 +30,7 @@ public class Position {
     }
 
     public boolean isInsideBoard() {
-        return row() >= 0 && row() <= 8 && column() >= 0 && column() <= 9;
+        return row() >= 0 && row() <= 9 && column() >= 0 && column() <= 8;
     }
 
     @Override

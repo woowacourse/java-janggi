@@ -12,12 +12,12 @@ public class LeftFormationStrategy extends InitialFormationStrategy {
     @Override
     protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
         Map<Position, Piece> formation = new HashMap<>();
-        int y = teamColor == TeamColor.CHO ? 9 : 0;
+        int row = teamColor == TeamColor.CHO ? 9 : 0;
 
-        formation.put(Position.of(1, y), Piece.of(teamColor, PieceType.HORSE));
-        formation.put(Position.of(2, y), Piece.of(teamColor, PieceType.ELEPHANT));
-        formation.put(Position.of(6, y), Piece.of(teamColor, PieceType.HORSE));
-        formation.put(Position.of(7, y), Piece.of(teamColor, PieceType.ELEPHANT));
+        formation.put(Position.of(row, 1), Piece.of(teamColor, PieceType.HORSE));
+        formation.put(Position.of(row, 2), Piece.of(teamColor, PieceType.ELEPHANT));
+        formation.put(Position.of(row, 6), Piece.of(teamColor, PieceType.HORSE));
+        formation.put(Position.of(row, 7), Piece.of(teamColor, PieceType.ELEPHANT));
         return formation;
     }
 }

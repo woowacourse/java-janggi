@@ -33,8 +33,8 @@ class InitializerTest {
         @Test
         void 초나라_한나라_전략을_주입받아_총_32개의_기물이_세팅된_초기_장기판을_반환한다() {
             assertThat(initialGameState.boardState()).hasSize(32);
-            assertThat(initialGameState.boardState().get(Position.of(4, 8)).getPieceType()).isEqualTo(PieceType.KING);
-            assertThat(initialGameState.boardState().get(Position.of(2, 0)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
+            assertThat(initialGameState.boardState().get(Position.of(8, 4)).getPieceType()).isEqualTo(PieceType.KING);
+            assertThat(initialGameState.boardState().get(Position.of(0, 2)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
         }
     }
 

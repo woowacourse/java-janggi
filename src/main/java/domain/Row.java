@@ -1,7 +1,7 @@
 package domain;
 
 public record Row(int value) {
-    private static final int ROW_MAX_SIZE = 8;
+    private static final int ROW_MAX_SIZE = 9;
 
     public Row {
         validateRow(value);

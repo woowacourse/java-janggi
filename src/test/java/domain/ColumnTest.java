@@ -27,7 +27,7 @@ public class ColumnTest {
 
             assertThatThrownBy(() -> new Column(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("열의 최대 값은 9입니다.");
+                    .hasMessageContaining("열의 최대 값은 8입니다.");
         }
     }
 }

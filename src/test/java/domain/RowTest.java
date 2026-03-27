@@ -27,7 +27,7 @@ class RowTest {
 
             assertThatThrownBy(() -> new Row(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("행의 최대 값은 8입니다.");
+                    .hasMessageContaining("행의 최대 값은 9입니다.");
         }
     }
 }
