@@ -5,8 +5,8 @@ public enum Side {
     CHO,
     NONE,
     ;
+
     public static boolean isSameSide(Side firstSide, Side secondSide){
         return firstSide.equals(secondSide);
     }
-    
 }
