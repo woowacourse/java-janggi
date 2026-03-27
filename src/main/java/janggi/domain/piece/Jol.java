@@ -25,9 +25,8 @@ public class Jol implements Piece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getX() - from.getX();
-        int pathY = to.getY() - from.getY();
-
+        int pathX = to.calculatePathX(from);
+        int pathY = to.calculatePathY(from);
         int signY = Integer.compare(pathY, 0);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
@@ -43,8 +42,7 @@ public class Jol implements Piece {
 
     @Override
     public boolean canMove(List<Piece> route) {
-        return route.stream()
-                .noneMatch(piece -> piece.isSameTeam(team));
+        return route.stream().noneMatch(piece -> piece.isSameTeam(team));
     }
 
     @Override
@@ -57,4 +55,3 @@ public class Jol implements Piece {
         return type;
     }
 }
-

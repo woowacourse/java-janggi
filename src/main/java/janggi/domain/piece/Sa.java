@@ -25,8 +25,8 @@ public class Sa implements Piece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getX() - from.getX();
-        int pathY = to.getY() - from.getY();
+        int pathX = to.calculatePathX(from);
+        int pathY = to.calculatePathY(from);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 

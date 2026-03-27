@@ -35,8 +35,16 @@ public class Point {
         return CACHE.get(y).get(x);
     }
 
-    public static List<Point> getRow(int x) {
-        return CACHE.get(x);
+    public int calculatePathX(Point from) {
+        return this.x - from.x;
+    }
+
+    public int calculatePathY(Point from) {
+        return this.y - from.y;
+    }
+
+    public static List<Point> getRow(int y) {
+        return CACHE.get(y);
     }
 
     public int getX() {

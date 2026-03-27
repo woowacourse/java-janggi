@@ -24,8 +24,8 @@ public class Cha implements Piece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getX() - from.getX();
-        int pathY = to.getY() - from.getY();
+        int pathX = to.calculatePathX(from);
+        int pathY = to.calculatePathY(from);
 
         if (pathY != 0 && pathX != 0) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
