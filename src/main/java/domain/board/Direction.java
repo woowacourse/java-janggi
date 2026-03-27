@@ -38,6 +38,10 @@ public enum Direction {
         int row = differentCoordinate.row();
         int column = differentCoordinate.column();
 
+        return calculateDirections(row, column);
+    }
+
+    private static Queue<Direction> calculateDirections(int row, int column) {
         Queue<Direction> directions = new ArrayDeque<>();
         // 절댓값이 큰 값의 실제 값 - 절대 값이 작은 실제값
         if (Math.abs(row) > Math.abs(column)) {
@@ -47,7 +51,6 @@ public enum Direction {
             column = updateColumnBasedOnDirection(Math.abs(row), Math.abs(column), directions, column, row);
         }
         addDiagonalDirection(directions, row, column);
-
         return directions;
     }
 
