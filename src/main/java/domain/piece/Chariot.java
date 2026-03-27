@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Direction;
 import domain.board.Board;
 import domain.Position;
 import domain.Side;
@@ -16,25 +17,26 @@ public class Chariot extends Piece {
     @Override
     public List<Position> getPossibleMoves(Board board, Position start) {
         List<Position> possiblePositions = new ArrayList<>();
-        int[] dx = {0, -1, 1, 0};
-        int[] dy = {-1, 0, 0, 1};
 
-        for (int i = 0; i < 4; i++) {
-            int nRow = start.row();
-            int nCol = start.col();
+        List<Direction> directions = List.of(
+                Direction.UP,
+                Direction.DOWN,
+                Direction.LEFT,
+                Direction.RIGHT
+        );
 
+        for (Direction direction : directions) {
+            Position current = start;
             while (true) {
-                nRow += dx[i];
-                nCol += dy[i];
-                Position destination = new Position(nCol, nRow);
+                current = current.nextPosition(direction);
 
-                if (!board.isAvailableDestination(destination)) {
+                if (!board.isAvailableDestination(current)) {
                     break;
                 }
 
-                possiblePositions.add(destination);
+                possiblePositions.add(current);
 
-                if (board.isOpponentPiece(destination)) {
+                if (board.isOpponentPiece(current)) {
                     break;
                 }
             }
