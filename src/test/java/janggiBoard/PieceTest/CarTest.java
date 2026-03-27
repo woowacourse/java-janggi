@@ -1,44 +1,53 @@
-package janggiBoard;
+package janggiBoard.PieceTest;
 
 import domain.Position;
+import domain.Team;
 import domain.piece.Blank;
+import domain.piece.Car;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
-import domain.strategy.PalaceStrategy;
-import domain.strategy.PawnStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-public class PawnStrategyTest {
+public class CarTest {
 
-    private PawnStrategy pawnStrategy;
+    private Car car;
     private TestPieceProvider testBoard;
 
     @BeforeEach
-    void setUp() {
-        pawnStrategy = new PawnStrategy();
+    public void setUp() {
+        car = new Car(Team.CHO);
         testBoard = new TestPieceProvider();
     }
 
     @Test
-    void 졸은_4가지_이동_후보_모두_반환() {
+    void 차는_목적지에_갈_수_있다() {
         Position currentPosition = new Position(5, 5);
+        Position targetPosition = new Position(7, 5);
+
         testBoard.setAllBlank();
-
-        List<Position> candidates = pawnStrategy.getMoveCandidates(currentPosition, testBoard);
-
-        assertThat(candidates).hasSize(4)
-                .containsExactlyInAnyOrder(
-                        new Position(4, 5), new Position(6, 5),
-                        new Position(5, 4), new Position(5, 6)
-                );
+        boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
+        assertThat(isCarMove).isTrue();
     }
+
+    @Test
+    void 차는_목적지에_갈_수_없다() {
+        Position currentPosition = new Position(5, 5);
+        Position targetPosition = new Position(7, 5);
+
+        testBoard.setAllBlank();
+        testBoard.setBlank(new Position(6, 5));
+
+        boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
+
+        assertThat(isCarMove).isFalse();
+    }
+
 
     private static class TestPieceProvider implements PieceProvider {
         private final Map<Position, Boolean> boardState = new HashMap<>();

@@ -1,47 +1,44 @@
-package janggiBoard;
+package janggiBoard.strategyTest;
 
 import domain.Position;
-import domain.Team;
-import domain.piece.*;
+import domain.piece.Blank;
+import domain.piece.Piece;
+import domain.piece.PieceProvider;
+import domain.strategy.PalaceStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-public class ElephantTest {
+public class PalaceStrategyTest {
 
+    private PalaceStrategy palaceStrategy;
     private TestPieceProvider testBoard;
-    private Elephant elephant;
 
     @BeforeEach
     void setUp() {
-        elephant = new Elephant(Team.CHO);
+        palaceStrategy = new PalaceStrategy();
         testBoard = new TestPieceProvider();
     }
 
     @Test
-    void 마가_목적지에_갈_수_있다() {
+    void 궁과_사가_주변에_장애물이_없다면_8가지_후보_모두_반환() {
         Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(3, 8);
-
         testBoard.setAllBlank();
-        boolean isCanMove = elephant.canMove(currentPosition, targetPosition, testBoard);
-        assertThat(isCanMove).isTrue();
-    }
 
-    @Test
-    void 마가_목적지에_갈_수_없다() {
-        Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(3, 8);
+        List<Position> candidates = palaceStrategy.getMoveCandidates(currentPosition, testBoard);
 
-        testBoard.setAllBlank();
-        testBoard.setBlank(new Position(5, 6));
-
-        boolean isCanMove = elephant.canMove(currentPosition, targetPosition, testBoard);
-        assertThat(isCanMove).isFalse();
+        assertThat(candidates).hasSize(8)
+                .containsExactlyInAnyOrder(
+                        new Position(4, 5), new Position(4, 4),
+                        new Position(4, 6), new Position(5, 4),
+                        new Position(5, 6), new Position(6, 4),
+                        new Position(6, 5), new Position(6, 6)
+                );
     }
 
     private static class TestPieceProvider implements PieceProvider {

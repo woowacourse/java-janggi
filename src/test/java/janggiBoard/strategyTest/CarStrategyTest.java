@@ -1,4 +1,4 @@
-package janggiBoard;
+package janggiBoard.strategyTest;
 
 import domain.Position;
 import domain.piece.Blank;

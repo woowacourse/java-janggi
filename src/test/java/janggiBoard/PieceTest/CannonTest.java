@@ -1,4 +1,4 @@
-package janggiBoard;
+package janggiBoard.PieceTest;
 
 import domain.Position;
 import domain.Team;
