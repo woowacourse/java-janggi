@@ -35,8 +35,8 @@ public class Board {
             return true;
         }
 
-        Piece targetPiece = findPieceByPosition(to).get();
         Piece currentPiece = findPieceByPosition(from).get();
-        return currentPiece.getTeam() != targetPiece.getTeam();
+        Piece targetPiece = findPieceByPosition(to).get();
+        return currentPiece.isAnotherTeam(targetPiece);
     }
 }
