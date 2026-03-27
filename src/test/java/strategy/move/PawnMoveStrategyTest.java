@@ -55,4 +55,24 @@ public class PawnMoveStrategyTest {
                 new Route(curPos, Position.of(2, 2), List.of())
         );
     }
+
+    @Test
+    public void 졸은_장애물이_없으면_지나갈수_있다(){
+        MoveStrategy moveStrategy = new PawnMoveStrategy();
+
+        List<Piece> blockingPieces = List.of();
+        boolean canJumpTo  = moveStrategy.canJump(blockingPieces);
+
+        assertThat(canJumpTo).isTrue();
+    }
+
+    @Test
+    public void 졸은_장애물이_하나라도_있으면_지나갈수_없다(){
+        MoveStrategy moveStrategy = new PawnMoveStrategy();
+
+        List<Piece> blockingPieces = List.of(Piece.of(TeamColor.CHO,PieceType.CANNON));
+        boolean canJumpTo  = moveStrategy.canJump(blockingPieces);
+
+        assertThat(canJumpTo).isFalse();
+    }
 }
