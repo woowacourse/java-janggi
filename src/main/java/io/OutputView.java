@@ -52,7 +52,7 @@ public class OutputView {
     public void printBoard(Board board) {
         System.out.println();
         System.out.println("현재 장기판");
-        System.out.println("    0  1  2  3  4  5  6  7  8");
+        System.out.println("    0  1  2  3  4  5  6  7  8  9");
         for (int row = 0; row <= 8; row++) {
             StringBuilder line = new StringBuilder();
             line.append(row).append(" | ");
