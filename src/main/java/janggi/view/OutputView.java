@@ -1,13 +1,9 @@
 package janggi.view;
 
-import janggi.domain.Position;
-import janggi.domain.board.Board;
 import janggi.domain.command.SetupCommand;
-import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardDto;
 import java.util.List;
-import java.util.Map;
 
 public final class OutputView {
     private static final String ERROR_PREFIX = "[ERROR]: ";

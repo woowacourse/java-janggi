@@ -1,6 +1,6 @@
 package janggi.fixture;
 
-import janggi.domain.PieceType;
+import janggi.domain.piece.PieceType;
 import janggi.domain.Position;
 import java.util.LinkedHashMap;
 import java.util.Map;

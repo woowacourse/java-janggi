@@ -1,5 +1,7 @@
-package janggi.domain;
+package janggi.domain.setup;
 
+import janggi.domain.Position;
+import janggi.domain.piece.PieceType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

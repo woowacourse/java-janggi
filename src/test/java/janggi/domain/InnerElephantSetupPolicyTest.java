@@ -2,6 +2,8 @@ package janggi.domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.domain.piece.PieceType;
+import janggi.domain.setup.InnerElephantSetupPolicy;
 import janggi.fixture.SetupPolicyTestFixture;
 import java.util.LinkedHashMap;
 import java.util.Map;

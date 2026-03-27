@@ -1,6 +1,5 @@
 package janggi.domain.movement;
 
-import static janggi.domain.Position.MAXIMUM_ROW;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;

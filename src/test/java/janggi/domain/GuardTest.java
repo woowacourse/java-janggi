@@ -62,12 +62,12 @@ public class GuardTest {
             positionPieceMap.put(Position.valueOf(7, 5), enemy4);
 
             List<Position> expected = List.of(Position.valueOf(6, 5), Position.valueOf(7, 3),
-                Position.valueOf(7, 4), Position.valueOf(7, 5));
+                    Position.valueOf(7, 4), Position.valueOf(7, 5));
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4),
-                boardMediator);
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -79,13 +79,13 @@ public class GuardTest {
             positionPieceMap.put(Position.valueOf(6, 5), enemy1);
             positionPieceMap.put(Position.valueOf(7, 3), enemy2);
             List<Position> expected = List.of(Position.valueOf(5, 3), Position.valueOf(5, 4),
-                Position.valueOf(5, 5), Position.valueOf(6, 3), Position.valueOf(6, 5), Position.valueOf(7, 3),
-                Position.valueOf(7, 4), Position.valueOf(7, 5));
+                    Position.valueOf(5, 5), Position.valueOf(6, 3), Position.valueOf(6, 5), Position.valueOf(7, 3),
+                    Position.valueOf(7, 4), Position.valueOf(7, 5));
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4),
-                boardMediator);
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -102,7 +102,7 @@ public class GuardTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> actual = guard.calculateMovablePositions(Position.valueOf(1, 1),
-                boardMediator);
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

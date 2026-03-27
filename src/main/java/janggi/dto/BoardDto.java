@@ -5,10 +5,10 @@ import static janggi.domain.Position.MAXIMUM_ROW;
 import static janggi.domain.Position.MINIMUM_COLUMN;
 import static janggi.domain.Position.MINIMUM_ROW;
 
-import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
 import janggi.view.ConsoleColor;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public record BoardDto(
-    List<String> rowStatuses
+        List<String> rowStatuses
 ) {
 
     private static final Map<TeamType, Map<PieceType, String>> CHINESE_MAP;
@@ -25,24 +25,24 @@ public record BoardDto(
 
     static {
         CHINESE_MAP = Map.of(
-            TeamType.RED, Map.of(
-                PieceType.GENERAL, ConsoleColor.red("漢"),
-                PieceType.GUARD, ConsoleColor.red("士"),
-                PieceType.CHARIOT, ConsoleColor.red("車"),
-                PieceType.CANNON, ConsoleColor.red("包"),
-                PieceType.HORSE, ConsoleColor.red("馬"),
-                PieceType.ELEPHANT, ConsoleColor.red("象"),
-                PieceType.SOLDIER, ConsoleColor.red("兵")
-            ),
-            TeamType.BLUE, Map.of(
-                PieceType.GENERAL, ConsoleColor.blue("楚"),
-                PieceType.GUARD, ConsoleColor.blue("士"),
-                PieceType.CHARIOT, ConsoleColor.blue("車"),
-                PieceType.CANNON, ConsoleColor.blue("包"),
-                PieceType.HORSE, ConsoleColor.blue("馬"),
-                PieceType.ELEPHANT, ConsoleColor.blue("象"),
-                PieceType.SOLDIER, ConsoleColor.blue("卒")
-            ));
+                TeamType.RED, Map.of(
+                        PieceType.GENERAL, ConsoleColor.red("漢"),
+                        PieceType.GUARD, ConsoleColor.red("士"),
+                        PieceType.CHARIOT, ConsoleColor.red("車"),
+                        PieceType.CANNON, ConsoleColor.red("包"),
+                        PieceType.HORSE, ConsoleColor.red("馬"),
+                        PieceType.ELEPHANT, ConsoleColor.red("象"),
+                        PieceType.SOLDIER, ConsoleColor.red("兵")
+                ),
+                TeamType.BLUE, Map.of(
+                        PieceType.GENERAL, ConsoleColor.blue("楚"),
+                        PieceType.GUARD, ConsoleColor.blue("士"),
+                        PieceType.CHARIOT, ConsoleColor.blue("車"),
+                        PieceType.CANNON, ConsoleColor.blue("包"),
+                        PieceType.HORSE, ConsoleColor.blue("馬"),
+                        PieceType.ELEPHANT, ConsoleColor.blue("象"),
+                        PieceType.SOLDIER, ConsoleColor.blue("卒")
+                ));
     }
 
     public static BoardDto from(final Board board) {

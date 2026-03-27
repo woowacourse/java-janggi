@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;

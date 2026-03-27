@@ -2,10 +2,10 @@ package janggi.domain.movement;
 
 import static janggi.domain.Position.MAXIMUM_ROW;
 
-import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 

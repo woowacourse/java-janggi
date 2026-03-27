@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
@@ -17,10 +16,10 @@ public class Cannon implements Piece {
 
     static {
         final List<Rule> rules = List.of(
-            new RuleOfCannon(Direction.valueOf(1, 0)),
-            new RuleOfCannon(Direction.valueOf(-1, 0)),
-            new RuleOfCannon(Direction.valueOf(0, 1)),
-            new RuleOfCannon(Direction.valueOf(0, -1)));
+                new RuleOfCannon(Direction.valueOf(1, 0)),
+                new RuleOfCannon(Direction.valueOf(-1, 0)),
+                new RuleOfCannon(Direction.valueOf(0, 1)),
+                new RuleOfCannon(Direction.valueOf(0, -1)));
         PIECE_ACTION = new PieceAction(rules);
     }
 

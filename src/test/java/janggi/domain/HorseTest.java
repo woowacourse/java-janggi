@@ -61,7 +61,7 @@ public class HorseTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> actual = horse.calculateMovablePositions(Position.valueOf(6, 4),
-                boardMediator);
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -73,14 +73,14 @@ public class HorseTest {
             positionPieceMap.put(Position.valueOf(5, 6), enemy1);
             positionPieceMap.put(Position.valueOf(7, 2), enemy2);
             List<Position> expected = List.of(Position.valueOf(4, 3), Position.valueOf(4, 5),
-                Position.valueOf(5, 6), Position.valueOf(7, 6),
-                Position.valueOf(8, 3), Position.valueOf(8, 5), Position.valueOf(7, 2),
-                Position.valueOf(5, 2));
+                    Position.valueOf(5, 6), Position.valueOf(7, 6),
+                    Position.valueOf(8, 3), Position.valueOf(8, 5), Position.valueOf(7, 2),
+                    Position.valueOf(5, 2));
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> actual = horse.calculateMovablePositions(Position.valueOf(6, 4),
-                boardMediator);
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -96,7 +96,7 @@ public class HorseTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> actual = horse.calculateMovablePositions(Position.valueOf(1, 1),
-                boardMediator);
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

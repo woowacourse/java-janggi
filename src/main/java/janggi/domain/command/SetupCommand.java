@@ -1,10 +1,10 @@
 package janggi.domain.command;
 
-import janggi.domain.InnerElephantSetupPolicy;
-import janggi.domain.LeftElephantSetupPolicy;
-import janggi.domain.OuterElephantSetupPolicy;
-import janggi.domain.RightElephantSetupPolicy;
-import janggi.domain.SetupPolicy;
+import janggi.domain.setup.InnerElephantSetupPolicy;
+import janggi.domain.setup.LeftElephantSetupPolicy;
+import janggi.domain.setup.OuterElephantSetupPolicy;
+import janggi.domain.setup.RightElephantSetupPolicy;
+import janggi.domain.setup.SetupPolicy;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
