@@ -5,22 +5,22 @@ import java.util.Scanner;
 
 public class InputView {
 
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public String askChoPlayerName() {
         System.out.println("선공 닉네임을 입력하세요.");
-        return sc.nextLine();
+        return scanner.nextLine();
     }
 
     public String askHanPlayerName() {
         System.out.println("후공 닉네임을 입력하세요.");
-        return sc.nextLine();
+        return scanner.nextLine();
     }
 
     public int askChoPositionInput() {
         System.out.println("선공 배치 선택 (1-상마상마, 2-마상마상, 3-마상상마, 4-상마마상)");
         try {
-            return Integer.parseInt(sc.nextLine());
+            return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력해주세요.");
         }
@@ -29,7 +29,7 @@ public class InputView {
     public int askHanPositionInput() {
         System.out.println("후공 배치 선택 (1-상마상마, 2-마상마상, 3-마상상마, 4-상마마상)");
         try {
-            return Integer.parseInt(sc.nextLine());
+            return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력해주세요.");
         }
@@ -47,7 +47,7 @@ public class InputView {
 
     private List<Integer> askPosition() {
         try {
-            List<String> splitString = List.of(sc.nextLine().split(" "));
+            List<String> splitString = List.of(scanner.nextLine().split(" "));
             return splitString.stream()
                     .map(Integer::parseInt)
                     .toList();
