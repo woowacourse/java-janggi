@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.exception.ExceptionMessage;
+
 public enum Camp {
 
     HAN(-1, 9),
@@ -14,9 +16,9 @@ public enum Camp {
         this.startRowPosition = startRowPosition;
     }
 
-    public void validateForwardDirection(int rowDiff) {
-        if (forwardDirection != rowDiff && rowDiff != 0) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+    public void validateForwardDirection(int rowDirection) {
+        if (forwardDirection != rowDirection && rowDirection != 0) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
         }
     }
 

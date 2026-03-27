@@ -1,5 +1,6 @@
 package janggi.util;
 
+import janggi.exception.ExceptionMessage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class Parser {
         try {
             return Integer.parseInt(number);
         } catch (NumberFormatException numberFormatException) {
-            throw new IllegalArgumentException("[ERROR] 숫자만 입력 가능합니다");
+            throw new IllegalArgumentException(ExceptionMessage.ONLY_NUMBERS_ALLOWED.getMessage());
         }
     }
 }

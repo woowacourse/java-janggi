@@ -4,6 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceRule;
+import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class EmptyCondition implements MoveCondition {
@@ -18,13 +19,13 @@ public class EmptyCondition implements MoveCondition {
 
     private void validateEmptyPosition(Position position, BoardChecker board) {
         if (board.hasPieceAt(position)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
         }
     }
 
     private void validateGoalPosition(Position lastPosition, Camp camp, BoardChecker board) {
         if (board.isSameCampPieceAt(lastPosition, camp)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
         }
     }
 }

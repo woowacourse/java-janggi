@@ -8,6 +8,7 @@ import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.EmptyConditionTestBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceRule;
+import janggi.exception.ExceptionMessage;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ public class EmptyConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }
 
     @Test
@@ -53,6 +54,6 @@ public class EmptyConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
     }
 }

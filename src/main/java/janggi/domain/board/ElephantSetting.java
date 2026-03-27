@@ -4,6 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
+import janggi.exception.ExceptionMessage;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ public enum ElephantSetting {
         return Arrays.stream(values())
                 .filter(element -> element.command.equals(command))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 상차림 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_SETTING.getMessage()));
     }
 
     public Map<Position, Piece> createElephantOrder(Camp camp) {

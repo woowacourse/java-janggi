@@ -2,6 +2,7 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
+import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +26,11 @@ public class MultiStepStraightStrategy implements MoveStrategy {
         int colDifference = directionInformation.colDifference();
 
         if (sum != rowDifference && sum != colDifference) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
         }
 
         if (rowDifference == 0 && colDifference == 0) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
         }
     }
 

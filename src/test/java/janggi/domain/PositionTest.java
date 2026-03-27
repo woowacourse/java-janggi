@@ -2,6 +2,7 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.exception.ExceptionMessage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +18,7 @@ public class PositionTest {
     void 포지션의_행이_0부터_9행까지가_아닐_경우_예외가_발생한다(int row, int col) {
         Assertions.assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 행은 0행 이상 9행 이하여야 합니다.");
+                .hasMessage(ExceptionMessage.ROW_OUT_OF_RANGE.getMessage());
     }
 
     @ParameterizedTest
@@ -28,7 +29,7 @@ public class PositionTest {
     void 포지션의_열이_0부터_8열까지가_아닐_경우_예외가_발생한다(int row, int col) {
         Assertions.assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 열은 0열 이상 8열 이하여야 합니다.");
+                .hasMessage(ExceptionMessage.COLUMN_OUT_OF_RANGE.getMessage());
     }
 
     @Test

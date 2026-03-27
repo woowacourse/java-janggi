@@ -8,6 +8,7 @@ import janggi.domain.board.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
+import janggi.exception.ExceptionMessage;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
     }
 
     @Test
@@ -58,7 +59,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
     }
 
     @Test
@@ -81,7 +82,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
     }
 
     @Test
@@ -98,13 +99,14 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
+                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.HAN),
                 new Position(0, 5), new Piece(PieceRule.CHARIOT, Camp.HAN)
         );
         Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
     }
 
     @Test
@@ -121,12 +123,13 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
+                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.HAN),
                 new Position(0, 5), new Piece(PieceRule.CANNON, Camp.CHO)
         );
         Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
     }
 }

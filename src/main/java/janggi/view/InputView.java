@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.domain.piece.Camp;
+import janggi.exception.ExceptionMessage;
 import janggi.formatter.CampFormatter;
 import janggi.util.Parser;
 import java.util.List;
@@ -38,7 +39,7 @@ public final class InputView {
 
     private static void validateInput(String input) {
         if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 입력 형식입니다.");
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
         }
     }
 

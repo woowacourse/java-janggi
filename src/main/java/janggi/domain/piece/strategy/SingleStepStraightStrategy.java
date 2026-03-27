@@ -1,7 +1,10 @@
 package janggi.domain.piece.strategy;
 
+import static janggi.constant.GameRule.SINGLE_STEP_DISTANCE;
+
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
+import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class SingleStepStraightStrategy implements MoveStrategy {
@@ -15,8 +18,9 @@ public class SingleStepStraightStrategy implements MoveStrategy {
     }
 
     private void validateSingleStepMovement(DirectionInformation directionInformation) {
-        if (directionInformation.calculateAbsRowDifference() + directionInformation.calculateAbsColDifference() != 1) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+        if (directionInformation.calculateAbsRowDifference()
+                + directionInformation.calculateAbsColDifference() != SINGLE_STEP_DISTANCE) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
         }
     }
 }

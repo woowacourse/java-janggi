@@ -1,5 +1,11 @@
 package janggi.domain;
 
+import static janggi.constant.GameRule.MAX_COLUMN_INDEX;
+import static janggi.constant.GameRule.MAX_ROW_INDEX;
+import static janggi.constant.GameRule.MIN_POSITION_INDEX;
+
+import janggi.exception.ExceptionMessage;
+
 public record Position(int row, int column) {
 
     public Position {
@@ -8,14 +14,14 @@ public record Position(int row, int column) {
     }
 
     private void validateRow(int row) {
-        if (row < 0 || 9 < row) {
-            throw new IllegalArgumentException("[ERROR] 행은 0행 이상 9행 이하여야 합니다.");
+        if (row < MIN_POSITION_INDEX || MAX_ROW_INDEX < row) {
+            throw new IllegalArgumentException(ExceptionMessage.ROW_OUT_OF_RANGE.getMessage());
         }
     }
 
     private void validateColumn(int column) {
-        if (column < 0 || 8 < column) {
-            throw new IllegalArgumentException("[ERROR] 열은 0열 이상 8열 이하여야 합니다.");
+        if (column < MIN_POSITION_INDEX || MAX_COLUMN_INDEX < column) {
+            throw new IllegalArgumentException(ExceptionMessage.COLUMN_OUT_OF_RANGE.getMessage());
         }
     }
 

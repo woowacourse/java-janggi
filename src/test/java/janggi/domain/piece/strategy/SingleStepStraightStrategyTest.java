@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
+import janggi.exception.ExceptionMessage;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
@@ -41,6 +42,6 @@ class SingleStepStraightStrategyTest {
     void 궁과_사는_1칸_이동이_아니면_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(5, 0), Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
     }
 }

@@ -2,10 +2,14 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
+import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HorseStrategy implements MoveStrategy {
+
+    private static final int MIN_ABS_DELTA = 1;
+    private static final int MAX_ABS_DELTA = 2;
 
     @Override
     public List<Position> findPath(Position from, Position to, Camp camp) {
@@ -49,9 +53,9 @@ public class HorseStrategy implements MoveStrategy {
         int absRowDifference = directionInformation.calculateAbsRowDifference();
         int absColDifference = directionInformation.calculateAbsColDifference();
 
-        if ((absRowDifference != 1 || absColDifference != 2)
-                && (absRowDifference != 2 || absColDifference != 1)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+        if ((absRowDifference != MIN_ABS_DELTA || absColDifference != MAX_ABS_DELTA)
+                && (absRowDifference != MAX_ABS_DELTA || absColDifference != MIN_ABS_DELTA)) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
         }
     }
 }

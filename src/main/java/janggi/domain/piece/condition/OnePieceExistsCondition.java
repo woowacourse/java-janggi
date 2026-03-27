@@ -1,9 +1,12 @@
 package janggi.domain.piece.condition;
 
+import static janggi.constant.GameRule.PASS_PIECE_COUNT;
+
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceRule;
+import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class OnePieceExistsCondition implements MoveCondition {
@@ -30,26 +33,23 @@ public class OnePieceExistsCondition implements MoveCondition {
 
     private void validateSamePieceRule(BoardChecker board, PieceRule pieceRule, Position position) {
         if (board.hasSamePieceRuleAt(position, pieceRule)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
         }
     }
 
-    private void validateExactPieceCount(int flag) {
-        if (flag != 1) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+    private void validateExactPieceCount(int countOfPiece) {
+        if (countOfPiece != PASS_PIECE_COUNT) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
         }
     }
 
     private void validateGoalPosition(Position lastPosition, Camp camp, BoardChecker board, PieceRule pieceRule) {
-        if (board.isSameCampPieceAt(lastPosition, camp) || board.hasSamePieceRuleAt(lastPosition, pieceRule)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+        if (board.isSameCampPieceAt(lastPosition, camp)) {
+            throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
+        }
+
+        if (board.hasSamePieceRuleAt(lastPosition, pieceRule)) {
+            throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
         }
     }
 }
-
-// todo : PieceRule 제거
-
-// todo : view 구현
-
-// todo : 상수 처리
-// todo : 예외 구체화

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
+import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +58,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(1, 4), new Position(3, 4), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
         }
     }
 
@@ -84,7 +85,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 3), new Position(0, 5), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
         }
     }
 
@@ -113,7 +114,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 1), new Position(2, 2), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
         }
 
         @Test
@@ -125,7 +126,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 1), new Position(0, 7), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
         }
     }
 
@@ -152,7 +153,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 6), new Position(3, 3), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
         }
     }
 
@@ -168,7 +169,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
         }
 
         @Test
@@ -178,13 +179,12 @@ class PieceTest {
             BoardChecker board = new Board(() -> Map.of(
                     new Position(3, 1), new Piece(PieceRule.CHARIOT, Camp.HAN),
                     new Position(5, 1), new Piece(PieceRule.CHARIOT, Camp.CHO)
-
             ));
             //when & then
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
         }
 
         @Test
@@ -228,7 +228,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 0), new Position(9, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
         }
 
         @Test
@@ -240,7 +240,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 0), new Position(3, 3), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
         }
     }
 
@@ -267,7 +267,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(3, 0), new Position(2, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
         }
 
         @Test
@@ -279,7 +279,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(3, 0), new Position(5, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage());
         }
     }
 
@@ -306,7 +306,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(6, 0), new Position(7, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
         }
 
         @Test
@@ -318,7 +318,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(6, 0), new Position(1, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage());
         }
     }
 }

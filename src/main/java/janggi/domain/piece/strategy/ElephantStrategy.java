@@ -2,10 +2,15 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
+import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ElephantStrategy implements MoveStrategy {
+
+    private static final int DIAGONAL_COUNT = 2;
+    private static final int MIN_ABS_DELTA = 2;
+    private static final int MAX_ABS_DELTA = 3;
 
     @Override
     public List<Position> findPath(Position from, Position to, Camp camp) {
@@ -20,9 +25,11 @@ public class ElephantStrategy implements MoveStrategy {
     }
 
     private void validateElephantMovement(DirectionInformation directionInfo) {
-        if ((directionInfo.calculateAbsRowDifference() != 2 || directionInfo.calculateAbsColDifference() != 3)
-                && (directionInfo.calculateAbsRowDifference() != 3 || directionInfo.calculateAbsColDifference() != 2)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
+        if ((directionInfo.calculateAbsRowDifference() != MIN_ABS_DELTA
+                || directionInfo.calculateAbsColDifference() != MAX_ABS_DELTA)
+                && (directionInfo.calculateAbsRowDifference() != MAX_ABS_DELTA
+                || directionInfo.calculateAbsColDifference() != MIN_ABS_DELTA)) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
         }
     }
 
@@ -49,7 +56,7 @@ public class ElephantStrategy implements MoveStrategy {
     private List<Position> moveDiagonal(Position from, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < DIAGONAL_COUNT; i++) {
             from = from.moveDiagonal(directionInfo.calculateRowDirection(), directionInfo.calculateColDirection());
             path.add(from);
         }
