@@ -17,8 +17,8 @@ public class Ma extends AbstractPiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.calculatePathX(from);
-        int pathY = to.calculatePathY(from);
+        int pathX = to.calculatePathColumn(from);
+        int pathY = to.calculatePathRow(from);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
@@ -27,8 +27,8 @@ public class Ma extends AbstractPiece {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
         if (distanceX == LONG_STEP) {
-            return List.of(Point.of(from.getX() + (pathX / LONG_STEP), from.getY()));
+            return List.of(Point.of(from.getColumn() + (pathX / LONG_STEP), from.getRow()));
         }
-        return List.of(Point.of(from.getX(), from.getY() + (pathY / LONG_STEP)));
+        return List.of(Point.of(from.getColumn(), from.getRow() + (pathY / LONG_STEP)));
     }
 }

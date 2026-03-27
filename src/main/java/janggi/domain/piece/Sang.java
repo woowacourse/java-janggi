@@ -17,8 +17,8 @@ public class Sang extends AbstractPiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.calculatePathX(from);
-        int pathY = to.calculatePathY(from);
+        int pathX = to.calculatePathColumn(from);
+        int pathY = to.calculatePathRow(from);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
         int signX = Integer.compare(pathX, 0);
@@ -30,13 +30,13 @@ public class Sang extends AbstractPiece {
         }
         if (distanceX == LONG_STEP) {
             return List.of(
-                    Point.of(from.getX() + (pathX / LONG_STEP), from.getY()),
-                    Point.of(from.getX() + signX * SHORT_STEP,  from.getY() + signY)
+                    Point.of(from.getColumn() + (pathX / LONG_STEP), from.getRow()),
+                    Point.of(from.getColumn() + signX * SHORT_STEP,  from.getRow() + signY)
             );
         }
         return List.of(
-                Point.of(from.getX(), from.getY() + (pathY / LONG_STEP)),
-                Point.of(from.getX() + signX,  from.getY() + signY * SHORT_STEP)
+                Point.of(from.getColumn(), from.getRow() + (pathY / LONG_STEP)),
+                Point.of(from.getColumn() + signX,  from.getRow() + signY * SHORT_STEP)
         );
     }
 }

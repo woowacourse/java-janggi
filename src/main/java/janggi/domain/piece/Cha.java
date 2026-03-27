@@ -15,8 +15,8 @@ public class Cha extends AbstractPiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.calculatePathX(from);
-        int pathY = to.calculatePathY(from);
+        int pathX = to.calculatePathColumn(from);
+        int pathY = to.calculatePathRow(from);
 
         if (pathY != 0 && pathX != 0) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
@@ -30,8 +30,8 @@ public class Cha extends AbstractPiece {
         List<Point> route = new ArrayList<>();
 
         for (int i = 1; i < distance; i++) {
-            int nextX = from.getX() + (signX * i);
-            int nextY = from.getY() + (signY * i);
+            int nextX = from.getColumn() + (signX * i);
+            int nextY = from.getRow() + (signY * i);
             route.add(Point.of(nextX, nextY));
         }
         return route;

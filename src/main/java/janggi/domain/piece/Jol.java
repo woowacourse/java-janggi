@@ -16,8 +16,8 @@ public class Jol extends AbstractPiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.calculatePathX(from);
-        int pathY = to.calculatePathY(from);
+        int pathX = to.calculatePathColumn(from);
+        int pathY = to.calculatePathRow(from);
         int signY = Integer.compare(pathY, 0);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
