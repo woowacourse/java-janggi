@@ -6,5 +6,5 @@ import domain.piece.PieceProvider;
 import java.util.List;
 
 public interface MoveStrategy {
-    List<Position> getMoveCandidates(Position source, PieceProvider board);
+    List<Position> getMoveCandidates(Position currentPosition, PieceProvider board);
 }
