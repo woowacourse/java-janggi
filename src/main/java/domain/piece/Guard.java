@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Direction;
 import domain.Position;
 import domain.Side;
 import domain.board.Board;
@@ -15,20 +16,24 @@ public class Guard extends Piece {
     @Override
     public List<Position> getPossibleMoves(Board board, Position start) {
         List<Position> possiblePositions = new ArrayList<>();
-        int[] dx = {0, -1, 1, 0};
-        int[] dy = {-1, 0, 0, 1};
 
-        for (int i = 0; i < 4; i++) {
-            int nRow = start.row() + dx[i];
-            int nCol = start.col() + dy[i];
-            Position destination = new Position(nCol, nRow);
+        List<Direction> directions = List.of(
+                Direction.UP,
+                Direction.DOWN,
+                Direction.LEFT,
+                Direction.RIGHT
+        );
 
-            if (board.isAvailableDestination(destination)) {
-                possiblePositions.add(destination);
+        for (Direction direction : directions) {
+            Position destination = start.nextPosition(direction);
+
+            if (!board.isAvailableDestination(destination)) {
+                continue;
             }
+
+            possiblePositions.add(destination);
         }
-        
+
         return possiblePositions;
     }
-
 }
