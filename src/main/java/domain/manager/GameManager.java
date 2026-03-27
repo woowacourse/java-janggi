@@ -65,7 +65,7 @@ public class GameManager {
         while (true) {
             try {
                 action.run();
-                return; // 에러 없이 실행되었다면 무한 루프 탈출
+                return;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
