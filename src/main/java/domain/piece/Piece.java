@@ -1,10 +1,10 @@
 package domain.piece;
 
 import domain.board.PathPieces;
+import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import domain.rule.PathGenerator;
 import domain.strategy.MovementStrategy;
 import java.util.Objects;
 

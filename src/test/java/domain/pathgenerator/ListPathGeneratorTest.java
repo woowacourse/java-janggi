@@ -1,4 +1,4 @@
-package domain.rule;
+package domain.pathgenerator;
 
 import static domain.TestUtil.createPosition;
 import static domain.direction.Direction.EAST;

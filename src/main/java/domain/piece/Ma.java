@@ -10,8 +10,8 @@ import static domain.direction.Direction.SOUTH_WEST;
 import static domain.direction.Direction.WEST;
 
 import domain.direction.Direction;
+import domain.pathgenerator.ListPathGenerator;
 import domain.player.Team;
-import domain.rule.ListPathGenerator;
 import domain.strategy.BlockedMovementStrategy;
 import java.util.List;
 

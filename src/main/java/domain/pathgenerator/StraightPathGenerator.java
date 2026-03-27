@@ -1,4 +1,4 @@
-package domain.rule;
+package domain.pathgenerator;
 
 import domain.direction.Direction;
 import domain.position.Path;

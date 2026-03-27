@@ -6,8 +6,8 @@ import static domain.direction.Direction.SOUTH;
 import static domain.direction.Direction.WEST;
 
 import domain.direction.Direction;
+import domain.pathgenerator.ListPathGenerator;
 import domain.player.Team;
-import domain.rule.ListPathGenerator;
 import domain.strategy.BlockedMovementStrategy;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class Jol extends Piece {
 
     public Jol(Team team) {
         super(team, PieceType.JOL, new BlockedMovementStrategy(),
-              new ListPathGenerator(getPaths(team)));
+                new ListPathGenerator(getPaths(team)));
     }
 
     private static List<List<Direction>> getPaths(Team team) {
