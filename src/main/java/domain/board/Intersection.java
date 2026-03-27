@@ -1,28 +1,49 @@
 package domain.board;
 
-public record Intersection(
-        int row,
-        int file
-) {
+import java.util.Objects;
 
-    private static final int MINIMUM_ROW = 1;
-    private static final int MAXIMUM_ROW = 10;
-    private static final int MINIMUM_FILE = 1;
-    private static final int MAXIMUM_FILE = 9;
+public class Intersection {
+
+    private final Row row;
+    private final File file;
+
+    public Intersection(Row row, File file) {
+        this.row = row;
+        this.file = file;
+    }
+
+    public Intersection(int row, int file) {
+        this(new Row(row), new File(file));
+    }
 
     public boolean isOutOfBoard() {
-        return isRowOutOfBoard() || isFileOutOfBoard();
+        return row.isOutOfBoard() || file.isOutOfBoard();
     }
 
     public boolean isInBoard() {
         return !isOutOfBoard();
     }
 
-    private boolean isRowOutOfBoard() {
-        return row < MINIMUM_ROW || row > MAXIMUM_ROW;
+    public int getRow() {
+        return row.value();
     }
 
-    private boolean isFileOutOfBoard() {
-        return file < MINIMUM_FILE || file > MAXIMUM_FILE;
+    public int getFile() {
+        return file.value();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Intersection that = (Intersection) o;
+
+        return Objects.equals(row, that.row) && Objects.equals(file, that.file);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, file);
     }
 }

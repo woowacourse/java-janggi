@@ -20,25 +20,25 @@ class ElephantTest {
     private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
 
     private static final Intersection LEFT_PATH_NODE = new Intersection(
-            CURRENT_INTERSECTION.row() - 2,
-            CURRENT_INTERSECTION.file() - 1
+            CURRENT_INTERSECTION.getRow() - 2,
+            CURRENT_INTERSECTION.getFile() - 1
     );
     private static final Intersection RIGHT_PATH_NODE = new Intersection(
-            CURRENT_INTERSECTION.row() - 2,
-            CURRENT_INTERSECTION.file() + 1
+            CURRENT_INTERSECTION.getRow() - 2,
+            CURRENT_INTERSECTION.getFile() + 1
     );
     private static final Intersection BOTH_PATH_NODE = new Intersection(
-            CURRENT_INTERSECTION.row() - 1,
-            CURRENT_INTERSECTION.file()
+            CURRENT_INTERSECTION.getRow() - 1,
+            CURRENT_INTERSECTION.getFile()
     );
 
     private static final Intersection LEFT_DESTINATION = new Intersection(
-            CURRENT_INTERSECTION.row() - 3,
-            CURRENT_INTERSECTION.file() - 2
+            CURRENT_INTERSECTION.getRow() - 3,
+            CURRENT_INTERSECTION.getFile() - 2
     );
     private static final Intersection RIGHT_DESTINATION = new Intersection(
-            CURRENT_INTERSECTION.row() - 3,
-            CURRENT_INTERSECTION.file() + 2
+            CURRENT_INTERSECTION.getRow() - 3,
+            CURRENT_INTERSECTION.getFile() + 2
     );
 
     @Nested

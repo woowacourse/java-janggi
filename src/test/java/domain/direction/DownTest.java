@@ -19,8 +19,8 @@ class DownTest {
         // given
         Down down = new Down();
         Intersection expected = new Intersection(
-                CURRENT_INTERSECTION.row() + moveAmount,
-                CURRENT_INTERSECTION.file()
+                CURRENT_INTERSECTION.getRow() + moveAmount,
+                CURRENT_INTERSECTION.getFile()
         );
 
         // when
@@ -38,8 +38,8 @@ class DownTest {
         // given
         Down down = new Down();
         Intersection expected = new Intersection(
-                CURRENT_INTERSECTION.row(),
-                CURRENT_INTERSECTION.file() + moveAmount
+                CURRENT_INTERSECTION.getRow(),
+                CURRENT_INTERSECTION.getFile() + moveAmount
         );
 
         // when
@@ -57,8 +57,8 @@ class DownTest {
         // given
         Down down = new Down();
         Intersection expected = new Intersection(
-                CURRENT_INTERSECTION.row(),
-                CURRENT_INTERSECTION.file() - moveAmount
+                CURRENT_INTERSECTION.getRow(),
+                CURRENT_INTERSECTION.getFile() - moveAmount
         );
 
         // when
@@ -76,8 +76,8 @@ class DownTest {
         // given
         Down down = new Down();
         Intersection expected = new Intersection(
-                CURRENT_INTERSECTION.row() + moveAmount,
-                CURRENT_INTERSECTION.file() + moveAmount
+                CURRENT_INTERSECTION.getRow() + moveAmount,
+                CURRENT_INTERSECTION.getFile() + moveAmount
         );
 
         // when
@@ -95,8 +95,8 @@ class DownTest {
         // given
         Down down = new Down();
         Intersection expected = new Intersection(
-                CURRENT_INTERSECTION.row() + moveAmount,
-                CURRENT_INTERSECTION.file() - moveAmount
+                CURRENT_INTERSECTION.getRow() + moveAmount,
+                CURRENT_INTERSECTION.getFile() - moveAmount
         );
 
         // when
