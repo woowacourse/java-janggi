@@ -81,4 +81,14 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 졸이 뒤로 이동 (초나라)")
+    @Test
+    void 졸_뒤로_이동_초나라_예외_테스트(){
+        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
+        Board board = new Board(pieces);
+
+        assertThatThrownBy(() -> board.move(Position.create(4,1), Position.create(3,1)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }

@@ -14,8 +14,10 @@ class JanggiGameTest {
     void 턴_변경_정상_테스트() {
         List<PieceType> maSang = BoardTestUtil.createMasangSangMa();
         JanggiGame janggiGame = new JanggiGame(new Board(maSang));
+        Position startPosition = Position.create(4,1);
+        Position endPosition = Position.create(5,1);
 
-        janggiGame.play();
+        janggiGame.play(startPosition, endPosition);
 
         Country country = janggiGame.getCountry();
 
