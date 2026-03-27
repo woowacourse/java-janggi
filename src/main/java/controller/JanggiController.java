@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import domain.Board;
@@ -31,20 +32,28 @@ public class JanggiController {
     public void run() {
         Board board = initBoard();
         JanggiGame janggiGame = initJanggiGame(board);
-        List<PositionDto> positionDtos = requestMovePiece(janggiGame);
 
+        while(true){
+            outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
+            List<PositionDto> positionDtos = requestMovePiece(janggiGame);
+            playTurn(positionDtos, janggiGame, board);
+        }
+    }
+
+    private void playTurn(List<PositionDto> positionDtos, JanggiGame janggiGame, Board board) {
         Position start = requestStartPiecePosition(positionDtos);
-        Position end = requestEndPosition();
-
-        janggiService.applyMove(start, end, janggiGame);
+        requestEndPosition(start, janggiGame);
         outputView.printBoard(janggiService.getBoard(board));
     }
 
-    private Position requestEndPosition() {
-        return doRetry(() -> {
-            List<Integer> destination = inputView.requestMovePosition();
-            return Position.create(destination.getFirst(), destination.getLast());
-        });
+    private void requestEndPosition(Position start, JanggiGame janggiGame) {
+        doRetry(() -> {
+                    List<Integer> destination = inputView.requestMovePosition();
+                    Position end = Position.create(destination.getFirst(), destination.getLast());
+                    janggiService.applyMove(start, end, janggiGame);
+                    return Optional.empty();
+                }
+        );
     }
 
     private Board initBoard() {
@@ -71,12 +80,12 @@ public class JanggiController {
         return doRetry(() -> {
             PieceType pt = PieceType.of(inputView.requestPiece());
             List<PositionDto> dtos = janggiService.getPiecePositions(janggiGame, pt);
-            outputView.printPiecePossiblePosition(pt,dtos);
+            outputView.printPiecePossiblePosition(pt, dtos);
             return dtos;
         });
     }
 
-    private Position requestStartPiecePosition(List<PositionDto> positionDtos ) {
+    private Position requestStartPiecePosition(List<PositionDto> positionDtos) {
         return doRetry(() -> {
             int choiceStart = inputView.requestStartPiecePosition() - 1;
             return Position.create(positionDtos.get(choiceStart).x(), positionDtos.get(choiceStart).y());

@@ -34,6 +34,10 @@ public class OutputView {
         System.out.println("\n초나라가 먼저 시작합니다.");
     }
 
+    public void printChangeTurnMessage(String countryName) {
+        System.out.printf("\n차례 : %s\n", countryName);
+    }
+
     public void printBoard(BoardDto boardDto) {
         for (BoardDto.Row dto : boardDto.rows()) {
             for (String r : dto.row()) {
