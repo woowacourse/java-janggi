@@ -1,9 +1,10 @@
 package domain.strategy;
 
-import domain.Team;
+import domain.Position;
+import domain.piece.PieceProvider;
 
 import java.util.List;
 
 public interface MoveStrategy {
-    List<Direction> getDirections(Team team);
+    List<Position> getMoveCandidates(Position source, PieceProvider board);
 }

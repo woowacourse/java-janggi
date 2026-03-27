@@ -5,7 +5,7 @@ import domain.piece.*;
 import java.util.Collections;
 import java.util.Map;
 
-public class JanggiBoard {
+public class JanggiBoard implements PieceProvider {
     private static final int BOARD_ROWS = 10;
     private static final int BOARD_COLUMNS = 9;
 
@@ -57,6 +57,16 @@ public class JanggiBoard {
         for (int col = 0; col < 9; col += 2) {
             janggiBoard.put(new Position(pawnRow, col), new Pawn(team));
         }
+    }
+
+    @Override
+    public boolean isBlank(Position position) {
+        Piece piece = janggiBoard.get(position);
+        return piece instanceof Blank;
+    }
+
+    public Piece getPiece(Position position) {
+        return janggiBoard.get(position);
     }
 }
 
