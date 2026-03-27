@@ -48,12 +48,16 @@ public class Piece {
         return this.team == team;
     }
 
-    public boolean isSameTeam(Piece piece) {
-        return this.team == piece.team;
+    public boolean isDifferentTeam(Piece piece) {
+        return this.team != piece.team;
     }
 
-    public boolean isNone() {
-        return this.pieceType == PieceType.NONE;
+    public boolean isNotNone() {
+        return this.pieceType != PieceType.NONE;
+    }
+
+    public boolean isPo() {
+        return this.pieceType == PieceType.PO;
     }
 
     @Override

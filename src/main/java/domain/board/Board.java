@@ -75,7 +75,7 @@ public class Board {
     }
 
     private void addPieceInPath(Piece piece , List<Piece> pieces) {
-        if (!piece.isNone()) {
+        if (piece.isNotNone()) {
             pieces.add(piece);
         }
     }
