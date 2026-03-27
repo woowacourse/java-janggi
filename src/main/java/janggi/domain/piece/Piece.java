@@ -11,7 +11,7 @@ public interface Piece {
 
     TeamType getTeamType();
 
-    boolean belongsToTeam(TeamType teamType);
+    boolean isOnSameTeamAs(Piece other);
 
     List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator);
 

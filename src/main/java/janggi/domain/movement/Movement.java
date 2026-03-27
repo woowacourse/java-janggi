@@ -58,7 +58,7 @@ public class Movement {
         final Piece me = boardMediator.getPieceInPosition(from);
         final Position to = from.calculateNext(distance, direction);
         final Piece toPiece = boardMediator.getPieceInPosition(to);
-        if (toPiece.belongsToTeam(me.getTeamType())) {
+        if (me.isOnSameTeamAs(toPiece)) {
             return from.calculateNext(distance - 1, direction);
         }
         return from.calculateNext(distance, direction);

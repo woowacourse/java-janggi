@@ -11,30 +11,29 @@ public class PieceTest {
 
 
     @Nested
-    @DisplayName("특정 팀 기물 여부 판정 테스트")
-    class belongsToTeam {
+    @DisplayName("다른 기물과 같은 팀 여부 판정 테스트")
+    class isOnSameTeamAs {
 
         @Test
-        @DisplayName("특정 팀에 해당하는 경우")
+        @DisplayName("같은 팀인 경우")
         void success_1() {
-            TeamType teamType = TeamType.RED;
-            Piece cannon = new Cannon(teamType);
+            Piece me = new Cannon(TeamType.RED);
+            Piece other = new Cannon(TeamType.RED);
             boolean expected = true;
 
-            boolean actual = cannon.belongsToTeam(teamType);
+            boolean actual = me.isOnSameTeamAs(other);
 
             assertThat(actual).isEqualTo(expected);
         }
 
         @Test
-        @DisplayName("특정 팀에 해당하지 않는 경우")
+        @DisplayName("다른 팀인 경우")
         void success_2() {
-            TeamType teamType = TeamType.RED;
-            TeamType otherTeamType = TeamType.BLUE;
-            Piece cannon = new Cannon(otherTeamType);
+            Piece me = new Cannon(TeamType.RED);
+            Piece other = new Cannon(TeamType.BLUE);
             boolean expected = false;
 
-            boolean actual = cannon.belongsToTeam(teamType);
+            boolean actual = me.isOnSameTeamAs(other);
 
             assertThat(actual).isEqualTo(expected);
         }

@@ -63,8 +63,8 @@ public class Horse implements Piece {
     }
 
     @Override
-    public boolean belongsToTeam(final TeamType teamType) {
-        return this.teamType == teamType;
+    public boolean isOnSameTeamAs(final Piece other) {
+        return this.teamType == other.getTeamType();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Horse implements Piece {
 
     @Override
     public boolean canKill(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
-            teamType);
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.isOnSameTeamAs(
+            this);
     }
 }
