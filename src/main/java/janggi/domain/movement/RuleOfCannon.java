@@ -2,11 +2,10 @@ package janggi.domain.movement;
 
 import static janggi.domain.Position.MAXIMUM_ROW;
 
-import janggi.domain.piece.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
-import java.util.ArrayList;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 
 public class RuleOfCannon implements Rule {
@@ -30,14 +29,10 @@ public class RuleOfCannon implements Rule {
         final Piece piece = boardMediator.getPieceInPosition(from);
 
         from = firstMovement.calculateBlockedPosition(from, boardMediator);
-
         if (!boardMediator.existsInPosition(from)
             || boardMediator.getPieceInPosition(from).getPieceType() == PieceType.CANNON) {
             return List.of();
         }
-
-        final List<Position> traces = new ArrayList<>(
-            secondMovement.calculateTraces(from, piece, boardMediator));
-        return traces;
+        return secondMovement.calculateTraces(from, piece, boardMediator);
     }
 }

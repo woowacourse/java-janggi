@@ -76,14 +76,13 @@ public class Movement {
         final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>(IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
-            .takeWhile(position -> !boardMediator.existsInPosition(position))
-            .toList());
+            .takeWhile(position -> !boardMediator.existsInPosition(position)).toList());
         final Position blockedPosition = from.calculateNext(traces.size() + 1, direction);
+
         if (boardMediator.existsInPosition(blockedPosition) &&
             me.canKill(boardMediator.getPieceInPosition(blockedPosition))) {
             traces.add(blockedPosition);
         }
-
         return traces;
     }
 }
