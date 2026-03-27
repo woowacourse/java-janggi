@@ -10,9 +10,24 @@ public class King extends Piece {
         super(team, PieceType.KING);
     }
 
-
     @Override
     boolean canMove(Position from, Position to, Board board) {
-        return false;
+        if (!isCorrectMoveDistanceAndDirection(from, to)) {
+            return false;
+        }
+
+        if (isEmptySpace(to, board)) {
+            return true;
+        }
+
+        return !board.hasSameTeamOn(to, this);
+    }
+
+    private boolean isEmptySpace(Position to, Board board) {
+        return board.isEmpty(to);
+    }
+
+    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
+        return Math.abs(from.columnDistanceTo(to)) == 1 || Math.abs(from.rowDistanceTo(to)) == 1;
     }
 }
