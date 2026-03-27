@@ -1,8 +1,12 @@
-package domain;
+package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.Country;
+import domain.InitialPosition;
+import domain.Position;
+import domain.TableSetting;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
 import java.util.List;

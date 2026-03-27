@@ -1,9 +1,13 @@
-package domain;
+package domain.board;
 
 import static domain.Position.INITIAL_POSITION;
 import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
+import domain.Country;
+import domain.InitialPosition;
+import domain.Position;
+import domain.TableSetting;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Elephant;

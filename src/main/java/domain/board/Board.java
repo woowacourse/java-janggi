@@ -1,5 +1,8 @@
-package domain;
+package domain.board;
 
+import domain.Country;
+import domain.Position;
+import domain.TableSetting;
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;

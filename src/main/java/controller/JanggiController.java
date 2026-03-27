@@ -1,9 +1,9 @@
 package controller;
 
-import domain.Board;
 import domain.Country;
 import domain.Position;
 import domain.TableSetting;
+import domain.board.Board;
 import java.util.ArrayList;
 import java.util.List;
 import view.CountryFormatter;
