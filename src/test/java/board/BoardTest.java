@@ -102,6 +102,8 @@ public class BoardTest {
 
         // then
         Piece piece = board.findBy(Position.of(4, 9));
+        assertThat(piece).isEqualTo(Piece.of(Side.HAN, PieceType.CHARIOT));
+
     }
 
     @Test
@@ -116,5 +118,24 @@ public class BoardTest {
         assertThatThrownBy(() -> {
             board.move(Position.of(10, 9), Position.of(7, 9), Side.HAN);
         }).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("마 기물은 상대 기물을 포획할 수 있다.")
+    void 마_기물_이동_성공() {
+        // given
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
+
+        board.move(Position.of(7, 5), Position.of(6, 5), Side.HAN);
+        board.move(Position.of(1, 7), Position.of(3, 6), Side.CHO);
+        board.move(Position.of(3, 6), Position.of(4, 4), Side.CHO);
+        // when
+        board.move(Position.of(4, 4), Position.of(6, 5), Side.CHO);
+
+        // then
+        assertThat(board.findBy(Position.of(6, 5))).isEqualTo(Piece.of(Side.CHO, PieceType.HORSE));
+
     }
 }

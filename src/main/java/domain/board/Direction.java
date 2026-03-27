@@ -12,7 +12,6 @@ public enum Direction {
     UP(1, 0, true),
     UP_RIGHT(1, 1, false),
     RIGHT(0, 1, true),
-    DOWN_RIGHT(-1, 1, false),
     DOWN(-1, 0, true),
     DOWN_LEFT(-1, -1, false),
     LEFT(0, -1, true),
@@ -57,7 +56,7 @@ public enum Direction {
     }
 
     private static int updateRowBasedOnDirection(int rowAbs, Queue<Direction> directions, int row, int column) {
-        for (int i = rowAbs; i > 0; i--) {
+        for (int i = rowAbs; i > Math.abs(column); i--) {
             directions.add(from((row - column) / Math.abs(row - column), 0));
             row = (i - 1) * (row / i);
         }
@@ -66,7 +65,7 @@ public enum Direction {
     }
 
     private static int updateColumnBasedOnDirection(int columnAbs, Queue<Direction> directions, int row, int column) {
-        for (int i = columnAbs; i > 0; i--) {
+        for (int i = columnAbs; i > Math.abs(row); i--) {
             directions.add(from(0, (column - row) / Math.abs(column - row)));
             column = (i - 1) * (column / i);
         }
@@ -90,5 +89,9 @@ public enum Direction {
 
     public int getdColumn() {
         return dColumn;
+    }
+
+    public boolean isSameAtLeastOne(Direction direction) {
+        return (dRow == direction.dRow || dColumn == direction.dColumn);
     }
 }
