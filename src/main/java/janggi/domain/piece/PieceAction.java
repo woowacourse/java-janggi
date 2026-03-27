@@ -10,7 +10,7 @@ public class PieceAction {
     private final List<Rule> rules;
 
     public PieceAction(List<Rule> rules) {
-        this.rules = rules;
+        this.rules = List.copyOf(rules);
     }
 
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
