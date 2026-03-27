@@ -42,7 +42,6 @@ public class GameManager {
             if (piece.isNotNone()) {
                 turnManager.getCurrentPlayer().addCaughtPiece(piece);
             }
-            return null;
         });
 
         outputView.printBoard(board.createDTO().board());
@@ -53,6 +52,17 @@ public class GameManager {
         while (true) {
             try {
                 return function.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private void retryOnInvalidInput(Runnable action) {
+        while (true) {
+            try {
+                action.run();
+                return; // 에러 없이 실행되었다면 무한 루프 탈출
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
