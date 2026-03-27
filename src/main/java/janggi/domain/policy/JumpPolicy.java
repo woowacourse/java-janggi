@@ -10,16 +10,15 @@ import java.util.List;
 public class JumpPolicy implements RoutePolicy {
     @Override
     public boolean isMovable(List<Position> path, Side side, BoardInterface boardInterface) {
-        boolean hasPo = path.stream()
+        List<Position> innerPath = new ArrayList<>(path.subList(1, path.size()));
+        boolean hasPo = innerPath.stream()
                 .anyMatch(boardInterface::isPo);
         if (hasPo) {
             return false;
         }
+        Position target = innerPath.removeLast();
 
-        List<Position> pathBeforeTarget = new ArrayList<>(path);
-        Position target = pathBeforeTarget.removeLast();
-
-        return isMovableFirst(pathBeforeTarget, boardInterface) && isMovableLast(target, side, boardInterface);
+        return isMovableFirst(innerPath, boardInterface) && isMovableLast(target, side, boardInterface);
     }
 
     private boolean isMovableFirst(List<Position> path, BoardInterface boardInterface) {

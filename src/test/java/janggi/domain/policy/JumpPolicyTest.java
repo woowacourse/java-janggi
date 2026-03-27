@@ -42,12 +42,12 @@ class JumpPolicyTest {
 
     @Test
     void 포는_경로에_포가_아닌_기물이_한_개_있으며_도착_지점에_기물이_없으면_움직일_수_있다() {
-        List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 3), new Position(1, 4));
+        List<Position> path = List.of(new Position(8, 2), new Position(8, 3), new Position(8, 4), new Position(8, 5), new Position(8, 6), new Position(8, 7));
 
-        List<Position> isEmpty = List.of(new Position(1, 1), new Position(1, 3), new Position(1, 4));
-        List<Position> isPo = List.of();
+        List<Position> isEmpty = List.of(new Position(8, 4), new Position(8, 5), new Position(8, 6), new Position(8, 7));
+        List<Position> isPo = List.of(new Position(8, 2));
         List<Position> isEnemy = List.of();
-        List<Position> isAlly = List.of();
+        List<Position> isAlly = List.of(new Position(8, 2), new Position(8, 3));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
@@ -59,10 +59,10 @@ class JumpPolicyTest {
     void 포는_경로에_포가_아닌_기물이_한_개_있으며_도착_지점에_포가_아닌_적이_있으면_움직일_수_있다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 3), new Position(1, 4));
 
-        List<Position> isEmpty = List.of(new Position(1, 1), new Position(1, 3));
-        List<Position> isPo = List.of();
+        List<Position> isEmpty = List.of(new Position(1, 3));
+        List<Position> isPo = List.of(new Position(1, 1));
         List<Position> isEnemy = List.of(new Position(1, 2), new Position(1, 4));
-        List<Position> isAlly = List.of();
+        List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
@@ -73,10 +73,10 @@ class JumpPolicyTest {
     void 포는_경로에_포가_아닌_기물이_한_개_있으며_도착_지점에_포인_적이_있으면_움직일_수_없다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 3), new Position(1, 4));
 
-        List<Position> isEmpty = List.of(new Position(1, 1), new Position(1, 3));
-        List<Position> isPo = List.of(new Position(1, 4));
+        List<Position> isEmpty = List.of(new Position(1, 3));
+        List<Position> isPo = List.of(new Position(1, 1), new Position(1, 4));
         List<Position> isEnemy = List.of(new Position(1, 2), new Position(1, 4));
-        List<Position> isAlly = List.of();
+        List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
@@ -87,10 +87,10 @@ class JumpPolicyTest {
     void 포는_경로에_포가_아닌_기물이_한_개_있으며_도착_지점에_아군이_있으면_움직일_수_없다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 3), new Position(1, 4));
 
-        List<Position> isEmpty = List.of(new Position(1, 1), new Position(1, 3));
-        List<Position> isPo = List.of();
+        List<Position> isEmpty = List.of(new Position(1, 3));
+        List<Position> isPo = List.of(new Position(1, 1));
         List<Position> isEnemy = List.of();
-        List<Position> isAlly = List.of(new Position(1, 2), new Position(1, 4));
+        List<Position> isAlly = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 4));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
@@ -101,10 +101,10 @@ class JumpPolicyTest {
     void 포는_경로에_기물이_두_개_있으면_움직일_수_없다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 3), new Position(1, 4));
 
-        List<Position> isEmpty = List.of(new Position(1, 1), new Position(1, 4));
-        List<Position> isPo = List.of();
+        List<Position> isEmpty = List.of(new Position(1, 4));
+        List<Position> isPo = List.of(new Position(1, 1));
         List<Position> isEnemy = List.of(new Position(1, 2), new Position(1, 3));
-        List<Position> isAlly = List.of();
+        List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
@@ -115,10 +115,10 @@ class JumpPolicyTest {
     void 포는_경로에_포인_기물이_한_개_있으면_움직일_수_없다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 3), new Position(1, 4));
 
-        List<Position> isEmpty = List.of(new Position(1, 1), new Position(1, 3), new Position(1, 4));
-        List<Position> isPo = List.of(new Position(1, 2));
+        List<Position> isEmpty = List.of(new Position(1, 3), new Position(1, 4));
+        List<Position> isPo = List.of(new Position(1, 1), new Position(1, 2));
         List<Position> isEnemy = List.of(new Position(1, 2));
-        List<Position> isAlly = List.of();
+        List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
