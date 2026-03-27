@@ -20,8 +20,10 @@ public class Board {
     public void movePiece(Position piecePosition, Position targetPosition) {
         Piece piece = board.get(piecePosition);
 
+        piece.moved(targetPosition);
         board.replace(targetPosition, piece);
-        board.replace(piecePosition, new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), NoneMoveableStrategy.of(piecePosition)));
+        board.replace(piecePosition,
+                new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), NoneMoveableStrategy.of(piecePosition)));
     }
 
     public boolean isMoveable(Position piecePosition, Position targetPosition) {
@@ -35,16 +37,16 @@ public class Board {
             return false;
         }
 
-        if(piece.isCannon()) {
+        if (piece.isCannon()) {
             List<Position> cannonPositions = findCannonPositions();
-            if(piece.isInvalidPath(targetPosition, cannonPositions)) {
+            if (board.get(targetPosition).isCannon() || !piece.hasPieceOnPath(targetPosition, cannonPositions)) {
                 return false;
             }
         }
 
         List<Position> allPiecePositions = findAllPiecePositions();
 
-        return !piece.isInvalidPath(targetPosition, allPiecePositions);
+        return !piece.hasPieceOnPath(targetPosition, allPiecePositions);
     }
 
     private List<Position> findAllPiecePositions() {
@@ -67,16 +69,6 @@ public class Board {
         }
         return false;
     }
-//
-//    private List<Position> findSameTeamPositions(Piece piece) {
-//        if (piece.isGreenTeam()) {
-//            return greenPieces().stream().map(Piece::position).filter(position -> !position.equals(piece.position()))
-//                    .toList();
-//        }
-//
-//        return redPieces().stream().map(Piece::position).filter(position -> !position.equals(piece.position()))
-//                .toList();
-//    }
 
     public boolean hasGreenTeamGeneral() {
         return greenPieces().stream().anyMatch(Piece::isGeneral);
