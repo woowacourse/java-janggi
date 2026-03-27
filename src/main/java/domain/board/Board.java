@@ -39,11 +39,13 @@ public class Board {
 
         board.put(src, new None());
         board.put(dest, movePiece);
+
         return destPiece;
     }
 
     public BoardDTO createDTO() {
         List<List<String>> stringBoard = new ArrayList<>();
+
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             List<String> lineOfStringBoard = makeLineOfStringBoard(row);
             stringBoard.add(lineOfStringBoard);
@@ -58,12 +60,14 @@ public class Board {
 
     private List<String> makeLineOfStringBoard(int row) {
         List<String> lineOfStringBoard = new ArrayList<>();
+
         for (int col = MIN_COL; col <= MAX_COL; col++) {
             Piece piece = board.get(new Position(row, col));
             String pieceString = piece.getPieceString();
             String teamString = piece.getTeamString();
             lineOfStringBoard.add(teamString + pieceString);
         }
+
         return lineOfStringBoard;
     }
 
