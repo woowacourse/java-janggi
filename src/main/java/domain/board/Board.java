@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.piece.Camp;
 import domain.piece.Piece;
 
 import java.util.ArrayList;
@@ -14,6 +15,11 @@ public class Board implements PathChecker {
 
     public Board(Map<Position, Piece> board) {
         this.board = board;
+    }
+
+    @Override
+    public Camp findCamp(Position position) {
+        return findBy(position).camp();
     }
 
     public Piece findBy(Position position) {
