@@ -7,6 +7,7 @@ import janggi.domain.piece.Cha;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.None;
+import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Po;
@@ -30,11 +31,11 @@ public class BoardInitializer {
     );
 
     private static final List<Position> choMaSangPosition = List.of(
-            new Position(1, 2), new Position(1, 3), new Position(1, 7), new Position(1, 8)
+            new Position(10, 2), new Position(10, 3), new Position(10, 7), new Position(10, 8)
     );
 
     private static final List<Position> hanMaSangPosition = List.of(
-            new Position(10, 2), new Position(10, 3), new Position(10, 7), new Position(10, 8)
+            new Position(1, 2), new Position(1, 3), new Position(1, 7), new Position(1, 8)
     );
 
     private static final Map<PieceType, Function<Side, Piece>> pieceMap = Map.of(
@@ -42,7 +43,7 @@ public class BoardInitializer {
             PieceType.GUNG, Gung::new,
             PieceType.MA, Ma::new,
             PieceType.NONE, (side) -> new None(),
-            PieceType.PAWN, Cha::new,
+            PieceType.PAWN, Pawn::from,
             PieceType.PO, Po::new,
             PieceType.SA, Sa::new,
             PieceType.SANG, Sang::new
