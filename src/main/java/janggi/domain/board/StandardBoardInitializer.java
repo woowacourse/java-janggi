@@ -6,17 +6,21 @@ import java.util.Map;
 
 public class StandardBoardInitializer implements BoardInitializer {
 
-    private final ElephantSetting choElephantSetting;
-    private final ElephantSetting hanElephantSetting;
+    private final String choChoice;
+    private final String hanChoice;
 
     // TODO : 둘 다 같은 나라의 ElephantSetting 들어와도 컴파일 에러 X -> 타입 강제 고려하기
-    public StandardBoardInitializer(ElephantSetting choElephantSetting, ElephantSetting hanElephantSetting) {
-        this.choElephantSetting = choElephantSetting;
-        this.hanElephantSetting = hanElephantSetting;
+    // TODO : String으로 바꿔도 같은 문제 발생
+    public StandardBoardInitializer(String choChoice, String hanChoice) {
+        this.choChoice = choChoice;
+        this.hanChoice = hanChoice;
     }
 
     @Override
     public Map<Position, Piece> initialize() {
+        ElephantSetting choElephantSetting = ElephantSetting.findElephantSettingBy(choChoice);
+        ElephantSetting hanElephantSetting = ElephantSetting.findElephantSettingBy(hanChoice);
+
         return InitialPiecePlacement.init(choElephantSetting, hanElephantSetting);
     }
 }
