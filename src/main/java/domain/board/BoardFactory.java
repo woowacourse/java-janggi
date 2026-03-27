@@ -9,11 +9,10 @@ import domain.place.Empty;
 import domain.place.Place;
 import domain.place.moveStrategy.CannonMoveStrategy;
 import domain.place.moveStrategy.ChariotMoveStrategy;
-import domain.place.moveStrategy.ChoSoldierMoveStrategy;
 import domain.place.moveStrategy.GeneralMoveStrategy;
 import domain.place.moveStrategy.GuardMoveStrategy;
-import domain.place.moveStrategy.HanSoldierMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
+import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.piece.Cannon;
 import domain.place.piece.Chariot;
 import domain.place.piece.General;
@@ -71,17 +70,17 @@ public class BoardFactory {
 
     private static void setUpFormation(Map<Position, Place> board, Side side) {
         int startLine = side.getStartLine();
-        int direction = side.getDirection();
+        int setupDirection = side.getSetupDirection();
 
         firstSetUpFormation(board, side, startLine);
 
-        startLine += direction;
+        startLine += setupDirection;
         board.put(new Position(startLine, GENERAL_COLS), new General(side, new GeneralMoveStrategy()));
 
-        startLine += direction;
+        startLine += setupDirection;
         cannonSetUpFormation(board, side, startLine);
 
-        startLine += direction;
+        startLine += setupDirection;
         soldierSetUpFormation(board, side, startLine);
     }
 
@@ -95,15 +94,8 @@ public class BoardFactory {
     }
 
     private static void soldierSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        MoveStrategy soldierMoveStrategy = createSoldierMoveStrategy(side);
+        MoveStrategy soldierMoveStrategy = new SoldierMoveStrategy(side.getSoldierDirections());
 
         SOLDIER_COLS.forEach(c -> board.put(new Position(startLine, c), new Soldier(side, soldierMoveStrategy)));
-    }
-
-    private static MoveStrategy createSoldierMoveStrategy(Side side) {
-        if (side == Side.CHO) {
-            return new ChoSoldierMoveStrategy();
-        }
-        return new HanSoldierMoveStrategy();
     }
 }

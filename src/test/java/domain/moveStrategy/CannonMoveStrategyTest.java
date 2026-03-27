@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.board.Board;
 import domain.board.StubBoard;
 import domain.place.moveStrategy.CannonMoveStrategy;
-import domain.place.moveStrategy.ChoSoldierMoveStrategy;
-import domain.place.moveStrategy.HanSoldierMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
+import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.piece.Cannon;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;
@@ -23,7 +22,7 @@ class CannonMoveStrategyTest {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -43,8 +42,8 @@ class CannonMoveStrategyTest {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        stubBoard.put(new Position(1, 9), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+        stubBoard.put(new Position(1, 9), new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -103,8 +102,8 @@ class CannonMoveStrategyTest {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        stubBoard.put(new Position(1, 6), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+        stubBoard.put(new Position(1, 6), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -124,7 +123,7 @@ class CannonMoveStrategyTest {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 7), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 7), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);

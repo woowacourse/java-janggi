@@ -6,7 +6,7 @@ import domain.board.Board;
 import domain.board.StubBoard;
 import domain.place.moveStrategy.GeneralMoveStrategy;
 import domain.place.moveStrategy.GuardMoveStrategy;
-import domain.place.moveStrategy.HanSoldierMoveStrategy;
+import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.piece.General;
 import domain.place.piece.Guard;
 import domain.place.piece.Side;
@@ -132,7 +132,7 @@ class GeneralMoveStrategyTest {
         // given
         StubBoard stub = new StubBoard();
         stub.put(new Position(5, 5), new General(Side.CHO, new GeneralMoveStrategy()));
-        stub.put(new Position(5, 6), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stub.put(new Position(5, 6), new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
         Board board = stub.create();
 
         Position from = new Position(5, 5);
