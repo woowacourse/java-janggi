@@ -5,6 +5,7 @@ import domain.Position;
 import domain.TeamColor;
 import java.util.List;
 import domain.Route;
+import domain.Piece;
 
 public interface MoveStrategy {
 
@@ -32,6 +33,8 @@ public interface MoveStrategy {
 
         return validRoutes;
     }
+
+    public boolean canJump(List<Piece> blockingPieces);
 
 
 }

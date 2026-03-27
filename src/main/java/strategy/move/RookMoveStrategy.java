@@ -2,6 +2,7 @@ package strategy.move;
 
 import domain.Direction;
 import domain.MovePath;
+import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
@@ -21,5 +22,13 @@ public class RookMoveStrategy implements MoveStrategy {
         return PATHS;
     }
 
+
+    @Override
+    public boolean canJump(List<Piece> blockingPieces) {
+        if (blockingPieces.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
 
 }
