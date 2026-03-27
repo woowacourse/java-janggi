@@ -17,7 +17,7 @@ public class MaTest {
 
         @Test
         @DisplayName("마가 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
-        void shouldReturnRouteForReachableLocationWhenTeamHan() {
+        void shouldReturnRouteForReachableLocation() {
             // given
             Location from = Location.from(List.of(0, 0));
             Location to = Location.from(List.of(1,2));
@@ -36,7 +36,7 @@ public class MaTest {
         @ParameterizedTest
         @DisplayName("마가 이동할 수 없는 위치를 파라미터로 받으면 예외가 발생한다.")
         @MethodSource("provideUnreachableCoordination")
-        void shouldThrowExceptionForUnReachableLocationWhenTeamCho(List<Integer> destination) {
+        void shouldThrowExceptionForUnReachableLocation(List<Integer> destination) {
             // given
             Location from = Location.from(List.of(0, 0));
             Location to = Location.from(destination);

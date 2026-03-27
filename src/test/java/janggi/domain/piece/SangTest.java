@@ -19,7 +19,7 @@ public class SangTest {
         @ParameterizedTest
         @DisplayName("상이 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
         @MethodSource("provideListsForTesting")
-        void shouldReturnRouteForReachableLocationWhenTeamHan(List<Integer> destination, List<Location> expected) {
+        void shouldReturnRouteForReachableLocation(List<Integer> destination, List<Location> expected) {
             // given
             Location from = Location.from(List.of(0, 0));
             Location to = Location.from(destination);
@@ -46,7 +46,7 @@ public class SangTest {
         @ParameterizedTest
         @DisplayName("상이 이동할 수 없는 위치를 파라미터로 받으면 예외가 발생한다.")
         @MethodSource("provideUnreachableCoordination")
-        void shouldThrowExceptionForUnReachableLocationWhenTeamCho(List<Integer> destination) {
+        void shouldThrowExceptionForUnReachableLocation(List<Integer> destination) {
             // given
             Location from = Location.from(List.of(0, 0));
             Location to = Location.from(destination);
