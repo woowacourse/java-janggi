@@ -60,6 +60,11 @@ public class Coordination {
         return this.column.equals(other);
     }
 
+    public List<Integer> coordination() {
+        return List.of(column.index(), row.index());
+    }
+
+
     public List<Coordination> betweenRowCoordination(Coordination other) {
         List<Coordination> coordinations = new ArrayList<>();
         List<Row> rows = other.betweenRows(this.row);

@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
+import domain.game.Turn;
 import domain.piece.error.PieceException;
 import util.ErrorMessage;
 
@@ -54,5 +55,15 @@ public abstract class AbstractPiece implements Piece {
     @Override
     public boolean isCannon() {
         return false;
+    }
+
+    @Override
+    public boolean isGeneral() {
+        return false;
+    }
+
+    @Override
+    public void isSameTeam(Turn turn) {
+        team.validateSameTeam(turn);
     }
 }

@@ -21,6 +21,11 @@ public class General extends AbstractPiece {
         validateSameTeam(from, to, board);
     }
 
+    @Override
+    public boolean isGeneral() {
+        return true;
+    }
+
     private void validateLocation(Coordination from, Coordination to) {
         List<Integer> different = List.of(from.differentColumn(to), from.differentRow(to));
 

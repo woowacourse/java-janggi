@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
+import domain.game.Turn;
 
 import java.util.Map;
 
@@ -17,4 +18,8 @@ public interface Piece {
     boolean isSameTeam(Team team);
 
     boolean isCannon();
+
+    boolean isGeneral();
+
+    void isSameTeam(Turn turn);
 }
