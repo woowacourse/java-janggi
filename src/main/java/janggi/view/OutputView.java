@@ -29,6 +29,10 @@ public final class OutputView {
     private OutputView() {
     }
 
+    public static void printError(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
     public static void printBoard(List<PiecePositionDto> piecePositions) {
         System.out.println(renderBoard(piecePositions));
     }

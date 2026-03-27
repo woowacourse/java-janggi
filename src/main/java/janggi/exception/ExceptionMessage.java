@@ -17,6 +17,8 @@ public enum ExceptionMessage {
     INVALID_ELEPHANT_SETTING("존재하지 않는 상차림 입니다."),
     ROW_OUT_OF_RANGE(String.format("행은 %d행 이상 %d행 이하여야 합니다.", MIN_POSITION_INDEX, MAX_ROW_INDEX)),
     COLUMN_OUT_OF_RANGE(String.format("열은 %d열 이상 %d열 이하여야 합니다.", MIN_POSITION_INDEX, MAX_COLUMN_INDEX)),
+    SOURCE_NOT_EXISTS("출발지에 기물이 존재하지 않습니다."),
+    INVALID_CAMP_PIECE("상대 진영의 기물은 이동할 수 없습니다."),
     PATH_NOT_EMPTY("경로 상에 기물이 존재합니다."),
     SAME_CAMP_PIECE_AT_DESTINATION("목적지에 같은 진영의 기물이 존재합니다."),
     SAME_PIECE_TYPE_IN_PATH("경로상에 같은 종류의 기물이 존재합니다."),

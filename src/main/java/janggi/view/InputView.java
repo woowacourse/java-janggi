@@ -22,8 +22,8 @@ public final class InputView {
             4. 상마마상""";
 
     private static final String TURN = LINE_SEPARATOR + "%s나라 차례 입니다.";
-    private static final String SOURCE = "공격할 기물의 좌표를 입력해주세요.";
-    private static final String DESTINATION = LINE_SEPARATOR + "이동 시킬 목적지 좌표를 입력해주세요.";
+    private static final String SOURCE = "공격할 기물의 좌표를 행,열 순으로 입력해 주세요. (예: 9,8)";
+    private static final String DESTINATION = LINE_SEPARATOR + "이동 시킬 목적지의 좌표를 행,열 순으로 입력해 주세요. (예: 2,0)";
 
     private InputView() {
     }

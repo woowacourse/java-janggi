@@ -1,12 +1,13 @@
 package janggi.domain.board;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
+import janggi.exception.ExceptionMessage;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
@@ -23,12 +24,44 @@ class BoardTest {
                 source, new Piece(PieceRule.CANNON, Camp.HAN)
         ));
         // when
-        board.movePiece(source, destination);
+        board.movePiece(source, destination, Camp.HAN);
         // then
         boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceRule.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
 
-        assertThat(destinationExists).isTrue();
-        assertThat(sourceExists).isFalse();
+        SoftAssertions.assertSoftly(assertSoftly -> {
+            assertSoftly.assertThat(destinationExists).isTrue();
+            assertSoftly.assertThat(sourceExists).isFalse();
+        });
+    }
+
+    @Test
+    void 상대_진영의_기물을_이동_시키면_예외가_발생한다() {
+        // given
+        Position source = new Position(7, 1);
+        Position destination = new Position(0, 1);
+
+        // when
+        Board board = new Board(() -> Map.of(
+                destination, new Piece(PieceRule.HORSE, Camp.CHO),
+                source, new Piece(PieceRule.CANNON, Camp.CHO)
+        ));
+        // then
+        Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionMessage.INVALID_CAMP_PIECE.getMessage());
+    }
+
+    @Test
+    void 출발지에_기물이_존재하지_않으면_예외가_발생한다() {
+        // given
+        Position source = new Position(7, 1);
+        Position destination = new Position(0, 1);
+        // when
+        Board board = new Board(Map::of);
+        // then
+        Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
     }
 }

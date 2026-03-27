@@ -4,6 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
+import janggi.exception.ExceptionMessage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,13 +38,28 @@ public class Board implements BoardChecker {
         return false;
     }
 
-    public Map<Position, Piece> movePiece(Position source, Position destination) {
+    public Map<Position, Piece> movePiece(Position source, Position destination, Camp turn) {
+        validateCampTurn(source, turn);
         Piece piece = board.get(source);
         piece.validateMove(source, destination, this);
         board.put(destination, piece);
         board.remove(source);
 
         return Map.copyOf(board);
+    }
+
+    public void validateCampTurn(Position source, Camp turn) {
+        validateSource(source);
+        Piece piece = board.get(source);
+        if (!piece.isSameCamp(turn)) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_CAMP_PIECE.getMessage());
+        }
+    }
+
+    private void validateSource(Position source) {
+        if (!board.containsKey(source)) {
+            throw new IllegalArgumentException(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
+        }
     }
 
     public Map<Position, Piece> getBoard() {
