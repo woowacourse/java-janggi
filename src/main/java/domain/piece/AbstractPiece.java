@@ -50,4 +50,9 @@ public abstract class AbstractPiece implements Piece {
             throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
         }
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }

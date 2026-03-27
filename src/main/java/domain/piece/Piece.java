@@ -15,4 +15,6 @@ public interface Piece {
     void isSameTeam(Piece piece);
 
     boolean isSameTeam(Team team);
+
+    boolean isCannon();
 }
