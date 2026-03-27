@@ -10,6 +10,9 @@ import domain.vo.Row;
 import domain.vo.Team;
 
 public class OutputView {
+    public static final String RED   = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String RESET = "\u001B[0m";
     private static final String REQUEST_SETUP = """
             [%s 진영] 배치를 선택하세요.
             1. 마-상-마-상 (Horse-Elephant-Horse-Elephant)
@@ -37,7 +40,12 @@ public class OutputView {
             stringBuilder.append(String.format("%2s  ", row.getValue()));
             for (Col col : Col.values()) {
                 Piece piece = board.getPieceAt(new Position(col, row));
-                stringBuilder.append(piece != null ? piece.display() : "...");
+                if (piece != null) {
+                    String color = piece.getTeam() == Team.HAN ? RED : GREEN;
+                    stringBuilder.append(color).append(piece.display()).append(RESET);
+                } else {
+                    stringBuilder.append("...");
+                }
                 stringBuilder.append(" ");
             }
             stringBuilder.append("\n");
