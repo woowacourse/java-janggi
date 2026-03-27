@@ -22,7 +22,6 @@ public class Cha extends BasePiece {
         int signY = Integer.compare(pathY, 0);
         int distance = Math.max(abs(pathX), abs(pathY));
 
-        validateNoMove(pathX, pathY);
         validateDiagonalMove(pathX, pathY);
 
         for (int i = 1; i < distance; i++) {
@@ -36,12 +35,6 @@ public class Cha extends BasePiece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
-    }
-
-    private void validateNoMove(int pathX, int pathY) {
-        if (pathY == 0 && pathX == 0) {
-            throw new IllegalArgumentException("제자리 이동은 불가능합니다.");
-        }
     }
 
     private void validateDiagonalMove(int pathX, int pathY) {

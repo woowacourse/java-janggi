@@ -15,19 +15,14 @@ public class Pho extends BasePiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
+        List<Point> route = new ArrayList<>();
         int pathX = to.getX() - from.getX();
         int pathY = to.getY() - from.getY();
-
-        if (pathY != 0 && pathX != 0) {
-            throw new IllegalArgumentException();
-        }
-
         int signX = Integer.compare(pathX, 0);
         int signY = Integer.compare(pathY, 0);
-
         int distance = Math.max(abs(pathX), abs(pathY));
 
-        List<Point> route = new ArrayList<>();
+        validateDiagonalMove(pathX, pathY);
 
         for (int i = 1; i < distance; i++) {
             int nextX = from.getX() + (signX * i);
@@ -49,5 +44,11 @@ public class Pho extends BasePiece {
     @Override
     public boolean canCapture(Piece target) {
         return !target.isSameType(PieceType.PHO);
+    }
+
+    private void validateDiagonalMove(int pathX, int pathY) {
+        if (pathX != 0 && pathY != 0) {
+            throw new IllegalArgumentException("대각선 이동은 불가능합니다.");
+        }
     }
 }
