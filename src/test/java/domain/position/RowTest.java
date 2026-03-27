@@ -22,8 +22,10 @@ class RowTest {
     }
 
     @Test
-    @DisplayName("Row가 경계값 내에 있으면 정상적으로 생성된다 (1 ≤ y ≤ 10)")
+    @DisplayName("Row가 경계값 내에 있으면 정상적으로 생성된다 (1 ≤ x ≤ 10)")
     void 정상_범위() {
+        assertThatCode(() -> new Row(1))
+                .doesNotThrowAnyException();
         assertThatCode(() -> new Row(10))
                 .doesNotThrowAnyException();
     }
