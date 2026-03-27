@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import domain.piece.*;
 
@@ -61,13 +61,27 @@ public class BasicBoardInitializer implements BoardInitializer {
     }
 
     private Piece copyAsChu(Piece piece) {
-        if (piece instanceof Chariot) return new Chariot(Side.CHU);
-        if (piece instanceof Horse) return new Horse(Side.CHU);
-        if (piece instanceof Elephant) return new Elephant(Side.CHU);
-        if (piece instanceof Guard) return new Guard(Side.CHU);
-        if (piece instanceof King) return new King(Side.CHU);
-        if (piece instanceof Cannon) return new Cannon(Side.CHU);
-        if (piece instanceof Pawn) return new Pawn(Side.CHU);
+        if (piece instanceof Chariot) {
+            return new Chariot(Side.CHU);
+        }
+        if (piece instanceof Horse) {
+            return new Horse(Side.CHU);
+        }
+        if (piece instanceof Elephant) {
+            return new Elephant(Side.CHU);
+        }
+        if (piece instanceof Guard) {
+            return new Guard(Side.CHU);
+        }
+        if (piece instanceof King) {
+            return new King(Side.CHU);
+        }
+        if (piece instanceof Cannon) {
+            return new Cannon(Side.CHU);
+        }
+        if (piece instanceof Pawn) {
+            return new Pawn(Side.CHU);
+        }
 
         throw new IllegalArgumentException("존재하지 않는 기물입니다. piece: " + piece.getClass());
     }

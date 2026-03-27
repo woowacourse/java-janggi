@@ -3,7 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import domain.board.BoardInitializer;
 import java.util.HashMap;
@@ -61,7 +61,6 @@ class CannonTest {
 
             piecesPosition.put(new Position(3, 4), new Pawn(Side.HAN));
             piecesPosition.put(new Position(2, 4), new King(Side.HAN));
-
 
             return piecesPosition;
         }

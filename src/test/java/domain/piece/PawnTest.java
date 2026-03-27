@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
@@ -114,7 +114,6 @@ class PawnTest {
         Game game = new Game(new HanSidePawnInitializer());
         Position start = new Position(3, 7);
         Piece pawn = game.getPiece(start);
-
 
         // when
         List<Position> possibleMoves = pawn.getPossibleMoves(game, start);

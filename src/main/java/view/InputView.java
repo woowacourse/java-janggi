@@ -1,6 +1,6 @@
 package view;
 
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import java.util.Arrays;
 import java.util.List;

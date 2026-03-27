@@ -2,6 +2,7 @@ package domain;
 
 import domain.board.Board;
 import domain.board.BoardInitializer;
+import domain.coordinate.Position;
 import domain.piece.Piece;
 
 public class Game {

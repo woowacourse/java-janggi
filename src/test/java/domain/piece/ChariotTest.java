@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
@@ -28,11 +28,9 @@ class ChariotTest {
             piecesPosition.put(new Position(3, 4), new Guard(Side.HAN));
             piecesPosition.put(new Position(5, 4), new Guard(Side.HAN));
 
-
             piecesPosition.put(new Position(4, 8), new Chariot(Side.HAN));
             piecesPosition.put(new Position(6, 8), new Guard(Side.CHU));
             piecesPosition.put(new Position(8, 8), new Guard(Side.CHU));
-
 
             piecesPosition.put(new Position(2, 1), new Chariot(Side.HAN));
 

@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;

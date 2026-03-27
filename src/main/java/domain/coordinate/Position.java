@@ -1,4 +1,4 @@
-package domain;
+package domain.coordinate;
 
 public record Position(int col, int row) {
 

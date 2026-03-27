@@ -1,6 +1,6 @@
 package view;
 
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import domain.piece.Piece;
 import view.message.PieceView;
@@ -41,7 +41,7 @@ public class OutputView {
     }
 
     public void printCanNotMovablePieceError() {
-        System.out.println("해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.");
+        System.out.println("\n해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.\n");
     }
 
     public static void printErrorMessage(String message) {

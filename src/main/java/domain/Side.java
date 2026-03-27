@@ -1,5 +1,7 @@
 package domain;
 
+import domain.coordinate.Direction;
+
 public enum Side {
 
     HAN,

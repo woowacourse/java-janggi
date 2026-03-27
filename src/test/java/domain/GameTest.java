@@ -1,6 +1,7 @@
 package domain;
 
 import domain.board.BasicBoardInitializer;
+import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -139,7 +140,7 @@ class GameTest {
     void validateStartPosition_Opponent_Test() {
         // given
         Game game = new Game(basicBoardInitializer);
-        Position position = new Position(0,0);
+        Position position = new Position(0, 0);
 
         // when - then
         assertThatThrownBy(() -> game.validateStartPosition(position))
@@ -151,7 +152,7 @@ class GameTest {
     void validateStartPosition_True_Test() {
         // given
         Game game = new Game(basicBoardInitializer);
-        Position position = new Position(7,1);
+        Position position = new Position(7, 1);
 
         // when - then
         assertDoesNotThrow(() -> game.validateStartPosition(position));

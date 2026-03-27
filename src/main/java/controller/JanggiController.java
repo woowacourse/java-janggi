@@ -2,7 +2,7 @@ package controller;
 
 import domain.Game;
 import domain.board.BoardInitializer;
-import domain.Position;
+import domain.coordinate.Position;
 import view.InputView;
 import view.OutputView;
 
@@ -28,7 +28,7 @@ public class JanggiController {
             Position startPosition = RetryInput.read(() -> getStartPosition(game));
 
             List<Position> possibleMoves = game.getPiece(startPosition).getPossibleMoves(game, startPosition);
-            if (isPossibleMovePiece(possibleMoves)) {
+            if (!isPossibleMovePiece(possibleMoves)) {
                 continue;
             }
 
