@@ -18,17 +18,17 @@ public class Board {
         this.board = board;
     }
 
-    public boolean canMove(Position src, Position dest) {
+    public void canMove(Position src, Position dest) {
         Piece piece = findPiece(src);
         Path path = piece.calculatePath(src, dest);
         PathPieces pathPieces = findPieceInPath(path);
-        return piece.validatePath(pathPieces);
+        if (!piece.validatePath(pathPieces)) {
+            throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
+        }
     }
 
     public Piece move(Position src, Position dest) {
-        if (!canMove(src, dest)) {
-            throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
-        }
+        canMove(src, dest);
         Piece movePiece = findPiece(src);
         Piece destPiece = findPiece(dest);
 
