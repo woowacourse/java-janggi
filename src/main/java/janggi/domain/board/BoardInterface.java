@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.PieceInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 
@@ -8,4 +9,5 @@ public interface BoardInterface {
     boolean isPo(Position position);
     boolean isEnemy(Side side, Position position);
     boolean isAlly(Side side, Position position);
+    PieceInfo[][] getCurrentBoard();
 }
