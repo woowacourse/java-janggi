@@ -1,12 +1,13 @@
-package janggi.model.gimul;
+package janggi.model.gimul.linearMove;
 
 import janggi.model.Team;
+import janggi.model.gimul.Gimul;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
-import java.util.List;
 
-public class Pho extends Gimul {
-    public Pho(Team team) {
+public abstract class AbstractLinearMoveGimul extends Gimul {
+
+    public AbstractLinearMoveGimul(Team team) {
         super(team);
     }
 
@@ -21,17 +22,5 @@ public class Pho extends Gimul {
         }
 
         return from.moveVertical(to.getRowDistance(from)).removeFromAndTo();
-    }
-
-    @Override
-    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
-        return gimulsOnPath.size() == 1
-                && !(gimulsOnPath.getFirst() instanceof Pho)
-                && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
-    }
-
-    @Override
-    public String getSymbol() {
-        return "포";
     }
 }

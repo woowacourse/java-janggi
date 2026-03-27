@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.gimul.Byeong;
-import janggi.model.gimul.Cha;
+import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.Gimul;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
