@@ -26,4 +26,8 @@ public record Column(int index) {
     public boolean isLeft(Column column) {
         return this.index < column.index;
     }
+
+    public boolean isGapBiggerThanOne(Column other) {
+        return Math.abs(this.index - other.index) > ONE_SPACE;
+    }
 }

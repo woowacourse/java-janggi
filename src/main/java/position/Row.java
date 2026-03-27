@@ -26,4 +26,8 @@ public record Row(int index) {
     public boolean isLowerThan(Row other) {
         return this.index < other.index;
     }
+
+    public boolean isGapBiggerThanOne(Row other) {
+        return Math.abs(this.index - other.index) > ONE_SPACE;
+    }
 }

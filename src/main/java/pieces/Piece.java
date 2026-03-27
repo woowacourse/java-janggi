@@ -8,9 +8,9 @@ public interface Piece {
 
     boolean isCho();
 
-    MoveContext askMoveContext(Position departure, Position destination);
-
     boolean isSameSide(Piece destinationPiece);
+
+    MoveContext askMoveContext(Position departure, Position destination);
 
     boolean isPo();
 }

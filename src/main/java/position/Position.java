@@ -72,6 +72,10 @@ public class Position {
         return this.column.isLeft(destination.column);
     }
 
+    public boolean isGapBiggerThanOne(Position destination) {
+        return row.isGapBiggerThanOne(destination.row) || column.isGapBiggerThanOne(destination.column);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
