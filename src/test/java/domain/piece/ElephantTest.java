@@ -93,7 +93,10 @@ class ElephantTest {
         AlivePieces emptyAlivePlaces = new AlivePieces(Map.of());
 
         // when
-        List<Intersection> movableIntersection = elephant.movableIntersections(boarderlineIntersection, emptyAlivePlaces);
+        List<Intersection> movableIntersection = elephant.movableIntersections(
+                boarderlineIntersection,
+                emptyAlivePlaces
+        );
 
         // then
         boolean movableOutOfBoard = movableIntersection.stream()

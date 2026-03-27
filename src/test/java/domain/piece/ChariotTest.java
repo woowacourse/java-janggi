@@ -72,7 +72,10 @@ class ChariotTest {
             );
 
             // when
-            List<Intersection> movableIntersections = chariot.movableIntersections(currentIntersection, emptyAlivePieces);
+            List<Intersection> movableIntersections = chariot.movableIntersections(
+                    currentIntersection,
+                    emptyAlivePieces
+            );
 
             // then
             assertThat(movableIntersections).containsAll(expected);
@@ -96,7 +99,10 @@ class ChariotTest {
             );
 
             // when
-            List<Intersection> movableIntersections = chariot.movableIntersections(currentIntersection, alivePieces);
+            List<Intersection> movableIntersections = chariot.movableIntersections(
+                    currentIntersection,
+                    alivePieces
+            );
 
             // then
             assertThat(movableIntersections).containsAll(expected);
@@ -121,7 +127,10 @@ class ChariotTest {
             );
 
             // when
-            List<Intersection> movableIntersections = chariot.movableIntersections(currentIntersection, alivePieces);
+            List<Intersection> movableIntersections = chariot.movableIntersections(
+                    currentIntersection,
+                    alivePieces
+            );
 
             // then
             assertThat(movableIntersections).containsAll(expected);
