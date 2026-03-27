@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Point {
 
+    private static final int BOARD_WIDTH = 9;
+    private static final int BOARD_HEIGHT = 10;
     private static final List<List<Point>> CACHE;
 
     private final int x;
@@ -13,7 +15,7 @@ public class Point {
 
     static {
         List<List<Point>> points = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < BOARD_HEIGHT; i++) {
             List<Point> row = new ArrayList<>();
             addX(row, i);
             points.add(row);
@@ -22,6 +24,7 @@ public class Point {
     }
 
     private Point(int x, int y) {
+        validateRange(x, y);
         this.x = x;
         this.y = y;
     }
@@ -52,13 +55,13 @@ public class Point {
     }
 
     private static void addX(List<Point> row, int y) {
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i < BOARD_WIDTH; i++) {
             row.add(new Point(i, y));
         }
     }
 
     private static void validateRange(int x, int y) {
-        if (x < 0 || x >= 9 || y < 0 || y >= 10) {
+        if (x < 0 || x >= BOARD_WIDTH || y < 0 || y >= BOARD_HEIGHT) {
             throw new IllegalArgumentException("올바르지 않은 위치 범위입니다.");
         }
     }
