@@ -8,4 +8,9 @@ public abstract class Started implements PlayerTurn {
     public Started(Board board) {
         this.board = board;
     }
+
+    @Override
+    public boolean isFinished(){
+        return false;
+    }
 }
