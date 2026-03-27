@@ -8,8 +8,18 @@ import domain.direction.Up;
 import java.util.List;
 
 public enum Side {
-    HAN(1, new Down(), new Right()),
-    CHO(10, new Up(), new Left()),
+    HAN(1, new Down(), new Right()) {
+        @Override
+        public Side nextTurn() {
+            return CHO;
+        }
+    },
+    CHO(10, new Up(), new Left()) {
+        @Override
+        public Side nextTurn() {
+            return HAN;
+        }
+    },
     ;
 
     private final int baseRow;
@@ -53,4 +63,6 @@ public enum Side {
     public List<Direction> getAllDirections() {
         return List.of(forwardDirection, backwardDirection, leftDirection, rightDirection);
     }
+
+    public abstract Side nextTurn();
 }
