@@ -38,7 +38,7 @@ public abstract class LinearPiece extends ActivePiece {
         Movement movement = resolveMovement(isVertical, dist);
         List<Position> calculatedPath = new ArrayList<>(List.of(start));
 
-        for (int i = 0; i < dist; i++) {
+        for (int i = 0; i < Math.abs(dist); i++) {
             calculatedPath.add(calculatedPath.getLast().move(movement));
         }
         return calculatedPath;
@@ -46,10 +46,10 @@ public abstract class LinearPiece extends ActivePiece {
 
     private Movement resolveMovement(boolean isVertical, int dist) {
         if (isVertical && dist < 0) {
-            return Movement.DOWN;
+            return Movement.UP;
         }
         if (isVertical) {
-            return Movement.UP;
+            return Movement.DOWN;
         }
         if (dist < 0) {
             return Movement.LEFT;
