@@ -1,17 +1,16 @@
 package janggi.presentation.ui;
 
-import janggi.domain.Point;
+import janggi.presentation.dto.MoveCommand;
 import janggi.util.Console;
 import janggi.util.Parser;
-import java.util.List;
 
 public class InputView {
 
     private InputView() {
     }
 
-    public static List<Point> readPoints() {
-        return List.of(Parser.parsePoint(readFromPoint()),
+    public static MoveCommand readPoints() {
+        return new MoveCommand(Parser.parsePoint(readFromPoint()),
                 Parser.parsePoint(readToPoint())
         );
     }

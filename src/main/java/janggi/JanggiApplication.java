@@ -5,6 +5,7 @@ import janggi.domain.JanggiGame;
 import janggi.domain.Point;
 import janggi.domain.piece.Piece;
 import janggi.presentation.dto.GameStatusInfo;
+import janggi.presentation.dto.MoveCommand;
 import janggi.presentation.dto.PositionInfo;
 import janggi.presentation.ui.InputView;
 import janggi.presentation.ui.OutputView;
@@ -26,8 +27,8 @@ public class JanggiApplication {
         OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
         OutputView.printStartGame();
         while (!game.isFinished()) {
-            List<Point> points = InputView.readPoints();
-            game.play(points.get(0), points.get(1));
+            MoveCommand points = InputView.readPoints();
+            game.play(points.from(), points.to());
             OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
         }
         OutputView.printWinner(game.getWinner());
