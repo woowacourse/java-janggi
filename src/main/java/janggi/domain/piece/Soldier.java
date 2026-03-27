@@ -12,7 +12,7 @@ public class Soldier extends Piece{
     }
 
     @Override
-    public boolean moveRoute(Map<Position, Piece> abc) {
+    public boolean moveRoute(Map<Position, Piece> pieceInPath) {
         return true;
     }
 
