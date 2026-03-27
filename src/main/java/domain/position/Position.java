@@ -35,7 +35,7 @@ public class Position {
     }
 
     public Position move(Direction direction) {
-        return new Position(getRow() + direction.getRow(), getColumn() + direction.getColumn());
+        return new Position(row.row() + direction.getRow(), column.column() + direction.getColumn());
     }
 
     @Override

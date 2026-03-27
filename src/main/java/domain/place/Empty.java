@@ -23,7 +23,7 @@ public class Empty implements Place {
 
     @Override
     public String getFormat() {
-        return "  ";
+        return "．";
     }
 
     @Override
