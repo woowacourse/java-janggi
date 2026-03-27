@@ -21,7 +21,8 @@ public class Soldier extends ActivePiece {
             return true;
         }
 
-        if (isSameTeam(Team.CHO)) {
+        ActivePiece solider = new Soldier(Team.CHO);
+        if (isSameTeam(solider)) {
             if (target.rowDiff(source) == 1 && target.columnDiff(source) == 0) {
                 return true;
             }
@@ -44,6 +45,6 @@ public class Soldier extends ActivePiece {
 
     @Override
     public List<Position> searchRoute(Position source, Position target) {
-        return List.of(source, target);
+        return List.of(target);
     }
 }

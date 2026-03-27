@@ -1,7 +1,6 @@
 package domain.activePiece;
 
 import domain.Position;
-import domain.Row;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import java.util.List;
@@ -30,12 +29,18 @@ public class Horse extends ActivePiece {
 
     @Override
     public List<Position> searchRoute(Position source, Position target) {
-        if (source.columnDiff(target) == -2)
-            return List.of(source, source.addPosition(0,1),target);
-        if (source.columnDiff(target) == 2)
-            return List.of(source, source.addPosition(0,-1),target);
-        if (source.rowDiff(target) == -2)
-            return List.of(source, source.addPosition(1,0),target);
-        return List.of(source, source.addPosition(-1,0),target);
+        if (source.columnDiff(target) == -2) {
+            return List.of(source.addPosition(0, 1), target);
+        }
+
+        if (source.columnDiff(target) == 2) {
+            return List.of(source.addPosition(0, -1), target);
+        }
+
+        if (source.rowDiff(target) == -2) {
+            return List.of(source.addPosition(1, 0), target);
+        }
+
+        return List.of(source.addPosition(-1, 0), target);
     }
 }

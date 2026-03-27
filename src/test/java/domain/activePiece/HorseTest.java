@@ -40,7 +40,7 @@ class HorseTest {
         Position src = new Position(3, 3);
         Position mid = new Position(6, 3);
         Position dest = new Position(7, 3);
-        List<Position> routes = new ArrayList<>(List.of(src, mid, dest));
+        List<Position> routes = new ArrayList<>(List.of(mid, dest));
 
         assertThat(horse.searchRoute(src, dest)).isNotEqualTo(routes);
     }

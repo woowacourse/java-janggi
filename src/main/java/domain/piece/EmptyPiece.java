@@ -10,6 +10,11 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public boolean isNotEmpty() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return PieceType.EMPTY.getDisplayName();
     }

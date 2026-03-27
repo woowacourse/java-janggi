@@ -46,7 +46,7 @@ class ChariotTest {
         Position src = new Position(new Row(1), new Column(3));
         Position dest = new Position(new Row(4), new Column(3));
         List<Position> routes = new ArrayList<>(
-                List.of(new Position(new Row(1), new Column(4)), new Position(new Row(3), new Column(4)),
+                List.of(new Position(new Row(3), new Column(4)),
                         new Position(new Row(5), new Column(4)),
                         new Position(new Row(7), new Column(4))));
 

@@ -44,7 +44,8 @@ public class JanggiController {
         Position dest = new Position(Integer.parseInt(movePositions.get(0)), Integer.parseInt(movePositions.get(1)));
         if (board.get(src).canMove(src, dest)) {
             ActivePiece piece = (ActivePiece) board.get(src);
-            List <Position> routes = piece.searchRoute(src, dest);
+            List<Position> routes = piece.searchRoute(src, dest);
+            //checkRoute(piece, routes);
         }
     }
 

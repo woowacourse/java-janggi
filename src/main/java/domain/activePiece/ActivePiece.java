@@ -15,8 +15,14 @@ public abstract class ActivePiece implements Piece {
         this.type = type;
     }
 
-    public boolean isSameTeam(Team other) {
-        return this.team == other;
+    public boolean isSameTeam(ActivePiece other) {
+        return this.team == other.team;
+    }
+
+    public int isSameType() {
+        if (this.type == PieceType.BYEONG) {
+            return 1;
+        }
     }
 
     public abstract List<Position> searchRoute(Position source, Position target);
@@ -24,5 +30,10 @@ public abstract class ActivePiece implements Piece {
     @Override
     public String toString() {
         return team.colorize(type.getDisplayName());
+    }
+
+    @Override
+    public boolean isNotEmpty() {
+        return true;
     }
 }

@@ -38,7 +38,7 @@ public class Position {
         List<Position> routes = new ArrayList<>();
         int start = other.column.min(this.column);
         int dest = other.column.max(this.column);
-        for (int i = start; i <= dest; i++) {
+        for (int i = start + 1; i <= dest; i++) {
             routes.add(new Position(other.row, new Column(i)));
         }
         return routes;
@@ -48,7 +48,7 @@ public class Position {
         List<Position> routes = new ArrayList<>();
         int start = other.row.min(this.row);
         int dest = other.row.max(this.row);
-        for (int i = start; i <= dest; i++) {
+        for (int i = start + 1; i <= dest; i++) {
             routes.add(new Position(new Row(i), other.column));
         }
         return routes;

@@ -80,7 +80,7 @@ class SoldierTest {
         Position src = new Position(new Row(1), new Column(3));
         Position dest = new Position(new Row(2), new Column(3));
         List<Position> routes = new ArrayList<>(
-                List.of(new Position(new Row(1), new Column(3)), new Position(new Row(3), new Column(3))));
+                List.of(new Position(new Row(3), new Column(3))));
 
         assertThat(guard.searchRoute(src, dest)).isNotEqualTo(routes);
     }
