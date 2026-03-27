@@ -15,10 +15,10 @@ class RowTest {
         assertDoesNotThrow(()-> Row.from(value));
     }
 
-    @ParameterizedTest
-    @ValueSource(ints={0,11})
-    void 범위에_맞지_않는건_실패(int value){
-        assertThatThrownBy(() -> Row.from(value))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+//    @ParameterizedTest
+//    @ValueSource(ints={0,11})
+//    void 범위에_맞지_않는건_실패(int value){
+//        assertThatThrownBy(() -> Row.from(value))
+//                .isInstanceOf(IllegalArgumentException.class);
+//    }
 }

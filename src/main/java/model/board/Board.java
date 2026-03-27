@@ -8,10 +8,21 @@ import java.util.Map;
 import model.position.Position;
 
 public class Board {
+    private static final int MIN_ROW = 1;
+    private static final int MAX_ROW = 10;
+    private static final int MIN_COL = 1;
+    private static final int MAX_COL = 9;
     private Map<Position, Piece> board;
 
     public Board() {
         this.board = new HashMap<>();
+    }
+
+    public boolean isInside(Position position) {
+        return position.row().value() >= MIN_ROW &&
+                position.row().value() <= MAX_ROW &&
+                position.column().value() >= MIN_COL &&
+                position.column().value() <= MAX_COL;
     }
 
     public void place(Position position, Piece piece) {
