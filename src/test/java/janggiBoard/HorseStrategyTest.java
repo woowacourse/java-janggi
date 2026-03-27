@@ -24,12 +24,11 @@ public class HorseStrategyTest {
     }
 
     @Test
-    void 먀_주변에_장애물_없으면_8가지_후보_모두_반환() {
-        Position source = new Position(5, 5);
-        // 모든 위치를 비어있는 상태(Blank)로 설정
-        testBoard.setAllBlank(true);
+    void 마_주변에_장애물_없으면_8가지_후보_모두_반환() {
+        Position position = new Position(5, 5);
+        testBoard.setAllBlank();
 
-        List<Position> candidates = horseStrategy.getMoveCandidates(source, testBoard);
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
 
         assertThat(candidates).hasSize(8)
                 .containsExactlyInAnyOrder(
@@ -41,31 +40,64 @@ public class HorseStrategyTest {
     }
 
     @Test
-    void 북쪽_멱이_막혀있으면_복서_북동으로_이동할수_없다(){
+    void 북쪽_멱이_막혀있으면_북서_북동으로_이동할수_없다(){
         Position source = new Position(5, 5);
-        testBoard.setAllBlank(true);
+        testBoard.setAllBlank();
 
         // 북쪽 멱 위치를 막힌 상태로 설정
-        testBoard.setBlank(new Position(4, 5), false);
-
+        testBoard.setBlank(new Position(4, 5));
         List<Position> candidates = horseStrategy.getMoveCandidates(source, testBoard);
 
-        // 전체 8개 중 북쪽 기반 2개가 제외된 6개만 존재해야 함
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(3, 4), new Position(3, 6));
     }
 
-    // 테스트를 위한 간단한 PieceProvider 구현체
+    @Test
+    void 남쪽_멱이_막혀있으면_남서_남동으로_이동할수_없다() {
+        Position position = new Position(5, 5);
+        testBoard.setAllBlank();
+
+        testBoard.setBlank(new Position(6, 5));
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
+
+        assertThat(candidates).hasSize(6)
+                .doesNotContain(new Position(7,4), new Position(7,6));
+    }
+
+    @Test
+    void 서쪽_멱이_막혀있으면_북서_남서로_이동할수_없다() {
+        Position position = new Position(5, 5);
+        testBoard.setAllBlank();
+
+        testBoard.setBlank(new Position(5, 4));
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
+
+        assertThat(candidates).hasSize(6)
+                .doesNotContain(new Position(6,5), new Position(4,3));
+    }
+
+    @Test
+    void 동쪽_멱이_막혀있으면_북동_남동으로_이동할수_없다() {
+        Position position = new Position(5, 5);
+        testBoard.setAllBlank();
+
+        testBoard.setBlank(new Position(5, 6));
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
+
+        assertThat(candidates).hasSize(6)
+                .doesNotContain(new Position(4, 7), new Position(6, 7));
+    }
+
     private static class TestPieceProvider implements PieceProvider {
         private final Map<Position, Boolean> boardState = new HashMap<>();
         private boolean defaultState = true;
 
-        void setBlank(Position pos, boolean isBlank) {
-            boardState.put(pos, isBlank);
+        void setBlank(Position pos) {
+            boardState.put(pos, false);
         }
 
-        void setAllBlank(boolean isBlank) {
-            this.defaultState = isBlank;
+        void setAllBlank() {
+            this.defaultState = true;
         }
 
         @Override
