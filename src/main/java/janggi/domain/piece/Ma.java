@@ -22,10 +22,8 @@ public class Ma extends BasePiece {
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
-        if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN) ||
-                (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {
-            throw new IllegalArgumentException();
-        }
+        validateMove(distanceX, distanceY);
+
         if (distanceX == DISTANCE_MAX) {
             return List.of(Point.of(from.getX() + (pathX / DISTANCE_MAX), from.getY()));
         }
@@ -35,5 +33,12 @@ public class Ma extends BasePiece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
+    }
+
+    private void validateMove(int distanceX, int distanceY) {
+        if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN) ||
+                (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {
+            throw new IllegalArgumentException("해당 기물의 이동 경로의 규칙에 어긋납니다.");
+        }
     }
 }

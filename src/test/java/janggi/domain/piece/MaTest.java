@@ -51,6 +51,7 @@ public class MaTest {
 
         // when & then
         assertThatThrownBy(() -> ma.getRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("규칙");
     }
 }
