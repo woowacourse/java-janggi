@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Direction;
 import domain.board.Board;
 import domain.Position;
 import domain.Side;
@@ -15,69 +16,32 @@ public class Elephant extends Piece {
 
     @Override
     public List<Position> getPossibleMoves(Board board, Position start) {
+        List<List<Direction>> paths = List.of(
+                List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
+                List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT),
+                List.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
+                List.of(Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT),
+                List.of(Direction.LEFT, Direction.UP_LEFT, Direction.UP_LEFT),
+                List.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
+                List.of(Direction.RIGHT, Direction.UP_RIGHT, Direction.UP_RIGHT),
+                List.of(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT));
+
         List<Position> possiblePositions = new ArrayList<>();
-        int[] dx = {0, -1, 1, 0};
-        int[] dy = {-1, 0, 0, 1};
 
-        int[] secondMoveDirections = {-1, 1};
-
-        for (int i = 0; i < 4; i++) {
-            int nRow = start.row() + dx[i];
-            int nCol = start.col() + dy[i];
-            Position firstMovePosition = new Position(nCol, nRow);
-            if (!board.isAvailableDestination(firstMovePosition)) {
-                continue;
-            }
-            if (!board.isEmpty(firstMovePosition)) {
+        for (List<Direction> path : paths) {
+            Position firstMovePosition = start.nextPosition(path.getFirst());
+            if (board.isInvalidRange(firstMovePosition) || !board.isEmpty(firstMovePosition)) {
                 continue;
             }
 
-            for (int secondMoveDirection : secondMoveDirections) {
-                int nRow2 = nRow;
-                int nCol2 = nCol;
-                Position destination = new Position(nCol2, nRow2);
+            Position secondMovePosition = firstMovePosition.nextPosition(path.get(1));
+            if (board.isInvalidRange(secondMovePosition) || !board.isEmpty(secondMovePosition)) {
+                continue;
+            }
 
-                for (int j = 0; j < 2; j++) {
-                    if (dx[i] == 0) {
-                        nRow2 += secondMoveDirection;
-                        nCol2 += dy[i];
-
-                        Position secondMovePosition = new Position(nCol2, nRow2);
-
-                        if (j == 0) {
-                            if (!board.isAvailableDestination(secondMovePosition)) {
-                                break;
-                            }
-                            if (!board.isEmpty(secondMovePosition)) {
-                                break;
-                            }
-                        }
-
-                        destination = new Position(nCol2, nRow2);
-                    }
-
-                    if (dy[i] == 0) {
-                        nRow2 += dx[i];
-                        nCol2 += secondMoveDirection;
-
-                        Position secondMovePosition = new Position(nCol2, nRow2);
-
-                        if (j == 0) {
-                            if (!board.isAvailableDestination(secondMovePosition)) {
-                                break;
-                            }
-                            if (!board.isEmpty(secondMovePosition)) {
-                                break;
-                            }
-                        }
-
-                        destination = new Position(nCol2, nRow2);
-                    }
-
-                    if (j == 1 && board.isAvailableDestination(destination)) {
-                        possiblePositions.add(destination);
-                    }
-                }
+            Position destination = secondMovePosition.nextPosition(path.get(1));
+            if (board.isAvailableDestination(destination)) {
+                possiblePositions.add(destination);
             }
         }
 
