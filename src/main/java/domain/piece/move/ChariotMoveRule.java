@@ -55,14 +55,43 @@ public class ChariotMoveRule extends MoveRule{
 
     public static Directions initializeDirections() {
         return new Directions(List.of(
-                new Direction(List.of(UP, LEFT_UP, LEFT_UP)),
-                new Direction(List.of(UP, RIGHT_UP, RIGHT_UP)),
-                new Direction(List.of(DOWN, LEFT_DOWN, LEFT_DOWN)),
-                new Direction(List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN)),
-                new Direction(List.of(LEFT, LEFT_UP, LEFT_UP)),
-                new Direction(List.of(LEFT, LEFT_DOWN, LEFT_DOWN)),
-                new Direction(List.of(RIGHT, RIGHT_UP, RIGHT_UP)),
-                new Direction(List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN))
+                new Direction(List.of(UP)),
+                new Direction(List.of(UP, UP)),
+                new Direction(List.of(UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP, UP, UP, UP)),
+
+                new Direction(List.of(DOWN)),
+                new Direction(List.of(DOWN, DOWN)),
+                new Direction(List.of(DOWN, DOWN, DOWN)),
+                new Direction(List.of(DOWN, DOWN, DOWN, DOWN)),
+                new Direction(List.of(DOWN, DOWN, DOWN, DOWN, DOWN)),
+                new Direction(List.of(DOWN, DOWN, DOWN, DOWN, DOWN, DOWN)),
+                new Direction(List.of(DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN)),
+                new Direction(List.of(DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN)),
+                new Direction(List.of(DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN)),
+
+                new Direction(List.of(RIGHT)),
+                new Direction(List.of(RIGHT, RIGHT)),
+                new Direction(List.of(RIGHT, RIGHT, RIGHT)),
+                new Direction(List.of(RIGHT, RIGHT, RIGHT, RIGHT)),
+                new Direction(List.of(RIGHT, RIGHT, RIGHT, RIGHT, RIGHT)),
+                new Direction(List.of(RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT)),
+                new Direction(List.of(RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT)),
+                new Direction(List.of(RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT)),
+
+                new Direction(List.of(LEFT)),
+                new Direction(List.of(LEFT, LEFT)),
+                new Direction(List.of(LEFT, LEFT, LEFT)),
+                new Direction(List.of(LEFT, LEFT, LEFT, LEFT)),
+                new Direction(List.of(LEFT, LEFT, LEFT, LEFT, LEFT)),
+                new Direction(List.of(LEFT, LEFT, LEFT, LEFT, LEFT, LEFT)),
+                new Direction(List.of(LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT)),
+                new Direction(List.of(LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT))
         ));
     }
 
