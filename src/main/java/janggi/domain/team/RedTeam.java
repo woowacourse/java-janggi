@@ -1,9 +1,9 @@
 package janggi.domain.team;
 
-import janggi.domain.piece.PieceType;
 import janggi.domain.Position;
-import janggi.domain.setup.SetupPolicy;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.setup.SetupPolicy;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,11 +30,6 @@ public class RedTeam implements Team {
     @Override
     public String getName() {
         return TEAM_TYPE.getName();
-    }
-
-    @Override
-    public boolean hasPiece(final Piece piece) {
-        return piece.belongsToTeam(TEAM_TYPE);
     }
 
 
