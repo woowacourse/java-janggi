@@ -3,7 +3,7 @@ package janggi.model;
 import janggi.model.position.Position;
 import janggi.model.turn.ChoTurn;
 import janggi.model.turn.Turn;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public class Janggi {
 
@@ -26,7 +26,7 @@ public class Janggi {
         return turn.isGameOver();
     }
 
-    public void withBoard(Consumer<Board> consumer) {
+    public void withBoard(BiConsumer<Board, String> consumer) {
         turn.accept(consumer);
     }
 }
