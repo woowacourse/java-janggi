@@ -68,6 +68,10 @@ public class OutputView {
         System.out.println(formatPiece(piece) + " 가 " + destination + " 로 이동했습니다.");
     }
 
+    public void printError(String message) {
+        System.out.println("[오류] " + message);
+    }
+
     private String formatBoardCell(Piece piece) {
         if (piece == null) {
             return " . ";

@@ -29,6 +29,10 @@ public class Position {
         return column.value();
     }
 
+    public boolean isInsideBoard() {
+        return row() >= 0 && row() <= 8 && column() >= 0 && column() <= 9;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

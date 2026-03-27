@@ -53,6 +53,7 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
         return piece.makeRoutes(currentPosition).stream()
+                .filter(route -> route.endPos().isInsideBoard())
                 .filter(route -> piece.canMove(route, getBlockingPieces(route), getDestinationPiece(route)))
                 .toList();
     }
