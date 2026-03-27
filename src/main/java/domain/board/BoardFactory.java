@@ -77,7 +77,6 @@ public class BoardFactory {
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column += 2) {
             board.put(new Position(3, column), new Jol(Team.HAN));
         }
-
     }
 
     private static void addChoPieces(Map<Position, Piece> board) {

@@ -46,5 +46,4 @@ public class Sang extends Piece {
     protected PathGenerator getPathGenerator() {
         return PATH_GENERATOR;
     }
-
 }

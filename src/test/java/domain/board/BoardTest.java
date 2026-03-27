@@ -13,9 +13,7 @@ import domain.piece.Po;
 import domain.piece.Sang;
 import domain.player.Team;
 import domain.position.Position;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

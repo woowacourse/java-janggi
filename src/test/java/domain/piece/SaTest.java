@@ -40,5 +40,4 @@ class SaTest {
                 Arguments.of(4, 4, 3, 3)
         );
     }
-
 }

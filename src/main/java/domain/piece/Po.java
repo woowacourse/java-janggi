@@ -23,5 +23,4 @@ public class Po extends Piece {
     protected PathGenerator getPathGenerator() {
         return PATH_GENERATOR;
     }
-
 }

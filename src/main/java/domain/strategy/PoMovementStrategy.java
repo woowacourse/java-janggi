@@ -2,7 +2,6 @@ package domain.strategy;
 
 import domain.board.PathPieces;
 import domain.piece.Piece;
-import domain.piece.Po;
 import java.util.List;
 
 public class PoMovementStrategy implements MovementStrategy {

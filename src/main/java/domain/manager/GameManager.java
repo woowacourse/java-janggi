@@ -135,8 +135,7 @@ public class GameManager {
             return createFormation(hanPositionInput);
         });
     }
-
-
+    
     private Formation createFormation(int positionInput) {
         return Formation.from(positionInput);
     }

@@ -1,6 +1,8 @@
 package domain.piece;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import domain.player.Team;
 import domain.position.Path;
@@ -38,5 +40,4 @@ class MaTest {
                 Arguments.of(4, 4, 3, 2)
         );
     }
-
 }

@@ -46,5 +46,4 @@ public class Sa extends Piece {
     protected PathGenerator getPathGenerator() {
         return PATH_GENERATOR;
     }
-
 }

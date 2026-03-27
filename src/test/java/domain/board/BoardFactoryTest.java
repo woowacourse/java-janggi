@@ -16,8 +16,8 @@ class BoardFactoryTest {
     @MethodSource("provideFormations")
     void 배치_조합을_검증한다(int choNum, int hanNum, String[] choExpected, String[] hanExpected) {
         Board board = BoardFactory.createWithFormation(
-            Formation.from(choNum),
-            Formation.from(hanNum)
+                Formation.from(choNum),
+                Formation.from(hanNum)
         );
 
         assertPiece(board, 0, 1, Team.HAN, hanExpected[0]);
