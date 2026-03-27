@@ -31,20 +31,19 @@ public class OutputView {
     }
 
     public void printPlayerTurnMessage(String name, String team) {
-        System.out.println(name + "(" + team + ")" +"님의 차례입니다.");
+        System.out.println(name + "(" + team + ")" + "님의 차례입니다.");
     }
 
     private void printColumnHeader() {
         StringBuilder sb = new StringBuilder();
         sb.append("       ");
-        for (int x = 1; x <= WIDTH; x++) {
+        for (int x = 0; x < WIDTH; x++) {
             sb.append(x);
-            if (x != WIDTH) {
+            if (x != WIDTH - 1) {
                 sb.append(" ---- ");
             }
         }
         System.out.println(sb);
-        System.out.println();
     }
 
     private void printPieceRow(int y, List<String> row) {
