@@ -24,7 +24,7 @@ public class GameManager {
 
     public void run() {
         board = initialize();
-        outputView.printBoard(board.createDTO().board());
+        outputView.printBoard(board);
 
         while (turnManager.isGameRunning()) {
             playTurn();
@@ -37,7 +37,7 @@ public class GameManager {
 
         retryOnInvalidInput(this::executeMove);
 
-        outputView.printBoard(board.createDTO().board());
+        outputView.printBoard(board);
         turnManager.switchTurn();
     }
 

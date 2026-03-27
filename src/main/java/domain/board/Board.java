@@ -10,7 +10,6 @@ import domain.piece.Piece;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import dto.BoardDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,23 +33,16 @@ public class Board {
         return destinationPiece;
     }
 
-    public BoardDTO createDTO() {
-        List<List<String>> stringBoard = new ArrayList<>();
-
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            List<String> lineOfStringBoard = makeLineOfStringBoard(row);
-            stringBoard.add(lineOfStringBoard);
-        }
-
-        return new BoardDTO(stringBoard);
-    }
-
     public boolean isPieceDifferentTeam(Position source, Team team) {
         return findPiece(source).isDifferentTeam(team);
     }
 
     public boolean isPieceNone(Position source) {
         return !findPiece(source).isNotNone();
+    }
+
+    public Piece findPiece(Position position) {
+        return board.get(position);
     }
 
     private void validateMovement(Position source, Position destination) {
@@ -60,19 +52,6 @@ public class Board {
         if (!piece.validatePath(pathPieces)) {
             throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
         }
-    }
-
-    private List<String> makeLineOfStringBoard(int row) {
-        List<String> lineOfStringBoard = new ArrayList<>();
-
-        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Piece piece = board.get(new Position(row, column));
-            String pieceString = piece.getPieceString();
-            String teamString = piece.getTeamString();
-            lineOfStringBoard.add(teamString + pieceString);
-        }
-
-        return lineOfStringBoard;
     }
 
     private PathPieces createPathPieces(Path path) {
@@ -91,9 +70,5 @@ public class Board {
         if (piece.isNotNone()) {
             pieces.add(piece);
         }
-    }
-
-    private Piece findPiece(Position position) {
-        return board.get(position);
     }
 }
