@@ -31,13 +31,50 @@ public class JanggiController {
     private List<TableSetting> makeTableSetting() {
         List<TableSetting> tableSettings = new ArrayList<>();
         for (Country country : Country.values()) {
-            String input = inputView.readTableSetting(CountryFormatter.from(country));
-            String tableNames = InputParser.parseTableSetting(input);
-
-            TableSetting tableSetting = TableSetting.from(tableNames);
+            TableSetting tableSetting = readTableSetting(country);
             tableSettings.add(tableSetting);
         }
         return tableSettings;
+    }
+
+    private void playTurn(Board board, List<Country> playOrders) {
+        int turnIndex = 0;
+        while (true) {
+            Country country = playOrders.get(turnIndex);
+            outputView.printTurn(CountryFormatter.from(country));
+            outputView.printBoard(board.getPieceInfos());
+
+            movePiece(board, country);
+            turnIndex = (turnIndex + 1) % 2;
+        }
+    }
+
+    private TableSetting readTableSetting(Country country) {
+        while (true) {
+            try {
+                String input = inputView.readTableSetting(CountryFormatter.from(country));
+                String tableNames = InputParser.parseTableSetting(input);
+
+                return TableSetting.from(tableNames);
+            } catch (IllegalArgumentException exception) {
+                outputView.printErrorMessage(exception.getMessage());
+            }
+        }
+    }
+
+    private void movePiece(Board board, Country country) {
+        while (true) {
+            try {
+                Position from = makeFromPosition();
+                board.validateFromPosition(from, country);
+                Position to = makeToPosition();
+
+                board.move(from, to);
+                return;
+            } catch (IllegalArgumentException exception) {
+                outputView.printErrorMessage(exception.getMessage());
+            }
+        }
     }
 
     private Position makeFromPosition() {
@@ -50,21 +87,5 @@ public class JanggiController {
         String input = inputView.readToPosition();
         List<Integer> positions = InputParser.parsePosition(input);
         return new Position(positions.get(0), positions.get(1));
-    }
-
-    private void playTurn(Board board, List<Country> playOrders) {
-        int turnIndex = 0;
-        while (true) {
-            Country country = playOrders.get(turnIndex);
-            outputView.printTurn(CountryFormatter.from(country));
-            outputView.printBoard(board.getPieceInfos());
-
-            Position from = makeFromPosition();
-            board.validateFromPosition(from, country);
-            Position to = makeToPosition();
-
-            board.move(from, to);
-            turnIndex = (turnIndex + 1) % 2;
-        }
     }
 }

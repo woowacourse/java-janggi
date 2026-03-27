@@ -43,4 +43,8 @@ public class OutputView {
         System.out.print("   ");
         System.out.println(String.join("  ", POSITION_NUMBERS.subList(0, 9)));
     }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
 }
