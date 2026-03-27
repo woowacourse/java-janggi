@@ -12,13 +12,13 @@ public class Point {
     private final int y;
 
     static {
-        List<List<Point>> temp = new ArrayList<>();
+        List<List<Point>> points = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             List<Point> row = new ArrayList<>();
             addX(row, i);
-            temp.add(row);
+            points.add(row);
         }
-        CACHE = Collections.unmodifiableList(temp);
+        CACHE = Collections.unmodifiableList(points);
     }
 
     private Point(int x, int y) {
@@ -27,6 +27,7 @@ public class Point {
     }
 
     public static Point of(int x, int y) {
+        validateRange(x, y);
         return CACHE.get(y).get(x);
     }
 
@@ -53,6 +54,12 @@ public class Point {
     private static void addX(List<Point> row, int y) {
         for(int i = 0; i < 9; i++) {
             row.add(new Point(i, y));
+        }
+    }
+
+    private static void validateRange(int x, int y) {
+        if (x < 0 || x >= 9 || y < 0 || y >= 10) {
+            throw new IllegalArgumentException("올바르지 않은 위치 범위입니다.");
         }
     }
 }
