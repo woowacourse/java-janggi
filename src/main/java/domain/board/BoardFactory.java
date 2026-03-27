@@ -4,8 +4,6 @@ import static common.Constants.MAX_COLUMN;
 import static common.Constants.MAX_ROW;
 import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
-import static domain.piece.PieceType.MA;
-import static domain.piece.PieceType.SANG;
 
 import domain.piece.Cha;
 import domain.piece.Jang;
@@ -13,6 +11,7 @@ import domain.piece.Jol;
 import domain.piece.Ma;
 import domain.piece.None;
 import domain.piece.Piece;
+import domain.piece.PieceFactory;
 import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
@@ -37,14 +36,11 @@ public class BoardFactory {
         List<Integer> columnPositions = List.of(1, 2, 6, 7);
 
         for (int i = 0; i < formation.size(); i++) {
-            PieceType type = formation.get(i);
+            PieceType pieceType = formation.get(i);
             int column = columnPositions.get(i);
-
-            if (type == MA) {
-                board.put(new Position(team.getColumn(), column), new Ma(team));
-            } else if (type == SANG) {
-                board.put(new Position(team.getColumn(), column), new Sang(team));
-            }
+            Piece piece = PieceFactory.createPiece(team, pieceType);
+            Position position = new Position(team.getColumn(), column);
+            board.put(position, piece);
         }
     }
 
