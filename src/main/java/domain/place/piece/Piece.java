@@ -5,6 +5,7 @@ import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.position.Position;
 import java.util.Optional;
+import util.ColorMapper;
 
 public abstract class Piece implements Place {
     protected final Side side;
@@ -19,7 +20,7 @@ public abstract class Piece implements Place {
 
     @Override
     public String getFormat() {
-        return side.colorize(getSymbol().display());
+        return ColorMapper.colorize(getSymbol().display(), side.getName());
     }
 
     @Override
