@@ -8,8 +8,6 @@ import static common.Constants.MIN_ROW;
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.position.Position;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OutputView {
     private static final int WIDTH = 9;
@@ -20,13 +18,12 @@ public class OutputView {
     public static final String ANSI_BLUE = "\u001B[34m";
 
     public void printBoard(Board board) {
-        List<List<String>> stringBoard = createStringBoard(board);
         printColumnHeader();
-        for (int y = 0; y < 9; y++) {
-            printPieceRow(y, stringBoard.get(y));
+        for (int row = MIN_ROW; row < MAX_ROW; row++) {
+            printPieceRow(row, board);
             printVerticalRow();
         }
-        printPieceRow(9, stringBoard.get(9));
+        printPieceRow(MAX_ROW, board);
         System.out.println();
     }
 
@@ -36,17 +33,6 @@ public class OutputView {
 
     public void printPlayerTurnMessage(String name, String team) {
         System.out.println(name + "(" + team + ")" + "님의 차례입니다.");
-    }
-
-    private List<List<String>> createStringBoard(Board board) {
-        List<List<String>> stringBoard = new ArrayList<>();
-
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            List<String> lineOfStringBoard = makeLineOfStringBoard(row, board);
-            stringBoard.add(lineOfStringBoard);
-        }
-
-        return stringBoard;
     }
 
     private void printColumnHeader() {
@@ -61,12 +47,13 @@ public class OutputView {
         System.out.println(sb);
     }
 
-    private void printPieceRow(int y, List<String> row) {
+    private void printPieceRow(int row, Board board) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%3d   ", y));
-        for (int x = 0; x < WIDTH; x++) {
-            sb.append(formatCell(row.get(x)));
-            if (x != WIDTH - 1) {
+        sb.append(String.format("%3d   ", row));
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+            Piece piece = board.findPiece(new Position(row, column));
+            sb.append(formatCell(piece));
+            if (column != MAX_COLUMN) {
                 sb.append("---");
             }
         }
@@ -85,12 +72,15 @@ public class OutputView {
         System.out.println(sb);
     }
 
-    private String formatCell(String piece) {
-        if (piece == null || piece.isBlank()) {
-            return "[  ]";
+    private String formatCell(Piece piece) {
+        String teamString = piece.getTeamString();
+        String pieceString = piece.getPieceString();
+
+        if (teamString.isBlank()) {
+            return String.format("[%2s]", pieceString);
         }
-        char teamCode = piece.charAt(0);
-        String pieceString = piece.substring(1);
+
+        char teamCode = teamString.charAt(0);
         if (teamCode == 'C') {
             return String.format("[%s%2s%s]", ANSI_BLUE, pieceString, ANSI_RESET);
         }
@@ -98,19 +88,5 @@ public class OutputView {
             return String.format("[%s%2s%s]", ANSI_RED, pieceString, ANSI_RESET);
         }
         return String.format("[%2s]", pieceString);
-
-    }
-
-    private List<String> makeLineOfStringBoard(int row, Board board) {
-        List<String> lineOfStringBoard = new ArrayList<>();
-
-        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Piece piece = board.findPiece(new Position(row, column));
-            String pieceString = piece.getPieceString();
-            String teamString = piece.getTeamString();
-            lineOfStringBoard.add(teamString + pieceString);
-        }
-
-        return lineOfStringBoard;
     }
 }

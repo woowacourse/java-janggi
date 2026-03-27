@@ -19,6 +19,7 @@ public abstract class Piece {
     }
 
     protected abstract MovementStrategy getMovementStrategy();
+
     protected abstract PathGenerator getPathGenerator();
 
     public Path calculatePath(Position source, Position destination) {
