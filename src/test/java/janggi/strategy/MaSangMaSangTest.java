@@ -1,7 +1,6 @@
 package janggi.strategy;
 
 
-import janggi.domain.TeamPiece;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;

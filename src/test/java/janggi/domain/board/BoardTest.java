@@ -1,8 +1,8 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.board.Board;
+import janggi.domain.Location;
 import janggi.domain.piece.Piece;
 import janggi.strategy.BoardAssembler;
 import janggi.strategy.MaSangMaSang;

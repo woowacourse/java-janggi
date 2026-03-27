@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.strategy;
 
 import janggi.domain.piece.Piece;
 
