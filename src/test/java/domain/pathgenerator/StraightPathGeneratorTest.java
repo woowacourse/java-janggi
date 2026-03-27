@@ -17,12 +17,12 @@ class StraightPathGeneratorTest {
 
         Path path = straightPathGenerator.calculatePath(new Position(0, 2), new Position(2, 2));
 
-        assertEquals(createPosition(0, 2), path.src());
+        assertEquals(createPosition(0, 2), path.source());
         List<Position> waypoints = path.waypoints();
         assertEquals(1, waypoints.size());
         assertEquals(createPosition(1, 2), waypoints.getFirst());
 
-        assertEquals(createPosition(2, 2), path.dest());
+        assertEquals(createPosition(2, 2), path.destination());
     }
 
     @Test
@@ -31,12 +31,12 @@ class StraightPathGeneratorTest {
 
         Path path = straightPathGenerator.calculatePath(new Position(2, 0), new Position(2, 2));
 
-        assertEquals(createPosition(2, 0), path.src());
+        assertEquals(createPosition(2, 0), path.source());
         List<Position> waypoints = path.waypoints();
         assertEquals(1, waypoints.size());
         assertEquals(createPosition(2, 1), waypoints.getFirst());
 
-        assertEquals(createPosition(2, 2), path.dest());
+        assertEquals(createPosition(2, 2), path.destination());
     }
 
     @Test

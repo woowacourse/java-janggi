@@ -15,14 +15,14 @@ class JolTest {
     @MethodSource("provideChoJolPaths")
     void 초의_졸은_옆과_위를_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece jol = new Jol(Team.CHO);
-        Position src = new Position(startRow, startCol);
-        Position dest = new Position(destRow, destCol);
+        Position source = new Position(startRow, startCol);
+        Position destination = new Position(destRow, destCol);
 
-        Path path = jol.calculatePath(src, dest);
+        Path path = jol.calculatePath(source, destination);
 
         assertNotNull(path);
-        assertEquals(src, path.src());
-        assertEquals(dest, path.dest());
+        assertEquals(source, path.source());
+        assertEquals(destination, path.destination());
         assertTrue(path.waypoints().isEmpty());
     }
 
@@ -30,14 +30,14 @@ class JolTest {
     @MethodSource("provideHanJolPaths")
     void 한의_졸은_옆과_아래를_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece jol = new Jol(Team.HAN);
-        Position src = new Position(startRow, startCol);
-        Position dest = new Position(destRow, destCol);
+        Position source = new Position(startRow, startCol);
+        Position destination = new Position(destRow, destCol);
 
-        Path path = jol.calculatePath(src, dest);
+        Path path = jol.calculatePath(source, destination);
 
         assertNotNull(path);
-        assertEquals(src, path.src());
-        assertEquals(dest, path.dest());
+        assertEquals(source, path.source());
+        assertEquals(destination, path.destination());
         assertTrue(path.waypoints().isEmpty());
     }
 

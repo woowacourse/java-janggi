@@ -15,14 +15,14 @@ class SaTest {
     @MethodSource("provideSaPaths")
     void 사는_모든방향을_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece sa = new Sa(Team.HAN);
-        Position src = new Position(startRow, startCol);
-        Position dest = new Position(destRow, destCol);
+        Position source = new Position(startRow, startCol);
+        Position destination = new Position(destRow, destCol);
 
-        Path path = sa.calculatePath(src, dest);
+        Path path = sa.calculatePath(source, destination);
 
         assertNotNull(path);
-        assertEquals(src, path.src());
-        assertEquals(dest, path.dest());
+        assertEquals(source, path.source());
+        assertEquals(destination, path.destination());
         assertTrue(path.waypoints().isEmpty());
     }
 

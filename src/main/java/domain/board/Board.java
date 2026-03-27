@@ -23,15 +23,15 @@ public class Board {
         this.board = board;
     }
 
-    public Piece move(Position src, Position dest) {
-        validateMovement(src, dest);
-        Piece movePiece = findPiece(src);
-        Piece destPiece = findPiece(dest);
+    public Piece move(Position source, Position destination) {
+        validateMovement(source, destination);
+        Piece movePiece = findPiece(source);
+        Piece destinationPiece = findPiece(destination);
 
-        board.put(src, new None());
-        board.put(dest, movePiece);
+        board.put(source, new None());
+        board.put(destination, movePiece);
 
-        return destPiece;
+        return destinationPiece;
     }
 
     public BoardDTO createDTO() {
@@ -45,13 +45,13 @@ public class Board {
         return new BoardDTO(stringBoard);
     }
 
-    public boolean isPieceSameTeam(Position src, Team team) {
-        return findPiece(src).isSameTeam(team);
+    public boolean isPieceSameTeam(Position source, Team team) {
+        return findPiece(source).isSameTeam(team);
     }
 
-    private void validateMovement(Position src, Position dest) {
-        Piece piece = findPiece(src);
-        Path path = piece.calculatePath(src, dest);
+    private void validateMovement(Position source, Position destination) {
+        Piece piece = findPiece(source);
+        Path path = piece.calculatePath(source, destination);
         PathPieces pathPieces = createPathPieces(path);
         if (!piece.validatePath(pathPieces)) {
             throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
@@ -80,7 +80,7 @@ public class Board {
             addPieceInPath(pointPiece, pieces);
         }
 
-        return new PathPieces(findPiece(path.src()), pieces, findPiece(path.dest()));
+        return new PathPieces(findPiece(path.source()), pieces, findPiece(path.destination()));
     }
 
     private void addPieceInPath(Piece piece, List<Piece> pieces) {

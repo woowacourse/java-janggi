@@ -16,14 +16,14 @@ class SangTest {
     @MethodSource("provideSangPaths")
     void 상은_앞으로_한칸_대각선으로_두칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece sang = new Sang(Team.HAN);
-        Position src = new Position(startRow, startCol);
-        Position dest = new Position(destRow, destCol);
+        Position source = new Position(startRow, startCol);
+        Position destination = new Position(destRow, destCol);
 
-        Path path = sang.calculatePath(src, dest);
+        Path path = sang.calculatePath(source, destination);
 
         assertNotNull(path);
-        assertEquals(src, path.src());
-        assertEquals(dest, path.dest());
+        assertEquals(source, path.source());
+        assertEquals(destination, path.destination());
         assertFalse(path.waypoints().isEmpty());
     }
 

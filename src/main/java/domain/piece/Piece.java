@@ -22,8 +22,8 @@ public class Piece {
         this.pathGenerator = pathGenerator;
     }
 
-    public Path calculatePath(Position src, Position dest) {
-        return pathGenerator.calculatePath(src, dest);
+    public Path calculatePath(Position source, Position destination) {
+        return pathGenerator.calculatePath(source, destination);
     }
 
     public boolean validatePath(PathPieces pathPieces) {

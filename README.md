@@ -23,7 +23,7 @@
 
 - 이동 규칙 저장
     - 이동 가능한 방향을 하드코딩
-    - src, dest로 판단
+    - source, destination으로 판단
 
 #### 전략
 
