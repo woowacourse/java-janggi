@@ -5,17 +5,17 @@ public record Point(
         int y
 ) {
     private static final int MIN_X = 0;
-    private static final int MAX_X = 8;
+    private static final int MAX_X = 9;
 
     private static final int MIN_Y = 0;
-    private static final int MAX_Y = 9;
+    private static final int MAX_Y = 8;
 
     public Point {
         validateRange(x, y);
     }
 
     public static boolean isInRange(int nx, int ny) {
-        return nx < MIN_X || nx > MAX_X || ny < MIN_Y || ny > MAX_Y;
+        return nx >= MIN_X && nx <= MAX_X && ny >= MIN_Y && ny <= MAX_Y;
     }
 
     private void validateRange(int x, int y) {

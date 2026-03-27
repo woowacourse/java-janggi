@@ -10,6 +10,10 @@ public class FixedPathStrategy implements PathStrategy {
     public List<Point> calculate(Pattern pattern, Point from) {
         List<Point> path = new ArrayList<>();
         for (Direction direction : pattern.pattern()) {
+            if (!Point.isInRange(from.x() + direction.getDx(), from.y() + direction.getDy())) {
+                continue;
+            }
+
             Point point = from.add(direction.getDx(), direction.getDy());
             path.add(point);
         }
