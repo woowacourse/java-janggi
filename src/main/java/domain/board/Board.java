@@ -49,6 +49,10 @@ public class Board {
         return findPiece(source).isSameTeam(team);
     }
 
+    public boolean isPieceNone(Position source) {
+        return !findPiece(source).isNotNone();
+    }
+
     private void validateMovement(Position source, Position destination) {
         Piece piece = findPiece(source);
         Path path = piece.calculatePath(source, destination);
