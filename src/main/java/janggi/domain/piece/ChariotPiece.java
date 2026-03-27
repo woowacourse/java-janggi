@@ -64,6 +64,7 @@ public class ChariotPiece extends Piece {
             if (position.equals(to)) {
                 return !isSameTeam(positionPieces.get(position));
             }
+            return false;
         }
         return true;
     }

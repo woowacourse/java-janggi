@@ -70,11 +70,9 @@ public class CannonPiece extends Piece {
         if (positionPieces.size() == 2) {
             if (positionPieces.containsKey(to)) {
                 Piece piece = positionPieces.get(to);
-                if (piece.isSameTeam(this)) {
-                    return false;
-                }
-                return true;
+                return !piece.isSameTeam(this);
             }
+            return false;
         }
 
         return !positionPieces.containsKey(to);

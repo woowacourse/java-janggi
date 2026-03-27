@@ -1,15 +1,16 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.board.Position;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonPieceTest {
 
@@ -68,6 +69,18 @@ class CannonPieceTest {
     }
 
     @Test
+    @DisplayName("포 이동 경로에 기물이 2개 있으면 이동 불가능하다.")
+    void testNotMoveIfTwoPiecesInPath() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(4, 6), new SoliderPiece(Team.HAN));
+        positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO));
+
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
+        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+    }
+
+    @Test
     @DisplayName("포 이동 경로에 포가 아닌 기물이 한 개 있고, 도착 경로에 포가 아닌 상대 기물이 한 개 있으면 이동 가능하다.")
     void testMoveIfNoCannonInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
@@ -92,7 +105,7 @@ class CannonPieceTest {
     }
 
     @Test
-    @DisplayName("포 이동 경로에 포가 아닌 기물이 1개만 존재한다면 이동 가능하다.")
+    @DisplayName("포 이동 경로에 포가 아닌 기물이 1개만 존재하고, 도착 경로에 기물이 없다면 이동 가능하다.")
     void testMoveIfOnePieceInPathExceptCannon() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 

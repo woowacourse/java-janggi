@@ -87,6 +87,7 @@ public class HorsePiece extends Piece {
             if (position.equals(to)) {
                 return !isSameTeam(positionPieces.get(position));
             }
+            return false;
         }
         return true;
     }
