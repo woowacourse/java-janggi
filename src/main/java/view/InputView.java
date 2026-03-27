@@ -51,9 +51,13 @@ public class InputView {
     private List<Integer> askPosition() {
         try {
             List<String> splitString = List.of(scanner.nextLine().split(" "));
-            return splitString.stream()
+            List<Integer> numbers = splitString.stream()
                     .map(Integer::parseInt)
                     .toList();
+            if (numbers.size() != 2) {
+                throw new IllegalArgumentException(INVALID_POSITION_INPUT.getMessage());
+            }
+            return numbers;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(INVALID_POSITION_INPUT.getMessage());
         }
