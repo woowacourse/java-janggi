@@ -19,13 +19,11 @@ public abstract class StepPiece extends ActivePiece {
 
     @Override
     public List<Position> findRoute(Position start, Position end) {
-        for (List<Movement> movements : moveRange) {
-            List<Position> calculatedPath = calculatePath(start, movements);
-            if (calculatedPath.getLast().equals(end)) {
-                return calculatedPath;
-            }
-        }
-        throw new IllegalArgumentException("올바른 도착 지점이 아닙니다.");
+        return moveRange.stream()
+                .map(movements -> calculatePath(start, movements))
+                .filter(path -> path.getLast().equals(end))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("올바른 도착 지점이 아닙니다."));
     }
 
     @Override

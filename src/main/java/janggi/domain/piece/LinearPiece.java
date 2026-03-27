@@ -6,7 +6,6 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.RoutePolicy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class LinearPiece extends ActivePiece {
@@ -36,12 +35,10 @@ public abstract class LinearPiece extends ActivePiece {
 
     private List<Position> calculatePath(Position start, boolean isVertical, int dist) {
         Movement movement = resolveMovement(isVertical, dist);
-        List<Position> calculatedPath = new ArrayList<>(List.of(start));
-
-        for (int i = 0; i < Math.abs(dist); i++) {
-            calculatedPath.add(calculatedPath.getLast().move(movement));
-        }
-        return calculatedPath;
+        return java.util.stream.Stream
+                .iterate(start, current -> current.move(movement))
+                .limit(Math.abs(dist) + 1)
+                .toList();
     }
 
     private Movement resolveMovement(boolean isVertical, int dist) {
