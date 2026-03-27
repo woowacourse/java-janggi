@@ -27,8 +27,7 @@ public class BoardTest {
             "HAN,MA,2,1","HAN,MA,7,1",
             "HAN,CHA,1,1","HAN,CHA,9,1",
             "HAN,PO,2,3","HAN,PO,8,3",
-            "HAN,ZOL,1,4", "HAN,ZOL,3,4", "HAN,ZOL,5,4", "HAN,ZOL,7,4", "HAN,ZOL,9,4",
-
+            "HAN,ZOL,1,4", "HAN,ZOL,3,4", "HAN,ZOL,5,4", "HAN,ZOL,7,4", "HAN,ZOL,9,4"
 
     })
     @DisplayName("초기 위치에 각나라 졸이 있다.")
@@ -39,7 +38,6 @@ public class BoardTest {
         Piece zol = new Piece(team,pieceType);
 
         //when
-        board.initialize();
         Map<Position, Piece> checkZol = board.getBoard();
 
         //then

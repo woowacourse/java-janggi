@@ -31,4 +31,8 @@ public class Piece {
     public int hashCode() {
         return Objects.hash(team, pieceType);
     }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
 }
