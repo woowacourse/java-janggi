@@ -10,7 +10,7 @@ import static domain.direction.Direction.SOUTH_WEST;
 import static domain.direction.Direction.WEST;
 
 import domain.direction.Direction;
-import domain.pathgenerator.ListPathGenerator;
+import domain.pathgenerator.NonStraightPathGenerator;
 import domain.player.Team;
 import domain.strategy.BlockedMovementStrategy;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Sa extends Piece {
     );
 
     public Sa(Team team) {
-        super(team, PieceType.SA, new BlockedMovementStrategy(), new ListPathGenerator(paths));
+        super(team, PieceType.SA, new BlockedMovementStrategy(), new NonStraightPathGenerator(paths));
     }
 
 }

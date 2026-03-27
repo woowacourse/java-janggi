@@ -18,9 +18,9 @@ import domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class ListPathGeneratorTest {
+class NonStraightPathGeneratorTest {
 
-    ListPathGenerator listPathGenerator;
+    NonStraightPathGenerator nonStraightPathGenerator;
     private static final List<List<Direction>> sangPaths = List.of(
             List.of(NORTH, NORTH_EAST, NORTH_EAST),
             List.of(NORTH, NORTH_WEST, NORTH_WEST),
@@ -34,9 +34,9 @@ class ListPathGeneratorTest {
 
     @Test
     void 리스트를_받으면_이동규칙으로_Path객체를_만든다() {
-        listPathGenerator = new ListPathGenerator(sangPaths);
+        nonStraightPathGenerator = new NonStraightPathGenerator(sangPaths);
 
-        Path path = listPathGenerator.calculatePath(new Position(5, 4), new Position(8, 6));
+        Path path = nonStraightPathGenerator.calculatePath(new Position(5, 4), new Position(8, 6));
 
         assertEquals(createPosition(5, 4), path.source());
         List<Position> waypoints = path.waypoints();
@@ -50,9 +50,9 @@ class ListPathGeneratorTest {
 
     @Test
     void 이동할_수_없는_위치를_입력하면_에러를_던진다() {
-        listPathGenerator = new ListPathGenerator(sangPaths);
+        nonStraightPathGenerator = new NonStraightPathGenerator(sangPaths);
 
         assertThrows(IllegalArgumentException.class,
-                () -> listPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
+                () -> nonStraightPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
     }
 }

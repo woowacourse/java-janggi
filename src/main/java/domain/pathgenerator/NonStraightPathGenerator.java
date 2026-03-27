@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ListPathGenerator implements PathGenerator {
+public class NonStraightPathGenerator implements PathGenerator {
 
     private final List<List<Direction>> paths;
 
-    public ListPathGenerator(List<List<Direction>> paths) {
+    public NonStraightPathGenerator(List<List<Direction>> paths) {
         this.paths = paths;
     }
 
