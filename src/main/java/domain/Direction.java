@@ -10,19 +10,19 @@ public enum Direction {
     SOUTH_EAST(1, 1),
     SOUTH_WEST(1, -1);
 
-    private final int dx;
-    private final int dy;
+    private final int dRow;
+    private final int dColumn;
 
-    Direction(int dx, int dy) {
-        this.dx = dx;
-        this.dy = dy;
+    Direction(int dRow, int dColumn) {
+        this.dRow = dRow;
+        this.dColumn = dColumn;
     }
 
-    public int dx() {
-        return dx;
+    public int dRow() {
+        return dRow;
     }
 
-    public int dy() {
-        return dy;
+    public int dColumn() {
+        return dColumn;
     }
 }
