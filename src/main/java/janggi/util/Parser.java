@@ -1,6 +1,7 @@
 package janggi.util;
 
 import janggi.domain.Point;
+import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,7 +18,11 @@ public class Parser {
                 .map(line -> {
                     List<String> data = Stream.of(line.split(COMMA))
                             .toList();
-                    return PositionInfo.from(data);
+                    Team team = Team.valueOf(data.get(0));
+                    String pieceName = data.get(1);
+                    int x = Integer.parseInt(data.get(2));
+                    int y = Integer.parseInt(data.get(3));
+                    return PositionInfo.from(team, pieceName, x, y);
                 })
                 .toList();
     }
