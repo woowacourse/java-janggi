@@ -29,6 +29,24 @@ public class JanggiGame {
         gameStatus = gameStatus.changePlayerTurn();
     }
 
+    public void checkGameFinished() {
+        if(!board.hasGreenTeamGeneral()) {
+            gameStatus = GameStatus.RED_TEAM_WIN;
+        }
+
+        if(!board.hasRedTeamGeneral()) {
+            gameStatus = GameStatus.GREEN_TEAM_WIN;
+        }
+    }
+
+    public boolean isGameFinished() {
+        return this.gameStatus.isFinished();
+    }
+
+    public String gameStatus() {
+        return this.gameStatus.description();
+    }
+
     private void validateDestinationSelection(Position selectPosition, Position destination) {
         validateOutOfRange(destination);
         if (!board.isMoveable(selectPosition, destination)) {

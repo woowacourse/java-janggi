@@ -16,8 +16,6 @@ public abstract class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public abstract boolean isGeneral();
-
     public boolean isMoveAble(Position destination) {
         return moveStrategy.isMoveAble(destination);
     };

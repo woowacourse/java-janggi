@@ -66,4 +66,19 @@ class JanggiGameTest {
                 .isThrownBy(() -> janggiGame.validatePieceSelection(selectPosition));
     }
 
+    @Test
+    @DisplayName("장기 게임은 게임 종료 알 수 있다.")
+    void game_finished() {
+        Map<Position, Piece> testBoard = new HashMap<>();
+        Piece horsePiece = new Horse(Team.RED, HorseMoveStrategy.of(Position.of(3, 3)));
+        Piece soldierPiece = new Horse(Team.GREEN, HorseMoveStrategy.of(Position.of(5, 2)));
+        testBoard.put(horsePiece.position(), horsePiece);
+        testBoard.put(soldierPiece.position(), soldierPiece);
+        Board board = Board.of(testBoard);
+
+        JanggiGame janggiGame = new JanggiGame(board);
+        janggiGame.checkGameFinished();
+
+        assertThat(janggiGame.isGameFinished()).isTrue();
+    }
 }

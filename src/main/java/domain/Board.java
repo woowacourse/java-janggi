@@ -61,6 +61,15 @@ public class Board {
                 .toList();
     }
 
+    public boolean hasGreenTeamGeneral() {
+        return greenPieces().stream().anyMatch(Piece::isGeneral);
+    }
+
+    public boolean hasRedTeamGeneral() {
+        return redPieces().stream().anyMatch(Piece::isGeneral);
+    }
+
+
     public List<Piece> greenPieces() {
         return board.values().stream().filter(Piece::isGreenTeam)
                 .toList();
