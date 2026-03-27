@@ -1,14 +1,16 @@
-package janggi.model.gimul;
+package janggi.model.gimul.palace;
 
 import janggi.model.Team;
+import janggi.model.gimul.Gimul;
 import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
 import janggi.model.position.PositionDelta;
 import janggi.model.position.PositionPath;
 import java.util.List;
 
-public class Sa extends Gimul {
-    public Sa(Team team) {
+public abstract class AbstractPalaceGimul extends Gimul {
+
+    public AbstractPalaceGimul(Team team) {
         super(team);
     }
 
@@ -41,8 +43,4 @@ public class Sa extends Gimul {
         return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
     }
 
-    @Override
-    public String getSymbol() {
-        return "사";
-    }
 }
