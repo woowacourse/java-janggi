@@ -3,7 +3,6 @@ package janggi.domain.movement;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RuleWithNoTraces implements Rule {
@@ -17,24 +16,22 @@ public class RuleWithNoTraces implements Rule {
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
-        final List<Movement> movementOrderWithoutLast = getMovementOrderWithoutLast();
-        final Movement lastMovement = movementOrder.getLast();
-        for (final Movement movement : movementOrderWithoutLast) {
+        for (int index = 0; index < movementOrder.size() - 1; index++) {
+            final Movement movement = movementOrder.get(index);
             if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
                 return List.of();
             }
             from = movement.calculateDestination(from, piece, boardMediator);
         }
-        if (lastMovement.canMove(from) && lastMovement.hasReachablePosition(piece, from, boardMediator)) {
-            from = lastMovement.findFirstOccupiedPositionOrMax(from, piece, boardMediator);
-            return List.of(from);
-        }
-        return List.of();
+        return findLastPosition(from, piece, boardMediator);
     }
 
-    private List<Movement> getMovementOrderWithoutLast() {
-        final List<Movement> movementOrderWithoutLast = new ArrayList<>(movementOrder);
-        movementOrderWithoutLast.removeLast();
-        return movementOrderWithoutLast;
+    private List<Position> findLastPosition(final Position from, final Piece piece, final BoardMediator boardMediator) {
+        final Movement lastMovement = movementOrder.getLast();
+        if (!lastMovement.canMove(from) || !lastMovement.hasReachablePosition(piece, from, boardMediator)) {
+            return List.of();
+        }
+        final Position destination = lastMovement.findFirstOccupiedPositionOrMax(from, piece, boardMediator);
+        return List.of(destination);
     }
 }
