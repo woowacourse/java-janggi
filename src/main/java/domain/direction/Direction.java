@@ -21,14 +21,6 @@ public enum Direction {
         this.offsetCol = offsetCol;
     }
 
-    public int getOffsetRow() {
-        return offsetRow;
-    }
-
-    public int getOffsetCol() {
-        return offsetCol;
-    }
-
     public Position move(Position src) {
         return new Position(src.row() + this.offsetRow, src.col() + this.offsetCol);
     }
