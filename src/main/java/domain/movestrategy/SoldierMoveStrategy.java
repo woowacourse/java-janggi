@@ -11,11 +11,11 @@ import java.util.Map;
 public class SoldierMoveStrategy implements MoveStrategy {
 
     private static final List<Delta> CHO_PATHS = List.of(
-            Delta.RIGHT, Delta.DOWN, Delta.LEFT
+            Delta.RIGHT, Delta.UP, Delta.LEFT
     );
 
     private static final List<Delta> HAN_PATHS = List.of(
-            Delta.RIGHT, Delta.UP, Delta.LEFT
+            Delta.RIGHT, Delta.DOWN, Delta.LEFT
     );
 
     @Override
@@ -25,8 +25,10 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return paths.stream()
                 .map(from::move)
                 .filter(this::inBoard)
+                .filter(position -> isNotAlly(position, pieces, from))
                 .toList();
     }
+
 
     private static List<Delta> getPathsByTeam(final Position from, final Map<Position, Piece> pieces) {
         if (pieces.get(from).getTeam() == Team.HAN) {
@@ -38,5 +40,13 @@ public class SoldierMoveStrategy implements MoveStrategy {
     private boolean inBoard(final Position current) {
         return current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE
                 && current.row() >= Board.MIN_ROW_RANGE && current.row() <= Board.MAX_ROW_RANGE;
+    }
+
+    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
+        if (!pieces.containsKey(next)) {
+            return true;
+        }
+
+        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

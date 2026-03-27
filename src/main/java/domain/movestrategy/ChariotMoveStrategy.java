@@ -28,19 +28,27 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return movable;
     }
 
+
     private List<Position> calculateByDirection(
             final Position from,
             final Map<Position, Piece> pieces,
             final Delta delta
     ) {
         List<Position> movable = new ArrayList<>();
+        Piece fromPiece = pieces.get(from);
 
         for (Position current = from.move(delta); inBoard(current); current = current.move(delta)) {
-            movable.add(current);
-
-            if (pieces.containsKey(current)) {
-                break;
+            if (!pieces.containsKey(current)) {
+                movable.add(current);
+                continue;
             }
+
+            Piece target = pieces.get(current);
+            if (fromPiece.getTeam() != target.getTeam()) {
+                movable.add(current);
+            }
+
+            break;
         }
 
         return movable;

@@ -17,6 +17,15 @@ public class GuardMoveStrategy implements MoveStrategy {
     public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
+                .filter(position -> isNotAlly(position, pieces, from))
                 .toList();
+    }
+
+    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
+        if (!pieces.containsKey(next)) {
+            return true;
+        }
+
+        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

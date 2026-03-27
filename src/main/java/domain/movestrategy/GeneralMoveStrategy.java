@@ -21,8 +21,10 @@ public class GeneralMoveStrategy implements MoveStrategy {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
                 .filter(position -> !isDirected(position, pieces, from))
+                .filter(position -> isNotAlly(position, pieces, from))
                 .toList();
     }
+
 
     private boolean isDirected(Position nextPosition, Map<Position, Piece> pieces, Position from) {
         Optional<Position> oppositeGeneralPositionOpt = pieces.entrySet().stream()
@@ -58,5 +60,13 @@ public class GeneralMoveStrategy implements MoveStrategy {
         }
 
         return true;
+    }
+
+    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
+        if (!pieces.containsKey(next)) {
+            return true;
+        }
+
+        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

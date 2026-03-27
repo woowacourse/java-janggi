@@ -24,6 +24,16 @@ public class HorseMoveStrategy implements MoveStrategy {
         return PATH_BY_DESTINATION.entrySet().stream()
                 .filter(entry -> !pieces.containsKey(from.move(entry.getValue())))
                 .map(entry -> from.move(entry.getKey()))
+                .filter(destination -> isNotAlly(destination, pieces, from))
                 .toList();
+    }
+
+
+    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
+        if (!pieces.containsKey(next)) {
+            return true;
+        }
+
+        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

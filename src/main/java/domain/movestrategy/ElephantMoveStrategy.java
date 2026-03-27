@@ -27,8 +27,10 @@ public class ElephantMoveStrategy implements MoveStrategy {
         return PATHS_BY_DESTINATION.entrySet().stream()
                 .filter(entry -> !isBlocked(from, entry.getValue(), pieces))
                 .map(entry -> from.move(entry.getKey()))
+                .filter(destination -> isNotAlly(destination, pieces, from))
                 .toList();
     }
+
 
     private boolean isBlocked(final Position from, final List<Delta> paths, final Map<Position, Piece> pieces) {
         Position current = from;
@@ -40,5 +42,13 @@ public class ElephantMoveStrategy implements MoveStrategy {
             }
         }
         return false;
+    }
+
+    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
+        if (!pieces.containsKey(next)) {
+            return true;
+        }
+
+        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

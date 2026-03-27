@@ -29,6 +29,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         return movable;
     }
 
+
     private List<Position> calculateMovableByDirection(
             final Position from,
             final Map<Position, Piece> pieces,
@@ -54,7 +55,7 @@ public class CannonMoveStrategy implements MoveStrategy {
 
             // 두 번째 기물
             if (metPiece) {
-                if (!piece.isCannon()) {
+                if (!piece.isCannon() && pieces.get(from).getTeam() != piece.getTeam()) {
                     movable.add(current);
                 }
                 break;

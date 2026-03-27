@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 class HorseMoveStrategyTest {
 
+    private final MoveStrategy strategy = new HorseMoveStrategy();
+
     @Test
     @DisplayName("말은 경유지가 막히지 않으면 8방향 이동 가능")
     void horse_moves_all_when_not_blocked() {
@@ -20,9 +22,6 @@ class HorseMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
-
-        HorseMoveStrategy strategy = new HorseMoveStrategy();
-
         // when
         List<Position> result = strategy.calculateMovablePositions(from, pieces);
 
@@ -50,8 +49,6 @@ class HorseMoveStrategyTest {
 
         // UP 경유지 막기
         pieces.put(Position.of(4, 5), Piece.choPieceOf(PieceType.SOLDIER));
-
-        HorseMoveStrategy strategy = new HorseMoveStrategy();
 
         // when
         List<Position> result = strategy.calculateMovablePositions(from, pieces);
@@ -87,8 +84,6 @@ class HorseMoveStrategyTest {
         pieces.put(Position.of(4, 5), Piece.choPieceOf(PieceType.SOLDIER)); // UP
         pieces.put(Position.of(5, 6), Piece.choPieceOf(PieceType.SOLDIER)); // RIGHT
 
-        HorseMoveStrategy strategy = new HorseMoveStrategy();
-
         // when
         List<Position> result = strategy.calculateMovablePositions(from, pieces);
 
@@ -99,5 +94,23 @@ class HorseMoveStrategyTest {
                 Position.of(4, 7),
                 Position.of(6, 7)
         );
+    }
+
+    @Test
+    @DisplayName("도착지에 아군 기물이 있으면 이동할 수 없다.")
+    void horse_cannot_move_to_ally() {
+        // given
+        Position from = Position.of(5, 5);
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
+
+        pieces.put(Position.of(3, 4), Piece.choPieceOf(PieceType.SOLDIER));
+
+        // when
+        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+
+        // then
+        assertThat(result).doesNotContain(Position.of(3, 4));
     }
 }
