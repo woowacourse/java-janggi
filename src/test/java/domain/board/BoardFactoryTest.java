@@ -33,28 +33,33 @@ class BoardFactoryTest {
     }
 
     static Stream<Arguments> provideFormations() {
-        String[] f1 = {"SD", "MA", "SD", "MA"};
-        String[] f2 = {"MA", "SD", "MA", "SD"};
-        String[] f3 = {"MA", "SD", "SD", "MA"};
-        String[] f4 = {"SD", "MA", "MA", "SD"};
+        String[] f1 = {"HSD", "HMA", "HSD", "HMA"};
+        String[] f2 = {"HMA", "HSD", "HMA", "HSD"};
+        String[] f3 = {"HMA", "HSD", "HSD", "HMA"};
+        String[] f4 = {"HSD", "HMA", "HMA", "HSD"};
+        
+        String[] c1 = {"CSD", "CMA", "CSD", "CMA"};
+        String[] c2 = {"CMA", "CSD", "CMA", "CSD"};
+        String[] c3 = {"CMA", "CSD", "CSD", "CMA"};
+        String[] c4 = {"CSD", "CMA", "CMA", "CSD"};
 
         return Stream.of(
-                Arguments.of(1, 1, f1, f1),
-                Arguments.of(1, 2, f1, f2),
-                Arguments.of(1, 3, f1, f3),
-                Arguments.of(1, 4, f1, f4),
-                Arguments.of(2, 1, f2, f1),
-                Arguments.of(2, 2, f2, f2),
-                Arguments.of(2, 3, f2, f3),
-                Arguments.of(2, 4, f2, f4),
-                Arguments.of(3, 1, f3, f1),
-                Arguments.of(3, 2, f3, f2),
-                Arguments.of(3, 3, f3, f3),
-                Arguments.of(3, 4, f3, f4),
-                Arguments.of(4, 1, f4, f1),
-                Arguments.of(4, 2, f4, f2),
-                Arguments.of(4, 3, f4, f3),
-                Arguments.of(4, 4, f4, f4)
+                Arguments.of(1, 1, c1, f1),
+                Arguments.of(1, 2, c1, f2),
+                Arguments.of(1, 3, c1, f3),
+                Arguments.of(1, 4, c1, f4),
+                Arguments.of(2, 1, c2, f1),
+                Arguments.of(2, 2, c2, f2),
+                Arguments.of(2, 3, c2, f3),
+                Arguments.of(2, 4, c2, f4),
+                Arguments.of(3, 1, c3, f1),
+                Arguments.of(3, 2, c3, f2),
+                Arguments.of(3, 3, c3, f3),
+                Arguments.of(3, 4, c3, f4),
+                Arguments.of(4, 1, c4, f1),
+                Arguments.of(4, 2, c4, f2),
+                Arguments.of(4, 3, c4, f3),
+                Arguments.of(4, 4, c4, f4)
         );
     }
 }

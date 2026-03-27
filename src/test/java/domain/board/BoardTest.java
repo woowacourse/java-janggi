@@ -143,9 +143,9 @@ class BoardTest {
             BoardDTO dto = board.createDTO();
             List<List<String>> data = dto.board();
 
-            assertEquals("CH", data.get(0).get(0));
-            assertEquals("SD", data.get(1).get(4));
-            assertEquals("PO", data.get(5).get(3));
+            assertEquals("CCH", data.get(0).get(0));
+            assertEquals("CSD", data.get(1).get(4));
+            assertEquals("HPO", data.get(5).get(3));
         }
 
         @Test
