@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Position;
+import domain.coordinate.Position;
 import domain.piece.Cannon;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
@@ -19,7 +19,7 @@ public class Board {
     public Board(Map<Position, Piece> initialize) {
         for (int i = 0; i < COL_SIZE; i++) {
             for (int j = 0; j < ROW_SIZE; j++) {
-                board[i][j] = initialize.getOrDefault(new Position(i, j), new EmptyPiece());
+                board[i][j] = initialize.getOrDefault(new Position(i, j), EmptyPiece.getInstance());
             }
         }
     }
@@ -36,7 +36,7 @@ public class Board {
         validateRange(start);
         validateRange(destination);
         board[destination.col()][destination.row()] = board[start.col()][start.row()];
-        board[start.col()][start.row()] = new EmptyPiece();
+        board[start.col()][start.row()] = EmptyPiece.getInstance();
     }
 
     public Piece getPiece(Position position) {
