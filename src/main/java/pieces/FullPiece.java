@@ -14,6 +14,30 @@ public abstract class FullPiece implements Piece {
         this.side = side;
     }
 
+    @Override
+    public final boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public final MoveContext askMoveContext(Position departure, Position destination) {
+        validateDestination(departure, destination);
+        List<Position> pathPositions = getPathPositions(departure, destination);
+        DestinationRule destinationRule = getDestinationRule();
+        PathRule pathRule = getPathRule();
+        return new MoveContext(pathPositions, destinationRule, pathRule);
+    }
+
+    protected abstract void validateDestination(Position departure, Position destination);
+
+    protected abstract List<Position> getPathPositions(Position departure, Position destination);
+
+    protected abstract DestinationRule getDestinationRule();
+
+    protected abstract PathRule getPathRule();
+
+    public abstract boolean isPo();
+
     public final boolean isHan() {
         return side.isHan();
     }

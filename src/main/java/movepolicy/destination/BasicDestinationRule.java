@@ -1,14 +1,17 @@
 package movepolicy.destination;
 
 import pieces.FullPiece;
+import pieces.Piece;
 
 public class BasicDestinationRule implements DestinationRule {
+
     @Override
-    public void validateDestination(FullPiece departurePiece, FullPiece destinationPiece) {
-        if (departurePiece == null) {
-            throw new IllegalArgumentException("출발지의 기물이 없습니다.");
+    public void validateDestination(FullPiece departurePiece, Piece destinationPiece) {
+        if (destinationPiece.isEmpty()) {
+            return;
         }
-        if (departurePiece.isSameSide(destinationPiece)) {
+        FullPiece targetPiece = (FullPiece) destinationPiece;
+        if (departurePiece.isSameSide(targetPiece)) {
             throw new IllegalArgumentException("같은 진영의 말은 공격할 수 없습니다.");
         }
     }
