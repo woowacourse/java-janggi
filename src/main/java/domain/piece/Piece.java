@@ -26,5 +26,15 @@ public abstract class Piece {
         return path;
     }
 
-    abstract List<Direction> findDirections(Position from, Position to);
+    public List<Direction> findDirections(Position from, Position to) {
+        List<Integer> distances = from.calculateDistance(to);
+        int x = distances.get(0);
+        int y = distances.get(1);
+
+        List<Direction> directions = Direction.findDirections(x, y);
+        validateDirections(directions);
+        return directions;
+    }
+
+    abstract void validateDirections(List<Direction> directions);
 }
