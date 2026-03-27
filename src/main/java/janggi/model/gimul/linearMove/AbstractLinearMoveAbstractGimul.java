@@ -1,13 +1,14 @@
 package janggi.model.gimul.linearMove;
 
 import janggi.model.Team;
-import janggi.model.gimul.Gimul;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
+import java.util.List;
 
-public abstract class AbstractLinearMoveGimul extends Gimul {
+public abstract class AbstractLinearMoveAbstractGimul extends AbstractGimul {
 
-    public AbstractLinearMoveGimul(Team team) {
+    public AbstractLinearMoveAbstractGimul(Team team) {
         super(team);
     }
 
@@ -22,5 +23,10 @@ public abstract class AbstractLinearMoveGimul extends Gimul {
         }
 
         return from.moveVertical(to.getRowDistance(from)).removeFromAndTo();
+    }
+
+    @Override
+    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
+        return gimulsOnPath.isEmpty();
     }
 }

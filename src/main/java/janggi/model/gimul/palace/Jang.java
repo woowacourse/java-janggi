@@ -2,7 +2,7 @@ package janggi.model.gimul.palace;
 
 import janggi.model.Team;
 
-public class Jang extends AbstractPalaceGimul {
+public class Jang extends AbstractPalaceAbstractGimul {
     public Jang(Team team) {
         super(team);
     }

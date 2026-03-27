@@ -1,7 +1,7 @@
 package janggi.model.initializer;
 
 import janggi.model.Board;
-import janggi.model.gimul.Gimul;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
 public abstract class BoardInitializer {
 
     public Board init() {
-        Map<Position, Gimul> board = new HashMap<Position, Gimul>();
+        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
 
         board.putAll(initCha());
         board.putAll(initMa());
@@ -22,17 +22,17 @@ public abstract class BoardInitializer {
         return new Board(board);
     }
 
-    protected abstract Map<Position, Gimul> initCha();
+    protected abstract Map<Position, AbstractGimul> initCha();
 
-    protected abstract Map<Position, Gimul> initMa();
+    protected abstract Map<Position, AbstractGimul> initMa();
 
-    protected abstract Map<Position, Gimul> initSang();
+    protected abstract Map<Position, AbstractGimul> initSang();
 
-    protected abstract Map<Position, Gimul> initJang();
+    protected abstract Map<Position, AbstractGimul> initJang();
 
-    protected abstract Map<Position, Gimul> initSa();
+    protected abstract Map<Position, AbstractGimul> initSa();
 
-    protected abstract Map<Position, Gimul> initByeong();
+    protected abstract Map<Position, AbstractGimul> initByeong();
 
-    protected abstract Map<Position, Gimul> initPho();
+    protected abstract Map<Position, AbstractGimul> initPho();
 }

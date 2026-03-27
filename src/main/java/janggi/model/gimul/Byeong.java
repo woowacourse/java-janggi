@@ -5,7 +5,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import java.util.List;
 
-public class Byeong extends Gimul {
+public class Byeong extends AbstractGimul {
     public Byeong(Team team) {
         super(team);
     }
@@ -34,8 +34,13 @@ public class Byeong extends Gimul {
     }
 
     @Override
-    public boolean canPassThrough(List<Gimul> gimulsOnPath, Gimul gimulAtTo) {
-        return gimulsOnPath.isEmpty() && (gimulAtTo == null || !this.isSameTeam(gimulAtTo));
+    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo) {
+        return gimulsOnPath.isEmpty() && !this.isSameTeam(abstractGimulAtTo);
+    }
+
+    @Override
+    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
+        return gimulsOnPath.isEmpty();
     }
 
     @Override
