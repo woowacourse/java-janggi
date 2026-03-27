@@ -32,17 +32,12 @@ public class Board {
         return board[position.col()][position.row()].isNeutral();
     }
 
-    public boolean isPieceAt(Position position, Piece piece) {
-        return board[position.col()][position.row()].equals(piece);
-    }
-
     public boolean isCannon(Position position) {
         Piece piece = board[position.col()][position.row()];
         return piece.equals(new Cannon(Side.HAN)) || piece.equals(new Cannon(Side.CHU));
     }
 
     public Piece getPieceBy(Position start) {
-        validateRange(start);
         validateStartPosition(start);
         return board[start.col()][start.row()];
     }
@@ -59,27 +54,23 @@ public class Board {
         if (destination.col() < POSITION_THRESHOLD || destination.col() >= COL_SIZE) {
             return true;
         }
-        if (destination.row() < POSITION_THRESHOLD || destination.row() >= ROW_SIZE) {
-            return true;
-        }
-
-        return false;
+        return destination.row() < POSITION_THRESHOLD || destination.row() >= ROW_SIZE;
     }
 
     public boolean isOpponentPiece(Position position) {
-        return isNotFriendlyPiece(position) && !board[position.col()][position.row()].isNeutral();
+        return isNotFriendlyPiece(position) && !isEmpty(position);
     }
 
     public void move(Position start, Position destination) {
-        validateRange(start);
-        validateRange(destination);
-        validateStartPosition(start);
-        validateDestination(destination);
-
         board[destination.col()][destination.row()] = board[start.col()][start.row()];
         board[start.col()][start.row()] = new EmptyPiece();
 
         endTurn();
+    }
+
+    public void validateStartPosition(Position position) {
+        validateRange(position);
+        validateCurrentTurnPiece(position);
     }
 
     public Side getTurn() {
@@ -88,10 +79,6 @@ public class Board {
 
     private void endTurn() {
         turn = turn.change();
-    }
-
-    private boolean isNotFriendlyPiece(Position position) {
-        return !board[position.col()][position.row()].isFriendly(turn);
     }
 
     private void validateRange(Position position) {
@@ -104,15 +91,13 @@ public class Board {
         }
     }
 
-    private void validateStartPosition(Position start) {
-        if (isNotFriendlyPiece(start)) {
-            throw new IllegalArgumentException("아군 기물만 이동 가능합니다.");
-        }
+    private boolean isNotFriendlyPiece(Position position) {
+        return !board[position.col()][position.row()].isFriendly(turn);
     }
 
-    private void validateDestination(Position destination) {
-        if (!isNotFriendlyPiece(destination)) {
-            throw new IllegalArgumentException("아군 기물이 있는 위치는 이동할 수 없습니다.");
+    private void validateCurrentTurnPiece(Position start) {
+        if (isNotFriendlyPiece(start)) {
+            throw new IllegalArgumentException("아군 기물만 이동 가능합니다.");
         }
     }
 

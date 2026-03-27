@@ -25,31 +25,41 @@ public class JanggiController {
 
         while (true) {
             outputView.printBoard(board.getBoard());
-            // startPosition 입력 + 도메인 검증까지 묶어서 retry
-            Position startPosition = RetryInput.read(() -> {
-                Position position = inputView.requestStartPiecePosition(board.getTurn());
-                board.getPieceBy(position); // 도메인 검증 포함
-                return position;
-            });
+            Position startPosition = RetryInput.read(() -> getStartPosition(board));
 
             List<Position> possibleMoves = board.getPieceBy(startPosition).getPossibleMoves(board, startPosition);
-            int possibleMovesCount = possibleMoves.size();
-            if (possibleMovesCount == 0) {
-                outputView.printCanNotMovablePieceError();
+            if (isPossibleMovePiece(possibleMoves)) {
                 continue;
             }
             outputView.printAvailablePositions(possibleMoves);
 
-            // destination도 별도로 retry
-            Position destination = RetryInput.read(() -> {
-                int index = inputView.requestPieceDestination();
-                if (index > possibleMovesCount) {
-                    throw new IllegalArgumentException("번호 중에 선택하세요.");
-                }
-                return possibleMoves.get(index - 1);
-            });
+            Position destination = RetryInput.read(() -> getDestination(possibleMoves));
 
             board.move(startPosition, destination);
         }
+    }
+
+    private Position getStartPosition(Board board) {
+        Position position = inputView.requestStartPiecePosition(board.getTurn());
+        board.validateStartPosition(position);
+        return position;
+    }
+
+    private boolean isPossibleMovePiece(List<Position> possibleMoves) {
+        int possibleMovesCount = possibleMoves.size();
+        if (possibleMovesCount == 0) {
+            outputView.printCanNotMovablePieceError();
+            return false;
+        }
+        return true;
+    }
+
+    private Position getDestination(List<Position> possibleMoves) {
+        int possibleMovesCount = possibleMoves.size();
+        int index = inputView.requestPieceDestination();
+        if (index > possibleMovesCount) {
+            throw new IllegalArgumentException("번호 중에 선택하세요.");
+        }
+        return possibleMoves.get(index - 1);
     }
 }
