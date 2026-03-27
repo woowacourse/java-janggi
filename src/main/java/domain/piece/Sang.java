@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Sang extends Piece {
 
-    private static final List<List<Direction>> paths = List.of(
+    private static final List<List<Direction>> PATHS = List.of(
             List.of(NORTH, NORTH_EAST, NORTH_EAST),
             List.of(NORTH, NORTH_WEST, NORTH_WEST),
             List.of(SOUTH, SOUTH_EAST, SOUTH_EAST),
@@ -30,8 +30,8 @@ public class Sang extends Piece {
             List.of(WEST, SOUTH_WEST, SOUTH_WEST)
     );
 
-    private static final MovementStrategy movementStrategy = new BlockedMovementStrategy();
-    private static final PathGenerator pathGenerator = new NonStraightPathGenerator(paths);
+    private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
+    private static final PathGenerator PATH_GENERATOR = new NonStraightPathGenerator(PATHS);
 
     public Sang(Team team) {
         super(team, PieceType.SANG);
@@ -39,12 +39,12 @@ public class Sang extends Piece {
 
     @Override
     protected MovementStrategy getMovementStrategy() {
-        return movementStrategy;
+        return MOVEMENT_STRATEGY;
     }
 
     @Override
     protected PathGenerator getPathGenerator() {
-        return pathGenerator;
+        return PATH_GENERATOR;
     }
 
 }

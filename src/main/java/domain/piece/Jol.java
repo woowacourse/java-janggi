@@ -15,19 +15,19 @@ import java.util.List;
 
 public class Jol extends Piece {
 
-    private static final List<List<Direction>> choPaths = List.of(
+    private static final List<List<Direction>> CHO_PATHS = List.of(
             List.of(NORTH),
             List.of(EAST),
             List.of(WEST));
 
-    private static final List<List<Direction>> hanPaths = List.of(
+    private static final List<List<Direction>> HAN_PATHS = List.of(
             List.of(SOUTH),
             List.of(EAST),
             List.of(WEST));
 
     private static final MovementStrategy STRATEGY = new BlockedMovementStrategy();
-    private static final PathGenerator CHO_GENERATOR = new NonStraightPathGenerator(choPaths);
-    private static final PathGenerator HAN_GENERATOR = new NonStraightPathGenerator(hanPaths);
+    private static final PathGenerator CHO_GENERATOR = new NonStraightPathGenerator(CHO_PATHS);
+    private static final PathGenerator HAN_GENERATOR = new NonStraightPathGenerator(HAN_PATHS);
 
     public Jol(Team team) {
         super(team, PieceType.JOL);
