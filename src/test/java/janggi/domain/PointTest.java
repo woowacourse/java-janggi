@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,5 +21,18 @@ public class PointTest {
         // then
         assertThat(point.getX()).isEqualTo(column);
         assertThat(point.getY()).isEqualTo(row);
+    }
+
+    @Test
+    @DisplayName("보드의 범위가 벗어난 곳에서 Point 생성시 예외 발생")
+    void validate_of() {
+        // given
+        int column = 10;
+        int row = 10;
+
+        // when & then
+        assertThatThrownBy(() -> Point.of(column, row))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("올바르지 않은 위치 범위입니다.");
     }
 }
