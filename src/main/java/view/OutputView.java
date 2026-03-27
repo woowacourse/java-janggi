@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 public class OutputView {
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final List<String> POSITION_NUMBERS = List.of("０", "１", "２", "３", "４", "５", "６", "７", "８", "９");
 
     public void printTurn(String countryName) {
-        System.out.printf("%s의 차례입니다.", countryName);
+        System.out.printf(LINE_SEPARATOR + "%s의 차례입니다." + LINE_SEPARATOR, countryName);
     }
 
     public void printBoard(Map<Position, PieceInfo> pieceInfos) {
         System.out.println();
 
-        List<String> yPositionNumbers = POSITION_NUMBERS.reversed();
         for (int y = Y_MAXIMUM_POSITION; y >= INITIAL_POSITION; y--) {
-            System.out.print(yPositionNumbers.get(y));
+            System.out.print(POSITION_NUMBERS.get(y));
 
             for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
                 PieceInfo pieceInfo = pieceInfos.get(new Position(x, y));
