@@ -16,8 +16,8 @@ public class Jang extends BasePiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = Point.getPathX(from, to);
-        int pathY = Point.getPathY(from, to);
+        int pathX = to.getPathX(from);
+        int pathY = to.getPathY(from);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 

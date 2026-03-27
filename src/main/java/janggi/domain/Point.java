@@ -46,12 +46,12 @@ public class Point {
         return y;
     }
 
-    public static int getPathX(Point from, Point to) {
-        return to.getX() - from.getX();
+    public int getPathX(Point from) {
+        return this.x - from.x;
     }
 
-    public static int getPathY(Point from, Point to) {
-        return to.getY() - from.getY();
+    public int getPathY(Point from) {
+        return this.y - from.y;
     }
 
     private static void addX(List<Point> row, int y) {

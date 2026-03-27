@@ -16,8 +16,8 @@ public class Pho extends BasePiece {
     @Override
     public List<Point> getRoute(Point from, Point to) {
         List<Point> route = new ArrayList<>();
-        int pathX = Point.getPathX(from, to);
-        int pathY = Point.getPathY(from, to);
+        int pathX = to.getPathX(from);
+        int pathY = to.getPathY(from);
         int signX = Integer.compare(pathX, 0);
         int signY = Integer.compare(pathY, 0);
         int distance = Math.max(abs(pathX), abs(pathY));
