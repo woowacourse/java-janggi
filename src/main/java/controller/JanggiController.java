@@ -64,7 +64,7 @@ public class JanggiController {
             Position to = makeToPosition();
 
             board.move(from, to);
-            turnIndex = turnIndex + 1 % 2;
+            turnIndex = (turnIndex + 1) % 2;
         }
     }
 }
