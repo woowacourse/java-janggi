@@ -21,9 +21,9 @@ class JangTest {
         Path path = jang.calculatePath(src, dest);
 
         assertNotNull(path);
-        assertEquals(src, path.getSrc());
-        assertEquals(dest, path.getDest());
-        assertTrue(path.getWaypoints().isEmpty());
+        assertEquals(src, path.src());
+        assertEquals(dest, path.dest());
+        assertTrue(path.waypoints().isEmpty());
     }
 
     private static Stream<Arguments> provideJangPaths() {

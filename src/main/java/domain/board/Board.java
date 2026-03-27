@@ -63,7 +63,7 @@ public class Board {
     }
 
     private PathPieces findPieceInPath(Path path) {
-        List<Position> wayPoints = path.getWaypoints();
+        List<Position> wayPoints = path.waypoints();
         List<Piece> pieces = new ArrayList<>();
 
         for (Position point : wayPoints) {
@@ -71,7 +71,7 @@ public class Board {
             addPieceInPath(pointPiece, pieces);
         }
 
-        return new PathPieces(findPiece(path.getSrc()), pieces, findPiece(path.getDest()));
+        return new PathPieces(findPiece(path.src()), pieces, findPiece(path.dest()));
     }
 
     private void addPieceInPath(Piece piece , List<Piece> pieces) {

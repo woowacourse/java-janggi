@@ -38,13 +38,13 @@ class ListPathGeneratorTest {
 
         Path path = listPathGenerator.calculatePath(new Position(1, 1), new Position(3, 4));
 
-        assertEquals(createPosition(1, 1), path.getSrc());
-        List<Position> waypoints = path.getWaypoints();
+        assertEquals(createPosition(1, 1), path.src());
+        List<Position> waypoints = path.waypoints();
         assertEquals(2, waypoints.size());
         assertEquals(createPosition(1, 2), waypoints.getFirst());
         assertEquals(createPosition(2, 3), waypoints.getLast());
 
-        assertEquals(createPosition(3, 4), path.getDest());
+        assertEquals(createPosition(3, 4), path.dest());
     }
 
 

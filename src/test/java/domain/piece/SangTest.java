@@ -22,9 +22,9 @@ class SangTest {
         Path path = sang.calculatePath(src, dest);
 
         assertNotNull(path);
-        assertEquals(src, path.getSrc());
-        assertEquals(dest, path.getDest());
-        assertFalse(path.getWaypoints().isEmpty());
+        assertEquals(src, path.src());
+        assertEquals(dest, path.dest());
+        assertFalse(path.waypoints().isEmpty());
     }
 
     private static Stream<Arguments> provideSangPaths() {
