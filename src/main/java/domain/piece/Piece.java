@@ -34,16 +34,6 @@ public abstract class Piece {
         return pieceType.getSymbol();
     }
 
-    public String getTeamString() {
-        if (team == Team.CHO) {
-            return "C";
-        }
-        if (team == Team.HAN) {
-            return "H";
-        }
-        return "";
-    }
-
     public boolean isDifferentTeam(Team team) {
         return this.team != team;
     }
@@ -78,7 +68,7 @@ public abstract class Piece {
         return Objects.hash(team, pieceType);
     }
 
-    protected Team getTeam() {
+    public Team getTeam() {
         return team;
     }
 }

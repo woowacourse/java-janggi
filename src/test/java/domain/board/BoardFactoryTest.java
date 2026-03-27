@@ -2,6 +2,8 @@ package domain.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import domain.piece.Piece;
+import domain.player.Team;
 import domain.position.Position;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,32 +20,33 @@ class BoardFactoryTest {
             Formation.from(hanNum)
         );
 
-        assertEquals(hanExpected[0], getPieceString(board, 0, 1));
-        assertEquals(hanExpected[1], getPieceString(board, 0, 2));
-        assertEquals(hanExpected[2], getPieceString(board, 0, 6));
-        assertEquals(hanExpected[3], getPieceString(board, 0, 7));
+        assertPiece(board, 0, 1, Team.HAN, hanExpected[0]);
+        assertPiece(board, 0, 2, Team.HAN, hanExpected[1]);
+        assertPiece(board, 0, 6, Team.HAN, hanExpected[2]);
+        assertPiece(board, 0, 7, Team.HAN, hanExpected[3]);
 
-        assertEquals(choExpected[0], getPieceString(board, 9, 1));
-        assertEquals(choExpected[1], getPieceString(board, 9, 2));
-        assertEquals(choExpected[2], getPieceString(board, 9, 6));
-        assertEquals(choExpected[3], getPieceString(board, 9, 7));
+        assertPiece(board, 9, 1, Team.CHO, choExpected[0]);
+        assertPiece(board, 9, 2, Team.CHO, choExpected[1]);
+        assertPiece(board, 9, 6, Team.CHO, choExpected[2]);
+        assertPiece(board, 9, 7, Team.CHO, choExpected[3]);
     }
 
-    private String getPieceString(Board board, int row, int col) {
-        var piece = board.findPiece(new Position(row, col));
-        return piece.getTeamString() + piece.getPieceString();
+    private void assertPiece(Board board, int row, int column, Team expectedTeam, String expectedPieceString) {
+        Piece piece = board.findPiece(new Position(row, column));
+        assertEquals(expectedTeam, piece.getTeam());
+        assertEquals(expectedPieceString, piece.getPieceString());
     }
 
     static Stream<Arguments> provideFormations() {
-        String[] f1 = {"HSD", "HMA", "HSD", "HMA"};
-        String[] f2 = {"HMA", "HSD", "HMA", "HSD"};
-        String[] f3 = {"HMA", "HSD", "HSD", "HMA"};
-        String[] f4 = {"HSD", "HMA", "HMA", "HSD"};
+        String[] f1 = {"SD", "MA", "SD", "MA"};
+        String[] f2 = {"MA", "SD", "MA", "SD"};
+        String[] f3 = {"MA", "SD", "SD", "MA"};
+        String[] f4 = {"SD", "MA", "MA", "SD"};
 
-        String[] c1 = {"CSD", "CMA", "CSD", "CMA"};
-        String[] c2 = {"CMA", "CSD", "CMA", "CSD"};
-        String[] c3 = {"CMA", "CSD", "CSD", "CMA"};
-        String[] c4 = {"CSD", "CMA", "CMA", "CSD"};
+        String[] c1 = {"SD", "MA", "SD", "MA"};
+        String[] c2 = {"MA", "SD", "MA", "SD"};
+        String[] c3 = {"MA", "SD", "SD", "MA"};
+        String[] c4 = {"SD", "MA", "MA", "SD"};
 
         return Stream.of(
                 Arguments.of(1, 1, c1, f1),

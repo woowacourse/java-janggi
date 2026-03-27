@@ -7,12 +7,10 @@ import static common.Constants.MIN_ROW;
 
 import domain.board.Board;
 import domain.piece.Piece;
+import domain.player.Team;
 import domain.position.Position;
 
 public class OutputView {
-    private static final int WIDTH = 9;
-    private static final int HEIGHT = 10;
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
@@ -38,9 +36,9 @@ public class OutputView {
     private void printColumnHeader() {
         StringBuilder sb = new StringBuilder();
         sb.append("       ");
-        for (int x = 0; x < WIDTH; x++) {
-            sb.append(x);
-            if (x != WIDTH - 1) {
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+            sb.append(column);
+            if (column != MAX_COLUMN) {
                 sb.append(" ---- ");
             }
         }
@@ -63,9 +61,9 @@ public class OutputView {
     private void printVerticalRow() {
         StringBuilder sb = new StringBuilder();
         sb.append("       ");
-        for (int x = 0; x < WIDTH; x++) {
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             sb.append("|");
-            if (x != WIDTH - 1) {
+            if (column != MAX_COLUMN) {
                 sb.append("      ");
             }
         }
@@ -73,18 +71,16 @@ public class OutputView {
     }
 
     private String formatCell(Piece piece) {
-        String teamString = piece.getTeamString();
         String pieceString = piece.getPieceString();
+        Team team = piece.getTeam();
 
-        if (teamString.isBlank()) {
+        if (team.isNull()) {
             return String.format("[%2s]", pieceString);
         }
-
-        char teamCode = teamString.charAt(0);
-        if (teamCode == 'C') {
+        if (team.isCho()) {
             return String.format("[%s%2s%s]", ANSI_BLUE, pieceString, ANSI_RESET);
         }
-        if (teamCode == 'H') {
+        if (team.isHan()) {
             return String.format("[%s%2s%s]", ANSI_RED, pieceString, ANSI_RESET);
         }
         return String.format("[%2s]", pieceString);

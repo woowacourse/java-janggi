@@ -19,6 +19,10 @@ public enum Team {
         return this == CHO;
     }
 
+    public boolean isNull() {
+        return this == NULL;
+    }
+
     public int getColumn() {
         return column;
     }
