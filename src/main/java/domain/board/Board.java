@@ -115,9 +115,27 @@ public class Board {
             throw new IllegalArgumentException("본인 진영의 말은 포획할 수 없습니다.");
         }
 
-        if (fromPiece.canMove(state, from, to)) {
+        if (fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
             state.put(to, fromPiece);
             state.remove(from);
         }
+    }
+
+    private Position adjustPositionBySide(Side side, Position from) {
+        if (side == Side.HAN) {
+            return Position.rotate180from(from);
+        }
+        return from;
+    }
+
+    private Map<Position, Piece> adjustStateBySide(Side side) {
+        if (side == Side.HAN) {
+            return state.entrySet().stream()
+                    .collect(Collectors.toMap(
+                            entry -> Position.rotate180from(entry.getKey()),
+                            Map.Entry::getValue
+                    ));
+        }
+        return state;
     }
 }
