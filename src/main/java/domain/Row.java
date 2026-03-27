@@ -14,6 +14,14 @@ public class Row {
         }
     }
 
+    public int min(Row other) {
+        return Math.min(other.value, value);
+    }
+
+    public int max(Row other) {
+        return Math.max(other.value, value);
+    }
+
     public int diff(Row other) {
         return this.value - other.value;
     }

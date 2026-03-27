@@ -13,6 +13,11 @@ public class Position {
         this.column = new Column(column);
     }
 
+    public Position(Row row, Column column) {
+        this.row = row;
+        this.column = column;
+    }
+
     public boolean isSameRow(Position other) {
         return other.row.equals(this.row);
     }
@@ -31,16 +36,20 @@ public class Position {
 
     public List<Position> makeColStraightRoute(Position other) {
         List<Position> routes = new ArrayList<>();
-        for (int i = Math.min(this.column, other.column); i <= dest; i++) {
-            routes.add(new Position(i, col));
+        int start = other.column.min(this.column);
+        int dest = other.column.max(this.column);
+        for (int i = start; i <= dest; i++) {
+            routes.add(new Position(other.row, new Column(i)));
         }
         return routes;
     }
 
-    public List<Position> makeRowStraightRoute(int row, int src, int dest) {
+    public List<Position> makeRowStraightRoute(Position other) {
         List<Position> routes = new ArrayList<>();
-        for (int i = src; i <= dest; i++) {
-            routes.add(new Position(row, i));
+        int start = other.row.min(this.row);
+        int dest = other.row.max(this.row);
+        for (int i = start; i <= dest; i++) {
+            routes.add(new Position(new Row(i), other.column));
         }
         return routes;
     }

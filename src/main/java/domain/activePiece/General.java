@@ -25,4 +25,9 @@ public class General extends ActivePiece {
         }
         return false;
     }
+
+    @Override
+    public List<Position> searchRoute(Position source, Position target) {
+        return List.of(source, target);
+    }
 }

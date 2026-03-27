@@ -14,6 +14,14 @@ public class Column {
         }
     }
 
+    public int min(Column other) {
+        return Math.min(other.value, value);
+    }
+
+    public int max(Column other) {
+        return Math.max(other.value, value);
+    }
+
     public int diff(Column other) {
         return this.value - other.value;
     }

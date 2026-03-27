@@ -3,7 +3,6 @@ package domain.activePiece;
 import domain.Position;
 import domain.piece.PieceType;
 import domain.piece.Team;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Cannon extends ActivePiece {
@@ -19,8 +18,10 @@ public class Cannon extends ActivePiece {
 
     @Override
     public List<Position> searchRoute(Position source, Position target) {
-        List<Position> route = new ArrayList<>();
         if (source.isSameCol(target)) {
-            return Posi
+            return source.makeRowStraightRoute(target);
+        }
+
+        return source.makeColStraightRoute(target);
     }
 }
