@@ -53,10 +53,6 @@ public class Cannon extends Piece {
         return board.isExistSameType(to, this);
     }
 
-    /**
-     * 1. 도착 지점이 같은 열이 아닌 경우 이동 불가 2. 도착지에 같은 팀이 존재하는 경우 이동 불가 3. 도착지랑 출발지 사이에 오직 하나의 말이 존재하지 않는 경우 이동 불가 4. 도착지와 출발지
-     * 사이의 말 하나가 포인 경우 이동 불가 5. 도착지에 상대팀 말이 존재하면서, 해당 말이 포인 경우 이동 불가 6. 이외는 이동 가능
-     */
     private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
         return from.isSameColumn(to) || from.isSameRow(to);
     }

@@ -12,7 +12,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import strategy.InitializeStrategy;
 
-public class RookTest {
+class RookTest {
     private final InitializeStrategy strategy = new NoInitializeStrategy();
 
     /**
