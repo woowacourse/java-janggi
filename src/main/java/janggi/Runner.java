@@ -30,7 +30,7 @@ public class Runner {
     }
 
     private void play(Players players) {
-        while (true) {
+        while (board.isBothPalaceExist()) {
             PlayerDTO currentPlayer = players.getCurrentPlayer();
             printPlayerTurnNotice(currentPlayer);
             playerTurn(players);

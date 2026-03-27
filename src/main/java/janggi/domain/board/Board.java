@@ -86,4 +86,11 @@ public class Board {
         Side playerSide = currentPlayer.side();
         return pieceSide.isSameSide(playerSide);
     }
+
+    public boolean isBothPalaceExist() {
+        long palaceCount = piecePosition.values().stream()
+                .filter(Piece::isPalace)
+                .count();
+        return palaceCount == 2;
+    }
 }

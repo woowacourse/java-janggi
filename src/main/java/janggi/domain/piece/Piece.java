@@ -26,4 +26,8 @@ public record Piece(Side side, PieceType type, String pieceNumber) {
     public boolean isCannon() {
         return this.type == PieceType.CANNON;
     }
+
+    public boolean isPalace() {
+        return this.type == PieceType.PALACE;
+    }
 }
