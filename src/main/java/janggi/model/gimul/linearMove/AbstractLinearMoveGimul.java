@@ -6,9 +6,9 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import java.util.List;
 
-public abstract class AbstractLinearMoveAbstractGimul extends AbstractGimul {
+public abstract class AbstractLinearMoveGimul extends AbstractGimul {
 
-    public AbstractLinearMoveAbstractGimul(Team team) {
+    public AbstractLinearMoveGimul(Team team) {
         super(team);
     }
 
