@@ -9,6 +9,10 @@ public class OutputView {
     private static final String ANSI_CLS = "\u001b[2J";
     private static final String ANSI_HOME = "\u001b[H";
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+
     public void printBoard(List<List<String>> board) {
         validateBoard(board);
         System.out.println();
@@ -74,7 +78,16 @@ public class OutputView {
         if (piece == null || piece.isBlank()) {
             return "[  ]";
         }
-        return String.format("[%2s]", piece);
+        char teamCode = piece.charAt(0);
+        String pieceString = piece.substring(1);
+        if (teamCode == 'C') {
+            return String.format("[%s%2s%s]", ANSI_BLUE, pieceString, ANSI_RESET);
+        }
+        if (teamCode == 'H') {
+            return String.format("[%s%2s%s]", ANSI_RED, pieceString, ANSI_RESET);
+        }
+        return String.format("[%2s]", pieceString);
+
     }
 
     private void validateBoard(List<List<String>> board) {

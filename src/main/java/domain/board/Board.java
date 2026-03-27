@@ -42,7 +42,10 @@ public class Board {
         for (int y = 0; y < 10; y++) {
             List<String> lineOfStringBoard = new ArrayList<>();
             for (int x = 0; x < 9; x++) {
-                lineOfStringBoard.add(board.get(new Position(x, y)).getPieceString());
+                Piece piece = board.get(new Position(x, y));
+                String pieceString = piece.getPieceString();
+                String teamString = piece.getTeamString();
+                lineOfStringBoard.add(teamString + pieceString);
             }
             stringBoard.add(lineOfStringBoard);
         }

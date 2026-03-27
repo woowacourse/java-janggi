@@ -21,7 +21,7 @@ public class Piece {
         this.movementStrategy = movementStrategy;
         this.pathGenerator = pathGenerator;
     }
-    
+
     public Path calculatePath(Position src, Position dest) {
         return pathGenerator.calculatePath(src, dest);
     }
@@ -32,6 +32,16 @@ public class Piece {
 
     public String getPieceString() {
         return pieceType.getSymbol();
+    }
+
+    public String getTeamString() {
+        if (team == Team.CHO) {
+            return "C";
+        }
+        if (team == Team.HAN) {
+            return "H";
+        }
+        return "";
     }
 
     public boolean isSameTeam(Team team) {
