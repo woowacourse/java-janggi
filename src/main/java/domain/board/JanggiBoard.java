@@ -1,9 +1,15 @@
 package domain.board;
 
 import domain.intersection.Intersection;
-import domain.piece.move.*;
+import domain.piece.move.CannonMoveRule;
+import domain.piece.move.ChariotMoveRule;
+import domain.piece.move.ElephantMoveRule;
+import domain.piece.move.GeneralMoveRule;
+import domain.piece.move.GuardMoveRule;
+import domain.piece.move.HorseMoveRule;
+import domain.piece.move.MoveRule;
+import domain.piece.move.SoliderMoveRule;
 import domain.point.Point;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,6 +30,15 @@ public class JanggiBoard {
         for (Intersection intersection : intersectionGenerator.makeIntersection()) {
             intersections.put(intersection.getPoint(), intersection);
         }
+    }
+
+    private static Stream<Point> getAllPoints() {
+        return range(MAX_ROW).boxed()
+                .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
+    }
+
+    private static IntStream range(int maxRange) {
+        return IntStream.range(0, maxRange);
     }
 
     public void tryToMove(Point start, Point end) {
@@ -57,16 +72,6 @@ public class JanggiBoard {
         return possiblePoints.stream()
                 .map(this::findIntersection)
                 .toList();
-    }
-
-
-    private static Stream<Point> getAllPoints() {
-        return range(MAX_ROW).boxed()
-                .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
-    }
-
-    private static IntStream range(int maxRange) {
-        return IntStream.range(0, maxRange);
     }
 
     public Intersection findIntersection(Point point) {

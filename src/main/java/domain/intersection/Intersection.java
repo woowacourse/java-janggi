@@ -4,7 +4,6 @@ import domain.piece.NonePiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.point.Point;
-
 import java.util.Objects;
 
 public class Intersection {
@@ -55,7 +54,9 @@ public class Intersection {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Intersection that = (Intersection) o;
         return Objects.equals(point, that.point) && Objects.equals(piece, that.piece);
     }

@@ -1,7 +1,6 @@
 package domain.piece.move;
 
 import domain.point.Point;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,9 +16,9 @@ public class Directions {
         return Collections.unmodifiableList(directions);
     }
 
-    public List<Point> findPoints(Point from, Point to){
-        for(Direction direction : directions){
-            if(direction.canReach(from, to)){
+    public List<Point> findPoints(Point from, Point to) {
+        for (Direction direction : directions) {
+            if (direction.canReach(from, to)) {
                 return direction.getPoints(from);
             }
         }

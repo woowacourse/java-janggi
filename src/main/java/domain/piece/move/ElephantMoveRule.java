@@ -20,9 +20,23 @@ public class ElephantMoveRule extends MoveRule {
         super(PieceType.ELEPHANT, initializeDirections());
     }
 
+    public static Directions initializeDirections() {
+        return new Directions(List.of(
+                new Direction(List.of(UP, LEFT_UP, LEFT_UP)),
+                new Direction(List.of(UP, RIGHT_UP, RIGHT_UP)),
+                new Direction(List.of(DOWN, LEFT_DOWN, LEFT_DOWN)),
+                new Direction(List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN)),
+                new Direction(List.of(LEFT, LEFT_UP, LEFT_UP)),
+                new Direction(List.of(LEFT, LEFT_DOWN, LEFT_DOWN)),
+                new Direction(List.of(RIGHT, RIGHT_UP, RIGHT_UP)),
+                new Direction(List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN))
+        ));
+    }
+
     public boolean support(Intersection from) {
         return from.isSamePiece(pieceType);
     }
+
     public List<Point> findPossiblePoints(Intersection from, Intersection to) {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
@@ -50,19 +64,6 @@ public class ElephantMoveRule extends MoveRule {
         if (hasObstacle) {
             throw new IllegalArgumentException("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
         }
-    }
-
-    public static Directions initializeDirections() {
-        return new Directions(List.of(
-                new Direction(List.of(UP, LEFT_UP, LEFT_UP)),
-                new Direction(List.of(UP, RIGHT_UP, RIGHT_UP)),
-                new Direction(List.of(DOWN, LEFT_DOWN, LEFT_DOWN)),
-                new Direction(List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN)),
-                new Direction(List.of(LEFT, LEFT_UP, LEFT_UP)),
-                new Direction(List.of(LEFT, LEFT_DOWN, LEFT_DOWN)),
-                new Direction(List.of(RIGHT, RIGHT_UP, RIGHT_UP)),
-                new Direction(List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN))
-        ));
     }
 
 }

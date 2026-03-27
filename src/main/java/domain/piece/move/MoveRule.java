@@ -3,14 +3,13 @@ package domain.piece.move;
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
 import domain.point.Point;
-
 import java.util.List;
 
 public abstract class MoveRule {
 
     /**
      * 어떤 피스의 이동 전략인지.
-     * */
+     */
 
     protected final PieceType pieceType;
     protected final Directions directions;

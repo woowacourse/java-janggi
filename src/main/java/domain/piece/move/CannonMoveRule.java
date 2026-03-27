@@ -1,68 +1,24 @@
 package domain.piece.move;
 
+import static domain.piece.move.Vector.DOWN;
+import static domain.piece.move.Vector.LEFT;
+import static domain.piece.move.Vector.RIGHT;
+import static domain.piece.move.Vector.UP;
+
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
 import domain.point.Point;
-
 import java.util.List;
 
-import static domain.piece.move.Vector.*;
-import static domain.piece.move.Vector.LEFT;
-import static domain.piece.move.Vector.RIGHT;
-
-public class CannonMoveRule extends MoveRule{
+public class CannonMoveRule extends MoveRule {
 
     public CannonMoveRule() {
         super(PieceType.CANNON, initializeDirections());
     }
 
-    public boolean support(Intersection from) {
-        return from.isSamePiece(pieceType);
-    }
-
-    public List<Point> findPossiblePoints(Intersection from, Intersection to) {
-        return directions.findPoints(from.getPoint(), to.getPoint());
-    }
-
-    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
-        Intersection to = path.getLast();
-        validateIsSameTeam(from, to); // 도착지가 같은 팀인지 확인
-        validateObstacleCondition(from, path); // 장애물 검사
-        validateDestinationIsNotCannon(from, to); // 도착지가 포인지 확인한다.
-        return true;
-    }
-
-    // 같은 팀 인지 확인
-    private void validateIsSameTeam(Intersection from, Intersection to) {
-        if (from.isSameTeam(to)) {
-            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    private void validateObstacleCondition(Intersection from, List<Intersection> path) {
-        List<Intersection> obstacles = path.subList(0, path.size() - 1).stream()
-                .filter(Intersection::hasPiece)
-                .toList();
-
-        validateObstacleIsOnly(obstacles);
-        validateObstacleIsNotCannon(from, obstacles);
-    }
-
-    private void validateObstacleIsOnly(List<Intersection> list) {
-        if (list.size() != 1) {
-            throw new IllegalArgumentException("포는 반드시 기물 하나를 넘어야 합니다.");
-        }
-    }
-
     private static void validateObstacleIsNotCannon(Intersection from, List<Intersection> list) {
         if (list.getFirst().isSamePiece(from)) {
             throw new IllegalArgumentException("포는 포를 넘어갈 수 없습니다.");
-        }
-    }
-
-    private void validateDestinationIsNotCannon(Intersection from, Intersection to) {
-        if (from.isSamePiece(to)) {
-            throw new IllegalArgumentException("포는 포를 공격할 수 없습니다.");
         }
     }
 
@@ -106,6 +62,50 @@ public class CannonMoveRule extends MoveRule{
                 new Direction(List.of(LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT)),
                 new Direction(List.of(LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT))
         ));
+    }
+
+    public boolean support(Intersection from) {
+        return from.isSamePiece(pieceType);
+    }
+
+    public List<Point> findPossiblePoints(Intersection from, Intersection to) {
+        return directions.findPoints(from.getPoint(), to.getPoint());
+    }
+
+    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
+        Intersection to = path.getLast();
+        validateIsSameTeam(from, to); // 도착지가 같은 팀인지 확인
+        validateObstacleCondition(from, path); // 장애물 검사
+        validateDestinationIsNotCannon(from, to); // 도착지가 포인지 확인한다.
+        return true;
+    }
+
+    // 같은 팀 인지 확인
+    private void validateIsSameTeam(Intersection from, Intersection to) {
+        if (from.isSameTeam(to)) {
+            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    private void validateObstacleCondition(Intersection from, List<Intersection> path) {
+        List<Intersection> obstacles = path.subList(0, path.size() - 1).stream()
+                .filter(Intersection::hasPiece)
+                .toList();
+
+        validateObstacleIsOnly(obstacles);
+        validateObstacleIsNotCannon(from, obstacles);
+    }
+
+    private void validateObstacleIsOnly(List<Intersection> list) {
+        if (list.size() != 1) {
+            throw new IllegalArgumentException("포는 반드시 기물 하나를 넘어야 합니다.");
+        }
+    }
+
+    private void validateDestinationIsNotCannon(Intersection from, Intersection to) {
+        if (from.isSamePiece(to)) {
+            throw new IllegalArgumentException("포는 포를 공격할 수 없습니다.");
+        }
     }
 
 }

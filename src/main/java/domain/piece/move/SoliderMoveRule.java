@@ -1,20 +1,27 @@
 package domain.piece.move;
 
-import domain.intersection.Intersection;
-import domain.piece.PieceType;
-import domain.piece.Team;
-import domain.point.Point;
-
-import java.util.List;
-
-import static domain.piece.move.Vector.*;
+import static domain.piece.move.Vector.DOWN;
 import static domain.piece.move.Vector.LEFT;
 import static domain.piece.move.Vector.RIGHT;
+import static domain.piece.move.Vector.UP;
+
+import domain.intersection.Intersection;
+import domain.piece.PieceType;
+import domain.point.Point;
+import java.util.List;
 
 public class SoliderMoveRule extends MoveRule {
 
     public SoliderMoveRule() {
         super(PieceType.SOLDIER, initializeDirections());
+    }
+
+    public static Directions initializeDirections() {
+        return new Directions(List.of(
+                new Direction(List.of(DOWN)),
+                new Direction(List.of(RIGHT)),
+                new Direction(List.of(LEFT)))
+        );
     }
 
     public boolean support(Intersection from) {
@@ -38,15 +45,7 @@ public class SoliderMoveRule extends MoveRule {
         }
     }
 
-    public static Directions initializeDirections() {
-        return new Directions(List.of(
-                new Direction(List.of(DOWN)),
-                new Direction(List.of(RIGHT)),
-                new Direction(List.of(LEFT)))
-        );
-    }
-
-    public Directions getDirections(Intersection from){
+    public Directions getDirections(Intersection from) {
         if (from.isChoIntersection()) {
             return new Directions(List.of(
                     new Direction(List.of(UP)),

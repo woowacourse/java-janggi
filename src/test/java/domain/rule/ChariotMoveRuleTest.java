@@ -2,10 +2,8 @@ package domain.rule;
 
 import domain.intersection.Intersection;
 import domain.piece.Chariot;
-import domain.piece.Elephant;
 import domain.piece.Team;
 import domain.piece.move.ChariotMoveRule;
-import domain.piece.move.ElephantMoveRule;
 import domain.point.Point;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -92,15 +90,15 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThat(
-                chariotMoveRule.checkMoveRule(from, List.of(intersection1,
-                        intersection2,
-                        intersection3,
-                        intersection4,
-                        intersection5,
-                        intersection6,
-                        intersection7,
-                        intersection8,
-                        to)))
+                        chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+                                intersection2,
+                                intersection3,
+                                intersection4,
+                                intersection5,
+                                intersection6,
+                                intersection7,
+                                intersection8,
+                                to)))
                 .isTrue();
     }
 

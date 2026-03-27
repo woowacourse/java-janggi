@@ -6,11 +6,10 @@ import domain.piece.Chariot;
 import domain.piece.Team;
 import domain.piece.move.CannonMoveRule;
 import domain.point.Point;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 class CannonMoveRuleTest {
 
@@ -145,7 +144,6 @@ class CannonMoveRuleTest {
         Intersection from = new Intersection(start, new Cannon(sameTeam));
         Intersection obstacle = new Intersection(middlePoint6, new Chariot(sameTeam));
         Intersection to = new Intersection(end, new Cannon(anotherTeam));
-
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 

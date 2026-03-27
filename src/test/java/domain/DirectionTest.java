@@ -4,13 +4,10 @@ import domain.piece.move.Direction;
 import domain.piece.move.Directions;
 import domain.piece.move.Vector;
 import domain.point.Point;
-import java.awt.dnd.DragGestureEvent;
-import java.util.ArrayList;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 public class DirectionTest {
 
@@ -28,7 +25,7 @@ public class DirectionTest {
 
     @Test
     @DisplayName("주어진 경로의 좌표들을 최종적으로 반환하는지 확인한다.")
-    void returnAllPointsAlongDestination(){
+    void returnAllPointsAlongDestination() {
         Direction direction1 = new Direction(List.of(Vector.UP, Vector.LEFT_UP));
         Direction direction2 = new Direction(List.of(Vector.DOWN, Vector.RIGHT_DOWN));
         Point from = new Point(0, 0);

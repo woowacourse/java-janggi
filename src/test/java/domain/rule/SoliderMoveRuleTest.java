@@ -6,11 +6,10 @@ import domain.piece.Team;
 import domain.piece.move.SoliderMoveRule;
 import domain.piece.move.Vector;
 import domain.point.Point;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 public class SoliderMoveRuleTest {
 

@@ -1,17 +1,29 @@
 package domain.piece.move;
 
+import static domain.piece.move.Vector.DOWN;
+import static domain.piece.move.Vector.LEFT;
+import static domain.piece.move.Vector.RIGHT;
+import static domain.piece.move.Vector.UP;
+
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
 import domain.point.Point;
-
 import java.util.List;
 
-import static domain.piece.move.Vector.*;
-
-public class GuardMoveRule extends MoveRule{
+public class GuardMoveRule extends MoveRule {
 
     public GuardMoveRule() {
         super(PieceType.GUARD, initializeDirections());
+    }
+
+    // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정
+    public static Directions initializeDirections() {
+        return new Directions(List.of(
+                new Direction(List.of(UP)),
+                new Direction(List.of(DOWN)),
+                new Direction(List.of(RIGHT)),
+                new Direction(List.of(LEFT)))
+        );
     }
 
     public boolean support(Intersection from) {
@@ -32,16 +44,6 @@ public class GuardMoveRule extends MoveRule{
         if (from.isSameTeam(to)) {
             throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
         }
-    }
-
-    // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정
-    public static Directions initializeDirections() {
-        return new Directions(List.of(
-                new Direction(List.of(UP)),
-                new Direction(List.of(DOWN)),
-                new Direction(List.of(RIGHT)),
-                new Direction(List.of(LEFT)))
-        );
     }
 
 }

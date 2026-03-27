@@ -1,9 +1,16 @@
 package domain.board;
 
 import domain.intersection.Intersection;
-import domain.piece.*;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.Soldier;
+import domain.piece.Team;
 import domain.point.Point;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +27,7 @@ public class JanggiGenerator implements IntersectionGenerator {
     private static final List<Integer> DEFAULT_SOLDIER_FILES = List.of(0, 2, 4, 6, 8);
     private static final List<Integer> DEFAULT_CANNON_FILES = List.of(1, 7);
     private static final List<Integer> DEFAULT_GENERAL_FILES = List.of(4);
-    private static final List<Integer> DEFAULT_GUARD_FILES = List.of(3,5);
+    private static final List<Integer> DEFAULT_GUARD_FILES = List.of(3, 5);
     private static final List<Integer> DEFAULT_CHARIOT_FILES = List.of(0, 8);
 
     private final Formation hanFormation;
