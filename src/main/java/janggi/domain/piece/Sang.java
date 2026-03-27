@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Sang implements Piece {
 
-    private static final int DISTANCE_MAX = 3;
-    private static final int DISTANCE_MIN = 2;
+    private static final int LONG_STEP = 3;
+    private static final int SHORT_STEP = 2;
 
     private final Team team;
     private final PieceType type;
@@ -33,19 +33,19 @@ public class Sang implements Piece {
         int signX = Integer.compare(pathX, 0);
         int signY = Integer.compare(pathY, 0);
 
-        if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN) ||
-                (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {
+        if (!((distanceX == LONG_STEP && distanceY == SHORT_STEP) ||
+                (distanceX == SHORT_STEP && distanceY == LONG_STEP))) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
-        if (distanceX == DISTANCE_MAX) {
+        if (distanceX == LONG_STEP) {
             return List.of(
-                    Point.of(from.getX() + (pathX / DISTANCE_MAX), from.getY()),
-                    Point.of(from.getX() + signX * DISTANCE_MIN,  from.getY() + signY)
+                    Point.of(from.getX() + (pathX / LONG_STEP), from.getY()),
+                    Point.of(from.getX() + signX * SHORT_STEP,  from.getY() + signY)
             );
         }
         return List.of(
-                Point.of(from.getX(), from.getY() + (pathY / DISTANCE_MAX)),
-                Point.of(from.getX() + signX,  from.getY() + signY * DISTANCE_MIN)
+                Point.of(from.getX(), from.getY() + (pathY / LONG_STEP)),
+                Point.of(from.getX() + signX,  from.getY() + signY * SHORT_STEP)
         );
     }
 
