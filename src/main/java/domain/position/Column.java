@@ -33,4 +33,18 @@ public class Column {
     public int getValue() {
         return value;
     }
+
+    public Column getUpper(Column target) {
+        if (value > target.value) {
+            return this;
+        }
+        return target;
+    }
+
+    public Column getLowerValue(Column target) {
+        if (value < target.value) {
+            return this;
+        }
+        return target;
+    }
 }

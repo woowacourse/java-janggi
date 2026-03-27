@@ -33,4 +33,18 @@ public class Row {
     public int getValue() {
         return value;
     }
+
+    public Row getUpper(Row row) {
+        if (value > row.value) {
+            return this;
+        }
+        return row;
+    }
+
+    public Row getLowerValue(Row row) {
+        if (value < row.value) {
+            return this;
+        }
+        return row;
+    }
 }
