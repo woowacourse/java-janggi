@@ -51,7 +51,7 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("[ERROR] 기물이 가지 못하는 자리입니다.");
         }
 
-        change(from, to);
+        movePiece(from, to);
     }
 
     private void validateNotSamePosition(Position from, Position to) {
@@ -70,7 +70,7 @@ public class Board implements BoardView {
         }
     }
 
-    private void change(Position from, Position to) {
+    private void movePiece(Position from, Position to) {
         Place piece = board.get(from);
         board.put(from, new Empty());
         board.put(to, piece);
