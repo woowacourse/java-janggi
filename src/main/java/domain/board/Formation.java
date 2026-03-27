@@ -15,7 +15,7 @@ public enum Formation {
     private final List<PieceType> formation;
     private final int inputNumber;
 
-    private Formation(List<PieceType> formation, int inputNumber) {
+    Formation(List<PieceType> formation, int inputNumber) {
         this.formation = formation;
         this.inputNumber = inputNumber;
     }
