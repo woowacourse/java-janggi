@@ -3,6 +3,8 @@ package janggi.domain.board;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +13,7 @@ public class Board {
     private final Map<Position, Piece> board;
 
     public Board(BoardDesignPolicy boardDesignPolicy) {
-        this.board = boardDesignPolicy.initBoard();
+        this.board = new HashMap<>(boardDesignPolicy.initBoard());
     }
 
     public Map<Position, Piece> board() {
