@@ -40,13 +40,7 @@ public class Board {
     public BoardDTO createDTO() {
         List<List<String>> stringBoard = new ArrayList<>();
         for (int y = 0; y < 10; y++) {
-            List<String> lineOfStringBoard = new ArrayList<>();
-            for (int x = 0; x < 9; x++) {
-                Piece piece = board.get(new Position(x, y));
-                String pieceString = piece.getPieceString();
-                String teamString = piece.getTeamString();
-                lineOfStringBoard.add(teamString + pieceString);
-            }
+            List<String> lineOfStringBoard = makeLineOfStringBoard(y);
             stringBoard.add(lineOfStringBoard);
         }
 
@@ -57,18 +51,33 @@ public class Board {
         return findPiece(src).isSameTeam(team);
     }
 
+    private List<String> makeLineOfStringBoard(int y) {
+        List<String> lineOfStringBoard = new ArrayList<>();
+        for (int x = 0; x < 9; x++) {
+            Piece piece = board.get(new Position(x, y));
+            String pieceString = piece.getPieceString();
+            String teamString = piece.getTeamString();
+            lineOfStringBoard.add(teamString + pieceString);
+        }
+        return lineOfStringBoard;
+    }
+
     private PathPieces findPieceInPath(Path path) {
         List<Position> wayPoints = path.getWaypoints();
         List<Piece> pieces = new ArrayList<>();
 
         for (Position point : wayPoints) {
             Piece pointPiece = findPiece(point);
-            if (!(pointPiece instanceof None)) {
-                pieces.add(pointPiece);
-            }
+            addPieceInPath(pointPiece, pieces);
         }
 
         return new PathPieces(findPiece(path.getSrc()), pieces, findPiece(path.getDest()));
+    }
+
+    private void addPieceInPath(Piece piece , List<Piece> pieces) {
+        if (!piece.isNone()) {
+            pieces.add(piece);
+        }
     }
 
     private Piece findPiece(Position position) {
