@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Direction;
 import domain.board.Board;
 import domain.Position;
 import domain.Side;
@@ -16,37 +17,32 @@ public class Cannon extends Piece {
     @Override
     public List<Position> getPossibleMoves(Board board, Position start) {
         List<Position> possiblePositions = new ArrayList<>();
-        int[] dx = {0, -1, 1, 0};
-        int[] dy = {-1, 0, 0, 1};
 
-        for (int i = 0; i < 4; i++) {
-            int nRow = start.row();
-            int nCol = start.col();
+        List<Direction> directions = List.of(
+                Direction.UP,
+                Direction.DOWN,
+                Direction.LEFT,
+                Direction.RIGHT
+        );
 
+        for (Direction direction : directions) {
+            Position current = start;
             while (true) {
-                nRow += dx[i];
-                nCol += dy[i];
-                Position destination = new Position(nCol, nRow);
-                if (board.isInvalidRange(destination)) {
+                current = current.nextPosition(direction);
+
+                if (board.isInvalidRange(current) || board.isCannon(current)) {
                     break;
                 }
 
-                if (board.isCannon(destination)) {
-                    break;
-                }
-
-                if (!board.isCannon(destination) && !board.isEmpty(destination)) {
+                if (!board.isCannon(current) && !board.isEmpty(current)) {
                     while (true) {
-                        nRow += dx[i];
-                        nCol += dy[i];
-                        destination = new Position(nCol, nRow);
-                        if (!board.isAvailableDestination(destination) || board.isCannon(destination)) {
+                        current = current.nextPosition(direction);
+                        if (!board.isAvailableDestination(current) || board.isCannon(current)) {
                             break;
                         }
 
-                        possiblePositions.add(destination);
-
-                        if (board.isOpponentPiece(destination)) {
+                        possiblePositions.add(current);
+                        if (board.isOpponentPiece(current)) {
                             break;
                         }
                     }
