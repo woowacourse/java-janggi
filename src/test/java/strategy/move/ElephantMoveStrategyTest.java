@@ -1,0 +1,37 @@
+package strategy.move;
+
+import domain.Direction;
+import domain.MovePath;
+import domain.TeamColor;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class ElephantMoveStrategyTest {
+
+    @Test
+    public void 초나라_상은_직진1칸_대각선2칸으로_이루어진_8개의_경로를_가진다() {
+        MoveStrategy strategy = new ElephantMoveStrategy();
+        List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+
+        assertThat(paths).hasSize(8);
+        assertThat(paths).contains(
+                new MovePath(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+                new MovePath(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+                new MovePath(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST))
+        );
+    }
+
+    @Test
+    public void 한나라_상은_직진1칸_대각선2칸으로_이루어진_8개의_경로를_가진다() {
+        MoveStrategy strategy = new ElephantMoveStrategy();
+        List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+
+        assertThat(paths).hasSize(8);
+        assertThat(paths).contains(
+                new MovePath(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+                new MovePath(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+                new MovePath(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST))
+        );
+    }
+}
