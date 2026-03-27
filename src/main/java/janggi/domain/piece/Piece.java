@@ -1,6 +1,8 @@
 package janggi.domain.piece;
 
+import janggi.domain.Location;
 import janggi.domain.Side;
+import java.util.List;
 
 public abstract class Piece {
 
@@ -13,6 +15,8 @@ public abstract class Piece {
     }
 
     public abstract boolean isEmpty();
+
+    public abstract List<Location> calculateRoute(Location from, Location to);
 
     public boolean isSameSide(Piece piece) {
         return this.side.equals(piece.side);

@@ -1,6 +1,9 @@
 package janggi.strategy;
 
+import janggi.domain.Location;
+import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import java.util.List;
 
 public class TeamPiece extends Piece {
 
@@ -13,5 +16,10 @@ public class TeamPiece extends Piece {
     @Override
     public boolean isEmpty() {
         return true;
+    }
+
+    @Override
+    public List<Location> calculateRoute(Location from, Location to) {
+        return List.of();
     }
 }

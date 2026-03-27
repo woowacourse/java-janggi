@@ -16,4 +16,8 @@ public record Location(int x, int y) {
             throw new IllegalArgumentException("좌표의 개수는 " + COORDINATE_COUNT + "개 입니다.");
         }
     }
+
+    public Location add(int dx, int dy) {
+        return new Location(x + dx, y + dy);
+    }
 }
