@@ -25,7 +25,6 @@ public class Cha implements Piece {
         );
     }
 
-    // TODO: start 좌표는 유효한게 보장 되어 있는지? Pieces에서 Map 조회 후 반환하기.
     @Override
     public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
         return findMovePath(startX, startY, endX, endY).isPresent();

@@ -48,9 +48,4 @@ public class Han implements Team {
     public void isPieceCanMove(Position startPosition, Position endPosition) {
         pieces.checkPieceCanMove(startPosition, endPosition);
     }
-
-    // TODO: 구현하기
-    public int calculateScore() {
-        return 0;
-    }
 }

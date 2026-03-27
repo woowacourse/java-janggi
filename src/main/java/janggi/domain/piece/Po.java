@@ -25,7 +25,6 @@ public class Po implements Piece {
         );
     }
 
-    // TODO: Pieces에서 사이에 기물이 없다면 애초에 호출하지 않음. Pieces에 Po를 움직일 경우 중간에 좌표가 있는지 확인하는 로직이 필요함.
     @Override
     public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
         return findMovePath(startX, startY, endX, endY).isPresent();
