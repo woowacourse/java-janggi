@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ColumnTest {
+
     private static final int MINIMUM_BOUNDARY = 0;
     private static final int MAXIMUM_BOUNDARY = 8;
     private static final int ONE_SPACE = 1;
@@ -27,6 +28,7 @@ class ColumnTest {
     @Nested
     @DisplayName("COLUMN의 이동을 검증한다")
     class Move {
+
         @Test
         void COLUMN이_오른쪽으로_한_칸_이동한다() {
             // given

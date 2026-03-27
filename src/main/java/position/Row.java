@@ -1,6 +1,7 @@
 package position;
 
 public record Row(int index) {
+
     private static final int MINIMUM_BOUNDARY = 0;
     private static final int MAXIMUM_BOUNDARY = 9;
     private static final int ONE_SPACE = 1;

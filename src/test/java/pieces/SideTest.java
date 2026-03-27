@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class SideTest {
+
     @Nested
     @DisplayName("한나라인지 여부를 반환한다")
     class IsHan {
+
         @Test
         void 한나라이면_참을_반환한다() {
             // given
@@ -30,6 +32,7 @@ class SideTest {
     @Nested
     @DisplayName("초나라인지 여부를 반환한다")
     class IsCho {
+
         @Test
         void 초나라이면_참을_반환한다() {
             // given

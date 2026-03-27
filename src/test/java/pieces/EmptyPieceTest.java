@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import position.Position;
 
 class EmptyPieceTest {
+
     @Test
     void 비어있는_기물은_이동이_불가능하다() {
         // given

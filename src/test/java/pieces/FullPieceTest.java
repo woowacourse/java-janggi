@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 class FullPieceTest {
+
     @Test
     void 포인지_여부를_반환한다() {
         // given

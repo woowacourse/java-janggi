@@ -13,11 +13,13 @@ import org.junit.jupiter.api.Test;
 import position.Position;
 
 class MaTest {
+
     private static final Position DEFAULT = new Position(3, 3);
 
     @Nested
     @DisplayName("마의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
     class CanMove {
+
         @Test
         void 상_1칸_우상향_1칸_이동할_수_있다() {
             // given

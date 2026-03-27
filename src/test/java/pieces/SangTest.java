@@ -14,11 +14,13 @@ import org.junit.jupiter.api.Test;
 import position.Position;
 
 class SangTest {
+
     private static final Position DEFAULT = new Position(3, 3);
 
     @Nested
     @DisplayName("상의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
     class CanMove {
+
         @Test
         void 상_1칸_우상향_2칸_이동할_수_있다() {
             // given
@@ -133,6 +135,7 @@ class SangTest {
     @Nested
     @DisplayName("상의 이동 경로를 검증한다")
     class PathPosition {
+
         @Test
         void 출발지와_도착지_사이에는_두_칸의_이동_경로만_존재한다() {
             // given

@@ -3,6 +3,7 @@ package movepolicy.destination;
 import pieces.FullPiece;
 
 public class PoDestinationRule implements DestinationRule {
+
     @Override
     public void validateDestination(FullPiece departurePiece, FullPiece destinationPiece) {
         if (departurePiece == null) {

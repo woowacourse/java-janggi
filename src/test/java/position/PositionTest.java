@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 class PositionTest {
+
     @Test
     void 특정_좌표의_포지션을_생성한다() {
         // given

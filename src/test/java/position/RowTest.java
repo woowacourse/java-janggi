@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class RowTest {
+
     private static final int MINIMUM_BOUNDARY = 0;
     private static final int MAXIMUM_BOUNDARY = 9;
     private static final int ONE_SPACE = 1;
@@ -27,6 +28,7 @@ class RowTest {
     @Nested
     @DisplayName("ROW의 이동을 검증한다")
     class Move {
+
         @Test
         void ROW가_위로_한_칸_이동한다() {
             // given
@@ -69,6 +71,7 @@ class RowTest {
     @Nested
     @DisplayName("Row의 높이를 비교한다")
     class IsLowerThan {
+
         @Test
         void ROW가_다른_ROW_보다_낮을_경우_TRUE를_반환한다() {
             // given

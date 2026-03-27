@@ -1,6 +1,7 @@
 package pieces;
 
 public enum Side {
+
     HAN, CHO;
 
     public boolean isHan() {
