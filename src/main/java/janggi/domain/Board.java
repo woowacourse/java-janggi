@@ -36,7 +36,7 @@ public class Board {
         return boardSpots;
     }
 
-    public boolean isMyTeamPieceExist(Position position, TeamType beforeTeam) {
+    public boolean isPieceExist(Position position, TeamType beforeTeam) {
         validateRange(position);
         Team nowTeam = opponentTeam(beforeTeam);
         return nowTeam.findPiece(position).isPresent();

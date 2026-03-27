@@ -20,7 +20,7 @@ public class Turn {
     }
 
     public boolean isMyTeamPieceExist(Position position) {
-        return board.isMyTeamPieceExist(position, movedTeam);
+        return board.isPieceExist(position, movedTeam);
     }
 
     public Piece findPiece(Position position) {
