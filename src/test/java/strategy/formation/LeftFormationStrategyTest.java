@@ -6,6 +6,7 @@ import domain.Position;
 import domain.TeamColor;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -19,27 +20,33 @@ public class LeftFormationStrategyTest {
         initialFormationStrategy = new LeftFormationStrategy();
     }
 
-    @Test
-    public void 한나라_좌상차림일_때_마와_상의_좌표가_올바르다() {
-        Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.HAN);
+    @Nested
+    class 한나라 {
+        @Test
+        public void 좌상차림일_때_마와_상의_좌표가_올바르다() {
+            Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.HAN);
 
-        assertThat(formation.size()).isEqualTo(16);
-        assertThat(formation.get(Position.of(1, 0)).getPieceType()).isEqualTo(PieceType.HORSE);
-        assertThat(formation.get(Position.of(2, 0)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
-        assertThat(formation.get(Position.of(6, 0)).getPieceType()).isEqualTo(PieceType.HORSE);
-        assertThat(formation.get(Position.of(7, 0)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
-        assertThat(formation.get(Position.of(4, 1)).getPieceType()).isEqualTo(PieceType.KING);
+            assertThat(formation.size()).isEqualTo(16);
+            assertThat(formation.get(Position.of(1, 0)).getPieceType()).isEqualTo(PieceType.HORSE);
+            assertThat(formation.get(Position.of(2, 0)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
+            assertThat(formation.get(Position.of(6, 0)).getPieceType()).isEqualTo(PieceType.HORSE);
+            assertThat(formation.get(Position.of(7, 0)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
+            assertThat(formation.get(Position.of(4, 1)).getPieceType()).isEqualTo(PieceType.KING);
+        }
     }
 
-    @Test
-    public void 초나라_좌상차림일_때_마와_상의_좌표가_올바르다() {
-        Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.CHO);
+    @Nested
+    class 초나라 {
+        @Test
+        public void 좌상차림일_때_마와_상의_좌표가_올바르다() {
+            Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.CHO);
 
-        assertThat(formation.size()).isEqualTo(16);
-        assertThat(formation.get(Position.of(1, 9)).getPieceType()).isEqualTo(PieceType.HORSE);
-        assertThat(formation.get(Position.of(2, 9)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
-        assertThat(formation.get(Position.of(6, 9)).getPieceType()).isEqualTo(PieceType.HORSE);
-        assertThat(formation.get(Position.of(7, 9)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
-        assertThat(formation.get(Position.of(4, 8)).getPieceType()).isEqualTo(PieceType.KING);
+            assertThat(formation.size()).isEqualTo(16);
+            assertThat(formation.get(Position.of(1, 9)).getPieceType()).isEqualTo(PieceType.HORSE);
+            assertThat(formation.get(Position.of(2, 9)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
+            assertThat(formation.get(Position.of(6, 9)).getPieceType()).isEqualTo(PieceType.HORSE);
+            assertThat(formation.get(Position.of(7, 9)).getPieceType()).isEqualTo(PieceType.ELEPHANT);
+            assertThat(formation.get(Position.of(4, 8)).getPieceType()).isEqualTo(PieceType.KING);
+        }
     }
 }
