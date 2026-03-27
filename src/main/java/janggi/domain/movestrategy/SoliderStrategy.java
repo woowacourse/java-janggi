@@ -2,7 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 
-public class SoliderStrategy implements MoveStrategy{
+public class SoliderStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to) {

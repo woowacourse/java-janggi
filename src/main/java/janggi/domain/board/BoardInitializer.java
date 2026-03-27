@@ -96,7 +96,6 @@ public class BoardInitializer {
         }
     }
 
-
     private static void initializeHan(Map<Position, Piece> board, int openingFormationChoice) {
         board.put(new Position(1, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
         board.put(new Position(3, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));

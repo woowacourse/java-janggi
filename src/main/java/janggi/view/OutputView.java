@@ -8,9 +8,6 @@ import java.util.List;
 
 public class OutputView {
 
-    public OutputView() {
-    }
-
     public void printBoardMap(BoardDto boardDto) {
         List<String> numbers = List.of("一", "二", "三", "四", "五", "六", "七", "八", "九", "十");
         List<PositionPieceDto> positionPieceDtos = boardDto.positionPieces();
