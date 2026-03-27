@@ -22,7 +22,7 @@ class PoTest {
     }
 
     @Test
-    void 시작_좌표와_끝_좌표가_같은_선_상에_존재하면_올바른_경로를_생성한다(){
+    void 끝_좌표가_시작_좌표의_오른쪽으로_향할_때_올바른_경로를_생성한다(){
         Po po = new Po(Side.CHO);
         Position start = new Position(3,3);
         Position end = new Position(3,5);
@@ -32,6 +32,51 @@ class PoTest {
         assertThat(routes).containsExactly(
                 start,
                 new Position(3, 4),
+                end
+        );
+    }
+
+    @Test
+    void 끝_좌표가_시작_좌표의_왼쪽으로_향할_때_올바른_경로를_생성한다(){
+        Po po = new Po(Side.CHO);
+        Position start = new Position(3,3);
+        Position end = new Position(3,1);
+
+        List<Position> routes = po.findRoute(start, end);
+
+        assertThat(routes).containsExactly(
+                start,
+                new Position(3, 2),
+                end
+        );
+    }
+
+    @Test
+    void 끝_좌표가_시작_좌표의_위로_향할_때_올바른_경로를_생성한다(){
+        Po po = new Po(Side.CHO);
+        Position start = new Position(3,3);
+        Position end = new Position(1,3);
+
+        List<Position> routes = po.findRoute(start, end);
+
+        assertThat(routes).containsExactly(
+                start,
+                new Position(2, 3),
+                end
+        );
+    }
+
+    @Test
+    void 끝_좌표가_시작_좌표의_아래로_향할_때_올바른_경로를_생성한다(){
+        Po po = new Po(Side.CHO);
+        Position start = new Position(3,3);
+        Position end = new Position(5,3);
+
+        List<Position> routes = po.findRoute(start, end);
+
+        assertThat(routes).containsExactly(
+                start,
+                new Position(4, 3),
                 end
         );
     }
