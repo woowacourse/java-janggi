@@ -30,7 +30,7 @@ public class ChaTest {
     }
 
     @Test
-    @DisplayName("이동할 수 없는 위치를 목적지로 할 경우 예외 발생")
+    @DisplayName("대각선으로 목적지로 할 경우 예외 발생")
     void destination_exception() {
         // given
         Piece cha = new Cha(Team.CHO);
@@ -39,6 +39,21 @@ public class ChaTest {
 
         // when & then
         assertThatThrownBy(() -> cha.getRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("대각선");
+    }
+
+    @Test
+    @DisplayName("목적지가 제자리일 경우 예외 발생")
+    void no_move() {
+        // given
+        Piece cha = new Cha(Team.CHO);
+        Point from = Point.of(5,5);
+        Point to = Point.of(5,5);
+
+        // when & then
+        assertThatThrownBy(() -> cha.getRoute(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("제자리");
     }
 }
