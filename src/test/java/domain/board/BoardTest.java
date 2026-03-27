@@ -1,12 +1,17 @@
 package domain.board;
 
 
+import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,5 +50,79 @@ public class BoardTest {
     void throwException_When_PieceNotExist_AtThePosition() {
         assertThatThrownBy(() -> board.findBy(new Position(4, 4)))
                 .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Nested
+    class FindPiecesInPath {
+        @Test
+        @DisplayName("경로 중간에 기물이 있으면 해당 기물을 반환한다.")
+        void check_If_PiecesInPath() {
+            Map<Position, Piece> map = new HashMap<>();
+            map.put(new Position(1, 3), new Piece(Camp.HAN, PieceType.SOLDIER));
+
+            PathChecker pathChecker = new Board(map);
+
+            List<Position> path = List.of(
+                    new Position(1, 2),
+                    new Position(1, 3),
+                    new Position(1, 4)
+            );
+
+            List<Piece> result = pathChecker.findPiecesInPath(path);
+
+            assertThat(result).hasSize(1);
+            assertThat(result.getFirst().type()).isEqualTo(PieceType.SOLDIER);
+            assertThat(result.getFirst().camp()).isEqualTo(Camp.HAN);
+        }
+
+        @Test
+        @DisplayName("경로에 기물이 없으면 빈 리스트를 반환한다.")
+        void noPiecesInPath() {
+            Board board = new Board(new HashMap<>());
+            PathChecker pathChecker = board;
+
+            List<Position> path = List.of(
+                    new Position(1, 2),
+                    new Position(1, 3),
+                    new Position(1, 4)
+            );
+
+            List<Piece> result = pathChecker.findPiecesInPath(path);
+
+            assertThat(result).isEmpty();
+        }
+
+        @Test
+        @DisplayName("경로에 여러 기물이 있으면 모두 반환한다.")
+        void multiplePiecesInPath() {
+            Map<Position, Piece> map = new HashMap<>();
+            map.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER));
+            map.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.CANNON));
+
+            Board board = new Board(map);
+            PathChecker pathChecker = board;
+
+            List<Position> path = List.of(
+                    new Position(1, 2),
+                    new Position(1, 3),
+                    new Position(1, 4)
+            );
+
+            List<Piece> result = pathChecker.findPiecesInPath(path);
+
+            assertThat(result).hasSize(2);
+        }
+
+        @Test
+        @DisplayName("빈 경로가 주어지면 빈 리스트를 반환한다.")
+        void emptyPath() {
+            Board board = new Board(new HashMap<>());
+            PathChecker pathChecker = board;
+            List<Position> path = List.of();
+
+            List<Piece> result = pathChecker.findPiecesInPath(path);
+
+            assertThat(result).isEmpty();
+        }
     }
 }
