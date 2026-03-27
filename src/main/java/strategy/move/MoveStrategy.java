@@ -25,11 +25,19 @@ public interface MoveStrategy {
 
 
             for (int i = 0; i < steps.size(); i++) {
-                currentPos = currentPos.next(steps.get(i));
+                try {
+                    currentPos = currentPos.next(steps.get(i));
+                } catch (IllegalArgumentException exception) {
+                    currentPos = null;
+                    break;
+                }
 
                 if (i < steps.size() - 1) {
                     intermediates.add(currentPos);
                 }
+            }
+            if (currentPos == null) {
+                continue;
             }
             validRoutes.add(new Route(curPos, currentPos, intermediates));
         }

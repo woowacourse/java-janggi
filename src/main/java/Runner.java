@@ -52,13 +52,19 @@ public class Runner {
             outputView.printFormationSelectionPrompt(teamColor);
             try {
                 int choice = inputView.readFormationChoice(teamColor);
-                return switch (choice) {
-                    case 1 -> new InnerFormationStrategy();
-                    case 2 -> new OuterFormationStrategy();
-                    case 3 -> new LeftFormationStrategy();
-                    case 4 -> new RightFormationStrategy();
-                    default -> throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
-                };
+                if (choice == 1) {
+                    return new InnerFormationStrategy();
+                }
+                if (choice == 2) {
+                    return new OuterFormationStrategy();
+                }
+                if (choice == 3) {
+                    return new LeftFormationStrategy();
+                }
+                if (choice == 4) {
+                    return new RightFormationStrategy();
+                }
+                throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
             } catch (RuntimeException exception) {
                 outputView.printError("상차림 입력이 올바르지 않습니다.");
             }

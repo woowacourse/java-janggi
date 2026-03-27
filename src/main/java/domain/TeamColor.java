@@ -2,5 +2,12 @@ package domain;
 
 public enum TeamColor {
     CHO,
-    HAN
+    HAN;
+
+    public String displayName() {
+        if (this == CHO) {
+            return "초";
+        }
+        return "한";
+    }
 }

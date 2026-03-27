@@ -20,7 +20,7 @@ public class OutputView {
     }
 
     public void printFormationSelectionPrompt(TeamColor teamColor) {
-        System.out.println(teamColor + " 상차림을 선택하세요.");
+        System.out.println(teamColor.displayName() + " 상차림을 선택하세요.");
         System.out.println("1. 안상차림");
         System.out.println("2. 바깥상차림");
         System.out.println("3. 좌상차림");
@@ -29,7 +29,7 @@ public class OutputView {
 
     public void printCurrentTurn(TeamColor teamColor) {
         System.out.println();
-        System.out.println("현재 턴: " + teamColor);
+        System.out.println("현재 턴: " + teamColor.displayName());
     }
 
     public void printPieceOptions(List<Map.Entry<Position, Piece>> pieces) {
@@ -52,16 +52,21 @@ public class OutputView {
     public void printBoard(Board board) {
         System.out.println();
         System.out.println("현재 장기판");
-        System.out.println("    0  1  2  3  4  5  6  7  8  9");
-        for (int row = 0; row <= 8; row++) {
+        System.out.println("      0    1    2    3    4    5    6    7    8");
+        System.out.println("   ┌────┬────┬────┬────┬────┬────┬────┬────┬────┐");
+        for (int column = 0; column <= 9; column++) {
             StringBuilder line = new StringBuilder();
-            line.append(row).append(" | ");
-            for (int column = 0; column <= 9; column++) {
+            line.append(String.format("%2d │", column));
+            for (int row = 0; row <= 8; row++) {
                 Piece piece = board.findPiece(Position.of(row, column)).orElse(null);
-                line.append(formatBoardCell(piece)).append(" ");
+                line.append(" ").append(formatBoardCell(piece)).append(" │");
             }
             System.out.println(line);
+            if (column < 9) {
+                System.out.println("   ├────┼────┼────┼────┼────┼────┼────┼────┼────┤");
+            }
         }
+        System.out.println("   └────┴────┴────┴────┴────┴────┴────┴────┴────┘");
     }
 
     public void printMoveResult(Piece piece, Position destination) {
@@ -69,22 +74,14 @@ public class OutputView {
     }
 
     public void printError(String message) {
-        System.out.println("[오류] " + message);
+        System.out.println("[ERROR] " + message);
     }
 
     private String formatBoardCell(Piece piece) {
         if (piece == null) {
-            return " . ";
+            return "  ";
         }
-        String symbol = switch (piece.getPieceType()) {
-            case ROOK -> "차";
-            case HORSE -> "마";
-            case ELEPHANT -> "상";
-            case GUARD -> "사";
-            case KING -> "왕";
-            case CANNON -> "포";
-            case PAWN -> "졸";
-        };
+        String symbol = formatBoardSymbol(piece);
 
         if (piece.getTeamColor() == TeamColor.CHO) {
             return CHO_COLOR + symbol + RESET;
@@ -93,14 +90,55 @@ public class OutputView {
     }
 
     private String formatPiece(Piece piece) {
-        return switch (piece.getPieceType()) {
-            case ROOK -> "차";
-            case HORSE -> "마";
-            case ELEPHANT -> "상";
-            case GUARD -> "사";
-            case KING -> "왕";
-            case CANNON -> "포";
-            case PAWN -> piece.getTeamColor() == TeamColor.CHO ? "졸" : "병";
-        };
+        if (piece.getPieceType() == PieceType.ROOK) {
+            return "차";
+        }
+        if (piece.getPieceType() == PieceType.HORSE) {
+            return "마";
+        }
+        if (piece.getPieceType() == PieceType.ELEPHANT) {
+            return "상";
+        }
+        if (piece.getPieceType() == PieceType.GUARD) {
+            return "사";
+        }
+        if (piece.getPieceType() == PieceType.KING) {
+            return "왕";
+        }
+        if (piece.getPieceType() == PieceType.CANNON) {
+            return "포";
+        }
+        if (piece.getPieceType() == PieceType.PAWN && piece.getTeamColor() == TeamColor.CHO) {
+            return "졸";
+        }
+        if (piece.getPieceType() == PieceType.PAWN) {
+            return "병";
+        }
+        throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
+    }
+
+    private String formatBoardSymbol(Piece piece) {
+        if (piece.getPieceType() == PieceType.ROOK) {
+            return "차";
+        }
+        if (piece.getPieceType() == PieceType.HORSE) {
+            return "마";
+        }
+        if (piece.getPieceType() == PieceType.ELEPHANT) {
+            return "상";
+        }
+        if (piece.getPieceType() == PieceType.GUARD) {
+            return "사";
+        }
+        if (piece.getPieceType() == PieceType.KING) {
+            return "왕";
+        }
+        if (piece.getPieceType() == PieceType.CANNON) {
+            return "포";
+        }
+        if (piece.getPieceType() == PieceType.PAWN) {
+            return "졸";
+        }
+        throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
     }
 }

@@ -43,14 +43,27 @@ public class Piece {
     }
 
     private static MoveStrategy createMoveStrategy(PieceType pieceType) {
-        return switch (pieceType) {
-            case CANNON -> new CannonMoveStrategy();
-            case ELEPHANT -> new ElephantMoveStrategy();
-            case GUARD -> new GuardMoveStrategy();
-            case HORSE -> new HorseMoveStrategy();
-            case KING -> new KingMoveStrategy();
-            case PAWN -> new PawnMoveStrategy();
-            case ROOK -> new RookMoveStrategy();
-        };
+        if (pieceType == PieceType.CANNON) {
+            return new CannonMoveStrategy();
+        }
+        if (pieceType == PieceType.ELEPHANT) {
+            return new ElephantMoveStrategy();
+        }
+        if (pieceType == PieceType.GUARD) {
+            return new GuardMoveStrategy();
+        }
+        if (pieceType == PieceType.HORSE) {
+            return new HorseMoveStrategy();
+        }
+        if (pieceType == PieceType.KING) {
+            return new KingMoveStrategy();
+        }
+        if (pieceType == PieceType.PAWN) {
+            return new PawnMoveStrategy();
+        }
+        if (pieceType == PieceType.ROOK) {
+            return new RookMoveStrategy();
+        }
+        throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
     }
 }
