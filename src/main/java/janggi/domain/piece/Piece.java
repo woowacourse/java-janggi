@@ -13,6 +13,8 @@ public interface Piece {
 
     boolean isOnSameTeamAs(Piece other);
 
+    boolean isSameTypeAs(Piece other);
+
     List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator);
 
     boolean canKill(Piece target);

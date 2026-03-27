@@ -76,6 +76,11 @@ public class Elephant implements Piece {
     }
 
     @Override
+    public boolean isSameTypeAs(Piece other) {
+        return PIECE_TYPE == other.getPieceType();
+    }
+
+    @Override
     public List<Position> calculateMovablePositions(final Position from,
         final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, boardMediator);

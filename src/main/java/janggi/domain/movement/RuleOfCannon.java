@@ -5,7 +5,6 @@ import static janggi.domain.Position.MAXIMUM_ROW;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import java.util.List;
 
 public class RuleOfCannon implements Rule {
@@ -29,10 +28,19 @@ public class RuleOfCannon implements Rule {
         final Piece piece = boardMediator.getPieceInPosition(from);
 
         from = firstMovement.calculateBlockedPosition(from, boardMediator);
-        if (!boardMediator.existsInPosition(from)
-            || boardMediator.getPieceInPosition(from).getPieceType() == PieceType.CANNON) {
+        if (!canJump(piece, from, boardMediator)) {
             return List.of();
         }
         return secondMovement.calculateTraces(from, piece, boardMediator);
+    }
+
+    private boolean canJump(final Piece me, final Position position,
+        final BoardMediator boardMediator) {
+        if (!boardMediator.existsInPosition(position)) {
+            return false;
+        }
+        final Piece target = boardMediator.getPieceInPosition(position);
+
+        return !target.isSameTypeAs(me);
     }
 }

@@ -50,6 +50,11 @@ public class General implements Piece {
     }
 
     @Override
+    public boolean isSameTypeAs(Piece other) {
+        return PIECE_TYPE == other.getPieceType();
+    }
+
+    @Override
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
