@@ -15,4 +15,8 @@ public record Piece(PieceType pieceType, Team team, MoveStrategy moveStrategy) {
     void canMove(List<Path> paths, Position to) {
         moveStrategy.canMove(paths, to);
     }
+
+    boolean isSameTeam(Piece another){
+        return another.team == team;
+    }
 }
