@@ -1,7 +1,17 @@
 package janggi.domain.piece;
 
+import static janggi.domain.direction.Direction.BACK;
+import static janggi.domain.direction.Direction.BACK_LEFT;
+import static janggi.domain.direction.Direction.BACK_RIGHT;
+import static janggi.domain.direction.Direction.FRONT;
+import static janggi.domain.direction.Direction.FRONT_LEFT;
+import static janggi.domain.direction.Direction.FRONT_RIGHT;
+import static janggi.domain.direction.Direction.LEFT;
+import static janggi.domain.direction.Direction.RIGHT;
+
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.direction.Route;
 import java.util.List;
 
 public class Sang extends Piece {
@@ -19,6 +29,24 @@ public class Sang extends Piece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        return List.of();
+        List<Route> directions = List.of(
+                Route.of(List.of(FRONT, FRONT_LEFT, FRONT_LEFT)),
+                Route.of(List.of(FRONT, FRONT_RIGHT, FRONT_RIGHT)),
+                Route.of(List.of(RIGHT, FRONT_RIGHT, FRONT_RIGHT)),
+                Route.of(List.of(RIGHT, BACK_RIGHT, BACK_RIGHT)),
+                Route.of(List.of(LEFT, FRONT_LEFT, FRONT_LEFT)),
+                Route.of(List.of(LEFT, BACK_LEFT, BACK_LEFT)),
+                Route.of(List.of(BACK, BACK_LEFT, BACK_LEFT)),
+                Route.of(List.of(BACK, BACK_RIGHT, BACK_RIGHT))
+        );
+
+        for(Route route : directions) {
+            List<Location> locations = route.apply(from);
+            if(locations.getLast().equals(to)) {
+                return locations;
+            }
+        }
+
+        throw new IllegalArgumentException("상은 해당 위치에 도달할 수 없습니다.");
     }
 }
