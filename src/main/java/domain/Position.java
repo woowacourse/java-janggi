@@ -21,6 +21,14 @@ public class Position {
         return new Position(new Row(row), new Column(column));
     }
 
+    public int row() {
+        return row.value();
+    }
+
+    public int column() {
+        return column.value();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -35,6 +43,9 @@ public class Position {
         return Objects.hash(row, column);
     }
 
-
+    @Override
+    public String toString() {
+        return "(" + row() + "," + column() + ")";
+    }
 
 }
