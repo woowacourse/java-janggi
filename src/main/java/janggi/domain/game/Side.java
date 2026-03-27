@@ -1,28 +1,14 @@
 package janggi.domain.game;
 
 public enum Side {
-    CHO("초"),
-    HAN("한"),
+    CHO,
+    HAN,
     ;
-
-    private final String displayName;
-
-    Side(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 
     public Side opposite() {
         if (this.equals(CHO)) {
             return HAN;
         }
         return CHO;
-    }
-
-    public boolean isSameSide(Side current) {
-        return this.equals(current);
     }
 }

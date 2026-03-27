@@ -1,16 +1,14 @@
 package janggi.domain.game;
 
-import janggi.dto.PlayerDTO;
+import janggi.domain.piece.Piece;
 import java.util.Set;
 
 public class Players {
 
     private final Set<Player> players;
-    private final Turn turn;
 
     private Players(Set<Player> players) {
         this.players = players;
-        this.turn = new Turn();
     }
 
     public static Players from(String choPlayerName, String hanPlayerName) {
@@ -27,15 +25,14 @@ public class Players {
         }
     }
 
-    public PlayerDTO getCurrentPlayer() {
+    public boolean isCurrentSidePiece(Turn turn, Piece selectedPiece) {
+        return currentPlayer(turn).isOwnPiece(selectedPiece);
+    }
+
+    public Player currentPlayer(Turn turn) {
         return players.stream()
                 .filter(player -> player.isMyTurn(turn))
                 .findFirst()
-                .map(Player::mapToVO)
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 현재 턴에 해당하는 플레이어가 없습니다."));
-    }
-
-    public void switchTurn() {
-        turn.switchTurn();
     }
 }

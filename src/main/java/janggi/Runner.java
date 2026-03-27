@@ -1,11 +1,10 @@
 package janggi;
 
-import janggi.domain.board.Board;
-import janggi.domain.game.Players;
 import janggi.domain.board.Position;
-import janggi.domain.game.Side;
-import janggi.dto.BoardDTO;
+import janggi.domain.game.GameManager;
+import janggi.domain.game.Player;
 import janggi.dto.PlayerDTO;
+import janggi.dto.PositionDTO;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -16,82 +15,75 @@ public class Runner {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final Board board;
+    private final GameManager gameManager;
 
-    public Runner(OutputView outputView, InputView inputView) {
+    public Runner(InputView inputView, OutputView outputView, GameManager gameManager) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.board = Board.initialize();
+        this.gameManager = gameManager;
     }
 
     public void run() {
-        Players players = initialPlayers();
         printBoard();
-        play(players);
+        play();
     }
 
-    private void play(Players players) {
-        while (board.isBothPalaceExist()) {
-            PlayerDTO currentPlayer = players.getCurrentPlayer();
-            printPlayerTurnNotice(currentPlayer);
-            playerTurn(players);
-            players.switchTurn();
+    private void play() {
+        while (!gameManager.isFinished()) {
+            Player currentPlayer = gameManager.currentPlayer();
+            PlayerDTO currentPlayerDTO = currentPlayer.map(PlayerDTO::new);
+            printPlayerTurnNotice(currentPlayerDTO);
+            playerTurn();
+            gameManager.switchTurn();
         }
     }
 
-    private void playerTurn(Players players) {
+    private void playerTurn() {
         Position selected = selectPiecePosition();
-        if (!board.isThereOwnPiece(selected, players.getCurrentPlayer())) {
+        if (!gameManager.isThereMoveablePiece(selected)) {
             outputView.printNotOwnPiece();
-            players.switchTurn();
+            gameManager.switchTurn();
             return;
         }
-        List<Position> destinations = board.calculateDestinations(selected);
+        List<Position> destinations = gameManager.findDestinations(selected);
         movePiece(selected, destinations);
     }
 
     private Position selectPiecePosition() {
         outputView.printSelectPiecePosition();
         Position position = readTargetPosition();
-        if (!board.isPieceExist(position)) {
+        if (!gameManager.isPieceExist(position)) {
             outputView.printPieceNotExist();
         }
         return position;
     }
 
-    private Players initialPlayers() {
-        String choPlayerName = readPlayerName(Side.CHO);
-        String hanPlayerName = readPlayerName(Side.HAN);
-        return Players.from(choPlayerName, hanPlayerName);
-    }
-
-    private String readPlayerName(Side side) {
-        return retry(() -> {
-            outputView.printPlayerNameNotice(side.getDisplayName());
-            return inputView.readPlayerName();
-        });
-    }
-
     private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
-        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.side().getDisplayName());
+        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.sideName());
     }
 
     private Position readTargetPosition() {
         return retry(() -> {
             outputView.printMovePositionRowNotice();
-            int row = inputView.readTargetRow();
+            int row = inputView.readPosition();
             outputView.printMovePositionColumnNotice();
-            int column = inputView.readTargetColumn();
+            int column = inputView.readPosition();
 
             return new Position(row, column);
         });
     }
 
     private void movePiece(Position selected, List<Position> destinations) {
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
+        List<PositionDTO> positionDTOS = destinations.stream()
+                .map(position -> {
+                    return position.map(PositionDTO::new);
+                })
+                .toList();
+        outputView.printBoardStatus(gameManager.boardStatus(), selected.map(PositionDTO::new), positionDTOS);
         Position target = selectTargetPosition();
-        board.movePiece(selected, target, destinations);
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), target);
+        gameManager.movePiece(selected, target, destinations);
+        outputView.printBoardStatus(gameManager.boardStatus(), target.map(PositionDTO::new));
+
     }
 
     private Position selectTargetPosition() {
@@ -101,7 +93,7 @@ public class Runner {
 
     private void printBoard() {
         outputView.printBoardSettingNotice();
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()));
+        outputView.printBoardStatus(gameManager.boardStatus());
     }
 
     private <T> T retry(Supplier<T> supplier) {

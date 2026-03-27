@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.domain.board.Position;
-import janggi.domain.piece.Piece;
-import janggi.util.PieceLabelMapper;
 import janggi.dto.BoardDTO;
+import janggi.dto.PieceDTO;
+import janggi.dto.PositionDTO;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -15,22 +15,24 @@ public class OutputView {
     private static final String VERTICAL_LINE = "　　║　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃　　　　┃";
 
     private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
 
     public void printBoardSettingNotice() {
         printLine(Message.BOARD_SETTING_NOTICE);
     }
 
     public void printBoardStatus(BoardDTO boardDto) {
-        printBoardStatus(boardDto, null, null);
+        printBoardStatus(boardDto, null, Collections.emptyList());
     }
 
-    public void printBoardStatus(BoardDTO boardDto, Position selected) {
-        printBoardStatus(boardDto, selected, null);
+    public void printBoardStatus(BoardDTO boardDto, PositionDTO selected) {
+        printBoardStatus(boardDto, selected, Collections.emptyList());
     }
 
-    public void printBoardStatus(BoardDTO boardDto, Position selected, List<Position> movables) {
+    public void printBoardStatus(BoardDTO boardDto, PositionDTO selected, List<PositionDTO> movables) {
         printLine(COLUMN_INDEXES);
         printLine(DIVIDER);
         for (int row = 0; row < 10; row++) {
@@ -41,26 +43,43 @@ public class OutputView {
         printLine(COLUMN_INDEXES);
     }
 
-    private void renderRow(int row, Map<Position, Piece> status, Position selected, List<Position> movables) {
+    private void renderRow(int row, Map<PositionDTO, PieceDTO> status, PositionDTO selected, List<PositionDTO> movables) {
         StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
         for (int col = 0; col < 9; col++) {
-            Position current = new Position(row, col);
+            PositionDTO current = new PositionDTO(row, col);
             sb.append(getFormattedCell(status, current, selected, movables));
             if (col < 8) sb.append("━");
         }
         printLine(sb.toString());
     }
 
-    private String getFormattedCell(Map<Position, Piece> status, Position current, Position selected, List<Position> movables) {
-        Piece piece = status.get(current);
-        String label = (piece == null) ? EMPTY_CELL : PieceLabelMapper.toFullWidth(piece);
-        String cell = "［" + label + "］";
-        if (current.equals(selected)) {
-            return ANSI_BLUE + cell + ANSI_RESET;
+    private String getFormattedCell(Map<PositionDTO, PieceDTO> status, PositionDTO current, PositionDTO selected, List<PositionDTO> movables) {
+        PieceDTO piece = status.get(current);
+        String baseCell = createBaseCell(piece);
+
+        return applyColor(baseCell, piece, current, selected, movables);
+    }
+
+    private String createBaseCell(PieceDTO piece) {
+        if (piece == null) {
+            return "［" + EMPTY_CELL + "］";
         }
-        if (movables != null && movables.contains(current)) {
-            return ANSI_GREEN + cell + ANSI_RESET;
-        }
+        return "［" + piece.label() + "］";
+    }
+
+    private String applyColor(String cell, PieceDTO piece, PositionDTO current, PositionDTO selected, List<PositionDTO> movables) {
+        if (current.equals(selected)) return ANSI_BLUE + cell + ANSI_RESET;
+        if (movables.contains(current)) return ANSI_YELLOW + cell + ANSI_RESET; // null 체크 소거됨
+
+        return applySideColor(cell, piece);
+    }
+
+    private String applySideColor(String cell, PieceDTO piece) {
+        if (piece == null) return cell; // 빈 칸은 기본색
+
+        if ("CHO".equals(piece.sideName())) return ANSI_GREEN + cell + ANSI_RESET;
+        if ("HAN".equals(piece.sideName())) return ANSI_RED + cell + ANSI_RESET;
+
         return cell;
     }
 

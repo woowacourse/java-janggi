@@ -3,15 +3,15 @@ package janggi.domain.game;
 public class Turn {
     private Side current;
 
-    public Turn() {
-        this.current = Side.CHO;
+    public Turn(Side initiativeSide) {
+        current = initiativeSide;
     }
 
     public void switchTurn() {
-        this.current = current.opposite();
+        current = current.opposite();
     }
 
     public boolean isCurrent(Side side) {
-        return this.current == side;
+        return current == side;
     }
 }

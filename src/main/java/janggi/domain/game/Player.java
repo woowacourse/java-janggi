@@ -1,7 +1,7 @@
 package janggi.domain.game;
 
 import janggi.domain.piece.Piece;
-import janggi.dto.PlayerDTO;
+import java.util.function.BiFunction;
 
 public class Player {
 
@@ -17,11 +17,11 @@ public class Player {
         return turn.isCurrent(this.side);
     }
 
-    public PlayerDTO mapToVO() {
-        return new PlayerDTO(name, side);
+    public boolean isOwnPiece(Piece piece) {
+        return piece.isBelongTo(side);
     }
 
-    public boolean isOwnPiece(Piece Piece) {
-        return side.isSameSide(Piece.side());
+    public <T> T map(BiFunction<String, Side, T> mapper) {
+        return mapper.apply(this.name, this.side);
     }
 }

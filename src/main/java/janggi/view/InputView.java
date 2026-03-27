@@ -6,41 +6,35 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    private String readLine() {
+        return scanner.nextLine();
+    }
+
     public String readPlayerName() {
-        String playerName = scanner.nextLine();
-        validateNotBlank(playerName);
-        return playerName;
+        return readNotBlankLine();
     }
 
     public String readPieceName() {
-        String pieceName = scanner.nextLine();
-        validateNotBlank(pieceName);
-        return pieceName;
+        return readNotBlankLine();
     }
 
-    public int readTargetRow() {
-        String targetRow = scanner.nextLine();
-        validateNotBlank(targetRow);
-        return parseToInt(targetRow);
+    public int readPosition() {
+        return readInteger();
     }
 
-    public int readTargetColumn() {
-        String targetColumn = scanner.nextLine();
-        validateNotBlank(targetColumn);
-        return parseToInt(targetColumn);
-    }
-
-    private void validateNotBlank(String nickname) {
-        if (nickname.isBlank()) {
-            throw new IllegalArgumentException("[ERROR] 입력값은 공백이 될 수 없습니다.");
+    private String readNotBlankLine() {
+        String line = readLine();
+        if (line.isBlank()) {
+            throw new IllegalArgumentException("[ERROR] 공백이 아닌 유효한 값을 입력하세요.");
         }
+        return line;
     }
 
-    private int parseToInt(String input) {
+    private int readInteger() {
         try {
-            return Integer.parseInt(input);
+            return Integer.parseInt(readLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 좌표는 숫자만 입력 가능합니다.");
+            throw new IllegalArgumentException("[ERROR] 숫자만 입력 가능합니다.");
         }
     }
 

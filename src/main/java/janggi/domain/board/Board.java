@@ -2,18 +2,16 @@ package janggi.domain.board;
 
 import static janggi.view.Message.TARGET_POSITION_IS_NOT_MOVEABLE;
 
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceMapper;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Piece;
-import janggi.domain.game.Side;
-import janggi.dto.PlayerDTO;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -34,13 +32,6 @@ public class Board {
                 .forEach(boardInfo -> {
                     boardInfo.setPieces(initialBoard);
                 });
-    }
-
-    //    !------------임시---------------!
-    public Map<Position, Piece> getPiecePosition() {
-        Map<Position, Piece> piecePositions = new HashMap<>(piecePosition.size());
-        piecePositions.putAll(this.piecePosition);
-        return Collections.unmodifiableMap(piecePositions);
     }
 
     public List<Position> calculateDestinations(Position currentPosition) {
@@ -81,17 +72,22 @@ public class Board {
         return piecePosition.containsKey(position);
     }
 
-    public boolean isThereOwnPiece(Position selected, PlayerDTO currentPlayer) {
-        Piece piece = piecePosition.get(selected);
-        Side pieceSide = piece.side();
-        Side playerSide = currentPlayer.side();
-        return pieceSide.isSameSide(playerSide);
-    }
-
     public boolean isBothPalaceExist() {
         long palaceCount = piecePosition.values().stream()
                 .filter(Piece::isPalace)
                 .count();
         return palaceCount == 2;
+    }
+
+    public Piece findPieceBy(Position selectedPosition) {
+        return piecePosition.get(selectedPosition);
+    }
+
+    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper, PieceMapper<V> pieceMapper) {
+        return piecePosition.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().map(positionMapper), // Position 상태 Push
+                        entry -> entry.getValue().map(pieceMapper)   // Piece 상태 Push
+                ));
     }
 }
