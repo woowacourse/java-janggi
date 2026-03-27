@@ -2,7 +2,7 @@ package domain;
 
 import domain.piece.Cha;
 import domain.piece.Jang;
-import domain.piece.Jolbyeong;
+import domain.piece.Jol;
 import domain.piece.Ma;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -10,6 +10,12 @@ import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
 import domain.piece.Team;
+import domain.piece.strategy.ByeongMoveStrategy;
+import domain.piece.strategy.JolMoveStrategy;
+import domain.piece.strategy.MaMoveStrategy;
+import domain.piece.strategy.SangMoveStrategy;
+import domain.piece.strategy.SingleStepMoveStrategy;
+import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +31,14 @@ public class BoardInitializer {
 
     private Map<PieceType, Piece> initPieceByTeam(Team team) {
         Map<PieceType, Piece> pieces = new HashMap<>();
-        pieces.put(PieceType.PO, new Po(team));
-        pieces.put(PieceType.MA, new Ma(team));
-        pieces.put(PieceType.SANG, new Sang(team));
-        pieces.put(PieceType.SA, new Sa(team));
-        pieces.put(PieceType.JANG, new Jang(team));
-        pieces.put(PieceType.CHA, new Cha(team));
-        pieces.put(PieceType.JOLBYEONG, new Jolbyeong(team));
+        pieces.put(PieceType.PO, new Po(new SlidingMoveStrategy(), team));
+        pieces.put(PieceType.MA, new Ma(new MaMoveStrategy(), team));
+        pieces.put(PieceType.SANG, new Sang(new SangMoveStrategy(), team));
+        pieces.put(PieceType.SA, new Sa(new SingleStepMoveStrategy(), team));
+        pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(), team));
+        pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(), team));
+        pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(), team));
+        pieces.put(PieceType.BYEONG, new Jol(new ByeongMoveStrategy(), team));
         return pieces;
     }
 
@@ -57,11 +64,11 @@ public class BoardInitializer {
         setting.put(Position.of(3, 2), choPieces.get(PieceType.PO));
         setting.put(Position.of(3, 8), choPieces.get(PieceType.PO));
 
-        setting.put(Position.of(4, 1), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(4, 3), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(4, 5), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(4, 7), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(4, 9), choPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(4, 1), choPieces.get(PieceType.JOL));
+        setting.put(Position.of(4, 3), choPieces.get(PieceType.JOL));
+        setting.put(Position.of(4, 5), choPieces.get(PieceType.JOL));
+        setting.put(Position.of(4, 7), choPieces.get(PieceType.JOL));
+        setting.put(Position.of(4, 9), choPieces.get(PieceType.JOL));
 
         // 한나라
         setting.put(Position.of(10, 1), hanPieces.get(PieceType.CHA));
@@ -75,11 +82,11 @@ public class BoardInitializer {
         setting.put(Position.of(8, 2), hanPieces.get(PieceType.PO));
         setting.put(Position.of(8, 8), hanPieces.get(PieceType.PO));
 
-        setting.put(Position.of(7, 1), hanPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(7, 3), hanPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(7, 5), hanPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(7, 7), hanPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(7, 9), hanPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(7, 1), hanPieces.get(PieceType.BYEONG));
+        setting.put(Position.of(7, 3), hanPieces.get(PieceType.BYEONG));
+        setting.put(Position.of(7, 5), hanPieces.get(PieceType.BYEONG));
+        setting.put(Position.of(7, 7), hanPieces.get(PieceType.BYEONG));
+        setting.put(Position.of(7, 9), hanPieces.get(PieceType.BYEONG));
         return setting;
     }
 

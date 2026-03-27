@@ -41,7 +41,7 @@ public class PieceDto {
             if (type == PieceType.PO) {
                 return new PieceDto(row, col, "포");
             }
-            if (type == PieceType.JOLBYEONG) {
+            if (type == PieceType.JOL) {
                 return new PieceDto(row, col, "졸");
             }
         }
@@ -65,7 +65,7 @@ public class PieceDto {
             if (type == PieceType.PO) {
                 return new PieceDto(row, col, "包");
             }
-            if (type == PieceType.JOLBYEONG) {
+            if (type == PieceType.BYEONG) {
                 return new PieceDto(row, col, "兵");
             }
         }

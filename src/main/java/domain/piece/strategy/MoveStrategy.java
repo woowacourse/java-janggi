@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface MoveStrategy {
     List<Position> findMovablePath(Position start, Position destination);
+
 }

@@ -1,12 +1,15 @@
 package domain.piece;
 
+import domain.piece.strategy.MoveStrategy;
 import java.util.Objects;
 
 public abstract class Piece {
+    private final MoveStrategy moveStrategy;
     private final PieceType pieceType;
     private final Team team;
 
-    public Piece(PieceType pieceType, Team team) {
+    public Piece(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+        this.moveStrategy = moveStrategy;
         this.pieceType = pieceType;
         this.team = team;
     }

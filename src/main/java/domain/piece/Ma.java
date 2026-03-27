@@ -1,8 +1,10 @@
 package domain.piece;
 
+import domain.piece.strategy.MoveStrategy;
+
 public class Ma extends Piece {
 
-    public Ma(Team team) {
-        super(PieceType.MA, team);
+    public Ma(MoveStrategy moveStrategy, Team team) {
+        super(moveStrategy, PieceType.MA, team);
     }
 }

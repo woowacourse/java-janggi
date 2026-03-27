@@ -2,13 +2,19 @@ package domain;
 
 import domain.piece.Cha;
 import domain.piece.Jang;
-import domain.piece.Jolbyeong;
+import domain.piece.Jol;
 import domain.piece.Ma;
 import domain.piece.Piece;
 import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
 import domain.piece.Team;
+import domain.piece.strategy.ByeongMoveStrategy;
+import domain.piece.strategy.JolMoveStrategy;
+import domain.piece.strategy.MaMoveStrategy;
+import domain.piece.strategy.SangMoveStrategy;
+import domain.piece.strategy.SingleStepMoveStrategy;
+import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +33,10 @@ public class BoardInitializerTest {
     @BeforeEach
     void setUp() {
         initializer = new BoardInitializer();
-        sangOfCho = new Sang(Team.CHO);
-        sangOfHan = new Sang(Team.HAN);
-        maOfCho = new Ma(Team.CHO);
-        maOfHan = new Ma(Team.HAN);
+        sangOfCho = new Sang(new SangMoveStrategy(), Team.CHO);
+        sangOfHan = new Sang(new SangMoveStrategy(), Team.HAN);
+        maOfCho = new Ma(new MaMoveStrategy(), Team.CHO);
+        maOfHan = new Ma(new MaMoveStrategy(), Team.HAN);
     }
 
     @Test
@@ -109,40 +115,40 @@ public class BoardInitializerTest {
         Map<Position, Piece> setting = new HashMap<>();
 
         // 초나라
-        setting.put(Position.of(1, 1), new Cha(Team.CHO));
-        setting.put(Position.of(1, 9), new Cha(Team.CHO));
+        setting.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(), Team.CHO));
+        setting.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(1, 4), new Sa(Team.CHO));
-        setting.put(Position.of(1, 6), new Sa(Team.CHO));
+        setting.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(), Team.CHO));
+        setting.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(2, 5), new Jang(Team.CHO));
+        setting.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(3, 2), new Po(Team.CHO));
-        setting.put(Position.of(3, 8), new Po(Team.CHO));
+        setting.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(), Team.CHO));
+        setting.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(4, 1), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(4, 3), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(4, 5), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(4, 7), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(4, 9), new Jolbyeong(Team.CHO));
+        setting.put(Position.of(4, 1), new Jol(new JolMoveStrategy(), Team.CHO));
+        setting.put(Position.of(4, 3), new Jol(new JolMoveStrategy(), Team.CHO));
+        setting.put(Position.of(4, 5), new Jol(new JolMoveStrategy(), Team.CHO));
+        setting.put(Position.of(4, 7), new Jol(new JolMoveStrategy(), Team.CHO));
+        setting.put(Position.of(4, 9), new Jol(new JolMoveStrategy(), Team.CHO));
 
         // 한나라
-        setting.put(Position.of(10, 1), new Cha(Team.HAN));
-        setting.put(Position.of(10, 9), new Cha(Team.HAN));
+        setting.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(), Team.HAN));
+        setting.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(10, 4), new Sa(Team.HAN));
-        setting.put(Position.of(10, 6), new Sa(Team.HAN));
+        setting.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(), Team.HAN));
+        setting.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(9, 5), new Jang(Team.HAN));
+        setting.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(8, 2), new Po(Team.HAN));
-        setting.put(Position.of(8, 8), new Po(Team.HAN));
+        setting.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), Team.HAN));
+        setting.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(7, 1), new Jolbyeong(Team.HAN));
-        setting.put(Position.of(7, 3), new Jolbyeong(Team.HAN));
-        setting.put(Position.of(7, 5), new Jolbyeong(Team.HAN));
-        setting.put(Position.of(7, 7), new Jolbyeong(Team.HAN));
-        setting.put(Position.of(7, 9), new Jolbyeong(Team.HAN));
+        setting.put(Position.of(7, 1), new Jol(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 3), new Jol(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 5), new Jol(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 7), new Jol(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 9), new Jol(new ByeongMoveStrategy(), Team.HAN));
 
         return setting;
     }
