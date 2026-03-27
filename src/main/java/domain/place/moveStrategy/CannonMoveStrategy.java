@@ -51,7 +51,10 @@ public class CannonMoveStrategy implements MoveStrategy {
         int obstacleCount = 0;
 
         while (!to.equals(currentPosition)) {
-            obstacleCount += countObstacle(board, currentPosition);
+            if (!board.isEmpty(currentPosition)) {
+                obstacleCount++;
+            }
+
             if (board.isCannon(currentPosition)) {
                 return false;
             }
@@ -61,10 +64,4 @@ public class CannonMoveStrategy implements MoveStrategy {
         return obstacleCount == REQUIRED_OBSTACLE_COUNT;
     }
 
-    private int countObstacle(BoardView board, Position position) {
-        if (board.isEmpty(position)) {
-            return 0;
-        }
-        return 1;
-    }
 }
