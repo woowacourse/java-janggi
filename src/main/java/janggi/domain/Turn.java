@@ -42,14 +42,14 @@ public class Turn {
         return teamType.getName();
     }
 
+    public List<BoardSpot> makeBoardSnapShot() {
+        return board.makeSnapShot();
+    }
+
     private TeamType opponentTeamType() {
         if (movedTeam == TeamType.CHU) {
             return TeamType.HAN;
         }
         return TeamType.CHU;
-    }
-
-    public List<BoardSpot> makeBoardSnapShot() {
-        return board.makeSnapShot();
     }
 }
