@@ -31,11 +31,11 @@ public class BlueSoldierTest {
 
         @BeforeEach
         void setUp() {
-            blueSoldier = new Soldier(TeamType.RED);
-            enemy1 = new Soldier(TeamType.BLUE);
-            enemy2 = new Soldier(TeamType.BLUE);
-            ally1 = new Soldier(TeamType.RED);
-            ally2 = new Soldier(TeamType.RED);
+            blueSoldier = new Soldier(TeamType.BLUE);
+            enemy1 = new Soldier(TeamType.RED);
+            enemy2 = new Soldier(TeamType.RED);
+            ally1 = new Soldier(TeamType.BLUE);
+            ally2 = new Soldier(TeamType.BLUE);
             positionPieceMap = new LinkedHashMap<>();
         }
 
