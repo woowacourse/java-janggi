@@ -37,12 +37,15 @@ public class Board {
 
         for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
             EmptyState emptyState = new EmptyState();
-            for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
-                Position position = new Position(x, y);
+            initializeRow(y, emptyState);
+        }
+    }
 
-                if (!board.containsKey(position)) {
-                    board.put(position, emptyState);
-                }
+    private void initializeRow(int y, EmptyState emptyState) {
+        for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
+            Position position = new Position(x, y);
+            if (!board.containsKey(position)) {
+                board.put(position, emptyState);
             }
         }
     }
@@ -134,7 +137,7 @@ public class Board {
 
     public void validateFromPosition(Position from, Country country) {
         State fromState = board.get(from);
-        if (fromState.getPiece().getPieceInfo().country() != country) {
+        if (fromState.getPiece().getPieceCountry() != country) {
             throw new IllegalArgumentException(NOT_MY_PIECE);
         }
     }
@@ -144,7 +147,7 @@ public class Board {
         List<Position> paths = piece.path(from, to);
 
         if (!board.get(to).isEmpty()) {
-            PieceType fromPieceType = board.get(from).getPiece().getPieceInfo().pieceType();
+            PieceType fromPieceType = board.get(from).getPiece().getPieceType();
             PieceType toPieceType = board.get(to).getPiece().getPieceInfo().pieceType();
             if (fromPieceType != toPieceType) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
@@ -173,9 +176,9 @@ public class Board {
     private void checkCannonPath(List<Position> paths) {
         int pieceCount = 0;
         for (int index = 0; index < paths.size() - 1; index++) {
-            domain.state.State state = board.get(paths.get(index));
+            State state = board.get(paths.get(index));
             if (!state.isEmpty()) {
-                PieceType pieceType = state.getPiece().getPieceInfo().pieceType();
+                PieceType pieceType = state.getPiece().getPieceType();
                 if (pieceType == PieceType.CANNON) {
                     throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
                 }
