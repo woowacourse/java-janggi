@@ -1,9 +1,6 @@
 package domain.board;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
+import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
 
 import domain.piece.None;
 import domain.piece.Piece;
@@ -50,7 +47,7 @@ public class Board {
         Path path = piece.calculatePath(source, destination);
         PathPieces pathPieces = createPathPieces(path);
         if (!piece.validatePath(pathPieces)) {
-            throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
+            throw new IllegalArgumentException(INVALID_PIECE_MOVEMENT.formatted(source, destination));
         }
     }
 

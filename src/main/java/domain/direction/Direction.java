@@ -1,5 +1,7 @@
 package domain.direction;
 
+import static common.exception.ErrorMessage.INVALID_DIRECTION;
+
 import domain.position.Position;
 
 public enum Direction {
@@ -34,7 +36,7 @@ public enum Direction {
         if (columnDifference > 0) {
             return EAST;
         }
-        throw new IllegalArgumentException("갈 수 있는 경로가 없습니다.");
+        throw new IllegalArgumentException(INVALID_DIRECTION.formatted(rowDifference, columnDifference));
     }
 
     public Position calculateNextPosition(Position source) {

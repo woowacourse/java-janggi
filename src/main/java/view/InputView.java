@@ -1,5 +1,8 @@
 package view;
 
+import static common.exception.ErrorMessage.INVALID_NUMBER_INPUT;
+import static common.exception.ErrorMessage.INVALID_POSITION_INPUT;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +25,7 @@ public class InputView {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력해주세요.");
+            throw new IllegalArgumentException(INVALID_NUMBER_INPUT.getMessage());
         }
     }
 
@@ -31,7 +34,7 @@ public class InputView {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력해주세요.");
+            throw new IllegalArgumentException(INVALID_NUMBER_INPUT.getMessage());
         }
     }
 
@@ -52,7 +55,7 @@ public class InputView {
                     .map(Integer::parseInt)
                     .toList();
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자 두 개를 공백으로 구분하여 입력하세요.");
+            throw new IllegalArgumentException(INVALID_POSITION_INPUT.getMessage());
         }
     }
 }

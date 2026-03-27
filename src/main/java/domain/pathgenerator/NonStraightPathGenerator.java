@@ -1,5 +1,7 @@
 package domain.pathgenerator;
 
+import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
+
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
@@ -22,7 +24,7 @@ public class NonStraightPathGenerator implements PathGenerator {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("목적지로 이동할 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_PIECE_MOVEMENT.formatted(source, destination)));
     }
 
     private Optional<Path> tryBuildPath(Position source, Position destination, List<Direction> directionPath) {

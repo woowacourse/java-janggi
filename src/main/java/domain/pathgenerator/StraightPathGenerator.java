@@ -1,5 +1,7 @@
 package domain.pathgenerator;
 
+import static common.exception.ErrorMessage.INVALID_STRAIGHT_PATH;
+
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
@@ -11,7 +13,7 @@ public class StraightPathGenerator implements PathGenerator {
     @Override
     public Path calculatePath(Position source, Position destination) {
         if (!validateMove(source, destination)) {
-            throw new IllegalArgumentException("이동 할 수 있는 경로가 아닙니다.");
+            throw new IllegalArgumentException(INVALID_STRAIGHT_PATH.getMessage());
         }
         Direction direction = determineDirection(source, destination);
 

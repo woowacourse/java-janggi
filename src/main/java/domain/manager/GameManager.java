@@ -1,5 +1,7 @@
 package domain.manager;
 
+import static common.exception.ErrorMessage.DIFFERENT_TEAM;
+import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
@@ -76,11 +78,11 @@ public class GameManager {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askSourcePosition();
             Position source = new Position(numbers.getFirst(), numbers.getLast());
-            if(board.isPieceNone(source)) {
-                throw new IllegalArgumentException("비어있는 곳입니다.");
+            if (board.isPieceNone(source)) {
+                throw new IllegalArgumentException(EMPTY_SOURCE_POSITION.getMessage());
             }
             if (board.isPieceDifferentTeam(source, turnManager.getCurrentTeam())) {
-                throw new IllegalArgumentException("다른 팀입니다.");
+                throw new IllegalArgumentException(DIFFERENT_TEAM.formatted(turnManager.getCurrentTeam()));
             }
             return source;
         });
@@ -120,13 +122,17 @@ public class GameManager {
     }
 
     private Formation createChoFormation() {
-        int choPositionInput = retryOnInvalidInput(inputView::askChoPositionInput);
-        return createFormation(choPositionInput);
+        return retryOnInvalidInput(() -> {
+            int hanPositionInput = inputView.askChoPositionInput();
+            return createFormation(hanPositionInput);
+        });
     }
 
     private Formation createHanFormation() {
-        int hanPositionInput = retryOnInvalidInput(inputView::askHanPositionInput);
-        return createFormation(hanPositionInput);
+        return retryOnInvalidInput(() -> {
+            int hanPositionInput = inputView.askHanPositionInput();
+            return createFormation(hanPositionInput);
+        });
     }
 
 
