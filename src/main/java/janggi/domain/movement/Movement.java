@@ -20,13 +20,15 @@ public class Movement {
         return from.checkNextBound(maxDistance, direction);
     }
 
-    public boolean canKill(final Piece me, final Position from, final BoardMediator boardMediator) {
+    // 마지막 movement에서만 사용
+    // 현재 기물이 다음으로 가는 곳에서 갈 수 있는 칸이 있는지
+    public boolean hasReachablePosition(final Piece me, final Position from, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
-            Position to = from.calculateNext(distance, direction);
-            if (!boardMediator.existsInPosition(to)) {
+            final Position to = calculateNextPosition(from, distance);
+            if (!hasPieceAt(to, boardMediator)) {
                 return true;
             }
-            Piece target = boardMediator.getPieceInPosition(to);
+            final Piece target = findPieceAt(to, boardMediator);
             if (me.canKill(target)) {
                 return true;
             }
@@ -34,58 +36,73 @@ public class Movement {
         return false;
     }
 
+    // 이동 경로 중 막히는지
     public boolean isBlocked(final Position from, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
-            Position to = from.calculateNext(distance, direction);
-            if (boardMediator.existsInPosition(to)) {
+            final Position to = calculateNextPosition(from, distance);
+            if (hasPieceAt(to, boardMediator)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Position calculateDestination(final Position from, final Piece piece,
-        final BoardMediator boardMediator) {
+    // 처음 만나는 기물 찾기(그 기물이 적군이라면 기물의 위치 반환, 아군이라면 이전 위치 반환)
+    public Position calculateDestination(final Position from, final Piece piece, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
-            Position to = from.calculateNext(distance, direction);
-            if (boardMediator.existsInPosition(to)) {
-                Piece toPiece = boardMediator.getPieceInPosition(to);
-                if (toPiece.belongsToTeam(piece.getTeamType())) {
-                    return from.calculateNext(distance - 1, direction);
-                }
-                return from.calculateNext(distance, direction);
+            final Position to = calculateNextPosition(from, distance);
+            if (!hasPieceAt(to, boardMediator)) {
+                continue;
             }
+            final Piece target = findPieceAt(to, boardMediator);
+            if (target.belongsToTeam(piece.getTeamType())) {
+                return calculateNextPosition(from, distance - 1);
+            }
+            return to;
         }
-        return from.calculateNext(maxDistance, direction);
+        return calculateNextPosition(from, maxDistance);
     }
 
-    public Position calculateBlockedPosition(final Position from, final Piece piece,
-        final BoardMediator boardMediator) {
+    // 처음 만나는 기물 위치 반환, 만약 끝까지 가도 없으면 그 끝 위치 반환
+    public Position findFirstOccupiedPositionOrMax(final Position from, final Piece piece,
+                                                   final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
-            Position to = from.calculateNext(distance, direction);
-            if (boardMediator.existsInPosition(to)) {
-                return from.calculateNext(distance, direction);
+            final Position to = calculateNextPosition(from, distance);
+            if (hasPieceAt(to, boardMediator)) {
+                return to;
             }
         }
-        return from.calculateNext(maxDistance, direction);
+        return calculateNextPosition(from, maxDistance);
     }
 
     // 이동 가능한 경로의 자취 위치 리스트를 반환한다.
-    public List<Position> calculateTraces(final Position from, final Piece piece,
-        final BoardMediator boardMediator) {
+    // 경로에 장애물을 만나면 그때까지의 리스트를 반환하고, 적을 만난다면 적의 좌표를 포함하여 반환한다.
+    public List<Position> calculateTraces(final Position from, final Piece piece, final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
         for (int distance = 1; distance <= maxDistance; distance++) {
-            Position to = from.calculateNext(distance, direction);
-            if (boardMediator.existsInPosition(to)) {
-                Piece toPiece = boardMediator.getPieceInPosition(to);
-                if (!toPiece.belongsToTeam(piece.getTeamType()) && piece.canKill(
-                    toPiece)) {
-                    traces.add(to);
-                }
-                return traces;
+            Position to = calculateNextPosition(from, distance);
+            if (!hasPieceAt(to, boardMediator)) {
+                traces.add(to);
+                continue;
             }
-            traces.add(to);
+            final Piece target = findPieceAt(to, boardMediator);
+            if (!target.belongsToTeam(piece.getTeamType()) && piece.canKill(target)) {
+                traces.add(to);
+            }
+            return traces;
         }
         return traces;
+    }
+
+    private Position calculateNextPosition(final Position from, final int distance) {
+        return from.calculateNext(distance, direction);
+    }
+
+    private boolean hasPieceAt(final Position position, final BoardMediator boardMediator) {
+        return boardMediator.existsInPosition(position);
+    }
+
+    private Piece findPieceAt(final Position position, final BoardMediator boardMediator) {
+        return boardMediator.getPieceInPosition(position);
     }
 }

@@ -25,8 +25,8 @@ public class RuleWithNoTraces implements Rule {
             }
             from = movement.calculateDestination(from, piece, boardMediator);
         }
-        if (lastMovement.canMove(from) && lastMovement.canKill(piece, from, boardMediator)) {
-            from = lastMovement.calculateBlockedPosition(from, piece, boardMediator);
+        if (lastMovement.canMove(from) && lastMovement.hasReachablePosition(piece, from, boardMediator)) {
+            from = lastMovement.findFirstOccupiedPositionOrMax(from, piece, boardMediator);
             return List.of(from);
         }
         return List.of();
