@@ -25,24 +25,24 @@ public class Jol extends Piece {
             List.of(EAST),
             List.of(WEST));
 
+    private static final MovementStrategy STRATEGY = new BlockedMovementStrategy();
+    private static final PathGenerator CHO_GENERATOR = new NonStraightPathGenerator(choPaths);
+    private static final PathGenerator HAN_GENERATOR = new NonStraightPathGenerator(hanPaths);
+
     public Jol(Team team) {
         super(team, PieceType.JOL);
     }
 
-    private static List<List<Direction>> getPaths(Team team) {
-        if (team.isCho()) {
-            return choPaths;
-        }
-        return hanPaths;
-    }
-
     @Override
     protected MovementStrategy getMovementStrategy() {
-        return new BlockedMovementStrategy();
+        return STRATEGY;
     }
 
     @Override
     protected PathGenerator getPathGenerator() {
-        return new NonStraightPathGenerator(getPaths(getTeam()));
+        if (getTeam().isCho()) {
+            return CHO_GENERATOR;
+        }
+        return HAN_GENERATOR;
     }
 }

@@ -30,17 +30,20 @@ public class Ma extends Piece {
             List.of(WEST, SOUTH_WEST)
     );
 
+    private static final MovementStrategy movementStrategy = new BlockedMovementStrategy();
+    private static final PathGenerator pathGenerator = new NonStraightPathGenerator(paths);
+
     public Ma(Team team) {
         super(team, PieceType.MA);
     }
 
     @Override
     protected MovementStrategy getMovementStrategy() {
-        return new BlockedMovementStrategy();
+        return movementStrategy;
     }
 
     @Override
     protected PathGenerator getPathGenerator() {
-        return new NonStraightPathGenerator(paths);
+        return pathGenerator;
     }
 }

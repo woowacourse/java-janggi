@@ -30,17 +30,20 @@ public class Jang extends Piece {
             List.of(SOUTH_WEST)
     );
 
+    private static final MovementStrategy movementStrategy = new BlockedMovementStrategy();
+    private static final PathGenerator pathGenerator = new NonStraightPathGenerator(paths);
+
     public Jang(Team team) {
         super(team, PieceType.JANG);
     }
 
     @Override
     protected MovementStrategy getMovementStrategy() {
-        return new BlockedMovementStrategy();
+        return movementStrategy;
     }
 
     @Override
     protected PathGenerator getPathGenerator() {
-        return new NonStraightPathGenerator(paths);
+        return pathGenerator;
     }
 }
