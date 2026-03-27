@@ -8,7 +8,6 @@ import domain.TeamColor;
 import java.util.ArrayList;
 import java.util.List;
 import domain.Route;
-import domain.Piece;
 
 public interface MoveStrategy {
 
@@ -38,6 +37,5 @@ public interface MoveStrategy {
     }
 
     boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam);
-
 
 }
