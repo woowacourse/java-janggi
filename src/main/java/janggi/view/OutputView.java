@@ -12,6 +12,9 @@ public class OutputView {
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
 
+    private static final String TURN_PREFIX= "현재 턴: ";
+    private static final String ERROR_PREFIX = "[ERROR] ";
+
     public static void printBoard(BoardDto boardDto){
         PieceInfo[][] board = boardDto.board();
         StringBuilder result = new StringBuilder();
@@ -21,7 +24,7 @@ public class OutputView {
     }
 
     public static void printTurn(Side side){
-        System.out.println("현재 턴: " + side.getName());
+        System.out.println(TURN_PREFIX + side.getName());
     }
 
     public static void printWinner(Side winnerSide){
@@ -29,7 +32,7 @@ public class OutputView {
     }
 
     public static void printErrorMessage(String errorMessage){
-        System.out.println("[ERROR] " + errorMessage);
+        System.out.println(ERROR_PREFIX + errorMessage);
     }
 
     private static String buildColumnHeader(int colSize) {

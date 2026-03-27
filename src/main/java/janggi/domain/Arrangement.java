@@ -10,6 +10,8 @@ public enum Arrangement {
 
     private final String openningSetup;
 
+    private static final String INVALID_OPENING_TEXT = "존재하지 않는 배치입니다.";
+
     Arrangement(String openningSetup) {
         this.openningSetup = openningSetup;
     }
@@ -18,6 +20,6 @@ public enum Arrangement {
         return Arrays.stream(Arrangement.values())
                 .filter(arrangement -> arrangement.openningSetup.equals(openning))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 배치입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_OPENING_TEXT));
     }
 }

@@ -8,6 +8,11 @@ public record Position(int x, int y) {
     public static final int BOARD_END_ROWS = 10;
     public static final int BOARD_END_COLS = 9;
 
+    private static final String INVALID_POSITION_TYPE = "숫자만 입력 가능합니다.";
+    private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";
+    private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
+    private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
+
     public static Position from(List<String> inputs) {
         try {
             validateSize(inputs);
@@ -18,13 +23,13 @@ public record Position(int x, int y) {
             validate(r, c);
             return new Position(r, c);
         } catch(NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+            throw new IllegalArgumentException(INVALID_POSITION_TYPE);
         }
     }
 
     private static void validateSize(List<String> inputs){
         if (inputs.size() != 2) {
-            throw new IllegalArgumentException("행과 열 두 개의 값만 입력하세요.");
+            throw new IllegalArgumentException(INVALID_POSITION_SIZE);
         }
     }
 
@@ -35,13 +40,13 @@ public record Position(int x, int y) {
 
     private static void validateRow(int x) {
         if(x < BOARD_START_ROWS || x > BOARD_END_ROWS){
-            throw new IllegalArgumentException("유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.");
+            throw new IllegalArgumentException(INVALID_ROW_RANGE);
         }
     }
 
     private static void validateCol(int y) {
         if(y < BOARD_START_COLS || y > BOARD_END_COLS) {
-            throw new IllegalArgumentException("유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.");
+            throw new IllegalArgumentException(INVALID_COL_RANGE);
         }
     }
 
