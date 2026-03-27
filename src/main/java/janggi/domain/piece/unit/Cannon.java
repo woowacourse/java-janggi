@@ -22,7 +22,11 @@ public class Cannon extends Piece {
 
     @Override
     public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return List.of();
+        return paths.stream()
+                .map(path -> cutPath(path, piecesOnPaths))
+                .filter(path -> isValidPath(path, piecesOnPaths))
+                .flatMap(path -> path.getPath().stream())
+                .toList();
     }
 
     @Override
@@ -38,11 +42,27 @@ public class Cannon extends Piece {
 
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return null;
-    }
+        List<Point> points = path.getPath();
+        int count = 0;
+        List<Point> cutPoints = new ArrayList<>();
 
-    @Override
-    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return false;
+        for (Point point : points) {
+            if (piecesOnPaths.getOrDefault(point, new Empty()) instanceof Cannon) {
+                break;
+            }
+            if (piecesOnPaths.containsKey(point)) {
+                count++;
+                if (count == 1) {
+                    continue;
+                }
+            }
+            if (count >= 1) {
+                cutPoints.add(point);
+            }
+            if (count == 2) {
+                break;
+            }
+        }
+        return new Path(cutPoints);
     }
 }

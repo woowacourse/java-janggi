@@ -1,6 +1,6 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.board.coordinate.FixedPathStrategy;
+import janggi.domain.board.coordinate.LinearPathStrategy;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class Chariot extends Piece {
     private static final PieceName NAME = PieceName.CHARIOT;
-    private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+    private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
 
     public Chariot(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
@@ -22,7 +22,11 @@ public class Chariot extends Piece {
 
     @Override
     public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return List.of();
+        return paths.stream()
+                .map(path -> cutPath(path, piecesOnPaths))
+                .filter(path -> isValidPath(path, piecesOnPaths))
+                .flatMap(path -> path.getPath().stream())
+                .toList();
     }
 
     @Override
@@ -38,11 +42,10 @@ public class Chariot extends Piece {
 
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return null;
-    }
-
-    @Override
-    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return false;
+        return path.getPath().stream()
+                .filter(piecesOnPaths::containsKey)
+                .findFirst()
+                .map(path::cutUntil)
+                .orElse(path);
     }
 }

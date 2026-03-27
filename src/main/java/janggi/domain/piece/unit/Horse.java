@@ -23,8 +23,8 @@ public class Horse extends Piece {
     @Override
     public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
         return paths.stream()
-                .filter(path -> isValidPath(path, piecesOnPaths))
                 .map(path -> cutPath(path, piecesOnPaths))
+                .filter(path -> isValidPath(path, piecesOnPaths))
                 .map(path -> path.getPath().getLast())
                 .toList();
     }
@@ -52,6 +52,7 @@ public class Horse extends Piece {
 
     @Override
     protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
+        if(path.isEmpty()) return false;
         List<Point> points = path.getPath();
 
         return points.stream()

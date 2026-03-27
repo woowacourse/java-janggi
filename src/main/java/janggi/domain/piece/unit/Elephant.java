@@ -22,7 +22,11 @@ public class Elephant extends Piece {
 
     @Override
     public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return List.of();
+        return paths.stream()
+                .map(path -> cutPath(path, piecesOnPaths))
+                .filter(path -> isValidPath(path, piecesOnPaths))
+                .map(path -> path.getPath().getLast())
+                .toList();
     }
 
     @Override
@@ -43,11 +47,16 @@ public class Elephant extends Piece {
 
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return null;
+        return path;
     }
 
     @Override
     protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return false;
+        if(path.isEmpty()) return false;
+        List<Point> points = path.getPath();
+
+        return  points.stream()
+                .limit(points.size()-1)
+                .noneMatch(piecesOnPaths::containsKey);
     }
 }

@@ -26,12 +26,16 @@ public abstract class Piece {
         return side;
     }
 
-    public final boolean isSameSide(Side side) {
-        return Side.isSameSide(this.side, side);
+    public final boolean isOtherSide(Side side) {
+        return !Side.isSameSide(this.side, side);
     }
 
-    public final PathStrategy pathStrategy(){
+    public final PathStrategy pathStrategy() {
         return pathStrategy;
+    }
+
+    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
+        return !path.isEmpty();
     }
 
     public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
@@ -39,8 +43,6 @@ public abstract class Piece {
     public abstract List<Pattern> patterns();
 
     protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
-
-    protected abstract boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths);
 
 
     @Override

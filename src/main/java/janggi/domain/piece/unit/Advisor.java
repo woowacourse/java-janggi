@@ -22,7 +22,11 @@ public class Advisor extends Piece {
 
     @Override
     public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return List.of();
+        return paths.stream()
+                .filter(path -> isValidPath(path, piecesOnPaths))
+                .map(path -> cutPath(path, piecesOnPaths))
+                .map(path -> path.getPath().getLast())
+                .toList();
     }
 
     @Override
@@ -38,11 +42,6 @@ public class Advisor extends Piece {
 
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return null;
-    }
-
-    @Override
-    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return false;
+        return path;
     }
 }

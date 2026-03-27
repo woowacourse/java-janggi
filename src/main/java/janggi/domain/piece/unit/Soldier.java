@@ -22,7 +22,11 @@ public class Soldier extends Piece {
 
     @Override
     public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return List.of();
+        return paths.stream()
+                .filter(path -> isValidPath(path, piecesOnPaths))
+                .map(path -> cutPath(path, piecesOnPaths))
+                .flatMap(path -> path.getPath().stream())
+                .toList();
     }
 
     @Override
@@ -44,10 +48,5 @@ public class Soldier extends Piece {
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
         return path;
-    }
-
-    @Override
-    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return true;
     }
 }
