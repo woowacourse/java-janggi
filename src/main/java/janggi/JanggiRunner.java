@@ -19,7 +19,7 @@ public class JanggiRunner {
         OutputView.printStartMessage();
         OutputView.printBoard(board.makeSpots());
 
-        JanggiGame janggiGame = new JanggiGame(List.of(new Turn(TeamType.HAN, board))); // 여기서 Turn 객체를 Turns 생성자 내부에서 생성해주는게 나을 듯?
+        JanggiGame janggiGame = JanggiGame.createInitialJanggiGame(board);
         while (true) {
             JanggiGame currentJanggiGame = janggiGame;
             Position startPosition = ExceptionHandler.retryUntilSuccess(() -> readValidStartPosition(currentJanggiGame));

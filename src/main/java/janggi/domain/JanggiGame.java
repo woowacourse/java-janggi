@@ -1,6 +1,8 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.side.TeamType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +10,12 @@ public class JanggiGame {
 
     private final List<Turn> value;
 
-    public JanggiGame(List<Turn> value) {
+    private JanggiGame(List<Turn> value) {
         this.value = value;
+    }
+
+    public static JanggiGame createInitialJanggiGame(Board board) {
+        return new JanggiGame(List.of(new Turn(TeamType.HAN, board)));
     }
 
     public void validatePieceExist(Position position) {
