@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class Players {
 
+    private static final int PLAYER_NAME_COUNT = 2;
+
     private final Map<Side, Player> players;
 
     private Players(Map<Side, Player> players) {
@@ -17,6 +19,7 @@ public class Players {
 
     public static Players from(List<String> names) {
         validateNonDuplicate(names);
+        validateNameCount(names);
 
         Map<Side, Player> players = new EnumMap<>(Side.class);
         players.put(Side.CHO, new Player(names.get(0), Side.CHO));
@@ -30,6 +33,12 @@ public class Players {
 
         if (s.size() != names.size()) {
             throw new IllegalArgumentException("[ERROR] 플레이어 이름은 중복될 수 없습니다.");
+        }
+    }
+
+    private static void validateNameCount(List<String> names) {
+        if (names.size() != PLAYER_NAME_COUNT) {
+            throw new IllegalArgumentException("[ERROR] 플레이어는 2명을 입력해야 합니다.");
         }
     }
 
