@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class BoardInitializer {
-
     private static final Map<Arrangement, List<PieceType>> arrangeMap = Map.of(
             Arrangement.마상마상, List.of(PieceType.MA, PieceType.SANG, PieceType.MA, PieceType.SANG),
             Arrangement.마상상마, List.of(PieceType.MA, PieceType.SANG, PieceType.SANG, PieceType.MA),

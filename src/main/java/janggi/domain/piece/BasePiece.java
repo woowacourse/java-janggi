@@ -21,6 +21,7 @@ public abstract class BasePiece implements Piece {
     public boolean isPo() {
         return false;
     }
+
     @Override
     public boolean isGung() {
         return false;
