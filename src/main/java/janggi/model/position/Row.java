@@ -19,9 +19,11 @@ public enum Row {
 
     public static Row of(int rowNumber) {
         int adjustValue = 1;
+        int zeroInput = 0;
+        int maxRow = 10;
 
-        if (rowNumber == 0) {
-            rowNumber = 10;
+        if (rowNumber == zeroInput) {
+            rowNumber = maxRow;
         }
 
         return CACHE_VALUES.get(rowNumber - adjustValue);
@@ -39,11 +41,12 @@ public enum Row {
 
 
     public List<Row> to(Row other) {
+        int adjustValue = 1;
         if (this.ordinal() > other.ordinal()) {
-            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + 1).reversed();
+            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + adjustValue).reversed();
         }
 
-        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + 1);
+        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + adjustValue);
     }
 
     public int getDistance(Row other) {

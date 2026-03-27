@@ -5,6 +5,14 @@ public record PositionDelta(
         int columnDistance
 ) {
 
+    private static final int UNIT_STEP = 1;
+    private static final int NEGATIVE_UNIT_STEP = -1;
+    private static final int NO_MOVEMENT = 0;
+
+    private static final int FIRST_STEP = 1;
+    private static final int SECOND_STEP = 2;
+    private static final int THIRD_STEP = 3;
+
     public static PositionDelta between(Position from, Position to) {
         return new PositionDelta(
                 to.getRowDistance(from),
@@ -27,11 +35,11 @@ public record PositionDelta(
     }
 
     public boolean isMoreThanOneStep() {
-        return getAbsRowDistance() + getAbsColumnDistance() < 2;
+        return getAbsRowDistance() + getAbsColumnDistance() < SECOND_STEP;
     }
 
     public boolean isMoreThanOneStepIncludingDiagonal() {
-        return getAbsRowDistance() >= 2 || getAbsColumnDistance() >= 2;
+        return getAbsRowDistance() >= 2 || getAbsColumnDistance() >= SECOND_STEP;
     }
 
     private boolean isNotStraightThenDiagonal(int straight, int diagonal) {
@@ -40,11 +48,11 @@ public record PositionDelta(
     }
 
     public boolean isMoreThanOneStepAndDiagonal() {
-        return isNotStraightThenDiagonal(1, 2);
+        return isNotStraightThenDiagonal(FIRST_STEP, SECOND_STEP);
     }
 
     public boolean isMoreThanOneStepAndDoubleDiagonal() {
-        return isNotStraightThenDiagonal(2, 3);
+        return isNotStraightThenDiagonal(SECOND_STEP, THIRD_STEP);
     }
 
     private int getAbsRowDistance() {
@@ -56,11 +64,11 @@ public record PositionDelta(
     }
 
     public boolean isHorizontal() {
-        return rowDistance == 0;
+        return rowDistance == NO_MOVEMENT;
     }
 
     public boolean isVertical() {
-        return columnDistance == 0;
+        return columnDistance == NO_MOVEMENT;
     }
 
     public boolean isHorizontalLongerThanVertical() {
@@ -73,10 +81,10 @@ public record PositionDelta(
             unit = columnDistance;
         }
 
-        if (unit > 0) {
-            return 1;
+        if (unit > NO_MOVEMENT) {
+            return UNIT_STEP;
         }
 
-        return -1;
+        return NEGATIVE_UNIT_STEP;
     }
 }
