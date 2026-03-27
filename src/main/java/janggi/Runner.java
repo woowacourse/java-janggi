@@ -61,7 +61,7 @@ public class Runner {
     private Players initialPlayers() {
         String choPlayerName = readPlayerName(Side.CHO);
         String hanPlayerName = readPlayerName(Side.HAN);
-        return Players.from(choPlayerName, hanPlayerName);
+        return Players.of(choPlayerName, hanPlayerName);
     }
 
     private String readPlayerName(Side side) {

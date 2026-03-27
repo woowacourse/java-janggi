@@ -13,7 +13,7 @@ public class Players {
         this.turn = new Turn();
     }
 
-    public static Players from(String choPlayerName, String hanPlayerName) {
+    public static Players of(String choPlayerName, String hanPlayerName) {
         validateDuplicatedNames(choPlayerName, hanPlayerName);
         Player choPlayer = new Player(choPlayerName, Side.CHO);
         Player hanPlayer = new Player(hanPlayerName, Side.HAN);
