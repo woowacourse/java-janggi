@@ -12,7 +12,7 @@ public class Board {
     private static final int MAX_ROW = 10;
     private static final int MIN_COL = 1;
     private static final int MAX_COL = 9;
-    private Map<Position, Piece> board;
+    private final Map<Position, Piece> board;
 
     public Board() {
         this.board = new HashMap<>();
