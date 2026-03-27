@@ -104,15 +104,15 @@
     - [x] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환  
       `Paths findMovablePaths(Position current, EnumSet<Direction> directions)`
     - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
-      `List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO)`
+      `List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece)`
 
 - [ ] **[Domain]** 기물의 이동 규칙(전략)을 관리하는 구현체 클래스 `class Strategy implements MoveStrategy`
     - [x] * `1.1단계 - 보드 초기화` 를 선행하기 위해 비워 둠 
     - [ ] [규칙] 각 기물별 이동 규칙을 구현하고, 동일성이 존대한다면 묶는다
 
-- [x] **[`Domain/VO`]** 기물의 이동 가능성을 판정하기 위한 최소 정보를 전달할 클래스 `record PieceVO`
+- [x] **[`Domain/VO`]** 기물의 이동 가능성을 판정하기 위한 최소 정보를 전달할 클래스 `record Piece`
     - [x] [규칙] 기물의 진영을 전달 `Side side`
-    - [x] [규칙] 같은 진영인지 판별 `public boolean isAlly(PieceVO)`
+    - [x] [규칙] 같은 진영인지 판별 `public boolean isAlly(Piece)`
     - [x] [규칙] 기물의 종류를 전달 `PieceType pieceType`
     - [x] [규칙] 기물의 종류를 판별 -> 현재 필요한 건 포 여부 뿐 `public boolean isCannon()`
     - [x] [규칙] 기물의 번호(식별자)를 전달 `PieceType pieceType` - 현재 불필요하지만 추가해서 전달
@@ -136,8 +136,8 @@
     - [x] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환
       `public Paths calculatePaths(Position current)`
     - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환
-      `public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState)`
-    - [x] [규칙] 기물의 상태를 포장된 객체로 반환 `public PieceVO toVO()`
+      `public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState)`
+    - [x] [규칙] 기물의 상태를 포장된 객체로 반환 `public Piece toVO()`
 
 - [x] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`
     - [x] [규칙] ※ 요구사항 분석과 미션 진행 설계에 따라 상/마 자유 배치 생략, 기본 위치로 일괄 고정.

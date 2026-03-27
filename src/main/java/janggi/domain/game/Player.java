@@ -1,6 +1,6 @@
 package janggi.domain.game;
 
-import janggi.domain.piece.PieceVO;
+import janggi.domain.piece.Piece;
 import janggi.dto.PlayerDTO;
 
 public class Player {
@@ -21,7 +21,7 @@ public class Player {
         return new PlayerDTO(name, side);
     }
 
-    public boolean isOwnPiece(PieceVO pieceVo) {
-        return side.isSameSide(pieceVo.side());
+    public boolean isOwnPiece(Piece Piece) {
+        return side.isSameSide(Piece.side());
     }
 }

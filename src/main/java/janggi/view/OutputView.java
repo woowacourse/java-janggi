@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.domain.board.Position;
-import janggi.domain.piece.PieceVO;
+import janggi.domain.piece.Piece;
 import janggi.util.PieceLabelMapper;
 import janggi.dto.BoardDTO;
 import java.util.List;
@@ -41,7 +41,7 @@ public class OutputView {
         printLine(COLUMN_INDEXES);
     }
 
-    private void renderRow(int row, Map<Position, PieceVO> status, Position selected, List<Position> movables) {
+    private void renderRow(int row, Map<Position, Piece> status, Position selected, List<Position> movables) {
         StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
         for (int col = 0; col < 9; col++) {
             Position current = new Position(row, col);
@@ -51,9 +51,9 @@ public class OutputView {
         printLine(sb.toString());
     }
 
-    private String getFormattedCell(Map<Position, PieceVO> status, Position current, Position selected, List<Position> movables) {
-        PieceVO vo = status.get(current);
-        String label = (vo == null) ? EMPTY_CELL : PieceLabelMapper.toFullWidth(vo);
+    private String getFormattedCell(Map<Position, Piece> status, Position current, Position selected, List<Position> movables) {
+        Piece piece = status.get(current);
+        String label = (piece == null) ? EMPTY_CELL : PieceLabelMapper.toFullWidth(piece);
         String cell = "［" + label + "］";
         if (current.equals(selected)) {
             return ANSI_BLUE + cell + ANSI_RESET;

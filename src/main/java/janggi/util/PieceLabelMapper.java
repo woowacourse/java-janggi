@@ -1,7 +1,7 @@
 package janggi.util;
 
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.PieceVO;
+import janggi.domain.piece.Piece;
 import janggi.domain.game.Side;
 import java.util.Map;
 
@@ -12,19 +12,19 @@ public class PieceLabelMapper {
             PieceType.HAN_SOLDIER, "병"
     );
 
-    public static String toFullWidth(PieceVO vo) {
-        return getPieceName(vo) + convertToFullWidthChar(vo.pieceNumber());
+    public static String toFullWidth(Piece piece) {
+        return getPieceName(piece) + convertToFullWidthChar(piece.pieceNumber());
     }
 
-    public static String toHalfWidth(PieceVO vo) {
-        return getPieceName(vo) + vo.pieceNumber();
+    public static String toHalfWidth(Piece piece) {
+        return getPieceName(piece) + piece.pieceNumber();
     }
 
-    private static String getPieceName(PieceVO vo) {
-        if (vo.type() == PieceType.PALACE) {
-            return vo.side() == Side.CHO ? "초" : "한";
+    private static String getPieceName(Piece piece) {
+        if (piece.type() == PieceType.PALACE) {
+            return piece.side() == Side.CHO ? "초" : "한";
         }
-        return NAMES.get(vo.type());
+        return NAMES.get(piece.type());
     }
 
     private static String convertToFullWidthChar(String halfWidthNumber) {

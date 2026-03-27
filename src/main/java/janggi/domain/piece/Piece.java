@@ -6,27 +6,24 @@ import janggi.domain.route.Paths;
 import java.util.List;
 import java.util.Map;
 
-public class Piece {
-
-    private final Side side;
-    private final PieceType pieceType;
-    private final String pieceNumber;
-
-    public Piece(Side side, PieceType pieceType, String pieceNumber) {
-        this.pieceType = pieceType;
-        this.side = side;
-        this.pieceNumber = pieceNumber;
-    }
+public record Piece(Side side, PieceType type, String pieceNumber) {
 
     public Paths calculatePaths(Position current) {
-        return pieceType.calculatePaths(current);
+        return type.calculatePaths(current);
     }
 
-    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState) {
-        return pieceType.determineDestinations(routes, boardState, mapToVO());
+    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState) {
+        return type.determineDestinations(routes, boardState, this);
     }
 
-    public PieceVO mapToVO() {
-        return new PieceVO(side, pieceType, pieceNumber);
+    public boolean isSameSide(Piece other) {
+        if (other == null) {
+            return false;
+        }
+        return this.side == other.side();
+    }
+
+    public boolean isCannon() {
+        return this.type == PieceType.CANNON;
     }
 }

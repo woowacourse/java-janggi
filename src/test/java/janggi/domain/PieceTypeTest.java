@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.PieceVO;
+import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
 import java.util.HashMap;
@@ -101,11 +101,11 @@ class PieceTypeTest {
         Paths paths = horse.calculatePaths(current);
 
         // 보드 상태 구성: (5, 4) 남쪽 방향 '멱'에 기물 배치
-        Map<Position, PieceVO> boardState = new HashMap<>();
+        Map<Position, Piece> boardState = new HashMap<>();
         Position obstacleTransit = new Position(5, 4);
-        boardState.put(obstacleTransit, new PieceVO(Side.CHO, PieceType.CHO_SOLDIER, "0"));
+        boardState.put(obstacleTransit, new Piece(Side.CHO, PieceType.CHO_SOLDIER, "0"));
 
-        PieceVO movingPiece = new PieceVO(Side.HAN, PieceType.HORSE, "0");
+        Piece movingPiece = new Piece(Side.HAN, PieceType.HORSE, "0");
 
         // when
         List<Position> destinations = horse.determineDestinations(paths, boardState, movingPiece);

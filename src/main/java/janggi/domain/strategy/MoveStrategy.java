@@ -2,7 +2,7 @@ package janggi.domain.strategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.PieceVO;
+import janggi.domain.piece.Piece;
 import janggi.domain.board.Position;
 import java.util.EnumSet;
 import java.util.List;
@@ -12,5 +12,5 @@ public interface MoveStrategy {
 
     Paths findMovablePaths(Position current, EnumSet<Direction> directions);
 
-    List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPieceVO);
+    List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece);
 }

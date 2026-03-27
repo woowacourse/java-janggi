@@ -3,7 +3,7 @@ package janggi.domain.strategy;
 import janggi.domain.board.Direction;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.PieceVO;
+import janggi.domain.piece.Piece;
 import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -43,7 +43,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPiece) {
+    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
             validateHorsePath(route, boardState, destinations, movingPiece);
@@ -51,7 +51,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         return destinations;
     }
 
-    private void validateHorsePath(Path route, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+    private void validateHorsePath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
         Iterator<Position> it = route.iterator();
         Position transit = it.next(); // 멱 (1번째)
 
@@ -60,8 +60,8 @@ public class HorseMoveStrategy implements MoveStrategy {
         }
     }
 
-    private void addIfValid(Position dest, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
-        PieceVO target = state.get(dest);
+    private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> dests, Piece me) {
+        Piece target = state.get(dest);
         if (target == null || !target.isSameSide(me)) {
             dests.add(dest);
         }
