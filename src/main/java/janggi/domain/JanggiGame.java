@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.side.TeamType;
+import janggi.dto.BoardSpot;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +13,13 @@ public class JanggiGame {
         this.value = value;
     }
 
-    public static JanggiGame createInitialJanggiGame(Board board) {
-        return new JanggiGame(List.of(new Turn(TeamType.HAN, board)));
+    public static JanggiGame createInitialJanggiGame() {
+        return new JanggiGame(List.of(Turn.createInitialTurn()));
+    }
+
+    public List<BoardSpot> makeCurrentTurnBoardSnapShot() {
+        Turn lastTurn = getLastTurn();
+        return lastTurn.makeBoardSnapShot();
     }
 
     public void validatePieceExist(Position position) {

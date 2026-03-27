@@ -1,29 +1,28 @@
 package janggi;
 
-import janggi.domain.Board;
 import janggi.domain.JanggiGame;
 import janggi.domain.Position;
-import janggi.domain.Turn;
-import janggi.domain.side.TeamType;
 import janggi.util.DelimiterParser;
 import janggi.util.ExceptionHandler;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-
 import java.util.List;
 
 public class JanggiRunner {
 
     public void execute() {
-        Board board = Board.createInitialBoard();
         OutputView.printStartMessage();
-        OutputView.printBoard(board.makeSpots());
 
-        JanggiGame janggiGame = JanggiGame.createInitialJanggiGame(board);
+        JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
         while (true) {
             JanggiGame currentJanggiGame = janggiGame;
-            Position startPosition = ExceptionHandler.retryUntilSuccess(() -> readValidStartPosition(currentJanggiGame));
-            Position endPosition = ExceptionHandler.retryUntilSuccess(() -> readValidEndPosition(currentJanggiGame, startPosition));
+            OutputView.printBoard(currentJanggiGame.makeCurrentTurnBoardSnapShot());
+            Position startPosition = ExceptionHandler.retryUntilSuccess(
+                () -> readValidStartPosition(currentJanggiGame)
+            );
+            Position endPosition = ExceptionHandler.retryUntilSuccess(
+                () -> readValidEndPosition(currentJanggiGame, startPosition)
+            );
             janggiGame = janggiGame.doGame(startPosition, endPosition);
         }
     }

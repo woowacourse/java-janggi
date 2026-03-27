@@ -2,6 +2,8 @@ package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.side.TeamType;
+import janggi.dto.BoardSpot;
+import java.util.List;
 
 public class Turn {
 
@@ -11,6 +13,10 @@ public class Turn {
     public Turn(TeamType movedTeam, Board board) {
         this.movedTeam = movedTeam;
         this.board = board;
+    }
+
+    public static Turn createInitialTurn() {
+        return new Turn(TeamType.HAN, Board.createInitialBoard());
     }
 
     public boolean isMyTeamPieceExist(Position position) {
@@ -41,5 +47,9 @@ public class Turn {
             return TeamType.HAN;
         }
         return TeamType.CHU;
+    }
+
+    public List<BoardSpot> makeBoardSnapShot() {
+        return board.makeSnapShot();
     }
 }

@@ -28,7 +28,7 @@ public class Board {
         return new Board(Chu.createInitialChu(), Han.createInitialHan());
     }
 
-    public List<BoardSpot> makeSpots() {
+    public List<BoardSpot> makeSnapShot() {
         List<BoardSpot> chuBoardSpots = chu.makeSpots();
         List<BoardSpot> hanBoardSpots = han.makeSpots();
         List<BoardSpot> boardSpots = new ArrayList<>(chuBoardSpots);
