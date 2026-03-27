@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Country;
 import domain.Direction;
 import domain.Position;
 import java.util.ArrayList;
@@ -10,10 +11,6 @@ public abstract class Piece {
 
     public Piece(PieceInfo pieceInfo) {
         this.pieceInfo = pieceInfo;
-    }
-
-    public PieceInfo getPieceInfo() {
-        return pieceInfo;
     }
 
     public List<Position> path(Position from, Position to) {
@@ -37,4 +34,16 @@ public abstract class Piece {
     }
 
     abstract void validateDirections(List<Direction> directions);
+
+    public PieceInfo getPieceInfo() {
+        return pieceInfo;
+    }
+
+    public PieceType getPieceType() {
+        return pieceInfo.pieceType();
+    }
+
+    public Country getPieceCountry() {
+        return pieceInfo.country();
+    }
 }
