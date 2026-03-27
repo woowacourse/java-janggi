@@ -25,6 +25,10 @@ public class GuardStrategy implements MoveStrategy {
 
     @Override
     public void canMove(List<Path> paths, Position to) {
-
+        for (Path path : paths) {
+            if (path.position() != to) {
+                throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
+            }
+        }
     }
 }

@@ -1,8 +1,7 @@
 package domain;
 
 import domain.board.Position;
-import domain.piece.PieceType;
-import domain.piece.Team;
+import domain.piece.Piece;
 
-public record Path(Position position, PieceType pieceType, Team team) {
+public record Path(Position position, Piece piece) {
 }

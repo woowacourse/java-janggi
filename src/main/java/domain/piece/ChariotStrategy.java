@@ -60,9 +60,5 @@ public class ChariotStrategy implements MoveStrategy {
                 throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
             }
         }
-
-        if (!paths.isEmpty()) { // 최종 목적지에 기물이 있다
-
-        }
     }
 }

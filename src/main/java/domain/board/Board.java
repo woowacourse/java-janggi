@@ -29,11 +29,12 @@ public class Board {
         List<Path> paths = new ArrayList<>();
         for (Position position : positions) {
             if (pieces.containsKey(position)) {
-                Piece piece = pieces.get(position);
-                paths.add(new Path(position, piece.pieceType(), piece.team()));
+                paths.add(new Path(position, pieces.get(position)));
             }
         }
 
         return paths;
     }
+
+    // TODO 같은 팀이면 예외 발생, 다른 팀이면 잡는 함수 작성 필요(move 안에)
 }
