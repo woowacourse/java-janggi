@@ -45,8 +45,8 @@ public class Board {
         return new BoardDTO(stringBoard);
     }
 
-    public boolean isPieceSameTeam(Position source, Team team) {
-        return findPiece(source).isSameTeam(team);
+    public boolean isPieceDifferentTeam(Position source, Team team) {
+        return findPiece(source).isDifferentTeam(team);
     }
 
     public boolean isPieceNone(Position source) {
