@@ -24,8 +24,8 @@ public class Piece {
         return moveStrategy.isMoveAble(destination);
     };
 
-    public boolean isInvalidPath(Position destination, List<Position> piecePositions) {
-        return moveStrategy.isInvalidPath(destination, piecePositions);
+    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
+        return moveStrategy.hasPieceOnPath(destination, piecePositions);
     }
 
     public boolean isGeneral() {

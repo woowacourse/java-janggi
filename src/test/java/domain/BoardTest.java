@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Piece;
+import domain.strategy.CannonMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.NoneMoveableStrategy;
 import java.util.HashMap;
@@ -58,10 +59,10 @@ class BoardTest {
     void cannon_can_not_jump_cannon() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece selected = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                CannonMoveStrategy.of(Position.of(3, 3)));
 
         Piece fixed = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(5, 3)));
+                CannonMoveStrategy.of(Position.of(5, 3)));
 
         Piece destination = new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
                 NoneMoveableStrategy.of(Position.of(7, 3)));
@@ -78,17 +79,17 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("포는 포를 넘을 수 없다.")
-    void cannon_can_not_jump_cannon() {
+    @DisplayName("포는 포를 잡을 수 없다.")
+    void cannon_can_not_catch_cannon() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece selected = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                CannonMoveStrategy.of(Position.of(3, 3)));
 
-        Piece fixed = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
+        Piece fixed = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
                 HorseMoveStrategy.of(Position.of(5, 3)));
 
-        Piece destination = new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
-                NoneMoveableStrategy.of(Position.of(7, 3)));
+        Piece destination = new Piece(PieceProperty.of(PieceType.CANNON, Team.RED),
+                CannonMoveStrategy.of(Position.of(7, 3)));
 
         testBoard.put(selected.position(), selected);
         testBoard.put(fixed.position(), fixed);

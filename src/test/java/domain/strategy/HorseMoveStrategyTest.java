@@ -36,7 +36,7 @@ class HorseMoveStrategyTest {
     void horse_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
         HorseMoveStrategy moveStrategy = HorseMoveStrategy.of(position);
 
-        assertThat(moveStrategy.isInvalidPath(expectedTarget, piecePositions)).isTrue();
+        assertThat(moveStrategy.hasPieceOnPath(expectedTarget, piecePositions)).isTrue();
     }
 
     @ParameterizedTest
@@ -45,7 +45,7 @@ class HorseMoveStrategyTest {
     void horse_non_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
         HorseMoveStrategy moveStrategy = HorseMoveStrategy.of(position);
 
-        assertThat(moveStrategy.isInvalidPath(expectedTarget, piecePositions)).isFalse();
+        assertThat(moveStrategy.hasPieceOnPath(expectedTarget, piecePositions)).isFalse();
     }
 
 

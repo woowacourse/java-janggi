@@ -31,7 +31,7 @@ public class CannonMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isInvalidPath(Position destination, List<Position> piecePositions) {
+    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
         if (position.row() == destination.row()) {
             List<Position> routePositions = getLeftOrRightRoutePositions(destination);
             return piecePositions.stream().filter(routePositions::contains).count() != 1;

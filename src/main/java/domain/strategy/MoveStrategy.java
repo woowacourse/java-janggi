@@ -15,7 +15,7 @@ public abstract class MoveStrategy {
 
     public abstract boolean isMoveAble(Position position);
 
-    public abstract boolean isInvalidPath(Position destination, List<Position> piecePositions);
+    public abstract boolean hasPieceOnPath(Position destination, List<Position> piecePositions);
 
     public void changePosition(Position movedPosition) {
         this.position = movedPosition;

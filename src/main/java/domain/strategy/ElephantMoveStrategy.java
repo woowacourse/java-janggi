@@ -39,7 +39,7 @@ public class ElephantMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isInvalidPath(Position destination, List<Position> piecePositions) {
+    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
         List<Position> route = moves.get(destination);
 
         return piecePositions.stream().anyMatch(route::contains);

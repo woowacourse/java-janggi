@@ -43,7 +43,7 @@ public class DownToUpSoldierMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isInvalidPath(Position destination, List<Position> piecePositions) {
+    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
         return false;
     }
 }

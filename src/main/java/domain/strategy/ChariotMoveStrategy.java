@@ -30,7 +30,7 @@ public class ChariotMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean isInvalidPath(Position destination, List<Position> piecePositions) {
+    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
         if (position.row() == destination.row()) {
             List<Position> routePositons = getLeftOrRightRoutePositions(destination);
             return piecePositions.stream().anyMatch(routePositons::contains);
