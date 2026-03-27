@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.PieceInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 
@@ -52,7 +53,8 @@ public class Board implements BoardInterface {
         List<Position> route = piece.findRoute(start, end);
 
         piece.validateRoute(route, this);
-        board.put(start, piece);
+        board.put(end, piece);
+        board.put(start,new None());
         return true;
     }
 }
