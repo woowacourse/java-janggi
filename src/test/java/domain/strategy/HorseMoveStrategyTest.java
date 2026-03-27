@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 class HorseMoveStrategyTest {
 
     @Test
-    @DisplayName("초나라 마의 이동 경로에 다른 기물이 없으면 정마 이동한다.")
-    void 초나라_마_정마_이동() {
+    @DisplayName("초나라 마의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
+    void 초나라_마_정상_이동() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -26,8 +26,8 @@ class HorseMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("한나라 마의 이동 경로에 다른 기물이 없으면 정마 이동한다.")
-    void 한나라_마_정마_이동() {
+    @DisplayName("한나라 마의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
+    void 한나라_마_정상_이동() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
         Board board = BoardFactory.setUp();

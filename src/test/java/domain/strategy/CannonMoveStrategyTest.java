@@ -32,7 +32,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("한나라 포의 이동 경로에 다른 기물이 없으면 이동하지 못한다.")
-    void 포의_이동_경로에_다른_기물이_없으면_이동하지_못한다() {
+    void 포의_이동_경로에_다른_기물이_없으면_이동_불가() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -90,7 +90,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("목적지에 포가 있으면 이동하지 않는다.")
-    void 목적지에_포가_있으면_이동하지_않는다() {
+    void 목적지에_포가_있으면_이동_불가() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
