@@ -6,7 +6,7 @@ import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.List;
 
-public class Guard extends StaticPositionedPiece {
+public class Guard extends PalacePiece {
 
     private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(0);
     private static final List<Integer> INITAL_FILES = List.of(4, 6);

@@ -6,7 +6,7 @@ import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.List;
 
-public class General extends StaticPositionedPiece {
+public class General extends PalacePiece {
 
     private static final int INITIAL_FILE = 5;
     private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(1);
