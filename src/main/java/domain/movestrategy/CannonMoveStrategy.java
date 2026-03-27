@@ -11,10 +11,10 @@ import java.util.Map;
 public class CannonMoveStrategy implements MoveStrategy {
 
     private static final List<Delta> ORTHOGONAL_DELTAS = List.of(
-            Delta.up(),
-            Delta.right(),
-            Delta.down(),
-            Delta.left()
+            Delta.UP,
+            Delta.RIGHT,
+            Delta.DOWN,
+            Delta.LEFT
     );
 
     @Override

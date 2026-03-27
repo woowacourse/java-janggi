@@ -9,14 +9,14 @@ import java.util.Map;
 public class HorseMoveStrategy implements MoveStrategy {
 
     private static final Map<Position, Delta> PATH_BY_DESTINATION = Map.ofEntries(
-            Map.entry(Position.of(-2, -1), Delta.up()),
-            Map.entry(Position.of(-2, 1), Delta.up()),
-            Map.entry(Position.of(-1, -2), Delta.left()),
-            Map.entry(Position.of(1, -2), Delta.left()),
-            Map.entry(Position.of(2, -1), Delta.down()),
-            Map.entry(Position.of(2, 1), Delta.down()),
-            Map.entry(Position.of(-1, 2), Delta.right()),
-            Map.entry(Position.of(1, 2), Delta.right())
+            Map.entry(Position.of(-2, -1), Delta.UP),
+            Map.entry(Position.of(-2, 1), Delta.UP),
+            Map.entry(Position.of(-1, -2), Delta.LEFT),
+            Map.entry(Position.of(1, -2), Delta.LEFT),
+            Map.entry(Position.of(2, -1), Delta.DOWN),
+            Map.entry(Position.of(2, 1), Delta.DOWN),
+            Map.entry(Position.of(-1, 2), Delta.RIGHT),
+            Map.entry(Position.of(1, 2), Delta.RIGHT)
     );
 
     @Override

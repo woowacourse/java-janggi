@@ -9,8 +9,8 @@ import java.util.Map;
 public class GuardMoveStrategy implements MoveStrategy {
 
     private static final List<Delta> ALL_DIRECTIONS = List.of(
-            Delta.up(), Delta.rightUp(), Delta.right(), Delta.rightDown(),
-            Delta.down(), Delta.leftDown(), Delta.left(), Delta.leftUp()
+            Delta.UP, Delta.RIGHT_UP, Delta.RIGHT, Delta.RIGHT_DOWN,
+            Delta.DOWN, Delta.LEFT_DOWN, Delta.LEFT, Delta.LEFT_UP
     );
 
     @Override

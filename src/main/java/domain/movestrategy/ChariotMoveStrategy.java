@@ -11,10 +11,10 @@ import java.util.Map;
 public class ChariotMoveStrategy implements MoveStrategy {
 
     private static final List<Delta> ORTHOGONAL = List.of(
-            Delta.up(),
-            Delta.right(),
-            Delta.down(),
-            Delta.left()
+            Delta.UP,
+            Delta.RIGHT,
+            Delta.DOWN,
+            Delta.LEFT
     );
 
     @Override
