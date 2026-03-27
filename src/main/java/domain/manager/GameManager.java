@@ -1,4 +1,4 @@
-package domain.Manager;
+package domain.manager;
 
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;

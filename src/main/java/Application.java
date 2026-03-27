@@ -1,4 +1,4 @@
-import domain.Manager.GameManager;
+import domain.manager.GameManager;
 
 public class Application {
     public static void main(String[] args) {

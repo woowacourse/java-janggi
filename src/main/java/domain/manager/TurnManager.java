@@ -1,4 +1,4 @@
-package domain.Manager;
+package domain.manager;
 
 import domain.player.Player;
 import domain.player.Team;
@@ -20,7 +20,7 @@ public class TurnManager {
     public Player currentTurn() {
         return players.getFirst();
     }
-    
+
     public Team currentTurnTeam() {
         return players.getFirst().getTeam();
     }
