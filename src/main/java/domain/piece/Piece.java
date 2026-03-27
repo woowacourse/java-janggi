@@ -8,7 +8,7 @@ import domain.rule.PathGenerator;
 import domain.strategy.MovementStrategy;
 import java.util.Objects;
 
-public abstract class Piece {
+public class Piece {
 
     private final Team team;
     private final PieceType pieceType;
@@ -21,8 +21,7 @@ public abstract class Piece {
         this.movementStrategy = movementStrategy;
         this.pathGenerator = pathGenerator;
     }
-
-    //경로 계산.
+    
     public Path calculatePath(Position src, Position dest) {
         return pathGenerator.calculatePath(src, dest);
     }
