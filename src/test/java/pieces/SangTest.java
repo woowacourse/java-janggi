@@ -27,7 +27,7 @@ class SangTest {
             Position destination = departure.moveUp().moveRightUp().moveRightUp();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -38,7 +38,7 @@ class SangTest {
             Position destination = departure.moveUp().moveLeftUp().moveLeftUp();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -49,7 +49,7 @@ class SangTest {
             Position destination = departure.moveDown().moveRightDown().moveRightDown();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -60,7 +60,7 @@ class SangTest {
             Position destination = departure.moveDown().moveLeftDown().moveLeftDown();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -71,7 +71,7 @@ class SangTest {
             Position destination = departure.moveLeft().moveLeftUp().moveLeftUp();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -82,7 +82,7 @@ class SangTest {
             Position destination = departure.moveLeft().moveLeftDown().moveLeftDown();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -93,7 +93,7 @@ class SangTest {
             Position destination = departure.moveRight().moveRightUp().moveRightUp();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -104,7 +104,7 @@ class SangTest {
             Position destination = departure.moveRight().moveRightDown().moveRightDown();
             // when & then
             assertThatCode(() -> sang.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -115,7 +115,7 @@ class SangTest {
             Position destination = departure.moveUp().moveUp();
             // when & then
             assertThatThrownBy(() -> sang.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -126,7 +126,7 @@ class SangTest {
             Position destination = departure.moveRightUp();
             // when & then
             assertThatThrownBy(() -> sang.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -265,7 +265,7 @@ class SangTest {
             Position destination = departure.moveRight().moveRight();
             // when & then
             assertThatThrownBy(() -> sang.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -279,7 +279,7 @@ class SangTest {
         MoveContext moveContext = sang.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.destinationRule())
-                .isInstanceOf(BasicDestinationRule.class);
+            .isInstanceOf(BasicDestinationRule.class);
     }
 
     @Test
@@ -292,6 +292,6 @@ class SangTest {
         MoveContext moveContext = sang.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathRule())
-                .isInstanceOf(EmptyPathRule.class);
+            .isInstanceOf(EmptyPathRule.class);
     }
 }

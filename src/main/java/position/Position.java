@@ -73,7 +73,8 @@ public class Position {
     }
 
     public boolean isGapBiggerThanOne(Position destination) {
-        return row.isGapBiggerThanOne(destination.row) || column.isGapBiggerThanOne(destination.column);
+        return row.isGapBiggerThanOne(destination.row) || column.isGapBiggerThanOne(
+            destination.column);
     }
 
     @Override

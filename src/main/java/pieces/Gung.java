@@ -1,10 +1,10 @@
 package pieces;
 
+import java.util.List;
+import movepolicy.destination.BasicDestinationRule;
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.EmptyPathRule;
-import movepolicy.destination.BasicDestinationRule;
 import movepolicy.path.PathRule;
-import java.util.List;
 import position.Position;
 
 public class Gung extends PieceImpl {

@@ -19,7 +19,7 @@ class PoPathRuleTest {
         PathRule poPathRule = new PoPathRule();
         // when & then
         assertThatThrownBy(() -> poPathRule.validatePathPieces(pathPieces))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -29,7 +29,7 @@ class PoPathRuleTest {
         PathRule poPathRule = new PoPathRule();
         // when & then
         assertThatThrownBy(() -> poPathRule.validatePathPieces(pathPieces))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -39,7 +39,7 @@ class PoPathRuleTest {
         PathRule poPathRule = new PoPathRule();
         // when & then
         assertThatThrownBy(() -> poPathRule.validatePathPieces(pathPieces))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

@@ -1,9 +1,9 @@
 package pieces;
 
-import movepolicy.destination.DestinationRule;
-import movepolicy.MoveContext;
-import movepolicy.path.PathRule;
 import java.util.List;
+import movepolicy.MoveContext;
+import movepolicy.destination.DestinationRule;
+import movepolicy.path.PathRule;
 import position.Position;
 
 public abstract class PieceImpl implements Piece {

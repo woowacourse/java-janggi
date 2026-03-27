@@ -18,7 +18,7 @@ public class Sang extends PieceImpl {
         List<Position> movableDestinations = List.of(
             departure.moveUp().moveRightUp().moveRightUp(),
             departure.moveUp().moveLeftUp().moveLeftUp(),
-            departure.moveDown().moveRightDown().moveRightDown(),
+            departure.moveDown().moøveRightDown().moveRightDown(),
             departure.moveDown().moveLeftDown().moveLeftDown(),
             departure.moveLeft().moveLeftUp().moveLeftUp(),
             departure.moveLeft().moveLeftDown().moveLeftDown(),
@@ -32,10 +32,10 @@ public class Sang extends PieceImpl {
     @Override
     List<Position> getPathPositions(Position departure, Position destination) {
         if (departure.moveUp().moveRightUp().moveRightUp().equals(destination)) {
-            return List.of(departure.moveUp(),departure.moveUp().moveRightUp());
+            return List.of(departure.moveUp(), departure.moveUp().moveRightUp());
         }
         if (departure.moveUp().moveLeftUp().moveLeftUp().equals(destination)) {
-            return List.of(departure.moveUp(),departure.moveUp().moveLeftUp());
+            return List.of(departure.moveUp(), departure.moveUp().moveLeftUp());
         }
         if (departure.moveDown().moveRightDown().moveRightDown().equals(destination)) {
             return List.of(departure.moveDown(), departure.moveDown().moveRightDown());
@@ -43,16 +43,16 @@ public class Sang extends PieceImpl {
         if (departure.moveDown().moveLeftDown().moveLeftDown().equals(destination)) {
             return List.of(departure.moveDown(), departure.moveDown().moveLeftDown());
         }
-        if(departure.moveLeft().moveLeftUp().moveLeftUp().equals(destination)){
+        if (departure.moveLeft().moveLeftUp().moveLeftUp().equals(destination)) {
             return List.of(departure.moveLeft(), departure.moveLeft().moveLeftUp());
         }
-        if(departure.moveLeft().moveLeftDown().moveLeftDown().equals(destination)){
+        if (departure.moveLeft().moveLeftDown().moveLeftDown().equals(destination)) {
             return List.of(departure.moveLeft(), departure.moveLeft().moveLeftDown());
         }
-        if(departure.moveRight().moveRightUp().moveRightUp().equals(destination)){
+        if (departure.moveRight().moveRightUp().moveRightUp().equals(destination)) {
             return List.of(departure.moveRight(), departure.moveRight().moveRightUp());
         }
-        if(departure.moveRight().moveRightDown().moveRightDown().equals(destination)){
+        if (departure.moveRight().moveRightDown().moveRightDown().equals(destination)) {
             return List.of(departure.moveRight(), departure.moveRight().moveRightDown());
         }
         throw new IllegalArgumentException("출발지와 도착지의 좌표가 유효하지 않습니다.");

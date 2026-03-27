@@ -27,7 +27,7 @@ class ChaTest {
             Position destination = departure.moveUp().moveUp();
             // when & then
             assertThatCode(() -> cha.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -38,7 +38,7 @@ class ChaTest {
             Position destination = departure.moveDown().moveDown();
             // when & then
             assertThatCode(() -> cha.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -49,7 +49,7 @@ class ChaTest {
             Position destination = departure.moveLeft().moveLeft();
             // when & then
             assertThatCode(() -> cha.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -60,7 +60,7 @@ class ChaTest {
             Position destination = departure.moveRight().moveRight();
             // when & then
             assertThatCode(() -> cha.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -71,7 +71,7 @@ class ChaTest {
             Position destination = departure.moveRightUp();
             // when & then
             assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -206,7 +206,7 @@ class ChaTest {
         MoveContext moveContext = cha.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.destinationRule())
-                .isInstanceOf(BasicDestinationRule.class);
+            .isInstanceOf(BasicDestinationRule.class);
     }
 
     @Test
@@ -219,6 +219,6 @@ class ChaTest {
         MoveContext moveContext = cha.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathRule())
-                .isInstanceOf(EmptyPathRule.class);
+            .isInstanceOf(EmptyPathRule.class);
     }
 }

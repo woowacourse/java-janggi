@@ -15,13 +15,13 @@ class ColumnTest {
     @Test
     void COLUMN의_범위가_8을_넘을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Column(9))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void COLUMN의_범위가_0보다_작을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Column(-1))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Nested
@@ -53,7 +53,7 @@ class ColumnTest {
             Column prev = new Column(MAXIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::right)
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -62,7 +62,7 @@ class ColumnTest {
             Column prev = new Column(MINIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::left)
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
     }
 }

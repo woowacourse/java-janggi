@@ -26,7 +26,7 @@ class JolByeongTest {
             Position destination = departure.moveUp();
             // when & then
             assertThatCode(() -> jolByeong.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -37,7 +37,7 @@ class JolByeongTest {
             Position destination = departure.moveLeft();
             // when & then
             assertThatCode(() -> jolByeong.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -48,7 +48,7 @@ class JolByeongTest {
             Position destination = departure.moveRight();
             // when & then
             assertThatCode(() -> jolByeong.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+                .doesNotThrowAnyException();
         }
 
         @Test
@@ -59,7 +59,7 @@ class JolByeongTest {
             Position destination = departure.moveUp().moveUp();
             // when & then
             assertThatThrownBy(() -> jolByeong.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -70,7 +70,7 @@ class JolByeongTest {
             Position destination = departure.moveUp().moveRight();
             // when & then
             assertThatThrownBy(() -> jolByeong.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -81,7 +81,7 @@ class JolByeongTest {
             Position destination = departure.moveDown();
             // when & then
             assertThatThrownBy(() -> jolByeong.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -107,7 +107,7 @@ class JolByeongTest {
         MoveContext moveContext = jolByeong.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.destinationRule())
-                .isInstanceOf(BasicDestinationRule.class);
+            .isInstanceOf(BasicDestinationRule.class);
     }
 
     @Test
@@ -120,6 +120,6 @@ class JolByeongTest {
         MoveContext moveContext = jolByeong.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathRule())
-                .isInstanceOf(EmptyPathRule.class);
+            .isInstanceOf(EmptyPathRule.class);
     }
 }

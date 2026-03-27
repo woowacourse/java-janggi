@@ -29,6 +29,6 @@ class EmptyPathRuleTest {
         PathRule emptyPathRule = new EmptyPathRule();
         // when & then
         assertThatThrownBy(() -> emptyPathRule.validatePathPieces(pathPieces))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

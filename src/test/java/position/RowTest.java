@@ -15,13 +15,13 @@ class RowTest {
     @Test
     void ROW의_범위가_9를_넘을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Row(10))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void ROW의_범위가_0보다_작을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Row(-1))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Nested
@@ -53,7 +53,7 @@ class RowTest {
             Row prev = new Row(MAXIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::up)
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -62,7 +62,7 @@ class RowTest {
             Row prev = new Row(MINIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::down)
-                    .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
