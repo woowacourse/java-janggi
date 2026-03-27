@@ -4,6 +4,8 @@ import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.PieceType;
+import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,5 +40,19 @@ public class PawnMoveStrategyTest {
         assertThat(movePathList).contains(new MovePath(List.of(Direction.WEST)));
         assertThat(movePathList).contains(new MovePath(List.of(Direction.EAST)));
         assertThat(movePathList).doesNotContain(new MovePath(List.of(Direction.NORTH)));
+    }
+
+
+    @Test
+    public void 초나라_졸이_정상적으로_진행경로_좌표를_안다(){
+        Position curPos = Position.of(2,3);
+        MoveStrategy moveStrategy = new PawnMoveStrategy();
+
+        List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+        assertThat(routes).containsExactlyInAnyOrder(
+                new Route(curPos, Position.of(1, 3), List.of()),
+                new Route(curPos, Position.of(2, 4), List.of()),
+                new Route(curPos, Position.of(2, 2), List.of())
+        );
     }
 }
