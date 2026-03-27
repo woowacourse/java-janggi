@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -78,7 +80,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("도착지점을 받으면 도착위치와 현재위치의 x좌표 차를 구한다.")
-    void XCoordinateDifference_When_ReceiveDestination() {
+    void xCoordinateDifference_When_ReceiveDestination() {
         Position from = new Position(1, 2);
         Position to = new Position(6, 2);
 
@@ -89,12 +91,48 @@ public class PositionTest {
 
     @Test
     @DisplayName("도착지점을 받으면 도착위치와 현재위치의 y좌표 차를 구한다.")
-    void YCoordinateDifference_When_ReceiveDestination() {
+    void yCoordinateDifference_When_ReceiveDestination() {
         Position from = new Position(1, 2);
         Position to = new Position(1, 6);
 
         int dy = from.calculateDy(to);
 
         assertThat(dy).isEqualTo(4);
+    }
+
+    @Test
+    @DisplayName("도착위치와 출발위치 사이에 존재하는 위치를 리스트로 반환한다.")
+    void returnListOfLocation_Between_DestinationAndStart() {
+        Position from = new Position(1, 2);
+        Position to = new Position(1, 6);
+
+        List<Position> intermediatePositions = from.findPath(to);
+
+        assertThat(intermediatePositions.size()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("도착위치와 출발위치의 좌표가 선형이지 않은 경우 예외를 발생한다.")
+    void throwException_When_StratPosition_DifferTo_DestinationPosition() {
+        Position from = new Position(3, 2);
+        Position to = new Position(1, 6);
+
+        assertThatThrownBy(() -> from.findPath(to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("두 좌표 사이의 모든 중간 위치를 올바르게 반환한다.")
+    void returnCorrectIntermediatePositions() {
+        Position from = new Position(1, 2);
+        Position to = new Position(1, 6);
+
+        List<Position> path = from.findPath(to);
+
+        assertThat(path).containsExactly(
+                new Position(1, 3),
+                new Position(1, 4),
+                new Position(1, 5)
+        );
     }
 }
