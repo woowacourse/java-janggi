@@ -60,12 +60,13 @@ public class Board {
     }
 
     private void generateStateByPath(Path path, Map<Position, Piece> boardState) {
-        path.forEach(position -> {
-            Piece piece = piecePosition.get(position);
-            if (piece != null) {
-                boardState.put(position, piece);
-            }
-        });
+        path.forEach(position -> generateStateIfExist(boardState, position));
+    }
+
+    private void generateStateIfExist(Map<Position, Piece> boardState, Position position) {
+        if (piecePosition.containsKey(position)) {
+            boardState.put(position, piecePosition.get(position));
+        }
     }
 
     public void movePiece(Position selected, Position target, List<Position> destinations) {
