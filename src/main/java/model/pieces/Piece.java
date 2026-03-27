@@ -1,7 +1,9 @@
 package model.pieces;
 
 import java.util.Objects;
-import model.Country;
+import model.board.Board;
+import model.board.Country;
+import model.move.Move;
 
 public abstract class Piece {
     private final Country country;
@@ -14,6 +16,10 @@ public abstract class Piece {
 
     public String mark() {
         return country().color() + pieceType.symbol() + Country.RESET;
+    }
+
+    public boolean canMove(Move move, Board board) {
+        return pieceType.rule().matches(move, board);
     }
 
     @Override

@@ -2,14 +2,16 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import model.pieces.Cannon;
+import model.board.Army;
+import model.board.Board;
+import model.board.Country;
+import model.board.strategy.InnerElephant;
+import model.move.Move;
 import model.pieces.Horse;
 import model.pieces.Piece;
-import model.pieces.rule.HorseMoveRule;
-import model.pieces.rule.MoveRule;
+import model.position.Position;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import strategy.InnerElephant;
 
 class BoardTest {
 
@@ -34,8 +36,7 @@ class BoardTest {
     void 말이_목적지에_잘_들어갔는지_테스트(){
         Piece horse = new Horse(Country.CHO);
         Move move = Move.of(Position.of(10, 8), Position.of(8, 7));
-        MoveRule moveRule = new HorseMoveRule();
-        move.move(board,moveRule.movePatterns());
+        board.move(move);
         assertThat(board.isPieceAt(Position.of(8, 7), horse)).isTrue();
     }
 }

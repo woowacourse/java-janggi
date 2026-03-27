@@ -1,4 +1,6 @@
-package model.pieces.rule;
+package model.move;
+
+import model.position.Position;
 
 public class Step {
     private final Direction direction;
@@ -7,6 +9,10 @@ public class Step {
     Step(Direction direction, boolean mustBeEmpty) {
         this.direction = direction;
         this.mustBeEmpty = mustBeEmpty;
+    }
+
+    public Position move(Position position) {
+        return position.move(direction);
     }
 
     public Direction direction() {
