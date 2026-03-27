@@ -17,31 +17,33 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 if (board.containsKey(to)) {
                     return;
                 }
-                to.findPositionByDirection(dir.next()).ifPresent(next -> {
-                    if (board.containsKey(next)) {
-                        return;
-                    }
-                    next.findPositionByDirection(dir.next()).ifPresent(next2 -> {
-                        if (!board.containsKey(next2) || !board.get(next2).isSameDynasty(dynasty)) {
-                            canMovePositions.add(next2);
-                        }
-                    });
-                });
-
-                to.findPositionByDirection(dir.prev()).ifPresent(prev -> {
-                    if (board.containsKey(prev)) {
-                        return;
-                    }
-                    prev.findPositionByDirection(dir.prev()).ifPresent(prev2 -> {
-                        if (!board.containsKey(prev2) || !board.get(prev2).isSameDynasty(dynasty)) {
-                            canMovePositions.add(prev2);
-                        }
-                    });
-                });
+                canPassByDirection(to, dir.next(), board, dynasty, canMovePositions);
+                canPassByDirection(to, dir.prev(), board, dynasty, canMovePositions);
             });
         }
 
         return canMovePositions;
+    }
+
+    private static void canPassByDirection(Position from, Direction dir,
+                                           Map<Position, Piece> board, Dynasty dynasty,
+                                           List<Position> canMovePositions) {
+        from.findPositionByDirection(dir).ifPresent(to -> {
+            if (board.containsKey(to)) {
+                return;
+            }
+            canMoveByDirection(to, dir, board, dynasty, canMovePositions);
+        });
+    }
+
+    private static void canMoveByDirection(Position from, Direction dir,
+                                           Map<Position, Piece> board, Dynasty dynasty,
+                                           List<Position> canMovePositions) {
+        from.findPositionByDirection(dir).ifPresent(to -> {
+            if (!board.containsKey(to) || !board.get(to).isSameDynasty(dynasty)) {
+                canMovePositions.add(to);
+            }
+        });
     }
 
     @Override

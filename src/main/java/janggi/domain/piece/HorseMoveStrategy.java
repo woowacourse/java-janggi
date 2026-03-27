@@ -17,22 +17,22 @@ public class HorseMoveStrategy implements MoveStrategy {
                 if (board.containsKey(to)) {
                     return;
                 }
-
-                to.findPositionByDirection(dir.next()).ifPresent(next -> {
-                    if (!board.containsKey(next) || !board.get(next).isSameDynasty(dynasty)) {
-                        canMovePositions.add(next);
-                    }
-                });
-
-                to.findPositionByDirection(dir.prev()).ifPresent(prev -> {
-                    if (!board.containsKey(prev) || !board.get(prev).isSameDynasty(dynasty)) {
-                        canMovePositions.add(prev);
-                    }
-                });
+                canMoveByDirection(to, dir.next(), board, dynasty, canMovePositions);
+                canMoveByDirection(to, dir.prev(), board, dynasty, canMovePositions);
             });
         }
 
         return canMovePositions;
+    }
+
+    private static void canMoveByDirection(Position from, Direction dir,
+                                           Map<Position, Piece> board, Dynasty dynasty,
+                                           List<Position> canMovePositions) {
+        from.findPositionByDirection(dir).ifPresent(to -> {
+            if (!board.containsKey(to) || !board.get(to).isSameDynasty(dynasty)) {
+                canMovePositions.add(to);
+            }
+        });
     }
 
     @Override
