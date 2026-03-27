@@ -12,6 +12,9 @@ public enum Camp {
         this.initRowPosition = initRowPosition;
     }
 
+    public boolean isSameCamp(Camp camp){
+        return this == camp;
+    }
 
     public boolean isCho(){
         return this == CHO;
