@@ -69,6 +69,13 @@ class BoardTest {
         void 특정_기물의_현재_위치를_찾는다() {
             assertThat(board.findPositionOf(hanHorse)).contains(Position.of(2, 4));
         }
+
+        @Test
+        void 팀에_속한_기물들을_좌표순으로_조회한다() {
+            assertThat(board.findPiecesByTeam(TeamColor.CHO))
+                    .extracting(entry -> entry.getKey())
+                    .containsExactly(Position.of(1, 4), Position.of(3, 4));
+        }
     }
 
     @Nested
@@ -85,6 +92,20 @@ class BoardTest {
             assertThat(movableBoard.findPositionOf(movingPawn)).contains(Position.of(3, 4));
             assertThat(movableBoard.findPiece(Position.of(4, 4))).isEmpty();
             assertThat(movableBoard.findPiece(Position.of(3, 4))).contains(movingPawn);
+        }
+
+        @Test
+        void 현재_판_상태를_기준으로_기물의_이동_가능_경로를_반환한다() {
+            Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            Piece allyPiece = Piece.of(TeamColor.CHO, PieceType.GUARD);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(4, 4), movingPawn,
+                    Position.of(4, 5), allyPiece
+            ));
+
+            assertThat(movableBoard.findMovableRoutes(movingPawn))
+                    .extracting(Route::endPos)
+                    .containsExactlyInAnyOrder(Position.of(3, 4), Position.of(4, 3));
         }
     }
 }

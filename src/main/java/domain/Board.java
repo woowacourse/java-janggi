@@ -35,6 +35,28 @@ public class Board {
         return Optional.ofNullable(pieces.get(position));
     }
 
+    public List<Map.Entry<Position, Piece>> findPiecesByTeam(TeamColor teamColor) {
+        return pieces.entrySet().stream()
+                .filter(entry -> entry.getValue().getTeamColor() == teamColor)
+                .sorted((left, right) -> {
+                    int rowCompare = Integer.compare(left.getKey().row(), right.getKey().row());
+                    if (rowCompare != 0) {
+                        return rowCompare;
+                    }
+                    return Integer.compare(left.getKey().column(), right.getKey().column());
+                })
+                .toList();
+    }
+
+    public List<Route> findMovableRoutes(Piece piece) {
+        Position currentPosition = findPositionOf(piece)
+                .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
+
+        return piece.makeRoutes(currentPosition).stream()
+                .filter(route -> piece.canMove(route, getBlockingPieces(route), getDestinationPiece(route)))
+                .toList();
+    }
+
     public void move(Piece piece, Position destination) {
         Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
