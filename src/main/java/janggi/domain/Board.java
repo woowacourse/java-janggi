@@ -3,7 +3,6 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
-import janggi.dto.PositionInfo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
