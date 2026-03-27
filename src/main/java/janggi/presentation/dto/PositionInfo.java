@@ -1,4 +1,4 @@
-package janggi.dto;
+package janggi.presentation.dto;
 
 import janggi.domain.Point;
 import janggi.domain.piece.Piece;

@@ -1,7 +1,7 @@
-package janggi.ui;
+package janggi.presentation.ui;
 
 import janggi.domain.status.Team;
-import janggi.dto.GameStatusInfo;
+import janggi.presentation.dto.GameStatusInfo;
 
 public class OutputView {
 

@@ -2,7 +2,7 @@ package janggi.util;
 
 import janggi.domain.Point;
 import janggi.domain.status.Team;
-import janggi.dto.PositionInfo;
+import janggi.presentation.dto.PositionInfo;
 import java.util.List;
 import java.util.stream.Stream;
 

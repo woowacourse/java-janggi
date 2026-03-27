@@ -1,4 +1,4 @@
-package janggi.ui;
+package janggi.presentation.ui;
 
 import janggi.domain.Point;
 import janggi.util.Console;

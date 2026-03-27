@@ -1,6 +1,6 @@
 package janggi.util;
 
-import janggi.dto.PositionInfo;
+import janggi.presentation.dto.PositionInfo;
 import java.util.List;
 
 public class FileParser {
