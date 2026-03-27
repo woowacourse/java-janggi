@@ -7,14 +7,10 @@ import janggi.domain.status.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cha implements Piece {
-
-    private final Team team;
-    private final PieceType type;
+public class Cha extends AbstractPiece {
 
     public Cha(Team team) {
-        this.team = team;
-        this.type = PieceType.CHA;
+        super(team);
     }
 
     @Override
@@ -52,12 +48,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public boolean isSameType(PieceType type) {
-        return this.type.equals(type);
-    }
-
-    @Override
     public PieceType getType() {
-        return type;
+        return PieceType.CHA;
     }
 }

@@ -6,22 +6,13 @@ import janggi.domain.Point;
 import janggi.domain.status.Team;
 import java.util.List;
 
-public class Sang implements Piece {
+public class Sang extends AbstractPiece {
 
     private static final int DISTANCE_MAX = 3;
     private static final int DISTANCE_MIN = 2;
 
-    private final Team team;
-    private final PieceType type;
-
     public Sang(Team team) {
-        this.team = team;
-        this.type = PieceType.SANG;
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
+        super(team);
     }
 
     @Override
@@ -55,12 +46,7 @@ public class Sang implements Piece {
     }
 
     @Override
-    public boolean isSameType(PieceType type) {
-        return this.type.equals(type);
-    }
-
-    @Override
     public PieceType getType() {
-        return type;
+        return PieceType.SANG;
     }
 }
