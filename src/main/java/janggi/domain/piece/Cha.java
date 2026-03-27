@@ -15,19 +15,15 @@ public class Cha extends BasePiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
+        List<Point> route = new ArrayList<>();
         int pathX = Point.getPathX(from, to);
         int pathY = Point.getPathY(from, to);
-
-        if (pathY != 0 && pathX != 0) {
-            throw new IllegalArgumentException();
-        }
-
         int signX = Integer.compare(pathX, 0);
         int signY = Integer.compare(pathY, 0);
-
         int distance = Math.max(abs(pathX), abs(pathY));
 
-        List<Point> route = new ArrayList<>();
+        validateNoMove(pathX, pathY);
+        validateDiagonalMove(pathX, pathY);
 
         for (int i = 1; i < distance; i++) {
             int nextX = from.getX() + (signX * i);
@@ -40,5 +36,17 @@ public class Cha extends BasePiece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.isEmpty();
+    }
+
+    private void validateNoMove(int pathX, int pathY) {
+        if (pathY == 0 && pathX == 0) {
+            throw new IllegalArgumentException("제자리 이동은 불가능합니다.");
+        }
+    }
+
+    private void validateDiagonalMove(int pathX, int pathY) {
+        if (pathX != 0 && pathY != 0) {
+            throw new IllegalArgumentException("대각선 이동은 불가능합니다.");
+        }
     }
 }
