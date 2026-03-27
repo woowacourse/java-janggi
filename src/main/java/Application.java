@@ -3,7 +3,7 @@ public class Application {
         try {
             Janggi janggi = new Janggi();
             janggi.run();
-        } catch (IllegalArgumentException | IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }

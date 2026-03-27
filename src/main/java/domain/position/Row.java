@@ -20,10 +20,10 @@ public record Row(int row) {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Row obejectToRow)) {
+        if (!(o instanceof Row(int row1))) {
             return false;
         }
-        return row == obejectToRow.row();
+        return row == row1;
     }
 
     @Override

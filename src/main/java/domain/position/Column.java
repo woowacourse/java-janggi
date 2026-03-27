@@ -20,10 +20,10 @@ public record Column(int column) {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Column objectToColumn)) {
+        if (!(o instanceof Column(int column1))) {
             return false;
         }
-        return column == objectToColumn.column;
+        return column == column1;
     }
 
     @Override
