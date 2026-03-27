@@ -1,10 +1,10 @@
 package janggi.domain.board;
 
+import janggi.domain.PieceInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.turn.TurnState;
 
 import java.util.List;
 import java.util.Map;
@@ -47,15 +47,12 @@ public class Board implements BoardInterface {
         return currentBoard;
     }
 
-    public TurnState move(Position start, Position end) {
+    public boolean move(Position start, Position end) {
         Piece piece = board.get(start);
         List<Position> route = piece.findRoute(start, end);
 
         piece.validateRoute(route, this);
-        if (board.get(end).isGung()) {
-            return TurnState.FINISH;
-        }
         board.put(start, piece);
-        return TurnState.RUNNING;
+        return true;
     }
 }
