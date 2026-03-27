@@ -19,7 +19,7 @@ public class ChoTurn implements GameStatus {
     @Override
     public GameStatus move(Point from, Point to, Board board) {
         board.move(from, to, team);
-        if (board.isKingDie(Team.HAN)) {
+        if (board.isKingDie()) {
             return new FinishedGame(team);
         }
         return new HanTurn();
