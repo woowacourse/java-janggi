@@ -22,7 +22,8 @@ public enum SetupCommand {
     private final String description;
     private final Supplier<SetupPolicy> policySupplier;
 
-    SetupCommand(final int number, final String description, final Supplier<SetupPolicy> setupPolicySupplier) {
+    SetupCommand(final int number, final String description,
+        final Supplier<SetupPolicy> setupPolicySupplier) {
         this.number = number;
         this.description = description;
         this.policySupplier = setupPolicySupplier;
@@ -30,10 +31,10 @@ public enum SetupCommand {
 
     public static SetupCommand pick(final int number) {
         return Arrays.stream(values())
-                .filter(setupCommand -> setupCommand.number == number)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(String.format(
-                        "명령 번호는 %d에서 %d까지의 정수 값이어야 합니다.", MINUMUM_NUMBER, MAXIMUM_NUMBER)));
+            .filter(setupCommand -> setupCommand.number == number)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(String.format(
+                "명령 번호는 %d에서 %d까지의 정수 값이어야 합니다.", MINUMUM_NUMBER, MAXIMUM_NUMBER)));
     }
 
     public SetupPolicy toPolicy() {

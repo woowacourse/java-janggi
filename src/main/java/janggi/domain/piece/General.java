@@ -18,14 +18,14 @@ public class General implements Piece {
 
     static {
         final List<Rule> rules = List.of(
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, -1)))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, 0)))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, 1)))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(0, -1)))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(0, 1)))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, -1)))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, 0)))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, 1)))));
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, -1)))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, 0)))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, 1)))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(0, -1)))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(0, 1)))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, -1)))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, 0)))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, 1)))));
         PIECE_ACTION = new PieceAction(rules);
     }
 
@@ -57,6 +57,7 @@ public class General implements Piece {
 
     @Override
     public boolean canKill(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(teamType);
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
+            teamType);
     }
 }

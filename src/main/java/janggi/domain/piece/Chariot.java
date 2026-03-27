@@ -21,10 +21,10 @@ public class Chariot implements Piece {
 
     static {
         final List<Rule> rules = List.of(
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(1, 0)))),
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(-1, 0)))),
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, 1)))),
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, -1)))));
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(1, 0)))),
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(-1, 0)))),
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, 1)))),
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, -1)))));
         PIECE_ACTION = new PieceAction(rules);
     }
 
@@ -50,12 +50,14 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
+    public List<Position> calculateMovablePositions(final Position from,
+        final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
 
     @Override
     public boolean canKill(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(teamType);
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
+            teamType);
     }
 }

@@ -21,7 +21,7 @@ public class BlueTeam implements Team {
         final Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
         final Map<Position, PieceType> positionPieceTypeMap = setupPolicy.offerBoardMap();
         positionPieceTypeMap.forEach((position, pieceType) ->
-                positionPieceMap.put(position.flipAroundMiddleRow(), pieceType.toPiece(TEAM_TYPE)));
+            positionPieceMap.put(position.flipAroundMiddleRow(), pieceType.toPiece(TEAM_TYPE)));
 
         return positionPieceMap;
     }

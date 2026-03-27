@@ -2,7 +2,6 @@ package janggi.domain.movement;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 public final class Direction {

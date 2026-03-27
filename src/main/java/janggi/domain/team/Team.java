@@ -5,6 +5,7 @@ import janggi.domain.piece.Piece;
 import java.util.Map;
 
 public interface Team {
+
     Map<Position, Piece> generatePieces();
 
     String getName();

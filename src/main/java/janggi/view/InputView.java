@@ -4,6 +4,7 @@ import janggi.utils.Parser;
 import janggi.view.reader.Console;
 
 public final class InputView {
+
     private InputView() {
     }
 

@@ -1,8 +1,8 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
-import janggi.domain.team.Team;
 import janggi.domain.piece.Piece;
+import janggi.domain.team.Team;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

@@ -16,8 +16,6 @@ public class Horse implements Piece {
     private static final PieceAction PIECE_ACTION;
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
-    private final TeamType teamType;
-
     static {
         final List<Rule> rules = List.of(
             new RuleWithNoTraces(List.of(
@@ -49,6 +47,8 @@ public class Horse implements Piece {
         PIECE_ACTION = new PieceAction(rules);
     }
 
+    private final TeamType teamType;
+
     public Horse(final TeamType teamType) {
         this.teamType = teamType;
     }
@@ -70,7 +70,7 @@ public class Horse implements Piece {
 
     @Override
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
-        return PIECE_ACTION.calculateMovablePositions(from,boardMediator);
+        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
 
     @Override

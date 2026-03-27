@@ -46,12 +46,14 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
+    public List<Position> calculateMovablePositions(final Position from,
+        final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
 
     @Override
     public boolean canKill(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(teamType);
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
+            teamType);
     }
 }

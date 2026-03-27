@@ -7,6 +7,7 @@ import janggi.domain.team.TeamType;
 import java.util.List;
 
 public interface Piece {
+
     PieceType getPieceType();
 
     TeamType getTeamType();

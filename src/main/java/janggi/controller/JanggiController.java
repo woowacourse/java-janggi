@@ -14,6 +14,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class JanggiController {
+
     public JanggiController() {
     }
 

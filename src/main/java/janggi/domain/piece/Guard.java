@@ -28,6 +28,7 @@ public class Guard implements Piece {
             new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, 1)))));
         PIECE_ACTION = new PieceAction(rules);
     }
+
     private final TeamType teamType;
 
     public Guard(final TeamType teamType) {
@@ -56,6 +57,7 @@ public class Guard implements Piece {
 
     @Override
     public boolean canKill(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(teamType);
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
+            teamType);
     }
 }

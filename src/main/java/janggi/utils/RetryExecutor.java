@@ -4,6 +4,7 @@ import janggi.view.OutputView;
 import java.util.function.Supplier;
 
 public final class RetryExecutor {
+
     private RetryExecutor() {
     }
 

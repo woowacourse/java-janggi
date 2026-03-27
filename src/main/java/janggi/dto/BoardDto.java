@@ -55,7 +55,8 @@ public record BoardDto(
         return new BoardDto(rowStatuses);
     }
 
-    private static String composeRowStatus(final int row, final Map<Position, Piece> positionPieceMap) {
+    private static String composeRowStatus(final int row,
+        final Map<Position, Piece> positionPieceMap) {
         final StringBuilder stringBuilder = new StringBuilder();
         Position current;
         for (int column = MINIMUM_COLUMN; column <= MAXIMUM_COLUMN; column++) {
@@ -67,7 +68,8 @@ public record BoardDto(
         return stringBuilder.toString();
     }
 
-    private static String getSpace(final Position position, final Map<Position, Piece> positionPieceMap) {
+    private static String getSpace(final Position position,
+        final Map<Position, Piece> positionPieceMap) {
         if (positionPieceMap.containsKey(position)) {
             final Piece piece = positionPieceMap.get(position);
             return getChineseOf(piece);

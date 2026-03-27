@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RightElephantSetupPolicy extends SetupPolicy {
+
     @Override
     public Map<Position, PieceType> offerBoardMap() {
         final Map<Position, PieceType> boardMap = new LinkedHashMap<>(COMMON_BOARD_MAP);

@@ -24,20 +24,6 @@ public final class Position {
     private final int row;
     private final int column;
 
-    @Override
-    public boolean equals(final Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        final Position position = (Position) object;
-        return row == position.row && column == position.column;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
-    }
-
     private Position(final int row, final int column) {
         this.row = row;
         this.column = column;
@@ -53,10 +39,6 @@ public final class Position {
         return secondaryMap.get(column);
     }
 
-    public Position flipAroundMiddleRow() {
-        return Position.valueOf(ROW_FLIP_VALUE - row, column);
-    }
-
     private static void validateRowRange(final int row) {
         if (row < MINIMUM_ROW || row > MAXIMUM_ROW) {
             throw new IllegalArgumentException("행 입력은 1~10을 입력해야 합니다.");
@@ -67,6 +49,24 @@ public final class Position {
         if (column < MINIMUM_COLUMN || column > MAXIMUM_COLUMN) {
             throw new IllegalArgumentException("열 입력은 1~9을 입력해야 합니다.");
         }
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        final Position position = (Position) object;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
+
+    public Position flipAroundMiddleRow() {
+        return Position.valueOf(ROW_FLIP_VALUE - row, column);
     }
 
     public boolean checkNextBound(final int distance, final Direction direction) {

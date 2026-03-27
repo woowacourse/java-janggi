@@ -70,7 +70,6 @@ public class Movement {
         return from.calculateNext(maxDistance, direction);
     }
 
-    // 이동 가능한 경로의 자취 위치 리스트를 반환한다.
     public List<Position> calculateTraces(final Position from, final Piece piece,
         final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
