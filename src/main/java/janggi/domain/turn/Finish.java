@@ -1,11 +1,12 @@
 package janggi.domain.turn;
 
 import janggi.domain.Position;
+import janggi.domain.Side;
 import janggi.domain.board.Board;
 
 public class Finish extends Started {
-    public Finish(Board board) {
-        super(board);
+    public Finish(Board board, Side winnerSide) {
+        super(board, winnerSide);
     }
 
     @Override
@@ -14,7 +15,12 @@ public class Finish extends Started {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return true;
+    }
+
+    @Override
+    public Side getWinnerSide() {
+        return winnerSide;
     }
 }

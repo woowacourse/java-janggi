@@ -6,9 +6,11 @@ import janggi.domain.board.Board;
 
 public abstract class Started implements PlayerTurn {
     protected final Board board;
+    protected final Side winnerSide;
 
-    public Started(Board board) {
+    public Started(Board board, Side winnerSide) {
         this.board = board;
+        this.winnerSide = winnerSide;
     }
 
     @Override
