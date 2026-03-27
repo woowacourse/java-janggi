@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,8 @@ public class Board {
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
         Piece endPiece = board.getOrDefault(end, None.INSTANCE);
 
-        if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))) {
+        if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry())
+                && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
         }
 
@@ -55,8 +57,37 @@ public class Board {
         board.put(end, startPiece);
     }
 
+    private List<Piece> getSameLine(Position start, Position end) {
+        List<Piece> pieces = new ArrayList<>();
+        int startX = start.getX();
+        int startY = start.getY();
+        int endX = end.getX();
+        int endY = end.getY();
+        if (!(startX == endX || startY == endY)) {
+            throw new IllegalArgumentException("포는 같은 줄만 이동 가능합니다.");
+        }
+
+        if (startX == endX) {
+            int minY = Math.min(startY, endY);
+            int maxY = Math.max(startY, endY);
+            for (int i = minY + 1; i < maxY; i++) {
+                pieces.add(board.getOrDefault(Position.create(startX, i), None.INSTANCE));
+            }
+        }
+
+        if (startY == endY) {
+            int minX = Math.min(startX, endX);
+            int maxX = Math.max(startX, endX);
+            for (int i = minX + 1; i < maxX; i++) {
+                pieces.add(board.getOrDefault(Position.create(i, startY), None.INSTANCE));
+            }
+        }
+
+        return pieces;
+    }
+
     private void killPiece(Position endPosition) {
-        board.put(endPosition, None.INSTANCE);
+        board.remove(endPosition);
     }
 
     public PieceType getPiece(Position position) {
