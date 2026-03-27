@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static janggi.common.ErrorMessage.*;
+
 public class Board {
 
     private final Map<Position, Piece> board;
@@ -21,11 +23,11 @@ public class Board {
 
     public List<Position> canMovePosition(Position from, Dynasty currentTurn) {
         if (!board.containsKey(from)) {
-            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
+            throw new IllegalArgumentException(PIECE_NOT_FOUND.message());
         }
         Piece piece = board.get(from);
         if (!piece.isSameDynasty(currentTurn)) {
-            throw new IllegalArgumentException("해당 위치의 기물은 상대 팀의 기물입니다.");
+            throw new IllegalArgumentException(INVALID_PIECE_OWNER.message());
         }
         return piece.canMovePosition(board, from);
     }
@@ -33,7 +35,7 @@ public class Board {
     public void movePiece(Position from, Position to, Dynasty currentTurn) {
         List<Position> positions = canMovePosition(from, currentTurn);
         if (!positions.contains(to)) {
-            throw new IllegalArgumentException("해당 위치에 해당 기물을 옮길 수 없습니다.");
+            throw new IllegalArgumentException(INVALID_PIECE_MOVE.message());
         }
 
         Piece fromPiece = board.remove(from);
