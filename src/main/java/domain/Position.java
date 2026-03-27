@@ -58,6 +58,10 @@ public class Position {
         return new Position(this.row.add(x), this.column.add(y));
     }
 
+    public Position middlePosition(Position other) {
+        return new Position(this.row.divide(other.row), this.column.divide(other.column));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

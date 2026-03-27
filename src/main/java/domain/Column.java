@@ -14,6 +14,10 @@ public class Column {
         }
     }
 
+    public Column divide(Column col) {
+        return new Column((this.value + col.value) / 2);
+    }
+
     public int min(Column other) {
         return Math.min(other.value, value);
     }

@@ -30,6 +30,10 @@ public class Row {
         return new Row(this.value + measure);
     }
 
+    public Row divide(Row row) {
+        return new Row((this.value + row.value) / 2);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
