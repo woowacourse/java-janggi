@@ -1,14 +1,14 @@
 package janggi.domain.piece;
 
 public enum PieceType {
-    CHA("차"),
-    GUNG("궁"),
-    MA("마"),
+    CHA("CH"),
+    GUNG("GU"),
+    MA("MA"),
     NONE("."),
-    PAWN("졸"),
-    PO("포"),
-    SA("사"),
-    SANG("상");
+    PAWN("JO"),
+    PO("PO"),
+    SA("SA"),
+    SANG("SG");
 
     private final String name;
 
