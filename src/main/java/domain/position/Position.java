@@ -13,5 +13,4 @@ public record Position(int x, int y) {
             throw new IllegalArgumentException("y값은 0이상 9이하여야 합니다.");
         }
     }
-
 }
