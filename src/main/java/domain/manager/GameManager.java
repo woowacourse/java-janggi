@@ -35,8 +35,8 @@ public class GameManager {
         outputView.printPlayerTurnMessage(turnManager.currentTurn().getName(), turnManager.currentTurnTeam().name());
 
         retryOnInvalidInput(() -> {
-            Position source = createSourcePosition();
-            Position destination = createDestinationPosition();
+            Position source = createSource();
+            Position destination = createDestination();
             Piece piece = board.move(source, destination);
             if (piece.isNotNone()) {
                 turnManager.currentTurn().addCaughtPiece(piece);
@@ -58,7 +58,7 @@ public class GameManager {
         }
     }
 
-    private Position createSourcePosition() {
+    private Position createSource() {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askSourcePosition();
             Position source = new Position(numbers.getFirst(), numbers.getLast());
@@ -69,7 +69,7 @@ public class GameManager {
         });
     }
 
-    private Position createDestinationPosition() {
+    private Position createDestination() {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askDestinationPosition();
             return new Position(numbers.getFirst(), numbers.getLast());
