@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class JolTest {
     @ParameterizedTest
     @MethodSource("provideChoJolPaths")
-    void 초의_졸은_옆과_위를_한칸_이동한다(int sourceRow, int sourceCol, int destinationRow, int destinationCol) {
+    void 초의_졸은_옆과_위를_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
         Piece jol = new Jol(Team.CHO);
-        Position source = new Position(sourceRow, sourceCol);
-        Position destination = new Position(destinationRow, destinationCol);
+        Position source = new Position(sourceRow, sourceColumn);
+        Position destination = new Position(destinationRow, destinationColumn);
 
         Path path = jol.calculatePath(source, destination);
 
@@ -28,10 +28,10 @@ class JolTest {
 
     @ParameterizedTest
     @MethodSource("provideHanJolPaths")
-    void 한의_졸은_옆과_아래를_한칸_이동한다(int sourceRow, int sourceCol, int destinationRow, int destinationCol) {
+    void 한의_졸은_옆과_아래를_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
         Piece jol = new Jol(Team.HAN);
-        Position source = new Position(sourceRow, sourceCol);
-        Position destination = new Position(destinationRow, destinationCol);
+        Position source = new Position(sourceRow, sourceColumn);
+        Position destination = new Position(destinationRow, destinationColumn);
 
         Path path = jol.calculatePath(source, destination);
 

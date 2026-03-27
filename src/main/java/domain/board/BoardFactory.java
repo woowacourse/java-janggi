@@ -1,8 +1,8 @@
 package domain.board;
 
-import static common.Constants.MAX_COL;
+import static common.Constants.MAX_COLUMN;
 import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COL;
+import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
 import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
@@ -34,16 +34,16 @@ public class BoardFactory {
 
     private static void putFormation(Map<Position, Piece> board, Formation inputFormation, Team team) {
         List<PieceType> formation = inputFormation.getFormation();
-        List<Integer> colPositions = List.of(1, 2, 6, 7);
+        List<Integer> columnPositions = List.of(1, 2, 6, 7);
 
         for (int i = 0; i < formation.size(); i++) {
             PieceType type = formation.get(i);
-            int col = colPositions.get(i);
+            int column = columnPositions.get(i);
 
             if (type == MA) {
-                board.put(new Position(team.getColumn(), col), new Ma(team));
+                board.put(new Position(team.getColumn(), column), new Ma(team));
             } else if (type == SANG) {
-                board.put(new Position(team.getColumn(), col), new Sang(team));
+                board.put(new Position(team.getColumn(), column), new Sang(team));
             }
         }
     }
@@ -52,8 +52,8 @@ public class BoardFactory {
         Map<Position, Piece> board = new HashMap<>();
 
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            for (int col = MIN_COL; col <= MAX_COL; col++) {
-                board.put(new Position(row, col), new None());
+            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+                board.put(new Position(row, column), new None());
             }
         }
         addChoPieces(board);
@@ -78,8 +78,8 @@ public class BoardFactory {
         board.put(new Position(2, 1), new Po(Team.HAN));
         board.put(new Position(2, 7), new Po(Team.HAN));
 
-        for (int col = MIN_COL; col <= MAX_COL; col += 2) {
-            board.put(new Position(3, col), new Jol(Team.HAN));
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column += 2) {
+            board.put(new Position(3, column), new Jol(Team.HAN));
         }
 
     }
@@ -100,8 +100,8 @@ public class BoardFactory {
         board.put(new Position(7, 1), new Po(Team.CHO));
         board.put(new Position(7, 7), new Po(Team.CHO));
 
-        for (int col = MIN_COL; col <= MAX_COL; col += 2) {
-            board.put(new Position(6, col), new Jol(Team.CHO));
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column += 2) {
+            board.put(new Position(6, column), new Jol(Team.CHO));
         }
     }
 }

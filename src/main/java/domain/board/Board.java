@@ -1,8 +1,8 @@
 package domain.board;
 
-import static common.Constants.MAX_COL;
+import static common.Constants.MAX_COLUMN;
 import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COL;
+import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
 
 import domain.piece.None;
@@ -61,8 +61,8 @@ public class Board {
     private List<String> makeLineOfStringBoard(int row) {
         List<String> lineOfStringBoard = new ArrayList<>();
 
-        for (int col = MIN_COL; col <= MAX_COL; col++) {
-            Piece piece = board.get(new Position(row, col));
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+            Piece piece = board.get(new Position(row, column));
             String pieceString = piece.getPieceString();
             String teamString = piece.getTeamString();
             lineOfStringBoard.add(teamString + pieceString);

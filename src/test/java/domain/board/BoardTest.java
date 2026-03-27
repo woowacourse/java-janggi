@@ -24,8 +24,8 @@ class BoardTest {
     private Map<Position, Piece> createEmptyBoard() {
         Map<Position, Piece> boardMap = new HashMap<>();
         for (int row = 0; row <= 9; row++) {
-            for (int col = 0; col <= 8; col++) {
-                boardMap.put(new Position(row, col), new None());
+            for (int column = 0; column <= 8; column++) {
+                boardMap.put(new Position(row, column), new None());
             }
         }
 
@@ -126,8 +126,8 @@ class BoardTest {
             assertEquals(9, data.get(0).size());
 
             for (int row = 0; row < 10; row++) {
-                for (int col = 0; col < 9; col++) {
-                    assertEquals("  ", data.get(row).get(col));
+                for (int column = 0; column < 9; column++) {
+                    assertEquals("  ", data.get(row).get(column));
                 }
             }
         }

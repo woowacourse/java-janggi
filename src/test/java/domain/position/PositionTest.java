@@ -18,10 +18,10 @@ class PositionTest {
             "1,1",
             "8,7"
     })
-    void Row가_0이상_9이하_Col이_0이상_8이하이면_포지션이_정상적으로_생성된다(int row, int col) {
-        Position position = new Position(row, col);
+    void Row가_0이상_9이하_Column이_0이상_8이하이면_포지션이_정상적으로_생성된다(int row, int column) {
+        Position position = new Position(row, column);
 
-        assertEquals(col, position.col());
+        assertEquals(column, position.column());
     }
 
     @ParameterizedTest
@@ -35,7 +35,7 @@ class PositionTest {
             "10,8",
             "9,9"
     })
-    void Row가_0미만_9초과_Col이_0미만_8초과이면_예외가_발생한다(int row, int col) {
-        assertThrows(IllegalArgumentException.class, () -> new Position(row, col));
+    void Row가_0미만_9초과_Column이_0미만_8초과이면_예외가_발생한다(int row, int column) {
+        assertThrows(IllegalArgumentException.class, () -> new Position(row, column));
     }
 }

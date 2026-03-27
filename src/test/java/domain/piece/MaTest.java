@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class MaTest {
     @ParameterizedTest
     @MethodSource("provideMaPaths")
-    void 마는_앞으로_한칸_대각선으로_한칸_이동한다(int sourceRow, int sourceCol, int destinationRow, int destinationCol) {
+    void 마는_앞으로_한칸_대각선으로_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
         Piece ma = new Ma(Team.HAN);
-        Position source = new Position(sourceRow, sourceCol);
-        Position destination = new Position(destinationRow, destinationCol);
+        Position source = new Position(sourceRow, sourceColumn);
+        Position destination = new Position(destinationRow, destinationColumn);
 
         Path path = ma.calculatePath(source, destination);
 

@@ -24,14 +24,14 @@ public class StraightPathGenerator implements PathGenerator {
             return false;
         }
 
-        return source.row() == destination.row() || source.col() == destination.col();
+        return source.row() == destination.row() || source.column() == destination.column();
     }
 
     private Direction determineDirection(Position source, Position destination) {
         if (source.row() == destination.row()) {
             return getDirectionWhenYSame(source, destination);
         }
-        if (source.col() == destination.col()) {
+        if (source.column() == destination.column()) {
             return getDirectionWhenXSame(source, destination);
         }
         throw new IllegalArgumentException("갈 수 있는 경로가 없습니다.");
@@ -45,7 +45,7 @@ public class StraightPathGenerator implements PathGenerator {
     }
 
     private Direction getDirectionWhenYSame(Position source, Position destination) {
-        if (source.col() > destination.col()) {
+        if (source.column() > destination.column()) {
             return Direction.WEST;
         }
         return Direction.EAST;

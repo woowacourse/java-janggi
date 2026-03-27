@@ -15,10 +15,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class SaTest {
     @ParameterizedTest
     @MethodSource("provideSaPaths")
-    void 사는_모든방향을_한칸_이동한다(int sourceRow, int sourceCol, int destinationRow, int destinationCol) {
+    void 사는_모든방향을_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
         Piece sa = new Sa(Team.HAN);
-        Position source = new Position(sourceRow, sourceCol);
-        Position destination = new Position(destinationRow, destinationCol);
+        Position source = new Position(sourceRow, sourceColumn);
+        Position destination = new Position(destinationRow, destinationColumn);
 
         Path path = sa.calculatePath(source, destination);
 

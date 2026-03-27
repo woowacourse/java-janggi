@@ -14,14 +14,14 @@ public enum Direction {
     SOUTH_WEST(1, -1);
 
     private final int offsetRow;
-    private final int offsetCol;
+    private final int offsetColumn;
 
-    Direction(int offsetRow, int offsetCol) {
+    Direction(int offsetRow, int offsetColumn) {
         this.offsetRow = offsetRow;
-        this.offsetCol = offsetCol;
+        this.offsetColumn = offsetColumn;
     }
 
     public Position move(Position source) {
-        return new Position(source.row() + this.offsetRow, source.col() + this.offsetCol);
+        return new Position(source.row() + this.offsetRow, source.column() + this.offsetColumn);
     }
 }
