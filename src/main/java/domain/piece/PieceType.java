@@ -3,43 +3,43 @@ package domain.piece;
 import domain.piece.strategy.*;
 
 public enum PieceType {
-    GENERAL{
+    GENERAL {
         @Override
         public MoveStrategy createStrategy() {
-            return new GeneralStrategy();
+            return new GeneralAndGuardStrategy();
         }
     },
-    GUARD{
+    GUARD {
         @Override
         public MoveStrategy createStrategy() {
-            return new GuardStrategy();
+            return new GeneralAndGuardStrategy();
         }
     },
-    HORSE{
+    HORSE {
         @Override
         public MoveStrategy createStrategy() {
             return new HorseStrategy();
         }
     },
-    ELEPHANT{
+    ELEPHANT {
         @Override
         public MoveStrategy createStrategy() {
             return new ElephantStrategy();
         }
     },
-    CHARIOT{
+    CHARIOT {
         @Override
         public MoveStrategy createStrategy() {
             return new ChariotStrategy();
         }
     },
-    CANNON{
+    CANNON {
         @Override
         public MoveStrategy createStrategy() {
             return new CannonStrategy();
         }
     },
-    SOLDIER{
+    SOLDIER {
         @Override
         public MoveStrategy createStrategy() {
             return new SoldierStrategy();
