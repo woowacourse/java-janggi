@@ -1,7 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Board;
 import janggi.domain.Delta;
 import janggi.domain.MovePath;
+import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +51,11 @@ public class Sa implements Piece {
             .findFirst();
     }
 
+    @Override
+    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
+        return true;
+    }
+
     private boolean isSamePosition(int distanceX, int distanceY) {
         return distanceX == 0 && distanceY == 0;
     }
@@ -60,11 +67,6 @@ public class Sa implements Piece {
     @Override
     public String nickname() {
         return pieceType.getNickname();
-    }
-
-    @Override
-    public boolean isSameType(TeamType nowTurn) {
-        return nowTurn == teamType;
     }
 
     @Override

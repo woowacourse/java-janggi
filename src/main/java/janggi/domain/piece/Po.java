@@ -43,7 +43,7 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean isValidPath(Position start, Position end, Board board) {
+    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
         Optional<MovePath> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
         if (movePath.isEmpty()) {
             return false;
@@ -67,11 +67,6 @@ public class Po implements Piece {
     @Override
     public String nickname() {
         return pieceType.getNickname();
-    }
-
-    @Override
-    public boolean isSameType(TeamType nowTurn) {
-        return nowTurn == teamType;
     }
 
     @Override
