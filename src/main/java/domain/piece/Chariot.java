@@ -1,14 +1,14 @@
 package domain.piece;
 
-import domain.Direction;
+import domain.coordinate.Direction;
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chariot extends Piece {
+public final class Chariot extends Piece {
 
     public Chariot(Side side) {
         super(side);

@@ -1,13 +1,13 @@
 package domain.piece;
 
-import domain.Direction;
+import domain.coordinate.Direction;
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Guard extends Piece {
+public final class Guard extends Piece {
 
     public Guard(Side side) {
         super(side);

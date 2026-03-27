@@ -1,14 +1,14 @@
 package domain.piece;
 
-import domain.Direction;
+import domain.coordinate.Direction;
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cannon extends Piece {
+public final class Cannon extends Piece {
 
     public Cannon(Side side) {
         super(side);

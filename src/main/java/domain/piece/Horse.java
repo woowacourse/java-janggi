@@ -1,14 +1,14 @@
 package domain.piece;
 
-import domain.Direction;
+import domain.coordinate.Direction;
 import domain.Game;
-import domain.Position;
+import domain.coordinate.Position;
 import domain.Side;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Horse extends Piece {
+public final class Horse extends Piece {
 
     public Horse(Side side) {
         super(side);
@@ -16,7 +16,6 @@ public class Horse extends Piece {
 
     @Override
     public List<Position> getPossibleMoves(Game game, Position start) {
-
         List<List<Direction>> paths = List.of(
                 List.of(Direction.UP, Direction.UP_LEFT),
                 List.of(Direction.UP, Direction.UP_RIGHT),
