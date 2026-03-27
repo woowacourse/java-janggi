@@ -35,22 +35,6 @@ class PawnTest {
         assertThat(pawn.canMove(from, to, board)).isEqualTo(true);
     }
 
-    @Test
-    void 도착_지점이_wkd한칸거리이면서_양쪽_옆_혹은_앞인_경우_정상_테스트(){
-        // given
-        Board board = new StubBoard(strategy);
-        Piece pawn = new Pawn(Team.CHO);
-
-        // when
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
-
-        // then
-        // 규칙은 기물이 가지고 있음, 이동 가능 여부는 보드가 판단
-        // 그럼 가능한 거리인가에 대한 판단은 누가?
-        assertThat(pawn.canMove(from, to, board)).isEqualTo(true);
-    }
-
     /**
      * 이동 진로가 빈칸인 경우 1. 한칸 앞이 빈칸인 경우, 이동할 수 있다. 2. 한칸 오른쪽이 빈칸인 경우, 이동할 수 있다. 3. 한칸 왼쪽이 빈칸인 경우, 이동할 수 있다.
      */

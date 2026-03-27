@@ -36,4 +36,11 @@ public class Board {
     private void initTeamBoard(InitializeStrategy strategy, Team team) {
         pieces.putAll(strategy.initialize(team));
     }
+
+    /**
+     * TODO: 추후 보드에서 기물을 이동시킬때 올바른 범위인지 체크하는 메서드
+     */
+    private boolean validateMoveable(Position to) {
+        return false;
+    }
 }

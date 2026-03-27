@@ -264,4 +264,18 @@ class BoardTest {
         assertThat(board.isExistSameType(hanFirstHorse, new Horse(Team.HAN))).isEqualTo(true);
         assertThat(board.isExistSameType(hanSecondHorse, new Horse(Team.HAN))).isEqualTo(true);
     }
+
+    /**
+     * 보드 범위 테스트
+     * 1. 기물의 목적지가 보드의 범위를 넘어가면 안된다.
+     */
+
+    @Test
+    void 목적지가_보드의_범위를_넘어갈_경우_예외를_반환한다() {
+        // given
+
+        // when
+
+        // then
+    }
 }

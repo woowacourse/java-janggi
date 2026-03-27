@@ -23,7 +23,6 @@ public class Pawn extends Piece {
         }
 
 
-
         if (isEmptySpace(to, board)) {
             return true;
         }
