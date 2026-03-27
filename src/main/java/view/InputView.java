@@ -1,7 +1,9 @@
 package view;
 
 import exception.Validator;
+import java.util.List;
 import java.util.Scanner;
+import util.InputParser;
 
 public class InputView {
     private final Scanner scanner;
@@ -22,13 +24,17 @@ public class InputView {
     }
 
     public String requestPiece() {
-        System.out.println("움질일 기물을 선택해주세요. (예: 병, 차, 마, 등) : ");
+        System.out.println("\n움작일 기물을 선택해주세요. (예: 졸, 차, 마, 등) : ");
         return scanner.nextLine();
     }
 
     public int requestStartPiecePosition() {
-        System.out.println("움직일 기물의 좌표의 번호를 선택해주세요. ");
+        System.out.println("\n움직일 기물의 좌표의 번호를 선택해주세요. ");
         return Validator.validateNumber(scanner.nextLine());
     }
 
+    public List<Integer> requestMovePosition() {
+        System.out.println("\n이동할 좌표를 입력해 주세요. ");
+        return InputParser.splitBy(",", scanner.nextLine());
+    }
 }

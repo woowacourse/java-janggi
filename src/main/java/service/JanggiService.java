@@ -11,7 +11,6 @@ import service.dto.BoardDto;
 import service.dto.PositionDto;
 
 public class JanggiService {
-
     public Board createBoard(int choMasangChoice, int hanMasangChoice){
         List<PieceType> masang = new ArrayList<>(createMasang(choMasangChoice));
         masang.addAll(createMasang(hanMasangChoice));
@@ -21,7 +20,6 @@ public class JanggiService {
     public JanggiGame createJanggiGame(Board board){
         return new JanggiGame(board);
     }
-
 
     public BoardDto getBoard(Board board) {
         List<BoardDto.Row> boardAll = new ArrayList<>();
@@ -44,6 +42,10 @@ public class JanggiService {
         return positionDtos;
     }
 
+    public void applyMove(Position start, Position end, JanggiGame game) {
+        game.play(start, end);
+    }
+
     private List<PieceType> createMasang(int num) {
         return switch (num) {
             case 1 -> List.of(PieceType.MA,PieceType.SANG,PieceType.SANG,PieceType.MA);
@@ -53,5 +55,4 @@ public class JanggiService {
             default -> throw new IllegalArgumentException("올바르지 않은 입력입니다.");
         };
     }
-
 }
