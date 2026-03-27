@@ -1,5 +1,6 @@
 package strategy.move;
 
+import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -23,8 +24,21 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canJump(List<Piece> blockingPieces) {
-        if (blockingPieces.isEmpty()) return true;
-        return false;
+    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
+        if (blockingPieces.size() == 0) {
+            return false;
+        }
+
+        if (blockingPieces.isFirstPieceCannon()) {
+            return false;
+        }
+
+        if (blockingPieces.size() == 2) {
+            if (blockingPieces.isLastPieceCannon() || blockingPieces.isLastPieceSameTeam(myTeam)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

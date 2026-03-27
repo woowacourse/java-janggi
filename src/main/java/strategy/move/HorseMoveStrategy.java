@@ -1,10 +1,10 @@
 package strategy.move;
 
+import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
-import domain.Position;
-import domain.Route;
+
 import domain.TeamColor;
 import java.util.List;
 
@@ -27,8 +27,10 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canJump(List<Piece> blockingPieces) {
-        if (blockingPieces.isEmpty()) return true;
+    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
+        if (blockingPieces.size() == 0) {
+            return true;
+        }
         return false;
     }
 }

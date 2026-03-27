@@ -1,7 +1,10 @@
 package strategy.move;
 
+import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
+import domain.Piece;
+import domain.PieceType;
 import domain.TeamColor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -35,5 +38,27 @@ public class CannonMoveStrategyTest {
                 new MovePath(List.of(Direction.EAST)),
                 new MovePath(List.of(Direction.WEST))
         );
+    }
+
+    @Test
+    public void 포는_장애물이_1개가_아니면_지나갈수_없다(){
+        MoveStrategy moveStrategy = new PawnMoveStrategy();
+
+        List<Piece> blocking = List.of();
+        BlockingPieces blockingPieces = new BlockingPieces(blocking);
+        boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+        assertThat(canJumpTo).isTrue();
+    }
+
+    @Test
+    public void 포은_장애물이_포이면_지나갈수_없다(){
+        MoveStrategy moveStrategy = new PawnMoveStrategy();
+
+        List<Piece> blocking = List.of(Piece.of(TeamColor.CHO, PieceType.CANNON));
+        BlockingPieces blockingPieces = new BlockingPieces(blocking);
+        boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+        assertThat(canJumpTo).isFalse();
     }
 }

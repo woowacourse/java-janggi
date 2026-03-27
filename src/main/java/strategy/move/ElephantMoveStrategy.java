@@ -1,5 +1,6 @@
 package strategy.move;
 
+import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -8,7 +9,7 @@ import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 
-public class ElephantMoveStrategy implements MoveStrategy {
+      public class ElephantMoveStrategy implements MoveStrategy {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
@@ -27,8 +28,8 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canJump(List<Piece> blockingPieces) {
-        if (blockingPieces.isEmpty()) {
+    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
+        if (blockingPieces.size() == 0) {
             return true;
         }
         return false;

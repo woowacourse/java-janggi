@@ -1,7 +1,9 @@
 package strategy.move;
 
+import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
+import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
@@ -25,5 +27,12 @@ public class GuardMoveStrategy implements MoveStrategy {
         return PATHS;
     }
 
+    @Override
+    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
+        if (blockingPieces.size() == 0) {
+            return true;
+        }
+        return false;
+    }
 
 }

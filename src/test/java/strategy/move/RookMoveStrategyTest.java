@@ -1,5 +1,6 @@
 package strategy.move;
 
+import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -43,8 +44,9 @@ public class RookMoveStrategyTest {
     public void 차는_장애물이_없으면_지나갈수_있다(){
         MoveStrategy moveStrategy = new PawnMoveStrategy();
 
-        List<Piece> blockingPieces = List.of();
-        boolean canJumpTo  = moveStrategy.canJump(blockingPieces);
+        List<Piece> blocking = List.of();
+        BlockingPieces blockingPieces = new BlockingPieces(blocking);
+        boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
 
         assertThat(canJumpTo).isTrue();
     }
@@ -53,8 +55,9 @@ public class RookMoveStrategyTest {
     public void 차는_장애물이_하나라도_있으면_지나갈수_없다(){
         MoveStrategy moveStrategy = new PawnMoveStrategy();
 
-        List<Piece> blockingPieces = List.of(Piece.of(TeamColor.CHO, PieceType.CANNON));
-        boolean canJumpTo  = moveStrategy.canJump(blockingPieces);
+        List<Piece> blocking = List.of(Piece.of(TeamColor.CHO, PieceType.CANNON));
+        BlockingPieces blockingPieces = new BlockingPieces(blocking);
+        boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
 
         assertThat(canJumpTo).isFalse();
     }

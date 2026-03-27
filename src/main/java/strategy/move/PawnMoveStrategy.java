@@ -1,5 +1,6 @@
 package strategy.move;
 
+import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -30,8 +31,8 @@ public class PawnMoveStrategy implements MoveStrategy{
     }
 
     @Override
-    public boolean canJump(List<Piece> blockingPieces) {
-        if (blockingPieces.isEmpty()) {
+    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
+        if (blockingPieces.size()==0) {
             return true;
         }
         return false;
