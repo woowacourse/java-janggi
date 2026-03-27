@@ -14,14 +14,14 @@ public class Board {
 
     private static final int BOARD_HEIGHT = 10;
 
-    private final Map<Point, Piece> pieces;
+    private Map<Point, Piece> pieces;
 
     public Board() {
         this.pieces = new LinkedHashMap<>();
     }
 
-    public void init(List<PositionInfo> positionInfos) {
-        positionInfos.forEach(info -> pieces.put(info.point(), info.piece()));
+    public void init(Map<Point, Piece> pieces) {
+        this.pieces = pieces;
     }
 
     public void move(Point from, Point to, Team team) {

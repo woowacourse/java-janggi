@@ -8,7 +8,9 @@ import janggi.domain.Point;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,13 +24,13 @@ public class PhoTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        List<PositionInfo> info = new ArrayList<>();
-        info.add(PositionInfo.from(List.of("HAN", "PHO", "1", "1")));
-        info.add(PositionInfo.from(List.of("HAN", "CHA", "1", "2")));
-        info.add(PositionInfo.from(List.of("CHO", "CHA", "1", "3")));
-        info.add(PositionInfo.from(List.of("CHO", "PHO", "1", "5")));
-        info.add(PositionInfo.from(List.of("CHO", "PHO", "1", "6")));
-        board.init(info);
+        Map<Point, Piece> pieces = new LinkedHashMap<>();
+        pieces.put(Point.of(1, 1), new Pho(Team.HAN));
+        pieces.put(Point.of(1, 2), new Cha(Team.HAN));
+        pieces.put(Point.of(1, 3), new Cha(Team.CHO));
+        pieces.put(Point.of(1, 5), new Pho(Team.CHO));
+        pieces.put(Point.of(1, 6), new Pho(Team.CHO));
+        board.init(pieces);
     }
 
     @ParameterizedTest

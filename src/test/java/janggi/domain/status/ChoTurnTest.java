@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import janggi.domain.Board;
 import janggi.domain.Point;
-import janggi.dto.PositionInfo;
-import java.util.ArrayList;
-import java.util.List;
+import janggi.domain.piece.Cha;
+import janggi.domain.piece.Jang;
+import janggi.domain.piece.Piece;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,12 +21,12 @@ public class ChoTurnTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        List<PositionInfo> info = new ArrayList<>();
-        info.add(PositionInfo.from(List.of("HAN","JANG", "4", "1")));
-        info.add(PositionInfo.from(List.of("CHO","JANG", "4", "8")));
-        info.add(PositionInfo.from(List.of("HAN", "CHA", "1", "1")));
-        info.add(PositionInfo.from(List.of("CHO", "CHA", "2", "3")));
-        board.init(info);
+        Map<Point, Piece> pieces = new LinkedHashMap<>();
+        pieces.put(Point.of(4, 1), new Jang(Team.HAN));
+        pieces.put(Point.of(4, 8), new Jang(Team.CHO));
+        pieces.put(Point.of(1, 1), new Cha(Team.HAN));
+        pieces.put(Point.of(2, 3), new Cha(Team.CHO));
+        board.init(pieces);
     }
 
     @Test
