@@ -53,6 +53,13 @@ public class BoardFactory {
             }
         }
 
+        addChoPieces(board);
+        addHanPieces(board);
+
+        return board;
+    }
+
+    private static void addHanPieces(Map<Position, Piece> board) {
         board.put(new Position(0, 0), new Cha(Team.HAN));
         board.put(new Position(1, 0), new Sang(Team.HAN));
         board.put(new Position(2, 0), new Ma(Team.HAN));
@@ -72,6 +79,9 @@ public class BoardFactory {
             board.put(new Position(x, 3), new Jol(Team.HAN));
         }
 
+    }
+
+    private static void addChoPieces(Map<Position, Piece> board) {
         board.put(new Position(0, 9), new Cha(Team.CHO));
         board.put(new Position(1, 9), new Sang(Team.CHO));
         board.put(new Position(2, 9), new Ma(Team.CHO));
@@ -90,7 +100,5 @@ public class BoardFactory {
         for (int x = 0; x <= 8; x += 2) {
             board.put(new Position(x, 6), new Jol(Team.CHO));
         }
-
-        return board;
     }
 }
