@@ -38,36 +38,37 @@ class BoardTest {
         Map<Point, Piece> defaultBoard = new HashMap<>();
 
         defaultBoard.put(new Point(0, 0), new Chariot(Side.CHO));
-        defaultBoard.put(new Point(3, 0), new Advisor(Side.CHO));
-        defaultBoard.put(new Point(5, 0), new Advisor(Side.CHO));
-        defaultBoard.put(new Point(8, 0), new Chariot(Side.CHO));
+        defaultBoard.put(new Point(0, 3), new Advisor(Side.CHO));
+        defaultBoard.put(new Point(0, 5), new Advisor(Side.CHO));
+        defaultBoard.put(new Point(0, 8), new Chariot(Side.CHO));
 
-        defaultBoard.put(new Point(4, 1), new General(Side.CHO));
+        defaultBoard.put(new Point(1, 4), new General(Side.CHO));
 
-        defaultBoard.put(new Point(1, 2), new Cannon(Side.CHO));
-        defaultBoard.put(new Point(7, 2), new Cannon(Side.CHO));
+        defaultBoard.put(new Point(2, 1), new Cannon(Side.CHO));
+        defaultBoard.put(new Point(2, 7), new Cannon(Side.CHO));
 
-        defaultBoard.put(new Point(0, 3), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(2, 3), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(4, 3), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(6, 3), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(8, 3), new Soldier(Side.CHO));
+        defaultBoard.put(new Point(3, 0), new Soldier(Side.CHO));
+        defaultBoard.put(new Point(3, 2), new Soldier(Side.CHO));
+        defaultBoard.put(new Point(3, 4), new Soldier(Side.CHO));
+        defaultBoard.put(new Point(3, 6), new Soldier(Side.CHO));
+        defaultBoard.put(new Point(3, 8), new Soldier(Side.CHO));
 
-        defaultBoard.put(new Point(0, 6), new Soldier(Side.HAN));
-        defaultBoard.put(new Point(2, 6), new Soldier(Side.HAN));
-        defaultBoard.put(new Point(4, 6), new Soldier(Side.HAN));
+        defaultBoard.put(new Point(6, 8), new Soldier(Side.HAN));
         defaultBoard.put(new Point(6, 6), new Soldier(Side.HAN));
-        defaultBoard.put(new Point(8, 6), new Soldier(Side.HAN));
+        defaultBoard.put(new Point(6, 4), new Soldier(Side.HAN));
+        defaultBoard.put(new Point(6, 2), new Soldier(Side.HAN));
+        defaultBoard.put(new Point(6, 0), new Soldier(Side.HAN));
 
-        defaultBoard.put(new Point(1, 7), new Cannon(Side.HAN));
         defaultBoard.put(new Point(7, 7), new Cannon(Side.HAN));
+        defaultBoard.put(new Point(7, 1), new Cannon(Side.HAN));
 
-        defaultBoard.put(new Point(4, 8), new General(Side.HAN));
+        defaultBoard.put(new Point(8, 6), new General(Side.HAN));
 
-        defaultBoard.put(new Point(0, 9), new Chariot(Side.HAN));
-        defaultBoard.put(new Point(3, 9), new Advisor(Side.HAN));
-        defaultBoard.put(new Point(5, 9), new Advisor(Side.HAN));
-        defaultBoard.put(new Point(8, 9), new Chariot(Side.HAN));
+        defaultBoard.put(new Point(9, 8), new Chariot(Side.HAN));
+        defaultBoard.put(new Point(9, 5), new Advisor(Side.HAN));
+        defaultBoard.put(new Point(9, 3), new Advisor(Side.HAN));
+        defaultBoard.put(new Point(9, 0), new Chariot(Side.HAN));
+
         return defaultBoard;
     }
 }

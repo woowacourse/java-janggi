@@ -21,6 +21,7 @@ class BoardSetUpTest {
                 Arguments.of(new InSetUp(), Side.CHO, Map.of(
                         new Point(0, 1), new Horse(Side.CHO), new Point(0, 2), new Elephant(Side.CHO),
                         new Point(0, 6), new Elephant(Side.CHO), new Point(0, 7), new Horse(Side.CHO))),
+
                 Arguments.of(new InSetUp(), Side.HAN, Map.of(
                         new Point(9, 7), new Horse(Side.HAN), new Point(9, 6), new Elephant(Side.HAN),
                         new Point(9, 2), new Elephant(Side.HAN), new Point(9, 1), new Horse(Side.HAN)
