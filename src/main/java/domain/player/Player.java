@@ -18,7 +18,7 @@ public final class Player {
     }
 
     public String getName() {
-        return name.getValue();
+        return name.value();
     }
 
     public Team getTeam() {
