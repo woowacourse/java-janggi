@@ -31,6 +31,11 @@ public class Turn {
         board.canMove(startPosition, endPosition, opponentTeamType());
     }
 
+    public String nextTurnTeam() {
+        TeamType teamType = opponentTeamType();
+        return teamType.getName();
+    }
+
     private TeamType opponentTeamType() {
         if (movedTeam == TeamType.CHU) {
             return TeamType.HAN;

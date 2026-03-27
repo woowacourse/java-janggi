@@ -2,7 +2,6 @@ package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.side.TeamType;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,5 +46,10 @@ public class JanggiGame {
         List<Turn> updatedTurns = new ArrayList<>(value);
         updatedTurns.add(newTurn);
         return new JanggiGame(updatedTurns);
+    }
+
+    public String getCurrentTurnTeamName() {
+        Turn lastTurn = getLastTurn();
+        return lastTurn.nextTurnTeam();
     }
 }
