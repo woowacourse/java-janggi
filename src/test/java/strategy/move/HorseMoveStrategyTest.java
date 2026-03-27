@@ -5,6 +5,8 @@ import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.PieceType;
+import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -68,5 +70,28 @@ public class HorseMoveStrategyTest {
         boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
 
         assertThat(canJumpTo).isFalse();
+    }
+
+    @Test
+    public void 마가_정상적으로_진행경로_좌표를_안다() {
+        // 중앙인 (4, 4)에 있다고 가정 (8방향 모두 이동 가능한 위치)
+        Position curPos = Position.of(4, 4);
+        MoveStrategy moveStrategy = new HorseMoveStrategy();
+
+        List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+        assertThat(routes).containsExactlyInAnyOrder(
+
+                new Route(curPos, Position.of(2, 3), List.of(Position.of(3, 4))),
+                new Route(curPos, Position.of(2, 5), List.of(Position.of(3, 4))),
+
+                new Route(curPos, Position.of(6, 3), List.of(Position.of(5, 4))),
+                new Route(curPos, Position.of(6, 5), List.of(Position.of(5, 4))),
+
+                new Route(curPos, Position.of(3, 2), List.of(Position.of(4, 3))),
+                new Route(curPos, Position.of(5, 2), List.of(Position.of(4, 3))),
+
+                new Route(curPos, Position.of(3, 6), List.of(Position.of(4, 5))),
+                new Route(curPos, Position.of(5, 6), List.of(Position.of(4, 5)))
+        );
     }
 }

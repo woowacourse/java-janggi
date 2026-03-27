@@ -58,6 +58,19 @@ public class PawnMoveStrategyTest {
     }
 
     @Test
+    public void 한나라_졸은_현재위치와_이동방향을_기반으로_이동가능한_좌표들_구한다(){
+        MoveStrategy moveStrategy = new PawnMoveStrategy();
+        Position curPos = Position.of(3,4);
+
+        List<Route> possibleRoutes = moveStrategy.makeRoutes(curPos, TeamColor.HAN);
+        assertThat(possibleRoutes).containsExactlyInAnyOrder(
+                new Route(curPos,Position.of(4,4),List.of()),
+                new Route(curPos,Position.of(3,5),List.of()),
+                new Route(curPos,Position.of(3,3),List.of())
+        );
+    }
+
+    @Test
     public void 졸은_장애물이_없으면_지나갈수_있다(){
         MoveStrategy moveStrategy = new PawnMoveStrategy();
 

@@ -5,6 +5,8 @@ import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.PieceType;
+import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -57,5 +59,26 @@ public class ElephantMoveStrategyTest {
         boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
 
         assertThat(canJumpTo).isFalse();
+    }
+
+    @Test
+    public void 상이_정상적으로_진행경로_좌표를_안다() {
+        Position curPos = Position.of(4, 4);
+        MoveStrategy moveStrategy = new ElephantMoveStrategy();
+
+        List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+        assertThat(routes).containsExactlyInAnyOrder(
+                new Route(curPos, Position.of(1, 2), List.of(Position.of(3, 4), Position.of(2, 3))),
+                new Route(curPos, Position.of(1, 6), List.of(Position.of(3, 4), Position.of(2, 5))),
+
+                new Route(curPos, Position.of(7, 2), List.of(Position.of(5, 4), Position.of(6, 3))),
+                new Route(curPos, Position.of(7, 6), List.of(Position.of(5, 4), Position.of(6, 5))),
+
+                new Route(curPos, Position.of(2, 1), List.of(Position.of(4, 3), Position.of(3, 2))),
+                new Route(curPos, Position.of(6, 1), List.of(Position.of(4, 3), Position.of(5, 2))),
+
+                new Route(curPos, Position.of(2, 7), List.of(Position.of(4, 5), Position.of(3, 6))),
+                new Route(curPos, Position.of(6, 7), List.of(Position.of(4, 5), Position.of(5, 6)))
+        );
     }
 }

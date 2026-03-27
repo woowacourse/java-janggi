@@ -5,6 +5,8 @@ import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.PieceType;
+import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -68,6 +70,26 @@ public class GuardMoveStrategyTest {
         boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
 
         assertThat(canJumpTo).isFalse();
+    }
+
+    @Test
+    public void 왕이_정상적으로_진행경로_좌표를_안다() {
+        Position curPos = Position.of(1, 4);
+        MoveStrategy moveStrategy = new GuardMoveStrategy();
+
+        List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+        assertThat(routes).containsExactlyInAnyOrder(
+
+                new Route(curPos, Position.of(0, 4), List.of()),
+                new Route(curPos, Position.of(2, 4), List.of()),
+                new Route(curPos, Position.of(1, 3), List.of()),
+                new Route(curPos, Position.of(1, 5), List.of()),
+
+                new Route(curPos, Position.of(0, 3), List.of()),
+                new Route(curPos, Position.of(0, 5), List.of()),
+                new Route(curPos, Position.of(2, 3), List.of()),
+                new Route(curPos, Position.of(2, 5), List.of())
+        );
     }
 }
 
