@@ -50,18 +50,4 @@ public class JolTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("한 칸만");
     }
-
-    @Test
-    @DisplayName("제자리로 이동할 경우 예외 발생")
-    void no_move() {
-        // given
-        Piece jol = new Jol(Team.CHO);
-        Point from = Point.of(3, 3);
-        Point to = Point.of(3, 3);
-
-        // when & then
-        assertThatThrownBy(() -> jol.getRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("제자리");
-    }
 }

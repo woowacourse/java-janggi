@@ -21,7 +21,6 @@ public class Jol extends BasePiece {
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
-        validateNoMove(distanceX, distanceY);
         validateOverMove(distanceX, distanceY);
         validateBackMove(pathY);
 
@@ -34,14 +33,8 @@ public class Jol extends BasePiece {
                 .noneMatch(piece -> piece.isSameTeam(team));
     }
 
-    private void validateNoMove(int distanceX, int distanceY) {
-        if (distanceX == 0 && distanceY == 0) {
-            throw new IllegalArgumentException("제자리 이동은 불가능합니다.");
-        }
-    }
-
     private void validateOverMove(int distanceX, int distanceY) {
-        if (distanceX + distanceY != 1) {
+        if (distanceX + distanceY != MAX_DISTANCE) {
             throw new IllegalArgumentException("한 칸만 이동할 수 있습니다.");
         }
     }
