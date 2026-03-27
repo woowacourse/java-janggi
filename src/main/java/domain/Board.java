@@ -23,13 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Board {
-    private static final List<Position> CHO_VARIABLE_POSITIONS = List.of(new Position(1, 0), new Position(2, 0),
-            new Position(6, 0),
-            new Position(7, 0));
-    private static final List<Position> HAN_VARIABLE_POSITIONS = List.of(new Position(1, 9), new Position(2, 9),
-            new Position(6, 9),
-            new Position(7, 9));
-
     private final Map<Position, State> board = new LinkedHashMap<>();
 
     public Board(TableSetting choTableSetting, TableSetting hanTableSetting) {
@@ -106,25 +99,35 @@ public class Board {
     }
 
     private void initializeTableSettings(TableSetting choTableSetting, TableSetting hanTableSetting) {
+        initializeChoTableSetting(choTableSetting);
+        initializeHanTableSetting(hanTableSetting);
+    }
+
+    private void initializeChoTableSetting(TableSetting choTableSetting) {
         for (int index = 0; index < 4; index++) {
             PieceType pieceType = choTableSetting.getFormation(Country.CHO).get(index);
             if (pieceType == PieceType.HORSE) {
-                board.put(CHO_VARIABLE_POSITIONS.get(index), new FullState(new Horse(Country.CHO)));
+                board.put(InitialPosition.ELEPHANT_AND_HORSE.getChoPositions().get(index),
+                        new FullState(new Horse(Country.CHO)));
                 continue;
             }
-            board.put(CHO_VARIABLE_POSITIONS.get(index), new FullState(new Elephant(Country.CHO)));
-        }
-
-        for (int index = 0; index < 4; index++) {
-            PieceType pieceType = hanTableSetting.getFormation(Country.HAN).get(index);
-            if (pieceType == PieceType.HORSE) {
-                board.put(HAN_VARIABLE_POSITIONS.get(index), new FullState(new Horse(Country.HAN)));
-                continue;
-            }
-            board.put(HAN_VARIABLE_POSITIONS.get(index), new FullState(new Elephant(Country.HAN)));
+            board.put(InitialPosition.ELEPHANT_AND_HORSE.getChoPositions().get(index),
+                    new FullState(new Elephant(Country.CHO)));
         }
     }
 
+    private void initializeHanTableSetting(TableSetting hanTableSetting) {
+        for (int index = 0; index < 4; index++) {
+            PieceType pieceType = hanTableSetting.getFormation(Country.HAN).get(index);
+            if (pieceType == PieceType.HORSE) {
+                board.put(InitialPosition.ELEPHANT_AND_HORSE.getHanPositions().get(index),
+                        new FullState(new Horse(Country.HAN)));
+                continue;
+            }
+            board.put(InitialPosition.ELEPHANT_AND_HORSE.getHanPositions().get(index),
+                    new FullState(new Elephant(Country.HAN)));
+        }
+    }
 
     public void validateFromPosition(Position from, Country country) {
         State fromState = board.get(from);
