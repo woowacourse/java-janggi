@@ -6,7 +6,7 @@ import domain.vo.Position;
 public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
-    public boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(final Position from, final Position to, final Board board) {
 
         if (isNotStraightPath(from, to))
             return false;
@@ -48,7 +48,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
     }
 
-    private boolean isNotStraightPath(Position from, Position to) {
+    private boolean isNotStraightPath(final Position from, final Position to) {
         if (from.getCol() != to.getCol() && from.getRow() != to.getRow()) {
             return true;
         }

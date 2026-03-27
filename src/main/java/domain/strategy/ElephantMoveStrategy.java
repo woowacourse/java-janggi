@@ -6,7 +6,7 @@ import domain.vo.Position;
 public class ElephantMoveStrategy implements MoveStrategy {
 
     @Override
-    public boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(final Position from, final Position to, final Board board) {
 
         if (isNotCorrectPath(from, to))
             return false;
@@ -40,7 +40,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
         return false;
     }
 
-    private boolean isNotCorrectPath(Position from, Position to) {
+    private boolean isNotCorrectPath(final Position from, final Position to) {
         if (Math.abs(from.getRow() - to.getRow()) == 2) {
             if (Math.abs(from.getCol() - to.getCol()) != 3) {
                 return true;

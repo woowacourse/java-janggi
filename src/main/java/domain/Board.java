@@ -1,6 +1,5 @@
 package domain;
 
-import domain.strategy.*;
 import domain.vo.Position;
 
 import java.util.Map;

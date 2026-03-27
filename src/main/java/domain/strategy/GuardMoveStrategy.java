@@ -6,7 +6,7 @@ import domain.vo.Position;
 public class GuardMoveStrategy implements MoveStrategy {
 
     @Override
-    public boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(final Position from, final Position to, final Board board) {
         if (from.getRow() == to.getRow()) {
             if (Math.abs(from.getCol() - to.getCol()) != 1) {
                 return false;

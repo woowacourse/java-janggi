@@ -9,7 +9,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     private static final int CANNON_REQUIRED_PIECE_COUNT = 1;
 
     @Override
-    public boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(final Position from, final Position to, final Board board) {
         if (isNotCorrectPath(from, to)) 
             return false;
 
@@ -41,7 +41,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         }
     }
 
-    private boolean isCannonValidTarget(Position from, Position to, Board board, int pieceCount) {
+    private boolean isCannonValidTarget(final Position from, final Position to, final Board board, final int pieceCount) {
         if (!isCannon(board, to.getRow(), to.getCol())
                 && board.isAnotherTeam(from, to)
                 && pieceCount == CANNON_REQUIRED_PIECE_COUNT) {
