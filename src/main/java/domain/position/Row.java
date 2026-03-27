@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public record Row(int row) {
 
-
     public Row {
         validateRange(row);
     }

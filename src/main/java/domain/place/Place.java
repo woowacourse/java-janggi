@@ -6,6 +6,7 @@ import domain.position.Position;
 import java.util.Optional;
 
 public interface Place {
+
     boolean isEmpty();
 
     boolean isSameSide(Side side);

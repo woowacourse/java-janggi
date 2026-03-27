@@ -12,10 +12,8 @@ public class PlayerNameParser {
     }
 
     public static List<String> splitNames(String names) {
-        List<String> name = Arrays.asList(
+        return Arrays.asList(
                 names.replace(WHITESPACE, "").split(NAME_SEPARATOR)
         );
-
-        return name;
     }
 }

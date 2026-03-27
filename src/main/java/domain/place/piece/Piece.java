@@ -8,6 +8,7 @@ import java.util.Optional;
 import util.ColorMapper;
 
 public abstract class Piece implements Place {
+
     protected final Side side;
     protected final MoveStrategy moveStrategy;
 
@@ -48,4 +49,3 @@ public abstract class Piece implements Place {
         return moveStrategy.canMove(board, from, to);
     }
 }
-
