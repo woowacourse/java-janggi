@@ -1,7 +1,9 @@
 package domain;
 
 import domain.piece.Piece;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import strategy.InitializeStrategy;
 
@@ -21,8 +23,12 @@ public class Board {
      * @return
      */
     public boolean isExistSameType(Position position, Piece piece) {
-        return pieces.get(position).getType()
-                .equals(piece.getType());
+        if (hasPieceInPosition(position)) {
+            return pieces.get(position).getType()
+                    .equals(piece.getType());
+        }
+
+        return false;
     }
 
     public boolean isEmpty(Position position) {
@@ -30,11 +36,62 @@ public class Board {
     }
 
     public boolean hasSameTeamOn(Position position, Piece piece) {
-        return pieces.get(position).isSameTeam(piece);
+        if (hasPieceInPosition(position)) {
+            return pieces.get(position).isSameTeam(piece);
+        }
+
+        return false;
+    }
+
+    private boolean hasPieceInPosition(Position position) {
+        return pieces.containsKey(position);
     }
 
     private void initTeamBoard(InitializeStrategy strategy, Team team) {
         pieces.putAll(strategy.initialize(team));
+    }
+
+    public List<Piece> findPiecesInLinePath(Position from, Position to) {
+        if (from.isSameRow(to)) {
+            return findPiecesInRow(from, to);
+        }
+
+        if (from.isSameColumn(to)) {
+            return findPiecesInColumn(from, to);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Piece> findPiecesInRow(Position from, Position to) {
+        List<Piece> result = new ArrayList<>();
+
+        int row = from.getRow();
+        int start = Math.min(from.getColumn(), to.getColumn());
+        int end = Math.max(from.getColumn(), to.getColumn());
+
+        for (int column = start + 1; column < end; column++) {
+            Position searchPosition = Position.from(row, column);
+            if (pieces.containsKey(searchPosition)) {
+                result.add(pieces.get(searchPosition));
+            }
+        }
+        return result;
+    }
+
+    private List<Piece> findPiecesInColumn(Position from, Position to) {
+        List<Piece> result = new ArrayList<>();
+
+        int column = from.getColumn();
+        int start = Math.min(from.getRow(), to.getRow());
+        int end = Math.max(from.getRow(), to.getRow());
+
+        for (int row = start + 1; row < end; row++) {
+            Position searchPosition = Position.from(row, column);
+            if (pieces.containsKey(searchPosition)) {
+                result.add(pieces.get(searchPosition));
+            }
+        }
+        return result;
     }
 
     /**

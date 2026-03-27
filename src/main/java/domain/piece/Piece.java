@@ -22,5 +22,9 @@ public abstract class Piece {
         return this.team == other.team;
     }
 
+    public boolean isCannon() {
+        return this.type == PieceType.CANNON;
+    }
+
     abstract boolean canMove(Position from, Position to, Board board);
 }

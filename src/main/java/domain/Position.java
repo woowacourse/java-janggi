@@ -15,12 +15,42 @@ public final class Position {
         return new Position(row, column);
     }
 
+    public int getRow(){
+        return this.row;
+    }
+
+    public int getColumn(){
+        return this.column;
+    }
+
     public int rowDistanceTo(Position other) {
         return other.row - row;
     }
 
     public int columnDistanceTo(Position other) {
         return other.column - column;
+    }
+
+    public boolean isSameColumn(Position other) {
+        int rowDistance = rowDistanceTo(other);
+        int columnDistance = columnDistanceTo(other);
+
+        if (rowDistance != 0 && columnDistance == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isSameRow(Position other) {
+        int rowDistance = rowDistanceTo(other);
+        int columnDistance = columnDistanceTo(other);
+
+        if (rowDistance == 0 && columnDistance != 0) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
