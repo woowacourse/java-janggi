@@ -41,13 +41,15 @@ public final class Position {
 
     private static void validateRowRange(final int row) {
         if (row < MINIMUM_ROW || row > MAXIMUM_ROW) {
-            throw new IllegalArgumentException("행 입력은 1~10을 입력해야 합니다.");
+            throw new IllegalArgumentException(
+                String.format("행 값은 %d ~ %d사이의 정수여야 합니다.", MINIMUM_ROW, MAXIMUM_ROW));
         }
     }
 
     private static void validateColumnRange(final int column) {
         if (column < MINIMUM_COLUMN || column > MAXIMUM_COLUMN) {
-            throw new IllegalArgumentException("열 입력은 1~9을 입력해야 합니다.");
+            throw new IllegalArgumentException(
+                String.format("열 값은 %d ~ %d사이의 정수여야 합니다.", MINIMUM_COLUMN, MAXIMUM_COLUMN));
         }
     }
 
