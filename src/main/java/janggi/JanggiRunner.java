@@ -3,7 +3,7 @@ package janggi;
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Turn;
-import janggi.domain.Turns;
+import janggi.domain.JanggiGame;
 import janggi.domain.side.TeamType;
 import janggi.util.DelimiterParser;
 import janggi.util.ExceptionHandler;
@@ -26,30 +26,30 @@ public class JanggiRunner {
         outputView.printStartMessage();
         outputView.printBoard(board.makeSpots());
 
-        Turns turns = new Turns(List.of(new Turn(TeamType.HAN, board)));
+        JanggiGame janggiGame = new JanggiGame(List.of(new Turn(TeamType.HAN, board))); // 여기서 Turn 객체를 Turns 생성자 내부에서 생성해주는게 나을 듯?
         while (true) {
-            Turns currentTurns = turns;
-            Position startPosition = ExceptionHandler.retryUntilSuccess(() -> readValidStartPosition(currentTurns));
-            Position endPosition = ExceptionHandler.retryUntilSuccess(() -> readValidEndPosition(currentTurns, startPosition));
-            turns = turns.doGame(startPosition, endPosition);
+            JanggiGame currentJanggiGame = janggiGame;
+            Position startPosition = ExceptionHandler.retryUntilSuccess(() -> readValidStartPosition(currentJanggiGame));
+            Position endPosition = ExceptionHandler.retryUntilSuccess(() -> readValidEndPosition(currentJanggiGame, startPosition));
+            janggiGame = janggiGame.doGame(startPosition, endPosition);
         }
     }
 
-    private Position readValidStartPosition(Turns turns) {
+    private Position readValidStartPosition(JanggiGame janggiGame) {
         outputView.printAskPiecePosition();
         String rawPiecePosition = inputView.readLine();
         List<String> parsedPiecePosition = DelimiterParser.parse(rawPiecePosition);
         Position startPosition = Position.makePosition(parsedPiecePosition);
-        turns.validatePieceExist(startPosition);
+        janggiGame.validatePieceExist(startPosition);
         return startPosition;
     }
 
-    private Position readValidEndPosition(Turns turns, Position startPosition) {
-        outputView.printAskMovePosition(turns.findPiece(startPosition).nickname());
+    private Position readValidEndPosition(JanggiGame janggiGame, Position startPosition) {
+        outputView.printAskMovePosition(janggiGame.findPiece(startPosition).nickname());
         String rawMovePosition = inputView.readLine();
         List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition);
         Position endPosition = Position.makePosition(parsedMovePosition);
-        turns.validateValidEndPosition(startPosition, endPosition);
+        janggiGame.validateValidEndPosition(startPosition, endPosition);
         return endPosition;
     }
 }
