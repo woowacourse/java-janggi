@@ -1,6 +1,6 @@
 package janggi.controller;
 
-import janggi.domain.SetupPolicy;
+import janggi.domain.setup.SetupPolicy;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.command.SetupCommand;

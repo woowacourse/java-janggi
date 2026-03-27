@@ -1,13 +1,11 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.board.BoardMediatorImpl;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,13 +15,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class GuardTest {
+public class GeneralTest {
 
     @Nested
     @DisplayName("이동 가능한 위치 계산 테스트")
     class CalculateMovablePositions {
 
-        static Piece guard;
+        static Piece general;
         static Piece enemy1;
         static Piece enemy2;
         static Piece enemy3;
@@ -36,7 +34,7 @@ public class GuardTest {
 
         @BeforeEach
         void setUp() {
-            guard = new Guard(TeamType.RED);
+            general = new General(TeamType.RED);
             enemy1 = new Soldier(TeamType.BLUE);
             enemy3 = new Soldier(TeamType.BLUE);
             enemy4 = new Soldier(TeamType.BLUE);
@@ -49,9 +47,9 @@ public class GuardTest {
         }
 
         @Test
-        @DisplayName("사는 기물을 뛰어넘을 수 없다.")
+        @DisplayName("장은 기물을 뛰어넘을 수 없다.")
         void test1() {
-            positionPieceMap.put(Position.valueOf(6, 4), guard);
+            positionPieceMap.put(Position.valueOf(6, 4), general);
             positionPieceMap.put(Position.valueOf(5, 3), ally1);
             positionPieceMap.put(Position.valueOf(5, 4), ally2);
             positionPieceMap.put(Position.valueOf(5, 5), ally3);
@@ -62,38 +60,38 @@ public class GuardTest {
             positionPieceMap.put(Position.valueOf(7, 5), enemy4);
 
             List<Position> expected = List.of(Position.valueOf(6, 5), Position.valueOf(7, 3),
-                Position.valueOf(7, 4), Position.valueOf(7, 5));
+                    Position.valueOf(7, 4), Position.valueOf(7, 5));
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4),
-                boardMediator);
+            List<Position> actual = general.calculateMovablePositions(Position.valueOf(6, 4),
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
 
         @Test
-        @DisplayName("사는 모든 방향 중 한 칸을 가서 기물을 잡을 수 있다.")
+        @DisplayName("장은 모든 방향 중 한 칸을 가서 기물을 잡을 수 있다.")
         void test2() {
-            positionPieceMap.put(Position.valueOf(6, 4), guard);
+            positionPieceMap.put(Position.valueOf(6, 4), general);
             positionPieceMap.put(Position.valueOf(6, 5), enemy1);
             positionPieceMap.put(Position.valueOf(7, 3), enemy2);
             List<Position> expected = List.of(Position.valueOf(5, 3), Position.valueOf(5, 4),
-                Position.valueOf(5, 5), Position.valueOf(6, 3), Position.valueOf(6, 5), Position.valueOf(7, 3),
-                Position.valueOf(7, 4), Position.valueOf(7, 5));
+                    Position.valueOf(5, 5), Position.valueOf(6, 3), Position.valueOf(6, 5), Position.valueOf(7, 3),
+                    Position.valueOf(7, 4), Position.valueOf(7, 5));
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4),
-                boardMediator);
+            List<Position> actual = general.calculateMovablePositions(Position.valueOf(6, 4),
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
 
         @Test
-        @DisplayName("사는 장기판 밖으로 이동할 수 없다.")
+        @DisplayName("장은 장기판 밖으로 이동할 수 없다.")
         void test3() {
-            positionPieceMap.put(Position.valueOf(1, 1), guard);
+            positionPieceMap.put(Position.valueOf(1, 1), general);
             positionPieceMap.put(Position.valueOf(1, 2), ally1);
             positionPieceMap.put(Position.valueOf(2, 1), ally2);
             positionPieceMap.put(Position.valueOf(2, 2), ally3);
@@ -101,8 +99,8 @@ public class GuardTest {
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(1, 1),
-                boardMediator);
+            List<Position> actual = general.calculateMovablePositions(Position.valueOf(1, 1),
+                    boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

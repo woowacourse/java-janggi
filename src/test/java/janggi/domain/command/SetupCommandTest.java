@@ -1,8 +1,7 @@
-package janggi.domain;
+package janggi.domain.command;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import janggi.domain.command.SetupCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

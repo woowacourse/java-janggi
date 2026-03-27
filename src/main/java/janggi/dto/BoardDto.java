@@ -5,7 +5,7 @@ import static janggi.domain.Position.MAXIMUM_ROW;
 import static janggi.domain.Position.MINIMUM_COLUMN;
 import static janggi.domain.Position.MINIMUM_ROW;
 
-import janggi.domain.PieceType;
+import janggi.domain.piece.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;

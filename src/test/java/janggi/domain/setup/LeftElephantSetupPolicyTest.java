@@ -1,7 +1,9 @@
-package janggi.domain;
+package janggi.domain.setup;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.domain.Position;
+import janggi.domain.piece.PieceType;
 import janggi.fixture.SetupPolicyTestFixture;
 import java.util.LinkedHashMap;
 import java.util.Map;
