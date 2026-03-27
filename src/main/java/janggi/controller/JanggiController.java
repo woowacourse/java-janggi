@@ -41,16 +41,21 @@ public class JanggiController {
     }
 
     private Janggi initializeBoard(int boardType) {
-        if (boardType == 1) {
+        int leftSideTableOption = 1;
+        int rightSideTableOption = 2;
+        int insideTableOption = 3;
+        int outsideTableOption = 4;
+
+        if (boardType == leftSideTableOption) {
             return Janggi.of(new LeftSidedTableSetting().init());
         }
-        if (boardType == 2) {
+        if (boardType == rightSideTableOption) {
             return Janggi.of(new RightSidedTableSetting().init());
         }
-        if (boardType == 3) {
+        if (boardType == insideTableOption) {
             return Janggi.of(new InsideTableSetting().init());
         }
-        if (boardType == 4) {
+        if (boardType == outsideTableOption) {
             return Janggi.of(new OutsideTableSetting().init());
         }
 
@@ -59,18 +64,21 @@ public class JanggiController {
 
     private Position readFromPosition() {
         outputView.printFromPositionMessage();
-        return convertPositionInfoToPosition(inputView.readPositions());
+        return convertPositionInfoToPosition(inputView.readPosition());
     }
 
 
     private Position readToPosition() {
         outputView.printToPositionMessage();
-        return convertPositionInfoToPosition(inputView.readPositions());
+        return convertPositionInfoToPosition(inputView.readPosition());
     }
 
     private Position convertPositionInfoToPosition(List<Integer> positionInfo) {
-        Row row = Row.toRow(positionInfo.get(0));
-        Column column = Column.of(positionInfo.get(1) - 1);
+        int rowIndex = 0;
+        int columnIndex = 1;
+
+        Row row = Row.of(positionInfo.get(rowIndex));
+        Column column = Column.of(positionInfo.get(columnIndex));
 
         return new Position(row, column);
     }

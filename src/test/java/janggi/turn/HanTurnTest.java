@@ -27,11 +27,11 @@ class HanTurnTest {
 
         board.put(
                 new Position(Row.SEVEN, Column.FIVE),
-                new Ma(Team.CHO)
+                new Ma(Team.HAN)
         );
         board.put(
                 new Position(Row.EIGHT, Column.SEVEN),
-                new Ma(Team.HAN)
+                new Ma(Team.CHO)
         );
         board.put(
                 new Position(Row.SIX, Column.SEVEN),

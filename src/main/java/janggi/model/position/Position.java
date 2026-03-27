@@ -28,9 +28,10 @@ public record Position(
 
 
     public PositionPath moveHorizontal(int distance) {
+        int adjustValue = 1;
         Position to = new Position(
                 row,
-                Column.of(column.ordinal() + distance)
+                Column.of((column.ordinal() + adjustValue) + distance)
         );
 
         if (!this.row.equals(to.row)) {
@@ -41,8 +42,10 @@ public record Position(
     }
 
     public PositionPath moveVertical(int distance) {
+        int adjustValue = 1;
+
         Position to = new Position(
-                Row.of(row.ordinal() + distance),
+                Row.of((row.ordinal() + adjustValue) + distance),
                 column
         );
 
