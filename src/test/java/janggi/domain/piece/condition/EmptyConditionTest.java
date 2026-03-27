@@ -3,9 +3,9 @@ package janggi.domain.piece.condition;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
+import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.EmptyConditionTestBoardInitializer;
-import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceRule;
 import java.util.List;
@@ -29,7 +29,7 @@ public class EmptyConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
-        JanggiBoard board = new JanggiBoard(boardInitializer);
+        Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -49,7 +49,7 @@ public class EmptyConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
-        JanggiBoard board = new JanggiBoard(boardInitializer);
+        Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)

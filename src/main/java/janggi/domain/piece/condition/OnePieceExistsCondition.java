@@ -1,7 +1,7 @@
 package janggi.domain.piece.condition;
 
 import janggi.domain.Position;
-import janggi.domain.board.Board;
+import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceRule;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public class OnePieceExistsCondition implements MoveCondition {
 
     @Override
-    public void checkPath(List<Position> path, Camp camp, Board board, PieceRule pieceRule) {
+    public void checkPath(List<Position> path, Camp camp, BoardChecker board, PieceRule pieceRule) {
         int countOfPiece = 0;
         for (int i = 0; i < path.size() - 1; i++) {
             Position position = path.get(i);
@@ -20,7 +20,7 @@ public class OnePieceExistsCondition implements MoveCondition {
         validateGoalPosition(path.getLast(), camp, board, pieceRule);
     }
 
-    private int countPieceAt(Board board, PieceRule pieceRule, Position position) {
+    private int countPieceAt(BoardChecker board, PieceRule pieceRule, Position position) {
         if (board.hasPieceAt(position)) {
             validateSamePieceRule(board, pieceRule, position);
             return 1;
@@ -28,7 +28,7 @@ public class OnePieceExistsCondition implements MoveCondition {
         return 0;
     }
 
-    private void validateSamePieceRule(Board board, PieceRule pieceRule, Position position) {
+    private void validateSamePieceRule(BoardChecker board, PieceRule pieceRule, Position position) {
         if (board.hasSamePieceRuleAt(position, pieceRule)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
@@ -40,9 +40,16 @@ public class OnePieceExistsCondition implements MoveCondition {
         }
     }
 
-    private void validateGoalPosition(Position lastPosition, Camp camp, Board board, PieceRule pieceRule) {
+    private void validateGoalPosition(Position lastPosition, Camp camp, BoardChecker board, PieceRule pieceRule) {
         if (board.isSameCampPieceAt(lastPosition, camp) || board.hasSamePieceRuleAt(lastPosition, pieceRule)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다.");
         }
     }
 }
+
+// todo : PieceRule 제거
+
+// todo : view 구현
+
+// todo : 상수 처리
+// todo : 예외 구체화

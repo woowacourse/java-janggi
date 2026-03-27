@@ -3,8 +3,8 @@ package janggi.domain.piece.condition;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
+import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
-import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
@@ -30,7 +30,7 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = Map::of;
-        JanggiBoard board = new JanggiBoard(boardInitializer);
+        Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -54,7 +54,7 @@ public class OnePieceExistsConditionTest {
                 new Position(0, 3), new Piece(PieceRule.CHARIOT, Camp.HAN),
                 new Position(0, 4), new Piece(PieceRule.ELEPHANT, Camp.HAN)
         );
-        JanggiBoard board = new JanggiBoard(boardInitializer);
+        Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -77,7 +77,7 @@ public class OnePieceExistsConditionTest {
         BoardInitializer boardInitializer = () -> Map.of(
                 new Position(0, 4), new Piece(PieceRule.CANNON, Camp.CHO)
         );
-        JanggiBoard board = new JanggiBoard(boardInitializer);
+        Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -100,7 +100,7 @@ public class OnePieceExistsConditionTest {
         BoardInitializer boardInitializer = () -> Map.of(
                 new Position(0, 5), new Piece(PieceRule.CHARIOT, Camp.HAN)
         );
-        JanggiBoard board = new JanggiBoard(boardInitializer);
+        Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -123,7 +123,7 @@ public class OnePieceExistsConditionTest {
         BoardInitializer boardInitializer = () -> Map.of(
                 new Position(0, 5), new Piece(PieceRule.CANNON, Camp.CHO)
         );
-        JanggiBoard board = new JanggiBoard(boardInitializer);
+        Board board = new Board(boardInitializer);
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)

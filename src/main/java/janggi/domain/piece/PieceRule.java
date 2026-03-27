@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Position;
-import janggi.domain.board.Board;
+import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.condition.EmptyCondition;
 import janggi.domain.piece.condition.MoveCondition;
 import janggi.domain.piece.condition.OnePieceExistsCondition;
@@ -35,7 +35,7 @@ public enum PieceRule {
         return moveStrategy.findPath(from, to, camp);
     }
 
-    public void checkPath(List<Position> path, Camp camp, Board board) {
+    public void checkPath(List<Position> path, Camp camp, BoardChecker board) {
         moveCondition.checkPath(path, camp, board, this);
     }
 }
