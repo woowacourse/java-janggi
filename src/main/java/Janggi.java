@@ -51,9 +51,23 @@ public class Janggi {
 
     private void turn(Player player, Board board) {
         OutputView.printBoard(board.getFormatBoard());
+        executeTurn(player, board);
+    }
+
+    private void executeTurn(Player player, Board board) {
+        while (true) {
+            try {
+                move(player, board);
+                return;
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private void move(Player player, Board board) {
         Position from = getFrom(player);
         Position to = getTo(player);
-
         board.move(from, to, player.getSide());
     }
 
