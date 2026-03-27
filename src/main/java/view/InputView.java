@@ -36,12 +36,12 @@ public class InputView {
     }
 
     public List<Integer> askSourcePosition() {
-        System.out.println("기물 위치를 입력하세요.");
+        System.out.println("기물 위치를 입력하세요. (형식 : 행 열)");
         return askPosition();
     }
 
     public List<Integer> askDestinationPosition() {
-        System.out.println("이동 위치를 입력하세요.");
+        System.out.println("이동 위치를 입력하세요. (형식 : 행 열)");
         return askPosition();
     }
 
