@@ -26,6 +26,9 @@ public class Board {
     private static final String NOT_MY_PIECE = "[ERROR] 본인 진영의 기물이 아닙니다.";
     private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
 
+    private static final int TABLE_SETTING_SIZE = 4;
+    private static final int CANNON_JUMP_PIECE_COUNT = 1;
+
     private final Map<Position, State> board = new LinkedHashMap<>();
 
     public Board(TableSetting choTableSetting, TableSetting hanTableSetting) {
@@ -110,7 +113,7 @@ public class Board {
     }
 
     private void initializeChoTableSetting(TableSetting choTableSetting) {
-        for (int index = 0; index < 4; index++) {
+        for (int index = 0; index < TABLE_SETTING_SIZE; index++) {
             PieceType pieceType = choTableSetting.getFormation(Country.CHO).get(index);
             if (pieceType == PieceType.HORSE) {
                 board.put(InitialPosition.ELEPHANT_AND_HORSE.getChoPositions().get(index),
@@ -123,7 +126,7 @@ public class Board {
     }
 
     private void initializeHanTableSetting(TableSetting hanTableSetting) {
-        for (int index = 0; index < 4; index++) {
+        for (int index = 0; index < TABLE_SETTING_SIZE; index++) {
             PieceType pieceType = hanTableSetting.getFormation(Country.HAN).get(index);
             if (pieceType == PieceType.HORSE) {
                 board.put(InitialPosition.ELEPHANT_AND_HORSE.getHanPositions().get(index),
@@ -186,7 +189,7 @@ public class Board {
             }
         }
 
-        if (pieceCount != 1) {
+        if (pieceCount != CANNON_JUMP_PIECE_COUNT) {
             throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
     }
