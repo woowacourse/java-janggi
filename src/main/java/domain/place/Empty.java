@@ -3,6 +3,7 @@ package domain.place;
 import domain.board.BoardView;
 import domain.place.piece.Side;
 import domain.position.Position;
+import java.util.Optional;
 
 public class Empty implements Place {
 
@@ -17,8 +18,8 @@ public class Empty implements Place {
     }
 
     @Override
-    public Side getSide() {
-        throw new IllegalArgumentException("[ERROR] 빈칸은 진형이 없습니다.");
+    public Optional<Side> getSide() {
+        return Optional.empty();
     }
 
     @Override

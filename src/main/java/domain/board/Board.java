@@ -97,10 +97,9 @@ public class Board implements BoardView {
         }
 
         Place fromPlace = board.get(from);
-        if (fromPlace.isEmpty()) {
-            return false;
-        }
-        Side fromSide = fromPlace.getSide();
+        Side fromSide = fromPlace.getSide().orElseGet(() -> {;
+            throw new IllegalStateException("[ERROR] 출발 위치에 기물이 없습니다.");
+        });
         return toPlace.isSameSide(fromSide);
     }
 }

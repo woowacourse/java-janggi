@@ -4,6 +4,7 @@ import domain.board.BoardView;
 import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.position.Position;
+import java.util.Optional;
 
 public abstract class Piece implements Place {
     protected final Side side;
@@ -32,8 +33,8 @@ public abstract class Piece implements Place {
     }
 
     @Override
-    public Side getSide() {
-        return side;
+    public Optional<Side> getSide() {
+        return Optional.ofNullable(side);
     }
 
     @Override
