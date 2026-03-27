@@ -33,7 +33,7 @@ public class PositionParser {
     private static void validateSize(int[] coordinates) {
         if (coordinates.length != COORDINATE_SIZE) {
             throw new IllegalArgumentException(
-                    String.format("[ERROR] 2의 숫자를 ','로 구분하여 입력해야 합니다.")
+                    "[ERROR] 2의 숫자를 ','로 구분하여 입력해야 합니다."
             );
         }
     }
