@@ -18,4 +18,13 @@ public class Path {
     public Position destination() {
         return destination;
     }
+
+    public boolean hasDestination(Position position) {
+        return destination.equals(position);
+    }
+
+    public boolean hasRoute(Position currentPosition) {
+        return route.stream()
+                .anyMatch(position -> position.equals(currentPosition));
+    }
 }
