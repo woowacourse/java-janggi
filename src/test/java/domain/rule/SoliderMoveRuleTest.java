@@ -21,10 +21,10 @@ public class SoliderMoveRuleTest {
         Point end = new Point(1, 0);
 
         Team sameTeam = Team.HAN;
-        Soldier horse = new Soldier(sameTeam);
+        Soldier soldier = new Soldier(sameTeam);
         Soldier sameTeamPiece = new Soldier(sameTeam);
 
-        Intersection from = new Intersection(start, horse);
+        Intersection from = new Intersection(start, soldier);
         Intersection to = new Intersection(end, sameTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
@@ -43,11 +43,11 @@ public class SoliderMoveRuleTest {
 
         Team sameTeam = Team.HAN;
         Team anotherTeam = Team.CHO;
-        Soldier horse = new Soldier(sameTeam);
-        Soldier sameTeamPiece = new Soldier(anotherTeam);
+        Soldier soldier = new Soldier(sameTeam);
+        Soldier anotherTeamPiece = new Soldier(anotherTeam);
 
-        Intersection from = new Intersection(start, horse);
-        Intersection to = new Intersection(end, sameTeamPiece);
+        Intersection from = new Intersection(start, soldier);
+        Intersection to = new Intersection(end, anotherTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
@@ -64,11 +64,11 @@ public class SoliderMoveRuleTest {
 
         Team sameTeam = Team.HAN;
         Team anotherTeam = Team.CHO;
-        Soldier horse = new Soldier(sameTeam);
-        Soldier sameTeamPiece = new Soldier(anotherTeam);
+        Soldier soldier = new Soldier(sameTeam);
+        Soldier anotherTeamPiece = new Soldier(anotherTeam);
 
-        Intersection from = new Intersection(start, horse);
-        Intersection to = new Intersection(end, sameTeamPiece);
+        Intersection from = new Intersection(start, soldier);
+        Intersection to = new Intersection(end, anotherTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
