@@ -12,12 +12,10 @@ public class PoMovementStrategy implements MovementStrategy {
         if (waypointPieces.size() != 1) {
             return false;
         }
-        if (waypointPieces.getFirst().isPo()) {
+        if (waypointPieces.getFirst().isPo() || pathPieces.getDestPiece().isPo()) {
             return false;
         }
-        if (pathPieces.getDestPiece().isPo()) {
-            return false;
-        }
+
         return pathPieces.getSrcPiece().isDifferentTeam(pathPieces.getDestPiece());
     }
 }
