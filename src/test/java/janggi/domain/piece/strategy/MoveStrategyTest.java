@@ -27,9 +27,13 @@ class MoveStrategyTest {
             assertThat(paths.get(1).destination()).isEqualTo(Position.of(4, 5));
             assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 3));
         }
+    }
+
+    @Nested
+    class 포_이동_테스트 {
 
         @Test
-        @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
+        @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
         void findMovablePaths_ReturnAllLinearCandidates() {
             MoveStrategy strategy = new CannonStrategy();
             int row = 4;
@@ -57,6 +61,8 @@ class MoveStrategyTest {
             }
         }
     }
+
+
 
     @Nested
     class 마_이동_테스트 {
