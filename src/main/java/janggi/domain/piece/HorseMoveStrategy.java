@@ -17,14 +17,18 @@ public class HorseMoveStrategy implements MoveStrategy {
                 if (board.containsKey(to)) {
                     return;
                 }
-                Position next = to.add(dir.next().row(), dir.next().column());
-                if (!board.containsKey(next) || !board.get(next).isSameDynasty(dynasty)) {
-                    canMovePositions.add(next);
-                }
-                Position prev = to.add(dir.prev().row(), dir.prev().column());
-                if (!board.containsKey(prev) || !board.get(prev).isSameDynasty(dynasty)) {
-                    canMovePositions.add(prev);
-                }
+
+                to.findPositionByDirection(dir.next()).ifPresent(next -> {
+                    if (!board.containsKey(next) || !board.get(next).isSameDynasty(dynasty)) {
+                        canMovePositions.add(next);
+                    }
+                });
+
+                to.findPositionByDirection(dir.prev()).ifPresent(prev -> {
+                    if (!board.containsKey(prev) || !board.get(prev).isSameDynasty(dynasty)) {
+                        canMovePositions.add(prev);
+                    }
+                });
             });
         }
 

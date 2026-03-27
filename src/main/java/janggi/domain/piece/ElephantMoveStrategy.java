@@ -17,25 +17,27 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 if (board.containsKey(to)) {
                     return;
                 }
-                Position next = to.add(dir.next().row(), dir.next().column());
-                if (board.containsKey(next)) {
-                    return;
-                }
+                to.findPositionByDirection(dir.next()).ifPresent(next -> {
+                    if (board.containsKey(next)) {
+                        return;
+                    }
+                    next.findPositionByDirection(dir.next()).ifPresent(next2 -> {
+                        if (!board.containsKey(next2) || !board.get(next2).isSameDynasty(dynasty)) {
+                            canMovePositions.add(next2);
+                        }
+                    });
+                });
 
-                next = next.add(dir.next().row(), dir.next().column());
-                if (!board.containsKey(next) || !board.get(next).isSameDynasty(dynasty)) {
-                    canMovePositions.add(next);
-                }
-
-                Position prev = to.add(dir.prev().row(), dir.prev().column());
-                if (board.containsKey(prev)) {
-                    return;
-                }
-
-                prev = prev.add(dir.prev().row(), dir.prev().column());
-                if (!board.containsKey(prev) || !board.get(prev).isSameDynasty(dynasty)) {
-                    canMovePositions.add(prev);
-                }
+                to.findPositionByDirection(dir.prev()).ifPresent(prev -> {
+                    if (board.containsKey(prev)) {
+                        return;
+                    }
+                    prev.findPositionByDirection(dir.prev()).ifPresent(prev2 -> {
+                        if (!board.containsKey(prev2) || !board.get(prev2).isSameDynasty(dynasty)) {
+                            canMovePositions.add(prev2);
+                        }
+                    });
+                });
             });
         }
 
