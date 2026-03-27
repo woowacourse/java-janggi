@@ -1,4 +1,4 @@
-package piece;
+package piece.strategy;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -28,21 +28,6 @@ public class PawnTest {
 
         // when, then
         assertThat(choPawn.canMove(pieceMap, startPosition, endPosition)).isTrue();
-    }
-
-    @Test
-    @DisplayName("한 진영의 중 졸 기물은 뒤로 움직일 수 없다.")
-    void 한_진영_졸_뒤로_움직임_실패() {
-        // given
-        Map<Position, Piece> pieceMap = new LinkedHashMap<>();
-        Piece hanPawn = Piece.of(Side.HAN, PieceType.PAWN);
-        pieceMap.put(Position.of(7,1), hanPawn);
-
-        Position startPosition = Position.of(7, 1);
-        Position endPosition = Position.of(8, 1);
-
-        // when, then
-        assertThat(hanPawn.canMove(pieceMap, startPosition, endPosition)).isFalse();
     }
 
     @Test

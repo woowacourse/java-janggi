@@ -9,6 +9,7 @@ import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class BoardTest {
@@ -23,10 +24,10 @@ public class BoardTest {
         board.placePieces(Side.HAN, Placement.OUTER_ELEPHANT);
 
         // then
-        assertThat(board.findBy(Position.of(10,2))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
-        assertThat(board.findBy(Position.of(10,3))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
-        assertThat(board.findBy(Position.of(10,7))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
-        assertThat(board.findBy(Position.of(10,8))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 2))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 3))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 7))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
     }
 
     @Test
@@ -58,8 +59,8 @@ public class BoardTest {
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
         board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        board.move(Position.of(7,1), Position.of(6,1), Side.HAN);
-        board.move(Position.of(6,1), Position.of(5,1), Side.HAN);
+        board.move(Position.of(7, 1), Position.of(6, 1), Side.HAN);
+        board.move(Position.of(6, 1), Position.of(5, 1), Side.HAN);
 
         // when
         Position startPosition = Position.of(4, 1);
@@ -69,5 +70,51 @@ public class BoardTest {
         // then
         Piece piece = board.findBy(endPosition);
         assertThat(piece).isEqualTo(Piece.of(Side.CHO, PieceType.PAWN));
+    }
+
+    @Test
+    @DisplayName("졸 기물은 뒤로 이동할 수 없다.")
+    void 졸_뒤로_이동_실패() {
+        // given
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+
+        // when
+        board.move(Position.of(7, 1), Position.of(8, 1), Side.HAN);
+
+        // then
+        Piece piece = board.findBy(Position.of(8, 1));
+        assertThat(piece).isNotEqualTo(Piece.of(Side.HAN, PieceType.PAWN));
+    }
+
+    @Test
+    @DisplayName("모든 기물이 이동했을 때 상대 진영의 기물을 포획할 수 있다.")
+    void 기물_포획_성공() {
+        // given
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+        board.move(Position.of(7, 9), Position.of(7, 8), Side.HAN);
+
+        // when
+        board.move(Position.of(10, 9), Position.of(4, 9), Side.HAN);
+
+        // then
+        Piece piece = board.findBy(Position.of(4, 9));
+    }
+
+    @Test
+    @DisplayName("모든 기물은 도착 지점에 같은 진영 기물이 있다면 움직일 수 없다.")
+    void 기물_이동_실패() {
+        // given
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+
+        // when, then
+        assertThatThrownBy(() -> {
+            board.move(Position.of(10, 9), Position.of(7, 9), Side.HAN);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 }
