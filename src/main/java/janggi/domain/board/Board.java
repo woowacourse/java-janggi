@@ -48,8 +48,11 @@ public class Board implements BoardInterface {
         return currentBoard;
     }
 
-    public boolean move(Position start, Position end) {
+    public boolean move(Position start, Position end, Side side) {
         Piece piece = board.get(start);
+        if(!piece.isEqualSide(side)) {
+            throw new IllegalArgumentException("자기 진영의 기물만 움직일 수 있습니다.");
+        }
         List<Position> route = piece.findRoute(start, end);
 
         piece.validateRoute(route, this);
