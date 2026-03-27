@@ -1,0 +1,39 @@
+package strategy.move;
+
+import domain.Direction;
+import domain.MovePath;
+import domain.TeamColor;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class CannonMoveStrategyTest {
+
+    @Test
+    public void 포는_초나라에서_동서남북_4방향을_가진다() {
+        MoveStrategy strategy = new RookMoveStrategy();
+        List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+
+        assertThat(paths).hasSize(4);
+        assertThat(paths).containsExactlyInAnyOrder(
+                new MovePath(List.of(Direction.NORTH)),
+                new MovePath(List.of(Direction.SOUTH)),
+                new MovePath(List.of(Direction.EAST)),
+                new MovePath(List.of(Direction.WEST))
+        );
+    }
+
+    @Test
+    public void 포는_한나라에서_동서남북_4방향을_가진다() {
+        MoveStrategy strategy = new RookMoveStrategy();
+        List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+
+        assertThat(paths).hasSize(4);
+        assertThat(paths).containsExactlyInAnyOrder(
+                new MovePath(List.of(Direction.NORTH)),
+                new MovePath(List.of(Direction.SOUTH)),
+                new MovePath(List.of(Direction.EAST)),
+                new MovePath(List.of(Direction.WEST))
+        );
+    }
+}
