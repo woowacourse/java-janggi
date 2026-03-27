@@ -6,13 +6,21 @@ public final class Position {
     private final int row;
     private final int column;
 
-    private Position(int row, int column){
+    private Position(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
     public static Position from(int row, int column) {
         return new Position(row, column);
+    }
+
+    public int rowDistanceTo(Position other) {
+        return other.row - row;
+    }
+
+    public int columnDistanceTo(Position other) {
+        return other.column - column;
     }
 
     @Override

@@ -14,11 +14,15 @@ public class Pawn extends Piece {
     public boolean canMove(Position from, Position to, Board board) {
         /**
          * TODO:
-         * 0. 졸/병이 실제로 이동 가능한 거리인가 확인
-         * 1. 이동 위치에, 같은 팀이 있는 경우 예외
          * 2. 판의 범위를 넘어서는 경우 예외 -> 옆인지, 앞인지로 분기
          * 3. 초나라 구현 후 한나라 상황을 고려하여 수정한다.
          */
+
+        if (!isCorrectMoveDistanceAndDirection(from, to)) {
+            return false;
+        }
+
+
 
         if (isEmptySpace(to, board)) {
             return true;
@@ -29,5 +33,12 @@ public class Pawn extends Piece {
 
     private boolean isEmptySpace(Position to, Board board) {
         return board.isEmpty(to);
+    }
+
+    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
+        if (team == Team.CHO) {
+            return Math.abs(from.columnDistanceTo(to)) == 1 || from.rowDistanceTo(to) == -1;
+        }
+        return Math.abs(from.columnDistanceTo(to)) == 1 || from.rowDistanceTo(to) == 1;
     }
 }
