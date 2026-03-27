@@ -9,10 +9,15 @@ import java.util.Map;
 
 public class ElephantMoveStrategy extends MoveStrategy {
 
-    private final Map<Position, List<Position>> moves;
+    private Map<Position, List<Position>> moves;
 
     public ElephantMoveStrategy(Position position) {
         super(position);
+        this.moves = setupDestinationAndRoutesFrom();
+    }
+
+    @Override
+    public void updateRoute() {
         this.moves = setupDestinationAndRoutesFrom();
     }
 

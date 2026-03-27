@@ -9,7 +9,7 @@ public class GuardMoveStrategy extends MoveStrategy {
     private final static int[] DR = {0, 1, 0, -1};
     private final static int[] DC = {1, 0, -1, 0};
 
-    private final List<Position> destinations;
+    private List<Position> destinations;
 
     private GuardMoveStrategy(Position position) {
         super(position);
@@ -18,6 +18,11 @@ public class GuardMoveStrategy extends MoveStrategy {
 
     public static GuardMoveStrategy of(Position position) {
         return new GuardMoveStrategy(position);
+    }
+
+    @Override
+    public void updateRoute() {
+        this.destinations = setupDestinations();
     }
 
     private List<Position> setupDestinations() {

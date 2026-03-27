@@ -8,7 +8,6 @@ import java.util.List;
 public class Piece {
 
     private final PieceProperty pieceProperty;
-//    private final PieceMoving pieceMoving;
     private final MoveStrategy moveStrategy;
 
     public Piece(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
@@ -16,8 +15,9 @@ public class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public Piece moved(Position destination) {
-        return new Piece(this.pieceProperty, this.moveStrategy);
+    public void moved(Position movedPosition) {
+        this.moveStrategy.changePosition(movedPosition);
+        moveStrategy.updateRoute();
     }
 
     public boolean isMoveAble(Position destination) {

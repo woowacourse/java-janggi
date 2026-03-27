@@ -19,9 +19,9 @@ class PieceTest {
         Piece piece = new Piece(PieceProperty.of(PieceType.HORSE, Team.RED), HorseMoveStrategy.of(pre));
 
         Position after = Position.of(5, 6);
-        piece = piece.moved(after);
+        piece.moved(after);
 
         assertThat(piece.isMoveAble(Position.of(6,8))).isTrue();
-//        assertThat(piece.isMoveAble(Position.of(3,2))).isFalse();
+        assertThat(piece.isMoveAble(Position.of(3,2))).isFalse();
     }
 }

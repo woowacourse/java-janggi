@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class HorseMoveStrategy extends MoveStrategy {
 
-    private final Map<Position, List<Position>> moves;
+    private Map<Position, List<Position>> moves;
 
     HorseMoveStrategy(Position position) {
         super(position);
@@ -18,6 +18,11 @@ public class HorseMoveStrategy extends MoveStrategy {
 
     public static HorseMoveStrategy of(Position position) {
         return new HorseMoveStrategy(position);
+    }
+
+    @Override
+    public void updateRoute() {
+        this.moves = setupDestinationAndRoutesFrom();
     }
 
     private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {

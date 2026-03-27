@@ -9,7 +9,7 @@ public class UpToDownSoldierMoveStrategy extends MoveStrategy {
     private final static int[] DR = {0, 1, 0};
     private final static int[] DC = {1, 0, -1};
 
-    private final List<Position> destinations;
+    private List<Position> destinations;
 
     private UpToDownSoldierMoveStrategy(Position position) {
         super(position);
@@ -18,6 +18,11 @@ public class UpToDownSoldierMoveStrategy extends MoveStrategy {
 
     public static UpToDownSoldierMoveStrategy of(Position position) {
         return new UpToDownSoldierMoveStrategy(position);
+    }
+
+    @Override
+    public void updateRoute() {
+        this.destinations = setupDestinations();
     }
 
     private List<Position> setupDestinations() {

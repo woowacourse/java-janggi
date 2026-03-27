@@ -10,6 +10,10 @@ public class NoneMoveableStrategy extends MoveStrategy {
     }
 
     @Override
+    public void updateRoute() {
+    }
+
+    @Override
     public boolean isMoveAble(Position position) {
         return false;
     }
