@@ -94,7 +94,6 @@ public class Board {
     }
 
     public void canMove(Position startPosition, Position endPosition, TeamType nowTeam) {
-        validateRange(startPosition);
         validateRange(endPosition);
         Piece piece = findTeamPiece(startPosition, currentTeam(nowTeam));
         validateTargetPosition(currentTeam(nowTeam), endPosition);
