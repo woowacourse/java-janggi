@@ -5,6 +5,7 @@ import domain.place.piece.Side;
 import domain.player.Player;
 import domain.player.Players;
 import domain.position.Position;
+import java.util.Arrays;
 import java.util.List;
 import parser.PlayerNameParser;
 import parser.PositionParser;
@@ -43,10 +44,14 @@ public class Janggi {
     }
 
     private void play(Players players, Board board) {
-        while (true) {
-            turn(players.getPlayerBySide(Side.CHO), board);
-            turn(players.getPlayerBySide(Side.HAN), board);
+        while (isGameRunning(board)) {
+            players.forEachPlayer(player -> turn(player, board));
         }
+    }
+
+    private boolean isGameRunning(Board board){
+        //todo: 게임이 끝났는지 판단하는 로직 추가
+        return true;
     }
 
     private void turn(Player player, Board board) {
