@@ -23,13 +23,13 @@ public abstract class StepPiece extends ActivePiece {
                 .map(movements -> calculatePath(start, movements))
                 .filter(path -> path.getLast().equals(end))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("올바른 도착 지점이 아닙니다."));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));
     }
 
     @Override
     public void validateRoute(List<Position> path, BoardInterface boardInterface) {
         if(!routePolicy.isMovable(path, side, boardInterface)) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
+            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }
 

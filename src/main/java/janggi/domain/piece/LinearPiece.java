@@ -18,7 +18,7 @@ public abstract class LinearPiece extends ActivePiece {
         boolean isVertical = start.isVertical(end);
         boolean isHorizon = start.isHorizon(end);
         if (!isVertical && !isHorizon) {
-            throw new IllegalArgumentException("올바른 도착 지점이 아닙니다.");
+            throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
 
         int dist = start.calculateDistance(end, isVertical);
@@ -28,7 +28,7 @@ public abstract class LinearPiece extends ActivePiece {
     @Override
     public void validateRoute(List<Position> path, BoardInterface boardInterface) {
         if(!routePolicy.isMovable(path, side, boardInterface)){
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
+            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }
 
