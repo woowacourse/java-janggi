@@ -30,6 +30,21 @@ class MoveStrategyTest {
     }
 
     @Nested
+    class 사_이동_테스트 {
+
+        @DisplayName("사는 현재 위치에서 앞, 뒤, 양 옆을 1칸씩의 좌표를 도착지점 후보로 반환한다")
+        @Test
+        void 사는_앞뒤_양옆으로_움직인다() {
+            MoveStrategy strategy = new AdvisorStrategy();
+            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
+            assertThat(paths.get(0).destination()).isEqualTo(Position.of(5, 4));
+            assertThat(paths.get(1).destination()).isEqualTo(Position.of(3, 4));
+            assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 5));
+            assertThat(paths.get(3).destination()).isEqualTo(Position.of(4, 3));
+        }
+    }
+
+    @Nested
     class 포_이동_테스트 {
 
         @Test
