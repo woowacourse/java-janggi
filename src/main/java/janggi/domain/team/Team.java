@@ -8,6 +8,4 @@ public interface Team {
     Map<Position, Piece> generatePieces();
 
     String getName();
-
-    boolean hasPiece(Piece piece);
 }

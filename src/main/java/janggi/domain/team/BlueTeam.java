@@ -30,9 +30,4 @@ public class BlueTeam implements Team {
     public String getName() {
         return TEAM_TYPE.getName();
     }
-
-    @Override
-    public boolean hasPiece(final Piece piece) {
-        return piece.belongsToTeam(TEAM_TYPE);
-    }
 }
