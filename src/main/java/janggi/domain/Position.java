@@ -10,23 +10,22 @@ public record Position(int x, int y) {
 
     public static Position from(List<String> inputs) {
         try {
-            List<Integer> parsedInputs = getParsedInputs(inputs);
+            validateSize(inputs);
+            List<Integer> parsedInputs = inputs.stream().map(Integer::parseInt).toList();
             int r = parsedInputs.getFirst();
             int c = parsedInputs.getLast();
 
             validate(r, c);
             return new Position(r, c);
-        } catch(Exception e) {
+        } catch(NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력 가능합니다.");
         }
     }
 
-    private static List<Integer> getParsedInputs(List<String> inputs) {
-        List<Integer> parsedInputs = inputs.stream().map(Integer::parseInt).toList();
-        if (parsedInputs.size() != 2) {
-            throw new IllegalArgumentException("행과 열 두 개의 값이 필요합니다.");
+    private static void validateSize(List<String> inputs){
+        if (inputs.size() != 2) {
+            throw new IllegalArgumentException("행과 열 두 개의 값만 입력하세요.");
         }
-        return parsedInputs;
     }
 
     private static void validate(int x, int y) {
