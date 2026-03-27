@@ -98,11 +98,6 @@ public class Pieces {
         }
     }
 
-    public boolean isPieceExists(int x, int y) {
-        Position position = new Position(x, y);
-        return value.containsKey(position);
-    }
-
     public List<BoardSpot> makeSpots() {
         List<BoardSpot> boardSpots = new ArrayList<>();
         for (Map.Entry<Position, Piece> entry : value.entrySet()) {
@@ -116,10 +111,5 @@ public class Pieces {
 
     public Optional<Piece> findPiece(Position position) {
         return Optional.ofNullable(value.get(position));
-    }
-
-    public void checkPieceCanMove(Position startPosition, Position endPosition) {
-        Piece piece = value.get(startPosition);
-        piece.isValidMovePattern(startPosition.getX(), startPosition.getY(), endPosition.getX(), endPosition.getY());
     }
 }
