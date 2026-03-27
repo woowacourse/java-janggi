@@ -2,6 +2,7 @@ package janggi.model.turn;
 
 import janggi.model.Board;
 import janggi.model.position.Position;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class GameOver implements Turn {
@@ -16,7 +17,7 @@ public class GameOver implements Turn {
     }
 
     @Override
-    public void accept(Consumer<Board> consumer) {
+    public void accept(BiConsumer<Board, String> consumer) {
         throw new IllegalStateException("이미 게임이 종료됐습니다.");
     }
 }
