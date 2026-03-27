@@ -6,7 +6,7 @@ import java.util.Map;
 import strategy.InitializeStrategy;
 
 public class Board {
-    private final Map<Position, Piece> pieces = new HashMap<>();
+    protected final Map<Position, Piece> pieces = new HashMap<>();
 
     public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
         initTeamBoard(choInitializeStrategy, Team.CHO);
@@ -25,11 +25,15 @@ public class Board {
                 .equals(piece.getType());
     }
 
-    private void initTeamBoard(InitializeStrategy strategy, Team team) {
-        pieces.putAll(strategy.initialize(team));
-    }
-
     public boolean isEmpty(Position position) {
         return !pieces.containsKey(position);
+    }
+
+    public boolean hasSameTeamOn(Position position, Piece piece) {
+        return pieces.get(position).isSameTeam(piece);
+    }
+
+    private void initTeamBoard(InitializeStrategy strategy, Team team) {
+        pieces.putAll(strategy.initialize(team));
     }
 }

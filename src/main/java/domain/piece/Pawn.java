@@ -20,10 +20,14 @@ public class Pawn extends Piece {
          * 3. 초나라 구현 후 한나라 상황을 고려하여 수정한다.
          */
 
-        return isEmptySpace(from, to, board);
+        if (isEmptySpace(to, board)) {
+            return true;
+        }
+
+        return !board.hasSameTeamOn(to, this);
     }
 
-    private boolean isEmptySpace(Position from, Position to, Board board) {
+    private boolean isEmptySpace(Position to, Board board) {
         return board.isEmpty(to);
     }
 }

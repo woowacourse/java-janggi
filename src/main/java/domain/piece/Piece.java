@@ -18,5 +18,9 @@ public abstract class Piece {
         return this.type;
     }
 
+    public boolean isSameTeam(Piece other) {
+        return this.team == other.team;
+    }
+
     abstract boolean canMove(Position from, Position to, Board board);
 }
