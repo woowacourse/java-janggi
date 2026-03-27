@@ -1,12 +1,12 @@
-package janggi.model.gimul.linearMove;
+package janggi.model.gimul.diagonalMove;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import java.util.List;
 
-public class Cha extends AbstractLinearMoveGimul {
+public abstract class AbstractDiagonalGimul extends AbstractGimul {
 
-    public Cha(Team team) {
+    public AbstractDiagonalGimul(Team team) {
         super(team);
     }
 
@@ -16,7 +16,7 @@ public class Cha extends AbstractLinearMoveGimul {
     }
 
     @Override
-    public String getSymbol() {
-        return "차";
+    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
+        return gimulsOnPath.isEmpty();
     }
 }

@@ -1,4 +1,4 @@
-package janggi.model;
+package janggi;
 
 import janggi.controller.JanggiController;
 import janggi.view.InputView;
