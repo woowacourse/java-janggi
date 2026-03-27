@@ -33,7 +33,7 @@ class MoveStrategyTest {
     class 포_이동_테스트 {
 
         @Test
-        @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
+        @DisplayName("포는 현재 위치에서 동서남북 각각 +1칸을 제외한 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
         void findMovablePaths_ReturnAllLinearCandidates() {
             MoveStrategy strategy = new CannonStrategy();
             int row = 4;
@@ -46,18 +46,51 @@ class MoveStrategyTest {
 
             for (int i = 0; i < 9; i++) {
                 if (column - 1 <= i && i <= column + 1) {
-                    assertThat(destinations).doesNotContain(Position.of(4, i));
+                    assertThat(destinations).doesNotContain(Position.of(row, i));
                     continue;
                 }
-                assertThat(destinations).contains(Position.of(4, i));
+                assertThat(destinations).contains(Position.of(row, i));
             }
 
             for (int i = 0; i <= 9; i++) {
                 if (row - 1 <= i && i <= row + 1) {
-                    assertThat(destinations).doesNotContain(Position.of(i, 4));
+                    assertThat(destinations).doesNotContain(Position.of(i, column));
                     continue;
                 }
-                assertThat(destinations).contains(Position.of(i, 4));
+                assertThat(destinations).contains(Position.of(i, column));
+            }
+        }
+    }
+
+    @Nested
+    class 차_이동_테스트 {
+
+        @Test
+        @DisplayName("차는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
+        void findMovablePaths_ReturnAllLinearCandidates() {
+            MoveStrategy strategy = new ChariotStrategy();
+            int row = 4;
+            int column = 4;
+
+            List<Path> paths = strategy.findMovablePaths(Position.of(row, column));
+            List<Position> destinations = paths.stream()
+                    .map(Path::destination)
+                    .toList();
+
+            for (int i = 0; i < 9; i++) {
+                if (column == i) {
+                    assertThat(destinations).doesNotContain(Position.of(row, i));
+                    continue;
+                }
+                assertThat(destinations).contains(Position.of(row, i));
+            }
+
+            for (int i = 0; i <= 9; i++) {
+                if (row == i) {
+                    assertThat(destinations).doesNotContain(Position.of(i, column));
+                    continue;
+                }
+                assertThat(destinations).contains(Position.of(i, column));
             }
         }
     }
