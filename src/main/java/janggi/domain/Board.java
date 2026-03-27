@@ -42,8 +42,12 @@ public class Board {
         return nowTeam.findPiece(position).isPresent();
     }
 
-    public Piece findTeamPiece(Position position, TeamType beforeTeam) {
-        Team nowTeam = opponentTeam(beforeTeam);
+    public Piece findNextTurnTeamPiece(Position position, TeamType beforeTeamType) {
+        Team nowTeam = opponentTeam(beforeTeamType);
+        return findTeamPiece(position, nowTeam);
+    }
+
+    private Piece findTeamPiece(Position position, Team nowTeam) {
         return nowTeam.findPiece(position)
             .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
     }
@@ -89,11 +93,11 @@ public class Board {
         return createMovedBoard(nowTurn, movedCurrentTeam, remainedOpponentTeam);
     }
 
-    public void canMove(Position startPosition, Position endPosition, TeamType beforeTeam) {
+    public void canMove(Position startPosition, Position endPosition, TeamType nowTeam) {
         validateRange(startPosition);
         validateRange(endPosition);
-        Piece piece = findTeamPiece(startPosition, beforeTeam);
-        validateTargetPosition(opponentTeam(beforeTeam), endPosition);
+        Piece piece = findTeamPiece(startPosition, currentTeam(nowTeam));
+        validateTargetPosition(currentTeam(nowTeam), endPosition);
         validateCanMove(piece, startPosition, endPosition);
     }
 

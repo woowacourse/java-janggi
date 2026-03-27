@@ -18,7 +18,7 @@ public class Turn {
     }
 
     public Piece findPiece(Position position) {
-        return board.findTeamPiece(position, movedTeam);
+        return board.findNextTurnTeamPiece(position, movedTeam);
     }
 
     public Turn move(Position startPosition, Position endPosition) {
@@ -28,7 +28,7 @@ public class Turn {
     }
 
     public void canMove(Position startPosition, Position endPosition) {
-        board.canMove(startPosition, endPosition, movedTeam);
+        board.canMove(startPosition, endPosition, opponentTeamType());
     }
 
     private TeamType opponentTeamType() {
