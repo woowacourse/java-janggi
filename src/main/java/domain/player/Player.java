@@ -6,23 +6,21 @@ import java.util.List;
 
 public final class Player {
 
-    private final Name name;
-    private final Team team;
+    private final PlayerProfile playerProfile;
     private final List<Piece> caughtPiece;
 
 
     public Player(Name name, Team team) {
-        this.name = name;
-        this.team = team;
+        playerProfile = new PlayerProfile(name, team);
         caughtPiece = new ArrayList<>();
     }
 
     public String getName() {
-        return name.value();
+        return playerProfile.name().value();
     }
 
     public Team getTeam() {
-        return team;
+        return playerProfile.team();
     }
 
     public List<Piece> getCaughtPiece() {
