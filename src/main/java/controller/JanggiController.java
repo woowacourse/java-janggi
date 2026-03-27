@@ -21,6 +21,7 @@ import static model.Team.CHO;
 import static model.Team.HAN;
 
 public class JanggiController {
+    private static final int MAX_RETRY = 200;
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -39,7 +40,8 @@ public class JanggiController {
         outputView.displayBoard(board.board());
 
         Janggi janggi = new Janggi(board);
-        while (true) {
+        int trial = 0;
+        while (trial++ < MAX_RETRY) {
             retry(() -> playByTurn(janggi), processError());
             outputView.displayBoard(board.board());
         }
