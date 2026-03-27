@@ -54,6 +54,10 @@ public class Position {
         return routes;
     }
 
+    public Position addPosition(int x, int y) {
+        return new Position(this.row.add(x), this.column.add(y));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

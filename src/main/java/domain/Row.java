@@ -26,6 +26,10 @@ public class Row {
         return this.value - other.value;
     }
 
+    public Row add(int measure) {
+        return new Row(this.value + measure);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

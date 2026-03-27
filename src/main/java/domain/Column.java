@@ -26,6 +26,10 @@ public class Column {
         return this.value - other.value;
     }
 
+    public Column add(int measure) {
+        return new Column(this.value + measure);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
