@@ -21,9 +21,8 @@ public class Jang extends BasePiece {
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
-        if ( distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX == 0 && distanceY == 0)) {
-            throw new IllegalArgumentException();
-        }
+        validateOverMove(distanceX, distanceY);
+
         return List.of(to);
     }
 
@@ -31,5 +30,11 @@ public class Jang extends BasePiece {
     public boolean canMove(List<Piece> route) {
         return route.stream()
                 .noneMatch(piece -> piece.isSameTeam(team));
+    }
+
+    private void validateOverMove(int distanceX, int distanceY) {
+        if (distanceX + distanceY != MAX_DISTANCE) {
+            throw new IllegalArgumentException("한 칸만 이동할 수 있습니다.");
+        }
     }
 }

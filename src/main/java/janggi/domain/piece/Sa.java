@@ -21,14 +21,13 @@ public class Sa extends BasePiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getX() - from.getX();
-        int pathY = to.getY() - from.getY();
+        int pathX = Point.getPathX(from, to);
+        int pathY = Point.getPathY(from, to);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
-        if ( distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX == 0 && distanceY == 0)) {
-            throw new IllegalArgumentException();
-        }
+        validateOverMove(distanceX, distanceY);
+
         return List.of(to);
     }
 
@@ -36,5 +35,11 @@ public class Sa extends BasePiece {
     public boolean canMove(List<Piece> route) {
         return route.stream()
                 .noneMatch(piece -> piece.isSameTeam(team));
+    }
+
+    private void validateOverMove(int distanceX, int distanceY) {
+        if (distanceX + distanceY != MAX_DISTANCE) {
+            throw new IllegalArgumentException("한 칸만 이동할 수 있습니다.");
+        }
     }
 }
