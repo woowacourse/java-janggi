@@ -89,7 +89,7 @@ public class Runner {
     private void movePiece(Position selected, List<Position> destinations) {
         outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
         Position target = selectTargetPosition();
-        board.movePiece(selected, target);
+        board.movePiece(selected, target, destinations);
         outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), target);
     }
 

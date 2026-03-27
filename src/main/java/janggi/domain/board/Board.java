@@ -1,5 +1,7 @@
 package janggi.domain.board;
 
+import static janggi.view.Message.TARGET_POSITION_IS_NOT_MOVEABLE;
+
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
 import janggi.domain.piece.Piece;
@@ -66,7 +68,10 @@ public class Board {
         });
     }
 
-    public void movePiece(Position selected, Position target) {
+    public void movePiece(Position selected, Position target, List<Position> destinations) {
+        if (!destinations.contains(target)) {
+            throw new IllegalArgumentException(TARGET_POSITION_IS_NOT_MOVEABLE);
+        }
         Piece movingPiece = piecePosition.remove(selected);
         piecePosition.put(target, movingPiece);
     }
