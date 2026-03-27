@@ -13,10 +13,6 @@ public record Position(
         return new Position(new Row(row), new Column(column));
     }
 
-    public Position add(int row, int column) {
-        return new Position(this.row.add(row), this.column.add(column));
-    }
-
     public List<Position> findPositionsByDirection(Direction dir) {
         List<Position> positions = new ArrayList<>();
         Position cur = this;
@@ -37,6 +33,10 @@ public record Position(
         } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
+    }
+
+    private Position add(int row, int column) {
+        return new Position(this.row.add(row), this.column.add(column));
     }
 
 }

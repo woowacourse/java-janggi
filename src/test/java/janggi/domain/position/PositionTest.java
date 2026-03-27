@@ -20,18 +20,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PositionTest {
 
-    @Test
-    public void 기존_포지션에_행과_열을_더해서_새로운_포지션을_만든다() {
-        // given
-        Position from = Position.from(1, 1);
-
-        // when
-        Position result = from.add(1, 1);
-
-        // then
-        assertThat(result).isEqualTo(Position.from(2, 2));
-    }
-
     @ParameterizedTest
     @MethodSource("특정_위치에서_특정_방향에_있는_모든_위치_반환_테스트_케이스")
     public void 특정_위치에서_특정_방향에_있는_모든_위치를_반환한다(Direction direction, List<Position> results) {
