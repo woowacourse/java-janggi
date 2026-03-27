@@ -53,7 +53,7 @@ public class Piece {
     }
 
     public boolean isNotNone() {
-        return this instanceof None;
+        return !(this instanceof None);
     }
 
     public boolean isPo() {
