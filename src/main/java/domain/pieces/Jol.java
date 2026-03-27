@@ -28,7 +28,12 @@ public class Jol extends Piece {
     public boolean canMovePosition(Position start, Position end) {
         int diffX = end.getX() - start.getX();
         int diffY = end.getY() - start.getY();
-
-        return Math.abs(diffX) + Math.abs(diffY) == 1;
+        if (Math.abs(diffX) + Math.abs(diffY) != 1) {
+            return false;
+        }
+        if (getCountry().equals(Country.CHO)) {
+            return diffX >= 0;
+        }
+        return diffX <= 0;
     }
 }

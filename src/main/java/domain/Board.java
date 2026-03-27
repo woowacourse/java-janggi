@@ -49,8 +49,7 @@ public class Board {
         if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))) {
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
         }
-        ;
-        // TODO: 포와 졸 이동 로직 추가 필요
+
         killPiece(start);
         killPiece(end);
         board.put(end, startPiece);
