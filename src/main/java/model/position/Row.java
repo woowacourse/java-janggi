@@ -1,6 +1,7 @@
 package model.position;
 
 import java.util.Objects;
+
 import model.board.Country;
 import model.move.Direction;
 
@@ -50,6 +51,10 @@ public class Row {
             return CHO_EDGE;
         }
         return HAN_EDGE;
+    }
+
+    public int diff(Row to) {
+        return to.value - this.value;
     }
 
     public int move(Direction direction) {

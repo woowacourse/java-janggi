@@ -1,6 +1,7 @@
 package model.position;
 
 import java.util.Objects;
+
 import model.move.Direction;
 
 public record Position(Row row, Column column) {
@@ -14,6 +15,14 @@ public record Position(Row row, Column column) {
 
     public boolean isSamePosition(Position to) {
         return this == to;
+    }
+
+    public boolean isSameRow(Position to) {
+        return this.row == to.row();
+    }
+
+    public boolean isSameColumn(Position to) {
+        return this.column == to.column();
     }
 
     @Override
