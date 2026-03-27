@@ -25,22 +25,23 @@ public class MovePattern {
     private Position execute(Move move, Board board) {
         Position current = move.from();
 
-        for (Step step : steps) {
+        int i = 0;
+        while (i < steps.size()) {
+            Step step = steps.get(i);
             current = step.move(current);
 
-//            if (!board.isInside(current)) {
-//                return Position.invalid();
-//            }
-
-            if (!pathPolicy.check(current, board)) {
+            if (!board.isInside(current)) {
                 return move.from();
             }
+
+            if (i < steps.size() - 1) {
+                if (!pathPolicy.check(current, board)) {
+                    return move.from();
+                }
+            }
+            i++;
         }
 
         return current;
-    }
-
-    public List<Step> steps() {
-        return steps;
     }
 }

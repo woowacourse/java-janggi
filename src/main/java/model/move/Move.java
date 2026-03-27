@@ -11,39 +11,22 @@ public record Move(Position from, Position to) {
         return new Move(from, to);
     }
 
-    public int diff() {
-        if (from.isSameRow(to)) {
-            return colDiff();
-        }
-        if (from.isSameColumn(to)) {
-            return rowDiff();
-        }
+    public Direction direction() {
+        int rowDiff = from.row().diff(to.row());
+        int colDiff = from.column().diff(to.column());
 
-        return 0;
+        return Direction.from(rowDiff, colDiff);
     }
 
-    private int rowDiff() {
-        return from.row().diff(to.row());
+    public int distance() {
+        int rowDiff = Math.abs(from.row().diff(to.row()));
+        int colDiff = Math.abs(from.column().diff(to.column()));
+
+        return Math.max(rowDiff, colDiff);
     }
 
-    private int colDiff() {
-        return from.column().diff(to.column());
-    }
-
-    private Direction pickStraightDirection() {
-        if (rowDiff() < 0) {
-            return Direction.UP;
-        }
-        if (rowDiff() > 0) {
-            return Direction.DOWN;
-        }
-        if (colDiff() < 0) {
-            return Direction.LEFT;
-        }
-        if (colDiff() > 0) {
-            return Direction.RIGHT;
-        }
-        return Direction.NONE;
+    public boolean isStraight() {
+        return from.isSameRow(to) || from.isSameColumn(to);
     }
 
     private void validate(Position from, Position to) {

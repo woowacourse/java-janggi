@@ -1,7 +1,7 @@
 package model.move;
 
 public enum Direction {
-    NONE(0,0),
+    NONE(0, 0),
     UP(-1, 0),
     DOWN(1, 0),
     LEFT(0, -1),
@@ -25,5 +25,17 @@ public enum Direction {
 
     public int moveCol(int y) {
         return y + this.colOffset;
+    }
+
+    public static Direction from(int rowDiff, int colDiff) {
+        int row = Integer.compare(rowDiff, 0);
+        int col = Integer.compare(colDiff, 0);
+
+        for (Direction dir : values()) {
+            if (dir.rowOffset == row && dir.colOffset == col) {
+                return dir;
+            }
+        }
+        return NONE;
     }
 }
