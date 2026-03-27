@@ -3,6 +3,7 @@ package domain.board;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import common.exception.JanggiException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -24,6 +25,6 @@ class FormationTest {
     @ParameterizedTest
     @ValueSource(strings = {"-1", "0", "5", "6"})
     void 숫자_1이상_4이하로_포메이션_생성이_가능하다(int number) {
-        assertThrows(IllegalArgumentException.class, () -> Formation.from(number));
+        assertThrows(JanggiException.class, () -> Formation.from(number));
     }
 }

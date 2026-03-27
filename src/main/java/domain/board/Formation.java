@@ -4,6 +4,7 @@ import static common.exception.ErrorMessage.INVALID_FORMATION_INPUT;
 import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 
+import common.exception.JanggiException;
 import domain.piece.PieceType;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public enum Formation {
                 return formation;
             }
         }
-        throw new IllegalArgumentException(INVALID_FORMATION_INPUT.formatted(inputNumber));
+        throw new JanggiException(INVALID_FORMATION_INPUT.formatted(inputNumber));
     }
 
     public List<PieceType> getFormation() {

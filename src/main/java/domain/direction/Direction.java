@@ -2,6 +2,7 @@ package domain.direction;
 
 import static common.exception.ErrorMessage.INVALID_DIRECTION;
 
+import common.exception.JanggiException;
 import domain.position.Position;
 
 public enum Direction {
@@ -36,7 +37,7 @@ public enum Direction {
         if (columnDifference > 0) {
             return EAST;
         }
-        throw new IllegalArgumentException(INVALID_DIRECTION.formatted(rowDifference, columnDifference));
+        throw new JanggiException(INVALID_DIRECTION.formatted(rowDifference, columnDifference));
     }
 
     public Position calculateNextPosition(Position source) {

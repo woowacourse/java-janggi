@@ -3,6 +3,7 @@ package domain.position;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import common.exception.JanggiException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -36,6 +37,6 @@ class PositionTest {
             "9,9"
     })
     void Row가_0미만_9초과_Column이_0미만_8초과이면_예외가_발생한다(int row, int column) {
-        assertThrows(IllegalArgumentException.class, () -> new Position(row, column));
+        assertThrows(JanggiException.class, () -> new Position(row, column));
     }
 }

@@ -5,6 +5,7 @@ import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
+import common.exception.JanggiException;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
@@ -57,7 +58,7 @@ public class GameManager {
         while (true) {
             try {
                 return function.get();
-            } catch (IllegalArgumentException e) {
+            } catch (JanggiException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
@@ -68,7 +69,7 @@ public class GameManager {
             try {
                 action.run();
                 return;
-            } catch (IllegalArgumentException e) {
+            } catch (JanggiException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
@@ -79,10 +80,10 @@ public class GameManager {
             List<Integer> numbers = inputView.askSourcePosition();
             Position source = new Position(numbers.getFirst(), numbers.getLast());
             if (board.isPieceNone(source)) {
-                throw new IllegalArgumentException(EMPTY_SOURCE_POSITION.getMessage());
+                throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
             }
             if (board.isPieceDifferentTeam(source, turnManager.getCurrentTeam())) {
-                throw new IllegalArgumentException(DIFFERENT_TEAM.formatted(turnManager.getCurrentTeam()));
+                throw new JanggiException(DIFFERENT_TEAM.formatted(turnManager.getCurrentTeam()));
             }
             return source;
         });

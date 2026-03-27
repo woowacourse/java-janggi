@@ -2,6 +2,7 @@ package domain.pathgenerator;
 
 import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
 
+import common.exception.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
@@ -24,7 +25,7 @@ public class NonStraightPathGenerator implements PathGenerator {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_PIECE_MOVEMENT.formatted(source, destination)));
+                .orElseThrow(() -> new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination)));
     }
 
     private Optional<Path> tryBuildPath(Position source, Position destination, List<Direction> directionPath) {
@@ -40,7 +41,7 @@ public class NonStraightPathGenerator implements PathGenerator {
                 waypoints.removeLast();
                 return Optional.of(new Path(source, destination, waypoints));
             }
-        } catch (IllegalArgumentException ignored) {
+        } catch (JanggiException ignored) {
         }
         return Optional.empty();
     }

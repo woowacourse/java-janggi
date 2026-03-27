@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import common.exception.JanggiException;
 import domain.piece.Cha;
 import domain.piece.Jol;
 import domain.piece.None;
@@ -41,7 +42,7 @@ class BoardTest {
             boardMap.put(new Position(0, 1), new Sang(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.move(new Position(0, 0), new Position(0, 8)));
+            assertThrows(JanggiException.class, () -> board.move(new Position(0, 0), new Position(0, 8)));
         }
 
         @Test
@@ -62,7 +63,7 @@ class BoardTest {
             boardMap.put(new Position(5, 0), new Po(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.move(new Position(5, 0), new Position(8, 0)));
+            assertThrows(JanggiException.class, () -> board.move(new Position(5, 0), new Position(8, 0)));
         }
 
         @Test
@@ -84,7 +85,7 @@ class BoardTest {
             boardMap.put(new Position(6, 1), new Po(Team.HAN));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.move(new Position(8, 1), new Position(6, 1)));
+            assertThrows(JanggiException.class, () -> board.move(new Position(8, 1), new Position(6, 1)));
         }
     }
 

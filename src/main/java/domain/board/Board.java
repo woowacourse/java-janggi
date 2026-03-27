@@ -2,6 +2,7 @@ package domain.board;
 
 import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
 
+import common.exception.JanggiException;
 import domain.piece.None;
 import domain.piece.Piece;
 import domain.player.Team;
@@ -47,7 +48,7 @@ public class Board {
         Path path = piece.calculatePath(source, destination);
         PathPieces pathPieces = createPathPieces(path);
         if (!piece.validatePath(pathPieces)) {
-            throw new IllegalArgumentException(INVALID_PIECE_MOVEMENT.formatted(source, destination));
+            throw new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination));
         }
     }
 

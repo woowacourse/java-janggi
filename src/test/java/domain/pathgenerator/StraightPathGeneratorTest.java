@@ -4,6 +4,7 @@ import static domain.TestUtil.createPosition;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import common.exception.JanggiException;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.List;
@@ -43,7 +44,7 @@ class StraightPathGeneratorTest {
     void 이동할_수_없는_위치를_입력하면_에러를_던진다() {
         StraightPathGenerator straightPathGenerator = new StraightPathGenerator();
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(JanggiException.class,
                 () -> straightPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
     }
 }

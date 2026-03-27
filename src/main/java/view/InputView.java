@@ -3,6 +3,7 @@ package view;
 import static common.exception.ErrorMessage.INVALID_NUMBER_INPUT;
 import static common.exception.ErrorMessage.INVALID_POSITION_INPUT;
 
+import common.exception.JanggiException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class InputView {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_NUMBER_INPUT.getMessage());
+            throw new JanggiException(INVALID_NUMBER_INPUT.getMessage());
         }
     }
 
@@ -34,7 +35,7 @@ public class InputView {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_NUMBER_INPUT.getMessage());
+            throw new JanggiException(INVALID_NUMBER_INPUT.getMessage());
         }
     }
 
@@ -55,11 +56,11 @@ public class InputView {
                     .map(Integer::parseInt)
                     .toList();
             if (numbers.size() != 2) {
-                throw new IllegalArgumentException(INVALID_POSITION_INPUT.getMessage());
+                throw new JanggiException(INVALID_POSITION_INPUT.getMessage());
             }
             return numbers;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_POSITION_INPUT.getMessage());
+            throw new JanggiException(INVALID_POSITION_INPUT.getMessage());
         }
     }
 }

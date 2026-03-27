@@ -12,6 +12,7 @@ import static domain.direction.Direction.WEST;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import common.exception.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
@@ -52,7 +53,7 @@ class NonStraightPathGeneratorTest {
     void 이동할_수_없는_위치를_입력하면_에러를_던진다() {
         nonStraightPathGenerator = new NonStraightPathGenerator(sangPaths);
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(JanggiException.class,
                 () -> nonStraightPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
     }
 }
