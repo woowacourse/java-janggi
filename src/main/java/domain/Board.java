@@ -4,9 +4,16 @@ import static domain.Position.INITIAL_POSITION;
 import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
+import domain.piece.Soldier;
 import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
@@ -30,10 +37,7 @@ public class Board {
     }
 
     private void initialize(TableSetting choTableSetting, TableSetting hanTableSetting) {
-        for (InitialPosition initialPosition : InitialPosition.values()) {
-            initializeFixedSettings(initialPosition);
-        }
-        initializeTableSettings(choTableSetting, hanTableSetting);
+        initializeSettings(choTableSetting, hanTableSetting);
 
         for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
             EmptyState emptyState = new EmptyState();
@@ -47,29 +51,77 @@ public class Board {
         }
     }
 
-    private void initializeFixedSettings(InitialPosition initialPosition) {
-        for (Position choPosition : initialPosition.getChoPositions()) {
-            board.put(choPosition,
-                    new FullState(new Piece(new PieceInfo(initialPosition.getPieceType(), Country.CHO))));
-        }
+    private void initializeSettings(TableSetting choTableSetting, TableSetting hanTableSetting) {
+        initializeSoldierPosition();
+        initializeGuardPosition();
+        initializeCannonPosition();
+        initializeChariotPosition();
+        initializeGeneralPosition();
+        initializeTableSettings(choTableSetting, hanTableSetting);
+    }
 
-        for (Position hanPosition : initialPosition.getHanPositions()) {
-            board.put(hanPosition,
-                    new FullState(new Piece(new PieceInfo(initialPosition.getPieceType(), Country.HAN))));
+    private void initializeSoldierPosition() {
+        for (Position choPosition : InitialPosition.SOLDIER.getChoPositions()) {
+            board.put(choPosition, new FullState(new Soldier(Country.CHO)));
+        }
+        for (Position hanPosition : InitialPosition.SOLDIER.getHanPositions()) {
+            board.put(hanPosition, new FullState(new Soldier(Country.HAN)));
+        }
+    }
+
+    private void initializeGuardPosition() {
+        for (Position choPosition : InitialPosition.GUARD.getChoPositions()) {
+            board.put(choPosition, new FullState(new Guard(Country.CHO)));
+        }
+        for (Position hanPosition : InitialPosition.GUARD.getHanPositions()) {
+            board.put(hanPosition, new FullState(new Guard(Country.HAN)));
+        }
+    }
+
+    private void initializeCannonPosition() {
+        for (Position choPosition : InitialPosition.CANNON.getChoPositions()) {
+            board.put(choPosition, new FullState(new Cannon(Country.CHO)));
+        }
+        for (Position hanPosition : InitialPosition.CANNON.getHanPositions()) {
+            board.put(hanPosition, new FullState(new Cannon(Country.HAN)));
+        }
+    }
+
+    private void initializeChariotPosition() {
+        for (Position choPosition : InitialPosition.CHARIOT.getChoPositions()) {
+            board.put(choPosition, new FullState(new Chariot(Country.CHO)));
+        }
+        for (Position hanPosition : InitialPosition.CHARIOT.getHanPositions()) {
+            board.put(hanPosition, new FullState(new Chariot(Country.HAN)));
+        }
+    }
+
+    private void initializeGeneralPosition() {
+        for (Position choPosition : InitialPosition.GENERAL.getChoPositions()) {
+            board.put(choPosition, new FullState(new General(Country.CHO)));
+        }
+        for (Position hanPosition : InitialPosition.GENERAL.getHanPositions()) {
+            board.put(hanPosition, new FullState(new General(Country.HAN)));
         }
     }
 
     private void initializeTableSettings(TableSetting choTableSetting, TableSetting hanTableSetting) {
         for (int index = 0; index < 4; index++) {
-            board.put(CHO_VARIABLE_POSITIONS.get(index), new FullState(
-                    new Piece(new PieceInfo(choTableSetting.getFormation(Country.CHO).get(index), Country.CHO))
-            ));
+            PieceType pieceType = choTableSetting.getFormation(Country.CHO).get(index);
+            if (pieceType == PieceType.HORSE) {
+                board.put(CHO_VARIABLE_POSITIONS.get(index), new FullState(new Horse(Country.CHO)));
+                continue;
+            }
+            board.put(CHO_VARIABLE_POSITIONS.get(index), new FullState(new Elephant(Country.CHO)));
         }
 
         for (int index = 0; index < 4; index++) {
-            board.put(HAN_VARIABLE_POSITIONS.get(index), new FullState(
-                    new Piece(new PieceInfo(hanTableSetting.getFormation(Country.HAN).get(index), Country.HAN))
-            ));
+            PieceType pieceType = hanTableSetting.getFormation(Country.HAN).get(index);
+            if (pieceType == PieceType.HORSE) {
+                board.put(HAN_VARIABLE_POSITIONS.get(index), new FullState(new Horse(Country.HAN)));
+                continue;
+            }
+            board.put(HAN_VARIABLE_POSITIONS.get(index), new FullState(new Elephant(Country.HAN)));
         }
     }
 

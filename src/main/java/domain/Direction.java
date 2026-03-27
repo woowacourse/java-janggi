@@ -78,6 +78,10 @@ public enum Direction implements Comparator<Direction> {
         return y;
     }
 
+    public boolean isDialog() {
+        return isDialog;
+    }
+
     @Override
     public int compare(Direction direction1, Direction direction2) {
         if (!direction1.isDialog && direction2.isDialog) {
