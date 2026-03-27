@@ -39,14 +39,14 @@ class HorseTest {
         // given
         Horse horse = new Horse(SIDE);
 
-        Intersection boarderlineIntersection = new Intersection(1, 1);
-        AlivePieces emptyAlivePlaces = new AlivePieces(Map.of());
+        Intersection borderlineIntersection = new Intersection(1, 1);
+        AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
         // when
-        List<Intersection> movableIntersection = horse.movableIntersections(boarderlineIntersection, emptyAlivePlaces);
+        List<Intersection> movableIntersections = horse.movableIntersections(borderlineIntersection, emptyAlivePieces);
 
         // then
-        boolean movableOutOfBoard = movableIntersection.stream()
+        boolean movableOutOfBoard = movableIntersections.stream()
                 .anyMatch(Intersection::isOutOfBoard);
 
         assertThat(movableOutOfBoard).isFalse();
@@ -105,13 +105,13 @@ class HorseTest {
         Horse horse = new Horse(SIDE);
 
         Intersection destinationOutOfBoard = new Intersection(2, 2);
-        AlivePieces emptyAlivePlaces = new AlivePieces(Map.of());
+        AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
         // when
-        List<Intersection> movableIntersection = horse.movableIntersections(destinationOutOfBoard, emptyAlivePlaces);
+        List<Intersection> movableIntersections = horse.movableIntersections(destinationOutOfBoard, emptyAlivePieces);
 
         // then
-        boolean movableOutOfBoard = movableIntersection.stream()
+        boolean movableOutOfBoard = movableIntersections.stream()
                 .anyMatch(Intersection::isOutOfBoard);
 
         assertThat(movableOutOfBoard).isFalse();

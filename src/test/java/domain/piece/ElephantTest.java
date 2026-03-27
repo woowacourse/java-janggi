@@ -89,17 +89,17 @@ class ElephantTest {
         // given
         Elephant elephant = new Elephant(SIDE);
 
-        Intersection boarderlineIntersection = new Intersection(1, 1);
-        AlivePieces emptyAlivePlaces = new AlivePieces(Map.of());
+        Intersection borderlineIntersection = new Intersection(1, 1);
+        AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
         // when
-        List<Intersection> movableIntersection = elephant.movableIntersections(
-                boarderlineIntersection,
-                emptyAlivePlaces
+        List<Intersection> movableIntersections = elephant.movableIntersections(
+                borderlineIntersection,
+                emptyAlivePieces
         );
 
         // then
-        boolean movableOutOfBoard = movableIntersection.stream()
+        boolean movableOutOfBoard = movableIntersections.stream()
                 .anyMatch(Intersection::isOutOfBoard);
 
         assertThat(movableOutOfBoard).isFalse();
@@ -111,13 +111,13 @@ class ElephantTest {
         Elephant elephant = new Elephant(SIDE);
 
         Intersection destinationOutOfBoard = new Intersection(3, 3);
-        AlivePieces emptyAlivePlaces = new AlivePieces(Map.of());
+        AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
         // when
-        List<Intersection> movableIntersection = elephant.movableIntersections(destinationOutOfBoard, emptyAlivePlaces);
+        List<Intersection> movableIntersections = elephant.movableIntersections(destinationOutOfBoard, emptyAlivePieces);
 
         // then
-        boolean movableOutOfBoard = movableIntersection.stream()
+        boolean movableOutOfBoard = movableIntersections.stream()
                 .anyMatch(Intersection::isOutOfBoard);
 
         assertThat(movableOutOfBoard).isFalse();

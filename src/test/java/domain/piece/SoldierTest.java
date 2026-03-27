@@ -76,12 +76,12 @@ class SoldierTest {
 
                 Intersection forwardIntersection = SIDE.getForwardDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces aliavePieces = new AlivePieces(Map.of(
+                AlivePieces alivePieces = new AlivePieces(Map.of(
                         forwardIntersection, SAME_SIDE_PIECE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
 
                 // then
                 assertThat(canMove).isFalse();
@@ -94,12 +94,12 @@ class SoldierTest {
 
                 Intersection leftIntersection = SIDE.getLeftDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces aliavePieces = new AlivePieces(Map.of(
+                AlivePieces alivePieces = new AlivePieces(Map.of(
                         leftIntersection, SAME_SIDE_PIECE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, alivePieces);
 
                 // then
                 assertThat(canMove).isFalse();
@@ -112,12 +112,12 @@ class SoldierTest {
 
                 Intersection rightIntersection = SIDE.getRightDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces aliavePieces = new AlivePieces(Map.of(
+                AlivePieces alivePieces = new AlivePieces(Map.of(
                         rightIntersection, SAME_SIDE_PIECE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, alivePieces);
 
                 // then
                 assertThat(canMove).isFalse();
@@ -134,12 +134,12 @@ class SoldierTest {
 
                 Intersection forwardIntersection = SIDE.getForwardDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces aliavePieces = new AlivePieces(Map.of(
+                AlivePieces alivePieces = new AlivePieces(Map.of(
                         forwardIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -152,12 +152,12 @@ class SoldierTest {
 
                 Intersection leftIntersection = SIDE.getLeftDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces aliavePieces = new AlivePieces(Map.of(
+                AlivePieces alivePieces = new AlivePieces(Map.of(
                         leftIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, alivePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -170,12 +170,12 @@ class SoldierTest {
 
                 Intersection rightIntersection = SIDE.getRightDirection()
                         .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces aliavePieces = new AlivePieces(Map.of(
+                AlivePieces alivePieces = new AlivePieces(Map.of(
                         rightIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
                 // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, aliavePieces);
+                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, alivePieces);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -239,12 +239,12 @@ class SoldierTest {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            Intersection backwordIntersection = SIDE.getBackwardDirection()
+            Intersection backwardIntersection = SIDE.getBackwardDirection()
                     .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
-            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, backwordIntersection, emptyAlivePieces);
+            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, backwardIntersection, emptyAlivePieces);
 
             // then
             assertThat(canMove).isFalse();

@@ -44,12 +44,12 @@ class HanWingsTest {
         // given
         Piece first = new Horse(Side.HAN);
         Piece second = new Elephant(Side.HAN);
-        Piece thrid = new Horse(Side.HAN);
+        Piece third = new Horse(Side.HAN);
         Piece fourth = new Elephant(Side.HAN);
 
         HanWings hanWings = new HanWings(
                 List.of(first, second),
-                List.of(thrid, fourth)
+                List.of(third, fourth)
         );
 
         // when
@@ -58,7 +58,7 @@ class HanWingsTest {
         // then
         assertThat(setUpPieces.get(new Intersection(1, 8))).isEqualTo(first);
         assertThat(setUpPieces.get(new Intersection(1, 7))).isEqualTo(second);
-        assertThat(setUpPieces.get(new Intersection(1, 3))).isEqualTo(thrid);
+        assertThat(setUpPieces.get(new Intersection(1, 3))).isEqualTo(third);
         assertThat(setUpPieces.get(new Intersection(1, 2))).isEqualTo(fourth);
     }
 }

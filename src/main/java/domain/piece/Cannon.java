@@ -10,7 +10,7 @@ import java.util.List;
 public final class Cannon extends StaticPositionedPiece {
 
     private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(2);
-    private static final List<Integer> INITAL_FILES = List.of(2, 8);
+    private static final List<Integer> INITIAL_FILES = List.of(2, 8);
     private static final MoveAmount MOVE_UNIT = new MoveAmount(1);
 
     public Cannon(Side side) {
@@ -21,7 +21,7 @@ public final class Cannon extends StaticPositionedPiece {
     public List<Intersection> initAt() {
         Direction forwardDirection = side.getForwardDirection();
 
-        return INITAL_FILES.stream()
+        return INITIAL_FILES.stream()
                 .map(this::currentIntersection)
                 .map(intersection -> forwardDirection.moveForward(intersection, FAR_FROM_BASE_ROW))
                 .toList();
@@ -49,13 +49,13 @@ public final class Cannon extends StaticPositionedPiece {
         List<Intersection> movableIntersections = new ArrayList<>();
 
         for (Direction direction : side.getAllDirections()) {
-            addIfMovabale(from, direction, alivePieces, movableIntersections);
+            addIfMovable(from, direction, alivePieces, movableIntersections);
         }
 
         return List.copyOf(movableIntersections);
     }
 
-    private void addIfMovabale(
+    private void addIfMovable(
             Intersection from,
             Direction direction,
             AlivePieces alivePieces,
@@ -95,20 +95,20 @@ public final class Cannon extends StaticPositionedPiece {
             Direction direction,
             AlivePieces alivePieces
     ) {
-        List<Intersection> movablaIntersections = new ArrayList<>();
+        List<Intersection> movableIntersections = new ArrayList<>();
 
         Intersection currentIntersection = direction.moveForward(screen, MOVE_UNIT);
         while (currentIntersection.isInBoard() && alivePieces.isEmpty(currentIntersection)) {
-            movablaIntersections.add(currentIntersection);
+            movableIntersections.add(currentIntersection);
             currentIntersection = direction.moveForward(currentIntersection, MOVE_UNIT);
         }
 
         if (isNotCannon(alivePieces.placedAt(currentIntersection))
                 && alivePieces.placedOppositeSide(currentIntersection, side)) {
-            movablaIntersections.add(currentIntersection);
+            movableIntersections.add(currentIntersection);
         }
 
-        return movablaIntersections;
+        return movableIntersections;
     }
 
     private boolean isCannon(Piece piece) {

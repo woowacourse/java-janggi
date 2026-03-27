@@ -10,7 +10,7 @@ import java.util.List;
 public final class Chariot extends StaticPositionedPiece {
 
     private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(0);
-    private static final List<Integer> INITAL_FILES = List.of(1, 9);
+    private static final List<Integer> INITIAL_FILES = List.of(1, 9);
     private static final MoveAmount MOVE_UNIT = new MoveAmount(1);
 
     public Chariot(Side side) {
@@ -21,7 +21,7 @@ public final class Chariot extends StaticPositionedPiece {
     public List<Intersection> initAt() {
         Direction forwardDirection = side.getForwardDirection();
 
-        return INITAL_FILES.stream()
+        return INITIAL_FILES.stream()
                 .map(this::currentIntersection)
                 .map(intersection -> forwardDirection.moveForward(intersection, FAR_FROM_BASE_ROW))
                 .toList();

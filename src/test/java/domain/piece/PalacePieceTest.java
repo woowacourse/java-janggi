@@ -31,12 +31,12 @@ class PalacePieceTest {
 
             Intersection sameSidePieceIntersection = SIDE.getForwardDirection()
                     .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-            AlivePieces aliavePieces = new AlivePieces(Map.of(
+            AlivePieces alivePieces = new AlivePieces(Map.of(
                     sameSidePieceIntersection, SAME_SIDE_PIECE
             ));
 
             // when
-            boolean canMove = palacePiece.canMove(CURRENT_INTERSECTION, sameSidePieceIntersection, aliavePieces);
+            boolean canMove = palacePiece.canMove(CURRENT_INTERSECTION, sameSidePieceIntersection, alivePieces);
 
             // then
             assertThat(canMove).isFalse();
@@ -70,12 +70,12 @@ class PalacePieceTest {
 
             Intersection oppositeSidePieceIntersection = SIDE.getForwardDirection()
                     .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-            AlivePieces aliavePieces = new AlivePieces(Map.of(
+            AlivePieces alivePieces = new AlivePieces(Map.of(
                     oppositeSidePieceIntersection, OPPOSITE_SIDE_PIECE
             ));
 
             // when
-            boolean canMove = palacePiece.canMove(CURRENT_INTERSECTION, oppositeSidePieceIntersection, aliavePieces);
+            boolean canMove = palacePiece.canMove(CURRENT_INTERSECTION, oppositeSidePieceIntersection, alivePieces);
 
             // then
             assertThat(canMove).isTrue();

@@ -9,7 +9,7 @@ import java.util.List;
 public class Guard extends PalacePiece {
 
     private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(0);
-    private static final List<Integer> INITAL_FILES = List.of(4, 6);
+    private static final List<Integer> INITIAL_FILES = List.of(4, 6);
 
     public Guard(Side side) {
         super(side);
@@ -19,7 +19,7 @@ public class Guard extends PalacePiece {
     public List<Intersection> initAt() {
         Direction forwardDirection = side.getForwardDirection();
 
-        return INITAL_FILES.stream()
+        return INITIAL_FILES.stream()
                 .map(this::currentIntersection)
                 .map(intersection -> forwardDirection.moveForward(intersection, FAR_FROM_BASE_ROW))
                 .toList();

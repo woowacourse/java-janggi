@@ -83,7 +83,7 @@ class CannonTest {
 
             @ParameterizedTest
             @EnumSource(Side.class)
-            void 가장_가까운_기물이_포라면_이동할_수_없다(Side cloestCannonSide) {
+            void 가장_가까운_기물이_포라면_이동할_수_없다(Side closestCannonSide) {
                 // given
                 Cannon cannon = new Cannon(SIDE);
                 int currentRow = 5;
@@ -91,7 +91,7 @@ class CannonTest {
                 Intersection currentIntersection = new Intersection(currentRow, currentFile);
 
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of(
-                        new Intersection(3, currentFile), new Cannon(cloestCannonSide)
+                        new Intersection(3, currentFile), new Cannon(closestCannonSide)
                 ));
 
                 // when
