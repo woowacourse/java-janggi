@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ElephantPiece extends Piece {
-    private static final List<List<Integer>> destinations = List.of(
-            List.of(2, 3), List.of(3, 2), List.of(2, -3), List.of(3, -2),
-            List.of(-2, 3), List.of(-3, 2), List.of(-2, -3), List.of(-3, -2)
-    );
 
     public ElephantPiece(Team team, MoveStrategy moveStrategy) {
         super(team, Name.ELEPHANT, moveStrategy);

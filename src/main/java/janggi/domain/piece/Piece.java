@@ -32,15 +32,9 @@ public abstract class Piece {
         return team;
     }
 
-    protected boolean isHan() {
-        return team == Team.HAN;
-    }
-
     public boolean canMove(Position from, Position to) {
         return moveStrategy.canMove(from, to);
     }
-
-    ;
 
     abstract public List<Position> findPath(Position from, Position to);
 

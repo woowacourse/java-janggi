@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class HorsePiece extends Piece {
-    private static final List<List<Integer>> destinations = List.of(
-            List.of(1, 2), List.of(2, 1), List.of(1, -2), List.of(2, -1),
-            List.of(-1, 2), List.of(-2, 1), List.of(-1, -2), List.of(-2, -1)
-    );
 
     public HorsePiece(Team team, MoveStrategy moveStrategy) {
         super(team, Name.HORSE, moveStrategy);
