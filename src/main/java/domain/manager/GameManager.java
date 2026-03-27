@@ -76,7 +76,10 @@ public class GameManager {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askSourcePosition();
             Position source = new Position(numbers.getFirst(), numbers.getLast());
-            if (!board.isPieceSameTeam(source, turnManager.getCurrentTeam())) {
+            if(board.isPieceNone(source)) {
+                throw new IllegalArgumentException("비어있는 곳입니다.");
+            }
+            if (board.isPieceDifferentTeam(source, turnManager.getCurrentTeam())) {
                 throw new IllegalArgumentException("다른 팀입니다.");
             }
             return source;
