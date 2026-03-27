@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface Team {
 
-    boolean isPieceExists(int x, int y);
-
     List<BoardSpot> makeSpots();
 
     Optional<Piece> findPiece(Position position);
@@ -17,8 +15,4 @@ public interface Team {
     Team remove(Position position);
 
     Team move(Position piecePosition, Position targetPosition);
-
-    void isPieceCanMove(Position startPosition, Position endPosition);
-
-
 }

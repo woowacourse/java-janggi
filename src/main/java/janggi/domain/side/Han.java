@@ -20,11 +20,6 @@ public class Han implements Team {
     }
 
     @Override
-    public boolean isPieceExists(int x, int y) {
-        return pieces.isPieceExists(x, y);
-    }
-
-    @Override
     public List<BoardSpot> makeSpots() {
         return pieces.makeSpots();
     }
@@ -42,10 +37,5 @@ public class Han implements Team {
     @Override
     public Team move(Position piecePosition, Position targetPosition) {
         return new Han(pieces.move(piecePosition, targetPosition));
-    }
-
-    @Override
-    public void isPieceCanMove(Position startPosition, Position endPosition) {
-        pieces.checkPieceCanMove(startPosition, endPosition);
     }
 }
