@@ -4,25 +4,25 @@ import domain.piece.Piece;
 import java.util.List;
 
 public class PathPieces {
-    Piece srcPiece;
+    Piece sourcePiece;
     List<Piece> waypointPieces;
-    Piece destPiece;
+    Piece destinationPiece;
 
-    public PathPieces(Piece srcPiece, List<Piece> waypointPieces, Piece destPiece) {
-        this.srcPiece = srcPiece;
+    public PathPieces(Piece sourcePiece, List<Piece> waypointPieces, Piece destinationPiece) {
+        this.sourcePiece = sourcePiece;
         this.waypointPieces = waypointPieces;
-        this.destPiece = destPiece;
+        this.destinationPiece = destinationPiece;
     }
 
-    public Piece getSrcPiece() {
-        return srcPiece;
+    public Piece getSourcePiece() {
+        return sourcePiece;
     }
 
     public List<Piece> getWaypointPieces() {
         return waypointPieces;
     }
 
-    public Piece getDestPiece() {
-        return destPiece;
+    public Piece getDestinationPiece() {
+        return destinationPiece;
     }
 }

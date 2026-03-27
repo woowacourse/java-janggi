@@ -14,10 +14,10 @@ import org.junit.jupiter.params.provider.Arguments;
 class SangTest {
     @ParameterizedTest
     @MethodSource("provideSangPaths")
-    void 상은_앞으로_한칸_대각선으로_두칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
+    void 상은_앞으로_한칸_대각선으로_두칸_이동한다(int sourceRow, int sourceCol, int destinationRow, int destinationCol) {
         Piece sang = new Sang(Team.HAN);
-        Position source = new Position(startRow, startCol);
-        Position destination = new Position(destRow, destCol);
+        Position source = new Position(sourceRow, sourceCol);
+        Position destination = new Position(destinationRow, destinationCol);
 
         Path path = sang.calculatePath(source, destination);
 

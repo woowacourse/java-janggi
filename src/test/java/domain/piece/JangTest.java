@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class JangTest {
     @ParameterizedTest
     @MethodSource("provideJangPaths")
-    void 장은_모든방향을_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
+    void 장은_모든방향을_한칸_이동한다(int sourceRow, int sourceCol, int destinationRow, int destinationCol) {
         Piece jang = new Jang(Team.HAN);
-        Position source = new Position(startRow, startCol);
-        Position destination = new Position(destRow, destCol);
+        Position source = new Position(sourceRow, sourceCol);
+        Position destination = new Position(destinationRow, destinationCol);
 
         Path path = jang.calculatePath(source, destination);
 

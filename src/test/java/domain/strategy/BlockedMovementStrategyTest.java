@@ -20,35 +20,35 @@ class BlockedMovementStrategyTest {
 
     @Test
     void 막히지_않은_길은_이동이_가능하다() {
-        Piece srcPiece = new Ma(Team.CHO);
+        Piece sourcePiece = new Ma(Team.CHO);
 
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(), new None());
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), new None());
         assertTrue(blockedMovementStrategy.validatePath(pathPieces));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"CHO", "HAN"})
     void 막힌_길은_이동이_불가능하다(Team team) {
-        Piece srcPiece = new Ma(Team.CHO);
+        Piece sourcePiece = new Ma(Team.CHO);
 
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(new Cha(team)), new None());
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(team)), new None());
         assertFalse(blockedMovementStrategy.validatePath(pathPieces));
     }
 
     @Test
     void 도착지에_우리팀_기물이_존재하면_이동이_불가능하다() {
-        Piece srcPiece = new Ma(Team.CHO);
-        Piece destPiece = new Cha(Team.CHO);
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(), destPiece);
+        Piece sourcePiece = new Ma(Team.CHO);
+        Piece destinationPiece = new Cha(Team.CHO);
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), destinationPiece);
 
         assertFalse(blockedMovementStrategy.validatePath(pathPieces));
     }
 
     @Test
     void 도착지에_다른팀_기물이_존재하면_이동이_가능하다() {
-        Piece srcPiece = new Ma(Team.CHO);
-        Piece destPiece = new Cha(Team.HAN);
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(), destPiece);
+        Piece sourcePiece = new Ma(Team.CHO);
+        Piece destinationPiece = new Cha(Team.HAN);
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), destinationPiece);
 
         assertTrue(blockedMovementStrategy.validatePath(pathPieces));
     }

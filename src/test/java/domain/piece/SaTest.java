@@ -1,6 +1,8 @@
 package domain.piece;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import domain.player.Team;
 import domain.position.Path;
@@ -13,10 +15,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class SaTest {
     @ParameterizedTest
     @MethodSource("provideSaPaths")
-    void 사는_모든방향을_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
+    void 사는_모든방향을_한칸_이동한다(int sourceRow, int sourceCol, int destinationRow, int destinationCol) {
         Piece sa = new Sa(Team.HAN);
-        Position source = new Position(startRow, startCol);
-        Position destination = new Position(destRow, destCol);
+        Position source = new Position(sourceRow, sourceCol);
+        Position destination = new Position(destinationRow, destinationCol);
 
         Path path = sa.calculatePath(source, destination);
 

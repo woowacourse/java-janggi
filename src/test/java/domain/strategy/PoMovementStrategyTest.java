@@ -20,44 +20,44 @@ class PoMovementStrategyTest {
 
     @Test
     void 막히지_않은_길은_이동이_불가능하다() {
-        Piece srcPiece = new Po(Team.CHO);
+        Piece sourcePiece = new Po(Team.CHO);
 
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(), new None());
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), new None());
         assertFalse(poMovementStrategy.validatePath(pathPieces));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"CHO", "HAN"})
     void 포를_제외한_하나만_막힌_길은_이동이_가능하다(Team team) {
-        Piece srcPiece = new Po(Team.CHO);
+        Piece sourcePiece = new Po(Team.CHO);
 
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(new Cha(team)), new None());
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(team)), new None());
         assertTrue(poMovementStrategy.validatePath(pathPieces));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"CHO", "HAN"})
     void 포인_하나만_막힌_길은_이동이_불가능하다(Team team) {
-        Piece srcPiece = new Po(Team.CHO);
+        Piece sourcePiece = new Po(Team.CHO);
 
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(new Po(team)), new None());
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Po(team)), new None());
         assertFalse(poMovementStrategy.validatePath(pathPieces));
     }
 
     @Test
     void 도착지에_포가_아닌_우리팀_기물이_존재하면_이동이_불가능하다() {
-        Piece srcPiece = new Po(Team.CHO);
-        Piece destPiece = new Cha(Team.CHO);
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(new Cha(Team.CHO)), destPiece);
+        Piece sourcePiece = new Po(Team.CHO);
+        Piece destinationPiece = new Cha(Team.CHO);
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(Team.CHO)), destinationPiece);
 
         assertFalse(poMovementStrategy.validatePath(pathPieces));
     }
 
     @Test
     void 도착지에_포가_아닌_다른팀_기물이_존재하면_이동이_불가능하다() {
-        Piece srcPiece = new Po(Team.CHO);
-        Piece destPiece = new Cha(Team.HAN);
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(new Cha(Team.CHO)), destPiece);
+        Piece sourcePiece = new Po(Team.CHO);
+        Piece destinationPiece = new Cha(Team.HAN);
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(Team.CHO)), destinationPiece);
 
         assertTrue(poMovementStrategy.validatePath(pathPieces));
     }
@@ -65,10 +65,10 @@ class PoMovementStrategyTest {
     @ParameterizedTest
     @ValueSource(strings = {"CHO", "HAN"})
     void 도착지에_포_기물이_존재하면_이동이_불가능하다(Team team) {
-        Piece srcPiece = new Po(Team.CHO);
-        Piece destPiece = new Po(team);
+        Piece sourcePiece = new Po(Team.CHO);
+        Piece destinationPiece = new Po(team);
 
-        PathPieces pathPieces = new PathPieces(srcPiece, List.of(new Cha(team)), destPiece);
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(team)), destinationPiece);
         assertFalse(poMovementStrategy.validatePath(pathPieces));
     }
 }
