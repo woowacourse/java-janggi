@@ -25,7 +25,7 @@ class ChariotTest {
         List<Position> pathPositions = chariot.getPathPositions(from, to);
 
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5), new Position(3, 5), new Position(2, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5), new Position(3, 5)));
     }
 
     @Test
@@ -36,7 +36,7 @@ class ChariotTest {
         List<Position> pathPositions = chariot.getPathPositions(from, to);
 
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5), new Position(7, 5), new Position(8, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5), new Position(7, 5)));
     }
 
 
@@ -48,7 +48,7 @@ class ChariotTest {
         List<Position> pathPositions = chariot.getPathPositions(from, to);
 
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6), new Position(5, 7)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6)));
     }
 
 
@@ -61,7 +61,7 @@ class ChariotTest {
 
 
         assertThat(pathPositions).isEqualTo(List.of(
-                new Position(5, 4), new Position(5, 3), new Position(5, 2),new Position(5, 1), new Position(5, 0)));
+                new Position(5, 4), new Position(5, 3), new Position(5, 2),new Position(5, 1)));
     }
 
 

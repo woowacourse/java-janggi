@@ -23,7 +23,7 @@ class GuardTest {
 
         List<Position> pathPositions = guard.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(3, 1)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
@@ -33,7 +33,7 @@ class GuardTest {
 
         List<Position> pathPositions = guard.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 0)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
@@ -43,7 +43,7 @@ class GuardTest {
 
         List<Position> pathPositions = guard.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 0)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
 
@@ -54,6 +54,6 @@ class GuardTest {
 
         List<Position> pathPositions = guard.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(3, 0)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 }

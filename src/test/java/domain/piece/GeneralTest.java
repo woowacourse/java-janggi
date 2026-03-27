@@ -23,7 +23,7 @@ class GeneralTest {
 
         List<Position> pathPositions = general.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 2)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
@@ -33,7 +33,7 @@ class GeneralTest {
 
         List<Position> pathPositions = general.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(3, 1)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
@@ -43,7 +43,7 @@ class GeneralTest {
 
         List<Position> pathPositions = general.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 1)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
 
@@ -54,6 +54,6 @@ class GeneralTest {
 
         List<Position> pathPositions = general.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 0)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 }

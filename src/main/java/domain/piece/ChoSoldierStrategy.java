@@ -21,15 +21,13 @@ public class ChoSoldierStrategy implements MoveStrategy {
         if (!(isMoveLeft || isMoveRight || isMoveStraight)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
-        return List.of(to);
+        return List.of();
     }
 
     @Override
-    public void canMove(List<Path> paths, Position to) {
-        for (Path path : paths) {
-            if (path.position() != to) {
-                throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
-            }
+    public void canMove(List<Path> paths, Piece to) {
+        if (!paths.isEmpty() ) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
         }
     }
 }

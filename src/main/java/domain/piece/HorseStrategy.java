@@ -27,10 +27,9 @@ public class HorseStrategy implements MoveStrategy {
         }
 
         Position step1 = from.next(mainDirection);
-        Position step2 = step1.next(mainDirection).next(subDirection);
 
 
-        return List.of(step1, step2);
+        return List.of(step1);
     }
 
     private Direction decideXDirection(int dx) {
@@ -48,11 +47,9 @@ public class HorseStrategy implements MoveStrategy {
     }
 
     @Override
-    public void canMove(List<Path> paths, Position to) {
-        for (Path path : paths) {
-            if (path.position() != to) {
-                throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
-            }
+    public void canMove(List<Path> paths, Piece to) {
+        if (!paths.isEmpty() ) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
         }
     }
 }

@@ -18,6 +18,7 @@ public class CannonStrategy implements MoveStrategy {
         }
 
         Direction mainDirection;
+
         int distance;
         if (dx == 0) {
             mainDirection = decideYDirection(dy);
@@ -30,7 +31,7 @@ public class CannonStrategy implements MoveStrategy {
         Position step = from;
 
         List<Position> route = new ArrayList<>();
-        for (int i = 0; i < distance; i++) {
+        for (int i = 0; i < distance - 1; i++) {
             step = step.next(mainDirection);
             route.add(step);
         }
@@ -54,8 +55,20 @@ public class CannonStrategy implements MoveStrategy {
 
 
     @Override
-    public void canMove(List<Path> paths, Position to) {
+    public void canMove(List<Path> paths, Piece to) {
+        if(paths.size() != 1) {
+            throw new IllegalStateException("포는 한 기물만 뛰어 넘을 수 있습니다.");
+        }
+
+        Piece piece = paths.getFirst().piece();
 
 
+        if(piece.pieceType() == PieceType.CANNON) {
+            throw new IllegalStateException("포는 포를 뛰어 넘을 수 있습니다.");
+        }
+
+        if(to.pieceType() == PieceType.CANNON) {
+            throw new IllegalStateException("포를 잡을 수 없습니다");
+        }
     }
 }

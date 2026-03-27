@@ -30,7 +30,7 @@ public class ChariotStrategy implements MoveStrategy {
         Position step = from;
 
         List<Position> route = new ArrayList<>();
-        for (int i = 0; i < distance; i++) {
+        for (int i = 0; i < distance - 1; i++) {
             step = step.next(mainDirection);
             route.add(step);
         }
@@ -54,11 +54,9 @@ public class ChariotStrategy implements MoveStrategy {
 
 
     @Override
-    public void canMove(List<Path> paths, Position to) {
-        for (Path path : paths) {
-            if (path.position() != to) {
-                throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
-            }
+    public void canMove(List<Path> paths, Piece to) {
+        if (!paths.isEmpty() ) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
         }
     }
 }

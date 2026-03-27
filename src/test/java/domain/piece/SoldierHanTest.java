@@ -24,7 +24,7 @@ class SoldierHanTest {
 
         List<Position> pathPositions = soldier.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(0, 3)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
@@ -34,7 +34,7 @@ class SoldierHanTest {
 
         List<Position> pathPositions = soldier.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(1, 3)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
@@ -44,7 +44,7 @@ class SoldierHanTest {
 
         List<Position> pathPositions = soldier.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(1, 3)));
+        assertThat(pathPositions).isEqualTo(List.of());
     }
 
 }

@@ -11,5 +11,5 @@ public interface MoveStrategy {
     List<Position> getPathPositions(Position from, Position to);
 
     // 기물 각각의 이동 로직(각각의 이동 로직은 전략으로 주입)
-    void canMove(List<Path> paths, Position to);
+    void canMove(List<Path> paths, Piece to);
 }

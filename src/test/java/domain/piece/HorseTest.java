@@ -23,7 +23,7 @@ class HorseTest {
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6), new Position(4, 7)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6)));
     }
 
     @Test
@@ -34,7 +34,7 @@ class HorseTest {
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6), new Position(6, 7)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6)));
     }
 
 
@@ -45,7 +45,7 @@ class HorseTest {
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5), new Position(3, 6)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5)));
     }
 
 
@@ -56,7 +56,7 @@ class HorseTest {
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5), new Position(3, 4)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5)));
     }
 
 
@@ -67,7 +67,7 @@ class HorseTest {
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 4), new Position(4, 3)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 4)));
     }
 
 
@@ -78,7 +78,7 @@ class HorseTest {
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 4), new Position(6, 3)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 4)));
     }
 
 
@@ -89,7 +89,7 @@ class HorseTest {
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5), new Position(7, 6)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5)));
     }
 
 
@@ -100,6 +100,6 @@ class HorseTest {
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5), new Position(7, 6)));
+        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5)));
     }
 }
