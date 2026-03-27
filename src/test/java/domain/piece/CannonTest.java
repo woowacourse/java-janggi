@@ -111,31 +111,6 @@ class CannonTest {
     }
 
     /**
-     * 5. 도착지에 상대팀 말이 존재하면서, 해당 말이 포인 경우 이동 불가
-     */
-    @Test
-    void 도착지에_상대팀_말이_존재하면서_해당_말이_포인_경우_이동_불가() {
-        // given
-        StubBoard board = new StubBoard(strategy);
-        Piece cannon = new Cannon(Team.CHO);
-
-        // when
-        Position from = Position.from(5, 1);
-        Position to = Position.from(5, 4);
-        Position between = Position.from(5, 2);
-
-        Map<Position, Piece> testPiece = new HashMap<>();
-        testPiece.put(from, new Cannon(Team.CHO));
-        testPiece.put(between, new Pawn(Team.CHO));
-        testPiece.put(to, new Cannon(Team.CHO));
-
-        board.putPieces(testPiece);
-
-        // then
-        assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
-    }
-
-    /**
      * 정상 테스트
      */
     @Test
@@ -158,6 +133,31 @@ class CannonTest {
 
         // then
         assertThat(cannon.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    /**
+     * 5. 도착지에 상대팀 말이 존재하면서, 해당 말이 포인 경우 이동 불가
+     */
+    @Test
+    void 도착지에_상대팀_말이_존재하면서_해당_말이_포인_경우_이동_불가() {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece cannon = new Cannon(Team.CHO);
+
+        // when
+        Position from = Position.from(5, 1);
+        Position to = Position.from(5, 4);
+        Position between = Position.from(5, 2);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Cannon(Team.CHO));
+        testPiece.put(between, new Pawn(Team.CHO));
+        testPiece.put(to, new Cannon(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
     }
 
     @Test
