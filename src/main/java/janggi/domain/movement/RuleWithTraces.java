@@ -17,21 +17,21 @@ public class RuleWithTraces implements Rule {
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
-        final List<Movement> movementOrderWithoutLast = getMovementOrderWithoutLast();
-        final Movement lastMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
-        for (final Movement movement : movementOrderWithoutLast) {
+        for (int index = 0; index < movementOrder.size() - 1; index++) {
+            final Movement movement = movementOrder.get(index);
             traces.addAll(movement.calculateTraces(from, piece, boardMediator));
-            traces.add(movement.calculateDestination(from, piece, boardMediator));
-            from = traces.getLast();
+            final Position destination = movement.calculateDestination(from, piece, boardMediator);
+            traces.add(destination);
+            from = destination;
         }
-        traces.addAll(lastMovement.calculateTraces(from, piece, boardMediator));
-        return traces;
+        return findLastPosition(from, piece, boardMediator, traces);
     }
 
-    private List<Movement> getMovementOrderWithoutLast() {
-        final List<Movement> movementOrderWithoutLast = new ArrayList<>(movementOrder);
-        movementOrderWithoutLast.removeLast();
-        return movementOrderWithoutLast;
+    private List<Position> findLastPosition(final Position from, final Piece piece, final BoardMediator boardMediator,
+                                            final List<Position> traces) {
+        final Movement lastMovement = movementOrder.getLast();
+        traces.addAll(lastMovement.calculateTraces(from, piece, boardMediator));
+        return traces;
     }
 }
