@@ -8,6 +8,11 @@ import java.util.Map;
 import strategy.InitializeStrategy;
 
 public class Board {
+    private static final int MAX_ROW = 10;
+    private static final int MIN_ROW = 1;
+    private static final int MAX_COLUMN = 9;
+    private static final int MIN_COLUMN = 1;
+
     protected final Map<Position, Piece> pieces = new HashMap<>();
 
     public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
@@ -15,13 +20,41 @@ public class Board {
         initTeamBoard(hanInitializeStrategy, Team.HAN);
     }
 
-    /**
-     * TODO: 테스트용 함수 제거 필요
-     *
-     * @param position
-     * @param piece
-     * @return
-     */
+    public void move(Position from, Position to, PieceType pieceType) {
+        Piece piece = validateMovablePiece(from, to, pieceType);
+        validateCanMove(from, to, piece);
+        movePiece(from, to, piece);
+    }
+
+    private Piece validateMovablePiece(Position from, Position to, PieceType pieceType) {
+        Piece piece = pieces.get(from);
+
+        if (piece == null) {
+            throw new IllegalArgumentException("해당 위치에 피스가 없습니다.");
+        }
+
+        if (piece.getType() != pieceType) {
+            throw new IllegalArgumentException("해당 위치에 해당 타입이 없습니다.");
+        }
+
+        if (!to.isPossiblePosition(MAX_ROW, MIN_ROW, MAX_COLUMN, MIN_COLUMN)) {
+            throw new IllegalArgumentException("기물의 도착지점이 판 범위를 넘어섰습니다.");
+        }
+
+        return piece;
+    }
+
+    private void validateCanMove(Position from, Position to, Piece piece) {
+        if (!piece.canMove(from, to, this)) {
+            throw new IllegalArgumentException("해당 위치로 옮길 수 없습니다.");
+        }
+    }
+
+    private void movePiece(Position from, Position to, Piece piece) {
+        pieces.remove(from);
+        pieces.put(to, piece);
+    }
+
     public boolean isExistSameType(Position position, Piece piece) {
         if (hasPieceInPosition(position)) {
             return pieces.get(position).getType()
@@ -92,12 +125,5 @@ public class Board {
             }
         }
         return result;
-    }
-
-    /**
-     * TODO: 추후 보드에서 기물을 이동시킬때 올바른 범위인지 체크하는 메서드
-     */
-    private boolean validateMoveable(Position to) {
-        return false;
     }
 }

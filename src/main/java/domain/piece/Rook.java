@@ -11,7 +11,7 @@ public class Rook extends Piece{
     }
 
     @Override
-    boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(Position from, Position to, Board board) {
         // 1. 도착 지점이 같은 열 또는 행이 아닌 경우 이동 불가
         if (!isCorrectMoveDistanceAndDirection(from, to)) {
             return false;

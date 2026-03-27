@@ -26,5 +26,5 @@ public abstract class Piece {
         return this.type == PieceType.CANNON;
     }
 
-    abstract boolean canMove(Position from, Position to, Board board);
+    public abstract boolean canMove(Position from, Position to, Board board);
 }

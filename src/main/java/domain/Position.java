@@ -19,11 +19,11 @@ public final class Position {
         return new Position(this.row - other.row, this.column - other.column);
     }
 
-    public int getRow(){
+    public int getRow() {
         return this.row;
     }
 
-    public int getColumn(){
+    public int getColumn() {
         return this.column;
     }
 
@@ -55,6 +55,16 @@ public final class Position {
         }
 
         return false;
+    }
+
+    public boolean isPossiblePosition(int maxRow, int minRow, int maxColumn, int minColumn) {
+        if (this.row > maxRow || this.row < minRow) {
+            return false;
+        }
+        if (this.column > maxColumn || this.column < minColumn) {
+            return false;
+        }
+        return true;
     }
 
     @Override

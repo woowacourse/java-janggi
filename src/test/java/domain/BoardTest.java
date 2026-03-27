@@ -8,11 +8,17 @@ import domain.piece.King;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Rook;
+import domain.strategy.NoInitializeStrategy;
+import domain.stub.StubBoard;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
+import static domain.PieceType.PAWN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import strategy.InitializeStrategy;
 import strategy.InnerElephantFormationStrategy;
@@ -21,6 +27,7 @@ import strategy.OuterElephantFormationStrategy;
 import strategy.RightElephantFormationStrategy;
 
 class BoardTest {
+    private final InitializeStrategy noInitializeStrategy = new NoInitializeStrategy();
     private final InitializeStrategy noElephantHorseStrategy = new NoOpElephantHorseStrategy();
 
     static class NoOpElephantHorseStrategy extends InitializeStrategy {
@@ -29,8 +36,6 @@ class BoardTest {
             return Collections.emptyMap();
         }
     }
-
-    // TODO : 보드판 전체 초기화 확인
 
     /**
      * 1. 한나라 기본 기물이 올바르게 배치된다.(상,마 제외)
@@ -266,16 +271,201 @@ class BoardTest {
     }
 
     /**
-     * 보드 범위 테스트
-     * 1. 기물의 목적지가 보드의 범위를 넘어가면 안된다.
+     * 보드 이동 예외 테스트 1. 출발 지점에, 원하는 피스가 아에 없는 경우 이동할 수 없다. 2. 출발 지점에, 원하는 피스 타입이 아닌 다른 피스가 있는 경우 이동 할 수 없다. 3. 도착 지점이
+     * 보드판의 범위를 넘어서는 경우 이동할 수 없다.
      */
-
     @Test
-    void 목적지가_보드의_범위를_넘어갈_경우_예외를_반환한다() {
+    void 출발_지점에_원하는_피스가_없는_경우_이동할_수_없다() {
         // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+        PieceType targetType = PAWN;
 
         // when
+        Position from = Position.from(5, 1);
+        Position to = Position.from(5, 2);
 
         // then
+        assertThatThrownBy(() -> board.move(from, to, targetType))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치에 피스가 없습니다.");
+    }
+
+    @Test
+    void 출발_지점에_원하는_피스_타입이_아닌_다른_피스가_있는_경우_이동_할_수_없다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+        PieceType targetType = PAWN;
+
+        // when
+        Position from = Position.from(5, 1);
+        Position to = Position.from(5, 2);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Cannon(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatThrownBy(() -> board.move(from, to, targetType))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치에 해당 타입이 없습니다.");
+    }
+
+    @Test
+    void 도착_지점이_보드판의_범위를_넘어서는_경우_이동할_수_없다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+        PieceType targetType = PAWN;
+
+        // when
+        Position from = Position.from(10, 1);
+        Position to = Position.from(10, 10);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Pawn(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatThrownBy(() -> board.move(from, to, targetType))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물의 도착지점이 판 범위를 넘어섰습니다.");
+    }
+
+    /**
+     * 보드 이동 정상 테스트
+     */
+    @Test
+    void 포가_올바른_위치에_이동된다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position from = Position.from(5, 1);
+        Position to = Position.from(5, 4);
+        Position between = Position.from(5, 2);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Cannon(Team.CHO));
+        testPiece.put(between, new Pawn(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatCode(() -> board.move(from, to, PieceType.CANNON))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 차가_올바른_위치에_이동된다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position from = Position.from(10, 1);
+        Position to = Position.from(10, 3);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Rook(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatCode(() -> board.move(from, to, PieceType.ROOK))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 사가_한칸_앞으로_올바른_위치에_이동된다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position from = Position.from(7, 4);
+        Position to = Position.from(6, 4);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Guard(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatCode(() -> board.move(from, to, PieceType.GUARD))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 궁이_한칸_앞으로_올바른_위치에_이동된다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position from = Position.from(7, 1);
+        Position to = Position.from(6, 1);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new King(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatCode(() -> board.move(from, to, PieceType.KING))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 졸이_한칸_앞으로_올바른_위치에_이동된다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position from = Position.from(7, 1);
+        Position to = Position.from(6, 1);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Pawn(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatCode(() -> board.move(from, to, PAWN))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 말이_한칸_앞으로_올바른_위치에_이동된다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position from = Position.from(10, 1);
+        Position to = Position.from(8, 2);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Horse(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatCode(() -> board.move(from, to, PieceType.HORSE))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 상이_한칸_앞으로_올바른_위치에_이동된다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position from = Position.from(10, 3);
+        Position to = Position.from(7, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Elephant(Team.CHO));
+        board.putPieces(testPiece);
+
+        // then
+        assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT))
+                .doesNotThrowAnyException();
     }
 }

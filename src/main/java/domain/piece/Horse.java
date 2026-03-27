@@ -11,7 +11,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(Position from, Position to, Board board) {
         // 1. 직진 1칸 + 대각선 1칸만 이동 가능
         if (!isCorrectMoveDistanceAndDirection(from, to)) {
             return false;

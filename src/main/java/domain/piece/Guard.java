@@ -11,7 +11,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(Position from, Position to, Board board) {
         if (!isCorrectMoveDistanceAndDirection(from, to)) {
             return false;
         }

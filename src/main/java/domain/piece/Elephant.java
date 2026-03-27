@@ -14,7 +14,7 @@ public class Elephant extends Piece {
      * 1. 직진 1칸 + 대각선 2칸만 이동 가능 2. 도착지에 같은 팀이 존재하는 경우 이동 불가 3. 도착지랑 출발지 사이에 말이 존재하지 않는 경우 이동 가능 4. 이외는 이동 가능
      */
     @Override
-    boolean canMove(Position from, Position to, Board board) {
+    public boolean canMove(Position from, Position to, Board board) {
         // 1. 직진 1칸 + 대각선 2칸만 이동 가능
         if (!isCorrectMoveDistanceAndDirection(from, to)) {
             return false;
