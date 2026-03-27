@@ -7,7 +7,7 @@ import domain.game.Side;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Soldier extends StaticPositionedPiece {
+public final class Soldier extends StaticPositionedPiece {
 
     private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(3);
     private static final List<Integer> INITAL_FILES = List.of(1, 3, 5, 7, 9);
@@ -31,6 +31,7 @@ public class Soldier extends StaticPositionedPiece {
         return new Intersection(side.getBaseRow(), file);
     }
 
+    @Override
     public boolean canMove(
             Intersection from,
             Intersection to,
@@ -40,6 +41,7 @@ public class Soldier extends StaticPositionedPiece {
                 .contains(to);
     }
 
+    @Override
     public List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces

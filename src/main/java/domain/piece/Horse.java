@@ -7,7 +7,7 @@ import domain.game.Side;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Horse extends Piece {
+public final class Horse extends Piece {
 
     private static final MoveAmount MOVE_UNIT = new MoveAmount(1);
 
@@ -15,6 +15,17 @@ public class Horse extends Piece {
         super(side);
     }
 
+    @Override
+    public boolean canMove(
+            Intersection from,
+            Intersection to,
+            AlivePieces alivePieces
+    ) {
+        return movableIntersections(from, alivePieces)
+                .contains(to);
+    }
+
+    @Override
     public List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces

@@ -1,6 +1,8 @@
 package domain.piece;
 
+import domain.board.Intersection;
 import domain.game.Side;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -14,6 +16,17 @@ public abstract class Piece {
     public boolean hasDifferentSide(Side side) {
         return this.side != side;
     }
+
+    public abstract boolean canMove(
+            Intersection from,
+            Intersection to,
+            AlivePieces alivePieces
+    );
+
+    public abstract List<Intersection> movableIntersections(
+            Intersection from,
+            AlivePieces alivePieces
+    );
 
     @Override
     public boolean equals(Object o) {

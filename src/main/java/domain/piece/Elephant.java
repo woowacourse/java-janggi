@@ -7,7 +7,7 @@ import domain.game.Side;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Elephant extends Piece {
+public final class Elephant extends Piece {
 
     private static final MoveAmount MOVE_UNIT = new MoveAmount(1);
 
@@ -15,6 +15,7 @@ public class Elephant extends Piece {
         super(side);
     }
 
+    @Override
     public boolean canMove(
             Intersection from,
             Intersection to,
@@ -24,6 +25,7 @@ public class Elephant extends Piece {
                 .contains(to);
     }
 
+    @Override
     public List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces

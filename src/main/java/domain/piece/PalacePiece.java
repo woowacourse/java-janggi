@@ -15,6 +15,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
         super(side);
     }
 
+    @Override
     public final boolean canMove(
             Intersection from,
             Intersection to,
@@ -24,6 +25,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
                 .contains(to);
     }
 
+    @Override
     public final List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces
