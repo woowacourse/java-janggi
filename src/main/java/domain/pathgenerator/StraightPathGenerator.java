@@ -13,7 +13,6 @@ public class StraightPathGenerator implements PathGenerator {
         if (!validateMove(source, destination)) {
             throw new IllegalArgumentException("이동 할 수 있는 경로가 아닙니다.");
         }
-
         Direction direction = determineDirection(source, destination);
 
         return buildPath(source, destination, direction);
