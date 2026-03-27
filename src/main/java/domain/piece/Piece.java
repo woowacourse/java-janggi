@@ -3,17 +3,21 @@ package domain.piece;
 import domain.strategy.MoveStrategy;
 import domain.PieceProperty;
 import domain.Position;
-import domain.Team;
 import java.util.List;
 
-public abstract class Piece {
+public class Piece {
 
-    protected final PieceProperty pieceProperty;
-    protected final MoveStrategy moveStrategy;
+    private final PieceProperty pieceProperty;
+//    private final PieceMoving pieceMoving;
+    private final MoveStrategy moveStrategy;
 
-    Piece(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
+    public Piece(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
         this.pieceProperty = pieceProperty;
         this.moveStrategy = moveStrategy;
+    }
+
+    public Piece moved(Position destination) {
+        return new Piece(this.pieceProperty, this.moveStrategy);
     }
 
     public boolean isMoveAble(Position destination) {
@@ -24,20 +28,28 @@ public abstract class Piece {
         return moveStrategy.isInvalidPath(destination, piecePositions);
     }
 
+    public boolean isGeneral() {
+        return pieceProperty.isGeneral();
+    }
+
+    public boolean isCannon() {
+        return pieceProperty.isCannon();
+    }
+
     public String name () {
-        return this.pieceProperty.pieceType();
+        return pieceProperty.name();
     }
 
     public boolean isGreenTeam() {
-        return this.pieceProperty.team().equals(Team.GREEN);
+        return pieceProperty.isGreenTeam();
     }
 
     public boolean isRedTeam() {
-        return this.pieceProperty.team().equals(Team.RED);
+        return pieceProperty.isRedTeam();
     }
 
     public boolean isNoneTeam() {
-        return this.pieceProperty.team().equals(Team.NONE);
+        return pieceProperty.isNoneTeam();
     }
 
     public Position position() {

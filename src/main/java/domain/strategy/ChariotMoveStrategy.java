@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ChariotMoveStrategy extends MoveStrategy {
 
-    public ChariotMoveStrategy(Position position) {
+    private ChariotMoveStrategy(Position position) {
         super(position);
     }
 

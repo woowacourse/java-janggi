@@ -1,6 +1,5 @@
 package domain;
 
-import domain.piece.None;
 import domain.piece.Piece;
 import domain.strategy.NoneMoveableStrategy;
 import java.util.List;
@@ -22,7 +21,7 @@ public class Board {
         Piece piece = board.get(piecePosition);
 
         board.replace(targetPosition, piece);
-        board.replace(piecePosition, new None(Team.NONE, new NoneMoveableStrategy(piecePosition)));
+        board.replace(piecePosition, new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), new NoneMoveableStrategy(piecePosition)));
     }
 
     public boolean isMoveable(Position piecePosition, Position targetPosition) {
