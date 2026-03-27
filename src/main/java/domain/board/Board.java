@@ -23,17 +23,8 @@ public class Board {
         this.board = board;
     }
 
-    public void canMove(Position src, Position dest) {
-        Piece piece = findPiece(src);
-        Path path = piece.calculatePath(src, dest);
-        PathPieces pathPieces = findPieceInPath(path);
-        if (!piece.validatePath(pathPieces)) {
-            throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
-        }
-    }
-
     public Piece move(Position src, Position dest) {
-        canMove(src, dest);
+        validateMovement(src, dest);
         Piece movePiece = findPiece(src);
         Piece destPiece = findPiece(dest);
 
@@ -58,6 +49,15 @@ public class Board {
         return findPiece(src).isSameTeam(team);
     }
 
+    private void validateMovement(Position src, Position dest) {
+        Piece piece = findPiece(src);
+        Path path = piece.calculatePath(src, dest);
+        PathPieces pathPieces = createPathPieces(path);
+        if (!piece.validatePath(pathPieces)) {
+            throw new IllegalArgumentException("기물을 이동할 수 없습니다.");
+        }
+    }
+
     private List<String> makeLineOfStringBoard(int row) {
         List<String> lineOfStringBoard = new ArrayList<>();
 
@@ -71,7 +71,7 @@ public class Board {
         return lineOfStringBoard;
     }
 
-    private PathPieces findPieceInPath(Path path) {
+    private PathPieces createPathPieces(Path path) {
         List<Position> wayPoints = path.waypoints();
         List<Piece> pieces = new ArrayList<>();
 

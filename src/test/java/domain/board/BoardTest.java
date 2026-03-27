@@ -33,58 +33,58 @@ class BoardTest {
     }
 
     @Nested
-    class 포_이외의_기물_이동_가능_판단_테스트 {
+    class 포_이외의_기물_이동_테스트 {
         @Test
-        void 이동할_수_없는_경우는_canMove가_Exception_던진다() {
+        void 이동할_수_없는_경우는_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
             boardMap.put(new Position(0, 1), new Sang(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(0, 8)));
+            assertThrows(IllegalArgumentException.class, () -> board.move(new Position(0, 0), new Position(0, 8)));
         }
 
         @Test
-        void 이동할_수_있는_경우는_canMove가_Exception_던지지_않는다() {
+        void 이동할_수_있는_경우는_Exception_던지지_않는다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(6, 0), new Jol(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertDoesNotThrow(() -> board.canMove(new Position(6, 0), new Position(5, 0)));
+            assertDoesNotThrow(() -> board.move(new Position(6, 0), new Position(5, 0)));
         }
     }
 
     @Nested
-    class 포_기물_이동_가능_판단_테스트 {
+    class 포_기물_이동_테스트 {
         @Test
-        void 포가_이동할_수_없는_경우는_canMove가_Exception_던진다() {
+        void 포가_이동할_수_없는_경우는_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(5, 0), new Po(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(5, 0), new Position(8, 0)));
+            assertThrows(IllegalArgumentException.class, () -> board.move(new Position(5, 0), new Position(8, 0)));
         }
 
         @Test
-        void 포가_이동할_수_있는_경우는_canMove가_Exception_던지지_않는다() {
+        void 포가_이동할_수_있는_경우는_Exception_던지지_않는다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(8, 1), new Po(Team.CHO));
             boardMap.put(new Position(7, 1), new Cha(Team.HAN));
             boardMap.put(new Position(6, 1), new None());
 
             Board board = new Board(boardMap);
-            assertDoesNotThrow(() -> board.canMove(new Position(8, 1), new Position(6, 1)));
+            assertDoesNotThrow(() -> board.move(new Position(8, 1), new Position(6, 1)));
         }
 
         @Test
-        void 포가_도착지에_상대편_포가_있으면_canMove가_Exception_던진다() {
+        void 포가_도착지에_상대편_포가_있으면_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(8, 1), new Po(Team.CHO));
             boardMap.put(new Position(7, 1), new Cha(Team.HAN));
             boardMap.put(new Position(6, 1), new Po(Team.HAN));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(8, 1), new Position(6, 1)));
+            assertThrows(IllegalArgumentException.class, () -> board.move(new Position(8, 1), new Position(6, 1)));
         }
     }
 
