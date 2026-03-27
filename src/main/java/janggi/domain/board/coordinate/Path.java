@@ -3,6 +3,7 @@ package janggi.domain.board.coordinate;
 import janggi.domain.piece.Pattern;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Path {
     private final List<Point> path;
@@ -32,5 +33,22 @@ public class Path {
             }
         }
         return new Path(curPath);
+    }
+
+    @Override
+    public final boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Path path1)) {
+            return false;
+        }
+
+        return Objects.equals(path, path1.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(path);
     }
 }
