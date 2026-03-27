@@ -17,11 +17,11 @@ public class TurnManager {
         isGameRunning = true;
     }
 
-    public Player currentTurn() {
+    public Player getCurrentPlayer() {
         return players.getFirst();
     }
 
-    public Team currentTurnTeam() {
+    public Team getCurrentTeam() {
         return players.getFirst().getTeam();
     }
 

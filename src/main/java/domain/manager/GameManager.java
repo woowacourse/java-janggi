@@ -32,14 +32,15 @@ public class GameManager {
     }
 
     private void playTurn() {
-        outputView.printPlayerTurnMessage(turnManager.currentTurn().getName(), turnManager.currentTurnTeam().name());
+        outputView.printPlayerTurnMessage(turnManager.getCurrentPlayer().getName(),
+                turnManager.getCurrentTeam().name());
 
         retryOnInvalidInput(() -> {
             Position source = createSource();
             Position destination = createDestination();
             Piece piece = board.move(source, destination);
             if (piece.isNotNone()) {
-                turnManager.currentTurn().addCaughtPiece(piece);
+                turnManager.getCurrentPlayer().addCaughtPiece(piece);
             }
             return null;
         });
@@ -62,7 +63,7 @@ public class GameManager {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askSourcePosition();
             Position source = new Position(numbers.getFirst(), numbers.getLast());
-            if (!board.isPieceSameTeam(source, turnManager.currentTurnTeam())) {
+            if (!board.isPieceSameTeam(source, turnManager.getCurrentTeam())) {
                 throw new IllegalArgumentException("다른 팀입니다.");
             }
             return source;
