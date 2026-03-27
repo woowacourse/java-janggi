@@ -27,7 +27,7 @@ public class GameManager {
         outputView.printBoard(board.createDTO().board());
 
         while (turnManager.isGameRunning()) {
-            outputView.printPlayerTurnMessage(turnManager.currentTurn().getName());
+            outputView.printPlayerTurnMessage(turnManager.currentTurn().getName(), turnManager.currentTurnTeam().name());
             retryOnInvalidInput(() -> {
                 Position src = createSourcePosition();
                 Position dest = createDestPosition();

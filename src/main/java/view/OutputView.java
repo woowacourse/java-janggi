@@ -30,8 +30,8 @@ public class OutputView {
         System.out.println(message);
     }
 
-    public void printPlayerTurnMessage(String name) {
-        System.out.println(name + "님의 차례입니다.");
+    public void printPlayerTurnMessage(String name, String team) {
+        System.out.println(name + "(" + team + ")" +"님의 차례입니다.");
     }
 
     private void printColumnHeader() {
