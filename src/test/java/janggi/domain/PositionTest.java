@@ -35,10 +35,10 @@ public class PositionTest {
     @Test
     void 행의_차이를_계산한다() {
         //given
-        Position from = new Position(5, 3);
-        Position to = new Position(3, 3);
+        Position source = new Position(5, 3);
+        Position destination = new Position(3, 3);
         //when
-        int result = from.calculateRowDistance(to);
+        int result = source.calculateRowDistance(destination);
         //then
         assertThat(result).isEqualTo(2);
     }
@@ -46,10 +46,10 @@ public class PositionTest {
     @Test
     void 열의_차이를_계산한다() {
         //given
-        Position from = new Position(5, 3);
-        Position to = new Position(5, 0);
+        Position source = new Position(5, 3);
+        Position destination = new Position(5, 0);
         //when
-        int result = from.calculateColumnDistance(to);
+        int result = source.calculateColumnDistance(destination);
         //then
         assertThat(result).isEqualTo(3);
     }

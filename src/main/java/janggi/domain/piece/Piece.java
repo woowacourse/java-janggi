@@ -6,8 +6,8 @@ import java.util.List;
 
 public record Piece(PieceRule pieceRule, Camp camp) {
 
-    public void validateMove(Position from, Position to, BoardChecker board) {
-        List<Position> path = pieceRule.findPath(from, to, camp);
+    public void validateMove(Position source, Position destination, BoardChecker board) {
+        List<Position> path = pieceRule.findPath(source, destination, camp);
         pieceRule.checkPath(path, camp, board);
     }
 

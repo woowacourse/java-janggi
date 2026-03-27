@@ -9,15 +9,15 @@ import java.util.List;
 public class MultiStepStraightStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> findPath(Position from, Position to, Camp camp) {
-        DirectionInformation directionInformation = new DirectionInformation(from, to);
+    public List<Position> findPath(Position source, Position destination, Camp camp) {
+        DirectionInformation directionInformation = new DirectionInformation(source, destination);
 
         validateStraightMove(directionInformation);
 
         if (directionInformation.isRowBiggerThanCol()) {
-            return createRowPath(from, directionInformation.rowDifference());
+            return createRowPath(source, directionInformation.rowDifference());
         }
-        return createColumnPath(from, directionInformation.colDifference());
+        return createColumnPath(source, directionInformation.colDifference());
     }
 
     private void validateStraightMove(DirectionInformation directionInformation) {
@@ -34,25 +34,25 @@ public class MultiStepStraightStrategy implements MoveStrategy {
         }
     }
 
-    private List<Position> createRowPath(Position from, int rowDifference) {
+    private List<Position> createRowPath(Position source, int rowDifference) {
         List<Position> path = new ArrayList<>();
 
         int rowDirection = rowDifference / Math.abs(rowDifference);
         while (rowDifference != 0) {
-            from = from.moveRow(rowDirection);
-            path.add(from);
+            source = source.moveRow(rowDirection);
+            path.add(source);
             rowDifference -= rowDirection;
         }
         return path;
     }
 
-    private List<Position> createColumnPath(Position from, int colDifference) {
+    private List<Position> createColumnPath(Position source, int colDifference) {
         List<Position> path = new ArrayList<>();
 
         int columnDirection = colDifference / Math.abs(colDifference);
         while (colDifference != 0) {
-            from = from.moveCol(columnDirection);
-            path.add(from);
+            source = source.moveCol(columnDirection);
+            path.add(source);
             colDifference -= columnDirection;
         }
         return path;

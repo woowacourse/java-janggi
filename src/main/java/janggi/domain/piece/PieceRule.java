@@ -31,8 +31,8 @@ public enum PieceRule {
         this.moveCondition = moveCondition;
     }
 
-    public List<Position> findPath(Position from, Position to, Camp camp) {
-        return moveStrategy.findPath(from, to, camp);
+    public List<Position> findPath(Position source, Position destination, Camp camp) {
+        return moveStrategy.findPath(source, destination, camp);
     }
 
     public void checkPath(List<Position> path, Camp camp, BoardChecker board) {

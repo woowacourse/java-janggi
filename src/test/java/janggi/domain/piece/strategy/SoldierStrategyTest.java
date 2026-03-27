@@ -41,19 +41,19 @@ class SoldierStrategyTest {
 
         @ParameterizedTest
         @MethodSource("successMovePositions")
-        void 병의_1칸_이동_여부를_확인한다(Position from, Position to) {
-            List<Position> path = strategy.findPath(from, to, Camp.HAN);
+        void 병의_1칸_이동_여부를_확인한다(Position source, Position destination) {
+            List<Position> path = strategy.findPath(source, destination, Camp.HAN);
 
             SoftAssertions.assertSoftly(assertSoftly -> {
                 assertSoftly.assertThat(path).hasSize(1);
-                assertSoftly.assertThat(path).containsExactly(to);
+                assertSoftly.assertThat(path).containsExactly(destination);
             });
         }
 
         @ParameterizedTest
         @MethodSource("exceptionMovePositions")
-        void 병은_1칸_이동이_아니면_예외가_발생한다(Position from, Position to) {
-            assertThatThrownBy(() -> strategy.findPath(from, to, Camp.HAN))
+        void 병은_1칸_이동이_아니면_예외가_발생한다(Position source, Position destination) {
+            assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.HAN))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage());
         }
@@ -71,14 +71,14 @@ class SoldierStrategyTest {
     class Zol {
         @Test
         void 졸의_1칸_이동_여부를_확인한다() {
-            Position from = new Position(3, 0);
-            Position to = new Position(4, 0);
+            Position source = new Position(3, 0);
+            Position destination = new Position(4, 0);
 
-            List<Position> path = strategy.findPath(from, to, Camp.CHO);
+            List<Position> path = strategy.findPath(source, destination, Camp.CHO);
 
             SoftAssertions.assertSoftly(assertSoftly -> {
                 assertSoftly.assertThat(path).hasSize(1);
-                assertSoftly.assertThat(path).containsExactly(to);
+                assertSoftly.assertThat(path).containsExactly(destination);
             });
         }
 

@@ -73,8 +73,8 @@ public class MultiStepStraightStrategyTest {
 
     @ParameterizedTest
     @MethodSource("createPositionsAndPath")
-    void 차와_포는_한_방향으로만_1칸_이상_이동_할_수_있다(Position from, Position to, int size, List<Position> expectedPath) {
-        List<Position> path = strategy.findPath(from, to, Camp.HAN);
+    void 차와_포는_한_방향으로만_1칸_이상_이동_할_수_있다(Position source, Position destination, int size, List<Position> expectedPath) {
+        List<Position> path = strategy.findPath(source, destination, Camp.HAN);
 
         SoftAssertions.assertSoftly(assertSoftly -> {
             assertSoftly.assertThat(path).hasSize(size);

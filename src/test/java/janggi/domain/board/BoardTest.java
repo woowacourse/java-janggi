@@ -14,21 +14,21 @@ class BoardTest {
     @Test
     void 목적지에_반대_진영_기물이_있으면_해당_기물을_제거한다() {
         // given
-        Position from = new Position(7, 1);
-        Position to = new Position(0, 1);
+        Position source = new Position(7, 1);
+        Position destination = new Position(0, 1);
 
         Board board = new Board(() -> Map.of(
                 new Position(4, 1), new Piece(PieceRule.SOLDIER, Camp.HAN),
-                to, new Piece(PieceRule.HORSE, Camp.CHO),
-                from, new Piece(PieceRule.CANNON, Camp.HAN)
+                destination, new Piece(PieceRule.HORSE, Camp.CHO),
+                source, new Piece(PieceRule.CANNON, Camp.HAN)
         ));
         // when
-        board.movePiece(from, to);
+        board.movePiece(source, destination);
         // then
-        boolean GoalPositionExist = board.hasSamePieceRuleAt(to, PieceRule.CANNON);
-        boolean startPositionExist = board.hasPieceAt(from);
+        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceRule.CANNON);
+        boolean sourceExists = board.hasPieceAt(source);
 
-        assertThat(GoalPositionExist).isTrue();
-        assertThat(startPositionExist).isFalse();
+        assertThat(destinationExists).isTrue();
+        assertThat(sourceExists).isFalse();
     }
 }

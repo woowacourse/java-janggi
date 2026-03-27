@@ -10,11 +10,11 @@ import java.util.List;
 public class SingleStepStraightStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> findPath(Position from, Position to, Camp camp) {
-        DirectionInformation directionInformation = new DirectionInformation(from, to);
+    public List<Position> findPath(Position source, Position destination, Camp camp) {
+        DirectionInformation directionInformation = new DirectionInformation(source, destination);
         validateSingleStepMovement(directionInformation);
 
-        return List.of(to);
+        return List.of(destination);
     }
 
     private void validateSingleStepMovement(DirectionInformation directionInformation) {

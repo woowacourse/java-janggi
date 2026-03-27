@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MoveStrategy {
 
-    List<Position> findPath(Position from, Position to, Camp camp);
+    List<Position> findPath(Position source, Position destination, Camp camp);
 }

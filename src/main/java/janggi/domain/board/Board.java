@@ -37,11 +37,11 @@ public class Board implements BoardChecker {
         return false;
     }
 
-    public Map<Position, Piece> movePiece(Position from, Position to) {
-        Piece piece = board.get(from);
-        piece.validateMove(from, to, this);
-        board.put(to, piece);
-        board.remove(from);
+    public Map<Position, Piece> movePiece(Position source, Position destination) {
+        Piece piece = board.get(source);
+        piece.validateMove(source, destination, this);
+        board.put(destination, piece);
+        board.remove(source);
 
         return Map.copyOf(board);
     }

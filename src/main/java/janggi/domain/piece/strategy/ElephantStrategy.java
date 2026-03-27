@@ -13,15 +13,15 @@ public class ElephantStrategy implements MoveStrategy {
     private static final int MAX_ABS_DELTA = 3;
 
     @Override
-    public List<Position> findPath(Position from, Position to, Camp camp) {
-        DirectionInformation directionInfo = new DirectionInformation(from, to);
+    public List<Position> findPath(Position source, Position destination, Camp camp) {
+        DirectionInformation directionInfo = new DirectionInformation(source, destination);
 
         validateElephantMovement(directionInfo);
 
         if (directionInfo.isRowBiggerThanCol()) {
-            return createRowFirstPath(from, directionInfo);
+            return createRowFirstPath(source, directionInfo);
         }
-        return createColFirstPath(from, directionInfo);
+        return createColFirstPath(source, directionInfo);
     }
 
     private void validateElephantMovement(DirectionInformation directionInfo) {
@@ -33,32 +33,32 @@ public class ElephantStrategy implements MoveStrategy {
         }
     }
 
-    private List<Position> createRowFirstPath(Position from, DirectionInformation directionInfo) {
+    private List<Position> createRowFirstPath(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
-        from = from.moveRow(directionInfo.calculateRowDirection());
-        path.add(from);
+        source = source.moveRow(directionInfo.calculateRowDirection());
+        path.add(source);
 
-        path.addAll(moveDiagonal(from, directionInfo));
+        path.addAll(moveDiagonal(source, directionInfo));
         return path;
     }
 
-    private List<Position> createColFirstPath(Position from, DirectionInformation directionInfo) {
+    private List<Position> createColFirstPath(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
-        from = from.moveCol(directionInfo.calculateColDirection());
-        path.add(from);
+        source = source.moveCol(directionInfo.calculateColDirection());
+        path.add(source);
 
-        path.addAll(moveDiagonal(from, directionInfo));
+        path.addAll(moveDiagonal(source, directionInfo));
         return path;
     }
 
-    private List<Position> moveDiagonal(Position from, DirectionInformation directionInfo) {
+    private List<Position> moveDiagonal(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
         for (int i = 0; i < DIAGONAL_COUNT; i++) {
-            from = from.moveDiagonal(directionInfo.calculateRowDirection(), directionInfo.calculateColDirection());
-            path.add(from);
+            source = source.moveDiagonal(directionInfo.calculateRowDirection(), directionInfo.calculateColDirection());
+            path.add(source);
         }
         return path;
     }

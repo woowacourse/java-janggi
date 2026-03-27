@@ -10,13 +10,13 @@ import java.util.List;
 public class SoldierStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> findPath(Position from, Position to, Camp camp) {
-        DirectionInformation directionInformation = new DirectionInformation(from, to);
+    public List<Position> findPath(Position source, Position destination, Camp camp) {
+        DirectionInformation directionInformation = new DirectionInformation(source, destination);
 
         camp.validateForwardDirection(directionInformation.calculateRowDirection());
         validateSoldierMovement(directionInformation);
 
-        return List.of(to);
+        return List.of(destination);
     }
 
     private void validateSoldierMovement(DirectionInformation directionInformation) {

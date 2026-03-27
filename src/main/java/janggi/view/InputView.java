@@ -20,8 +20,8 @@ public final class InputView {
             4. 상마마상""";
 
     private static final String TURN = "%s나라 차례 입니다.";
-    private static final String START_POSITION = "공격할 기물의 좌표를 입력해주세요.";
-    private static final String GOAL_POSITION = "이동 시킬 목적지 좌표를 입력해주세요.";
+    private static final String SOURCE = "공격할 기물의 좌표를 입력해주세요.";
+    private static final String DESTINATION = "이동 시킬 목적지 좌표를 입력해주세요.";
 
     private InputView() {
     }
@@ -43,14 +43,14 @@ public final class InputView {
         }
     }
 
-    public static List<Integer> readStartPosition(Camp camp) {
+    public static List<Integer> readSource(Camp camp) {
         System.out.println(String.format(TURN, CampFormatter.format(camp)));
-        System.out.println(START_POSITION);
+        System.out.println(SOURCE);
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }
 
-    public static List<Integer> readGoalPosition() {
-        System.out.println(GOAL_POSITION);
+    public static List<Integer> readDestination() {
+        System.out.println(DESTINATION);
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }
 }

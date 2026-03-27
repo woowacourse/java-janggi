@@ -20,7 +20,7 @@ public class OnePieceExistsCondition implements MoveCondition {
         }
 
         validateExactPieceCount(countOfPiece);
-        validateGoalPosition(path.getLast(), camp, board, pieceRule);
+        validateDestination(path.getLast(), camp, board, pieceRule);
     }
 
     private int countPieceAt(BoardChecker board, PieceRule pieceRule, Position position) {
@@ -43,12 +43,12 @@ public class OnePieceExistsCondition implements MoveCondition {
         }
     }
 
-    private void validateGoalPosition(Position lastPosition, Camp camp, BoardChecker board, PieceRule pieceRule) {
-        if (board.isSameCampPieceAt(lastPosition, camp)) {
+    private void validateDestination(Position destination, Camp camp, BoardChecker board, PieceRule pieceRule) {
+        if (board.isSameCampPieceAt(destination, camp)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
         }
 
-        if (board.hasSamePieceRuleAt(lastPosition, pieceRule)) {
+        if (board.hasSamePieceRuleAt(destination, pieceRule)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
         }
     }

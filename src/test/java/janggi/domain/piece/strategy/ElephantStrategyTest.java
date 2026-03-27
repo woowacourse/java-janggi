@@ -71,9 +71,9 @@ public class ElephantStrategyTest {
 
     @ParameterizedTest
     @MethodSource("createPositionsAndPath")
-    void 상은_직선_1칸_이동_후_대각선_2칸_이동한다(Position from, Position to, List<Position> expectedPath) {
+    void 상은_직선_1칸_이동_후_대각선_2칸_이동한다(Position source, Position destination, List<Position> expectedPath) {
         // when
-        List<Position> path = strategy.findPath(from, to, Camp.HAN);
+        List<Position> path = strategy.findPath(source, destination, Camp.HAN);
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
             assertSoftly.assertThat(path).hasSize(expectedPath.size());
@@ -90,8 +90,8 @@ public class ElephantStrategyTest {
 
     @ParameterizedTest
     @MethodSource("createExceptionPosition")
-    void 상은_행마법_대로_움직이지_않으면_예외가_발생한다(Position from, Position to) {
-        assertThatThrownBy(() -> strategy.findPath(from, to, Camp.CHO))
+    void 상은_행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
+        assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
     }

@@ -14,7 +14,7 @@ public class EmptyCondition implements MoveCondition {
         for (int i = 0; i < path.size() - 1; i++) {
             validateEmptyPosition(path.get(i), board);
         }
-        validateGoalPosition(path.getLast(), camp, board);
+        validateDestination(path.getLast(), camp, board);
     }
 
     private void validateEmptyPosition(Position position, BoardChecker board) {
@@ -23,8 +23,8 @@ public class EmptyCondition implements MoveCondition {
         }
     }
 
-    private void validateGoalPosition(Position lastPosition, Camp camp, BoardChecker board) {
-        if (board.isSameCampPieceAt(lastPosition, camp)) {
+    private void validateDestination(Position destination, Camp camp, BoardChecker board) {
+        if (board.isSameCampPieceAt(destination, camp)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
         }
     }

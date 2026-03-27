@@ -28,13 +28,13 @@ class SingleStepStraightStrategyTest {
 
     @ParameterizedTest
     @MethodSource("successMovePositions")
-    void 궁과_사는_상하좌우_1칸_이동한다(Position from, Position to) {
+    void 궁과_사는_상하좌우_1칸_이동한다(Position source, Position destination) {
         //when
-        List<Position> path = strategy.findPath(from, to, Camp.HAN);
+        List<Position> path = strategy.findPath(source, destination, Camp.HAN);
         //then
         SoftAssertions.assertSoftly(assertSoftly -> {
             assertSoftly.assertThat(path).hasSize(1);
-            assertSoftly.assertThat(path).containsExactly(to);
+            assertSoftly.assertThat(path).containsExactly(destination);
         });
     }
 

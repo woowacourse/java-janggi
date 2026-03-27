@@ -41,9 +41,9 @@ public class JanggiGame {
     }
 
     private List<PiecePositionDto> playTurn(Board board, Camp camp) {
-        Position from = toPosition(InputView.readStartPosition(camp));
-        Position to = toPosition(InputView.readGoalPosition());
-        Map<Position, Piece> boardState = board.movePiece(from, to);
+        Position source = toPosition(InputView.readSource(camp));
+        Position destination = toPosition(InputView.readDestination());
+        Map<Position, Piece> boardState = board.movePiece(source, destination);
         return toPiecePositions(boardState);
     }
 

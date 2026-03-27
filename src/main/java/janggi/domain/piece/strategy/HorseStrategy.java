@@ -12,40 +12,40 @@ public class HorseStrategy implements MoveStrategy {
     private static final int MAX_ABS_DELTA = 2;
 
     @Override
-    public List<Position> findPath(Position from, Position to, Camp camp) {
-        DirectionInformation directionInformation = new DirectionInformation(from, to);
+    public List<Position> findPath(Position source, Position destination, Camp camp) {
+        DirectionInformation directionInformation = new DirectionInformation(source, destination);
 
         validateHorseMovement(directionInformation);
 
         if (directionInformation.isRowBiggerThanCol()) {
-            return createRowFirstPath(from, directionInformation);
+            return createRowFirstPath(source, directionInformation);
         }
-        return createColFirstPath(from, directionInformation);
+        return createColFirstPath(source, directionInformation);
     }
 
-    private List<Position> createRowFirstPath(Position from, DirectionInformation directionInformation) {
+    private List<Position> createRowFirstPath(Position source, DirectionInformation directionInformation) {
         List<Position> path = new ArrayList<>();
 
         int rowDirection = directionInformation.calculateRowDirection();
         int colDirection = directionInformation.calculateColDirection();
-        from = from.moveRow(rowDirection);
-        path.add(from);
+        source = source.moveRow(rowDirection);
+        path.add(source);
 
-        from = from.moveDiagonal(rowDirection, colDirection);
-        path.add(from);
+        source = source.moveDiagonal(rowDirection, colDirection);
+        path.add(source);
         return path;
     }
 
-    private List<Position> createColFirstPath(Position from, DirectionInformation directionInformation) {
+    private List<Position> createColFirstPath(Position source, DirectionInformation directionInformation) {
         List<Position> path = new ArrayList<>();
 
         int rowDirection = directionInformation.calculateRowDirection();
         int colDirection = directionInformation.calculateColDirection();
-        from = from.moveCol(colDirection);
-        path.add(from);
+        source = source.moveCol(colDirection);
+        path.add(source);
 
-        from = from.moveDiagonal(rowDirection, colDirection);
-        path.add(from);
+        source = source.moveDiagonal(rowDirection, colDirection);
+        path.add(source);
         return path;
     }
 

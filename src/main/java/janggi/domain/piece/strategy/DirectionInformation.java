@@ -4,8 +4,8 @@ import janggi.domain.Position;
 
 public record DirectionInformation(int rowDifference, int colDifference) {
 
-    public DirectionInformation(Position from, Position to) {
-        this(to.calculateRowDistance(from), to.calculateColumnDistance(from));
+    public DirectionInformation(Position source, Position destination) {
+        this(destination.calculateRowDistance(source), destination.calculateColumnDistance(source));
     }
 
     public int calculateAbsRowDifference() {
