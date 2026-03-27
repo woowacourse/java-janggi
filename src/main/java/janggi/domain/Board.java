@@ -3,15 +3,16 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class Board {
 
     private static final int BOARD_HEIGHT = 10;
+    private static final int BOARD_WIDTH = 9;
 
     private Map<Point, Piece> pieces;
 
@@ -39,22 +40,19 @@ public class Board {
         pieces.put(to, piece);
     }
 
-    public boolean isKingDie(Team team) {
+    public boolean isKingDie() {
         return pieces.values().stream()
-                .noneMatch(piece -> piece.isSameType(PieceType.JANG) &&
-                        piece.isSameTeam(team));
+                .filter(piece -> piece.isSameType(PieceType.JANG))
+                .count() < 2;
     }
 
     public List<List<Piece>> getPoints() {
-        List<List<Piece>> pieces = new ArrayList<>();
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
-            pieces.add(
-                    Point.getRow(i).stream()
-                            .map(this.pieces::get)
-                            .toList()
-            );
-        }
-        return pieces;
+        return IntStream.range(0, BOARD_HEIGHT)
+                .mapToObj(row -> IntStream.range(0, BOARD_WIDTH)
+                        .mapToObj(col -> Point.of(col, row))
+                        .map(point -> this.pieces.get(point))
+                        .toList()
+                ).toList();
     }
 
     public List<Piece> getPieces(List<Point> point) {
