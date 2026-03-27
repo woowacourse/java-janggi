@@ -35,17 +35,20 @@ public class GameManager {
         outputView.printPlayerTurnMessage(turnManager.getCurrentPlayer().getName(),
                 turnManager.getCurrentTeam().name());
 
-        retryOnInvalidInput(() -> {
-            Position source = createSource();
-            Position destination = createDestination();
-            Piece piece = board.move(source, destination);
-            if (piece.isNotNone()) {
-                turnManager.getCurrentPlayer().addCaughtPiece(piece);
-            }
-        });
+        retryOnInvalidInput(this::executeMove);
 
         outputView.printBoard(board.createDTO().board());
         turnManager.switchTurn();
+    }
+
+    private void executeMove() {
+        Position source = createSource();
+        Position destination = createDestination();
+
+        Piece caughtPiece = board.move(source, destination);
+        if (caughtPiece.isNotNone()) {
+            turnManager.getCurrentPlayer().addCaughtPiece(caughtPiece);
+        }
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {
