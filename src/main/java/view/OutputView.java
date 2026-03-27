@@ -21,9 +21,17 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void clearScreen() {
+    public void clearScreen() {
         System.out.print(ANSI_HOME + ANSI_CLS);
         System.out.flush();
+    }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
+
+    public void printPlayerTurnMessage(String name) {
+        System.out.println(name + "님의 차례입니다.");
     }
 
     private void printColumnHeader() {
@@ -79,9 +87,5 @@ public class OutputView {
                 throw new IllegalArgumentException("각 행은 가로 9칸이어야 합니다.");
             }
         }
-    }
-
-    public void printErrorMessage(String message) {
-        System.out.println(message);
     }
 }
