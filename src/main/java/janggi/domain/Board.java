@@ -102,13 +102,13 @@ public class Board {
     }
 
     private void validateCanMove(Piece piece, Position piecePosition, Position targetPosition) {
-        if (!piece.isValidPath(piecePosition, targetPosition, this)) {
+        if (!piece.isValidMovePattern(piecePosition.getX(), piecePosition.getY(), targetPosition.getX(),
+            targetPosition.getY())) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-    }
-
-    private void validateTargetPosition(TeamType nowTurn, Position targetPosition) {
-        validateTargetPosition(currentTeam(nowTurn), targetPosition);
+        if (!piece.isObstaclesNotExist(piecePosition, targetPosition, this)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
     }
 
     private void validateTargetPosition(Team team, Position targetPosition) {
