@@ -26,7 +26,7 @@ import java.util.Map;
 public class BoardFactory {
 
     public static Board createWithFormation(Formation choFormation, Formation hanFormation) {
-        Map<Position, Piece> board = createBasicBoard();
+        Map<Position, Piece> board = createInitialBoard();
         putFormation(board, choFormation, Team.CHO);
         putFormation(board, hanFormation, Team.HAN);
         return new Board(board);
@@ -48,7 +48,7 @@ public class BoardFactory {
         }
     }
 
-    private static Map<Position, Piece> createBasicBoard() {
+    private static Map<Position, Piece> createInitialBoard() {
         Map<Position, Piece> board = new HashMap<>();
 
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
@@ -56,7 +56,6 @@ public class BoardFactory {
                 board.put(new Position(row, col), new None());
             }
         }
-
         addChoPieces(board);
         addHanPieces(board);
 
