@@ -19,30 +19,35 @@ public class CannonMoveStrategyTest {
     @Nested
     class 이동경로 {
         @Test
-        public void 포는_초나라에서_동서남북_4방향을_가진다() {
-            MoveStrategy strategy = new RookMoveStrategy();
+        public void 포는_초나라에서_동서남북_직선_경로를_보드_끝까지_가진다() {
+            MoveStrategy strategy = new CannonMoveStrategy();
             List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
 
-            assertThat(paths).hasSize(4);
-            assertThat(paths).containsExactlyInAnyOrder(
+            assertThat(paths).hasSize(36);
+            assertThat(paths).contains(
                     new MovePath(List.of(Direction.NORTH)),
+                    new MovePath(List.of(Direction.NORTH, Direction.NORTH, Direction.NORTH, Direction.NORTH)),
                     new MovePath(List.of(Direction.SOUTH)),
+                    new MovePath(List.of(Direction.SOUTH, Direction.SOUTH, Direction.SOUTH, Direction.SOUTH)),
                     new MovePath(List.of(Direction.EAST)),
-                    new MovePath(List.of(Direction.WEST))
+                    new MovePath(List.of(Direction.EAST, Direction.EAST, Direction.EAST, Direction.EAST)),
+                    new MovePath(List.of(Direction.WEST)),
+                    new MovePath(List.of(Direction.WEST, Direction.WEST, Direction.WEST, Direction.WEST))
             );
         }
 
         @Test
-        public void 포는_한나라에서_동서남북_4방향을_가진다() {
-            MoveStrategy strategy = new RookMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+        public void 포는_현재위치에서_여러칸_떨어진_직선_목적지_경로를_생성한다() {
+            MoveStrategy strategy = new CannonMoveStrategy();
+            List<Route> routes = strategy.makeRoutes(Position.of(4, 4), TeamColor.HAN);
 
-            assertThat(paths).hasSize(4);
-            assertThat(paths).containsExactlyInAnyOrder(
-                    new MovePath(List.of(Direction.NORTH)),
-                    new MovePath(List.of(Direction.SOUTH)),
-                    new MovePath(List.of(Direction.EAST)),
-                    new MovePath(List.of(Direction.WEST))
+            assertThat(routes).contains(
+                    new Route(Position.of(4, 4), Position.of(0, 4),
+                            List.of(Position.of(3, 4), Position.of(2, 4), Position.of(1, 4))),
+                    new Route(Position.of(4, 4), Position.of(4, 8),
+                            List.of(Position.of(4, 5), Position.of(4, 6), Position.of(4, 7))),
+                    new Route(Position.of(4, 4), Position.of(8, 4),
+                            List.of(Position.of(5, 4), Position.of(6, 4), Position.of(7, 4)))
             );
         }
     }
@@ -69,6 +74,24 @@ public class CannonMoveStrategyTest {
                     Optional.empty(),
                     TeamColor.CHO
             );
+            assertThat(canMove).isFalse();
+        }
+
+        @Test
+        public void 포는_다리가_되는_기물이_둘_이상이면_지나갈수_없다() {
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(0, 4), List.of(Position.of(3, 4), Position.of(2, 4), Position.of(1, 4)));
+
+            boolean canMove = moveStrategy.canMove(
+                    route,
+                    List.of(
+                            Piece.of(TeamColor.CHO, PieceType.PAWN),
+                            Piece.of(TeamColor.HAN, PieceType.HORSE)
+                    ),
+                    Optional.empty(),
+                    TeamColor.CHO
+            );
+
             assertThat(canMove).isFalse();
         }
 
@@ -133,6 +156,16 @@ public class CannonMoveStrategyTest {
                     TeamColor.CHO
             );
             assertThat(canMove).isTrue();
+        }
+
+        @Test
+        public void 포는_한칸_이동처럼_중간기물이_없는_경로로는_이동할수_없다() {
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(3, 4), List.of());
+
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+
+            assertThat(canMove).isFalse();
         }
     }
 }
