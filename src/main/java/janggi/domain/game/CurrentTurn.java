@@ -3,6 +3,7 @@ package janggi.domain.game;
 import janggi.domain.dynasty.Dynasty;
 
 public class CurrentTurn {
+
     private Dynasty currentDynasty;
 
     public CurrentTurn(Dynasty currentDynasty) {
@@ -16,4 +17,5 @@ public class CurrentTurn {
     public Dynasty currentDynasty() {
         return currentDynasty;
     }
+
 }
