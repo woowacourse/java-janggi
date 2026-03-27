@@ -44,7 +44,6 @@ public class Piece {
         return "";
     }
 
-
     public boolean isDifferentTeam(Team team) {
         return this.team != team;
     }
@@ -54,11 +53,11 @@ public class Piece {
     }
 
     public boolean isNotNone() {
-        return this.pieceType != PieceType.NONE;
+        return this instanceof None;
     }
 
     public boolean isPo() {
-        return this.pieceType == PieceType.PO;
+        return this instanceof Po;
     }
 
     @Override
