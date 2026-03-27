@@ -11,6 +11,5 @@ public class Board {
     void move(Position source, Position target) {
         Piece whatPiece = board.get(source);
         whatPiece.canMove(source, target);
-
     }
 }

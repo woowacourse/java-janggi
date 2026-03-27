@@ -8,6 +8,7 @@ import domain.board.YanggwimaFactory;
 import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import view.InputView;
 import view.OutputView;
@@ -26,8 +27,8 @@ public class JanggiController {
         int choFormationNumber = inputView.initialFormation(Team.CHO);
         int hanFormationNumber = inputView.initialFormation(Team.HAN);
 
-        Map<Position, Piece> choBoard = initialBoard(choFormationNumber,Team.CHO);
-        Map<Position, Piece> hanBoard = initialBoard(hanFormationNumber,Team.HAN);
+        Map<Position, Piece> choBoard = initialBoard(choFormationNumber, Team.CHO);
+        Map<Position, Piece> hanBoard = initialBoard(hanFormationNumber, Team.HAN);
 
         Map<Position, Piece> board = new HashMap<>();
 
@@ -37,10 +38,15 @@ public class JanggiController {
         outputView.printBoard(board);
         // 기물 이동 <-> 보드 출력 반복
         // 이동 위치 입력 받기
-
+        List<String> movePositions = inputView.askMovePiecePoisiton(Team.CHO);
+        Position src = new Position(Integer.parseInt(movePositions.get(0)), Integer.parseInt(movePositions.get(1)));
+        Position dest = new Position(Integer.parseInt(movePositions.get(0)), Integer.parseInt(movePositions.get(1)));
+        if (board.get(src).canMove(src, dest)) {
+            //List <Position> routes = board.get(src).searchRoute(src, dest);
+        }
     }
 
-    private Map<Position, Piece> initialBoard(int input,Team team) {
+    private Map<Position, Piece> initialBoard(int input, Team team) {
         if (input == 1) {
             return new LeftGwimaFactory().createFormation(team);
         }
