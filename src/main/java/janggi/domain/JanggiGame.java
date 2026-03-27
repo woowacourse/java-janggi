@@ -4,11 +4,11 @@ import janggi.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Turns {
+public class JanggiGame {
 
     private final List<Turn> value;
 
-    public Turns(List<Turn> value) {
+    public JanggiGame(List<Turn> value) {
         this.value = value;
     }
 
@@ -35,11 +35,11 @@ public class Turns {
         return value.getLast();
     }
 
-    public Turns doGame(Position startPosition, Position endPosition) {
+    public JanggiGame doGame(Position startPosition, Position endPosition) {
         Turn lastTurn = getLastTurn();
         Turn newTurn = lastTurn.move(startPosition, endPosition);
         List<Turn> updatedTurns = new ArrayList<>(value);
         updatedTurns.add(newTurn);
-        return new Turns(updatedTurns);
+        return new JanggiGame(updatedTurns);
     }
 }
