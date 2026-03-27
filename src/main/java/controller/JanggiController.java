@@ -22,6 +22,7 @@ public class JanggiController {
     }
 
     public void run() {
+        // 보드 초기화
         int choFormationNumber = inputView.initialFormation(Team.CHO);
         int hanFormationNumber = inputView.initialFormation(Team.HAN);
 
@@ -32,8 +33,11 @@ public class JanggiController {
 
         board.putAll(choBoard);
         board.putAll(hanBoard);
-
+        // 초기화된 보드 출력
         outputView.printBoard(board);
+        // 기물 이동 <-> 보드 출력 반복
+        // 이동 위치 입력 받기
+
     }
 
     private Map<Position, Piece> initialBoard(int input,Team team) {

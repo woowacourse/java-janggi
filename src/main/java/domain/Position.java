@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -25,6 +27,22 @@ public class Position {
 
     public int columnDiff(Position other) {
         return this.column.diff(other.column);
+    }
+
+    public List<Position> makeColStraightRoute(Position other) {
+        List<Position> routes = new ArrayList<>();
+        for (int i = Math.min(this.column, other.column); i <= dest; i++) {
+            routes.add(new Position(i, col));
+        }
+        return routes;
+    }
+
+    public List<Position> makeRowStraightRoute(int row, int src, int dest) {
+        List<Position> routes = new ArrayList<>();
+        for (int i = src; i <= dest; i++) {
+            routes.add(new Position(row, i));
+        }
+        return routes;
     }
 
     @Override
