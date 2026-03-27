@@ -1,6 +1,5 @@
 package janggi.domain.game;
 
-import janggi.domain.piece.PieceVO;
 import janggi.dto.PlayerDTO;
 
 public class Player {
@@ -19,9 +18,5 @@ public class Player {
 
     public PlayerDTO mapToVO() {
         return new PlayerDTO(name, side);
-    }
-
-    public boolean isOwnPiece(PieceVO pieceVo) {
-        return side.isSameSide(pieceVo.side());
     }
 }
