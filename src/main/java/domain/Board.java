@@ -23,6 +23,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Board {
+    private static final String NOT_MY_PIECE = "[ERROR] 본인 진영의 기물이 아닙니다.";
+    private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
+
     private final Map<Position, State> board = new LinkedHashMap<>();
 
     public Board(TableSetting choTableSetting, TableSetting hanTableSetting) {
@@ -131,11 +134,8 @@ public class Board {
 
     public void validateFromPosition(Position from, Country country) {
         State fromState = board.get(from);
-        if (fromState.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
-        }
-        if (fromState.getPiece().getPieceInfo().getCountry() != country) {
-            throw new IllegalArgumentException("[ERROR] 본인 진영의 기물이 아닙니다.");
+        if (fromState.getPiece().getPieceInfo().country() != country) {
+            throw new IllegalArgumentException(NOT_MY_PIECE);
         }
     }
 
@@ -144,14 +144,14 @@ public class Board {
         List<Position> paths = piece.path(from, to);
 
         if (!board.get(to).isEmpty()) {
-            PieceType fromPieceType = board.get(from).getPiece().getPieceInfo().getPieceType();
-            PieceType toPieceType = board.get(to).getPiece().getPieceInfo().getPieceType();
+            PieceType fromPieceType = board.get(from).getPiece().getPieceInfo().pieceType();
+            PieceType toPieceType = board.get(to).getPiece().getPieceInfo().pieceType();
             if (fromPieceType != toPieceType) {
-                throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
+                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
 
-        PieceType pieceType = piece.getPieceInfo().getPieceType();
+        PieceType pieceType = piece.getPieceInfo().pieceType();
         if (pieceType == PieceType.CANNON) {
             checkCannonPath(paths);
         }
@@ -165,7 +165,7 @@ public class Board {
     private void checkPathExceptCannon(List<Position> paths) {
         for (int index = 0; index < paths.size() - 1; index++) {
             if (!board.get(paths.get(index)).isEmpty()) {
-                throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
+                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
     }
@@ -175,16 +175,16 @@ public class Board {
         for (int index = 0; index < paths.size() - 1; index++) {
             domain.state.State state = board.get(paths.get(index));
             if (!state.isEmpty()) {
-                PieceType pieceType = state.getPiece().getPieceInfo().getPieceType();
+                PieceType pieceType = state.getPiece().getPieceInfo().pieceType();
                 if (pieceType == PieceType.CANNON) {
-                    throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
+                    throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
                 }
                 pieceCount++;
             }
         }
 
         if (pieceCount != 1) {
-            throw new IllegalArgumentException("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
+            throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
     }
 

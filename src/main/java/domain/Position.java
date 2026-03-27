@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Position {
+public record Position(
+        int x,
+        int y
+) {
     public static final int INITIAL_POSITION = 0;
     public static final int X_MAXIMUM_POSITION = 8;
     public static final int Y_MAXIMUM_POSITION = 9;
 
-    private final int x;
-    private final int y;
+    private static final String INVALID_POSITION_RANGE = "[ERROR] x좌표와 y좌표의 범위가 올바르지 않습니다.";
 
-    public Position(int x, int y) {
+    public Position {
         validateRange(x, y);
-        this.x = x;
-        this.y = y;
     }
 
     private void validateRange(int x, int y) {
         if (isXInvalidRange(x) || isYInvalidRange(y)) {
-            throw new IllegalArgumentException("[ERROR] x좌표와 y좌표의 범위가 올바르지 않습니다.");
+            throw new IllegalArgumentException(INVALID_POSITION_RANGE);
         }
     }
 

@@ -44,13 +44,13 @@ public class BoardTest {
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
         for (Position choPosition : InitialPosition.SOLDIER.getChoPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.SOLDIER);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.CHO);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.SOLDIER);
+            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
         }
         for (Position hanPosition : InitialPosition.SOLDIER.getHanPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.SOLDIER);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.HAN);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.SOLDIER);
+            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
         }
     }
 
@@ -62,13 +62,13 @@ public class BoardTest {
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
         for (Position choPosition : InitialPosition.GUARD.getChoPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.CHO);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
         }
         for (Position hanPosition : InitialPosition.GUARD.getHanPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.HAN);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
         }
     }
 
@@ -86,14 +86,14 @@ public class BoardTest {
 
         for (int index = 0; index < 4; index++) {
             PieceInfo pieceInfo = pieceInfos.get(choPositions.get(index));
-            assertThat(pieceInfo.getPieceType()).isEqualTo(choTableSetting.getFormation(Country.CHO).get(index));
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.CHO);
+            assertThat(pieceInfo.pieceType()).isEqualTo(choTableSetting.getFormation(Country.CHO).get(index));
+            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
         }
 
         for (int index = 0; index < 4; index++) {
             PieceInfo pieceInfo = pieceInfos.get(hanPositions.get(index));
-            assertThat(pieceInfo.getPieceType()).isEqualTo(hanTableSetting.getFormation(Country.HAN).get(index));
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.HAN);
+            assertThat(pieceInfo.pieceType()).isEqualTo(hanTableSetting.getFormation(Country.HAN).get(index));
+            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
         }
     }
 
@@ -114,13 +114,13 @@ public class BoardTest {
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
         for (Position choPosition : InitialPosition.CANNON.getChoPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.CANNON);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.CHO);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CANNON);
+            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
         }
         for (Position hanPosition : InitialPosition.CANNON.getHanPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.CANNON);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.HAN);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CANNON);
+            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
         }
     }
 
@@ -132,13 +132,13 @@ public class BoardTest {
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
         for (Position choPosition : InitialPosition.CHARIOT.getChoPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.CHARIOT);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.CHO);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CHARIOT);
+            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
         }
         for (Position hanPosition : InitialPosition.CHARIOT.getHanPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.CHARIOT);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.HAN);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CHARIOT);
+            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
         }
     }
 
@@ -150,13 +150,13 @@ public class BoardTest {
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
         for (Position choPosition : InitialPosition.GENERAL.getChoPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.GENERAL);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.CHO);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GENERAL);
+            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
         }
         for (Position hanPosition : InitialPosition.GENERAL.getHanPositions()) {
             PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.getPieceType()).isEqualTo(PieceType.GENERAL);
-            assertThat(pieceInfo.getCountry()).isEqualTo(Country.HAN);
+            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GENERAL);
+            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
         }
     }
 
@@ -182,8 +182,8 @@ public class BoardTest {
         pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
-        assertThat(pieceInfos.get(to).getPieceType()).isEqualTo(PieceType.SOLDIER);
-        assertThat(pieceInfos.get(to).getCountry()).isEqualTo(Country.CHO);
+        assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
     }
 
     @Test
@@ -199,8 +199,8 @@ public class BoardTest {
         pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
-        assertThat(pieceInfos.get(to).getPieceType()).isEqualTo(PieceType.GUARD);
-        assertThat(pieceInfos.get(to).getCountry()).isEqualTo(Country.CHO);
+        assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GUARD);
+        assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
     }
 
     @Test
@@ -216,8 +216,8 @@ public class BoardTest {
         pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
-        assertThat(pieceInfos.get(to).getPieceType()).isEqualTo(PieceType.ELEPHANT);
-        assertThat(pieceInfos.get(to).getCountry()).isEqualTo(Country.CHO);
+        assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.ELEPHANT);
+        assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
     }
 
     @Test
@@ -233,8 +233,8 @@ public class BoardTest {
         pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
-        assertThat(pieceInfos.get(to).getPieceType()).isEqualTo(PieceType.HORSE);
-        assertThat(pieceInfos.get(to).getCountry()).isEqualTo(Country.CHO);
+        assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.HORSE);
+        assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
     }
 
     @Test
@@ -250,8 +250,8 @@ public class BoardTest {
         pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
-        assertThat(pieceInfos.get(to).getPieceType()).isEqualTo(PieceType.CHARIOT);
-        assertThat(pieceInfos.get(to).getCountry()).isEqualTo(Country.CHO);
+        assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CHARIOT);
+        assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
     }
 
     @Test
@@ -267,8 +267,8 @@ public class BoardTest {
         pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
-        assertThat(pieceInfos.get(to).getPieceType()).isEqualTo(PieceType.GENERAL);
-        assertThat(pieceInfos.get(to).getCountry()).isEqualTo(Country.CHO);
+        assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GENERAL);
+        assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
     }
 
     @Test
@@ -287,7 +287,7 @@ public class BoardTest {
         pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
-        assertThat(pieceInfos.get(to).getPieceType()).isEqualTo(PieceType.CANNON);
-        assertThat(pieceInfos.get(to).getCountry()).isEqualTo(Country.CHO);
+        assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CANNON);
+        assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
     }
 }
