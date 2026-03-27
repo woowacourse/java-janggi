@@ -32,9 +32,15 @@ public class PawnMoveStrategy implements MoveStrategy{
 
     @Override
     public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
-        if (blockingPieces.size()==0) {
+        if (blockingPieces.size() == 0) {
             return true;
         }
+
+        if (blockingPieces.size() == 1) {
+            TeamColor targetTeam = blockingPieces.getFirstBlockingTeamColor();
+            return targetTeam != myTeam;
+        }
+
         return false;
     }
 

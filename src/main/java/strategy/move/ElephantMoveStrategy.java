@@ -30,9 +30,15 @@ import java.util.List;
     @Override
     public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
         if (blockingPieces.size() == 0) {
-            return true;
+              return true;
         }
-        return false;
-    }
+
+        if (blockingPieces.size() == 1) {
+          TeamColor targetTeam = blockingPieces.getFirstBlockingTeamColor();
+          return targetTeam != myTeam;
+        }
+
+          return false;
+      }
 
 }

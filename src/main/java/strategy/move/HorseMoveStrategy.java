@@ -31,6 +31,12 @@ public class HorseMoveStrategy implements MoveStrategy {
         if (blockingPieces.size() == 0) {
             return true;
         }
+
+        if (blockingPieces.size() == 1) {
+            TeamColor targetTeam = blockingPieces.getFirstBlockingTeamColor();
+            return targetTeam != myTeam;
+        }
+
         return false;
     }
 }

@@ -39,5 +39,9 @@ public class BlockingPieces {
     public int size() {
         return pieces.size();
     }
+    
+    public TeamColor getFirstBlockingTeamColor() {
+        return pieces.getFirst().getTeamColor();
+    }
 
 }
