@@ -92,51 +92,47 @@ class PoTest {
         }
 
         @Test
-        void 상_1칸_차이인_경우_이동_경로는_존재하지_않는다() {
+        void 상_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp();
-            // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
-            // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            // when & then
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        void 하_1칸_차이인_경우_이동_경로는_존재하지_않는다() {
+        void 하_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown();
-            // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
-            // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            // when & then
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        void 좌_1칸_차이인_경우_이동_경로는_존재하지_않는다() {
+        void 좌_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft();
-            // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
-            // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            // when & then
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        void 우_1칸_차이인_경우_이동_경로는_존재하지_않는다() {
+        void 우_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight();
-            // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
-            // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            // when & then
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+                .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test

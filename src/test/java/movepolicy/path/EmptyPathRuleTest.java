@@ -1,6 +1,7 @@
 package movepolicy.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -16,10 +17,9 @@ class EmptyPathRuleTest {
         // given
         List<Piece> pathPieces = List.of();
         PathRule emptyPathRule = new EmptyPathRule();
-        // when
-        boolean isEmpty = emptyPathRule.validatePathPieces(pathPieces);
-        // then
-        assertThat(isEmpty).isTrue();
+        // when & then
+        assertThatCode(() -> emptyPathRule.validatePathPieces(pathPieces))
+            .doesNotThrowAnyException();
     }
 
     @Test

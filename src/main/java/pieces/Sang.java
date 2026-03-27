@@ -18,7 +18,7 @@ public class Sang extends PieceImpl {
         List<Position> movableDestinations = List.of(
             departure.moveUp().moveRightUp().moveRightUp(),
             departure.moveUp().moveLeftUp().moveLeftUp(),
-            departure.moveDown().moøveRightDown().moveRightDown(),
+            departure.moveDown().moveRightDown().moveRightDown(),
             departure.moveDown().moveLeftDown().moveLeftDown(),
             departure.moveLeft().moveLeftUp().moveLeftUp(),
             departure.moveLeft().moveLeftDown().moveLeftDown(),

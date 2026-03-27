@@ -1,6 +1,6 @@
 package movepolicy.destination;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
@@ -42,9 +42,8 @@ class BasicDestinationRuleTest {
         ;
         Piece destinationPiece = new Gung(Side.HAN);
         DestinationRule destinationRule = new BasicDestinationRule();
-        // when
-        boolean isMovable = destinationRule.validateDestination(departurePiece, destinationPiece);
-        // then
-        assertThat(isMovable).isTrue();
+        // when & then
+        assertThatCode(() -> destinationRule.validateDestination(departurePiece, destinationPiece))
+            .doesNotThrowAnyException();
     }
 }

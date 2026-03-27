@@ -1,6 +1,6 @@
 package movepolicy.destination;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
@@ -40,13 +40,12 @@ class PoDestinationRuleTest {
     void 출발지_기물과_도착지_기물이_모두_포인_경우_예외를_던진다() {
         // given
         Piece departurePiece = new Po(Side.CHO);
-        ;
         Piece destinationPiece = new Po(Side.HAN);
-        DestinationRule destinationRule = new BasicDestinationRule();
-        // when
-        boolean isMovable = destinationRule.validateDestination(departurePiece, destinationPiece);
-        // then
-        assertThat(isMovable).isTrue();
+        DestinationRule destinationRule = new PoDestinationRule();
+        // when & then
+        assertThatThrownBy(
+            () -> destinationRule.validateDestination(departurePiece, destinationPiece))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -56,10 +55,8 @@ class PoDestinationRuleTest {
         ;
         Piece destinationPiece = new Gung(Side.HAN);
         DestinationRule destinationRule = new PoDestinationRule();
-        // when
-        boolean isMovable = destinationRule.validateDestination(departurePiece, destinationPiece);
-        // then
-        assertThat(isMovable).isTrue();
+        // when & then
+        assertThatCode(() -> destinationRule.validateDestination(departurePiece, destinationPiece))
+            .doesNotThrowAnyException();
     }
-
 }

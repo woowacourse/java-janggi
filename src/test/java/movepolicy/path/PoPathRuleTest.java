@@ -1,6 +1,6 @@
 package movepolicy.path;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -47,9 +47,8 @@ class PoPathRuleTest {
         // given
         List<Piece> pathPieces = List.of(new Gung(Side.HAN));
         PathRule poPathRule = new PoPathRule();
-        // when
-        boolean isEmpty = poPathRule.validatePathPieces(pathPieces);
-        // then
-        assertThat(isEmpty).isTrue();
+        // when & then
+        assertThatCode(() -> poPathRule.validatePathPieces(pathPieces))
+            .doesNotThrowAnyException();
     }
 }
