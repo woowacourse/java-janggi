@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class BoardInitializer {
-    private static final int BOARD_ROWS = 10;
-    private static final int BOARD_COLS = 9;
 
     private static final Map<Arrangement, List<PieceType>> arrangeMap = Map.of(
             Arrangement.마상마상, List.of(PieceType.MA, PieceType.SANG, PieceType.MA, PieceType.SANG),
@@ -83,8 +81,8 @@ public class BoardInitializer {
 
     private static Map<Position, Piece> initBoard() {
         Map<Position, Piece> pieces = new HashMap<>();
-        for (int i = 1; i <= BOARD_ROWS; i++) {
-            for (int j = 1; j <= BOARD_COLS; j++) {
+        for (int i = Position.BOARD_START_ROWS; i <= Position.BOARD_END_ROWS; i++) {
+            for (int j = Position.BOARD_START_COLS; j <= Position.BOARD_END_COLS; j++) {
                 Position position = new Position(i, j);
                 pieces.put(position, new None());
             }
