@@ -40,25 +40,87 @@ public class CannonMoveStrategyTest {
         );
     }
 
-    @Test
-    public void 포는_장애물이_1개가_아니면_지나갈수_없다(){
-        MoveStrategy moveStrategy = new PawnMoveStrategy();
+        @Test
+        public void 포는_다리가_되는_기물이_하나도_없으면_지나갈수_없다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        List<Piece> blocking = List.of();
-        BlockingPieces blockingPieces = new BlockingPieces(blocking);
-        boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+            List<Piece> blocking = List.of();
+            BlockingPieces blockingPieces = new BlockingPieces(blocking);
 
-        assertThat(canJumpTo).isTrue();
+            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+            assertThat(canJumpTo).isFalse();
+        }
+
+        @Test
+        public void 포는_다리가_되는_기물이_포이면_지나갈수_없다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            List<Piece> blocking = List.of(Piece.of(TeamColor.CHO, PieceType.CANNON));
+            BlockingPieces blockingPieces = new BlockingPieces(blocking);
+
+            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+            assertThat(canJumpTo).isFalse();
+        }
+
+        @Test
+        public void 포는_도착지에_상대방의_포가_있으면_잡을수_없다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgePawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            Piece targetCannon = Piece.of(TeamColor.HAN, PieceType.CANNON);
+
+            List<Piece> blocking = List.of(bridgePawn, targetCannon);
+            BlockingPieces blockingPieces = new BlockingPieces(blocking);
+
+            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+            assertThat(canJumpTo).isFalse();
+        }
+
+        @Test
+        public void 포는_도착지에_같은팀_기물이_있으면_이동할수_없다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgeRook = Piece.of(TeamColor.HAN, PieceType.ROOK);
+            Piece targetHorse = Piece.of(TeamColor.CHO, PieceType.HORSE);
+
+            List<Piece> blocking = List.of(bridgeRook, targetHorse);
+            BlockingPieces blockingPieces = new BlockingPieces(blocking);
+
+            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+            assertThat(canJumpTo).isFalse();
+        }
+
+
+        @Test
+        public void 포는_일반_다리를_넘어_빈칸으로_정상적으로_이동가능하다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgePawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+
+            List<Piece> blocking = List.of(bridgePawn);
+            BlockingPieces blockingPieces = new BlockingPieces(blocking);
+
+            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+            assertThat(canJumpTo).isTrue();
+        }
+
+        @Test
+        public void 포는_일반_다리를_넘어_도착지에_있는_적군기물을_포획가능하다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgeHorse = Piece.of(TeamColor.CHO, PieceType.HORSE);
+            Piece targetRook = Piece.of(TeamColor.HAN, PieceType.ROOK);
+
+            List<Piece> blocking = List.of(bridgeHorse, targetRook);
+            BlockingPieces blockingPieces = new BlockingPieces(blocking);
+
+            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+
+            assertThat(canJumpTo).isTrue();
+        }
     }
-
-    @Test
-    public void 포은_장애물이_포이면_지나갈수_없다(){
-        MoveStrategy moveStrategy = new PawnMoveStrategy();
-
-        List<Piece> blocking = List.of(Piece.of(TeamColor.CHO, PieceType.CANNON));
-        BlockingPieces blockingPieces = new BlockingPieces(blocking);
-        boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
-
-        assertThat(canJumpTo).isFalse();
-    }
-}
