@@ -3,5 +3,5 @@ package movepolicy.destination;
 import pieces.Piece;
 
 public interface DestinationRule {
-    boolean validateDestination(Piece departurePiece, Piece destinationPiece);
+    void validateDestination(Piece departurePiece, Piece destinationPiece);
 }
