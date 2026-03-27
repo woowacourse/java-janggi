@@ -1,13 +1,8 @@
 package strategy.move;
 
-import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
-import domain.Piece;
-import domain.Position;
-import domain.Route;
 import domain.TeamColor;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PawnMoveStrategy implements MoveStrategy{
@@ -29,19 +24,4 @@ public class PawnMoveStrategy implements MoveStrategy{
                 new MovePath(List.of(Direction.WEST))
         );
     }
-
-    @Override
-    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
-        if (blockingPieces.size() == 0) {
-            return true;
-        }
-
-        if (blockingPieces.size() == 1) {
-            TeamColor targetTeam = blockingPieces.getFirstBlockingTeamColor();
-            return targetTeam != myTeam;
-        }
-
-        return false;
-    }
-
 }

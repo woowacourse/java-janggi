@@ -1,6 +1,5 @@
 package strategy.move;
 
-import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.TeamColor;
@@ -18,21 +17,6 @@ public class RookMoveStrategy implements MoveStrategy {
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {
         return PATHS;
-    }
-
-
-    @Override
-    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
-        if (blockingPieces.size() == 0) {
-            return true;
-        }
-
-        if (blockingPieces.size() == 1) {
-            TeamColor targetTeam = blockingPieces.getFirstBlockingTeamColor();
-            return targetTeam != myTeam;
-        }
-
-        return false;
     }
 
 }

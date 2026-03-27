@@ -1,10 +1,13 @@
 package strategy.move;
 
-import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
+import domain.Piece;
+import domain.PieceType;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
+import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -21,21 +24,29 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canJump(BlockingPieces blockingPieces, TeamColor myTeam) {
-        if (blockingPieces.size() == 0) {
+    public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
+        if (blockingPieces.isEmpty()) {
             return false;
         }
 
-        if (blockingPieces.isFirstPieceCannon()) {
+        if (blockingPieces.size() != 1) {
             return false;
         }
 
-        if (blockingPieces.size() == 2) {
-            if (blockingPieces.isLastPieceCannon() || blockingPieces.isLastPieceSameTeam(myTeam)) {
-                return false;
-            }
+        Piece bridgePiece = blockingPieces.getFirst();
+        if (bridgePiece.getPieceType() == PieceType.CANNON) {
+            return false;
         }
 
-        return true;
+        if (destinationPiece.isEmpty()) {
+            return true;
+        }
+
+        Piece targetPiece = destinationPiece.get();
+        if (targetPiece.getPieceType() == PieceType.CANNON) {
+            return false;
+        }
+
+        return targetPiece.getTeamColor() != myTeam;
     }
 }

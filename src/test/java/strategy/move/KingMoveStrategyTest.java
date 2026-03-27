@@ -1,6 +1,5 @@
 package strategy.move;
 
-import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -9,6 +8,7 @@ import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -60,23 +60,26 @@ public class KingMoveStrategyTest {
         @Test
         public void 왕은_장애물이_없으면_지나갈수_있다(){
             MoveStrategy moveStrategy = new PawnMoveStrategy();
+            Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
-            List<Piece> blocking = List.of();
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
-            boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
 
-            assertThat(canJumpTo).isTrue();
+            assertThat(canMove).isTrue();
         }
 
         @Test
         public void 왕은_장애물이_하나라도_있으면_지나갈수_없다(){
             MoveStrategy moveStrategy = new PawnMoveStrategy();
+            Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
-            List<Piece> blocking = List.of(Piece.of(TeamColor.CHO, PieceType.CANNON));
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
-            boolean canJumpTo  = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(
+                    route,
+                    List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
+                    Optional.empty(),
+                    TeamColor.CHO
+            );
 
-            assertThat(canJumpTo).isFalse();
+            assertThat(canMove).isFalse();
         }
     }
 

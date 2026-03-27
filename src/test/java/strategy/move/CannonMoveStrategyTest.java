@@ -1,12 +1,14 @@
 package strategy.move;
 
-import domain.BlockingPieces;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.PieceType;
+import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -50,23 +52,24 @@ public class CannonMoveStrategyTest {
         @Test
         public void 포는_다리가_되는_기물이_하나도_없으면_지나갈수_없다(){
             MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
 
-            List<Piece> blocking = List.of();
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
-
-            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
-            assertThat(canJumpTo).isFalse();
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            assertThat(canMove).isFalse();
         }
 
         @Test
         public void 포는_다리가_되는_기물이_포이면_지나갈수_없다(){
             MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
 
-            List<Piece> blocking = List.of(Piece.of(TeamColor.CHO, PieceType.CANNON));
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
-
-            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
-            assertThat(canJumpTo).isFalse();
+            boolean canMove = moveStrategy.canMove(
+                    route,
+                    List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
+                    Optional.empty(),
+                    TeamColor.CHO
+            );
+            assertThat(canMove).isFalse();
         }
 
         @Test
@@ -76,11 +79,13 @@ public class CannonMoveStrategyTest {
             Piece bridgePawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
             Piece targetCannon = Piece.of(TeamColor.HAN, PieceType.CANNON);
 
-            List<Piece> blocking = List.of(bridgePawn, targetCannon);
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
-
-            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
-            assertThat(canJumpTo).isFalse();
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgePawn),
+                    Optional.of(targetCannon),
+                    TeamColor.CHO
+            );
+            assertThat(canMove).isFalse();
         }
 
         @Test
@@ -90,11 +95,13 @@ public class CannonMoveStrategyTest {
             Piece bridgeRook = Piece.of(TeamColor.HAN, PieceType.ROOK);
             Piece targetHorse = Piece.of(TeamColor.CHO, PieceType.HORSE);
 
-            List<Piece> blocking = List.of(bridgeRook, targetHorse);
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
-
-            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
-            assertThat(canJumpTo).isFalse();
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgeRook),
+                    Optional.of(targetHorse),
+                    TeamColor.CHO
+            );
+            assertThat(canMove).isFalse();
         }
 
         @Test
@@ -102,11 +109,14 @@ public class CannonMoveStrategyTest {
             MoveStrategy moveStrategy = new CannonMoveStrategy();
 
             Piece bridgePawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
-            List<Piece> blocking = List.of(bridgePawn);
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
 
-            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
-            assertThat(canJumpTo).isTrue();
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgePawn),
+                    Optional.empty(),
+                    TeamColor.CHO
+            );
+            assertThat(canMove).isTrue();
         }
 
         @Test
@@ -116,11 +126,13 @@ public class CannonMoveStrategyTest {
             Piece bridgeHorse = Piece.of(TeamColor.CHO, PieceType.HORSE);
             Piece targetRook = Piece.of(TeamColor.HAN, PieceType.ROOK);
 
-            List<Piece> blocking = List.of(bridgeHorse, targetRook);
-            BlockingPieces blockingPieces = new BlockingPieces(blocking);
-
-            boolean canJumpTo = moveStrategy.canJump(blockingPieces, TeamColor.CHO);
-            assertThat(canJumpTo).isTrue();
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgeHorse),
+                    Optional.of(targetRook),
+                    TeamColor.CHO
+            );
+            assertThat(canMove).isTrue();
         }
     }
 }
