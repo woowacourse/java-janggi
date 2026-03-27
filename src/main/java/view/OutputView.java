@@ -19,20 +19,7 @@ public class OutputView {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
 
-    public List<List<String>> createStringBoard(Board board) {
-        List<List<String>> stringBoard = new ArrayList<>();
-
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            List<String> lineOfStringBoard = makeLineOfStringBoard(row, board);
-            stringBoard.add(lineOfStringBoard);
-        }
-
-        return stringBoard;
-    }
-
     public void printBoard(Board board) {
-//        validateBoard(board);
-//        System.out.println();
         List<List<String>> stringBoard = createStringBoard(board);
         printColumnHeader();
         for (int y = 0; y < 9; y++) {
@@ -49,6 +36,17 @@ public class OutputView {
 
     public void printPlayerTurnMessage(String name, String team) {
         System.out.println(name + "(" + team + ")" + "님의 차례입니다.");
+    }
+
+    private List<List<String>> createStringBoard(Board board) {
+        List<List<String>> stringBoard = new ArrayList<>();
+
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            List<String> lineOfStringBoard = makeLineOfStringBoard(row, board);
+            stringBoard.add(lineOfStringBoard);
+        }
+
+        return stringBoard;
     }
 
     private void printColumnHeader() {
@@ -102,17 +100,6 @@ public class OutputView {
         return String.format("[%2s]", pieceString);
 
     }
-//
-//    private void validateBoard(List<List<String>> board) {
-//        if (board == null || board.size() != HEIGHT) {
-//            throw new IllegalArgumentException("보드는 세로 10줄이어야 합니다.");
-//        }
-//        for (List<String> row : board) {
-//            if (row == null || row.size() != WIDTH) {
-//                throw new IllegalArgumentException("각 행은 가로 9칸이어야 합니다.");
-//            }
-//        }
-//    }
 
     private List<String> makeLineOfStringBoard(int row, Board board) {
         List<String> lineOfStringBoard = new ArrayList<>();
