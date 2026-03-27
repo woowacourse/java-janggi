@@ -6,29 +6,25 @@ import domain.vo.Arrangement;
 import domain.vo.Arrangements;
 import domain.vo.Team;
 import io.OutputView;
-import java.util.Map;
 
 public class ReadyState implements GameState {
-    private final Map<Team, Arrangement> arrangements;
+    private final Arrangements arrangements;
 
-    public ReadyState(Map<Team, Arrangement> arrangements) {
-        this.arrangements =  arrangements;
+    public ReadyState(Arrangements arrangements) {
+        this.arrangements = arrangements;
     }
 
     @Override
     public GameState handle(JanggiGame game, Command command) {
-        Com
-        arrangements.putIfAbsent()
+        Arrangement arrangement = Arrangement.toArrangement(command.getValue());
 
+        if (!arrangements.hasArrangementFor(Team.HAN)) {
+            Arrangements nextArrangements = arrangements.assignArrangement(Team.HAN, arrangement);
+            return new ReadyState(nextArrangements);
+        }
 
-        Arrangements arrangements = new Arrangements(
-                readArrangement(Team.HAN),
-                readArrangement(Team.CHO)
-        );
-
-        game.setupBoard(arrangements);
-
-        return null;
+        game.setupBoard(arrangements.assignArrangement(Team.CHO, arrangement));
+        return new PlayingState();
     }
 
 

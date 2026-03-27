@@ -1,23 +1,43 @@
 package domain.vo;
 
-public class Arrangements {
-    private final Arrangement hanArrangement;
-    private final Arrangement choArrangement;
+import java.util.EnumMap;
+import java.util.Map;
 
-    public Arrangements(Arrangement hanArrangement, Arrangement choArrangement) {
-        this.hanArrangement = hanArrangement;
-        this.choArrangement = choArrangement;
+public class Arrangements {
+    private static final String ERROR_ARRANGEMENT_NOT_FOUND = "[ERROR] 해당 팀의 배치가 없습니다.";
+
+    private final Map<Team, Arrangement> arrangements;
+
+    public Arrangements() {
+        this.arrangements = new EnumMap<>(Team.class);
     }
 
-    public static Arrangements empty() {
-        return new Arrangements(null, null);
+    public Arrangements(Map<Team, Arrangement> arrangements) {
+        this.arrangements = new EnumMap<>(arrangements);
+    }
+
+    public Arrangements assignArrangement(Team team, Arrangement arrangement) {
+        arrangements.put(team, arrangement);
+        return new Arrangements(new EnumMap<>(arrangements));
+    }
+
+    public boolean hasArrangementFor(Team team) {
+        return arrangements.containsKey(team);
     }
 
     public Arrangement getHan() {
-        return hanArrangement;
+        return get(Team.HAN);
     }
 
     public Arrangement getCho() {
-        return choArrangement;
+        return get(Team.CHO);
+    }
+
+    private Arrangement get(Team team) {
+        Arrangement arrangement = arrangements.get(team);
+        if (arrangement != null) {
+            return arrangement;
+        }
+        throw new IllegalArgumentException(ERROR_ARRANGEMENT_NOT_FOUND);
     }
 }

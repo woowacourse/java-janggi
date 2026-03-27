@@ -7,21 +7,24 @@ import domain.vo.Arrangements;
 import domain.vo.Coordinate;
 import domain.vo.Team;
 import io.OutputView;
-import java.util.EnumMap;
 
 public class JanggiGame {
     private Turn turn;
     private GameState gameState;
     private Board board;
 
-    public void setupBoard(Arrangements arrangements) {
-        this.board = Board.of(arrangements);
-        this.turn = new Turn(Team.CHO);
-        this.gameState = new ReadyState(new EnumMap<>(Team.class));
+    public JanggiGame() {
+        this.turn = new Turn(Team.HAN);
+        this.gameState = new ReadyState(new Arrangements());
     }
 
     public void processCommand(Command command) {
         gameState = gameState.handle(this, command);
+    }
+
+    public void setupBoard(Arrangements arrangements) {
+        this.board = Board.of(arrangements);
+        this.turn = new Turn(Team.CHO);
     }
 
     public Board getBoard() {

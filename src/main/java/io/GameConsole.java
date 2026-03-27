@@ -41,7 +41,6 @@ public class GameConsole {
         while (true) {
             janggiGame.displayRequestCommand(outputView);
             janggiGame.processCommand(inputView.readCommand());
-
             break;
         }
     }
