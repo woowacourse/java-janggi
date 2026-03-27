@@ -18,9 +18,6 @@ public class PoMovementStrategy implements MovementStrategy {
         if (pathPieces.getDestPiece() instanceof Po) {
             return false;
         }
-        if (pathPieces.getSrcPiece().isSameTeam(pathPieces.getDestPiece())) {
-            return false;
-        }
-        return true;
+        return !pathPieces.getSrcPiece().isSameTeam(pathPieces.getDestPiece());
     }
 }
