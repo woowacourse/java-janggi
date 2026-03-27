@@ -50,6 +50,11 @@ public class CannonMoveStrategy implements MoveStrategy {
         return false;
     }
 
+    private boolean isCannon(Board board, int row, int col) {
+        if (board.findPieceByPosition(Position.of(row, col)).isEmpty()) return false;
+        return board.findPieceByPosition(Position.of(row, col)).get().getType() == Type.CANNON;
+    }
+
     private int determineNx(Position from, Position to) {
         if (from.getRow() < to.getRow()) {
             return 1;
@@ -69,11 +74,6 @@ public class CannonMoveStrategy implements MoveStrategy {
         }
 
         return 0;
-    }
-
-    private boolean isCannon(Board board, int row, int col) {
-        if (board.findPieceByPosition(Position.of(row, col)).isEmpty()) return false;
-        return board.findPieceByPosition(Position.of(row, col)).get().getType() == Type.CANNON;
     }
 
     private boolean isNotCorrectPath(Position from, Position to) {
