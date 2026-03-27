@@ -8,6 +8,7 @@ import java.util.List;
 
 public class None extends BasePiece {
     private static final String IMMOVABLE_PIECE_MESSAGE = "이동할 수 없는 말입니다.";
+
     public None() {
         super(Side.EMPTY, PieceType.NONE);
     }

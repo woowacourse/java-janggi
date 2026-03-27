@@ -9,10 +9,16 @@ import java.util.List;
 
 public interface Piece {
     List<Position> findRoute(Position start, Position end);
+
     void validateRoute(List<Position> path, BoardInterface boardInterface);
+
     boolean isPo();
+
     boolean isGung();
+
     boolean isEqualPieceType(PieceType pieceType);
+
     boolean isEqualSide(Side side);
+
     PieceInfo getPieceInfo();
 }

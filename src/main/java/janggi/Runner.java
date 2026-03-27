@@ -27,7 +27,7 @@ public class Runner {
     }
 
     private void turnGame() {
-        while(true) {
+        while (true) {
             playTurnGame();
         }
     }
@@ -47,7 +47,7 @@ public class Runner {
         }
     }
 
-    private void printCurrentStatus(){
+    private void printCurrentStatus() {
         OutputView.printBoard(game.getCurrentBoardDto());
         OutputView.printTurn(game.getCurrentSide());
     }

@@ -14,7 +14,7 @@ public abstract class Started implements PlayerTurn {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 
@@ -24,7 +24,7 @@ public abstract class Started implements PlayerTurn {
     }
 
     @Override
-    public Side getCurrentSide(){
+    public Side getCurrentSide() {
         return side;
     }
 }

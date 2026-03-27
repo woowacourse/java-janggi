@@ -17,18 +17,18 @@ public class InputView {
         return scanner.nextLine();
     }
 
-    public static String askChoArrangement(){
+    public static String askChoArrangement() {
         System.out.println(CHO_ARRANGEMENT_MESSAGE);
         return scanner.nextLine();
     }
 
-    public static List<String> askStartPosition(){
+    public static List<String> askStartPosition() {
         System.out.println(START_POSITION_MESSAGE);
         String input = scanner.nextLine();
         return Arrays.stream(input.split(BASE_DELIMITER)).map(String::trim).toList();
     }
 
-    public static List<String> askEndPosition(){
+    public static List<String> askEndPosition() {
         System.out.println(END_POSITION_MESSAGE);
         String input = scanner.nextLine();
         return Arrays.stream(input.split(BASE_DELIMITER)).map(String::trim).toList();

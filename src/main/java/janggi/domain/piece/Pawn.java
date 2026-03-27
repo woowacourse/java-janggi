@@ -23,7 +23,7 @@ public class Pawn extends ActivePiece {
         return new Pawn(side, moveRange);
     }
 
-    private static List<Movement> calculateForwardMovement(Side side){
+    private static List<Movement> calculateForwardMovement(Side side) {
         if (side.equals(Side.CHO)) {
             return List.of(Movement.UP);
         }
@@ -43,7 +43,7 @@ public class Pawn extends ActivePiece {
 
     @Override
     public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if(!routePolicy.isMovable(path, side, boardInterface)){
+        if (!routePolicy.isMovable(path, side, boardInterface)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }

@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.params.provider.Arguments;
 
 class BoardInitializerTest {
@@ -55,7 +56,7 @@ class BoardInitializerTest {
     );
 
     private static final List<Position> initialHanMaSangPosition = List.of(
-             new Position(1, 2),
+            new Position(1, 2),
             new Position(1, 3),
             new Position(1, 7),
             new Position(1, 8)
@@ -111,7 +112,7 @@ class BoardInitializerTest {
     void 장기판은_초_진영의_마상_포진을_반영한다(Arrangement arrangement, List<Class<? extends Piece>> pieceTypeList) {
         Map<Position, Piece> board = BoardInitializer.createBoard(arrangement, Arrangement.마상마상);
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             assertPiece(board, initialChoMaSangPosition.get(i), pieceTypeList.get(i), Side.CHO);
         }
     }
@@ -121,7 +122,7 @@ class BoardInitializerTest {
     void 장기판은_한_진영의_마상_포진을_반영한다(Arrangement arrangement, List<Class<? extends Piece>> pieceTypeList) {
         Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.마상마상, arrangement);
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             assertPiece(board, initialHanMaSangPosition.get(i), pieceTypeList.get(i), Side.HAN);
         }
     }

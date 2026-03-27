@@ -33,7 +33,7 @@ public abstract class BasePiece implements Piece {
     }
 
     @Override
-    public PieceInfo getPieceInfo(){
+    public PieceInfo getPieceInfo() {
         return new PieceInfo(side, pieceType);
     }
 }

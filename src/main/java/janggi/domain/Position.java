@@ -22,12 +22,12 @@ public record Position(int x, int y) {
 
             validate(r, c);
             return new Position(r, c);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException(INVALID_POSITION_TYPE);
         }
     }
 
-    private static void validateSize(List<String> inputs){
+    private static void validateSize(List<String> inputs) {
         if (inputs.size() != 2) {
             throw new IllegalArgumentException(INVALID_POSITION_SIZE);
         }
@@ -39,13 +39,13 @@ public record Position(int x, int y) {
     }
 
     private static void validateRow(int x) {
-        if(x < BOARD_START_ROWS || x > BOARD_END_ROWS){
+        if (x < BOARD_START_ROWS || x > BOARD_END_ROWS) {
             throw new IllegalArgumentException(INVALID_ROW_RANGE);
         }
     }
 
     private static void validateCol(int y) {
-        if(y < BOARD_START_COLS || y > BOARD_END_COLS) {
+        if (y < BOARD_START_COLS || y > BOARD_END_COLS) {
             throw new IllegalArgumentException(INVALID_COL_RANGE);
         }
     }
@@ -55,7 +55,7 @@ public record Position(int x, int y) {
     }
 
     public int calculateDistance(Position position, boolean isVertical) {
-        if(isVertical){
+        if (isVertical) {
             return position.x - this.x;
         }
         return position.y - this.y;

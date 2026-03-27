@@ -12,10 +12,10 @@ public class OutputView {
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
 
-    private static final String TURN_PREFIX= "현재 턴: ";
+    private static final String TURN_PREFIX = "현재 턴: ";
     private static final String ERROR_PREFIX = "[ERROR] ";
 
-    public static void printBoard(BoardDto boardDto){
+    public static void printBoard(BoardDto boardDto) {
         PieceInfo[][] board = boardDto.board();
         StringBuilder result = new StringBuilder();
         result.append(buildColumnHeader(board[0].length));
@@ -23,15 +23,15 @@ public class OutputView {
         System.out.print(result);
     }
 
-    public static void printTurn(Side side){
+    public static void printTurn(Side side) {
         System.out.println(TURN_PREFIX + side.getName());
     }
 
-    public static void printWinner(Side winnerSide){
+    public static void printWinner(Side winnerSide) {
         System.out.printf("%s 승리!%n", winnerSide.getName());
     }
 
-    public static void printErrorMessage(String errorMessage){
+    public static void printErrorMessage(String errorMessage) {
         System.out.println(ERROR_PREFIX + errorMessage);
     }
 
@@ -89,7 +89,7 @@ public class OutputView {
         if (isEmpty(pieceInfo)) {
             return "  " + EMPTY_CELL + "  ";
         }
-        return " " + colorize(pieceInfo.pieceType().getName(), pieceInfo.side()) + "  " ;
+        return " " + colorize(pieceInfo.pieceType().getName(), pieceInfo.side()) + "  ";
     }
 
     private static String colorize(String pieceName, Side side) {

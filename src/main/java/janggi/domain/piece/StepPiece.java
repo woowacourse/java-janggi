@@ -28,7 +28,7 @@ public abstract class StepPiece extends ActivePiece {
 
     @Override
     public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if(!routePolicy.isMovable(path, side, boardInterface)) {
+        if (!routePolicy.isMovable(path, side, boardInterface)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }

@@ -71,7 +71,7 @@ public class BoardInitializer {
         List<PieceType> choMaSangPieceOrder = arrangeMap.get(choArrangement);
         List<PieceType> hanMaSangPieceOrder = arrangeMap.get(hanArrangement);
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             board.put(choMaSangPosition.get(i), pieceMap.get(choMaSangPieceOrder.get(i)).apply(Side.CHO));
             board.put(hanMaSangPosition.get(i), pieceMap.get(hanMaSangPieceOrder.get(i)).apply(Side.HAN));
         }

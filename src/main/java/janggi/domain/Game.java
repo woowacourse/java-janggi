@@ -13,11 +13,11 @@ public class Game {
         this.playerTurn = new ChoTurn(new Board(BoardInitializer.createBoard(choArrangement, hanArrangement)));
     }
 
-    public void move(Position start, Position end){
+    public void move(Position start, Position end) {
         playerTurn = playerTurn.move(start, end);
     }
 
-    public boolean isFinished(){
+    public boolean isFinished() {
         return playerTurn.isFinished();
     }
 
