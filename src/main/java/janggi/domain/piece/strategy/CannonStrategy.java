@@ -17,37 +17,37 @@ public class CannonStrategy implements MoveStrategy{
         //row
         for (int i = current.row() + 2; i <= 9; i++) {
             List<Position> route = new ArrayList<>();
-            for (int j = current.row() + 1; j <= i; j++) {
-                route.add(Position.of(j, currentCol));
+            for (int row = current.row() + 1; row <= i; row++) {
+                route.add(Position.of(row, currentCol));
             }
             Position destination = route.removeLast();
-            paths.add(new Path(route, destination));
+            paths.add(new Path(List.copyOf(route), destination));
         }
         for (int i = current.row() - 2; i >= 0; i--) {
             List<Position> route = new ArrayList<>();
-            for (int j = current.row() - 1; j >= i; j--) {
-                route.add(Position.of(j, currentCol));
+            for (int row = current.row() - 1; row >= i; row--) {
+                route.add(Position.of(row, currentCol));
             }
             Position destination = route.removeLast();
-            paths.add(new Path(route, destination));
+            paths.add(new Path(List.copyOf(route), destination));
         }
 
         //column
         for (int i = current.column() + 2; i < 9; i++) {
             List<Position> route = new ArrayList<>();
-            for (int j = current.column() + 1; j <= i; j++) {
-                route.add(Position.of(currentRow, j));
+            for (int col = current.column() + 1; col <= i; col++) {
+                route.add(Position.of(currentRow, col));
             }
             Position destination = route.removeLast();
-            paths.add(new Path(route, destination));
+            paths.add(new Path(List.copyOf(route), destination));
         }
         for (int i = current.column() - 2; i >= 0; i--) {
             List<Position> route = new ArrayList<>();
-            for (int j = current.column() - 1; j >= i; j--) {
-                route.add(Position.of(currentRow, j));
+            for (int col = current.column() - 1; col >= i; col--) {
+                route.add(Position.of(currentRow, col));
             }
             Position destination = route.removeLast();
-            paths.add(new Path(route, destination));
+            paths.add(new Path(List.copyOf(route), destination));
         }
         return Collections.unmodifiableList(paths);
     }
