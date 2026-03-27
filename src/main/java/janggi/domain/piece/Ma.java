@@ -17,8 +17,8 @@ public class Ma extends BasePiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getX() - from.getX();
-        int pathY = to.getY() - from.getY();
+        int pathX = Point.getPathX(from, to);
+        int pathY = Point.getPathY(from, to);
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
