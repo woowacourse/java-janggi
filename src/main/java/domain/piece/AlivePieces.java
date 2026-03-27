@@ -13,6 +13,18 @@ public class AlivePieces {
         this.alivePieces = new HashMap<>(alivePieces);
     }
 
+    public void replace(
+            Intersection from,
+            Intersection to
+    ) {
+        if (isEmpty(from)) {
+            return;
+        }
+
+        Piece piece = alivePieces.remove(from);
+        alivePieces.put(to, piece);
+    }
+
     public boolean isEmpty(Intersection intersection) {
         return !alivePieces.containsKey(intersection);
     }
