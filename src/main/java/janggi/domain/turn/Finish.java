@@ -5,8 +5,8 @@ import janggi.domain.Side;
 import janggi.domain.board.Board;
 
 public class Finish extends Started {
-    public Finish(Board board, Side winnerSide) {
-        super(board, winnerSide);
+    public Finish(Board board) {
+        super(board, Side.EMPTY);
     }
 
     @Override
@@ -17,10 +17,5 @@ public class Finish extends Started {
     @Override
     public boolean isFinished() {
         return true;
-    }
-
-    @Override
-    public Side getWinnerSide() {
-        return winnerSide;
     }
 }

@@ -6,7 +6,7 @@ import janggi.domain.board.Board;
 
 public class HanTurn extends Started {
     public HanTurn(Board board) {
-        super(board, Side.EMPTY);
+        super(board, Side.HAN);
     }
 
     @Override
@@ -14,6 +14,6 @@ public class HanTurn extends Started {
         if(board.move(start, end)) {
             return new ChoTurn(board);
         }
-        return new Finish(board, Side.HAN);
+        return new Finish(board);
     }
 }

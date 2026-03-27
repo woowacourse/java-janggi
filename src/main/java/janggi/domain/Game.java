@@ -25,7 +25,7 @@ public class Game {
         return new BoardDto(playerTurn.getCurrentBoard());
     }
 
-    public Side getWinnerSide() {
-        return playerTurn.getWinnerSide();
+    public Side getCurrentSide() {
+        return playerTurn.getCurrentSide();
     }
 }

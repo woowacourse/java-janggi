@@ -8,5 +8,5 @@ public interface PlayerTurn {
     PlayerTurn move(Position start, Position end);
     boolean isFinished();
     PieceInfo[][] getCurrentBoard();
-    Side getWinnerSide();
+    Side getCurrentSide();
 }

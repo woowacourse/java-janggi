@@ -6,11 +6,11 @@ import janggi.domain.board.Board;
 
 public abstract class Started implements PlayerTurn {
     protected final Board board;
-    protected final Side winnerSide;
+    protected final Side side;
 
-    public Started(Board board, Side winnerSide) {
+    public Started(Board board, Side side) {
         this.board = board;
-        this.winnerSide = winnerSide;
+        this.side = side;
     }
 
     @Override
@@ -24,7 +24,7 @@ public abstract class Started implements PlayerTurn {
     }
 
     @Override
-    public Side getWinnerSide(){
-        throw new IllegalStateException("게임이 아직 끝나지 않았습니다.");
+    public Side getCurrentSide(){
+        return side;
     }
 }
