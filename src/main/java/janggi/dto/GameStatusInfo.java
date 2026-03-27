@@ -2,30 +2,41 @@ package janggi.dto;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.status.Team;
+import java.util.ArrayList;
 import java.util.List;
 
 public record GameStatusInfo(
-        List<List<String>> pieces
+        List<List<PieceInfo>> pieces
 ) {
     public static GameStatusInfo from(List<List<Piece>> board) {
         return new GameStatusInfo(
                 board.stream()
-                        .map(GameStatusInfo::getPieceNames)
+                        .map(GameStatusInfo::toPieceInfos)
                         .toList()
                         .reversed()
         );
     }
 
-    private static List<String> getPieceNames(List<Piece> row) {
-        return row.stream()
-                .map(point -> {
-                    if (point == null) {
-                        return "\u001B[0m+";
-                    }
-                    if (point.isSameTeam(Team.CHO)) {
-                        return "\u001B[32m" + point.getType().getName() + "\u001B[0m";
-                    }
-                    return "\u001B[31m" + point.getType().getName() + "\u001B[0m";
-                }).toList();
+    private static List<PieceInfo> toPieceInfos(List<Piece> row) {
+        List<PieceInfo> pieceInfos = new ArrayList<>();
+
+        for (Piece piece : row) {
+            pieceInfos.add(createPieceInfo(piece));
+        }
+        return pieceInfos;
+    }
+
+    private static PieceInfo createPieceInfo(Piece piece) {
+        if (piece == null) {
+            return new PieceInfo("+", null);
+        }
+        return new PieceInfo(piece.getType().getName(), extractTeam(piece));
+    }
+
+    private static Team extractTeam(Piece piece) {
+        if (piece.isSameTeam(Team.HAN)) {
+            return Team.HAN;
+        }
+        return Team.CHO;
     }
 }
