@@ -28,11 +28,6 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canMove(Map<Position, Piece> board, Position from, Position to) {
-        return false;
-    }
-
-    @Override
     public PieceType pieceType() {
         return PieceType.SOLDIER;
     }

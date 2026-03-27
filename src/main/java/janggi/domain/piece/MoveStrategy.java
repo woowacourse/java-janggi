@@ -9,8 +9,6 @@ public interface MoveStrategy {
 
     List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty);
 
-    boolean canMove(Map<Position, Piece> board, Position from, Position to);
-
     PieceType pieceType();
 
 }
