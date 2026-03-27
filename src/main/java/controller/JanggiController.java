@@ -1,6 +1,7 @@
 package controller;
 
 import domain.Position;
+import domain.activePiece.ActivePiece;
 import domain.board.LeftGwimaFactory;
 import domain.board.RightGwimaFactory;
 import domain.board.WonangmaFactory;
@@ -42,7 +43,8 @@ public class JanggiController {
         Position src = new Position(Integer.parseInt(movePositions.get(0)), Integer.parseInt(movePositions.get(1)));
         Position dest = new Position(Integer.parseInt(movePositions.get(0)), Integer.parseInt(movePositions.get(1)));
         if (board.get(src).canMove(src, dest)) {
-            //List <Position> routes = board.get(src).searchRoute(src, dest);
+            ActivePiece piece = (ActivePiece) board.get(src);
+            List <Position> routes = piece.searchRoute(src, dest);
         }
     }
 
