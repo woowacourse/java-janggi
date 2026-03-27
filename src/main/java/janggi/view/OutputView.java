@@ -11,20 +11,20 @@ public class OutputView {
         System.out.println(message);
     }
 
-    public void printNewLine() {
+    public static void printNewLine() {
         System.out.println();
     }
 
-    public void printStartMessage() {
+    public static void printStartMessage() {
         printMessage("장기 게임을 시작합니다.");
         printNewLine();
     }
 
-    public void printBoard(List<BoardSpot> boardSpots) {
+    public static void printBoard(List<BoardSpot> boardSpots) {
         System.out.println(makeBoard(boardSpots));
     }
 
-    private String makeBoard(List<BoardSpot> boardSpots) {
+    private static String makeBoard(List<BoardSpot> boardSpots) {
         Map<String, String> boardSpotMap = makeBoardSpotMap(boardSpots);
         StringBuilder builder = new StringBuilder();
         builder.append(makeHeader());
@@ -34,7 +34,7 @@ public class OutputView {
         return builder.toString();
     }
 
-    private String makeHeader() {
+    private static String makeHeader() {
         StringBuilder builder = new StringBuilder("    ");
         for (int x = 1; x <= 9; x++) {
             builder.append(String.format("%-3s", x));
@@ -43,7 +43,7 @@ public class OutputView {
         return builder.toString();
     }
 
-    private String makeRow(Map<String, String> boardSpotMap, int y) {
+    private static String makeRow(Map<String, String> boardSpotMap, int y) {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("%2d ", y));
         for (int x = 1; x <= 9; x++) {
@@ -53,7 +53,7 @@ public class OutputView {
         return builder.toString();
     }
 
-    private Map<String, String> makeBoardSpotMap(List<BoardSpot> boardSpots) {
+    private static Map<String, String> makeBoardSpotMap(List<BoardSpot> boardSpots) {
         Map<String, String> boardSpotMap = new HashMap<>();
         for (BoardSpot boardSpot : boardSpots) {
             boardSpotMap.put(boardSpot.position(), boardSpot.pieceName());
@@ -61,23 +61,23 @@ public class OutputView {
         return boardSpotMap;
     }
 
-    private String findPieceName(Map<String, String> boardSpotMap, int x, int y) {
+    private static String findPieceName(Map<String, String> boardSpotMap, int x, int y) {
         return boardSpotMap.getOrDefault(makeKey(x, y), ".");
     }
 
-    private String makeKey(int x, int y) {
+    private static String makeKey(int x, int y) {
         return x + "," + y;
     }
 
-    public void printTurnNotice(String nowTurn) {
+    public static void printTurnNotice(String nowTurn) {
         printMessage(nowTurn + "의 차례입니다.");
     }
 
-    public void printAskPiecePosition() {
+    public static void printAskPiecePosition() {
         printMessage("움직일 기물의 좌표를 입력해주세요.");
     }
 
-    public void printAskMovePosition(String nickname) {
+    public static void printAskMovePosition(String nickname) {
         printMessage(nickname + "의 목적 좌표를 입력해주세요.");
     }
 }
