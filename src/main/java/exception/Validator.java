@@ -5,7 +5,13 @@ public final class Validator {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("번호를 입력해주세요.");
+            throw new IllegalArgumentException("숫자가 아닙니다.");
+        }
+    }
+
+    public static void validateNumberInRange(int min, int max, int input) {
+        if (input>max || input<min) {
+            throw new IllegalArgumentException("범위 내의 숫자가 아닙니다.");
         }
     }
 }

@@ -10,7 +10,7 @@ class PositionTest {
     @Test
     void 범위_벗어난_좌표_예외_테스트() {
         assertThatThrownBy(() -> Position.create(11, 9))
-                .isInstanceOf(IndexOutOfBoundsException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

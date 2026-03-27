@@ -8,6 +8,7 @@ import service.dto.BoardDto;
 import service.dto.PositionDto;
 
 public class OutputView {
+    public static final String PREFEIX_ERROR_MESSAGE = "[ERROR]";
     private final OutputViewFormatter formatter;
 
     public OutputView(OutputViewFormatter formatter) {
@@ -23,7 +24,7 @@ public class OutputView {
     }
 
     public void printErrorMessage(String message) {
-        System.out.println(message);
+        System.out.println(PREFEIX_ERROR_MESSAGE+message);
     }
 
     public void printCountry(Country country) {

@@ -22,7 +22,7 @@ public class Position {
 
     private void validateBoardSize(int x, int y){
         if (x < MIN_ROW_COL || x > MAX_ROW || y < MIN_ROW_COL || y > MAX_COL) {
-            throw new IndexOutOfBoundsException("좌표 범위를 벗어났습니다.");
+            throw new IllegalArgumentException("좌표 범위를 벗어났습니다.");
         }
     }
 

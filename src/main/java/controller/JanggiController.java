@@ -33,7 +33,7 @@ public class JanggiController {
         Board board = initBoard();
         JanggiGame janggiGame = initJanggiGame(board);
 
-        while(true){
+        while (true) {
             outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
             List<PositionDto> positionDtos = requestMovePiece(janggiGame);
             playTurn(positionDtos, janggiGame, board);
@@ -58,14 +58,29 @@ public class JanggiController {
 
     private Board initBoard() {
         outputView.printGameStartMessage();
-        outputView.printCountry(Country.CHO);
-        int choMasangChoice = doRetry(inputView::requestMaSangPosition);
 
-        outputView.printCountry(Country.HAN);
-        int hanMasangChoice = doRetry(inputView::requestMaSangPosition);
+        List<PieceType> choMasangChoose = initChoMaSang();
+        List<PieceType> hanMasangChoose = initHanMaSang();
 
-        return janggiService.createBoard(choMasangChoice, hanMasangChoice);
+        return janggiService.createBoard(choMasangChoose, hanMasangChoose);
     }
+
+    private List<PieceType> initChoMaSang() {
+        return doRetry(() -> {
+            outputView.printCountry(Country.CHO);
+            int choMaSangChoice = inputView.requestMaSangPosition();
+            return janggiService.createMasang(choMaSangChoice);
+        });
+    }
+
+    private List<PieceType> initHanMaSang() {
+        return doRetry(() -> {
+            outputView.printCountry(Country.HAN);
+            int hanMaSangChoice = inputView.requestMaSangPosition();
+            return janggiService.createMasang(hanMaSangChoice);
+        });
+    }
+
 
     private JanggiGame initJanggiGame(Board board) {
         outputView.printTurnStartMessage();
@@ -87,7 +102,7 @@ public class JanggiController {
 
     private Position requestStartPiecePosition(List<PositionDto> positionDtos) {
         return doRetry(() -> {
-            int choiceStart = inputView.requestStartPiecePosition() - 1;
+            int choiceStart = inputView.requestStartPiecePosition(positionDtos.size()) - 1;
             return Position.create(positionDtos.get(choiceStart).x(), positionDtos.get(choiceStart).y());
         });
     }

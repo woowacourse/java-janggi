@@ -1,12 +1,16 @@
 package view;
 
-import exception.Validator;
 import java.util.List;
 import java.util.Scanner;
+
+import exception.Validator;
 import util.InputParser;
 
 public class InputView {
     private final Scanner scanner;
+    private static final int CHOICE_START_NUMBER = 1;
+    private static final int MASANG_CHOICE__END_NUMBER = 4;
+
 
     public InputView(Scanner scanner) {
         this.scanner = scanner;
@@ -20,7 +24,10 @@ public class InputView {
                 2. 마상마상
                 3. 상마상마
                 4. 상마마상""");
-        return Validator.validateNumber(scanner.nextLine());
+
+        int choice = Validator.validateNumber(scanner.nextLine());
+        Validator.validateNumberInRange(CHOICE_START_NUMBER, 4, choice);
+        return choice;
     }
 
     public String requestPiece() {
@@ -28,9 +35,11 @@ public class InputView {
         return scanner.nextLine();
     }
 
-    public int requestStartPiecePosition() {
+    public int requestStartPiecePosition(int size) {
         System.out.println("\n움직일 기물의 좌표의 번호를 선택해주세요. ");
-        return Validator.validateNumber(scanner.nextLine());
+        int choice = Validator.validateNumber(scanner.nextLine());
+        Validator.validateNumberInRange(CHOICE_START_NUMBER, size, choice);
+        return choice;
     }
 
     public List<Integer> requestMovePosition() {
