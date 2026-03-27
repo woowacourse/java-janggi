@@ -6,29 +6,36 @@ import domain.Piece;
 import domain.PieceType;
 import domain.Route;
 import domain.TeamColor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
-    private static final List<MovePath> PATHS = List.of(
-            new MovePath(List.of(Direction.NORTH)),
-            new MovePath(List.of(Direction.SOUTH)),
-            new MovePath(List.of(Direction.EAST)),
-            new MovePath(List.of(Direction.WEST))
-    );
-
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {
-        return PATHS;
+        List<MovePath> paths = new ArrayList<>();
+
+        addStraightPaths(paths, Direction.NORTH);
+        addStraightPaths(paths, Direction.SOUTH);
+        addStraightPaths(paths, Direction.EAST);
+        addStraightPaths(paths, Direction.WEST);
+
+        return paths;
+    }
+
+    private void addStraightPaths(List<MovePath> paths, Direction direction) {
+        for (int distance = 1; distance <= 9; distance++) {
+            List<Direction> steps = new ArrayList<>();
+            for (int i = 0; i < distance; i++) {
+                steps.add(direction);
+            }
+            paths.add(new MovePath(steps));
+        }
     }
 
     @Override
     public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
-        if (blockingPieces.isEmpty()) {
-            return false;
-        }
-
         if (blockingPieces.size() != 1) {
             return false;
         }
