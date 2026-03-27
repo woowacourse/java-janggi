@@ -56,7 +56,7 @@ public class StraightPathGenerator implements PathGenerator {
         Position current = source;
 
         while (!current.equals(destination)) {
-            current = direction.move(current);
+            current = direction.calculateNextPosition(current);
             path.add(current);
         }
 

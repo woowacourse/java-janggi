@@ -30,7 +30,7 @@ public class ListPathGenerator implements PathGenerator {
             List<Position> waypoints = new ArrayList<>();
             Position current = source;
             for (Direction direction : directionPath) {
-                current = direction.move(current);
+                current = direction.calculateNextPosition(current);
                 waypoints.add(current);
             }
 

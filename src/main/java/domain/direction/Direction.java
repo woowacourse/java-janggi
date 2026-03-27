@@ -21,7 +21,7 @@ public enum Direction {
         this.offsetColumn = offsetColumn;
     }
 
-    public Position move(Position source) {
+    public Position calculateNextPosition(Position source) {
         return new Position(source.row() + this.offsetRow, source.column() + this.offsetColumn);
     }
 }
