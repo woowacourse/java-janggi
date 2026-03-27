@@ -1,6 +1,8 @@
 package domain.piece;
 
+import domain.Board;
 import domain.PieceType;
+import domain.Position;
 import domain.Team;
 
 public abstract class Piece {
@@ -15,4 +17,6 @@ public abstract class Piece {
     public PieceType getType() {
         return this.type;
     }
+
+    abstract boolean canMove(Position from, Position to, Board board);
 }

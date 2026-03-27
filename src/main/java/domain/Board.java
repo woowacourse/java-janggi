@@ -28,4 +28,8 @@ public class Board {
     private void initTeamBoard(InitializeStrategy strategy, Team team) {
         pieces.putAll(strategy.initialize(team));
     }
+
+    public boolean isEmpty(Position position) {
+        return !pieces.containsKey(position);
+    }
 }
