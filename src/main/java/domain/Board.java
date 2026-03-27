@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,11 +51,12 @@ public class Board {
         }
         ;
         // TODO: 포와 졸 이동 로직 추가 필요
-        killPiece(end, endPiece);
+        killPiece(start);
+        killPiece(end);
         board.put(end, startPiece);
     }
 
-    private void killPiece(Position endPosition, Piece endPiece) {
+    private void killPiece(Position endPosition) {
         board.put(endPosition, None.INSTANCE);
     }
 
@@ -76,6 +78,10 @@ public class Board {
             throw new IllegalArgumentException("존재하지 않는 기물입니다. 장기판 위의 기물을 입력해주세요.");
         }
         return positions;
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return Collections.unmodifiableMap(board);
     }
 
     private Piece createPiece(PieceType type, Country country) {
