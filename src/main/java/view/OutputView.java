@@ -6,9 +6,6 @@ public class OutputView {
     private static final int WIDTH = 9;
     private static final int HEIGHT = 10;
 
-    private static final String ANSI_CLS = "\u001b[2J";
-    private static final String ANSI_HOME = "\u001b[H";
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
