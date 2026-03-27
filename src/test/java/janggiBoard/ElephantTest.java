@@ -2,9 +2,7 @@ package janggiBoard;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.Elephant;
-import domain.piece.Horse;
-import domain.piece.PieceProvider;
+import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,6 +59,11 @@ public class ElephantTest {
         @Override
         public boolean isBlank(Position position) {
             return boardState.getOrDefault(position, defaultState);
+        }
+
+        @Override
+        public Piece getPiece(Position position) {
+            return new Blank();
         }
     }
 }

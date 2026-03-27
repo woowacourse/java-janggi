@@ -65,6 +65,7 @@ public class JanggiBoard implements PieceProvider {
         return piece instanceof Blank;
     }
 
+    @Override
     public Piece getPiece(Position position) {
         return janggiBoard.get(position);
     }
