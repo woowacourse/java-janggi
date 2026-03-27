@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Point;
@@ -20,7 +19,8 @@ public class JolTest {
 
         // when & then
         assertThatThrownBy(() -> piece.getRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("뒤로 이동");
     }
 
     @Test
@@ -33,7 +33,8 @@ public class JolTest {
 
         // when & then
         assertThatThrownBy(() -> piece.getRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("뒤로 이동");
     }
 
     @Test
@@ -46,6 +47,21 @@ public class JolTest {
 
         // when & then
         assertThatThrownBy(() -> jol.getRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("한 칸만");
+    }
+
+    @Test
+    @DisplayName("제자리로 이동할 경우 예외 발생")
+    void no_move() {
+        // given
+        Piece jol = new Jol(Team.CHO);
+        Point from = Point.of(3, 3);
+        Point to = Point.of(3, 3);
+
+        // when & then
+        assertThatThrownBy(() -> jol.getRoute(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("제자리");
     }
 }
