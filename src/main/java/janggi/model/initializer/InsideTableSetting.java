@@ -2,8 +2,8 @@ package janggi.model.initializer;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.gimul.Ma;
-import janggi.model.gimul.Sang;
+import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.gimul.diagonalMove.Sang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;

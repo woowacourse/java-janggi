@@ -8,9 +8,9 @@ import janggi.model.position.PositionDelta;
 import janggi.model.position.PositionPath;
 import java.util.List;
 
-public abstract class AbstractPalaceAbstractGimul extends AbstractGimul {
+public abstract class AbstractPalaceGimul extends AbstractGimul {
 
-    public AbstractPalaceAbstractGimul(Team team) {
+    public AbstractPalaceGimul(Team team) {
         super(team);
     }
 
@@ -18,7 +18,7 @@ public abstract class AbstractPalaceAbstractGimul extends AbstractGimul {
     public PositionPath getLegalPath(Position from, Position to) {
         PositionDelta positionDelta = PositionDelta.between(from, to);
 
-        if (positionDelta.isMoreThanOneStepIncludingDiagonal()) {
+        if (positionDelta.isMultiStep()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 

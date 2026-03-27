@@ -1,15 +1,18 @@
-package janggi.model.gimul;
+package janggi.model.gimul.diagonalMove;
 
 import janggi.model.Team;
 import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
 import janggi.model.position.PositionDelta;
 import janggi.model.position.PositionPath;
-import java.util.List;
 
-public class Sang extends AbstractGimul {
+public class Ma extends AbstractDiagonalGimul {
 
-    public Sang(Team team) {
+    private static final int FIRST_MOVE = 1;
+    private static final int SECOND_MOVE = 2;
+
+
+    public Ma(Team team) {
         super(team);
     }
 
@@ -17,15 +20,15 @@ public class Sang extends AbstractGimul {
     public PositionPath getLegalPath(Position from, Position to) {
         PositionDelta positionDelta = PositionDelta.between(from, to);
 
-        if (positionDelta.isMoreThanOneStepAndDoubleDiagonal()) {
+        if (positionDelta.notMatchStepPattern(FIRST_MOVE, SECOND_MOVE)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        int firstDistance = positionDelta.getUnitDistance();
+        int firstDistance = positionDelta.getStepSign();
         PositionPath first = from.moveVertical(firstDistance);
         PositionDelta moved = positionDelta.movedVertically(firstDistance);
 
-        if (positionDelta.isHorizontalLongerThanVertical()) {
+        if (positionDelta.isHorizontalDominant()) {
             first = from.moveHorizontal(firstDistance);
             moved = positionDelta.movedHorizontally(firstDistance);
         }
@@ -38,17 +41,7 @@ public class Sang extends AbstractGimul {
     }
 
     @Override
-    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo) {
-        return gimulsOnPath.isEmpty() && !this.isSameTeam(abstractGimulAtTo);
-    }
-
-    @Override
-    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
-        return gimulsOnPath.isEmpty();
-    }
-
-    @Override
     public String getSymbol() {
-        return "상";
+        return "마";
     }
 }

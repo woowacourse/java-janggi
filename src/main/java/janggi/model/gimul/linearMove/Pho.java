@@ -4,7 +4,7 @@ import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import java.util.List;
 
-public class Pho extends AbstractLinearMoveAbstractGimul {
+public class Pho extends AbstractLinearMoveGimul {
     public Pho(Team team) {
         super(team);
     }

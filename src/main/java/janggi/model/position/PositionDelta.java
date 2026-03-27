@@ -8,10 +8,7 @@ public record PositionDelta(
     private static final int UNIT_STEP = 1;
     private static final int NEGATIVE_UNIT_STEP = -1;
     private static final int NO_MOVEMENT = 0;
-
-    private static final int FIRST_STEP = 1;
     private static final int SECOND_STEP = 2;
-    private static final int THIRD_STEP = 3;
 
     public static PositionDelta between(Position from, Position to) {
         return new PositionDelta(
@@ -34,33 +31,13 @@ public record PositionDelta(
         );
     }
 
-    public boolean isMoreThanOneStep() {
-        return getAbsRowDistance() + getAbsColumnDistance() < SECOND_STEP;
+    public boolean isMultiStep() {
+        return getAbsRowDistance() >= SECOND_STEP || getAbsColumnDistance() >= SECOND_STEP;
     }
 
-    public boolean isMoreThanOneStepIncludingDiagonal() {
-        return getAbsRowDistance() >= 2 || getAbsColumnDistance() >= SECOND_STEP;
-    }
-
-    private boolean isNotStraightThenDiagonal(int straight, int diagonal) {
-        return (getAbsRowDistance() != straight || getAbsColumnDistance() != diagonal) &&
-                (getAbsRowDistance() != diagonal || getAbsColumnDistance() != straight);
-    }
-
-    public boolean isMoreThanOneStepAndDiagonal() {
-        return isNotStraightThenDiagonal(FIRST_STEP, SECOND_STEP);
-    }
-
-    public boolean isMoreThanOneStepAndDoubleDiagonal() {
-        return isNotStraightThenDiagonal(SECOND_STEP, THIRD_STEP);
-    }
-
-    private int getAbsRowDistance() {
-        return Math.abs(rowDistance);
-    }
-
-    private int getAbsColumnDistance() {
-        return Math.abs(columnDistance);
+    public boolean notMatchStepPattern(int first, int second) {
+        return (getAbsRowDistance() != first || getAbsColumnDistance() != second) &&
+                (getAbsRowDistance() != second || getAbsColumnDistance() != first);
     }
 
     public boolean isHorizontal() {
@@ -71,12 +48,13 @@ public record PositionDelta(
         return columnDistance == NO_MOVEMENT;
     }
 
-    public boolean isHorizontalLongerThanVertical() {
+    public boolean isHorizontalDominant() {
         return getAbsColumnDistance() > getAbsRowDistance();
     }
 
-    public int getUnitDistance() {
+    public int getStepSign() {
         int unit = rowDistance;
+
         if (getAbsRowDistance() < getAbsColumnDistance()) {
             unit = columnDistance;
         }
@@ -86,5 +64,13 @@ public record PositionDelta(
         }
 
         return NEGATIVE_UNIT_STEP;
+    }
+
+    private int getAbsRowDistance() {
+        return Math.abs(rowDistance);
+    }
+
+    private int getAbsColumnDistance() {
+        return Math.abs(columnDistance);
     }
 }
