@@ -49,36 +49,54 @@ public class Board {
 
     @Override
     public String toString() {
+        int rowStart = 1;
+        int rowEnd = 10;
+
         StringBuilder sb = new StringBuilder();
 
         sb.append("    1  2  3  4  5  6  7  8  9\n");
         sb.append("  ┌───────────────────────────┐\n");
 
-        for (int row = 1; row <= 10; row++) {
-            int displayRow = row;
-
-            if (row == 10) {
-                displayRow = 0;
-            }
-            sb.append(displayRow).append(" │");
-
-            for (int col = 1; col <= 9; col++) {
-                Position position = new Position(Row.of(row), Column.of(col));
-
-                String symbol = "·";
-                if (board.containsKey(position)) {
-                    AbstractGimul gimul = board.get(position);
-                    symbol = gimul.getSymbol();
-                }
-
-                sb.append(" ").append(String.format("%-2s", symbol));
-            }
-
-            sb.append("│\n");
+        for (int row = rowStart; row <= rowEnd; row++) {
+            sb.append(renderBoardRow(row));
         }
 
         sb.append("  └───────────────────────────┘\n");
         return sb.toString();
+    }
+
+    private StringBuilder renderBoardRow(int row) {
+        StringBuilder sb = new StringBuilder();
+        int colStart = 1;
+        int colEnd = 9;
+        int zeroRow = 0;
+
+        int displayRow = row;
+
+        if (row == colEnd) {
+            displayRow = zeroRow;
+        }
+        sb.append(displayRow).append(" │");
+
+        for (int col = colStart; col <= colEnd; col++) {
+            sb.append(renderBoardColumn(row, col));
+        }
+        sb.append("│\n");
+        return sb;
+    }
+
+    private StringBuilder renderBoardColumn(int row, int col) {
+        StringBuilder sb = new StringBuilder();
+        Position position = new Position(Row.of(row), Column.of(col));
+
+        String symbol = "·";
+        if (board.containsKey(position)) {
+            AbstractGimul gimul = board.get(position);
+            symbol = gimul.getSymbol();
+        }
+
+        sb.append(" ").append(String.format("%-2s", symbol));
+        return sb;
     }
 
     public boolean isGameOver() {

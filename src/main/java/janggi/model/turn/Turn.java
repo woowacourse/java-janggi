@@ -6,7 +6,9 @@ import java.util.function.Consumer;
 
 public interface Turn {
 
-    public Turn play(Position from, Position to);
-    public boolean isGameOver();
-    public void accept(Consumer<Board> consumer);
+    Turn play(Position from, Position to);
+
+    boolean isGameOver();
+
+    void accept(Consumer<Board> consumer);
 }

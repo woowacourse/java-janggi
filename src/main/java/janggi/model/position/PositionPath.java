@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 public class PositionPath {
 
+
     private final List<Position> path;
 
     public static PositionPath concatenate(PositionPath first, PositionPath second) {
@@ -33,6 +34,8 @@ public class PositionPath {
     }
 
     public PositionPath removeFromAndTo() {
-        return new PositionPath(path.subList(1, path.size() - 1));
+        int startIndexOffset = 1;
+        int endIndexOffset = 1;
+        return new PositionPath(path.subList(startIndexOffset, path.size() - endIndexOffset));
     }
 }

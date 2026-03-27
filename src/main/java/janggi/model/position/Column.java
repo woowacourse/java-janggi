@@ -24,7 +24,7 @@ public enum Column {
     public Column moved(int displacement) {
         int nextValue = this.ordinal() + displacement;
 
-        if (nextValue > NINE.ordinal() ||nextValue < ONE.ordinal()) {
+        if (nextValue > NINE.ordinal() || nextValue < ONE.ordinal()) {
             throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
         }
 
@@ -32,11 +32,12 @@ public enum Column {
     }
 
     public List<Column> to(Column other) {
+        int adjustValue = 1;
         if (this.ordinal() > other.ordinal()) {
-            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + 1).reversed();
+            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + adjustValue).reversed();
         }
 
-        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + 1);
+        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + adjustValue);
 
     }
 
