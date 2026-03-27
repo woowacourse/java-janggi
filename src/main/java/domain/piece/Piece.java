@@ -23,6 +23,10 @@ public abstract class Piece {
         return this.team == other.team;
     }
 
+    public boolean isCho() {
+        return this.team == Team.CHO;
+    }
+
     public boolean hasPiece() {
         return this.pieceType != PieceType.NONE;
     }

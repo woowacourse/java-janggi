@@ -34,4 +34,8 @@ public class Intersection {
         return piece.hasPiece();
     }
 
+    public boolean isChoIntersection() {
+        return piece.isCho();
+    }
+
 }
