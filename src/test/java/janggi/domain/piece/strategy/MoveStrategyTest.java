@@ -63,7 +63,7 @@ class MoveStrategyTest {
     class 포_이동_테스트 {
 
         @Test
-        @DisplayName("포는 현재 위치에서 동서남북 각각 +1칸을 제외한 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
+        @DisplayName("차는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
         void findMovablePaths_ReturnAllLinearCandidates() {
             MoveStrategy strategy = new CannonStrategy();
             int row = 4;
@@ -75,7 +75,7 @@ class MoveStrategyTest {
                     .toList();
 
             for (int i = 0; i < 9; i++) {
-                if (column - 1 <= i && i <= column + 1) {
+                if (column == i) {
                     assertThat(destinations).doesNotContain(Position.of(row, i));
                     continue;
                 }
@@ -83,7 +83,7 @@ class MoveStrategyTest {
             }
 
             for (int i = 0; i <= 9; i++) {
-                if (row - 1 <= i && i <= row + 1) {
+                if (row == i) {
                     assertThat(destinations).doesNotContain(Position.of(i, column));
                     continue;
                 }

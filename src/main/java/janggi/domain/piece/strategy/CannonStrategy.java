@@ -15,7 +15,7 @@ public class CannonStrategy implements MoveStrategy{
         List<Path> paths = new ArrayList<>();
 
         //row
-        for (int i = current.row() + 2; i <= 9; i++) {
+        for (int i = current.row() + 1; i <= 9; i++) {
             List<Position> route = new ArrayList<>();
             for (int row = current.row() + 1; row <= i; row++) {
                 route.add(Position.of(row, currentCol));
@@ -23,7 +23,7 @@ public class CannonStrategy implements MoveStrategy{
             Position destination = route.removeLast();
             paths.add(new Path(List.copyOf(route), destination));
         }
-        for (int i = current.row() - 2; i >= 0; i--) {
+        for (int i = current.row() - 1; i >= 0; i--) {
             List<Position> route = new ArrayList<>();
             for (int row = current.row() - 1; row >= i; row--) {
                 route.add(Position.of(row, currentCol));
@@ -33,7 +33,7 @@ public class CannonStrategy implements MoveStrategy{
         }
 
         //column
-        for (int i = current.column() + 2; i < 9; i++) {
+        for (int i = current.column() + 1; i < 9; i++) {
             List<Position> route = new ArrayList<>();
             for (int col = current.column() + 1; col <= i; col++) {
                 route.add(Position.of(currentRow, col));
@@ -41,7 +41,7 @@ public class CannonStrategy implements MoveStrategy{
             Position destination = route.removeLast();
             paths.add(new Path(List.copyOf(route), destination));
         }
-        for (int i = current.column() - 2; i >= 0; i--) {
+        for (int i = current.column() - 1; i >= 0; i--) {
             List<Position> route = new ArrayList<>();
             for (int col = current.column() - 1; col >= i; col--) {
                 route.add(Position.of(currentRow, col));
