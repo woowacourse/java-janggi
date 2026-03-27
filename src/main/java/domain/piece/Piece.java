@@ -27,6 +27,10 @@ public abstract class Piece {
         return this.team == Team.CHO;
     }
 
+    public boolean isSamePiece(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
     public boolean hasPiece() {
         return this.pieceType != PieceType.NONE;
     }

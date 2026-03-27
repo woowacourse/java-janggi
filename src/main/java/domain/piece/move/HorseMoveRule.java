@@ -15,8 +15,8 @@ public class HorseMoveRule extends MoveRule {
         super(PieceType.HORSE, initializeDirections());
     }
 
-    public boolean support(PieceType pieceType) {
-        return this.pieceType == pieceType;
+    public boolean support(Intersection from) {
+        return from.isSamePiece(pieceType);
     }
 
     public List<Point> findPossiblePoints(Intersection from, Intersection to) {

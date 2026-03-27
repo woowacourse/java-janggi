@@ -20,10 +20,9 @@ public class ElephantMoveRule extends MoveRule {
         super(PieceType.ELEPHANT, initializeDirections());
     }
 
-    public boolean support(PieceType pieceType) {
-        return this.pieceType == pieceType;
+    public boolean support(Intersection from) {
+        return from.isSamePiece(pieceType);
     }
-
     public List<Point> findPossiblePoints(Intersection from, Intersection to) {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }

@@ -2,7 +2,10 @@ package domain.intersection;
 
 import domain.piece.NonePiece;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.point.Point;
+
+import java.util.Objects;
 
 public class Intersection {
 
@@ -18,12 +21,24 @@ public class Intersection {
         return new Intersection(point, new NonePiece());
     }
 
+    public void arrive(Intersection from) {
+        this.piece = from.piece;
+    }
+
+    public void leave() {
+        piece = new NonePiece();
+    }
+
     public Point getPoint() {
         return point;
     }
 
     public boolean isSamePiece(Intersection intersection) {
         return this.piece.equals(intersection.piece);
+    }
+
+    public boolean isSamePiece(PieceType pieceType) {
+        return this.piece.isSamePiece(pieceType);
     }
 
     public boolean isSameTeam(Intersection to) {
@@ -36,6 +51,18 @@ public class Intersection {
 
     public boolean isChoIntersection() {
         return piece.isCho();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Intersection that = (Intersection) o;
+        return Objects.equals(point, that.point) && Objects.equals(piece, that.piece);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(point, piece);
     }
 
 }
