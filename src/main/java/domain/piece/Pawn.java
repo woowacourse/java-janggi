@@ -12,16 +12,9 @@ public class Pawn extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
-        /**
-         * TODO:
-         * 2. 판의 범위를 넘어서는 경우 예외 -> 옆인지, 앞인지로 분기
-         * 3. 초나라 구현 후 한나라 상황을 고려하여 수정한다.
-         */
-
         if (!isCorrectMoveDistanceAndDirection(from, to)) {
             return false;
         }
-
 
         if (isEmptySpace(to, board)) {
             return true;
