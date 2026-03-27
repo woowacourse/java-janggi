@@ -20,24 +20,25 @@
 
 ## ✅ 입력
 
-- [ ] 게임 시작 시 상차림 입력 받기
-    - [ ] 지정된 명령어 이외의 문자열 및 숫자 값은 `IllegalArgumentException`을 발생시킨다.
+- [x] 게임 시작 시 상차림 입력 받기
+    - [x] 지정된 명령어 이외의 문자열 및 숫자 값은 `IllegalArgumentException`을 발생시킨다.
 
-- [ ] 플레이어의 선택 기물 좌표 입력
-    - [ ] 공백일 경우 `IllegalArgumentException`을 발생시킨다.
-    - [ ] 숫자가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
-    - [ ] 구분자가 `,`가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
+- [x] 플레이어의 선택 기물 좌표 입력
+    - [x] 공백일 경우 `IllegalArgumentException`을 발생시킨다.
+    - [x] 숫자가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
+    - [x] 구분자가 `,`가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
 
-- [ ] 플레이어의 목표 좌표 입력
-    - [ ] 공백일 경우 `IllegalArgumentException`을 발생시킨다.
-    - [ ] 숫자가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
-    - [ ] 구분자가 `,`가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
+- [x] 플레이어의 목표 좌표 입력
+    - [x] 공백일 경우 `IllegalArgumentException`을 발생시킨다.
+    - [x] 숫자가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
+    - [x] 구분자가 `,`가 아닐 경우 `IllegalArgumentException`을 발생시킨다.
 
 ## ✅ 출력
 
-- [ ] 장기판 출력
+- [x] 장기판 출력
+    - 상차림 선택 후
     - 목표 좌표 입력 후
-- [ ] 현재 차례인 나 라 출력
+- [x] 현재 차례인 나라 출력
     - 『한』, 『초』
 
 ## ✅ 비지니스 기능
@@ -88,31 +89,31 @@
 
 ### 기물 이동
 
-- [ ] 이동 시키려는 기물의 좌표를 확인한다.
+- [x] 이동 시키려는 기물의 좌표를 확인한다.
     - [x] 좌표가 장기판 범위 벗어난 좌표일 경우 `IllegalArgumentException`을 발생시킨다.
-    - [ ] 좌표에 기물이 존재 하지 않을 경우 `IllegalArgumentException`을 발생시킨다.
-    - [ ] 좌표의 기물이 자신의 진영이 아닐 경우 `IllegalArgumentException`을 발생시킨다.
+    - [x] 좌표에 기물이 존재 하지 않을 경우 `IllegalArgumentException`을 발생시킨다.
+    - [x] 좌표의 기물이 자신의 진영이 아닐 경우 `IllegalArgumentException`을 발생시킨다.
 
-- [ ] 기물을 목적지 좌표로 이동한다.
+- [x] 기물을 목적지 좌표로 이동한다.
     - [x] 목적지 좌표가 장기판 범위 벗어난 좌표일 경우 `IllegalArgumentException`을 발생시킨다.
-    - [ ] 기물 규칙 및 제약에 맞게 이동한다.
+    - [x] 기물 규칙 및 제약에 맞게 이동한다.
         - [차(車)]
             - [x] 상하좌우로 장애물을 만날 때까지 칸 수 제한 없이 이동한다.
-            - [ ] 이동하려는 경로 중간에 다른 기물이 **있**다면 `IllegalArgumentException`을 발생시킨다.
+            - [x] 이동하려는 경로 중간에 다른 기물이 **있**다면 `IllegalArgumentException`을 발생시킨다.
 
         - [포(包)]
-            - [ ] 상하좌우로 이동하되, 반드시 중간에 다른 기물을 하나 뛰어넘어야 합니다.
-            - [ ] 이동하려는 경로 중간에 다른 기물이 **없**다면 `IllegalArgumentException`을 발생시킨다.
-            - [ ] 넘으려는 기물이 포(包) 일 경우 `IllegalArgumentException`을 발생시킨다.
-            - [ ] 목적지 좌표의 기물이 포(包)일 경우 `IllegalArgumentException`을 발생시킨다.
+            - [x] 상하좌우로 이동하되, 반드시 중간에 다른 기물을 하나 뛰어넘어야 합니다.
+            - [x] 이동하려는 경로 중간에 다른 기물이 **없**다면 `IllegalArgumentException`을 발생시킨다.
+            - [x] 넘으려는 기물이 포(包) 일 경우 `IllegalArgumentException`을 발생시킨다.
+            - [x] 목적지 좌표의 기물이 포(包)일 경우 `IllegalArgumentException`을 발생시킨다.
 
         - [마(馬)]
-            - [ ] 직선 1칸 + 대각선 1칸(日) 이동한다.
-            - [ ] 목적지 좌표(직선 1칸 또는 대각선 1칸)에 다른 기물이 있으면 `IllegalArgumentException`을 발생시킨다.
+            - [x] 직선 1칸 + 대각선 1칸(日) 이동한다.
+            - [x] 목적지 좌표(직선 1칸 또는 대각선 1칸)에 다른 기물이 있으면 `IllegalArgumentException`을 발생시킨다.
 
         - [상(象)]
-            - [ ] 직선 1칸 + 대각선 2칸(用) 이동한다.
-            - [ ] 목적지 좌표(직선 1칸 또는 대각선 1칸)에 다른 기물이 있으면 `IllegalArgumentException`을 발생시킨다.
+            - [x] 직선 1칸 + 대각선 2칸(用) 이동한다.
+            - [x] 목적지 좌표(직선 1칸 또는 대각선 1칸)에 다른 기물이 있으면 `IllegalArgumentException`을 발생시킨다.
 
         - [궁(楚/漢), 사(士)]
             - [x] 상하좌우 직선 1칸 이동한다.
