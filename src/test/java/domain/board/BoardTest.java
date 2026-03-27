@@ -1,8 +1,8 @@
 package domain.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import domain.piece.Cha;
 import domain.piece.Jol;
@@ -35,56 +35,56 @@ class BoardTest {
     @Nested
     class 포_이외의_기물_이동_가능_판단_테스트 {
         @Test
-        void 이동할_수_없는_경우는_canMove가_false_반환() {
+        void 이동할_수_없는_경우는_canMove가_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
             boardMap.put(new Position(1, 0), new Sang(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertFalse(board.canMove(new Position(0, 0), new Position(8, 0)));
+            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(8, 0)));
         }
 
         @Test
-        void 이동할_수_있는_경우는_canMove가_true() {
+        void 이동할_수_있는_경우는_canMove가_Exception_던지지_않는다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 3), new Jol(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertTrue(board.canMove(new Position(0, 3), new Position(0, 4)));
+            assertDoesNotThrow(() -> board.canMove(new Position(0, 3), new Position(0, 4)));
         }
     }
 
     @Nested
     class 포_기물_이동_가능_판단_테스트 {
         @Test
-        void 포가_이동할_수_없는_경우는_canMove가_false_반환() {
+        void 포가_이동할_수_없는_경우는_canMove가_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Po(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertFalse(board.canMove(new Position(0, 0), new Position(0, 3)));
+            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(0, 3)));
         }
 
         @Test
-        void 포가_이동할_수_있는_경우는_canMove가_true() {
+        void 포가_이동할_수_있는_경우는_canMove가_Exception_던지지_않는다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Po(Team.CHO));
             boardMap.put(new Position(0, 1), new Cha(Team.HAN));
             boardMap.put(new Position(0, 2), new None());
 
             Board board = new Board(boardMap);
-            assertTrue(board.canMove(new Position(0, 0), new Position(0, 2)));
+            assertDoesNotThrow(() -> board.canMove(new Position(0, 0), new Position(0, 2)));
         }
 
         @Test
-        void 포가_도착지에_상대편_포가_있으면_canMove가_false() {
+        void 포가_도착지에_상대편_포가_있으면_canMove가_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Po(Team.CHO));
             boardMap.put(new Position(0, 1), new Cha(Team.HAN));
             boardMap.put(new Position(0, 2), new Po(Team.HAN));
 
             Board board = new Board(boardMap);
-            assertFalse(board.canMove(new Position(0, 0), new Position(0, 2)));
+            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(0, 2)));
         }
     }
 
