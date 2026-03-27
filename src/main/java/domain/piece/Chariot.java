@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.Country;
 import domain.Direction;
-import domain.Position;
 import java.util.List;
 
 public class Chariot extends Piece {
@@ -11,12 +10,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Direction> findDirections(Position from, Position to) {
-        List<Integer> distances = from.calculateDistance(to);
-        int x = distances.get(0);
-        int y = distances.get(1);
-
-        List<Direction> directions = Direction.findDirections(x, y);
+    public void validateDirections(List<Direction> directions) {
         Direction oneSide = directions.getFirst();
         boolean allSameDirection = directions.stream()
                 .allMatch(direction -> direction.equals(oneSide));
@@ -27,6 +21,5 @@ public class Chariot extends Piece {
         if (oneSide.isDialog()) {
             throw new IllegalArgumentException("[ERROR] 차는 직선으로만 이동 가능합니다.");
         }
-        return directions;
     }
 }
