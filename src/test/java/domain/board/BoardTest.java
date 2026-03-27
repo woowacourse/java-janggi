@@ -1,12 +1,7 @@
 package domain.board;
 
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.General;
-import domain.piece.Guard;
-import domain.piece.Piece;
-
-import domain.piece.Soldier;
+import domain.Path;
+import domain.piece.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -96,5 +92,16 @@ public class BoardTest {
                     Arguments.of(new Position(7, 2))
             );
         }
+    }
+
+
+    @Test
+    void 기물이_이동할_경로에_대한_다른_기물의_위치_정보를_반환한다() {
+        List<Position> positions = List.of(new Position(1, 0), new Position(2, 0));
+        List<Path> path = board.getPath(positions);
+
+
+        assertThat(path).isEqualTo(List.of(new Path(new Position(1, 0), new Horse(PieceType.HORSE, Team.CHO)),
+                new Path(new Position(2, 0), new Elephant(PieceType.ELEPHANT, Team.CHO))));
     }
 }

@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Path;
 import domain.board.Position;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public record Guard(PieceType pieceType, Team team) implements Piece {
     }
 
     @Override
-    public void canMove(List<Piece> pathWithPiece) {
+    public void canMove(List<Path> paths, Position to) {
 
     }
 }

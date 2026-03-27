@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Path;
 import domain.board.Position;
 
 import java.util.ArrayList;
@@ -53,7 +54,8 @@ public record Cannon(PieceType pieceType, Team team) implements Piece {
 
 
     @Override
-    public void canMove(List<Piece> pathWithPiece) {
+    public void canMove(List<Path> paths, Position to) {
+
 
     }
 }

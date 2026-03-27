@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Path;
 import domain.board.Position;
 
 import java.util.ArrayList;
@@ -53,7 +54,15 @@ public record Chariot(PieceType pieceType, Team team) implements Piece {
 
 
     @Override
-    public void canMove(List<Piece> pathWithPiece) {
+    public void canMove(List<Path> paths, Position to) {
+        for (Path path : paths) {
+            if(path.position() != to){
+                throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
+            }
+        }
 
+        if(!paths.isEmpty()){ // 최종 목적지에 기물이 있다
+
+        }
     }
 }
