@@ -1,27 +1,14 @@
 package domain.pieces;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import domain.Country;
 import domain.PieceType;
 import domain.Position;
+import java.util.List;
 
 public class Sang extends Piece {
 
     public Sang(Country country) {
         super(country, PieceType.SANG);
-    }
-
-    @Override
-    public List<Position> getAvailablePositions(Position nowPosition) {
-        List<Position> positions = new ArrayList<>();
-        try{
-//            positions.add(nowPosition.getNextUpDownPosition());
-//            positions.add(nowPosition.getNextLeftRightPosition());
-        } catch(IndexOutOfBoundsException e){
-        }
-        return positions;
     }
 
     @Override
@@ -32,4 +19,8 @@ public class Sang extends Piece {
         return (Math.abs(diffX) == 3 && Math.abs(diffY) == 2) || (Math.abs(diffX) == 2 && Math.abs(diffY) == 3);
     }
 
+    @Override
+    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+        return true;
+    }
 }

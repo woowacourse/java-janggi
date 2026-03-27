@@ -13,12 +13,12 @@ public class None extends Piece {
     }
 
     @Override
-    public List<Position> getAvailablePositions(Position nowPosition) {
-        return List.of(); // 아무 것도 못 움직임
+    public boolean canMovePosition(Position start, Position end) {
+        return true;
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
+    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
         return true;
     }
 }

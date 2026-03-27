@@ -1,6 +1,5 @@
 package domain.pieces;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import domain.Country;
@@ -14,17 +13,12 @@ public class Cha extends Piece {
     }
 
     @Override
-    public List<Position> getAvailablePositions(Position nowPosition) {
-        List<Position> positions = new ArrayList<>();
-        try{
-
-        } catch(IndexOutOfBoundsException e){
-        }
-        return positions;
+    public boolean canMovePosition(Position start, Position end) {
+        return start.getX() == end.getX() || start.getY() == end.getY();
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        return start.getX() == end.getX() || start.getY() == end.getY();
+    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+        return true;
     }
 }

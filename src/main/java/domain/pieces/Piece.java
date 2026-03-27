@@ -19,10 +19,9 @@ public abstract class Piece {
         return pieceType;
     }
 
-    public abstract List<Position> getAvailablePositions(Position nowPosition);
-
-
     public abstract boolean canMovePosition(Position start, Position end);
+
+    public abstract boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType);
 
     public boolean isDifferentCountry(Country endCountry) {
         return !country.equals(endCountry);
