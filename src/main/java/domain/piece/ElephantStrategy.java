@@ -6,7 +6,7 @@ import domain.board.Position;
 
 import java.util.List;
 
-public record Horse(PieceType pieceType, Team team) implements Piece {
+public class ElephantStrategy implements MoveStrategy {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
 
@@ -28,9 +28,9 @@ public record Horse(PieceType pieceType, Team team) implements Piece {
 
         Position step1 = from.next(mainDirection);
         Position step2 = step1.next(mainDirection).next(subDirection);
+        Position step3 = step2.next(mainDirection).next(subDirection);
 
-
-        return List.of(step1, step2);
+        return List.of(step1, step2, step3);
     }
 
     private Direction decideXDirection(int dx) {

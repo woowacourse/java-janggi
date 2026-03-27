@@ -30,7 +30,7 @@ public class BoardTest {
         @MethodSource("soldierProvider")
         void 졸을_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece).isInstanceOf(Soldier.class);
+            assertThat(piece.pieceType()).isEqualTo(PieceType.SOLDIER);
         }
 
         static Stream<Arguments> soldierProvider() {
@@ -47,7 +47,7 @@ public class BoardTest {
         @MethodSource("chariotProvider")
         void 차를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece).isInstanceOf(Chariot.class);
+            assertThat(piece.pieceType()).isEqualTo(PieceType.CHARIOT);
         }
 
         static Stream<Arguments> chariotProvider() {
@@ -61,7 +61,7 @@ public class BoardTest {
         @MethodSource("guardProvider")
         void 사를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece).isInstanceOf(Guard.class);
+            assertThat(piece.pieceType()).isEqualTo(PieceType.GUARD);
         }
 
         static Stream<Arguments> guardProvider() {
@@ -75,7 +75,7 @@ public class BoardTest {
         @Test
         void 궁을_올바른_위치에_초기화한다() {
             Piece piece = board.getPiece(new Position(4, 1));
-            assertThat(piece).isInstanceOf(General.class);
+            assertThat(piece.pieceType()).isEqualTo(PieceType.GENERAL);
         }
 
 
@@ -83,7 +83,7 @@ public class BoardTest {
         @MethodSource("cannonProvider")
         void 포를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece).isInstanceOf(Cannon.class);
+            assertThat(piece.pieceType()).isEqualTo(PieceType.CANNON);
         }
 
         static Stream<Arguments> cannonProvider() {
@@ -100,8 +100,7 @@ public class BoardTest {
         List<Position> positions = List.of(new Position(1, 0), new Position(2, 0));
         List<Path> path = board.getPath(positions);
 
-
-        assertThat(path).isEqualTo(List.of(new Path(new Position(1, 0), new Horse(PieceType.HORSE, Team.CHO)),
-                new Path(new Position(2, 0), new Elephant(PieceType.ELEPHANT, Team.CHO))));
+        assertThat(path).isEqualTo(List.of(new Path(new Position(1, 0), PieceType.HORSE, Team.CHO),
+                new Path(new Position(2, 0), PieceType.ELEPHANT, Team.CHO)));
     }
 }

@@ -10,11 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SoldierHanTest {
 
-    private Soldier soldier;
+    private Piece soldier;
 
     @BeforeEach
     void setUp() {
-        soldier = new Soldier(PieceType.SOLDIER, Team.HAN);
+        soldier = new Piece(PieceType.SOLDIER, Team.HAN, new HanSoldierStrategy());
     }
 
     @Test

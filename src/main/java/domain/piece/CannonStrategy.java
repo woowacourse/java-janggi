@@ -4,33 +4,38 @@ import domain.Direction;
 import domain.Path;
 import domain.board.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public record Elephant(PieceType pieceType, Team team) implements Piece {
+public class CannonStrategy implements MoveStrategy {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
-
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
-        Direction xDirection = decideXDirection(dx);
-        Direction yDirection = decideYDirection(dy);
-
-        Direction mainDirection;
-        Direction subDirection;
-        if (Math.abs(dx) > Math.abs(dy)) {
-            mainDirection = xDirection;
-            subDirection = yDirection;
-        } else {
-            mainDirection = yDirection;
-            subDirection = xDirection;
+        if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))){
+            throw new IllegalArgumentException("차를 해당 위치로 옮길 수 없습니다.");
         }
 
-        Position step1 = from.next(mainDirection);
-        Position step2 = step1.next(mainDirection).next(subDirection);
-        Position step3 = step2.next(mainDirection).next(subDirection);
+        Direction mainDirection;
+        int distance;
+        if (dx == 0) {
+            mainDirection = decideYDirection(dy);
+            distance = Math.abs(dy);
+        } else {
+            mainDirection = decideXDirection(dx);
+            distance = Math.abs(dx);
+        }
 
-        return List.of(step1, step2, step3);
+        Position step = from;
+
+        List<Position> route = new ArrayList<>();
+        for (int i = 0; i < distance; i++) {
+            step = step.next(mainDirection);
+            route.add(step);
+        }
+
+        return route;
     }
 
     private Direction decideXDirection(int dx) {
@@ -47,8 +52,10 @@ public record Elephant(PieceType pieceType, Team team) implements Piece {
         return Direction.DOWN;
     }
 
+
     @Override
     public void canMove(List<Path> paths, Position to) {
+
 
     }
 }

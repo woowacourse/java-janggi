@@ -9,11 +9,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GuardTest {
-    private Guard guard;
+    private Piece guard;
 
     @BeforeEach
     void setUp() {
-        guard = new Guard(PieceType.GUARD, Team.CHO);
+        guard = new Piece(PieceType.GUARD, Team.CHO, new GuardStrategy());
     }
 
     @Test

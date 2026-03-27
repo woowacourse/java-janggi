@@ -29,7 +29,8 @@ public class Board {
         List<Path> paths = new ArrayList<>();
         for (Position position : positions) {
             if (pieces.containsKey(position)) {
-                paths.add(new Path(position, pieces.get(position)));
+                Piece piece = pieces.get(position);
+                paths.add(new Path(position, piece.pieceType(), piece.team()));
             }
         }
 

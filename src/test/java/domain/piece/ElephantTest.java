@@ -9,11 +9,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
-    private Elephant elephant;
+    private Piece elephant;
 
     @BeforeEach
     void setUp() {
-        elephant = new Elephant(PieceType.ELEPHANT, Team.CHO);
+        elephant = new Piece(PieceType.ELEPHANT, Team.CHO, new ElephantStrategy());
     }
 
     @Test

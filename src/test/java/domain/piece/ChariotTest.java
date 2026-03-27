@@ -10,11 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ChariotTest {
 
-    private Chariot chariot;
+    private Piece chariot;
 
     @BeforeEach
     void setUp() {
-        chariot = new Chariot(PieceType.CHARIOT, Team.CHO);
+        chariot = new Piece(PieceType.CHARIOT, Team.CHO, new ChariotStrategy());
     }
 
     @Test

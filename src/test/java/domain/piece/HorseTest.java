@@ -9,11 +9,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HorseTest {
-    private Horse horse;
+    private Piece horse;
 
     @BeforeEach
     void setUp() {
-        horse = new Horse(PieceType.HORSE, Team.CHO);
+        horse = new Piece(PieceType.HORSE, Team.CHO, new HorseStrategy());
     }
 
     @Test

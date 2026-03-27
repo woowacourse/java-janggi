@@ -10,11 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonTest {
 
-    private Chariot chariot;
+    private Piece cannon;
 
     @BeforeEach
     void setUp() {
-        chariot = new Chariot(PieceType.CHARIOT, Team.CHO);
+        cannon = new Piece(PieceType.CANNON, Team.CHO, new CannonStrategy());
     }
 
     @Test
@@ -22,7 +22,7 @@ class CannonTest {
         Position from = new Position(5, 5);
         Position to = new Position(2, 5);
 
-        List<Position> pathPositions = chariot.getPathPositions(from, to);
+        List<Position> pathPositions = cannon.getPathPositions(from, to);
 
 
         assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5), new Position(3, 5), new Position(2, 5)));
@@ -33,7 +33,7 @@ class CannonTest {
         Position from = new Position(5, 5);
         Position to = new Position(8, 5);
 
-        List<Position> pathPositions = chariot.getPathPositions(from, to);
+        List<Position> pathPositions = cannon.getPathPositions(from, to);
 
 
         assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5), new Position(7, 5), new Position(8, 5)));
@@ -45,7 +45,7 @@ class CannonTest {
         Position from = new Position(5, 5);
         Position to = new Position(5, 7);
 
-        List<Position> pathPositions = chariot.getPathPositions(from, to);
+        List<Position> pathPositions = cannon.getPathPositions(from, to);
 
 
         assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6), new Position(5, 7)));
@@ -57,7 +57,7 @@ class CannonTest {
         Position from = new Position(5, 5);
         Position to = new Position(5, 0);
 
-        List<Position> pathPositions = chariot.getPathPositions(from, to);
+        List<Position> pathPositions = cannon.getPathPositions(from, to);
 
 
         assertThat(pathPositions).isEqualTo(List.of(

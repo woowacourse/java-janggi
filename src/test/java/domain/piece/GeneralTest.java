@@ -9,11 +9,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GeneralTest {
-    private General general;
+    private Piece general;
 
     @BeforeEach
     void setUp() {
-        general = new General(PieceType.GENERAL, Team.CHO);
+        general = new Piece(PieceType.GENERAL, Team.CHO, new GeneralStrategy());
     }
 
     @Test

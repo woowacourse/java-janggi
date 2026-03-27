@@ -1,15 +1,6 @@
 package domain.board;
 
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.General;
-import domain.piece.Guard;
-import domain.piece.Horse;
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece.Soldier;
-import domain.piece.Team;
+import domain.piece.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,30 +20,30 @@ public class BoardFactory {
 
 
         for (Integer soliderColumns : SOLDIER_COLUMNS) {
-            pieces.put(new Position(soliderColumns, 3), new Soldier(PieceType.SOLDIER, Team.CHO));
-            pieces.put(new Position(soliderColumns, 6), new Soldier(PieceType.SOLDIER, Team.HAN));
+            pieces.put(new Position(soliderColumns, 3), new Piece(PieceType.SOLDIER, Team.CHO, new ChoSoldierStrategy()));
+            pieces.put(new Position(soliderColumns, 6), new Piece(PieceType.SOLDIER, Team.HAN, new HanSoldierStrategy()));
         }
 
         for (Integer chariotColumn : CHARIOT_COLUMNS) {
-            pieces.put(new Position(chariotColumn, 0), new Chariot(PieceType.CHARIOT, Team.CHO));
-            pieces.put(new Position(chariotColumn, 9), new Chariot(PieceType.CHARIOT, Team.HAN));
+            pieces.put(new Position(chariotColumn, 0), new Piece(PieceType.CHARIOT, Team.CHO, new ChariotStrategy()));
+            pieces.put(new Position(chariotColumn, 9), new Piece(PieceType.CHARIOT, Team.HAN, new ChariotStrategy()));
 
         }
 
         for (Integer guardColumn : GUARD_COLUMNS) {
-            pieces.put(new Position(guardColumn, 0), new Guard(PieceType.GUARD, Team.CHO));
-            pieces.put(new Position(guardColumn, 9), new Guard(PieceType.GUARD, Team.HAN));
+            pieces.put(new Position(guardColumn, 0), new Piece(PieceType.GUARD, Team.CHO, new GuardStrategy()));
+            pieces.put(new Position(guardColumn, 9), new Piece(PieceType.GUARD, Team.HAN, new GuardStrategy()));
 
         }
 
         for (Integer cannonColumn : CANNON_COLUMNS) {
-            pieces.put(new Position(cannonColumn, 2), new Cannon(PieceType.CANNON, Team.CHO));
-            pieces.put(new Position(cannonColumn, 7), new Cannon(PieceType.CANNON, Team.HAN));
+            pieces.put(new Position(cannonColumn, 2), new Piece(PieceType.CANNON, Team.CHO, new CannonStrategy()));
+            pieces.put(new Position(cannonColumn, 7), new Piece(PieceType.CANNON, Team.HAN, new CannonStrategy()));
 
         }
 
-        pieces.put(new Position(4, 1), new General(PieceType.GENERAL, Team.CHO));
-        pieces.put(new Position(4, 8), new General(PieceType.GENERAL, Team.HAN));
+        pieces.put(new Position(4, 1), new Piece(PieceType.GENERAL, Team.CHO, new GeneralStrategy()));
+        pieces.put(new Position(4, 8), new Piece(PieceType.GENERAL, Team.HAN, new GeneralStrategy()));
 
         List<PieceType> choSetting = choInitialSetting.getInitialSetting();
         pieces.put(new Position(1, 0), createPiece(choSetting.get(0), Team.CHO));
@@ -72,8 +63,8 @@ public class BoardFactory {
 
     private static Piece createPiece(PieceType pieceType, Team team) {
         if (pieceType == PieceType.ELEPHANT) {
-            return new Elephant(pieceType, team);
+            return new Piece(pieceType, team, new ElephantStrategy());
         }
-        return new Horse(pieceType, team);
+        return new Piece(pieceType, team, new HorseStrategy());
     }
 }

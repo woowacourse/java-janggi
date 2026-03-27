@@ -7,13 +7,13 @@ import domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Cannon(PieceType pieceType, Team team) implements Piece {
+public class ChariotStrategy implements MoveStrategy {
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
-        if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))){
+        if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))) {
             throw new IllegalArgumentException("차를 해당 위치로 옮길 수 없습니다.");
         }
 
@@ -55,7 +55,14 @@ public record Cannon(PieceType pieceType, Team team) implements Piece {
 
     @Override
     public void canMove(List<Path> paths, Position to) {
+        for (Path path : paths) {
+            if (path.position() != to) {
+                throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
+            }
+        }
 
+        if (!paths.isEmpty()) { // 최종 목적지에 기물이 있다
 
+        }
     }
 }

@@ -5,19 +5,20 @@ import domain.board.Position;
 
 import java.util.List;
 
-public record Guard(PieceType pieceType, Team team) implements Piece {
+public class ChoSoldierStrategy implements MoveStrategy {
+
     @Override
     public List<Position> getPathPositions(Position from, Position to) {
-
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
-        boolean isMoveUp = dx == 0 && dy == 1;
+        int straight = 1;
+
+        boolean isMoveStraight = dx == 0 && dy == straight;
         boolean isMoveLeft = dx == -1 && dy == 0;
         boolean isMoveRight = dx == 1 && dy == 0;
-        boolean isMoveDown = dx == 0 && dy == -1;
 
-        if(!(isMoveLeft || isMoveRight || isMoveUp || isMoveDown)) {
+        if (!(isMoveLeft || isMoveRight || isMoveStraight)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
         return List.of(to);
