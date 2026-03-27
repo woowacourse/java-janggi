@@ -1,73 +1,79 @@
 package janggi.domain.piece;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import janggi.domain.Board;
+import janggi.domain.Position;
+import janggi.domain.side.TeamType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ChaTest {
 
     @Test
-    @DisplayName("시작점에서 오른쪽으로 도달할 수 있는 도착점은 true를 반환한다.")
-    void canRightReach() {
+    @DisplayName("차는 상하좌우로 직선 이동할 수 있다.")
+    void isValidMovePatternStraight() {
         // given
-        int startX = 0;
-        int startY = 0;
-        int endX = 3;
-        int endY = 0;
+        Cha cha = new Cha(TeamType.CHU);
 
-        // when
-        Cha cha = new Cha();
-
-        // then
-        Assertions.assertThat(cha.canMove(startX, startY, endX, endY)).isTrue();
+        // when & then
+        assertAll(
+            () -> assertThat(cha.isValidMovePattern(4, 4, 7, 4)).isTrue(),
+            () -> assertThat(cha.isValidMovePattern(4, 4, 1, 4)).isTrue(),
+            () -> assertThat(cha.isValidMovePattern(4, 4, 4, 8)).isTrue(),
+            () -> assertThat(cha.isValidMovePattern(4, 4, 4, 1)).isTrue()
+        );
     }
 
     @Test
-    @DisplayName("시작점에서 왼쪽으로 도달할 수 있는 도착점은 true를 반환한다.")
-    void canLeftReach() {
+    @DisplayName("차는 대각선으로 이동할 수 없다.")
+    void cannotMoveDiagonal() {
         // given
-        int startX = 2;
-        int startY = 0;
-        int endX = 1;
-        int endY = 0;
+        Cha cha = new Cha(TeamType.CHU);
 
-        // when
-        Cha cha = new Cha();
-
-        // then
-        Assertions.assertThat(cha.canMove(startX, startY, endX, endY)).isTrue();
+        // when & then
+        assertAll(
+            () -> assertThat(cha.isValidMovePattern(4, 4, 5, 5)).isFalse(),
+            () -> assertThat(cha.isValidMovePattern(4, 4, 2, 2)).isFalse()
+        );
     }
 
     @Test
-    @DisplayName("시작점에서 위로 도달할 수 있는 도착점은 true를 반환한다.")
-    void canUpReach() {
+    @DisplayName("차는 제자리로 이동할 수 없다.")
+    void cannotMoveSamePosition() {
         // given
-        int startX = 0;
-        int startY = 0;
-        int endX = 0;
-        int endY = 1;
+        Cha cha = new Cha(TeamType.CHU);
 
-        // when
-        Cha cha = new Cha();
-
-        // then
-        Assertions.assertThat(cha.canMove(startX, startY, endX, endY)).isTrue();
+        // when & then
+        assertThat(cha.isValidMovePattern(4, 4, 4, 4)).isFalse();
     }
 
     @Test
-    @DisplayName("시작점에서 아래로 도달할 수 있는 도착점은 true를 반환한다.")
-    void canDownReach() {
+    @DisplayName("이동 경로가 비어 있으면 차는 이동할 수 있다.")
+    void isValidPathWhenRouteIsEmpty() {
         // given
-        int startX = 0;
-        int startY = 1;
-        int endX = 0;
-        int endY = 0;
+        Cha cha = new Cha(TeamType.CHU);
+        Board board = Board.createInitialBoard();
 
         // when
-        Cha cha = new Cha();
+        boolean result = cha.isObstaclesNotExist(new Position(1, 1), new Position(1, 3), board);
 
         // then
-        Assertions.assertThat(cha.canMove(startX, startY, endX, endY)).isTrue();
+        assertThat(result).isTrue();
     }
 
+    @Test
+    @DisplayName("이동 경로가 막혀 있으면 차는 이동할 수 없다.")
+    void cannotMoveWhenRouteIsBlocked() {
+        // given
+        Cha cha = new Cha(TeamType.CHU);
+        Board board = Board.createInitialBoard();
+
+        // when
+        boolean result = cha.isObstaclesNotExist(new Position(1, 1), new Position(1, 5), board);
+
+        // then
+        assertThat(result).isFalse();
+    }
 }
