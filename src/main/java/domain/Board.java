@@ -19,6 +19,7 @@ public class Board {
 
     public void move(final Position from, final Position to) {
         Piece fromPiece = findPieceByPosition(from).get();
+        board.remove(from);
         board.put(to, fromPiece);
     }
 

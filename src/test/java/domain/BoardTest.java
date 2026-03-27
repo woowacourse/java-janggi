@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
@@ -46,6 +46,7 @@ class BoardTest {
         // then
         Piece findPiece = board.findPieceByPosition(to).get();
         assertEquals(Type.SOLIDER, findPiece.getType());
+        assertFalse(board.isExistPosition(from));
     }
 
     private static Stream<Arguments> providePiece() {
