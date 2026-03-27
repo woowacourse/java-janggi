@@ -30,6 +30,6 @@ public enum Direction {
     }
 
     public Position move(Position src) {
-        return new Position(src.getX() + this.offsetX, src.getY() + this.offsetY);
+        return new Position(src.x() + this.offsetX, src.y() + this.offsetY);
     }
 }

@@ -21,7 +21,7 @@ class PositionTest {
     void X가_0이상_8이하_Y가_0이상_9이하이면_포지션이_정상적으로_생성된다(int x, int y) {
         Position position = new Position(x, y);
 
-        assertEquals(x, position.getX());
+        assertEquals(x, position.x());
     }
 
     @ParameterizedTest

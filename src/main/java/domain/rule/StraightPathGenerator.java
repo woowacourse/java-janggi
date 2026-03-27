@@ -24,15 +24,15 @@ public class StraightPathGenerator implements PathGenerator {
             return false;
         }
 
-        return src.getX() == dest.getX() || src.getY() == dest.getY();
+        return src.x() == dest.x() || src.y() == dest.y();
     }
 
     private Direction determineDirection(Position src, Position dest) {
-        if(src.getX() == dest.getX()) {
+        if(src.x() == dest.x()) {
             return getDirectionWhenXSame(src, dest);
         }
 
-        if(src.getY() == dest.getY()) {
+        if(src.y() == dest.y()) {
             return getDirectionWhenYSame(src, dest);
         }
 
@@ -40,14 +40,14 @@ public class StraightPathGenerator implements PathGenerator {
     }
 
     private Direction getDirectionWhenXSame(Position src, Position dest) {
-        if(src.getY() > dest.getY()) {
+        if(src.y() > dest.y()) {
             return Direction.SOUTH;
         }
         return Direction.NORTH;
     }
 
     private Direction getDirectionWhenYSame(Position src, Position dest) {
-        if(src.getX() > dest.getX()) {
+        if(src.x() > dest.x()) {
             return Direction.WEST;
         }
         return Direction.EAST;

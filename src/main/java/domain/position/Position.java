@@ -1,15 +1,8 @@
 package domain.position;
 
-import java.util.Objects;
-
-public final class Position {
-    private final int x;
-    private final int y;
-
-    public Position(int x, int y) {
+public record Position(int x, int y) {
+    public Position {
         validate(x, y);
-        this.x = x;
-        this.y = y;
     }
 
     private void validate(int x, int y) {
@@ -21,27 +14,4 @@ public final class Position {
         }
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Position position)) {
-            return false;
-        }
-        return x == position.x && y == position.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
 }
