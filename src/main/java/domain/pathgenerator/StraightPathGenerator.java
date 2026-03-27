@@ -28,27 +28,9 @@ public class StraightPathGenerator implements PathGenerator {
     }
 
     private Direction determineDirection(Position source, Position destination) {
-        if (source.row() == destination.row()) {
-            return getDirectionWhenYSame(source, destination);
-        }
-        if (source.column() == destination.column()) {
-            return getDirectionWhenXSame(source, destination);
-        }
-        throw new IllegalArgumentException("갈 수 있는 경로가 없습니다.");
-    }
-
-    private Direction getDirectionWhenXSame(Position source, Position destination) {
-        if (source.row() > destination.row()) {
-            return Direction.NORTH;
-        }
-        return Direction.SOUTH;
-    }
-
-    private Direction getDirectionWhenYSame(Position source, Position destination) {
-        if (source.column() > destination.column()) {
-            return Direction.WEST;
-        }
-        return Direction.EAST;
+        int rowDifference = destination.row() - source.row();
+        int columnDifference = destination.column() - source.column();
+        return Direction.fromStraight(rowDifference, columnDifference);
     }
 
     private Path buildPath(Position source, Position destination, Direction direction) {

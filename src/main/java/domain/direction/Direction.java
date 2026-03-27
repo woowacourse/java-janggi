@@ -21,6 +21,22 @@ public enum Direction {
         this.offsetColumn = offsetColumn;
     }
 
+    public static Direction fromStraight(int rowDifference, int columnDifference) {
+        if (rowDifference < 0) {
+            return NORTH;
+        }
+        if (rowDifference > 0) {
+            return SOUTH;
+        }
+        if (columnDifference < 0) {
+            return WEST;
+        }
+        if (columnDifference > 0) {
+            return EAST;
+        }
+        throw new IllegalArgumentException("갈 수 있는 경로가 없습니다.");
+    }
+
     public Position calculateNextPosition(Position source) {
         return new Position(source.row() + this.offsetRow, source.column() + this.offsetColumn);
     }
