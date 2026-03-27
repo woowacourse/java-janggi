@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.dto.DynastyDto;
-import janggi.dto.PositionDto;
+import janggi.controller.dto.DynastyDto;
+import janggi.controller.dto.PositionDto;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;

@@ -1,8 +1,8 @@
 package janggi.view;
 
-import janggi.dto.BoardDto;
-import janggi.dto.PieceDto;
-import janggi.dto.PositionDto;
+import janggi.controller.dto.BoardDto;
+import janggi.controller.dto.PieceDto;
+import janggi.controller.dto.PositionDto;
 import java.util.List;
 import java.util.StringJoiner;
 

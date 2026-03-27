@@ -1,4 +1,4 @@
-package janggi.dto;
+package janggi.controller.dto;
 
 public record PieceDto(
         String name,

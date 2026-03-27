@@ -1,4 +1,4 @@
-package janggi.dto;
+package janggi.controller.dto;
 
 import janggi.domain.dynasty.Dynasty;
 import java.util.EnumMap;

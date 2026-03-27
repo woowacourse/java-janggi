@@ -1,4 +1,4 @@
-package janggi.util;
+package janggi.controller.dto.mapper;
 
 import static janggi.domain.piece.PieceType.CANNON;
 import static janggi.domain.piece.PieceType.CHARIOT;
