@@ -80,7 +80,7 @@ public class Board {
 
     public List<Point> destinations(Point from) {
         Piece piece = board.getOrDefault(from, new Empty());
-        List<Path> paths = convertToPath(piece.patterns(), from, piece.pathStrategy());
+        List<Path> paths = convertToPaths(piece.patterns(), from, piece.pathStrategy());
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
 
         return piece.availablePoints(paths, piecesOnPaths)
@@ -89,7 +89,7 @@ public class Board {
                 .toList();
     }
 
-    public List<Path> convertToPath(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
+    public List<Path> convertToPaths(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
         return patterns.stream()
                 .map(pattern -> convertToPath(pattern, from, pathStrategy))
                 .toList();
