@@ -27,6 +27,7 @@ public class GameManager {
         outputView.printBoard(board.createDTO().board());
 
         while (turnManager.isGameRunning()) {
+            outputView.printPlayerTurnMessage(turnManager.currentTurn().getName());
             retryOnInvalidInput(() -> {
                 Position src = createSourcePosition();
                 Position dest = createDestPosition();
@@ -39,6 +40,7 @@ public class GameManager {
 
             outputView.printBoard(board.createDTO().board());
             turnManager.switchTurn();
+            outputView.clearScreen();
         }
 
     }
