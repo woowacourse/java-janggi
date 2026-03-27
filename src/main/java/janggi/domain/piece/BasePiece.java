@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.PieceInfo;
 import janggi.domain.Side;
 
 public abstract class BasePiece implements Piece {
@@ -28,5 +29,10 @@ public abstract class BasePiece implements Piece {
     @Override
     public boolean isEqualSide(Side side) {
         return this.side == side;
+    }
+
+    @Override
+    public PieceInfo getPieceInfo(){
+        return new PieceInfo(side, pieceType);
     }
 }

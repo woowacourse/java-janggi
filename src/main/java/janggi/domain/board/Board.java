@@ -36,6 +36,17 @@ public class Board implements BoardInterface {
         return board.get(position).isEqualSide(side);
     }
 
+    @Override
+    public PieceInfo[][] getCurrentBoard(){
+        PieceInfo[][] currentBoard = new PieceInfo[10][9];
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+            currentBoard[position.x() - 1][position.y() - 1] = piece.getPieceInfo();
+        }
+        return currentBoard;
+    }
+
     public TurnState move(Position start, Position end) {
         Piece piece = board.get(start);
         List<Position> route = piece.findRoute(start, end);
