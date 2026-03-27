@@ -44,7 +44,6 @@ public class Piece {
         return "";
     }
 
-
     public boolean isDifferentTeam(Team team) {
         return this.team != team;
     }
