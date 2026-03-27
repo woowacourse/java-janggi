@@ -11,17 +11,19 @@ public final class InputView {
 
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final String DELIMITER = ",";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private static final String ELEPHANT_SETTING = """
+            
             %s나라의 상차림을 선택해주세요.
             1. 상마상마
             2. 마상마상
             3. 마상상마
             4. 상마마상""";
 
-    private static final String TURN = "%s나라 차례 입니다.";
+    private static final String TURN = LINE_SEPARATOR + "%s나라 차례 입니다.";
     private static final String SOURCE = "공격할 기물의 좌표를 입력해주세요.";
-    private static final String DESTINATION = "이동 시킬 목적지 좌표를 입력해주세요.";
+    private static final String DESTINATION = LINE_SEPARATOR + "이동 시킬 목적지 좌표를 입력해주세요.";
 
     private InputView() {
     }

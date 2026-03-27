@@ -15,7 +15,7 @@ public final class OutputView {
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
 
-    private static final String TITLE = "[장기판]";
+    private static final String TITLE = LINE_SEPARATOR + "[장기판]";
     private static final String EMPTY_CELL = "．";
 
     private static final String RESET = "\u001B[0m";
