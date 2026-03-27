@@ -15,6 +15,10 @@ public final class Position {
         return new Position(row, column);
     }
 
+    public Position diff(Position other) {
+        return new Position(this.row - other.row, this.column - other.column);
+    }
+
     public int getRow(){
         return this.row;
     }
