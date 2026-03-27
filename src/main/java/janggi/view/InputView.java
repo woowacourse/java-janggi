@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static janggi.common.ErrorMessage.*;
+
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -20,11 +22,11 @@ public class InputView {
         try {
             int ordinal = Integer.parseInt(position);
             if (ordinal < 1 || ordinal > 4) {
-                throw new IllegalArgumentException("1, 2, 3, 4 중 하나의 숫자를 입력해주세요.");
+                throw new IllegalArgumentException(INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE.message());
             }
             return ordinal;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("상차림 법을 숫자로 입력해주세요.");
+            throw new IllegalArgumentException(INVALID_HORSE_ELEPHANT_POSITION_INPUT_FORMAT.message());
         }
     }
 
@@ -43,14 +45,14 @@ public class InputView {
         String input = scanner.nextLine();
         String[] split = input.split(",");
         if (split.length != 2) {
-            throw new IllegalArgumentException("콤마로 구분된 두 개의 숫자를 올바르게 입력해주세요.");
+            throw new IllegalArgumentException(INVALID_POSITION_FORMAT.message());
         }
         List<Integer> position = Arrays.stream(split)
                 .map(str -> {
                     try {
                         return Integer.parseInt(str.strip());
                     } catch (NumberFormatException e) {
-                        throw new IllegalArgumentException("좌표는 숫자입니다.");
+                        throw new IllegalArgumentException(INVALID_POSITION_FORMAT.message());
                     }
                 }).toList();
 

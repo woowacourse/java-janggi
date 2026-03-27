@@ -61,7 +61,7 @@ public class JanggiController {
 
     private Position readPieceWantToMove(Game game) {
         PositionDto fromDto = getUntilValid(
-                () -> inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty())));
+                () -> inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn())));
         return Position.from(fromDto.row(), fromDto.column());
     }
 
