@@ -6,30 +6,29 @@ import movepolicy.destination.DestinationRule;
 import movepolicy.path.PathRule;
 import position.Position;
 
-public abstract class PieceImpl implements Piece {
+public abstract class FullPiece implements Piece {
     private final Side side;
 
-    public PieceImpl(Side side) {
+    public FullPiece(Side side) {
         this.side = side;
     }
 
-    @Override
     public final boolean isHan() {
         return side.isHan();
     }
 
-    @Override
     public final boolean isCho() {
         return side.isCho();
     }
 
-    @Override
-    public final boolean isSameSide(Piece destinationPiece) {
+    public final boolean isSameSide(FullPiece destinationPiece) {
         if (isHan() && destinationPiece.isHan()) {
             return true;
         }
         return isCho() && destinationPiece.isCho();
     }
+
+    public abstract boolean isPo();
 
     @Override
     public final MoveContext askMoveContext(Position departure, Position destination) {
@@ -40,11 +39,11 @@ public abstract class PieceImpl implements Piece {
         return new MoveContext(pathPositions, destinationRule, pathRule);
     }
 
-    abstract void validateDestination(Position departure, Position destination);
+    protected abstract void validateDestination(Position departure, Position destination);
 
-    abstract List<Position> getPathPositions(Position departure, Position destination);
+    protected abstract List<Position> getPathPositions(Position departure, Position destination);
 
-    abstract DestinationRule getDestinationRule();
+    protected abstract DestinationRule getDestinationRule();
 
-    abstract PathRule getPathRule();
+    protected abstract PathRule getPathRule();
 }

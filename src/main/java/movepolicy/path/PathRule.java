@@ -1,8 +1,8 @@
 package movepolicy.path;
 
 import java.util.List;
-import pieces.Piece;
+import pieces.FullPiece;
 
 public interface PathRule {
-    void validatePathPieces(List<Piece> pathPieces);
+    void validatePathPieces(List<FullPiece> pathPieces);
 }

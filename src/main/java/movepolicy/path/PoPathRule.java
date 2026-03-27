@@ -1,13 +1,13 @@
 package movepolicy.path;
 
 import java.util.List;
-import pieces.Piece;
+import pieces.FullPiece;
 
 public class PoPathRule implements PathRule {
     private static final int PATH_PIECES_SIZE_THRESHOLD = 1;
 
     @Override
-    public void validatePathPieces(List<Piece> pathPieces) {
+    public void validatePathPieces(List<FullPiece> pathPieces) {
         if (pathPieces.isEmpty()) {
             throw new IllegalArgumentException("이동 경로엔 기물이 존재해야 합니다.");
         }
@@ -19,7 +19,7 @@ public class PoPathRule implements PathRule {
         }
     }
 
-    private static boolean hasPo(List<Piece> pathPieces) {
+    private static boolean hasPo(List<FullPiece> pathPieces) {
         return pathPieces.getFirst().isPo();
     }
 }

@@ -7,14 +7,14 @@ import movepolicy.path.EmptyPathRule;
 import movepolicy.path.PathRule;
 import position.Position;
 
-public class Gung extends PieceImpl {
+public class Gung extends FullPiece {
 
     public Gung(Side side) {
         super(side);
     }
 
     @Override
-    void validateDestination(Position departure, Position destination) {
+    protected void validateDestination(Position departure, Position destination) {
         List<Position> movableDestinations = List.of(
             departure.moveUp(),
             departure.moveDown(),
@@ -26,17 +26,17 @@ public class Gung extends PieceImpl {
     }
 
     @Override
-    List<Position> getPathPositions(Position departure, Position destination) {
+    protected List<Position> getPathPositions(Position departure, Position destination) {
         return List.of();
     }
 
     @Override
-    DestinationRule getDestinationRule() {
+    protected DestinationRule getDestinationRule() {
         return new BasicDestinationRule();
     }
 
     @Override
-    PathRule getPathRule() {
+    protected PathRule getPathRule() {
         return new EmptyPathRule();
     }
 

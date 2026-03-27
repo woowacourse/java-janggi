@@ -1,10 +1,10 @@
 package movepolicy.destination;
 
-import pieces.Piece;
+import pieces.FullPiece;
 
 public class PoDestinationRule implements DestinationRule {
     @Override
-    public void validateDestination(Piece departurePiece, Piece destinationPiece) {
+    public void validateDestination(FullPiece departurePiece, FullPiece destinationPiece) {
         if (departurePiece == null) {
             throw new IllegalArgumentException("출발지의 기물이 없습니다.");
         }

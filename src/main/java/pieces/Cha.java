@@ -8,21 +8,21 @@ import movepolicy.path.EmptyPathRule;
 import movepolicy.path.PathRule;
 import position.Position;
 
-public class Cha extends PieceImpl {
+public class Cha extends FullPiece {
 
     public Cha(Side side) {
         super(side);
     }
 
     @Override
-    void validateDestination(Position departure, Position destination) {
+    protected void validateDestination(Position departure, Position destination) {
         if (!departure.isSameRow(destination) && !departure.isSameColumn(destination)) {
             throw new IllegalArgumentException("차의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
     }
 
     @Override
-    List<Position> getPathPositions(Position departure, Position destination) {
+    protected List<Position> getPathPositions(Position departure, Position destination) {
         List<Position> pathPositions = new ArrayList<>();
         if (departure.isSameRow(destination)) {
             if (destination.isLeftColumn(departure)) {
@@ -54,12 +54,12 @@ public class Cha extends PieceImpl {
     }
 
     @Override
-    DestinationRule getDestinationRule() {
+    protected DestinationRule getDestinationRule() {
         return new BasicDestinationRule();
     }
 
     @Override
-    PathRule getPathRule() {
+    protected PathRule getPathRule() {
         return new EmptyPathRule();
     }
 

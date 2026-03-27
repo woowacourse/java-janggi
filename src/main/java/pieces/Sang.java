@@ -7,14 +7,14 @@ import movepolicy.path.EmptyPathRule;
 import movepolicy.path.PathRule;
 import position.Position;
 
-public class Sang extends PieceImpl {
+public class Sang extends FullPiece {
 
     public Sang(Side side) {
         super(side);
     }
 
     @Override
-    void validateDestination(Position departure, Position destination) {
+    protected void validateDestination(Position departure, Position destination) {
         List<Position> movableDestinations = List.of(
             departure.moveUp().moveRightUp().moveRightUp(),
             departure.moveUp().moveLeftUp().moveLeftUp(),
@@ -30,7 +30,7 @@ public class Sang extends PieceImpl {
     }
 
     @Override
-    List<Position> getPathPositions(Position departure, Position destination) {
+    protected List<Position> getPathPositions(Position departure, Position destination) {
         if (departure.moveUp().moveRightUp().moveRightUp().equals(destination)) {
             return List.of(departure.moveUp(), departure.moveUp().moveRightUp());
         }
@@ -59,12 +59,12 @@ public class Sang extends PieceImpl {
     }
 
     @Override
-    DestinationRule getDestinationRule() {
+    protected DestinationRule getDestinationRule() {
         return new BasicDestinationRule();
     }
 
     @Override
-    PathRule getPathRule() {
+    protected PathRule getPathRule() {
         return new EmptyPathRule();
     }
 
