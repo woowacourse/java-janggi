@@ -54,15 +54,15 @@ public class OutputView {
         System.out.println("현재 장기판");
         System.out.println("      0    1    2    3    4    5    6    7    8");
         System.out.println("   ┌────┬────┬────┬────┬────┬────┬────┬────┬────┐");
-        for (int column = 0; column <= 9; column++) {
+        for (int row = 0; row <= 9; row++) {
             StringBuilder line = new StringBuilder();
-            line.append(String.format("%2d │", column));
-            for (int row = 0; row <= 8; row++) {
+            line.append(String.format("%2d │", row));
+            for (int column = 0; column <= 8; column++) {
                 Piece piece = board.findPiece(Position.of(row, column)).orElse(null);
                 line.append(" ").append(formatBoardCell(piece)).append(" │");
             }
             System.out.println(line);
-            if (column < 9) {
+            if (row < 9) {
                 System.out.println("   ├────┼────┼────┼────┼────┼────┼────┼────┼────┤");
             }
         }
@@ -108,11 +108,8 @@ public class OutputView {
         if (piece.getPieceType() == PieceType.CANNON) {
             return "포";
         }
-        if (piece.getPieceType() == PieceType.PAWN && piece.getTeamColor() == TeamColor.CHO) {
-            return "졸";
-        }
         if (piece.getPieceType() == PieceType.PAWN) {
-            return "병";
+            return "졸";
         }
         throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
     }
