@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class SaTest {
     @ParameterizedTest
     @MethodSource("provideSaPaths")
-    void 사는_모든방향을_한칸_이동한다(int startX, int startY, int destX, int destY) {
+    void 사는_모든방향을_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece sa = new Sa(Team.HAN);
-        Position src = new Position(startX, startY);
-        Position dest = new Position(destX, destY);
+        Position src = new Position(startRow, startCol);
+        Position dest = new Position(destRow, destCol);
 
         Path path = sa.calculatePath(src, dest);
 
@@ -28,10 +28,10 @@ class SaTest {
 
     private static Stream<Arguments> provideSaPaths() {
         return Stream.of(
-                Arguments.of(4, 4, 4, 5),
-                Arguments.of(4, 4, 4, 3),
                 Arguments.of(4, 4, 5, 4),
                 Arguments.of(4, 4, 3, 4),
+                Arguments.of(4, 4, 4, 5),
+                Arguments.of(4, 4, 4, 3),
                 Arguments.of(4, 4, 5, 5),
                 Arguments.of(4, 4, 5, 3),
                 Arguments.of(4, 4, 3, 5),

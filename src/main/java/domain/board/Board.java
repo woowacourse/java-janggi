@@ -1,5 +1,10 @@
 package domain.board;
 
+import static common.Constants.MAX_COL;
+import static common.Constants.MAX_ROW;
+import static common.Constants.MIN_COL;
+import static common.Constants.MIN_ROW;
+
 import domain.piece.None;
 import domain.piece.Piece;
 import domain.player.Team;
@@ -39,8 +44,8 @@ public class Board {
 
     public BoardDTO createDTO() {
         List<List<String>> stringBoard = new ArrayList<>();
-        for (int y = 0; y < 10; y++) {
-            List<String> lineOfStringBoard = makeLineOfStringBoard(y);
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            List<String> lineOfStringBoard = makeLineOfStringBoard(row);
             stringBoard.add(lineOfStringBoard);
         }
 
@@ -51,10 +56,10 @@ public class Board {
         return findPiece(src).isSameTeam(team);
     }
 
-    private List<String> makeLineOfStringBoard(int y) {
+    private List<String> makeLineOfStringBoard(int row) {
         List<String> lineOfStringBoard = new ArrayList<>();
-        for (int x = 0; x < 9; x++) {
-            Piece piece = board.get(new Position(x, y));
+        for (int col = MIN_COL; col <= MAX_COL; col++) {
+            Piece piece = board.get(new Position(row, col));
             String pieceString = piece.getPieceString();
             String teamString = piece.getTeamString();
             lineOfStringBoard.add(teamString + pieceString);
@@ -74,7 +79,7 @@ public class Board {
         return new PathPieces(findPiece(path.src()), pieces, findPiece(path.dest()));
     }
 
-    private void addPieceInPath(Piece piece , List<Piece> pieces) {
+    private void addPieceInPath(Piece piece, List<Piece> pieces) {
         if (piece.isNotNone()) {
             pieces.add(piece);
         }

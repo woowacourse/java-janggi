@@ -11,31 +11,31 @@ class PositionTest {
     @ParameterizedTest
     @CsvSource(value = {
             "0,0",
-            "8,0",
-            "0,9",
-            "8,9",
-            "4,5",
+            "0,8",
+            "9,0",
+            "9,8",
+            "5,4",
             "1,1",
-            "7,8"
+            "8,7"
     })
-    void X가_0이상_8이하_Y가_0이상_9이하이면_포지션이_정상적으로_생성된다(int x, int y) {
-        Position position = new Position(x, y);
+    void Row가_0이상_9이하_Col이_0이상_8이하이면_포지션이_정상적으로_생성된다(int row, int col) {
+        Position position = new Position(row, col);
 
-        assertEquals(x, position.x());
+        assertEquals(col, position.col());
     }
 
     @ParameterizedTest
     @CsvSource({
             "-1,0",
-            "9,0",
+            "0,9",
             "0,-1",
-            "0,10",
+            "10,0",
             "-1,-1",
-            "9,10",
-            "8,10",
+            "10,9",
+            "10,8",
             "9,9"
     })
-    void X가_0미만_8초과_Y가_0미만_9초과이면_예외가_발생한다(int x, int y) {
-        assertThrows(IllegalArgumentException.class, () -> new Position(x, y));
+    void Row가_0미만_9초과_Col이_0미만_8초과이면_예외가_발생한다(int row, int col) {
+        assertThrows(IllegalArgumentException.class, () -> new Position(row, col));
     }
 }

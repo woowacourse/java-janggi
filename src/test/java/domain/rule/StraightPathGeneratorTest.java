@@ -1,7 +1,8 @@
 package domain.rule;
 
 import static domain.TestUtil.createPosition;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import domain.position.Path;
 import domain.position.Position;
@@ -11,36 +12,32 @@ import org.junit.jupiter.api.Test;
 class StraightPathGeneratorTest {
 
     @Test
-    void 시작과_도착지점의_x가_같을때_이동규칙으로_Path객체를_만든다() {
+    void 시작과_도착지점의_col이_같을때_이동규칙으로_Path객체를_만든다() {
         StraightPathGenerator straightPathGenerator = new StraightPathGenerator();
 
-        Path path = straightPathGenerator.calculatePath(new Position(1, 1), new Position(1, 4));
+        Path path = straightPathGenerator.calculatePath(new Position(0, 2), new Position(2, 2));
 
-        assertEquals(createPosition(1, 1), path.src());
+        assertEquals(createPosition(0, 2), path.src());
         List<Position> waypoints = path.waypoints();
-        assertEquals(2, waypoints.size());
+        assertEquals(1, waypoints.size());
         assertEquals(createPosition(1, 2), waypoints.getFirst());
-        assertEquals(createPosition(1, 3), waypoints.getLast());
 
-        assertEquals(createPosition(1, 4), path.dest());
+        assertEquals(createPosition(2, 2), path.dest());
     }
 
     @Test
-    void 시작과_도착지점의_y가_같을때_이동규칙으로_Path객체를_만든다() {
+    void 시작과_도착지점의_row가_같을때_이동규칙으로_Path객체를_만든다() {
         StraightPathGenerator straightPathGenerator = new StraightPathGenerator();
 
-        Path path = straightPathGenerator.calculatePath(new Position(1, 1), new Position(4, 1));
+        Path path = straightPathGenerator.calculatePath(new Position(2, 0), new Position(2, 2));
 
-        assertEquals(createPosition(1, 1), path.src());
+        assertEquals(createPosition(2, 0), path.src());
         List<Position> waypoints = path.waypoints();
-        assertEquals(2, waypoints.size());
+        assertEquals(1, waypoints.size());
         assertEquals(createPosition(2, 1), waypoints.getFirst());
-        assertEquals(createPosition(3, 1), waypoints.getLast());
 
-        assertEquals(createPosition(4, 1), path.dest());
+        assertEquals(createPosition(2, 2), path.dest());
     }
-
-
 
     @Test
     void 이동할_수_없는_위치를_입력하면_에러를_던진다() {

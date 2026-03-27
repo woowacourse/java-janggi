@@ -14,10 +14,10 @@ import org.junit.jupiter.params.provider.Arguments;
 class SangTest {
     @ParameterizedTest
     @MethodSource("provideSangPaths")
-    void 상은_앞으로_한칸_대각선으로_두칸_이동한다(int startX, int startY, int destX, int destY) {
+    void 상은_앞으로_한칸_대각선으로_두칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece sang = new Sang(Team.HAN);
-        Position src = new Position(startX, startY);
-        Position dest = new Position(destX, destY);
+        Position src = new Position(startRow, startCol);
+        Position dest = new Position(destRow, destCol);
 
         Path path = sang.calculatePath(src, dest);
 
@@ -29,14 +29,14 @@ class SangTest {
 
     private static Stream<Arguments> provideSangPaths() {
         return Stream.of(
-                Arguments.of(4, 4, 6, 7),
-                Arguments.of(4, 4, 2, 7),
-                Arguments.of(4, 4, 6, 1),
-                Arguments.of(4, 4, 2, 1),
                 Arguments.of(4, 4, 7, 6),
                 Arguments.of(4, 4, 7, 2),
                 Arguments.of(4, 4, 1, 6),
-                Arguments.of(4, 4, 1, 2)
+                Arguments.of(4, 4, 1, 2),
+                Arguments.of(4, 4, 6, 7),
+                Arguments.of(4, 4, 2, 7),
+                Arguments.of(4, 4, 6, 1),
+                Arguments.of(4, 4, 2, 1)
         );
     }
 }

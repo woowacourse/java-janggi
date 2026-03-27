@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class MaTest {
     @ParameterizedTest
     @MethodSource("provideMaPaths")
-    void 마는_앞으로_한칸_대각선으로_한칸_이동한다(int startX, int startY, int destX, int destY) {
+    void 마는_앞으로_한칸_대각선으로_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece ma = new Ma(Team.HAN);
-        Position src = new Position(startX, startY);
-        Position dest = new Position(destX, destY);
+        Position src = new Position(startRow, startCol);
+        Position dest = new Position(destRow, destCol);
 
         Path path = ma.calculatePath(src, dest);
 
@@ -28,14 +28,14 @@ class MaTest {
 
     private static Stream<Arguments> provideMaPaths() {
         return Stream.of(
-                Arguments.of(4, 4, 5, 6),
-                Arguments.of(4, 4, 3, 6),
-                Arguments.of(4, 4, 5, 2),
-                Arguments.of(4, 4, 3, 2),
                 Arguments.of(4, 4, 6, 5),
                 Arguments.of(4, 4, 6, 3),
                 Arguments.of(4, 4, 2, 5),
-                Arguments.of(4, 4, 2, 3)
+                Arguments.of(4, 4, 2, 3),
+                Arguments.of(4, 4, 5, 6),
+                Arguments.of(4, 4, 3, 6),
+                Arguments.of(4, 4, 5, 2),
+                Arguments.of(4, 4, 3, 2)
         );
     }
 

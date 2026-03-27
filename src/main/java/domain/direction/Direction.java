@@ -4,32 +4,32 @@ import domain.position.Position;
 
 public enum Direction {
 
-    NORTH(0, 1),
-    SOUTH(0, -1),
-    EAST(1, 0),
-    WEST(-1, 0),
-    NORTH_EAST(1, 1),
-    NORTH_WEST(-1, 1),
-    SOUTH_EAST(1, -1),
-    SOUTH_WEST(-1, -1);
+    NORTH(-1, 0),
+    SOUTH(1, 0),
+    EAST(0, 1),
+    WEST(0, -1),
+    NORTH_EAST(-1, 1),
+    NORTH_WEST(-1, -1),
+    SOUTH_EAST(1, 1),
+    SOUTH_WEST(1, -1);
 
-    private final int offsetX;
-    private final int offsetY;
+    private final int offsetRow;
+    private final int offsetCol;
 
-    Direction(int offsetX, int offsetY) {
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
+    Direction(int offsetRow, int offsetCol) {
+        this.offsetRow = offsetRow;
+        this.offsetCol = offsetCol;
     }
 
-    public int getOffsetX() {
-        return offsetX;
+    public int getOffsetRow() {
+        return offsetRow;
     }
 
-    public int getOffsetY() {
-        return offsetY;
+    public int getOffsetCol() {
+        return offsetCol;
     }
 
     public Position move(Position src) {
-        return new Position(src.x() + this.offsetX, src.y() + this.offsetY);
+        return new Position(src.row() + this.offsetRow, src.col() + this.offsetCol);
     }
 }

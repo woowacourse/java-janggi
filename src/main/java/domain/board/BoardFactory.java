@@ -34,16 +34,16 @@ public class BoardFactory {
 
     private static void putFormation(Map<Position, Piece> board, Formation inputFormation, Team team) {
         List<PieceType> formation = inputFormation.getFormation();
-        List<Integer> xPositions = List.of(1, 2, 6, 7);
+        List<Integer> colPositions = List.of(1, 2, 6, 7);
 
         for (int i = 0; i < formation.size(); i++) {
             PieceType type = formation.get(i);
-            int x = xPositions.get(i);
+            int col = colPositions.get(i);
 
             if (type == MA) {
-                board.put(new Position(x, team.getColumn()), new Ma(team));
+                board.put(new Position(team.getColumn(), col), new Ma(team));
             } else if (type == SANG) {
-                board.put(new Position(x, team.getColumn()), new Sang(team));
+                board.put(new Position(team.getColumn(), col), new Sang(team));
             }
         }
     }
@@ -53,7 +53,7 @@ public class BoardFactory {
 
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             for (int col = MIN_COL; col <= MAX_COL; col++) {
-                board.put(new Position(col, row), new None());
+                board.put(new Position(row, col), new None());
             }
         }
 
@@ -65,44 +65,44 @@ public class BoardFactory {
 
     private static void addHanPieces(Map<Position, Piece> board) {
         board.put(new Position(0, 0), new Cha(Team.HAN));
-        board.put(new Position(1, 0), new Sang(Team.HAN));
-        board.put(new Position(2, 0), new Ma(Team.HAN));
-        board.put(new Position(3, 0), new Sa(Team.HAN));
-        board.put(new Position(4, 0), new None());
-        board.put(new Position(5, 0), new Sa(Team.HAN));
-        board.put(new Position(6, 0), new Ma(Team.HAN));
-        board.put(new Position(7, 0), new Sang(Team.HAN));
-        board.put(new Position(8, 0), new Cha(Team.HAN));
+        board.put(new Position(0, 1), new Sang(Team.HAN));
+        board.put(new Position(0, 2), new Ma(Team.HAN));
+        board.put(new Position(0, 3), new Sa(Team.HAN));
+        board.put(new Position(0, 4), new None());
+        board.put(new Position(0, 5), new Sa(Team.HAN));
+        board.put(new Position(0, 6), new Ma(Team.HAN));
+        board.put(new Position(0, 7), new Sang(Team.HAN));
+        board.put(new Position(0, 8), new Cha(Team.HAN));
 
-        board.put(new Position(4, 1), new Jang(Team.HAN));
+        board.put(new Position(1, 4), new Jang(Team.HAN));
 
-        board.put(new Position(1, 2), new Po(Team.HAN));
-        board.put(new Position(7, 2), new Po(Team.HAN));
+        board.put(new Position(2, 1), new Po(Team.HAN));
+        board.put(new Position(2, 7), new Po(Team.HAN));
 
-        for (int x = 0; x <= 8; x += 2) {
-            board.put(new Position(x, 3), new Jol(Team.HAN));
+        for (int col = MIN_COL; col <= MAX_COL; col += 2) {
+            board.put(new Position(3, col), new Jol(Team.HAN));
         }
 
     }
 
     private static void addChoPieces(Map<Position, Piece> board) {
-        board.put(new Position(0, 9), new Cha(Team.CHO));
-        board.put(new Position(1, 9), new Sang(Team.CHO));
-        board.put(new Position(2, 9), new Ma(Team.CHO));
-        board.put(new Position(3, 9), new Sa(Team.CHO));
-        board.put(new Position(4, 9), new None());
-        board.put(new Position(5, 9), new Sa(Team.CHO));
-        board.put(new Position(6, 9), new Ma(Team.CHO));
-        board.put(new Position(7, 9), new Sang(Team.CHO));
-        board.put(new Position(8, 9), new Cha(Team.CHO));
+        board.put(new Position(9, 0), new Cha(Team.CHO));
+        board.put(new Position(9, 1), new Sang(Team.CHO));
+        board.put(new Position(9, 2), new Ma(Team.CHO));
+        board.put(new Position(9, 3), new Sa(Team.CHO));
+        board.put(new Position(9, 4), new None());
+        board.put(new Position(9, 5), new Sa(Team.CHO));
+        board.put(new Position(9, 6), new Ma(Team.CHO));
+        board.put(new Position(9, 7), new Sang(Team.CHO));
+        board.put(new Position(9, 8), new Cha(Team.CHO));
 
-        board.put(new Position(4, 8), new Jang(Team.CHO));
+        board.put(new Position(8, 4), new Jang(Team.CHO));
 
-        board.put(new Position(1, 7), new Po(Team.CHO));
+        board.put(new Position(7, 1), new Po(Team.CHO));
         board.put(new Position(7, 7), new Po(Team.CHO));
 
-        for (int x = 0; x <= 8; x += 2) {
-            board.put(new Position(x, 6), new Jol(Team.CHO));
+        for (int col = MIN_COL; col <= MAX_COL; col += 2) {
+            board.put(new Position(6, col), new Jol(Team.CHO));
         }
     }
 }

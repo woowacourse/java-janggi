@@ -1,7 +1,7 @@
 package domain.board;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import domain.piece.Cha;
@@ -23,9 +23,9 @@ class BoardTest {
 
     private Map<Position, Piece> createEmptyBoard() {
         Map<Position, Piece> boardMap = new HashMap<>();
-        for (int y = 0; y <= 9; y++) {
-            for (int x = 0; x <= 8; x++) {
-                boardMap.put(new Position(x, y), new None());
+        for (int row = 0; row <= 9; row++) {
+            for (int col = 0; col <= 8; col++) {
+                boardMap.put(new Position(row, col), new None());
             }
         }
 
@@ -38,19 +38,19 @@ class BoardTest {
         void 이동할_수_없는_경우는_canMove가_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
-            boardMap.put(new Position(1, 0), new Sang(Team.CHO));
+            boardMap.put(new Position(0, 1), new Sang(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(8, 0)));
+            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(0, 8)));
         }
 
         @Test
         void 이동할_수_있는_경우는_canMove가_Exception_던지지_않는다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
-            boardMap.put(new Position(0, 3), new Jol(Team.CHO));
+            boardMap.put(new Position(6, 0), new Jol(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertDoesNotThrow(() -> board.canMove(new Position(0, 3), new Position(0, 4)));
+            assertDoesNotThrow(() -> board.canMove(new Position(6, 0), new Position(5, 0)));
         }
     }
 
@@ -59,32 +59,32 @@ class BoardTest {
         @Test
         void 포가_이동할_수_없는_경우는_canMove가_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
-            boardMap.put(new Position(0, 0), new Po(Team.CHO));
+            boardMap.put(new Position(5, 0), new Po(Team.CHO));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(0, 3)));
+            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(5, 0), new Position(8, 0)));
         }
 
         @Test
         void 포가_이동할_수_있는_경우는_canMove가_Exception_던지지_않는다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
-            boardMap.put(new Position(0, 0), new Po(Team.CHO));
-            boardMap.put(new Position(0, 1), new Cha(Team.HAN));
-            boardMap.put(new Position(0, 2), new None());
+            boardMap.put(new Position(8, 1), new Po(Team.CHO));
+            boardMap.put(new Position(7, 1), new Cha(Team.HAN));
+            boardMap.put(new Position(6, 1), new None());
 
             Board board = new Board(boardMap);
-            assertDoesNotThrow(() -> board.canMove(new Position(0, 0), new Position(0, 2)));
+            assertDoesNotThrow(() -> board.canMove(new Position(8, 1), new Position(6, 1)));
         }
 
         @Test
         void 포가_도착지에_상대편_포가_있으면_canMove가_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
-            boardMap.put(new Position(0, 0), new Po(Team.CHO));
-            boardMap.put(new Position(0, 1), new Cha(Team.HAN));
-            boardMap.put(new Position(0, 2), new Po(Team.HAN));
+            boardMap.put(new Position(8, 1), new Po(Team.CHO));
+            boardMap.put(new Position(7, 1), new Cha(Team.HAN));
+            boardMap.put(new Position(6, 1), new Po(Team.HAN));
 
             Board board = new Board(boardMap);
-            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(0, 0), new Position(0, 2)));
+            assertThrows(IllegalArgumentException.class, () -> board.canMove(new Position(8, 1), new Position(6, 1)));
         }
     }
 
@@ -94,11 +94,11 @@ class BoardTest {
         void 도착_위치에_상대편_기물이_있는_경우_해당_기물을_반환한다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
-            boardMap.put(new Position(3, 0), new Cha(Team.HAN));
+            boardMap.put(new Position(0, 3), new Cha(Team.HAN));
 
             Board board = new Board(boardMap);
 
-            assertEquals(new Cha(Team.HAN), board.move(new Position(0, 0), new Position(3, 0)));
+            assertEquals(new Cha(Team.HAN), board.move(new Position(0, 0), new Position(0, 3)));
         }
 
         @Test
@@ -108,7 +108,7 @@ class BoardTest {
 
             Board board = new Board(boardMap);
 
-            assertEquals(new None(), board.move(new Position(0, 0), new Position(3, 0)));
+            assertEquals(new None(), board.move(new Position(0, 0), new Position(0, 3)));
         }
     }
 
@@ -124,10 +124,10 @@ class BoardTest {
 
             assertEquals(10, data.size());
             assertEquals(9, data.get(0).size());
-            
-            for (int y = 0; y < 10; y++) {
-                for (int x = 0; x < 9; x++) {
-                    assertEquals("  ", data.get(y).get(x));
+
+            for (int row = 0; row < 10; row++) {
+                for (int col = 0; col < 9; col++) {
+                    assertEquals("  ", data.get(row).get(col));
                 }
             }
         }
@@ -136,8 +136,8 @@ class BoardTest {
         void 기물이_있는_보드를_DTO로_변환하면_기물의_문자열이_표시된다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
-            boardMap.put(new Position(4, 1), new Sang(Team.CHO));
-            boardMap.put(new Position(3, 5), new Po(Team.HAN));
+            boardMap.put(new Position(1, 4), new Sang(Team.CHO));
+            boardMap.put(new Position(5, 3), new Po(Team.HAN));
 
             Board board = new Board(boardMap);
             BoardDTO dto = board.createDTO();
@@ -152,7 +152,7 @@ class BoardTest {
         void DTO는_정확한_크기의_2차원_리스트를_반환한다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
-            boardMap.put(new Position(8, 9), new Jol(Team.HAN));
+            boardMap.put(new Position(9, 8), new Jol(Team.HAN));
 
             Board board = new Board(boardMap);
             BoardDTO dto = board.createDTO();

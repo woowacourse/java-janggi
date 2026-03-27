@@ -10,7 +10,7 @@ public class StraightPathGenerator implements PathGenerator {
 
     @Override
     public Path calculatePath(Position src, Position dest) {
-        if(!validateMove(src, dest)) {
+        if (!validateMove(src, dest)) {
             throw new IllegalArgumentException("이동 할 수 있는 경로가 아닙니다.");
         }
 
@@ -19,35 +19,33 @@ public class StraightPathGenerator implements PathGenerator {
         return buildPath(src, dest, direction);
     }
 
-    private boolean validateMove(Position src,Position dest) {
-        if(src.equals(dest)) {
+    private boolean validateMove(Position src, Position dest) {
+        if (src.equals(dest)) {
             return false;
         }
 
-        return src.x() == dest.x() || src.y() == dest.y();
+        return src.row() == dest.row() || src.col() == dest.col();
     }
 
     private Direction determineDirection(Position src, Position dest) {
-        if(src.x() == dest.x()) {
-            return getDirectionWhenXSame(src, dest);
-        }
-
-        if(src.y() == dest.y()) {
+        if (src.row() == dest.row()) {
             return getDirectionWhenYSame(src, dest);
         }
-
+        if (src.col() == dest.col()) {
+            return getDirectionWhenXSame(src, dest);
+        }
         throw new IllegalArgumentException("갈 수 있는 경로가 없습니다.");
     }
 
     private Direction getDirectionWhenXSame(Position src, Position dest) {
-        if(src.y() > dest.y()) {
-            return Direction.SOUTH;
+        if (src.row() > dest.row()) {
+            return Direction.NORTH;
         }
-        return Direction.NORTH;
+        return Direction.SOUTH;
     }
 
     private Direction getDirectionWhenYSame(Position src, Position dest) {
-        if(src.x() > dest.x()) {
+        if (src.col() > dest.col()) {
             return Direction.WEST;
         }
         return Direction.EAST;
@@ -66,4 +64,3 @@ public class StraightPathGenerator implements PathGenerator {
         return new Path(src, dest, path);
     }
 }
-

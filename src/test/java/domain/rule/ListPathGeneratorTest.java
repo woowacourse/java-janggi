@@ -36,22 +36,22 @@ class ListPathGeneratorTest {
     void 리스트를_받으면_이동규칙으로_Path객체를_만든다() {
         listPathGenerator = new ListPathGenerator(sangPaths);
 
-        Path path = listPathGenerator.calculatePath(new Position(1, 1), new Position(3, 4));
+        Path path = listPathGenerator.calculatePath(new Position(5, 4), new Position(8, 6));
 
-        assertEquals(createPosition(1, 1), path.src());
+        assertEquals(createPosition(5, 4), path.src());
         List<Position> waypoints = path.waypoints();
         assertEquals(2, waypoints.size());
-        assertEquals(createPosition(1, 2), waypoints.getFirst());
-        assertEquals(createPosition(2, 3), waypoints.getLast());
+        assertEquals(createPosition(6, 4), waypoints.getFirst());
+        assertEquals(createPosition(7, 5), waypoints.getLast());
 
-        assertEquals(createPosition(3, 4), path.dest());
+        assertEquals(createPosition(8, 6), path.dest());
     }
 
 
     @Test
     void 이동할_수_없는_위치를_입력하면_에러를_던진다() {
         listPathGenerator = new ListPathGenerator(sangPaths);
-        
+
         assertThrows(IllegalArgumentException.class,
                 () -> listPathGenerator.calculatePath(new Position(1, 1), new Position(4, 4)));
     }

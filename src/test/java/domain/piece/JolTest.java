@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class JolTest {
     @ParameterizedTest
     @MethodSource("provideChoJolPaths")
-    void 초의_졸은_옆과_위를_한칸_이동한다(int startX, int startY, int destX, int destY) {
+    void 초의_졸은_옆과_위를_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece jol = new Jol(Team.CHO);
-        Position src = new Position(startX, startY);
-        Position dest = new Position(destX, destY);
+        Position src = new Position(startRow, startCol);
+        Position dest = new Position(destRow, destCol);
 
         Path path = jol.calculatePath(src, dest);
 
@@ -28,10 +28,10 @@ class JolTest {
 
     @ParameterizedTest
     @MethodSource("provideHanJolPaths")
-    void 한의_졸은_옆과_아래를_한칸_이동한다(int startX, int startY, int destX, int destY) {
+    void 한의_졸은_옆과_아래를_한칸_이동한다(int startRow, int startCol, int destRow, int destCol) {
         Piece jol = new Jol(Team.HAN);
-        Position src = new Position(startX, startY);
-        Position dest = new Position(destX, destY);
+        Position src = new Position(startRow, startCol);
+        Position dest = new Position(destRow, destCol);
 
         Path path = jol.calculatePath(src, dest);
 
@@ -43,17 +43,17 @@ class JolTest {
 
     private static Stream<Arguments> provideChoJolPaths() {
         return Stream.of(
-                Arguments.of(4, 3, 4, 4),
-                Arguments.of(4, 3, 5, 3),
-                Arguments.of(4, 3, 3, 3)
+                Arguments.of(6, 4, 5, 4),
+                Arguments.of(6, 4, 6, 5),
+                Arguments.of(6, 4, 6, 3)
         );
     }
 
     private static Stream<Arguments> provideHanJolPaths() {
         return Stream.of(
-                Arguments.of(4, 6, 4, 5),
-                Arguments.of(4, 6, 5, 6),
-                Arguments.of(4, 6, 3, 6)
+                Arguments.of(3, 4, 4, 4),
+                Arguments.of(3, 4, 3, 5),
+                Arguments.of(3, 4, 3, 3)
         );
     }
 
