@@ -1,6 +1,7 @@
 package model.pieces;
 
 import java.util.Objects;
+
 import model.board.Board;
 import model.board.Country;
 import model.move.Move;
@@ -38,5 +39,9 @@ public abstract class Piece {
 
     public Country country() {
         return country;
+    }
+
+    public PieceType pieceType() {
+        return pieceType;
     }
 }

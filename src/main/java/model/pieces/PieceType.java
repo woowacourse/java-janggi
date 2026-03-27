@@ -1,18 +1,15 @@
 package model.pieces;
 
-import model.move.ChariotMoveRule;
-import model.move.ElephantMoveRule;
-import model.move.HorseMoveRule;
-import model.move.MoveRule;
+import model.move.*;
 
 public enum PieceType {
     CHARIOT("차", new ChariotMoveRule()),
     HORSE("마", new HorseMoveRule()),
     ELEPHANT("상", new ElephantMoveRule()),
-    GUARD("사", new HorseMoveRule()),
-    GENERAL("장", new HorseMoveRule()),
-    CANNON("포", new HorseMoveRule()),
-    SOLDIER("병", new HorseMoveRule());
+    GUARD("사", new GuardMoveRule()),
+    GENERAL("장", new GeneralMoveRule()),
+    CANNON("포", new CannonMoveRule()),
+    SOLDIER("병", new SoldierMoveRule());
 
     private final String symbol;
     private final MoveRule rule;
