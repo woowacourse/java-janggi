@@ -104,7 +104,7 @@ class MovementTest {
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.valueOf(0, 1);
             Movement Movement = new Movement(1, direction);
-            boolean expected = true;
+            boolean expected = false;
 
             boolean actual = Movement.isBlocked(from, boardMediator);
 
@@ -119,7 +119,7 @@ class MovementTest {
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.valueOf(0, 1);
             Movement Movement = new Movement(1, direction);
-            boolean expected = false;
+            boolean expected = true;
 
             boolean actual = Movement.isBlocked(from, boardMediator);
 

@@ -69,6 +69,14 @@ public final class Position {
         }
     }
 
+    public boolean checkNextBound(final int distance, final Direction direction) {
+        final int nextRow = row + direction.getRowDirection() * distance;
+        final int nextColumn = column + direction.getColumnDirection() * distance;
+
+        return nextRow >= MINIMUM_ROW && nextRow <= MAXIMUM_ROW && nextColumn >= MINIMUM_COLUMN
+            && nextColumn <= MAXIMUM_COLUMN;
+    }
+
     public Position calculateNext(final int distance, final Direction direction) {
         final int nextRow = row + direction.getRowDirection() * distance;
         final int nextColumn = column + direction.getColumnDirection() * distance;

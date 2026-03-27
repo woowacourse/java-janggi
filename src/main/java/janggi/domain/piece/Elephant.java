@@ -3,13 +3,57 @@ package janggi.domain.piece;
 import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
+import janggi.domain.movement.Direction;
+import janggi.domain.movement.Movement;
+import janggi.domain.movement.Rule;
+import janggi.domain.movement.RuleWithNoTraces;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
 public class Elephant implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.ELEPHANT;
+    private static final PieceAction PIECE_ACTION;
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
+
+    static {
+        final List<Rule> rules = List.of(
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(0, 1)),
+                new Movement(1, Direction.valueOf(-1, 1)),
+                new Movement(1, Direction.valueOf(-1, 1)))),
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(0, 1)),
+                new Movement(1, Direction.valueOf(1, 1)),
+                new Movement(1, Direction.valueOf(1, 1)))),
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(-1, 0)),
+                new Movement(1, Direction.valueOf(-1, 1)),
+                new Movement(1, Direction.valueOf(-1, 1)))),
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(-1, 0)),
+                new Movement(1, Direction.valueOf(-1, -1)),
+                new Movement(1, Direction.valueOf(-1, -1)))),
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(0, -1)),
+                new Movement(1, Direction.valueOf(-1, -1)),
+                new Movement(1, Direction.valueOf(-1, -1)))),
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(0, -1)),
+                new Movement(1, Direction.valueOf(1, -1)),
+                new Movement(1, Direction.valueOf(1, -1)))),
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(1, 0)),
+                new Movement(1, Direction.valueOf(1, -1)),
+                new Movement(1, Direction.valueOf(1, -1)))),
+            new RuleWithNoTraces(List.of(
+                new Movement(1, Direction.valueOf(1, 0)),
+                new Movement(1, Direction.valueOf(1, 1)),
+                new Movement(1, Direction.valueOf(1, 1)))
+            ));
+
+        PIECE_ACTION = new PieceAction(rules);
+    }
 
     private final TeamType teamType;
 
@@ -33,12 +77,14 @@ public class Elephant implements Piece {
     }
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
-        return List.of();
+    public List<Position> calculateMovablePositions(final Position from,
+        final BoardMediator boardMediator) {
+        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
 
     @Override
-    public boolean canKill(final PieceType pieceType) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(pieceType);
+    public boolean canKill(final Piece target) {
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
+            teamType);
     }
 }

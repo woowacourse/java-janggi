@@ -16,6 +16,10 @@ public class Movement {
         this.direction = direction;
     }
 
+    public boolean canMove(final Position from) {
+        return from.checkNextBound(maxDistance, direction);
+    }
+
     public boolean canKill(final Piece me, final Position from, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
@@ -34,10 +38,10 @@ public class Movement {
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = from.calculateNext(distance, direction);
             if (boardMediator.existsInPosition(to)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public Position calculateDestination(final Position from, final Piece piece,

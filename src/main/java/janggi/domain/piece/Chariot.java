@@ -55,7 +55,7 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public boolean canKill(final PieceType pieceType) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(pieceType);
+    public boolean canKill(final Piece target) {
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(teamType);
     }
 }

@@ -3,6 +3,7 @@ package janggi.domain.movement;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RuleWithNoTraces implements Rule {
@@ -16,13 +17,24 @@ public class RuleWithNoTraces implements Rule {
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
-        for (final Movement movement : movementOrder) {
-            if (!movement.canReach(from, boardMediator)) {
+        final List<Movement> movementOrderWithoutLast = getMovementOrderWithoutLast();
+        final Movement lastMovement = movementOrder.getLast();
+        for (final Movement movement : movementOrderWithoutLast) {
+            if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
                 return List.of();
             }
             from = movement.calculateDestination(from, piece, boardMediator);
         }
+        if (lastMovement.canMove(from) && lastMovement.canKill(piece, from, boardMediator)) {
+            from = lastMovement.calculateBlockedPosition(from, piece, boardMediator);
+            return List.of(from);
+        }
+        return List.of();
+    }
 
-        return List.of(from);
+    private List<Movement> getMovementOrderWithoutLast() {
+        final List<Movement> movementOrderWithoutLast = new ArrayList<>(movementOrder);
+        movementOrderWithoutLast.removeLast();
+        return movementOrderWithoutLast;
     }
 }

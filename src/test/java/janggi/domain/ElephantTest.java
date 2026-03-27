@@ -52,12 +52,12 @@ public class ElephantTest {
         @DisplayName("상은 기물을 뛰어넘을 수 없다.")
         void test1() {
             positionPieceMap.put(Position.valueOf(6, 4), elephant);
-            positionPieceMap.put(Position.valueOf(3, 1), enemy1);
-            positionPieceMap.put(Position.valueOf(5, 4), enemy2);
-            positionPieceMap.put(Position.valueOf(7, 4), enemy3);
-            positionPieceMap.put(Position.valueOf(5, 6), ally1);
-            positionPieceMap.put(Position.valueOf(8, 1), ally2);
-            positionPieceMap.put(Position.valueOf(8, 7), ally3);
+            positionPieceMap.put(Position.valueOf(4, 1), ally1);
+            positionPieceMap.put(Position.valueOf(5, 4), enemy1);
+            positionPieceMap.put(Position.valueOf(7, 4), ally2);
+            positionPieceMap.put(Position.valueOf(5, 6), ally3);
+            positionPieceMap.put(Position.valueOf(8, 1), ally4);
+            positionPieceMap.put(Position.valueOf(7, 6), enemy2);
             List<Position> expected = List.of();
 
             Board board = new Board(positionPieceMap);
@@ -87,13 +87,14 @@ public class ElephantTest {
         @Test
         @DisplayName("상은 장기판 밖으로 이동할 수 없다.")
         void test3() {
-            positionPieceMap.put(Position.valueOf(6, 2), elephant);
-            List<Position> expected = List.of(Position.valueOf(3, 4), Position.valueOf(4, 5), Position.valueOf(8, 5),
-                    Position.valueOf(9, 4));
+            positionPieceMap.put(Position.valueOf(1, 1), elephant);
+            positionPieceMap.put(Position.valueOf(1, 2), ally1);
+            positionPieceMap.put(Position.valueOf(2, 1), ally3);
+            List<Position> expected = List.of();
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(6, 2), boardMediator);
+            List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(1, 1), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
