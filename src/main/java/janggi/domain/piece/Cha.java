@@ -7,19 +7,10 @@ import janggi.domain.status.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cha implements Piece {
-
-    private final Team team;
-    private final PieceType type;
+public class Cha extends AbstractPiece {
 
     public Cha(Team team) {
-        this.team = team;
-        this.type = PieceType.CHA;
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
+        super(team, PieceType.CHA);
     }
 
     @Override
@@ -44,20 +35,5 @@ public class Cha implements Piece {
             route.add(Point.of(nextX, nextY));
         }
         return route;
-    }
-
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.isEmpty();
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return this.type.equals(type);
-    }
-
-    @Override
-    public PieceType getType() {
-        return type;
     }
 }

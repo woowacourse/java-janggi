@@ -7,19 +7,10 @@ import janggi.domain.status.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pho implements Piece {
-
-    private final Team team;
-    private final PieceType type;
+public class Pho extends AbstractPiece {
 
     public Pho(Team team) {
-        this.team = team;
-        this.type = PieceType.PHO;
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
+        super(team, PieceType.PHO);
     }
 
     @Override
@@ -51,21 +42,11 @@ public class Pho implements Piece {
         if (route.size() > 1) {
             return false;
         }
-        return route.stream().anyMatch(piece -> !piece.isSameType(type));
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return this.type.equals(type);
+        return route.stream().anyMatch(piece -> !piece.isSameType(PieceType.PHO));
     }
 
     @Override
     public boolean canCapture(Piece target) {
         return !target.isSameType(PieceType.PHO);
-    }
-
-    @Override
-    public PieceType getType() {
-        return type;
     }
 }

@@ -6,22 +6,13 @@ import janggi.domain.Point;
 import janggi.domain.status.Team;
 import java.util.List;
 
-public class Sang implements Piece {
+public class Sang extends AbstractPiece {
 
     private static final int LONG_STEP = 3;
     private static final int SHORT_STEP = 2;
 
-    private final Team team;
-    private final PieceType type;
-
     public Sang(Team team) {
-        this.team = team;
-        this.type = PieceType.SANG;
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
+        super(team, PieceType.SANG);
     }
 
     @Override
@@ -47,20 +38,5 @@ public class Sang implements Piece {
                 Point.of(from.getX(), from.getY() + (pathY / LONG_STEP)),
                 Point.of(from.getX() + signX,  from.getY() + signY * SHORT_STEP)
         );
-    }
-
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.isEmpty();
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return this.type.equals(type);
-    }
-
-    @Override
-    public PieceType getType() {
-        return type;
     }
 }

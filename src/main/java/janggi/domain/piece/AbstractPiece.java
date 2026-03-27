@@ -1,0 +1,48 @@
+package janggi.domain.piece;
+
+import janggi.domain.Point;
+import janggi.domain.status.Team;
+import java.util.List;
+
+abstract class AbstractPiece implements Piece {
+
+    private final Team team;
+    private final PieceType type;
+
+    public AbstractPiece(Team team, PieceType type) {
+        this.team = team;
+        this.type = type;
+    }
+
+    @Override
+    public abstract List<Point> getRoute(Point from, Point to);
+
+    @Override
+    public boolean canCapture(Piece target) {
+        return true;
+    }
+
+    @Override
+    public boolean canMove(List<Piece> route) {
+        return route.isEmpty();
+    }
+
+    @Override
+    public boolean isSameTeam(Team team) {
+        return this.team.equals(team);
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
+    }
+
+    @Override
+    public PieceType getType() {
+        return type;
+    }
+
+    protected Team getTeam() {
+        return this.team;
+    }
+}

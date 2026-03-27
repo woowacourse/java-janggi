@@ -6,21 +6,12 @@ import janggi.domain.Point;
 import janggi.domain.status.Team;
 import java.util.List;
 
-public class Sa implements Piece {
+public class Sa extends AbstractPiece {
 
     private static final int MAX_DISTANCE = 1;
 
-    private final Team team;
-    private final PieceType type;
-
     public Sa(Team team) {
-        this.team = team;
-        this.type = PieceType.SA;
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
+        super(team, PieceType.SA);
     }
 
     @Override
@@ -39,16 +30,6 @@ public class Sa implements Piece {
     @Override
     public boolean canMove(List<Piece> route) {
         return route.stream()
-                .noneMatch(piece -> piece.isSameTeam(team));
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return this.type.equals(type);
-    }
-
-    @Override
-    public PieceType getType() {
-        return type;
+                .noneMatch(piece -> piece.isSameTeam(super.getTeam()));
     }
 }
