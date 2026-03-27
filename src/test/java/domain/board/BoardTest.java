@@ -16,6 +16,8 @@ import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardTest {
     Board board;
@@ -123,6 +125,42 @@ public class BoardTest {
             List<Piece> result = pathChecker.findPiecesInPath(path);
 
             assertThat(result).isEmpty();
+        }
+    }
+
+    @Nested
+    class IsSameCamp {
+        Map<Position, Piece> dummyBoard;
+        PathChecker pathChecker;
+
+        @BeforeEach
+        void setUp() {
+            dummyBoard = new HashMap<>();
+
+            dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.CHARIOT));
+            dummyBoard.put(new Position(1, 4), new Piece(Camp.HAN, PieceType.SOLDIER));
+            dummyBoard.put(new Position(1, 7), new Piece(Camp.CHO, PieceType.SOLDIER));
+
+            pathChecker = new Board(dummyBoard);
+        }
+
+        @Test
+        @DisplayName("출발 위치의 기물과 도착 위치에 있는 기물의 진영이 동일하면 true를 반환한다.")
+        void returnTrue_When_DestinationPieceCampIsSame() {
+            Position from = new Position(1, 1);
+            Position to = new Position(1, 4);
+
+
+            assertTrue(pathChecker.isSameCamp(from, to));
+        }
+
+        @Test
+        @DisplayName("출발 위치의 기물과 도착 위치에 있는 기물의 진영이 다르면 false를 반환한다.")
+        void returnFalse_When_DestinationPieceCampIsDiffer() {
+            Position from = new Position(1, 1);
+            Position to = new Position(1, 7);
+
+            assertFalse(pathChecker.isSameCamp(from, to));
         }
     }
 }

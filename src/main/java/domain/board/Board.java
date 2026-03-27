@@ -43,4 +43,12 @@ public class Board implements PathChecker {
             piecesInPath.add(piece);
         }
     }
+
+    @Override
+    public boolean isSameCamp(Position from, Position to) {
+        Piece fromPiece = board.get(from);
+        Piece toPiece = board.get(to);
+
+        return fromPiece.camp() == toPiece.camp();
+    }
 }
