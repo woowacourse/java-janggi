@@ -8,13 +8,13 @@ public final class Player {
 
     private final Name name;
     private final Team team;
-    private final List<Piece> catchedPiece;
+    private final List<Piece> caughtPiece;
 
 
     public Player(Name name, Team team) {
         this.name = name;
         this.team = team;
-        catchedPiece = new ArrayList<>();
+        caughtPiece = new ArrayList<>();
     }
 
     public String getName() {
@@ -25,11 +25,11 @@ public final class Player {
         return team;
     }
 
-    public List<Piece> getCatchedPiece() {
-        return List.copyOf(catchedPiece);
+    public List<Piece> getCaughtPiece() {
+        return List.copyOf(caughtPiece);
     }
 
-    public void addCatchedPiece(Piece piece) {
-        catchedPiece.add(piece);
+    public void addCaughtPiece(Piece piece) {
+        caughtPiece.add(piece);
     }
 }

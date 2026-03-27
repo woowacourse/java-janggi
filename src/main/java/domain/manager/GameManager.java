@@ -39,7 +39,7 @@ public class GameManager {
             Position dest = createDestPosition();
             Piece piece = board.move(src, dest);
             if (piece.isNotNone()) {
-                turnManager.currentTurn().addCatchedPiece(piece);
+                turnManager.currentTurn().addCaughtPiece(piece);
             }
             return null;
         });
