@@ -12,6 +12,8 @@ public enum TableSetting {
     OUTSIDE_TABLE(List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT), "상마마상"),
     ;
 
+    private static final String NOT_FOUND_TABLE_SETTING = "[ERROR] 존재하지 않는 상차림입니다.";
+
     private final List<PieceType> formation;
     private final String name;
 
@@ -26,7 +28,7 @@ public enum TableSetting {
                 return tableSetting;
             }
         }
-        throw new IllegalArgumentException("[ERROR] 존재하지 않는 상차림입니다.");
+        throw new IllegalArgumentException(NOT_FOUND_TABLE_SETTING);
     }
 
     public List<PieceType> getFormation(Country country) {

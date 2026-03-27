@@ -3,9 +3,11 @@ package domain.state;
 import domain.piece.Piece;
 
 public class EmptyState implements State {
+    private static final String NOT_FOUNT_PIECE_FROM_POSITION = "[ERROR] 해당 좌표에 기물이 존재하지 않습니다.";
+
     @Override
     public Piece getPiece() {
-        throw new IllegalStateException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
+        throw new IllegalArgumentException(NOT_FOUNT_PIECE_FROM_POSITION);
     }
 
     @Override
