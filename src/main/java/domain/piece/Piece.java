@@ -8,26 +8,25 @@ import domain.position.Position;
 import domain.strategy.MovementStrategy;
 import java.util.Objects;
 
-public class Piece {
+public abstract class Piece {
 
     private final Team team;
     private final PieceType pieceType;
-    private final MovementStrategy movementStrategy;
-    private final PathGenerator pathGenerator;
 
-    public Piece(Team team, PieceType pieceType, MovementStrategy movementStrategy, PathGenerator pathGenerator) {
+    public Piece(Team team, PieceType pieceType) {
         this.team = team;
         this.pieceType = pieceType;
-        this.movementStrategy = movementStrategy;
-        this.pathGenerator = pathGenerator;
     }
 
+    protected abstract MovementStrategy getMovementStrategy();
+    protected abstract PathGenerator getPathGenerator();
+
     public Path calculatePath(Position source, Position destination) {
-        return pathGenerator.calculatePath(source, destination);
+        return this.getPathGenerator().calculatePath(source, destination);
     }
 
     public boolean validatePath(PathPieces pathPieces) {
-        return movementStrategy.validatePath(pathPieces);
+        return this.getMovementStrategy().validatePath(pathPieces);
     }
 
     public String getPieceString() {
@@ -76,5 +75,9 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team, pieceType);
+    }
+
+    protected Team getTeam() {
+        return team;
     }
 }

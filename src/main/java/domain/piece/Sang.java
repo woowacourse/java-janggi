@@ -11,8 +11,10 @@ import static domain.direction.Direction.WEST;
 
 import domain.direction.Direction;
 import domain.pathgenerator.NonStraightPathGenerator;
+import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
 import domain.strategy.BlockedMovementStrategy;
+import domain.strategy.MovementStrategy;
 import java.util.List;
 
 public class Sang extends Piece {
@@ -29,7 +31,17 @@ public class Sang extends Piece {
     );
 
     public Sang(Team team) {
-        super(team, PieceType.SANG, new BlockedMovementStrategy(), new NonStraightPathGenerator(paths));
+        super(team, PieceType.SANG);
+    }
+
+    @Override
+    protected MovementStrategy getMovementStrategy() {
+        return new BlockedMovementStrategy();
+    }
+
+    @Override
+    protected PathGenerator getPathGenerator() {
+        return new NonStraightPathGenerator(paths);
     }
 
 }
