@@ -1,0 +1,20 @@
+package domain.piece.strategy;
+
+import domain.position.Position;
+import java.util.List;
+
+public class ByeongMoveStrategy implements MoveStrategy {
+    private final int[] dRow = {-1, 0, 0};
+    private final int[] dColumn = {0, -1, 1};
+
+    @Override
+    public List<Position> findMovablePath(Position start, Position destination) {
+        for (int i = 0; i < dColumn.length; i++) {
+            Position changedPosition = start.go(dRow[i], dColumn[i]);
+            if (changedPosition.equals(destination)) {
+                return List.of(changedPosition);
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다. 다시 입력하세요.");
+    }
+}

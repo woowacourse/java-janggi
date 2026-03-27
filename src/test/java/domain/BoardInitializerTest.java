@@ -110,39 +110,39 @@ public class BoardInitializerTest {
 
         // 초나라
         setting.put(Position.of(1, 1), new Cha(Team.CHO));
-        setting.put(Position.of(9, 1), new Cha(Team.CHO));
+        setting.put(Position.of(1, 9), new Cha(Team.CHO));
 
-        setting.put(Position.of(4, 1), new Sa(Team.CHO));
-        setting.put(Position.of(6, 1), new Sa(Team.CHO));
+        setting.put(Position.of(1, 4), new Sa(Team.CHO));
+        setting.put(Position.of(1, 6), new Sa(Team.CHO));
 
-        setting.put(Position.of(5, 1), new Jang(Team.CHO));
+        setting.put(Position.of(2, 5), new Jang(Team.CHO));
 
-        setting.put(Position.of(2, 3), new Po(Team.CHO));
-        setting.put(Position.of(8, 3), new Po(Team.CHO));
+        setting.put(Position.of(3, 2), new Po(Team.CHO));
+        setting.put(Position.of(3, 8), new Po(Team.CHO));
 
-        setting.put(Position.of(1, 4), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(3, 4), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(5, 4), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(7, 4), new Jolbyeong(Team.CHO));
-        setting.put(Position.of(9, 4), new Jolbyeong(Team.CHO));
+        setting.put(Position.of(4, 1), new Jolbyeong(Team.CHO));
+        setting.put(Position.of(4, 3), new Jolbyeong(Team.CHO));
+        setting.put(Position.of(4, 5), new Jolbyeong(Team.CHO));
+        setting.put(Position.of(4, 7), new Jolbyeong(Team.CHO));
+        setting.put(Position.of(4, 9), new Jolbyeong(Team.CHO));
 
         // 한나라
-        setting.put(Position.of(1, 10), new Cha(Team.HAN));
-        setting.put(Position.of(9, 10), new Cha(Team.HAN));
+        setting.put(Position.of(10, 1), new Cha(Team.HAN));
+        setting.put(Position.of(10, 9), new Cha(Team.HAN));
 
-        setting.put(Position.of(4, 10), new Sa(Team.HAN));
-        setting.put(Position.of(6, 10), new Sa(Team.HAN));
+        setting.put(Position.of(10, 4), new Sa(Team.HAN));
+        setting.put(Position.of(10, 6), new Sa(Team.HAN));
 
-        setting.put(Position.of(5, 10), new Jang(Team.HAN));
+        setting.put(Position.of(9, 5), new Jang(Team.HAN));
 
-        setting.put(Position.of(2, 8), new Po(Team.HAN));
+        setting.put(Position.of(8, 2), new Po(Team.HAN));
         setting.put(Position.of(8, 8), new Po(Team.HAN));
 
-        setting.put(Position.of(1, 7), new Jolbyeong(Team.HAN));
-        setting.put(Position.of(3, 7), new Jolbyeong(Team.HAN));
-        setting.put(Position.of(5, 7), new Jolbyeong(Team.HAN));
+        setting.put(Position.of(7, 1), new Jolbyeong(Team.HAN));
+        setting.put(Position.of(7, 3), new Jolbyeong(Team.HAN));
+        setting.put(Position.of(7, 5), new Jolbyeong(Team.HAN));
         setting.put(Position.of(7, 7), new Jolbyeong(Team.HAN));
-        setting.put(Position.of(9, 7), new Jolbyeong(Team.HAN));
+        setting.put(Position.of(7, 9), new Jolbyeong(Team.HAN));
 
         return setting;
     }

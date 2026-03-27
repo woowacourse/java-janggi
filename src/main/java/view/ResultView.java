@@ -9,7 +9,7 @@ public class ResultView {
 
         List<PieceDto> board = dto.getBoard();
         for (PieceDto pieceDto : board) {
-            grid[pieceDto.getColumn() - 1][pieceDto.getRow() - 1] = pieceDto.getDescription();
+            grid[pieceDto.getRow() - 1][pieceDto.getColumn() - 1] = pieceDto.getDescription();
         }
 
         writeBoard(grid);

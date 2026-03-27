@@ -15,6 +15,10 @@ public class Position {
         return new Position(new Row(row), new Column(column));
     }
 
+    public Position go(int row, int column) {
+        return new Position(this.row.add(row), this.column.add(column));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

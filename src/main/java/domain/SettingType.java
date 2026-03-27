@@ -53,51 +53,51 @@ abstract class SettingInfo {
 // --- 왼상차림 (상마상마) ---
 class LeftSettingOfChoInfo extends SettingInfo {
     public LeftSettingOfChoInfo() {
-        super(Position.of(3, 1), Position.of(8, 1), Position.of(2, 1), Position.of(7, 1));
+        super(Position.of(1, 3), Position.of(1, 8), Position.of(1, 2), Position.of(1, 7));
     }
 }
 
 class LeftSettingOfHanInfo extends SettingInfo {
     public LeftSettingOfHanInfo() {
-        super(Position.of(2, 10), Position.of(7, 10), Position.of(3, 10), Position.of(8, 10));
+        super(Position.of(10, 2), Position.of(10, 7), Position.of(10, 3), Position.of(10, 8));
     }
 }
 
 // --- 오른상차림 (마상마상) ---
 class RightSettingOfChoInfo extends SettingInfo {
     public RightSettingOfChoInfo() {
-        super(Position.of(2, 1), Position.of(7, 1), Position.of(3, 1), Position.of(8, 1));
+        super(Position.of(1, 2), Position.of(1, 7), Position.of(1, 3), Position.of(1, 8));
     }
 }
 
 class RightSettingOfHanInfo extends SettingInfo {
     public RightSettingOfHanInfo() {
-        super(Position.of(8, 10), Position.of(3, 10), Position.of(2, 10), Position.of(7, 10));
+        super(Position.of(10, 3), Position.of(10, 8), Position.of(10, 2), Position.of(10, 7));
     }
 }
 
 // --- 안상차림 (마상상마) ---
 class InnerSettingOfChoInfo extends SettingInfo {
     public InnerSettingOfChoInfo() {
-        super(Position.of(3, 1), Position.of(7, 1), Position.of(2, 1), Position.of(8, 1));
+        super(Position.of(1, 3), Position.of(1, 7), Position.of(1, 2), Position.of(1, 8));
     }
 }
 
 class InnerSettingOfHanInfo extends SettingInfo {
     public InnerSettingOfHanInfo() {
-        super(Position.of(3, 10), Position.of(7, 10), Position.of(2, 10), Position.of(8, 10));
+        super(Position.of(10, 3), Position.of(10, 7), Position.of(10, 2), Position.of(10, 8));
     }
 }
 
 // --- 바깥상차림 (상마마상) ---
 class OuterSettingOfChoInfo extends SettingInfo {
     public OuterSettingOfChoInfo() {
-        super(Position.of(8, 1), Position.of(2, 1), Position.of(3, 1), Position.of(7, 1));
+        super(Position.of(1, 2), Position.of(1, 8), Position.of(1, 3), Position.of(1, 7));
     }
 }
 
 class OuterSettingOfHanInfo extends SettingInfo {
     public OuterSettingOfHanInfo() {
-        super(Position.of(8, 10), Position.of(2, 10), Position.of(3, 10), Position.of(7, 10));
+        super(Position.of(10, 2), Position.of(10, 8), Position.of(10, 3), Position.of(10, 7));
     }
 }

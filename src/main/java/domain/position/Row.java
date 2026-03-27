@@ -9,6 +9,10 @@ public class Row {
         this.value = value;
     }
 
+    public Row add(int value) {
+        return new Row(this.value + value);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

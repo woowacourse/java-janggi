@@ -47,39 +47,39 @@ public class BoardInitializer {
 
         // 초나라
         setting.put(Position.of(1, 1), choPieces.get(PieceType.CHA));
-        setting.put(Position.of(9, 1), choPieces.get(PieceType.CHA));
+        setting.put(Position.of(1, 9), choPieces.get(PieceType.CHA));
 
-        setting.put(Position.of(4, 1), choPieces.get(PieceType.SA));
-        setting.put(Position.of(6, 1), choPieces.get(PieceType.SA));
+        setting.put(Position.of(1, 4), choPieces.get(PieceType.SA));
+        setting.put(Position.of(1, 6), choPieces.get(PieceType.SA));
 
-        setting.put(Position.of(5, 1), choPieces.get(PieceType.JANG));
+        setting.put(Position.of(2, 5), choPieces.get(PieceType.JANG));
 
-        setting.put(Position.of(2, 3), choPieces.get(PieceType.PO));
-        setting.put(Position.of(8, 3), choPieces.get(PieceType.PO));
+        setting.put(Position.of(3, 2), choPieces.get(PieceType.PO));
+        setting.put(Position.of(3, 8), choPieces.get(PieceType.PO));
 
-        setting.put(Position.of(1, 4), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(3, 4), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(5, 4), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(7, 4), choPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(9, 4), choPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(4, 1), choPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(4, 3), choPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(4, 5), choPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(4, 7), choPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(4, 9), choPieces.get(PieceType.JOLBYEONG));
 
         // 한나라
-        setting.put(Position.of(1, 10), hanPieces.get(PieceType.CHA));
-        setting.put(Position.of(9, 10), hanPieces.get(PieceType.CHA));
+        setting.put(Position.of(10, 1), hanPieces.get(PieceType.CHA));
+        setting.put(Position.of(10, 9), hanPieces.get(PieceType.CHA));
 
-        setting.put(Position.of(4, 10), hanPieces.get(PieceType.SA));
-        setting.put(Position.of(6, 10), hanPieces.get(PieceType.SA));
+        setting.put(Position.of(10, 4), hanPieces.get(PieceType.SA));
+        setting.put(Position.of(10, 6), hanPieces.get(PieceType.SA));
 
-        setting.put(Position.of(5, 10), hanPieces.get(PieceType.JANG));
+        setting.put(Position.of(9, 5), hanPieces.get(PieceType.JANG));
 
-        setting.put(Position.of(2, 8), hanPieces.get(PieceType.PO));
+        setting.put(Position.of(8, 2), hanPieces.get(PieceType.PO));
         setting.put(Position.of(8, 8), hanPieces.get(PieceType.PO));
 
-        setting.put(Position.of(1, 7), hanPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(3, 7), hanPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(5, 7), hanPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(7, 1), hanPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(7, 3), hanPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(7, 5), hanPieces.get(PieceType.JOLBYEONG));
         setting.put(Position.of(7, 7), hanPieces.get(PieceType.JOLBYEONG));
-        setting.put(Position.of(9, 7), hanPieces.get(PieceType.JOLBYEONG));
+        setting.put(Position.of(7, 9), hanPieces.get(PieceType.JOLBYEONG));
         return setting;
     }
 
