@@ -30,7 +30,10 @@ public class Position {
                 .filter(p -> p.isSameLocation(row, column))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 좌표입니다."));
+    }
 
+    public Position move(int row, int column){
+        return Position.of(this.row + row, this.column + column);
     }
 
     private boolean isSameLocation(int row, int column) {
