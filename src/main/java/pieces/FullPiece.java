@@ -38,11 +38,11 @@ public abstract class FullPiece implements Piece {
 
     public abstract boolean isPo();
 
-    public final boolean isHan() {
+    protected final boolean isHan() {
         return side.isHan();
     }
 
-    public final boolean isCho() {
+    protected final boolean isCho() {
         return side.isCho();
     }
 

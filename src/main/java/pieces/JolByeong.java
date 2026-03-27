@@ -15,10 +15,18 @@ public class JolByeong extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        List<Position> movableDestinations = List.of(
-            departure.moveUp(),
-            departure.moveLeft(),
-            departure.moveRight());
+        List<Position> movableDestinations;
+        if (isCho()) {
+            movableDestinations = List.of(
+                    departure.moveUp(),
+                    departure.moveLeft(),
+                    departure.moveRight());
+        } else {
+            movableDestinations = List.of(
+                    departure.moveDown(),
+                    departure.moveLeft(),
+                    departure.moveRight());
+        }
         if (!movableDestinations.contains(destination)) {
             throw new IllegalArgumentException("졸병의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }

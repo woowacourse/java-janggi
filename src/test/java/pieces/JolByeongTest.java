@@ -14,76 +14,148 @@ import position.Position;
 
 class JolByeongTest {
 
-    private static final Position DEFAULT = new Position(1, 1);
+    private static final Position DEFAULT = new Position(3, 3);
 
     @Nested
-    @DisplayName("졸병의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
-    class CanMove {
-
+    @DisplayName("초나라 졸 행마법 기준으로 도착지에 이동 가능한지 검증한다")
+    class ChoCanMove {
+        // 초나라가 아래에 있음
         @Test
         void 상_1칸_이동할_수_있다() {
             // given
-            Piece jolByeong = new JolByeong(Side.HAN);
+            Piece jol = new JolByeong(Side.CHO);
             Position departure = DEFAULT;
             Position destination = departure.moveUp();
             // when & then
-            assertThatCode(() -> jolByeong.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+            assertThatCode(() -> jol.askMoveContext(departure, destination))
+                    .doesNotThrowAnyException();
         }
 
         @Test
         void 좌_1칸_이동할_수_있다() {
             // given
-            Piece jolByeong = new JolByeong(Side.HAN);
+            Piece jol = new JolByeong(Side.CHO);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft();
             // when & then
-            assertThatCode(() -> jolByeong.askMoveContext(departure, destination))
+            assertThatCode(() -> jol.askMoveContext(departure, destination))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 우_1칸_이동할_수_있다() {
+            // given
+            Piece jol = new JolByeong(Side.CHO);
+            Position departure = DEFAULT;
+            Position destination = departure.moveRight();
+            // when & then
+            assertThatCode(() -> jol.askMoveContext(departure, destination))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 상_2칸이_도착지인_경우_예외를_던진다() {
+            // given
+            Piece jol = new JolByeong(Side.CHO);
+            Position departure = DEFAULT;
+            Position destination = departure.moveUp().moveUp();
+            // when & then
+            assertThatThrownBy(() -> jol.askMoveContext(departure, destination))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 대각선이_도착지인_경우_예외를_던진다() {
+            // given
+            Piece jol = new JolByeong(Side.CHO);
+            Position departure = DEFAULT;
+            Position destination = departure.moveRightUp();
+            // when & then
+            assertThatThrownBy(() -> jol.askMoveContext(departure, destination))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 하_1칸이_도착지인_경우_예외를_던진다() {
+            // given
+            Piece jol = new JolByeong(Side.CHO);
+            Position departure = DEFAULT;
+            Position destination = departure.moveDown();
+            // when & then
+            assertThatThrownBy(() -> jol.askMoveContext(departure, destination))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+    }
+
+    @Nested
+    @DisplayName("한나라 병 행마법 기준으로 도착지에 이동 가능한지 검증한다")
+    class HanCanMove {
+
+        @Test
+        void 하_1칸_이동할_수_있다() {
+            // given
+            Piece byeong = new JolByeong(Side.HAN);
+            Position departure = DEFAULT;
+            Position destination = departure.moveDown();
+            // when & then
+            assertThatCode(() -> byeong.askMoveContext(departure, destination))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 좌_1칸_이동할_수_있다() {
+            // given
+            Piece byeong = new JolByeong(Side.HAN);
+            Position departure = DEFAULT;
+            Position destination = departure.moveLeft();
+            // when & then
+            assertThatCode(() -> byeong.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 우_1칸_이동할_수_있다() {
             // given
-            Piece jolByeong = new JolByeong(Side.HAN);
+            Piece byeong = new JolByeong(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight();
             // when & then
-            assertThatCode(() -> jolByeong.askMoveContext(departure, destination))
+            assertThatCode(() -> byeong.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
         @Test
-        void 상_2칸이_도착지인_경우_예외를_던진다() {
+        void 하_2칸이_도착지인_경우_예외를_던진다() {
             // given
-            Piece jolByeong = new JolByeong(Side.HAN);
+            Piece byeong = new JolByeong(Side.HAN);
             Position departure = DEFAULT;
-            Position destination = departure.moveUp().moveUp();
+            Position destination = departure.moveDown().moveDown();
             // when & then
-            assertThatThrownBy(() -> jolByeong.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> byeong.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        void 우상향이_도착지인_경우_예외를_던진다() {
+        void 대각선이_도착지인_경우_예외를_던진다() {
             // given
-            Piece jolByeong = new JolByeong(Side.HAN);
+            Piece byeong = new JolByeong(Side.HAN);
             Position departure = DEFAULT;
-            Position destination = departure.moveUp().moveRight();
+            Position destination = departure.moveRightDown();
             // when & then
-            assertThatThrownBy(() -> jolByeong.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> byeong.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        void 하_1칸이_도착지인_경우_예외를_던진다() {
+        void 상_1칸이_도착지일_경우_예외를_던진다() {
             // given
-            Piece jolByeong = new JolByeong(Side.HAN);
+            Piece byeong = new JolByeong(Side.HAN);
             Position departure = DEFAULT;
-            Position destination = departure.moveDown();
+            Position destination = departure.moveUp();
             // when & then
-            assertThatThrownBy(() -> jolByeong.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+            assertThatThrownBy(() -> byeong.askMoveContext(departure, destination))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -92,7 +164,7 @@ class JolByeongTest {
         // given
         Piece jolByeong = new JolByeong(Side.HAN);
         Position departure = DEFAULT;
-        Position destination = departure.moveUp();
+        Position destination = departure.moveDown();
         // when
         MoveContext moveContext = jolByeong.askMoveContext(departure, destination);
         // then
@@ -104,7 +176,7 @@ class JolByeongTest {
         // given
         Piece jolByeong = new JolByeong(Side.HAN);
         Position departure = DEFAULT;
-        Position destination = departure.moveUp();
+        Position destination = departure.moveDown();
         // when
         MoveContext moveContext = jolByeong.askMoveContext(departure, destination);
         // then
@@ -117,7 +189,7 @@ class JolByeongTest {
         // given
         Piece jolByeong = new JolByeong(Side.HAN);
         Position departure = DEFAULT;
-        Position destination = departure.moveUp();
+        Position destination = departure.moveDown();
         // when
         MoveContext moveContext = jolByeong.askMoveContext(departure, destination);
         // then
