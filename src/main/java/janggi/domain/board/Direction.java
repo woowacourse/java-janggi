@@ -22,6 +22,10 @@ public enum Direction {
         this.col = col;
     }
 
+    public boolean canMove(Position currentPositon) {
+        return currentPositon.canMove(this.row, this.col);
+    }
+
     public Position move(Position currentPosition) {
         return currentPosition.move(this.row, this.col);
     }

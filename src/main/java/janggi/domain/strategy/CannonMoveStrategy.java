@@ -25,14 +25,11 @@ public class CannonMoveStrategy implements MoveStrategy {
     private void addCannonPath(Position current, Direction baseDir, Paths paths) {
         Path path = new Path();
         Position next = current;
-        try {
-            while (true) {
-                next = baseDir.move(next);
-                path.makePath(next);
-            }
-        } catch (IllegalArgumentException e) {
-            paths.addPath(path);
+        while (baseDir.canMove(next)) {
+            next = baseDir.move(next);
+            path.makePath(next);
         }
+        paths.addPath(path);
     }
 
     @Override

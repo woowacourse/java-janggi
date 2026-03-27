@@ -17,31 +17,35 @@ public class ElephantMoveStrategy implements MoveStrategy {
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
         Paths paths = new Paths();
         for (Direction baseDir : baseDirections) {
-            addElephantPaths(current, baseDir, paths);
+            addElephantPaths(current, paths, baseDir);
         }
         return paths;
     }
 
-    private void addElephantPaths(Position current, Direction baseDir, Paths paths) {
+    private void addElephantPaths(Position current, Paths paths, Direction baseDir) {
         for (Direction diagonalDir : baseDir.getAdjacentDiagonals()) {
-            createAndAddSequence(current, baseDir, diagonalDir, paths);
+            createAndAddSequence(current, paths, baseDir, diagonalDir, diagonalDir);
         }
     }
 
-    private void createAndAddSequence(Position current, Direction baseDir, Direction diagonalDir, Paths paths) {
-        try {
-            Position step1 = baseDir.move(current);
-            Position step2 = diagonalDir.move(step1);
-            Position step3 = diagonalDir.move(step2);
+    private void createAndAddSequence(Position start, Paths paths, Direction... directions) {
+        Path path = new Path();
+        Position current = start;
 
-            Path path = new Path();
-            path.makePath(step1);
-            path.makePath(step2);
-            path.makePath(step3);
-            paths.addPath(path);
-        } catch (IllegalArgumentException ignored) {
-            // 보드 밖으로 나가는 좌표가 하나라도 발생하면 해당 경로는 물리적으로 불가하므로 폐기
+        for (Direction direction : directions) {
+            current = createSequenceIfPossible(current, direction, path);
+            if (current == null) return;
         }
+        paths.addPath(path);
+    }
+
+    private Position createSequenceIfPossible(Position now, Direction direction, Path path) {
+        if (!direction.canMove(now)) {
+            return null;
+        }
+        Position next = direction.move(now);
+        path.makePath(next);
+        return next;
     }
 
     @Override

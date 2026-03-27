@@ -6,6 +6,7 @@ import janggi.domain.route.Paths;
 import janggi.domain.piece.Piece;
 import janggi.domain.board.Position;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -24,22 +25,28 @@ public class HorseMoveStrategy implements MoveStrategy {
 
     private void addHorsePaths(Position current, Direction baseDir, Paths paths) {
         for (Direction diagonalDir : baseDir.getAdjacentDiagonals()) {
-            createAndAddSequence(current, baseDir, diagonalDir, paths);
+            createAndAddSequence(current, paths, baseDir, diagonalDir);
         }
     }
 
-    private void createAndAddSequence(Position current, Direction baseDir, Direction diagonalDir, Paths paths) {
-        try {
-            Position step1 = baseDir.move(current);
-            Position step2 = diagonalDir.move(step1);
+    private void createAndAddSequence(Position start, Paths paths, Direction... directions) {
+        Path path = new Path();
+        Position current = start;
 
-            Path path = new Path();
-            path.makePath(step1);
-            path.makePath(step2);
-            paths.addPath(path);
-        } catch (IllegalArgumentException ignored) {
-
+        for (Direction direction : directions) {
+            current = createSequenceIfPossible(current, direction, path);
+            if (current == null) return;
         }
+        paths.addPath(path);
+    }
+
+    private Position createSequenceIfPossible(Position now, Direction direction, Path path) {
+        if (!direction.canMove(now)) {
+            return null;
+        }
+        Position next = direction.move(now);
+        path.makePath(next);
+        return next;
     }
 
     @Override
