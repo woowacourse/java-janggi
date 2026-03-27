@@ -39,6 +39,7 @@ public class SangTest {
 
         // when & then
         assertThatThrownBy(() -> sang.getRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("규칙");
     }
 }
