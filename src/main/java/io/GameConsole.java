@@ -1,6 +1,8 @@
 package io;
 
+import domain.command.Command;
 import domain.game.JanggiGame;
+import domain.state.GameState;
 import domain.vo.Arrangement;
 import domain.vo.Arrangements;
 import domain.vo.Coordinate;
@@ -19,17 +21,28 @@ public class GameConsole {
     }
 
     public void run() {
-        Arrangements arrangements = new Arrangements(
-                readArrangement(Team.HAN),
-                readArrangement(Team.CHO)
-        );
-
-        janggiGame.setupBoard(arrangements);
-
+        ///
+//        Arrangements arrangements = new Arrangements(
+//                readArrangement(Team.HAN),
+//                readArrangement(Team.CHO)
+//        );
+//
+//        janggiGame.setupBoard(arrangements);
+        ///
         while (true) {
             outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
             movePiece();
             janggiGame.nextTurn();
+
+            break;
+        }
+        ///
+
+        while (true) {
+            janggiGame.displayRequestCommand(outputView);
+            janggiGame.processCommand(inputView.readCommand());
+
+            break;
         }
     }
 

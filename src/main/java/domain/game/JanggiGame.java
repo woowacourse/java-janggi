@@ -1,9 +1,13 @@
 package domain.game;
 
+import domain.command.Command;
 import domain.state.GameState;
+import domain.state.ReadyState;
 import domain.vo.Arrangements;
 import domain.vo.Coordinate;
 import domain.vo.Team;
+import io.OutputView;
+import java.util.EnumMap;
 
 public class JanggiGame {
     private Turn turn;
@@ -13,6 +17,11 @@ public class JanggiGame {
     public void setupBoard(Arrangements arrangements) {
         this.board = Board.of(arrangements);
         this.turn = new Turn(Team.CHO);
+        this.gameState = new ReadyState(new EnumMap<>(Team.class));
+    }
+
+    public void processCommand(Command command) {
+        gameState = gameState.handle(this, command);
     }
 
     public Board getBoard() {
@@ -29,5 +38,9 @@ public class JanggiGame {
 
     public void nextTurn() {
         this.turn = turn.changeTeam();
+    }
+
+    public void displayRequestCommand(OutputView outputView) {
+        gameState.display(this, outputView);
     }
 }

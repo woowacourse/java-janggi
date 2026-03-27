@@ -1,11 +1,16 @@
 package io;
 
+import domain.command.Command;
 import domain.game.Turn;
 import java.util.Scanner;
 
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
+    public Command readCommand() {
+        String input = validate(scanner.nextLine().trim());
+        return new Command(input);
+    }
     public String readSetupCommand() {
         return validate(scanner.nextLine().trim());
     }

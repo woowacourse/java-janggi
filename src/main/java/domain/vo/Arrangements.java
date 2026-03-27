@@ -9,6 +9,10 @@ public class Arrangements {
         this.choArrangement = choArrangement;
     }
 
+    public static Arrangements empty() {
+        return new Arrangements(null, null);
+    }
+
     public Arrangement getHan() {
         return hanArrangement;
     }
