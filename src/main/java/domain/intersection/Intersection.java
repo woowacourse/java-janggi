@@ -26,4 +26,12 @@ public class Intersection {
         return this.piece.equals(intersection.piece);
     }
 
+    public boolean isSameTeam(Intersection to) {
+        return piece.isSameTeam(to.piece);
+    }
+
+    public boolean hasPiece() {
+        return piece.hasPiece();
+    }
+
 }

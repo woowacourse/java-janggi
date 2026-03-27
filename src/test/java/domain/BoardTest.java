@@ -3,6 +3,7 @@ package domain;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiGenerator;
+import domain.fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.General;
 import domain.piece.Team;

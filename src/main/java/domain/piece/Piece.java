@@ -19,6 +19,14 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
+    public boolean isSameTeam(Piece other) {
+        return this.team == other.team;
+    }
+
+    public boolean hasPiece() {
+        return this.pieceType != PieceType.NONE;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

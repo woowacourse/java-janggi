@@ -1,4 +1,4 @@
-package domain;
+package domain.fixture;
 
 import domain.board.IntersectionGenerator;
 import domain.intersection.Intersection;
