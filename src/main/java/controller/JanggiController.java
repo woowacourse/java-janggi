@@ -1,6 +1,6 @@
 package controller;
 
-import domain.board.Board;
+import domain.Game;
 import domain.board.BoardInitializer;
 import domain.Position;
 import view.InputView;
@@ -21,36 +21,35 @@ public class JanggiController {
     }
 
     public void play() {
-        Board board = new Board(boardInitializer);
+        Game game = new Game(boardInitializer);
 
         while (true) {
-            outputView.printBoard(board.getBoard());
-            Position startPosition = RetryInput.read(() -> getStartPosition(board));
+            outputView.printBoard(game.getBoard());
+            Position startPosition = RetryInput.read(() -> getStartPosition(game));
 
-            List<Position> possibleMoves = board.getPieceBy(startPosition).getPossibleMoves(board, startPosition);
+            List<Position> possibleMoves = game.getPiece(startPosition).getPossibleMoves(game, startPosition);
             if (isPossibleMovePiece(possibleMoves)) {
                 continue;
             }
+
             outputView.printAvailablePositions(possibleMoves);
-
             Position destination = RetryInput.read(() -> getDestination(possibleMoves));
-
-            board.move(startPosition, destination);
+            game.move(startPosition, destination);
         }
     }
 
-    private Position getStartPosition(Board board) {
-        Position position = inputView.requestStartPiecePosition(board.getTurn());
-        board.validateStartPosition(position);
+    private Position getStartPosition(Game game) {
+        Position position = inputView.requestStartPiecePosition(game.getTurn());
+        game.validateStartPosition(position);
         return position;
     }
 
     private boolean isPossibleMovePiece(List<Position> possibleMoves) {
-        int possibleMovesCount = possibleMoves.size();
-        if (possibleMovesCount == 0) {
+        if (possibleMoves.isEmpty()) {
             outputView.printCanNotMovablePieceError();
             return false;
         }
+
         return true;
     }
 

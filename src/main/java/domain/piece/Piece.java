@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
-import domain.board.Board;
+import domain.Game;
 import domain.Position;
 import domain.Side;
 
@@ -40,7 +40,7 @@ public abstract class Piece {
         return side.getForward();
     }
 
-    public abstract List<Position> getPossibleMoves(Board board, Position start);
+    public abstract List<Position> getPossibleMoves(Game game, Position start);
 
     @Override
     public boolean equals(Object o) {

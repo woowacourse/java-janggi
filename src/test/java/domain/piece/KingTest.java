@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.board.Board;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -69,12 +69,12 @@ class KingTest {
     @DisplayName("한나라 진영에서 장은 상/하/좌/우 4가지 방향으로 1 칸 이동 가능하다.")
     void getHanPossibleMovesTest() {
         // given
-        Board board = new Board(new HanSideKingInitializer());
+        Game game = new Game(new HanSideKingInitializer());
         Position start = new Position(1, 4);
-        Piece king = board.getPieceBy(start);
+        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(board, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4),
@@ -85,12 +85,12 @@ class KingTest {
     @DisplayName("초나라 진영에서 장은 상/하/좌/우 4가지 방향으로 1 칸 이동 가능하다.")
     void getChuPossibleMovesTest() {
         // given
-        Board board = new Board(new ChuSideKingInitializer());
+        Game game = new Game(new ChuSideKingInitializer());
         Position start = new Position(6, 0);
-        Piece king = board.getPieceBy(start);
+        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(board, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
@@ -100,12 +100,12 @@ class KingTest {
     @DisplayName("장은 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Board board = new Board(new HanSideKingInitializer());
+        Game game = new Game(new HanSideKingInitializer());
         Position start = new Position(3, 6);
-        Piece king = board.getPieceBy(start);
+        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(board, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game, start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -115,12 +115,12 @@ class KingTest {
     @DisplayName("장은 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Board board = new Board(new HanSideKingInitializer());
+        Game game = new Game(new HanSideKingInitializer());
         Position start = new Position(3, 7);
-        Piece king = board.getPieceBy(start);
+        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(board, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));

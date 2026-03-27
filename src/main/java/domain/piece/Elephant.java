@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
-import domain.board.Board;
+import domain.Game;
 import domain.Position;
 import domain.Side;
 
@@ -15,7 +15,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Board board, Position start) {
+    public List<Position> getPossibleMoves(Game game, Position start) {
         List<List<Direction>> paths = List.of(
                 List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
                 List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT),
@@ -30,17 +30,17 @@ public class Elephant extends Piece {
 
         for (List<Direction> path : paths) {
             Position firstMovePosition = start.nextPosition(path.getFirst());
-            if (board.isInvalidRange(firstMovePosition) || !board.isEmpty(firstMovePosition)) {
+            if (game.isNotEmpty(firstMovePosition)) {
                 continue;
             }
 
             Position secondMovePosition = firstMovePosition.nextPosition(path.get(1));
-            if (board.isInvalidRange(secondMovePosition) || !board.isEmpty(secondMovePosition)) {
+            if (game.isNotEmpty(secondMovePosition)) {
                 continue;
             }
 
             Position destination = secondMovePosition.nextPosition(path.get(1));
-            if (board.isAvailableDestination(destination)) {
+            if (game.isAvailableDestination(destination)) {
                 possiblePositions.add(destination);
             }
         }

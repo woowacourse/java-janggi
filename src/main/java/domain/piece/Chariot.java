@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
-import domain.board.Board;
+import domain.Game;
 import domain.Position;
 import domain.Side;
 
@@ -15,7 +15,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Board board, Position start) {
+    public List<Position> getPossibleMoves(Game game, Position start) {
         List<Position> possiblePositions = new ArrayList<>();
 
         List<Direction> directions = List.of(
@@ -30,13 +30,13 @@ public class Chariot extends Piece {
             while (true) {
                 current = current.nextPosition(direction);
 
-                if (!board.isAvailableDestination(current)) {
+                if (!game.isAvailableDestination(current)) {
                     break;
                 }
 
                 possiblePositions.add(current);
 
-                if (board.isOpponentPiece(current)) {
+                if (game.isOpponentPiece(current)) {
                     break;
                 }
             }

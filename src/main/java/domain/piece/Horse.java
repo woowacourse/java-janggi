@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
-import domain.board.Board;
+import domain.Game;
 import domain.Position;
 import domain.Side;
 
@@ -15,7 +15,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Board board, Position start) {
+    public List<Position> getPossibleMoves(Game game, Position start) {
 
         List<List<Direction>> paths = List.of(
                 List.of(Direction.UP, Direction.UP_LEFT),
@@ -31,13 +31,13 @@ public class Horse extends Piece {
 
         for (List<Direction> path : paths) {
             Position firstMovePosition = start.nextPosition(path.getFirst());
-            if (board.isInvalidRange(firstMovePosition) || !board.isEmpty(firstMovePosition)) {
+            if (game.isNotEmpty(firstMovePosition)) {
                 continue;
             }
 
             Position destination = firstMovePosition.nextPosition(path.get(1));
 
-            if (board.isAvailableDestination(destination)) {
+            if (game.isAvailableDestination(destination)) {
                 possiblePositions.add(destination);
             }
         }

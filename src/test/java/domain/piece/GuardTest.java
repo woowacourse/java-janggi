@@ -2,9 +2,9 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.board.Board;
 import domain.board.BoardInitializer;
 import java.util.HashMap;
 import java.util.List;
@@ -66,12 +66,12 @@ public class GuardTest {
     @DisplayName("한나라 진영에서 사는 상/하/좌/우 4가지 방향으로 1 칸 이동 가능하다.")
     void getHanPossibleMovesTest() {
         // given
-        Board board = new Board(new HanSideGuardInitializer());
+        Game game = new Game(new HanSideGuardInitializer());
         Position start = new Position(3, 0);
-        Piece guard = board.getPieceBy(start);
+        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(board, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(2, 0), new Position(3, 1));
@@ -81,12 +81,12 @@ public class GuardTest {
     @DisplayName("초나라 진영에서 사는 상/하/좌/우 4가지 방향으로 1 칸 이동 가능하다.")
     void getChuPossibleMovesTest() {
         // given
-        Board board = new Board(new ChuSideGuardInitializer());
+        Game game = new Game(new ChuSideGuardInitializer());
         Position start = new Position(6, 0);
-        Piece guard = board.getPieceBy(start);
+        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(board, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
@@ -96,12 +96,12 @@ public class GuardTest {
     @DisplayName("사는 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Board board = new Board(new HanSideGuardInitializer());
+        Game game = new Game(new HanSideGuardInitializer());
         Position start = new Position(3, 6);
-        Piece guard = board.getPieceBy(start);
+        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(board, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -111,12 +111,12 @@ public class GuardTest {
     @DisplayName("사는 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Board board = new Board(new HanSideGuardInitializer());
+        Game game = new Game(new HanSideGuardInitializer());
         Position start = new Position(3, 7);
-        Piece guard = board.getPieceBy(start);
+        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(board, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));

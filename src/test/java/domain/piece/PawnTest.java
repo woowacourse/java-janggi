@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.Board;
+import domain.Game;
 import domain.Position;
 import domain.Side;
 import domain.board.BoardInitializer;
@@ -66,12 +66,12 @@ class PawnTest {
     @DisplayName("한나라 진영에서 졸은 하/좌/우 3가지 방향으로 1 칸 이동 가능하다.")
     void getHanPossibleMovesTest() {
         // given
-        Board board = new Board(new HanSidePawnInitializer());
+        Game game = new Game(new HanSidePawnInitializer());
         Position start = new Position(3, 0);
-        Piece pawn = board.getPieceBy(start);
+        Piece pawn = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(board, start);
+        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(3, 1));
@@ -81,12 +81,12 @@ class PawnTest {
     @DisplayName("초나라 진영에서 졸은 상/좌/우 3가지 방향으로 1 칸 이동 가능하다.")
     void getChuPossibleMovesTest() {
         // given
-        Board board = new Board(new ChuSidePawnInitializer());
+        Game game = new Game(new ChuSidePawnInitializer());
         Position start = new Position(6, 0);
-        Piece pawn = board.getPieceBy(start);
+        Piece pawn = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(board, start);
+        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(6, 1));
@@ -96,12 +96,12 @@ class PawnTest {
     @DisplayName("졸은 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Board board = new Board(new HanSidePawnInitializer());
+        Game game = new Game(new HanSidePawnInitializer());
         Position start = new Position(3, 6);
-        Piece pawn = board.getPieceBy(start);
+        Piece pawn = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(board, start);
+        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -111,12 +111,13 @@ class PawnTest {
     @DisplayName("졸은 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Board board = new Board(new HanSidePawnInitializer());
+        Game game = new Game(new HanSidePawnInitializer());
         Position start = new Position(3, 7);
-        Piece pawn = board.getPieceBy(start);
+        Piece pawn = game.getPiece(start);
+
 
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(board, start);
+        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));

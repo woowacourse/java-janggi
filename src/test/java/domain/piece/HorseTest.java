@@ -2,9 +2,9 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.board.Board;
 import domain.board.BoardInitializer;
 import java.util.HashMap;
 import java.util.List;
@@ -44,12 +44,12 @@ class HorseTest {
     @DisplayName("마는 상/하/좌/우 4가지 방향으로 1 칸 이동 후 해당 방향의 대각선으로 이동한다.")
     void getPossibleMovesTest() {
         // given
-        Board board = new Board(new HorseTestInitializer());
+        Game game = new Game(new HorseTestInitializer());
         Position start = new Position(4, 4);
-        Piece horse = board.getPieceBy(start);
+        Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(board, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -68,12 +68,12 @@ class HorseTest {
     @DisplayName("마는 1차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
     void firstMoveBlockTest() {
         // given
-        Board board = new Board(new HorseTestInitializer());
+        Game game = new Game(new HorseTestInitializer());
         Position start = new Position(1, 1);
-        Piece horse = board.getPieceBy(start);
+        Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(board, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -83,12 +83,12 @@ class HorseTest {
     @DisplayName("마는 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Board board = new Board(new HorseTestInitializer());
+        Game game = new Game(new HorseTestInitializer());
         Position start = new Position(9, 0);
-        Piece horse = board.getPieceBy(start);
+        Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(board, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).doesNotContain(new Position(7, 1));
@@ -98,12 +98,12 @@ class HorseTest {
     @DisplayName("마는 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Board board = new Board(new HorseTestInitializer());
+        Game game = new Game(new HorseTestInitializer());
         Position start = new Position(9, 0);
-        Piece horse = board.getPieceBy(start);
+        Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(board, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(8, 2));

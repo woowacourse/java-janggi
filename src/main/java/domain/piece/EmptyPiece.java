@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.Board;
+import domain.Game;
 import domain.Position;
 import domain.Side;
 
@@ -13,7 +13,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Board board, Position start) {
+    public List<Position> getPossibleMoves(Game game, Position start) {
         return List.of();
     }
 }

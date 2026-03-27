@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.board.Board;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -49,12 +49,12 @@ class ChariotTest {
     @DisplayName("한나라 진영에서 차는 상/하/좌/우 4가지 방향으로 n 칸 이동 가능하다.")
     void getHanPossibleMovesTest() {
         // given
-        Board board = new Board(new ChariotTestInitializer());
+        Game game = new Game(new ChariotTestInitializer());
         Position start = new Position(2, 1);
-        Piece chariot = board.getPieceBy(start);
+        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(board, start);
+        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -81,12 +81,12 @@ class ChariotTest {
     @DisplayName("차는 아군 기물을 뛰어넘을 수 없다.")
     void doesNotJumpTest() {
         // given
-        Board board = new Board(new ChariotTestInitializer());
+        Game game = new Game(new ChariotTestInitializer());
         Position start = new Position(4, 4);
-        Piece king = board.getPieceBy(start);
+        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(board, start);
+        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -96,12 +96,12 @@ class ChariotTest {
     @DisplayName("차는 적 기물을 잡으면 멈춰야 한다.")
     void doesNotJumpOpponentTest() {
         // given
-        Board board = new Board(new ChariotTestInitializer());
+        Game game = new Game(new ChariotTestInitializer());
         Position start = new Position(4, 8);
-        Piece king = board.getPieceBy(start);
+        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(board, start);
+        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).contains(new Position(5, 8), new Position(6, 8));

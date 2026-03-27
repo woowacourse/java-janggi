@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.board.Board;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -49,12 +49,12 @@ class ElephantTest {
     @DisplayName("상은 상/하/좌/우 4가지 방향으로 1 칸 이동 후 해당 방향의 대각선으로 2 칸 이동한다.")
     void getPossibleMovesTest() {
         // given
-        Board board = new Board(new ElephantTestInitializer());
+        Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(4, 4);
-        Piece elephant = board.getPieceBy(start);
+        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(board, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -73,12 +73,12 @@ class ElephantTest {
     @DisplayName("상은 1차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
     void firstMoveBlockTest() {
         // given
-        Board board = new Board(new ElephantTestInitializer());
+        Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(0, 0);
-        Piece elephant = board.getPieceBy(start);
+        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(board, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -88,12 +88,12 @@ class ElephantTest {
     @DisplayName("상은 2차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
     void secondMoveBlockTest() {
         // given
-        Board board = new Board(new ElephantTestInitializer());
+        Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(9, 8);
-        Piece elephant = board.getPieceBy(start);
+        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(board, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -103,12 +103,12 @@ class ElephantTest {
     @DisplayName("상은 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Board board = new Board(new ElephantTestInitializer());
+        Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(9, 0);
-        Piece elephant = board.getPieceBy(start);
+        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(board, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).doesNotContain(new Position(6, 2));
@@ -118,12 +118,12 @@ class ElephantTest {
     @DisplayName("마는 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Board board = new Board(new ElephantTestInitializer());
+        Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(9, 0);
-        Piece elephant = board.getPieceBy(start);
+        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(board, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(7, 3));

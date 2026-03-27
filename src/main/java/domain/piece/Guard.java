@@ -1,9 +1,9 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.board.Board;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Board board, Position start) {
+    public List<Position> getPossibleMoves(Game game, Position start) {
         List<Position> possiblePositions = new ArrayList<>();
 
         List<Direction> directions = List.of(
@@ -27,7 +27,7 @@ public class Guard extends Piece {
         for (Direction direction : directions) {
             Position destination = start.nextPosition(direction);
 
-            if (!board.isAvailableDestination(destination)) {
+            if (!game.isAvailableDestination(destination)) {
                 continue;
             }
 
