@@ -6,8 +6,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import janggi.domain.Board;
 import janggi.domain.Point;
 import janggi.domain.status.Team;
-import janggi.dto.PositionInfo;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
