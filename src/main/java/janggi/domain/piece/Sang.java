@@ -6,7 +6,7 @@ import janggi.domain.Point;
 import janggi.domain.status.Team;
 import java.util.List;
 
-public class Sang extends AbstractPiece {
+public class Sang extends BasePiece {
 
     private static final int DISTANCE_MAX = 3;
     private static final int DISTANCE_MIN = 2;

@@ -7,7 +7,7 @@ import janggi.domain.status.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pho extends AbstractPiece {
+public class Pho extends BasePiece {
 
     public Pho(Team team) {
         super(team);

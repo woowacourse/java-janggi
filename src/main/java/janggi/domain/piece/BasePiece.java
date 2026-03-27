@@ -2,11 +2,11 @@ package janggi.domain.piece;
 
 import janggi.domain.status.Team;
 
-public abstract class AbstractPiece implements Piece {
+public abstract class BasePiece implements Piece {
 
     protected final Team team;
 
-    public AbstractPiece(Team team) {
+    public BasePiece(Team team) {
         this.team = team;
     }
 
