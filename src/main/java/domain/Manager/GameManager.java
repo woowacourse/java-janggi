@@ -72,25 +72,41 @@ public class GameManager {
     }
 
     private Board initialize() {
-        String choName = inputView.askChoPlayerName();
-        Player choPlayer = createPlayer(choName, CHO);
+        Player choPlayer = createChoPlayer();
+        Player hanPlayer = createHanPlayer();
 
-        String hanName = inputView.askHanPlayerName();
-        Player hanPlayer = createPlayer(hanName, HAN);
         turnManager = new TurnManager(choPlayer, hanPlayer);
 
-        int choPositionInput = inputView.askChoPositionInput();
-        Formation choFormation = createFormation(choPositionInput);
-
-        int hanPositionInput = inputView.askHanPositionInput();
-        Formation hanFormation = createFormation(hanPositionInput);
+        Formation choFormation = createChoFormation();
+        Formation hanFormation = createHanFormation();
 
         return BoardFactory.createWithFormation(choFormation, hanFormation);
+    }
+
+    private Player createChoPlayer() {
+        String choName = inputView.askChoPlayerName();
+        return createPlayer(choName, CHO);
+    }
+
+    private Player createHanPlayer() {
+        String hanName = inputView.askHanPlayerName();
+        return createPlayer(hanName, HAN);
     }
 
     private Player createPlayer(String name, Team team) {
         return new Player(new Name(name), team);
     }
+
+    private Formation createChoFormation() {
+        int choPositionInput = retryOnInvalidInput(inputView::askChoPositionInput);
+        return createFormation(choPositionInput);
+    }
+
+    private Formation createHanFormation() {
+        int hanPositionInput = retryOnInvalidInput(inputView::askHanPositionInput);
+        return createFormation(hanPositionInput);
+    }
+
 
     private Formation createFormation(int positionInput) {
         return Formation.from(positionInput);
