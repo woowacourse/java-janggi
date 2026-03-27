@@ -6,6 +6,9 @@ import java.util.function.Function;
 
 public final class PieceFactory {
 
+    private PieceFactory() {
+    }
+
     private static final Map<PieceType, Function<Team, Piece>> FACTORY = Map.of(
             PieceType.CHA, Cha::new,
             PieceType.PHO, Pho::new,
