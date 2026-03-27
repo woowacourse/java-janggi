@@ -7,10 +7,10 @@ import java.util.List;
 
 public class JanggiGame {
 
-    private final List<Turn> value;
+    private final List<Turn> turns;
 
-    private JanggiGame(List<Turn> value) {
-        this.value = value;
+    private JanggiGame(List<Turn> turns) {
+        this.turns = new ArrayList<>(turns);
     }
 
     public static JanggiGame createInitialJanggiGame() {
@@ -42,15 +42,13 @@ public class JanggiGame {
     }
 
     private Turn getLastTurn() {
-        return value.getLast();
+        return turns.getLast();
     }
 
-    public JanggiGame doGame(Position startPosition, Position endPosition) {
+    public void doGame(Position startPosition, Position endPosition) {
         Turn lastTurn = getLastTurn();
         Turn newTurn = lastTurn.move(startPosition, endPosition);
-        List<Turn> updatedTurns = new ArrayList<>(value);
-        updatedTurns.add(newTurn);
-        return new JanggiGame(updatedTurns);
+        turns.add(newTurn);
     }
 
     public String getCurrentTurnTeamName() {

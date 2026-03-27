@@ -15,15 +15,14 @@ public class JanggiRunner {
 
         JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
         while (true) {
-            JanggiGame currentJanggiGame = janggiGame;
-            OutputView.printBoard(currentJanggiGame.makeCurrentTurnBoardSnapShot());
+            OutputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
             Position startPosition = ExceptionHandler.retryUntilSuccess(
-                () -> readValidStartPosition(currentJanggiGame)
+                () -> readValidStartPosition(janggiGame)
             );
             Position endPosition = ExceptionHandler.retryUntilSuccess(
-                () -> readValidEndPosition(currentJanggiGame, startPosition)
+                () -> readValidEndPosition(janggiGame, startPosition)
             );
-            janggiGame = janggiGame.doGame(startPosition, endPosition);
+            janggiGame.doGame(startPosition, endPosition);
         }
     }
 
