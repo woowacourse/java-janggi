@@ -14,7 +14,9 @@ public enum Arrangement {
         this.openningSetup = openningSetup;
     }
 
-    public String getOpenningSetup() {
-        return openningSetup;
+    public static Arrangement from(String openning) {
+        return Arrays.stream(Arrangement.values()).filter(arrangement -> arrangement.openningSetup.equals(openning))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 배치입니다."));
     }
 }
