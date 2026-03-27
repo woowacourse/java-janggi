@@ -9,4 +9,8 @@ public class Piece {
     public Piece(Camp camp) {
         this.camp = camp;
     }
+
+    public boolean isSameCamp(Piece comparedPiece) {
+        return this.camp == comparedPiece.camp;
+    }
 }
