@@ -40,6 +40,9 @@ public enum ElephantSetup {
                     Position.of(1, 8), HORSE
             ));
 
+    private static final String OUT_OF_RANGE_INPUT =
+            "입력 값이 주어진 범위 " + 1 + " ~ " + ElephantSetup.values().length + "를 벗어났습니다.";
+
     private final String description;
     private final Map<Position, PieceType> piecePositions;
 
@@ -65,7 +68,7 @@ public enum ElephantSetup {
 
     private static void validateRange(final int number) {
         if (number < 1 || number > ElephantSetup.values().length) {
-            throw new IllegalArgumentException("주어진 숫자 범위를 벗어났습니다.");
+            throw new IllegalArgumentException(OUT_OF_RANGE_INPUT);
         }
     }
 }
