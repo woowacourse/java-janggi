@@ -29,7 +29,7 @@ public class RuleOfCannon implements Rule {
         final Movement secondMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
 
-        from = firstMovement.calculateBlockedPosition(from, piece, boardMediator);
+        from = firstMovement.calculateBlockedPosition(from, boardMediator);
 
         if (!boardMediator.existsInPosition(from)
             || boardMediator.getPieceInPosition(from).getPieceType() == PieceType.CANNON) {

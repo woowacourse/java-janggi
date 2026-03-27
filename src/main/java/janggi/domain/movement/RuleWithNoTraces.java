@@ -23,10 +23,10 @@ public class RuleWithNoTraces implements Rule {
             if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
                 return List.of();
             }
-            from = movement.calculateDestination(from, piece, boardMediator);
+            from = movement.calculateDestination(from, boardMediator);
         }
-        if (lastMovement.canMove(from) && lastMovement.canKill(piece, from, boardMediator)) {
-            from = lastMovement.calculateBlockedPosition(from, piece, boardMediator);
+        if (lastMovement.canMove(from) && lastMovement.canCatch(piece, from, boardMediator)) {
+            from = lastMovement.calculateBlockedPosition(from, boardMediator);
             return List.of(from);
         }
         return List.of();
