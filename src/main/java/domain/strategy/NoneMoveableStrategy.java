@@ -5,8 +5,12 @@ import java.util.List;
 
 public class NoneMoveableStrategy extends MoveStrategy {
 
-    public NoneMoveableStrategy(Position position) {
+    private NoneMoveableStrategy(Position position) {
         super(position);
+    }
+
+    public static NoneMoveableStrategy of(Position position) {
+        return new NoneMoveableStrategy(position);
     }
 
     @Override

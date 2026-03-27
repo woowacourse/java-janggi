@@ -21,7 +21,7 @@ public class Board {
         Piece piece = board.get(piecePosition);
 
         board.replace(targetPosition, piece);
-        board.replace(piecePosition, new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), new NoneMoveableStrategy(piecePosition)));
+        board.replace(piecePosition, new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), NoneMoveableStrategy.of(piecePosition)));
     }
 
     public boolean isMoveable(Position piecePosition, Position targetPosition) {
@@ -35,9 +35,27 @@ public class Board {
             return false;
         }
 
-        List<Position> sameTeamPositions = findSameTeamPositions(piece);
+        if(piece.isCannon()) {
+            List<Position> cannonPositions = findCannonPositions();
+            if(piece.isInvalidPath(targetPosition, cannonPositions)) {
+                return false;
+            }
+        }
 
-        return !piece.isInvalidPath(targetPosition, sameTeamPositions);
+        List<Position> allPiecePositions = findAllPiecePositions();
+
+        return !piece.isInvalidPath(targetPosition, allPiecePositions);
+    }
+
+    private List<Position> findAllPiecePositions() {
+        return board.values().stream().filter(piece -> !piece.isNoneTeam()).map(Piece::position).toList();
+    }
+
+    private List<Position> findCannonPositions() {
+        return board.values().stream()
+                .filter(Piece::isCannon)
+                .map(Piece::position)
+                .toList();
     }
 
     private boolean isTargetPositionPieceSameTeam(Piece piece, Position targetPosition) {
@@ -49,16 +67,16 @@ public class Board {
         }
         return false;
     }
-
-    private List<Position> findSameTeamPositions(Piece piece) {
-        if (piece.isGreenTeam()) {
-            return greenPieces().stream().map(Piece::position).filter(position -> !position.equals(piece.position()))
-                    .toList();
-        }
-
-        return redPieces().stream().map(Piece::position).filter(position -> !position.equals(piece.position()))
-                .toList();
-    }
+//
+//    private List<Position> findSameTeamPositions(Piece piece) {
+//        if (piece.isGreenTeam()) {
+//            return greenPieces().stream().map(Piece::position).filter(position -> !position.equals(piece.position()))
+//                    .toList();
+//        }
+//
+//        return redPieces().stream().map(Piece::position).filter(position -> !position.equals(piece.position()))
+//                .toList();
+//    }
 
     public boolean hasGreenTeamGeneral() {
         return greenPieces().stream().anyMatch(Piece::isGeneral);

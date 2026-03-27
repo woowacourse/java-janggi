@@ -37,7 +37,7 @@ public class JanggiBoardFactory {
                 Position position = new Position(i, j);
                 board.putIfAbsent(position,
                         new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
-                                new NoneMoveableStrategy(position)));
+                                NoneMoveableStrategy.of(position)));
             }
         }
     }
