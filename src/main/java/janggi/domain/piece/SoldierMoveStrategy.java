@@ -12,7 +12,6 @@ public class SoldierMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
-
         for (Direction dir : Direction.valuesFourDirection()) {
             if (dir.equals(dynasty.front().back())) {
                 continue;
