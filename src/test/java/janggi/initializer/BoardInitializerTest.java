@@ -72,7 +72,7 @@ class BoardInitializerTest {
     void 장기판은_10x9_모든_좌표를_생성한다() {
         Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.마상마상, Arrangement.마상마상);
 
-        assertThat(board.size()).isEqualTo(Position.BOARD_START_ROWS * Position.BOARD_START_COLS);
+        assertThat(board.size()).isEqualTo(Position.BOARD_END_ROWS * Position.BOARD_END_COLS);
 
         for (int row = Position.BOARD_START_ROWS; row <= Position.BOARD_END_ROWS; row++) {
             for (int col = Position.BOARD_START_COLS; col <= Position.BOARD_END_COLS; col++) {
