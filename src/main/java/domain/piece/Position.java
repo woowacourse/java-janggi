@@ -14,7 +14,7 @@ public record Position(
         return Position.of(column + offset.column, row + offset.row);
     }
 
-    public static Position up() {
-        return new Position(0, 1);
+    public Position move(final Delta delta) {
+        return Position.of(column + delta.column(), row + delta.row());
     }
 }

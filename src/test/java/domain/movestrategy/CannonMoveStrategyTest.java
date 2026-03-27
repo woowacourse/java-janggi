@@ -8,12 +8,14 @@ import domain.piece.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CannonMoveStrategyTest {
 
     @Test
-    void 포는_장애물이_없으면_이동_불가() {
+    @DisplayName("포는 장애물이 없으면 이동할 수 없다")
+    void shouldNotMove_whenNoScreenExists() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
@@ -30,14 +32,15 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    void 포는_하나를_넘고_그_이후_이동_가능() {
+    @DisplayName("포는 하나의 기물을 넘은 이후부터 이동할 수 있다")
+    void shouldMoveAfterJumpingOverOnePiece() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
 
         pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
 
-        // 장애물
+        // 장애물 (screen)
         pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.SOLDIER));
 
         CannonMoveStrategy strategy = new CannonMoveStrategy();
@@ -55,7 +58,8 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    void 포는_두번째_기물까지_이동_가능() {
+    @DisplayName("포는 두 번째 기물 위치까지 이동할 수 있지만 그 이후로는 불가능하다")
+    void shouldStopAfterSecondPiece() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
@@ -76,14 +80,15 @@ class CannonMoveStrategyTest {
         // then
         assertThat(result).contains(
                 Position.of(7, 5),
-                Position.of(8, 5) // 여기까지 가능
+                Position.of(8, 5)
         );
 
         assertThat(result).doesNotContain(Position.of(9, 5));
     }
 
     @Test
-    void 포는_포를_넘을_수_없다() {
+    @DisplayName("포는 다른 포를 넘을 수 없다")
+    void shouldNotJumpOverAnotherCannon() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
