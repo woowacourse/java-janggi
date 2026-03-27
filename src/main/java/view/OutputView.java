@@ -25,11 +25,6 @@ public class OutputView {
         System.out.println();
     }
 
-    public void clearScreen() {
-        System.out.print(ANSI_HOME + ANSI_CLS);
-        System.out.flush();
-    }
-
     public void printErrorMessage(String message) {
         System.out.println(message);
     }

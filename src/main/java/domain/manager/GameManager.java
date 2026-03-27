@@ -33,6 +33,7 @@ public class GameManager {
 
     private void playTurn() {
         outputView.printPlayerTurnMessage(turnManager.currentTurn().getName(), turnManager.currentTurnTeam().name());
+
         retryOnInvalidInput(() -> {
             Position src = createSourcePosition();
             Position dest = createDestPosition();
@@ -45,7 +46,6 @@ public class GameManager {
 
         outputView.printBoard(board.createDTO().board());
         turnManager.switchTurn();
-        outputView.clearScreen();
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {
