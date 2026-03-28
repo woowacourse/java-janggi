@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Route {
 
+    private static final int OBSTACLE_SIZE = 1;
+
     private final List<Piece> pieces;
 
     public Route(List<Piece> pieces) {
@@ -18,14 +20,16 @@ public class Route {
     }
 
     public boolean hasObstacle() {
-        return pieces.size() > 1;
+        return pieces.size() > OBSTACLE_SIZE;
     }
 
     public boolean hasSameType(PieceType type) {
-        return pieces.stream().anyMatch(piece -> piece.isSameType(type));
+        return pieces.stream()
+                .anyMatch(piece -> piece.isSameType(type));
     }
 
     public boolean hasAlly(Team team) {
-        return pieces.stream().anyMatch(piece -> piece.isSameTeam(team));
+        return pieces.stream()
+                .anyMatch(piece -> piece.isSameTeam(team));
     }
 }
