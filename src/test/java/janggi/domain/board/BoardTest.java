@@ -3,10 +3,15 @@ package janggi.domain.board;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.domain.Location;
+import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
 import janggi.strategy.MaSangMaSang;
+import janggi.support.TestArrangementStrategy;
+import janggi.support.TestPiece;
 import java.util.List;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -87,5 +92,29 @@ class BoardTest {
             Assertions.assertThatThrownBy(() -> board.validatePieceExist(location))
                     .isInstanceOf(IllegalArgumentException.class);
         }
+    }
+
+    @Test
+    @DisplayName("이동할 기물의 위치와 도착지 좌표를 받아 기물을 이동시킨다.")
+    void shouldMovePieceToDestination() {
+        // given
+        Piece testPiece = new TestPiece(Side.HAN);
+        Map<Location, Piece> initialPieces = Map.of(
+                new Location(1, 1), testPiece
+        );
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        Board board = Board.create(assembler);
+        Location from = new Location(1, 1);
+        Location to = new Location(0,0);
+
+        // when
+        board.move(from, to);
+        List<List<Piece>> board2DArray = board.to2DArray();
+
+        // then
+        Assertions.assertThat(board2DArray.get(from.y()).get(from.x()).isEmpty()).isTrue();
+        Assertions.assertThat(board2DArray.get(to.y()).get(to.x())).isEqualTo(testPiece);
     }
 }

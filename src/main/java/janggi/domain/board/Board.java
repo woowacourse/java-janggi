@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Location;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.strategy.BoardAssembler;
 import java.util.ArrayList;
@@ -34,6 +35,34 @@ public class Board {
         }
 
         return new Board(boardState, height, width);
+    }
+
+    public void move(Location from, Location to) {
+        validateMove(from, to);
+
+        Piece piece = boardState.get(from);
+        List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
+
+        piece.detectCollision(piecesOnPath);
+
+        executeMove(from, to, piece);
+    }
+
+    private void validateMove(Location from, Location to) {
+        validateLocation(from);
+        validateLocation(to);
+        validatePieceExist(from);
+    }
+
+    private List<Piece> getPiecesOnRoute(Piece piece, Location from, Location to) {
+        return piece.calculateRoute(from, to).stream()
+                .map(boardState::get)
+                .toList();
+    }
+
+    private void executeMove(Location from, Location to, Piece piece) {
+        boardState.put(to, piece);
+        boardState.put(from, new EmptyPiece()); // 싱글톤 혹은 정적 상수 권장
     }
 
     public List<List<Piece>> to2DArray() {
