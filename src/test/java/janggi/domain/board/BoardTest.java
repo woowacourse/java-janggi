@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.domain.Position;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
@@ -127,6 +128,40 @@ public class BoardTest {
                     .asInstanceOf(InstanceOfAssertFactories.MAP)
                     .containsEntry(to, me)
             );
+        }
+    }
+
+    @Nested
+    @DisplayName("승리 팀 계산 테스트")
+    class CalculateWinnerTeam {
+
+        @Test
+        @DisplayName("정상 테스트")
+        void success() {
+            Piece redGeneral = new General(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(2, 5), redGeneral);
+            Board board = new Board(positionPieceMap);
+            TeamType expected = TeamType.RED;
+
+            TeamType actual = board.calculateWinnerTeam();
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("게임이 끝나지 않은 경우 예외가 발생한다.")
+        void failure() {
+            Piece redGeneral = new General(TeamType.RED);
+            Piece blueGeneral = new General(TeamType.BLUE);
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(2, 5), redGeneral,
+                Position.valueOf(9, 5), blueGeneral);
+            Board board = new Board(positionPieceMap);
+
+            assertThatIllegalStateException()
+                .isThrownBy(board::calculateWinnerTeam);
+
         }
     }
 }
