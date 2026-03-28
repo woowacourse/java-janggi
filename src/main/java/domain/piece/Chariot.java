@@ -1,14 +1,14 @@
-package domain.activePiece;
+package domain.piece;
 
-import domain.Position;
-import domain.piece.PieceType;
-import domain.piece.Team;
+
+import domain.position.Position;
+import domain.game.Team;
 import java.util.List;
 
-public class Cannon extends ActivePiece {
+public class Chariot extends ActivePiece {
 
-    public Cannon(Team team) {
-        super(team, PieceType.PHO);
+    public Chariot(Team team) {
+        super(team, PieceType.CHA);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package view;
 
-import domain.Position;
+import domain.position.Position;
 import domain.board.Board;
 import domain.piece.Piece;
 

@@ -1,9 +1,9 @@
 package domain.board;
 
-import domain.Position;
+import domain.position.Position;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.Team;
+import domain.game.Team;
 import java.util.Map;
 
 public class LeftGwimaFactory extends AbstractBoardFactory {

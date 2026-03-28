@@ -1,4 +1,4 @@
-package domain;
+package domain.position;
 
 public class Row {
     private final int value;

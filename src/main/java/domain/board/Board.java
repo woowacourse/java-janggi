@@ -1,7 +1,7 @@
 package domain.board;
 
-import domain.Position;
-import domain.activePiece.ActivePiece;
+import domain.position.Position;
+import domain.piece.ActivePiece;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import java.util.HashMap;

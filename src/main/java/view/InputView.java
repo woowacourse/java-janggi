@@ -1,6 +1,6 @@
 package view;
 
-import domain.piece.Team;
+import domain.game.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;

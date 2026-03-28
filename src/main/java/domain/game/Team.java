@@ -1,4 +1,4 @@
-package domain.piece;
+package domain.game;
 
 public enum Team {
     CHO("초", "\u001B[34m", 1, 2, 3, 4),

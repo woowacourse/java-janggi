@@ -1,8 +1,7 @@
-package domain.activePiece;
+package domain.piece;
 
-import domain.Position;
-import domain.piece.PieceType;
-import domain.piece.Team;
+import domain.position.Position;
+import domain.game.Team;
 import java.util.List;
 
 public class Guard extends ActivePiece {

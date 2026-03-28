@@ -1,6 +1,4 @@
-package domain;
-
-import domain.piece.Team;
+package domain.game;
 
 public class Turn {
     private final Team current;

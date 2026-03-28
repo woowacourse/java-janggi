@@ -2,9 +2,11 @@ package domain.activePiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Position;
+import domain.piece.ActivePiece;
+import domain.piece.Elephant;
+import domain.position.Position;
 import domain.piece.Piece;
-import domain.piece.Team;
+import domain.game.Team;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

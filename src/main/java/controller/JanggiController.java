@@ -1,14 +1,14 @@
 package controller;
 
-import domain.Position;
-import domain.Turn;
+import domain.position.Position;
+import domain.game.Turn;
 import domain.board.Board;
 import domain.board.LeftGwimaFactory;
 import domain.board.RightGwimaFactory;
 import domain.board.WonangmaFactory;
 import domain.board.YanggwimaFactory;
 import domain.piece.Piece;
-import domain.piece.Team;
+import domain.game.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

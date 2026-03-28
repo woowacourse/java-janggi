@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Position;
+import domain.position.Position;
 
 public class EmptyPiece implements Piece {
 

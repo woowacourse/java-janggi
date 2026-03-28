@@ -2,11 +2,13 @@ package domain.activePiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Column;
-import domain.Position;
-import domain.Row;
+import domain.piece.ActivePiece;
+import domain.piece.Cannon;
+import domain.position.Column;
+import domain.position.Position;
+import domain.position.Row;
 import domain.piece.Piece;
-import domain.piece.Team;
+import domain.game.Team;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,6 @@
 package domain.piece;
 
-import domain.activePiece.Cannon;
-import domain.activePiece.Chariot;
-import domain.activePiece.Elephant;
-import domain.activePiece.General;
-import domain.activePiece.Guard;
-import domain.activePiece.Horse;
-import domain.activePiece.Soldier;
+import domain.game.Team;
 import java.util.List;
 import java.util.function.Function;
 
