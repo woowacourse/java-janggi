@@ -2,14 +2,16 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
 
     private final Map<Position, Piece> positionPieceMap;
 
     public Board(final Map<Position, Piece> positionPieceMap) {
-        this.positionPieceMap = positionPieceMap;
+        this.positionPieceMap = new LinkedHashMap<>(positionPieceMap);
     }
 
     public Map<Position, Piece> getPositionPieceMap() {
@@ -25,5 +27,17 @@ public class Board {
             throw new IllegalStateException("요청된 위치에는 기물이 존재하지 않습니다.");
         }
         return positionPieceMap.get(position);
+    }
+
+    public Optional<Piece> movePiece(final Position from, final Position to) {
+        final boolean existTarget = !isBlank(to);
+        final Piece requestedPiece = positionPieceMap.remove(from);
+        final Piece targetPiece = positionPieceMap.put(to, requestedPiece);
+
+        if (existTarget) {
+            assert targetPiece != null;
+            return Optional.of(targetPiece);
+        }
+        return Optional.empty();
     }
 }
