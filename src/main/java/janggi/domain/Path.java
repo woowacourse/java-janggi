@@ -20,7 +20,7 @@ public class Path {
     }
 
     public boolean hasDestination(Position position) {
-        return destination.equals(position);
+        return destination == position;
     }
 
     public boolean hasRoute(Position currentPosition) {
