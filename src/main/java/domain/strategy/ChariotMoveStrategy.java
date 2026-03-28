@@ -19,22 +19,19 @@ public class ChariotMoveStrategy extends MoveStrategy {
         if (position.row() == destination.row()) {
             return true;
         }
-        if (position.col() == destination.col()) {
-            return true;
-        }
 
-        return false;
+        return position.col() == destination.col();
     }
 
     @Override
     public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
         if (position.row() == destination.row()) {
-            List<Position> routePositons = getLeftOrRightRoutePositions(destination);
-            return piecePositions.stream().anyMatch(routePositons::contains);
+            List<Position> routePositions = getLeftOrRightRoutePositions(destination);
+            return piecePositions.stream().anyMatch(routePositions::contains);
         }
         if (position.col() == destination.col()) {
-            List<Position> routePositons = getUpOrDownRoutePositions(destination);
-            return piecePositions.stream().anyMatch(routePositons::contains);
+            List<Position> routePositions = getUpOrDownRoutePositions(destination);
+            return piecePositions.stream().anyMatch(routePositions::contains);
         }
 
         return false;
@@ -59,17 +56,17 @@ public class ChariotMoveStrategy extends MoveStrategy {
 
     private List<Position> getUpOrDownRoutePositions(Position destination) {
         if (position.row() < destination.row()) {
-            List<Position> routePositons = new ArrayList<>();
+            List<Position> routePositions = new ArrayList<>();
             for (int i = position.row() + 1; i < destination.row(); i++) {
-                routePositons.add(Position.of(i, position.col()));
+                routePositions.add(Position.of(i, position.col()));
             }
-            return routePositons;
+            return routePositions;
         }
 
-        List<Position> routePositons = new ArrayList<>();
+        List<Position> routePositions = new ArrayList<>();
         for (int i = destination.row() + 1; i < position.row(); i++) {
-            routePositons.add(Position.of(i, position.col()));
+            routePositions.add(Position.of(i, position.col()));
         }
-        return routePositons;
+        return routePositions;
     }
 }

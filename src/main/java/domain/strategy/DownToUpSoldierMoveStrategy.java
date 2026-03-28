@@ -9,7 +9,7 @@ public class DownToUpSoldierMoveStrategy extends MoveStrategy {
     private final static int[] DR = {0, -1, 0};
     private final static int[] DC = {1, 0, -1};
 
-    private List<Position> destinations;
+    private final List<Position> destinations;
 
     private DownToUpSoldierMoveStrategy(Position position) {
         super(position);
@@ -18,6 +18,16 @@ public class DownToUpSoldierMoveStrategy extends MoveStrategy {
 
     public static DownToUpSoldierMoveStrategy of(Position position) {
         return new DownToUpSoldierMoveStrategy(position);
+    }
+
+    @Override
+    public boolean isMoveAble(Position targetPosition) {
+        return destinations.contains(targetPosition);
+    }
+
+    @Override
+    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
+        return false;
     }
 
     private List<Position> setupDestinations() {
@@ -30,15 +40,5 @@ public class DownToUpSoldierMoveStrategy extends MoveStrategy {
         }
 
         return positions;
-    }
-
-    @Override
-    public boolean isMoveAble(Position targetPosition) {
-        return destinations.contains(targetPosition);
-    }
-
-    @Override
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
-        return false;
     }
 }

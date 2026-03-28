@@ -13,7 +13,7 @@ public class HorseMoveStrategy extends MoveStrategy {
 
     HorseMoveStrategy(Position position) {
         super(position);
-        this.moves = setupDestinationAndRoutesFrom();
+        this.moves = setupDestinationAndRoutes();
     }
 
     public static HorseMoveStrategy of(Position position) {
@@ -32,7 +32,7 @@ public class HorseMoveStrategy extends MoveStrategy {
         return piecePositions.stream().anyMatch(route::contains);
     }
 
-    private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {
+    private Map<Position, List<Position>> setupDestinationAndRoutes() {
         return Arrays.stream(HorseMoveRule.values())
                 .collect(Collectors.toMap(
                         horseMoveRule -> horseMoveRule.destination(position),
