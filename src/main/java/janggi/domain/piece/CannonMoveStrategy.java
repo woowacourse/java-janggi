@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,26 +15,38 @@ public class CannonMoveStrategy implements MoveStrategy {
         List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             List<Position> positions = from.findPositionsByDirection(dir);
-            boolean hasHopped = false;
-            for (Position to : positions) {
-                Piece piece = board.get(to);
-                if (hasHopped) {
-                    if (isPiecePresent(board, to)) {
-                        if (!piece.isSameDynasty(dynasty) && !isCannon(piece)) {
-                            movablePositions.add(to);
-                        }
-                        break;
-                    }
-                    movablePositions.add(to);
-                }
+            movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
+        }
 
-                if (!hasHopped && isPiecePresent(board, to)) {
-                    if (isCannon(piece)) {
-                        break;
-                    }
-                    hasHopped = true;
+        return movablePositions;
+    }
+
+    private List<Position> filterMovablePositions(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
+        boolean hasHopped = false;
+        for (Position to : positions) {
+
+            if (!hasHopped) {
+                if (!isPiecePresent(board, to)) {
+                    continue;
                 }
+                if (isCannon(board.get(to))) {
+                    return movablePositions;
+                }
+                hasHopped = true;
+                continue;
             }
+
+            if (!isPiecePresent(board, to)) {
+                movablePositions.add(to);
+                continue;
+            }
+
+            Piece piece = board.get(to);
+            if (!piece.isSameDynasty(dynasty) && !isCannon(piece)) {
+                movablePositions.add(to);
+            }
+            return movablePositions;
         }
 
         return movablePositions;
@@ -43,7 +56,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         return board.containsKey(position);
     }
 
-    private boolean isCannon(Piece piece) {
+    private static boolean isCannon(Piece piece) {
         return PieceType.CANNON.equals(piece.pieceType());
     }
 
