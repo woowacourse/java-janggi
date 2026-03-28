@@ -1,6 +1,7 @@
 package position;
 
 import java.util.Objects;
+import pieces.Side;
 
 public class Position {
 
@@ -25,24 +26,66 @@ public class Position {
         return column.index();
     }
 
-    public Position moveUp() {
+    public Position moveForward() {
         return new Position(row.up(), column);
     }
 
-    public Position moveDown() {
+    public Position moveForward(Side side) {
+        if (side.isCho()) {
+            return new Position(row.up(), column);
+        }
         return new Position(row.down(), column);
+    }
+
+    public Position moveBack() {
+        return new Position(row.down(), column);
+    }
+
+    public Position moveBack(Side side) {
+        if (side.isCho()) {
+            return new Position(row.down(), column);
+        }
+        return new Position(row.up(), column);
     }
 
     public Position moveRight() {
         return new Position(row, column.right());
     }
 
+    public Position moveRight(Side side) {
+        if (side.isCho()) {
+            return new Position(row, column.right());
+        }
+        return new Position(row, column.left());
+    }
+
     public Position moveLeft() {
         return new Position(row, column.left());
     }
 
-    public Position moveRightUp() {
+    public Position moveLeft(Side side) {
+        if (side.isCho()) {
+            return new Position(row, column.left());
+        }
+        return new Position(row, column.right());
+    }
+
+    public Position moveRightForward() {
         return new Position(row.up(), column.right());
+    }
+
+    public Position moveRightForward(Side side) {
+        if (side.isCho()) {
+            return new Position(row.up(), column.right());
+        }
+        return new Position(row.down(), column.left());
+    }
+
+    public Position moveLeftForward(Side side) {
+        if (side.isCho()) {
+            return new Position(row.up(), column.left());
+        }
+        return new Position(row.down(), column.right());
     }
 
     public Position moveLeftUp() {
@@ -53,8 +96,22 @@ public class Position {
         return new Position(row.down(), column.right());
     }
 
+    public Position moveRightBack(Side side) {
+        if (side.isCho()) {
+            return new Position(row.down(), column.right());
+        }
+        return new Position(row.up(), column.left());
+    }
+
     public Position moveLeftDown() {
         return new Position(row.down(), column.left());
+    }
+
+    public Position moveLeftBack(Side side) {
+        if (side.isCho()) {
+            return new Position(row.down(), column.left());
+        }
+        return new Position(row.up(), column.right());
     }
 
     public boolean isSameRow(Position departure) {
@@ -65,12 +122,26 @@ public class Position {
         return this.column.equals(departure.column);
     }
 
-    public boolean isLowerRowThan(Position destination) {
+    public boolean isBackRow(Position destination) {
         return this.row.isLowerThan(destination.row);
+    }
+
+    public boolean isBackRow(Position destination, Side side) {
+        if (side.isCho()) {
+            return this.row.isLowerThan(destination.row);
+        }
+        return this.row.isBiggerThan(destination.row);
     }
 
     public boolean isLeftColumn(Position destination) {
         return this.column.isLeft(destination.column);
+    }
+
+    public boolean isLeftColumn(Position destination, Side side) {
+        if (side.isCho()) {
+            return this.column.isLeft(destination.column);
+        }
+        return this.column.isRight(destination.column);
     }
 
     public boolean isGapBiggerThanOne(Position destination) {
@@ -90,5 +161,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+            "row=" + row +
+            ", column=" + column +
+            '}';
     }
 }

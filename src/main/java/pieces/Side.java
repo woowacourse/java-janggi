@@ -2,7 +2,7 @@ package pieces;
 
 public enum Side {
 
-    HAN, CHO;
+    CHO, HAN;
 
     public boolean isHan() {
         return this == HAN;

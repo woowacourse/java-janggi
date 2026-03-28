@@ -10,7 +10,7 @@ import position.Position;
 
 public abstract class FullPiece implements Piece {
 
-    private final Side side;
+    protected final Side side;
 
     public FullPiece(Side side) {
         this.side = side;
@@ -22,19 +22,12 @@ public abstract class FullPiece implements Piece {
     }
 
     @Override
-    public final MoveContext askMoveContext(Position departure, Position destination, Turn turn) {
-        validateSide(turn);
+    public final MoveContext askMoveContext(Position departure, Position destination) {
         validateDestination(departure, destination);
         List<Position> pathPositions = getPathPositions(departure, destination);
         DestinationRule destinationRule = getDestinationRule();
         PathRule pathRule = getPathRule();
         return new MoveContext(pathPositions, destinationRule, pathRule);
-    }
-
-    private void validateSide(Turn turn) {
-        if (!turn.isMatchSide(side)) {
-            throw new IllegalArgumentException("다른 진영의 말은 이동시킬 수 없습니다.");
-        }
     }
 
     protected abstract void validateDestination(Position departure, Position destination);
@@ -60,6 +53,13 @@ public abstract class FullPiece implements Piece {
             return true;
         }
         return isCho() && destinationPiece.isCho();
+    }
+
+    public final boolean isSameSide(Side side) {
+        if (isHan() && side.isHan()) {
+            return true;
+        }
+        return isCho() && side.isCho();
     }
 
     @Override

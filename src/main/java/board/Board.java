@@ -29,7 +29,7 @@ public record Board(Map<Position, Piece> pieces) {
     public Board move(Position departure, Position destination, Turn turn) {
         Piece departurePiece = pieces.get(departure);
         Piece destinationPiece = pieces.get(destination);
-        MoveContext moveContext = departurePiece.askMoveContext(departure, destination, turn);
+        MoveContext moveContext = departurePiece.askMoveContext(departure, destination);
 
         FullPiece currentPiece = (FullPiece) departurePiece;
         validatePathPieces(moveContext.pathPositions(), moveContext.pathRule());
@@ -58,5 +58,10 @@ public record Board(Map<Position, Piece> pieces) {
     private void movePiece(Position departure, Position destination, FullPiece departurePiece) {
         pieces.put(departure, new EmptyPiece());
         pieces.put(destination, departurePiece);
+    }
+
+    public void validateDeparturePieceSide(Position departure, Turn turn) {
+        Piece piece = pieces.get(departure);
+        turn.validateSide(piece);
     }
 }

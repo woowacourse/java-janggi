@@ -27,6 +27,7 @@ public class JanggiGame {
     }
 
     public void move(Position departure, Position destination) {
+        board.validateDeparturePieceSide(departure, turn);
         board.move(departure, destination, turn);
         turn = turn.move();
     }

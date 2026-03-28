@@ -1,13 +1,36 @@
 package pieces;
 
+import static movepolicy.move.OneStep.BACK;
+import static movepolicy.move.OneStep.FORWARD;
+import static movepolicy.move.OneStep.LEFT;
+import static movepolicy.move.OneStep.LEFT_BACK;
+import static movepolicy.move.OneStep.LEFT_FORWARD;
+import static movepolicy.move.OneStep.RIGHT;
+import static movepolicy.move.OneStep.RIGHT_BACK;
+import static movepolicy.move.OneStep.RIGHT_FORWARD;
+
 import java.util.List;
 import movepolicy.destination.BasicDestinationRule;
 import movepolicy.destination.DestinationRule;
+import movepolicy.move.FixedRouteMovement;
+import movepolicy.move.Movement;
+import movepolicy.move.Route;
 import movepolicy.path.EmptyPathRule;
 import movepolicy.path.PathRule;
 import position.Position;
 
 public class Ma extends FullPiece {
+
+    private static final Movement MOVEMENT = new FixedRouteMovement(List.of(
+        new Route(List.of(FORWARD, RIGHT_FORWARD)),
+        new Route(List.of(FORWARD, LEFT_FORWARD)),
+        new Route(List.of(BACK, RIGHT_BACK)),
+        new Route(List.of(BACK, LEFT_BACK)),
+        new Route(List.of(LEFT, LEFT_FORWARD)),
+        new Route(List.of(LEFT, LEFT_BACK)),
+        new Route(List.of(RIGHT, RIGHT_FORWARD)),
+        new Route(List.of(RIGHT, RIGHT_BACK))
+    ));
 
     public Ma(Side side) {
         super(side);
@@ -15,35 +38,14 @@ public class Ma extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        List<Position> movableDestinations = List.of(
-            departure.moveUp().moveRightUp(),
-            departure.moveUp().moveLeftUp(),
-            departure.moveDown().moveRightDown(),
-            departure.moveDown().moveLeftDown(),
-            departure.moveLeft().moveLeftUp(),
-            departure.moveLeft().moveLeftDown(),
-            departure.moveRight().moveRightUp(),
-            departure.moveRight().moveRightDown());
-        if (!movableDestinations.contains(destination)) {
+        if (!MOVEMENT.canReach(departure, destination, side)) {
             throw new IllegalArgumentException("마의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
     }
 
     @Override
     protected List<Position> getPathPositions(Position departure, Position destination) {
-        if (departure.moveUp().moveUp().isSameRow(destination)) {
-            return List.of(departure.moveUp());
-        }
-        if (departure.moveDown().moveDown().isSameRow(destination)) {
-            return List.of(departure.moveDown());
-        }
-        if (departure.moveLeft().moveLeft().isSameColumn(destination)) {
-            return List.of(departure.moveLeft());
-        }
-        if (departure.moveRight().moveRight().isSameColumn(destination)) {
-            return List.of(departure.moveRight());
-        }
-        throw new IllegalArgumentException("출발지와 도착지의 좌표가 유효하지 않습니다.");
+        return MOVEMENT.getPathPositions(departure, destination, side);
     }
 
     @Override

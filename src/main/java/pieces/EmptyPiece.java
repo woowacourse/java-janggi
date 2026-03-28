@@ -1,7 +1,6 @@
 package pieces;
 
 import movepolicy.MoveContext;
-import participant.Turn;
 import position.Position;
 
 public record EmptyPiece() implements Piece {
@@ -12,7 +11,7 @@ public record EmptyPiece() implements Piece {
     }
 
     @Override
-    public MoveContext askMoveContext(Position departure, Position destination, Turn turn) {
+    public MoveContext askMoveContext(Position departure, Position destination) {
         throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
     }
 }
