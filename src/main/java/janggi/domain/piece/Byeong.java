@@ -12,7 +12,7 @@ public class Byeong extends Piece {
 
     @Override
     public void validateMove(Position from, Position to) {
-        if (moveStrategy(from, to)) {
+        if (isValidMovePattern(from, to)) {
             return;
         }
         throw new IllegalArgumentException("해당 위치로 병이 이동할 수 없습니다.");
@@ -23,7 +23,7 @@ public class Byeong extends Piece {
         return Path.EMPTY;
     }
 
-    private boolean moveStrategy(Position from, Position to) {
+    private boolean isValidMovePattern(Position from, Position to) {
         return xMoveStrategy(from, to) || HanYMoveStrategy(from, to) || ChoYMoveStrategy(from, to);
     }
 
