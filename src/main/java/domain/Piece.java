@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import strategy.move.CannonMoveStrategy;
 import strategy.move.ElephantMoveStrategy;
@@ -12,6 +14,8 @@ import strategy.move.PawnMoveStrategy;
 import strategy.move.RookMoveStrategy;
 
 public class Piece {
+    private static final Map<PieceType, MoveStrategy> MOVE_STRATEGIES = createMoveStrategies();
+
     private final TeamColor teamColor;
     private final PieceType pieceType;
     private final MoveStrategy moveStrategy;
@@ -43,27 +47,22 @@ public class Piece {
     }
 
     private static MoveStrategy createMoveStrategy(PieceType pieceType) {
-        if (pieceType == PieceType.CANNON) {
-            return new CannonMoveStrategy();
-        }
-        if (pieceType == PieceType.ELEPHANT) {
-            return new ElephantMoveStrategy();
-        }
-        if (pieceType == PieceType.GUARD) {
-            return new GuardMoveStrategy();
-        }
-        if (pieceType == PieceType.HORSE) {
-            return new HorseMoveStrategy();
-        }
-        if (pieceType == PieceType.KING) {
-            return new KingMoveStrategy();
-        }
-        if (pieceType == PieceType.PAWN) {
-            return new PawnMoveStrategy();
-        }
-        if (pieceType == PieceType.ROOK) {
-            return new RookMoveStrategy();
+        MoveStrategy moveStrategy = MOVE_STRATEGIES.get(pieceType);
+        if (moveStrategy != null) {
+            return moveStrategy;
         }
         throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
+    }
+
+    private static Map<PieceType, MoveStrategy> createMoveStrategies() {
+        Map<PieceType, MoveStrategy> moveStrategies = new EnumMap<>(PieceType.class);
+        moveStrategies.put(PieceType.CANNON, new CannonMoveStrategy());
+        moveStrategies.put(PieceType.ELEPHANT, new ElephantMoveStrategy());
+        moveStrategies.put(PieceType.GUARD, new GuardMoveStrategy());
+        moveStrategies.put(PieceType.HORSE, new HorseMoveStrategy());
+        moveStrategies.put(PieceType.KING, new KingMoveStrategy());
+        moveStrategies.put(PieceType.PAWN, new PawnMoveStrategy());
+        moveStrategies.put(PieceType.ROOK, new RookMoveStrategy());
+        return moveStrategies;
     }
 }
