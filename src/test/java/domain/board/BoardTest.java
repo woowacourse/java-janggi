@@ -40,7 +40,7 @@ class BoardTest {
         Position position = new Position(4, 4);
 
         // when - then
-        assertThat(board.isInvalidRange(position)).isFalse();
+        assertThat(board.isValidRange(position)).isTrue();
     }
 
     @Test
@@ -51,7 +51,7 @@ class BoardTest {
         Position position = new Position(10, 4);
 
         // when - then
-        assertThat(board.isInvalidRange(position)).isTrue();
+        assertThat(board.isValidRange(position)).isFalse();
     }
 
     @Test
@@ -62,7 +62,7 @@ class BoardTest {
         Position position = new Position(4, 9);
 
         // when - then
-        assertThat(board.isInvalidRange(position)).isTrue();
+        assertThat(board.isValidRange(position)).isFalse();
     }
 
     @Test

@@ -12,7 +12,6 @@ import view.message.SideView;
 
 public class OutputView {
 
-
     public void printBoard(Map<Position, Piece> board) {
         System.out.println("   0  1   2  3   4   5  6   7  8");
 

@@ -29,7 +29,7 @@ public class Board {
     }
 
     public boolean isEmpty(Position position) {
-        return !isInvalidRange(position) && getPiece(position).isNeutral();
+        return isValidRange(position) && getPiece(position).isNeutral();
     }
 
     public boolean isCannon(Position position) {
@@ -37,12 +37,10 @@ public class Board {
     }
 
     public void move(Position start, Position destination) {
-        Piece movingPiece = board.get(start);
-
         validateRange(start);
         validateRange(destination);
 
-        board.put(destination, movingPiece);
+        board.put(destination, board.get(start));
         board.put(start, EmptyPiece.getInstance());
     }
 
@@ -51,9 +49,9 @@ public class Board {
         return board.get(position);
     }
 
-    public boolean isInvalidRange(Position position) {
-        return position.col() < POSITION_THRESHOLD || position.col() >= COL_SIZE
-                || position.row() < POSITION_THRESHOLD || position.row() >= ROW_SIZE;
+    public boolean isValidRange(Position position) {
+        return position.col() >= POSITION_THRESHOLD && position.col() < COL_SIZE
+                && position.row() >= POSITION_THRESHOLD && position.row() < ROW_SIZE;
     }
 
     public void validateRange(Position position) {

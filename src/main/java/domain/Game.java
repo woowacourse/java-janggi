@@ -23,7 +23,7 @@ public class Game {
     }
 
     public boolean isAvailableDestination(Position destination) {
-        if (board.isInvalidRange(destination)) {
+        if (!board.isValidRange(destination)) {
             return false;
         }
 
@@ -35,7 +35,7 @@ public class Game {
     }
 
     public boolean isCannon(Position position) {
-        return board.isInvalidRange(position) || board.isCannon(position);
+        return !board.isValidRange(position) || board.isCannon(position);
     }
 
     public boolean isNotEmpty(Position position) {
