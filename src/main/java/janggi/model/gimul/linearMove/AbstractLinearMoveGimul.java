@@ -14,7 +14,9 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
-        if ((!from.isSameRow(to) && !from.isSameColumn(to)) || from.equals(to)) {
+        if (from.equals(to)
+                || isDifferentRowAndColumn(from, to)
+        ) {
             throw new IllegalArgumentException("해당 경로로는 이동할 수 없습니다.");
         }
 
@@ -23,6 +25,10 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
         }
 
         return from.moveVertical(to.getRowDistance(from)).removeFromAndTo();
+    }
+
+    private boolean isDifferentRowAndColumn(Position from, Position to) {
+        return !from.isSameRow(to) && !from.isSameColumn(to);
     }
 
     @Override
