@@ -123,17 +123,38 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("포는 자신의 포의 위치로 이동할 수 없다")
+    @DisplayName("포는 자신의 팀 위치로 이동 불가하다")
     void 포_자신의_팀_위치로_이동불가() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1, 4),
+                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
         stubBoard.put(new Position(1, 7),
                 new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 7);
+
+        // when
+        MoveStrategy moveStrategy = new CannonMoveStrategy();
+        boolean result = moveStrategy.canMove(board, from, to);
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("포는 자신의 위치로 이동 불가하다")
+    void 포_자신의_위치_이동불가() {
+        //given
+        StubBoard stubBoard = new StubBoard();
+        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        Board board = stubBoard.create();
+
+        Position from = new Position(1, 1);
+        Position to = new Position(1, 1);
 
         // when
         MoveStrategy moveStrategy = new CannonMoveStrategy();
