@@ -38,7 +38,7 @@ class BoardTest {
         board.init(pieces);
         Assertions.assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(1, 1), Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
+                .hasMessageContaining("[ERROR] 마가 이동할 수 없는 방향입니다.");
     }
 
     @Test
