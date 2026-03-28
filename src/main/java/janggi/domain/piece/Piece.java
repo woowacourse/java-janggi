@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class Piece {
 
-    private final PieceType pieceType;
+    protected final PieceType pieceType;
     protected final Side side;
 
     protected Piece(PieceType pieceType, Side side) {
@@ -31,6 +31,6 @@ public abstract class Piece {
     }
 
     public PieceType getPieceType() {
-        return pieceType;
+        return this.pieceType;
     }
 }

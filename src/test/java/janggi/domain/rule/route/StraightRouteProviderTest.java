@@ -1,6 +1,7 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -21,7 +22,7 @@ class StraightRouteProviderTest {
         Location from = Location.from(List.of(2, 2));
 
         // when & then
-        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, destination))
+        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(PieceType.CHA, from, destination))
                 .isEqualTo(route);
     }
 
@@ -55,7 +56,7 @@ class StraightRouteProviderTest {
         Location to = Location.from(coordination);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, to))
+        Assertions.assertThatThrownBy(() -> STRAIGHT_ROUTE_PROVIDER.calculateRoute(PieceType.CHA, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

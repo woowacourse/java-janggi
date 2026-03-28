@@ -1,6 +1,7 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ class GungSeongRouteProviderTest {
         Location to = Location.from(destination);
 
         // when & then
-        Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to))
+        Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(PieceType.GUNG, from, to))
                 .isEqualTo(List.of(to));
     }
 
@@ -44,7 +45,7 @@ class GungSeongRouteProviderTest {
         Location to = Location.from(coordination);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to))
+        Assertions.assertThatThrownBy(() -> GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(PieceType.GUNG, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

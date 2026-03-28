@@ -12,7 +12,7 @@ public enum Side {
         this.name = name;
     }
 
-    public Side switchTurn() {
+    public Side switchSide() {
         if (this == HAN) {
             return CHO;
         }

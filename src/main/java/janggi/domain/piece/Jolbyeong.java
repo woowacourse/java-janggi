@@ -9,6 +9,7 @@ import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.Direction;
 import janggi.domain.rule.route.Route;
+import janggi.domain.rule.route.RouteProvider;
 import java.util.List;
 
 public class Jolbyeong extends Piece {
@@ -31,19 +32,13 @@ public class Jolbyeong extends Piece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        List<Route> directions = List.of(
-                Route.of(List.of(getFrontDirection())),
-                Route.of(List.of(LEFT)),
-                Route.of(List.of(RIGHT))
+        List<Route> possibleRoutes = List.of(
+                Route.from(List.of(getFrontDirection())),
+                Route.from(List.of(LEFT)),
+                Route.from(List.of(RIGHT))
         );
 
-        for (Route route : directions) {
-            List<Location> locations = route.apply(from);
-            if (locations.getLast().equals(to)) {
-                return locations;
-            }
-        }
-        throw new IllegalArgumentException(getPieceType().getNameFormat() + "은 해당 위치에 도달할 수 없습니다.");
+        return RouteProvider.findValidPath(pieceType, from, to, possibleRoutes);
     }
 
     private Direction getFrontDirection() {

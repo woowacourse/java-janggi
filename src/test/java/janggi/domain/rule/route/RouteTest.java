@@ -13,7 +13,7 @@ class RouteTest {
     void shouldReturnRouteLocationsCalculatedByCurrentLocation() {
         // given
         Location current = Location.from(List.of(0,0));
-        Route route = Route.of(
+        Route route = Route.from(
                 List.of(
                         Direction.FRONT, // 0,1
                         Direction.FRONT_LEFT, // -1, 2
@@ -29,7 +29,7 @@ class RouteTest {
         );
 
         // when
-        List<Location> routeLocations = route.apply(current);
+        List<Location> routeLocations = route.calculateLocationsOnPath(current);
 
         // then
         Assertions.assertThat(routeLocations).isEqualTo(expected);

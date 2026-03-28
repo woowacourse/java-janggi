@@ -154,11 +154,12 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(1, 1));
+            Location from = new Location(0, 0);
+            Location to = new Location(1, 1);
 
             // when & then
             Assertions.assertThatNoException()
-                    .isThrownBy(() -> board.validateLocationToMove(Side.HAN, location));
+                    .isThrownBy(() -> board.validateLocationToMove(from, to, Side.HAN));
         }
 
         @Test
@@ -174,11 +175,12 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(1, 1));
+            Location from = new Location(0, 0);
+            Location to = new Location(1, 1);
 
             // when & then
             Assertions.assertThatNoException()
-                    .isThrownBy(() -> board.validateLocationToMove(currentSide, location));
+                    .isThrownBy(() -> board.validateLocationToMove(from, to, currentSide));
         }
 
         @Test
@@ -193,10 +195,11 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(1, 1));
+            Location from = new Location(0, 0);
+            Location to = new Location(1, 1);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.validateLocationToMove(currentSide, location))
+            Assertions.assertThatThrownBy(() -> board.validateLocationToMove(from, to, currentSide))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

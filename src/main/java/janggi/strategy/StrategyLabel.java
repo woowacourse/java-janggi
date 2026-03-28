@@ -2,10 +2,10 @@ package janggi.strategy;
 
 public enum StrategyLabel {
 
-    HEHE("마상마상", 1),
-    HEEH("마상상마", 2),
-    EHHE("상마마상", 3),
-    EHEH("상마상마", 4);
+    MSMS("마상마상", 1),
+    MSSM("마상상마", 2),
+    SMMS("상마마상", 3),
+    SMSM("상마상마", 4);
 
     private final String name;
     private final int decisionNumber;

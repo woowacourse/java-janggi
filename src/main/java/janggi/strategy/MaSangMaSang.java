@@ -11,7 +11,7 @@ public class MaSangMaSang extends ArrangementStrategy {
     private static final MaSangMaSang INSTANCE = new MaSangMaSang();
 
     private MaSangMaSang() {
-        super(StrategyLabel.HEHE);
+        super(StrategyLabel.MSMS);
     }
 
     public static MaSangMaSang getInstance() {

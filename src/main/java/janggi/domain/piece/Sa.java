@@ -19,11 +19,7 @@ public class Sa extends Piece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        try {
-            return ROUTE_PROVIDER.calculateRoute(from, to);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("사는 해당 위치에 도달할 수 없습니다.");
-        }
+        return ROUTE_PROVIDER.calculateRoute(pieceType, from, to);
     }
 
     @Override

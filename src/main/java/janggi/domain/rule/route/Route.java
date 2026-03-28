@@ -12,25 +12,25 @@ public class Route {
         this.directions = directions;
     }
 
-    public static Route of(List<Direction> directions) {
+    public static Route from(List<Direction> directions) {
         return new Route(directions);
     }
 
-    public static Route create(Direction direction, int count) {
-        List<Direction> result = new ArrayList<>();
+    public static Route of(Direction direction, int count) {
+        List<Direction> way = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            result.add(direction);
+            way.add(direction);
         }
-        return new Route(result);
+        return new Route(way);
     }
 
-    public List<Location> apply(Location current) {
-        List<Location> result = new ArrayList<>();
+    public List<Location> calculateLocationsOnPath(Location current) {
+        List<Location> locationsOnPath = new ArrayList<>();
         for (Direction direction : directions) {
             current = direction.apply(current);
-            result.add(current);
+            locationsOnPath.add(current);
         }
 
-        return result;
+        return locationsOnPath;
     }
 }

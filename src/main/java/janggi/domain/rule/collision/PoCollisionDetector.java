@@ -9,7 +9,8 @@ public class PoCollisionDetector implements CollisionDetector {
     private static final PoCollisionDetector INSTANCE = new PoCollisionDetector();
     private static final int REQUIRED_SCREEN_COUNT = 1;
 
-    private PoCollisionDetector() {}
+    private PoCollisionDetector() {
+    }
 
     public static PoCollisionDetector getInstance() {
         return INSTANCE;
@@ -36,9 +37,13 @@ public class PoCollisionDetector implements CollisionDetector {
 
     private void validatePoExistence(Piece self, List<Piece> piecesOnPath) {
         for (Piece piece : piecesOnPath) {
-            if (self.getClass() == piece.getClass()) {
-                throw new IllegalArgumentException("이동 경로 또는 도착지에 포가 존재할 수 없습니다.");
-            }
+            validateNonePo(self, piece);
+        }
+    }
+
+    private void validateNonePo(Piece self, Piece piece) {
+        if (self.getClass() == piece.getClass()) {
+            throw new IllegalArgumentException("이동 경로 또는 도착지에 포가 존재할 수 없습니다.");
         }
     }
 

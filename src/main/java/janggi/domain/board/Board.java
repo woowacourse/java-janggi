@@ -38,17 +38,6 @@ public class Board {
         return new Board(boardState, height, width);
     }
 
-    public void move(Location from, Location to) {
-        validateMove(from, to);
-
-        Piece piece = boardState.get(from);
-        List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
-
-        piece.detectCollision(piecesOnPath);
-
-        executeMove(from, to, piece);
-    }
-
     public void validateLocationOfPiece(Side currentSide, Location locationOfPiece) {
         validateLocation(locationOfPiece);
         validatePieceExist(locationOfPiece);
@@ -58,23 +47,25 @@ public class Board {
         }
     }
 
-    public boolean isNotEmpty() {
-        return !boardState.values().stream()
-                .allMatch(Piece::isEmpty);
-    }
-
-    public void validateLocationToMove(Side currentSide, Location locationToMove) {
-        validateLocation(locationToMove);
-        Piece target = boardState.get(locationToMove);
-        if (isOccupiedBySameSide(target, currentSide)) {
-            throw new IllegalArgumentException("같은 편의 기물이 있는 위치로 이동할 수 없습니다.");
+    private void validateLocation(Location location) {
+        if (!boardState.containsKey(location)) {
+            throw new IllegalArgumentException("해당 좌표는 보드판에 존재하지 않습니다.");
         }
     }
 
-    private void validateMove(Location from, Location to) {
-        validateLocation(from);
-        validateLocation(to);
-        validatePieceExist(from);
+    private void validatePieceExist(Location location) {
+        if (boardState.get(location).isEmpty()) {
+            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
+        }
+    }
+
+    public void move(Location from, Location to) {
+        Piece piece = boardState.get(from);
+        List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
+
+        piece.detectCollision(piecesOnPath);
+
+        executeMove(from, to, piece);
     }
 
     private List<Piece> getPiecesOnRoute(Piece piece, Location from, Location to) {
@@ -88,6 +79,26 @@ public class Board {
         boardState.put(from, EmptyPiece.getInstance());
     }
 
+    public void validateLocationToMove(Location startingLocation, Location locationToMove, Side currentSide) {
+        validateLocation(locationToMove);
+        validateMovementOccurrence(startingLocation, locationToMove);
+        Piece target = boardState.get(locationToMove);
+        if (isOccupiedBySameSide(target, currentSide)) {
+            throw new IllegalArgumentException("같은 편의 기물이 있는 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    private void validateMovementOccurrence(Location from, Location to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("기물의 도착 위치는 출발 위치와 일치할 수 없습니다.");
+        }
+    }
+
+    public boolean isNotEmpty() {
+        return !boardState.values().stream()
+                .allMatch(Piece::isEmpty);
+    }
+
     public List<List<Piece>> to2DArray() {
         List<List<Piece>> pieces = new ArrayList<>();
         for (int row = 0; row < height; row++) {
@@ -99,18 +110,6 @@ public class Board {
             pieces.add(List.copyOf(line));
         }
         return List.copyOf(pieces);
-    }
-
-    private void validateLocation(Location location) {
-        if (!boardState.containsKey(location)) {
-            throw new IllegalArgumentException("해당 좌표는 보드판에 존재하지 않습니다.");
-        }
-    }
-
-    private void validatePieceExist(Location location) {
-        if (boardState.get(location).isEmpty()) {
-            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
-        }
     }
 
     private boolean isNotSameSide(Piece piece, Side side) {

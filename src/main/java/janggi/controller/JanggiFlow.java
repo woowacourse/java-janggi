@@ -40,10 +40,10 @@ public class JanggiFlow {
             final Side turnSide = current;
             retryAction(() -> {
                 Location from = askLocationOfPiece(turnSide, board);
-                Location to = askLocationToMove(turnSide, board);
+                Location to = askLocationToMove(from, turnSide, board);
                 board.move(from, to);
             });
-            current = current.switchTurn();
+            current = current.switchSide();
         }
     }
 
@@ -54,10 +54,10 @@ public class JanggiFlow {
         return verifiedLocation;
     }
 
-    private Location askLocationToMove(Side current, Board board) {
+    private Location askLocationToMove(Location startingLocation, Side current, Board board) {
         List<Integer> locationToMove = view.requestLocationToMove();
         Location verifiedLocation = Location.from(locationToMove);
-        board.validateLocationToMove(current, verifiedLocation);
+        board.validateLocationToMove(startingLocation, verifiedLocation, current);
         return verifiedLocation;
     }
 

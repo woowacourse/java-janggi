@@ -8,7 +8,8 @@ public class DefaultCollisionDetector implements CollisionDetector {
 
     private static final DefaultCollisionDetector INSTANCE = new DefaultCollisionDetector();
 
-    private DefaultCollisionDetector() {}
+    private DefaultCollisionDetector() {
+    }
 
     public static DefaultCollisionDetector getInstance() {
         return INSTANCE;
@@ -23,9 +24,13 @@ public class DefaultCollisionDetector implements CollisionDetector {
     private void validateMiddlePath(List<Piece> piecesOnPath) {
         List<Piece> middlePath = piecesOnPath.subList(0, piecesOnPath.size() - 1);
         for (Piece pathPiece : middlePath) {
-            if (!pathPiece.isEmpty()) {
-                throw new IllegalArgumentException("이동 경로에 기물이 존재합니다");
-            }
+            validateNoObstacle(pathPiece);
+        }
+    }
+
+    private void validateNoObstacle(Piece pathPiece) {
+        if (!pathPiece.isEmpty()) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재합니다");
         }
     }
 

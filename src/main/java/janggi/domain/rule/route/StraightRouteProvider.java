@@ -6,6 +6,7 @@ import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 
 @SuppressWarnings("java:S6548")
@@ -13,31 +14,25 @@ public class StraightRouteProvider implements RouteProvider {
 
     private static final StraightRouteProvider INSTANCE = new StraightRouteProvider();
 
-    private StraightRouteProvider() {}
+    private StraightRouteProvider() {
+    }
 
     public static StraightRouteProvider getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public List<Location> calculateRoute(Location from, Location to) {
+    public List<Location> calculateRoute(PieceType pieceType, Location from, Location to) {
         int maxDistance = calculateMaxDistance(from, to);
 
-        List<Route> directions = List.of(
-                Route.create(FRONT, maxDistance),
-                Route.create(BACK, maxDistance),
-                Route.create(LEFT, maxDistance),
-                Route.create(RIGHT, maxDistance)
+        List<Route> possibleRoutes = List.of(
+                Route.of(FRONT, maxDistance),
+                Route.of(BACK, maxDistance),
+                Route.of(LEFT, maxDistance),
+                Route.of(RIGHT, maxDistance)
         );
 
-        for (Route route : directions) {
-            List<Location> locations = route.apply(from);
-            if (locations.contains(to)) {
-                return locations;
-            }
-        }
-
-        throw new IllegalArgumentException("해당 위치에 도달할 수 없습니다.");
+        return RouteProvider.findValidPath(pieceType, from, to, possibleRoutes);
     }
 
     private int calculateMaxDistance(Location from, Location to) {

@@ -11,7 +11,7 @@ public class SangMaMaSang extends ArrangementStrategy {
     private static final SangMaMaSang INSTANCE = new SangMaMaSang();
 
     private SangMaMaSang() {
-        super(StrategyLabel.EHHE);
+        super(StrategyLabel.SMMS);
     }
 
     public static SangMaMaSang getInstance() {

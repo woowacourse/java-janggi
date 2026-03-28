@@ -17,7 +17,7 @@ public class TestArrangementStrategy extends ArrangementStrategy {
     }
 
     public TestArrangementStrategy(Map<Location, Piece> customPieces, boolean shouldClear) {
-        super(StrategyLabel.HEHE);
+        super(StrategyLabel.MSMS);
         this.customPieces = customPieces;
         this.shouldClear = shouldClear;
     }
