@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class AbstractDiagonalGimul extends AbstractGimul {
 
-    public AbstractDiagonalGimul(Team team) {
+    protected AbstractDiagonalGimul(Team team) {
         super(team);
     }
 

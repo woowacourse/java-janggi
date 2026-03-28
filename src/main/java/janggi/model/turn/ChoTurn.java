@@ -4,7 +4,6 @@ import janggi.model.Board;
 import janggi.model.Team;
 import janggi.model.position.Position;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class ChoTurn implements Turn {
 
