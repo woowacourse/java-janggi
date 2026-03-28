@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.palace.Jang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JangTest {
+    
     @DisplayName("이동 거리가 1칸 초과이면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {

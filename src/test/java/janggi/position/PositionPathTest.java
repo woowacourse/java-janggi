@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 class PositionPathTest {
 
-
     @DisplayName("가장 마지막에 있는 위치를 반환한다.")
     @Test
     void getDestination() {
@@ -46,6 +45,4 @@ class PositionPathTest {
                 .isEqualTo(new Position(Row.TWO, Column.SEVEN));
 
     }
-
-
 }

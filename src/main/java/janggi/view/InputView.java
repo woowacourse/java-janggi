@@ -33,5 +33,4 @@ public class InputView {
                 Parser.parse(parts[COLUMN_INDEX].trim())
         );
     }
-
 }

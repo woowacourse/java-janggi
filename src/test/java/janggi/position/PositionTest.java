@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PositionTest {
+
     @DisplayName("같은 행이면 true를 반환한다.")
     @Test
     void isSameRow() {

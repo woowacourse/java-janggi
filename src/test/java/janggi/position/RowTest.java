@@ -63,7 +63,7 @@ class RowTest {
                         Row.EIGHT
                 );
     }
-
+    
     @DisplayName("두 행 사이의 거리를 반환한다.")
     @Test
     void getDistance() {

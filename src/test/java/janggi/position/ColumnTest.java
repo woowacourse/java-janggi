@@ -24,7 +24,7 @@ class ColumnTest {
     void moved_OUT() {
         assertThatThrownBy(() -> Column.NINE.moved(3))
                 .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("보드 밖으로는 이동할 수 없습니다.");
+                .hasMessage("보드 밖으로는 이동할 수 없습니다.");
 
         assertThatThrownBy(() -> Column.ONE.moved(-3))
                 .isInstanceOf(IllegalArgumentException.class)

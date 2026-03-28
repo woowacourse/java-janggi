@@ -47,5 +47,4 @@ public abstract class AbstractPalaceGimul extends AbstractGimul {
     public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
         return gimulsOnPath.isEmpty();
     }
-
 }

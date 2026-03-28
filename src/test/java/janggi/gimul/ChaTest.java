@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.linearMove.Cha;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;

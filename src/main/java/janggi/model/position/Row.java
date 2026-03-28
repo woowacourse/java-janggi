@@ -39,7 +39,6 @@ public enum Row {
         return CACHE_VALUES.get(nextValue);
     }
 
-
     public List<Row> to(Row other) {
         int adjustValue = 1;
         if (this.ordinal() > other.ordinal()) {

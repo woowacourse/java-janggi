@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.gimul.linearMove.Cha;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class MaTest {
+
     @DisplayName("상하 또는 좌우로 한칸을 간 후에 같은 방향의 대각선으로 한칸 이동한다.")
     @Test
     void getLegalPath() {
@@ -88,6 +89,4 @@ class MaTest {
         assertThat(ma.isSameTeam(Team.CHO)).isTrue();
         assertThat(ma.isSameTeam(Team.HAN)).isFalse();
     }
-
-
 }

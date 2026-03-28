@@ -26,7 +26,6 @@ public record Position(
         return new PositionPath(positions);
     }
 
-
     public PositionPath moveHorizontal(int distance) {
         int adjustValue = 1;
         Position to = new Position(

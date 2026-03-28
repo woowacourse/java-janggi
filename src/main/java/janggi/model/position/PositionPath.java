@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 public class PositionPath {
 
-
     private final List<Position> path;
 
     public static PositionPath concatenate(PositionPath first, PositionPath second) {
