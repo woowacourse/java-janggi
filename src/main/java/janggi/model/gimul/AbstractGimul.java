@@ -8,7 +8,7 @@ import java.util.List;
 public abstract class AbstractGimul {
     protected final Team team;
 
-    public AbstractGimul(Team team) {
+    protected AbstractGimul(Team team) {
         this.team = team;
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class AbstractLinearMoveGimul extends AbstractGimul {
 
-    public AbstractLinearMoveGimul(Team team) {
+    protected AbstractLinearMoveGimul(Team team) {
         super(team);
     }
 
