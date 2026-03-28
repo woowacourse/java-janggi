@@ -15,6 +15,7 @@ public class OutputWriter {
     private static final String FILE_NUMBER_FORMAT = "   %d  ";
     private static final String BOARD_HEADER_PADDING = "    ";
     private static final String PIECE_SEPARATOR = " ";
+    private static final String WINNER_MESSAGE = "%s팀의 승리입니다!";
 
     public void printJanggiBoard(JanggiBoardView boardView) {
         printFileNumber();
@@ -22,7 +23,7 @@ public class OutputWriter {
     }
 
     public void printWinner(Team team) {
-        System.out.println(team + "팀의 승리입니다!");
+        System.out.printf(WINNER_MESSAGE, team);
     }
 
     private void printJanggiBoard(Map<Point, PieceView> boardView) {
