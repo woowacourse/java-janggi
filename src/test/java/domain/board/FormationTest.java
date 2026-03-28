@@ -1,5 +1,6 @@
 package domain.board;
 
+import common.exception.JanggiException;
 import domain.board.exception.FormationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

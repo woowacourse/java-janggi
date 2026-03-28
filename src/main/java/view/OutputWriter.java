@@ -16,6 +16,7 @@ public class OutputWriter {
     private static final String BOARD_HEADER_PADDING = "    ";
     private static final String PIECE_SEPARATOR = " ";
     private static final String WINNER_MESSAGE = "%s팀의 승리입니다!";
+    private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
 
     public void printJanggiBoard(JanggiBoardView boardView) {
         printFileNumber();
@@ -46,7 +47,7 @@ public class OutputWriter {
     }
 
     public void printErrorMessage(String errorMessage) {
-        System.out.println(errorMessage);
+        System.out.println(ERROR_MESSAGE_PREFIX + errorMessage);
     }
 
 }
