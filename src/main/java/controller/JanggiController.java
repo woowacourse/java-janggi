@@ -26,12 +26,13 @@ public class JanggiController {
         Player hanPlayer = Player.han(hanPlayerName);
 
         outputView.printChoiceChoElephantSetupPrompt();
-        ;
         ElephantSetup choElephantSetup = inputView.readElephantSetup();
 
         outputView.printChoiceHanElephantSetupPrompt();
         ElephantSetup hanElephantSetup = inputView.readElephantSetup();
 
         Board board = Board.init(choElephantSetup, hanElephantSetup);
+
+        outputView.printBoardWithPieces(board.getPieceInfos());
     }
 }
