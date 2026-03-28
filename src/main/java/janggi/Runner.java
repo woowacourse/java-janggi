@@ -27,12 +27,11 @@ public class Runner {
     }
 
     private void turnGame() {
-        while (true) {
-            playTurnGame();
+        while (playTurnGame()) {
         }
     }
 
-    private void playTurnGame() {
+    private boolean playTurnGame() {
         try {
             printCurrentStatus();
             List<String> startPositionInput = InputView.askStartPosition();
@@ -42,8 +41,15 @@ public class Runner {
             Position endPosition = Position.from(endPositionInput);
 
             game.move(startPosition, endPosition);
+
+            if(game.isFinished()) {
+                OutputView.printWinner(game.getWinnerSide());
+                return false;
+            }
+            return true;
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
+            return true;
         }
     }
 

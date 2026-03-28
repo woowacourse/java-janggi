@@ -6,7 +6,7 @@ import janggi.domain.Side;
 import janggi.initializer.BoardInitializer;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
@@ -14,7 +14,7 @@ class BoardTest {
     void 자기_진영의_기물을_움직이면_정상_작동한다() {
         Board board = new Board(BoardInitializer.createBoard(Arrangement.마상마상, Arrangement.마상마상));
 
-        assertThat(board.move(new Position(1, 1), new Position(2, 1), Side.HAN)).isTrue();
+        assertThatCode(() ->board.move(new Position(1, 1), new Position(2, 1), Side.HAN)).doesNotThrowAnyException();
     }
 
     @Test

@@ -7,8 +7,11 @@ import janggi.domain.board.Board;
 public class Finish extends Started {
     private static final String INVALID_MOVE = "게임 종료 상태에서는 이동할 수 없습니다.";
 
-    public Finish(Board board) {
+    private final Side winnerSide;
+
+    public Finish(Board board, Side winnerSide) {
         super(board, Side.EMPTY);
+        this.winnerSide = winnerSide;
     }
 
     @Override
@@ -19,5 +22,10 @@ public class Finish extends Started {
     @Override
     public boolean isFinished() {
         return true;
+    }
+
+    @Override
+    public Side getWinnerSide() {
+        return winnerSide;
     }
 }

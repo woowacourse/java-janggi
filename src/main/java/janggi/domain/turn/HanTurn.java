@@ -11,9 +11,10 @@ public class HanTurn extends Started {
 
     @Override
     public PlayerTurn move(Position start, Position end) {
-        if (board.move(start, end, side)) {
-            return new ChoTurn(board);
+        board.move(start, end, side);
+        if(board.isEndGame()) {
+            return new Finish(board, side);
         }
-        return new Finish(board);
+        return new ChoTurn(board);
     }
 }

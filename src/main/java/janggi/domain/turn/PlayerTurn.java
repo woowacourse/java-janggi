@@ -12,4 +12,6 @@ public interface PlayerTurn {
     PieceInfo[][] getCurrentBoard();
 
     Side getCurrentSide();
+
+    Side getWinnerSide();
 }

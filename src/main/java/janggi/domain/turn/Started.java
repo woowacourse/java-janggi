@@ -27,4 +27,9 @@ public abstract class Started implements PlayerTurn {
     public Side getCurrentSide() {
         return side;
     }
+
+    @Override
+    public Side getWinnerSide() {
+        return Side.EMPTY;
+    }
 }

@@ -7,6 +7,8 @@ import janggi.dto.BoardDto;
 import janggi.initializer.BoardInitializer;
 
 public class Game {
+    private static final String INVALID_WINNER_SIDE = "잘못된 승자 진영입니다.";
+
     private PlayerTurn playerTurn;
 
     public Game(Arrangement choArrangement, Arrangement hanArrangement) {
@@ -27,5 +29,13 @@ public class Game {
 
     public Side getCurrentSide() {
         return playerTurn.getCurrentSide();
+    }
+
+    public Side getWinnerSide() {
+        Side winnerSide = playerTurn.getWinnerSide();
+        if(winnerSide.equals(Side.EMPTY)) {
+            throw new IllegalStateException(INVALID_WINNER_SIDE);
+        }
+        return winnerSide;
     }
 }
