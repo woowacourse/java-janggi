@@ -19,13 +19,35 @@ public class Board {
         state = new LinkedHashMap<>();
     }
 
+    public Piece findBy(Position position) {
+        return state.get(position);
+    }
+
+    public BoardResponseDto findState() {
+        return new BoardResponseDto(state.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> PieceDto.from(entry.getValue()))
+                ));
+    }
+
+    public void move(Position from, Position to, Side side) {
+        validatePosition(from, to);
+
+        Piece fromPiece = state.get(from);
+        Piece toPiece = state.get(to);
+
+        validateMoveBySide(side, fromPiece, toPiece);
+
+        if (fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
+            state.put(to, fromPiece);
+            state.remove(from);
+        }
+    }
+
     public void placePieces(Side side, Placement placement) {
         placeDefaultPieceBy(side);
         placeHorseAndElephant(side, placement);
-    }
-
-    public Piece findBy(Position position) {
-        return state.get(position);
     }
 
     private void placeDefaultPieceBy(Side side) {
@@ -75,32 +97,37 @@ public class Board {
         state.put(adjustPositionBySide(side, Position.of(1, 8)), Piece.of(side, placement.getFourthPieceType()));
     }
 
-    public BoardResponseDto findState() {
-        return new BoardResponseDto(state.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> PieceDto.from(entry.getValue()))
-                ));
+    private void validatePosition(Position from, Position to) {
+        validateSamePosition(from, to);
+        validateExistPiece(from);
     }
 
-    public void move(Position from, Position to, Side side) {
+    private static void validateSamePosition(Position from, Position to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("출발지와 목적지가 같을 수 없습니다.");
+        }
+    }
+
+    private void validateExistPiece(Position from) {
         if (!state.containsKey(from)) {
             throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
         }
+    }
 
-        Piece fromPiece = state.get(from);
-        Piece toPiece = state.get(to);
+    private static void validateMoveBySide(Side side, Piece fromPiece, Piece toPiece) {
+        validateCanMoveSameSidePiece(side, fromPiece);
+        validateCanCatchSameSidePiece(side, toPiece);
+    }
 
+    private static void validateCanMoveSameSidePiece(Side side, Piece fromPiece) {
         if (!fromPiece.isSameSide(side)) {
             throw new IllegalArgumentException("본인 진영의 말만 이동할 수 있습니다.");
         }
+    }
+
+    private static void validateCanCatchSameSidePiece(Side side, Piece toPiece) {
         if (toPiece != null && toPiece.isSameSide(side)) {
             throw new IllegalArgumentException("본인 진영의 말은 포획할 수 없습니다.");
-        }
-
-        if (fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
-            state.put(to, fromPiece);
-            state.remove(from);
         }
     }
 
