@@ -25,11 +25,10 @@ class PieceTypeTest {
         Paths paths = horse.calculatePaths(current);
 
         int pathCount = 0;
-        System.out.println("current = " + current);
         for (Path path : paths) {
-            System.out.println(path.toString());
             pathCount++;
         }
+
         assertThat(pathCount).isEqualTo(8);
     }
 
@@ -42,11 +41,10 @@ class PieceTypeTest {
         Paths paths = elephant.calculatePaths(current);
 
         int pathCount = 0;
-        System.out.println("current = " + current);
         for (Path path : paths) {
-            System.out.println(path.toString());
             pathCount++;
         }
+
         assertThat(pathCount).isEqualTo(8);
     }
 
@@ -59,9 +57,7 @@ class PieceTypeTest {
         Paths paths = palace.calculatePaths(current);
 
         int pathCount = 0;
-        System.out.println("current = " + current);
         for (Path path : paths) {
-            System.out.println(path.toString());
             pathCount++;
         }
 
@@ -75,11 +71,6 @@ class PieceTypeTest {
         PieceType chariot = PieceType.CHARIOT;
 
         Paths paths = chariot.calculatePaths(current);
-
-        System.out.println("current = " + current);
-        for (Path path : paths) {
-            System.out.println(path.toString());
-        }
 
         assertThat(paths).isNotEmpty();
     }
