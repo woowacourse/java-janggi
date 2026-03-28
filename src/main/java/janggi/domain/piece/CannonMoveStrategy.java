@@ -14,24 +14,24 @@ public class CannonMoveStrategy implements MoveStrategy {
         List<Position> canMovePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             List<Position> positions = from.findPositionsByDirection(dir);
-            boolean isFirst = false;
+            boolean hasHopped = false;
             for (Position to : positions) {
-                // 어떤 기물을 넘었을 때
-                if (isFirst) {
-                    if (board.containsKey(to)) {
-                        if (!board.get(to).isSameDynasty(dynasty) && !isCannon(board.get(to))) {
+                Piece piece = board.get(to);
+                if (hasHopped) {
+                    if (isPiecePresent(board, to)) {
+                        if (!piece.isSameDynasty(dynasty) && !isCannon(piece)) {
                             canMovePositions.add(to);
                         }
                         break;
                     }
                     canMovePositions.add(to);
                 }
-                // 다른 기물을 만났을때
-                if (!isFirst && board.containsKey(to)) {
-                    if (isCannon(board.get(to))) {
+
+                if (!hasHopped && isPiecePresent(board, to)) {
+                    if (isCannon(piece)) {
                         break;
                     }
-                    isFirst = true;
+                    hasHopped = true;
                 }
             }
         }
@@ -39,13 +39,17 @@ public class CannonMoveStrategy implements MoveStrategy {
         return canMovePositions;
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.CANNON;
+    private static boolean isPiecePresent(Map<Position, Piece> board, Position position) {
+        return board.containsKey(position);
     }
 
     private boolean isCannon(Piece piece) {
         return PieceType.CANNON.equals(piece.pieceType());
+    }
+
+    @Override
+    public PieceType pieceType() {
+        return PieceType.CANNON;
     }
 
 }
