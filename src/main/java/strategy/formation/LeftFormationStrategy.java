@@ -1,11 +1,12 @@
 package strategy.formation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import domain.Piece;
 import domain.PieceType;
 import domain.Position;
 import domain.TeamColor;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LeftFormationStrategy extends InitialFormationStrategy {
 
