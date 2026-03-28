@@ -18,23 +18,25 @@ public class CannonMoveRule extends MoveRule{
         super(PieceType.CANNON, initializeDirections());
     }
 
+    @Override
     public boolean support(Intersection from) {
         return from.isSamePiece(pieceType);
     }
 
+    @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
 
+    @Override
     public boolean checkMoveRule(Intersection from, List<Intersection> path) {
         Intersection to = path.getLast();
-        validateIsSameTeam(from, to); // 도착지가 같은 팀인지 확인
-        validateObstacleCondition(from, path); // 장애물 검사
-        validateDestinationIsNotCannon(from, to); // 도착지가 포인지 확인한다.
+        validateIsSameTeam(from, to);
+        validateObstacleCondition(from, path);
+        validateDestinationIsNotCannon(from, to);
         return true;
     }
 
-    // 같은 팀 인지 확인
     private void validateIsSameTeam(Intersection from, Intersection to) {
         if (from.isSameTeam(to)) {
             throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");

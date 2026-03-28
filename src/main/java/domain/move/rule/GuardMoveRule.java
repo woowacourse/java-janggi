@@ -16,17 +16,20 @@ public class GuardMoveRule extends MoveRule{
         super(PieceType.GUARD, initializeDirections());
     }
 
+    @Override
     public boolean support(Intersection from) {
         return from.isSamePiece(pieceType);
     }
 
+    @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
 
+    @Override
     public boolean checkMoveRule(Intersection from, List<Intersection> path) {
         Intersection to = path.getLast();
-        validateIsSameTeam(from, to); // 도착지가 같은 팀인지 확인
+        validateIsSameTeam(from, to);
         return true;
     }
 
