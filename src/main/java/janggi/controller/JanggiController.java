@@ -81,7 +81,8 @@ public class JanggiController {
 
     private void proceedMovement(final List<Position> movablePositions, final Board board,
         final Position positionOfMovingPiece) {
-        final Position targetPosition = readTargetPosition(movablePositions);
+        final Position targetPosition = RetryExecutor.retry(this::readTargetPosition,
+            movablePositions);
         board.movePiece(positionOfMovingPiece, targetPosition);
         OutputView.printBoard(BoardDto.from(board, List.of()));
     }
