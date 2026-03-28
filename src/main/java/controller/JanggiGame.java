@@ -44,10 +44,10 @@ public class JanggiGame {
         }
     }
 
-    public void progressTurn(JanggiBoard janggiBoard, Team team) {
+    public void progressTurn(JanggiBoard janggiBoard, Team currentTeam) {
         retry(() -> {
-            Command command = requestCommand(team);
-            janggiBoard.tryToMove(command.start(), command.end(), team);
+            Command command = requestCommand(currentTeam);
+            janggiBoard.tryToMove(command.start(), command.end(), currentTeam);
             printJanggiBoard(JanggiBoardView.from(janggiBoard));
         });
     }
