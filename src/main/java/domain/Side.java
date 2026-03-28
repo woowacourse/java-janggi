@@ -65,4 +65,12 @@ public enum Side {
     public boolean isSameAs(Side other) {
         return this.equals(other);
     }
+
+    public boolean isCho() {
+        return this.equals(Side.CHO);
+    }
+
+    public boolean isHan() {
+        return this.equals(Side.HAN);
+    }
 }
