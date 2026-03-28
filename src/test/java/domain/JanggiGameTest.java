@@ -3,6 +3,7 @@ package domain;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
+import exception.JanggiGameException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,8 @@ class JanggiGameTest {
         JanggiGame janggiGame = new JanggiGame(testBoard(), GameStatus.RED_PLAYER_TURN);
         Position selected = Position.of(10,12);
 
-        assertThatThrownBy(() -> janggiGame.findPieceInfoAt(selected)).isExactlyInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> janggiGame.findPieceInfoAt(selected))
+                .isExactlyInstanceOf(JanggiGameException.class);
     }
 
     @Test
@@ -50,7 +52,8 @@ class JanggiGameTest {
         JanggiGame janggiGame = new JanggiGame(testBoard(), GameStatus.GREEN_PLAYER_TURN);
 
         Position redPiecePosition = Position.of(3,3);
-        assertThatThrownBy(() -> janggiGame.findPieceInfoAt(redPiecePosition)).isExactlyInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> janggiGame.findPieceInfoAt(redPiecePosition))
+                .isExactlyInstanceOf(JanggiGameException.class);
     }
 
     @Test

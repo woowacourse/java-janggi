@@ -2,7 +2,6 @@ package domain.strategy;
 
 import domain.Position;
 import domain.moverule.GreenSoldierMoveRule;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class GreenSoldierMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
+    public boolean isPathRestricted(Position destination, List<Position> piecePositions) {
         return false;
     }
 

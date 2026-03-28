@@ -13,7 +13,7 @@ public abstract class MoveStrategy {
 
     public abstract boolean isMoveAble(Position position);
 
-    public abstract boolean hasPieceOnPath(Position destination, List<Position> piecePositions);
+    public abstract boolean isPathRestricted(Position destination, List<Position> piecePositions);
 
     public Position position() {
         return position;

@@ -24,7 +24,7 @@ public class GeneralMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
+    public boolean isPathRestricted(Position destination, List<Position> piecePositions) {
         return false;
     }
 

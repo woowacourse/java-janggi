@@ -1,6 +1,7 @@
 package domain;
 
 import dto.PieceInfo;
+import exception.JanggiGameException;
 import java.util.List;
 
 public class JanggiGame {
@@ -15,13 +16,10 @@ public class JanggiGame {
 
     public PieceInfo findPieceInfoAt(Position selectPosition) {
         validateOutOfRange(selectPosition);
+        requirePieceExists(selectPosition);
+        requireCorrectTurn(selectPosition);
 
-        Piece piece = board.findPieceAt(selectPosition);
-
-        requireExists(piece);
-        requireCorrectTurn(piece);
-
-        return PieceInfo.from(piece);
+        return PieceInfo.from(board.findPieceAt(selectPosition));
     }
 
     public void move(Position selectPosition, Position destination) {
@@ -44,7 +42,7 @@ public class JanggiGame {
     }
 
     public List<PieceInfo> allFactors() {
-        return board.allPieces().stream()
+        return board.allFactors().stream()
                 .map(PieceInfo::from)
                 .toList();
     }
@@ -52,20 +50,6 @@ public class JanggiGame {
     private void validateMove(Position select, Position destination) {
         validateOutOfRange(select);
         validateOutOfRange(destination);
-
-        requireReachable(select, destination);
-    }
-
-    private void validateOutOfRange(Position position) {
-        if (position.isOutOfBoard()) {
-            throw new IllegalArgumentException("[ERROR] 장기판 범위를 벗어난 위치를 입력하셨습니다.");
-        }
-    }
-
-    private void requireReachable(Position select, Position destination) {
-        if (!board.isMoveable(select, destination)) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치로는 이동할 수 없습니다.");
-        }
     }
 
     private void shiftGameStatus() {
@@ -83,19 +67,25 @@ public class JanggiGame {
         }
     }
 
-    private void requireExists(Piece piece) {
-        if(piece.isNoneTeam()) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치에는 기물이 없습니다.");
+    private void validateOutOfRange(Position position) {
+        if (position.isOutOfBoard()) {
+            throw new JanggiGameException("[ERROR] 장기판 범위를 벗어난 위치를 입력하셨습니다.");
         }
     }
 
-    private void requireCorrectTurn(Piece piece) {
-        if(gameStatus.equals(GameStatus.GREEN_PLAYER_TURN) && piece.isRedTeam()) {
-            throw new IllegalArgumentException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
+    private void requirePieceExists(Position position) {
+        if(board.isNone(position)) {
+            throw new JanggiGameException("[ERROR] 해당 위치에는 기물이 없습니다.");
+        }
+    }
+
+    private void requireCorrectTurn(Position position) {
+        if(gameStatus.equals(GameStatus.GREEN_PLAYER_TURN) && board.isPieceRedTeamAt(position)) {
+            throw new JanggiGameException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
         }
 
-        if(gameStatus.equals(GameStatus.RED_PLAYER_TURN) && piece.isGreenTeam()) {
-            throw new IllegalArgumentException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
+        if(gameStatus.equals(GameStatus.RED_PLAYER_TURN) && board.isPieceGreenTeamAt(position)) {
+            throw new JanggiGameException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
         }
     }
 }

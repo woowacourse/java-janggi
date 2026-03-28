@@ -2,6 +2,7 @@ package controller;
 
 import domain.JanggiGame;
 import domain.Position;
+import exception.JanggiGameException;
 import view.InputView;
 import view.OutputView;
 
@@ -47,7 +48,7 @@ public class JanggiController {
             try {
                 task.execute();
                 return;
-            } catch (IllegalArgumentException e) {
+            } catch (JanggiGameException e) {
                 System.out.println(e.getMessage());
                 System.out.println();
             }

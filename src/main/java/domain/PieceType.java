@@ -9,7 +9,7 @@ import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
 import domain.strategy.NoneMoveableStrategy;
-import domain.strategy.UpToDownSoldierMoveStrategy;
+import domain.strategy.RedSoldierMoveStrategy;
 import java.util.function.Function;
 
 public enum PieceType {
@@ -22,7 +22,7 @@ public enum PieceType {
     CHARIOT("車", ChariotMoveStrategy::of),
     CANNON("包", CannonMoveStrategy::of),
 
-    RED_SOLDIER("卒", UpToDownSoldierMoveStrategy::of),
+    RED_SOLDIER("卒", RedSoldierMoveStrategy::of),
     GREEN_SOLDIER("卒", GreenSoldierMoveStrategy::of),
 
     EMPTY_VALUE("＋", NoneMoveableStrategy::of)

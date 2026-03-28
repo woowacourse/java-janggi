@@ -16,7 +16,7 @@ class PieceTest {
         Position after = Position.of(5, 6);
         piece = piece.moved(after);
 
-        assertThat(piece.isMoveAble(Position.of(6,8))).isTrue();
-        assertThat(piece.isMoveAble(Position.of(3,2))).isFalse();
+        assertThat(piece.isMoveable(Position.of(6,8))).isTrue();
+        assertThat(piece.isMoveable(Position.of(3,2))).isFalse();
     }
 }

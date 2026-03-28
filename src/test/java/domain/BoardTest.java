@@ -1,10 +1,9 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.strategy.CannonMoveStrategy;
-import domain.strategy.HorseMoveStrategy;
-import domain.strategy.NoneMoveableStrategy;
+import exception.JanggiGameException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +24,8 @@ class BoardTest {
         Position selectPiecePosition = horsePiece.position();
         Position targetPosition = soldierPiece.position();
 
-        assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        assertThatThrownBy(() -> board.movePiece(selectPiecePosition, targetPosition))
+                .isExactlyInstanceOf(JanggiGameException.class);
     }
 
     @Test
@@ -46,7 +46,7 @@ class BoardTest {
 
         board.movePiece(selectPosition, targetPosition);
 
-        assertThat(board.findPieceAt(selectPosition).isNoneTeam()).isTrue();
+        assertThat(board.findPieceAt(selectPosition).isNone()).isTrue();
         assertThat(board.findPieceAt(selectPosition).isRedTeam()).isFalse();
 
         assertThat(board.findPieceAt(targetPosition).isGreenTeam()).isTrue();
@@ -69,7 +69,8 @@ class BoardTest {
         Position selectPiecePosition = selected.position();
         Position targetPosition = destination.position();
 
-        assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        assertThatThrownBy(() -> board.movePiece(selectPiecePosition, targetPosition))
+                .isExactlyInstanceOf(JanggiGameException.class);
     }
 
     @Test
@@ -88,6 +89,7 @@ class BoardTest {
         Position selectPiecePosition = selected.position();
         Position targetPosition = destination.position();
 
-        assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        assertThatThrownBy(() -> board.movePiece(selectPiecePosition, targetPosition))
+                .isExactlyInstanceOf(JanggiGameException.class);
     }
 }
