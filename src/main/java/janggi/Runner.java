@@ -75,13 +75,10 @@ public class Runner {
 
     private void movePiece(Position selected, List<Position> destinations) {
         List<PositionDTO> positionDTOS = destinations.stream()
-                .map(position -> {
-                    return position.map(PositionDTO::new);
-                })
+                .map(position -> position.map(PositionDTO::new))
                 .toList();
         Position target = movePieceToMoveablePosition(selected, destinations, positionDTOS);
         outputView.printBoardStatus(gameManager.boardStatus(), target.map(PositionDTO::new));
-
     }
 
     private Position movePieceToMoveablePosition(Position selected, List<Position> destinations, List<PositionDTO> positionDTOS) {
