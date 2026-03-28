@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JanggiGenerator implements IntersectionGenerator {
+public class JanggiIntersectionGenerator implements IntersectionGenerator {
 
     public static final int REVERSE_ROW = 9;
     public static final int DEFAULT_SOLDIER_ROW = 3;
@@ -26,7 +26,7 @@ public class JanggiGenerator implements IntersectionGenerator {
     private final Formation hanFormation;
     private final Formation choFormation;
 
-    public JanggiGenerator(Formation hanFormation, Formation choFormation) {
+    public JanggiIntersectionGenerator(Formation hanFormation, Formation choFormation) {
         this.hanFormation = hanFormation;
         this.choFormation = choFormation;
     }

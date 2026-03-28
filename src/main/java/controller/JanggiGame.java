@@ -2,7 +2,7 @@ package controller;
 
 import domain.board.Formation;
 import domain.board.JanggiBoard;
-import domain.board.JanggiGenerator;
+import domain.board.JanggiIntersectionGenerator;
 import domain.board.dto.JanggiBoardView;
 import domain.piece.Team;
 import domain.point.Command;
@@ -28,7 +28,7 @@ public class JanggiGame {
     private JanggiBoard generateJanggiBoard() {
         Formation hanFormation = reader.requestFormation(Team.HAN);
         Formation choFormation = reader.requestFormation(Team.CHO);
-        return new JanggiBoard(new JanggiGenerator(hanFormation, choFormation));
+        return new JanggiBoard(new JanggiIntersectionGenerator(hanFormation, choFormation));
     }
 
     private void startGame(JanggiBoard janggiBoard) {

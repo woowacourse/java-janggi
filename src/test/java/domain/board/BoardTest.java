@@ -37,10 +37,10 @@ public class BoardTest {
     @Test
     void 차림이_선택되었을_때_상과_마를_정확한_위치에_배치해야_한다() {
         Formation elephantHorseHorseElephant = Formation.ELEPHANT_HORSE_HORSE_ELEPHANT;
-        JanggiGenerator janggiGenerator = new JanggiGenerator(
+        JanggiIntersectionGenerator janggiIntersectionGenerator = new JanggiIntersectionGenerator(
                 elephantHorseHorseElephant, elephantHorseHorseElephant
         );
-        JanggiBoard janggiBoard = new JanggiBoard(janggiGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(janggiIntersectionGenerator);
 
         List<Point> elephantAndHorsePoints = Stream.concat(
                 elephantHorseHorseElephant.elephantFormations().stream()
@@ -54,7 +54,7 @@ public class BoardTest {
                 .toList();
 
         List<Intersection> expected =
-                janggiGenerator.createElephantAndHorseByFormation(Team.HAN, Formation.ELEPHANT_HORSE_HORSE_ELEPHANT);
+                janggiIntersectionGenerator.createElephantAndHorseByFormation(Team.HAN, Formation.ELEPHANT_HORSE_HORSE_ELEPHANT);
 
         for (int i = 0; i < actual.size(); i++) {
             Intersection actualIntersection = actual.get(i);
