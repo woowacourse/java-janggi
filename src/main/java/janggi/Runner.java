@@ -43,12 +43,12 @@ public class Runner {
         }
     }
 
-    private void printCurrentStatus(){
+    private void printCurrentStatus() {
         OutputView.printTurn(game.getCurrentSide());
         OutputView.printBoard(game.getCurrentBoardDto());
     }
 
-    private void printWinner(){
+    private void printWinner() {
         OutputView.printBoard(game.getCurrentBoardDto());
         OutputView.printWinner(game.getCurrentSide());
     }

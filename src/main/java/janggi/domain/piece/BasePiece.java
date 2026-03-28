@@ -39,7 +39,7 @@ public abstract class BasePiece implements Piece {
     }
 
     @Override
-    public MoveResult capturedResult(){
+    public MoveResult capturedResult() {
         return new MoveResult(pieceType);
     }
 }

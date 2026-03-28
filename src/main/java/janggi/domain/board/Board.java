@@ -72,7 +72,7 @@ public class Board implements BoardInterface {
         return targetPiece.capturedResult();
     }
 
-    private void movePiece(Position start, Position end, Piece startPiece){
+    private void movePiece(Position start, Position end, Piece startPiece) {
         board.put(end, startPiece);
         board.put(start, new None());
     }
