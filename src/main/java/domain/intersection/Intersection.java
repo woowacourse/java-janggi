@@ -1,11 +1,15 @@
 package domain.intersection;
 
+import domain.intersection.exception.IntersectionException;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
 
 import java.util.Objects;
+
+import static domain.intersection.exception.ErrorMessage.ORIGIN_INTERSECTION_IS_EMPTY;
+import static domain.intersection.exception.ErrorMessage.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
 
 public class Intersection {
 
@@ -76,13 +80,13 @@ public class Intersection {
 
     private void validateSameTeam(Team currentTeam) {
         if (!isSameTeam(currentTeam)) {
-            throw new IllegalArgumentException("상대방 기물은 이동시킬 수 없습니다.");
+            throw new IntersectionException(ORIGIN_INTERSECTION_IS_NOT_OPPONENT);
         }
     }
 
     private void validateHasPiece() {
         if (!hasPiece()) {
-            throw new IllegalArgumentException("기물이 없어 움직일 수 없습니다.");
+            throw new IntersectionException(ORIGIN_INTERSECTION_IS_EMPTY);
         }
     }
 
