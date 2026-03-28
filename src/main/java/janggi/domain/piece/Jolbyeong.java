@@ -36,7 +36,7 @@ public class Jolbyeong extends ActivePiece {
                 return locations;
             }
         }
-        throw new IllegalArgumentException(getType() + "은 해당 위치에 도달할 수 없습니다.");
+        throw new IllegalArgumentException("병은 해당 위치에 도달할 수 없습니다.");
     }
 
     @Override
