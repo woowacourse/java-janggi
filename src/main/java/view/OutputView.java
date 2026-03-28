@@ -3,7 +3,7 @@ package view;
 import domain.board.Board;
 import domain.board.ElephantSetup;
 import domain.piece.Position;
-import domain.player.Team;
+import domain.piece.Team;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
 import java.util.List;

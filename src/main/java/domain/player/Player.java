@@ -1,5 +1,7 @@
 package domain.player;
 
+import domain.piece.Team;
+
 public class Player {
 
     private final Name name;

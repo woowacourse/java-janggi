@@ -34,5 +34,7 @@ public class JanggiController {
         Board board = Board.init(choElephantSetup, hanElephantSetup);
 
         outputView.printBoardWithPieces(board.getPieceInfos());
+
+        // TODO: 사이클 2 구현
     }
 }

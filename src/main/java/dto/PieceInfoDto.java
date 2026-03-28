@@ -1,7 +1,7 @@
 package dto;
 
 import domain.piece.Piece;
-import domain.player.Team;
+import domain.piece.Team;
 
 public record PieceInfoDto(Team team, String pieceType) {
 

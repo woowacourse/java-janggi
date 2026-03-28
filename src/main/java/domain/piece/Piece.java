@@ -1,9 +1,7 @@
 package domain.piece;
 
-import static domain.player.Team.CHO;
-import static domain.player.Team.HAN;
-
-import domain.player.Team;
+import static domain.piece.Team.CHO;
+import static domain.piece.Team.HAN;
 
 public class Piece {
 

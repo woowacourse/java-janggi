@@ -8,7 +8,6 @@ import domain.movestrategy.GuardMoveStrategy;
 import domain.movestrategy.HorseMoveStrategy;
 import domain.movestrategy.MoveStrategy;
 import domain.movestrategy.SoldierMoveStrategy;
-import domain.player.Team;
 import java.util.List;
 
 public enum PieceType {
