@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -49,5 +50,17 @@ public class Board {
             .count();
 
         return generalCount != 2;
+    }
+
+    public TeamType calculateWinnerTeam() {
+        if (!isGameOver()) {
+            throw new IllegalStateException("아직 게임이 끝나지 않았습니다.");
+        }
+        return positionPieceMap.values()
+            .stream()
+            .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
+            .map(Piece::getTeamType)
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("아직 게임이 끝나지 않았습니다."));
     }
 }
