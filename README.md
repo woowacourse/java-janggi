@@ -1,7 +1,7 @@
 # java-janggi
 
 ## 1차 PR 코멘트 반영 
-`InitialBoardInfo` `Side-Effect` `Pure Function`
+### `InitialBoardInfo` `Side-Effect` `Pure Function`
 - 출력 매개변수(Output Parameter) 패턴. 굳이 매개변수로 받아와서 채울 이유가?
   - 의문 : get 해서 값을 넣기보단 그저 맵을 주고 시키는 것이 `TDA` 하지않나? 
   - 반문 : 저게 게터가 맞나?   
@@ -10,7 +10,7 @@
     미션 1 에서의 파생 상태도 아닌 그야말로 `결과`
   - 실행 : `BoardInfo` 는 각 진영별 기물 맵을 리턴, `Board` 는 초기화하며 그 값들을 `putAll`
 
-`위임에 대한 테스트`
+### `위임에 대한 테스트`
 - `gameManager.isFinished()` 는 `board.isBothPalaceExist()` 를 호출하는 단순 위임.
   - 의문 : 단순 호출 체인 전체를 테스트해야 하는가?
   - 반문 : 이번 아무 일도 안하는 catch 문과 동일한 경우라 생각.  
