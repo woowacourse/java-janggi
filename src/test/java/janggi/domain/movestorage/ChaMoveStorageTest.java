@@ -89,6 +89,17 @@ class ChaMoveStorageTest {
     }
 
     @Test
+    void 차가_아예_갈_수_없는_행마면_예외처리() {
+        // given
+        MoveStorage moveStorage = new ChaMoveStorage();
+        Position from = Position.of(Row.of(0), Column.of(0));
+        Position to = Position.of(Row.of(1), Column.of(3));
+        BoardState boardState = new FakeBoard();
+        // when & then
+        assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
+    }
+
+    @Test
     void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높으면서_멱이_있으면_예외처리() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
