@@ -1,4 +1,4 @@
-package board;
+package domain.board;
 
 import domain.board.Board;
 import domain.board.Placement;

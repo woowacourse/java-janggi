@@ -1,4 +1,4 @@
-package player;
+package domain.player;
 
 import domain.board.Board;
 import domain.piece.Side;

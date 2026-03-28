@@ -1,4 +1,4 @@
-package piece;
+package domain.piece.strategy;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -12,19 +12,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class PieceTest {
-
-    @Test
-    @DisplayName("장기에서 진영과 기물 종류에 맞는 기물을 생성한다.")
-    void of_ReturnPiece_WhenCreateWithSideAndPieceType() {
-        // given, when
-        Piece piece = Piece.of(Side.CHO, PieceType.CANON);
-
-        // then
-        assertThat(piece.getSide()).isEqualTo(Side.CHO);
-        assertThat(piece.getPieceType()).isEqualTo(PieceType.CANON);
-    }
-
+public class PawnTest {
     @Test
     @DisplayName("졸 기물이 움직임의 여부를 판단할 수 있다.")
     void 졸_기물_움직임_여부_판단() {
@@ -40,5 +28,20 @@ public class PieceTest {
 
         // when, then
         assertThat(choPawn.canMove(pieceMap, startPosition, endPosition)).isTrue();
+    }
+
+    @Test
+    @DisplayName("초 진영의 중 졸 기물은 뒤로 움직일 수 없다.")
+    void 초_진영_졸_뒤로_움직임_실패() {
+        // given
+        Map<Position, Piece> pieceMap = new LinkedHashMap<>();
+        Piece hanPawn = Piece.of(Side.CHO, PieceType.PAWN);
+        pieceMap.put(Position.of(4,1), hanPawn);
+
+        Position startPosition = Position.of(4, 1);
+        Position endPosition = Position.of(3, 1);
+
+        // when, then
+        assertThat(hanPawn.canMove(pieceMap, startPosition, endPosition)).isFalse();
     }
 }

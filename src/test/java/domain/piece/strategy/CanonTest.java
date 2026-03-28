@@ -1,4 +1,4 @@
-package piece.strategy;
+package domain.piece.strategy;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
