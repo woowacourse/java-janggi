@@ -1,12 +1,14 @@
 import domain.Board;
 import domain.Piece;
 import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import domain.TurnManager;
 import io.InputView;
 import io.OutputView;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import strategy.formation.InitialFormationStrategy;
 import strategy.formation.InnerFormationStrategy;
 import strategy.formation.LeftFormationStrategy;
@@ -49,20 +51,7 @@ public class Runner {
         while (true) {
             outputView.printFormationSelectionPrompt(teamColor);
             try {
-                int choice = inputView.readFormationChoice(teamColor);
-                if (choice == 1) {
-                    return new InnerFormationStrategy();
-                }
-                if (choice == 2) {
-                    return new OuterFormationStrategy();
-                }
-                if (choice == 3) {
-                    return new LeftFormationStrategy();
-                }
-                if (choice == 4) {
-                    return new RightFormationStrategy();
-                }
-                throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
+                return createFormationStrategy(inputView.readFormationChoice(teamColor));
             } catch (RuntimeException exception) {
                 outputView.printError("상차림 입력이 올바르지 않습니다.");
             }
@@ -76,25 +65,13 @@ public class Runner {
 
         while (true) {
             try {
-                List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
-                outputView.printPieceOptions(pieces);
-
-                int pieceChoice = inputView.readPieceChoice(currentTurn);
-                Piece selectedPiece = getSelectedPiece(pieces, pieceChoice);
-
-                List<domain.Route> routes = board.findMovableRoutes(selectedPiece);
-                if (routes.isEmpty()) {
-                    throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
-                }
-
-                outputView.printRouteOptions(routes);
-                int routeChoice = inputView.readRouteChoice();
-
-                if (routeChoice == 0) {
+                Piece selectedPiece = choosePiece(board, currentTurn);
+                Optional<Route> selectedRoute = chooseRoute(board, selectedPiece);
+                if (selectedRoute.isEmpty()) {
                     continue;
                 }
 
-                Position destination = getSelectedRoute(routes, routeChoice).endPos();
+                Position destination = selectedRoute.get().endPos();
                 board.move(selectedPiece, destination);
                 outputView.printMoveResult(selectedPiece, destination);
                 turnManager.progressTurn();
@@ -105,6 +82,48 @@ public class Runner {
         }
     }
 
+    private InitialFormationStrategy createFormationStrategy(int choice) {
+        if (choice == 1) {
+            return new InnerFormationStrategy();
+        }
+        if (choice == 2) {
+            return new OuterFormationStrategy();
+        }
+        if (choice == 3) {
+            return new LeftFormationStrategy();
+        }
+        if (choice == 4) {
+            return new RightFormationStrategy();
+        }
+        throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
+    }
+
+    private Piece choosePiece(Board board, TeamColor currentTurn) {
+        List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
+        outputView.printPieceOptions(pieces);
+
+        int pieceChoice = inputView.readPieceChoice(currentTurn);
+        return getSelectedPiece(pieces, pieceChoice);
+    }
+
+    private Optional<Route> chooseRoute(Board board, Piece selectedPiece) {
+        List<Route> routes = board.findMovableRoutes(selectedPiece);
+        validateMovableRoutes(routes);
+        outputView.printRouteOptions(routes);
+
+        int routeChoice = inputView.readRouteChoice();
+        if (routeChoice == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(getSelectedRoute(routes, routeChoice));
+    }
+
+    private void validateMovableRoutes(List<Route> routes) {
+        if (routes.isEmpty()) {
+            throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
+        }
+    }
+
     private Piece getSelectedPiece(List<Map.Entry<Position, Piece>> pieces, int pieceChoice) {
         if (pieceChoice < 1 || pieceChoice > pieces.size()) {
             throw new IllegalArgumentException("기물 번호가 범위를 벗어났습니다.");
@@ -112,7 +131,7 @@ public class Runner {
         return pieces.get(pieceChoice - 1).getValue();
     }
 
-    private domain.Route getSelectedRoute(List<domain.Route> routes, int routeChoice) {
+    private Route getSelectedRoute(List<Route> routes, int routeChoice) {
         if (routeChoice < 1 || routeChoice > routes.size()) {
             throw new IllegalArgumentException("경로 번호가 범위를 벗어났습니다.");
         }
