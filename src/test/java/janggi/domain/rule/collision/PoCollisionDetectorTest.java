@@ -4,7 +4,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Po;
-import janggi.domain.piece.TeamPiece;
+import janggi.support.TestPiece;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ class PoCollisionDetectorTest {
     void shouldNotThrowExceptionWhenOneNonPoObstacleAndEmptyDestination() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new TeamPiece(Side.HAN), new EmptyPiece());
+        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new TestPiece(Side.HAN), new EmptyPiece());
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -30,7 +30,7 @@ class PoCollisionDetectorTest {
     void shouldNotThrowExceptionWhenOneNonPoObstacleAndEnemyAtDestination() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new TeamPiece(Side.HAN), new TeamPiece(Side.HAN));
+        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new TestPiece(Side.HAN), new TestPiece(Side.HAN));
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -43,7 +43,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenTwoOrMorePieceOnPathExist() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new TeamPiece(Side.HAN), new TeamPiece(Side.HAN), new EmptyPiece());
+        List<Piece> piecesOnPath = List.of(new TestPiece(Side.HAN), new TestPiece(Side.HAN), new EmptyPiece());
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -56,7 +56,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenNoObstacleOnPath() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TeamPiece(Side.HAN));
+        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(Side.HAN));
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -69,7 +69,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenPoOnPath() {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new Po(Side.HAN), new TeamPiece(Side.HAN));
+        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new Po(Side.HAN), new TestPiece(Side.HAN));
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -95,7 +95,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenSameSidePieceOnDestination() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TeamPiece(Side.CHO));
+        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(Side.CHO));
         Piece piece = new Po(Side.CHO);
 
         // when & then

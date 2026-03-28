@@ -5,7 +5,7 @@ import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
 import janggi.domain.Side;
-import janggi.domain.piece.TeamPiece;
+import janggi.support.TestPiece;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class MaSangSangMaTest {
         Piece[][] grid = new Piece[10][9];
         ArrangementStrategy strategy = new MaSangSangMa();
         Side side = Side.HAN;
-        Piece expectedSidePiece = new TeamPiece(side);
+        Piece expectedSidePiece = new TestPiece(side);
 
         // when
         strategy.place(grid, side);
@@ -47,7 +47,7 @@ class MaSangSangMaTest {
         Piece[][] grid = new Piece[10][9];
         ArrangementStrategy strategy = new MaSangSangMa();
         Side side = Side.CHO;
-        Piece expectedSidePiece = new TeamPiece(side);
+        Piece expectedSidePiece = new TestPiece(side);
 
         // when
         strategy.place(grid, side);

@@ -1,21 +1,21 @@
-package janggi.domain.piece;
+package janggi.support;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.piece.Piece;
 import janggi.domain.rule.collision.CollisionDetector;
-import janggi.domain.rule.collision.TestCollisionDetector;
 import java.util.List;
 
-public class TeamPiece extends Piece {
+public class TestPiece extends Piece {
 
     private static final String PIECE_NAME = "test";
     private final CollisionDetector detector;
 
-    public TeamPiece(Side side) {
+    public TestPiece(Side side) {
         this(side, new TestCollisionDetector());
     }
 
-    public TeamPiece(Side side, CollisionDetector detector) {
+    public TestPiece(Side side, CollisionDetector detector) {
         super(PIECE_NAME, side);
         this.detector = detector;
     }

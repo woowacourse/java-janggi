@@ -3,7 +3,7 @@ package janggi.domain.rule.collision;
 import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.TeamPiece;
+import janggi.support.TestPiece;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ class DefaultCollisionDetectorTest {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
         List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece());
-        Piece piece = new TeamPiece(Side.CHO);
+        Piece piece = new TestPiece(Side.CHO);
 
         // when & then
         Assertions.assertThatNoException()
@@ -29,8 +29,8 @@ class DefaultCollisionDetectorTest {
     void shouldNotThrowExceptionWhenNoPieceOnPathAndPieceOnDestinationIsOtherSide() {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TeamPiece(Side.HAN));
-        Piece piece = new TeamPiece(Side.CHO);
+        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(Side.HAN));
+        Piece piece = new TestPiece(Side.CHO);
 
         // when & then
         Assertions.assertThatNoException()
@@ -42,8 +42,8 @@ class DefaultCollisionDetectorTest {
     void shouldThrowExceptionWhenPieceOnPathExist() {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new TeamPiece(Side.HAN), new EmptyPiece(), new EmptyPiece());
-        Piece piece = new TeamPiece(Side.CHO);
+        List<Piece> piecesOnPath = List.of(new TestPiece(Side.HAN), new EmptyPiece(), new EmptyPiece());
+        Piece piece = new TestPiece(Side.CHO);
 
         // when & then
         Assertions.assertThatThrownBy(() -> collisionDetector.check(piece, piecesOnPath))
@@ -56,8 +56,8 @@ class DefaultCollisionDetectorTest {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
         Side side = Side.HAN;
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TeamPiece(side));
-        Piece piece = new TeamPiece(side);
+        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(side));
+        Piece piece = new TestPiece(side);
 
         // when & then
         Assertions.assertThatThrownBy(() -> collisionDetector.check(piece, piecesOnPath))
