@@ -20,13 +20,13 @@ public class Board {
         initTeamBoard(hanInitializeStrategy, Team.HAN);
     }
 
-    public void move(Position from, Position to, PieceType pieceType) {
-        Piece piece = validateMovablePiece(from, to, pieceType);
+    public void move(Position from, Position to, PieceType pieceType, Team team) {
+        Piece piece = validateMovablePiece(from, to, pieceType, team);
         validateCanMove(from, to, piece);
         movePiece(from, to, piece);
     }
 
-    private Piece validateMovablePiece(Position from, Position to, PieceType pieceType) {
+    private Piece validateMovablePiece(Position from, Position to, PieceType pieceType, Team team) {
         Piece piece = pieces.get(from);
 
         if (piece == null) {
@@ -35,6 +35,10 @@ public class Board {
 
         if (piece.getType() != pieceType) {
             throw new IllegalArgumentException("해당 위치에 해당 타입이 없습니다.");
+        }
+
+        if (!piece.isSameTeam(team)) {
+            throw new IllegalArgumentException("같은 팀 기물이 아닙니다.");
         }
 
         if (!to.isPossiblePosition(MAX_ROW, MIN_ROW, MAX_COLUMN, MIN_COLUMN)) {
@@ -82,6 +86,10 @@ public class Board {
 
     private void initTeamBoard(InitializeStrategy strategy, Team team) {
         pieces.putAll(strategy.initialize(team));
+    }
+
+    public Piece findPiece(Position position) {
+        return pieces.get(position);
     }
 
     public List<Piece> findPiecesInLinePath(Position from, Position to) {

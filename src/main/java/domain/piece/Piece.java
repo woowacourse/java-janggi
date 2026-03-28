@@ -6,8 +6,8 @@ import domain.Position;
 import domain.Team;
 
 public abstract class Piece {
-    public Team team;
-    public PieceType type;
+    public final Team team;
+    public final PieceType type;
 
     public Piece(Team team, PieceType type) {
         this.team = team;
@@ -20,6 +20,10 @@ public abstract class Piece {
 
     public boolean isSameTeam(Piece other) {
         return this.team == other.team;
+    }
+
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
     }
 
     public boolean isCannon() {

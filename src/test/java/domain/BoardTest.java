@@ -285,7 +285,7 @@ class BoardTest {
         Position to = Position.from(5, 2);
 
         // then
-        assertThatThrownBy(() -> board.move(from, to, targetType))
+        assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치에 피스가 없습니다.");
     }
@@ -306,7 +306,28 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatThrownBy(() -> board.move(from, to, targetType))
+        assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치에 해당 타입이 없습니다.");
+    }
+
+    @Test
+    void 출발_지점에_다른팀_피스가_있는_경우_이동_할_수_없다() {
+        // given
+        StubBoard board = new StubBoard(noInitializeStrategy);
+        PieceType targetType = PAWN;
+
+        // when
+        Position from = Position.from(5, 1);
+        Position to = Position.from(5, 2);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Cannon(Team.CHO));
+
+        board.putPieces(testPiece);
+
+        // then
+        assertThatThrownBy(() -> board.move(from, to, targetType, Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치에 해당 타입이 없습니다.");
     }
@@ -327,7 +348,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatThrownBy(() -> board.move(from, to, targetType))
+        assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물의 도착지점이 판 범위를 넘어섰습니다.");
     }
@@ -352,7 +373,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.CANNON))
+        assertThatCode(() -> board.move(from, to, PieceType.CANNON, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -371,7 +392,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.ROOK))
+        assertThatCode(() -> board.move(from, to, PieceType.ROOK, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -390,7 +411,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.GUARD))
+        assertThatCode(() -> board.move(from, to, PieceType.GUARD, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -409,7 +430,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.KING))
+        assertThatCode(() -> board.move(from, to, PieceType.KING, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -428,7 +449,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PAWN))
+        assertThatCode(() -> board.move(from, to, PAWN, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -447,7 +468,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.HORSE))
+        assertThatCode(() -> board.move(from, to, PieceType.HORSE, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -465,7 +486,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT))
+        assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT, Team.CHO))
                 .doesNotThrowAnyException();
     }
 }

@@ -18,4 +18,14 @@ public enum PieceType {
     public String getKoreanName() {
         return koreanName;
     }
+
+    public static PieceType fromKoreanName(String koreanName) {
+        for (PieceType pieceType : PieceType.values()) {
+            if (pieceType.koreanName.equals(koreanName)) {
+                return pieceType;
+            }
+        }
+
+        throw new IllegalArgumentException("존재하지 않는 기물입니다.");
+    }
 }

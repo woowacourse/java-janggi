@@ -1,12 +1,37 @@
 package domain;
 
 import java.util.Arrays;
+import strategy.InitializeStrategy;
+import strategy.InnerElephantFormationStrategy;
+import strategy.LeftElephantFormationStrategy;
+import strategy.OuterElephantFormationStrategy;
+import strategy.RightElephantFormationStrategy;
 
 public enum HorseElephantFormation {
-    INNER_ELEPHANT("마상상마"),
-    OUTER_ELEPHANT("상마마상"),
-    RIGHT_ELEPHANT("마상마상"),
-    LEFT_ELEPHANT("상마상마");
+    INNER_ELEPHANT("마상상마") {
+        @Override
+        public InitializeStrategy createStrategy() {
+            return new InnerElephantFormationStrategy();
+        }
+    },
+    OUTER_ELEPHANT("상마마상") {
+        @Override
+        public InitializeStrategy createStrategy() {
+            return new OuterElephantFormationStrategy();
+        }
+    },
+    RIGHT_ELEPHANT("마상마상"){
+        @Override
+        public InitializeStrategy createStrategy() {
+            return new RightElephantFormationStrategy();
+        }
+    },
+    LEFT_ELEPHANT("상마상마"){
+        @Override
+        public InitializeStrategy createStrategy() {
+            return new LeftElephantFormationStrategy();
+        }
+    };
 
     private final String pattern;
 
@@ -14,9 +39,7 @@ public enum HorseElephantFormation {
         this.pattern = pattern;
     }
 
-    public String getPattern() {
-        return pattern;
-    }
+    public abstract InitializeStrategy createStrategy();
 
     public static HorseElephantFormation from(String pattern) {
         return Arrays.stream(values())
