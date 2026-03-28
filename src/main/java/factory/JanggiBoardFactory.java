@@ -28,7 +28,7 @@ public class JanggiBoardFactory {
         setupDownTeamPieces();
         setupEmptySpaces();
 
-        return Map.copyOf(board);
+        return new HashMap<>(board);
     }
 
     private void setupEmptySpaces() {

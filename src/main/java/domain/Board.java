@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.Piece;
 import domain.strategy.NoneMoveableStrategy;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class Board {
     }
 
     public void movePiece(Position piecePosition, Position targetPosition) {
-        Piece piece = board.get(piecePosition);
+        Piece piece = findPieceAt(piecePosition);
 
         piece.moved(targetPosition);
         board.replace(targetPosition, piece);
@@ -27,7 +28,7 @@ public class Board {
     }
 
     public boolean isMoveable(Position piecePosition, Position targetPosition) {
-        Piece piece = board.get(piecePosition);
+        Piece piece = findPieceAt(piecePosition);
 
         if (isTargetPositionPieceSameTeam(piece, targetPosition)) {
             return false;
@@ -39,7 +40,7 @@ public class Board {
 
         if (piece.isCannon()) {
             List<Position> cannonPositions = findCannonPositions();
-            if (board.get(targetPosition).isCannon() || !piece.hasPieceOnPath(targetPosition, cannonPositions)) {
+            if (findPieceAt(targetPosition).isCannon() || !piece.hasPieceOnPath(targetPosition, cannonPositions)) {
                 return false;
             }
         }
@@ -62,30 +63,38 @@ public class Board {
 
     private boolean isTargetPositionPieceSameTeam(Piece piece, Position targetPosition) {
         if (piece.isRedTeam()) {
-            return board.get(targetPosition).isRedTeam();
+            return findPieceAt(targetPosition).isRedTeam();
         }
         if (piece.isGreenTeam()) {
-            return board.get(targetPosition).isGreenTeam();
+            return findPieceAt(targetPosition).isGreenTeam();
         }
         return false;
     }
 
+    Piece findPieceAt(Position targetPosition) {
+        return board.get(targetPosition);
+    }
+
     public boolean hasGreenTeamGeneral() {
-        return greenPieces().stream().anyMatch(Piece::isGeneral);
+        return greenPieces().stream()
+                .anyMatch(Piece::isGeneral);
     }
 
     public boolean hasRedTeamGeneral() {
-        return redPieces().stream().anyMatch(Piece::isGeneral);
+        return redPieces().stream()
+                .anyMatch(Piece::isGeneral);
     }
 
 
     public List<Piece> greenPieces() {
-        return board.values().stream().filter(Piece::isGreenTeam)
+        return board.values().stream()
+                .filter(Piece::isGreenTeam)
                 .toList();
     }
 
     public List<Piece> redPieces() {
-        return board.values().stream().filter(Piece::isRedTeam)
+        return board.values().stream()
+                .filter(Piece::isRedTeam)
                 .toList();
     }
 
@@ -95,4 +104,11 @@ public class Board {
                 .toList();
     }
 
+    public List<Piece> allPieces() {
+        List<Piece> allPieces = new ArrayList<>();
+        allPieces.addAll(greenPieces());
+        allPieces.addAll(redPieces());
+        allPieces.addAll(nonePieces());
+        return allPieces;
+    }
 }

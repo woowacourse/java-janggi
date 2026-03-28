@@ -16,25 +16,27 @@ public class JanggiController {
     public void run() {
         while (!janggiGame.isGameFinished()) {
             playGame();
+            janggiGame.checkGameFinished();
         }
 
-        String s = janggiGame.gameStatus();
-        System.out.println(s);
+        System.out.println();
+        OutputView.printBoard(janggiGame.allFactors());
+        System.out.println(janggiGame.gameStatus());
     }
 
     private void playGame() {
         OutputView.printBoard(janggiGame.allFactors());
-        OutputView.printCurrentPlayerTurn(janggiGame.currnetPlayerTurn());
+        OutputView.printCurrentPlayerTurn(janggiGame.currentPlayerTurn());
         execute(this::playerPhase);
     }
 
     private void playerPhase() {
         String input = InputView.selectPiecePosition();
-        String[] split = input.split(", ");
+        String[] split = input.split(",");
         Position selected = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
 
-        input = InputView.selectTargerPosition();
-        split = input.split(", ");
+        input = InputView.selectTargetPositionOf(janggiGame.findPieceInfoAt(selected));
+        split = input.split(",");
         Position target = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
 
         janggiGame.move(selected, target);
@@ -47,7 +49,8 @@ public class JanggiController {
                 task.execute();
                 return;
             } catch (IllegalArgumentException e) {
-                e.getMessage();
+                System.out.println(e.getMessage());
+                System.out.println();
             }
         }
     }

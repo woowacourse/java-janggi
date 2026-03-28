@@ -2,17 +2,15 @@ package domain;
 
 public enum PieceType {
 
-    GENERAL("궁"),
-    GUARD("사"),
-    SOLDIER("졸"),
+    GENERAL("將"),
+    GUARD("士"),
+    SOLDIER("卒"),
+    HORSE("馬"),
+    ELEPHANT("象"),
+    CHARIOT("車"),
+    CANNON("包"),
 
-    HORSE("마"),
-    ELEPHANT("상"),
-    CHARIOT("차"),
-
-    CANNON("포"),
-
-    EMPTY_VALUE("*")
+    EMPTY_VALUE("＋")
     ;
 
     private final String description;
