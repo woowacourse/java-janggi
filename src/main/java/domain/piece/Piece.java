@@ -40,6 +40,8 @@ public abstract class Piece {
         return side.getForward();
     }
 
+    public abstract Piece createWith(Side side);
+
     public abstract List<Position> getPossibleMoves(Game game, Position start);
 
     @Override

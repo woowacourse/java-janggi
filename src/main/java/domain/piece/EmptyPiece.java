@@ -19,6 +19,11 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
+    public Piece createWith(Side side) {
+        return getInstance();
+    }
+
+    @Override
     public List<Position> getPossibleMoves(Game game, Position start) {
         return List.of();
     }

@@ -15,6 +15,11 @@ public final class King extends Piece {
     }
 
     @Override
+    public Piece createWith(Side side) {
+        return new King(side);
+    }
+
+    @Override
     public List<Position> getPossibleMoves(Game game, Position start) {
         List<Position> possiblePositions = new ArrayList<>();
 

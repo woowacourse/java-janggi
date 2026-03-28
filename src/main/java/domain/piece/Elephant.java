@@ -15,6 +15,11 @@ public final class Elephant extends Piece {
     }
 
     @Override
+    public Piece createWith(Side side) {
+        return new Elephant(side);
+    }
+
+    @Override
     public List<Position> getPossibleMoves(Game game, Position start) {
         List<List<Direction>> paths = List.of(
                 List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),

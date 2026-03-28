@@ -15,6 +15,11 @@ public final class Horse extends Piece {
     }
 
     @Override
+    public Piece createWith(Side side) {
+        return new Horse(side);
+    }
+
+    @Override
     public List<Position> getPossibleMoves(Game game, Position start) {
         List<List<Direction>> paths = List.of(
                 List.of(Direction.UP, Direction.UP_LEFT),
