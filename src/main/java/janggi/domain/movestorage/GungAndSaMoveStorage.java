@@ -21,13 +21,15 @@ public class GungAndSaMoveStorage implements MoveStorage{
             return false;
         }
 
-        if (boardState.getPieceAt(from).getTeam() == Team.HAN) {
+        Team currentTeam = boardState.getPieceAt(from).getTeam();
+
+        if (currentTeam == Team.HAN) {
             if (!(0 <= fromY && fromY <= 2) || !(0 <= toY && toY <= 2)) {
                 return false;
             }
         }
 
-        if (boardState.getPieceAt(from).getTeam() == Team.CHO) {
+        if (currentTeam == Team.CHO) {
             if (!(7 <= fromY && fromY <= 9) || !(7 <= toY && toY <= 9)) {
                 return false;
             }
