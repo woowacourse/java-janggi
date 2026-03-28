@@ -15,10 +15,10 @@ public interface MoveStrategy {
     List<MovePath> getPaths(TeamColor teamColor);
 
     default List<Route> makeRoutes(Position curPos, TeamColor teamColor) {
-        List<Route> validRoutes = new ArrayList<>();
-        List<MovePath> paths = getPaths(teamColor);
+        final List<Route> validRoutes = new ArrayList<>();
+        final List<MovePath> paths = getPaths(teamColor);
 
-        for (MovePath path : paths) {
+        for (final MovePath path : paths) {
             createRoute(curPos, path.steps()).ifPresent(validRoutes::add);
         }
 
@@ -26,11 +26,11 @@ public interface MoveStrategy {
     }
 
     private Optional<Route> createRoute(Position startPos, List<Direction> steps) {
+        final List<Position> intermediates = new ArrayList<>();
         Position currentPos = startPos;
-        List<Position> intermediates = new ArrayList<>();
 
         for (int index = 0; index < steps.size(); index++) {
-            Optional<Position> nextPosition = findNextPosition(currentPos, steps.get(index));
+            final Optional<Position> nextPosition = findNextPosition(currentPos, steps.get(index));
             if (nextPosition.isEmpty()) {
                 return Optional.empty();
             }

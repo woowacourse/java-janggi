@@ -11,10 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
+    private static final int MIN_DISTANCE = 1;
+    private static final int MAX_STRAIGHT_DISTANCE = 9;
+    private static final int REQUIRED_BRIDGE_COUNT = 1;
 
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {
-        List<MovePath> paths = new ArrayList<>();
+        final List<MovePath> paths = new ArrayList<>();
 
         addStraightPaths(paths, Direction.NORTH);
         addStraightPaths(paths, Direction.SOUTH);
@@ -25,8 +28,8 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private void addStraightPaths(List<MovePath> paths, Direction direction) {
-        for (int distance = 1; distance <= 9; distance++) {
-            List<Direction> steps = new ArrayList<>();
+        for (int distance = MIN_DISTANCE; distance <= MAX_STRAIGHT_DISTANCE; distance++) {
+            final List<Direction> steps = new ArrayList<>();
             for (int i = 0; i < distance; i++) {
                 steps.add(direction);
             }
@@ -36,11 +39,11 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
-        if (blockingPieces.size() != 1) {
+        if (blockingPieces.size() != REQUIRED_BRIDGE_COUNT) {
             return false;
         }
 
-        Piece bridgePiece = blockingPieces.getFirst();
+        final Piece bridgePiece = blockingPieces.getFirst();
         if (bridgePiece.getPieceType() == PieceType.CANNON) {
             return false;
         }
@@ -49,7 +52,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             return true;
         }
 
-        Piece targetPiece = destinationPiece.get();
+        final Piece targetPiece = destinationPiece.get();
         if (targetPiece.getPieceType() == PieceType.CANNON) {
             return false;
         }

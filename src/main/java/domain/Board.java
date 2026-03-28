@@ -49,7 +49,7 @@ public class Board {
     }
 
     public List<Route> findMovableRoutes(Piece piece) {
-        Position currentPosition = findPositionOf(piece)
+        final Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
         return piece.makeRoutes(currentPosition).stream()
@@ -59,16 +59,16 @@ public class Board {
     }
 
     public void move(Piece piece, Position destination) {
-        Position currentPosition = findPositionOf(piece)
+        final Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
-        Route route = piece.makeRoutes(currentPosition).stream()
+        final Route route = piece.makeRoutes(currentPosition).stream()
                 .filter(candidate -> candidate.endPos().equals(destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 기물은 목적지로 이동할 수 없습니다."));
 
-        List<Piece> blockingPieces = getBlockingPieces(route);
-        Optional<Piece> destinationPiece = getDestinationPiece(route);
+        final List<Piece> blockingPieces = getBlockingPieces(route);
+        final Optional<Piece> destinationPiece = getDestinationPiece(route);
 
         if (!piece.canMove(route, blockingPieces, destinationPiece)) {
             throw new IllegalArgumentException("현재 판 상태에서는 해당 목적지로 이동할 수 없습니다.");

@@ -8,8 +8,8 @@ import strategy.formation.InitialFormationStrategy;
 
 public class Initializer {
 
-    private InitialFormationStrategy choStrategy;
-    private InitialFormationStrategy hanStrategy;
+    private final InitialFormationStrategy choStrategy;
+    private final InitialFormationStrategy hanStrategy;
 
     public Initializer(InitialFormationStrategy choStrategy, InitialFormationStrategy hanStrategy) {
         this.choStrategy = choStrategy;

@@ -16,6 +16,9 @@ import strategy.formation.OuterFormationStrategy;
 import strategy.formation.RightFormationStrategy;
 
 public class Runner {
+    private static final int FIRST_OPTION_NUMBER = 1;
+    private static final int BACK_OPTION_NUMBER = 0;
+    private static final int ZERO_BASE_INDEX_OFFSET = 1;
     private static final List<InitialFormationStrategy> FORMATIONS = List.of(
             new InnerFormationStrategy(),
             new OuterFormationStrategy(),
@@ -90,11 +93,11 @@ public class Runner {
 
     private InitialFormationStrategy createFormationStrategy(int choice) {
         validateFormationChoice(choice);
-        return FORMATIONS.get(choice - 1);
+        return FORMATIONS.get(choice - ZERO_BASE_INDEX_OFFSET);
     }
 
     private void validateFormationChoice(int choice) {
-        if (choice >= 1 && choice <= FORMATIONS.size()) {
+        if (choice >= FIRST_OPTION_NUMBER && choice <= FORMATIONS.size()) {
             return;
         }
         throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
@@ -114,7 +117,7 @@ public class Runner {
         outputView.printRouteOptions(routes);
 
         int routeChoice = inputView.readRouteChoice();
-        if (routeChoice == 0) {
+        if (routeChoice == BACK_OPTION_NUMBER) {
             return Optional.empty();
         }
         return Optional.of(getSelectedRoute(routes, routeChoice));
@@ -127,16 +130,16 @@ public class Runner {
     }
 
     private Piece getSelectedPiece(List<Map.Entry<Position, Piece>> pieces, int pieceChoice) {
-        if (pieceChoice < 1 || pieceChoice > pieces.size()) {
+        if (pieceChoice < FIRST_OPTION_NUMBER || pieceChoice > pieces.size()) {
             throw new IllegalArgumentException("기물 번호가 범위를 벗어났습니다.");
         }
-        return pieces.get(pieceChoice - 1).getValue();
+        return pieces.get(pieceChoice - ZERO_BASE_INDEX_OFFSET).getValue();
     }
 
     private Route getSelectedRoute(List<Route> routes, int routeChoice) {
-        if (routeChoice < 1 || routeChoice > routes.size()) {
+        if (routeChoice < FIRST_OPTION_NUMBER || routeChoice > routes.size()) {
             throw new IllegalArgumentException("경로 번호가 범위를 벗어났습니다.");
         }
-        return routes.get(routeChoice - 1);
+        return routes.get(routeChoice - ZERO_BASE_INDEX_OFFSET);
     }
 }

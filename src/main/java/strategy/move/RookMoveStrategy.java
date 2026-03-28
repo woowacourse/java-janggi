@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RookMoveStrategy implements MoveStrategy {
+    private static final int MIN_DISTANCE = 1;
+    private static final int MAX_STRAIGHT_DISTANCE = 9;
 
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {
-        List<MovePath> paths = new ArrayList<>();
+        final List<MovePath> paths = new ArrayList<>();
 
         addStraightPaths(paths, Direction.NORTH);
         addStraightPaths(paths, Direction.SOUTH);
@@ -21,8 +23,8 @@ public class RookMoveStrategy implements MoveStrategy {
     }
 
     private void addStraightPaths(List<MovePath> paths, Direction direction) {
-        for (int distance = 1; distance <= 9; distance++) {
-            List<Direction> steps = new ArrayList<>();
+        for (int distance = MIN_DISTANCE; distance <= MAX_STRAIGHT_DISTANCE; distance++) {
+            final List<Direction> steps = new ArrayList<>();
             for (int i = 0; i < distance; i++) {
                 steps.add(direction);
             }

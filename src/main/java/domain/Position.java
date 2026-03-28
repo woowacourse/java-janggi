@@ -12,8 +12,8 @@ public class Position {
     }
 
     public Position next(Direction direction) {
-        int nextRow = this.row.value() + direction.dRow();
-        int nextCol = this.column.value() + direction.dColumn();
+        final int nextRow = this.row.value() + direction.dRow();
+        final int nextCol = this.column.value() + direction.dColumn();
 
         return Position.of(nextRow, nextCol);
     }
@@ -38,7 +38,7 @@ public class Position {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Position position = (Position) o;
+        final Position position = (Position) o;
         return Objects.equals(row, position.row) && Objects.equals(column, position.column);
     }
 
