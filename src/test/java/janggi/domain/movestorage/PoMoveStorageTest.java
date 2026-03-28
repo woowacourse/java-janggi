@@ -114,7 +114,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 포가_아예_갈_수_없는_행마면_예외가_발생한다() {
+    void 포가_아예_갈_수_없는_행마면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -130,7 +130,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간에_기물이_없으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간에_기물이_없으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -143,7 +143,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간에_기물이_없으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간에_기물이_없으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -156,7 +156,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간에_기물이_없으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간에_기물이_없으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -169,7 +169,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_중간에_기물이_없으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_중간에_기물이_없으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -182,7 +182,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -198,7 +198,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -214,7 +214,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -230,7 +230,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -246,7 +246,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -262,7 +262,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -278,7 +278,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -294,7 +294,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_중간_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_중간_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -310,7 +310,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -335,7 +335,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -360,7 +360,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -385,7 +385,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_s낮고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_s낮고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -410,7 +410,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간에_기물이_2개_있으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_중간에_기물이_2개_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -435,7 +435,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간에_기물이_2개_있으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_중간에_기물이_2개_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -460,7 +460,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간에_기물이_2개_있으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_중간에_기물이_2개_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 
@@ -485,7 +485,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_중간에_기물이_2개_있으면_예외가_발생한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_중간에_기물이_2개_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new PoMoveStorage();
 

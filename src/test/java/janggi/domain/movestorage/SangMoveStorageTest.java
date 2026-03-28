@@ -56,7 +56,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_갈_수_없는_좌표가_들어오면_예외처리() {
+    void 상이_갈_수_없는_좌표가_들어오면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
@@ -68,7 +68,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_위로_3칸_왼쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_위로_3칸_왼쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(2), Column.of(1));
@@ -80,7 +80,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_위로_3칸_오른쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_위로_3칸_오른쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
@@ -93,7 +93,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_오른쪽으로_3칸_위로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_오른쪽으로_3칸_위로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
@@ -106,7 +106,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_오른쪽으로_3칸_아래로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_오른쪽으로_3칸_아래로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
@@ -119,7 +119,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_아래로_3칸_오른쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_아래로_3칸_오른쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
@@ -132,7 +132,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_아래로_3칸_왼쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_아래로_3칸_왼쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
@@ -145,7 +145,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_왼쪽으로_3칸_아래로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_왼쪽으로_3칸_아래로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(1), Column.of(6));
@@ -157,7 +157,7 @@ class SangMoveStorageTest {
     }
 
     @Test
-    void 상이_왼쪽으로_3칸_위로_2칸_이동하려_할_때_경로에_기물이_있으면_예외가_발생한다() {
+    void 상이_왼쪽으로_3칸_위로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(1), Column.of(2));

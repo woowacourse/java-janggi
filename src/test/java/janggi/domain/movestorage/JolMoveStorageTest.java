@@ -117,7 +117,7 @@ class JolMoveStorageTest {
     }
 
     @Test
-    void 이동할_수_없는_행마면_예외처리한다() {
+    void 이동할_수_없는_행마면_실패를_반환한다() {
         // given
         MoveStorage moveStorage = new JolMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(3));
