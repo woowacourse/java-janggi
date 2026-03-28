@@ -1,12 +1,7 @@
-package domain.piece;
+package domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import domain.Piece;
-import domain.PieceProperty;
-import domain.PieceType;
-import domain.Position;
-import domain.Team;
 import domain.strategy.HorseMoveStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

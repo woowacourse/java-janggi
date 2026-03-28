@@ -13,9 +13,9 @@ public class JanggiGame {
     private final Board board;
     private GameStatus gameStatus;
 
-    public JanggiGame(Board board) {
+    public JanggiGame(Board board, GameStatus gameStatus) {
         this.board = board;
-        this.gameStatus = GameStatus.GREEN_PLAYER_TURN;
+        this.gameStatus = gameStatus;
     }
 
     public void move(Position selectPosition, Position destination) {
@@ -34,6 +34,8 @@ public class JanggiGame {
     }
 
     public PieceInfo findPieceInfoAt(Position selectPosition) {
+        validateOutOfRange(selectPosition);
+
         Piece piece = board.findPieceAt(selectPosition);
 
         requireExists(piece);

@@ -85,7 +85,7 @@ public class JanggiBoardFactory {
     private void setupDownTeamGuards() {
         downTeamPositionFactory.downTeamGuardPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        new Piece(PieceProperty.of(PieceType.GUARD, Team.GREEN), GeneralMoveStrategy.of(position))));
+                        new Piece(PieceProperty.of(PieceType.GUARD, Team.GREEN), GuardMoveStrategy.of(position))));
     }
 
     private void setupUpTeamChariots() {

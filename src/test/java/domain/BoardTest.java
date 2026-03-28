@@ -1,5 +1,7 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.NoneMoveableStrategy;
@@ -26,7 +28,7 @@ class BoardTest {
         Position selectPiecePosition = horsePiece.position();
         Position targetPosition = soldierPiece.position();
 
-        Assertions.assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
     }
 
     @Test
@@ -47,9 +49,10 @@ class BoardTest {
 
         board.movePiece(selectPosition, targetPosition);
 
-        Assertions.assertThat(board.greenPieces()).hasSize(1);
-        Assertions.assertThat(board.redPieces()).hasSize(0);
-        Assertions.assertThat(board.nonePieces()).hasSize(1);
+        assertThat(board.findPieceAt(selectPosition).isNoneTeam()).isTrue();
+        assertThat(board.findPieceAt(selectPosition).isRedTeam()).isFalse();
+
+        assertThat(board.findPieceAt(targetPosition).isGreenTeam()).isTrue();
     }
 
 
@@ -74,7 +77,7 @@ class BoardTest {
         Position selectPiecePosition = selected.position();
         Position targetPosition = destination.position();
 
-        Assertions.assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
     }
 
     @Test
@@ -98,6 +101,6 @@ class BoardTest {
         Position selectPiecePosition = selected.position();
         Position targetPosition = destination.position();
 
-        Assertions.assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
     }
 }
