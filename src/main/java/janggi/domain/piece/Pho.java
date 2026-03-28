@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static java.lang.Math.abs;
 
 import janggi.domain.point.Point;
+import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Pho extends AbstractPiece {
     }
 
     @Override
-    public Route getRoute(Point from, Point to) {
+    public Points getRoutePoints(Point from, Point to) {
         int pathX = to.calculatePathColumn(from);
         int pathY = to.calculatePathRow(from);
 
@@ -35,15 +36,15 @@ public class Pho extends AbstractPiece {
             int nextY = from.getRow() + (signY * i);
             route.add(Point.of(nextX, nextY));
         }
-        return new Route(route);
+        return new Points(route);
     }
 
     @Override
-    public boolean canMove(List<Piece> route) {
-        if (route.size() > 1) {
+    public boolean canMove(Route route) {
+        if (route.hasObstacle()) {
             return false;
         }
-        return route.stream().anyMatch(piece -> !piece.isSameType(PieceType.PHO));
+        return !route.hasSameType(PieceType.PHO);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.point.Point;
+import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
-import java.util.List;
 
 abstract class AbstractPiece implements Piece {
 
@@ -16,7 +16,7 @@ abstract class AbstractPiece implements Piece {
     }
 
     @Override
-    public abstract Route getRoute(Point from, Point to);
+    public abstract Points getRoutePoints(Point from, Point to);
 
     @Override
     public boolean canCapture(Piece target) {
@@ -24,7 +24,7 @@ abstract class AbstractPiece implements Piece {
     }
 
     @Override
-    public boolean canMove(List<Piece> route) {
+    public boolean canMove(Route route) {
         return route.isEmpty();
     }
 

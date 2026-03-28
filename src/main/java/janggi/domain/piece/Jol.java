@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static java.lang.Math.abs;
 
 import janggi.domain.point.Point;
+import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Jol extends AbstractPiece {
     }
 
     @Override
-    public Route getRoute(Point from, Point to) {
+    public Points getRoutePoints(Point from, Point to) {
         int pathX = to.calculatePathColumn(from);
         int pathY = to.calculatePathRow(from);
         int signY = Integer.compare(pathY, 0);
@@ -29,11 +30,11 @@ public class Jol extends AbstractPiece {
         if ((super.getTeam().equals(Team.CHO) && signY < 0) || (super.getTeam().equals(Team.HAN) && signY > 0)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
-        return new Route(List.of(to));
+        return new Points(List.of(to));
     }
 
     @Override
-    public boolean canMove(List<Piece> route) {
-        return route.stream().noneMatch(piece -> piece.isSameTeam(super.getTeam()));
+    public boolean canMove(Route route) {
+        return !route.hasAlly(super.getTeam());
     }
 }

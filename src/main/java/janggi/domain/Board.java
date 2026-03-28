@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.point.Point;
+import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.LinkedHashMap;
@@ -34,8 +35,8 @@ public class Board {
         if (targetPiece != null && !piece.canCapture(targetPiece)) {
             throw new IllegalArgumentException("[ERROR] 이 기물은 해당 타겟을 잡을 수 없습니다.");
         }
-        Route route = piece.getRoute(from, to);
-        if (!piece.canMove(getPieces(route))) {
+        Points route = piece.getRoutePoints(from, to);
+        if (!piece.canMove(getRoute(route))) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
         }
         pieces.remove(from);
@@ -57,11 +58,11 @@ public class Board {
                 ).toList();
     }
 
-    public List<Piece> getPieces(Route point) {
-        return point.getRoutes().stream()
+    public Route getRoute(Points points) {
+        return new Route(points.getPoints().stream()
                 .map(pieces::get)
                 .filter(Objects::nonNull)
-                .toList();
+                .toList());
     }
 
     private void validateFromPoint(Point from, Team team) {
