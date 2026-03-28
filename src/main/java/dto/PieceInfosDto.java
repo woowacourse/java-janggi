@@ -1,10 +1,11 @@
 package dto;
 
-import java.util.List;
+import domain.piece.Position;
+import java.util.Map;
 
-public record PieceInfosDto(List<PieceInfoDto> pieceInfos) {
+public record PieceInfosDto(Map<Position, PieceInfoDto> pieceInfos) {
 
-    public static PieceInfosDto of(final List<PieceInfoDto> pieceInfos) {
+    public static PieceInfosDto of(final Map<Position, PieceInfoDto> pieceInfos) {
         return new PieceInfosDto(pieceInfos);
     }
 }

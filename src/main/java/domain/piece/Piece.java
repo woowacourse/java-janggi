@@ -27,15 +27,15 @@ public class Piece {
         return team;
     }
 
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
     public boolean isCannon() {
         return pieceType == PieceType.CANNON;
     }
 
-    public boolean isOpposite(Piece other) {
-        return this.team != other.team;
+    public boolean isGeneral() {
+        return pieceType == PieceType.GENERAL;
+    }
+
+    public String getPieceTypeNameBy(Team team) {
+        return pieceType.getNameOf(team);
     }
 }

@@ -26,7 +26,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
 
     private boolean isDirected(Position nextPosition, Map<Position, Piece> pieces, Position from) {
         Optional<Position> oppositeGeneralPositionOpt = pieces.entrySet().stream()
-                .filter(entry -> entry.getValue().getPieceType() == PieceType.GENERAL)
+                .filter(entry -> entry.getValue().isGeneral())
                 .map(Entry::getKey)
                 .filter(position -> !from.equals(position))
                 .findFirst();

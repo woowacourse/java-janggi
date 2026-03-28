@@ -6,9 +6,9 @@ import domain.piece.Position;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -73,9 +73,11 @@ public class Board {
 
 
     public PieceInfosDto getPieceInfos() {
-        List<PieceInfoDto> pieceInfos = pieces.entrySet().stream()
-                .map(entry -> PieceInfoDto.of(entry.getValue(), entry.getKey()))
-                .toList();
+        Map<Position, PieceInfoDto> pieceInfos = pieces.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Entry::getKey,
+                        entry -> PieceInfoDto.from(entry.getValue())
+                ));
         return PieceInfosDto.of(pieceInfos);
     }
 }
