@@ -11,6 +11,8 @@ import movepolicy.path.PoPathRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import participant.HanTurn;
+import participant.Turn;
 import position.Position;
 
 class PoTest {
@@ -24,55 +26,60 @@ class PoTest {
         @Test
         void 상으로_여러_칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveUp();
             // when & then
-            assertThatCode(() -> po.askMoveContext(departure, destination))
+            assertThatCode(() -> po.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 하로_여러_칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown().moveDown();
             // when & then
-            assertThatCode(() -> po.askMoveContext(departure, destination))
+            assertThatCode(() -> po.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 좌로_여러_칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft().moveLeft();
             // when & then
-            assertThatCode(() -> po.askMoveContext(departure, destination))
+            assertThatCode(() -> po.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 우로_여러_칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight().moveRight();
             // when & then
-            assertThatCode(() -> po.askMoveContext(departure, destination))
+            assertThatCode(() -> po.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 우상향이_도착지인_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRightUp();
             // when & then
-            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -84,11 +91,12 @@ class PoTest {
         @Test
         void 출발지와_도착지_차이_만큼의_이동_경로가_존재한다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown().moveDown();
             // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
+            MoveContext moveContext = po.askMoveContext(departure, destination, turn);
             // then
             int gapSize = departure.row() - destination.row() - 1;
             assertThat(moveContext.pathPositions()).hasSize(gapSize);
@@ -97,55 +105,60 @@ class PoTest {
         @Test
         void 상_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp();
             // when & then
-            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         void 하_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown();
             // when & then
-            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         void 좌_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft();
             // when & then
-            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         void 우_1칸_차이가_도착지인_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight();
             // when & then
-            assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> po.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         void 상으로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveUp().moveUp();
             // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
+            MoveContext moveContext = po.askMoveContext(departure, destination, turn);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
             assertThat(pathPositions.get(0)).isEqualTo(departure.moveUp());
@@ -155,11 +168,12 @@ class PoTest {
         @Test
         void 하로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown().moveDown().moveDown();
             // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
+            MoveContext moveContext = po.askMoveContext(departure, destination, turn);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
             assertThat(pathPositions.get(0)).isEqualTo(departure.moveDown());
@@ -169,11 +183,12 @@ class PoTest {
         @Test
         void 좌로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft().moveLeft().moveLeft();
             // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
+            MoveContext moveContext = po.askMoveContext(departure, destination, turn);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
             assertThat(pathPositions.get(0)).isEqualTo(departure.moveLeft());
@@ -183,11 +198,12 @@ class PoTest {
         @Test
         void 우로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece po = new Po(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight().moveRight().moveRight();
             // when
-            MoveContext moveContext = po.askMoveContext(departure, destination);
+            MoveContext moveContext = po.askMoveContext(departure, destination, turn);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
             assertThat(pathPositions.get(0)).isEqualTo(departure.moveRight());
@@ -198,11 +214,12 @@ class PoTest {
     @Test
     void 포는_포를_제외한_다른_진영의_기물만_공격할_수_있다() {
         // given
+        Turn turn = new HanTurn();
         Piece po = new Po(Side.HAN);
         Position departure = DEFAULT;
         Position destination = departure.moveUp().moveUp();
         // when
-        MoveContext moveContext = po.askMoveContext(departure, destination);
+        MoveContext moveContext = po.askMoveContext(departure, destination, turn);
         // then
         assertThat(moveContext.destinationRule())
             .isInstanceOf(PoDestinationRule.class);
@@ -211,11 +228,12 @@ class PoTest {
     @Test
     void 포는_이동_경로에_포를_제외한_기물이_1개_있을_때_이동할_수_있다() {
         // given
+        Turn turn = new HanTurn();
         Piece po = new Po(Side.HAN);
         Position departure = DEFAULT;
         Position destination = departure.moveUp().moveUp();
         // when
-        MoveContext moveContext = po.askMoveContext(departure, destination);
+        MoveContext moveContext = po.askMoveContext(departure, destination, turn);
         // then
         assertThat(moveContext.pathRule())
             .isInstanceOf(PoPathRule.class);

@@ -5,6 +5,7 @@ import java.util.Objects;
 import movepolicy.MoveContext;
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.PathRule;
+import participant.Turn;
 import position.Position;
 
 public abstract class FullPiece implements Piece {
@@ -21,12 +22,19 @@ public abstract class FullPiece implements Piece {
     }
 
     @Override
-    public final MoveContext askMoveContext(Position departure, Position destination) {
+    public final MoveContext askMoveContext(Position departure, Position destination, Turn turn) {
+        validateSide(turn);
         validateDestination(departure, destination);
         List<Position> pathPositions = getPathPositions(departure, destination);
         DestinationRule destinationRule = getDestinationRule();
         PathRule pathRule = getPathRule();
         return new MoveContext(pathPositions, destinationRule, pathRule);
+    }
+
+    private void validateSide(Turn turn) {
+        if (!turn.isMatchSide(side)) {
+            throw new IllegalArgumentException("다른 진영의 말은 이동시킬 수 없습니다.");
+        }
     }
 
     protected abstract void validateDestination(Position departure, Position destination);
@@ -66,5 +74,9 @@ public abstract class FullPiece implements Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(side);
+    }
+
+    public boolean equalsSide(Turn turn) {
+        return turn.isMatchSide(side);
     }
 }

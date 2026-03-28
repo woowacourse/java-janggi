@@ -10,6 +10,8 @@ import movepolicy.path.EmptyPathRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import participant.HanTurn;
+import participant.Turn;
 import position.Position;
 
 class MaTest {
@@ -23,110 +25,120 @@ class MaTest {
         @Test
         void 상_1칸_우상향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveRightUp();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 상_1칸_좌상향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveLeftUp();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 하_1칸_우하향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown().moveRightDown();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 하_1칸_좌하향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown().moveLeftDown();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 좌_1칸_좌상향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft().moveLeftUp();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 좌_1칸_좌하향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft().moveLeftDown();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 우_1칸_우상향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight().moveRightUp();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 우_1칸_우하향_1칸_이동할_수_있다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight().moveRightDown();
             // when & then
-            assertThatCode(() -> ma.askMoveContext(departure, destination))
+            assertThatCode(() -> ma.askMoveContext(departure, destination, turn))
                 .doesNotThrowAnyException();
         }
 
         @Test
         void 상_2칸이_도착지인_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveUp();
             // when & then
-            assertThatThrownBy(() -> ma.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> ma.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         void 우상향이_도착지인_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRightUp();
             // when & then
-            assertThatThrownBy(() -> ma.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> ma.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -137,11 +149,12 @@ class MaTest {
         @Test
         void 출발지와_도착지_사이에는_1칸의_이동_경로만_존재한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveRightUp();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             assertThat(moveContext.pathPositions()).hasSize(1);
         }
@@ -149,11 +162,12 @@ class MaTest {
         @Test
         void 상_1칸_우상향_1칸이_도착지인_경우_상_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveRightUp();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveUp());
@@ -162,11 +176,12 @@ class MaTest {
         @Test
         void 상_1칸_좌상향_1칸이_도착지인_경우_상_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveLeftUp();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveUp());
@@ -175,11 +190,12 @@ class MaTest {
         @Test
         void 하_1칸_우하향_1칸이_도착지인_경우_하_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown().moveRightDown();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveDown());
@@ -188,11 +204,12 @@ class MaTest {
         @Test
         void 하_1칸_좌하향_1칸이_도착지인_경우_하_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveDown().moveLeftDown();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveDown());
@@ -201,11 +218,12 @@ class MaTest {
         @Test
         void 좌_1칸_좌상향_1칸이_도착지인_경우_화_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft().moveLeftUp();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveLeft());
@@ -214,11 +232,12 @@ class MaTest {
         @Test
         void 좌_1칸_좌하향_1칸이_도착지인_경우_좌_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveLeft().moveLeftDown();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveLeft());
@@ -227,11 +246,12 @@ class MaTest {
         @Test
         void 우_1칸_우상향_1칸이_도착지인_경우_우_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight().moveRightUp();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveRight());
@@ -240,11 +260,12 @@ class MaTest {
         @Test
         void 우_1칸_우하향_1칸이_도착지인_경우_우_1칸_포지션을_반환한다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight().moveRightDown();
             // when
-            MoveContext moveContext = ma.askMoveContext(departure, destination);
+            MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
             // then
             Position pathPosition = moveContext.pathPositions().getFirst();
             assertThat(pathPosition).isEqualTo(departure.moveRight());
@@ -253,11 +274,12 @@ class MaTest {
         @Test
         void 도착지가_유효하지_않은_경우_예외를_던진다() {
             // given
+            Turn turn = new HanTurn();
             Piece ma = new Ma(Side.HAN);
             Position departure = DEFAULT;
             Position destination = departure.moveRight().moveRight();
             // when & then
-            assertThatThrownBy(() -> ma.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> ma.askMoveContext(departure, destination, turn))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -265,11 +287,12 @@ class MaTest {
     @Test
     void 마는_다른_진영의_기물만_공격할_수_있다() {
         // given
+        Turn turn = new HanTurn();
         Piece ma = new Ma(Side.HAN);
         Position departure = DEFAULT;
         Position destination = departure.moveUp().moveRightUp();
         // when
-        MoveContext moveContext = ma.askMoveContext(departure, destination);
+        MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
         // then
         assertThat(moveContext.destinationRule())
             .isInstanceOf(BasicDestinationRule.class);
@@ -278,11 +301,12 @@ class MaTest {
     @Test
     void 마는_이동_경로에_기물이_없을_때_이동할_수_있다() {
         // given
+        Turn turn = new HanTurn();
         Piece ma = new Ma(Side.HAN);
         Position departure = DEFAULT;
         Position destination = departure.moveUp().moveRightUp();
         // when
-        MoveContext moveContext = ma.askMoveContext(departure, destination);
+        MoveContext moveContext = ma.askMoveContext(departure, destination, turn);
         // then
         assertThat(moveContext.pathRule())
             .isInstanceOf(EmptyPathRule.class);

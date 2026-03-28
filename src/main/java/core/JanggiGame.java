@@ -2,15 +2,22 @@ package core;
 
 import board.Board;
 import board.SangSetup;
+import participant.ChoTurn;
+import participant.Turn;
 import pieces.Side;
 import position.Position;
 
 public class JanggiGame {
     private final Board board;
-    private boolean isChoTurn = true;
+    private Turn turn;
+
+    public JanggiGame(Board board, Turn turn) {
+        this.board = board;
+        this.turn = turn;
+    }
 
     public JanggiGame(Board board) {
-        this.board = board;
+        this(board, new ChoTurn());
     }
 
     public static JanggiGame of(SangSetup choSangSetup, SangSetup hanSangSetup) {
@@ -19,14 +26,8 @@ public class JanggiGame {
         return new JanggiGame(choBoard.merge(hanBoard));
     }
 
-    public void move(Position departure, Position destination, Side side) {
-        if (isChoTurn && side.isHan()) {
-            throw new IllegalArgumentException("현재는 초의 공격 차례 입니다.");
-        }
-        if (!isChoTurn && side.isCho()) {
-            throw new IllegalArgumentException("현재는 한의 공격 차례 입니다.");
-        }
-        board.move(departure, destination);
-        isChoTurn = !isChoTurn;
+    public void move(Position departure, Position destination) {
+        board.move(departure, destination, turn);
+        turn = turn.move();
     }
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import movepolicy.MoveContext;
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.PathRule;
+import participant.Turn;
 import pieces.EmptyPiece;
 import pieces.FullPiece;
 import pieces.Piece;
@@ -25,14 +26,15 @@ public record Board(Map<Position, Piece> pieces) {
         return new Board(merged);
     }
 
-    public Board move(Position departure, Position destination) {
+    public Board move(Position departure, Position destination, Turn turn) {
         Piece departurePiece = pieces.get(departure);
         Piece destinationPiece = pieces.get(destination);
-        MoveContext moveContext = departurePiece.askMoveContext(departure, destination);
+        MoveContext moveContext = departurePiece.askMoveContext(departure, destination, turn);
 
+        FullPiece currentPiece = (FullPiece) departurePiece;
         validatePathPieces(moveContext.pathPositions(), moveContext.pathRule());
-        validateDestination(departurePiece, destinationPiece, moveContext.destinationRule());
-        movePiece(departure, destination, departurePiece);
+        validateDestination(currentPiece, destinationPiece, moveContext.destinationRule());
+        movePiece(departure, destination, currentPiece);
 
         return new Board(pieces);
     }
@@ -42,9 +44,9 @@ public record Board(Map<Position, Piece> pieces) {
         pathRule.validatePathPieces(pathPieces);
     }
 
-    private void validateDestination(Piece departurePiece, Piece destinationPiece,
+    private void validateDestination(FullPiece departurePiece, Piece destinationPiece,
                                      DestinationRule destinationRule) {
-        destinationRule.validateDestination((FullPiece) departurePiece, destinationPiece);
+        destinationRule.validateDestination(departurePiece, destinationPiece);
     }
 
     private List<Piece> getPathPieces(List<Position> pathPositions) {
@@ -53,7 +55,7 @@ public record Board(Map<Position, Piece> pieces) {
             .toList();
     }
 
-    private void movePiece(Position departure, Position destination, Piece departurePiece) {
+    private void movePiece(Position departure, Position destination, FullPiece departurePiece) {
         pieces.put(departure, new EmptyPiece());
         pieces.put(destination, departurePiece);
     }

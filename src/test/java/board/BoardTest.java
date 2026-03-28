@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import participant.HanTurn;
+import participant.Turn;
 import pieces.Cha;
 import pieces.EmptyPiece;
 import pieces.FullPiece;
@@ -21,13 +23,15 @@ class BoardTest {
         Position before = new Position(1, 1);
         Position after = new Position(2, 1);
         FullPiece piece = new Cha(Side.HAN);
+        Turn turn = new HanTurn();
 
         Map<Position, Piece> beforePieces = new HashMap<>();
         beforePieces.put(before, piece);
         beforePieces.put(after, new EmptyPiece());
         Board beforeBoard = new Board(beforePieces);
+
         // when
-        Board afterBoard = beforeBoard.move(before, after);
+        Board afterBoard = beforeBoard.move(before, after, turn);
         // then
         Map<Position, Piece> afterPieces = afterBoard.pieces();
         assertThat(afterPieces.get(before).isEmpty()).isTrue();
@@ -39,13 +43,14 @@ class BoardTest {
         Position before = new Position(1, 1);
         Position after = new Position(2, 1);
         FullPiece piece = new Cha(Side.HAN);
+        Turn turn = new HanTurn();
 
         Map<Position, Piece> beforePieces = new HashMap<>();
         beforePieces.put(before, piece);
         beforePieces.put(after, new EmptyPiece());
         Board beforeBoard = new Board(beforePieces);
         // when
-        Board afterBoard = beforeBoard.move(before, after);
+        Board afterBoard = beforeBoard.move(before, after, turn);
         // then
         Map<Position, Piece> afterPieces = afterBoard.pieces();
         assertThat(afterPieces.get(after)).isEqualTo(piece);
@@ -56,6 +61,7 @@ class BoardTest {
         // given
         Position departure = new Position(1, 1);
         Position destination = new Position(2, 1);
+        Turn turn = new HanTurn();
         FullPiece departurePiece = new Cha(Side.HAN);
         FullPiece destinationPiece = new Cha(Side.CHO);
 
@@ -64,7 +70,7 @@ class BoardTest {
         beforePieces.put(destination, destinationPiece);
         Board beforeBoard = new Board(beforePieces);
         // when
-        Board afterBoard = beforeBoard.move(departure, destination);
+        Board afterBoard = beforeBoard.move(departure, destination, turn);
         // then
         Map<Position, Piece> afterPieces = afterBoard.pieces();
         Optional<Piece> deletedPiece = afterPieces.values().stream()
