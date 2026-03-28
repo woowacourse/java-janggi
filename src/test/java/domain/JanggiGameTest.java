@@ -34,9 +34,10 @@ class JanggiGameTest {
     @DisplayName("기물을 이동하면 턴이 자동으로 넘어간다.")
     void executeMoveChangesTurn() {
         JanggiGame janggiGame = JanggiGame.init(SettingType.LEFT, SettingType.LEFT);
-        Position start = Position.of(6, 4);
+        Position start = Position.of(1, 1);
+        Position destination = Position.of(3, 1);
 
-        janggiGame.executeMove(start, Position.of(5, 4));
+        janggiGame.executeMove(start, destination);
         assertThat(janggiGame.getTurn()).isEqualTo(Team.HAN);
     }
 }
