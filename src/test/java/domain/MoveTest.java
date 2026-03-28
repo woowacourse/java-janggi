@@ -60,4 +60,25 @@ public class MoveTest {
                 .hasMessage("상대방 기물은 이동시킬 수 없습니다.");
     }
 
+    @Test
+    @DisplayName("기물이 없는 칸을 움직이려고하면 예외가 발생한다.")
+    void shouldThrowExceptionTryToMoveEmptyIntersection() {
+        Team currentTeam = Team.HAN;
+        Point start = new Point(0, 0);
+        Point end = new Point(3, 0);
+
+        Piece empty = Piece.none();
+        Piece soldier = new Piece(currentTeam, PieceType.SOLDIER);
+
+        Intersection from = new Intersection(start, empty);
+        Intersection to = new Intersection(end, soldier);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+
+        Assertions.assertThatThrownBy(() -> {
+                    janggiBoard.tryToMove(start, end, currentTeam);
+                }).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물이 없어 움직일 수 없습니다.");
+    }
+
 }
