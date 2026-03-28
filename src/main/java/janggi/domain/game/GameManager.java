@@ -3,26 +3,25 @@ package janggi.domain.game;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
-import janggi.dto.BoardDTO;
-import janggi.dto.PieceDTO;
-import janggi.dto.PositionDTO;
+import janggi.domain.piece.PieceMapper;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 public class GameManager {
 
-    private final Turn turn;
     private final Players players;
     private final Board board;
+    private Turn turn;
 
-    public GameManager(Turn initiativeTurn, Players players, Board board) {
-        this.turn = initiativeTurn;
+    public GameManager(Players players, Board board, Turn initiativeTurn) {
         this.players = players;
         this.board = board;
+        this.turn = initiativeTurn;
     }
 
     public void switchTurn() {
-        turn.switchTurn();
+        turn = turn.next();
     }
 
     public boolean isFinished() {
@@ -49,11 +48,8 @@ public class GameManager {
         return board.isPieceExist(position);
     }
 
-    public BoardDTO boardStatus() {
-        Map<PositionDTO, PieceDTO> mappedState =
-                board.exportBoardState(PositionDTO::new, PieceDTO::new);
-
-        return new BoardDTO(mappedState);
+    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper, PieceMapper<V> pieceMapper) {
+        return board.exportBoardState(positionMapper, pieceMapper);
     }
 
     public void movePiece(Position selected, Position target, List<Position> destinations) {

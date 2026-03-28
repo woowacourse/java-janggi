@@ -22,9 +22,9 @@ public class Application {
 
     private static GameManager generateManeger(InputView inputView, OutputView outputView) {
         Board board = Board.initialize();
-        Turn initiativeTurn = new Turn(Side.CHO);
+        Turn initiativeTurn = Turn.init();
         Players players = initialPlayers(inputView, outputView);
-        return new GameManager(initiativeTurn, players, board);
+        return new GameManager(players, board, initiativeTurn);
     }
 
     private static Players initialPlayers(InputView inputView, OutputView outputView) {

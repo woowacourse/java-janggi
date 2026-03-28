@@ -14,7 +14,7 @@ public class Player {
     }
 
     public boolean isMyTurn(Turn turn) {
-        return turn.isCurrent(this.side);
+        return turn.isTurnOf(this.side);
     }
 
     public boolean isOwnPiece(Piece piece) {
