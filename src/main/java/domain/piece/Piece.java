@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.Direction;
 import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
 
