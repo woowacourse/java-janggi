@@ -52,7 +52,7 @@ public class Piece {
     }
 
     private static Map<PieceType, MoveStrategy> createMoveStrategies() {
-        Map<PieceType, MoveStrategy> moveStrategies = new EnumMap<>(PieceType.class);
+        final Map<PieceType, MoveStrategy> moveStrategies = new EnumMap<>(PieceType.class);
         moveStrategies.put(PieceType.CANNON, new CannonMoveStrategy());
         moveStrategies.put(PieceType.ELEPHANT, new ElephantMoveStrategy());
         moveStrategies.put(PieceType.GUARD, new GuardMoveStrategy());

@@ -17,7 +17,7 @@ public class Initializer {
     }
 
     public Board initialize() {
-        Map<Position, Piece> board = new HashMap<>();
+        final Map<Position, Piece> board = new HashMap<>();
         board.putAll(choStrategy.setUpPieces(TeamColor.CHO));
         board.putAll(hanStrategy.setUpPieces(TeamColor.HAN));
         return new Board(board);

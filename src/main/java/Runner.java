@@ -68,19 +68,19 @@ public class Runner {
     }
 
     private void playTurn(Board board) {
-        TeamColor currentTurn = turnManager.getCurrentTurn();
+        final TeamColor currentTurn = turnManager.getCurrentTurn();
         outputView.printCurrentTurn(currentTurn);
         outputView.printBoard(board);
 
         while (true) {
             try {
-                Piece selectedPiece = choosePiece(board, currentTurn);
-                Optional<Route> selectedRoute = chooseRoute(board, selectedPiece);
+                final Piece selectedPiece = choosePiece(board, currentTurn);
+                final Optional<Route> selectedRoute = chooseRoute(board, selectedPiece);
                 if (selectedRoute.isEmpty()) {
                     continue;
                 }
 
-                Position destination = selectedRoute.get().endPos();
+                final Position destination = selectedRoute.get().endPos();
                 board.move(selectedPiece, destination);
                 outputView.printMoveResult(selectedPiece, destination);
                 turnManager.progressTurn();
@@ -107,16 +107,16 @@ public class Runner {
         List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
         outputView.printPieceOptions(pieces);
 
-        int pieceChoice = inputView.readPieceChoice(currentTurn);
+        final int pieceChoice = inputView.readPieceChoice(currentTurn);
         return getSelectedPiece(pieces, pieceChoice);
     }
 
     private Optional<Route> chooseRoute(Board board, Piece selectedPiece) {
-        List<Route> routes = board.findMovableRoutes(selectedPiece);
+        final List<Route> routes = board.findMovableRoutes(selectedPiece);
         validateMovableRoutes(routes);
         outputView.printRouteOptions(routes);
 
-        int routeChoice = inputView.readRouteChoice();
+        final int routeChoice = inputView.readRouteChoice();
         if (routeChoice == BACK_OPTION_NUMBER) {
             return Optional.empty();
         }
