@@ -32,15 +32,9 @@ public class SoliderMoveRule extends MoveRule {
 
     @Override
     public boolean checkMoveRule(Intersection from, Path path) {
-        Intersection to = path.getLastIntersection();
-        validateIsSameTeam(from, to);
+        path.validateIsSameTeam(from);
+        path.validateHasObstacle();
         return true;
-    }
-
-    private void validateIsSameTeam(Intersection from, Intersection to) {
-        if (from.isSameTeam(to)) {
-            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
-        }
     }
 
     public static Directions initializeDirections() {

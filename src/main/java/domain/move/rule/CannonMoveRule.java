@@ -33,41 +33,10 @@ public class CannonMoveRule extends MoveRule {
 
     @Override
     public boolean checkMoveRule(Intersection from, Path path) {
-        Intersection to = path.getLastIntersection();
-        validateIsSameTeam(from, to);
-        validateObstacleCondition(from, path);
-        validateDestinationIsNotCannon(from, to);
+        path.validateIsSameTeam(from);
+        path.validateCannonObstacleCondition();
+        path.validateDestinationIsNotCannon();
         return true;
-    }
-
-    private void validateIsSameTeam(Intersection from, Intersection to) {
-        if (from.isSameTeam(to)) {
-            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    private void validateObstacleCondition(Intersection from, Path path) {
-        List<Intersection> obstacleIntersections = path.getObstacleIntersection();
-        validateObstacleIsOnly(obstacleIntersections);
-        validateObstacleIsNotCannon(from, obstacleIntersections);
-    }
-
-    private void validateObstacleIsOnly(List<Intersection> list) {
-        if (list.size() != JUMP_OBSTACLE_CONDITION) {
-            throw new IllegalArgumentException("포는 반드시 기물 하나를 넘어야 합니다.");
-        }
-    }
-
-    private static void validateObstacleIsNotCannon(Intersection from, List<Intersection> list) {
-        if (list.getFirst().isSamePiece(from)) {
-            throw new IllegalArgumentException("포는 포를 넘어갈 수 없습니다.");
-        }
-    }
-
-    private void validateDestinationIsNotCannon(Intersection from, Intersection to) {
-        if (from.isSamePiece(to)) {
-            throw new IllegalArgumentException("포는 포를 공격할 수 없습니다.");
-        }
     }
 
     public static Directions initializeDirections() {

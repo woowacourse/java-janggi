@@ -32,15 +32,8 @@ public class GeneralMoveRule extends MoveRule {
 
     @Override
     public boolean checkMoveRule(Intersection from, Path path) {
-        Intersection to = path.getLastIntersection();
-        validateIsSameTeam(from, to);
+        path.validateIsSameTeam(from);
         return true;
-    }
-
-    private void validateIsSameTeam(Intersection from, Intersection to) {
-        if (from.isSameTeam(to)) {
-            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
-        }
     }
 
     // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정
