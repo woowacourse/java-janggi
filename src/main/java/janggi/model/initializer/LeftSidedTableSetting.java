@@ -68,5 +68,4 @@ public class LeftSidedTableSetting extends BoardInitializerWithConst {
 
         return board;
     }
-
 }

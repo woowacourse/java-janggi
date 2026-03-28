@@ -4,6 +4,7 @@ public record DiagonalDelta(
         int rowDistance,
         int columnDistance
 ) {
+
     private static final int UNIT_STEP = 1;
     private static final int NEGATIVE_UNIT_STEP = -1;
     private static final int NO_MOVEMENT = 0;

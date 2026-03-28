@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OutsideTableSetting extends BoardInitializerWithConst {
+
     private static final List<Position> MA_CHO = List.of(
             new Position(Row.ZERO, Column.THREE),
             new Position(Row.ZERO, Column.SEVEN)

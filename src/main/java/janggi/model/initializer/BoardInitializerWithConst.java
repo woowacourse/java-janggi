@@ -1,11 +1,11 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.Byeong;
 import janggi.model.gimul.linearMove.Cha;
-import janggi.model.gimul.AbstractGimul;
-import janggi.model.gimul.palace.Jang;
 import janggi.model.gimul.linearMove.Pho;
+import janggi.model.gimul.palace.Jang;
 import janggi.model.gimul.palace.Sa;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
@@ -28,7 +28,6 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
 
     private static final Position JANG_CHO = new Position(Row.NINE, Column.FIVE);
     private static final Position JANG_HAN = new Position(Row.TWO, Column.FIVE);
-
 
     private static final List<Position> SA_CHO = List.of(
             new Position(Row.ZERO, Column.FOUR),
@@ -133,7 +132,6 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
         return board;
     }
 
-
     @Override
     protected Map<Position, AbstractGimul> initPho() {
         Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
@@ -151,6 +149,4 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
 
         return board;
     }
-
-
 }

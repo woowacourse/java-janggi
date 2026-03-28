@@ -11,7 +11,6 @@ public class Ma extends AbstractDiagonalGimul {
     private static final int FIRST_MOVE = 1;
     private static final int SECOND_MOVE = 2;
 
-
     public Ma(Team team) {
         super(team);
     }

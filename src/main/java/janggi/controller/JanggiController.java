@@ -34,7 +34,6 @@ public class JanggiController {
         }
     }
 
-
     private int readInitialBoardType() {
         outputView.printBoardInitialTypeMessage();
         return inputView.readBoardInitializeType();
@@ -67,7 +66,6 @@ public class JanggiController {
         return convertPositionInfoToPosition(inputView.readPosition());
     }
 
-
     private Position readToPosition() {
         outputView.printToPositionMessage();
         return convertPositionInfoToPosition(inputView.readPosition());
@@ -82,5 +80,4 @@ public class JanggiController {
 
         return new Position(row, column);
     }
-
 }
