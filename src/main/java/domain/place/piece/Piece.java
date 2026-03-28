@@ -36,7 +36,7 @@ public abstract class Piece implements Place {
 
     @Override
     public Optional<Side> getSide() {
-        return Optional.ofNullable(side);
+        return Optional.of(side);
     }
 
     @Override
