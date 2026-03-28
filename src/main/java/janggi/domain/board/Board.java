@@ -1,13 +1,17 @@
 package janggi.domain.board;
 
 import janggi.domain.Camp;
+import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.board.strategy.FormationStrategy;
 import janggi.domain.piece.*;
 import janggi.domain.piece.strategy.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -56,7 +60,63 @@ public class Board {
         return choFormation;
     }
 
+    public Piece selectPiece(int row, int col) {
+        Position position = Position.of(row, col);
+        Optional<Piece> piece = Optional.ofNullable(janggiBoard.get(position));
+        return piece.orElseThrow(
+                () -> new IllegalArgumentException("보드에 기물이 존재하지 않습니다.")
+        );
+    }
+
+    public void movePiece(int row, int col, Position from) {
+        Position to = Position.of(row, col);
+        Piece piece = selectPiece(from);
+        Path path = findPath(piece, from, to);
+        validateRoute(piece, path);
+        validateDestination(piece, to);
+        executeMove(piece, from, to);
+    }
+
+    private Piece selectPiece(Position position) {
+        return Optional.ofNullable(janggiBoard.get(position))
+                .orElseThrow(() -> new IllegalArgumentException("보드에 기물이 존재하지 않습니다."));
+    }
+
+    private Path findPath(Piece piece, Position from, Position to) {
+        return piece.findMovablePaths(from).stream()
+                .filter(path -> path.hasDestination(to))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 좌표입니다."));
+    }
+
+    private void validateRoute(Piece piece, Path path) {
+        Map<Position, Piece> piecesOnRoute = findPiecesOnRoute(path);
+        if (!piece.canPassRoute(piecesOnRoute)) {
+            throw new IllegalArgumentException("경로가 막혀있습니다.");
+        }
+    }
+
+    private Map<Position, Piece> findPiecesOnRoute(Path path) {
+        return janggiBoard.entrySet().stream()
+                .filter(entry -> path.hasRoute(entry.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private void validateDestination(Piece piece, Position to) {
+        Optional.ofNullable(janggiBoard.get(to))
+                .ifPresent(target -> {
+                    if (!piece.canCatch(target)) {
+                        throw new IllegalArgumentException("목적지의 기물을 잡을 수 없습니다.");
+                    }
+                });
+    }
+
+    private void executeMove(Piece piece, Position from, Position to) {
+        janggiBoard.remove(from);
+        janggiBoard.put(to, piece);
+    }
+
     public Map<Position, Piece> janggiBoard() {
-        return janggiBoard;
+        return Collections.unmodifiableMap(janggiBoard);
     }
 }
