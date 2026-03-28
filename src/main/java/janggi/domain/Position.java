@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class Position {
@@ -32,8 +33,10 @@ public class Position {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 좌표입니다."));
     }
 
-    public Position move(int row, int column){
-        return Position.of(this.row + row, this.column + column);
+    public static Optional<Position> findPosition(int row, int column) {
+        return ALL_POSITION.stream()
+                .filter(p -> p.isSameLocation(row, column))
+                .findFirst();
     }
 
     private boolean isSameLocation(int row, int column) {
