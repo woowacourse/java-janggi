@@ -13,6 +13,6 @@ public abstract class BasicMoveStrategy implements MoveStrategy {
     }
 
     protected boolean isEmptyOrOpposite(final Position from, final Position to, final Map<Position, Piece> pieces) {
-        return !pieces.containsKey(to) || pieces.get(from).isOpposite(pieces.get(to));
+        return !pieces.containsKey(to) || !pieces.get(from).isSameTeam(pieces.get(to));
     }
 }

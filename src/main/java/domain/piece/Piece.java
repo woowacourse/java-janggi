@@ -33,8 +33,8 @@ public class Piece {
         return pieceType == PieceType.GENERAL;
     }
 
-    public boolean isOpposite(Piece other) {
-        return this.team != other.team;
+    public boolean isSameTeam(Piece other) {
+        return this.team == other.team;
     }
 
     public String getPieceTypeNameBy(Team team) {

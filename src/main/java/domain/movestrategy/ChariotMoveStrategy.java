@@ -35,7 +35,7 @@ public class ChariotMoveStrategy extends BasicMoveStrategy {
         List<Position> movable = new ArrayList<>();
 
         for (Position current = from.move(delta); isInsideBoard(current); current = current.move(delta)) {
-            if (!pieces.containsKey(current) || pieces.get(from).isOpposite(pieces.get(current))) {
+            if (isEmptyOrOpposite(from, current, pieces)) {
                 movable.add(current);
             }
         }
