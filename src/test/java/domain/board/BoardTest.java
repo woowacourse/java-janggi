@@ -101,7 +101,7 @@ public class BoardTest {
         List<Path> path = board.getPath(positions);
 
         assertThat(path).isEqualTo(List.of(new Path(
-                new Position(1, 0), new Piece(PieceType.HORSE, Team.CHO, new HorseStrategy())),
+                        new Position(1, 0), new Piece(PieceType.HORSE, Team.CHO, new HorseStrategy())),
                 new Path(new Position(2, 0), new Piece(PieceType.ELEPHANT, Team.CHO, new ElephantStrategy()))
         ));
     }

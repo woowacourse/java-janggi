@@ -19,7 +19,4 @@ public enum InitializeSetting {
     public List<PieceType> getInitialSetting() {
         return initialSetting;
     }
-
-
-
 }

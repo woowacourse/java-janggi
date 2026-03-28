@@ -55,7 +55,7 @@ public class ChariotStrategy implements MoveStrategy {
 
     @Override
     public void canMove(List<Path> paths, Piece to) {
-        if (!paths.isEmpty() ) {
+        if (!paths.isEmpty()) {
             throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
         }
     }

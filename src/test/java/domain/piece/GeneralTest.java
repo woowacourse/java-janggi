@@ -19,7 +19,7 @@ class GeneralTest {
     @Test
     void 궁은_위로_한칸_움직일_수_있는_경로가_있다() {
         Position from = new Position(4, 1);
-        Position to = new Position(4,2);
+        Position to = new Position(4, 2);
 
         List<Position> pathPositions = general.getPathPositions(from, to);
 

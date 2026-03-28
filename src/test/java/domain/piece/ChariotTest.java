@@ -61,9 +61,8 @@ class ChariotTest {
 
 
         assertThat(pathPositions).isEqualTo(List.of(
-                new Position(5, 4), new Position(5, 3), new Position(5, 2),new Position(5, 1)));
+                new Position(5, 4), new Position(5, 3), new Position(5, 2), new Position(5, 1)));
     }
-
 
 
 }

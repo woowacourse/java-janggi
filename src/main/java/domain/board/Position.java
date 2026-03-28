@@ -53,5 +53,4 @@ public class Position {
     public Position next(Direction direction) {
         return new Position(x + direction.getDx(), y + direction.getDy());
     }
-
 }

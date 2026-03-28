@@ -17,7 +17,7 @@ public class GuardStrategy implements MoveStrategy {
         boolean isMoveRight = dx == 1 && dy == 0;
         boolean isMoveDown = dx == 0 && dy == -1;
 
-        if(!(isMoveLeft || isMoveRight || isMoveUp || isMoveDown)) {
+        if (!(isMoveLeft || isMoveRight || isMoveUp || isMoveDown)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
         return List.of();

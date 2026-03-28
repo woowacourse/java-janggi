@@ -27,7 +27,7 @@ public record Piece(PieceType pieceType, Team team, MoveStrategy moveStrategy) {
         return Objects.hash(pieceType, team);
     }
 
-    public boolean isSameTeam(Piece another){
+    public boolean isSameTeam(Piece another) {
         return another.team == team;
     }
 }

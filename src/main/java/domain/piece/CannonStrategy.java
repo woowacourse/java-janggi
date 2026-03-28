@@ -13,7 +13,7 @@ public class CannonStrategy implements MoveStrategy {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
-        if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))){
+        if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))) {
             throw new IllegalArgumentException("차를 해당 위치로 옮길 수 없습니다.");
         }
 
@@ -56,18 +56,18 @@ public class CannonStrategy implements MoveStrategy {
 
     @Override
     public void canMove(List<Path> paths, Piece to) {
-        if(paths.size() != 1) {
+        if (paths.size() != 1) {
             throw new IllegalStateException("포는 한 기물만 뛰어 넘을 수 있습니다.");
         }
 
         Piece piece = paths.getFirst().piece();
 
 
-        if(piece.pieceType() == PieceType.CANNON) {
+        if (piece.pieceType() == PieceType.CANNON) {
             throw new IllegalStateException("포는 포를 뛰어 넘을 수 있습니다.");
         }
 
-        if(to.pieceType() == PieceType.CANNON) {
+        if (to.pieceType() == PieceType.CANNON) {
             throw new IllegalStateException("포를 잡을 수 없습니다");
         }
     }
