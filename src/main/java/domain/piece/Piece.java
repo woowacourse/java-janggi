@@ -42,4 +42,23 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
+
+    public void validateTurn(Team turn) {
+        if (this.team != turn) {
+            throw new IllegalArgumentException("아군만 이동할 수 있습니다.");
+        }
+    }
+
+    public void validateNotAlly(Piece destinationPiece) {
+        if (destinationPiece != null && destinationPiece.isSameTeam(this)) {
+            throw new IllegalArgumentException("이동할 수 없습니다. (목적지에 아군이 존재함)");
+        }
+    }
+
+    public boolean isSameTeam(Piece other) {
+        if (other == null) {
+            return false;
+        }
+        return this.team == other.team;
+    }
 }
