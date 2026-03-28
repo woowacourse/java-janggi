@@ -24,19 +24,26 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printPositionInfo() {
-        System.out.println("행은 위에서 아래로, 열은 왼쪽에서 오른쪽으로 순번이 매겨집니다.");
-    }
-
     public static void printPositionCountry(Country country) {
         System.out.printf("%s나라의 순서입니다.\n", country.color() + country.title() + Country.RESET);
     }
 
     public static void printBoard(Board board) {
+        System.out.print("   ");
+        for (int col = 1; col <= 9; col++) {
+            System.out.printf("%d ", col);
+        }
+        System.out.println();
+
         for (int row = 1; row <= 10; row++) {
+
+            System.out.printf("%2d ", row);
+
             printColumn(row, board);
             printLine();
         }
+
+        printLine();
     }
 
     private static void printColumn(int row, Board board) {

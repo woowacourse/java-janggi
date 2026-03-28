@@ -61,7 +61,6 @@ public class GameController {
     }
 
     private void gamePhase(Board board) {
-        OutputView.printPositionInfo();
 
         InputHandler.retry(() -> {
             List<Integer> startList = InputView.readStartPosition();
