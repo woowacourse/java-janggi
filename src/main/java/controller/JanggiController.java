@@ -7,6 +7,7 @@ import view.InputView;
 import view.OutputView;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class JanggiController {
 
@@ -25,7 +26,7 @@ public class JanggiController {
 
         while (true) {
             outputView.printBoard(game.getBoard());
-            Position startPosition = RetryInput.read(() -> getStartPosition(game));
+            Position startPosition = readUntilValid(() -> getStartPosition(game));
 
             List<Position> possibleMoves = game.getPiece(startPosition).getPossibleMoves(game, startPosition);
             if (!isPossibleMovePiece(possibleMoves)) {
@@ -33,7 +34,7 @@ public class JanggiController {
             }
 
             outputView.printAvailablePositions(possibleMoves);
-            Position destination = RetryInput.read(() -> getDestination(possibleMoves));
+            Position destination = readUntilValid(() -> getDestination(possibleMoves));
             game.move(startPosition, destination);
         }
     }
@@ -60,5 +61,15 @@ public class JanggiController {
             throw new IllegalArgumentException("번호 중에 선택하세요.");
         }
         return possibleMoves.get(index - 1);
+    }
+
+    private static <T> T readUntilValid(Supplier<T> reader) {
+        while (true) {
+            try {
+                return reader.get();
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 }
