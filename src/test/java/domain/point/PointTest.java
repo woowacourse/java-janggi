@@ -1,10 +1,13 @@
 package domain.point;
 
 import domain.move.directions.Vector;
+import domain.point.exception.PointException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import static domain.point.exception.ErrorMessage.POINT_RANGE_IS_OVER;
 
 public class PointTest {
     @Test
@@ -14,8 +17,9 @@ public class PointTest {
         int outOfIndexX = 9;
 
         Assertions.assertThatThrownBy(() -> {
-            new Point(outOfIndexY, outOfIndexX);
-        }).isInstanceOf(IllegalArgumentException.class);
+                    new Point(outOfIndexY, outOfIndexX);
+                }).isInstanceOf(PointException.class)
+                .hasMessage(POINT_RANGE_IS_OVER.getErrorMessage());
     }
 
     @Test
@@ -161,9 +165,9 @@ public class PointTest {
             Point point = new Point(0, 0);
 
             Assertions.assertThatThrownBy(() -> {
-                point.next(Vector.LEFT_UP);
-            }).isInstanceOf(IllegalArgumentException.class);
-
+                        point.next(Vector.LEFT_UP);
+                    }).isInstanceOf(PointException.class)
+                    .hasMessage(POINT_RANGE_IS_OVER.getErrorMessage());
         }
 
     }

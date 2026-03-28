@@ -1,5 +1,9 @@
 package domain.point;
 
+import domain.point.exception.PointException;
+
+import static domain.point.exception.ErrorMessage.*;
+
 public record Command(
         Point start,
         Point end
@@ -33,25 +37,25 @@ public record Command(
             int x = Integer.parseInt(coordinates[COORDINATE_OF_X]);
             return new Point(y, x);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("좌표는 숫자여야 합니다.");
+            throw new PointException(POINT_IS_NOT_NUMERIC);
         }
     }
 
     private static void validateBlank(String input) {
         if (input.isBlank()) {
-            throw new IllegalArgumentException("입력값이 비어있습니다.");
+            throw new PointException(POINT_INPUT_IS_BLANK);
         }
     }
 
     private static void validateCommandSize(String[] parts) {
         if (parts.length != EXPECTED_COMMAND_SIZE) {
-            throw new IllegalArgumentException("명령어는 '시작좌표 종료좌표' 형식으로 총 2개의 좌표를 입력해야합니다.");
+            throw new PointException(POINT_PAIR_FORMAT_IS_WRONG);
         }
     }
 
     private static void validatePointSize(String[] coordinates) {
         if (coordinates.length != EXPECTED_POINT_SIZE) {
-            throw new IllegalArgumentException("좌표는 'y,x' 형식이어야 합니다.");
+            throw new PointException(POINT_FORMAT_IS_WRONG);
         }
     }
 }

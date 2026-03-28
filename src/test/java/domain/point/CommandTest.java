@@ -1,8 +1,11 @@
 package domain.point;
 
+import domain.point.exception.PointException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static domain.point.exception.ErrorMessage.*;
 
 public class CommandTest {
 
@@ -13,8 +16,8 @@ public class CommandTest {
 
         Assertions.assertThatThrownBy(() -> {
                     Command.from(overPoint);
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("명령어는 '시작좌표 종료좌표' 형식으로 총 2개의 좌표를 입력해야합니다.");
+                }).isInstanceOf(PointException.class)
+                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getErrorMessage());
     }
 
     @Test
@@ -24,8 +27,8 @@ public class CommandTest {
 
         Assertions.assertThatThrownBy(() -> {
                     Command.from(lessPoint);
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("명령어는 '시작좌표 종료좌표' 형식으로 총 2개의 좌표를 입력해야합니다.");
+                }).isInstanceOf(PointException.class)
+                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getErrorMessage());
     }
 
     @Test
@@ -35,8 +38,8 @@ public class CommandTest {
 
         Assertions.assertThatThrownBy(() -> {
                     Command.from(blankInput);
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("입력값이 비어있습니다.");
+                }).isInstanceOf(PointException.class)
+                .hasMessage(POINT_INPUT_IS_BLANK.getErrorMessage());
     }
 
     @Test
@@ -46,8 +49,8 @@ public class CommandTest {
 
         Assertions.assertThatThrownBy(() -> {
                     Command.from(wrongPointFormat);
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("좌표는 'y,x' 형식이어야 합니다.");
+                }).isInstanceOf(PointException.class)
+                .hasMessage(POINT_FORMAT_IS_WRONG.getErrorMessage());
     }
 
     @Test
@@ -57,8 +60,8 @@ public class CommandTest {
 
         Assertions.assertThatThrownBy(() -> {
                     Command.from(notNumberInput);
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("좌표는 숫자여야 합니다.");
+                }).isInstanceOf(PointException.class)
+                .hasMessage(POINT_IS_NOT_NUMERIC.getErrorMessage());
     }
 
     @Test
