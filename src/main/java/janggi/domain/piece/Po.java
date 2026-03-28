@@ -4,14 +4,14 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.PoCollisionDetector;
-import janggi.domain.rule.route.GungSeongRouteProvider;
 import janggi.domain.rule.route.RouteProvider;
+import janggi.domain.rule.route.StraightRouteProvider;
 import java.util.List;
 
 public class Po extends ActivePiece {
 
     private static final PieceType PIECE_TYPE = PieceType.PO;
-    private static final RouteProvider ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
+    private static final RouteProvider ROUTE_PROVIDER = StraightRouteProvider.getInstance();
     private static final CollisionDetector COLLISION_DETECTOR = PoCollisionDetector.getInstance();
 
     public Po(Side side) {
