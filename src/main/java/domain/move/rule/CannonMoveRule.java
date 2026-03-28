@@ -15,8 +15,6 @@ import static domain.move.directions.Vector.RIGHT;
 
 public class CannonMoveRule extends MoveRule {
 
-    private static final int JUMP_OBSTACLE_CONDITION = 1;
-
     public CannonMoveRule() {
         super(PieceType.CANNON, initializeDirections());
     }
