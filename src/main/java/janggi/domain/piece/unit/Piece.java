@@ -14,13 +14,15 @@ public abstract class Piece {
     protected PieceName name;
     protected Side side;
     protected PathStrategy pathStrategy;
-
     public Piece(PieceName name, Side side, PathStrategy pathStrategy) {
         this.name = name;
         this.side = side;
         this.pathStrategy = pathStrategy;
     }
 
+    public String getName() {
+        return name.getNameFormat(side);
+    }
 
     public final Side getSide() {
         return side;
