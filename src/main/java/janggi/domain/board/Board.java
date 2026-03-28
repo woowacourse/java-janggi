@@ -63,11 +63,9 @@ public class Board {
 
     public List<Position> calculateDestinations(Position currentPosition, Side currentSide) {
         validateSelectablePiece(currentPosition, currentSide);
-        Piece piece = piecePosition.get(currentPosition);
-        Paths moveablePaths = piece.calculatePaths(currentPosition);
-        Map<Position, Piece> boardState = generateStateByPaths(moveablePaths);
-
-        return piece.determineDestinations(moveablePaths, boardState);
+        List<Position> destinations = getMoveablePositions(currentPosition);
+        validateDestinationsExist(destinations);
+        return destinations;
     }
 
     private void validateSelectablePiece(Position position, Side currentTurn) {
@@ -86,6 +84,19 @@ public class Board {
         if (piece.getSide() != currentTurn) {
             throw new IllegalArgumentException("[ERROR] 상대방의 기물은 선택할 수 없습니다.");
         }
+    }
+
+    private void validateDestinationsExist(List<Position> destinations) {
+        if (destinations.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 있는 경로가 없는 기물입니다.");
+        }
+    }
+
+    private List<Position> getMoveablePositions(Position currentPosition) {
+        Piece piece = piecePosition.get(currentPosition);
+        Paths paths = piece.calculatePaths(currentPosition);
+        Map<Position, Piece> boardState = generateStateByPaths(paths);
+        return piece.determineDestinations(paths, boardState);
     }
 
     private Map<Position, Piece> generateStateByPaths(Paths moveablePaths) {
