@@ -1,5 +1,6 @@
 package controller;
 
+import common.exception.JanggiException;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
@@ -8,6 +9,8 @@ import domain.piece.Team;
 import domain.point.Command;
 import view.InputReader;
 import view.OutputWriter;
+
+import java.util.function.Supplier;
 
 public class JanggiGame {
 
@@ -26,9 +29,15 @@ public class JanggiGame {
     }
 
     private JanggiBoard generateJanggiBoard() {
-        Formation hanFormation = reader.requestFormation(Team.HAN);
-        Formation choFormation = reader.requestFormation(Team.CHO);
+        Formation hanFormation = requestFormation(Team.HAN);
+        Formation choFormation = requestFormation(Team.CHO);
         return new JanggiBoard(new JanggiIntersectionGenerator(hanFormation, choFormation));
+    }
+
+    private Formation requestFormation(Team team) {
+        return retry(() -> {
+            return reader.requestFormation(team);
+        });
     }
 
     private void startGame(JanggiBoard janggiBoard) {
@@ -67,9 +76,18 @@ public class JanggiGame {
     private void retry(Runnable action) {
         try {
             action.run();
-        } catch (RuntimeException e) {
-            System.out.println("[ERROR] " + e.getMessage());
+        } catch (JanggiException e) {
+            writer.printErrorMessage(e.getMessage());
             retry(action);
+        }
+    }
+
+    private <T> T retry(Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (JanggiException e) {
+            writer.printErrorMessage(e.getMessage());
+            return retry(supplier);
         }
     }
 
