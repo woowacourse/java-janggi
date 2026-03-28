@@ -1,11 +1,17 @@
 package janggi.domain;
 
-import java.util.Objects;
-
 public record Position(
     int x,
     int y
 ) {
+    private static final int MIN_X = 0;
+    private static final int MAX_X = 9;
+    private static final int MIN_Y = 0;
+    private static final int MAX_Y = 10;
+
+    public Position {
+        validateCoordinate(x, y);
+    }
 
     public int deltaX(Position other) {
         return other.x - x;
@@ -15,17 +21,10 @@ public record Position(
         return other.y - y;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
+    private void validateCoordinate(int x, int y) {
+        if (x < MIN_X || x > MAX_X ||
+                y < MIN_Y || y > MAX_Y) {
+            throw new IllegalArgumentException("장기판을 벗어난 좌표입니다.");
         }
-        Position position = (Position) o;
-        return x == position.x && y == position.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
     }
 }
