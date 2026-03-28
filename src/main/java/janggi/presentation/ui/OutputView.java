@@ -2,11 +2,17 @@ package janggi.presentation.ui;
 
 import janggi.domain.status.Team;
 import janggi.presentation.dto.GameStatusInfo;
+import java.util.Map;
 
 public class OutputView {
 
+    private static final Map<Team, String> DISPLAY_NAME = Map.of(
+            Team.HAN, "한",
+            Team.CHO, "초"
+    );
+
     public static void printWinner(Team winner) {
-        System.out.println("승자는 " + winner.getName());
+        System.out.println("승자는 " + DISPLAY_NAME.get(winner));
     }
 
     public static void printGameStatus(GameStatusInfo status) {
