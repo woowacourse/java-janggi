@@ -18,6 +18,10 @@ public enum Row {
     private static final List<Row> CACHE_VALUES = Arrays.asList(values());
 
     public static Row of(int rowNumber) {
+        if (rowNumber < 1 || rowNumber > 10) {
+            throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
+        }
+
         int adjustValue = 1;
         int zeroInput = 0;
         int maxRow = 10;

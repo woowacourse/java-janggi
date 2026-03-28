@@ -8,6 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ColumnTest {
+    @DisplayName("보드 밖의 열 숫자가 주어지면 예외가 발생한다.")
+    @Test
+    void of() {
+        assertThatThrownBy(() -> Column.of(10))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 열은 존재하지 않습니다.");
+    }
+
 
     @DisplayName("displacement만큼 이동한다.")
     @Test

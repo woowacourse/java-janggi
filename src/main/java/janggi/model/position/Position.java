@@ -28,6 +28,12 @@ public record Position(
 
 
     public PositionPath moveHorizontal(int distance) {
+        int nextValue = column.ordinal() + distance;
+
+        if (nextValue < 1 || nextValue > 9) {
+            throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
+        }
+
         int adjustValue = 1;
         Position to = new Position(
                 row,
@@ -39,6 +45,12 @@ public record Position(
     }
 
     public PositionPath moveVertical(int distance) {
+        int nextValue = row.ordinal() + distance;
+
+        if (nextValue < 1 || nextValue > 10) {
+            throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
+        }
+
         int adjustValue = 1;
 
         Position to = new Position(
