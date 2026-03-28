@@ -2,12 +2,11 @@ package janggi.domain.piece;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 class ChariotMoveStrategyTest {
@@ -20,9 +19,8 @@ class ChariotMoveStrategyTest {
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
         board.put(from, new Piece(dynasty, moveStrategy));
-        board.put(Position.from(3 ,5), new Piece(dynasty, moveStrategy));
-        board.put(Position.from(5 ,1), new Piece(Dynasty.HAN, moveStrategy));
-
+        board.put(Position.from(3, 5), new Piece(dynasty, moveStrategy));
+        board.put(Position.from(5, 1), new Piece(Dynasty.HAN, moveStrategy));
 
         // when
         List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);

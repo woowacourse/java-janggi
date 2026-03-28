@@ -1,7 +1,9 @@
 package janggi.domain.position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public record Position(
@@ -9,8 +11,22 @@ public record Position(
         Column column
 ) {
 
+    private static final Map<String, Position> POSITIONS = new HashMap<>();
+
+    static {
+        for (Row row : Row.values()) {
+            for (Column column : Column.values()) {
+                POSITIONS.put(toKey(row, column), new Position(row, column));
+            }
+        }
+    }
+
     public static Position from(int row, int column) {
-        return new Position(new Row(row), new Column(column));
+        return POSITIONS.get(toKey(Row.of(row), Column.of(column)));
+    }
+
+    private static String toKey(Row row, Column column) {
+        return row + "," + column;
     }
 
     public List<Position> findPositionsByDirection(Direction dir) {
@@ -36,7 +52,9 @@ public record Position(
     }
 
     private Position add(int row, int column) {
-        return new Position(this.row.add(row), this.column.add(column));
+        Row nextRow = this.row.add(row);
+        Column nextColumn = this.column.add(column);
+        return POSITIONS.get(toKey(nextRow, nextColumn));
     }
 
 }

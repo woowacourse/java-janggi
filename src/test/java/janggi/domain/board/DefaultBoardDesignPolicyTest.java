@@ -1,17 +1,16 @@
 package janggi.domain.board;
 
-import janggi.domain.dynasty.Dynasty;
-import janggi.domain.piece.Piece;
-import janggi.domain.position.Position;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
-
-import java.util.Map;
-
 import static janggi.domain.piece.PieceType.ELEPHANT;
 import static janggi.domain.piece.PieceType.HORSE;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import janggi.domain.dynasty.Dynasty;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Position;
+import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 
 class DefaultBoardDesignPolicyTest {
@@ -36,7 +35,8 @@ class DefaultBoardDesignPolicyTest {
         assertHorseElephantPositionByRow(horseElephantPosition, board, 10);
     }
 
-    private static void assertHorseElephantPositionByRow(HorseElephantPosition horseElephantPosition, Map<Position, Piece> board, int row) {
+    private static void assertHorseElephantPositionByRow(HorseElephantPosition horseElephantPosition,
+                                                         Map<Position, Piece> board, int row) {
         assertThat(board.get(Position.from(row, horseElephantPosition.leftHorseColumn())).pieceType())
                 .isEqualTo(HORSE);
         assertThat(board.get(Position.from(row, horseElephantPosition.leftElephantColumn())).pieceType())

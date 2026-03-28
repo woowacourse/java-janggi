@@ -3,20 +3,16 @@ package janggi.domain.board;
 import static janggi.domain.board.HorseElephantPosition.HEHE;
 import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.ChariotMoveStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class BoardTest {
 
@@ -61,12 +57,12 @@ class BoardTest {
         // given
         Position from = Position.from(5, 5);
         Piece fromPiece = new Piece(HAN, new ChariotMoveStrategy());
-        Position toCanEat = Position.from(3,5);
-        Position toCannotEat = Position.from(3,3);
+        Position toCanEat = Position.from(3, 5);
+        Position toCannotEat = Position.from(3, 3);
 
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece,
-                toCanEat,  new Piece(CHO, new ChariotMoveStrategy())
+                toCanEat, new Piece(CHO, new ChariotMoveStrategy())
         ));
         Board board = new Board(policy);
 

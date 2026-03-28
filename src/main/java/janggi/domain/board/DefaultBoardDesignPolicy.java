@@ -1,5 +1,8 @@
 package janggi.domain.board;
 
+import static janggi.domain.dynasty.Dynasty.CHO;
+import static janggi.domain.dynasty.Dynasty.HAN;
+
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.CannonMoveStrategy;
 import janggi.domain.piece.ChariotMoveStrategy;
@@ -10,12 +13,8 @@ import janggi.domain.piece.HorseMoveStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.SoldierMoveStrategy;
 import janggi.domain.position.Position;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import static janggi.domain.dynasty.Dynasty.CHO;
-import static janggi.domain.dynasty.Dynasty.HAN;
 
 public class DefaultBoardDesignPolicy implements BoardDesignPolicy {
 
@@ -63,7 +62,8 @@ public class DefaultBoardDesignPolicy implements BoardDesignPolicy {
 
         board.put(Position.from(10, 6), new Piece(HAN, new GuardMoveStrategy()));
         board.put(Position.from(10, horseElephantPos.rightHorseColumn()), new Piece(HAN, new HorseMoveStrategy()));
-        board.put(Position.from(10, horseElephantPos.rightElephantColumn()), new Piece(HAN, new ElephantMoveStrategy()));
+        board.put(Position.from(10, horseElephantPos.rightElephantColumn()),
+                new Piece(HAN, new ElephantMoveStrategy()));
         board.put(Position.from(10, 9), new Piece(HAN, new ChariotMoveStrategy()));
 
         board.put(Position.from(9, 5), new Piece(HAN, new GeneralMoveStrategy()));

@@ -1,16 +1,15 @@
 package janggi.domain.piece;
 
+import static janggi.domain.dynasty.Dynasty.CHO;
+import static janggi.domain.dynasty.Dynasty.HAN;
+
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static janggi.domain.dynasty.Dynasty.CHO;
-import static janggi.domain.dynasty.Dynasty.HAN;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class ElephantMoveStrategyTest {
 
