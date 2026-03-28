@@ -74,6 +74,6 @@ public final class Chariot extends StaticPositionedPiece {
     }
 
     private boolean isPassableIntersection(Intersection intersection, AlivePieces alivePieces) {
-        return intersection.isInBoard() && alivePieces.isEmpty(intersection);
+        return intersection.isInBounds() && alivePieces.isEmpty(intersection);
     }
 }

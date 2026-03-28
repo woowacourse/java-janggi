@@ -75,7 +75,7 @@ public final class Cannon extends StaticPositionedPiece {
             AlivePieces alivePieces
     ) {
         Intersection currentIntersection = direction.moveForward(from, MOVE_UNIT);
-        while (currentIntersection.isInBoard() && alivePieces.isEmpty(currentIntersection)) {
+        while (currentIntersection.isInBounds() && alivePieces.isEmpty(currentIntersection)) {
             currentIntersection = direction.moveForward(currentIntersection, MOVE_UNIT);
         }
 
@@ -86,7 +86,7 @@ public final class Cannon extends StaticPositionedPiece {
             Intersection intersection,
             AlivePieces alivePieces
     ) {
-        return intersection.isOutOfBoard()
+        return intersection.isOutOfBounds()
                 || isCannon(alivePieces.placedAt(intersection));
     }
 
@@ -98,7 +98,7 @@ public final class Cannon extends StaticPositionedPiece {
         List<Intersection> movableIntersections = new ArrayList<>();
 
         Intersection currentIntersection = direction.moveForward(screen, MOVE_UNIT);
-        while (currentIntersection.isInBoard() && alivePieces.isEmpty(currentIntersection)) {
+        while (currentIntersection.isInBounds() && alivePieces.isEmpty(currentIntersection)) {
             movableIntersections.add(currentIntersection);
             currentIntersection = direction.moveForward(currentIntersection, MOVE_UNIT);
         }

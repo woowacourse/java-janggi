@@ -50,7 +50,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
     ) {
         Piece rightPiece = alivePieces.placedAt(destination);
 
-        if (destination.isOutOfBoard()) {
+        if (destination.isOutOfBounds()) {
             return;
         }
 

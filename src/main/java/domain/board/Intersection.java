@@ -1,28 +1,25 @@
 package domain.board;
 
-public record Intersection(
-        int row,
-        int file
-) {
+public record Intersection(int row, int file) {
 
-    private static final int MINIMUM_ROW = 1;
-    private static final int MAXIMUM_ROW = 10;
-    private static final int MINIMUM_FILE = 1;
-    private static final int MAXIMUM_FILE = 9;
+    private static final int LOWER_BOUND_ROW = 1;
+    private static final int UPPER_BOUND_ROW = 10;
+    private static final int LOWER_BOUND_FILE = 1;
+    private static final int UPPER_BOUND_FILE = 9;
 
-    public boolean isOutOfBoard() {
-        return isRowOutOfBoard() || isFileOutOfBoard();
+    public boolean isOutOfBounds() {
+        return isOutOfRow() || isOutOfFile();
     }
 
-    public boolean isInBoard() {
-        return !isOutOfBoard();
+    public boolean isInBounds() {
+        return !isOutOfBounds();
     }
 
-    private boolean isRowOutOfBoard() {
-        return row < MINIMUM_ROW || row > MAXIMUM_ROW;
+    private boolean isOutOfRow() {
+        return row < LOWER_BOUND_ROW || row > UPPER_BOUND_ROW;
     }
 
-    private boolean isFileOutOfBoard() {
-        return file < MINIMUM_FILE || file > MAXIMUM_FILE;
+    private boolean isOutOfFile() {
+        return file < LOWER_BOUND_FILE || file > UPPER_BOUND_FILE;
     }
 }

@@ -92,10 +92,10 @@ public final class Elephant extends Piece {
 
     private static boolean isAvailablePath(AlivePieces alivePieces, List<Intersection> path) {
         return path.stream()
-                .allMatch(node -> node.isInBoard() && alivePieces.isEmpty(node));
+                .allMatch(node -> node.isInBounds() && alivePieces.isEmpty(node));
     }
 
     private boolean isAvailableDestination(Intersection destination, AlivePieces alivePieces) {
-        return destination.isInBoard() && alivePieces.placedNotSameSide(destination, side);
+        return destination.isInBounds() && alivePieces.placedNotSameSide(destination, side);
     }
 }

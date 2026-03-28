@@ -58,7 +58,7 @@ class PalacePieceTest {
 
             // then
             boolean movableOutOfBoard = movableIntersections.stream()
-                    .anyMatch(Intersection::isOutOfBoard);
+                    .anyMatch(Intersection::isOutOfBounds);
 
             assertThat(movableOutOfBoard).isFalse();
         }

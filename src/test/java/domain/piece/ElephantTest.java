@@ -100,7 +100,7 @@ class ElephantTest {
 
         // then
         boolean movableOutOfBoard = movableIntersection.stream()
-                .anyMatch(Intersection::isOutOfBoard);
+                .anyMatch(Intersection::isOutOfBounds);
 
         assertThat(movableOutOfBoard).isFalse();
     }
@@ -118,7 +118,7 @@ class ElephantTest {
 
         // then
         boolean movableOutOfBoard = movableIntersection.stream()
-                .anyMatch(Intersection::isOutOfBoard);
+                .anyMatch(Intersection::isOutOfBounds);
 
         assertThat(movableOutOfBoard).isFalse();
     }

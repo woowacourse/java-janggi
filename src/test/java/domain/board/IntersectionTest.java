@@ -24,10 +24,10 @@ class IntersectionTest {
             Intersection intersection = new Intersection(outOfBoardRow, outOfBoardFile);
 
             // when
-            boolean outOfBoard = intersection.isOutOfBoard();
+            boolean outOfBounds = intersection.isOutOfBounds();
 
             // then
-            assertThat(outOfBoard).isTrue();
+            assertThat(outOfBounds).isTrue();
         }
 
         @ParameterizedTest
@@ -40,10 +40,10 @@ class IntersectionTest {
             Intersection intersection = new Intersection(outOfBoardRow, DEFAULT_FILE);
 
             // when
-            boolean outOfBoard = intersection.isOutOfBoard();
+            boolean outOfRow = intersection.isOutOfBounds();
 
             // then
-            assertThat(outOfBoard).isTrue();
+            assertThat(outOfRow).isTrue();
         }
 
         @ParameterizedTest
@@ -56,10 +56,10 @@ class IntersectionTest {
             Intersection intersection = new Intersection(DEFAULT_ROW, outOfBoardFile);
 
             // when
-            boolean outOfBoard = intersection.isOutOfBoard();
+            boolean outOfFile = intersection.isOutOfBounds();
 
             // then
-            assertThat(outOfBoard).isTrue();
+            assertThat(outOfFile).isTrue();
         }
 
         @ParameterizedTest
@@ -71,10 +71,10 @@ class IntersectionTest {
             Intersection intersection = new Intersection(inBoardRow, inBoardFile);
 
             // when
-            boolean inBoard = intersection.isOutOfBoard();
+            boolean outOfBounds = intersection.isOutOfBounds();
 
             // then
-            assertThat(inBoard).isFalse();
+            assertThat(outOfBounds).isFalse();
         }
     }
 }

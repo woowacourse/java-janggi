@@ -45,17 +45,17 @@ public final class Horse extends Piece {
             List<Intersection> movableIntersections
     ) {
         Intersection forwardIntersection = direction.moveForward(from, MOVE_UNIT);
-        if (forwardIntersection.isOutOfBoard() || alivePieces.isNotEmpty(forwardIntersection)) {
+        if (forwardIntersection.isOutOfBounds() || alivePieces.isNotEmpty(forwardIntersection)) {
             return;
         }
 
         Intersection leftDestination = direction.moveForwardLeft(forwardIntersection, MOVE_UNIT);
-        if (leftDestination.isInBoard() && alivePieces.placedNotSameSide(leftDestination, side)) {
+        if (leftDestination.isInBounds() && alivePieces.placedNotSameSide(leftDestination, side)) {
             movableIntersections.add(leftDestination);
         }
 
         Intersection rightDestination = direction.moveForwardRight(forwardIntersection, MOVE_UNIT);
-        if (rightDestination.isInBoard() && alivePieces.placedNotSameSide(rightDestination, side)) {
+        if (rightDestination.isInBounds() && alivePieces.placedNotSameSide(rightDestination, side)) {
             movableIntersections.add(rightDestination);
         }
     }
