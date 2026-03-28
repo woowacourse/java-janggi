@@ -1,8 +1,8 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.Guard;
-import domain.piece.Soldier;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.GuardMoveRule;
 import domain.point.Point;
@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.security.Guard;
 import java.util.List;
 
 public class GuardMoveRuleTest {
@@ -21,8 +22,8 @@ public class GuardMoveRuleTest {
         Point end = new Point(1, 0);
 
         Team sameTeam = Team.HAN;
-        Guard guard = new Guard(sameTeam);
-        Soldier sameTeamPiece = new Soldier(sameTeam);
+        Piece guard = new Piece(sameTeam, PieceType.GUARD);
+        Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, guard);
         Intersection to = new Intersection(end, sameTeamPiece);
@@ -42,7 +43,7 @@ public class GuardMoveRuleTest {
         Point end = new Point(2, 4);
 
         Team sameTeam = Team.HAN;
-        Guard guard = new Guard(sameTeam);
+        Piece guard = new Piece(sameTeam, PieceType.GUARD);
 
         Intersection from = new Intersection(start, guard);
         Intersection to = Intersection.empty(end);
@@ -61,8 +62,8 @@ public class GuardMoveRuleTest {
 
         Team sameTeam = Team.HAN;
         Team anotherTeam = Team.CHO;
-        Guard guard = new Guard(sameTeam);
-        Soldier opponent = new Soldier(anotherTeam);
+        Piece guard = new Piece(sameTeam, PieceType.GUARD);
+        Piece opponent = new Piece(anotherTeam, PieceType.GUARD);
 
         Intersection from = new Intersection(start, guard);
         Intersection to = new Intersection(end, opponent);

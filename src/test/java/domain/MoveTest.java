@@ -1,11 +1,10 @@
 package domain;
 
 import domain.board.JanggiBoard;
-import domain.board.JanggiGenerator;
 import domain.fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
-import domain.piece.Chariot;
-import domain.piece.Soldier;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
@@ -22,8 +21,8 @@ public class MoveTest {
         Point start = new Point(0, 0);
         Point end = new Point(3, 0);
 
-        Chariot chariot = new Chariot(Team.CHO);
-        Soldier soldier = new Soldier(Team.HAN);
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+        Piece soldier = new Piece(Team.HAN, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, chariot);
         Intersection to = new Intersection(end, soldier);

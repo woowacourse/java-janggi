@@ -1,7 +1,8 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.HorseMoveRule;
 import domain.point.Point;
@@ -20,8 +21,9 @@ public class HorseMoveRuleTest {
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);
 
-        Horse horse = new Horse(Team.CHO);
-        Horse sameTeamPiece = new Horse(Team.CHO);
+        Team sameTeam = Team.CHO;
+        Piece horse = new Piece(sameTeam, PieceType.HORSE);
+        Piece sameTeamPiece = new Piece(sameTeam, PieceType.HORSE);
 
         Intersection from = new Intersection(start, horse);
         Intersection middleIntersection = Intersection.empty(middlePoint);
@@ -42,8 +44,9 @@ public class HorseMoveRuleTest {
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);
 
-        Horse horse = new Horse(Team.CHO);
-        Horse obstacle = new Horse(Team.CHO);
+        Team sameTeam = Team.CHO;
+        Piece horse = new Piece(sameTeam, PieceType.HORSE);
+        Piece obstacle = new Piece(sameTeam, PieceType.HORSE);
 
         Intersection from = new Intersection(start, horse);
         Intersection middleIntersection = new Intersection(middlePoint, obstacle);
@@ -64,7 +67,7 @@ public class HorseMoveRuleTest {
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);
 
-        Horse horse = new Horse(Team.CHO);
+        Piece horse = new Piece(Team.CHO, PieceType.HORSE);
 
         Intersection from = new Intersection(start, horse);
         Intersection middleIntersection = Intersection.empty(middlePoint);
@@ -83,8 +86,10 @@ public class HorseMoveRuleTest {
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);
 
-        Horse horse = new Horse(Team.CHO);
-        Horse opponent = new Horse(Team.HAN);
+        Team team = Team.CHO;
+        Team opponentTeam = Team.HAN;
+        Piece horse = new Piece(team, PieceType.HORSE);
+        Piece opponent = new Piece(opponentTeam, PieceType.HORSE);
 
         Intersection from = new Intersection(start, horse);
         Intersection middleIntersection = Intersection.empty(middlePoint);

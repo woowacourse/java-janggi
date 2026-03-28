@@ -1,8 +1,8 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.CannonMoveRule;
 import domain.point.Point;
@@ -39,9 +39,10 @@ class CannonMoveRuleTest {
     void shouldThrowExceptionWhenDestinationIsSameTeam() {
         Team sameTeam = Team.CHO;
 
-        Intersection from = new Intersection(start, new Cannon(sameTeam));
-        Intersection onlyObstacleIntersection = new Intersection(middlePoint5, new Cannon(sameTeam));
-        Intersection to = new Intersection(end, new Chariot(sameTeam));
+        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+
+        Intersection onlyObstacleIntersection = new Intersection(middlePoint5, new Piece(sameTeam, PieceType.CANNON));
+        Intersection to = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
@@ -65,8 +66,8 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection from = new Intersection(start, new Cannon(sameTeam));
-        Intersection cannonObstacle = new Intersection(middlePoint7, new Cannon(anotherTeam));
+        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection cannonObstacle = new Intersection(middlePoint7, new Piece(anotherTeam, PieceType.CANNON));
         Intersection to = Intersection.empty(end);
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -91,9 +92,9 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection from = new Intersection(start, new Cannon(sameTeam));
-        Intersection obstacle1 = new Intersection(middlePoint5, new Chariot(anotherTeam));
-        Intersection obstacle2 = new Intersection(middlePoint6, new Chariot(anotherTeam));
+        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection obstacle1 = new Intersection(middlePoint5, new Piece(anotherTeam, PieceType.CHARIOT));
+        Intersection obstacle2 = new Intersection(middlePoint6, new Piece(anotherTeam, PieceType.CHARIOT));
         Intersection to = Intersection.empty(end);
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -117,7 +118,7 @@ class CannonMoveRuleTest {
     void shouldThrowExceptionWhenCannonPathDoesntObstacle() {
         Team sameTeam = Team.CHO;
 
-        Intersection from = new Intersection(start, new Cannon(sameTeam));
+        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
         Intersection to = Intersection.empty(end);
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -142,9 +143,9 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection from = new Intersection(start, new Cannon(sameTeam));
-        Intersection obstacle = new Intersection(middlePoint6, new Chariot(sameTeam));
-        Intersection to = new Intersection(end, new Cannon(anotherTeam));
+        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection obstacle = new Intersection(middlePoint6, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection to = new Intersection(end, new Piece(anotherTeam, PieceType.CANNON));
 
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();

@@ -1,7 +1,8 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.Chariot;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.ChariotMoveRule;
 import domain.point.Point;
@@ -37,8 +38,8 @@ public class ChariotMoveRuleTest {
     void shouldThrowExceptionWhenDestinationIsSameTeam() {
         Team sameTeam = Team.CHO;
 
-        Intersection from = new Intersection(start, new Chariot(sameTeam));
-        Intersection to = new Intersection(end, new Chariot(sameTeam));
+        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection to = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
@@ -61,8 +62,8 @@ public class ChariotMoveRuleTest {
     void shouldThrowExceptionWhenPathHasObstacle() {
         Team sameTeam = Team.CHO;
 
-        Intersection from = new Intersection(start, new Chariot(sameTeam));
-        Intersection obstacle = new Intersection(middlePoint7, new Chariot(sameTeam));
+        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection obstacle = new Intersection(middlePoint7, new Piece(sameTeam, PieceType.CHARIOT));
         Intersection to = Intersection.empty(end);
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
@@ -84,7 +85,7 @@ public class ChariotMoveRuleTest {
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
     void chariotCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
-        Intersection from = new Intersection(start, new Chariot(Team.CHO));
+        Intersection from = new Intersection(start, new Piece(Team.CHO, PieceType.CHARIOT));
         Intersection to = Intersection.empty(end);
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
@@ -105,8 +106,8 @@ public class ChariotMoveRuleTest {
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void chariotCanMoveWhenNoObstacleAndDestinationIsOpponent() {
-        Intersection from = new Intersection(start, new Chariot(Team.CHO));
-        Intersection to = new Intersection(end, new Chariot(Team.HAN));
+        Intersection from = new Intersection(start, new Piece(Team.CHO, PieceType.CHARIOT));
+        Intersection to = new Intersection(end, new Piece(Team.HAN, PieceType.CHARIOT));
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 

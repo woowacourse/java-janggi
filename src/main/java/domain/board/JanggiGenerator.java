@@ -4,6 +4,7 @@ import domain.intersection.Intersection;
 import domain.piece.*;
 import domain.point.Point;
 
+import java.security.Guard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,30 +47,30 @@ public class JanggiGenerator implements IntersectionGenerator {
     }
 
     private List<Intersection> createDefaultSoldierIntersectionV2(Team team) {
-        return createIntersections(getRow(team, DEFAULT_SOLDIER_ROW), DEFAULT_SOLDIER_FILES, new Soldier(team));
+        return createIntersections(getRow(team, DEFAULT_SOLDIER_ROW), DEFAULT_SOLDIER_FILES, new Piece(team, PieceType.SOLDIER));
     }
 
     private List<Intersection> createDefaultCannonIntersectionV2(Team team) {
-        return createIntersections(getRow(team, DEFAULT_CANNON_ROW), DEFAULT_CANNON_FILES, new Cannon(team));
+        return createIntersections(getRow(team, DEFAULT_CANNON_ROW), DEFAULT_CANNON_FILES, new Piece(team, PieceType.CANNON));
     }
 
     private List<Intersection> createDefaultGeneralIntersectionV2(Team team) {
-        return createIntersections(getRow(team, DEFAULT_GENERAL_ROW), DEFAULT_GENERAL_FILES, new General(team));
+        return createIntersections(getRow(team, DEFAULT_GENERAL_ROW), DEFAULT_GENERAL_FILES, new Piece(team, PieceType.GENERAL));
     }
 
     private List<Intersection> createDefaultGuardIntersectionV2(Team team) {
-        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_GUARD_FILES, new Guard(team));
+        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_GUARD_FILES, new Piece(team, PieceType.GUARD));
     }
 
     private List<Intersection> createDefaultChariotIntersectionV2(Team team) {
-        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_CHARIOT_FILES, new Chariot(team));
+        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_CHARIOT_FILES, new Piece(team, PieceType.CHARIOT));
     }
 
     public List<Intersection> createElephantAndHorseByFormation(Team team, Formation formation) {
         int row = getRow(team, DEFAULT_BACK_ROW);
         return Stream.concat(
-                createIntersections(row, formation.elephantFormations(), new Elephant(team)).stream(),
-                createIntersections(row, formation.horseFormations(), new Horse(team)).stream()
+                createIntersections(row, formation.elephantFormations(), new Piece(team, PieceType.ELEPHANT)).stream(),
+                createIntersections(row, formation.horseFormations(), new Piece(team, PieceType.HORSE)).stream()
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 

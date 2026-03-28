@@ -1,8 +1,8 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.General;
-import domain.piece.Soldier;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.GeneralMoveRule;
 import domain.point.Point;
@@ -21,8 +21,8 @@ public class GeneralMoveRuleTest {
         Point end = new Point(1, 0);
 
         Team sameTeam = Team.HAN;
-        General general = new General(sameTeam);
-        Soldier sameTeamPiece = new Soldier(sameTeam);
+        Piece general = new Piece(sameTeam, PieceType.GENERAL);
+        Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, general);
         Intersection to = new Intersection(end, sameTeamPiece);
@@ -42,7 +42,7 @@ public class GeneralMoveRuleTest {
         Point end = new Point(2, 4);
 
         Team sameTeam = Team.HAN;
-        General general = new General(sameTeam);
+        Piece general = new Piece(sameTeam, PieceType.GENERAL);
 
         Intersection from = new Intersection(start, general);
         Intersection to = Intersection.empty(end);
@@ -61,8 +61,8 @@ public class GeneralMoveRuleTest {
 
         Team sameTeam = Team.HAN;
         Team anotherTeam = Team.CHO;
-        General general = new General(sameTeam);
-        Soldier opponent = new Soldier(anotherTeam);
+        Piece general = new Piece(sameTeam, PieceType.GENERAL);
+        Piece opponent = new Piece(anotherTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, general);
         Intersection to = new Intersection(end, opponent);

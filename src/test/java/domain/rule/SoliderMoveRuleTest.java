@@ -1,7 +1,8 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.Soldier;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.SoliderMoveRule;
 import domain.move.directions.Vector;
@@ -21,8 +22,8 @@ public class SoliderMoveRuleTest {
         Point end = new Point(1, 0);
 
         Team sameTeam = Team.HAN;
-        Soldier soldier = new Soldier(sameTeam);
-        Soldier sameTeamPiece = new Soldier(sameTeam);
+        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
+        Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, soldier);
         Intersection to = new Intersection(end, sameTeamPiece);
@@ -43,8 +44,8 @@ public class SoliderMoveRuleTest {
 
         Team sameTeam = Team.HAN;
         Team anotherTeam = Team.CHO;
-        Soldier soldier = new Soldier(sameTeam);
-        Soldier anotherTeamPiece = new Soldier(anotherTeam);
+        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
+        Piece anotherTeamPiece = new Piece(anotherTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, soldier);
         Intersection to = new Intersection(end, anotherTeamPiece);
@@ -64,8 +65,8 @@ public class SoliderMoveRuleTest {
 
         Team sameTeam = Team.HAN;
         Team anotherTeam = Team.CHO;
-        Soldier soldier = new Soldier(sameTeam);
-        Soldier anotherTeamPiece = new Soldier(anotherTeam);
+        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
+        Piece anotherTeamPiece = new Piece(anotherTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, soldier);
         Intersection to = new Intersection(end, anotherTeamPiece);

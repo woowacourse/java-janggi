@@ -1,7 +1,8 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.Elephant;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.ElephantMoveRule;
 import domain.point.Point;
@@ -20,8 +21,9 @@ public class ElephantMoveRuleTest {
         Point middlePoint2 = new Point(2, 1);
         Point end = new Point(3, 2);
 
-        Elephant elephant = new Elephant(Team.CHO);
-        Elephant sameTeamPiece = new Elephant(Team.CHO);
+        Team sameTeam = Team.CHO;
+        Piece elephant = new Piece(sameTeam, PieceType.ELEPHANT);
+        Piece sameTeamPiece = new Piece(sameTeam, PieceType.ELEPHANT);
 
         Intersection from = new Intersection(start, elephant);
         Intersection middleIntersection1 = Intersection.empty(middlePoint1);
@@ -44,8 +46,9 @@ public class ElephantMoveRuleTest {
         Point middlePoint2 = new Point(2, 1);
         Point end = new Point(3, 2);
 
-        Elephant elephant = new Elephant(Team.CHO);
-        Elephant obstacle = new Elephant(Team.CHO);
+        Team sameTeam = Team.CHO;
+        Piece elephant = new Piece(sameTeam, PieceType.ELEPHANT);
+        Piece obstacle = new Piece(sameTeam, PieceType.ELEPHANT);
 
         Intersection from = new Intersection(start, elephant);
         Intersection middleIntersection1 = new Intersection(middlePoint1, obstacle);
@@ -68,7 +71,7 @@ public class ElephantMoveRuleTest {
         Point middlePoint2 = new Point(2, 1);
         Point end = new Point(3, 2);
 
-        Elephant elephant = new Elephant(Team.CHO);
+        Piece elephant = new Piece(Team.CHO, PieceType.ELEPHANT);
 
         Intersection from = new Intersection(start, elephant);
         Intersection middleIntersection1 = Intersection.empty(middlePoint1);
@@ -90,8 +93,10 @@ public class ElephantMoveRuleTest {
         Point middlePoint2 = new Point(2, 1);
         Point end = new Point(3, 2);
 
-        Elephant elephant = new Elephant(Team.CHO);
-        Elephant opponent = new Elephant(Team.HAN);
+        Team team = Team.CHO;
+        Team opponentTeam = Team.HAN;
+        Piece elephant = new Piece(team, PieceType.ELEPHANT);
+        Piece opponent = new Piece(opponentTeam, PieceType.ELEPHANT);
 
         Intersection from = new Intersection(start, elephant);
         Intersection middleIntersection1 = Intersection.empty(middlePoint1);

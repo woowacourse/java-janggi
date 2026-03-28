@@ -2,21 +2,13 @@ package domain.piece;
 
 import java.util.Objects;
 
-public abstract class Piece {
+public record Piece(
+        Team team,
+        PieceType pieceType
+) {
 
-    protected final Team team;
-    protected final PieceType pieceType;
-    // THINK
-    // protected final MoveRule moveRule;
-
-    protected Piece(Team team, PieceType pieceType) {
-        this.team = team;
-        this.pieceType = pieceType;
-    }
-
-    protected Piece(PieceType pieceType) {
-        this.team = null;
-        this.pieceType = pieceType;
+    public static Piece none() {
+        return new Piece(null, PieceType.NONE);
     }
 
     public boolean isSameTeam(Piece other) {
@@ -37,9 +29,7 @@ public abstract class Piece {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
         return pieceType == piece.pieceType;
     }

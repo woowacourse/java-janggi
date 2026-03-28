@@ -5,7 +5,8 @@ import domain.board.JanggiBoard;
 import domain.board.JanggiGenerator;
 import domain.fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
-import domain.piece.General;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class BoardTest {
     @Test
     void 장기판_기물_배치를_테스트한다() {
         Point point = new Point(1, 4);
-        General general = new General(Team.HAN);
+        Piece general = new Piece(Team.HAN, PieceType.GENERAL);
         Intersection actualIntersection = new Intersection(point, general);
         TestIntersectionGenerator testIntersectionGenerator = new TestIntersectionGenerator(
                 Arrays.asList(actualIntersection));
