@@ -2,8 +2,8 @@ package view;
 
 import model.board.Board;
 import model.board.Country;
-import model.position.Position;
 import model.pieces.Piece;
+import model.position.Position;
 
 public class OutputView {
     private static final String LEFT_CROSS_LINE = "├";
@@ -57,11 +57,11 @@ public class OutputView {
 
     private static void printBoardLine(int row, int col) {
         if (col == 1) {
-            System.out.printf(String.format("%-2s",leftLine(row)));
+            System.out.printf(String.format("%-2s", leftLine(row)));
             return;
         }
         if (col == 9) {
-            System.out.printf(String.format("%-2s",rightLine(row)));
+            System.out.printf(String.format("%-2s", rightLine(row)));
             return;
         }
 

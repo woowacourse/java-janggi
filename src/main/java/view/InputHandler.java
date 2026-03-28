@@ -4,7 +4,8 @@ import java.util.function.Supplier;
 
 public class InputHandler {
 
-    private InputHandler() {}
+    private InputHandler() {
+    }
 
     public static <T> T retry(Supplier<T> supplier) {
         while (true) {

@@ -1,7 +1,6 @@
 package model.position;
 
 import model.board.Country;
-import model.move.Direction;
 
 public record Row(int value) {
     private static final int HAN_EDGE = 1;

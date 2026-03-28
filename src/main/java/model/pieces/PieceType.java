@@ -1,6 +1,13 @@
 package model.pieces;
 
-import model.move.*;
+import model.move.CannonMoveRule;
+import model.move.ChariotMoveRule;
+import model.move.ElephantMoveRule;
+import model.move.GeneralMoveRule;
+import model.move.GuardMoveRule;
+import model.move.HorseMoveRule;
+import model.move.MoveRule;
+import model.move.SoldierMoveRule;
 
 public enum PieceType {
     CHARIOT("차", new ChariotMoveRule()),

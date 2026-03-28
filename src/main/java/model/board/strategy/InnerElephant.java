@@ -3,10 +3,10 @@ package model.board.strategy;
 import model.board.Board;
 import model.board.Country;
 import model.board.HorseElephantStrategy;
-import model.position.Position;
-import model.position.Row;
 import model.pieces.Elephant;
 import model.pieces.Horse;
+import model.position.Position;
+import model.position.Row;
 
 public class InnerElephant implements HorseElephantStrategy {
     @Override

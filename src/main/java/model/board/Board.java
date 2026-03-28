@@ -1,10 +1,9 @@
 package model.board;
 
-import model.move.Move;
-import model.pieces.Piece;
-
 import java.util.HashMap;
 import java.util.Map;
+import model.move.Move;
+import model.pieces.Piece;
 import model.position.Position;
 
 public class Board {

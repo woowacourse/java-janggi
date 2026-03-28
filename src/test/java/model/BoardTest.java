@@ -8,9 +8,15 @@ import model.board.Country;
 import model.board.strategy.InnerElephant;
 import model.board.strategy.OuterElephant;
 import model.move.Move;
-import model.pieces.*;
+import model.pieces.Cannon;
+import model.pieces.Chariot;
+import model.pieces.Elephant;
+import model.pieces.General;
+import model.pieces.Guard;
+import model.pieces.Horse;
+import model.pieces.Piece;
+import model.pieces.Soldier;
 import model.position.Position;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

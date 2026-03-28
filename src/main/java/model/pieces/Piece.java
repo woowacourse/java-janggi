@@ -1,7 +1,6 @@
 package model.pieces;
 
 import java.util.Objects;
-
 import model.board.Board;
 import model.board.Country;
 import model.move.Move;

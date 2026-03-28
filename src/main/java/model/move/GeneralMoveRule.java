@@ -1,9 +1,10 @@
 package model.move;
 
-import model.policy.*;
-
-import java.util.ArrayList;
 import java.util.List;
+import model.policy.DefaultDestinationPolicy;
+import model.policy.DefaultPathPolicy;
+import model.policy.DestinationPolicy;
+import model.policy.PathPolicy;
 
 public class GeneralMoveRule extends MoveRule {
 

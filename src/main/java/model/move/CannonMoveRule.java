@@ -1,9 +1,11 @@
 package model.move;
 
-import model.policy.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import model.policy.CannonDestinationPolicy;
+import model.policy.CannonPathPolicy;
+import model.policy.DestinationPolicy;
+import model.policy.PathPolicy;
 
 public class CannonMoveRule extends MoveRule {
 
