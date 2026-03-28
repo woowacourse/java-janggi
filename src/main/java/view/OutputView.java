@@ -29,12 +29,12 @@ public class OutputView {
         System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자, 영어만 사용):");
     }
 
-    public void printChoiceChoElephantSetupPrompt() {
+    public void printChooseChoElephantSetupPrompt() {
         System.out.println("초나라 플레이어가 사용할 상차림 번호를 입력하세요");
         printElephantSetups();
     }
 
-    public void printChoiceHanElephantSetupPrompt() {
+    public void printChooseHanElephantSetupPrompt() {
         System.out.println("한나라 플레이어가 사용할 상차림 번호를 입력하세요");
         printElephantSetups();
     }
@@ -127,5 +127,37 @@ public class OutputView {
         }
 
         return RED_CODE;
+    }
+
+    public void printChoosePieceToMovePrompt(List<Map.Entry<Position, PieceInfoDto>> pieces) {
+        System.out.println("현재 보드 움직일 기물을 선택하세요:");
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < pieces.size(); i++) {
+            Position pos = pieces.get(i).getKey();
+            PieceInfoDto pieceInfo = pieces.get(i).getValue();
+            builder.append(i + 1).append(". ")
+                    .append(pieceInfo.pieceType()).append("(")
+                    .append(pos.column()).append(", ").append(pos.row()).append(") ");
+        }
+        System.out.println(builder);
+    }
+
+    public void printInvalidNumberInput() {
+        System.out.println("잘못된 번호 입력입니다. 다시 입력하세요.");
+    }
+
+    public void printNoMovablePositionMessage() {
+        System.out.println("해당 기물은 이동할 수 있는 곳이 없습니다. 기물을 다시 선택해주세요.");
+    }
+
+    public void printChoosePositionToMovePrompt(List<Position> movablePositions) {
+        System.out.println("해당 기물이 이동할 위치의 번호를 입력하세요:");
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < movablePositions.size(); i++) {
+            Position pos = movablePositions.get(i);
+            builder.append(i + 1).append(". (")
+                    .append(pos.column()).append(", ").append(pos.row()).append(") ");
+        }
+        System.out.println(builder);
     }
 }

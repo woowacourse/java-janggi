@@ -15,4 +15,12 @@ public class InputView {
         String setup = SCANNER.nextLine();
         return ElephantSetup.of(Integer.parseInt(setup));
     }
+
+    public int readPieceNumber() {
+        return Integer.parseInt(SCANNER.nextLine().trim());
+    }
+
+    public int readPositionNumber() {
+        return Integer.parseInt(SCANNER.nextLine().trim());
+    }
 }

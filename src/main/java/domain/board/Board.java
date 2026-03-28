@@ -3,9 +3,11 @@ package domain.board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import domain.piece.Team;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -72,12 +74,46 @@ public class Board {
     }
 
 
-    public PieceInfosDto getPieceInfos() {
+    public PieceInfosDto getAllPieceInfos() {
         Map<Position, PieceInfoDto> pieceInfos = pieces.entrySet().stream()
                 .collect(Collectors.toMap(
                         Entry::getKey,
                         entry -> PieceInfoDto.from(entry.getValue())
                 ));
         return PieceInfosDto.of(pieceInfos);
+    }
+
+    public PieceInfosDto getPieceInfosBy(Team team) {
+        Map<Position, PieceInfoDto> piecesByTeam = pieces.entrySet().stream()
+                .filter(entry -> entry.getValue().getTeam() == team)
+                .collect(Collectors.toMap(
+                        Entry::getKey,
+                        entry -> PieceInfoDto.from(entry.getValue())
+                ));
+
+        return PieceInfosDto.of(piecesByTeam);
+    }
+
+    public List<Position> getMovablePositions(Position position) {
+        Piece piece = pieces.get(position);
+        if (piece == null) {
+            return List.of();
+        }
+        return piece.calculateMovablePositions(position, pieces);
+    }
+
+    public void move(Position from, Position to, Team currentTeam) {
+        Piece piece = pieces.get(from);
+        if (piece == null || piece.getTeam() != currentTeam) {
+            throw new IllegalArgumentException("해당 위치에 움직일 수 있는 기물이 없습니다.");
+        }
+        
+        List<Position> movablePositions = getMovablePositions(from);
+        if (!movablePositions.contains(to)) {
+            throw new IllegalArgumentException("올바르지 않은 이동입니다.");
+        }
+        
+        pieces.remove(from);
+        pieces.put(to, piece);
     }
 }

@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import domain.piece.Team;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,7 @@ class BoardTest {
         Board board = Board.init(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
 
         // when
-        PieceInfosDto pieceInfos = board.getPieceInfos();
+        PieceInfosDto pieceInfos = board.getAllPieceInfos();
 
         // then
         assertThat(pieceInfos.pieceInfos()).containsAllEntriesOf(Map.ofEntries(
@@ -60,5 +62,29 @@ class BoardTest {
                 Map.entry(Position.of(4, 7), PieceInfoDto.from(Piece.hanPieceOf(PieceType.SOLDIER))),
                 Map.entry(Position.of(4, 9), PieceInfoDto.from(Piece.hanPieceOf(PieceType.SOLDIER)))
         ));
+    }
+
+    @Test
+    @DisplayName("기물 이동 위치 계산 테스트")
+    public void getMovablePositionsTest() {
+        Board board = Board.init(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
+        Position from = Position.of(7, 1);
+        List<Position> movablePositions = board.getMovablePositions(from);
+
+        assertThat(movablePositions).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("기물 이동 테스트")
+    public void moveTest() {
+        Board board = Board.init(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
+        Position from = Position.of(7, 1);
+        Position to = Position.of(8, 1);
+
+        board.move(from, to, Team.CHO);
+
+        PieceInfosDto infos = board.getAllPieceInfos();
+        assertThat(infos.pieceInfos().get(from)).isNull();
+        assertThat(infos.pieceInfos().get(to)).isNotNull();
     }
 }

@@ -9,6 +9,7 @@ import domain.movestrategy.HorseMoveStrategy;
 import domain.movestrategy.MoveStrategy;
 import domain.movestrategy.SoldierMoveStrategy;
 import java.util.List;
+import java.util.Map;
 
 public enum PieceType {
 
@@ -73,5 +74,9 @@ public enum PieceType {
             return nameOfCho;
         }
         return nameOfHan;
+    }
+
+    public List<Position> calculateMovablePositions(Position current, Map<Position, Piece> pieces) {
+        return moveStrategy.calculateMovablePositions(current, pieces);
     }
 }

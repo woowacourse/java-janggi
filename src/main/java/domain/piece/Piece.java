@@ -3,6 +3,9 @@ package domain.piece;
 import static domain.piece.Team.CHO;
 import static domain.piece.Team.HAN;
 
+import java.util.List;
+import java.util.Map;
+
 public class Piece {
 
     private final Team team;
@@ -39,5 +42,9 @@ public class Piece {
 
     public String getPieceTypeNameBy(Team team) {
         return pieceType.getNameOf(team);
+    }
+
+    public List<Position> calculateMovablePositions(Position current, Map<Position, Piece> pieces) {
+        return pieceType.calculateMovablePositions(current, pieces);
     }
 }
