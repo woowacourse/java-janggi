@@ -96,7 +96,7 @@ class ChaTest {
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
-            int gapSize = departure.row() - destination.row() - 1;
+            int gapSize = departure.row().index() - destination.row().index() - 1;
             assertThat(moveContext.pathPositions()).hasSize(gapSize);
         }
 
@@ -163,8 +163,8 @@ class ChaTest {
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveForward());
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveForward().moveForward());
+            assertThat(pathPositions.get(0)).isEqualTo(departure.moveForward(side   ));
+            assertThat(pathPositions.get(1)).isEqualTo(departure.moveForward(side).moveForward(side));
         }
 
         @Test
@@ -178,8 +178,8 @@ class ChaTest {
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveBack());
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveBack().moveBack());
+            assertThat(pathPositions.get(0)).isEqualTo(departure.moveBack(side));
+            assertThat(pathPositions.get(1)).isEqualTo(departure.moveBack(side).moveBack(side));
         }
 
         @Test
@@ -193,8 +193,8 @@ class ChaTest {
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveLeft());
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveLeft().moveLeft());
+            assertThat(pathPositions.get(0)).isEqualTo(departure.moveLeft(side));
+            assertThat(pathPositions.get(1)).isEqualTo(departure.moveLeft(side).moveLeft(side));
         }
 
         @Test
@@ -208,8 +208,8 @@ class ChaTest {
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveRight());
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveRight().moveRight());
+            assertThat(pathPositions.get(0)).isEqualTo(departure.moveRight(side));
+            assertThat(pathPositions.get(1)).isEqualTo(departure.moveRight(side).moveRight(side));
         }
     }
 

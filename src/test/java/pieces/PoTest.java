@@ -96,7 +96,7 @@ class PoTest {
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
-            int gapSize = Math.abs(departure.row() - destination.row()) - 1;
+            int gapSize = Math.abs(departure.row().index() - destination.row().index()) - 1;
             assertThat(moveContext.pathPositions()).hasSize(gapSize);
         }
 

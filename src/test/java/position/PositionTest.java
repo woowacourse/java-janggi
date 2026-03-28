@@ -24,7 +24,7 @@ class PositionTest {
             // when
             Position after = before.moveForward(side);
             // then
-            assertThat(after.row()).isEqualTo(before.row() + ONE_SPACE);
+            assertThat(after.row().index()).isEqualTo(before.row().index() + ONE_SPACE);
         }
 
         @Test
@@ -35,7 +35,7 @@ class PositionTest {
             // when
             Position after = before.moveBack(side);
             // then
-            assertThat(after.row()).isEqualTo(before.row() - ONE_SPACE);
+            assertThat(after.row().index()).isEqualTo(before.row().index() - ONE_SPACE);
         }
 
         @Test
@@ -46,7 +46,7 @@ class PositionTest {
             // when
             Position after = before.moveLeft(side);
             // then
-            assertThat(after.column()).isEqualTo(before.column() - ONE_SPACE);
+            assertThat(after.column().index()).isEqualTo(before.column().index() - ONE_SPACE);
         }
 
         @Test
@@ -57,7 +57,7 @@ class PositionTest {
             // when
             Position after = before.moveRight(side);
             // then
-            assertThat(after.column()).isEqualTo(before.column() + ONE_SPACE);
+            assertThat(after.column().index()).isEqualTo(before.column().index() + ONE_SPACE);
         }
     }
 
@@ -73,7 +73,7 @@ class PositionTest {
             // when
             Position after = before.moveForward(side);
             // then
-            assertThat(after.row()).isEqualTo(before.row() - ONE_SPACE);
+            assertThat(after.row().index()).isEqualTo(before.row().index() - ONE_SPACE);
         }
 
         @Test
@@ -84,7 +84,7 @@ class PositionTest {
             // when
             Position after = before.moveBack(side);
             // then
-            assertThat(after.row()).isEqualTo(before.row() + ONE_SPACE);
+            assertThat(after.row().index()).isEqualTo(before.row().index() + ONE_SPACE);
         }
 
         @Test
@@ -95,7 +95,7 @@ class PositionTest {
             // when
             Position after = before.moveLeft(side);
             // then
-            assertThat(after.column()).isEqualTo(before.column() + ONE_SPACE);
+            assertThat(after.column().index()).isEqualTo(before.column().index() + ONE_SPACE);
         }
 
         @Test
@@ -106,7 +106,7 @@ class PositionTest {
             // when
             Position after = before.moveRight(side);
             // then
-            assertThat(after.column()).isEqualTo(before.column() - ONE_SPACE);
+            assertThat(after.column().index()).isEqualTo(before.column().index() - ONE_SPACE);
         }
     }
 }

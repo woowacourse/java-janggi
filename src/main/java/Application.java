@@ -1,7 +1,6 @@
-package core;
-
 import board.InnerSangSetup;
 import board.LeftSangSetup;
+import core.JanggiGame;
 import position.Position;
 
 public class Application {

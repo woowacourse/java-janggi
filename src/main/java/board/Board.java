@@ -26,6 +26,11 @@ public record Board(Map<Position, Piece> pieces) {
         return new Board(merged);
     }
 
+    public void validateDeparturePieceSide(Position departure, Turn turn) {
+        Piece piece = pieces.get(departure);
+        turn.validateSide(piece);
+    }
+
     public Board move(Position departure, Position destination, Turn turn) {
         Piece departurePiece = pieces.get(departure);
         Piece destinationPiece = pieces.get(destination);
@@ -44,24 +49,19 @@ public record Board(Map<Position, Piece> pieces) {
         pathRule.validatePathPieces(pathPieces);
     }
 
-    private void validateDestination(FullPiece departurePiece, Piece destinationPiece,
-                                     DestinationRule destinationRule) {
-        destinationRule.validateDestination(departurePiece, destinationPiece);
-    }
-
     private List<Piece> getPathPieces(List<Position> pathPositions) {
         return pathPositions.stream()
             .map(pieces::get)
             .toList();
     }
 
+    private void validateDestination(FullPiece departurePiece, Piece destinationPiece,
+                                     DestinationRule destinationRule) {
+        destinationRule.validateDestination(departurePiece, destinationPiece);
+    }
+
     private void movePiece(Position departure, Position destination, FullPiece departurePiece) {
         pieces.put(departure, new EmptyPiece());
         pieces.put(destination, departurePiece);
-    }
-
-    public void validateDeparturePieceSide(Position departure, Turn turn) {
-        Piece piece = pieces.get(departure);
-        turn.validateSide(piece);
     }
 }

@@ -5,7 +5,6 @@ import java.util.Objects;
 import movepolicy.MoveContext;
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.PathRule;
-import participant.Turn;
 import position.Position;
 
 public abstract class FullPiece implements Piece {
@@ -40,12 +39,11 @@ public abstract class FullPiece implements Piece {
 
     public abstract boolean isPo();
 
-    protected final boolean isHan() {
-        return side.isHan();
-    }
-
-    protected final boolean isCho() {
-        return side.isCho();
+    public final boolean isSameSide(Side side) {
+        if (isHan() && side.isHan()) {
+            return true;
+        }
+        return isCho() && side.isCho();
     }
 
     public final boolean isSameSide(FullPiece destinationPiece) {
@@ -55,11 +53,12 @@ public abstract class FullPiece implements Piece {
         return isCho() && destinationPiece.isCho();
     }
 
-    public final boolean isSameSide(Side side) {
-        if (isHan() && side.isHan()) {
-            return true;
-        }
-        return isCho() && side.isCho();
+    protected final boolean isHan() {
+        return side.isHan();
+    }
+
+    protected final boolean isCho() {
+        return side.isCho();
     }
 
     @Override
@@ -74,9 +73,5 @@ public abstract class FullPiece implements Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(side);
-    }
-
-    public boolean equalsSide(Turn turn) {
-        return turn.isMatchSide(side);
     }
 }

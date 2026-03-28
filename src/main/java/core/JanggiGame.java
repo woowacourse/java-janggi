@@ -8,6 +8,7 @@ import pieces.Side;
 import position.Position;
 
 public class JanggiGame {
+
     private final Board board;
     private Turn turn;
 
