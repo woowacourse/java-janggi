@@ -11,21 +11,21 @@ import java.util.Map;
 public class LeftSetUp implements BoardSetUp{
     @Override
     public Map<Point, Piece> generate(Side side) {
-        Map<Point, Piece> leftSetup = new HashMap<>();
+        Map<Point, Piece> setUp = createCommonBoard(side);
 
         if (side == Side.CHO){
-            leftSetup.put(new Point(0, 1), new Elephant(side));
-            leftSetup.put(new Point(0, 2), new Horse(side));
-            leftSetup.put(new Point(0, 6), new Elephant(side));
-            leftSetup.put(new Point(0, 7), new Horse(side));
+            setUp.put(new Point(0, 1), new Elephant(side));
+            setUp.put(new Point(0, 2), new Horse(side));
+            setUp.put(new Point(0, 6), new Elephant(side));
+            setUp.put(new Point(0, 7), new Horse(side));
         }
 
         if(side == Side.HAN){
-            leftSetup.put(new Point(9, 7), new Elephant(side));
-            leftSetup.put(new Point(9, 6), new Horse(side));
-            leftSetup.put(new Point(9, 2), new Elephant(side));
-            leftSetup.put(new Point(9, 1), new Horse(side));
+            setUp.put(new Point(9, 7), new Elephant(side));
+            setUp.put(new Point(9, 6), new Horse(side));
+            setUp.put(new Point(9, 2), new Elephant(side));
+            setUp.put(new Point(9, 1), new Horse(side));
         }
-        return leftSetup;
+        return setUp;
     }
 }

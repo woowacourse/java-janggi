@@ -3,72 +3,59 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.board.coordinate.Point;
-import janggi.domain.piece.unit.Advisor;
-import janggi.domain.piece.unit.Cannon;
-import janggi.domain.piece.unit.Chariot;
-import janggi.domain.piece.unit.General;
-import janggi.domain.piece.unit.Piece;
+import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
     @Test
-    @DisplayName("createCommonBoard(): 기본 장기판 생성")
-    void createCommonBoard() {
-        Map<Point, Piece> defaultBoard = createDefaultBoard();
+    @DisplayName("destinations(): Point에 있는 Piece의 모든 목적지를 리턴한다")
+    void destinations() {
+        BoardSetUp testSetUp = (side) -> Map.of(
+                new Point(0, 0),
+                new Soldier(Side.CHO),
+                new Point(1, 0),
+                new Soldier(Side.CHO),
+                new Point(0, 1),
+                new Soldier(Side.HAN));
 
-        BoardSetUp emptyBoardSetUp = (side) -> Collections.EMPTY_MAP;
+        BoardSetUp emptyBoardSetUp = (side) -> Collections.emptyMap();
+        Board board = Board.setUp(testSetUp, emptyBoardSetUp);
 
-        Map<Point, Piece> board = Board.setUp(emptyBoardSetUp, emptyBoardSetUp).getBoard();
+        Point from = new Point(0, 0);
+        Set<Point> destinations = board.destinations(from);
 
-        defaultBoard.forEach((key, value) -> {
-            assertThat(board.get(key)).isEqualTo(value);
-        });
+        assertThat(destinations.size()).isEqualTo(1);
+        assertThat(destinations).contains(new Point(0, 1));
     }
 
-    private Map<Point, Piece> createDefaultBoard() {
-        Map<Point, Piece> defaultBoard = new HashMap<>();
+    @Test
+    @DisplayName("moveTo(): Point from에서 Point to로 기물을 이동시킨다.")
+    void moveTo() {
+        BoardSetUp testSetUp = (side) -> Map.of(
+                new Point(0, 0),
+                new Soldier(Side.CHO),
+                new Point(1, 0),
+                new Soldier(Side.CHO),
+                new Point(0, 1),
+                new Soldier(Side.HAN));
 
-        defaultBoard.put(new Point(0, 0), new Chariot(Side.CHO));
-        defaultBoard.put(new Point(0, 3), new Advisor(Side.CHO));
-        defaultBoard.put(new Point(0, 5), new Advisor(Side.CHO));
-        defaultBoard.put(new Point(0, 8), new Chariot(Side.CHO));
+        BoardSetUp emptyBoardSetUp = (side) -> Collections.emptyMap();
 
-        defaultBoard.put(new Point(1, 4), new General(Side.CHO));
+        Board board = Board.setUp(testSetUp, emptyBoardSetUp);
 
-        defaultBoard.put(new Point(2, 1), new Cannon(Side.CHO));
-        defaultBoard.put(new Point(2, 7), new Cannon(Side.CHO));
+        board.moveTo(new Point(0,0), new Point(0,1));
 
-        defaultBoard.put(new Point(3, 0), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(3, 2), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(3, 4), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(3, 6), new Soldier(Side.CHO));
-        defaultBoard.put(new Point(3, 8), new Soldier(Side.CHO));
-
-        defaultBoard.put(new Point(6, 8), new Soldier(Side.HAN));
-        defaultBoard.put(new Point(6, 6), new Soldier(Side.HAN));
-        defaultBoard.put(new Point(6, 4), new Soldier(Side.HAN));
-        defaultBoard.put(new Point(6, 2), new Soldier(Side.HAN));
-        defaultBoard.put(new Point(6, 0), new Soldier(Side.HAN));
-
-        defaultBoard.put(new Point(7, 7), new Cannon(Side.HAN));
-        defaultBoard.put(new Point(7, 1), new Cannon(Side.HAN));
-
-        defaultBoard.put(new Point(8, 6), new General(Side.HAN));
-
-        defaultBoard.put(new Point(9, 8), new Chariot(Side.HAN));
-        defaultBoard.put(new Point(9, 5), new Advisor(Side.HAN));
-        defaultBoard.put(new Point(9, 3), new Advisor(Side.HAN));
-        defaultBoard.put(new Point(9, 0), new Chariot(Side.HAN));
-
-        return defaultBoard;
+        assertThat(board.getBoard().size()).isEqualTo(2);
+        assertThat(board.getBoard().containsKey(new Point(0,0))).isFalse();
     }
+
+
 }

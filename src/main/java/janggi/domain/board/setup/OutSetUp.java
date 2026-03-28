@@ -5,27 +5,26 @@ import janggi.domain.piece.unit.Elephant;
 import janggi.domain.piece.unit.Horse;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
-import java.util.HashMap;
 import java.util.Map;
 
-public class OutSetUp implements BoardSetUp{
+public class OutSetUp implements BoardSetUp {
     @Override
     public Map<Point, Piece> generate(Side side) {
-        Map<Point, Piece> leftSetup = new HashMap<>();
+        Map<Point, Piece> setup = createCommonBoard(side);
 
-        if (side == Side.CHO){
-            leftSetup.put(new Point(0, 1), new Elephant(side));
-            leftSetup.put(new Point(0, 2), new Horse(side));
-            leftSetup.put(new Point(0, 6), new Horse(side));
-            leftSetup.put(new Point(0, 7), new Elephant(side));
+        if (side == Side.CHO) {
+            setup.put(new Point(0, 1), new Elephant(side));
+            setup.put(new Point(0, 2), new Horse(side));
+            setup.put(new Point(0, 6), new Horse(side));
+            setup.put(new Point(0, 7), new Elephant(side));
         }
 
-        if(side == Side.HAN){
-            leftSetup.put(new Point(9, 7), new Elephant(side));
-            leftSetup.put(new Point(9, 6), new Horse(side));
-            leftSetup.put(new Point(9, 2), new Horse(side));
-            leftSetup.put(new Point(9, 1), new Elephant(side));
+        if (side == Side.HAN) {
+            setup.put(new Point(9, 7), new Elephant(side));
+            setup.put(new Point(9, 6), new Horse(side));
+            setup.put(new Point(9, 2), new Horse(side));
+            setup.put(new Point(9, 1), new Elephant(side));
         }
-        return leftSetup;
+        return setup;
     }
 }
