@@ -15,11 +15,13 @@ public class OutputView {
     }
 
     public static void printGameStatus(GameStatusInfo status) {
+        System.out.println();
         status.pieces().stream()
                 .map(row -> row.stream()
                         .map(OutputView::formatPiece)
                         .toList())
                 .forEach(System.out::println);
+        System.out.println();
     }
 
     private static String formatPiece(PieceInfo piece) {

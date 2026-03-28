@@ -17,12 +17,13 @@ public class InputView {
     }
 
     private static String readFromPoint() {
-        System.out.println("움직일 기물의 출발지를 입력해 주세요 : ");
+        System.out.println("움직일 기물의 출발지를 입력해 주세요 (예 : 1,2) : ");
         return Console.readLine();
     }
 
     private static String readToPoint() {
-        System.out.println("움직일 기물의 도착지를 입력해 주세요 : ");
+        System.out.println();
+        System.out.println("움직일 기물의 도착지를 입력해 주세요 (예 : 1,4) : ");
         return Console.readLine();
     }
 }
