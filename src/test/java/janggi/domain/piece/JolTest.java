@@ -18,7 +18,7 @@ public class JolTest {
         Point to = Point.of(3,2);
 
         // when & then
-        assertThatThrownBy(() -> piece.getRoute(from, to))
+        assertThatThrownBy(() -> piece.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -31,7 +31,7 @@ public class JolTest {
         Point to = Point.of(3,4);
 
         // when & then
-        assertThatThrownBy(() -> piece.getRoute(from, to))
+        assertThatThrownBy(() -> piece.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -44,7 +44,7 @@ public class JolTest {
         Point to = Point.of(7, 1);
 
         // when & then
-        assertThatThrownBy(() -> jol.getRoute(from, to))
+        assertThatThrownBy(() -> jol.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

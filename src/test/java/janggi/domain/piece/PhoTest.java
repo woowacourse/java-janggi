@@ -5,10 +5,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.point.Point;
+import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,10 +42,10 @@ public class PhoTest {
         Point to = Point.of(x, y);
 
         // when
-        Route route = pho.getRoute(from, to);
+        Points points = pho.getRoutePoints(from, to);
 
         // then
-        assertThat(route.getRoutes().size()).isEqualTo(result);
+        assertThat(points.getPoints().size()).isEqualTo(result);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class PhoTest {
         Point to = Point.of(1, 1);
 
         // when & then
-        assertThatThrownBy(() -> pho.getRoute(from, to))
+        assertThatThrownBy(() -> pho.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -70,11 +70,11 @@ public class PhoTest {
         Point to = Point.of(1, 3);
 
         // when
-        Route route = pho.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
+        Points points = pho.getRoutePoints(from, to);
+        Route route = board.getRoute(points);
 
         // then
-        assertThat(pho.canMove(pieces)).isTrue();
+        assertThat(pho.canMove(route)).isTrue();
     }
 
     @Test
@@ -86,11 +86,11 @@ public class PhoTest {
         Point to = Point.of(1, 4);
 
         // when
-        Route route = pho.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
+        Points points = pho.getRoutePoints(from, to);
+        Route route = board.getRoute(points);
 
         // then
-        assertThat(pho.canMove(pieces)).isFalse();
+        assertThat(pho.canMove(route)).isFalse();
     }
 
     @Test
@@ -102,8 +102,8 @@ public class PhoTest {
         Point to = Point.of(1, 7);
 
         // when
-        Route route = pho.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
+        Points points = pho.getRoutePoints(from, to);
+        Route pieces = board.getRoute(points);
 
         // then
         assertThat(pho.canMove(pieces)).isFalse();

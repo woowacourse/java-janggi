@@ -18,7 +18,7 @@ public class SaTest {
         Point to = Point.of(7, 1);
 
         // when & then
-        assertThatThrownBy(() -> sa.getRoute(from, to))
+        assertThatThrownBy(() -> sa.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

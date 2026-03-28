@@ -18,7 +18,7 @@ public class JangTest {
         Point to = Point.of(7, 1);
 
         // when & then
-        assertThatThrownBy(() -> jang.getRoute(from, to))
+        assertThatThrownBy(() -> jang.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
