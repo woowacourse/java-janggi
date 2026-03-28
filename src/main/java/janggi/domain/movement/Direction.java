@@ -2,7 +2,6 @@ package janggi.domain.movement;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 public final class Direction {
@@ -16,7 +15,7 @@ public final class Direction {
     static {
         CACHE = new LinkedHashMap<>();
         IntStream.range(MINIMUM_COLUMN_DIRECTION, MAXIMUM_COLUMN_DIRECTION + 1)
-            .forEach(rowDirection -> CACHE.put(rowDirection, new LinkedHashMap<>()));
+                .forEach(rowDirection -> CACHE.put(rowDirection, new LinkedHashMap<>()));
     }
 
     private final int rowDirection;
@@ -41,16 +40,15 @@ public final class Direction {
     private static void validateRowDirectionRange(final int rowDirection) {
         if (rowDirection < MINIMUM_ROW_DIRECTION || rowDirection > MAXIMUM_ROW_DIRECTION) {
             throw new IllegalArgumentException(String.format(
-                "행 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_ROW_DIRECTION, MAXIMUM_ROW_DIRECTION));
+                    "행 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_ROW_DIRECTION, MAXIMUM_ROW_DIRECTION));
         }
     }
 
     private static void validateColumnDirectionRange(final int columnDirection) {
         if (columnDirection < MINIMUM_COLUMN_DIRECTION
-            || columnDirection > MAXIMUM_COLUMN_DIRECTION) {
+                || columnDirection > MAXIMUM_COLUMN_DIRECTION) {
             throw new IllegalArgumentException(String.format(
-                "행 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_COLUMN_DIRECTION,
-                MAXIMUM_COLUMN_DIRECTION));
+                    "열 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_COLUMN_DIRECTION, MAXIMUM_COLUMN_DIRECTION));
         }
     }
 
