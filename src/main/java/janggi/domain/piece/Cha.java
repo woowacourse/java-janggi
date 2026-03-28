@@ -8,6 +8,9 @@ import java.util.List;
 
 public class Cha extends Piece {
 
+    private static final int MIN_STEP = 1;
+    private static final int NO_MOVE = 0;
+
     public Cha(Team team) {
         super(team, PieceType.CHA);
     }
@@ -25,7 +28,7 @@ public class Cha extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        if (dx != 0) {
+        if (dx != NO_MOVE) {
             List<Position> positions = getHorizontalPath(from, dx);
             return new Path(positions);
         }
@@ -36,7 +39,7 @@ public class Cha extends Piece {
 
     private List<Position> getHorizontalPath(Position from, int dx) {
         List<Position> positions = new ArrayList<>();
-        for (int i = 1; i < dx; i++) {
+        for (int i = MIN_STEP; i < dx; i++) {
             positions.add(new Position(from.x() + i, from.y()));
         }
         return positions;
@@ -44,7 +47,7 @@ public class Cha extends Piece {
 
     private List<Position> getVerticalPath(Position from, int dy) {
         List<Position> positions = new ArrayList<>();
-        for (int i = 1; i < dy; i++) {
+        for (int i = MIN_STEP; i < dy; i++) {
             positions.add(new Position(from.x(), from.y() + i));
         }
         return positions;
@@ -54,7 +57,7 @@ public class Cha extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        return (Math.abs(dx) == 0 && Math.abs(dy) > 0) ||
-                (Math.abs(dx) > 0 && Math.abs(dy) == 0);
+        return (Math.abs(dx) == NO_MOVE && Math.abs(dy) > NO_MOVE) ||
+            (Math.abs(dx) > NO_MOVE && Math.abs(dy) == NO_MOVE);
     }
 }

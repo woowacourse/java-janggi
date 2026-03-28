@@ -6,6 +6,9 @@ import janggi.domain.Team;
 
 public class King extends Piece {
 
+    private static final int STEP = 1;
+    private static final int NO_MOVE = 0;
+
     public King(Team team) {
         super(team, PieceType.KING);
     }
@@ -27,7 +30,7 @@ public class King extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        return (Math.abs(dx) == 0 && Math.abs(dy) == 1) ||
-                (Math.abs(dx) == 1 && Math.abs(dy) == 0);
+        return (Math.abs(dx) == NO_MOVE && Math.abs(dy) == STEP) ||
+            (Math.abs(dx) == STEP && Math.abs(dy) == NO_MOVE);
     }
 }

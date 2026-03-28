@@ -8,6 +8,9 @@ import java.util.List;
 
 public class Ma extends Piece {
 
+    private static final int SHORT_STEP = 1;
+    private static final int LONG_STEP = 2;
+
     public Ma(Team team) {
         super(team, PieceType.MA);
     }
@@ -34,7 +37,7 @@ public class Ma extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        return (Math.abs(dx) == 1 && Math.abs(dy) == 2) ||
-            (Math.abs(dx) == 2 && Math.abs(dy) == 1);
+        return (Math.abs(dx) == SHORT_STEP && Math.abs(dy) == LONG_STEP) ||
+            (Math.abs(dx) == LONG_STEP && Math.abs(dy) == SHORT_STEP);
     }
 }

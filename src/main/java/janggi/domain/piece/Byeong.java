@@ -6,6 +6,11 @@ import janggi.domain.Team;
 
 public class Byeong extends Piece {
 
+    private static final int STEP = 1;
+    private static final int HAN_STEP = -1 * STEP;
+    private static final int CHO_STEP = STEP;
+    private static final int NO_MOVE = 0;
+
     public Byeong(Team team) {
         super(team, PieceType.BYEONG);
     }
@@ -24,31 +29,21 @@ public class Byeong extends Piece {
     }
 
     private boolean isValidMovePattern(Position from, Position to) {
-        return xMoveStrategy(from, to) || HanYMoveStrategy(from, to) || ChoYMoveStrategy(from, to);
-    }
-
-    private boolean xMoveStrategy(Position from, Position to) {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        return Math.abs(dx) == 1 && Math.abs(dy) == 0;
+        return xMoveStrategy(dx, dy) || HanYMoveStrategy(dx, dy) || ChoYMoveStrategy(dx, dy);
     }
 
-    private boolean HanYMoveStrategy(Position from, Position to) {
-        int dx = from.deltaX(to);
-        int dy = from.deltaY(to);
-
-        return Math.abs(dx) == 0 &&
-            dy == -1 &&
-            this.isEqualTeam(Team.HAN);
+    private boolean xMoveStrategy(int dx, int dy) {
+        return Math.abs(dx) == STEP && Math.abs(dy) == NO_MOVE;
     }
 
-    private boolean ChoYMoveStrategy(Position from, Position to) {
-        int dx = from.deltaX(to);
-        int dy = from.deltaY(to);
+    private boolean HanYMoveStrategy(int dx, int dy) {
+        return Math.abs(dx) == NO_MOVE && dy == HAN_STEP && this.isEqualTeam(Team.HAN);
+    }
 
-        return Math.abs(dx) == 0 &&
-            dy == +1 &&
-            this.isEqualTeam(Team.CHO);
+    private boolean ChoYMoveStrategy(int dx, int dy) {
+        return Math.abs(dx) == NO_MOVE && dy == CHO_STEP && this.isEqualTeam(Team.CHO);
     }
 }

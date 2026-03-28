@@ -9,6 +9,10 @@ import java.util.List;
 
 public class Pho extends Piece {
 
+    private static final int MIN_STEP = 2;
+    private static final int NO_MOVE = 0;
+    private static final int BLOCKING_PIECE_COUNT = 1;
+
     public Pho(Team team) {
         super(team, PieceType.PHO);
     }
@@ -33,7 +37,7 @@ public class Pho extends Piece {
 
     @Override
     public void validateRoutes(List<Piece> pieces) {
-        if (pieces.size() != 1) {
+        if (pieces.size() != BLOCKING_PIECE_COUNT) {
             throw new IllegalArgumentException("포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
         }
 
@@ -44,7 +48,7 @@ public class Pho extends Piece {
 
     private boolean isContainsPho(List<Piece> pieces) {
         return pieces.stream()
-                .anyMatch(piece -> piece.isSameType(this));
+            .anyMatch(piece -> piece.isSameType(this));
     }
 
     @Override
@@ -52,7 +56,7 @@ public class Pho extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        if (dx != 0) {
+        if (dx != NO_MOVE) {
             List<Position> positions = getHorizontalPath(from, dx);
             return new Path(positions);
         }
@@ -63,7 +67,7 @@ public class Pho extends Piece {
 
     private List<Position> getHorizontalPath(Position from, int dx) {
         List<Position> positions = new ArrayList<>();
-        for (int i = 2; i < dx; i++) {
+        for (int i = MIN_STEP; i < dx; i++) {
             positions.add(new Position(from.x() + i, from.y()));
         }
         return positions;
@@ -71,7 +75,7 @@ public class Pho extends Piece {
 
     private List<Position> getVerticalPath(Position from, int dy) {
         List<Position> positions = new ArrayList<>();
-        for (int i = 2; i < dy; i++) {
+        for (int i = MIN_STEP; i < dy; i++) {
             positions.add(new Position(from.x(), from.y() + i));
         }
         return positions;
@@ -81,7 +85,7 @@ public class Pho extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        return (Math.abs(dx) == 0 && Math.abs(dy) > 1) ||
-                (Math.abs(dx) > 1 && Math.abs(dy) == 0);
+        return (Math.abs(dx) == NO_MOVE && Math.abs(dy) >= MIN_STEP) ||
+            (Math.abs(dx) >= MIN_STEP && Math.abs(dy) == NO_MOVE);
     }
 }
