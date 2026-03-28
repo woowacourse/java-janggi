@@ -95,4 +95,8 @@ public class Board {
                 .toList();
     }
 
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
+    }
+
 }

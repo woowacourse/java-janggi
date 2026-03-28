@@ -6,12 +6,22 @@ import static org.assertj.core.api.Assertions.*;
 
 import domain.piece.Piece;
 import domain.strategy.HorseMoveStrategy;
+import factory.JanggiBoardFactory;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
+
+    @Test
+    @DisplayName("JanggiGame은 생성 시 보드를 초기화하여 생성한다")
+    void initial_Board_test() {
+        JanggiBoardFactory janggiBoardFactory = new JanggiBoardFactory();
+        JanggiGame janggiGame = new JanggiGame(Board.of(janggiBoardFactory.initialBoard()));
+
+        assertThat(janggiGame.getBoard()).hasSize(90);
+    }
 
     @Test
     @DisplayName("플레이어가 선택한 기물 위치에 플레이어 소유의 기물이 존재하는지")
@@ -79,4 +89,5 @@ class JanggiGameTest {
 
         assertThat(janggiGame.isGameFinished()).isTrue();
     }
+
 }

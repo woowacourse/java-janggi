@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.Piece;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -62,12 +63,12 @@ public class JanggiGame {
     }
 
     private void validateOwnPieceExistsAt(Position selectPosition) {
-        if (piecesInfo().stream().map(Piece::position).noneMatch(position -> position.equals(selectPosition))) {
+        if (playerPiecesInfo().stream().map(Piece::position).noneMatch(position -> position.equals(selectPosition))) {
             throw new IllegalArgumentException();
         }
     }
 
-    public List<Piece> piecesInfo() {
+    public List<Piece> playerPiecesInfo() {
         if (gameStatus.equals(GameStatus.GREEN_PLAYER_TURN)) {
             return board.greenPieces();
         }
@@ -75,4 +76,7 @@ public class JanggiGame {
         return board.redPieces();
     }
 
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board.getBoard());
+    }
 }

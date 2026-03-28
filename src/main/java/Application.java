@@ -1,5 +1,15 @@
-public class Application {
-    public static void main(String[] args) {
+import controller.JanggiController;
+import domain.Board;
+import domain.JanggiGame;
+import factory.JanggiBoardFactory;
 
+public class Application {
+
+    public static void main(String[] args) {
+        JanggiBoardFactory janggiBoardFactory = new JanggiBoardFactory();
+        JanggiGame janggiGame = new JanggiGame(Board.of(janggiBoardFactory.initialBoard()));
+        JanggiController janggiController = new JanggiController(janggiGame);
+
+        janggiController.run();
     }
 }

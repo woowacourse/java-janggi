@@ -15,40 +15,41 @@ public class JanggiController {
 
     public void run() {
         while (!janggiGame.isGameFinished()) {
-            playGame();
+//            playGame();
         }
 
         String s = janggiGame.gameStatus();
         System.out.println(s);
     }
 
-    private void playGame() {
-        OutputView.printBoard(janggiGame.allFactors());
-        OutputView.printCurrentPlayerTurn(janggiGame.currnetPlayerTurn());
-        execute(this::playerPhase);
-    }
-
-    private void playerPhase() {
-        String input = InputView.selectPiecePosition();
-        String[] split = input.split(", ");
-        Position selected = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-
-        input = InputView.selectTargerPosition();
-        split = input.split(", ");
-        Position target = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-
-        janggiGame.move(selected, target);
-    }
-
-
-    private void execute(ExecutableTask task) {
-        while (true) {
-            try {
-                task.execute();
-                return;
-            } catch (IllegalArgumentException e) {
-                e.getMessage();
-            }
-        }
-    }
+//    private void playGame() {
+//        janggiGame.
+//        OutputView.printBoard(janggiGame.allFactors());
+//        OutputView.printCurrentPlayerTurn(janggiGame.currnetPlayerTurn());
+//        execute(this::playerPhase);
+//    }
+//
+//    private void playerPhase() {
+//        String input = InputView.selectPiecePosition();
+//        String[] split = input.split(", ");
+//        Position selected = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+//
+//        input = InputView.selectTargerPosition();
+//        split = input.split(", ");
+//        Position target = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+//
+//        janggiGame.move(selected, target);
+//    }
+//
+//
+//    private void execute(ExecutableTask task) {
+//        while (true) {
+//            try {
+//                task.execute();
+//                return;
+//            } catch (IllegalArgumentException e) {
+//                e.getMessage();
+//            }
+//        }
+//    }
 }
