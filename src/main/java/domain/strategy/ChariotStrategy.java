@@ -21,23 +21,23 @@ public class ChariotStrategy implements MoveStrategy {
     }
 
     private void addPathCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidatePositions) {
-        Position next = currentPosition;
+        Position next = getNext(currentPosition, direction);
 
-        while (true) {
-            int nextRows = next.getRows() + direction.getRowOffset();
-            int nextColumns = next.getColumns() + direction.getColOffset();
-
-            if (nextRows < 0 || nextRows >= 10 || nextColumns < 0 || nextColumns >= 9) {
+        while (isWithinBoard(next)) {
+            candidatePositions.add(next);
+            if (!board.isBlank(next)) {
                 break;
             }
-
-            next = new Position(nextRows, nextColumns);
-            if (board.isBlank(next)) {
-                candidatePositions.add(next);
-                continue;
-            }
-            candidatePositions.add(next);
-            break;
+            next = getNext(next, direction); // 다음 칸으로 갱신
         }
+    }
+
+    private Position getNext(Position position, Direction direction) {
+        return new Position(position.getRows() + direction.getRowOffset(), position.getColumns() + direction.getColOffset());
+    }
+
+    private boolean isWithinBoard(Position position) {
+        return position.getRows() >= 0 && position.getRows() < 10 &&
+                position.getColumns() >= 0 && position.getColumns() < 9;
     }
 }
