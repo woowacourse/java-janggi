@@ -9,6 +9,7 @@ import janggi.domain.piece.PieceType;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board implements BoardInterface {
     private static final String INVALID_PIECE_SIDE_MESSAGE = "자기 진영의 기물만 움직일 수 있습니다.";
@@ -41,11 +42,8 @@ public class Board implements BoardInterface {
     @Override
     public PieceInfo[][] getCurrentBoard() {
         PieceInfo[][] currentBoard = new PieceInfo[10][9];
-        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-            currentBoard[position.x() - 1][position.y() - 1] = piece.getPieceInfo();
-        }
+
+        board.forEach((position, piece) -> currentBoard[position.x() - 1][position.y() - 1] = piece.getPieceInfo());
         return currentBoard;
     }
 
@@ -54,11 +52,16 @@ public class Board implements BoardInterface {
         if (!piece.isEqualSide(side)) {
             throw new IllegalArgumentException(INVALID_PIECE_SIDE_MESSAGE);
         }
-        List<Position> route = piece.findRoute(start, end);
 
+        List<Position> route = piece.findRoute(start, end);
         piece.validateRoute(route, this);
+
+        movePiece(start, end, piece);
+        return true;
+    }
+
+    private void movePiece(Position start, Position end, Piece piece) {
         board.put(end, piece);
         board.put(start, new None());
-        return true;
     }
 }
