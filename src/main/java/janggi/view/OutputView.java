@@ -23,6 +23,10 @@ public class OutputView {
         System.out.println();
     }
 
+    public void printErrorMessage(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
     public void printBoard(BoardDto boardDto) {
         String[][] boardView = generateBoardView(boardDto);
 
