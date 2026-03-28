@@ -9,8 +9,6 @@ import util.InputParser;
 public class InputView {
     private final Scanner scanner;
     private static final int CHOICE_START_NUMBER = 1;
-    private static final int MASANG_CHOICE__END_NUMBER = 4;
-
 
     public InputView(Scanner scanner) {
         this.scanner = scanner;

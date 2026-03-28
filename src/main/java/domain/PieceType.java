@@ -58,11 +58,6 @@ public enum PieceType {
         return name;
     }
 
-    public List<Position> getAllPosition() {
-        List<Position> allPosition = new ArrayList<>(choPosition);
-        allPosition.addAll(hanPosition);
-        return allPosition;
-    }
 
     public List<Position> getChoPosition() {
         return choPosition;

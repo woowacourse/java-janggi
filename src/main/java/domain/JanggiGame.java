@@ -25,8 +25,4 @@ public class JanggiGame {
     public Country getCountry() {
         return state.getCountry();
     }
-
-    public Map<Position, Piece> getBoard() {
-        return board.getBoard();
-    }
 }

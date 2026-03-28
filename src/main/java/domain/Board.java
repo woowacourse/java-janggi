@@ -114,10 +114,6 @@ public class Board {
         return positions;
     }
 
-    public Map<Position, Piece> getBoard() {
-        return Collections.unmodifiableMap(board);
-    }
-
     private Piece createPiece(PieceType type, Country country) {
         return switch (type) {
             case CHA -> new Cha(country);

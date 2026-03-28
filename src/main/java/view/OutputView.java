@@ -9,6 +9,7 @@ import service.dto.PositionDto;
 
 public class OutputView {
     public static final String PREFEIX_ERROR_MESSAGE = "[ERROR]";
+
     private final OutputViewFormatter formatter;
 
     public OutputView(OutputViewFormatter formatter) {
@@ -17,10 +18,6 @@ public class OutputView {
 
     public void printGameStartMessage() {
         System.out.println("우테코 장기 게임입니다.");
-    }
-
-    public void printEndMessage() {
-        System.out.println("게임을 종료합니다.");
     }
 
     public void printErrorMessage(String message) {

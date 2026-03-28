@@ -26,14 +26,6 @@ public class Position {
         }
     }
 
-    public Position getNextUpDownPosition(){
-        return new Position(x+1, y);
-    }
-
-    public Position getNextLeftRightPosition(){
-        return new Position(x, y+1);
-    }
-
     public int getX() {
         return x;
     }
