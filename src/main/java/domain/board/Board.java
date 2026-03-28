@@ -20,9 +20,14 @@ public class Board implements PathChecker {
         return findBy(position).camp();
     }
 
+    public Optional<Piece> findPiece(Position position) {
+        return Optional.ofNullable(board.get(position));
+    }
+
     @Override
     public boolean isTargetType(Position position, PieceType pieceType) {
         Piece piece = board.get(position);
+
         if (piece == null) {
             return false;
         }
@@ -45,6 +50,7 @@ public class Board implements PathChecker {
         if (piece == null) {
             throw new NoSuchElementException(NO_PIECE_EXIST_ERROR_MESSAGE);
         }
+
         return piece;
     }
 

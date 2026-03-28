@@ -46,6 +46,5 @@ public enum PieceType {
         }
     };
 
-
     public abstract MoveStrategy createStrategy();
 }

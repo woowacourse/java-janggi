@@ -13,7 +13,7 @@ public class CannonStrategy implements MoveStrategy {
     private static final String ANOTHER_CANNON_IS_EXISTS_ON_PATH_ERROR_MESSAGE =
             "[ERROR] 포 이동 경로 상에 포가 존재하여 움직일 수 없습니다.";
     private static final String CANNON_CANNOT_CAPTURE_CANNON_ERROR_MESSAGE =
-            "[ERROR] 포는 포를 잡을 수 없습니다.";w
+            "[ERROR] 포는 포를 잡을 수 없습니다.";
 
     @Override
     public void move(Position from, Position to, PathChecker pathChecker) {

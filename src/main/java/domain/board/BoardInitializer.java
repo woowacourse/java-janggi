@@ -117,6 +117,7 @@ public class BoardInitializer {
         if (camp == Camp.CHO) {
             return TOTAL_Y_COORDINATE - defaultHanY;
         }
+
         return defaultHanY;
     }
 
@@ -124,6 +125,7 @@ public class BoardInitializer {
         if (camp == Camp.HAN) {
             return pieceTypes.reversed();
         }
+
         return pieceTypes;
     }
 }
