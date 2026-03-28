@@ -24,19 +24,6 @@ public class PositionTest {
                 .hasMessage("잘못된 좌표입니다.");
     }
 
-    @DisplayName("정해진 범위 내에 있는 position을 찾는다면 올바른 Position 객체를 반환한다")
-    @ParameterizedTest
-    @CsvSource({
-            "0, 0",
-            "9, 8"
-    })
-    void of_WithinASetRangePosition_ReturnCorrectObjects(int row, int column) {
-        Position result = Position.of(row, column);
-
-        assertThat(result.row()).isEqualTo(row);
-        assertThat(result.column()).isEqualTo(column);
-    }
-
     @Test
     void 정해진_범위_내로_움직이면_올바른_Position_객체를_반환한다(){
         Position current = Position.of(4, 4);

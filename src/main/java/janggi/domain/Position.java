@@ -46,12 +46,4 @@ public class Position {
     private boolean isSameLocation(int row, int column) {
         return this.row == row && this.column == column;
     }
-
-    public int row() {
-        return row;
-    }
-
-    public int column() {
-        return column;
-    }
 }
