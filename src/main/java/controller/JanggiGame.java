@@ -48,8 +48,7 @@ public class JanggiGame {
         retry(() -> {
             Command command = requestCommand(team);
             janggiBoard.tryToMove(command.start(), command.end(), team);
-            JanggiBoardView boardView = JanggiBoardView.from(janggiBoard);
-            printJanggiBoard(boardView);
+            printJanggiBoard(JanggiBoardView.from(janggiBoard));
         });
     }
 
