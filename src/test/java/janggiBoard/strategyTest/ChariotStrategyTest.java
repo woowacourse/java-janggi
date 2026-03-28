@@ -4,7 +4,7 @@ import domain.Position;
 import domain.piece.Blank;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
-import domain.strategy.CarStrategy;
+import domain.strategy.ChariotStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,12 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChariotStrategyTest {
 
-    private CarStrategy carStrategy;
+    private ChariotStrategy chariotStrategy;
     private TestPieceProvider testBoard;
 
     @BeforeEach
     void setUp() {
-        carStrategy = new CarStrategy();
+        chariotStrategy = new ChariotStrategy();
         testBoard = new TestPieceProvider();
     }
 
@@ -30,7 +30,7 @@ public class ChariotStrategyTest {
         Position position = new Position(5, 4);
         testBoard.setAllBlank();
 
-        List<Position> candidates = carStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = chariotStrategy.getMoveCandidates(position, testBoard);
 
         assertThat(candidates).hasSize(17);
         assertThat(candidates).contains(new Position(0, 4),
@@ -47,7 +47,7 @@ public class ChariotStrategyTest {
         Position obstacle = new Position(3, 4);
         testBoard.setBlank(obstacle);
 
-        List<Position> candidates = carStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = chariotStrategy.getMoveCandidates(position, testBoard);
 
         assertThat(candidates).contains(new Position(4, 4), new Position(3, 4));
         assertThat(candidates).doesNotContain(new Position(2, 4),

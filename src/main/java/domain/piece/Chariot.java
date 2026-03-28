@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
-import domain.strategy.CarStrategy;
+import domain.strategy.ChariotStrategy;
 import domain.strategy.MoveStrategy;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class Chariot extends Piece {
 
     public Chariot(Team team) {
         super(team);
-        this.moveStrategy = new CarStrategy();
+        this.moveStrategy = new ChariotStrategy();
     }
 
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {

@@ -6,7 +6,7 @@ import domain.piece.PieceProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarStrategy implements MoveStrategy {
+public class ChariotStrategy implements MoveStrategy {
 
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
