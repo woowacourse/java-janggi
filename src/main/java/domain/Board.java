@@ -40,4 +40,8 @@ public class Board {
         Piece targetPiece = findPieceByPosition(to).get();
         return currentPiece.isAnotherTeam(targetPiece);
     }
+
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
+    }
 }

@@ -26,7 +26,15 @@ public class Piece {
         return type;
     }
 
+    public String getTypeName() {
+        return type.getName();
+    }
+
     public Team getTeam() {
         return team;
+    }
+
+    public String getTeamName() {
+        return team.getName();
     }
 }
