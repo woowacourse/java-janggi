@@ -24,6 +24,14 @@ public class OutputView {
         System.out.println();
     }
 
+    public static void printPositionInfo() {
+        System.out.println("행은 위에서 아래로, 열은 왼쪽에서 오른쪽으로 순번이 매겨집니다.");
+    }
+
+    public static void printPositionCountry(Country country) {
+        System.out.printf("%s나라의 순서입니다.\n", country.color() + country.title() + Country.RESET);
+    }
+
     public static void printBoard(Board board) {
         for (int row = 1; row <= 10; row++) {
             printColumn(row, board);
