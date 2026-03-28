@@ -10,7 +10,7 @@ import java.util.List;
 
 import static domain.move.directions.Vector.*;
 
-public class GuardMoveRule extends MoveRule{
+public class GuardMoveRule extends MoveRule {
 
     public GuardMoveRule() {
         super(PieceType.GUARD, initializeDirections());

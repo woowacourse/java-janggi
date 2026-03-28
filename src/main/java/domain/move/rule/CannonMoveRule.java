@@ -12,7 +12,7 @@ import static domain.move.directions.Vector.*;
 import static domain.move.directions.Vector.LEFT;
 import static domain.move.directions.Vector.RIGHT;
 
-public class CannonMoveRule extends MoveRule{
+public class CannonMoveRule extends MoveRule {
 
     public CannonMoveRule() {
         super(PieceType.CANNON, initializeDirections());

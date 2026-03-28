@@ -12,7 +12,7 @@ import domain.piece.PieceType;
 import domain.point.Point;
 import java.util.List;
 
-public class ChariotMoveRule extends MoveRule{
+public class ChariotMoveRule extends MoveRule {
 
     public ChariotMoveRule() {
         super(PieceType.CHARIOT, initializeDirections());
@@ -25,7 +25,8 @@ public class ChariotMoveRule extends MoveRule{
 
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return directions.findPoints(from, to);    }
+        return directions.findPoints(from, to);
+    }
 
     @Override
     public boolean checkMoveRule(Intersection from, List<Intersection> path) {

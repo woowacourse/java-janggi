@@ -13,7 +13,7 @@ import static domain.move.directions.Vector.LEFT;
 import static domain.move.directions.Vector.RIGHT;
 import static domain.move.directions.Vector.UP;
 
-public class GeneralMoveRule extends MoveRule{
+public class GeneralMoveRule extends MoveRule {
 
     public GeneralMoveRule() {
         super(PieceType.GENERAL, initializeDirections());
