@@ -47,11 +47,8 @@ public class Piece {
     }
 
     private static MoveStrategy createMoveStrategy(PieceType pieceType) {
-        MoveStrategy moveStrategy = MOVE_STRATEGIES.get(pieceType);
-        if (moveStrategy != null) {
-            return moveStrategy;
-        }
-        throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
+        return Optional.ofNullable(MOVE_STRATEGIES.get(pieceType))
+                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 기물 타입입니다."));
     }
 
     private static Map<PieceType, MoveStrategy> createMoveStrategies() {

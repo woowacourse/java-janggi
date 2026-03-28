@@ -8,6 +8,7 @@ import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class OutputView {
 
@@ -58,7 +59,7 @@ public class OutputView {
             StringBuilder line = new StringBuilder();
             line.append(String.format("%2d │", row));
             for (int column = 0; column <= 8; column++) {
-                Piece piece = board.findPiece(Position.of(row, column)).orElse(null);
+                Optional<Piece> piece = board.findPiece(Position.of(row, column));
                 line.append(" ").append(formatBoardCell(piece)).append(" │");
             }
             System.out.println(line);
@@ -77,13 +78,14 @@ public class OutputView {
         System.out.println("[ERROR] " + message);
     }
 
-    private String formatBoardCell(Piece piece) {
-        if (piece == null) {
+    private String formatBoardCell(Optional<Piece> piece) {
+        if (piece.isEmpty()) {
             return "  ";
         }
-        String symbol = formatBoardSymbol(piece);
+        Piece actualPiece = piece.get();
+        String symbol = formatBoardSymbol(actualPiece);
 
-        if (piece.getTeamColor() == TeamColor.CHO) {
+        if (actualPiece.getTeamColor() == TeamColor.CHO) {
             return CHO_COLOR + symbol + RESET;
         }
         return HAN_COLOR + symbol + RESET;
