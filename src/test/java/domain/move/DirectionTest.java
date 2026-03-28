@@ -1,4 +1,4 @@
-package domain;
+package domain.move;
 
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;

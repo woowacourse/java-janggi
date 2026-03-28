@@ -1,8 +1,5 @@
-package domain;
+package domain.piece;
 
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

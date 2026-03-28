@@ -1,9 +1,6 @@
-package domain;
+package domain.board;
 
-import domain.board.Formation;
-import domain.board.JanggiBoard;
-import domain.board.JanggiGenerator;
-import domain.fixture.TestIntersectionGenerator;
+import fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.Piece;
 import domain.piece.PieceType;

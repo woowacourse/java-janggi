@@ -1,4 +1,4 @@
-package domain.rule;
+package domain.move.rule;
 
 import domain.intersection.Intersection;
 import domain.piece.Piece;
