@@ -12,10 +12,6 @@ public class Directions {
         this.directions = directions;
     }
 
-    public List<Direction> getDirections() {
-        return Collections.unmodifiableList(directions);
-    }
-
     public List<Point> findPoints(Point from, Point to) {
         for (Direction direction : directions) {
             if (direction.canReach(from, to)) {
