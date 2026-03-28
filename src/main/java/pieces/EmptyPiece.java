@@ -1,9 +1,19 @@
 package pieces;
 
-import movepolicy.MoveContext;
-import position.Position;
+public final class EmptyPiece implements Piece {
 
-public record EmptyPiece() implements Piece {
+    private static EmptyPiece EMPTY_PIECE;
+
+    private EmptyPiece() {
+    }
+
+    public static EmptyPiece getInstance() {
+        if (EMPTY_PIECE == null) {
+            EMPTY_PIECE = new EmptyPiece();
+            return EMPTY_PIECE;
+        }
+        return EMPTY_PIECE;
+    }
 
     @Override
     public boolean isEmpty() {
@@ -11,7 +21,7 @@ public record EmptyPiece() implements Piece {
     }
 
     @Override
-    public MoveContext askMoveContext(Position departure, Position destination) {
+    public FullPiece asFullPiece() {
         throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
     }
 }

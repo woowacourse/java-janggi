@@ -27,7 +27,7 @@ class JanggiGameTest {
 
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(departure, hanPiece);
-        pieces.put(destination, new EmptyPiece());
+        pieces.put(destination, EmptyPiece.getInstance());
 
         Turn choTurn = new ChoTurn();
         JanggiGame janggiGame = new JanggiGame(new Board(pieces), choTurn);
@@ -45,7 +45,7 @@ class JanggiGameTest {
 
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(departure, choPiece);
-        pieces.put(destination, new EmptyPiece());
+        pieces.put(destination, EmptyPiece.getInstance());
 
         Turn hanTurn = new HanTurn();
         JanggiGame janggiGame = new JanggiGame(new Board(pieces), hanTurn);
@@ -66,9 +66,9 @@ class JanggiGameTest {
 
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(choDeparture, choPiece);
-        pieces.put(choDestination, new EmptyPiece());
+        pieces.put(choDestination, EmptyPiece.getInstance());
         pieces.put(hanDeparture, hanPiece);
-        pieces.put(hanDestination, new EmptyPiece());
+        pieces.put(hanDestination, EmptyPiece.getInstance());
 
         Turn choTurn = new ChoTurn();
         JanggiGame janggiGame = new JanggiGame(new Board(pieces), choTurn);
@@ -89,7 +89,7 @@ class JanggiGameTest {
 
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(departure, choPiece);
-        pieces.put(destination, new EmptyPiece());
+        pieces.put(destination, EmptyPiece.getInstance());
         // when
         JanggiGame janggiGame = new JanggiGame(new Board(pieces));
         // then

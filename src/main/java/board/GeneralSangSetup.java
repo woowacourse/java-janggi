@@ -14,7 +14,7 @@ import position.Position;
 
 public abstract class GeneralSangSetup implements SangSetup {
 
-    private final static Piece EMPTY_PIECE = new EmptyPiece();
+    private final static Piece EMPTY_PIECE = EmptyPiece.getInstance();
 
     @Override
     public Board initialize(Side side) {

@@ -19,7 +19,7 @@ import position.Position;
 
 class InnerSangSetupTest {
 
-    private final static Piece EMPTY_PIECE = new EmptyPiece();
+    private final static Piece EMPTY_PIECE = EmptyPiece.getInstance();
 
     @Test
     void 한나라진영이_안상차림으로_초기화한다() {
