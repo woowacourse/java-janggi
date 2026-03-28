@@ -12,12 +12,11 @@ public class Directions {
     }
 
     public List<Point> findPoints(Point from, Point to){
-        for(Direction direction : directions){
-            if(direction.canReach(from, to)){
-                return direction.getPoints(from);
-            }
-        }
-        throw new IllegalArgumentException();
+        return directions.stream()
+                .filter(direction -> direction.canReach(from, to))
+                .findFirst()
+                .map(direction -> direction.getPoints(from))
+                .orElseThrow(IllegalArgumentException::new);
     }
 
 }
