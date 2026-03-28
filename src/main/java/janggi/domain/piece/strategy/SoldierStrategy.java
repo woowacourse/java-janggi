@@ -26,7 +26,7 @@ public class SoldierStrategy implements MoveStrategy {
     }
 
     private void addPath(List<Path> paths, Position current, int destRow, int destCol) {
-        Position.findPosition(current.row() + destRow, current.column() + destCol)
+        current.move(destRow, destCol)
                 .map(dest -> new Path(List.of(), dest))
                 .ifPresent(paths::add);
     }

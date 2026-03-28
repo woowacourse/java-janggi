@@ -3,27 +3,32 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Path;
 import janggi.domain.Position;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HorseStrategy implements MoveStrategy{
     @Override
     public List<Path> findMovablePaths(Position current) {
-        return List.of(
-                new Path(List.of(Position.of(current.row() + 1, current.column())),
-                        Position.of(current.row() + 2, current.column() + 1)),
-                new Path(List.of(Position.of(current.row(), current.column() + 1)),
-                        Position.of(current.row() + 1, current.column() + 2)),
-                new Path(List.of(Position.of(current.row(), current.column() + 1)),
-                        Position.of(current.row() - 1, current.column() + 2)),
-                new Path(List.of(Position.of(current.row() - 1, current.column())),
-                        Position.of(current.row() - 2, current.column() + 1)),
-                new Path(List.of(Position.of(current.row() + 1, current.column())),
-                        Position.of(current.row() + 2, current.column() - 1)),
-                new Path(List.of(Position.of(current.row(), current.column() - 1)),
-                        Position.of(current.row() + 1, current.column() - 2)),
-                new Path(List.of(Position.of(current.row(), current.column() - 1)),
-                        Position.of(current.row() - 1, current.column() - 2)),
-                new Path(List.of(Position.of(current.row() - 1, current.column())),
-                        Position.of(current.row() - 2, current.column() - 1)));
+        List<Path> paths = new ArrayList<>();
+
+        addPath(paths, current, 1, 0, 2, 1);
+        addPath(paths, current, 0, 1, 1, 2);
+        addPath(paths, current, 0, 1, -1, 2);
+        addPath(paths, current, -1, 0, -2, 1);
+        addPath(paths, current, 1, 0, 2, -1);
+        addPath(paths, current, 0, -1, 1, -2);
+        addPath(paths, current, 0, -1, -1, -2);
+        addPath(paths, current, -1, 0, -2, -1);
+
+        return Collections.unmodifiableList(paths);
+    }
+
+    private void addPath(List<Path> paths, Position current,
+                         int routeRow, int routeCol, int destRow, int destCol) {
+        current.move(routeRow, routeCol)
+                .flatMap(route -> current.move(destRow, destCol)
+                        .map(dest -> new Path(List.of(route), dest)))
+                .ifPresent(paths::add);
     }
 }
