@@ -53,7 +53,7 @@ public class InsideTableSetting extends BoardInitializerWithConst {
 
     @Override
     protected Map<Position, AbstractGimul> initSang() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
 
         Sang cho = new Sang(Team.CHO);
         Sang han = new Sang(Team.HAN);

@@ -34,7 +34,7 @@ public class OutsideTableSetting extends BoardInitializerWithConst {
 
     @Override
     protected Map<Position, AbstractGimul> initMa() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
 
         Ma cho = new Ma(Team.CHO);
         Ma han = new Ma(Team.HAN);

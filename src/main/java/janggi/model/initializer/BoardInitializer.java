@@ -9,7 +9,7 @@ import java.util.Map;
 public abstract class BoardInitializer {
 
     public Board init() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
 
         board.putAll(initCha());
         board.putAll(initMa());

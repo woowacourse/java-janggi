@@ -68,7 +68,7 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
 
     @Override
     protected Map<Position, AbstractGimul> initCha() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
 
         Cha cho = new Cha(Team.CHO);
         Cha han = new Cha(Team.HAN);
