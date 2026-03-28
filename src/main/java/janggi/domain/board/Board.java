@@ -38,14 +38,12 @@ public class Board implements BoardChecker {
         return false;
     }
 
-    public Map<Position, Piece> movePiece(Position source, Position destination, Camp turn) {
+    public void movePiece(Position source, Position destination, Camp turn) {
         validateCampTurn(source, turn);
         Piece piece = board.get(source);
         piece.validateMove(source, destination, this);
         board.put(destination, piece);
         board.remove(source);
-
-        return Map.copyOf(board);
     }
 
     public void validateCampTurn(Position source, Camp turn) {
