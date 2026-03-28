@@ -32,7 +32,7 @@ public class Board implements BoardInterface {
 
     @Override
     public boolean isPo(Position position) {
-        return board.get(position).isEqualPieceType(PieceType.PO);
+        return board.get(position).isPo();
     }
 
     @Override
