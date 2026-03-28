@@ -2,9 +2,14 @@ package janggi.domain.piece;
 
 
 import janggi.domain.Camp;
+import janggi.domain.Position;
 import janggi.domain.piece.strategy.CannonStrategy;
+import janggi.domain.piece.strategy.ElephantStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,5 +20,41 @@ public class CannonTest {
     void isCannon_Always_ReturnTrue() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
         assertThat(piece.isCannon()).isTrue();
+    }
+
+    @DisplayName("이동 경로에 기물이 없으면 False를 반환한다")
+    @Test
+    void moveRoute_PieceInPathSizeIsZero_ReturnFalse() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        Map<Position, Piece> pieceInPath = new HashMap<>();
+        assertThat(piece.moveRoute(pieceInPath)).isFalse();
+    }
+
+    @DisplayName("이동 경로에 기물이 2개 이상이면 False를 반환한다")
+    @Test
+    void moveRoute_PieceInPathSizeOverTwo_Return_ReturnFalse() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        Map<Position, Piece> pieceInPath = new HashMap<>();
+        pieceInPath.put(Position.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
+        pieceInPath.put(Position.of(3, 4), new Elephant(Camp.CHO, new ElephantStrategy()));
+        assertThat(piece.moveRoute(pieceInPath)).isFalse();
+    }
+
+    @DisplayName("이동 경로에 포가 있으면 False를 반환한다")
+    @Test
+    void moveRoute_PieceInPathIsCannon_ReturnFalse() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        Map<Position, Piece> pieceInPath = new HashMap<>();
+        pieceInPath.put(Position.of(3, 3), new Cannon(Camp.CHO, new CannonStrategy()));
+        assertThat(piece.moveRoute(pieceInPath)).isFalse();
+    }
+
+    @DisplayName("이동 경로에 기물이 1개이고, 그 기물이 포가 아니면 True를 반환한다")
+    @Test
+    void moveRoute_PieceInPathNotCannon_ReturnTrue() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        Map<Position, Piece> pieceInPath = new HashMap<>();
+        pieceInPath.put(Position.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
+        assertThat(piece.moveRoute(pieceInPath)).isTrue();
     }
 }
