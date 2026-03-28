@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameOverTest {
-    
+
     @DisplayName("게임 종료 시 턴을 수행하고자 하면 예외 발생한다.")
     @Test
     void play() {
@@ -21,7 +21,7 @@ class GameOverTest {
                 .hasMessage("게임 종료 후 턴을 수행할 수 없습니다.");
     }
 
-    @DisplayName("게임이 아직 끝나지 않았다.")
+    @DisplayName("게임 종료된 상태이면 true를 반환한다.")
     @Test
     void isGameOver() {
         assertThat(new GameOver().isGameOver())

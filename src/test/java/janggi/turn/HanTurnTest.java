@@ -57,7 +57,7 @@ class HanTurnTest {
                 .isInstanceOf(ChoTurn.class);
     }
 
-    @DisplayName("게임이 아직 끝나지 않았다.")
+    @DisplayName("게임 진행 중인 상티이면 False를 반환한다.")
     @Test
     void isGameOver() {
         assertThat(new HanTurn(new Board(new HashMap<>())).isGameOver())
