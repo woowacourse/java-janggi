@@ -1,6 +1,7 @@
 package controller;
 
 import domain.Position;
+import domain.Turn;
 import domain.activePiece.ActivePiece;
 import domain.board.LeftGwimaFactory;
 import domain.board.RightGwimaFactory;
@@ -35,18 +36,24 @@ public class JanggiController {
 
         board.putAll(choBoard);
         board.putAll(hanBoard);
-        // 초기화된 보드 출력
         outputView.printBoard(board);
-        // 기물 이동 <-> 보드 출력 반복
-        // 이동 위치 입력 받기
-        List<String> movePositions = inputView.askMovePiecePoisiton(Team.CHO);
+
+        Turn turn = Turn.first();
+        while (true) {
+            turn = playTurn(board, turn);
+        }
+    }
+
+    private Turn playTurn(Map<Position, Piece> board, Turn turn) {
+        List<String> movePositions = inputView.askMovePiecePoisiton(turn.current());
         Position src = Position.from(movePositions.get(0), movePositions.get(1));
         Position dest = Position.from(movePositions.get(2), movePositions.get(3));
         if (board.get(src).canMove(src, dest)) {
             ActivePiece piece = (ActivePiece) board.get(src);
             List<Position> routes = piece.searchRoute(src, dest);
-            //checkRoute(piece, routes);
         }
+        outputView.printBoard(board);
+        return turn.next();
     }
 
     private Map<Position, Piece> initialBoard(int input, Team team) {
