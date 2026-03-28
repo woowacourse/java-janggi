@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
-import static janggi.domain.direction.Direction.*;
+import static janggi.domain.rule.route.Direction.*;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.direction.Route;
+import janggi.domain.rule.route.Route;
 import java.util.List;
 
 public class Ma extends Piece {

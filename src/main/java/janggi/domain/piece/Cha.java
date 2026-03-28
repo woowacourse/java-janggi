@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.direction.RouteProvider;
-import janggi.domain.direction.StraightRouteProvider;
+import janggi.domain.rule.route.RouteProvider;
+import janggi.domain.rule.route.StraightRouteProvider;
 import java.util.List;
 
 public class Cha extends Piece {

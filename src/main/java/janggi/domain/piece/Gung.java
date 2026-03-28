@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.direction.RouteProvider;
-import janggi.domain.direction.GungSeongRouteProvider;
+import janggi.domain.rule.route.RouteProvider;
+import janggi.domain.rule.route.GungSeongRouteProvider;
 import java.util.List;
 
 public class Gung extends Piece {

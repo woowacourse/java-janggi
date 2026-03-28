@@ -1,17 +1,17 @@
 package janggi.domain.piece;
 
-import static janggi.domain.direction.Direction.BACK;
-import static janggi.domain.direction.Direction.BACK_LEFT;
-import static janggi.domain.direction.Direction.BACK_RIGHT;
-import static janggi.domain.direction.Direction.FRONT;
-import static janggi.domain.direction.Direction.FRONT_LEFT;
-import static janggi.domain.direction.Direction.FRONT_RIGHT;
-import static janggi.domain.direction.Direction.LEFT;
-import static janggi.domain.direction.Direction.RIGHT;
+import static janggi.domain.rule.route.Direction.BACK;
+import static janggi.domain.rule.route.Direction.BACK_LEFT;
+import static janggi.domain.rule.route.Direction.BACK_RIGHT;
+import static janggi.domain.rule.route.Direction.FRONT;
+import static janggi.domain.rule.route.Direction.FRONT_LEFT;
+import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
+import static janggi.domain.rule.route.Direction.LEFT;
+import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.direction.Route;
+import janggi.domain.rule.route.Route;
 import java.util.List;
 
 public class Sang extends Piece {

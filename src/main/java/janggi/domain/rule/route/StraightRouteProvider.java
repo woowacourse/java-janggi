@@ -1,9 +1,9 @@
-package janggi.domain.direction;
+package janggi.domain.rule.route;
 
-import static janggi.domain.direction.Direction.BACK;
-import static janggi.domain.direction.Direction.FRONT;
-import static janggi.domain.direction.Direction.LEFT;
-import static janggi.domain.direction.Direction.RIGHT;
+import static janggi.domain.rule.route.Direction.BACK;
+import static janggi.domain.rule.route.Direction.FRONT;
+import static janggi.domain.rule.route.Direction.LEFT;
+import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
 import java.util.List;
