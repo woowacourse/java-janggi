@@ -10,7 +10,8 @@ import movepolicy.destination.BasicDestinationRule;
 import movepolicy.path.EmptyPathRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import position.Position;
 
 class ChaTest {
@@ -21,61 +22,71 @@ class ChaTest {
     @DisplayName("차의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
     class CanMove {
 
-        @Test
-        void 앞으로_여러_칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 앞으로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveForward(side).moveForward(side);
+            Position destination = departure
+                .move(side.forwardDelta())
+                .move(side.forwardDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 뒤로_여러_칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 뒤로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveBack(side).moveBack(side);
+            Position destination = departure
+                .move(side.backDelta())
+                .move(side.backDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 좌로_여러_칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 좌로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveLeft(side).moveLeft(side);
+            Position destination = departure
+                .move(side.leftDelta())
+                .move(side.leftDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 우로_여러_칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 우로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRight(side).moveRight(side);
+            Position destination = departure
+                .move(side.rightDelta())
+                .move(side.rightDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 대각이_도착지인_경우_예외를_던진다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 대각이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRightForward(side);
+            Position destination = departure
+                .move(side.forwardDelta())
+                .move(side.rightDelta());
             // when & then
             assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -86,140 +97,169 @@ class ChaTest {
     @DisplayName("차의 이동 경로를 검증한다")
     class PathPosition {
 
-        @Test
-        void 출발지와_도착지_차이_만큼의_이동_경로가_존재한다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 출발지와_도착지_차이_만큼의_이동_경로가_존재한다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveBack(side).moveBack(side);
+            Position destination = departure
+                .move(side.backDelta())
+                .move(side.backDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
-            int gapSize = departure.row().index() - destination.row().index() - 1;
-            assertThat(moveContext.pathPositions()).hasSize(gapSize);
+            assertThat(moveContext.pathPositions()).hasSize(1);
         }
 
-        @Test
-        void 앞_1칸_차이인_경우_이동_경로는_존재하지_않는다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 앞_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveForward(side);
+            Position destination = departure.move(side.forwardDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             assertThat(moveContext.pathPositions()).hasSize(0);
         }
 
-        @Test
-        void _1칸_차이인_경우_이동_경로는_존재하지_않는다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 뒤_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveBack(side);
+            Position destination = departure.move(side.backDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             assertThat(moveContext.pathPositions()).hasSize(0);
         }
 
-        @Test
-        void 좌_1칸_차이인_경우_이동_경로는_존재하지_않는다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 좌_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveLeft(side);
+            Position destination = departure.move(side.leftDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             assertThat(moveContext.pathPositions()).hasSize(0);
         }
 
-        @Test
-        void 우_1칸_차이인_경우_이동_경로는_존재뒤지_않는다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 우_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRight(side);
+            Position destination = departure.move(side.rightDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             assertThat(moveContext.pathPositions()).hasSize(0);
         }
 
-        @Test
-        void 선으로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 앞으로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveForward(side).moveForward(side).moveForward(side);
+            Position destination = departure
+                .move(side.forwardDelta())
+                .move(side.forwardDelta())
+                .move(side.forwardDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveForward(side   ));
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveForward(side).moveForward(side));
+            assertThat(pathPositions.get(0)).isEqualTo(
+                departure.move(side.forwardDelta())
+            );
+            assertThat(pathPositions.get(1)).isEqualTo(
+                departure.move(side.forwardDelta()).move(side.forwardDelta())
+            );
         }
 
-        @Test
-        void 뒤로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 뒤로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveBack(side).moveBack(side).moveBack(side);
+            Position destination = departure
+                .move(side.backDelta())
+                .move(side.backDelta())
+                .move(side.backDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveBack(side));
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveBack(side).moveBack(side));
+            assertThat(pathPositions.get(0)).isEqualTo(
+                departure.move(side.backDelta())
+            );
+            assertThat(pathPositions.get(1)).isEqualTo(
+                departure.move(side.backDelta()).move(side.backDelta())
+            );
         }
 
-        @Test
-        void 좌로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 좌로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveLeft(side).moveLeft(side).moveLeft(side);
+            Position destination = departure
+                .move(side.leftDelta())
+                .move(side.leftDelta())
+                .move(side.leftDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveLeft(side));
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveLeft(side).moveLeft(side));
+            assertThat(pathPositions.get(0)).isEqualTo(
+                departure.move(side.leftDelta())
+            );
+            assertThat(pathPositions.get(1)).isEqualTo(
+                departure.move(side.leftDelta()).move(side.leftDelta())
+            );
         }
 
-        @Test
-        void 우로_여러_칸_차이인_경우의_이동_경로를_반환한다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 우로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Cha(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRight(side).moveRight(side).moveRight(side);
+            Position destination = departure
+                .move(side.rightDelta())
+                .move(side.rightDelta())
+                .move(side.rightDelta());
             // when
             MoveContext moveContext = piece.askMoveContext(departure, destination);
             // then
             List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(departure.moveRight(side));
-            assertThat(pathPositions.get(1)).isEqualTo(departure.moveRight(side).moveRight(side));
+            assertThat(pathPositions.get(0)).isEqualTo(
+                departure.move(side.rightDelta())
+            );
+            assertThat(pathPositions.get(1)).isEqualTo(
+                departure.move(side.rightDelta()).move(side.rightDelta())
+            );
         }
     }
 
-    @Test
-    void 차는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다() {
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 차는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Side side = Side.CHO;
         Piece piece = new Cha(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then
@@ -227,13 +267,13 @@ class ChaTest {
             .isInstanceOf(BasicDestinationRule.class);
     }
 
-    @Test
-    void 차는_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다() {
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 차는_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Side side = Side.CHO;
         Piece piece = new Cha(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then

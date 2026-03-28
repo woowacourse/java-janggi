@@ -14,7 +14,7 @@ import position.Position;
 
 class GungTest {
 
-    private static final Position DEFAULT = new Position(1, 1);
+    private static final Position DEFAULT = new Position(3, 3);
 
     @Nested
     @DisplayName("궁의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
@@ -26,7 +26,7 @@ class GungTest {
             Side side = Side.CHO;
             Piece piece = new Gung(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveForward(side);
+            Position destination = departure.move(side.forwardDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
@@ -38,7 +38,7 @@ class GungTest {
             Side side = Side.CHO;
             Piece piece = new Gung(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveBack(side);
+            Position destination = departure.move(side.backDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
@@ -50,7 +50,7 @@ class GungTest {
             Side side = Side.CHO;
             Piece piece = new Gung(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveLeft(side);
+            Position destination = departure.move(side.leftDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
@@ -62,7 +62,7 @@ class GungTest {
             Side side = Side.CHO;
             Piece piece = new Gung(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRight(side);
+            Position destination = departure.move(side.rightDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
@@ -74,7 +74,9 @@ class GungTest {
             Side side = Side.CHO;
             Piece piece = new Gung(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveForward(side).moveForward(side);
+            Position destination = departure
+                .move(side.forwardDelta())
+                .move(side.forwardDelta());
             // when & then
             assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -86,7 +88,7 @@ class GungTest {
             Side side = Side.CHO;
             Piece piece = new Gung(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRightForward(side);
+            Position destination = departure.move(side.rightForwardDelta());
             // when & then
             assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -99,7 +101,7 @@ class GungTest {
         Side side = Side.CHO;
         Piece piece = new Gung(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then
@@ -112,7 +114,7 @@ class GungTest {
         Side side = Side.CHO;
         Piece piece = new Gung(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then
@@ -126,7 +128,7 @@ class GungTest {
         Side side = Side.CHO;
         Piece piece = new Gung(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then

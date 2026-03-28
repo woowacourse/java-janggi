@@ -16,23 +16,19 @@ public record Row(int index) {
         }
     }
 
-    public Row up() {
-        return new Row(this.index + ONE_SPACE);
-    }
-
-    public Row down() {
-        return new Row(this.index + Math.negateExact(ONE_SPACE));
-    }
-
-    public boolean isLowerThan(Row other) {
+    public boolean isBelow(Row other) {
         return this.index < other.index;
     }
 
-    public boolean isBiggerThan(Row other) {
+    public boolean isAbove(Row other) {
         return this.index > other.index;
     }
 
     public boolean isGapBiggerThanOne(Row other) {
         return Math.abs(this.index - other.index) > ONE_SPACE;
+    }
+
+    public Row add(Delta delta) {
+        return new Row(index + delta.rowDelta());
     }
 }

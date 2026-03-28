@@ -16,14 +16,6 @@ public record Column(int index) {
         }
     }
 
-    public Column right() {
-        return new Column(this.index + ONE_SPACE);
-    }
-
-    public Column left() {
-        return new Column(this.index + Math.negateExact(ONE_SPACE));
-    }
-
     public boolean isLeft(Column column) {
         return this.index < column.index;
     }
@@ -34,5 +26,9 @@ public record Column(int index) {
 
     public boolean isGapBiggerThanOne(Column other) {
         return Math.abs(this.index - other.index) > ONE_SPACE;
+    }
+
+    public Column add(Delta delta) {
+        return new Column(index + delta.columnDelta());
     }
 }

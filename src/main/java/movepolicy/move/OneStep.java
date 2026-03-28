@@ -8,49 +8,49 @@ public enum OneStep implements Step {
     FORWARD {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveForward(side);
+            return position.move(side.forwardDelta());
         }
     },
     BACK {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveBack(side);
+            return position.move(side.backDelta());
         }
     },
     LEFT {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveLeft(side);
+            return position.move(side.leftDelta());
         }
     },
     RIGHT {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveRight(side);
+            return position.move(side.rightDelta());
         }
     },
     LEFT_FORWARD {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveLeftForward(side);
+            return position.move(side.leftForwardDelta());
         }
     },
     RIGHT_FORWARD {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveRightForward(side);
+            return position.move(side.rightForwardDelta());
         }
     },
     RIGHT_BACK {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveRightBack(side);
+            return position.move(side.rightBackDelta());
         }
     },
     LEFT_BACK {
         @Override
         public Position move(Position position, Side side) {
-            return position.moveLeftBack(side);
+            return position.move(side.leftBackDelta());
         }
     }
 }

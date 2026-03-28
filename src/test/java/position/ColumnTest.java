@@ -5,65 +5,46 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ColumnTest {
 
     private static final int MINIMUM_BOUNDARY = 0;
     private static final int MAXIMUM_BOUNDARY = 8;
-    private static final int ONE_SPACE = 1;
 
-    @Test
-    void COLUMN의_범위가_8을_넘을_경우_예외를_던진다() {
-        assertThatThrownBy(() -> new Column(9))
-            .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void COLUMN의_범위가_0보다_작을_경우_예외를_던진다() {
-        assertThatThrownBy(() -> new Column(-1))
+    @ParameterizedTest
+    @ValueSource(ints = {MINIMUM_BOUNDARY - 1, MAXIMUM_BOUNDARY + 1})
+    void COLUMN의_범위가_벗어날_경우_예외를_던진다(int index) {
+        assertThatThrownBy(() -> new Column(index))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Nested
-    @DisplayName("COLUMN의 이동을 검증한다")
-    class Move {
+    @DisplayName("서로 다른 COLUMN의 합을 검증한다")
+    class Add {
 
-        @Test
-        void COLUMN이_오른쪽으로_한_칸_이동한다() {
+        @ParameterizedTest
+        @ValueSource(ints = {-1, 1})
+        void DELTA의_COLUMN_INDEX를_합한_새로운_COLUMN을_생성한다(int deltaValue) {
             // given
-            Column prev = new Column(1);
+            Column before = new Column(1);
+            Delta delta = new Delta(0, deltaValue);
             // when
-            Column cur = prev.right();
+            Column added = before.add(delta);
             // then
-            assertThat(cur.index()).isEqualTo(prev.index() + ONE_SPACE);
+            int expectedColumnIndex = before.index() + delta.columnDelta();
+            assertThat(added.index()).isEqualTo(expectedColumnIndex);
         }
 
-        @Test
-        void COLUMN이_왼쪽으로_한_칸_이동한다() {
+        @ParameterizedTest
+        @ValueSource(ints = {MINIMUM_BOUNDARY - 1, MAXIMUM_BOUNDARY + 1})
+        void 합산_값이_범위를_벗어나면_예외를_던진다(int deltaValue) {
             // given
-            Column prev = new Column(1);
-            // when
-            Column cur = prev.left();
-            // then
-            assertThat(cur.index()).isEqualTo(prev.index() - ONE_SPACE);
-        }
-
-        @Test
-        void COLUMN이_오른쪽으로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
-            // given
-            Column prev = new Column(MAXIMUM_BOUNDARY);
+            Column before = new Column(MINIMUM_BOUNDARY);
+            Delta delta = new Delta(0, deltaValue);
             // when & then
-            assertThatThrownBy(prev::right)
-                .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        void COLUMN이_왼쪽으로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
-            // given
-            Column prev = new Column(MINIMUM_BOUNDARY);
-            // when & then
-            assertThatThrownBy(prev::left)
+            assertThatThrownBy(() -> before.add(delta))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }

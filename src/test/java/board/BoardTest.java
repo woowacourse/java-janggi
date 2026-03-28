@@ -84,7 +84,6 @@ class BoardTest {
         // given
         Map<Position, Piece> choPieces = Map.of(new Position(1, 1), new Cha(Side.CHO));
         Map<Position, Piece> hanPieces = Map.of(new Position(1, 2), new Cha(Side.HAN));
-
         Board choBoard = new Board(choPieces);
         Board hanBoard = new Board(hanPieces);
         // when

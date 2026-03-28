@@ -9,110 +9,113 @@ import movepolicy.destination.BasicDestinationRule;
 import movepolicy.path.EmptyPathRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import position.Position;
 
 class SaTest {
 
-    private static final Position DEFAULT = new Position(1, 1);
+    private static final Position DEFAULT = new Position(3, 3);
 
     @Nested
     @DisplayName("사의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
     class CanMove {
 
-        @Test
-        void 전방_1칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 전방_1칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Sa(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveForward(side);
+            Position destination = departure.move(side.forwardDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 후방_1칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 후방_1칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Sa(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveBack(side);
+            Position destination = departure.move(side.backDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 좌_1칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 좌_1칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Sa(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveLeft(side);
+            Position destination = departure.move(side.leftDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 우_1칸_이동할_수_있다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 우_1칸_이동할_수_있다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Sa(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRight(side);
+            Position destination = departure.move(side.rightDelta());
             // when & then
             assertThatCode(() -> piece.askMoveContext(departure, destination))
                 .doesNotThrowAnyException();
         }
 
-        @Test
-        void 전방_2칸이_도착지인_경우_예외를_던진다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 전방_2칸이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Sa(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveForward(side).moveForward(side);
+            Position destination = departure
+                .move(side.forwardDelta())
+                .move(side.forwardDelta());
             // when & then
             assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
-        @Test
-        void 우전방이_도착지인_경우_예외를_던진다() {
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 우전방이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Side side = Side.CHO;
             Piece piece = new Sa(side);
             Position departure = DEFAULT;
-            Position destination = departure.moveRightForward(side);
+            Position destination = departure.move(side.rightForwardDelta());
             // when & then
             assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
-    @Test
-    void 출발지와_도착지_사이에는_이동_경로가_존재하지_않는다() {
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 출발지와_도착지_사이에는_이동_경로가_존재하지_않는다(Side side) {
         // given
-        Side side = Side.CHO;
         Piece piece = new Sa(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathPositions()).hasSize(0);
     }
 
-    @Test
-    void 사는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다() {
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 사는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Side side = Side.CHO;
         Piece piece = new Sa(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then
@@ -120,13 +123,13 @@ class SaTest {
             .isInstanceOf(BasicDestinationRule.class);
     }
 
-    @Test
-    void 사는_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다() {
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 사는_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Side side = Side.CHO;
         Piece piece = new Sa(side);
         Position departure = DEFAULT;
-        Position destination = departure.moveForward(side);
+        Position destination = departure.move(side.forwardDelta());
         // when
         MoveContext moveContext = piece.askMoveContext(departure, destination);
         // then

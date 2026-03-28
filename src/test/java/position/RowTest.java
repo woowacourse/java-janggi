@@ -6,66 +6,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class RowTest {
 
     private static final int MINIMUM_BOUNDARY = 0;
     private static final int MAXIMUM_BOUNDARY = 9;
-    private static final int ONE_SPACE = 1;
 
-    @Test
-    void ROW의_범위가_9를_넘을_경우_예외를_던진다() {
-        assertThatThrownBy(() -> new Row(10))
+    @ParameterizedTest
+    @ValueSource(ints = {MINIMUM_BOUNDARY - 1, MAXIMUM_BOUNDARY + 1})
+    void ROW의_범위를_벗어날_경우_예외를_던진다(int index) {
+        assertThatThrownBy(() -> new Row(index))
             .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void ROW의_범위가_0보다_작을_경우_예외를_던진다() {
-        assertThatThrownBy(() -> new Row(-1))
-            .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Nested
-    @DisplayName("ROW의 이동을 검증한다")
-    class Move {
-
-        @Test
-        void ROW가_위로_한_칸_이동한다() {
-            // given
-            Row prev = new Row(1);
-            // when
-            Row cur = prev.up();
-            // then
-            assertThat(cur.index()).isEqualTo(prev.index() + ONE_SPACE);
-        }
-
-        @Test
-        void ROW가_아래로_한_칸_이동한다() {
-            // given
-            Row prev = new Row(1);
-            // when
-            Row cur = prev.down();
-            // then
-            assertThat(cur.index()).isEqualTo(prev.index() - ONE_SPACE);
-        }
-
-        @Test
-        void ROW가_위로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
-            // given
-            Row prev = new Row(MAXIMUM_BOUNDARY);
-            // when & then
-            assertThatThrownBy(prev::up)
-                .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        void ROW가_아래로_한_칸_이동했을_때_범위를_벗어날경우_예외를_던진다() {
-            // given
-            Row prev = new Row(MINIMUM_BOUNDARY);
-            // when & then
-            assertThatThrownBy(prev::down)
-                .isInstanceOf(IllegalArgumentException.class);
-        }
     }
 
     @Nested
@@ -78,7 +31,7 @@ class RowTest {
             Row row = new Row(1);
             Row other = new Row(2);
             // when
-            boolean isLower = row.isLowerThan(other);
+            boolean isLower = row.isBelow(other);
             // then
             assertThat(isLower).isTrue();
         }
@@ -89,9 +42,38 @@ class RowTest {
             Row row = new Row(1);
             Row other = new Row(0);
             // when
-            boolean isLower = row.isLowerThan(other);
+            boolean isLower = row.isBelow(other);
             // then
             assertThat(isLower).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("서로 다른 ROW의 합을 검증한다")
+    class Add {
+
+        @ParameterizedTest
+        @ValueSource(ints = {-1, 1})
+        void DELTA_의_ROW_INDEX를_합한_새로운_ROW를_생성한다(int deltaValue) {
+            // given
+            Row before = new Row(1);
+            Delta delta = new Delta(deltaValue, 0);
+            // when
+            Row added = before.add(delta);
+            // then
+            int expectedRowIndex = before.index() + delta.rowDelta();
+            assertThat(added.index()).isEqualTo(expectedRowIndex);
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {MINIMUM_BOUNDARY - 1, MAXIMUM_BOUNDARY + 1})
+        void 합산_값이_범위를_벗어나면_예외를_던진다(int deltaValue) {
+            // given
+            Row before = new Row(MINIMUM_BOUNDARY);
+            Delta delta = new Delta(deltaValue, 0);
+            // when & then
+            assertThatThrownBy(() -> before.add(delta))
+                .isInstanceOf(IllegalArgumentException.class);
         }
     }
 }
