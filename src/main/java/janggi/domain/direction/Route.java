@@ -18,11 +18,19 @@ public class Route {
 
     public List<Location> apply(Location current) {
         List<Location> result = new ArrayList<>();
-        for(Direction direction : directions) {
+        for (Direction direction : directions) {
             current = direction.apply(current);
             result.add(current);
         }
 
         return result;
+    }
+
+    public static Route create(Direction direction, int count) {
+        List<Direction> result = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            result.add(direction);
+        }
+        return new Route(result);
     }
 }

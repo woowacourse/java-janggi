@@ -20,4 +20,12 @@ public record Location(int x, int y) {
     public Location add(int dx, int dy) {
         return new Location(x + dx, y + dy);
     }
+
+    public int calculateHorizontalDiff(Location to) {
+        return to.y - this.y;
+    }
+
+    public int calculateVerticalDiff(Location to) {
+        return to.x - this.x;
+    }
 }

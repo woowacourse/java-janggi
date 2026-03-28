@@ -19,25 +19,24 @@ public class SangTest {
         @ParameterizedTest
         @DisplayName("상이 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
         @MethodSource("provideListsForTesting")
-        void shouldReturnRouteForReachableLocation(List<Integer> destination, List<Location> expected) {
+        void shouldReturnRouteForReachableLocation(Location destination, List<Location> expected) {
             // given
             Location from = Location.from(List.of(0, 0));
-            Location to = Location.from(destination);
             Piece piece = new Sang(Side.HAN);
 
             // when & then
-            Assertions.assertThat(piece.calculateRoute(from, to))
+            Assertions.assertThat(piece.calculateRoute(from, destination))
                     .isEqualTo(expected);
         }
 
         static Stream<Arguments> provideListsForTesting() {
             return Stream.of(
                     Arguments.of(
-                            List.of(2,3),
-                            List.of(new Location(0, 1), new Location(1, 2), new Location(2,3))
+                            new Location(2, 3),
+                            List.of(new Location(0, 1), new Location(1, 2), new Location(2, 3))
                     ),
                     Arguments.of(
-                            List.of(3,2),
+                            new Location(3, 2),
                             List.of(new Location(1, 0), new Location(2, 1), new Location(3, 2))
                     )
             );
@@ -59,9 +58,9 @@ public class SangTest {
 
         static List<List<Integer>> provideUnreachableCoordination() {
             return List.of(
-                    List.of(0,4),
-                    List.of(-1,3),
-                    List.of(0,1)
+                    List.of(0, 4),
+                    List.of(-1, 3),
+                    List.of(0, 1)
             );
         }
     }
