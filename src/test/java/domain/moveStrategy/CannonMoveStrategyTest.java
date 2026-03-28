@@ -23,7 +23,7 @@ class CannonMoveStrategyTest {
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
         stubBoard.put(new Position(1, 5),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -44,9 +44,9 @@ class CannonMoveStrategyTest {
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
         stubBoard.put(new Position(1, 5),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         stubBoard.put(new Position(1, 9),
-                new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
+                new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN)));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -106,9 +106,9 @@ class CannonMoveStrategyTest {
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
         stubBoard.put(new Position(1, 5),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         stubBoard.put(new Position(1, 6),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -129,9 +129,9 @@ class CannonMoveStrategyTest {
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
         stubBoard.put(new Position(1, 4),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         stubBoard.put(new Position(1, 7),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);

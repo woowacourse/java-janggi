@@ -20,7 +20,7 @@ class BoardTest {
     void setup() {
         StubBoard stubBoard = new StubBoard();
         Position position = new Position(3, 1);
-        stubBoard.put(position, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+        stubBoard.put(position, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         board = stubBoard.create();
     }
 

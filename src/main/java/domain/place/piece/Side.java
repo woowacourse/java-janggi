@@ -4,19 +4,16 @@ import domain.place.moveStrategy.Direction;
 import java.util.List;
 
 public enum Side {
-    CHO("C", 10, -1, List.of(Direction.DOWN, Direction.LEFT, Direction.RIGHT)),
-    HAN("H", 1, 1, List.of(Direction.TOP, Direction.LEFT, Direction.RIGHT));
+    CHO("C", 10, -1),
+    HAN("H", 1, 1);
 
     private final String name;
     private final int startLine;
     private final int setupDirection; // 초기화용
-    private final List<Direction> soldierDirections; // 이동용
-
-    Side(String name, int startLine, int setupDirection, List<Direction> soldierDirections) {
+    Side(String name, int startLine, int setupDirection) {
         this.name = name;
         this.startLine = startLine;
         this.setupDirection = setupDirection;
-        this.soldierDirections = soldierDirections;
     }
 
     public String getName() {
@@ -31,7 +28,4 @@ public enum Side {
         return setupDirection;
     }
 
-    public List<Direction> getSoldierDirections() {
-        return soldierDirections;
-    }
 }

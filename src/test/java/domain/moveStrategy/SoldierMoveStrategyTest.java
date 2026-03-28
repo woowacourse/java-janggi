@@ -60,9 +60,9 @@ class SoldierMoveStrategyTest {
         Position from = new Position(2, 2);
         Position to = new Position(2, 3);
         stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.CHO)));
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -79,9 +79,9 @@ class SoldierMoveStrategyTest {
         Position from = new Position(1, 2);
         Position to = new Position(2, 2);
         stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.CHO)));
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -98,9 +98,9 @@ class SoldierMoveStrategyTest {
         Position from = new Position(2, 2);
         Position to = new Position(3, 3);
         stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.CHO)));
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -117,9 +117,9 @@ class SoldierMoveStrategyTest {
         Position from = new Position(1, 1);
         Position to = new Position(3, 1);
         stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.CHO)));
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -137,12 +137,12 @@ class SoldierMoveStrategyTest {
         Position to = new Position(2, 3);
 
         stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.CHO)));
         stub.put(to, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.CHO)));
 
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -160,12 +160,12 @@ class SoldierMoveStrategyTest {
         Position to = new Position(2, 3);
 
         stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.CHO)));
         stub.put(to, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.HAN)));
 
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -183,10 +183,10 @@ class SoldierMoveStrategyTest {
         Position to = new Position(10, 2);
 
         stub.put(from, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.HAN)));
 
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -204,10 +204,10 @@ class SoldierMoveStrategyTest {
         Position to = new Position(9, 6);
 
         stub.put(from, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.HAN)));
 
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
@@ -225,10 +225,10 @@ class SoldierMoveStrategyTest {
         Position to = new Position(9, 5);
 
         stub.put(from, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
+                new SoldierMoveStrategy(Side.HAN)));
 
         Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN.getSoldierDirections());
+        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN);
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);

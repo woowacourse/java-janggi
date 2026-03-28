@@ -94,7 +94,7 @@ public class BoardFactory {
     }
 
     private static void soldierSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        MoveStrategy soldierMoveStrategy = new SoldierMoveStrategy(side.getSoldierDirections());
+        MoveStrategy soldierMoveStrategy = new SoldierMoveStrategy(side);
 
         SOLDIER_COLS.forEach(c -> board.put(new Position(startLine, c), new Soldier(side, soldierMoveStrategy)));
     }

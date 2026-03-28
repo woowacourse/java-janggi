@@ -132,7 +132,7 @@ class GeneralMoveStrategyTest {
         // given
         StubBoard stub = new StubBoard();
         stub.put(new Position(5, 5), new General(Side.CHO, new GeneralMoveStrategy()));
-        stub.put(new Position(5, 6), new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN.getSoldierDirections())));
+        stub.put(new Position(5, 6), new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN)));
         Board board = stub.create();
 
         Position from = new Position(5, 5);
