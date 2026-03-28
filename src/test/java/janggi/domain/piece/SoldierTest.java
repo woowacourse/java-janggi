@@ -15,10 +15,10 @@ public class SoldierTest {
 
     @DisplayName("병의 경로에 기물이 있는지 확인하는 메소드는 항상 true를 반환한다.")
     @Test
-    void moveRoute_Always_ReturnTrue() {
+    void canPassRoute_Always_ReturnTrue() {
         Camp camp = Camp.CHO;
         Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.direction()));
-        assertThat(soldier.moveRoute(new HashMap<>())).isTrue();
+        assertThat(soldier.canPassRoute(new HashMap<>())).isTrue();
     }
 
     @DisplayName("병의 진영과 도착지점에 있는 기물의 진영이 다르면 true, 같으면 false를 반환한다")

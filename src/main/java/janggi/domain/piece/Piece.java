@@ -29,7 +29,7 @@ public abstract class Piece {
         return this.camp.isSameCamp(camp);
     }
 
-    abstract public boolean moveRoute(Map<Position, Piece> abc);
+    abstract public boolean canPassRoute(Map<Position, Piece> piecesInPath);
     abstract public boolean canCatch(Piece piece);
     abstract public boolean isCannon();
 }

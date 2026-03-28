@@ -12,7 +12,7 @@ public class Elephant extends Piece{
     }
 
     @Override
-    public boolean moveRoute(Map<Position, Piece> abc) {
+    public boolean canPassRoute(Map<Position, Piece> piecesInPath) {
         return false;
     }
 

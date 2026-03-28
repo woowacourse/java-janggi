@@ -24,37 +24,37 @@ public class CannonTest {
 
     @DisplayName("이동 경로에 기물이 없으면 False를 반환한다")
     @Test
-    void moveRoute_PieceInPathSizeIsZero_ReturnFalse() {
+    void canPassRoute_PieceInPathSizeIsZero_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
         Map<Position, Piece> pieceInPath = new HashMap<>();
-        assertThat(piece.moveRoute(pieceInPath)).isFalse();
+        assertThat(piece.canPassRoute(pieceInPath)).isFalse();
     }
 
     @DisplayName("이동 경로에 기물이 2개 이상이면 False를 반환한다")
     @Test
-    void moveRoute_PieceInPathSizeOverTwo_Return_ReturnFalse() {
+    void canPassRoute_PieceInPathSizeOverTwo_Return_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
         Map<Position, Piece> pieceInPath = new HashMap<>();
         pieceInPath.put(Position.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
         pieceInPath.put(Position.of(3, 4), new Elephant(Camp.CHO, new ElephantStrategy()));
-        assertThat(piece.moveRoute(pieceInPath)).isFalse();
+        assertThat(piece.canPassRoute(pieceInPath)).isFalse();
     }
 
     @DisplayName("이동 경로에 포가 있으면 False를 반환한다")
     @Test
-    void moveRoute_PieceInPathIsCannon_ReturnFalse() {
+    void canPassRoute_PieceInPathIsCannon_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
         Map<Position, Piece> pieceInPath = new HashMap<>();
         pieceInPath.put(Position.of(3, 3), new Cannon(Camp.CHO, new CannonStrategy()));
-        assertThat(piece.moveRoute(pieceInPath)).isFalse();
+        assertThat(piece.canPassRoute(pieceInPath)).isFalse();
     }
 
     @DisplayName("이동 경로에 기물이 1개이고, 그 기물이 포가 아니면 True를 반환한다")
     @Test
-    void moveRoute_PieceInPathNotCannon_ReturnTrue() {
+    void canPassRoute_PieceInPathNotCannon_ReturnTrue() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
         Map<Position, Piece> pieceInPath = new HashMap<>();
         pieceInPath.put(Position.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
-        assertThat(piece.moveRoute(pieceInPath)).isTrue();
+        assertThat(piece.canPassRoute(pieceInPath)).isTrue();
     }
 }
