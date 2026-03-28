@@ -1,6 +1,17 @@
 package domain.board;
 
-import domain.piece.*;
+
+import domain.piece.CannonStrategy;
+import domain.piece.ChariotStrategy;
+import domain.piece.ChoSoldierStrategy;
+import domain.piece.ElephantStrategy;
+import domain.piece.GeneralStrategy;
+import domain.piece.GuardStrategy;
+import domain.piece.HanSoldierStrategy;
+import domain.piece.HorseStrategy;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
 
 import java.util.HashMap;
 import java.util.List;
