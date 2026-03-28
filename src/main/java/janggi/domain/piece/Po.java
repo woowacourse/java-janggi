@@ -2,6 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.rule.collision.CollisionDetector;
+import janggi.domain.rule.collision.PoCollisionDetector;
 import janggi.domain.rule.route.GungSeongRouteProvider;
 import janggi.domain.rule.route.RouteProvider;
 import java.util.List;
@@ -10,6 +12,7 @@ public class Po extends Piece {
 
     private static final String PIECE_NAME = "포";
     private static final RouteProvider ROUTE_PROVIDER = new GungSeongRouteProvider();
+    private static final CollisionDetector COLLISION_DETECTOR = new PoCollisionDetector();
 
     public Po(Side side) {
         super(PIECE_NAME, side);
@@ -31,7 +34,7 @@ public class Po extends Piece {
 
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
-
+        COLLISION_DETECTOR.check(this, piecesOnPath);
     }
 }
 
