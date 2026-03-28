@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import static java.lang.Math.abs;
 
-import janggi.domain.Point;
+import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import java.util.ArrayList;
 import java.util.List;

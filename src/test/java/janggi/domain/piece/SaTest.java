@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Point;
+import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

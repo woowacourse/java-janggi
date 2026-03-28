@@ -6,6 +6,7 @@ import janggi.domain.piece.Ma;
 import janggi.domain.piece.Pho;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
+import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import java.util.LinkedHashMap;
 import java.util.Map;

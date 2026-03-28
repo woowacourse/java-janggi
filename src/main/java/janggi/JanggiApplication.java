@@ -2,7 +2,7 @@ package janggi;
 
 import janggi.domain.Board;
 import janggi.domain.JanggiGame;
-import janggi.domain.Point;
+import janggi.domain.point.Point;
 import janggi.domain.piece.Piece;
 import janggi.presentation.dto.GameStatusInfo;
 import janggi.presentation.dto.MoveCommand;

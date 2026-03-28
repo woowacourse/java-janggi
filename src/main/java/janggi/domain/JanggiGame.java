@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.point.Point;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.Team;

@@ -1,6 +1,6 @@
 package janggi.util;
 
-import janggi.domain.Point;
+import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import janggi.presentation.dto.PositionInfo;
 import java.util.List;

@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.Point;
+import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import java.util.List;
 

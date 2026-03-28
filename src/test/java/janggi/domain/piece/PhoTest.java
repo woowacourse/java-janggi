@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.Point;
+import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import java.util.LinkedHashMap;
 import java.util.List;

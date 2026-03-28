@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.point;
 
 import java.util.ArrayList;
 import java.util.Collections;
