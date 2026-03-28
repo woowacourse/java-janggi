@@ -30,7 +30,7 @@ public class JanggiBoard {
     }
 
     public void tryToMove(Point start, Point end, Team currentTeam) {
-        Intersection from = findMyIntersection(start, currentTeam);
+        Intersection from = findOriginIntersection(start, currentTeam);
         Intersection to = findIntersection(end);
         inspectPath(from, to);
         from.move(to);
@@ -48,7 +48,7 @@ public class JanggiBoard {
         return new Path(intersectionOfPath);
     }
 
-    public Intersection findMyIntersection(Point point, Team team) {
+    public Intersection findOriginIntersection(Point point, Team team) {
         Intersection from = findIntersection(point);
         from.validateMovable(team);
         return from;
