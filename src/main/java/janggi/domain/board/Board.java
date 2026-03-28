@@ -60,5 +60,7 @@ public class Board {
         this.turn = turn.changeTurn();
     }
 
-
+    public Turn getTurn() {
+        return turn;
+    }
 }

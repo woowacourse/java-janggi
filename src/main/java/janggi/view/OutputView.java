@@ -3,6 +3,7 @@ package janggi.view;
 import janggi.constants.Color;
 import janggi.dto.BoardDto;
 import janggi.dto.PositionPieceDto;
+import janggi.dto.TurnDto;
 
 import java.util.List;
 
@@ -37,5 +38,13 @@ public class OutputView {
             }
             System.out.println();
         }
+    }
+
+    public void printCurrentTurn(TurnDto turn) {
+        System.out.println("현재는 " + turn.teamName() + "턴입니다.");
+    }
+
+    public void printErrorMessage(String message) {
+        System.out.println("[ERROR] " + message);
     }
 }
