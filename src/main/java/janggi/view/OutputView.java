@@ -2,7 +2,7 @@ package janggi.view;
 
 import static java.util.stream.Collectors.joining;
 
-import janggi.domain.piece.Camp;
+import janggi.dto.CampDto;
 import janggi.dto.PiecePositionDto;
 import java.util.Arrays;
 import java.util.List;
@@ -77,8 +77,8 @@ public final class OutputView {
         return colorOf(piecePosition.camp()) + piecePosition.type() + RESET;
     }
 
-    private static String colorOf(Camp camp) {
-        if (camp == Camp.CHO) {
+    private static String colorOf(CampDto campDto) {
+        if (campDto.isCho()) {
             return CHO_COLOR;
         }
         return HAN_COLOR;

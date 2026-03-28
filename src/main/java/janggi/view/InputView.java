@@ -1,8 +1,7 @@
 package janggi.view;
 
-import janggi.domain.piece.Camp;
+import janggi.dto.CampDto;
 import janggi.exception.ExceptionMessage;
-import janggi.formatter.CampFormatter;
 import janggi.util.Parser;
 import java.util.List;
 import java.util.Scanner;
@@ -28,8 +27,8 @@ public final class InputView {
     private InputView() {
     }
 
-    public static String readElephantSettingCommand(Camp camp) {
-        System.out.println(String.format(ELEPHANT_SETTING, CampFormatter.format(camp)));
+    public static String readElephantSettingCommand(CampDto campDto) {
+        System.out.println(String.format(ELEPHANT_SETTING, campDto.camp()));
         return readLine();
     }
 
@@ -45,8 +44,8 @@ public final class InputView {
         }
     }
 
-    public static List<Integer> readSource(Camp camp) {
-        System.out.println(String.format(TURN, CampFormatter.format(camp)));
+    public static List<Integer> readSource(CampDto campDto) {
+        System.out.println(String.format(TURN, campDto.camp()));
         System.out.println(SOURCE);
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }

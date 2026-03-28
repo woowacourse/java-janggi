@@ -7,6 +7,7 @@ import janggi.domain.board.ElephantSetting;
 import janggi.domain.board.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
+import janggi.dto.CampDto;
 import janggi.dto.PiecePositionDto;
 import janggi.exception.ExceptionMessage;
 import janggi.util.RetryHandler;
@@ -38,10 +39,12 @@ public class JanggiGame {
 
     private Board createBoard() {
         ElephantSetting hanElephantSetting = RetryHandler.retryOnInvalidInput(
-                () -> ElephantSetting.findElephantSettingBy(InputView.readElephantSettingCommand(Camp.HAN)));
+                () -> ElephantSetting.findElephantSettingBy(
+                        InputView.readElephantSettingCommand(CampDto.from(Camp.HAN))));
 
         ElephantSetting choElephantSetting = RetryHandler.retryOnInvalidInput(
-                () -> ElephantSetting.findElephantSettingBy(InputView.readElephantSettingCommand(Camp.CHO)));
+                () -> ElephantSetting.findElephantSettingBy(
+                        InputView.readElephantSettingCommand(CampDto.from(Camp.CHO))));
 
         BoardInitializer initializer = new StandardBoardInitializer(hanElephantSetting, choElephantSetting);
         return new Board(initializer);
@@ -56,7 +59,7 @@ public class JanggiGame {
 
     private Position readSource(Board board, Camp camp) {
         return RetryHandler.retryOnInvalidInput(() -> {
-            Position source = toPosition(InputView.readSource(camp));
+            Position source = toPosition(InputView.readSource(CampDto.from(camp)));
             board.validateCampTurn(source, camp);
             return source;
         });
