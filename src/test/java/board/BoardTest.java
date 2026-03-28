@@ -1,6 +1,7 @@
 package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,5 +92,17 @@ class BoardTest {
         expected.putAll(choPieces);
         expected.putAll(hanPieces);
         assertThat(mergedBoard.pieces()).isEqualTo(expected);
+    }
+
+    @Test
+    void 중복이_있는_두_보드를_합치는_경우_예외를_던진다() {
+        // given
+        Map<Position, Piece> choPieces = Map.of(new Position(1, 1), new Cha(Side.CHO));
+        Map<Position, Piece> hanPieces = Map.of(new Position(1, 1), new Cha(Side.HAN));
+        Board choBoard = new Board(choPieces);
+        Board hanBoard = new Board(hanPieces);
+        // when & then
+        assertThatThrownBy(() -> choBoard.merge(hanBoard))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

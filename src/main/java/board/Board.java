@@ -20,10 +20,17 @@ public record Board(Map<Position, Piece> pieces) {
     }
 
     public Board merge(Board other) {
-        Map<Position, Piece> merged = new HashMap<>();
-        pieces.forEach(merged::put);
-        other.pieces.forEach(merged::put);
+        Map<Position, Piece> merged = new HashMap<>(pieces);
+        other.pieces.forEach((position, piece) ->
+            put(position, piece, merged));
         return new Board(merged);
+    }
+
+    private void put(Position position, Piece piece, Map<Position, Piece> merged) {
+        if (merged.containsKey(position)) {
+            throw new IllegalArgumentException("이미 기물이 존재하는 위치입니다.");
+        }
+        merged.put(position, piece);
     }
 
     public void validateDeparturePieceSide(Position departure, Turn turn) {
@@ -45,7 +52,6 @@ public record Board(Map<Position, Piece> pieces) {
         moved.put(departure, EmptyPiece.getInstance());
         moved.put(destination, departurePiece);
 
-        System.out.println(moved);
         return new Board(moved);
     }
 
