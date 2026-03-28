@@ -41,7 +41,7 @@ public class OutputView {
 
     public void printBoard(BoardDto boardDto) {
         for (BoardDto.Row dto : boardDto.rows()) {
-            for (String r : dto.row()) {
+            for (String r : dto.pieces()) {
                 System.out.printf("%-3s", r);
             }
             System.out.println();

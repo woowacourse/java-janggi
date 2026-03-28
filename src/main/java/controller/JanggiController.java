@@ -81,7 +81,6 @@ public class JanggiController {
         });
     }
 
-
     private JanggiGame initJanggiGame(Board board) {
         outputView.printTurnStartMessage();
 
@@ -107,7 +106,6 @@ public class JanggiController {
         });
     }
 
-
     private <T> T doRetry(Supplier<T> supplier) {
         int retry = 0;
         while (true) {
@@ -116,10 +114,14 @@ public class JanggiController {
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
                 retry++;
-                if (retry > MAX_RETRY) {
-                    throw new IllegalStateException("입력횟수를 초과했습니다.");
-                }
+                checkRetryLimit(retry);
             }
+        }
+    }
+
+    private static void checkRetryLimit(int retry) {
+        if (retry > MAX_RETRY) {
+            throw new IllegalStateException("입력횟수를 초과했습니다.");
         }
     }
 }
