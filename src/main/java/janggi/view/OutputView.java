@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.domain.command.SetupCommand;
+import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardDto;
 import java.util.List;
@@ -29,5 +30,9 @@ public final class OutputView {
         for (String rowStatus : rowStatuses) {
             System.out.println(rowStatus);
         }
+    }
+
+    public static void printTurnStatus(final Team team) {
+        System.out.printf("%s 차례입니다. ", team.getName());
     }
 }

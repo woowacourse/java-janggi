@@ -12,6 +12,7 @@ import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
+import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
@@ -41,8 +42,9 @@ public class JanggiController {
         final Team redTeam = setupRedTeam();
         final Team blueTeam = setupBlueTeam();
         final Board board = BoardGenerator.generate(redTeam, blueTeam);
+        final TurnManager turnManager = new TurnManager(List.of(redTeam, blueTeam));
         OutputView.printBoard(BoardDto.from(board, List.of()));
-        progress(redTeam, board);
+        progress(turnManager, board);
     }
 
     private SetupCommand readSetupCommand() {
@@ -50,11 +52,13 @@ public class JanggiController {
         return SetupCommand.pick(commandNumber);
     }
 
-    private void progress(final Team team, final Board board) {
+    private void progress(final TurnManager turnManager, final Board board) {
         final BoardMediator boardMediator = new BoardMediatorImpl(board);
         while (true) {
+            final Team currentTeam = turnManager.getCurrentTeam();
+            OutputView.printTurnStatus(currentTeam);
             final Position positionOfMovingPiece = RetryExecutor.retry(
-                this::readPositionOfMovingPiece, team, boardMediator);
+                this::readPositionOfMovingPiece, currentTeam, boardMediator);
             final Piece pieceToMove = boardMediator.getPieceInPosition(positionOfMovingPiece);
             final List<Position> movablePositions = pieceToMove.calculateMovablePositions(
                 positionOfMovingPiece, boardMediator);
@@ -62,6 +66,7 @@ public class JanggiController {
             final Position targetPosition = readTargetPosition(movablePositions);
             board.movePiece(positionOfMovingPiece, targetPosition);
             OutputView.printBoard(BoardDto.from(board, List.of()));
+            turnManager.progressToNext();
         }
     }
 
