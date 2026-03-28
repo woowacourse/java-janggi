@@ -65,10 +65,10 @@ class BoardTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FIVE, Column.FOUR);
-        Team cho = Team.HAN;
+        Team han = Team.HAN;
 
         //when & then
-        assertThatThrownBy(() -> board.move(cho, from, to))
+        assertThatThrownBy(() -> board.move(han, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("상대편 기물을 움직일 수 없습니다.");
     }
