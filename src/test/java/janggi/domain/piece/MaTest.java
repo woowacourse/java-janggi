@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.point.Point;
+import janggi.domain.point.Route;
 import janggi.domain.status.Team;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +20,10 @@ public class MaTest {
         Point to = Point.of(2, 1);
 
         // when
-        List<Point> route = ma.getRoute(from, to);
+        Route route = ma.getRoute(from, to);
 
         // then
-        assertThat(route.size()).isEqualTo(1);
+        assertThat(route.getRoutes().size()).isEqualTo(1);
     }
 
     @Test
@@ -35,10 +35,10 @@ public class MaTest {
         Point to = Point.of(1, 2);
 
         // when
-        List<Point> route = ma.getRoute(from, to);
+        Route route = ma.getRoute(from, to);
 
         // then
-        assertThat(route.size()).isEqualTo(1);
+        assertThat(route.getRoutes().size()).isEqualTo(1);
     }
 
     @Test

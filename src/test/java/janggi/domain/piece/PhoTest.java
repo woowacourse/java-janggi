@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.point.Point;
+import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,10 +42,10 @@ public class PhoTest {
         Point to = Point.of(x, y);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
+        Route route = pho.getRoute(from, to);
 
         // then
-        assertThat(route.size()).isEqualTo(result);
+        assertThat(route.getRoutes().size()).isEqualTo(result);
     }
 
     @Test
@@ -69,7 +70,7 @@ public class PhoTest {
         Point to = Point.of(1, 3);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
+        Route route = pho.getRoute(from, to);
         List<Piece> pieces = board.getPieces(route);
 
         // then
@@ -85,7 +86,7 @@ public class PhoTest {
         Point to = Point.of(1, 4);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
+        Route route = pho.getRoute(from, to);
         List<Piece> pieces = board.getPieces(route);
 
         // then
@@ -101,7 +102,7 @@ public class PhoTest {
         Point to = Point.of(1, 7);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
+        Route route = pho.getRoute(from, to);
         List<Piece> pieces = board.getPieces(route);
 
         // then

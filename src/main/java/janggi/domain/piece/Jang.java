@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static java.lang.Math.abs;
 
 import janggi.domain.point.Point;
+import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Jang extends AbstractPiece {
     }
 
     @Override
-    public List<Point> getRoute(Point from, Point to) {
+    public Route getRoute(Point from, Point to) {
         int pathX = to.calculatePathColumn(from);
         int pathY = to.calculatePathRow(from);
         int distanceX = abs(pathX);
@@ -24,7 +25,7 @@ public class Jang extends AbstractPiece {
         if (distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX == 0 && distanceY == 0)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
-        return List.of(to);
+        return new Route(List.of(to));
     }
 
     @Override
