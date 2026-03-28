@@ -19,7 +19,7 @@ public final class OutputView {
     public static void printSetupGuide(TeamType teamType) {
         System.out.println(teamType.getName() + "의 차림법을 입력해주세요.");
         for (final SetupCommand setupCommand : SetupCommand.values()) {
-            System.out.println(setupCommand.ordinal() + ". " + setupCommand.getDescription());
+            System.out.println(setupCommand.ordinal() + 1 + ". " + setupCommand.getDescription());
         }
     }
 
