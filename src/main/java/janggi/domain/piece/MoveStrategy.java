@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface MoveStrategy {
 
-    List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty);
+    List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty);
 
     PieceType pieceType();
 

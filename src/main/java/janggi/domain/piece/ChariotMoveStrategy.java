@@ -10,23 +10,23 @@ import java.util.Map;
 public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
-        List<Position> canMovePositions = new ArrayList<>();
+    public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             List<Position> positions = from.findPositionsByDirection(dir);
             for (Position to : positions) {
                 if (board.containsKey(to)) {
                     // 다른 팀을 만났을 때
                     if (!board.get(to).isSameDynasty(dynasty)) {
-                        canMovePositions.add(to);
+                        movablePositions.add(to);
                     }
                     break;
                 }
-                canMovePositions.add(to);
+                movablePositions.add(to);
             }
         }
 
-        return canMovePositions;
+        return movablePositions;
     }
 
     @Override

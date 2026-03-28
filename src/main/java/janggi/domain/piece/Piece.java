@@ -11,7 +11,7 @@ public record Piece(
 ) {
 
     public List<Position> canMovePosition(Map<Position, Piece> board, Position from) {
-        return moveStrategy.canMovePositions(board, from, dynasty);
+        return moveStrategy.findMovablePositions(board, from, dynasty);
     }
 
     public PieceType pieceType() {

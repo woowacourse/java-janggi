@@ -25,7 +25,7 @@ class ChariotMoveStrategyTest {
 
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);
+        List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);
 
         // then
         Assertions.assertThat(positions)

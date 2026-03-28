@@ -29,7 +29,7 @@ class CannonMoveStrategyTest {
         board.put(Position.from(9, 5), new Piece(Dynasty.HAN, new ChariotMoveStrategy()));
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);
+        List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);
 
         // then
         Assertions.assertThat(positions)
@@ -60,7 +60,7 @@ class CannonMoveStrategyTest {
         board.put(Position.from(9, 5), new Piece(Dynasty.HAN, moveStrategy));
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);
+        List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);
 
         // then
         Assertions.assertThat(positions)

@@ -10,19 +10,19 @@ import java.util.Map;
 public class HorseMoveStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
-        List<Position> canMovePositions = new ArrayList<>();
+    public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             from.findPositionByDirection(dir).ifPresent(to -> {
                 if (board.containsKey(to)) {
                     return;
                 }
-                canMoveByDirection(to, dir.next(), board, dynasty, canMovePositions);
-                canMoveByDirection(to, dir.prev(), board, dynasty, canMovePositions);
+                canMoveByDirection(to, dir.next(), board, dynasty, movablePositions);
+                canMoveByDirection(to, dir.prev(), board, dynasty, movablePositions);
             });
         }
 
-        return canMovePositions;
+        return movablePositions;
     }
 
     private static void canMoveByDirection(Position from, Direction dir,

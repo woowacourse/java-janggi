@@ -40,7 +40,7 @@ class SoldierMoveStrategyTest {
         board.put(Position.from(5 ,4), new Piece(ally, moveStrategy));
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, ally);
+        List<Position> positions = moveStrategy.findMovablePositions(board, from, ally);
 
         // then
         Assertions.assertThat(positions)

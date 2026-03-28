@@ -10,8 +10,8 @@ import java.util.Map;
 public class SoldierMoveStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
-        List<Position> canMovePositions = new ArrayList<>();
+    public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             if (dir.equals(dynasty.front().back())) {
                 continue;
@@ -20,10 +20,10 @@ public class SoldierMoveStrategy implements MoveStrategy {
                 if (board.containsKey(to) && board.get(to).isSameDynasty(dynasty)) {
                     return;
                 }
-                canMovePositions.add(to);
+                movablePositions.add(to);
             });
         }
-        return canMovePositions;
+        return movablePositions;
     }
 
     @Override

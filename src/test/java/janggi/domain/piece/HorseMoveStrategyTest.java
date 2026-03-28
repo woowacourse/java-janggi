@@ -25,7 +25,7 @@ class HorseMoveStrategyTest {
         board.put(Position.from(7, 6), new Piece(Dynasty.HAN, moveStrategy));
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);
+        List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);
 
         // then
         Assertions.assertThat(positions)

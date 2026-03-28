@@ -10,8 +10,8 @@ import java.util.Map;
 public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
-        List<Position> canMovePositions = new ArrayList<>();
+    public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             List<Position> positions = from.findPositionsByDirection(dir);
             boolean hasHopped = false;
@@ -20,11 +20,11 @@ public class CannonMoveStrategy implements MoveStrategy {
                 if (hasHopped) {
                     if (isPiecePresent(board, to)) {
                         if (!piece.isSameDynasty(dynasty) && !isCannon(piece)) {
-                            canMovePositions.add(to);
+                            movablePositions.add(to);
                         }
                         break;
                     }
-                    canMovePositions.add(to);
+                    movablePositions.add(to);
                 }
 
                 if (!hasHopped && isPiecePresent(board, to)) {
@@ -36,7 +36,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             }
         }
 
-        return canMovePositions;
+        return movablePositions;
     }
 
     private static boolean isPiecePresent(Map<Position, Piece> board, Position position) {
