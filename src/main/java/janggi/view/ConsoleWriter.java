@@ -12,6 +12,7 @@ public class ConsoleWriter implements Output {
     @Override
     public void printErrorMessage(RuntimeException e) {
         System.out.println("[ERROR] " + e.getMessage());
+        System.out.println();
     }
 
     @Override
@@ -24,6 +25,7 @@ public class ConsoleWriter implements Output {
             matrixSnapshot.append("\n");
         }
 
+        System.out.println();
         System.out.println(matrixSnapshot);
     }
 }

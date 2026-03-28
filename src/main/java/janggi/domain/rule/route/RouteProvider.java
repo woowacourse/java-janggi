@@ -16,7 +16,10 @@ public interface RouteProvider {
         }
 
         throw new IllegalArgumentException(
-                String.format("%s은(는) 해당 위치(%s)에 도달할 수 없습니다.", pieceType.getNameFormat(), to)
+                String.format("%s의 기물 이동 규칙 위반: 해당 위치(%d, %d)에 도달할 수 없습니다.",
+                        pieceType.getNameFormat(),
+                        to.x(),
+                        to.y())
         );
     }
 

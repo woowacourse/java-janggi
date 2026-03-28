@@ -44,7 +44,7 @@ public class ApplicationView {
     }
 
     public List<Integer> requestLocationOfPiece() {
-        outputWriter.printPromptMessage("이동 시킬 기물의 좌표를 입력해주세요. (,로 구분)");
+        outputWriter.printPromptMessage("이동시킬 기물의 좌표를 입력해주세요. (,로 구분)");
 
         return retry(inputReader::readIntegers);
     }

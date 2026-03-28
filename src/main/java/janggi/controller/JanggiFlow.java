@@ -28,8 +28,8 @@ public class JanggiFlow {
     }
 
     public void process() {
-        ArrangementStrategy hanStrategy = askStrategy(Side.HAN);
-        ArrangementStrategy choStrategy = askStrategy(Side.CHO);
+        ArrangementStrategy hanStrategy = repeatAskStrategyUntilSuccess(Side.HAN);
+        ArrangementStrategy choStrategy = repeatAskStrategyUntilSuccess(Side.CHO);
         Board board = Board.create(BoardAssembler.of(hanStrategy, choStrategy));
 
         Side current = Side.HAN;
@@ -38,27 +38,22 @@ public class JanggiFlow {
             view.responseCurrentSide(current);
 
             final Side turnSide = current;
-            retryAction(() -> {
-                Location from = askLocationOfPiece(turnSide, board);
-                Location to = askLocationToMove(from, turnSide, board);
+            retryUntilPieceIsSuccessfullyMoved(() -> {
+                Location from = repeatAskLocationOfPieceUntilSuccess(turnSide, board);
+                Location to = repeatAskLocationToMoveUntilSuccess(from, turnSide, board);
                 board.move(from, to);
             });
             current = current.switchSide();
         }
     }
 
-    private Location askLocationOfPiece(Side current, Board board) {
-        List<Integer> locationOfPiece = view.requestLocationOfPiece();
-        Location verifiedLocation = Location.from(locationOfPiece);
-        board.validateLocationOfPiece(current, verifiedLocation);
-        return verifiedLocation;
-    }
-
-    private Location askLocationToMove(Location startingLocation, Side current, Board board) {
-        List<Integer> locationToMove = view.requestLocationToMove();
-        Location verifiedLocation = Location.from(locationToMove);
-        board.validateLocationToMove(startingLocation, verifiedLocation, current);
-        return verifiedLocation;
+    private ArrangementStrategy repeatAskStrategyUntilSuccess(Side side) {
+        try {
+            return askStrategy(side);
+        } catch (IllegalArgumentException e) {
+            view.responseErrorMessage(e);
+            return repeatAskStrategyUntilSuccess(side);
+        }
     }
 
     private ArrangementStrategy askStrategy(Side side) {
@@ -73,14 +68,44 @@ public class JanggiFlow {
                 .orElseThrow(() -> new IllegalArgumentException("일치하는 전략 번호가 없습니다: " + decisionNumber));
     }
 
-    private void retryAction(Runnable runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                return;
-            } catch (IllegalArgumentException e) {
-                view.responseErrorMessage(e);
-            }
+    private Location repeatAskLocationOfPieceUntilSuccess(Side turnSide, Board board) {
+        try {
+            return askLocationOfPiece(turnSide, board);
+        } catch (IllegalArgumentException e) {
+            view.responseErrorMessage(e);
+            return repeatAskLocationOfPieceUntilSuccess(turnSide, board);
+        }
+    }
+
+    private Location askLocationOfPiece(Side current, Board board) {
+        List<Integer> locationOfPiece = view.requestLocationOfPiece();
+        Location verifiedLocation = Location.from(locationOfPiece);
+        board.validateLocationOfPiece(current, verifiedLocation);
+        return verifiedLocation;
+    }
+
+    private Location repeatAskLocationToMoveUntilSuccess(Location from, Side turnSide, Board board) {
+        try {
+            return askLocationToMove(from, turnSide, board);
+        } catch (IllegalArgumentException e) {
+            view.responseErrorMessage(e);
+            return repeatAskLocationToMoveUntilSuccess(from, turnSide, board);
+        }
+    }
+
+    private Location askLocationToMove(Location startingLocation, Side current, Board board) {
+        List<Integer> locationToMove = view.requestLocationToMove();
+        Location verifiedLocation = Location.from(locationToMove);
+        board.validateLocationToMove(startingLocation, verifiedLocation, current);
+        return verifiedLocation;
+    }
+
+    private void retryUntilPieceIsSuccessfullyMoved(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (IllegalArgumentException e) {
+            view.responseErrorMessage(e);
+            retryUntilPieceIsSuccessfullyMoved(runnable);
         }
     }
 }
