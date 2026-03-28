@@ -6,8 +6,8 @@ import domain.point.Point;
 
 import java.util.Map;
 
-import static constant.JanggiConstant.MAX_FILE;
-import static constant.JanggiConstant.MAX_ROW;
+import static common.constant.JanggiConstant.MAX_FILE;
+import static common.constant.JanggiConstant.MAX_ROW;
 
 public class OutputWriter {
 

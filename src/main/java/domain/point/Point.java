@@ -2,7 +2,7 @@ package domain.point;
 
 import domain.move.directions.Vector;
 
-import static constant.JanggiConstant.*;
+import static common.constant.JanggiConstant.*;
 
 public record Point(
         int y,

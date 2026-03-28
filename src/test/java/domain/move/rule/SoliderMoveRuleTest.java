@@ -2,6 +2,7 @@ package domain.move.rule;
 
 import domain.intersection.Intersection;
 import domain.move.path.Path;
+import domain.move.path.exception.PathException;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static domain.move.path.exception.ErrorMessage.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
 
 public class SoliderMoveRuleTest {
 
@@ -32,8 +35,8 @@ public class SoliderMoveRuleTest {
 
         Assertions.assertThatThrownBy(() -> {
                     soliderMoveRule.checkMoveRule(from, new Path(List.of(to)));
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
+                }).isInstanceOf(PathException.class)
+                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }
 
     @Test

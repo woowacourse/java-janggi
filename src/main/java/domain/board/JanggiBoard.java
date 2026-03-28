@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static constant.JanggiConstant.*;
+import static common.constant.JanggiConstant.*;
 
 public class JanggiBoard {
 

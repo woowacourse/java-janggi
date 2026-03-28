@@ -2,6 +2,7 @@ package domain.move.rule;
 
 import domain.intersection.Intersection;
 import domain.move.path.Path;
+import domain.move.path.exception.PathException;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static domain.move.path.exception.ErrorMessage.*;
 
 class CannonMoveRuleTest {
 
@@ -57,8 +60,8 @@ class CannonMoveRuleTest {
                             intersection7,
                             intersection8,
                             to)));
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
+                }).isInstanceOf(PathException.class)
+                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }
 
     @Test
@@ -83,8 +86,8 @@ class CannonMoveRuleTest {
                             cannonObstacle,
                             intersection8,
                             to)));
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 포를 넘어갈 수 없습니다.");
+                }).isInstanceOf(PathException.class)
+                .hasMessage(CANNON_CANNOT_JUMP_CANNON.getErrorMessage());
     }
 
     @Test
@@ -110,8 +113,8 @@ class CannonMoveRuleTest {
                             intersection7,
                             intersection8,
                             to)));
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 반드시 기물 하나를 넘어야 합니다.");
+                }).isInstanceOf(PathException.class)
+                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getErrorMessage());
     }
 
     @Test
@@ -134,8 +137,8 @@ class CannonMoveRuleTest {
                             intersection7,
                             intersection8,
                             to)));
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 반드시 기물 하나를 넘어야 합니다.");
+                }).isInstanceOf(PathException.class)
+                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getErrorMessage());
     }
 
     @Test
@@ -161,8 +164,8 @@ class CannonMoveRuleTest {
                             intersection7,
                             intersection8,
                             to)));
-                }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 포를 공격할 수 없습니다.");
+                }).isInstanceOf(PathException.class)
+                .hasMessage(CANNON_CANNOT_ATTACK_CANNON.getErrorMessage());
     }
 
 }

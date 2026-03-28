@@ -1,6 +1,8 @@
 package domain.move.path;
 
 import domain.intersection.Intersection;
+import domain.move.path.exception.ErrorMessage;
+import domain.move.path.exception.PathException;
 import domain.piece.PieceType;
 
 import java.util.List;
@@ -33,13 +35,13 @@ public record Path(
 
     public void validateIsSameTeam(Intersection from) {
         if (from.isSameTeam(getLastIntersection())) {
-            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
+            throw new PathException(ErrorMessage.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM);
         }
     }
 
     public void validateHasObstacle() {
         if (hasObstacle()) {
-            throw new IllegalArgumentException("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
+            throw new PathException(ErrorMessage.CANNOT_MOVE_PATH_HAS_OBSTACLE);
         }
     }
 
@@ -50,19 +52,19 @@ public record Path(
 
     private void validateObstacleIsOnly() {
         if (getObstacleIntersection().size() != CANNON_JUMP_OBSTACLE_CONDITION) {
-            throw new IllegalArgumentException("포는 반드시 기물 하나를 넘어야 합니다.");
+            throw new PathException(ErrorMessage.CANNON_MUST_JUMP_ONE_PIECE);
         }
     }
 
     private static void validateObstacleIsNotCannon(Intersection obstacle) {
         if (obstacle.isSamePiece(PieceType.CANNON)) {
-            throw new IllegalArgumentException("포는 포를 넘어갈 수 없습니다.");
+            throw new PathException(ErrorMessage.CANNON_CANNOT_JUMP_CANNON);
         }
     }
 
     public void validateDestinationIsNotCannon() {
         if (getLastIntersection().isSamePiece(PieceType.CANNON)) {
-            throw new IllegalArgumentException("포는 포를 공격할 수 없습니다.");
+            throw new PathException(ErrorMessage.CANNON_CANNOT_ATTACK_CANNON);
         }
     }
 

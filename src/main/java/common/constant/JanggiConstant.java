@@ -1,4 +1,4 @@
-package constant;
+package common.constant;
 
 public class JanggiConstant {
 
