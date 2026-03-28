@@ -1,5 +1,6 @@
 package board;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import movepolicy.MoveContext;
@@ -15,6 +16,13 @@ public record Board(Map<Position, Piece> pieces) {
     @Override
     public Map<Position, Piece> pieces() {
         return Map.copyOf(pieces);
+    }
+
+    public Board merge(Board other) {
+        Map<Position, Piece> merged = new HashMap<>();
+        pieces.forEach(merged::put);
+        other.pieces.forEach(merged::put);
+        return new Board(merged);
     }
 
     public Board move(Position departure, Position destination) {

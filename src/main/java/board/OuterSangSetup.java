@@ -14,19 +14,19 @@ public class OuterSangSetup extends GeneralSangSetup {
         Map<Position, Piece> sangMaPositions;
         if (side.isCho()) {
             sangMaPositions = Map.of(
-                    new Position(0, 1), new Sang(Side.CHO),
-                    new Position(0, 2), new Ma(Side.CHO),
-                    new Position(0, 6), new Ma(Side.CHO),
-                    new Position(0, 7), new Sang(Side.CHO)
+                new Position(0, 1), new Sang(Side.CHO),
+                new Position(0, 2), new Ma(Side.CHO),
+                new Position(0, 6), new Ma(Side.CHO),
+                new Position(0, 7), new Sang(Side.CHO)
             );
         } else {
             sangMaPositions = Map.of(
-                    new Position(9, 1), new Sang(Side.HAN),
-                    new Position(9, 2), new Ma(Side.HAN),
-                    new Position(9, 6), new Ma(Side.HAN),
-                    new Position(9, 7), new Sang(Side.HAN)
+                new Position(9, 1), new Sang(Side.HAN),
+                new Position(9, 2), new Ma(Side.HAN),
+                new Position(9, 6), new Ma(Side.HAN),
+                new Position(9, 7), new Sang(Side.HAN)
             );
         }
-        return sangMaPositions;
+        return Map.copyOf(sangMaPositions);
     }
 }

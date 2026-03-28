@@ -72,4 +72,21 @@ class BoardTest {
             .findAny();
         assertThat(deletedPiece.isEmpty()).isTrue();
     }
+
+    @Test
+    void 중복이_없는_두_보드를_합친다() {
+        // given
+        Map<Position, Piece> choPieces = Map.of(new Position(1, 1), new Cha(Side.CHO));
+        Map<Position, Piece> hanPieces = Map.of(new Position(1, 2), new Cha(Side.HAN));
+
+        Board choBoard = new Board(choPieces);
+        Board hanBoard = new Board(hanPieces);
+        // when
+        Board mergedBoard = choBoard.merge(hanBoard);
+        // then
+        Map<Position, Piece> expected = new HashMap<>();
+        expected.putAll(choPieces);
+        expected.putAll(hanPieces);
+        assertThat(mergedBoard.pieces()).isEqualTo(expected);
+    }
 }

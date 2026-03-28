@@ -1,0 +1,52 @@
+package core;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import board.Board;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import pieces.Cha;
+import pieces.EmptyPiece;
+import pieces.Piece;
+import pieces.Side;
+import position.Position;
+
+class JanggiGameTest {
+
+    @Test
+    void 초의_턴일_때_한이_공격하는_경우_예외를_던진다() {
+        // given
+        Position choChaDeparture = new Position(0, 0);
+        Position choChaDestination = new Position(1, 0);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(choChaDeparture, new Cha(Side.CHO));
+        pieces.put(choChaDestination, new EmptyPiece());
+        JanggiGame janggiGame = new JanggiGame(new Board(pieces));
+        // when & then
+        assertThatThrownBy(() -> janggiGame.move(choChaDeparture, choChaDestination, Side.HAN))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 한의_턴일_때_초가_공격하는_경우_예외를_던진다() {
+        // given
+        Position choChaDeparture = new Position(0, 0);
+        Position choChaDestination = new Position(1, 0);
+        Position hanDeparture = new Position(9, 0);
+        Position hanDestination = new Position(8, 0);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(choChaDeparture, new Cha(Side.CHO));
+        pieces.put(choChaDestination, new EmptyPiece());
+        pieces.put(hanDeparture, new Cha(Side.HAN));
+        pieces.put(hanDestination, new EmptyPiece());
+        JanggiGame janggiGame = new JanggiGame(new Board(pieces));
+
+        janggiGame.move(choChaDeparture, choChaDestination, Side.CHO);
+        // when & then
+        assertThatThrownBy(() -> janggiGame.move(hanDeparture, hanDestination, Side.CHO))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+}
