@@ -5,6 +5,7 @@ import janggi.domain.piece.PieceType;
 import java.util.Map;
 
 public class PieceLabelMapper {
+
     private static final Map<PieceType, String> NAMES = Map.of(
             PieceType.GUARD, "사", 
             PieceType.CHARIOT, "차", 
