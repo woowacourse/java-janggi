@@ -21,7 +21,7 @@ public class GeneralMoveRule extends MoveRule{
         return from.isSamePiece(pieceType);
     }
 
-    public List<Point> findPossiblePoints(Intersection from, Intersection to) {
+    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
 

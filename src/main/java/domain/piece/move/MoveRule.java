@@ -22,7 +22,7 @@ public abstract class MoveRule {
 
     public abstract boolean support(Intersection from);
 
-    public abstract List<Point> findPossiblePoints(Intersection from, Intersection to);
+    public abstract List<Point> findPathOfPoints(Intersection from, Intersection to);
 
     public abstract boolean checkMoveRule(Intersection from, List<Intersection> path);
 

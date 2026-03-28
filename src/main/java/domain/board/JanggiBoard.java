@@ -31,17 +31,17 @@ public class JanggiBoard {
         Intersection to = findIntersection(end);
 
         validateMoveRule(from, to);
-        move(to, from);
+        move(from, to);
     }
 
-    private void move(Intersection to, Intersection from) {
+    private void move(Intersection from, Intersection to) {
         to.arrive(from);
         from.leave();
     }
 
     private void validateMoveRule(Intersection from, Intersection to) {
         MoveRule moveRule = findMoveRule(from);
-        List<Point> possiblePoints = moveRule.findPossiblePoints(from, to);
+        List<Point> possiblePoints = moveRule.findPathOfPoints(from, to);
         List<Intersection> path = findPath(possiblePoints);
         moveRule.checkMoveRule(from, path);
     }
