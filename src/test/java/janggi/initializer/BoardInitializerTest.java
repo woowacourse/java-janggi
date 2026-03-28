@@ -3,6 +3,7 @@ package janggi.initializer;
 import janggi.domain.Arrangement;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.board.Board;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Ma;
@@ -73,10 +74,10 @@ class BoardInitializerTest {
     void 장기판은_10x9_모든_좌표를_생성한다() {
         Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.마상마상, Arrangement.마상마상);
 
-        assertThat(board.size()).isEqualTo(Position.BOARD_END_ROWS * Position.BOARD_END_COLS);
+        assertThat(board.size()).isEqualTo(Board.BOARD_END_ROWS * Board.BOARD_END_COLS);
 
-        for (int row = Position.BOARD_START_ROWS; row <= Position.BOARD_END_ROWS; row++) {
-            for (int col = Position.BOARD_START_COLS; col <= Position.BOARD_END_COLS; col++) {
+        for (int row = Board.BOARD_START_ROWS; row <= Board.BOARD_END_ROWS; row++) {
+            for (int col = Board.BOARD_START_COLS; col <= Board.BOARD_END_COLS; col++) {
                 assertThat(board.containsKey(new Position(row, col))).isTrue();
             }
         }

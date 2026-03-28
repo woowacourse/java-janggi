@@ -3,6 +3,7 @@ package janggi.initializer;
 import janggi.domain.Arrangement;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.board.Board;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Ma;
@@ -80,8 +81,8 @@ public class BoardInitializer {
 
     private static Map<Position, Piece> initBoard() {
         Map<Position, Piece> pieces = new HashMap<>();
-        for (int i = Position.BOARD_START_ROWS; i <= Position.BOARD_END_ROWS; i++) {
-            for (int j = Position.BOARD_START_COLS; j <= Position.BOARD_END_COLS; j++) {
+        for (int i = Board.BOARD_START_ROWS; i <= Board.BOARD_END_ROWS; i++) {
+            for (int j = Board.BOARD_START_COLS; j <= Board.BOARD_END_COLS; j++) {
                 Position position = new Position(i, j);
                 pieces.put(position, new None());
             }

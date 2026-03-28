@@ -2,11 +2,12 @@ package janggi.domain;
 
 import java.util.List;
 
+import static janggi.domain.board.Board.BOARD_END_COLS;
+import static janggi.domain.board.Board.BOARD_END_ROWS;
+import static janggi.domain.board.Board.BOARD_START_COLS;
+import static janggi.domain.board.Board.BOARD_START_ROWS;
+
 public record Position(int x, int y) {
-    public static final int BOARD_START_ROWS = 1;
-    public static final int BOARD_START_COLS = 1;
-    public static final int BOARD_END_ROWS = 10;
-    public static final int BOARD_END_COLS = 9;
 
     private static final String INVALID_POSITION_TYPE = "숫자만 입력 가능합니다.";
     private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";

@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Board implements BoardInterface {
+    public static final int BOARD_START_ROWS = 1;
+    public static final int BOARD_START_COLS = 1;
+    public static final int ARRAY_INDEX_OFFSET = 1;
+    public static final int BOARD_END_ROWS = 10;
+    public static final int BOARD_END_COLS = 9;
+
     private static final String INVALID_PIECE_SIDE_MESSAGE = "자기 진영의 기물만 움직일 수 있습니다.";
     private final Map<Position, Piece> board;
 
@@ -40,11 +46,11 @@ public class Board implements BoardInterface {
 
     @Override
     public PieceInfo[][] getCurrentBoard() {
-        PieceInfo[][] currentBoard = new PieceInfo[10][9];
+        PieceInfo[][] currentBoard = new PieceInfo[BOARD_END_ROWS][BOARD_END_COLS];
         for (Map.Entry<Position, Piece> entry : board.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
-            currentBoard[position.x() - 1][position.y() - 1] = piece.getPieceInfo();
+            currentBoard[position.x() - ARRAY_INDEX_OFFSET][position.y() - ARRAY_INDEX_OFFSET] = piece.getPieceInfo();
         }
         return currentBoard;
     }
