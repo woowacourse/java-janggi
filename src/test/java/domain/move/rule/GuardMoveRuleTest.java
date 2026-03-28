@@ -29,12 +29,14 @@ public class GuardMoveRuleTest {
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, guard);
-        Intersection to = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    guardMoveRule.checkMoveRule(from, new Path(List.of(to)));
+                    guardMoveRule.checkMoveRule(from, new Path(List.of(
+                            sameTeamIntersection))
+                    );
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }
@@ -49,11 +51,11 @@ public class GuardMoveRuleTest {
         Piece guard = new Piece(sameTeam, PieceType.GUARD);
 
         Intersection from = new Intersection(start, guard);
-        Intersection to = Intersection.empty(end);
+        Intersection emptyIntersection = Intersection.empty(end);
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(to))))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(emptyIntersection))))
                 .isTrue();
     }
 
@@ -69,11 +71,11 @@ public class GuardMoveRuleTest {
         Piece opponent = new Piece(anotherTeam, PieceType.GUARD);
 
         Intersection from = new Intersection(start, guard);
-        Intersection to = new Intersection(end, opponent);
+        Intersection opponentIntersection = new Intersection(end, opponent);
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(to))))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(opponentIntersection))))
                 .isTrue();
     }
 

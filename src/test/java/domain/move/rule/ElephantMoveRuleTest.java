@@ -35,7 +35,7 @@ public class ElephantMoveRuleTest {
         Intersection from = new Intersection(start, elephant);
         Intersection middleIntersection1 = Intersection.empty(middlePoint1);
         Intersection middleIntersection2 = Intersection.empty(middlePoint2);
-        Intersection to = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
         ElephantMoveRule elephantRule = new ElephantMoveRule();
 
@@ -43,7 +43,7 @@ public class ElephantMoveRuleTest {
                     elephantRule.checkMoveRule(from, new Path(List.of(
                             middleIntersection1,
                             middleIntersection2,
-                            to)));
+                            sameTeamIntersection)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }
@@ -61,16 +61,16 @@ public class ElephantMoveRuleTest {
         Piece obstacle = new Piece(sameTeam, PieceType.ELEPHANT);
 
         Intersection from = new Intersection(start, elephant);
-        Intersection middleIntersection1 = new Intersection(middlePoint1, obstacle);
-        Intersection middleIntersection2 = Intersection.empty(middlePoint2);
+        Intersection obstacleIntersection = new Intersection(middlePoint1, obstacle);
+        Intersection intersection = Intersection.empty(middlePoint2);
         Intersection to = Intersection.empty(end);
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     elephantMoveRule.checkMoveRule(from, new Path(List.of(
-                            middleIntersection1,
-                            middleIntersection2,
+                            obstacleIntersection,
+                            intersection,
                             to)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_PATH_HAS_OBSTACLE.getErrorMessage());
@@ -87,16 +87,16 @@ public class ElephantMoveRuleTest {
         Piece elephant = new Piece(Team.CHO, PieceType.ELEPHANT);
 
         Intersection from = new Intersection(start, elephant);
-        Intersection middleIntersection1 = Intersection.empty(middlePoint1);
-        Intersection middleIntersection2 = Intersection.empty(middlePoint2);
+        Intersection intersection1 = Intersection.empty(middlePoint1);
+        Intersection intersection2 = Intersection.empty(middlePoint2);
         Intersection to = Intersection.empty(end);
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
                         elephantMoveRule.checkMoveRule(from, new Path(List.of(
-                                middleIntersection1,
-                                middleIntersection2,
+                                intersection1,
+                                intersection2,
                                 to))))
                 .isTrue();
     }
@@ -115,16 +115,16 @@ public class ElephantMoveRuleTest {
         Piece opponent = new Piece(opponentTeam, PieceType.ELEPHANT);
 
         Intersection from = new Intersection(start, elephant);
-        Intersection middleIntersection1 = Intersection.empty(middlePoint1);
-        Intersection middleIntersection2 = Intersection.empty(middlePoint2);
-        Intersection to = new Intersection(start, opponent);
+        Intersection intersection1 = Intersection.empty(middlePoint1);
+        Intersection intersection2 = Intersection.empty(middlePoint2);
+        Intersection to = new Intersection(end, opponent);
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
                         elephantMoveRule.checkMoveRule(from, new Path((List.of(
-                                middleIntersection1,
-                                middleIntersection2,
+                                intersection1,
+                                intersection2,
                                 to)))))
                 .isTrue();
     }

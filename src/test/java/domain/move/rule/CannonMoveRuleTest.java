@@ -46,7 +46,7 @@ class CannonMoveRuleTest {
         Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
 
         Intersection onlyObstacleIntersection = new Intersection(middlePoint5, new Piece(sameTeam, PieceType.CANNON));
-        Intersection to = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection sameTeamIntersection = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
@@ -59,7 +59,7 @@ class CannonMoveRuleTest {
                             intersection6,
                             intersection7,
                             intersection8,
-                            to)));
+                            sameTeamIntersection)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }
@@ -149,7 +149,7 @@ class CannonMoveRuleTest {
 
         Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
         Intersection obstacle = new Intersection(middlePoint6, new Piece(sameTeam, PieceType.CHARIOT));
-        Intersection to = new Intersection(end, new Piece(anotherTeam, PieceType.CANNON));
+        Intersection cannonIntersection = new Intersection(end, new Piece(anotherTeam, PieceType.CANNON));
 
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -163,7 +163,7 @@ class CannonMoveRuleTest {
                             obstacle,
                             intersection7,
                             intersection8,
-                            to)));
+                            cannonIntersection)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNON_CANNOT_ATTACK_CANNON.getErrorMessage());
     }

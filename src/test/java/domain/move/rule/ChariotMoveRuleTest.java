@@ -44,7 +44,7 @@ public class ChariotMoveRuleTest {
         Team sameTeam = Team.CHO;
 
         Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
-        Intersection to = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection sameTeamIntersection = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
@@ -57,7 +57,7 @@ public class ChariotMoveRuleTest {
                             intersection6,
                             intersection7,
                             intersection8,
-                            to)));
+                            sameTeamIntersection)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }
@@ -91,7 +91,7 @@ public class ChariotMoveRuleTest {
     @DisplayName("차는 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
     void chariotCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
         Intersection from = new Intersection(start, new Piece(Team.CHO, PieceType.CHARIOT));
-        Intersection to = Intersection.empty(end);
+        Intersection emptyIntersection = Intersection.empty(end);
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
@@ -104,7 +104,7 @@ public class ChariotMoveRuleTest {
                         intersection6,
                         intersection7,
                         intersection8,
-                        to))))
+                        emptyIntersection))))
                 .isTrue();
     }
 
@@ -112,7 +112,7 @@ public class ChariotMoveRuleTest {
     @DisplayName("차는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void chariotCanMoveWhenNoObstacleAndDestinationIsOpponent() {
         Intersection from = new Intersection(start, new Piece(Team.CHO, PieceType.CHARIOT));
-        Intersection to = new Intersection(end, new Piece(Team.HAN, PieceType.CHARIOT));
+        Intersection opponentIntersection = new Intersection(end, new Piece(Team.HAN, PieceType.CHARIOT));
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
@@ -125,7 +125,7 @@ public class ChariotMoveRuleTest {
                                 intersection6,
                                 intersection7,
                                 intersection8,
-                                to))))
+                                opponentIntersection))))
                 .isTrue();
     }
 

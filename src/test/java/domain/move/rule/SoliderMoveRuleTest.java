@@ -29,12 +29,14 @@ public class SoliderMoveRuleTest {
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, soldier);
-        Intersection to = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    soliderMoveRule.checkMoveRule(from, new Path(List.of(to)));
+                    soliderMoveRule.checkMoveRule(from, new Path(List.of(
+                            sameTeamIntersection))
+                    );
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }

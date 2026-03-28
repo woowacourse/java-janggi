@@ -29,12 +29,14 @@ public class GeneralMoveRuleTest {
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, general);
-        Intersection to = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    generalMoveRule.checkMoveRule(from, new Path(List.of(to)));
+                    generalMoveRule.checkMoveRule(from, new Path(List.of(
+                            sameTeamIntersection))
+                    );
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
     }
@@ -49,11 +51,11 @@ public class GeneralMoveRuleTest {
         Piece general = new Piece(sameTeam, PieceType.GENERAL);
 
         Intersection from = new Intersection(start, general);
-        Intersection to = Intersection.empty(end);
+        Intersection emptyIntersection = Intersection.empty(end);
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(to))))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(emptyIntersection))))
                 .isTrue();
     }
 
@@ -69,11 +71,11 @@ public class GeneralMoveRuleTest {
         Piece opponent = new Piece(anotherTeam, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, general);
-        Intersection to = new Intersection(end, opponent);
+        Intersection opponentIntersection = new Intersection(end, opponent);
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(to))))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(opponentIntersection))))
                 .isTrue();
     }
 
