@@ -1,8 +1,8 @@
 package janggi.model;
 
 public enum Team {
-    HAN("초"),
-    CHO("한");
+    HAN("한"),
+    CHO("초");
 
     private final String displayName;
 
