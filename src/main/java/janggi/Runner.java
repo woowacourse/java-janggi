@@ -6,8 +6,6 @@ import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
-import java.util.List;
-
 public class Runner {
     private Game game;
 
@@ -35,12 +33,8 @@ public class Runner {
     private void playTurnGame() {
         try {
             printCurrentStatus();
-            List<String> startPositionInput = InputView.askStartPosition();
-            Position startPosition = Position.from(startPositionInput);
-
-            List<String> endPositionInput = InputView.askEndPosition();
-            Position endPosition = Position.from(endPositionInput);
-
+            Position startPosition = Position.from(InputView.askStartPosition());
+            Position endPosition = Position.from(InputView.askEndPosition());
             game.move(startPosition, endPosition);
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
