@@ -15,7 +15,11 @@ public class InputView {
     private static final String REQUEST_MOVING_START_PIECE_POSITION = "\n%s 턴! 이동할 기물의 좌표를 입력해주세요. (e.g. 2,3)\n";
     private static final String REQUEST_PIECE_DESTINATION = "\n움직일 좌표의 번호를 선택해주세요.";
 
-    private final Scanner sc = new Scanner(System.in);
+    private final Scanner sc;
+
+    public InputView(Scanner sc) {
+        this.sc = sc;
+    }
 
     public Position requestStartPiecePosition(Side side) {
         try {
