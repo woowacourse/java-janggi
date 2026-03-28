@@ -3,9 +3,9 @@ package domain.strategy;
 import domain.moverule.ElephantMoveRule;
 import domain.Position;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ElephantMoveStrategy extends MoveStrategy {
 
@@ -13,19 +13,11 @@ public class ElephantMoveStrategy extends MoveStrategy {
 
     public ElephantMoveStrategy(Position position) {
         super(position);
-        this.moves = setupDestinationAndRoutesFrom();
+        this.moves = setupDestinationAndRoutes();
     }
 
     public static ElephantMoveStrategy of(Position position) {
         return new ElephantMoveStrategy(position);
-    }
-
-    private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {
-        Map<Position, List<Position>> moves = new HashMap<>();
-        Arrays.stream(ElephantMoveRule.values())
-                .forEach(elephantMoveRule ->
-                        moves.putIfAbsent(elephantMoveRule.destination(position), elephantMoveRule.route(position)));
-        return moves;
     }
 
     @Override
@@ -38,5 +30,14 @@ public class ElephantMoveStrategy extends MoveStrategy {
         List<Position> route = moves.get(destination);
 
         return piecePositions.stream().anyMatch(route::contains);
+    }
+
+    private Map<Position, List<Position>> setupDestinationAndRoutes() {
+        return Arrays.stream(ElephantMoveRule.values())
+                .collect(Collectors.toMap(
+                                elephantMoveRule -> elephantMoveRule.destination(position),
+                                elephantMoveRule -> elephantMoveRule.route(position)
+                        )
+                );
     }
 }
