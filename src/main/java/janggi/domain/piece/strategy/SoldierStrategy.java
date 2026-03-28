@@ -3,6 +3,8 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Path;
 import janggi.domain.Position;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SoldierStrategy implements MoveStrategy {
@@ -14,10 +16,18 @@ public class SoldierStrategy implements MoveStrategy {
 
     @Override
     public List<Path> findMovablePaths(Position current) {
-        return List.of(
-                new Path(List.of(), Position.of(current.row() + direction, current.column())),
-                new Path(List.of(), Position.of(current.row(), current.column() + 1)),
-                new Path(List.of(), Position.of(current.row(), current.column() - 1))
-        );
+        List<Path> paths = new ArrayList<>();
+
+        addPath(paths, current, direction, 0);
+        addPath(paths, current, 0, 1);
+        addPath(paths, current, 0, -1);
+
+        return Collections.unmodifiableList(paths);
+    }
+
+    private void addPath(List<Path> paths, Position current, int destRow, int destCol) {
+        Position.findPosition(current.row() + destRow, current.column() + destCol)
+                .map(dest -> new Path(List.of(), dest))
+                .ifPresent(paths::add);
     }
 }
