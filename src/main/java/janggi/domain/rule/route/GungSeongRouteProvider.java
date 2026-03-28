@@ -17,6 +17,16 @@ import java.util.List;
 public class GungSeongRouteProvider implements RouteProvider {
 
     private static final GungSeongRouteProvider INSTANCE = new GungSeongRouteProvider();
+    private static final List<Route> POSSIBLE_ROUTES = List.of(
+            Route.from(List.of(FRONT)),
+            Route.from(List.of(LEFT)),
+            Route.from(List.of(RIGHT)),
+            Route.from(List.of(BACK)),
+            Route.from(List.of(FRONT_LEFT)),
+            Route.from(List.of(FRONT_RIGHT)),
+            Route.from(List.of(BACK_LEFT)),
+            Route.from(List.of(BACK_RIGHT))
+    );
 
     private GungSeongRouteProvider() {
     }
@@ -27,17 +37,6 @@ public class GungSeongRouteProvider implements RouteProvider {
 
     @Override
     public List<Location> calculateRoute(PieceType pieceType, Location from, Location to) {
-        List<Route> possibleRoutes = List.of(
-                Route.from(List.of(FRONT)),
-                Route.from(List.of(LEFT)),
-                Route.from(List.of(RIGHT)),
-                Route.from(List.of(BACK)),
-                Route.from(List.of(FRONT_LEFT)),
-                Route.from(List.of(FRONT_RIGHT)),
-                Route.from(List.of(BACK_LEFT)),
-                Route.from(List.of(BACK_RIGHT))
-        );
-
-        return RouteProvider.findValidPath(pieceType, from, to, possibleRoutes);
+        return RouteProvider.findValidPath(pieceType, from, to, POSSIBLE_ROUTES);
     }
 }

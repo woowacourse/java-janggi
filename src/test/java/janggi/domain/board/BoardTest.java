@@ -159,14 +159,13 @@ class BoardTest {
 
             // when & then
             Assertions.assertThatNoException()
-                    .isThrownBy(() -> board.validateLocationToMove(from, to, Side.HAN));
+                    .isThrownBy(() -> board.validateLocationToMove(from, to));
         }
 
         @Test
         @DisplayName("도착 좌표에 상대 팀 기물이 존재하면 예외를 발생시키지 않는다.")
         void shouldThrowExceptionWhenPieceOnOtherSideExistsAtLocation() {
             // given
-            Side currentSide = Side.HAN;
             Side otherSide = Side.CHO;
             Map<Location, Piece> initialPieces = Map.of(
                     new Location(1, 1), new TestPiece(otherSide)
@@ -180,27 +179,7 @@ class BoardTest {
 
             // when & then
             Assertions.assertThatNoException()
-                    .isThrownBy(() -> board.validateLocationToMove(from, to, currentSide));
-        }
-
-        @Test
-        @DisplayName("도착 좌표에 같은 팀 기물이 존재하면 예외를 발생시킨다.")
-        void shouldNotThrowExceptionWhenPieceOnSameSideExistsAtLocation() {
-            // given
-            Side currentSide = Side.HAN;
-            Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
-            );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
-            Board board = Board.create(assembler);
-            Location from = new Location(0, 0);
-            Location to = new Location(1, 1);
-
-            // when & then
-            Assertions.assertThatThrownBy(() -> board.validateLocationToMove(from, to, currentSide))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isThrownBy(() -> board.validateLocationToMove(from, to));
         }
     }
 

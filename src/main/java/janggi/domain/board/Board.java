@@ -79,13 +79,9 @@ public class Board {
         boardState.put(from, EmptyPiece.getInstance());
     }
 
-    public void validateLocationToMove(Location startingLocation, Location locationToMove, Side currentSide) {
+    public void validateLocationToMove(Location startingLocation, Location locationToMove) {
         validateLocation(locationToMove);
         validateMovementOccurrence(startingLocation, locationToMove);
-        Piece target = boardState.get(locationToMove);
-        if (isOccupiedBySameSide(target, currentSide)) {
-            throw new IllegalArgumentException("같은 편의 기물이 있는 위치로 이동할 수 없습니다.");
-        }
     }
 
     private void validateMovementOccurrence(Location from, Location to) {
@@ -114,9 +110,5 @@ public class Board {
 
     private boolean isNotSameSide(Piece piece, Side side) {
         return !piece.isSameSide(side);
-    }
-
-    private boolean isOccupiedBySameSide(Piece piece, Side side) {
-        return !piece.isEmpty() && piece.isSameSide(side);
     }
 }

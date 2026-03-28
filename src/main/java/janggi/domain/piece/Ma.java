@@ -20,6 +20,16 @@ import java.util.List;
 public class Ma extends Piece {
 
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
+    private static final List<Route> POSSIBLE_ROUTES = List.of(
+            Route.from(List.of(FRONT, FRONT_LEFT)),
+            Route.from(List.of(FRONT, FRONT_RIGHT)),
+            Route.from(List.of(RIGHT, FRONT_RIGHT)),
+            Route.from(List.of(RIGHT, BACK_RIGHT)),
+            Route.from(List.of(LEFT, FRONT_LEFT)),
+            Route.from(List.of(LEFT, BACK_LEFT)),
+            Route.from(List.of(BACK, BACK_LEFT)),
+            Route.from(List.of(BACK, BACK_RIGHT))
+    );
 
     public Ma(Side side) {
         super(PieceType.MA, side);
@@ -27,18 +37,7 @@ public class Ma extends Piece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        List<Route> possibleRoutes = List.of(
-                Route.from(List.of(FRONT, FRONT_LEFT)),
-                Route.from(List.of(FRONT, FRONT_RIGHT)),
-                Route.from(List.of(RIGHT, FRONT_RIGHT)),
-                Route.from(List.of(RIGHT, BACK_RIGHT)),
-                Route.from(List.of(LEFT, FRONT_LEFT)),
-                Route.from(List.of(LEFT, BACK_LEFT)),
-                Route.from(List.of(BACK, BACK_LEFT)),
-                Route.from(List.of(BACK, BACK_RIGHT))
-        );
-
-        return RouteProvider.findValidPath(pieceType, from, to, possibleRoutes);
+        return RouteProvider.findValidPath(pieceType, from, to, POSSIBLE_ROUTES);
     }
 
     @Override

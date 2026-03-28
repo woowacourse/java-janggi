@@ -3,28 +3,23 @@ package janggi.controller;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
-import janggi.strategy.MaSangMaSang;
-import janggi.strategy.MaSangSangMa;
-import janggi.strategy.SangMaMaSang;
-import janggi.strategy.SangMaSangMa;
 import janggi.view.ApplicationView;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiFlow {
 
-    private final ApplicationView view;
     private final List<ArrangementStrategy> strategies;
+    private final ApplicationView view;
 
-    public JanggiFlow(ApplicationView view) {
+    public JanggiFlow(List<ArrangementStrategy> strategies, ApplicationView view) {
+        this.strategies = strategies;
         this.view = view;
-        this.strategies = List.of(
-                MaSangMaSang.getInstance(),
-                MaSangSangMa.getInstance(),
-                SangMaMaSang.getInstance(),
-                SangMaSangMa.getInstance()
-        );
     }
 
     public void process() {
@@ -34,8 +29,8 @@ public class JanggiFlow {
 
         Side current = Side.HAN;
         while (board.isNotEmpty()) {
-            view.responseBoardArray(board.to2DArray());
-            view.responseCurrentSide(current);
+            view.responseBoardArray(convertBoardStatus(board));
+            view.responseCurrentSide(current.getName());
 
             final Side turnSide = current;
             retryUntilPieceIsSuccessfullyMoved(() -> {
@@ -45,6 +40,17 @@ public class JanggiFlow {
             });
             current = current.switchSide();
         }
+    }
+
+    private List<List<String>> convertBoardStatus(Board board) {
+        List<List<Piece>> boradIn2D = board.to2DArray();
+        return boradIn2D.stream()
+                .map(
+                        row -> row.stream()
+                                .map(Piece::getPieceType)
+                                .map(PieceType::getNameFormat)
+                                .toList()
+                ).toList();
     }
 
     private ArrangementStrategy repeatAskStrategyUntilSuccess(Side side) {
@@ -57,8 +63,17 @@ public class JanggiFlow {
     }
 
     private ArrangementStrategy askStrategy(Side side) {
-        int decisionNumber = view.requestArrangementStrategyDecision(side, strategies);
+        Map<Integer, String> strategyInfos = convertStrategyInfo();
+        int decisionNumber = view.requestArrangementStrategyDecision(side.getName(), strategyInfos);
         return findStrategyWithCorrespondingDecisionNumber(decisionNumber);
+    }
+
+    private Map<Integer, String> convertStrategyInfo() {
+        Map<Integer, String> strategyInfos = new LinkedHashMap<>();
+        for (ArrangementStrategy strategy : strategies) {
+            strategyInfos.put(strategy.decisionNumber(), strategy.name());
+        }
+        return strategyInfos;
     }
 
     private ArrangementStrategy findStrategyWithCorrespondingDecisionNumber(int decisionNumber) {
@@ -86,17 +101,17 @@ public class JanggiFlow {
 
     private Location repeatAskLocationToMoveUntilSuccess(Location from, Side turnSide, Board board) {
         try {
-            return askLocationToMove(from, turnSide, board);
+            return askLocationToMove(from, board);
         } catch (IllegalArgumentException e) {
             view.responseErrorMessage(e);
             return repeatAskLocationToMoveUntilSuccess(from, turnSide, board);
         }
     }
 
-    private Location askLocationToMove(Location startingLocation, Side current, Board board) {
+    private Location askLocationToMove(Location startingLocation, Board board) {
         List<Integer> locationToMove = view.requestLocationToMove();
         Location verifiedLocation = Location.from(locationToMove);
-        board.validateLocationToMove(startingLocation, verifiedLocation, current);
+        board.validateLocationToMove(startingLocation, verifiedLocation);
         return verifiedLocation;
     }
 
