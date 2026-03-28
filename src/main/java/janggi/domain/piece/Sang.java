@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Sang extends ActivePiece {
 
-    private static final PieceType PIECE_TYPE = PieceType.SA;
+    private static final PieceType PIECE_TYPE = PieceType.SANG;
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Sang(Side side) {
