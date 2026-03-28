@@ -13,12 +13,12 @@ public class Horse extends Piece{
 
     @Override
     public boolean canPassRoute(Map<Position, Piece> piecesInPath) {
-        return false;
+        return piecesInPath.isEmpty();
     }
 
     @Override
     public boolean canCatch(Piece piece) {
-        return false;
+        return !this.isSameCamp(piece);
     }
 
     @Override
