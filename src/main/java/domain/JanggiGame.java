@@ -5,17 +5,23 @@ import java.util.List;
 
 public class JanggiGame {
 
-    private static final int MAX_ROW = 9;
-    private static final int MIN_ROW = 0;
-    private static final int MAX_COL = 8;
-    private static final int MIN_COL = 0;
-
     private final Board board;
     private GameStatus gameStatus;
 
     public JanggiGame(Board board, GameStatus gameStatus) {
         this.board = board;
         this.gameStatus = gameStatus;
+    }
+
+    public PieceInfo findPieceInfoAt(Position selectPosition) {
+        validateOutOfRange(selectPosition);
+
+        Piece piece = board.findPieceAt(selectPosition);
+
+        requireExists(piece);
+        requireCorrectTurn(piece);
+
+        return PieceInfo.from(piece);
     }
 
     public void move(Position selectPosition, Position destination) {
@@ -31,17 +37,6 @@ public class JanggiGame {
 
     public String gameStatus() {
         return this.gameStatus.description();
-    }
-
-    public PieceInfo findPieceInfoAt(Position selectPosition) {
-        validateOutOfRange(selectPosition);
-
-        Piece piece = board.findPieceAt(selectPosition);
-
-        requireExists(piece);
-        requireCorrectTurn(piece);
-
-        return PieceInfo.from(piece);
     }
 
     public String currentPlayerTurn() {
@@ -62,10 +57,7 @@ public class JanggiGame {
     }
 
     private void validateOutOfRange(Position position) {
-        if (position.row() > MAX_ROW
-                || position.row() < MIN_ROW
-                || position.col() > MAX_COL
-                || position.col() < MIN_COL) {
+        if (position.isOutOfBoard()) {
             throw new IllegalArgumentException("[ERROR] 장기판 범위를 벗어난 위치를 입력하셨습니다.");
         }
     }

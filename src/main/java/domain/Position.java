@@ -38,4 +38,24 @@ public record Position(int row, int col) {
         return Position.of(this.row + 1, this.col - 1);
     }
 
+    public boolean isOutOfBoard() {
+        return this.row < BoardRange.ROW.min
+                || this.row > BoardRange.ROW.max
+                || this.col < BoardRange.COL.min
+                || this.col > BoardRange.COL.max;
+    }
+
+    private enum BoardRange {
+        ROW(0, 9),
+        COL(0, 8),
+        ;
+
+        final int min;
+        final int max;
+
+        BoardRange(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+    }
 }
