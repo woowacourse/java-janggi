@@ -5,6 +5,15 @@ import java.util.List;
 
 public class DefaultCollisionDetector implements CollisionDetector {
 
+    private static final DefaultCollisionDetector INSTANCE = new DefaultCollisionDetector();
+
+    private DefaultCollisionDetector() {
+    }
+
+    public static DefaultCollisionDetector getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void check(Piece piece, List<Piece> piecesOnPath) {
         validateMiddlePath(piecesOnPath);

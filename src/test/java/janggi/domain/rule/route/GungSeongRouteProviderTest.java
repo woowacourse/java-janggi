@@ -35,7 +35,7 @@ class GungSeongRouteProviderTest {
         // given
         Location from = Location.from(List.of(4, 1));
         Location to = Location.from(destination);
-        RouteProvider routeProvider = new GungSeongRouteProvider();
+        RouteProvider routeProvider = GungSeongRouteProvider.getInstance();
 
         // when & then
         Assertions.assertThat(routeProvider.calculateRoute(from, to))
@@ -49,7 +49,7 @@ class GungSeongRouteProviderTest {
         // given
         Location from = Location.from(List.of(3, 2));
         Location to = Location.from(coordination);
-        RouteProvider routeProvider = new GungSeongRouteProvider();
+        RouteProvider routeProvider = GungSeongRouteProvider.getInstance();
 
         // when & then
         Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))

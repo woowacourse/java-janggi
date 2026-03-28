@@ -5,7 +5,15 @@ import java.util.List;
 
 public class PoCollisionDetector implements CollisionDetector {
 
+    private static final PoCollisionDetector INSTANCE = new PoCollisionDetector();
     private static final int REQUIRED_SCREEN_COUNT = 1;
+
+    private PoCollisionDetector() {
+    }
+
+    public static PoCollisionDetector getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public void check(Piece piece, List<Piece> piecesOnPath) {

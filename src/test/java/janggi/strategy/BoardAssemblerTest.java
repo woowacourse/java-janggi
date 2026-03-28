@@ -16,8 +16,8 @@ class BoardAssemblerTest {
     @DisplayName("공통 기물과 각 팀의 전략이 합쳐져 전체 보드를 생성한다.")
     void shouldAssembleFullBoard() {
         // given
-        ArrangementStrategy hanStrategy = new SangMaMaSang();
-        ArrangementStrategy choStrategy = new MaSangMaSang();
+        ArrangementStrategy hanStrategy = SangMaMaSang.getInstance();
+        ArrangementStrategy choStrategy = MaSangMaSang.getInstance();
         BoardAssembler assembler = BoardAssembler.of(hanStrategy, choStrategy);
 
         // when

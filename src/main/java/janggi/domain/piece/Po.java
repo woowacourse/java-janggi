@@ -11,8 +11,8 @@ import java.util.List;
 public class Po extends ActivePiece {
 
     private static final String PIECE_NAME = "포";
-    private static final RouteProvider ROUTE_PROVIDER = new GungSeongRouteProvider();
-    private static final CollisionDetector COLLISION_DETECTOR = new PoCollisionDetector();
+    private static final RouteProvider ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
+    private static final CollisionDetector COLLISION_DETECTOR = PoCollisionDetector.getInstance();
 
     public Po(Side side) {
         super(PIECE_NAME, side);

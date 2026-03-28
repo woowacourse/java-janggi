@@ -46,7 +46,7 @@ class StraightRouteProviderTest {
     void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
         // given
         Location from = Location.from(List.of(2, 2));
-        RouteProvider routeProvider = new StraightRouteProvider();
+        RouteProvider routeProvider = StraightRouteProvider.getInstance();
 
         // when & then
         Assertions.assertThat(routeProvider.calculateRoute(from, destination))
@@ -60,7 +60,7 @@ class StraightRouteProviderTest {
         // given
         Location from = Location.from(List.of(1, 1));
         Location to = Location.from(coordination);
-        RouteProvider routeProvider = new StraightRouteProvider();
+        RouteProvider routeProvider = StraightRouteProvider.getInstance();
 
         // when & then
         Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))

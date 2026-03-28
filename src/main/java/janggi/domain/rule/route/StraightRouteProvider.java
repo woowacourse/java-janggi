@@ -10,6 +10,15 @@ import java.util.List;
 
 public class StraightRouteProvider implements RouteProvider {
 
+    private static final StraightRouteProvider INSTANCE = new StraightRouteProvider();
+
+    private StraightRouteProvider() {
+    }
+
+    public static StraightRouteProvider getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
         int maxDistance = calculateMaxDistance(from, to);

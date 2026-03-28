@@ -7,8 +7,14 @@ import janggi.domain.piece.Sang;
 
 public class MaSangMaSang extends ArrangementStrategy {
 
-    public MaSangMaSang() {
+    private static final MaSangMaSang INSTANCE = new MaSangMaSang();
+
+    private MaSangMaSang() {
         super(StrategyLabel.HEHE);
+    }
+
+    public static MaSangMaSang getInstance() {
+        return INSTANCE;
     }
 
     @Override

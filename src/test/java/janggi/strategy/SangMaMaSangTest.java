@@ -17,7 +17,7 @@ class SangMaMaSangTest {
     void shouldPlaceSangMaMaSangWhenSideHan() {
         // given
         Piece[][] grid = new Piece[10][9];
-        ArrangementStrategy strategy = new SangMaMaSang();
+        ArrangementStrategy strategy = SangMaMaSang.getInstance();
         Side side = Side.HAN;
         Piece expectedSidePiece = new TestPiece(side);
 
@@ -45,7 +45,7 @@ class SangMaMaSangTest {
     void shouldPlaceSangMaMaSangWhenSideCho() {
         // given
         Piece[][] grid = new Piece[10][9];
-        ArrangementStrategy strategy = new SangMaMaSang();
+        ArrangementStrategy strategy = SangMaMaSang.getInstance();
         Side side = Side.CHO;
         Piece expectedSidePiece = new TestPiece(side);
 

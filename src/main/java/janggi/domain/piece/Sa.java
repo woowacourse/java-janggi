@@ -11,8 +11,8 @@ import java.util.List;
 public class Sa extends ActivePiece {
 
     private static final String PIECE_NAME = "사";
-    private static final RouteProvider ROUTE_PROVIDER = new GungSeongRouteProvider();
-    private static final CollisionDetector COLLISION_DETECTOR = new DefaultCollisionDetector();
+    private static final RouteProvider ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
+    private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Sa(Side side) {
         super(PIECE_NAME, side);
