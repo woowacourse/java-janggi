@@ -68,12 +68,13 @@ public class Horse implements Piece {
     }
 
     @Override
-    public boolean isSameTypeAs(Piece other) {
+    public boolean isSameTypeAs(final Piece other) {
         return PIECE_TYPE == other.getPieceType();
     }
 
     @Override
-    public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
+    public List<Position> calculateMovablePositions(final Position from,
+        final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
 

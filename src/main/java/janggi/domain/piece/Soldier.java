@@ -51,12 +51,13 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public boolean isSameTypeAs(Piece other) {
+    public boolean isSameTypeAs(final Piece other) {
         return PIECE_TYPE == other.getPieceType();
     }
 
     @Override
-    public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
+    public List<Position> calculateMovablePositions(final Position from,
+        final BoardMediator boardMediator) {
         if (teamType == TeamType.RED) {
             return RED_PIECE_ACTION.calculateMovablePositions(from, boardMediator);
         }

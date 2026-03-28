@@ -16,14 +16,14 @@ public final class OutputView {
     private OutputView() {
     }
 
-    public static void printSetupGuide(TeamType teamType) {
+    public static void printSetupGuide(final TeamType teamType) {
         System.out.println(teamType.getName() + "의 차림법을 입력해주세요.");
         for (final SetupCommand setupCommand : SetupCommand.values()) {
             System.out.println(setupCommand.ordinal() + 1 + ". " + setupCommand.getDescription());
         }
     }
 
-    public static void printErrorMessage(String message) {
+    public static void printErrorMessage(final String message) {
         System.out.println(ERROR_PREFIX + message);
     }
 

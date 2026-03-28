@@ -15,7 +15,7 @@ public enum PieceType {
 
     private final Function<TeamType, Piece> function;
 
-    PieceType(Function<TeamType, Piece> function) {
+    PieceType(final Function<TeamType, Piece> function) {
         this.function = function;
     }
 

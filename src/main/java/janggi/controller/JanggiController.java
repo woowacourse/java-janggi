@@ -50,7 +50,7 @@ public class JanggiController {
     }
 
     private SetupCommand readSetupCommand() {
-        int commandNumber = InputView.readSetupCommand();
+        final int commandNumber = InputView.readSetupCommand();
         return SetupCommand.pick(commandNumber);
     }
 

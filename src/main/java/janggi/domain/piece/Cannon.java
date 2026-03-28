@@ -45,7 +45,7 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public boolean isSameTypeAs(Piece other) {
+    public boolean isSameTypeAs(final Piece other) {
         return PIECE_TYPE == other.getPieceType();
     }
 

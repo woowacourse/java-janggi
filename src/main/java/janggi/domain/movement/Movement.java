@@ -12,7 +12,7 @@ public class Movement {
     private final int maxDistance;
     private final Direction direction;
 
-    public Movement(int maxDistance, Direction direction) {
+    public Movement(final int maxDistance, final Direction direction) {
         this.maxDistance = maxDistance;
         this.direction = direction;
     }
@@ -33,7 +33,7 @@ public class Movement {
         if (!boardMediator.existsInPosition(to)) {
             return true;
         }
-        Piece target = boardMediator.getPieceInPosition(to);
+        final Piece target = boardMediator.getPieceInPosition(to);
         return me.canCatch(target);
     }
 
