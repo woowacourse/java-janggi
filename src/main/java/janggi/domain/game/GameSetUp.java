@@ -1,10 +1,9 @@
-package janggi.domain.player;
+package janggi.domain.game;
 
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.side.Side;
 
-public record PlayerSetUp(
-        Player player,
+public record GameSetUp(
         Side side,
         BoardSetUp boardSetUp
 ) {
