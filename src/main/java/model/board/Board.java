@@ -37,7 +37,7 @@ public class Board {
         validatePieceExists(piece);
 
         if (!piece.canMove(move, this)) {
-            throw new IllegalArgumentException("이동할 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다.");
         }
 
         executeMove(move, piece);
@@ -45,7 +45,7 @@ public class Board {
 
     private static void validatePieceExists(Piece piece) {
         if (piece == null) {
-            throw new IllegalArgumentException("기물이 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
         }
     }
 
