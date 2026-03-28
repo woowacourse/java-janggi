@@ -29,6 +29,17 @@ public class Runner {
         play(players);
     }
 
+    private Players initialPlayers() {
+        String choPlayerName = readPlayerName(Side.CHO);
+        String hanPlayerName = readPlayerName(Side.HAN);
+        return Players.of(choPlayerName, hanPlayerName);
+    }
+
+    private void printBoard() {
+        outputView.printBoardSettingNotice();
+        outputView.printBoardStatus(BoardDTO.from(board));
+    }
+
     private void play(Players players) {
         while (true) {
             PlayerDTO currentPlayer = players.getCurrentPlayer();
@@ -58,12 +69,6 @@ public class Runner {
         return position;
     }
 
-    private Players initialPlayers() {
-        String choPlayerName = readPlayerName(Side.CHO);
-        String hanPlayerName = readPlayerName(Side.HAN);
-        return Players.of(choPlayerName, hanPlayerName);
-    }
-
     private String readPlayerName(Side side) {
         return retry(() -> {
             outputView.printPlayerNameNotice(side.getDisplayName());
@@ -87,20 +92,15 @@ public class Runner {
     }
 
     private void movePiece(Position selected, List<Position> destinations) {
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), selected, destinations);
+        outputView.printBoardStatus(BoardDTO.from(board), selected, destinations);
         Position target = selectTargetPosition();
         board.movePiece(selected, target);
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()), target);
+        outputView.printBoardStatus(BoardDTO.from(board), target);
     }
 
     private Position selectTargetPosition() {
         outputView.printSelectTargetPosition();
         return readTargetPosition();
-    }
-
-    private void printBoard() {
-        outputView.printBoardSettingNotice();
-        outputView.printBoardStatus(new BoardDTO(board.getPiecePosition()));
     }
 
     private <T> T retry(Supplier<T> supplier) {

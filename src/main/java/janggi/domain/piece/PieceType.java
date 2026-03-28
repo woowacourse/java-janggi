@@ -40,7 +40,7 @@ public enum PieceType {
         return moveStrategy.findMovablePaths(current, directions);
     }
 
-    public List<Position> determineDestinations(Paths paths, Map<Position, PieceVO> boardState, PieceVO movingPieceVO) {
-        return moveStrategy.determineDestinations(paths, boardState, movingPieceVO);
+    public List<Position> determineDestinations(Paths paths, Map<Position, Piece> boardState, Piece movingPiece) {
+        return moveStrategy.determineDestinations(paths, boardState, movingPiece);
     }
 }

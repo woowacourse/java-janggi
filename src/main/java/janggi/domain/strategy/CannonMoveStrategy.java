@@ -1,9 +1,9 @@
 package janggi.domain.strategy;
 
 import janggi.domain.board.Direction;
+import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.PieceVO;
 import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -36,7 +36,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPiece) {
+    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
             validateCannonPath(route, boardState, destinations, movingPiece);
@@ -44,27 +44,27 @@ public class CannonMoveStrategy implements MoveStrategy {
         return destinations;
     }
 
-    private void validateCannonPath(Path route, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+    private void validateCannonPath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
         Iterator<Position> it = route.iterator();
         if (findBridge(it, state)) {
             findDestinationsAfterJump(it, state, dests, me);
         }
     }
 
-    private boolean findBridge(Iterator<Position> it, Map<Position, PieceVO> state) {
-        PieceVO target = null;
+    private boolean findBridge(Iterator<Position> it, Map<Position, Piece> state) {
+        Piece target = null;
         while (it.hasNext() && (target = state.get(it.next())) == null) {
         }
         return target != null && !target.isCannon();
     }
 
-    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests, Piece me) {
         while (it.hasNext() && !processTarget(it.next(), state, dests, me)) {
         }
     }
 
-    private boolean processTarget(Position pos, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
-        PieceVO target = state.get(pos);
+    private boolean processTarget(Position pos, Map<Position, Piece> state, List<Position> dests, Piece me) {
+        Piece target = state.get(pos);
         if (target == null) {
             dests.add(pos);
             return false;
@@ -73,7 +73,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         return true;
     }
 
-    private void addIfCapturable(Position pos, PieceVO target, List<Position> dests, PieceVO me) {
+    private void addIfCapturable(Position pos, Piece target, List<Position> dests, Piece me) {
         if (!target.isCannon() && !target.isSameSide(me)) {
             dests.add(pos);
         }

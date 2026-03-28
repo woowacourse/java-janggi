@@ -1,9 +1,9 @@
 package janggi.domain.strategy;
 
 import janggi.domain.board.Direction;
+import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.PieceVO;
 import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -35,7 +35,7 @@ public class SlideMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, PieceVO> boardState, PieceVO movingPiece) {
+    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
             validateSlidePath(route, boardState, destinations, movingPiece);
@@ -43,14 +43,14 @@ public class SlideMoveStrategy implements MoveStrategy {
         return destinations;
     }
 
-    private void validateSlidePath(Path route, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
+    private void validateSlidePath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
         for (Position pos : route) {
             if (processAndCheckBlocked(pos, state, dests, me)) break;
         }
     }
 
-    private boolean processAndCheckBlocked(Position pos, Map<Position, PieceVO> state, List<Position> dests, PieceVO me) {
-        PieceVO target = state.get(pos);
+    private boolean processAndCheckBlocked(Position pos, Map<Position, Piece> state, List<Position> dests, Piece me) {
+        Piece target = state.get(pos);
         if (target == null || !target.isSameSide(me)) {
             dests.add(pos);
         }
