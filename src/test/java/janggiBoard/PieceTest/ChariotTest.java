@@ -3,7 +3,7 @@ package janggiBoard.PieceTest;
 import domain.Position;
 import domain.Team;
 import domain.piece.Blank;
-import domain.piece.Car;
+import domain.piece.Chariot;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +14,14 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class CarTest {
+public class ChariotTest {
 
-    private Car car;
+    private Chariot chariot;
     private TestPieceProvider testBoard;
 
     @BeforeEach
     public void setUp() {
-        car = new Car(Team.CHO);
+        chariot = new Chariot(Team.CHO);
         testBoard = new TestPieceProvider();
     }
 
@@ -31,7 +31,7 @@ public class CarTest {
         Position targetPosition = new Position(7, 5);
 
         testBoard.setAllBlank();
-        boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
+        boolean isCarMove = chariot.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCarMove).isTrue();
     }
 
@@ -43,7 +43,7 @@ public class CarTest {
         testBoard.setAllBlank();
         testBoard.setBlank(new Position(6, 5));
 
-        boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
+        boolean isCarMove = chariot.canMove(currentPosition, targetPosition, testBoard);
 
         assertThat(isCarMove).isFalse();
     }

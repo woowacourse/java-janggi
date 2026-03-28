@@ -36,8 +36,8 @@ public class JanggiBoard implements PieceProvider {
 
     private void setupTeamPieces(Team team, int baseRow, int kingRow, int cannonRow, int pawnRow) {
         // 예시: 차(車) 배치
-        janggiBoard.put(new Position(baseRow, 0), new Car(team));
-        janggiBoard.put(new Position(baseRow, 8), new Car(team));
+        janggiBoard.put(new Position(baseRow, 0), new Chariot(team));
+        janggiBoard.put(new Position(baseRow, 8), new Chariot(team));
         // 마
         janggiBoard.put(new Position(baseRow, 1), new Horse(team));
         janggiBoard.put(new Position(baseRow, 6), new Horse(team));

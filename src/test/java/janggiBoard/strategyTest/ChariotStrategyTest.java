@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CarStrategyTest {
+public class ChariotStrategyTest {
 
     private CarStrategy carStrategy;
     private TestPieceProvider testBoard;

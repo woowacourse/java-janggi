@@ -7,10 +7,10 @@ import domain.strategy.MoveStrategy;
 
 import java.util.List;
 
-public class Car extends Piece {
+public class Chariot extends Piece {
     private final MoveStrategy moveStrategy;
 
-    public Car(Team team) {
+    public Chariot(Team team) {
         super(team);
         this.moveStrategy = new CarStrategy();
     }

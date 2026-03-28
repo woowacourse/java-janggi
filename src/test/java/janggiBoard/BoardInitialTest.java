@@ -31,8 +31,8 @@ public class BoardInitialTest {
     @Test
     void 한나라_차가_제대로된_위치에_초기화_되었는지_확인한다() {
         Map<Position, Piece> board = janggiBoard.getJanggiBoard();
-        assertThat(board.get(new Position(0, 0))).isInstanceOf(Car.class);
-        assertThat(board.get(new Position(0, 8))).isInstanceOf(Car.class);
+        assertThat(board.get(new Position(0, 0))).isInstanceOf(Chariot.class);
+        assertThat(board.get(new Position(0, 8))).isInstanceOf(Chariot.class);
 
         assertThat(board.get(new Position(0, 0)).getTeam()).isEqualTo(Team.HAN);
         assertThat(board.get(new Position(0, 8)).getTeam()).isEqualTo(Team.HAN);
@@ -41,8 +41,8 @@ public class BoardInitialTest {
     @Test
     void 초나라_차가_제대로된_위치에_초기화_되었는지_확인한다() {
         Map<Position, Piece> board = janggiBoard.getJanggiBoard();
-        assertThat(board.get(new Position(9, 0))).isInstanceOf(Car.class);
-        assertThat(board.get(new Position(9, 8))).isInstanceOf(Car.class);
+        assertThat(board.get(new Position(9, 0))).isInstanceOf(Chariot.class);
+        assertThat(board.get(new Position(9, 8))).isInstanceOf(Chariot.class);
 
         assertThat(board.get(new Position(9, 0)).getTeam()).isEqualTo(Team.CHO);
         assertThat(board.get(new Position(9, 8)).getTeam()).isEqualTo(Team.CHO);
