@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.route.Paths;
-import janggi.dto.PieceDTO;
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +35,6 @@ public class Piece {
 
     public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState) {
         return pieceType.determineDestinations(routes, boardState, this);
-    }
-
-    public PieceDTO mapToVO() {
-        return new PieceDTO(side, pieceType, pieceNumber);
     }
 
     public Side getSide() {
