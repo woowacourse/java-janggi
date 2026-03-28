@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.Position;
+import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,5 +34,12 @@ public class SoldierTest {
         Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.direction()));
         Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(destinationPieceCamp.direction()));
         assertThat(soldier.moveDestination(Position.of(0, 0), destinationSoldier)).isEqualTo(expected);
+    }
+
+    @DisplayName("병이 포인지 확인하는 테스트 (항상 false)")
+    @Test
+    void isCannon_Always_ReturnFalse() {
+        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.direction()));
+        assertThat(piece.isCannon()).isFalse();
     }
 }
