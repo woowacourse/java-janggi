@@ -1,14 +1,14 @@
 package controller;
 
-import domain.position.Position;
-import domain.game.Turn;
 import domain.board.Board;
 import domain.board.LeftGwimaFactory;
 import domain.board.RightGwimaFactory;
 import domain.board.WonangmaFactory;
 import domain.board.YanggwimaFactory;
-import domain.piece.Piece;
 import domain.game.Team;
+import domain.game.Turn;
+import domain.piece.Piece;
+import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +25,7 @@ public class JanggiController {
     }
 
     public void run() {
-        int choFormationNumber = inputView.initialFormation(Team.CHO);
-        int hanFormationNumber = inputView.initialFormation(Team.HAN);
-
-        Board board = createBoard(choFormationNumber, hanFormationNumber);
+        Board board = createBoard();
         outputView.printBoard(board);
 
         Turn turn = Turn.first();
@@ -37,7 +34,9 @@ public class JanggiController {
         }
     }
 
-    private Board createBoard(int choFormationNumber, int hanFormationNumber) {
+    private Board createBoard() {
+        int choFormationNumber = inputView.initialFormation(Team.CHO);
+        int hanFormationNumber = inputView.initialFormation(Team.HAN);
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.putAll(initialBoard(choFormationNumber, Team.CHO));
         pieces.putAll(initialBoard(hanFormationNumber, Team.HAN));
