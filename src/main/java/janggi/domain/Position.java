@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Position {
     private static final Map<String, Position> CACHE = new HashMap<>();
@@ -38,5 +39,17 @@ public class Position {
         position.add(x.getRow());
         position.add(y.getColumn());
         return position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return Objects.equals(x, position.x) && Objects.equals(y, position.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
