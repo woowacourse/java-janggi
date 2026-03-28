@@ -3,6 +3,8 @@ package janggi.domain;
 import janggi.domain.movestorage.MoveStorage;
 import janggi.exception.InvalidMoveException;
 
+import java.util.Objects;
+
 public class Piece {
     private final MoveStorage moveStorage;
     private final Team team;
@@ -34,5 +36,17 @@ public class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return score == piece.score && Objects.equals(moveStorage, piece.moveStorage) && team == piece.team && Objects.equals(name, piece.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(moveStorage, team, score, name);
     }
 }
