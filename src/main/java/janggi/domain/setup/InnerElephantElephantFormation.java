@@ -1,11 +1,11 @@
 package janggi.domain.setup;
 
-import janggi.domain.piece.PieceType;
 import janggi.domain.Position;
+import janggi.domain.piece.PieceType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class InnerElephantSetupPolicy extends SetupPolicy {
+public class InnerElephantElephantFormation extends ElephantFormation {
 
     @Override
     public Map<Position, PieceType> offerBoardMap() {

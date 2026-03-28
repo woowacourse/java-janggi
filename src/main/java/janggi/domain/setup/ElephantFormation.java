@@ -5,7 +5,7 @@ import janggi.domain.piece.PieceType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class SetupPolicy {
+public abstract class ElephantFormation {
     static final Map<Position, PieceType> COMMON_BOARD_MAP;
 
     static {

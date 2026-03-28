@@ -3,7 +3,7 @@ package janggi.controller;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.command.SetupCommand;
-import janggi.domain.setup.SetupPolicy;
+import janggi.domain.setup.ElephantFormation;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
@@ -20,15 +20,15 @@ public class JanggiController {
     private Team setupRedTeam() {
         OutputView.printSetupGuide(TeamType.RED);
         final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
-        final SetupPolicy setupPolicy = setupCommand.toPolicy();
-        return new RedTeam(setupPolicy);
+        final ElephantFormation elephantFormation = setupCommand.toPolicy();
+        return new RedTeam(elephantFormation);
     }
 
     private Team setupBlueTeam() {
         OutputView.printSetupGuide(TeamType.BLUE);
         final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
-        final SetupPolicy setupPolicy = setupCommand.toPolicy();
-        return new BlueTeam(setupPolicy);
+        final ElephantFormation elephantFormation = setupCommand.toPolicy();
+        return new BlueTeam(elephantFormation);
     }
 
     public void run() {
