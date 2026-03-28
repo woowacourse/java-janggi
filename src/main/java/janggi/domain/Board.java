@@ -47,8 +47,9 @@ public class Board implements BoardView {
         place(to, fromPiece);
     }
 
-    private void place(Position to, Piece nextPiece) {
-        board.get(to.getRow()).set(to.getCol(), nextPiece);
+    private void place(Position position, Piece piece) {
+        List<Piece> row = board.get(position.getRow());
+        row.set(position.getCol(), piece);
     }
 
     private void validateCommonMove(Team currentTeam, Piece fromPiece, Piece toPiece) {
