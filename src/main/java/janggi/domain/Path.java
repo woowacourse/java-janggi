@@ -25,6 +25,6 @@ public class Path {
 
     public boolean hasRoute(Position currentPosition) {
         return route.stream()
-                .anyMatch(position -> position.equals(currentPosition));
+                .anyMatch(position -> position == currentPosition);
     }
 }
