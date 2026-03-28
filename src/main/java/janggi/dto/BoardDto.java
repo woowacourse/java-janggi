@@ -10,6 +10,7 @@ import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
+import janggi.utils.Characters;
 import janggi.view.ConsoleColor;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +24,12 @@ public record BoardDto(
     List<String> rowStatuses
 ) {
 
-    private static final Map<TeamType, Map<PieceType, String>> CHINESE_MAP;
-    private static final Map<Integer, String> INTEGER_FULL_WIDTH_MAP;
-    private static final String EMPTY_SPACE = "＊";
-    private static final String DELIMITER = "  ";
+    private static final Map<TeamType, Map<PieceType, String>> PIECE_NOTATION_MAP;
+    private static final String EMPTY_SPACE = String.valueOf(Characters.toFullWidth('*'));
+    private static final String DELIMITER = String.valueOf(Characters.toFullWidth(' '));
 
     static {
-        CHINESE_MAP = Map.of(
+        PIECE_NOTATION_MAP = Map.of(
             TeamType.RED, Map.of(
                 PieceType.GENERAL, "漢",
                 PieceType.GUARD, "士",
@@ -48,29 +48,17 @@ public record BoardDto(
                 PieceType.ELEPHANT, "象",
                 PieceType.SOLDIER, "卒"
             ));
-        INTEGER_FULL_WIDTH_MAP = Map.of(
-            0, "０",
-            1, "１",
-            2, "２",
-            3, "３",
-            4, "４",
-            5, "５",
-            6, "６",
-            7, "７",
-            8, "８",
-            9, "９"
-        );
     }
 
     public static BoardDto from(final Board board, final List<Position> movablePositions) {
-        final Map<Position, Piece> positionPieceMap = board.getPositionPieceMap();
         final List<Integer> rows = IntStream.rangeClosed(MINIMUM_ROW, MAXIMUM_ROW)
             .boxed().toList();
         final List<String> rowStatuses = rows.stream()
-            .map(row -> composeRowStatus(row, positionPieceMap, movablePositions))
+            .map(row -> composeRowStatus(row, board.getPositionPieceMap(), movablePositions))
             .toList();
         final String columns = IntStream.rangeClosed(MINIMUM_COLUMN, MAXIMUM_COLUMN)
-            .mapToObj(INTEGER_FULL_WIDTH_MAP::get)
+            .mapToObj(column -> Character.forDigit(column, 10))
+            .map(column -> String.valueOf(Characters.toFullWidth(column)))
             .collect(Collectors.joining(DELIMITER));
 
         return new BoardDto(rows, columns, rowStatuses);
@@ -89,7 +77,7 @@ public record BoardDto(
         if (positionPieceMap.containsKey(position)) {
             final Piece piece = positionPieceMap.get(position);
             final TeamType teamType = piece.getTeamType();
-            return applyTeamColor(getChineseOf(piece), teamType,
+            return applyTeamColor(getNotationOfPiece(piece), teamType,
                 isMovable(position, movablePositions));
         }
         return applyMovableColor(EMPTY_SPACE, isMovable(position, movablePositions));
@@ -119,8 +107,8 @@ public record BoardDto(
             .anyMatch(movablePosition -> Objects.equals(position, movablePosition));
     }
 
-    private static String getChineseOf(final Piece piece) {
-        final Map<PieceType, String> secondaryMap = CHINESE_MAP.get(piece.getTeamType());
+    private static String getNotationOfPiece(final Piece piece) {
+        final Map<PieceType, String> secondaryMap = PIECE_NOTATION_MAP.get(piece.getTeamType());
         return secondaryMap.get(piece.getPieceType());
     }
 
