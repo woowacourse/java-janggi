@@ -1,6 +1,5 @@
 package domain.movestrategy;
 
-import domain.board.Board;
 import domain.piece.Delta;
 import domain.piece.Piece;
 import domain.piece.Position;
@@ -8,7 +7,7 @@ import domain.player.Team;
 import java.util.List;
 import java.util.Map;
 
-public class SoldierMoveStrategy implements MoveStrategy {
+public class SoldierMoveStrategy extends BasicMoveStrategy {
 
     private static final List<Delta> CHO_PATHS = List.of(
             Delta.RIGHT, Delta.DOWN, Delta.LEFT
@@ -24,7 +23,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
         return paths.stream()
                 .map(from::move)
-                .filter(this::inBoard)
+                .filter(this::isInsideBoard)
                 .toList();
     }
 
@@ -33,10 +32,5 @@ public class SoldierMoveStrategy implements MoveStrategy {
             return HAN_PATHS;
         }
         return CHO_PATHS;
-    }
-
-    private boolean inBoard(final Position current) {
-        return current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE
-                && current.row() >= Board.MIN_ROW_RANGE && current.row() <= Board.MAX_ROW_RANGE;
     }
 }

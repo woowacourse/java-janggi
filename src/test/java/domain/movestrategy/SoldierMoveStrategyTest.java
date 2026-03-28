@@ -33,6 +33,5 @@ class SoldierMoveStrategyTest {
 
         // then
         assertThat(movable).containsAll(expected);
-
     }
 }

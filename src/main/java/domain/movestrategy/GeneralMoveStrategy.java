@@ -2,14 +2,13 @@ package domain.movestrategy;
 
 import domain.piece.Delta;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.piece.Position;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-public class GeneralMoveStrategy implements MoveStrategy {
+public class GeneralMoveStrategy extends BasicMoveStrategy {
 
     private static final List<Delta> ALL_DIRECTIONS = List.of(
             Delta.UP, Delta.RIGHT_UP, Delta.RIGHT, Delta.RIGHT_DOWN,
@@ -21,6 +20,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
                 .filter(position -> !isDirected(position, pieces, from))
+                .filter(this::isInsideBoard)
                 .toList();
     }
 

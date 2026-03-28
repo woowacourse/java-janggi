@@ -6,7 +6,7 @@ import domain.piece.Position;
 import java.util.List;
 import java.util.Map;
 
-public class ElephantMoveStrategy implements MoveStrategy {
+public class ElephantMoveStrategy extends BasicMoveStrategy {
 
     private static final Map<Position, List<Delta>> PATHS_BY_DESTINATION = Map.ofEntries(
             Map.entry(Position.of(-3, -2), List.of(Delta.UP, Delta.LEFT_UP)),
@@ -27,6 +27,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
         return PATHS_BY_DESTINATION.entrySet().stream()
                 .filter(entry -> !isBlocked(from, entry.getValue(), pieces))
                 .map(entry -> from.move(entry.getKey()))
+                .filter(this::isInsideBoard)
                 .toList();
     }
 

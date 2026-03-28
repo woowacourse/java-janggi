@@ -6,7 +6,7 @@ import domain.piece.Position;
 import java.util.List;
 import java.util.Map;
 
-public class HorseMoveStrategy implements MoveStrategy {
+public class HorseMoveStrategy extends BasicMoveStrategy {
 
     private static final Map<Position, Delta> PATH_BY_DESTINATION = Map.ofEntries(
             Map.entry(Position.of(-2, -1), Delta.UP),
@@ -24,6 +24,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         return PATH_BY_DESTINATION.entrySet().stream()
                 .filter(entry -> !pieces.containsKey(from.move(entry.getValue())))
                 .map(entry -> from.move(entry.getKey()))
+                .filter(this::isInsideBoard)
                 .toList();
     }
 }

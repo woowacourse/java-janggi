@@ -1,6 +1,5 @@
 package domain.movestrategy;
 
-import domain.board.Board;
 import domain.piece.Delta;
 import domain.piece.Piece;
 import domain.piece.Position;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ChariotMoveStrategy implements MoveStrategy {
+public class ChariotMoveStrategy extends BasicMoveStrategy {
 
     private static final List<Delta> ORTHOGONAL = List.of(
             Delta.UP,
@@ -35,7 +34,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
     ) {
         List<Position> movable = new ArrayList<>();
 
-        for (Position current = from.move(delta); inBoard(current); current = current.move(delta)) {
+        for (Position current = from.move(delta); isInsideBoard(current); current = current.move(delta)) {
             movable.add(current);
 
             if (pieces.containsKey(current)) {
@@ -44,10 +43,5 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
 
         return movable;
-    }
-
-    private boolean inBoard(final Position current) {
-        return current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE
-                && current.row() >= Board.MIN_ROW_RANGE && current.row() <= Board.MAX_ROW_RANGE;
     }
 }

@@ -1,6 +1,5 @@
 package domain.movestrategy;
 
-import domain.board.Board;
 import domain.piece.Delta;
 import domain.piece.Piece;
 import domain.piece.Position;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CannonMoveStrategy implements MoveStrategy {
+public class CannonMoveStrategy extends BasicMoveStrategy {
 
     private static final List<Delta> ORTHOGONAL_DELTAS = List.of(
             Delta.UP,
@@ -39,7 +38,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         boolean metPiece = false;
 
         for (Position current = from.move(delta);
-             inBoard(current);
+             isInsideBoard(current);
              current = current.move(delta)) {
 
             // 빈 칸
@@ -69,10 +68,5 @@ public class CannonMoveStrategy implements MoveStrategy {
         }
 
         return movable;
-    }
-
-    private boolean inBoard(final Position current) {
-        return (current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE)
-                && (current.row() >= Board.MIN_ROW_RANGE && current.row() <= Board.MAX_ROW_RANGE);
     }
 }
