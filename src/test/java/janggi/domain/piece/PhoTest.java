@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class PhoTest {
 
     @Test
-    void 포_움직임_정상_처리_테스트() {
+    void 포_움직임_경로_정상_판정_테스트() {
         Piece piece = new Pho(Team.CHO);
 
         Position from = new Position(1, 2);

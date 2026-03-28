@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class SaTest {
     @Test
-    void 사_움직임_정상_처리_테스트() {
+    void 사_움직임_경로_정상_판정_테스트() {
         Piece piece = new Sa(Team.CHO);
 
         Position from = new Position(3, 0);

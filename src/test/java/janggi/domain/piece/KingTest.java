@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class KingTest {
 
     @Test
-    void 궁_움직임_정상_처리_테스트() {
+    void 궁_움직임_경로_정상_판정_테스트() {
         Piece piece = new King(Team.CHO);
 
         Position from = new Position(5, 1);

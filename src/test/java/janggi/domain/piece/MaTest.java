@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class MaTest {
 
     @Test
-    void 마_움직임_정상_처리_테스트() {
+    void 마_움직임_경로_정상_판정_테스트() {
         Piece piece = new Ma(Team.CHO);
 
         Position from = new Position(1, 0);

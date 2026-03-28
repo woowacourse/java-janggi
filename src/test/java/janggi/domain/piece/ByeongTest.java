@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class ByeongTest {
 
     @Test
-    void 병_움직임_정상_처리_테스트() {
+    void 병_움직임_경로_정상_판정_테스트() {
         Piece piece = new Byeong(Team.CHO);
 
         Position from = new Position(0, 3);

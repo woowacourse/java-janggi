@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class SangTest {
 
     @Test
-    void 상_움직임_정상_처리_테스트() {
+    void 상_움직임_경로_정상_판정_테스트() {
         Piece piece = new Sang(Team.CHO);
 
         Position from = new Position(6, 0);
