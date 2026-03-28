@@ -58,6 +58,10 @@ public class Board {
     }
 
     private List<Piece> getSameLine(Position start, Position end) {
+        if (board.get(start).getPieceType() != PieceType.PO ) {
+            return Collections.emptyList();
+        }
+
         List<Piece> pieces = new ArrayList<>();
         int startX = start.getX();
         int startY = start.getY();
