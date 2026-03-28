@@ -36,30 +36,8 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("장애물을 만나면 그 위치까지만 이동한다")
-    void stop_atObstacle() {
-        // given
-        Position from = Position.of(5, 5);
-        Map<Position, Piece> pieces = new HashMap<>();
-
-        pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
-        pieces.put(Position.of(7, 5), Piece.choPieceOf(PieceType.SOLDIER));
-
-        // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
-
-        // then
-        assertThat(result).contains(
-                Position.of(6, 5),
-                Position.of(7, 5) // 장애물 포함
-        );
-
-        assertThat(result).doesNotContain(Position.of(8, 5));
-    }
-
-    @Test
-    @DisplayName("적 기물은 포함하고 멈춘다")
-    void capture_enemy() {
+    @DisplayName("적 기물을 만나면 해당 위치까지 이동 가능")
+    void moveBeforeAndEqualOpposite() {
         // given
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
@@ -77,22 +55,21 @@ class ChariotMoveStrategyTest {
         );
     }
 
-//    // TODO: 일단 공통 처리하고 싶어서 얘는 구현 안 했는데, 나중에 추가해야함. isOpposite 같은 걸로
-//    @Test
-//    @DisplayName("아군 기물은 포함하지 않는다")
-//    void cannot_move_to_ally() {
-//        // given
-//        Position from = Position.of(5, 5);
-//        Map<Position, Piece> pieces = new HashMap<>();
-//
-//        pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
-//        pieces.put(Position.of(7, 5), Piece.choPieceOf(PieceType.SOLDIER));
-//
-//        // when
-//        List<Position> result = strategy.calculateMovablePositions(from, pieces);
-//
-//        // then
-//        assertThat(result).contains(Position.of(6, 5));
-//        assertThat(result).doesNotContain(Position.of(7, 5)); // 아군은 못감
-//    }
+    @Test
+    @DisplayName("아군 기물을 만나면 해당 위치 앞까지만 이동 가능")
+    void moveBeforeAlly() {
+        // given
+        Position from = Position.of(5, 5);
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
+        pieces.put(Position.of(7, 5), Piece.choPieceOf(PieceType.SOLDIER));
+
+        // when
+        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+
+        // then
+        assertThat(result).contains(Position.of(6, 5));
+        assertThat(result).doesNotContain(Position.of(7, 5));
+    }
 }

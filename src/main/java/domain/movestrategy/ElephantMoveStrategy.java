@@ -28,6 +28,7 @@ public class ElephantMoveStrategy extends BasicMoveStrategy {
                 .filter(entry -> !isBlocked(from, entry.getValue(), pieces))
                 .map(entry -> from.move(entry.getKey()))
                 .filter(this::isInsideBoard)
+                .filter(position -> isEmptyOrOpposite(from, position, pieces))
                 .toList();
     }
 

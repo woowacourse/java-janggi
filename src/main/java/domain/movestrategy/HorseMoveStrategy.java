@@ -25,6 +25,7 @@ public class HorseMoveStrategy extends BasicMoveStrategy {
                 .filter(entry -> !pieces.containsKey(from.move(entry.getValue())))
                 .map(entry -> from.move(entry.getKey()))
                 .filter(this::isInsideBoard)
+                .filter(position -> isEmptyOrOpposite(from, position, pieces))
                 .toList();
     }
 }

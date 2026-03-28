@@ -24,6 +24,7 @@ public class SoldierMoveStrategy extends BasicMoveStrategy {
         return paths.stream()
                 .map(from::move)
                 .filter(this::isInsideBoard)
+                .filter(position -> isEmptyOrOpposite(from, position, pieces))
                 .toList();
     }
 

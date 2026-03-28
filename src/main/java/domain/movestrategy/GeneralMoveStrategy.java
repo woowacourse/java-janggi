@@ -21,6 +21,7 @@ public class GeneralMoveStrategy extends BasicMoveStrategy {
                 .map(from::move)
                 .filter(position -> !isDirected(position, pieces, from))
                 .filter(this::isInsideBoard)
+                .filter(position -> isEmptyOrOpposite(from, position, pieces))
                 .toList();
     }
 

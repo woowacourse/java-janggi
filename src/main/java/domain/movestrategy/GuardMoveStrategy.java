@@ -18,6 +18,7 @@ public class GuardMoveStrategy extends BasicMoveStrategy {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
                 .filter(this::isInsideBoard)
+                .filter(position -> isEmptyOrOpposite(from, position, pieces))
                 .toList();
     }
 }

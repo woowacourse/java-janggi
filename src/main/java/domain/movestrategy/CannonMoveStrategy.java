@@ -53,7 +53,7 @@ public class CannonMoveStrategy extends BasicMoveStrategy {
 
             // 두 번째 기물
             if (metPiece) {
-                if (!piece.isCannon()) {
+                if (!piece.isCannon() && isEmptyOrOpposite(from, current, pieces)) {
                     movable.add(current);
                 }
                 break;
