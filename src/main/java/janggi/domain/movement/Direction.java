@@ -2,6 +2,7 @@ package janggi.domain.movement;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public final class Direction {
@@ -61,4 +62,18 @@ public final class Direction {
         return columnDirection;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Direction direction = (Direction) o;
+        return rowDirection == direction.rowDirection
+            && columnDirection == direction.columnDirection;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rowDirection, columnDirection);
+    }
 }
