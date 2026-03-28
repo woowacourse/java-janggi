@@ -17,5 +17,5 @@ public interface Piece {
 
     List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator);
 
-    boolean canKill(Piece target);
+    boolean canCatch(Piece target);
 }

@@ -60,7 +60,7 @@ public class Guard implements Piece {
     }
 
     @Override
-    public boolean canKill(final Piece target) {
+    public boolean canCatch(final Piece target) {
         return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.isOnSameTeamAs(
             this);
     }

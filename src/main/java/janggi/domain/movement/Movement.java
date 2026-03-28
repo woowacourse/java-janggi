@@ -34,7 +34,7 @@ public class Movement {
             return true;
         }
         Piece target = boardMediator.getPieceInPosition(to);
-        return me.canKill(target);
+        return me.canCatch(target);
     }
 
     public boolean isBlocked(final Position from, final BoardMediator boardMediator) {
@@ -80,7 +80,7 @@ public class Movement {
         final Position blockedPosition = from.calculateNext(traces.size() + 1, direction);
 
         if (boardMediator.existsInPosition(blockedPosition) &&
-            me.canKill(boardMediator.getPieceInPosition(blockedPosition))) {
+            me.canCatch(boardMediator.getPieceInPosition(blockedPosition))) {
             traces.add(blockedPosition);
         }
         return traces;
