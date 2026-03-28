@@ -1,5 +1,6 @@
 package view;
 
+import domain.board.Formation;
 import domain.piece.Team;
 import domain.point.Command;
 
@@ -13,6 +14,15 @@ public class InputReader {
 
     public InputReader() {
         this.scanner = new Scanner(System.in);
+    }
+
+    public Formation requestFormation(Team team) {
+        System.out.println(team + "팀의 마,상 포메이션을 입력해주세요.");
+        System.out.println("1 - 상마상마");
+        System.out.println("2 - 상마마상");
+        System.out.println("3 - 마상상마");
+        System.out.println("4 - 마상마상");
+        return Formation.from(scanner.nextLine());
     }
 
     public Command requestCommand(Team team) {

@@ -21,11 +21,24 @@ public enum Formation {
         this.horseFormations = horseFormations;
     }
 
-    public static Formation valueOf(int formatNumber) {
+    public static Formation from(String input) {
+        validateNumeric(input);
+        return valueOf(Integer.parseInt(input));
+    }
+
+    private static Formation valueOf(int formatNumber) {
         return Arrays.stream(Formation.values())
                 .filter(formation -> formation.formatNumber == formatNumber)
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    private static void validateNumeric(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("포메이션 번호는 1-4사이의 숫자입니다.");
+        }
     }
 
     public List<Integer> elephantFormations() {
