@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import model.board.Army;
 import model.board.Board;
 import model.board.Country;
@@ -7,6 +8,9 @@ import model.board.strategy.InnerElephant;
 import model.board.strategy.LeftElephant;
 import model.board.strategy.OuterElephant;
 import model.board.strategy.RightElephant;
+import model.move.Move;
+import model.position.Position;
+import view.InputHandler;
 import view.InputView;
 import view.OutputView;
 
@@ -16,6 +20,10 @@ public class GameController {
         Board board = new Board();
         init(board);
         OutputView.printBoard(board);
+        while (true) {
+            choGamePhase(board);
+            hanGamePhase(board);
+        }
     }
 
     private void init(Board board) {
@@ -42,11 +50,28 @@ public class GameController {
         return new Army(new InnerElephant());
     }
 
-    private void choGamePhase() {
-
+    private void choGamePhase(Board board) {
+        OutputView.printPositionCountry(Country.CHO);
+        gamePhase(board);
     }
 
-    private void hanGamePhase() {
+    private void hanGamePhase(Board board) {
+        OutputView.printPositionCountry(Country.HAN);
+        gamePhase(board);
+    }
 
+    private void gamePhase(Board board) {
+        OutputView.printPositionInfo();
+
+        InputHandler.retry(() -> {
+            List<Integer> startList = InputView.readStartPosition();
+            List<Integer> endList = InputView.readEndPosition();
+            Position from = Position.of(startList.get(0), startList.get(1));
+            Position to = Position.of(endList.get(0), endList.get(1));
+            Move move = new Move(from, to);
+            board.move(move);
+            OutputView.printBoard(board);
+            return null;
+        });
     }
 }
