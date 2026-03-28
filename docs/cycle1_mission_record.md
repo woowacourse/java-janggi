@@ -20,26 +20,7 @@ default List<Route> makeRoutes(Position curPos, TeamColor teamColor) {
     List<MovePath> paths = getPaths(teamColor);
 
     for (MovePath path : paths) {
-        List<Direction> steps = path.steps();
-        Position currentPos = curPos;
-        List<Position> intermediates = new ArrayList<>();
-
-        for (int i = 0; i < steps.size(); i++) {
-            try {
-                currentPos = currentPos.next(steps.get(i));
-            } catch (IllegalArgumentException exception) {
-                currentPos = null;
-                break;
-            }
-
-            if (i < steps.size() - 1) {
-                intermediates.add(currentPos);
-            }
-        }
-        if (currentPos == null) {
-            continue;
-        }
-        validRoutes.add(new Route(curPos, currentPos, intermediates));
+        createRoute(curPos, path.steps()).ifPresent(validRoutes::add);
     }
 
     return validRoutes;
@@ -102,15 +83,39 @@ public class Position {
   - setter를 제공하지 않는다.
   - 모든 필드는 final로 선언하는 것을 기본으로 한다.
 
-이 규칙을 적용하면서 `MovePath`, `Route`, `Row`, `Column`을 record/불변 객체로 유지하는 방향으로 설계를 잡았다.
+이 규칙을 적용하면서 "값이 없음"을 `null` 대신 `Optional`로 다루도록 수정했다.
 
-특히 `Route`를 mutable 객체로 두고 이동 중간에 값을 채워 넣는 대신, 경로 계산이 끝났을 때 완성된 값으로 한 번에 생성했다.
+예를 들어 보드 출력에서는 원래 빈 칸을 표현하기 위해 `orElse(null)`을 사용했지만, 현재는 `Optional<Piece>`를 그대로 전달한다.
 
 ```java
-validRoutes.add(new Route(curPos, currentPos, intermediates));
+for (int column = 0; column <= 8; column++) {
+    Optional<Piece> piece = board.findPiece(Position.of(row, column));
+    line.append(" ").append(formatBoardCell(piece)).append(" │");
+}
 ```
 
-이렇게 해두면 경로 판정 로직이 `Route`를 수정하지 않고 읽기만 하면 되어서, 이후 `Board`, `MoveStrategy`, `Piece` 협력에서도 데이터 흐름이 단순해진다.
+```java
+private String formatBoardCell(Optional<Piece> piece) {
+    if (piece.isEmpty()) {
+        return "  ";
+    }
+    Piece actualPiece = piece.get();
+    ...
+}
+```
+
+또한 중간 기물 조회도 `Map.get()` 결과를 직접 `null` 비교하지 않고 `Optional::stream`으로 처리한다.
+
+```java
+public List<Piece> getBlockingPieces(Route route) {
+    return route.intermeidateNodes().stream()
+            .map(this::findPiece)
+            .flatMap(Optional::stream)
+            .toList();
+}
+```
+
+반면 `Position.equals(Object o)`의 `o == null` 검사는 자바의 동등성 비교 계약을 지키기 위한 표준 구현으로 보고 유지했다. 이 코드는 도메인 상태를 `null`로 표현하는 것이 아니라, 외부에서 전달된 비교 대상의 유효성을 검사하는 로직이기 때문에 유지하기로 했다.
 
 ## 4. 조건문을 다형성으로 대체한 코드 1곳
 
@@ -171,7 +176,7 @@ public class RookMoveStrategy implements MoveStrategy {
 }
 ```
 
-아직 `Piece.createMoveStrategy()` 내부에는 `PieceType`에 따른 조건문이 남아 있다. 다만 핵심 이동 규칙 자체는 `MoveStrategy` 다형성으로 분리되어 있고, 실제 행동 차이는 각 구현체가 맡고 있다는 점에서 "한 곳에서 모든 규칙을 조건문으로 처리하던 구조"보다는 훨씬 나아졌다.
+`Piece.createMoveStrategy()`도 현재는 `EnumMap` 조회로 전략을 연결하고 있다. 핵심 이동 규칙 자체는 `MoveStrategy` 다형성으로 분리되어 있고, 실제 행동 차이는 각 구현체가 맡고 있다는 점에서 "한 곳에서 모든 규칙을 조건문으로 처리하던 구조"보다 책임이 명확해졌다.
 
 ## 5. 인터페이스/추상클래스를 도입한 이유
 
@@ -260,3 +265,4 @@ public class InnerFormationStrategy extends InitialFormationStrategy {
 초기 배치에 포함해야 한다면 `InitialFormationStrategy` 계열에서 좌표만 추가하면 되고, 테스트는 "경로 생성 테스트", "차단/포획 판정 테스트", "초기 배치 테스트" 에 새 기물에 대한 케이스를 추가하면 된다.
 
 지금 구조에서는 새 기물 추가 시 수정 지점이 완전히 없지는 않지만, "이동 규칙", "전략 연결", "초기 배치", "테스트"로 범위를 예측 가능하다.
+
