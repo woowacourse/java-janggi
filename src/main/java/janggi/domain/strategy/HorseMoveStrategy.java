@@ -1,12 +1,11 @@
 package janggi.domain.strategy;
 
 import janggi.domain.board.Direction;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.Piece;
-import janggi.domain.board.Position;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +23,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     private void addHorsePaths(Position current, Direction baseDir, Paths paths) {
-        for (Direction diagonalDir : baseDir.getAdjacentDiagonals()) {
+        for (Direction diagonalDir : baseDir.nextDiagonalDirections()) {
             createAndAddSequence(current, paths, baseDir, diagonalDir);
         }
     }
