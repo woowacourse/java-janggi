@@ -17,8 +17,7 @@ public class BasicPlacementStrategy implements InitializeStrategy {
 
     @Override
     public void basicSetting(Map<Position, Space> blankBoard) {
-        try {
-            BufferedReader br = ResourceReader.getBufferedReader(DEFAULT_PATH);
+        try (BufferedReader br = ResourceReader.getBufferedReader(DEFAULT_PATH)) {
             parseData(blankBoard, br);
         } catch (Exception e) {
             throw new IllegalArgumentException("기물 초기화 실패");
