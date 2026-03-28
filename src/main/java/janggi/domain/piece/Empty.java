@@ -6,10 +6,10 @@ import janggi.domain.board.BoardInterface;
 
 import java.util.List;
 
-public class None extends BasePiece {
+public class Empty extends BasePiece {
     private static final String IMMOVABLE_PIECE_MESSAGE = "이동할 수 없는 말입니다.";
 
-    public None() {
+    public Empty() {
         super(Side.EMPTY, PieceType.NONE);
     }
 

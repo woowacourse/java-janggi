@@ -3,13 +3,12 @@ package janggi.domain.board;
 import janggi.domain.PieceInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.piece.None;
+import janggi.domain.piece.Empty;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Board implements BoardInterface {
     private static final String INVALID_PIECE_SIDE_MESSAGE = "자기 진영의 기물만 움직일 수 있습니다.";
@@ -62,6 +61,6 @@ public class Board implements BoardInterface {
 
     private void movePiece(Position start, Position end, Piece piece) {
         board.put(end, piece);
-        board.put(start, new None());
+        board.put(start, new Empty());
     }
 }

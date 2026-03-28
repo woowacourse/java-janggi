@@ -6,7 +6,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Ma;
-import janggi.domain.piece.None;
+import janggi.domain.piece.Empty;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -39,7 +39,7 @@ public class BoardInitializer {
             PieceType.CHA, Cha::new,
             PieceType.GUNG, Gung::new,
             PieceType.MA, Ma::new,
-            PieceType.NONE, (side) -> new None(),
+            PieceType.NONE, (side) -> new Empty(),
             PieceType.PAWN, Pawn::from,
             PieceType.PO, Po::new,
             PieceType.SA, Sa::new,
@@ -83,7 +83,7 @@ public class BoardInitializer {
         for (int i = Position.BOARD_START_ROWS; i <= Position.BOARD_END_ROWS; i++) {
             for (int j = Position.BOARD_START_COLS; j <= Position.BOARD_END_COLS; j++) {
                 Position position = new Position(i, j);
-                pieces.put(position, new None());
+                pieces.put(position, new Empty());
             }
         }
         return pieces;
