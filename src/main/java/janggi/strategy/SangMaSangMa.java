@@ -19,9 +19,9 @@ public class SangMaSangMa extends ArrangementStrategy {
     }
 
     @Override
-    public void place(Piece[][] board, Side side) {
+    protected void placeVariablePieces(Piece[][] board, Side side) {
         int boardMaxLength = board.length;
-        int row = calculateRow(boardMaxLength, side);
+        int row = calculateInitialRow(boardMaxLength, side);
         board[row][1] = new Sang(side);
         board[row][2] = new Ma(side);
         board[row][6] = new Sang(side);
