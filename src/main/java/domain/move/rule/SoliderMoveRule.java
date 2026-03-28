@@ -26,7 +26,7 @@ public class SoliderMoveRule extends MoveRule {
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
         Directions directions = getDirections(from);
-        return directions.findPoints(from.getPoint(), to.getPoint());
+        return directions.findPoints(from, to);
     }
 
     @Override

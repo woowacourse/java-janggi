@@ -81,7 +81,7 @@ public class Intersection {
     }
 
     private void validateHasPiece() {
-        if (hasPiece()) {
+        if (!hasPiece()) {
             throw new IllegalArgumentException("기물이 없어 움직일 수 없습니다.");
         }
     }

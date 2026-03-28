@@ -26,7 +26,7 @@ public class GeneralMoveRule extends MoveRule{
 
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return directions.findPoints(from.getPoint(), to.getPoint());
+        return directions.findPoints(from, to);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package domain.move.directions;
 
+import domain.intersection.Intersection;
 import domain.point.Point;
 import java.util.List;
 
@@ -11,11 +12,13 @@ public class Directions {
         this.directions = directions;
     }
 
-    public List<Point> findPoints(Point from, Point to){
+    public List<Point> findPoints(Intersection from, Intersection to){
+        Point start = from.getPoint();
+        Point end = to.getPoint();
         return directions.stream()
-                .filter(direction -> direction.canReach(from, to))
+                .filter(direction -> direction.canReach(start, end))
                 .findFirst()
-                .map(direction -> direction.getPoints(from))
+                .map(direction -> direction.getPoints(start))
                 .orElseThrow(IllegalArgumentException::new);
     }
 

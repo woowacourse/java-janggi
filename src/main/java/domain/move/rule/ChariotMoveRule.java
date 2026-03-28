@@ -25,8 +25,7 @@ public class ChariotMoveRule extends MoveRule{
 
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return directions.findPoints(from.getPoint(), to.getPoint());
-    }
+        return directions.findPoints(from, to);    }
 
     @Override
     public boolean checkMoveRule(Intersection from, List<Intersection> path) {

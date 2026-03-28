@@ -1,5 +1,6 @@
 package domain;
 
+import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.directions.Vector;
@@ -29,8 +30,11 @@ public class DirectionTest {
     void returnAllPointsAlongDestination(){
         Direction direction1 = new Direction(List.of(Vector.UP, Vector.LEFT_UP));
         Direction direction2 = new Direction(List.of(Vector.DOWN, Vector.RIGHT_DOWN));
-        Point from = new Point(0, 0);
-        Point to = new Point(2, 1);
+        Point start = new Point(0, 0);
+        Point end = new Point(2, 1);
+
+        Intersection from = Intersection.empty(start);
+        Intersection to = Intersection.empty(end);
 
         Directions directions = new Directions(List.of(direction1, direction2));
 
