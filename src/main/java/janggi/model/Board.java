@@ -69,13 +69,9 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         int colStart = 1;
         int colEnd = 9;
-        int zeroRow = 0;
 
-        int displayRow = row;
+        int displayRow = (row == 10) ? 0 : row;
 
-        if (row == colEnd) {
-            displayRow = zeroRow;
-        }
         sb.append(displayRow).append(" │");
 
         for (int col = colStart; col <= colEnd; col++) {
