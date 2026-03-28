@@ -76,7 +76,7 @@ public class Controller {
             try {
                 return supplier.get();
             } catch (IllegalArgumentException e) {
-                resultView.printRetryDescription();
+                resultView.printRetryDescription(e);
             }
         }
     }
@@ -87,7 +87,7 @@ public class Controller {
                 consumer.accept(janggiGame);
                 return;
             } catch (IllegalArgumentException e) {
-                resultView.printRetryDescription();
+                resultView.printRetryDescription(e);
             }
         }
     }
