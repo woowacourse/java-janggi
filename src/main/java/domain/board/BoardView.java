@@ -6,7 +6,8 @@ public interface BoardView {
 
     boolean isEmpty(Position position);
 
-    boolean isSameTeam(Position from, Position to);
+    boolean isSameSide(Position from, Position to);
 
     boolean isCannon(Position position);
 }
+

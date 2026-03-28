@@ -9,7 +9,9 @@ public interface Place {
 
     boolean isEmpty();
 
-    boolean isSameSide(Side side);
+    boolean isSameSide(Place place);
+
+    boolean hasSide(Side side);
 
     boolean isCannon();
 

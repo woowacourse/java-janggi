@@ -22,7 +22,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameTeam(from, to)) {
+        if (board.isSameSide(from, to)) {
             return false;
         }
 

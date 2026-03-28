@@ -30,18 +30,25 @@ public abstract class Piece implements Place {
     }
 
     @Override
-    public boolean isSameSide(Side side) {
-        return this.side == side;
-    }
-
-    @Override
-    public Optional<Side> getSide() {
-        return Optional.of(side);
+    public boolean isSameSide(Place other) {
+        return other.getSide()
+                .map(this.side::equals)
+                .orElse(false);
     }
 
     @Override
     public boolean isCannon() {
         return false;
+    }
+
+    @Override
+    public boolean hasSide(Side side) {
+        return this.side.equals(side);
+    }
+
+    @Override
+    public Optional<Side> getSide() {
+        return Optional.of(side);
     }
 
     @Override

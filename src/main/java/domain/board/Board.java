@@ -65,7 +65,7 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("[ERROR] 선택한 위치에 기물이 없습니다.");
         }
 
-        if (!place.isSameSide(side)) {
+        if (!place.hasSide(side)) {
             throw new IllegalArgumentException("[ERROR] 본인의 기물을 선택해야 합니다.");
         }
     }
@@ -77,29 +77,21 @@ public class Board implements BoardView {
     }
 
     @Override
-    public boolean isCannon(Position position) {
-        Place place = board.get(position);
-        return place.isCannon();
-    }
-
-    @Override
     public boolean isEmpty(Position position) {
         Place place = board.get(position);
         return place.isEmpty();
     }
 
     @Override
-    public boolean isSameTeam(Position from, Position to) {
-        Place toPlace = board.get(to);
-
-        if (toPlace.isEmpty()) {
-            return false;
-        }
-
+    public boolean isSameSide(Position from, Position to) {
         Place fromPlace = board.get(from);
-        Side fromSide = fromPlace.getSide().orElseThrow(() ->
-                new IllegalStateException("[ERROR] 출발 위치에 기물이 없습니다.")
-        );
-        return toPlace.isSameSide(fromSide);
+        Place toPlace = board.get(to);
+        return fromPlace.isSameSide(toPlace);
+    }
+
+    @Override
+    public boolean isCannon(Position position) {
+        Place place = board.get(position);
+        return place.isCannon();
     }
 }

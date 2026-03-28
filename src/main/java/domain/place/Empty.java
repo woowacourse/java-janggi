@@ -13,7 +13,17 @@ public class Empty implements Place {
     }
 
     @Override
-    public boolean isSameSide(Side side) {
+    public boolean isSameSide(Place place) {
+        return false;
+    }
+
+    @Override
+    public boolean hasSide(Side side) {
+        return false;
+    }
+
+    @Override
+    public boolean isCannon() {
         return false;
     }
 
@@ -25,11 +35,6 @@ public class Empty implements Place {
     @Override
     public String getFormat() {
         return "．";
-    }
-
-    @Override
-    public boolean isCannon() {
-        return false;
     }
 
     @Override
