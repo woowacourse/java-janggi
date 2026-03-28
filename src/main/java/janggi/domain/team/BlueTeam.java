@@ -31,4 +31,9 @@ public class BlueTeam implements Team {
         return TEAM_TYPE.getName();
     }
 
+    @Override
+    public boolean hasPiece(final Piece piece) {
+        return TEAM_TYPE == piece.getTeamType();
+    }
+
 }

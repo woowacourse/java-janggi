@@ -11,4 +11,9 @@ public final class InputView {
     public static int readSetupCommand() {
         return Parser.parseInteger(Console.readLine());
     }
+
+    public static String readPositionOfMovingPiece() {
+        System.out.println("움직일 기물의 위치를 입력하세요. (형식: 행,열)");
+        return Console.readLine();
+    }
 }

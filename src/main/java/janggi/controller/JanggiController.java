@@ -1,9 +1,13 @@
 package janggi.controller;
 
-import janggi.domain.setup.SetupPolicy;
+import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
+import janggi.domain.board.BoardMediator;
+import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.command.SetupCommand;
+import janggi.domain.piece.Piece;
+import janggi.domain.setup.SetupPolicy;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
@@ -12,6 +16,7 @@ import janggi.dto.BoardDto;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.List;
 
 public class JanggiController {
 
@@ -33,14 +38,40 @@ public class JanggiController {
     }
 
     public void run() {
-        Team redTeam = setupRedTeam();
-        Team blueTeam = setupBlueTeam();
-        Board board = BoardGenerator.generate(redTeam, blueTeam);
-        OutputView.printBoard(BoardDto.from(board));
+        final Team redTeam = setupRedTeam();
+        final Team blueTeam = setupBlueTeam();
+        final Board board = BoardGenerator.generate(redTeam, blueTeam);
+        OutputView.printBoard(BoardDto.from(board, List.of()));
+        progress(redTeam, board);
     }
 
     private SetupCommand readSetupCommand() {
         int commandNumber = InputView.readSetupCommand();
         return SetupCommand.pick(commandNumber);
+    }
+
+    private void progress(final Team team, final Board board) {
+        final BoardMediator boardMediator = new BoardMediatorImpl(board);
+        while (true) {
+            final Position positionOfMovingPiece = RetryExecutor.retry(
+                this::readPositionOfMovingPiece, team, boardMediator);
+            final Piece pieceToMove = boardMediator.getPieceInPosition(positionOfMovingPiece);
+            final List<Position> movablePositions = pieceToMove.calculateMovablePositions(
+                positionOfMovingPiece, boardMediator);
+            OutputView.printBoard(BoardDto.from(board, movablePositions));
+        }
+    }
+
+    private Position readPositionOfMovingPiece(final Team team, final BoardMediator boardMediator) {
+        final String rawPosition = InputView.readPositionOfMovingPiece();
+        final Position positionOfMovingPiece = Position.from(rawPosition);
+        if (!boardMediator.existsInPosition(positionOfMovingPiece)) {
+            throw new IllegalArgumentException("입력된 위치에 기물이 존재하지 않습니다.");
+        }
+        if (!team.hasPiece(boardMediator.getPieceInPosition(positionOfMovingPiece))) {
+            throw new IllegalArgumentException("입력된 위치에 있는 기물은 팀 기물이 아닙니다.");
+        }
+
+        return positionOfMovingPiece;
     }
 }
