@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -66,4 +67,60 @@ public class BoardTest {
                     .isTrue();
         }
     }
+
+    @Test
+    @DisplayName("모든 격자점에 한 팀의 장군이 존재하지 않으면 게임이 종료된다.")
+    void gameWillEndWhenOneOfGeneralDoesntExist() {
+        Point start = new Point(0, 0);
+        Point end = new Point(3, 0);
+
+        Piece hanGeneral = new Piece(Team.HAN, PieceType.GENERAL);
+
+        Intersection from = new Intersection(start, hanGeneral);
+        Intersection to = Intersection.empty(end);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+
+        Assertions.assertThat(janggiBoard.isGameOver())
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("모든 격자점에 양 팀의 장군이 존재하면 게임은 진행된다.")
+    void gameWillProgressWhenOneOfGeneralDoesntExist() {
+        Point start = new Point(0, 0);
+        Point end = new Point(3, 0);
+
+        Piece hanGeneral = new Piece(Team.HAN, PieceType.GENERAL);
+        Piece choGeneral = new Piece(Team.CHO, PieceType.GENERAL);
+
+        Intersection from = new Intersection(start, hanGeneral);
+        Intersection to = new Intersection(end, choGeneral);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+
+        Assertions.assertThat(janggiBoard.isGameOver())
+                .isFalse();
+    }
+
+
+    @Test
+    @DisplayName("CHO팀의 장군이 없으면 HAN팀이 승리한다.")
+    void hanWillWinWhenChoGeneralIsDead() {
+        Point start = new Point(0, 0);
+        Point end = new Point(3, 0);
+
+        Team expectedWinner = Team.HAN;
+        Piece hanGeneral = new Piece(expectedWinner, PieceType.GENERAL);
+
+        Intersection from = new Intersection(start, hanGeneral);
+        Intersection to = Intersection.empty(end);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+        Team actualWinner = janggiBoard.getWinner();
+
+        Assertions.assertThat(actualWinner)
+                .isEqualTo(expectedWinner);
+    }
+
 }

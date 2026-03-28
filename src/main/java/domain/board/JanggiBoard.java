@@ -91,4 +91,27 @@ public class JanggiBoard {
         return IntStream.range(0, maxRange);
     }
 
+    public boolean isGameOver() {
+        return Arrays.stream(Team.values())
+                .anyMatch(this::isGeneralDead);
+    }
+
+    public Team getWinner() {
+        if (isGeneralDead(Team.HAN)) {
+            return Team.CHO;
+        }
+        return Team.HAN;
+    }
+
+    public boolean isGeneralDead(Team team) {
+        return intersections.values().stream()
+                .filter(Intersection::hasPiece)
+                .filter(intersection -> intersection.isSameTeam(team))
+                .noneMatch(Intersection::isGeneral);
+    }
+
+    public Map<Point, Intersection> getJanggiBoard() {
+        return Collections.unmodifiableMap(intersections);
+    }
+
 }
