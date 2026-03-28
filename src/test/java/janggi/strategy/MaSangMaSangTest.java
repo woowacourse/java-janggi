@@ -12,17 +12,18 @@ import org.junit.jupiter.api.Test;
 
 class MaSangMaSangTest {
 
+    private static final ArrangementStrategy STRATEGY = MaSangMaSang.getInstance();
+
     @Test
     @DisplayName("Han 팀의 Sang 객체와 Ma 객체를 MaSangMaSang의 위치에 생성해 넣어준다.")
     void shouldPlaceMaSangMaSangWhenSideHan() {
         // given
         Piece[][] grid = new Piece[10][9];
-        ArrangementStrategy strategy = new MaSangMaSang();
         Side side = Side.HAN;
         Piece expectedSidePiece = new TestPiece(side);
 
         // when
-        strategy.place(grid, side);
+        STRATEGY.place(grid, side);
         Piece leftMa = grid[0][1];
         Piece leftSang = grid[0][2];
         Piece rightMa = grid[0][6];
@@ -45,12 +46,11 @@ class MaSangMaSangTest {
     void shouldPlaceMaSangMaSangWhenSideCho() {
         // given
         Piece[][] grid = new Piece[10][9];
-        ArrangementStrategy strategy = new MaSangMaSang();
         Side side = Side.CHO;
         Piece expectedSidePiece = new TestPiece(side);
 
         // when
-        strategy.place(grid, side);
+        STRATEGY.place(grid, side);
         Piece leftMa = grid[9][1];
         Piece leftSang = grid[9][2];
         Piece rightMa = grid[9][6];

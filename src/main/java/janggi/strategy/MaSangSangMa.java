@@ -5,10 +5,17 @@ import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
 
+@SuppressWarnings("java:S6548")
 public class MaSangSangMa extends ArrangementStrategy {
 
-    public MaSangSangMa() {
+    private static final MaSangSangMa INSTANCE = new MaSangSangMa();
+
+    private MaSangSangMa() {
         super(StrategyLabel.HEEH);
+    }
+
+    public static MaSangSangMa getInstance() {
+        return INSTANCE;
     }
 
     @Override

@@ -20,10 +20,10 @@ public class JanggiFlow {
     public JanggiFlow(ApplicationView view) {
         this.view = view;
         this.strategies = List.of(
-                new MaSangMaSang(),
-                new MaSangSangMa(),
-                new SangMaMaSang(),
-                new SangMaSangMa()
+                MaSangMaSang.getInstance(),
+                MaSangSangMa.getInstance(),
+                SangMaMaSang.getInstance(),
+                SangMaSangMa.getInstance()
         );
     }
 
