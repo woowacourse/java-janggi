@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ChaMoveStorageTest {
-    private static class fakeBoard implements BoardState {
+    private static class FakeBoard implements BoardState {
         @Override
         public boolean hasPieceAt(Position position) {
             return false;
@@ -44,52 +44,52 @@ class ChaMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_멱이_없다() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(3));
-        BoardState boardState = new fakeBoard();
+        BoardState boardState = new FakeBoard();
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮다() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_멱이_없다() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(0), Column.of(3));
         Position to = Position.of(Row.of(0), Column.of(0));
-        BoardState boardState = new fakeBoard();
+        BoardState boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_멱이_없다() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(3), Column.of(0));
-        BoardState boardState = new fakeBoard();
+        BoardState boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_멱이_없다() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(3), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(0));
-        BoardState boardState = new fakeBoard();
+        BoardState boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높으면서_방해물이_있으면_예외처리() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높으면서_멱이_있으면_예외처리() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(0), Column.of(0));
@@ -101,7 +101,7 @@ class ChaMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮으면서_방해물이_있으면_예외처리() {
+    void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮으면서_멱이_있으면_예외처리() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(0), Column.of(3));
@@ -113,7 +113,7 @@ class ChaMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높으면서_방해물이_있으면_예외처리() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높으면서_멱이_있으면_예외처리() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(0), Column.of(0));
@@ -125,7 +125,7 @@ class ChaMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮으면서_방해물이_있으면_예외처리() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮으면서_멱이_있으면_예외처리() {
         // given
         MoveStorage moveStorage = new ChaMoveStorage();
         Position from = Position.of(Row.of(3), Column.of(0));
