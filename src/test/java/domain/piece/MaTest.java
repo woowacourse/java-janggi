@@ -16,8 +16,10 @@ class MaTest {
         Ma testMa = new Ma(new MaMoveStrategy(), Team.CHO);
         Position start = Position.of(2, 2);
         Position destination = Position.of(4, 3);
+        Position obstacle = Position.of(3, 2);
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
+        testPieces.put(obstacle, new Ma(new MaMoveStrategy(), Team.CHO));
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
