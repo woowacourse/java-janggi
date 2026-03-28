@@ -18,7 +18,7 @@ public class SlidingMoveStrategyTest {
         List<Position> movablePath = strategy.findMovablePath(start, destination);
 
         // then
-        int expect = destination.getColumn().getValue() - start.getColumn().getValue();
+        int expect = destination.getColumn().getValue() - start.getColumn().getValue() - 1;
         Assertions.assertThat(movablePath.size()).isEqualTo(expect);
         Assertions.assertThat(movablePath).contains(
                 Position.of(1, 2),
@@ -26,8 +26,8 @@ public class SlidingMoveStrategyTest {
                 Position.of(1, 4),
                 Position.of(1, 5),
                 Position.of(1, 6),
-                Position.of(1, 7),
-                Position.of(1, 8));
+                Position.of(1, 7)
+        );
     }
     // 같은 col 일때
 
@@ -42,7 +42,7 @@ public class SlidingMoveStrategyTest {
         List<Position> movablePath = strategy.findMovablePath(start, destination);
 
         // then
-        int expect = destination.getRow().getValue() - start.getRow().getValue();
+        int expect = destination.getRow().getValue() - start.getRow().getValue() - 1;
         Assertions.assertThat(movablePath.size()).isEqualTo(expect);
         Assertions.assertThat(movablePath).contains(
                 Position.of(2, 1),
@@ -50,8 +50,8 @@ public class SlidingMoveStrategyTest {
                 Position.of(4, 1),
                 Position.of(5, 1),
                 Position.of(6, 1),
-                Position.of(7, 1),
-                Position.of(8, 1));
+                Position.of(7, 1)
+        );
     }
 
     // 둘 다 아닐때

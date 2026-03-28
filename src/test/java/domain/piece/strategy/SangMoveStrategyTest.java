@@ -27,22 +27,22 @@ class SangMoveStrategyTest {
 
     private static Stream<Arguments> moveWays() {
         return Stream.of(
-                Arguments.of(Position.of(0, 5), 3,
-                        List.of(Position.of(2, 3), Position.of(1, 4), Position.of(0, 5))),
-                Arguments.of(Position.of(1, 6), 3,
-                        List.of(Position.of(3, 4), Position.of(2, 5), Position.of(1, 6))),
-                Arguments.of(Position.of(5, 6), 3,
-                        List.of(Position.of(3, 4), Position.of(4, 5), Position.of(5, 6))),
-                Arguments.of(Position.of(6, 5), 3,
-                        List.of(Position.of(4, 3), Position.of(5, 4), Position.of(6, 5))),
-                Arguments.of(Position.of(6, 1), 3,
-                        List.of(Position.of(4, 3), Position.of(5, 2), Position.of(6, 1))),
-                Arguments.of(Position.of(5, 0), 3,
-                        List.of(Position.of(3, 2), Position.of(4, 1), Position.of(5, 0))),
-                Arguments.of(Position.of(1, 0), 3,
-                        List.of(Position.of(3, 2), Position.of(2, 1), Position.of(1, 0))),
-                Arguments.of(Position.of(0, 1), 3,
-                        List.of(Position.of(2, 3), Position.of(1, 2), Position.of(0, 1)))
+                Arguments.of(Position.of(0, 5), 2,
+                        List.of(Position.of(2, 3), Position.of(1, 4))),
+                Arguments.of(Position.of(1, 6), 2,
+                        List.of(Position.of(3, 4), Position.of(2, 5))),
+                Arguments.of(Position.of(5, 6), 2,
+                        List.of(Position.of(3, 4), Position.of(4, 5))),
+                Arguments.of(Position.of(6, 5), 2,
+                        List.of(Position.of(4, 3), Position.of(5, 4))),
+                Arguments.of(Position.of(6, 1), 2,
+                        List.of(Position.of(4, 3), Position.of(5, 2))),
+                Arguments.of(Position.of(5, 0), 2,
+                        List.of(Position.of(3, 2), Position.of(4, 1))),
+                Arguments.of(Position.of(1, 0), 2,
+                        List.of(Position.of(3, 2), Position.of(2, 1))),
+                Arguments.of(Position.of(0, 1), 2,
+                        List.of(Position.of(2, 3), Position.of(1, 2)))
         );
     }
 

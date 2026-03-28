@@ -33,7 +33,7 @@ public class Position {
         Row min = row.getLowerValue(destination.row);
         Row max = row.getUpper(destination.row);
 
-        return IntStream.range(min.getValue() + 1, max.getValue() + 1)
+        return IntStream.range(min.getValue() + 1, max.getValue())
                 .mapToObj(i -> Position.of(i, column.getValue()))
                 .toList();
     }
@@ -41,7 +41,7 @@ public class Position {
     public List<Position> getSameRowPositionsToDestination(Position destination) {
         Column min = column.getLowerValue(destination.column);
         Column max = column.getUpper(destination.column);
-        return IntStream.range(min.getValue() + 1, max.getValue() + 1)
+        return IntStream.range(min.getValue() + 1, max.getValue())
                 .mapToObj(i -> Position.of(row.getValue(), i))
                 .toList();
     }

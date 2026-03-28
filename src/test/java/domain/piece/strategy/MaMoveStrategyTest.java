@@ -24,22 +24,22 @@ class MaMoveStrategyTest {
 
     private static Stream<Arguments> moveWays() {
         return Stream.of(
-                Arguments.of(Position.of(1, 2), 2,
-                        List.of(Position.of(2, 3), Position.of(1, 2))),
-                Arguments.of(Position.of(1, 4), 2,
-                        List.of(Position.of(2, 3), Position.of(1, 4))),
-                Arguments.of(Position.of(2, 1), 2,
-                        List.of(Position.of(3, 2), Position.of(2, 1))),
-                Arguments.of(Position.of(2, 5), 2,
-                        List.of(Position.of(3, 4), Position.of(2, 5))),
-                Arguments.of(Position.of(4, 1), 2,
-                        List.of(Position.of(3, 2), Position.of(4, 1))),
-                Arguments.of(Position.of(4, 5), 2,
-                        List.of(Position.of(3, 4), Position.of(4, 5))),
-                Arguments.of(Position.of(5, 2), 2,
-                        List.of(Position.of(4, 3), Position.of(5, 2))),
-                Arguments.of(Position.of(5, 4), 2,
-                        List.of(Position.of(4, 3), Position.of(5, 4)))
+                Arguments.of(Position.of(1, 2), 1,
+                        List.of(Position.of(2, 3))),
+                Arguments.of(Position.of(1, 4), 1,
+                        List.of(Position.of(2, 3))),
+                Arguments.of(Position.of(2, 1), 1,
+                        List.of(Position.of(3, 2))),
+                Arguments.of(Position.of(2, 5), 1,
+                        List.of(Position.of(3, 4))),
+                Arguments.of(Position.of(4, 1), 1,
+                        List.of(Position.of(3, 2))),
+                Arguments.of(Position.of(4, 5), 1,
+                        List.of(Position.of(3, 4))),
+                Arguments.of(Position.of(5, 2), 1,
+                        List.of(Position.of(4, 3))),
+                Arguments.of(Position.of(5, 4), 1,
+                        List.of(Position.of(4, 3)))
         );
     }
 

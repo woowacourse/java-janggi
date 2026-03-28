@@ -6,6 +6,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class JolMoveStrategyTest {
+
+    private static final int EXPECT_SIZE = 0;
+
     @Test
     void 움직일_수_있다면_경로를_반환한다_전진() {
         // given
@@ -14,8 +17,7 @@ public class JolMoveStrategyTest {
 
         MoveStrategy strategy = new JolMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
-        Assertions.assertThat(movablePath.size()).isEqualTo(1);
-        Assertions.assertThat(movablePath).contains(destination);
+        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
     @Test
@@ -26,8 +28,7 @@ public class JolMoveStrategyTest {
 
         MoveStrategy strategy = new JolMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
-        Assertions.assertThat(movablePath.size()).isEqualTo(1);
-        Assertions.assertThat(movablePath).contains(destination);
+        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
     @Test
@@ -38,8 +39,8 @@ public class JolMoveStrategyTest {
 
         MoveStrategy strategy = new JolMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
-        Assertions.assertThat(movablePath.size()).isEqualTo(1);
-        Assertions.assertThat(movablePath).contains(destination);
+
+        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
     @Test

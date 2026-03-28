@@ -1,10 +1,12 @@
 package domain.piece;
 
+import domain.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
+import domain.position.Position;
 import java.util.Objects;
 
 public abstract class Piece {
-    private final MoveStrategy moveStrategy;
+    protected final MoveStrategy moveStrategy;
     private final PieceType pieceType;
     private final Team team;
 
@@ -13,6 +15,8 @@ public abstract class Piece {
         this.pieceType = pieceType;
         this.team = team;
     }
+
+    abstract public void check(BoardStatus boardStatus, Position start, Position destination);
 
     @Override
     public boolean equals(Object o) {

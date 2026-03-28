@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class MaMoveStrategy implements MoveStrategy {
-    private static final int MA_MOVE_STEPS = 2;
+    private static final int MA_MOVE_SPACE = 1;
     private static final int DESTINATION_INDEX = 1;
     private final int[][] dRow = {
             {-1, -2}, // 1. 위 -> 오른쪽
@@ -36,7 +36,7 @@ public class MaMoveStrategy implements MoveStrategy {
             Position destinationCandidate = start.go(dRowOfSpecificAction[DESTINATION_INDEX],
                     dColumnOfSpecificAction[DESTINATION_INDEX]);
             if (destination.equals(destinationCandidate)) {
-                return IntStream.range(0, MA_MOVE_STEPS)
+                return IntStream.range(0, MA_MOVE_SPACE)
                         .mapToObj(i -> start.go(dRowOfSpecificAction[i], dColumnOfSpecificAction[i]))
                         .toList();
             }

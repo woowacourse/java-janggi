@@ -12,7 +12,7 @@ public class JolMoveStrategy implements MoveStrategy {
         for (int i = 0; i < dColumn.length; i++) {
             Position changedPosition = start.go(dRow[i], dColumn[i]);
             if (changedPosition.equals(destination)) {
-                return List.of(changedPosition);
+                return List.of();
             }
         }
         throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다. 다시 입력하세요.");

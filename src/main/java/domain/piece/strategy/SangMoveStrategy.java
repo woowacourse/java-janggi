@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class SangMoveStrategy implements MoveStrategy {
-    private static final int SANG_MOVE_STEPS = 3;
+    private static final int SANG_MOVE_SPACE = 2;
     private static final int DESTINATION_INDEX = 2;
     private final int[][] dRow = {
             {-1, -2, -3}, // 1. 위 -> 오른쪽
@@ -37,7 +37,7 @@ public class SangMoveStrategy implements MoveStrategy {
             Position destinationCandidate = start.go(dRowOfSpecificAction[DESTINATION_INDEX],
                     dColumnOfSpecificAction[DESTINATION_INDEX]);
             if (destination.equals(destinationCandidate)) {
-                return IntStream.range(0, SANG_MOVE_STEPS)
+                return IntStream.range(0, SANG_MOVE_SPACE)
                         .mapToObj(i -> start.go(dRowOfSpecificAction[i], dColumnOfSpecificAction[i]))
                         .toList();
             }
