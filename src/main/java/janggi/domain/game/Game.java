@@ -48,4 +48,8 @@ public class Game {
         currentTurn.changeTurn();
     }
 
+    public boolean isGameOver() {
+        return false;
+    }
+
 }

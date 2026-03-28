@@ -31,7 +31,7 @@ public class JanggiController {
         Game game = Game.initGame(horseElephantPositions);
         outputView.printBoard(BoardDto.from(game.boardMap()));
 
-        while (true) {
+        while (!game.isGameOver()) {
             moveProcess(game);
         }
     }
