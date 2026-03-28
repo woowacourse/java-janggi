@@ -17,7 +17,7 @@ class PoCollisionDetectorTest {
     void shouldNotThrowExceptionWhenOneNonPoObstacleAndEmptyDestination() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new TestPiece(Side.HAN), new EmptyPiece());
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), new TestPiece(Side.HAN), EmptyPiece.getInstance());
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -30,7 +30,7 @@ class PoCollisionDetectorTest {
     void shouldNotThrowExceptionWhenOneNonPoObstacleAndEnemyAtDestination() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new TestPiece(Side.HAN), new TestPiece(Side.HAN));
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), new TestPiece(Side.HAN), new TestPiece(Side.HAN));
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -43,7 +43,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenTwoOrMorePieceOnPathExist() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new TestPiece(Side.HAN), new TestPiece(Side.HAN), new EmptyPiece());
+        List<Piece> piecesOnPath = List.of(new TestPiece(Side.HAN), new TestPiece(Side.HAN), EmptyPiece.getInstance());
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -56,7 +56,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenNoObstacleOnPath() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(Side.HAN));
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), EmptyPiece.getInstance(), new TestPiece(Side.HAN));
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -69,7 +69,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenPoOnPath() {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new Po(Side.HAN), new TestPiece(Side.HAN));
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), new Po(Side.HAN), new TestPiece(Side.HAN));
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -82,7 +82,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenPoOfOtherSideOnDestination() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new Po(Side.HAN));
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), EmptyPiece.getInstance(), new Po(Side.HAN));
         Piece piece = new Po(Side.CHO);
 
         // when & then
@@ -95,7 +95,7 @@ class PoCollisionDetectorTest {
     void shouldThrowExceptionWhenSameSidePieceOnDestination() {
         // given
         CollisionDetector collisionDetector = new PoCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(Side.CHO));
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), EmptyPiece.getInstance(), new TestPiece(Side.CHO));
         Piece piece = new Po(Side.CHO);
 
         // when & then

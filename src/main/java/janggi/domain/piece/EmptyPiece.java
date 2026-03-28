@@ -6,6 +6,15 @@ import java.util.List;
 
 public class EmptyPiece implements Piece {
 
+    private static final EmptyPiece INSTANCE = new EmptyPiece();
+
+    private EmptyPiece() {
+    }
+
+    public static EmptyPiece getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public boolean isEmpty() {
         return true;

@@ -25,7 +25,7 @@ class BoardTest {
         // given
         Side currentSide = Side.HAN;
         Piece testPiece = new TestPiece(currentSide);
-        Piece emptyPiece = new EmptyPiece();
+        Piece emptyPiece = EmptyPiece.getInstance();
         Map<Location, Piece> initialPieces = Map.of(
                 new Location(1, 1), testPiece,
                 new Location(2, 2), emptyPiece
@@ -72,7 +72,7 @@ class BoardTest {
         // given
         Map<Location, Piece> initialPieces = Map.of(
                 new Location(1, 1), new TestPiece(Side.HAN),
-                new Location(1, 2), new EmptyPiece()
+                new Location(1, 2), EmptyPiece.getInstance()
         );
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
         BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
@@ -87,8 +87,8 @@ class BoardTest {
     void shouldReturnTrueForEmptyBoard() {
         // given
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), new EmptyPiece(),
-                new Location(1, 2), new EmptyPiece()
+                new Location(1, 1), EmptyPiece.getInstance(),
+                new Location(1, 2), EmptyPiece.getInstance()
         );
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
         BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
@@ -183,7 +183,7 @@ class BoardTest {
         void shouldThrowExceptionWhenPieceDoesNotExistsAtLocation() {
             // given
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(5, 5), new EmptyPiece()
+                    new Location(5, 5), EmptyPiece.getInstance()
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
@@ -204,7 +204,7 @@ class BoardTest {
         void shouldNotThrowExceptionWhenPieceDoesNotExistsAtLocation() {
             // given
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new EmptyPiece()
+                    new Location(1, 1), EmptyPiece.getInstance()
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 

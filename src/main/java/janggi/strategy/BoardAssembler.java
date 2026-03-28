@@ -52,7 +52,7 @@ public class BoardAssembler {
         for (int row = 0; row < DEFAULT_ROWS; row++) {
             for (int col = 0; col < DEFAULT_COLS; col++) {
                 if (arrangement[row][col] == null) {
-                    arrangement[row][col] = new EmptyPiece();
+                    arrangement[row][col] = EmptyPiece.getInstance();
                 }
             }
         }
