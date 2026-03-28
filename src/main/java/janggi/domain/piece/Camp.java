@@ -25,4 +25,11 @@ public enum Camp {
     public int getStartRowPosition() {
         return startRowPosition;
     }
+
+    public Camp next() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
+    }
 }

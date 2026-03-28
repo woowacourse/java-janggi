@@ -17,4 +17,15 @@ public final class RetryHandler {
             }
         }
     }
+
+    public static void retryOnInvalidInput(Runnable input) {
+        while (true) {
+            try {
+                input.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                OutputView.printError(e.getMessage());
+            }
+        }
+    }
 }

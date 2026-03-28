@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.domain.Position;
+import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.ElephantSetting;
@@ -13,28 +14,15 @@ import janggi.exception.ExceptionMessage;
 import janggi.util.RetryHandler;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 public class JanggiGame {
-
-    private final Queue<Camp> turns = new ArrayDeque<>(List.of(Camp.CHO, Camp.HAN));
 
     public void run() {
         Board board = createBoard();
         OutputView.printBoard(toPiecePositions(board.getBoard()));
         play(board);
-    }
-
-    private void play(Board board) {
-        int playCount = 100;
-        while (playCount-- > 0) {
-            Camp turn = turns.poll();
-            OutputView.printBoard(RetryHandler.retryOnInvalidInput(() -> playTurn(board, turn)));
-            turns.offer(turn);
-        }
     }
 
     private Board createBoard() {
@@ -50,11 +38,26 @@ public class JanggiGame {
         return new Board(initializer);
     }
 
-    private List<PiecePositionDto> playTurn(Board board, Camp camp) {
+    private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
+        return boardState.entrySet().stream()
+                .map(entry -> PiecePositionDto.of(entry.getKey(), entry.getValue()))
+                .toList();
+    }
+
+    private void play(Board board) {
+        Turn turn = new Turn();
+        while (true) {
+            RetryHandler.retryOnInvalidInput(() -> playTurn(board, turn));
+            OutputView.printBoard(toPiecePositions(board.getBoard()));
+        }
+    }
+
+    private void playTurn(Board board, Turn turn) {
+        Camp camp = turn.currentTurn();
         Position source = readSource(board, camp);
         Position destination = RetryHandler.retryOnInvalidInput(() -> toPosition(InputView.readDestination()));
-        Map<Position, Piece> boardState = board.movePiece(source, destination, camp);
-        return toPiecePositions(boardState);
+        board.movePiece(source, destination, camp);
+        turn.finishTurn();
     }
 
     private Position readSource(Board board, Camp camp) {
@@ -74,11 +77,5 @@ public class JanggiGame {
         if (rawPosition.size() != 2) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
         }
-    }
-
-    private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
-        return boardState.entrySet().stream()
-                .map(entry -> PiecePositionDto.of(entry.getKey(), entry.getValue()))
-                .toList();
     }
 }
