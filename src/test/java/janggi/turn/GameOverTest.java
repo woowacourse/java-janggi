@@ -19,7 +19,7 @@ class GameOverTest {
                 .hasMessage("게임 종료 후 턴을 수행할 수 없습니다.");
     }
 
-    @DisplayName("게임이 아직 끝나지 않았다.")
+    @DisplayName("게임이 끝났다.")
     @Test
     void isGameOver() {
         assertThat(new GameOver().isGameOver())
