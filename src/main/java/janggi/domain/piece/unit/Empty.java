@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Empty extends Piece {
+    public static final Piece INSTANCE = new Empty();
     private static final PieceName NAME = PieceName.NONE;
 
     public Empty() {
