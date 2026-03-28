@@ -38,11 +38,6 @@ public class Sang extends BasePiece {
         );
     }
 
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.isEmpty();
-    }
-
     private void validateMove(int distanceX, int distanceY) {
         if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN) ||
                 (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {

@@ -30,11 +30,6 @@ public class Ma extends BasePiece {
         return List.of(Point.of(from.getX(), from.getY() + (pathY / DISTANCE_MAX)));
     }
 
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.isEmpty();
-    }
-
     private void validateMove(int distanceX, int distanceY) {
         if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN) ||
                 (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {

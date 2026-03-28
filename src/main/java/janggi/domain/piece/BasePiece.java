@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.status.Team;
+import java.util.List;
 
 public abstract class BasePiece implements Piece {
 
@@ -10,6 +11,11 @@ public abstract class BasePiece implements Piece {
     public BasePiece(Team team, PieceType type) {
         this.team = team;
         this.type = type;
+    }
+
+    @Override
+    public boolean canMove(List<Piece> route) {
+        return route.isEmpty();
     }
 
     @Override

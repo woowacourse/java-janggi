@@ -32,11 +32,6 @@ public class Cha extends BasePiece {
         return route;
     }
 
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.isEmpty();
-    }
-
     private void validateDiagonalMove(int pathX, int pathY) {
         if (pathX != 0 && pathY != 0) {
             throw new IllegalArgumentException("대각선 이동은 불가능합니다.");
