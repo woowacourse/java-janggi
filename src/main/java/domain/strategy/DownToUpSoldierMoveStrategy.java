@@ -16,11 +16,6 @@ public class DownToUpSoldierMoveStrategy extends MoveStrategy {
         this.destinations = setupDestinations();
     }
 
-    @Override
-    public void updateRoute() {
-        this.destinations = setupDestinations();
-    }
-
     public static DownToUpSoldierMoveStrategy of(Position position) {
         return new DownToUpSoldierMoveStrategy(position);
     }

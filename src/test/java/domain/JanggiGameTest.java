@@ -3,8 +3,6 @@ package domain;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
-import domain.strategy.GeneralMoveStrategy;
-import domain.strategy.HorseMoveStrategy;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +13,9 @@ class JanggiGameTest {
     private Board testBoard() {
         Map<Position, Piece> testBoard = new HashMap<>();
 
-        Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.RED), HorseMoveStrategy.of(Position.of(3, 3)));
-        Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN), HorseMoveStrategy.of(Position.of(5, 2)));
-        Piece generalPiece = new Piece(PieceProperty.of(PieceType.GENERAL, Team.GREEN), GeneralMoveStrategy.of(Position.of(1,4)));
+        Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.RED),Position.of(3, 3));
+        Piece soldierPiece = new Piece(PieceProperty.of(PieceType.GREEN_SOLDIER, Team.GREEN), Position.of(5, 2));
+        Piece generalPiece = new Piece(PieceProperty.of(PieceType.GENERAL, Team.GREEN), Position.of(1,4));
 
         testBoard.put(horsePiece.position(), horsePiece);
         testBoard.put(soldierPiece.position(), soldierPiece);

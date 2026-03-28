@@ -16,11 +16,6 @@ public class GeneralMoveStrategy extends MoveStrategy {
         this.destinations = setupDestinations();
     }
 
-    @Override
-    public void updateRoute() {
-        this.destinations = setupDestinations();
-    }
-
     public static GeneralMoveStrategy of(Position position) {
         return new GeneralMoveStrategy(position);
     }

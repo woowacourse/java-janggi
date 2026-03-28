@@ -16,11 +16,6 @@ public class ElephantMoveStrategy extends MoveStrategy {
         this.moves = setupDestinationAndRoutesFrom();
     }
 
-    @Override
-    public void updateRoute() {
-        this.moves = setupDestinationAndRoutesFrom();
-    }
-
     public static ElephantMoveStrategy of(Position position) {
         return new ElephantMoveStrategy(position);
     }

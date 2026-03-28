@@ -1,9 +1,19 @@
 package domain;
 
+import domain.strategy.MoveStrategy;
+
 public record PieceProperty(PieceType pieceType, Team team) {
 
     public static PieceProperty of(PieceType pieceType, Team team) {
         return new PieceProperty(pieceType, team);
+    }
+
+    public static PieceProperty none() {
+        return new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE);
+    }
+
+    public MoveStrategy moveStrategy(Position position) {
+        return pieceType.createStrategy(position);
     }
 
     public boolean isGeneral() {

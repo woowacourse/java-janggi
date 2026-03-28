@@ -1,7 +1,5 @@
 package domain;
 
-import domain.strategy.NoneMoveableStrategy;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -20,10 +18,9 @@ public class Board {
 
     public void movePiece(Position piecePosition, Position targetPosition) {
         Piece piece = findPieceAt(piecePosition);
-        piece.moved(targetPosition);
-        board.replace(targetPosition, piece);
-        board.replace(piecePosition,
-                new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), NoneMoveableStrategy.of(piecePosition)));
+
+        board.replace(targetPosition, piece.moved(targetPosition));
+        board.replace(piecePosition, new Piece(PieceProperty.none(), piecePosition));
     }
 
     public boolean isMoveable(Position piecePosition, Position targetPosition) {

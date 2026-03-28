@@ -8,15 +8,19 @@ public class Piece {
     private final PieceProperty pieceProperty;
     private final MoveStrategy moveStrategy;
 
-    public Piece(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
+    public Piece(PieceProperty pieceProperty, Position position) {
         this.pieceProperty = pieceProperty;
-        this.moveStrategy = moveStrategy;
+        this.moveStrategy = pieceProperty.moveStrategy(position);
     }
 
-    public void moved(Position movedPosition) {
-        this.moveStrategy.changePosition(movedPosition);
-        moveStrategy.updateRoute();
+    public Piece moved(Position position) {
+        return new Piece(this.pieceProperty, position);
     }
+
+//    public void moved(Position movedPosition) {
+//        this.moveStrategy.changePosition(movedPosition);
+//        moveStrategy.updateRoute();
+//    }
 
     public boolean isMoveAble(Position destination) {
         return moveStrategy.isMoveAble(destination);

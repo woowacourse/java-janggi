@@ -15,9 +15,6 @@ public class ChariotMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public void updateRoute() {}
-
-    @Override
     public boolean isMoveAble(Position destination) {
         if (position.row() == destination.row()) {
             return true;

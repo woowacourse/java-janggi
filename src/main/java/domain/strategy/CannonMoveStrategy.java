@@ -15,18 +15,15 @@ public class CannonMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public void updateRoute() {
-
-    }
-
-    @Override
     public boolean isMoveAble(Position destination) {
         if (position.row() == destination.row()) {
             return !destination.equals(position.left()) && !destination.equals(position.right());
         }
+
         if (position.col() == destination.col()) {
             return !destination.equals(position.up()) && !destination.equals(position.down());
         }
+
         return false;
     }
 

@@ -20,11 +20,6 @@ public class UpToDownSoldierMoveStrategy extends MoveStrategy {
         return new UpToDownSoldierMoveStrategy(position);
     }
 
-    @Override
-    public void updateRoute() {
-        this.destinations = setupDestinations();
-    }
-
     private List<Position> setupDestinations() {
         List<Position> positions = new ArrayList<>();
 

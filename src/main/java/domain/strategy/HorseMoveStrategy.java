@@ -32,11 +32,6 @@ public class HorseMoveStrategy extends MoveStrategy {
         return piecePositions.stream().anyMatch(route::contains);
     }
 
-    @Override
-    public void updateRoute() {
-        this.moves = setupDestinationAndRoutesFrom();
-    }
-
     private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {
         return Arrays.stream(HorseMoveRule.values())
                 .collect(Collectors.toMap(

@@ -20,11 +20,6 @@ public class GuardMoveStrategy extends MoveStrategy {
         return new GuardMoveStrategy(position);
     }
 
-    @Override
-    public void updateRoute() {
-        this.destinations = setupDestinations();
-    }
-
     private List<Position> setupDestinations() {
         List<Position> positions = new ArrayList<>();
 
