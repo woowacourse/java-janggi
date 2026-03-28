@@ -1,10 +1,10 @@
-import domain.InitialGameState;
+import java.util.HashMap;
+import java.util.Map;
+
+import domain.Board;
 import domain.Piece;
 import domain.Position;
 import domain.TeamColor;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import strategy.formation.InitialFormationStrategy;
 
 public class Initializer {
@@ -17,19 +17,10 @@ public class Initializer {
         this.hanStrategy = hanStrategy;
     }
 
-    public InitialGameState initialize() {
-        Map<Position, Piece> board = new HashMap<>();
-        board.putAll(choStrategy.setUpPieces(TeamColor.CHO));
-        board.putAll(hanStrategy.setUpPieces(TeamColor.HAN));
-
-        List<Piece> choPieces = board.values().stream()
-                .filter(piece -> piece.getTeamColor() == TeamColor.CHO)
-                .toList();
-
-        List<Piece> hanPieces = board.values().stream()
-                .filter(piece -> piece.getTeamColor() == TeamColor.HAN)
-                .toList();
-
-        return new InitialGameState(board, choPieces, hanPieces);
+    public Board initialize() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.putAll(choStrategy.setUpPieces(TeamColor.CHO));
+        pieces.putAll(hanStrategy.setUpPieces(TeamColor.HAN));
+        return new Board(pieces);
     }
 }

@@ -1,5 +1,4 @@
 import domain.Board;
-import domain.InitialGameState;
 import domain.Piece;
 import domain.Position;
 import domain.TeamColor;
@@ -37,8 +36,7 @@ public class Runner {
         InitialFormationStrategy hanStrategy = chooseFormationStrategy(TeamColor.HAN);
 
         Initializer initializer = new Initializer(choStrategy, hanStrategy);
-        InitialGameState initialGameState = initializer.initialize();
-        Board board = new Board(initialGameState.boardState());
+        Board board = initializer.initialize();
 
         outputView.printBoard(board);
 
