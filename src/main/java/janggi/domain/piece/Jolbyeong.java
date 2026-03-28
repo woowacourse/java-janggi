@@ -18,7 +18,7 @@ public class Jolbyeong extends Piece {
     private static final String PIECE_NAME = "졸병";
     private static final String CHO_PIECE_NAME = "졸";
     private static final String HAN_PIECE_NAME = "병";
-    private static final CollisionDetector COLLISION_DETECTOR = new DefaultCollisionDetector();
+    private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Jolbyeong(Side side) {
         super(PIECE_NAME, side);

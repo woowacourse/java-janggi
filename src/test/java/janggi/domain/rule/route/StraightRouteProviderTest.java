@@ -11,16 +11,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class StraightRouteProviderTest {
 
+    private static final StraightRouteProvider STRAIGHT_ROUTE_PROVIDER = StraightRouteProvider.getInstance();
+
     @ParameterizedTest
     @DisplayName("직선으로 이동할 위치를 파라미터로 받으면 이동 경로를 반환한다.")
     @MethodSource("provideReachableCoordination")
     void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
         // given
         Location from = Location.from(List.of(2, 2));
-        RouteProvider routeProvider = new StraightRouteProvider();
 
         // when & then
-        Assertions.assertThat(routeProvider.calculateRoute(from, destination))
+        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, destination))
                 .isEqualTo(route);
     }
 
@@ -52,10 +53,9 @@ class StraightRouteProviderTest {
         // given
         Location from = Location.from(List.of(1, 1));
         Location to = Location.from(coordination);
-        RouteProvider routeProvider = new StraightRouteProvider();
 
         // when & then
-        Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
+        Assertions.assertThatThrownBy(() -> STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

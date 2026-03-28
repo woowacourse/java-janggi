@@ -8,7 +8,16 @@ import static janggi.domain.rule.route.Direction.RIGHT;
 import janggi.domain.Location;
 import java.util.List;
 
+@SuppressWarnings("java:S6548")
 public class StraightRouteProvider implements RouteProvider {
+
+    private static final StraightRouteProvider INSTANCE = new StraightRouteProvider();
+
+    private StraightRouteProvider() {}
+
+    public static StraightRouteProvider getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {

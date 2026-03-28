@@ -12,7 +12,16 @@ import static janggi.domain.rule.route.Direction.RIGHT;
 import janggi.domain.Location;
 import java.util.List;
 
+@SuppressWarnings("java:S6548")
 public class GungSeongRouteProvider implements RouteProvider {
+
+    private static final GungSeongRouteProvider INSTANCE = new GungSeongRouteProvider();
+
+    private GungSeongRouteProvider() {}
+
+    public static GungSeongRouteProvider getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {

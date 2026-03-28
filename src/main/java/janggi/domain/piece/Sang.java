@@ -19,7 +19,7 @@ import java.util.List;
 public class Sang extends Piece {
 
     private static final String PIECE_NAME = "상";
-    private static final CollisionDetector COLLISION_DETECTOR = new DefaultCollisionDetector();
+    private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Sang(Side side) {
         super(PIECE_NAME, side);

@@ -9,6 +9,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class GungSeongRouteProviderTest {
 
+    private static final GungSeongRouteProvider GUNG_SEONG_ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
+
     @ParameterizedTest
     @DisplayName("궁성 안에서 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
     @MethodSource("provideReachableCoordination")
@@ -16,10 +18,9 @@ class GungSeongRouteProviderTest {
         // given
         Location from = Location.from(List.of(4, 1));
         Location to = Location.from(destination);
-        RouteProvider routeProvider = new GungSeongRouteProvider();
 
         // when & then
-        Assertions.assertThat(routeProvider.calculateRoute(from, to))
+        Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to))
                 .isEqualTo(List.of(to));
     }
 
@@ -41,10 +42,9 @@ class GungSeongRouteProviderTest {
         // given
         Location from = Location.from(List.of(3, 2));
         Location to = Location.from(coordination);
-        RouteProvider routeProvider = new GungSeongRouteProvider();
 
         // when & then
-        Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
+        Assertions.assertThatThrownBy(() -> GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
