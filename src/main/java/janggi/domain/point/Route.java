@@ -22,7 +22,7 @@ public class Route {
     }
 
     public boolean hasSameType(PieceType type) {
-        return pieces.stream().anyMatch(piece -> !piece.isSameType(type));
+        return pieces.stream().anyMatch(piece -> piece.isSameType(type));
     }
 
     public boolean hasAlly(Team team) {
