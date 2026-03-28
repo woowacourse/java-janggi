@@ -68,12 +68,11 @@ public class ChariotMoveRule extends MoveRule {
 
     public boolean checkMoveRule(Intersection from, List<Intersection> path) {
         Intersection to = path.getLast();
-        validateIsSameTeam(from, to); // 도착지가 같은 팀인지 확인
-        validateObstacleCondition(path); // 중간에 장애물이 있는 지 확인
+        validateIsSameTeam(from, to);
+        validateObstacleCondition(path);
         return true;
     }
 
-    // 같은 팀 인지 확인
     private void validateIsSameTeam(Intersection from, Intersection to) {
         if (from.isSameTeam(to)) {
             throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");

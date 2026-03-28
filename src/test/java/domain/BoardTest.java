@@ -33,7 +33,6 @@ public class BoardTest {
                 .isTrue();
     }
 
-    // TODO method 리팩토링
     @Test
     void 차림이_선택되었을_때_상과_마를_정확한_위치에_배치해야_한다() {
         Formation elephantHorseHorseElephant = Formation.ELEPHANT_HORSE_HORSE_ELEPHANT;

@@ -6,8 +6,6 @@ public abstract class Piece {
 
     protected final Team team;
     protected final PieceType pieceType;
-    // THINK
-    // protected final MoveRule moveRule;
 
     protected Piece(Team team, PieceType pieceType) {
         this.team = team;

@@ -16,7 +16,6 @@ public class GuardMoveRule extends MoveRule {
         super(PieceType.GUARD, initializeDirections());
     }
 
-    // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정
     public static Directions initializeDirections() {
         return new Directions(List.of(
                 new Direction(List.of(UP)),
@@ -36,7 +35,7 @@ public class GuardMoveRule extends MoveRule {
 
     public boolean checkMoveRule(Intersection from, List<Intersection> path) {
         Intersection to = path.getLast();
-        validateIsSameTeam(from, to); // 도착지가 같은 팀인지 확인
+        validateIsSameTeam(from, to);
         return true;
     }
 
