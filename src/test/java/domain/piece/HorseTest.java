@@ -39,11 +39,11 @@ class HorseTest {
         // given
         Horse horse = new Horse(SIDE);
 
-        Intersection boarderlineIntersection = new Intersection(1, 1);
+        Intersection borderlineIntersection = new Intersection(1, 1);
         AlivePieces emptyAlivePlaces = new AlivePieces(Map.of());
 
         // when
-        List<Intersection> movableIntersection = horse.movableIntersections(boarderlineIntersection, emptyAlivePlaces);
+        List<Intersection> movableIntersection = horse.movableIntersections(borderlineIntersection, emptyAlivePlaces);
 
         // then
         boolean movableOutOfBoard = movableIntersection.stream()

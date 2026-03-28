@@ -89,12 +89,12 @@ class ElephantTest {
         // given
         Elephant elephant = new Elephant(SIDE);
 
-        Intersection boarderlineIntersection = new Intersection(1, 1);
+        Intersection borderlineIntersection = new Intersection(1, 1);
         AlivePieces emptyAlivePlaces = new AlivePieces(Map.of());
 
         // when
         List<Intersection> movableIntersection = elephant.movableIntersections(
-                boarderlineIntersection,
+                borderlineIntersection,
                 emptyAlivePlaces
         );
 

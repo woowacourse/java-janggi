@@ -17,7 +17,7 @@ class CannonTest {
     private static final Side OPPOSITE_SIDE = Side.CHO;
     private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
     private static final Soldier OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
-    private static final Soldier OHTER_PIECE = new Soldier(SIDE);
+    private static final Soldier OTHER_PIECE = new Soldier(SIDE);
 
     @Nested
     class 초기_위치를_반환한다 {
@@ -83,7 +83,7 @@ class CannonTest {
 
             @ParameterizedTest
             @EnumSource(Side.class)
-            void 가장_가까운_기물이_포라면_이동할_수_없다(Side cloestCannonSide) {
+            void 가장_가까운_기물이_포라면_이동할_수_없다(Side closestCannonSide) {
                 // given
                 Cannon cannon = new Cannon(SIDE);
                 int currentRow = 5;
@@ -91,7 +91,7 @@ class CannonTest {
                 Intersection currentIntersection = new Intersection(currentRow, currentFile);
 
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of(
-                        new Intersection(3, currentFile), new Cannon(cloestCannonSide)
+                        new Intersection(3, currentFile), new Cannon(closestCannonSide)
                 ));
 
                 // when
@@ -117,7 +117,7 @@ class CannonTest {
                 Intersection currentIntersection = new Intersection(currentRow, currentFile);
                 Intersection screenIntersection = new Intersection(3, currentFile);
                 AlivePieces alivePieces = new AlivePieces(Map.of(
-                        screenIntersection, OHTER_PIECE
+                        screenIntersection, OTHER_PIECE
                 ));
 
                 List<Intersection> expected = List.of(
@@ -146,7 +146,7 @@ class CannonTest {
                 Intersection screenIntersection = new Intersection(4, currentFile);
                 Intersection sameSidePieceIntersection = new Intersection(2, currentFile);
                 AlivePieces alivePieces = new AlivePieces(Map.of(
-                        screenIntersection, OHTER_PIECE,
+                        screenIntersection, OTHER_PIECE,
                         sameSidePieceIntersection, SAME_SIDE_PIECE
                 ));
 
@@ -175,7 +175,7 @@ class CannonTest {
                 Intersection screenIntersection = new Intersection(4, currentFile);
                 Intersection oppositeSidePieceIntersection = new Intersection(2, currentFile);
                 AlivePieces alivePieces = new AlivePieces(Map.of(
-                        screenIntersection, OHTER_PIECE,
+                        screenIntersection, OTHER_PIECE,
                         oppositeSidePieceIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
@@ -205,7 +205,7 @@ class CannonTest {
                 Intersection screenIntersection = new Intersection(4, currentFile);
                 Intersection oppositeCannonIntersection = new Intersection(2, currentFile);
                 AlivePieces alivePieces = new AlivePieces(Map.of(
-                        screenIntersection, OHTER_PIECE,
+                        screenIntersection, OTHER_PIECE,
                         oppositeCannonIntersection, new Cannon(OPPOSITE_SIDE)
                 ));
 

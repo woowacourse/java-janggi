@@ -24,9 +24,9 @@ class InitialPiecesTest {
         InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
 
         // when
-        Map<Intersection, Piece> intialedPieces = initialPieces.get();
+        Map<Intersection, Piece> initializedPieces = initialPieces.get();
 
         // then
-        Assertions.assertThat(intialedPieces).hasSize(INITIAL_PIECES_AMOUNT);
+        Assertions.assertThat(initializedPieces).hasSize(INITIAL_PIECES_AMOUNT);
     }
 }

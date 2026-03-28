@@ -44,12 +44,12 @@ class ChoWingsTest {
         // given
         Piece first = new Horse(Side.CHO);
         Piece second = new Elephant(Side.CHO);
-        Piece thrid = new Horse(Side.CHO);
+        Piece third = new Horse(Side.CHO);
         Piece fourth = new Elephant(Side.CHO);
 
         ChoWings choWings = new ChoWings(
                 List.of(first, second),
-                List.of(thrid, fourth)
+                List.of(third, fourth)
         );
 
         // when
@@ -58,7 +58,7 @@ class ChoWingsTest {
         // then
         assertThat(setUpPieces.get(new Intersection(10, 2))).isEqualTo(first);
         assertThat(setUpPieces.get(new Intersection(10, 3))).isEqualTo(second);
-        assertThat(setUpPieces.get(new Intersection(10, 7))).isEqualTo(thrid);
+        assertThat(setUpPieces.get(new Intersection(10, 7))).isEqualTo(third);
         assertThat(setUpPieces.get(new Intersection(10, 8))).isEqualTo(fourth);
     }
 }
