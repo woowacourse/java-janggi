@@ -29,7 +29,7 @@ public class JanggiBoard {
     public void tryToMove(Point start, Point end) {
         Intersection from = findIntersection(start);
         Intersection to = findIntersection(end);
-        validateMoveRule(from, to);
+        inspectPath(from, to);
         move(from, to);
     }
 
@@ -38,25 +38,16 @@ public class JanggiBoard {
         from.leave();
     }
 
-    private void validateMoveRule(Intersection from, Intersection to) {
-        Path path = findPath(moveRuleManager.findPathOfPoints(from, to));
-        moveRuleManager.checkPathByMoveRule(from, path);
+    private void inspectPath(Intersection from, Intersection to) {
+        Path path = buildPath(moveRuleManager.findPathOfPoints(from, to));
+        moveRuleManager.inspectPathByMoveRule(from, path);
     }
 
-    private Path findPath(List<Point> possiblePoints) {
+    private Path buildPath(List<Point> possiblePoints) {
         List<Intersection> intersectionOfPath = possiblePoints.stream()
                 .map(this::findIntersection)
                 .toList();
         return new Path(intersectionOfPath);
-    }
-
-    private static Stream<Point> getAllPoints() {
-        return range(MAX_ROW).boxed()
-                .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
-    }
-
-    private static IntStream range(int maxRange) {
-        return IntStream.range(0, maxRange);
     }
 
     public Intersection findIntersection(Point point) {
@@ -66,6 +57,15 @@ public class JanggiBoard {
     private Map<Point, Intersection> fillEmptyIntersections() {
         return getAllPoints()
                 .collect(Collectors.toMap(point -> point, Intersection::empty));
+    }
+
+    private Stream<Point> getAllPoints() {
+        return range(MAX_ROW).boxed()
+                .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
+    }
+
+    private IntStream range(int maxRange) {
+        return IntStream.range(0, maxRange);
     }
 
 }

@@ -26,9 +26,9 @@ public class MoveRuleManager {
         return moveRule.findPathOfPoints(from, to);
     }
 
-    public boolean checkPathByMoveRule(Intersection from, Path path) {
+    public void inspectPathByMoveRule(Intersection from, Path path) {
         MoveRule moveRule = findMoveRule(from);
-        return moveRule.checkMoveRule(from, path.intersections());
+        moveRule.checkMoveRule(from, path.intersections());
     }
 
     public MoveRule findMoveRule(Intersection from) {
