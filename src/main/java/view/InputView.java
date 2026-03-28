@@ -1,5 +1,6 @@
 package view;
 
+import common.ErrorMessage;
 import domain.SettingType;
 import domain.piece.Team;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class InputView {
             return SettingType.OUTER;
         }
 
-        throw new IllegalArgumentException("1~4 사이의 숫자만 입력해주세요.");
+        throw new IllegalArgumentException(ErrorMessage.OUT_OF_INPUT_RANGE.getMessage());
     }
 
     public PositionDto readMovePositions(Team team) {
@@ -58,7 +59,7 @@ public class InputView {
         try {
             action = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Action에는 숫자만 입력 가능합니다. ");
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ACTION_INPUT.getMessage());
         }
         return ActionType.toValue(action);
     }

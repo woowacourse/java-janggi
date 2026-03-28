@@ -1,12 +1,12 @@
 package domain.piece.strategy;
 
+import common.ErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SlidingMoveStrategyTest {
-    // 같은 row일떄
     @Test
     void 같은_Row이면_목적지까지의_경로를_반환해야_한다() {
         // given
@@ -29,7 +29,6 @@ public class SlidingMoveStrategyTest {
                 Position.of(1, 7)
         );
     }
-    // 같은 col 일때
 
     @Test
     void 같은_Column이면_목적지까지의_경로를_반환해야_한다() {
@@ -64,7 +63,8 @@ public class SlidingMoveStrategyTest {
         // when
         MoveStrategy strategy = new SlidingMoveStrategy();
 
-        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_POS_INPUT.getMessage());
     }
 }

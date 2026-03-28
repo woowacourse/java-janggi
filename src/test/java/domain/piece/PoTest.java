@@ -1,5 +1,6 @@
 package domain.piece;
 
+import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.ByeongMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
@@ -10,11 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PoTest {
-    // 목적지와 포 사이에 기물이 1개 있는 경우 -> 가능
-    // 목적지에 상대방 포가 있는 경우 -> 不
-    // 목적지와 포 사이에 기물이 2개 있는 경우 -> 不
-    // 목적지와 포 사이에 포가 있는 경우 -> 不
-    // 목적지와 포 사이에 아무것도 없는 경 -> 不
 
     private static final Po TEST_PO = new Po(new SlidingMoveStrategy(), Team.CHO);
 
@@ -33,8 +29,9 @@ class PoTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when
-        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.CANNOT_JUMP_PO.getMessage());
     }
 
     @Test
@@ -52,8 +49,9 @@ class PoTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when
-        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.CANNOT_JUMP_PO.getMessage());
     }
 
     @Test

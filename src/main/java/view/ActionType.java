@@ -1,5 +1,7 @@
 package view;
 
+import common.ErrorMessage;
+
 public enum ActionType {
     MOVE, PASS;
 
@@ -10,6 +12,6 @@ public enum ActionType {
         if (value == 2) {
             return PASS;
         }
-        throw new IllegalArgumentException("잘못된 입력입니다.");
+        throw new IllegalArgumentException(ErrorMessage.INVALID_ACTION_INPUT.getMessage());
     }
 }

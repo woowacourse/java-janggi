@@ -1,5 +1,6 @@
 package domain;
 
+import common.ErrorMessage;
 import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
@@ -36,8 +37,8 @@ class BoardTest {
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
 
         //when, then
-        Assertions.assertThatThrownBy(
-                () -> testBoard.move(turn, start, end)
-        ).isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.DESTINATION_ALLY.getMessage());
     }
 }

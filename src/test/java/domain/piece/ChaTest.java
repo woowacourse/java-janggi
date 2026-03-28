@@ -1,6 +1,7 @@
 package domain.piece;
 
 
+import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
@@ -26,8 +27,9 @@ class ChaTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when
-        Assertions.assertThatThrownBy(() -> testCha.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> testCha.check(testBoard, start, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.PATH_BLOCKED.getMessage());
     }
 
     @Test

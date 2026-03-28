@@ -1,5 +1,6 @@
 package domain.piece;
 
+import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
@@ -45,13 +46,13 @@ public abstract class Piece {
 
     public void validateTurn(Team turn) {
         if (this.team != turn) {
-            throw new IllegalArgumentException("아군만 이동할 수 있습니다.");
+            throw new IllegalArgumentException(ErrorMessage.ONLY_ALLY.getMessage());
         }
     }
 
     public void validateNotAlly(Piece destinationPiece) {
         if (destinationPiece != null && destinationPiece.isSameTeam(this)) {
-            throw new IllegalArgumentException("이동할 수 없습니다. (목적지에 아군이 존재함)");
+            throw new IllegalArgumentException(ErrorMessage.DESTINATION_ALLY.getMessage());
         }
     }
 

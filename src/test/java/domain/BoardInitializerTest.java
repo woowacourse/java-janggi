@@ -43,114 +43,125 @@ public class BoardInitializerTest {
     @Test
     void 입력된_왼상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new LeftSettingOfChoInfo();
-        SettingInfo hanInfo = new LeftSettingOfHanInfo();
+        SettingType choSettingType = SettingType.LEFT;
+        SettingType hangSettingType = SettingType.LEFT;
 
-        Map<Position, Piece> result = initializer.setup(SettingType.LEFT, SettingType.LEFT);
+        SettingInfo choInfo = choSettingType.generate(Team.CHO);
+        SettingInfo hanInfo = hangSettingType.generate(Team.HAN);
+
+        Map<Position, Piece> expect = new HashMap<>();
+        putWithoutSangAndMa(expect);
+        putSangAndMa(expect, choInfo, hanInfo);
+
+        Map<Position, Piece> result = initializer.setup(choSettingType, hangSettingType);
 
         //then
-        assertSangAndMaPosition(result, choInfo, hanInfo);
-        assertWithoutSangAndMaPosition(result);
+        Assertions.assertThat(result).containsAllEntriesOf(expect);
     }
 
     @Test
     void 입력된_오른상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new RightSettingOfChoInfo();
-        SettingInfo hanInfo = new RightSettingOfHanInfo();
+        SettingType choSettingType = SettingType.RIGHT;
+        SettingType hangSettingType = SettingType.RIGHT;
 
-        Map<Position, Piece> result = initializer.setup(SettingType.RIGHT, SettingType.RIGHT);
+        SettingInfo choInfo = choSettingType.generate(Team.CHO);
+        SettingInfo hanInfo = hangSettingType.generate(Team.HAN);
+
+        Map<Position, Piece> expect = new HashMap<>();
+        putWithoutSangAndMa(expect);
+        putSangAndMa(expect, choInfo, hanInfo);
+
+        Map<Position, Piece> result = initializer.setup(choSettingType, hangSettingType);
 
         //then
-        assertSangAndMaPosition(result, choInfo, hanInfo);
-        assertWithoutSangAndMaPosition(result);
+        Assertions.assertThat(result).containsAllEntriesOf(expect);
     }
 
     @Test
     void 입력된_안상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new InnerSettingOfChoInfo();
-        SettingInfo hanInfo = new InnerSettingOfHanInfo();
+        SettingType choSettingType = SettingType.INNER;
+        SettingType hangSettingType = SettingType.INNER;
 
-        Map<Position, Piece> result = initializer.setup(SettingType.INNER, SettingType.INNER);
+        SettingInfo choInfo = choSettingType.generate(Team.CHO);
+        SettingInfo hanInfo = hangSettingType.generate(Team.HAN);
+
+        Map<Position, Piece> expect = new HashMap<>();
+        putWithoutSangAndMa(expect);
+        putSangAndMa(expect, choInfo, hanInfo);
+
+        Map<Position, Piece> result = initializer.setup(choSettingType, hangSettingType);
 
         //then
-        assertSangAndMaPosition(result, choInfo, hanInfo);
-        assertWithoutSangAndMaPosition(result);
-
+        Assertions.assertThat(result).containsAllEntriesOf(expect);
     }
 
     @Test
     void 입력된_바깥상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new OuterSettingOfChoInfo();
-        SettingInfo hanInfo = new OuterSettingOfHanInfo();
+        SettingType choSettingType = SettingType.OUTER;
+        SettingType hangSettingType = SettingType.OUTER;
 
-        Map<Position, Piece> result = initializer.setup(SettingType.OUTER, SettingType.OUTER);
+        SettingInfo choInfo = choSettingType.generate(Team.CHO);
+        SettingInfo hanInfo = hangSettingType.generate(Team.HAN);
+
+        Map<Position, Piece> expect = new HashMap<>();
+        putWithoutSangAndMa(expect);
+        putSangAndMa(expect, choInfo, hanInfo);
+
+        Map<Position, Piece> result = initializer.setup(choSettingType, hangSettingType);
 
         //then
-        assertSangAndMaPosition(result, choInfo, hanInfo);
-        assertWithoutSangAndMaPosition(result);
+        Assertions.assertThat(result).containsAllEntriesOf(expect);
     }
 
-    private void assertSangAndMaPosition(Map<Position, Piece> result, SettingInfo choInfo, SettingInfo hanInfo) {
-        Assertions.assertThat(result.get(choInfo.sang1)).isEqualTo(sangOfCho);
-        Assertions.assertThat(result.get(choInfo.sang2)).isEqualTo(sangOfCho);
-        Assertions.assertThat(result.get(choInfo.ma1)).isEqualTo(maOfCho);
-        Assertions.assertThat(result.get(choInfo.ma2)).isEqualTo(maOfCho);
-
-        Assertions.assertThat(result.get(hanInfo.sang1)).isEqualTo(sangOfHan);
-        Assertions.assertThat(result.get(hanInfo.sang2)).isEqualTo(sangOfHan);
-        Assertions.assertThat(result.get(hanInfo.ma1)).isEqualTo(maOfHan);
-        Assertions.assertThat(result.get(hanInfo.ma2)).isEqualTo(maOfHan);
+    private void putSangAndMa(Map<Position, Piece> piecesWithoutSangAndMa, SettingInfo choInfo, SettingInfo hanInfo) {
+        piecesWithoutSangAndMa.put(choInfo.sang1, sangOfCho);
+        piecesWithoutSangAndMa.put(choInfo.sang2, sangOfCho);
+        piecesWithoutSangAndMa.put(choInfo.ma1, maOfCho);
+        piecesWithoutSangAndMa.put(choInfo.ma2, maOfCho);
+        piecesWithoutSangAndMa.put(hanInfo.sang1, sangOfHan);
+        piecesWithoutSangAndMa.put(hanInfo.sang2, sangOfHan);
+        piecesWithoutSangAndMa.put(hanInfo.ma1, maOfHan);
+        piecesWithoutSangAndMa.put(hanInfo.ma2, maOfHan);
     }
 
-    private void assertWithoutSangAndMaPosition(Map<Position, Piece> result) {
-        Map<Position, Piece> target = initPiecesWithoutSangAndMa();
-        for (Position position : target.keySet()) {
-            Assertions.assertThat(result.get(position)).isEqualTo(target.get(position));
-        }
-    }
-
-    private Map<Position, Piece> initPiecesWithoutSangAndMa() {
-        Map<Position, Piece> setting = new HashMap<>();
-
+    private void putWithoutSangAndMa(Map<Position, Piece> expect) {
         // 초나라
-        setting.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(), Team.CHO));
-        setting.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(), Team.CHO));
+        expect.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(), Team.CHO));
+        expect.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(), Team.CHO));
-        setting.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(), Team.CHO));
+        expect.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(), Team.CHO));
+        expect.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(), Team.CHO));
+        expect.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(), Team.CHO));
-        setting.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(), Team.CHO));
+        expect.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(), Team.CHO));
+        expect.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(), Team.CHO));
 
-        setting.put(Position.of(4, 1), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 3), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 5), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 7), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 9), new Jol(new JolMoveStrategy(), Team.CHO));
+        expect.put(Position.of(4, 1), new Jol(new JolMoveStrategy(), Team.CHO));
+        expect.put(Position.of(4, 3), new Jol(new JolMoveStrategy(), Team.CHO));
+        expect.put(Position.of(4, 5), new Jol(new JolMoveStrategy(), Team.CHO));
+        expect.put(Position.of(4, 7), new Jol(new JolMoveStrategy(), Team.CHO));
+        expect.put(Position.of(4, 9), new Jol(new JolMoveStrategy(), Team.CHO));
 
         // 한나라
-        setting.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(), Team.HAN));
-        setting.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(), Team.HAN));
+        expect.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(), Team.HAN));
+        expect.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(), Team.HAN));
-        setting.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(), Team.HAN));
+        expect.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(), Team.HAN));
+        expect.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(), Team.HAN));
+        expect.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), Team.HAN));
-        setting.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), Team.HAN));
+        expect.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), Team.HAN));
+        expect.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-
-        return setting;
+        expect.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        expect.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        expect.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        expect.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        expect.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(), Team.HAN));
     }
 }

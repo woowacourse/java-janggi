@@ -1,11 +1,35 @@
 package view;
 
+import common.ErrorMessage;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.position.Position;
+import java.util.Map;
+import java.util.Optional;
 
 public class PieceDto {
+    private static final Map<Team, Map<PieceType, String>> SYMBOLS = Map.of(
+            Team.CHO, Map.of(
+                    PieceType.CHA, "차",
+                    PieceType.SANG, "상",
+                    PieceType.MA, "마",
+                    PieceType.SA, "사",
+                    PieceType.JANG, "장",
+                    PieceType.PO, "포",
+                    PieceType.JOL, "졸"
+            ),
+            Team.HAN, Map.of(
+                    PieceType.CHA, "車",
+                    PieceType.SANG, "象",
+                    PieceType.MA, "馬",
+                    PieceType.SA, "士",
+                    PieceType.JANG, "漢",
+                    PieceType.PO, "包",
+                    PieceType.BYEONG, "兵"
+            )
+    );
+
     private final int row;
     private final int column;
     private final String description;
@@ -17,60 +41,17 @@ public class PieceDto {
     }
 
     public static PieceDto toDto(Position position, Piece piece) {
-        int row = position.getRow().getValue();
-        int col = position.getColumn().getValue();
-        PieceType type = piece.getPieceType();
-        Team team = piece.getTeam();
+        return new PieceDto(
+                position.getRow().getValue(),
+                position.getColumn().getValue(),
+                getSymbol(piece.getTeam(), piece.getPieceType())
+        );
+    }
 
-        if (team == Team.CHO) {
-            if (type == PieceType.CHA) {
-                return new PieceDto(row, col, "차");
-            }
-            if (type == PieceType.SANG) {
-                return new PieceDto(row, col, "상");
-            }
-            if (type == PieceType.MA) {
-                return new PieceDto(row, col, "마");
-            }
-            if (type == PieceType.SA) {
-                return new PieceDto(row, col, "사");
-            }
-            if (type == PieceType.JANG) {
-                return new PieceDto(row, col, "장");
-            }
-            if (type == PieceType.PO) {
-                return new PieceDto(row, col, "포");
-            }
-            if (type == PieceType.JOL) {
-                return new PieceDto(row, col, "졸");
-            }
-        }
-
-        if (team == Team.HAN) {
-            if (type == PieceType.CHA) {
-                return new PieceDto(row, col, "車");
-            }
-            if (type == PieceType.SANG) {
-                return new PieceDto(row, col, "象");
-            }
-            if (type == PieceType.MA) {
-                return new PieceDto(row, col, "馬");
-            }
-            if (type == PieceType.SA) {
-                return new PieceDto(row, col, "士");
-            }
-            if (type == PieceType.JANG) {
-                return new PieceDto(row, col, "漢");
-            }
-            if (type == PieceType.PO) {
-                return new PieceDto(row, col, "包");
-            }
-            if (type == PieceType.BYEONG) {
-                return new PieceDto(row, col, "兵");
-            }
-        }
-
-        throw new IllegalArgumentException("일치하는 기물 정보가 없습니다.");
+    private static String getSymbol(Team team, PieceType type) {
+        return Optional.ofNullable(SYMBOLS.get(team))
+                .map(map -> map.get(type))
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_MATCH_PIECE.getMessage()));
     }
 
     public int getRow() {

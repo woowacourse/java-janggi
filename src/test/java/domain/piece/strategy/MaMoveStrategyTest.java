@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import common.ErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -51,8 +52,9 @@ class MaMoveStrategyTest {
 
         MoveStrategy strategy = new JolMoveStrategy();
 
-        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_POS_INPUT.getMessage());
     }
 
 }

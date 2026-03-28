@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import common.ErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -41,6 +42,6 @@ public class MaMoveStrategy implements MoveStrategy {
                         .toList();
             }
         }
-        throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다. 다시 입력하세요.");
+        throw new IllegalArgumentException(ErrorMessage.INVALID_POS_INPUT.getMessage());
     }
 }

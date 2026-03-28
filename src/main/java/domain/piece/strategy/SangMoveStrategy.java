@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import common.ErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -34,14 +35,22 @@ public class SangMoveStrategy implements MoveStrategy {
         for (int way = 0; way < dColumn.length; way++) { // 8가지 움직임중 하나.
             int[] dColumnOfSpecificAction = dColumn[way];
             int[] dRowOfSpecificAction = dRow[way];
-            Position destinationCandidate = start.go(dRowOfSpecificAction[DESTINATION_INDEX],
-                    dColumnOfSpecificAction[DESTINATION_INDEX]);
+            Position destinationCandidate = createDestinationCandidate(start, dRowOfSpecificAction,
+                    dColumnOfSpecificAction);
             if (destination.equals(destinationCandidate)) {
                 return IntStream.range(0, SANG_MOVE_SPACE)
                         .mapToObj(i -> start.go(dRowOfSpecificAction[i], dColumnOfSpecificAction[i]))
                         .toList();
             }
         }
-        throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다. 다시 입력하세요.");
+        throw new IllegalArgumentException(ErrorMessage.INVALID_POS_INPUT.getMessage());
+    }
+
+    private static Position createDestinationCandidate(Position start, int[] dRowOfSpecificAction,
+                                                       int[] dColumnOfSpecificAction) {
+        return start.go(
+                dRowOfSpecificAction[DESTINATION_INDEX],
+                dColumnOfSpecificAction[DESTINATION_INDEX]
+        );
     }
 }

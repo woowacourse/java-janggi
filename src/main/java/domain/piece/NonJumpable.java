@@ -1,5 +1,6 @@
 package domain.piece;
 
+import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
@@ -16,25 +17,20 @@ public abstract class NonJumpable extends Piece {
         checkPathIsEmpty(boardStatus, movablePath);
     }
 
-    private static void checkPathIsEmpty(BoardStatus boardStatus, List<Position> movablePaths) {
+    private void checkPathIsEmpty(BoardStatus boardStatus, List<Position> movablePaths) {
         for (Position movablePath : movablePaths) {
             int rowValue = movablePath.getRow().getValue();
             int columnValue = movablePath.getColumn().getValue();
 
             if (checkIsAlreadyExists(boardStatus, rowValue, columnValue)) {
-                throw new IllegalArgumentException("ㄴㄴ 안됨 ㅅㄱ");
+                throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
             }
         }
     }
 
-    private static boolean checkIsAlreadyExists(BoardStatus boardStatus, int rowValue, int columnValue) {
-        Piece piece = boardStatus.getBoardStatus().get(
-                Position.of(rowValue, columnValue)
-        );
-
-        if (piece != null) {
-            return true;
-        }
-        return false;
+    private boolean checkIsAlreadyExists(BoardStatus boardStatus, int rowValue, int columnValue) {
+        Piece piece = boardStatus.getBoardStatus()
+                .get(Position.of(rowValue, columnValue));
+        return piece != null;
     }
 }

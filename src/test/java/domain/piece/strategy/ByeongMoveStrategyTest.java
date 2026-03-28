@@ -1,5 +1,8 @@
 package domain.piece.strategy;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import common.ErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -17,6 +20,8 @@ public class ByeongMoveStrategyTest {
 
         MoveStrategy strategy = new ByeongMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        assertThat(movablePath).isNotNull();
     }
 
     @Test
@@ -27,7 +32,7 @@ public class ByeongMoveStrategyTest {
 
         MoveStrategy strategy = new JolMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
-        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
+        assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
     @Test
@@ -39,7 +44,7 @@ public class ByeongMoveStrategyTest {
         MoveStrategy strategy = new JolMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
 
-        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
+        assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
     @Test
@@ -50,7 +55,8 @@ public class ByeongMoveStrategyTest {
 
         MoveStrategy strategy = new JolMoveStrategy();
 
-        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_POS_INPUT.getMessage());
     }
 }

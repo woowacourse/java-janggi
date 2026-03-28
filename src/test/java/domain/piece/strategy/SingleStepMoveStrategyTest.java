@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import common.ErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -61,7 +62,8 @@ class SingleStepMoveStrategyTest {
 
         MoveStrategy strategy = new SingleStepMoveStrategy();
 
-        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_POS_INPUT.getMessage());
     }
 }

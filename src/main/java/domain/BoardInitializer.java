@@ -100,17 +100,7 @@ public class BoardInitializer {
     }
 
     private SettingInfo convertToSettingInfo(SettingType settingType, Team team) {
-        if (settingType == SettingType.LEFT) {
-            return SettingType.getLeftInfo(team);
-        }
-        if (settingType == SettingType.RIGHT) {
-            return SettingType.getRightInfo(team);
-        }
-        if (settingType == SettingType.INNER) {
-            return SettingType.getInnerInfo(team);
-        }
-
-        return SettingType.getOuterInfo(team);
+        return settingType.generate(team);
     }
 
     private void putSangAndMaByTeam(Map<Position, Piece> defaultSetting, SettingInfo settingInfo,

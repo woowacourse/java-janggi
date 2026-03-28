@@ -1,5 +1,6 @@
 package domain;
 
+import common.ErrorMessage;
 import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
@@ -41,7 +42,7 @@ public class Board {
     private Piece selectNotEmptyPiece(Position position) {
         Piece piece = pieces.get(position);
         if (piece == null) {
-            throw new IllegalArgumentException("해당 위치에 존재하는 기물 없음");
+            throw new IllegalArgumentException(ErrorMessage.EMPTY_POSITION.getMessage());
         }
         return piece;
     }
