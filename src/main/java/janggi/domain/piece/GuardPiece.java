@@ -11,10 +11,7 @@ public class GuardPiece extends Piece {
         super(team, Name.GUARD, moveStrategy);
     }
 
-    @Override
-    public List<Position> findPath(Position from, Position to) {
-        return List.of(to);
-    }
+
 
     @Override
     public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to) {

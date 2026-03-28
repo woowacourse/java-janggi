@@ -3,6 +3,8 @@ package janggi.domain.movestrategy;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Team;
 
+import java.util.List;
+
 public class SoliderStrategy implements MoveStrategy {
     private final Team team;
 
@@ -28,5 +30,10 @@ public class SoliderStrategy implements MoveStrategy {
             return true;
         }
         return (Math.abs(nextX - preX) == 1) && (nextY == preY);
+    }
+
+    @Override
+    public List<Position> findPath(Position from, Position to) {
+        return List.of(to);
     }
 }

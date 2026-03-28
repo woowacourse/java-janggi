@@ -2,18 +2,13 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.MoveStrategy;
-import java.util.List;
+
 import java.util.Map;
 
 public class GeneralPiece extends Piece {
 
     public GeneralPiece(Team team, MoveStrategy moveStrategy) {
         super(team, Name.GENERAL, moveStrategy);
-    }
-
-    @Override
-    public List<Position> findPath(Position from, Position to) {
-        return List.of(to);
     }
 
     @Override
