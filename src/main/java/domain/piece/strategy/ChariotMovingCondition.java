@@ -14,32 +14,33 @@ public class ChariotMovingCondition implements MovingCondition {
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
         Queue<Direction> directions = Direction.of(startPosition, endPosition);
 
-        Direction firstDirection = directions.poll();
-        if (!firstDirection.isStraight()) {
-            return false;
-        }
-        Position firstPosition = startPosition.append(firstDirection);
-        if (state.containsKey(firstPosition)) {
-            return false;
-        }
+        if (!isStraightDirection(directions)) return false;
+        return hasValidChariotPath(state, startPosition, endPosition, directions);
+    }
 
-        Queue<Position> currentPositions = new ArrayDeque<>();
-        currentPositions.offer(firstPosition);
+    private static boolean hasValidChariotPath(
+            Map<Position, Piece> state,
+            Position startPosition,
+            Position endPosition,
+            Queue<Direction> directions
+    ) {
+        Direction standardDirection = directions.peek();
+        Position currentPosition = startPosition;
 
         while (!directions.isEmpty()) {
             Direction currentDirection = directions.poll();
-            if (currentDirection != firstDirection) {
-                return false;
-            }
-            Position nextPosition = currentPositions.poll().append(currentDirection);
-            if (nextPosition.equals(endPosition)) {
-                return true;
-            }
-            if (state.containsKey(nextPosition)) {
-                return false;
-            }
-            currentPositions.offer(nextPosition);
+            if (currentDirection != standardDirection) return false;
+
+            currentPosition = currentPosition.append(currentDirection);
+
+            if (currentPosition.equals(endPosition)) return true;
+            if (state.containsKey(currentPosition)) return false;
         }
         return true;
     }
+
+    private boolean isStraightDirection(Queue<Direction> directions) {
+        return !directions.isEmpty() && directions.peek().isStraight();
+    }
 }
+
