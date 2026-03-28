@@ -1,8 +1,9 @@
 package domain;
 
 import domain.piece.Piece;
+import dto.BoardDTO;
 import java.util.List;
-import java.util.Map;
+import message.ErrorMessage;
 
 public class JanggiGame {
 
@@ -19,23 +20,43 @@ public class JanggiGame {
         this.gameStatus = GameStatus.GREEN_PLAYER_TURN;
     }
 
-    public void validatePieceSelection(Position selectPosition) {
-        validateOutOfRange(selectPosition);
-        validateOwnPieceExistsAt(selectPosition);
-    }
-
     public void move(Position selectPosition, Position destination) {
         validateDestinationSelection(selectPosition, destination);
         board.movePiece(selectPosition, destination);
         gameStatus = gameStatus.changePlayerTurn();
     }
 
+    public void validatePieceSelection(Position selectPosition) {
+        validateOutOfRange(selectPosition);
+        validateOwnPieceExistsAt(selectPosition);
+    }
+
+    private void validateDestinationSelection(Position selectPosition, Position destination) {
+        validateOutOfRange(destination);
+        if (!board.isMoveable(selectPosition, destination)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateOwnPieceExistsAt(Position selectPosition) {
+        if (playerPiecesInfo().stream().map(Piece::position).noneMatch(position -> position.equals(selectPosition))) {
+            throw new IllegalArgumentException(ErrorMessage.NOT_SAME_TEAM_PIECE.getMessage());
+        }
+    }
+
+    private void validateOutOfRange(Position position) {
+        if (position.row() > MAX_ROW || position.row() < MIN_ROW || position.col() > MAX_COL
+                || position.col() < MIN_COL) {
+            throw new IllegalArgumentException(ErrorMessage.OUT_OF_RANGE_JANGGI_BOARD.getMessage());
+        }
+    }
+
     public void checkGameFinished() {
-        if(!board.hasGreenTeamGeneral()) {
+        if (!board.hasGreenTeamGeneral()) {
             gameStatus = GameStatus.RED_TEAM_WIN;
         }
 
-        if(!board.hasRedTeamGeneral()) {
+        if (!board.hasRedTeamGeneral()) {
             gameStatus = GameStatus.GREEN_TEAM_WIN;
         }
     }
@@ -48,27 +69,7 @@ public class JanggiGame {
         return this.gameStatus.description();
     }
 
-    private void validateDestinationSelection(Position selectPosition, Position destination) {
-        validateOutOfRange(destination);
-        if (!board.isMoveable(selectPosition, destination)) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void validateOutOfRange(Position targetPosition) {
-        if (targetPosition.row() > MAX_ROW || targetPosition.row() < MIN_ROW || targetPosition.col() > MAX_COL
-                || targetPosition.col() < MIN_COL) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void validateOwnPieceExistsAt(Position selectPosition) {
-        if (playerPiecesInfo().stream().map(Piece::position).noneMatch(position -> position.equals(selectPosition))) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    public List<Piece> playerPiecesInfo() {
+    private List<Piece> playerPiecesInfo() {
         if (gameStatus.equals(GameStatus.GREEN_PLAYER_TURN)) {
             return board.greenPieces();
         }
@@ -76,7 +77,8 @@ public class JanggiGame {
         return board.redPieces();
     }
 
-    public Map<Position, Piece> getBoard() {
-        return Map.copyOf(board.getBoard());
+    public BoardDTO allFactors() {
+        return new BoardDTO(board.getBoard());
     }
+
 }

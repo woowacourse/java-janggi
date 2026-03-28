@@ -21,7 +21,7 @@ public class JanggiBoardFactory {
     private final UpTeamPiecePositionFactory upTeamPiecePositionFactory = new UpTeamPiecePositionFactory();
     private final DownTeamPositionFactory downTeamPositionFactory = new DownTeamPositionFactory();
 
-    private Map<Position, Piece> board = new HashMap<>();
+    private final Map<Position, Piece> board = new HashMap<>();
 
     public Map<Position, Piece> initialBoard() {
         setupUpTeamPieces();

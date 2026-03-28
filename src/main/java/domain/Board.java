@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.Piece;
 import domain.strategy.NoneMoveableStrategy;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public class Board {
     private final Map<Position, Piece> board;
 
     private Board(Map<Position, Piece> board) {
-        this.board = board;
+        this.board = new HashMap<>(board);
     }
 
     public static Board of(Map<Position, Piece> board) {

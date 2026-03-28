@@ -2,6 +2,8 @@ package controller;
 
 import domain.JanggiGame;
 import domain.Position;
+import java.util.List;
+import utils.InputParser;
 import view.InputView;
 import view.OutputView;
 
@@ -15,41 +17,49 @@ public class JanggiController {
 
     public void run() {
         while (!janggiGame.isGameFinished()) {
-//            playGame();
+            playGame();
         }
 
-        String s = janggiGame.gameStatus();
-        System.out.println(s);
+        OutputView.printGameResult(janggiGame.gameStatus());
     }
 
-//    private void playGame() {
-//        janggiGame.
-//        OutputView.printBoard(janggiGame.allFactors());
-//        OutputView.printCurrentPlayerTurn(janggiGame.currnetPlayerTurn());
-//        execute(this::playerPhase);
-//    }
-//
-//    private void playerPhase() {
-//        String input = InputView.selectPiecePosition();
-//        String[] split = input.split(", ");
-//        Position selected = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-//
-//        input = InputView.selectTargerPosition();
-//        split = input.split(", ");
-//        Position target = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-//
-//        janggiGame.move(selected, target);
-//    }
-//
-//
-//    private void execute(ExecutableTask task) {
-//        while (true) {
-//            try {
-//                task.execute();
-//                return;
-//            } catch (IllegalArgumentException e) {
-//                e.getMessage();
-//            }
-//        }
-//    }
+    private void playGame() {
+        OutputView.printBoard(janggiGame.allFactors());
+        OutputView.printCurrentPlayerTurn(janggiGame.gameStatus());
+        execute(this::playerPhase);
+    }
+
+    private void playerPhase() {
+        Position selectedPosition = readSelectedPiecePosition();
+
+        Position targetPosition = getTargetPosition();
+
+        janggiGame.move(selectedPosition, targetPosition);
+    }
+
+    private Position readSelectedPiecePosition() {
+        String rawSelectPiecePosition = InputView.selectPiecePosition();
+        List<Integer> selectPiecePosition = InputParser.parseDelimitedToIntegersStrict(rawSelectPiecePosition);
+        Position selectedPosition = Position.of(selectPiecePosition.getFirst(), selectPiecePosition.getLast());
+        janggiGame.validatePieceSelection(selectedPosition);
+        return selectedPosition;
+    }
+
+    private static Position getTargetPosition() {
+        String rawTargetPosition = InputView.selectTargetPosition();
+        List<Integer> target = InputParser.parseDelimitedToIntegersStrict(rawTargetPosition);
+        return Position.of(target.getFirst(), target.getLast());
+    }
+
+
+    private void execute(ExecutableTask task) {
+        while (true) {
+            try {
+                task.execute();
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 }

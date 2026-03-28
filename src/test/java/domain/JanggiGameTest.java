@@ -20,7 +20,7 @@ class JanggiGameTest {
         JanggiBoardFactory janggiBoardFactory = new JanggiBoardFactory();
         JanggiGame janggiGame = new JanggiGame(Board.of(janggiBoardFactory.initialBoard()));
 
-        assertThat(janggiGame.getBoard()).hasSize(90);
+        assertThat(janggiGame.allFactors()).hasSize(90);
     }
 
     @Test
