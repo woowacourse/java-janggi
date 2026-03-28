@@ -1,10 +1,9 @@
 package domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public enum HorseMoveRule {
+public enum HorseMoveRule implements MoveRules{
 
     UP_CROSS_RIGHT(java.util.List.of(Position::up, Position::upCrossRight)),
     UP_CROSS_LEFT(java.util.List.of(Position::up, Position::upCrossLeft)),
@@ -25,29 +24,8 @@ public enum HorseMoveRule {
         this.moveSteps = moveSteps;
     }
 
-    public Position destination(Position currentPosition) {
-        Position position = currentPosition;
-
-        for (Function<Position, Position> stepAction : moveSteps) {
-            position = stepAction.apply(position);
-        }
-
-        return position;
-    }
-
-    public List<Position> route(Position currentPosition) {
-        List<Position> nodes = new ArrayList<>();
-        Position position = currentPosition;
-
-        for (Function<Position, Position> stepAction : stepsToRoute()) {
-            position = stepAction.apply(position);
-            nodes.add(position);
-        }
-
-        return nodes;
-    }
-
-    private List<Function<Position, Position>> stepsToRoute() {
-        return moveSteps.subList(0, moveSteps.size() - 1);
+    @Override
+    public List<Function<Position, Position>> moveSteps() {
+        return this.moveSteps;
     }
 }
