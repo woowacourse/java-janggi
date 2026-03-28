@@ -15,6 +15,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MoveStrategyTest {
+    private static final int MIN_INDEX = 0;
+    private static final int MAX_ROW_INDEX = 9;
+    private static final int MAX_COL_INDEX = 8;
 
     @Nested
     class 병_이동_테스트 {
@@ -58,74 +61,6 @@ class MoveStrategyTest {
             assertThat(paths.get(3).destination()).isEqualTo(Position.of(4, 3));
         }
     }
-
-    @Nested
-    class 포_이동_테스트 {
-
-        @Test
-        @DisplayName("차는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
-        void findMovablePaths_ReturnAllLinearCandidates() {
-            MoveStrategy strategy = new CannonStrategy();
-            int row = 4;
-            int column = 4;
-
-            List<Path> paths = strategy.findMovablePaths(Position.of(row, column));
-            List<Position> destinations = paths.stream()
-                    .map(Path::destination)
-                    .toList();
-
-            for (int i = 0; i < 9; i++) {
-                if (column == i) {
-                    assertThat(destinations).doesNotContain(Position.of(row, i));
-                    continue;
-                }
-                assertThat(destinations).contains(Position.of(row, i));
-            }
-
-            for (int i = 0; i <= 9; i++) {
-                if (row == i) {
-                    assertThat(destinations).doesNotContain(Position.of(i, column));
-                    continue;
-                }
-                assertThat(destinations).contains(Position.of(i, column));
-            }
-        }
-    }
-
-    @Nested
-    class 차_이동_테스트 {
-
-        @Test
-        @DisplayName("차는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 도착지점 후보로 반환한다")
-        void findMovablePaths_ReturnAllLinearCandidates() {
-            MoveStrategy strategy = new ChariotStrategy();
-            int row = 4;
-            int column = 4;
-
-            List<Path> paths = strategy.findMovablePaths(Position.of(row, column));
-            List<Position> destinations = paths.stream()
-                    .map(Path::destination)
-                    .toList();
-
-            for (int i = 0; i < 9; i++) {
-                if (column == i) {
-                    assertThat(destinations).doesNotContain(Position.of(row, i));
-                    continue;
-                }
-                assertThat(destinations).contains(Position.of(row, i));
-            }
-
-            for (int i = 0; i <= 9; i++) {
-                if (row == i) {
-                    assertThat(destinations).doesNotContain(Position.of(i, column));
-                    continue;
-                }
-                assertThat(destinations).contains(Position.of(i, column));
-            }
-        }
-    }
-
-
 
     @Nested
     class 마_이동_테스트 {
@@ -177,5 +112,65 @@ class MoveStrategyTest {
             assertThat(paths.get(6).destination()).isEqualTo(Position.of(2, 1));
             assertThat(paths.get(7).destination()).isEqualTo(Position.of(1, 2));
         }
+    }
+
+    @Nested
+    class 포_이동_테스트 {
+        @Test
+        @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
+        void findMovablePaths_ReturnAllLinearCandidates() {
+            assertLinearStrategy(new CannonStrategy());
+        }
+    }
+
+    @Nested
+    class 차_이동_테스트 {
+        @Test
+        @DisplayName("차는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
+        void findMovablePaths_ReturnAllLinearCandidates() {
+            assertLinearStrategy(new ChariotStrategy());
+        }
+    }
+
+    private void assertLinearStrategy(MoveStrategy strategy) {
+        int row = 4;
+        int column = 4;
+        List<Path> paths = strategy.findMovablePaths(Position.of(row, column));
+        List<Position> destinations = paths.stream()
+                .map(Path::destination)
+                .toList();
+
+        verifyHorizontalPaths(destinations, row, column);
+        verifyVerticalPaths(destinations, row, column);
+    }
+
+    private void verifyHorizontalPaths(List<Position> destinations, int row, int column) {
+        for (int i = MIN_INDEX; i <= MAX_COL_INDEX; i++) {
+            checkHorizontalPresence(destinations, row, column, i);
+        }
+    }
+
+    private void verifyVerticalPaths(List<Position> destinations, int row, int column) {
+        for (int i = MIN_INDEX; i <= MAX_ROW_INDEX; i++) {
+            checkVerticalPresence(destinations, row, column, i);
+        }
+    }
+
+    private void checkHorizontalPresence(List<Position> destinations, int row, int column, int colIndex) {
+        Position target = Position.of(row, colIndex);
+        if (colIndex == column) {
+            assertThat(destinations).doesNotContain(target);
+            return;
+        }
+        assertThat(destinations).contains(target);
+    }
+
+    private void checkVerticalPresence(List<Position> destinations, int row, int column, int rowIndex) {
+        Position target = Position.of(rowIndex, column);
+        if (rowIndex == row) {
+            assertThat(destinations).doesNotContain(target);
+            return;
+        }
+        assertThat(destinations).contains(target);
     }
 }
