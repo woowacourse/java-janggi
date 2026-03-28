@@ -13,6 +13,10 @@ public class HorseStrategy implements MoveStrategy {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
+        if (!((Math.abs(dx) == 2 && Math.abs(dy) == 1) || (Math.abs(dx) == 1 && Math.abs(dy) == 2))) {
+            throw new IllegalArgumentException("마가 이동할 수 없습니다.");
+        }
+
         Direction xDirection = decideXDirection(dx);
         Direction yDirection = decideYDirection(dy);
 

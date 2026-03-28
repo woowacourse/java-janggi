@@ -13,6 +13,10 @@ public class ElephantStrategy implements MoveStrategy {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
+        if (!((Math.abs(dx) == 3 && Math.abs(dy) == 2) || (Math.abs(dx) == 2 && Math.abs(dy) == 3))) {
+            throw new IllegalArgumentException("상이 이동할 수 없습니다.");
+        }
+
         Direction xDirection = decideXDirection(dx);
         Direction yDirection = decideYDirection(dy);
 

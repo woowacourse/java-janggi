@@ -24,10 +24,13 @@ public class Board {
         List<Position> pathPositions = fromPiece.getPathPositions(from, to);
         List<Path> path = getPath(pathPositions);
         fromPiece.canMove(path, toPiece);
-        
-        if (fromPiece.isSameTeam(toPiece)) {
+
+        if (toPiece != null && fromPiece.isSameTeam(toPiece)) {
             throw new IllegalStateException("같은 팀의 기물을 잡을 수 없습니다.");
         }
+
+        Piece remove = pieces.remove(from);
+        pieces.put(to, remove);
     }
 
     public List<Path> getPath(List<Position> positions) {
