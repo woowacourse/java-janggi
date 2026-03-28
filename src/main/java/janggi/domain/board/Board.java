@@ -47,11 +47,13 @@ public class Board implements BoardInterface {
     @Override
     public PieceInfo[][] getCurrentBoard() {
         PieceInfo[][] currentBoard = new PieceInfo[BOARD_END_ROWS][BOARD_END_COLS];
-        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-            currentBoard[position.x() - ARRAY_INDEX_OFFSET][position.y() - ARRAY_INDEX_OFFSET] = piece.getPieceInfo();
-        }
+
+        board.forEach((position, piece) -> {
+            int rowIndex = position.x() - ARRAY_INDEX_OFFSET;
+            int colIndex = position.y() - ARRAY_INDEX_OFFSET;
+            currentBoard[rowIndex][colIndex] = piece.getPieceInfo();
+        });
+
         return currentBoard;
     }
 
