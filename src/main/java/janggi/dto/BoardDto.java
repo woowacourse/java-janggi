@@ -77,28 +77,28 @@ public record BoardDto(
         if (positionPieceMap.containsKey(position)) {
             final Piece piece = positionPieceMap.get(position);
             final TeamType teamType = piece.getTeamType();
-            return applyTeamColor(getNotationOfPiece(piece), teamType,
+            return decidePieceNotation(getNotationOfPiece(piece), teamType,
                 isMovable(position, movablePositions));
         }
-        return applyMovableColor(EMPTY_SPACE, isMovable(position, movablePositions));
+        return decideEmptyNotation(isMovable(position, movablePositions));
     }
 
-    private static String applyTeamColor(final String space, final TeamType teamType,
+    private static String decidePieceNotation(final String space, final TeamType teamType,
         final boolean movable) {
-        if (teamType == TeamType.RED) {
-            return ConsoleColor.red(space);
-        }
-        if (teamType == TeamType.BLUE) {
-            return ConsoleColor.blue(space);
-        }
-        return applyMovableColor(space, movable);
-    }
-
-    private static String applyMovableColor(final String space, final boolean movable) {
         if (movable) {
             return ConsoleColor.cyan(space);
         }
-        return space;
+        if (teamType == TeamType.RED) {
+            return ConsoleColor.red(space);
+        }
+        return ConsoleColor.blue(space);
+    }
+
+    private static String decideEmptyNotation(final boolean movable) {
+        if (movable) {
+            return ConsoleColor.cyan(BoardDto.EMPTY_SPACE);
+        }
+        return BoardDto.EMPTY_SPACE;
     }
 
     private static boolean isMovable(final Position position,
