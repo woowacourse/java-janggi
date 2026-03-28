@@ -57,4 +57,28 @@ public class CannonTest {
         pieceInPath.put(Position.of(3, 3), new Elephant(Camp.CHO, new ElephantStrategy()));
         assertThat(piece.canPassRoute(pieceInPath)).isTrue();
     }
+
+    @DisplayName("도착 지점의 기물이 포이면 False를 반환한다")
+    @Test
+    void canCatch_DestinationPieceIsCannon_ReturnFalse() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        Piece destinationPiece = new Cannon(Camp.HAN, new CannonStrategy());
+        assertThat(piece.canCatch(destinationPiece)).isFalse();
+    }
+
+    @DisplayName("도착 지점의 기물이 같은 진영이면 False를 반환한다")
+    @Test
+    void canCatch_DestinationPieceIsSameCamp_ReturnFalse() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        Piece destinationPiece = new Elephant(Camp.CHO, new ElephantStrategy());
+        assertThat(piece.canCatch(destinationPiece)).isFalse();
+    }
+
+    @DisplayName("도착 지점의 기물이 포가 아니고 다른 진영이면 True를 반환한다")
+    @Test
+    void canCatch_DestinationPieceIsNotCannonAndIsNotSameCamp_ReturnTrue() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        Piece destinationPiece = new Elephant(Camp.HAN, new ElephantStrategy());
+        assertThat(piece.canCatch(destinationPiece)).isTrue();
+    }
 }
