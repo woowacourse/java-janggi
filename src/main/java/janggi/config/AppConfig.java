@@ -5,7 +5,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class AppConfig {
-    public JanggiController janggiController(){
+    public JanggiController janggiController() {
         return new JanggiController(new InputView(), new OutputView());
     }
 }

@@ -10,7 +10,7 @@ import janggi.domain.piece.strategy.HorseStrategy;
 
 import java.util.Map;
 
-public class HorseElephantHorseElephant implements FormationStrategy{
+public class HorseElephantHorseElephant implements FormationStrategy {
     @Override
     public Map<Position, Piece> createPieces(Camp camp) {
         return Map.of(

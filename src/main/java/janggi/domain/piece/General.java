@@ -6,7 +6,7 @@ import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.Map;
 
-public class General extends Piece{
+public class General extends Piece {
     public General(Camp camp, MoveStrategy moveStrategy) {
         super(camp, moveStrategy);
     }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AdvisorStrategy implements MoveStrategy{
+public class AdvisorStrategy implements MoveStrategy {
     @Override
     public List<Path> findMovablePaths(Position current) {
 

@@ -11,10 +11,6 @@ public class Path {
         this.destination = destination;
     }
 
-    public List<Position> route() {
-        return route;
-    }
-
     public Position destination() {
         return destination;
     }

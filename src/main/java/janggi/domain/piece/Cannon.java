@@ -6,7 +6,7 @@ import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.Map;
 
-public class Cannon extends Piece{
+public class Cannon extends Piece {
     public Cannon(Camp camp, MoveStrategy moveStrategy) {
         super(camp, moveStrategy);
     }
@@ -20,10 +20,7 @@ public class Cannon extends Piece{
                 .stream()
                 .findFirst()
                 .orElseThrow();
-        if (pieceInPath.isCannon()) {
-            return false;
-        }
-        return true;
+        return !pieceInPath.isCannon();
     }
 
     @Override

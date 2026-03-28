@@ -5,10 +5,10 @@ import janggi.domain.Position;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,11 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FormationStrategyTest {
 
     @Nested
-    class 상마상마_전략{
+    class 상마상마_전략 {
 
         @ParameterizedTest
         @EnumSource(Camp.class)
-        void 상마상마를_선택하면_정상_포지션을_갖는다(Camp camp){
+        void 상마상마를_선택하면_정상_포지션을_갖는다(Camp camp) {
             FormationStrategy formationStrategy = new ElephantHorseElephantHorse();
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);
@@ -34,10 +34,10 @@ class FormationStrategyTest {
 
 
     @Nested
-    class 상마마상_전략{
+    class 상마마상_전략 {
         @ParameterizedTest
         @EnumSource(Camp.class)
-        void 상마마상을_선택하면_정상_포지션을_갖는다(Camp camp){
+        void 상마마상을_선택하면_정상_포지션을_갖는다(Camp camp) {
             FormationStrategy formationStrategy = new ElephantHorseHorseElephant();
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);
@@ -50,10 +50,10 @@ class FormationStrategyTest {
     }
 
     @Nested
-    class 마상상마_전략{
+    class 마상상마_전략 {
         @ParameterizedTest
         @EnumSource(Camp.class)
-        void 마상상마를_선택하면_정상_포지션을_갖는다(Camp camp){
+        void 마상상마를_선택하면_정상_포지션을_갖는다(Camp camp) {
             FormationStrategy formationStrategy = new HorseElephantElephantHorse();
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);
@@ -66,10 +66,10 @@ class FormationStrategyTest {
     }
 
     @Nested
-    class 마상마상_전략{
+    class 마상마상_전략 {
         @ParameterizedTest
         @EnumSource(Camp.class)
-        void 마상마상을_선택하면_정상_포지션을_갖는다(Camp camp){
+        void 마상마상을_선택하면_정상_포지션을_갖는다(Camp camp) {
             FormationStrategy formationStrategy = new HorseElephantHorseElephant();
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);

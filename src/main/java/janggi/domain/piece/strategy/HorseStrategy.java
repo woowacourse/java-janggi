@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HorseStrategy implements MoveStrategy{
+public class HorseStrategy implements MoveStrategy {
     @Override
     public List<Path> findMovablePaths(Position current) {
         List<Path> paths = new ArrayList<>();

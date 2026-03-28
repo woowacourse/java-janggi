@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.Camp;
 import janggi.domain.piece.strategy.AdvisorStrategy;
 import janggi.domain.piece.strategy.ChariotStrategy;
-import janggi.domain.piece.strategy.GeneralStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

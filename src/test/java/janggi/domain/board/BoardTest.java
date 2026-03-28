@@ -4,7 +4,6 @@ import janggi.domain.Camp;
 import janggi.domain.Position;
 import janggi.domain.board.strategy.ElephantHorseElephantHorse;
 import janggi.domain.piece.*;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +52,7 @@ public class BoardTest {
     }
 
     @Test
-    void 기물이_보드에_존재하지_않는다면_예외처리한다(){
+    void 기물이_보드에_존재하지_않는다면_예외처리한다() {
         Board board = Board.initializeToBoard(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
         int row = 1;
         int col = 0;
@@ -64,7 +63,7 @@ public class BoardTest {
     }
 
     @Test
-    void 기물이_보드에_존재한다면_기물을_반환한다(){
+    void 기물이_보드에_존재한다면_기물을_반환한다() {
         Board board = Board.initializeToBoard(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
         int row = 0;
         int col = 0;

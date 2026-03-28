@@ -3,7 +3,6 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Camp;
 import janggi.domain.Path;
 import janggi.domain.Position;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -19,30 +19,30 @@ public class OutputView {
     private static final int COL_SIZE = 9;
 
     private static final Map<Boolean, String> COLOR_MAP = Map.of(
-            true,  CHO_COLOR,
+            true, CHO_COLOR,
             false, HAN_COLOR
     );
 
     private static final Map<Boolean, String> SOLDIER_SYMBOL = Map.of(
-            true,  "兵",
+            true, "兵",
             false, "卒"
     );
 
     private static final Map<Class<?>, Function<Piece, String>> SYMBOL_MAP = Map.of(
-            General.class,  p -> "將",
-            Advisor.class,  p -> "士",
-            Chariot.class,  p -> "車",
-            Cannon.class,   p -> "包",
-            Horse.class,    p -> "馬",
+            General.class, p -> "將",
+            Advisor.class, p -> "士",
+            Chariot.class, p -> "車",
+            Cannon.class, p -> "包",
+            Horse.class, p -> "馬",
             Elephant.class, p -> "象",
-            Soldier.class,  p -> SOLDIER_SYMBOL.get(p.isSameCamp(Camp.CHO))
+            Soldier.class, p -> SOLDIER_SYMBOL.get(p.isSameCamp(Camp.CHO))
     );
 
     public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
         System.out.println();
 
         int rowStart = 9 - currentCamp.initRowPosition();
-        int rowStep  = -currentCamp.direction();
+        int rowStep = -currentCamp.direction();
 
         List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
                 .limit(10)

@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ElephantStrategy implements MoveStrategy{
+public class ElephantStrategy implements MoveStrategy {
     @Override
     public List<Path> findMovablePaths(Position current) {
         List<Path> paths = new ArrayList<>();
-        addPath(paths, current,1, 0, 2, 1, 3, 2);
+        addPath(paths, current, 1, 0, 2, 1, 3, 2);
         addPath(paths, current, 0, 1, 1, 2, 2, 3);
         addPath(paths, current, 0, 1, -1, 2, -2, 3);
-        addPath(paths, current,-1, 0, -2, 1, -3, 2);
-        addPath(paths, current,1, 0, 2, -1, 3, -2);
-        addPath(paths, current,0, -1, 1, -2, 2, -3);
-        addPath(paths, current,0, -1, -1, -2, -2, -3);
-        addPath(paths, current,-1, 0, -2, -1, -3, -2);
+        addPath(paths, current, -1, 0, -2, 1, -3, 2);
+        addPath(paths, current, 1, 0, 2, -1, 3, -2);
+        addPath(paths, current, 0, -1, 1, -2, 2, -3);
+        addPath(paths, current, 0, -1, -1, -2, -2, -3);
+        addPath(paths, current, -1, 0, -2, -1, -3, -2);
         return Collections.unmodifiableList(paths);
     }
 
