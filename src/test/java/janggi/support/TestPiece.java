@@ -2,20 +2,14 @@ package janggi.support;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.piece.ActivePiece;
 import janggi.domain.piece.Piece;
 import java.util.List;
 
-public class TestPiece extends Piece {
-
-    private static final String PIECE_NAME = "test";
+public class TestPiece extends ActivePiece {
 
     public TestPiece(Side side) {
-        super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
+        super("test", side);
     }
 
     @Override
@@ -26,5 +20,10 @@ public class TestPiece extends Piece {
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
         return;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

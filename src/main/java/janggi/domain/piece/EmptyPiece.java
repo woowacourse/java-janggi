@@ -4,13 +4,7 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import java.util.List;
 
-public class EmptyPiece extends Piece {
-
-    private static final String PIECE_NAME = "ㆍ";
-
-    public EmptyPiece() {
-        super(PIECE_NAME, Side.NONE);
-    }
+public class EmptyPiece implements Piece {
 
     @Override
     public boolean isEmpty() {
@@ -19,11 +13,26 @@ public class EmptyPiece extends Piece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        throw new IllegalArgumentException("빈 객체는 이동할 수 없습니다.");
+        throw new UnsupportedOperationException("빈 객체는 이동할 수 없습니다.");
     }
 
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
-        throw new IllegalArgumentException("빈 객체는 이동할 수 없습니다.");
+        throw new UnsupportedOperationException("빈 객체는 이동할 수 없습니다.");
+    }
+
+    @Override
+    public boolean isSameSide(Piece piece) {
+        return false;
+    }
+
+    @Override
+    public boolean isSameSide(Side side) {
+        return false;
+    }
+
+    @Override
+    public String getName() {
+        return "";
     }
 }

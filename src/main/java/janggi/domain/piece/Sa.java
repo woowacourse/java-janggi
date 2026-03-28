@@ -8,7 +8,7 @@ import janggi.domain.rule.route.GungSeongRouteProvider;
 import janggi.domain.rule.route.RouteProvider;
 import java.util.List;
 
-public class Sa extends Piece {
+public class Sa extends ActivePiece {
 
     private static final String PIECE_NAME = "사";
     private static final RouteProvider ROUTE_PROVIDER = new GungSeongRouteProvider();
@@ -16,11 +16,6 @@ public class Sa extends Piece {
 
     public Sa(Side side) {
         super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
     }
 
     @Override

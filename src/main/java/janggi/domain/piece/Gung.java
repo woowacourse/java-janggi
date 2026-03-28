@@ -8,7 +8,7 @@ import janggi.domain.rule.route.GungSeongRouteProvider;
 import janggi.domain.rule.route.RouteProvider;
 import java.util.List;
 
-public class Gung extends Piece {
+public class Gung extends ActivePiece {
 
     private static final String PIECE_NAME = "궁";
     private static final RouteProvider ROUTE_PROVIDER = new GungSeongRouteProvider();

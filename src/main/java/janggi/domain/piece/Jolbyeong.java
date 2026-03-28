@@ -13,7 +13,7 @@ import janggi.domain.rule.route.Direction;
 import janggi.domain.rule.route.Route;
 import java.util.List;
 
-public class Jolbyeong extends Piece {
+public class Jolbyeong extends ActivePiece {
 
     private static final String PIECE_NAME = "졸병";
     private static final String CHO_PIECE_NAME = "졸";
@@ -22,11 +22,6 @@ public class Jolbyeong extends Piece {
 
     public Jolbyeong(Side side) {
         super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
     }
 
     @Override

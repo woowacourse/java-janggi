@@ -16,18 +16,13 @@ import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.Route;
 import java.util.List;
 
-public class Ma extends Piece {
+public class Ma extends ActivePiece {
 
     private static final String PIECE_NAME = "마";
     private static final CollisionDetector COLLISION_DETECTOR = new DefaultCollisionDetector();
 
     public Ma(Side side) {
         super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
     }
 
     @Override
