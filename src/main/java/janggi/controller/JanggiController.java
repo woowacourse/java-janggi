@@ -54,7 +54,7 @@ public class JanggiController {
 
     private void progress(final TurnManager turnManager, final Board board) {
         final BoardMediator boardMediator = new BoardMediatorImpl(board);
-        while (true) {
+        while (!board.isGameOver()) {
             final Team currentTeam = turnManager.getCurrentTeam();
             OutputView.printTurnStatus(currentTeam);
             final Position positionOfMovingPiece = RetryExecutor.retry(

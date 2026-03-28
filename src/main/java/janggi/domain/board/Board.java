@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -39,5 +40,14 @@ public class Board {
             return Optional.of(targetPiece);
         }
         return Optional.empty();
+    }
+
+    public boolean isGameOver() {
+        final long generalCount = positionPieceMap.values()
+            .stream()
+            .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
+            .count();
+
+        return generalCount != 2;
     }
 }
