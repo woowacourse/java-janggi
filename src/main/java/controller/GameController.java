@@ -61,7 +61,6 @@ public class GameController {
     }
 
     private void gamePhase(Board board) {
-
         InputHandler.retry(() -> {
             List<Integer> startList = InputView.readStartPosition();
             List<Integer> endList = InputView.readEndPosition();
