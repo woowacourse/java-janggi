@@ -15,8 +15,16 @@ public record Piece(
         return this.team == other.team;
     }
 
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
     public boolean isCho() {
         return this.team == Team.CHO;
+    }
+
+    public boolean isHan() {
+        return this.team == Team.HAN;
     }
 
     public boolean isSamePiece(PieceType pieceType) {

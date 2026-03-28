@@ -3,8 +3,11 @@ package domain.board;
 import domain.intersection.Intersection;
 import domain.move.rule.MoveRuleManager;
 import domain.move.path.Path;
+import domain.piece.Team;
 import domain.point.Point;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,8 +30,8 @@ public class JanggiBoard {
         }
     }
 
-    public void tryToMove(Point start, Point end) {
-        Intersection from = findIntersection(start);
+    public void tryToMove(Point start, Point end, Team currentTeam) {
+        Intersection from = findMyIntersection(start, currentTeam);
         Intersection to = findIntersection(end);
         inspectPath(from, to);
         move(from, to);
@@ -51,8 +54,20 @@ public class JanggiBoard {
         return new Path(intersectionOfPath);
     }
 
+    public Intersection findMyIntersection(Point point, Team team) {
+        Intersection from = findIntersection(point);
+        validateTryToMoveOpponentPiece(from, team);
+        return from;
+    }
+
     public Intersection findIntersection(Point point) {
         return intersections.get(point);
+    }
+
+    private void validateTryToMoveOpponentPiece(Intersection from, Team currentTeam) {
+        if (!from.isSameTeam(currentTeam)) {
+            throw new IllegalArgumentException("상대방 기물은 이동시킬 수 없습니다.");
+        }
     }
 
     private Map<Point, Intersection> fillEmptyIntersections() {

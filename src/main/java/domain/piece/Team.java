@@ -6,4 +6,11 @@ public enum Team {
     HAN,
     ;
 
+    public Team nextTurn() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
+    }
+
 }

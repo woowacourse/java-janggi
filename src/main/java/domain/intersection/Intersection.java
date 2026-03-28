@@ -2,6 +2,7 @@ package domain.intersection;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.piece.Team;
 import domain.point.Point;
 
 import java.util.Objects;
@@ -32,12 +33,20 @@ public class Intersection {
         return point;
     }
 
+    public boolean isGeneral() {
+        return this.piece.isSamePiece(PieceType.GENERAL);
+    }
+
     public boolean isSamePiece(Intersection intersection) {
         return this.piece.equals(intersection.piece);
     }
 
     public boolean isSamePiece(PieceType pieceType) {
         return this.piece.isSamePiece(pieceType);
+    }
+
+    public boolean isSameTeam(Team team) {
+        return piece.isSameTeam(team);
     }
 
     public boolean isSameTeam(Intersection to) {
@@ -50,6 +59,14 @@ public class Intersection {
 
     public boolean isChoIntersection() {
         return piece.isCho();
+    }
+
+    public boolean isHanIntersection() {
+        return piece.isHan();
+    }
+
+    public Piece readPiece() {
+        return this.piece;
     }
 
     @Override

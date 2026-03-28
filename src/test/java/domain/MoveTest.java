@@ -17,25 +17,47 @@ public class MoveTest {
 
     @Test
     @DisplayName("이동이 끝난 뒤 출발지는 비어있고, 도착지는 기물이 존재한다.")
-    void shouldMovePieceToDestinationAndLeaveSourceEmpty(){
+    void shouldMovePieceToDestinationAndLeaveSourceEmpty() {
+        Team currentTurn = Team.CHO;
         Point start = new Point(0, 0);
         Point end = new Point(3, 0);
 
-        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+        Piece chariot = new Piece(currentTurn, PieceType.CHARIOT);
         Piece soldier = new Piece(Team.HAN, PieceType.SOLDIER);
 
         Intersection from = new Intersection(start, chariot);
         Intersection to = new Intersection(end, soldier);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
-
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.tryToMove(start, end, currentTurn);
 
         Intersection expectedEmpty = Intersection.empty(start);
         Intersection expectedChariot = new Intersection(end, chariot);
 
         Assertions.assertThat(from).isEqualTo(expectedEmpty);
         Assertions.assertThat(to).isEqualTo(expectedChariot);
+    }
+
+    @Test
+    @DisplayName("상대팀의 기물을 움직이려고 하면 예외가 발생한다.")
+    void shouldThrowExceptionTryToMoveOpponentPiece() {
+        Team currentTurn = Team.CHO;
+        Team opponentTeam = Team.HAN;
+        Point start = new Point(0, 0);
+        Point end = new Point(3, 0);
+
+        Piece chariot = new Piece(currentTurn, PieceType.CHARIOT);
+        Piece soldier = new Piece(opponentTeam, PieceType.SOLDIER);
+
+        Intersection from = new Intersection(start, chariot);
+        Intersection to = new Intersection(end, soldier);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+
+        Assertions.assertThatThrownBy(() -> {
+                    janggiBoard.tryToMove(start, end, opponentTeam);
+                }).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("상대방 기물은 이동시킬 수 없습니다.");
     }
 
 }
