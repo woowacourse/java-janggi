@@ -2,7 +2,7 @@ package controller;
 
 import domain.Position;
 import domain.Turn;
-import domain.activePiece.ActivePiece;
+import domain.board.Board;
 import domain.board.LeftGwimaFactory;
 import domain.board.RightGwimaFactory;
 import domain.board.WonangmaFactory;
@@ -25,17 +25,10 @@ public class JanggiController {
     }
 
     public void run() {
-        // 보드 초기화
         int choFormationNumber = inputView.initialFormation(Team.CHO);
         int hanFormationNumber = inputView.initialFormation(Team.HAN);
 
-        Map<Position, Piece> choBoard = initialBoard(choFormationNumber, Team.CHO);
-        Map<Position, Piece> hanBoard = initialBoard(hanFormationNumber, Team.HAN);
-
-        Map<Position, Piece> board = new HashMap<>();
-
-        board.putAll(choBoard);
-        board.putAll(hanBoard);
+        Board board = createBoard(choFormationNumber, hanFormationNumber);
         outputView.printBoard(board);
 
         Turn turn = Turn.first();
@@ -44,14 +37,18 @@ public class JanggiController {
         }
     }
 
-    private Turn playTurn(Map<Position, Piece> board, Turn turn) {
+    private Board createBoard(int choFormationNumber, int hanFormationNumber) {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.putAll(initialBoard(choFormationNumber, Team.CHO));
+        pieces.putAll(initialBoard(hanFormationNumber, Team.HAN));
+        return new Board(pieces);
+    }
+
+    private Turn playTurn(Board board, Turn turn) {
         List<String> movePositions = inputView.askMovePiecePoisiton(turn.current());
         Position src = Position.from(movePositions.get(0), movePositions.get(1));
         Position dest = Position.from(movePositions.get(2), movePositions.get(3));
-        if (board.get(src).canMove(src, dest)) {
-            ActivePiece piece = (ActivePiece) board.get(src);
-            List<Position> routes = piece.searchRoute(src, dest);
-        }
+        board.move(src, dest);
         outputView.printBoard(board);
         return turn.next();
     }
