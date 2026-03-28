@@ -12,8 +12,18 @@ public class Cannon extends Piece{
     }
 
     @Override
-    public boolean moveRoute(Map<Position, Piece> abc) {
-        return false;
+    public boolean moveRoute(Map<Position, Piece> pieceInPaths) {
+        if (pieceInPaths.size() != 1) {
+            return false;
+        }
+        Piece pieceInPath = pieceInPaths.values()
+                .stream()
+                .findFirst()
+                .orElseThrow();
+        if (pieceInPath.isCannon()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
