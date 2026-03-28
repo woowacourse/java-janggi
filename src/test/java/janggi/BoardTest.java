@@ -1,7 +1,6 @@
 package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Board;
@@ -109,9 +108,13 @@ class BoardTest {
         Position to = new Position(Row.EIGHT, Column.SEVEN);
         Team cho = Team.CHO;
 
-        //when & then
-        assertThatCode(() -> board.move(cho, from, to))
-                .doesNotThrowAnyException();
+        //when
+        Board movedBoard = board.move(cho, from, to);
+
+        //then
+        assertThatThrownBy(() -> movedBoard.move(cho, from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치에 기물이 존재하지 않습니다.");
     }
 
     @DisplayName("기물패하면 게임 종료한다.")
