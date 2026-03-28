@@ -1,8 +1,11 @@
 package janggi.domain;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -32,5 +35,22 @@ public class PositionTest {
 
         assertThat(result.row()).isEqualTo(row);
         assertThat(result.column()).isEqualTo(column);
+    }
+
+    @Test
+    void 정해진_범위_내로_움직이면_올바른_Position_객체를_반환한다(){
+        Position current = Position.of(4, 4);
+        Optional<Position> move = current.move(3, 3);
+        Position position = move.get();
+
+        assertThat(position).isEqualTo(Position.of(7, 7));
+    }
+
+    @Test
+    void 정해진_범위_내로_움직이지_않으면_Optinal_null_객체를_반환한다(){
+        Position current = Position.of(4, 4);
+        Optional<Position> move = current.move(5, 5);
+
+        assertThat(move).isEmpty();
     }
 }
