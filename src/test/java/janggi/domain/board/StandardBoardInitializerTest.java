@@ -91,7 +91,6 @@ public class StandardBoardInitializerTest {
         return board;
     }
 
-    //TODO: moveStrategy 변경
     private void putPieces(Map<Position, Piece> board, PieceRule pieceRule, Camp camp,
                            Position... positions) {
         for (Position position : positions) {
