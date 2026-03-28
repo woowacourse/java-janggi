@@ -1,12 +1,15 @@
 package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.rule.ElephantMoveRule;
 import domain.point.Point;
+
 import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +36,10 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    elephantRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to));
+                    elephantRule.checkMoveRule(from, new Path(List.of(
+                            middleIntersection1,
+                            middleIntersection2,
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -58,7 +64,10 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    elephantMoveRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to));
+                    elephantMoveRule.checkMoveRule(from, new Path(List.of(
+                            middleIntersection1,
+                            middleIntersection2,
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
     }
@@ -81,7 +90,10 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to)))
+                        elephantMoveRule.checkMoveRule(from, new Path(List.of(
+                                middleIntersection1,
+                                middleIntersection2,
+                                to))))
                 .isTrue();
     }
 
@@ -106,7 +118,10 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to)))
+                        elephantMoveRule.checkMoveRule(from, new Path((List.of(
+                                middleIntersection1,
+                                middleIntersection2,
+                                to)))))
                 .isTrue();
     }
 

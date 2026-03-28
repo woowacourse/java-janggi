@@ -2,6 +2,7 @@ package domain.move.rule;
 
 import domain.intersection.Intersection;
 import domain.move.directions.Directions;
+import domain.move.path.Path;
 import domain.piece.PieceType;
 import domain.point.Point;
 
@@ -25,6 +26,6 @@ public abstract class MoveRule {
 
     public abstract List<Point> findPathOfPoints(Intersection from, Intersection to);
 
-    public abstract boolean checkMoveRule(Intersection from, List<Intersection> path);
+    public abstract boolean checkMoveRule(Intersection from, Path path);
 
 }

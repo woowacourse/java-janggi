@@ -3,6 +3,7 @@ package domain.move.rule;
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
+import domain.move.path.Path;
 import domain.piece.PieceType;
 import domain.point.Point;
 
@@ -27,8 +28,8 @@ public class HorseMoveRule extends MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
-        Intersection to = path.getLast();
+    public boolean checkMoveRule(Intersection from, Path path) {
+        Intersection to = path.getLastIntersection();
         validateIsSameTeam(from, to);
         validateObstacleCondition(path);
         return true;
@@ -40,13 +41,8 @@ public class HorseMoveRule extends MoveRule {
         }
     }
 
-    private void validateObstacleCondition(List<Intersection> path) {
-        List<Intersection> routeWithoutTarget = path.subList(0, path.size() - 1);
-
-        boolean hasObstacle = routeWithoutTarget.stream()
-                .anyMatch(Intersection::hasPiece);
-
-        if (hasObstacle) {
+    private void validateObstacleCondition(Path path) {
+        if (path.hasObstacle()) {
             throw new IllegalArgumentException("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
         }
     }

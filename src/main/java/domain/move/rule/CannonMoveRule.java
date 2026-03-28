@@ -3,6 +3,7 @@ package domain.move.rule;
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
+import domain.move.path.Path;
 import domain.piece.PieceType;
 import domain.point.Point;
 
@@ -13,6 +14,8 @@ import static domain.move.directions.Vector.LEFT;
 import static domain.move.directions.Vector.RIGHT;
 
 public class CannonMoveRule extends MoveRule {
+
+    private static final int JUMP_OBSTACLE_CONDITION = 1;
 
     public CannonMoveRule() {
         super(PieceType.CANNON, initializeDirections());
@@ -29,8 +32,8 @@ public class CannonMoveRule extends MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
-        Intersection to = path.getLast();
+    public boolean checkMoveRule(Intersection from, Path path) {
+        Intersection to = path.getLastIntersection();
         validateIsSameTeam(from, to);
         validateObstacleCondition(from, path);
         validateDestinationIsNotCannon(from, to);
@@ -43,17 +46,14 @@ public class CannonMoveRule extends MoveRule {
         }
     }
 
-    private void validateObstacleCondition(Intersection from, List<Intersection> path) {
-        List<Intersection> obstacles = path.subList(0, path.size() - 1).stream()
-                .filter(Intersection::hasPiece)
-                .toList();
-
-        validateObstacleIsOnly(obstacles);
-        validateObstacleIsNotCannon(from, obstacles);
+    private void validateObstacleCondition(Intersection from, Path path) {
+        List<Intersection> obstacleIntersections = path.getObstacleIntersection();
+        validateObstacleIsOnly(obstacleIntersections);
+        validateObstacleIsNotCannon(from, obstacleIntersections);
     }
 
     private void validateObstacleIsOnly(List<Intersection> list) {
-        if (list.size() != 1) {
+        if (list.size() != JUMP_OBSTACLE_CONDITION) {
             throw new IllegalArgumentException("포는 반드시 기물 하나를 넘어야 합니다.");
         }
     }

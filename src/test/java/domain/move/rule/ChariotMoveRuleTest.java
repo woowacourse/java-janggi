@@ -1,6 +1,7 @@
 package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -44,7 +45,7 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+                    chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -52,7 +53,7 @@ public class ChariotMoveRuleTest {
                             intersection6,
                             intersection7,
                             intersection8,
-                            to));
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -69,7 +70,7 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+                    chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -77,7 +78,7 @@ public class ChariotMoveRuleTest {
                             intersection6,
                             obstacle,
                             intersection8,
-                            to));
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
     }
@@ -91,7 +92,7 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThat(
-                chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+                chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                         intersection2,
                         intersection3,
                         intersection4,
@@ -99,7 +100,7 @@ public class ChariotMoveRuleTest {
                         intersection6,
                         intersection7,
                         intersection8,
-                        to)))
+                        to))))
                 .isTrue();
     }
 
@@ -112,7 +113,7 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThat(
-                        chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+                        chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                                 intersection2,
                                 intersection3,
                                 intersection4,
@@ -120,7 +121,7 @@ public class ChariotMoveRuleTest {
                                 intersection6,
                                 intersection7,
                                 intersection8,
-                                to)))
+                                to))))
                 .isTrue();
     }
 

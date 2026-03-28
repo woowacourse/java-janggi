@@ -1,6 +1,7 @@
 package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -47,7 +48,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -55,7 +56,7 @@ class CannonMoveRuleTest {
                             intersection6,
                             intersection7,
                             intersection8,
-                            to));
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -73,7 +74,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -81,7 +82,7 @@ class CannonMoveRuleTest {
                             intersection6,
                             cannonObstacle,
                             intersection8,
-                            to));
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 넘어갈 수 없습니다.");
     }
@@ -100,7 +101,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -108,7 +109,7 @@ class CannonMoveRuleTest {
                             obstacle2,
                             intersection7,
                             intersection8,
-                            to));
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 반드시 기물 하나를 넘어야 합니다.");
     }
@@ -124,7 +125,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -132,7 +133,7 @@ class CannonMoveRuleTest {
                             intersection6,
                             intersection7,
                             intersection8,
-                            to));
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 반드시 기물 하나를 넘어야 합니다.");
     }
@@ -151,7 +152,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -159,7 +160,7 @@ class CannonMoveRuleTest {
                             obstacle,
                             intersection7,
                             intersection8,
-                            to));
+                            to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 공격할 수 없습니다.");
     }

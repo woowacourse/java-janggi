@@ -1,6 +1,7 @@
 package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -30,7 +31,7 @@ public class GeneralMoveRuleTest {
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    generalMoveRule.checkMoveRule(from, List.of(to));
+                    generalMoveRule.checkMoveRule(from, new Path(List.of(to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -49,7 +50,7 @@ public class GeneralMoveRuleTest {
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, List.of(to)))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(to))))
                 .isTrue();
     }
 
@@ -69,7 +70,7 @@ public class GeneralMoveRuleTest {
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, List.of(to)))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(to))))
                 .isTrue();
     }
 

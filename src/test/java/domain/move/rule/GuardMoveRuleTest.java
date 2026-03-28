@@ -1,6 +1,7 @@
 package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -10,7 +11,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.security.Guard;
 import java.util.List;
 
 public class GuardMoveRuleTest {
@@ -31,7 +31,7 @@ public class GuardMoveRuleTest {
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    guardMoveRule.checkMoveRule(from, List.of(to));
+                    guardMoveRule.checkMoveRule(from, new Path(List.of(to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -50,7 +50,7 @@ public class GuardMoveRuleTest {
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(from, List.of(to)))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(to))))
                 .isTrue();
     }
 
@@ -70,7 +70,7 @@ public class GuardMoveRuleTest {
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(from, List.of(to)))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(to))))
                 .isTrue();
     }
 

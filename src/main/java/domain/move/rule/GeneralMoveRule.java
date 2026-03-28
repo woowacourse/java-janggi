@@ -3,6 +3,7 @@ package domain.move.rule;
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
+import domain.move.path.Path;
 import domain.piece.PieceType;
 import domain.point.Point;
 
@@ -30,8 +31,8 @@ public class GeneralMoveRule extends MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
-        Intersection to = path.getLast();
+    public boolean checkMoveRule(Intersection from, Path path) {
+        Intersection to = path.getLastIntersection();
         validateIsSameTeam(from, to);
         return true;
     }

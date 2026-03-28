@@ -1,10 +1,10 @@
 package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
-import domain.move.rule.SoliderMoveRule;
 import domain.move.directions.Vector;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
@@ -31,7 +31,7 @@ public class SoliderMoveRuleTest {
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    soliderMoveRule.checkMoveRule(from, List.of(to));
+                    soliderMoveRule.checkMoveRule(from, new Path(List.of(to)));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -52,7 +52,7 @@ public class SoliderMoveRuleTest {
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
-        Assertions.assertThat(soliderMoveRule.checkMoveRule(from, List.of(to)))
+        Assertions.assertThat(soliderMoveRule.checkMoveRule(from, new Path(List.of(to))))
                 .isTrue();
 
     }
@@ -73,7 +73,7 @@ public class SoliderMoveRuleTest {
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
-        Assertions.assertThat(soliderMoveRule.checkMoveRule(from, List.of(to)))
+        Assertions.assertThat(soliderMoveRule.checkMoveRule(from, new Path(List.of(to))))
                 .isTrue();
 
     }
