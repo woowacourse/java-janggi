@@ -34,9 +34,6 @@ public record Position(
                 Column.of((column.ordinal() + adjustValue) + distance)
         );
 
-        if (!this.row.equals(to.row)) {
-            throw new IllegalArgumentException("같은 행이 아닙니다.");
-        }
         List<Column> columns = this.column.to(to.column);
         return new PositionPath(columns.stream().map(column -> new Position(this.row, column)).toList());
     }
