@@ -12,10 +12,20 @@ public class OutputView {
     public void printBoard(Board board) {
         StringBuilder sb = new StringBuilder();
         for (int row = MAX_ROW; row >= 1; row--) {
+            sb.append(row).append("\t");
             appendRow(sb, board, row);
             sb.append(System.lineSeparator());
         }
+        appendColumnHeader(sb);
         System.out.println(sb);
+    }
+
+    private void appendColumnHeader(StringBuilder sb) {
+        sb.append(" \t");
+        for (int col = 1; col <= MAX_COLUMN; col++) {
+            sb.append(col).append("\t");
+        }
+        sb.append(System.lineSeparator());
     }
 
     private void appendRow(StringBuilder sb, Board board, int row) {
