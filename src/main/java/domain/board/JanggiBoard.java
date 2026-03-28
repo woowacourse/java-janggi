@@ -63,20 +63,6 @@ public class JanggiBoard {
         return intersections.get(point);
     }
 
-    private Map<Point, Intersection> fillEmptyIntersections() {
-        return getAllPoints()
-                .collect(Collectors.toMap(point -> point, Intersection::empty));
-    }
-
-    private Stream<Point> getAllPoints() {
-        return range(MAX_ROW).boxed()
-                .flatMap(row -> range(MAX_FILE).mapToObj(file -> new Point(row, file)));
-    }
-
-    private IntStream range(int maxRange) {
-        return IntStream.range(BASE_POINT, maxRange);
-    }
-
     public boolean isGameOver() {
         return Arrays.stream(Team.values())
                 .anyMatch(this::isGeneralDead);
@@ -98,6 +84,20 @@ public class JanggiBoard {
 
     public Map<Point, Intersection> getJanggiBoard() {
         return Collections.unmodifiableMap(intersections);
+    }
+
+    private Map<Point, Intersection> fillEmptyIntersections() {
+        return getAllPoints()
+                .collect(Collectors.toMap(point -> point, Intersection::empty));
+    }
+
+    private Stream<Point> getAllPoints() {
+        return range(MAX_ROW).boxed()
+                .flatMap(row -> range(MAX_FILE).mapToObj(file -> new Point(row, file)));
+    }
+
+    private IntStream range(int maxRange) {
+        return IntStream.range(BASE_POINT, maxRange);
     }
 
 }
