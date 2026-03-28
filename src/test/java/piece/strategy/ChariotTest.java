@@ -20,7 +20,7 @@ public class ChariotTest {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
-        pieceMap.put(Position.of(1,9), choChariot);
+        pieceMap.put(Position.of(1, 9), choChariot);
 
         Position startPosition = Position.of(1, 9);
         Position endPosition = Position.of(10, 9);
@@ -31,11 +31,11 @@ public class ChariotTest {
 
     @Test
     @DisplayName("초 진영의 차 기물은 뒤로 움직일 수 있다.")
-    void 차_진영_졸_뒤로_움직임_성공() {
+    void canMove_이동성공_차_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
-        pieceMap.put(Position.of(4,9), choChariot);
+        pieceMap.put(Position.of(4, 9), choChariot);
 
         Position startPosition = Position.of(4, 9);
         Position endPosition = Position.of(2, 9);
@@ -46,13 +46,13 @@ public class ChariotTest {
 
     @Test
     @DisplayName("차 기물은 도착 지점으로 가는 경로 내에 기물이 있다면 움직일 수 없다.")
-    void 차_테스트() {
+    void canMove_이동실패_차_기물_움직임_여부_판단() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
         Piece choPawn = Piece.of(Side.CHO, PieceType.PAWN);
-        pieceMap.put(Position.of(1,9), choChariot);
-        pieceMap.put(Position.of(4,9), choPawn);
+        pieceMap.put(Position.of(1, 9), choChariot);
+        pieceMap.put(Position.of(4, 9), choPawn);
 
         Position startPosition = Position.of(1, 9);
         Position endPosition = Position.of(10, 9);
@@ -63,11 +63,11 @@ public class ChariotTest {
 
     @Test
     @DisplayName("차 기물은 대각선으로 이동할 수 없다.")
-    void 차_대각선_이동_테스트(){
+    void canMove_이동실패_차_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
-        pieceMap.put(Position.of(1,9), choChariot);
+        pieceMap.put(Position.of(1, 9), choChariot);
 
         Position startPosition = Position.of(1, 9);
         Position endPosition = Position.of(2, 8);

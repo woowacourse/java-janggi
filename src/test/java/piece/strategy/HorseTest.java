@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class HorseTest {
     @Test
     @DisplayName("마 기물의 움직임의 여부를 판단할 수 있다.")
-    void canMove_이동성공_차_기물_움직임_여부_판단() {
+    void canMove_이동성공_마_기물_움직임_여부_판단_1() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);
@@ -31,7 +31,7 @@ public class HorseTest {
 
     @Test
     @DisplayName("마 기물의 움직임의 여부를 판단할 수 있다.")
-    void canMove_이동성공_차_기물_움직임_여부_판단_임시() {
+    void canMove_이동성공_마_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);
@@ -45,7 +45,7 @@ public class HorseTest {
     }
 
     @Test
-    @DisplayName("차 기물은 도착 지점으로 가는 경로 내에 기물이 있다면 움직일 수 없다.")
+    @DisplayName("마 기물은 도착 지점으로 가는 경로 내에 기물이 있다면 움직일 수 없다.")
     void 마_움직임_실패_테스트_기물_막힘() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
