@@ -9,4 +9,6 @@ public interface Output {
     void printErrorMessage(RuntimeException e);
 
     void printStringMatrix(List<List<String>> matrix);
+
+    void clearScreen();
 }

@@ -19,11 +19,17 @@ public class ConsoleWriter implements Output {
         StringBuilder matrixSnapshot = new StringBuilder();
         for (List<String> strings : matrix) {
             for (String string : strings) {
-                matrixSnapshot.append(String.format("%-2s", string));
+                matrixSnapshot.append(string).append(" ");
             }
             matrixSnapshot.append("\n");
         }
 
         System.out.println(matrixSnapshot);
+    }
+
+    @Override
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

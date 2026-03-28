@@ -20,6 +20,5 @@ public class TestPiece extends ActivePiece {
 
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
-        return;
     }
 }

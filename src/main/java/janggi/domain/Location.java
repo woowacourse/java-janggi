@@ -2,7 +2,7 @@ package janggi.domain;
 
 import java.util.List;
 
-public record Location(int x, int y) {
+public record Location(int row, int col) {
 
     private static final int COORDINATE_COUNT = 2;
 
@@ -17,15 +17,15 @@ public record Location(int x, int y) {
         }
     }
 
-    public Location add(int dx, int dy) {
-        return new Location(x + dx, y + dy);
+    public Location add(int dy, int dx) {
+        return new Location(row + dy, col + dx);
     }
 
     public int calculateHorizontalDiff(Location to) {
-        return to.y - this.y;
+        return to.col - this.col;
     }
 
     public int calculateVerticalDiff(Location to) {
-        return to.x - this.x;
+        return to.row - this.row;
     }
 }

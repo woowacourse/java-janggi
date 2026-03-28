@@ -22,6 +22,6 @@ public enum Direction {
     }
 
     public Location apply(Location location) {
-        return location.add(dx, dy);
+        return location.add(dy, dx);
     }
 }

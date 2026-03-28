@@ -15,9 +15,9 @@ class JolbyeongTest {
     class CalculateRouteTest {
         static List<List<Integer>> provideUnreachableCoordination() {
             return List.of(
-                    List.of(0, 2), // 거리가 멀어서 도달할 수 없는 경우
-                    List.of(1, 1), // 대각선으로 이동하는 경우
-                    List.of(0, 1) // 뒤로 이동하는 경우
+                    List.of(3, 5), // 거리가 멀어서 도달할 수 없는 경우
+                    List.of(6, 6), // 대각선으로 이동하는 경우
+                    List.of(6, 5) // 뒤로 이동하는 경우
             );
         }
 
@@ -51,8 +51,8 @@ class JolbyeongTest {
         @DisplayName("한팀 졸병이 이동할 수 없는 위치를 파라미터로 받으면 예외가 발생한다.")
         void shouldThrowExceptionForUnReachableLocationWhenTeamHan() {
             // given
-            Location from = Location.from(List.of(0, 1));
-            Location to = Location.from(List.of(0, 0));
+            Location from = Location.from(List.of(5, 5));
+            Location to = Location.from(List.of(4, 5));
             Piece piece = new Jolbyeong(Side.HAN);
 
             // when & then
@@ -65,7 +65,7 @@ class JolbyeongTest {
         @MethodSource("provideUnreachableCoordination")
         void shouldThrowExceptionForUnReachableLocationWhenTeamCho(List<Integer> coordination) {
             // given
-            Location from = Location.from(List.of(0, 0));
+            Location from = Location.from(List.of(5, 5));
             Location to = Location.from(coordination);
             Piece piece = new Jolbyeong(Side.CHO);
 

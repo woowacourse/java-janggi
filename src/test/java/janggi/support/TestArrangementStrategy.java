@@ -25,7 +25,7 @@ public class TestArrangementStrategy extends ArrangementStrategy {
         }
 
         customPieces.forEach((loc, piece) -> {
-            arrangement[loc.x()][loc.y()] = piece;
+            arrangement[loc.col()][loc.row()] = piece;
         });
     }
 

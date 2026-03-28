@@ -62,8 +62,8 @@ class BoardTest {
         List<List<Piece>> board2DArray = board.to2DArray();
 
         // then
-        Assertions.assertThat(board2DArray.get(from.y()).get(from.x()).isEmpty()).isTrue();
-        Assertions.assertThat(board2DArray.get(to.y()).get(to.x())).isEqualTo(testPiece);
+        Assertions.assertThat(board2DArray.get(from.row()).get(from.col()).isEmpty()).isTrue();
+        Assertions.assertThat(board2DArray.get(to.row()).get(to.col())).isEqualTo(testPiece);
     }
 
     @Test

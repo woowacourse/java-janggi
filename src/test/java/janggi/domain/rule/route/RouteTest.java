@@ -22,10 +22,10 @@ class RouteTest {
                 )
         );
         List<Location> expected = List.of(
-                Location.from(List.of(0, 1)),
-                Location.from(List.of(-1, 2)),
-                Location.from(List.of(0, 3)),
-                Location.from(List.of(0, 2))
+                Location.from(List.of(1, 0)),
+                Location.from(List.of(2, -1)),
+                Location.from(List.of(3, 0)),
+                Location.from(List.of(2, 0))
         );
 
         // when
