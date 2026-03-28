@@ -1,6 +1,5 @@
 package domain;
 
-import domain.piece.Piece;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.NoneMoveableStrategy;

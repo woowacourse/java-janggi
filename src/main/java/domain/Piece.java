@@ -1,8 +1,6 @@
-package domain.piece;
+package domain;
 
 import domain.strategy.MoveStrategy;
-import domain.PieceProperty;
-import domain.Position;
 import java.util.List;
 
 public class Piece {

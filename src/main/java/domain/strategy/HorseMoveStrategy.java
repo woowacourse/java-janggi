@@ -3,9 +3,9 @@ package domain.strategy;
 import domain.HorseMoveRule;
 import domain.Position;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class HorseMoveStrategy extends MoveStrategy {
 
@@ -21,19 +21,6 @@ public class HorseMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public void updateRoute() {
-        this.moves = setupDestinationAndRoutesFrom();
-    }
-
-    private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {
-        Map<Position, List<Position>> moves = new HashMap<>();
-        Arrays.stream(HorseMoveRule.values())
-                .forEach(horseMoveRule ->
-                        moves.putIfAbsent(horseMoveRule.destination(position), horseMoveRule.route(position)));
-        return moves;
-    }
-
-    @Override
     public boolean isMoveAble(Position destination) {
         return moves.containsKey(destination);
     }
@@ -43,5 +30,19 @@ public class HorseMoveStrategy extends MoveStrategy {
         List<Position> route = moves.get(destination);
 
         return piecePositions.stream().anyMatch(route::contains);
+    }
+
+    @Override
+    public void updateRoute() {
+        this.moves = setupDestinationAndRoutesFrom();
+    }
+
+    private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {
+        return Arrays.stream(HorseMoveRule.values())
+                .collect(Collectors.toMap(
+                        horseMoveRule -> horseMoveRule.destination(position),
+                        horseMoveRule -> horseMoveRule.route(position)
+                        )
+                );
     }
 }

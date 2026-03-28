@@ -1,10 +1,10 @@
 package domain;
 
-import domain.piece.Piece;
 import domain.strategy.NoneMoveableStrategy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Board {
 
@@ -20,7 +20,6 @@ public class Board {
 
     public void movePiece(Position piecePosition, Position targetPosition) {
         Piece piece = findPieceAt(piecePosition);
-
         piece.moved(targetPosition);
         board.replace(targetPosition, piece);
         board.replace(piecePosition,
@@ -85,30 +84,27 @@ public class Board {
                 .anyMatch(Piece::isGeneral);
     }
 
+    public List<Piece> allPieces() {
+        return Stream.of(greenPieces(), redPieces(), nonePieces())
+                .flatMap(List::stream)
+                .toList();
+    }
 
-    public List<Piece> greenPieces() {
+    private List<Piece> greenPieces() {
         return board.values().stream()
                 .filter(Piece::isGreenTeam)
                 .toList();
     }
 
-    public List<Piece> redPieces() {
+    private List<Piece> redPieces() {
         return board.values().stream()
                 .filter(Piece::isRedTeam)
                 .toList();
     }
 
-    public List<Piece> nonePieces() {
+    private List<Piece> nonePieces() {
         return board.values().stream()
                 .filter(Piece::isNoneTeam)
                 .toList();
-    }
-
-    public List<Piece> allPieces() {
-        List<Piece> allPieces = new ArrayList<>();
-        allPieces.addAll(greenPieces());
-        allPieces.addAll(redPieces());
-        allPieces.addAll(nonePieces());
-        return allPieces;
     }
 }

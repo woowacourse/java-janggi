@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import domain.Piece;
 import domain.PieceProperty;
 import domain.PieceType;
 import domain.Position;

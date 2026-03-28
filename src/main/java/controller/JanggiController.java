@@ -16,7 +16,6 @@ public class JanggiController {
     public void run() {
         while (!janggiGame.isGameFinished()) {
             playGame();
-            janggiGame.checkGameFinished();
         }
 
         System.out.println();

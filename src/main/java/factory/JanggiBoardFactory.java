@@ -4,7 +4,7 @@ import domain.PieceProperty;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
-import domain.piece.Piece;
+import domain.Piece;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.DownToUpSoldierMoveStrategy;
