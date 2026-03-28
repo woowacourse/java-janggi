@@ -11,7 +11,8 @@ public class SetupCommandTest {
     @DisplayName("차림판 예외 테스트")
     void failure() {
         int wrongNumber = 5;
+
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> SetupCommand.pick(wrongNumber));
+            .isThrownBy(() -> SetupCommand.pick(wrongNumber));
     }
 }

@@ -37,7 +37,7 @@ class CannonTest {
         }
 
         @Test
-        @DisplayName("포는 기물을 뛰어 넘어서 이동할 수 있다.")
+        @DisplayName("기물을 뛰어 넘어서 이동할 수 있다.")
         void success_1() {
             positionPieceMap = Map.of(
                 Position.valueOf(6, 7), cannon,
@@ -61,7 +61,7 @@ class CannonTest {
         }
 
         @Test
-        @DisplayName("포는 포를 넘을 수 없다.")
+        @DisplayName("포를 넘을 수 없다.")
         void success_2() {
             positionPieceMap = Map.of(
                 Position.valueOf(6, 7), cannon,
@@ -82,7 +82,7 @@ class CannonTest {
         }
 
         @Test
-        @DisplayName("포는 포를 잡을 수 없다.")
+        @DisplayName("포를 잡을 수 없다.")
         void success_3() {
             positionPieceMap = Map.of(
                 Position.valueOf(6, 7), cannon,

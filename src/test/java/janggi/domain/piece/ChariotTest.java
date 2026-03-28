@@ -7,7 +7,6 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.team.TeamType;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,6 @@ public class ChariotTest {
         static Piece ally3;
         static Piece ally4;
         static Map<Position, Piece> positionPieceMap;
-        static List<Position> candidatePositions;
 
         @BeforeEach
         void setUp() {
@@ -45,60 +43,49 @@ public class ChariotTest {
             ally2 = new Soldier(TeamType.RED);
             ally3 = new Soldier(TeamType.RED);
             ally4 = new Soldier(TeamType.RED);
-            positionPieceMap = new LinkedHashMap<Position, Piece>();
-            candidatePositions = initCanididatePositions();
+            positionPieceMap = new LinkedHashMap<>();
         }
 
         @Test
-        @DisplayName("차는 적군을 뛰어넘어 갈 수 없다.")
-        void test1() {
+        @DisplayName("적군을 뛰어넘어 갈 수 없다.")
+        void success_1() {
             positionPieceMap.put(Position.valueOf(5, 3), chariot);
             positionPieceMap.put(Position.valueOf(5, 1), enemy1);
             positionPieceMap.put(Position.valueOf(3, 3), enemy2);
             positionPieceMap.put(Position.valueOf(5, 6), enemy3);
             positionPieceMap.put(Position.valueOf(7, 3), enemy4);
-            List<Position> expected = List.of(Position.valueOf(3, 3), Position.valueOf(4, 3), Position.valueOf(5, 1),
-                    Position.valueOf(5, 2), Position.valueOf(5, 4),
-                    Position.valueOf(5, 5), Position.valueOf(5, 6),
-                    Position.valueOf(6, 3), Position.valueOf(7, 3));
+            List<Position> expected = List.of(Position.valueOf(3, 3), Position.valueOf(4, 3),
+                Position.valueOf(5, 1),
+                Position.valueOf(5, 2), Position.valueOf(5, 4),
+                Position.valueOf(5, 5), Position.valueOf(5, 6),
+                Position.valueOf(6, 3), Position.valueOf(7, 3));
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3), boardMediator);
+            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3),
+                boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
 
         @Test
-        @DisplayName("차는 아군을 뛰어넘어 갈 수 없다.")
-        void test2() {
+        @DisplayName("아군을 뛰어넘어 갈 수 없다.")
+        void success_2() {
             positionPieceMap.put(Position.valueOf(5, 3), chariot);
             positionPieceMap.put(Position.valueOf(5, 1), ally1);
             positionPieceMap.put(Position.valueOf(3, 3), ally2);
             positionPieceMap.put(Position.valueOf(5, 6), ally3);
             positionPieceMap.put(Position.valueOf(7, 3), ally4);
             List<Position> expected = List.of(Position.valueOf(4, 3),
-                    Position.valueOf(5, 2), Position.valueOf(5, 4),
-                    Position.valueOf(5, 5), Position.valueOf(6, 3));
+                Position.valueOf(5, 2), Position.valueOf(5, 4),
+                Position.valueOf(5, 5), Position.valueOf(6, 3));
 
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3), boardMediator);
+            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3),
+                boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
-        }
-
-        List<Position> initCanididatePositions() {
-            List<Position> candidatePositions = new ArrayList<>();
-            for (int row = 1; row <= 10; row++) {
-                candidatePositions.add(Position.valueOf(row, 3));
-            }
-            for (int column = 1; column <= 9; column++) {
-                candidatePositions.add(Position.valueOf(5, column));
-            }
-            candidatePositions.remove(Position.valueOf(5, 3));
-            candidatePositions.remove(Position.valueOf(5, 3));
-            return candidatePositions;
         }
     }
 }

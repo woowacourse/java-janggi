@@ -18,7 +18,7 @@ public class ParserTest {
         void success1() {
             // given
             String input = "10";
-            int expected = Integer.valueOf(input);
+            int expected = Integer.parseInt(input);
 
             // when
             int actual = Parser.parseInteger(input);
@@ -32,7 +32,7 @@ public class ParserTest {
         void failure1() {
             String input = "test";
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Parser.parseInteger(input));
+                .isThrownBy(() -> Parser.parseInteger(input));
         }
     }
 }

@@ -53,7 +53,7 @@ public class BoardTest {
     }
 
     @Nested
-    @DisplayName("기물 획득 테스트")
+    @DisplayName("위치에 기반한 기물 획득 테스트")
     class FindPieceByPosition {
 
         @Test

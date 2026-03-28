@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class BoardGeneratorTest {
 
     @Test
-    @DisplayName("보드판 기물 정상 테스트")
+    @DisplayName("보드판 및 기물 생성 테스트")
     void success() {
         // given
         RedTeam redTeam = new RedTeam(new InnerElephantSetupPolicy());
@@ -24,7 +24,7 @@ public class BoardGeneratorTest {
 
         // then
         assertThat(board).extracting("positionPieceMap")
-                .asInstanceOf(InstanceOfAssertFactories.MAP)
-                .hasSize(expected);
+            .asInstanceOf(InstanceOfAssertFactories.MAP)
+            .hasSize(expected);
     }
 }
