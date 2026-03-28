@@ -19,30 +19,41 @@ public interface MoveStrategy {
         List<MovePath> paths = getPaths(teamColor);
 
         for (MovePath path : paths) {
-            List<Direction> steps = path.steps();
-            Position currentPos = curPos;
-            List<Position> intermediates = new ArrayList<>();
-
-
-            for (int i = 0; i < steps.size(); i++) {
-                try {
-                    currentPos = currentPos.next(steps.get(i));
-                } catch (IllegalArgumentException exception) {
-                    currentPos = null;
-                    break;
-                }
-
-                if (i < steps.size() - 1) {
-                    intermediates.add(currentPos);
-                }
-            }
-            if (currentPos == null) {
-                continue;
-            }
-            validRoutes.add(new Route(curPos, currentPos, intermediates));
+            createRoute(curPos, path.steps()).ifPresent(validRoutes::add);
         }
 
         return validRoutes;
+    }
+
+    private Optional<Route> createRoute(Position startPos, List<Direction> steps) {
+        Position currentPos = startPos;
+        List<Position> intermediates = new ArrayList<>();
+
+        for (int index = 0; index < steps.size(); index++) {
+            Optional<Position> nextPosition = findNextPosition(currentPos, steps.get(index));
+            if (nextPosition.isEmpty()) {
+                return Optional.empty();
+            }
+            currentPos = nextPosition.get();
+
+            if (isIntermediateStep(index, steps.size())) {
+                intermediates.add(currentPos);
+            }
+        }
+
+        return Optional.of(new Route(startPos, currentPos, intermediates));
+    }
+
+    private Optional<Position> findNextPosition(Position currentPos, Direction direction) {
+        try {
+            return Optional.of(currentPos.next(direction));
+        } catch (IllegalArgumentException exception) {
+            return Optional.empty();
+        }
+    }
+
+    private boolean isIntermediateStep(int stepIndex, int totalSteps) {
+        return stepIndex < totalSteps - 1;
     }
 
     default boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
