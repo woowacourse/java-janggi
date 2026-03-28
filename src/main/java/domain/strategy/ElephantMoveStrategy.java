@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.ElephantMoveRule;
+import domain.moverule.ElephantMoveRule;
 import domain.Position;
 import java.util.Arrays;
 import java.util.HashMap;

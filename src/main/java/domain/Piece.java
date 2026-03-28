@@ -17,14 +17,9 @@ public class Piece {
         return new Piece(this.pieceProperty, position);
     }
 
-//    public void moved(Position movedPosition) {
-//        this.moveStrategy.changePosition(movedPosition);
-//        moveStrategy.updateRoute();
-//    }
-
     public boolean isMoveAble(Position destination) {
         return moveStrategy.isMoveAble(destination);
-    };
+    }
 
     public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
         return moveStrategy.hasPieceOnPath(destination, piecePositions);

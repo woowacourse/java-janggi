@@ -2,7 +2,7 @@ package domain;
 
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
-import domain.strategy.DownToUpSoldierMoveStrategy;
+import domain.strategy.GreenSoldierMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
 import domain.strategy.GuardMoveStrategy;
@@ -23,7 +23,7 @@ public enum PieceType {
     CANNON("包", CannonMoveStrategy::of),
 
     RED_SOLDIER("卒", UpToDownSoldierMoveStrategy::of),
-    GREEN_SOLDIER("卒", DownToUpSoldierMoveStrategy::of),
+    GREEN_SOLDIER("卒", GreenSoldierMoveStrategy::of),
 
     EMPTY_VALUE("＋", NoneMoveableStrategy::of)
     ;

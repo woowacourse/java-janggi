@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.HorseMoveRule;
+import domain.moverule.HorseMoveRule;
 import domain.Position;
 import java.util.Arrays;
 import java.util.List;

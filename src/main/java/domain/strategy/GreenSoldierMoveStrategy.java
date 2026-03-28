@@ -1,21 +1,22 @@
 package domain.strategy;
 
-import domain.moverule.GeneralMoveRule;
 import domain.Position;
+import domain.moverule.GreenSoldierMoveRule;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GeneralMoveStrategy extends MoveStrategy {
+public class GreenSoldierMoveStrategy extends MoveStrategy {
 
     private final List<Position> destinations;
 
-    private GeneralMoveStrategy(Position position) {
+    private GreenSoldierMoveStrategy(Position position) {
         super(position);
         this.destinations = setupDestinations();
     }
 
-    public static GeneralMoveStrategy of(Position position) {
-        return new GeneralMoveStrategy(position);
+    public static GreenSoldierMoveStrategy of(Position position) {
+        return new GreenSoldierMoveStrategy(position);
     }
 
     @Override
@@ -29,8 +30,8 @@ public class GeneralMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> setupDestinations() {
-        return Arrays.stream(GeneralMoveRule.values())
-                .map(generalMoveRule -> generalMoveRule.destination(position))
+        return Arrays.stream(GreenSoldierMoveRule.values())
+                .map(greenSoldierMoveRule -> greenSoldierMoveRule.destination(position))
                 .toList();
     }
 }

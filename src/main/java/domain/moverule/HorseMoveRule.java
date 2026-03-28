@@ -1,9 +1,11 @@
-package domain;
+package domain.moverule;
 
+import domain.MoveRules;
+import domain.Position;
 import java.util.List;
 import java.util.function.Function;
 
-public enum HorseMoveRule implements MoveRules{
+public enum HorseMoveRule implements MoveRules {
 
     UP_CROSS_RIGHT(java.util.List.of(Position::up, Position::upCrossRight)),
     UP_CROSS_LEFT(java.util.List.of(Position::up, Position::upCrossLeft)),

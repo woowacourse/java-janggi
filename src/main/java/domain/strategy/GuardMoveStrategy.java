@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.GuardMoveRule;
+import domain.moverule.GuardMoveRule;
 import domain.Position;
 import java.util.Arrays;
 import java.util.List;
