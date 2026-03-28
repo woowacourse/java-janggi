@@ -22,6 +22,15 @@ public class ColumnTest {
     @Nested
     class 예외 {
         @Test
+        void 값이_최솟값보다_작으면_예외를_발행한다() {
+            int input = -1;
+
+            assertThatThrownBy(() -> new Column(input))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("열의 최소 값은 0입니다.");
+        }
+
+        @Test
         void 값이_최댓값을_초과하면_예외를_발행한다() {
             int input = 19;
 
