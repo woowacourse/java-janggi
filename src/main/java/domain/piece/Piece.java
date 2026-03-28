@@ -43,6 +43,10 @@ public final class Piece {
         return side == this.side;
     }
 
+    public boolean isSamePieceType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

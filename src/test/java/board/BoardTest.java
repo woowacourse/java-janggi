@@ -198,4 +198,23 @@ public class BoardTest {
         Piece piece = board.findBy(Position.of(3, 5));
         assertThat(piece).isEqualTo(Piece.of(Side.CHO, PieceType.GENERAL));
     }
+
+    @Test
+    @DisplayName("포 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
+    void move_포_포획_성공_테스트(){
+        // given
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+        board.move(Position.of(10, 7), Position.of(8, 6), Side.HAN);
+        board.move(Position.of(8,8), Position.of(8, 5), Side.HAN);
+        board.move(Position.of(7,9), Position.of(7, 8), Side.HAN);
+
+        // when
+        board.move(Position.of(3,8), Position.of(10, 8), Side.CHO);
+
+        // then
+        Piece piece = board.findBy(Position.of(10, 8));
+        assertThat(piece).isEqualTo(Piece.of(Side.CHO, PieceType.CANON));
+    }
 }
