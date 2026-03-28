@@ -6,6 +6,5 @@ public class JanggiApplication {
     public static void main(String[] args) {
         JanggiController janggiController = new JanggiController(new InputView(), new OutputView());
         janggiController.run();
-
     }
 }

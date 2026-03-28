@@ -30,13 +30,6 @@ public abstract class ActivePiece implements Piece {
         return team.forwardRowDirection();
     }
 
-    public int isSameType() {
-        if (this.type == PieceType.BYEONG) {
-            return 1;
-        }
-        return 0;
-    }
-
     public abstract List<Position> searchRoute(Position source, Position target);
 
     @Override

@@ -7,7 +7,7 @@ import domain.piece.Team;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractBoardFactory implements FormationFactory {
+public abstract class AbstractBoardFactory implements BoardFactory {
 
     @Override
     public Map<Position, Piece> createFormation(Team team) {

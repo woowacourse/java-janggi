@@ -5,6 +5,6 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.Map;
 
-public interface FormationFactory {
+public interface BoardFactory {
     Map<Position, Piece> createFormation(Team team);
 }
