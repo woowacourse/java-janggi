@@ -10,12 +10,12 @@ import java.util.List;
 
 public class Cha extends ActivePiece {
 
-    private static final String PIECE_NAME = "차";
+    private static final PieceType PIECE_TYPE = PieceType.CHA;
     private static final RouteProvider ROUTE_PROVIDER = StraightRouteProvider.getInstance();
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Cha(Side side) {
-        super(PIECE_NAME, side);
+        super(PIECE_TYPE, side);
     }
 
     @Override

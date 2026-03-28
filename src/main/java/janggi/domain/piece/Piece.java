@@ -16,5 +16,5 @@ public interface Piece {
 
     boolean isSameSide(Side side);
 
-    String getName();
+    PieceType getType();
 }

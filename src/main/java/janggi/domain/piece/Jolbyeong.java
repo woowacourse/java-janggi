@@ -15,13 +15,11 @@ import java.util.List;
 
 public class Jolbyeong extends ActivePiece {
 
-    private static final String PIECE_NAME = "졸병";
-    private static final String CHO_PIECE_NAME = "졸";
-    private static final String HAN_PIECE_NAME = "병";
+    private static final PieceType PIECE_TYPE = PieceType.JOLBYEOUNG;
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Jolbyeong(Side side) {
-        super(PIECE_NAME, side);
+        super(PIECE_TYPE, side);
     }
 
     @Override
@@ -38,7 +36,7 @@ public class Jolbyeong extends ActivePiece {
                 return locations;
             }
         }
-        throw new IllegalArgumentException(getName() + "은 해당 위치에 도달할 수 없습니다.");
+        throw new IllegalArgumentException(getType() + "은 해당 위치에 도달할 수 없습니다.");
     }
 
     @Override
@@ -51,13 +49,5 @@ public class Jolbyeong extends ActivePiece {
             return FRONT;
         }
         return BACK;
-    }
-
-    @Override
-    public String getName() {
-        if (side.equals(Side.HAN)) {
-            return HAN_PIECE_NAME;
-        }
-        return CHO_PIECE_NAME;
     }
 }

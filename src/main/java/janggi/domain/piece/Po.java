@@ -10,12 +10,12 @@ import java.util.List;
 
 public class Po extends ActivePiece {
 
-    private static final String PIECE_NAME = "포";
+    private static final PieceType PIECE_TYPE = PieceType.PO;
     private static final RouteProvider ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
     private static final CollisionDetector COLLISION_DETECTOR = PoCollisionDetector.getInstance();
 
     public Po(Side side) {
-        super(PIECE_NAME, side);
+        super(PIECE_TYPE, side);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public String getName() {
-        return "";
+    public PieceType getType() {
+        return PieceType.NONE;
     }
 }

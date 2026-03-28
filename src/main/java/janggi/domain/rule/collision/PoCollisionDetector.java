@@ -1,6 +1,7 @@
 package janggi.domain.rule.collision;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 
 public class PoCollisionDetector implements CollisionDetector {
@@ -18,7 +19,7 @@ public class PoCollisionDetector implements CollisionDetector {
     @Override
     public void check(Piece piece, List<Piece> piecesOnPath) {
         validateOneObstacle(piecesOnPath);
-        validatePoExistence(piece, piecesOnPath);
+        validatePoExistence(piecesOnPath);
         validateDestination(piece, piecesOnPath);
     }
 
@@ -34,11 +35,12 @@ public class PoCollisionDetector implements CollisionDetector {
         }
     }
 
-    private void validatePoExistence(Piece self, List<Piece> piecesOnPath) {
-        for (Piece piece : piecesOnPath) {
-            if (self.getClass() == piece.getClass()) {
-                throw new IllegalArgumentException("이동 경로 또는 도착지에 포가 존재할 수 없습니다.");
-            }
+    private void validatePoExistence(List<Piece> piecesOnPath) {
+        boolean hasPo = piecesOnPath.stream()
+                .anyMatch(piece -> piece.getType() == PieceType.PO);
+
+        if (hasPo) {
+            throw new IllegalArgumentException("이동 경로 또는 도착지에 포가 존재할 수 없습니다.");
         }
     }
 

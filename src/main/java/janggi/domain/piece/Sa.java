@@ -10,12 +10,12 @@ import java.util.List;
 
 public class Sa extends ActivePiece {
 
-    private static final String PIECE_NAME = "사";
+    private static final PieceType PIECE_TYPE = PieceType.SA;
     private static final RouteProvider ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Sa(Side side) {
-        super(PIECE_NAME, side);
+        super(PIECE_TYPE, side);
     }
 
     @Override

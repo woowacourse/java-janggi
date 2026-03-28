@@ -30,7 +30,7 @@ public class ApplicationView {
     public void responseBoardArray(List<List<Piece>> board2DArray) {
         List<List<String>> stringMatrix = board2DArray.stream()
                 .map(row -> row.stream()
-                        .map(Piece::getName)
+                        .map(piece -> PieceViewResover.toDisplayName(piece.getType()))
                         .toList()
                 ).toList();
 

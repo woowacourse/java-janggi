@@ -18,11 +18,11 @@ import java.util.List;
 
 public class Sang extends ActivePiece {
 
-    private static final String PIECE_NAME = "상";
+    private static final PieceType PIECE_TYPE = PieceType.SA;
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Sang(Side side) {
-        super(PIECE_NAME, side);
+        super(PIECE_TYPE, side);
     }
 
     @Override

@@ -18,11 +18,11 @@ import java.util.List;
 
 public class Ma extends ActivePiece {
 
-    private static final String PIECE_NAME = "마";
+    private static final PieceType PIECE_TYPE = PieceType.MA;
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Ma(Side side) {
-        super(PIECE_NAME, side);
+        super(PIECE_TYPE, side);
     }
 
     @Override

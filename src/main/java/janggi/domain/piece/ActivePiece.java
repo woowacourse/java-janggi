@@ -4,17 +4,17 @@ import janggi.domain.Side;
 
 public abstract class ActivePiece implements Piece {
 
-    protected final String name;
+    protected final PieceType pieceType;
     protected final Side side;
 
-    protected ActivePiece(String name, Side side) {
-        this.name = name;
+    protected ActivePiece(PieceType pieceType, Side side) {
+        this.pieceType = pieceType;
         this.side = side;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public PieceType getType() {
+        return pieceType;
     }
 
     @Override

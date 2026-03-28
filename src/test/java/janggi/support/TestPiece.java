@@ -4,12 +4,13 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.ActivePiece;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 
 public class TestPiece extends ActivePiece {
 
     public TestPiece(Side side) {
-        super("test", side);
+        super(PieceType.NONE, side);
     }
 
     @Override
@@ -20,10 +21,5 @@ public class TestPiece extends ActivePiece {
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
         return;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }
