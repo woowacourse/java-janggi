@@ -1,0 +1,82 @@
+package janggi.view;
+
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.side.Side;
+import java.io.InputStream;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class InputView {
+    private static final Pattern pattern = Pattern.compile("^([가나다라마바사아자차])([0-8])$");
+
+    private final Scanner sc;
+
+    public InputView(InputStream inputStream) {
+        sc = new Scanner(inputStream);
+    }
+
+    public BoardSetUp readBoardSetup(Side side) {
+        System.out.println(side + "의 차림을 선택해주세요.");
+        for (BoardSetUpFormat value : BoardSetUpFormat.values()) {
+            System.out.println("\t" + value.getNumber() + ". " + value.getFormat());
+        }
+
+        String input = sc.nextLine();
+
+        validateBlank(input);
+        int number = parseToInt(input);
+
+        return BoardSetUpFormat.getBoardSetUp(number);
+    }
+
+    public Point readPoint() {
+        System.out.println("기물 선택 - {한글}{숫자} (e.g. 가0)");
+        String input = sc.nextLine();
+        Matcher matcher = pattern.matcher(input);
+
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("입력은 {한글}{숫자} (e.g. 가0) 형식으로 입력해 주세요.");
+        }
+
+        int x = XPointFormat.convertToInt(matcher.group(1));
+        int y = parseToInt(matcher.group(2));
+        return new Point(x, y);
+    }
+
+    public Point readDestination() {
+        System.out.println("기물 이동[초록색] - {한글}{숫자} (e.g. 가0) (취소 - Q 입력)");
+        String input = sc.nextLine();
+        Matcher matcher = pattern.matcher(input);
+
+        if (input.equals("Q")) {
+            throw new PieceCancelException("Q가 입력되었습니다.");
+        }
+
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("입력은 {한글}{숫자} (e.g. 가0) 형식으로 입력해 주세요.");
+        }
+
+        int x = XPointFormat.convertToInt(matcher.group(1));
+        int y = parseToInt(matcher.group(2));
+        return new Point(x, y);
+    }
+
+
+    private void validateBlank(String input) {
+        if (input.isBlank()) {
+            throw new IllegalStateException("공백은 입력할 수 없습니다.");
+        }
+    }
+
+    private int parseToInt(String input) {
+        try {
+            return Integer.parseInt(input.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+        }
+    }
+
+
+}
