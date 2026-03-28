@@ -15,6 +15,14 @@ public record Point(
         validatePointRange(y, x);
     }
 
+    public Point next(Vector vector) {
+        return new Point(y + vector.dy(), x + vector.dx());
+    }
+
+    public Point movePoint(int y, int x) {
+        return new Point(this.y + y, this.x + x);
+    }
+
     private void validatePointRange(int y, int x) {
         if (!checkPointRange(y, x)) {
             throw new PointException(POINT_RANGE_IS_OVER);
@@ -25,24 +33,8 @@ public record Point(
         return checkPointRange(this.y + y, this.x + x);
     }
 
-    public Point movePoint(int y, int x) {
-        return new Point(this.y + y, this.x + x);
-    }
-
     private boolean checkPointRange(int y, int x) {
         return BASE_POINT <= y && y < MAX_ROW && BASE_POINT <= x && x < MAX_FILE;
-    }
-
-    public boolean isSameFile(Point other) {
-        return this.y == other.y;
-    }
-
-    public boolean isSameRow(Point other) {
-        return this.x == other.x;
-    }
-
-    public Point next(Vector vector) {
-        return new Point(y + vector.dy(), x + vector.dx());
     }
 
 }

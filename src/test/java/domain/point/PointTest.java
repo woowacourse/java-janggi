@@ -35,28 +35,6 @@ public class PointTest {
                 .isEqualTo(expected);
     }
 
-    @Test
-    @DisplayName("(0, 0)과 (0, 7)은 Y축이 같아야 한다")
-    void returnTrueWhenFilesMatch() {
-        int y = 0;
-        int seven = 7;
-        int zero = 0;
-
-        Assertions.assertThat(new Point(y, seven).isSameFile(new Point(y, zero)))
-                .isTrue();
-    }
-
-    @Test
-    @DisplayName("(0, 0)과 (7, 0)은 X축이 같아야 한다")
-    void returnTrueWhenRowsMatch() {
-        int x = 0;
-        int seven = 7;
-        int zero = 0;
-
-        Assertions.assertThat(new Point(seven, x).isSameRow(new Point(zero, x)))
-                .isTrue();
-    }
-
     @Nested
     @DisplayName("Point 위치 이동 검증")
     class shouldUpdateDirectionWhenPointMove {
