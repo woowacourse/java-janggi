@@ -1,7 +1,12 @@
 package domain.board;
 
+import domain.board.exception.FormationException;
+
 import java.util.Arrays;
 import java.util.List;
+
+import static domain.board.exception.ErrorMessage.FORMATION_IS_NOT_NUMERIC;
+import static domain.board.exception.ErrorMessage.FORMATION_NUMBER_RANGE_IS_INVALID;
 
 public enum Formation {
 
@@ -30,14 +35,14 @@ public enum Formation {
         return Arrays.stream(Formation.values())
                 .filter(formation -> formation.formatNumber == formatNumber)
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new FormationException(FORMATION_NUMBER_RANGE_IS_INVALID));
     }
 
     private static void validateNumeric(String input) {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("포메이션 번호는 1-4사이의 숫자입니다.");
+            throw new FormationException(FORMATION_IS_NOT_NUMERIC);
         }
     }
 
