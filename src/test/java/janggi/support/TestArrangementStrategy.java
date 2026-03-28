@@ -20,7 +20,7 @@ public class TestArrangementStrategy extends ArrangementStrategy {
     public void place(Piece[][] arrangement, Side side) {
         for (int row = 0; row < arrangement.length; row++) {
             for (int col = 0; col < arrangement[row].length; col++) {
-                arrangement[row][col] = new EmptyPiece();
+                arrangement[row][col] = EmptyPiece.getInstance();
             }
         }
 

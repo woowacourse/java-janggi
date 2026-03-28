@@ -16,7 +16,7 @@ class DefaultCollisionDetectorTest {
     void shouldNotThrowExceptionWhenNoPieceOnPathAndNoPieceOnDestination() {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece());
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), EmptyPiece.getInstance());
         Piece piece = new TestPiece(Side.CHO);
 
         // when & then
@@ -29,7 +29,7 @@ class DefaultCollisionDetectorTest {
     void shouldNotThrowExceptionWhenNoPieceOnPathAndPieceOnDestinationIsOtherSide() {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(Side.HAN));
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), EmptyPiece.getInstance(), new TestPiece(Side.HAN));
         Piece piece = new TestPiece(Side.CHO);
 
         // when & then
@@ -42,7 +42,7 @@ class DefaultCollisionDetectorTest {
     void shouldThrowExceptionWhenPieceOnPathExist() {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
-        List<Piece> piecesOnPath = List.of(new TestPiece(Side.HAN), new EmptyPiece(), new EmptyPiece());
+        List<Piece> piecesOnPath = List.of(new TestPiece(Side.HAN), EmptyPiece.getInstance(), EmptyPiece.getInstance());
         Piece piece = new TestPiece(Side.CHO);
 
         // when & then
@@ -56,7 +56,7 @@ class DefaultCollisionDetectorTest {
         // given
         CollisionDetector collisionDetector = new DefaultCollisionDetector();
         Side side = Side.HAN;
-        List<Piece> piecesOnPath = List.of(new EmptyPiece(), new EmptyPiece(), new TestPiece(side));
+        List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), EmptyPiece.getInstance(), new TestPiece(side));
         Piece piece = new TestPiece(side);
 
         // when & then

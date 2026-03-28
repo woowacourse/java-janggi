@@ -4,12 +4,18 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import java.util.List;
 
+@SuppressWarnings("java:S6548")
 public class EmptyPiece extends Piece {
 
+    private static final EmptyPiece INSTANCE = new EmptyPiece();
     private static final String PIECE_NAME = "ㆍ";
 
-    public EmptyPiece() {
+    private EmptyPiece() {
         super(PIECE_NAME, Side.NONE);
+    }
+
+    public static EmptyPiece getInstance() {
+        return INSTANCE;
     }
 
     @Override
