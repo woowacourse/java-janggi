@@ -1,0 +1,41 @@
+package domain.piece.move;
+
+import domain.intersection.Intersection;
+import domain.point.Point;
+
+import java.util.List;
+
+public class MoveRuleManager {
+
+    private final List<MoveRule> moveRules;
+
+    public MoveRuleManager() {
+        this.moveRules = List.of(
+                new ChariotMoveRule(),
+                new GeneralMoveRule(),
+                new GuardMoveRule(),
+                new ElephantMoveRule(),
+                new SoliderMoveRule(),
+                new CannonMoveRule(),
+                new HorseMoveRule()
+        );
+    }
+
+    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
+        MoveRule moveRule = findMoveRule(from);
+        return moveRule.findPathOfPoints(from, to);
+    }
+
+    public boolean checkPathByMoveRule(Intersection from, Path path) {
+        MoveRule moveRule = findMoveRule(from);
+        return moveRule.checkMoveRule(from, path.intersections());
+    }
+
+    public MoveRule findMoveRule(Intersection from) {
+        return moveRules.stream()
+                .filter(moveRule -> moveRule.support(from))
+                .findFirst()
+                .orElse(null);
+    }
+
+}

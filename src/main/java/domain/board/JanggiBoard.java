@@ -16,11 +16,11 @@ public class JanggiBoard {
     private static final int MAX_FILE = 9;
 
     private final Map<Point, Intersection> intersections;
-    private final List<MoveRule> moveRules;
+    private final MoveRuleManager moveRuleManager;
 
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
         this.intersections = fillEmptyIntersections();
-        this.moveRules = setMoveRules();
+        this.moveRuleManager = new MoveRuleManager();
         for (Intersection intersection : intersectionGenerator.makeIntersection()) {
             intersections.put(intersection.getPoint(), intersection);
         }
@@ -29,7 +29,6 @@ public class JanggiBoard {
     public void tryToMove(Point start, Point end) {
         Intersection from = findIntersection(start);
         Intersection to = findIntersection(end);
-
         validateMoveRule(from, to);
         move(from, to);
     }
@@ -40,25 +39,16 @@ public class JanggiBoard {
     }
 
     private void validateMoveRule(Intersection from, Intersection to) {
-        MoveRule moveRule = findMoveRule(from);
-        List<Point> possiblePoints = moveRule.findPathOfPoints(from, to);
-        List<Intersection> path = findPath(possiblePoints);
-        moveRule.checkMoveRule(from, path);
+        Path path = findPath(moveRuleManager.findPathOfPoints(from, to));
+        moveRuleManager.checkPathByMoveRule(from, path);
     }
 
-    public MoveRule findMoveRule(Intersection from) {
-        return moveRules.stream()
-                .filter(moveRule -> moveRule.support(from))
-                .findFirst()
-                .orElse(null);
-    }
-
-    private List<Intersection> findPath(List<Point> possiblePoints) {
-        return possiblePoints.stream()
+    private Path findPath(List<Point> possiblePoints) {
+        List<Intersection> intersectionOfPath = possiblePoints.stream()
                 .map(this::findIntersection)
                 .toList();
+        return new Path(intersectionOfPath);
     }
-
 
     private static Stream<Point> getAllPoints() {
         return range(MAX_ROW).boxed()
@@ -73,22 +63,9 @@ public class JanggiBoard {
         return intersections.get(point);
     }
 
-    private List<MoveRule> setMoveRules() {
-        return List.of(
-                new ChariotMoveRule(),
-                new GeneralMoveRule(),
-                new GuardMoveRule(),
-                new ElephantMoveRule(),
-                new SoliderMoveRule(),
-                new CannonMoveRule(),
-                new HorseMoveRule()
-        );
-    }
-
     private Map<Point, Intersection> fillEmptyIntersections() {
         return getAllPoints()
                 .collect(Collectors.toMap(point -> point, Intersection::empty));
     }
-
 
 }

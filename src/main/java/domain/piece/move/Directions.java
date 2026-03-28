@@ -1,7 +1,6 @@
 package domain.piece.move;
 
 import domain.point.Point;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
