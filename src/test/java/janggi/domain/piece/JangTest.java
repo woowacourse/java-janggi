@@ -1,0 +1,24 @@
+package janggi.domain.piece;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import janggi.domain.Point;
+import janggi.domain.status.Team;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+public class JangTest {
+
+    @Test
+    @DisplayName("이동할 수 없는 위치를 목적지로 할 경우 예외 발생")
+    void destination_exception() {
+        // given
+        Piece jang = new Jang(Team.CHO);
+        Point from = Point.of(0,0);
+        Point to = Point.of(7, 1);
+
+        // when & then
+        assertThatThrownBy(() -> jang.getRoute(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+}
