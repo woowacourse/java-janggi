@@ -61,7 +61,7 @@ public class JanggiBoard {
 
     private Stream<Point> getAllPoints() {
         return range(MAX_ROW).boxed()
-                .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
+                .flatMap(row -> range(MAX_FILE).mapToObj(file -> new Point(row, file)));
     }
 
     private IntStream range(int maxRange) {
