@@ -35,19 +35,20 @@ public class Board {
 
     public void move(Position from, Position to) {
         Piece piece = board.get(from).getPiece();
+        PieceType pieceType = piece.getPieceInfo().pieceType();
+
         List<Position> paths = piece.path(from, to);
 
         if (!board.get(to).isEmpty()) {
-            PieceType fromPieceType = board.get(from).getPiece().getPieceType();
-            PieceType toPieceType = board.get(to).getPiece().getPieceInfo().pieceType();
-            if (fromPieceType != toPieceType) {
+            Country fromCountry = board.get(from).getPiece().getPieceCountry();
+            Country toCountry = board.get(to).getPiece().getPieceCountry();
+            if (fromCountry == toCountry) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
 
-        PieceType pieceType = piece.getPieceInfo().pieceType();
         if (pieceType == PieceType.CANNON) {
-            checkCannonPath(paths);
+            checkCannonPath(paths, to);
         }
         if (pieceType != PieceType.CANNON) {
             checkPathExceptCannon(paths);
@@ -64,7 +65,12 @@ public class Board {
         }
     }
 
-    private void checkCannonPath(List<Position> paths) {
+    private void checkCannonPath(List<Position> paths, Position to) {
+        if (!board.get(to).isEmpty()) {
+            if (board.get(to).getPiece().getPieceType() == PieceType.CANNON) {
+                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+            }
+        }
         int pieceCount = 0;
         for (int index = 0; index < paths.size() - 1; index++) {
             State state = board.get(paths.get(index));
