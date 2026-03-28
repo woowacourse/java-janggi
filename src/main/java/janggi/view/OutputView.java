@@ -1,5 +1,6 @@
 package janggi.view;
 
+import static janggi.formatter.CampFormatter.CHO_NAME;
 import static java.util.stream.Collectors.joining;
 
 import janggi.dto.CampDto;
@@ -78,10 +79,14 @@ public final class OutputView {
     }
 
     private static String colorOf(CampDto campDto) {
-        if (campDto.isCho()) {
+        if (isCho(campDto.camp())) {
             return CHO_COLOR;
         }
         return HAN_COLOR;
+    }
+
+    private static boolean isCho(String camp) {
+        return camp.equals(CHO_NAME);
     }
 
     private static String fullWidthNumber(int number) {
