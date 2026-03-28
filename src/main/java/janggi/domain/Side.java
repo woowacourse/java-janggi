@@ -12,14 +12,14 @@ public enum Side {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Side switchTurn() {
         if (this == HAN) {
             return CHO;
         }
         return HAN;
+    }
+
+    public String getName() {
+        return name;
     }
 }

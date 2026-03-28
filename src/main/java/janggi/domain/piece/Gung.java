@@ -10,17 +10,11 @@ import java.util.List;
 
 public class Gung extends Piece {
 
-    private static final String PIECE_NAME = "궁";
     private static final RouteProvider ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Gung(Side side) {
-        super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
+        super(PieceType.GUNG, side);
     }
 
     @Override

@@ -10,17 +10,11 @@ import java.util.List;
 
 public class Po extends Piece {
 
-    private static final String PIECE_NAME = "포";
     private static final RouteProvider ROUTE_PROVIDER = StraightRouteProvider.getInstance();
     private static final CollisionDetector COLLISION_DETECTOR = PoCollisionDetector.getInstance();
 
     public Po(Side side) {
-        super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
+        super(PieceType.PO, side);
     }
 
     @Override

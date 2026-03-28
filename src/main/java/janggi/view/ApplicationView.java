@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.strategy.ArrangementStrategy;
 import java.util.List;
 import java.util.function.Supplier;
@@ -30,7 +31,8 @@ public class ApplicationView {
     public void responseBoardArray(List<List<Piece>> board2DArray) {
         List<List<String>> stringMatrix = board2DArray.stream()
                 .map(row -> row.stream()
-                        .map(Piece::getName)
+                        .map(Piece::getPieceType)
+                        .map(PieceType::getNameFormat)
                         .toList()
                 ).toList();
 

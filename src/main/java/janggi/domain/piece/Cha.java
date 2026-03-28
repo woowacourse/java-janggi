@@ -10,17 +10,11 @@ import java.util.List;
 
 public class Cha extends Piece {
 
-    private static final String PIECE_NAME = "차";
     private static final RouteProvider ROUTE_PROVIDER = StraightRouteProvider.getInstance();
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Cha(Side side) {
-        super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
+        super(PieceType.CHA, side);
     }
 
     @Override

@@ -3,14 +3,13 @@ package janggi.support;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 
 public class TestPiece extends Piece {
 
-    private static final String PIECE_NAME = "test";
-
     public TestPiece(Side side) {
-        super(PIECE_NAME, side);
+        super(PieceType.CHA, side);
     }
 
     @Override

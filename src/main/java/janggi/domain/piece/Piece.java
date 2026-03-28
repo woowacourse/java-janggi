@@ -6,19 +6,21 @@ import java.util.List;
 
 public abstract class Piece {
 
-    protected final String name;
+    private final PieceType pieceType;
     protected final Side side;
 
-    protected Piece(String name, Side side) {
-        this.name = name;
+    protected Piece(PieceType pieceType, Side side) {
+        this.pieceType = pieceType;
         this.side = side;
     }
-
-    public abstract boolean isEmpty();
 
     public abstract List<Location> calculateRoute(Location from, Location to);
 
     public abstract void detectCollision(List<Piece> piecesOnPath);
+
+    public boolean isEmpty() {
+        return pieceType == PieceType.EMPTY;
+    }
 
     public boolean isSameSide(Piece piece) {
         return this.side.equals(piece.side);
@@ -28,7 +30,7 @@ public abstract class Piece {
         return this.side.equals(side);
     }
 
-    public String getName() {
-        return name;
+    public PieceType getPieceType() {
+        return pieceType;
     }
 }

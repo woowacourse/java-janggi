@@ -8,10 +8,9 @@ import java.util.List;
 public class EmptyPiece extends Piece {
 
     private static final EmptyPiece INSTANCE = new EmptyPiece();
-    private static final String PIECE_NAME = "ㆍ";
 
     private EmptyPiece() {
-        super(PIECE_NAME, Side.NONE);
+        super(PieceType.EMPTY, Side.NONE);
     }
 
     public static EmptyPiece getInstance() {
@@ -19,17 +18,12 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public boolean isEmpty() {
-        return true;
-    }
-
-    @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        throw new IllegalArgumentException("빈 객체는 이동할 수 없습니다.");
+        throw new UnsupportedOperationException("빈 객체는 이동할 수 없습니다.");
     }
 
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
-        throw new IllegalArgumentException("빈 객체는 이동할 수 없습니다.");
+        throw new UnsupportedOperationException("빈 객체는 이동할 수 없습니다.");
     }
 }

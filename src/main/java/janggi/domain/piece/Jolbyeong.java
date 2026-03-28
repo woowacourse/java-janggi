@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import static janggi.domain.rule.route.Direction.BACK;
-import static janggi.domain.rule.route.Direction.FRONT;
 import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
@@ -15,24 +13,26 @@ import java.util.List;
 
 public class Jolbyeong extends Piece {
 
-    private static final String PIECE_NAME = "졸병";
-    private static final String CHO_PIECE_NAME = "졸";
-    private static final String HAN_PIECE_NAME = "병";
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Jolbyeong(Side side) {
-        super(PIECE_NAME, side);
+        super(determineType(side), side);
     }
 
-    @Override
-    public boolean isEmpty() {
-        return false;
+    private static PieceType determineType(Side side) {
+        if (side == Side.HAN) {
+            return PieceType.BYEONG;
+        }
+        if (side == Side.CHO) {
+            return PieceType.JOL;
+        }
+        throw new IllegalArgumentException("진영이 존재하지 않아 기물명을 정할 수 없습니다.");
     }
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
         List<Route> directions = List.of(
-                Route.of(List.of(getRealFront(side))),
+                Route.of(List.of(getFrontDirection())),
                 Route.of(List.of(LEFT)),
                 Route.of(List.of(RIGHT))
         );
@@ -43,26 +43,21 @@ public class Jolbyeong extends Piece {
                 return locations;
             }
         }
-        throw new IllegalArgumentException(getName() + "은 해당 위치에 도달할 수 없습니다.");
+        throw new IllegalArgumentException(getPieceType().getNameFormat() + "은 해당 위치에 도달할 수 없습니다.");
+    }
+
+    private Direction getFrontDirection() {
+        if (side == Side.HAN) {
+            return Direction.FRONT;
+        }
+        if (side == Side.CHO) {
+            return Direction.BACK;
+        }
+        throw new IllegalStateException("진영이 존재하지 않아 전진 방향을 정할 수 없습니다.");
     }
 
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
         COLLISION_DETECTOR.check(this, piecesOnPath);
-    }
-
-    private Direction getRealFront(Side side) {
-        if (side.equals(Side.HAN)) {
-            return FRONT;
-        }
-        return BACK;
-    }
-
-    @Override
-    public String getName() {
-        if (side.equals(Side.HAN)) {
-            return HAN_PIECE_NAME;
-        }
-        return CHO_PIECE_NAME;
     }
 }

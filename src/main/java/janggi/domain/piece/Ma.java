@@ -18,16 +18,10 @@ import java.util.List;
 
 public class Ma extends Piece {
 
-    private static final String PIECE_NAME = "마";
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
 
     public Ma(Side side) {
-        super(PIECE_NAME, side);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
+        super(PieceType.MA, side);
     }
 
     @Override
