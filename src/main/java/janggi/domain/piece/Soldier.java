@@ -20,4 +20,9 @@ public class Soldier extends Piece{
     public boolean moveDestination(Position position, Piece piece) {
         return !isSameCamp(piece);
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }

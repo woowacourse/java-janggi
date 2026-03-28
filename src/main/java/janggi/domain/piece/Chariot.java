@@ -20,4 +20,9 @@ public class Chariot extends Piece{
     public boolean moveDestination(Position position, Piece piece) {
         return false;
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }

@@ -25,6 +25,11 @@ public abstract class Piece {
         return this.camp.isSameCamp(piece.camp);
     }
 
+    public boolean isSameCamp(Camp camp) {
+        return this.camp.isSameCamp(camp);
+    }
+
     abstract public boolean moveRoute(Map<Position, Piece> abc);
     abstract public boolean moveDestination(Position position, Piece piece);
+    abstract public boolean isCannon();
 }
