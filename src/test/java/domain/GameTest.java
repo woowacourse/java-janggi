@@ -167,7 +167,7 @@ class GameTest {
         Position destination = new Position(4, 4);
 
         // when - then
-        assertThatThrownBy(() -> game.move(start, destination))
+        assertThatThrownBy(() -> game.movePiece(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -180,7 +180,7 @@ class GameTest {
         Position destination = new Position(4, 4);
 
         // when - then
-        assertThatThrownBy(() -> game.move(start, destination))
+        assertThatThrownBy(() -> game.movePiece(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -193,7 +193,7 @@ class GameTest {
         Position destination = new Position(4, 4);
 
         // when - then
-        assertThatThrownBy(() -> game.move(start, destination))
+        assertThatThrownBy(() -> game.movePiece(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -206,7 +206,7 @@ class GameTest {
         Position destination = new Position(6, 1);
 
         // when
-        game.move(start, destination);
+        game.movePiece(start, destination);
 
         // then
         assertThat(game.getTurn()).isEqualTo(Side.HAN);

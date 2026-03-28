@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.coordinate.Direction;
 import domain.Game;
+import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import domain.Side;
 

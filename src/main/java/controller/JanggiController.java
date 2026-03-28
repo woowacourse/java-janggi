@@ -3,10 +3,12 @@ package controller;
 import domain.Game;
 import domain.board.BoardInitializer;
 import domain.coordinate.Position;
+import dto.PossibleMovesDto;
+import mapper.BoardMapper;
+import mapper.PossibleMovesMapper;
 import view.InputView;
 import view.OutputView;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 public class JanggiController {
@@ -25,17 +27,16 @@ public class JanggiController {
         Game game = new Game(boardInitializer);
 
         while (true) {
-            outputView.printBoard(game.getBoard());
-            Position startPosition = readUntilValid(() -> getStartPosition(game));
+            outputView.printBoard(BoardMapper.toDto(game.getBoard()));
+            Position startPosition = readUntilValid(() -> {
+                Position pos = getStartPosition(game);
+                game.getPossibleMoves(pos);
+                return pos;
+            });
 
-            List<Position> possibleMoves = game.getPiece(startPosition).getPossibleMoves(game, startPosition);
-            if (!isPossibleMovePiece(possibleMoves)) {
-                continue;
-            }
-
-            outputView.printAvailablePositions(possibleMoves);
-            Position destination = readUntilValid(() -> getDestination(possibleMoves));
-            game.move(startPosition, destination);
+            PossibleMovesDto possibleMovesDto = PossibleMovesMapper.toDto(game.getPossibleMoves(startPosition));
+            Position destination = readUntilValid(() -> game.getDestination(inputView.requestPieceDestination(possibleMovesDto), possibleMovesDto));
+            game.movePiece(startPosition, destination);
         }
     }
 
@@ -43,24 +44,6 @@ public class JanggiController {
         Position position = inputView.requestStartPiecePosition(game.getTurn());
         game.validateStartPosition(position);
         return position;
-    }
-
-    private boolean isPossibleMovePiece(List<Position> possibleMoves) {
-        if (possibleMoves.isEmpty()) {
-            outputView.printCanNotMovablePieceError();
-            return false;
-        }
-
-        return true;
-    }
-
-    private Position getDestination(List<Position> possibleMoves) {
-        int possibleMovesCount = possibleMoves.size();
-        int index = inputView.requestPieceDestination();
-        if (index > possibleMovesCount) {
-            throw new IllegalArgumentException("번호 중에 선택하세요.");
-        }
-        return possibleMoves.get(index - 1);
     }
 
     private static <T> T readUntilValid(Supplier<T> reader) {
