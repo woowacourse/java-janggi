@@ -1,8 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
-import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,11 +27,11 @@ public class SoldierTest {
             "CHO, false",
             "HAN, true"
     })
-    void moveDestination_compareDestinationPiece_ReturnBoolean(Camp destinationPieceCamp, boolean expected) {
+    void canCatchPiece_ReturnBoolean(Camp destinationPieceCamp, boolean expected) {
         Camp camp = Camp.CHO;
         Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.direction()));
         Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(destinationPieceCamp.direction()));
-        assertThat(soldier.moveDestination(Position.of(0, 0), destinationSoldier)).isEqualTo(expected);
+        assertThat(soldier.canCatch(destinationSoldier)).isEqualTo(expected);
     }
 
     @DisplayName("병이 포인지 확인하는 테스트 (항상 false)")

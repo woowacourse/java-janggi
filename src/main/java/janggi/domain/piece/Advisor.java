@@ -17,7 +17,7 @@ public class Advisor extends Piece{
     }
 
     @Override
-    public boolean moveDestination(Position position, Piece piece) {
+    public boolean canCatch(Piece piece) {
         return false;
     }
 

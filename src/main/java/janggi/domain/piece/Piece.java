@@ -30,6 +30,6 @@ public abstract class Piece {
     }
 
     abstract public boolean moveRoute(Map<Position, Piece> abc);
-    abstract public boolean moveDestination(Position position, Piece piece);
+    abstract public boolean canCatch(Piece piece);
     abstract public boolean isCannon();
 }
