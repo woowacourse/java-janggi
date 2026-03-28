@@ -13,12 +13,12 @@ public class Advisor extends Piece{
 
     @Override
     public boolean canPassRoute(Map<Position, Piece> piecesInPath) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean canCatch(Piece piece) {
-        return false;
+        return !isSameCamp(piece);
     }
 
     @Override
