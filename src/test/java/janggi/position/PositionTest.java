@@ -20,19 +20,19 @@ class PositionTest {
 
         //when & then
         assertThat(position.isSameRow(other))
-                .isEqualTo(true);
+                .isTrue();
     }
 
     @DisplayName("같은 열이면 true를 반환한다.")
     @Test
-    void isSameCollumn() {
+    void isSameColumn() {
         //given
         Position position = new Position(Row.SIX, Column.THREE);
         Position other = new Position(Row.FIVE, Column.THREE);
 
         //when & then
         assertThat(position.isSameColumn(other))
-                .isEqualTo(true);
+                .isTrue();
     }
 
     @DisplayName("입력받은 거리만큼 수평 이동하는 경로를 반환한다.")
