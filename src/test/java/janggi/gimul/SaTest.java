@@ -96,10 +96,34 @@ class SaTest {
                 .isEqualTo(0);
     }
 
+    @DisplayName("경로 상에 기물이 없으면 true를 반환한다.")
+    @Test
+    void canPassThrough_empty_path() {
+        //given
+        List<AbstractGimul> gimulsOnPath = List.of();
+        Sa sa = new Sa(Team.CHO);
+
+        //when & then
+        assertThat(sa.canPassThrough(gimulsOnPath))
+                .isTrue();
+    }
+
+    @DisplayName("경로 상에 기물이 없고 목적지에 상대 기물이 있으면 true를 반환한다.")
+    @Test
+    void canPassThrough_enemy_at_destination() {
+        //given
+        List<AbstractGimul> gimulsOnPath = List.of();
+        Cha gimulAtTo = new Cha(Team.HAN);
+        Sa sa = new Sa(Team.CHO);
+
+        //when & then
+        assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
+                .isTrue();
+    }
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")
     @Test
-    void canPassThrough() {
+    void canPassThrough_false() {
         //given
         List<AbstractGimul> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
