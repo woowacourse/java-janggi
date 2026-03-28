@@ -40,8 +40,8 @@ public class JanggiController {
         // 기물 이동 <-> 보드 출력 반복
         // 이동 위치 입력 받기
         List<String> movePositions = inputView.askMovePiecePoisiton(Team.CHO);
-        Position src = new Position(Integer.parseInt(movePositions.get(0)), Integer.parseInt(movePositions.get(1)));
-        Position dest = new Position(Integer.parseInt(movePositions.get(0)), Integer.parseInt(movePositions.get(1)));
+        Position src = Position.from(movePositions.get(0), movePositions.get(1));
+        Position dest = Position.from(movePositions.get(2), movePositions.get(3));
         if (board.get(src).canMove(src, dest)) {
             ActivePiece piece = (ActivePiece) board.get(src);
             List<Position> routes = piece.searchRoute(src, dest);

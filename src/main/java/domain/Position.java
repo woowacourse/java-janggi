@@ -13,6 +13,14 @@ public class Position {
         this.column = new Column(column);
     }
 
+    public static Position from(String row, String column) {
+        try {
+            return new Position(Integer.parseInt(row), Integer.parseInt(column));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("위치는 숫자로 입력해주세요.");
+        }
+    }
+
     public Position(Row row, Column column) {
         this.row = row;
         this.column = column;
