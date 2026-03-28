@@ -15,23 +15,13 @@ public class Soldier extends ActivePiece {
 
     @Override
     public boolean canMove(Position source, Position target) {
-        boolean sideMove = isValidDirection(source, target);
-
-        if (sideMove) {
+        if (isValidSideMove(source, target)) {
             return true;
         }
-
-        ActivePiece solider = new Soldier(Team.CHO);
-        if (isSameTeam(solider)) {
-            if (target.rowDiff(source) == 1 && target.columnDiff(source) == 0) {
-                return true;
-            }
-        }
-
-        return target.rowDiff(source) == -1 && target.columnDiff(source) == 0;
+        return target.rowDiff(source) == forwardDirection() && target.columnDiff(source) == 0;
     }
 
-    private boolean isValidDirection(Position source, Position target) {
+    private boolean isValidSideMove(Position source, Position target) {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
@@ -45,6 +35,6 @@ public class Soldier extends ActivePiece {
 
     @Override
     public List<Position> searchRoute(Position source, Position target) {
-        return List.of(target);
+        return List.of();
     }
 }

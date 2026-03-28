@@ -28,6 +28,6 @@ public class Guard extends ActivePiece {
 
     @Override
     public List<Position> searchRoute(Position source, Position target) {
-        return List.of(target);
+        return List.of();
     }
 }

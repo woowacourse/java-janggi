@@ -42,6 +42,13 @@ public enum Team {
         return soldierRow;
     }
 
+    public int forwardRowDirection() {
+        if (this == CHO) {
+            return 1;
+        }
+        return -1;
+    }
+
     @Override
     public String toString() {
         return teamName;

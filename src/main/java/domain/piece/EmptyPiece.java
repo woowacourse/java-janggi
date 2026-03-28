@@ -15,6 +15,11 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public boolean isAlly(Piece other) {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return PieceType.EMPTY.getDisplayName();
     }

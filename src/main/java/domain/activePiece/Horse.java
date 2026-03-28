@@ -30,17 +30,17 @@ public class Horse extends ActivePiece {
     @Override
     public List<Position> searchRoute(Position source, Position target) {
         if (source.columnDiff(target) == -2) {
-            return List.of(source.addPosition(0, 1), target);
+            return List.of(source.addPosition(0, 1));
         }
 
         if (source.columnDiff(target) == 2) {
-            return List.of(source.addPosition(0, -1), target);
+            return List.of(source.addPosition(0, -1));
         }
 
         if (source.rowDiff(target) == -2) {
-            return List.of(source.addPosition(1, 0), target);
+            return List.of(source.addPosition(1, 0));
         }
 
-        return List.of(source.addPosition(-1, 0), target);
+        return List.of(source.addPosition(-1, 0));
     }
 }

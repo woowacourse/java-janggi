@@ -19,7 +19,8 @@ public class Board {
         Piece piece = pieces.get(src);
         validateCanMove(piece, src, dest);
         List<Position> route = ((ActivePiece) piece).searchRoute(src, dest);
-        validateRoute(route);
+        validateIntermediateRoute(route);
+        validateDestination(dest, piece);
         applyMove(src, dest, piece);
     }
 
@@ -29,11 +30,17 @@ public class Board {
         }
     }
 
-    private void validateRoute(List<Position> route) {
+    private void validateIntermediateRoute(List<Position> route) {
         for (Position position : route) {
             if (pieceAt(position).isNotEmpty()) {
                 throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
             }
+        }
+    }
+
+    private void validateDestination(Position dest, Piece movingPiece) {
+        if (pieceAt(dest).isAlly(movingPiece)) {
+            throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
         }
     }
 

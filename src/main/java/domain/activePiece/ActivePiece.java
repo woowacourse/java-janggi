@@ -19,10 +19,22 @@ public abstract class ActivePiece implements Piece {
         return this.team == other.team;
     }
 
+    public boolean isAlly(Piece other) {
+        if (!(other instanceof ActivePiece)) {
+            return false;
+        }
+        return isSameTeam((ActivePiece) other);
+    }
+
+    protected int forwardDirection() {
+        return team.forwardRowDirection();
+    }
+
     public int isSameType() {
         if (this.type == PieceType.BYEONG) {
             return 1;
         }
+        return 0;
     }
 
     public abstract List<Position> searchRoute(Position source, Position target);
