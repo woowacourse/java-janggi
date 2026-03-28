@@ -1,10 +1,10 @@
 package janggi.domain.strategy;
 
 import janggi.domain.board.Direction;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.Piece;
-import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -41,10 +41,10 @@ public class CannonMoveStrategy implements MoveStrategy {
         return destinations;
     }
 
-    private void validateCannonPath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private void validateCannonPath(Path route, Map<Position, Piece> state, List<Position> dests, Piece movingPiece) {
         Iterator<Position> it = route.iterator();
         if (findBridge(it, state)) {
-            findDestinationsAfterJump(it, state, dests, me);
+            findDestinationsAfterJump(it, state, dests, movingPiece);
         }
     }
 
@@ -55,23 +55,23 @@ public class CannonMoveStrategy implements MoveStrategy {
         return target != null && !target.isCannon();
     }
 
-    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests, Piece me) {
-        while (it.hasNext() && !processTarget(it.next(), state, dests, me)) {
+    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests, Piece movingPiece) {
+        while (it.hasNext() && !processTarget(it.next(), state, dests, movingPiece)) {
         }
     }
 
-    private boolean processTarget(Position pos, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private boolean processTarget(Position pos, Map<Position, Piece> state, List<Position> dests, Piece movingPiece) {
         Piece target = state.get(pos);
         if (target == null) {
             dests.add(pos);
             return false;
         }
-        addIfCapturable(pos, target, dests, me);
+        addIfCapturable(pos, target, dests, movingPiece);
         return true;
     }
 
-    private void addIfCapturable(Position pos, Piece target, List<Position> dests, Piece me) {
-        if (!target.isCannon() && !target.isSameSide(me)) {
+    private void addIfCapturable(Position pos, Piece target, List<Position> dests, Piece movingPiece) {
+        if (!target.isCannon() && !target.isSameSide(movingPiece)) {
             dests.add(pos);
         }
     }
