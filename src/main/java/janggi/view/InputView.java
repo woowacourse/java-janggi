@@ -16,4 +16,9 @@ public final class InputView {
         System.out.println("움직일 기물의 위치를 입력하세요. (형식: 행,열)");
         return Console.readLine();
     }
+
+    public static String readTargetPosition() {
+        System.out.println("선택한 기물의 목표 위치를 입력하세요. (형식: 행,열)");
+        return Console.readLine();
+    }
 }

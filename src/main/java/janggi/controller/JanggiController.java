@@ -59,6 +59,9 @@ public class JanggiController {
             final List<Position> movablePositions = pieceToMove.calculateMovablePositions(
                 positionOfMovingPiece, boardMediator);
             OutputView.printBoard(BoardDto.from(board, movablePositions));
+            final Position targetPosition = readTargetPosition(movablePositions);
+            board.movePiece(positionOfMovingPiece, targetPosition);
+            OutputView.printBoard(BoardDto.from(board, List.of()));
         }
     }
 
@@ -73,5 +76,15 @@ public class JanggiController {
         }
 
         return positionOfMovingPiece;
+    }
+
+    private Position readTargetPosition(final List<Position> movablePositions) {
+        final String rawPosition = InputView.readTargetPosition();
+        final Position targetPosition = Position.from(rawPosition);
+        if (!movablePositions.contains(targetPosition)) {
+            throw new IllegalArgumentException("입력된 위치에는 이동할 수 없습니다.");
+        }
+
+        return targetPosition;
     }
 }
