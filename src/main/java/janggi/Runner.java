@@ -25,9 +25,10 @@ public class Runner {
     }
 
     private void turnGame() {
-        while (true) {
+        while (!game.isFinished()) {
             playTurnGame();
         }
+        printWinner();
     }
 
     private void playTurnGame() {
@@ -35,14 +36,20 @@ public class Runner {
             printCurrentStatus();
             Position startPosition = Position.from(InputView.askStartPosition());
             Position endPosition = Position.from(InputView.askEndPosition());
+
             game.move(startPosition, endPosition);
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
         }
     }
 
-    private void printCurrentStatus() {
-        OutputView.printBoard(game.getCurrentBoardDto());
+    private void printCurrentStatus(){
         OutputView.printTurn(game.getCurrentSide());
+        OutputView.printBoard(game.getCurrentBoardDto());
+    }
+
+    private void printWinner(){
+        OutputView.printBoard(game.getCurrentBoardDto());
+        OutputView.printWinner(game.getCurrentSide());
     }
 }

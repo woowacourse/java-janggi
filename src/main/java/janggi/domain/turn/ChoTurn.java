@@ -14,7 +14,7 @@ public class ChoTurn extends Started {
     public PlayerTurn move(Position start, Position end) {
         MoveResult moveResult = board.move(start, end, side);
         if (moveResult.isCapturedGung()) {
-            return new Finish(board);
+            return new Finish(board, side);
         }
         return new HanTurn(board);
     }
