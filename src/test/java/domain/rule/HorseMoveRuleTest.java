@@ -3,7 +3,7 @@ package domain.rule;
 import domain.intersection.Intersection;
 import domain.piece.Horse;
 import domain.piece.Team;
-import domain.piece.move.HorseMoveRule;
+import domain.move.rule.HorseMoveRule;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

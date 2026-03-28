@@ -1,20 +1,19 @@
-package domain.piece.move;
+package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.directions.Direction;
+import domain.move.directions.Directions;
 import domain.piece.PieceType;
 import domain.point.Point;
 
 import java.util.List;
 
-import static domain.piece.move.Vector.*;
-import static domain.piece.move.Vector.LEFT;
-import static domain.piece.move.Vector.RIGHT;
-import static domain.piece.move.Vector.UP;
+import static domain.move.directions.Vector.*;
 
-public class GeneralMoveRule extends MoveRule{
+public class GuardMoveRule extends MoveRule{
 
-    public GeneralMoveRule() {
-        super(PieceType.GENERAL, initializeDirections());
+    public GuardMoveRule() {
+        super(PieceType.GUARD, initializeDirections());
     }
 
     public boolean support(Intersection from) {

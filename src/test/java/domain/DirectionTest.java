@@ -1,11 +1,9 @@
 package domain;
 
-import domain.piece.move.Direction;
-import domain.piece.move.Directions;
-import domain.piece.move.Vector;
+import domain.move.directions.Direction;
+import domain.move.directions.Directions;
+import domain.move.directions.Vector;
 import domain.point.Point;
-import java.awt.dnd.DragGestureEvent;
-import java.util.ArrayList;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

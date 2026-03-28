@@ -1,6 +1,6 @@
 package domain;
 
-import domain.piece.move.Vector;
+import domain.move.directions.Vector;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

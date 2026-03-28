@@ -1,13 +1,14 @@
-package domain.piece.move;
+package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.directions.Direction;
+import domain.move.directions.Directions;
 import domain.piece.PieceType;
 import domain.point.Point;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
-import static domain.piece.move.Vector.*;
+import static domain.move.directions.Vector.*;
 
 public class HorseMoveRule extends MoveRule {
 

@@ -1,4 +1,4 @@
-package domain.piece.move;
+package domain.move.path;
 
 import domain.intersection.Intersection;
 

@@ -2,10 +2,8 @@ package domain.rule;
 
 import domain.intersection.Intersection;
 import domain.piece.Chariot;
-import domain.piece.Elephant;
 import domain.piece.Team;
-import domain.piece.move.ChariotMoveRule;
-import domain.piece.move.ElephantMoveRule;
+import domain.move.rule.ChariotMoveRule;
 import domain.point.Point;
 import java.util.List;
 import org.assertj.core.api.Assertions;

@@ -1,6 +1,7 @@
-package domain.piece.move;
+package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.directions.Directions;
 import domain.piece.PieceType;
 import domain.point.Point;
 

@@ -1,12 +1,10 @@
 package domain.rule;
 
 import domain.intersection.Intersection;
-import domain.piece.General;
 import domain.piece.Guard;
 import domain.piece.Soldier;
 import domain.piece.Team;
-import domain.piece.move.GeneralMoveRule;
-import domain.piece.move.GuardMoveRule;
+import domain.move.rule.GuardMoveRule;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,20 +1,22 @@
-package domain.piece.move;
+package domain.move.rule;
 
 import domain.intersection.Intersection;
+import domain.move.directions.Direction;
+import domain.move.directions.Directions;
 import domain.piece.PieceType;
-import domain.piece.Team;
 import domain.point.Point;
 
 import java.util.List;
 
-import static domain.piece.move.Vector.*;
-import static domain.piece.move.Vector.LEFT;
-import static domain.piece.move.Vector.RIGHT;
+import static domain.move.directions.Vector.*;
+import static domain.move.directions.Vector.LEFT;
+import static domain.move.directions.Vector.RIGHT;
+import static domain.move.directions.Vector.UP;
 
-public class SoliderMoveRule extends MoveRule {
+public class GeneralMoveRule extends MoveRule{
 
-    public SoliderMoveRule() {
-        super(PieceType.SOLDIER, initializeDirections());
+    public GeneralMoveRule() {
+        super(PieceType.GENERAL, initializeDirections());
     }
 
     public boolean support(Intersection from) {
@@ -22,7 +24,6 @@ public class SoliderMoveRule extends MoveRule {
     }
 
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        Directions directions = getDirections(from);
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
 
@@ -38,22 +39,14 @@ public class SoliderMoveRule extends MoveRule {
         }
     }
 
+    // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정
     public static Directions initializeDirections() {
         return new Directions(List.of(
+                new Direction(List.of(UP)),
                 new Direction(List.of(DOWN)),
                 new Direction(List.of(RIGHT)),
                 new Direction(List.of(LEFT)))
         );
-    }
-
-    public Directions getDirections(Intersection from){
-        if (from.isChoIntersection()) {
-            return new Directions(List.of(
-                    new Direction(List.of(UP)),
-                    new Direction(List.of(RIGHT)),
-                    new Direction(List.of(LEFT))));
-        }
-        return directions;
     }
 
 }

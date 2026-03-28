@@ -1,7 +1,8 @@
 package domain.board;
 
 import domain.intersection.Intersection;
-import domain.piece.move.*;
+import domain.move.rule.MoveRuleManager;
+import domain.move.path.Path;
 import domain.point.Point;
 
 import java.util.List;

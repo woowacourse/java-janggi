@@ -4,7 +4,7 @@ import domain.intersection.Intersection;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Team;
-import domain.piece.move.CannonMoveRule;
+import domain.move.rule.CannonMoveRule;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,15 +1,17 @@
-package domain.piece.move;
+package domain.move.rule;
 
-import static domain.piece.move.Vector.DOWN;
-import static domain.piece.move.Vector.LEFT;
-import static domain.piece.move.Vector.LEFT_DOWN;
-import static domain.piece.move.Vector.LEFT_UP;
-import static domain.piece.move.Vector.RIGHT;
-import static domain.piece.move.Vector.RIGHT_DOWN;
-import static domain.piece.move.Vector.RIGHT_UP;
-import static domain.piece.move.Vector.UP;
+import static domain.move.directions.Vector.DOWN;
+import static domain.move.directions.Vector.LEFT;
+import static domain.move.directions.Vector.LEFT_DOWN;
+import static domain.move.directions.Vector.LEFT_UP;
+import static domain.move.directions.Vector.RIGHT;
+import static domain.move.directions.Vector.RIGHT_DOWN;
+import static domain.move.directions.Vector.RIGHT_UP;
+import static domain.move.directions.Vector.UP;
 
 import domain.intersection.Intersection;
+import domain.move.directions.Direction;
+import domain.move.directions.Directions;
 import domain.piece.PieceType;
 import domain.point.Point;
 import java.util.List;

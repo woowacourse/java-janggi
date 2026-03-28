@@ -1,6 +1,6 @@
 package domain.point;
 
-import domain.piece.move.Vector;
+import domain.move.directions.Vector;
 
 public record Point(
         int y,
