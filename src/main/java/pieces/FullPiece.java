@@ -1,6 +1,7 @@
 package pieces;
 
 import java.util.List;
+import java.util.Objects;
 import movepolicy.MoveContext;
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.PathRule;
@@ -51,5 +52,19 @@ public abstract class FullPiece implements Piece {
             return true;
         }
         return isCho() && destinationPiece.isCho();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FullPiece other = (FullPiece) o;
+        return side == other.side;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(side);
     }
 }
