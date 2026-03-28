@@ -39,6 +39,10 @@ public class Position {
                 .findFirst();
     }
 
+    public Optional<Position> move(int deltaRow, int deltaColumn) {
+        return findPosition(this.row + deltaRow, this.column + deltaColumn);
+    }
+
     private boolean isSameLocation(int row, int column) {
         return this.row == row && this.column == column;
     }
