@@ -11,14 +11,15 @@ import model.move.Move;
 import model.pieces.*;
 import model.position.Position;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    private static Board board;
+    private Board board;
 
-    @BeforeAll()
-    static void setUp() {
+    @BeforeEach()
+    void setUp() {
         board = new Board();
         Army cho = new Army(new InnerElephant());
         Army han = new Army(new OuterElephant());
@@ -60,9 +61,21 @@ class BoardTest {
     @Test
     void 차가_목적지에_잘_들어갔는지_테스트() {
         Piece chariot = new Chariot(Country.CHO);
-        Move move = Move.of(Position.of(10, 1), Position.of(10, 2));
+        Move move = Move.of(Position.of(10, 1), Position.of(8, 1));
         board.move(move);
-        assertThat(board.isPieceAt(Position.of(10, 2), chariot)).isTrue();
+        assertThat(board.isPieceAt(Position.of(8, 1), chariot)).isTrue();
+    }
+
+    @Test
+    void 기물이_이동했을_때_차가_목적지에_잘_들어갔는지_테스트() {
+        Move soldierMove = Move.of(Position.of(7, 1), Position.of(7, 2));
+        board.move(soldierMove);
+
+        Piece chariot = new Chariot(Country.CHO);
+        Move chariotMove = Move.of(Position.of(10, 1), Position.of(6, 1));
+        board.move(chariotMove);
+
+        assertThat(board.isPieceAt(Position.of(6, 1), chariot)).isTrue();
     }
 
     @Test
@@ -83,6 +96,9 @@ class BoardTest {
 
     @Test
     void 포가_목적지에_잘_들어갔는지_테스트() {
+        Move horseMove = Move.of(Position.of(1, 3), Position.of(3, 4));
+        board.move(horseMove);
+
         Piece cannon = new Cannon(Country.HAN);
         Move move = Move.of(Position.of(3, 2), Position.of(3, 5));
         board.move(move);

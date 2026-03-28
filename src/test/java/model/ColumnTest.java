@@ -13,11 +13,4 @@ class ColumnTest {
     void _1부터_9까지_범위는_생성_가능하다(int value){
         assertDoesNotThrow(()-> Column.from(value));
     }
-
-//    @ParameterizedTest
-//    @ValueSource(ints={0,10})
-//    void 범위에_맞지_않는건_실패(int value){
-//        assertThatThrownBy(() -> Column.from(value))
-//                .isInstanceOf(IllegalArgumentException.class);
-//    }
 }

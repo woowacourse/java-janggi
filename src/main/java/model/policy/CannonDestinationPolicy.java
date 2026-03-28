@@ -9,10 +9,10 @@ import model.pieces.PieceType;
 public class CannonDestinationPolicy implements DestinationPolicy {
 
     @Override
-    public boolean validate(Move move, Board board) {
+    public boolean validate(Move move, Board board, PathPolicy pathPolicy) {
         Piece fromPiece = board.findPiece(move.from());
         Piece toPiece = board.findPiece(move.to());
 
-        return toPiece == null || (fromPiece.country() != toPiece.country() || toPiece.pieceType() == PieceType.CANNON);
+        return pathPolicy.isValid() && (toPiece == null || (fromPiece.country() != toPiece.country() || toPiece.pieceType() == PieceType.CANNON));
     }
 }

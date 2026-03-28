@@ -19,7 +19,7 @@ public class MovePattern {
 
     public boolean matches(Move move, Board board) {
         return execute(move, board).isSamePosition(move.to())
-                && destinationPolicy.validate(move, board);
+                && destinationPolicy.validate(move, board, pathPolicy);
     }
 
     private Position execute(Move move, Board board) {
@@ -34,10 +34,8 @@ public class MovePattern {
                 return move.from();
             }
 
-            if (i < steps.size() - 1) {
-                if (!pathPolicy.check(current, board)) {
-                    return move.from();
-                }
+            if (i < steps.size() - 1 && !pathPolicy.check(current, board)) {
+                return move.from();
             }
             i++;
         }

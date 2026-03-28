@@ -48,8 +48,4 @@ public record Row(int value) {
     public int diff(Row to) {
         return to.value - this.value;
     }
-
-    public int move(Direction direction) {
-        return direction.moveRow(value);
-    }
 }

@@ -29,12 +29,13 @@ public abstract class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return country == piece.country;
+        return Objects.equals(country, piece.country)
+                && Objects.equals(pieceType, piece.pieceType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(country);
+        return Objects.hash(country, pieceType);
     }
 
     public Country country() {

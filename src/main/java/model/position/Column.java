@@ -10,8 +10,4 @@ public record Column(int value) {
     public int diff(Column to) {
         return to.value - this.value;
     }
-
-    public int move(Direction direction) {
-        return direction.moveCol(value);
-    }
 }

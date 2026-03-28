@@ -8,7 +8,7 @@ public record Position(Row row, Column column) {
     }
 
     public Position move(Direction direction) {
-        return Position.of(row.move(direction), column.move(direction));
+        return Position.of(direction.moveRow(row.value()), direction.moveCol(column.value()));
     }
 
     public boolean isSamePosition(Position to) {

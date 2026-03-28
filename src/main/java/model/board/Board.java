@@ -69,4 +69,8 @@ public class Board {
         }
         return false;
     }
+
+    public Map<Position, Piece> board() {
+        return board;
+    }
 }
