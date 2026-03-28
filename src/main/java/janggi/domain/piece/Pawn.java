@@ -50,10 +50,7 @@ public class Pawn extends ActivePiece {
 
     private List<Position> calculatePath(Position start, List<Movement> path) {
         List<Position> calculatedPath = new ArrayList<>(List.of(start));
-        for (Movement movement : path) {
-            Position step = calculatedPath.getLast().move(movement);
-            calculatedPath.add(step);
-        }
+        path.forEach(movement -> calculatedPath.add(calculatedPath.getLast().move(movement)));
         return calculatedPath;
     }
 }
