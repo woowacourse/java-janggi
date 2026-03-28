@@ -1,7 +1,5 @@
 package domain.board;
 
-import domain.board.Board;
-import domain.board.Placement;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
@@ -15,8 +13,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class BoardTest {
 
     @Test
-    @DisplayName("한 쪽 진영의 장기판 상차림 초기화할 수 있다.")
-    void placePieces_WhenSideAndPlacement_PlacedCorrectly() {
+    @DisplayName("한 진영이 외부 코끼리 상차림을 배치할 수 있다.")
+    void placePieces_상차림_테스트_1() {
         // given
         Board board = new Board();
 
@@ -24,10 +22,58 @@ public class BoardTest {
         board.placePieces(Side.HAN, Placement.OUTER_ELEPHANT);
 
         // then
-        assertThat(board.findBy(Position.of(10, 2))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
-        assertThat(board.findBy(Position.of(10, 3))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
-        assertThat(board.findBy(Position.of(10, 7))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
         assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 7))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 3))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 2))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+    }
+
+    @Test
+    @DisplayName("한 진영이 내부 코끼리 상차림을 배치할 수 있다.")
+    void placePieces_상차림_테스트_2() {
+        // given
+        Board board = new Board();
+
+        // when
+        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+
+        // then
+        assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 7))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 3))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 2))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+    }
+
+    @Test
+    @DisplayName("한 진영이 오른쪽 코끼리 상차림을 배치할 수 있다.")
+    void placePieces_상차림_테스트_3() {
+        // given
+        Board board = new Board();
+
+        // when
+        board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
+
+        // then
+        assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 7))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 3))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 2))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+    }
+
+    @Test
+    @DisplayName("한 진영이 왼쪽 코끼리 상차림을 배치할 수 있다.")
+    void placePieces_상차림_테스트_4() {
+        // given
+        Board board = new Board();
+
+        // when
+        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+
+        // then
+        assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 7))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
+        assertThat(board.findBy(Position.of(10, 3))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
+        assertThat(board.findBy(Position.of(10, 2))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
     }
 
     @Test
@@ -43,13 +89,6 @@ public class BoardTest {
         // then
         assertThat(piece.getPieceType()).isEqualTo(PieceType.ELEPHANT);
         assertThat(piece.getSide()).isEqualTo(Side.HAN);
-    }
-
-    @Test
-    @Deprecated
-    @DisplayName("장기판에서 해당 포지션의 기물이 존재하지 않을 때 테스트")
-    void 장기판_존재하지_않는_포지션의_기물_조회_() {
-
     }
 
     @Test
@@ -140,16 +179,16 @@ public class BoardTest {
 
     @Test
     @DisplayName("상 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_상_포획_성공_테스트(){
+    void move_상_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
         board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
         board.move(Position.of(7, 5), Position.of(7, 4), Side.HAN);
-        board.move(Position.of(1,8), Position.of(4, 6), Side.CHO);
+        board.move(Position.of(1, 8), Position.of(4, 6), Side.CHO);
 
         // when
-        board.move(Position.of(4,6), Position.of(7, 4), Side.CHO);
+        board.move(Position.of(4, 6), Position.of(7, 4), Side.CHO);
 
         // then
         Piece piece = board.findBy(Position.of(7, 4));
@@ -158,20 +197,20 @@ public class BoardTest {
 
     @Test
     @DisplayName("사 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_사_포획_성공_테스트(){
+    void move_사_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
         board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
         board.move(Position.of(7, 5), Position.of(7, 4), Side.HAN);
-        board.move(Position.of(7,4), Position.of(6, 4), Side.HAN);
-        board.move(Position.of(6,4), Position.of(5, 4), Side.HAN);
-        board.move(Position.of(5,4), Position.of(4, 4), Side.HAN);
-        board.move(Position.of(4,4), Position.of(3, 4), Side.HAN);
-        board.move(Position.of(3,4), Position.of(2, 4), Side.HAN);
+        board.move(Position.of(7, 4), Position.of(6, 4), Side.HAN);
+        board.move(Position.of(6, 4), Position.of(5, 4), Side.HAN);
+        board.move(Position.of(5, 4), Position.of(4, 4), Side.HAN);
+        board.move(Position.of(4, 4), Position.of(3, 4), Side.HAN);
+        board.move(Position.of(3, 4), Position.of(2, 4), Side.HAN);
 
         // when
-        board.move(Position.of(1,4), Position.of(2, 4), Side.CHO);
+        board.move(Position.of(1, 4), Position.of(2, 4), Side.CHO);
 
         // then
         Piece piece = board.findBy(Position.of(2, 4));
@@ -180,19 +219,19 @@ public class BoardTest {
 
     @Test
     @DisplayName("장 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_장_포획_성공_테스트(){
+    void move_장_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
         board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
         board.move(Position.of(4, 5), Position.of(4, 4), Side.CHO);
-        board.move(Position.of(7,5), Position.of(6, 5), Side.HAN);
-        board.move(Position.of(6,5), Position.of(5, 5), Side.HAN);
-        board.move(Position.of(5,5), Position.of(4, 5), Side.HAN);
-        board.move(Position.of(4,5), Position.of(3, 5), Side.HAN);
+        board.move(Position.of(7, 5), Position.of(6, 5), Side.HAN);
+        board.move(Position.of(6, 5), Position.of(5, 5), Side.HAN);
+        board.move(Position.of(5, 5), Position.of(4, 5), Side.HAN);
+        board.move(Position.of(4, 5), Position.of(3, 5), Side.HAN);
 
         // when
-        board.move(Position.of(2,5), Position.of(3, 5), Side.CHO);
+        board.move(Position.of(2, 5), Position.of(3, 5), Side.CHO);
 
         // then
         Piece piece = board.findBy(Position.of(3, 5));
@@ -201,17 +240,17 @@ public class BoardTest {
 
     @Test
     @DisplayName("포 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_포_포획_성공_테스트(){
+    void move_포_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
         board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
         board.move(Position.of(10, 7), Position.of(8, 6), Side.HAN);
-        board.move(Position.of(8,8), Position.of(8, 5), Side.HAN);
-        board.move(Position.of(7,9), Position.of(7, 8), Side.HAN);
+        board.move(Position.of(8, 8), Position.of(8, 5), Side.HAN);
+        board.move(Position.of(7, 9), Position.of(7, 8), Side.HAN);
 
         // when
-        board.move(Position.of(3,8), Position.of(10, 8), Side.CHO);
+        board.move(Position.of(3, 8), Position.of(10, 8), Side.CHO);
 
         // then
         Piece piece = board.findBy(Position.of(10, 8));

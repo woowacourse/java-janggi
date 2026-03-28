@@ -69,27 +69,10 @@ public class Board {
     }
 
     private void placeHorseAndElephant(Side side, Placement placement) {
-        if (side == Side.CHO) placeHorseAndElephantBySide(side, placement, 1);
-        if (side == Side.HAN) placeHorseAndElephantBySide(side, placement, 10);
-    }
-
-    private void placeHorseAndElephantBySide(Side side, Placement placement, int row) {
-        if (side == Side.CHO) placeCho(side, placement, row);
-        if (side == Side.HAN) placeHan(side, placement, row);
-    }
-
-    private void placeCho(Side side, Placement placement, int row) {
-        state.put(Position.of(row, 2), Piece.of(side, placement.getFirstPieceType()));
-        state.put(Position.of(row, 3), Piece.of(side, placement.getSecondPieceType()));
-        state.put(Position.of(row, 7), Piece.of(side, placement.getThirdPieceType()));
-        state.put(Position.of(row, 8), Piece.of(side, placement.getFourthPieceType()));
-    }
-
-    private void placeHan(Side side, Placement placement, int row) {
-        state.put(Position.of(row, 8), Piece.of(side, placement.getFirstPieceType()));
-        state.put(Position.of(row, 7), Piece.of(side, placement.getSecondPieceType()));
-        state.put(Position.of(row, 3), Piece.of(side, placement.getThirdPieceType()));
-        state.put(Position.of(row, 2), Piece.of(side, placement.getFourthPieceType()));
+        state.put(adjustPositionBySide(side, Position.of(1, 2)), Piece.of(side, placement.getFirstPieceType()));
+        state.put(adjustPositionBySide(side, Position.of(1, 3)), Piece.of(side, placement.getSecondPieceType()));
+        state.put(adjustPositionBySide(side, Position.of(1, 7)), Piece.of(side, placement.getThirdPieceType()));
+        state.put(adjustPositionBySide(side, Position.of(1, 8)), Piece.of(side, placement.getFourthPieceType()));
     }
 
     public BoardResponseDto findState() {
