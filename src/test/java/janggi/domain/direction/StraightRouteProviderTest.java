@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class StraightRouteRuleTest {
+class StraightRouteProviderTest {
 
     @ParameterizedTest
     @DisplayName("직선으로 이동할 위치를 파라미터로 받으면 이동 경로를 반환한다.")
@@ -17,10 +17,10 @@ class StraightRouteRuleTest {
     void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
         // given
         Location from = Location.from(List.of(2, 2));
-        RouteRule routeRule = new StraightRouteRule();
+        RouteProvider routeProvider = new StraightRouteProvider();
 
         // when & then
-        Assertions.assertThat(routeRule.calculateRoute(from, destination))
+        Assertions.assertThat(routeProvider.calculateRoute(from, destination))
                 .isEqualTo(route);
     }
 
@@ -52,10 +52,10 @@ class StraightRouteRuleTest {
         // given
         Location from = Location.from(List.of(1, 1));
         Location to = Location.from(coordination);
-        RouteRule routeRule = new StraightRouteRule();
+        RouteProvider routeProvider = new StraightRouteProvider();
 
         // when & then
-        Assertions.assertThatThrownBy(() -> routeRule.calculateRoute(from, to))
+        Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
