@@ -50,34 +50,43 @@ public class Runner {
     }
 
     private void playerTurn(Players players) {
-        Position selected = selectPiecePosition();
-        if (!board.isThereOwnPiece(selected, players.getCurrentPlayer())) {
-            outputView.printNotOwnPiece();
-            players.switchTurn();
-            return;
-        }
-        List<Position> destinations = board.calculateDestinations(selected);
+        Side currentSide = players.getCurrentPlayer().side();
+        Position selected = selectMovablePiece(currentSide);
+        List<Position> destinations = board.calculateDestinations(selected, currentSide);
         movePiece(selected, destinations);
     }
 
-    private Position selectPiecePosition() {
-        outputView.printSelectPiecePosition();
-        Position position = readTargetPosition();
-        if (!board.isPieceExist(position)) {
-            outputView.printPieceNotExist();
-        }
-        return position;
-    }
-
-    private String readPlayerName(Side side) {
+    private Position selectMovablePiece(Side currentSide) {
         return retry(() -> {
-            outputView.printPlayerNameNotice(side.getDisplayName());
-            return inputView.readPlayerName();
+            outputView.printSelectPiecePosition();
+            Position position = readTargetPosition();
+
+            board.calculateDestinations(position, currentSide);
+
+            if (board.calculateDestinations(position, currentSide).isEmpty()) {
+                throw new IllegalArgumentException("[ERROR] 이동할 수 있는 경로가 없는 기물입니다. 다시 선택하세요.");
+            }
+            return position;
         });
     }
 
-    private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
-        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.side().getDisplayName());
+    private void movePiece(Position selected, List<Position> destinations) {
+        outputView.printBoardStatus(BoardDTO.from(board), selected, destinations);
+        Position target = selectValidTarget(destinations);
+        board.movePiece(selected, target);
+        outputView.printBoardStatus(BoardDTO.from(board), target);
+    }
+
+    private Position selectValidTarget(List<Position> destinations) {
+        return retry(() -> {
+            outputView.printSelectTargetPosition();
+            Position inputTarget = readTargetPosition();
+
+            if (!destinations.contains(inputTarget)) {
+                throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다. 다시 선택하세요.");
+            }
+            return inputTarget;
+        });
     }
 
     private Position readTargetPosition() {
@@ -91,16 +100,15 @@ public class Runner {
         });
     }
 
-    private void movePiece(Position selected, List<Position> destinations) {
-        outputView.printBoardStatus(BoardDTO.from(board), selected, destinations);
-        Position target = selectTargetPosition();
-        board.movePiece(selected, target);
-        outputView.printBoardStatus(BoardDTO.from(board), target);
+    private String readPlayerName(Side side) {
+        return retry(() -> {
+            outputView.printPlayerNameNotice(side.getDisplayName());
+            return inputView.readPlayerName();
+        });
     }
 
-    private Position selectTargetPosition() {
-        outputView.printSelectTargetPosition();
-        return readTargetPosition();
+    private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
+        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.side().getDisplayName());
     }
 
     private <T> T retry(Supplier<T> supplier) {

@@ -4,9 +4,7 @@ import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.dto.PieceDTO;
 import janggi.domain.game.Side;
-import janggi.dto.PlayerDTO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,12 +61,31 @@ public class Board {
         return Map.copyOf(this.piecePosition);
     }
 
-    public List<Position> calculateDestinations(Position currentPosition) {
+    public List<Position> calculateDestinations(Position currentPosition, Side currentSide) {
+        validateSelectablePiece(currentPosition, currentSide);
         Piece piece = piecePosition.get(currentPosition);
         Paths moveablePaths = piece.calculatePaths(currentPosition);
         Map<Position, Piece> boardState = generateStateByPaths(moveablePaths);
 
         return piece.determineDestinations(moveablePaths, boardState);
+    }
+
+    private void validateSelectablePiece(Position position, Side currentTurn) {
+        validatePieceExist(position);
+        validateOwnPiece(position, currentTurn);
+    }
+
+    private void validatePieceExist(Position position) {
+        if (piecePosition.get(position) == null) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
+        }
+    }
+
+    private void validateOwnPiece(Position position, Side currentTurn) {
+        Piece piece = piecePosition.get(position);
+        if (piece.getSide() != currentTurn) {
+            throw new IllegalArgumentException("[ERROR] 상대방의 기물은 선택할 수 없습니다.");
+        }
     }
 
     private Map<Position, Piece> generateStateByPaths(Paths moveablePaths) {
@@ -91,16 +108,5 @@ public class Board {
     public void movePiece(Position selected, Position target) {
         Piece movingPiece = piecePosition.remove(selected);
         piecePosition.put(target, movingPiece);
-    }
-
-    public boolean isPieceExist(Position position) {
-        return piecePosition.containsKey(position);
-    }
-
-    public boolean isThereOwnPiece(Position selected, PlayerDTO currentPlayer) {
-        PieceDTO piece = piecePosition.get(selected).mapToVO();
-        Side pieceSide = piece.side();
-        Side playerSide = currentPlayer.side();
-        return pieceSide.isSameSide(playerSide);
     }
 }
