@@ -26,7 +26,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -41,7 +41,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -56,7 +56,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -71,7 +71,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -86,7 +86,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -101,7 +101,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -116,7 +116,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -131,7 +131,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_2칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -146,7 +146,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_2칸이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -160,7 +160,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우전방이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
@@ -177,7 +177,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 출발지와_도착지_사이에는_2칸의_이동_경로만_존재한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -193,7 +193,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -217,7 +217,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -241,7 +241,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -265,7 +265,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -289,7 +289,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -315,7 +315,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -339,7 +339,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -363,7 +363,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -387,7 +387,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 도착지가_유효하지_않은_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Sang(side);
+            FullPiece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -402,7 +402,7 @@ class SangTest {
     @EnumSource(Side.class)
     void 상은_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new Sang(side);
+        FullPiece piece = new Sang(side);
         Position departure = DEFAULT;
         Position destination = departure
             .move(side.forwardDelta())
@@ -419,7 +419,7 @@ class SangTest {
     @EnumSource(Side.class)
     void 상은_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new Sang(side);
+        FullPiece piece = new Sang(side);
         Position departure = DEFAULT;
         Position destination = departure
             .move(side.forwardDelta())

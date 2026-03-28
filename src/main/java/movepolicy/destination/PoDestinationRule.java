@@ -10,7 +10,7 @@ public class PoDestinationRule implements DestinationRule {
         if (destinationPiece.isEmpty()) {
             return;
         }
-        FullPiece targetPiece = (FullPiece) destinationPiece;
+        FullPiece targetPiece = destinationPiece.asFullPiece();
         if (departurePiece.isSameSide(targetPiece)) {
             throw new IllegalArgumentException("같은 진영의 말은 공격할 수 없습니다.");
         }

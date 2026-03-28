@@ -12,7 +12,7 @@ public class PoPathRule implements PathRule {
     public void validatePathPieces(List<Piece> pathPieces) {
         List<FullPiece> pathFullPieces = pathPieces.stream()
             .filter(piece -> !piece.isEmpty())
-            .map(piece -> (FullPiece) piece)
+            .map(Piece::asFullPiece)
             .toList();
         validateFullPieces(pathFullPieces);
     }

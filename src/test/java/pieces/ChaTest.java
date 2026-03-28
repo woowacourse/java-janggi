@@ -26,7 +26,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 앞으로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -40,7 +40,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 뒤로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -54,7 +54,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 좌로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -68,7 +68,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 우로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -82,7 +82,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 대각이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -101,7 +101,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 출발지와_도착지_차이_만큼의_이동_경로가_존재한다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -116,7 +116,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 앞_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when
@@ -129,7 +129,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 뒤_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when
@@ -142,7 +142,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 좌_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when
@@ -155,7 +155,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 우_1칸_차이인_경우_이동_경로는_존재하지_않는다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when
@@ -168,7 +168,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 앞으로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -190,7 +190,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 뒤로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -212,7 +212,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 좌로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -234,7 +234,7 @@ class ChaTest {
         @EnumSource(Side.class)
         void 우로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Cha(side);
+            FullPiece piece = new Cha(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -257,7 +257,7 @@ class ChaTest {
     @EnumSource(Side.class)
     void 차는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new Cha(side);
+        FullPiece piece = new Cha(side);
         Position departure = DEFAULT;
         Position destination = departure.move(side.forwardDelta());
         // when
@@ -271,7 +271,7 @@ class ChaTest {
     @EnumSource(Side.class)
     void 차는_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new Cha(side);
+        FullPiece piece = new Cha(side);
         Position departure = DEFAULT;
         Position destination = departure.move(side.forwardDelta());
         // when

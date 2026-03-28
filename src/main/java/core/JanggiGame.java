@@ -9,7 +9,7 @@ import position.Position;
 
 public class JanggiGame {
 
-    private final Board board;
+    private Board board;
     private Turn turn;
 
     public JanggiGame(Board board, Turn turn) {
@@ -29,7 +29,7 @@ public class JanggiGame {
 
     public void move(Position departure, Position destination) {
         board.validateDeparturePieceSide(departure, turn);
-        board.move(departure, destination, turn);
+        board = board.move(departure, destination);
         turn = turn.move();
     }
 }

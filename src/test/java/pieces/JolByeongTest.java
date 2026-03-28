@@ -25,7 +25,7 @@ class JolByeongTest {
         @EnumSource(Side.class)
         void 앞_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new JolByeong(side);
+            FullPiece piece = new JolByeong(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when & then
@@ -37,7 +37,7 @@ class JolByeongTest {
         @EnumSource(Side.class)
         void 좌_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new JolByeong(side);
+            FullPiece piece = new JolByeong(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when & then
@@ -49,7 +49,7 @@ class JolByeongTest {
         @EnumSource(Side.class)
         void 우_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new JolByeong(side);
+            FullPiece piece = new JolByeong(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when & then
@@ -61,7 +61,7 @@ class JolByeongTest {
         @EnumSource(Side.class)
         void 앞_2칸이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new JolByeong(side);
+            FullPiece piece = new JolByeong(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -75,7 +75,7 @@ class JolByeongTest {
         @EnumSource(Side.class)
         void 대각선이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new JolByeong(side);
+            FullPiece piece = new JolByeong(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
@@ -87,7 +87,7 @@ class JolByeongTest {
         @EnumSource(Side.class)
         void 뒤_1칸이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new JolByeong(side);
+            FullPiece piece = new JolByeong(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when & then
@@ -100,7 +100,7 @@ class JolByeongTest {
     @EnumSource(Side.class)
     void 출발지와_도착지_사이에는_이동경로가_존재하지_않는다(Side side) {
         // given
-        Piece piece = new JolByeong(side);
+        FullPiece piece = new JolByeong(side);
         Position departure = DEFAULT;
         Position destination = departure.move(side.forwardDelta());
         // when
@@ -113,7 +113,7 @@ class JolByeongTest {
     @EnumSource(Side.class)
     void 졸병은_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new JolByeong(side);
+        FullPiece piece = new JolByeong(side);
         Position departure = DEFAULT;
         Position destination = departure.move(side.forwardDelta());
         // when
@@ -127,7 +127,7 @@ class JolByeongTest {
     @EnumSource(Side.class)
     void 졸병은_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new JolByeong(side);
+        FullPiece piece = new JolByeong(side);
         Position departure = DEFAULT;
         Position destination = departure.move(side.forwardDelta());
         // when

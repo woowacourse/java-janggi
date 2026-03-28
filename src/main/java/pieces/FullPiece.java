@@ -21,6 +21,18 @@ public abstract class FullPiece implements Piece {
     }
 
     @Override
+    public FullPiece asFullPiece() {
+        return this;
+    }
+
+    public final boolean isSameSide(Side side) {
+        return this.side == side;
+    }
+
+    public final boolean isSameSide(FullPiece piece) {
+        return piece.isSameSide(this.side);
+    }
+
     public final MoveContext askMoveContext(Position departure, Position destination) {
         validateDestination(departure, destination);
         List<Position> pathPositions = getPathPositions(departure, destination);
@@ -39,28 +51,6 @@ public abstract class FullPiece implements Piece {
 
     public abstract boolean isPo();
 
-    public final boolean isSameSide(Side side) {
-        if (isHan() && side.isHan()) {
-            return true;
-        }
-        return isCho() && side.isCho();
-    }
-
-    public final boolean isSameSide(FullPiece destinationPiece) {
-        if (isHan() && destinationPiece.isHan()) {
-            return true;
-        }
-        return isCho() && destinationPiece.isCho();
-    }
-
-    protected final boolean isHan() {
-        return side.isHan();
-    }
-
-    protected final boolean isCho() {
-        return side.isCho();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -72,6 +62,6 @@ public abstract class FullPiece implements Piece {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(side);
+        return Objects.hash(side);
     }
 }

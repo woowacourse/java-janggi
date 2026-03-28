@@ -9,9 +9,9 @@ class FullPieceTest {
     @Test
     void 포인지_여부를_반환한다() {
         // given
-        FullPiece po = new Po(Side.CHO);
+        FullPiece piece = new Po(Side.CHO);
         // when
-        boolean isPo = po.isPo();
+        boolean isPo = piece.isPo();
         // then
         assertThat(isPo).isTrue();
     }

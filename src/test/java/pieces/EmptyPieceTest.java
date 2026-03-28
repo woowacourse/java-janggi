@@ -3,18 +3,15 @@ package pieces;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
-import position.Position;
 
 class EmptyPieceTest {
 
     @Test
-    void 비어있는_기물은_이동이_불가능하다() {
+    void 비어있는_기물은_채워진_기물로_이용할_수_없다() {
         // given
-        Position departure = new Position(1, 1);
-        Position destination = new Position(1, 2);
-        Piece emptyPiece = new EmptyPiece();
+        Piece emptyPiece = EmptyPiece.getInstance();
         // when & then
-        assertThatThrownBy(() -> emptyPiece.askMoveContext(departure, destination))
+        assertThatThrownBy(emptyPiece::asFullPiece)
             .isInstanceOf(IllegalArgumentException.class);
     }
 }

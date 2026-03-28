@@ -27,21 +27,26 @@ public record Board(Map<Position, Piece> pieces) {
     }
 
     public void validateDeparturePieceSide(Position departure, Turn turn) {
-        Piece piece = pieces.get(departure);
-        turn.validateSide(piece);
+        FullPiece piece = pieces.get(departure).asFullPiece();
+        if (!piece.isSameSide(turn.side())) {
+            throw new IllegalArgumentException("본인 진영의 기물만 이동시킬 수 있습니다.");
+        }
     }
 
-    public Board move(Position departure, Position destination, Turn turn) {
-        Piece departurePiece = pieces.get(departure);
+    public Board move(Position departure, Position destination) {
+        FullPiece departurePiece = pieces.get(departure).asFullPiece();
         Piece destinationPiece = pieces.get(destination);
         MoveContext moveContext = departurePiece.askMoveContext(departure, destination);
 
-        FullPiece currentPiece = (FullPiece) departurePiece;
         validatePathPieces(moveContext.pathPositions(), moveContext.pathRule());
-        validateDestination(currentPiece, destinationPiece, moveContext.destinationRule());
-        movePiece(departure, destination, currentPiece);
+        validateDestination(departurePiece, destinationPiece, moveContext.destinationRule());
 
-        return new Board(pieces);
+        Map<Position, Piece> moved = new HashMap<>(pieces);
+        moved.put(departure, EmptyPiece.getInstance());
+        moved.put(destination, departurePiece);
+
+        System.out.println(moved);
+        return new Board(moved);
     }
 
     private void validatePathPieces(List<Position> pathPositions, PathRule pathRule) {
@@ -58,10 +63,5 @@ public record Board(Map<Position, Piece> pieces) {
     private void validateDestination(FullPiece departurePiece, Piece destinationPiece,
                                      DestinationRule destinationRule) {
         destinationRule.validateDestination(departurePiece, destinationPiece);
-    }
-
-    private void movePiece(Position departure, Position destination, FullPiece departurePiece) {
-        pieces.put(departure, new EmptyPiece());
-        pieces.put(destination, departurePiece);
     }
 }

@@ -26,7 +26,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 앞으로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -40,7 +40,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 뒤로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -54,7 +54,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 좌로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -68,7 +68,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 우로_여러_칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -82,7 +82,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 대각이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
@@ -99,7 +99,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 출발지와_도착지_차이_만큼의_이동_경로가_존재한다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -114,7 +114,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 앞_1칸_차이인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when & then
@@ -126,7 +126,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 뒤_1칸_차이인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when & then
@@ -138,7 +138,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 좌_1칸_차이인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when & then
@@ -150,7 +150,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 우_1칸_차이인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when & then
@@ -162,7 +162,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 앞으로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -186,7 +186,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 뒤로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -210,7 +210,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 좌로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -234,7 +234,7 @@ class PoTest {
         @EnumSource(Side.class)
         void 우로_여러_칸_차이인_경우의_이동_경로를_반환한다(Side side) {
             // given
-            Piece piece = new Po(side);
+            FullPiece piece = new Po(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -259,7 +259,7 @@ class PoTest {
     @EnumSource(Side.class)
     void 포는_포를_제외한_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new Po(side);
+        FullPiece piece = new Po(side);
         Position departure = DEFAULT;
         Position destination = departure
             .move(side.forwardDelta())
@@ -275,7 +275,7 @@ class PoTest {
     @EnumSource(Side.class)
     void 포는_이동_경로에_포를_제외한_기물이_1개_있을_때_이동할_수_있는_규칙을_반환한다(Side side) {
         // given
-        Piece piece = new Po(side);
+        FullPiece piece = new Po(side);
         Position departure = DEFAULT;
         Position destination = departure
             .move(side.forwardDelta())
