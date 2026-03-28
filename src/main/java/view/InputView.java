@@ -22,7 +22,7 @@ public class InputView {
     public static List<Integer> readStartPosition() {
         System.out.println("움직일 기물의 위치를 입력해주세요. ex) \"1,3\"");
         String input = sc.nextLine();
-        return Arrays.stream(input.split(","))
+        return Arrays.stream(input.split(DELIMITER))
                 .map(s -> Integer.parseInt(s.trim()))
                 .collect(Collectors.toList());
     }
@@ -30,7 +30,7 @@ public class InputView {
     public static List<Integer> readEndPosition() {
         System.out.println("기물의 도착지를 입력해주세요. ex) \"1,3\"");
         String input = sc.nextLine();
-        return Arrays.stream(input.split(","))
+        return Arrays.stream(input.split(DELIMITER))
                 .map(s -> Integer.parseInt(s.trim()))
                 .collect(Collectors.toList());
     }

@@ -15,6 +15,10 @@ public class OutputView {
     private static final String LEFT_DOWN_LINE = "└";
     private static final String RIGHT_UP_LINE = "┐";
     private static final String RIGHT_DOWN_LINE = "┘";
+    private static final int MIN_ROW_RANGE = 1;
+    private static final int MAX_ROW_RANGE = 10;
+    private static final int MIN_COL_RANGE = 1;
+    private static final int MAX_COL_RANGE = 9;
 
     public static void printArrangeCountry(Country country) {
         System.out.printf("%s나라의 진영을 선택해주세요.%n", country.color() + country.title() + Country.RESET);
@@ -30,12 +34,12 @@ public class OutputView {
 
     public static void printBoard(Board board) {
         System.out.print("   ");
-        for (int col = 1; col <= 9; col++) {
+        for (int col = MIN_COL_RANGE; col <= MAX_COL_RANGE; col++) {
             System.out.printf("%d ", col);
         }
         System.out.println();
 
-        for (int row = 1; row <= 10; row++) {
+        for (int row = MIN_ROW_RANGE; row <= MAX_ROW_RANGE; row++) {
 
             System.out.printf("%2d ", row);
 
@@ -47,7 +51,7 @@ public class OutputView {
     }
 
     private static void printColumn(int row, Board board) {
-        for (int col = 1; col <= 9; col++) {
+        for (int col = MIN_COL_RANGE; col <= MAX_COL_RANGE; col++) {
             Position position = Position.of(row, col);
             Piece piece = board.findPiece(position);
             if (piece == null) {
@@ -63,11 +67,11 @@ public class OutputView {
     }
 
     private static void printBoardLine(int row, int col) {
-        if (col == 1) {
+        if (col == MIN_COL_RANGE) {
             System.out.printf(String.format("%-2s", leftLine(row)));
             return;
         }
-        if (col == 9) {
+        if (col == MAX_COL_RANGE) {
             System.out.printf(String.format("%-2s", rightLine(row)));
             return;
         }
@@ -76,30 +80,30 @@ public class OutputView {
     }
 
     private static String leftLine(int row) {
-        if (row == 1) {
+        if (row == MIN_ROW_RANGE) {
             return LEFT_UP_LINE;
         }
-        if (row == 10) {
+        if (row == MAX_ROW_RANGE) {
             return LEFT_DOWN_LINE;
         }
         return LEFT_CROSS_LINE;
     }
 
     private static String rightLine(int row) {
-        if (row == 1) {
+        if (row == MIN_ROW_RANGE) {
             return RIGHT_UP_LINE;
         }
-        if (row == 10) {
+        if (row == MAX_ROW_RANGE) {
             return RIGHT_DOWN_LINE;
         }
         return RIGHT_CROSS_LINE;
     }
 
     private static String crossLine(int row) {
-        if (row == 1) {
+        if (row == MIN_ROW_RANGE) {
             return UP_CROSS_LINE;
         }
-        if (row == 10) {
+        if (row == MAX_ROW_RANGE) {
             return DOWN_CROSS_LINE;
         }
         return CENTER_CROSS_LINE;

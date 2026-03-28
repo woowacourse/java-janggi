@@ -5,6 +5,7 @@ import model.pieces.PieceType;
 import model.position.Position;
 
 public class CannonPathPolicy extends PathPolicy {
+    private static final int JUMP_PIECE = 1;
     private int count = 0;
 
     @Override
@@ -17,11 +18,11 @@ public class CannonPathPolicy extends PathPolicy {
             return false;
         }
 
-        return count <= 1;
+        return count <= JUMP_PIECE;
     }
 
     @Override
     public boolean isValid() {
-        return count >= 1;
+        return count >= JUMP_PIECE;
     }
 }

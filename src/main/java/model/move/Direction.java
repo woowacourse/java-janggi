@@ -1,5 +1,7 @@
 package model.move;
 
+import java.util.Arrays;
+
 public enum Direction {
     NONE(0, 0),
     UP(-1, 0),
@@ -31,11 +33,9 @@ public enum Direction {
         int row = Integer.compare(rowDiff, 0);
         int col = Integer.compare(colDiff, 0);
 
-        for (Direction dir : values()) {
-            if (dir.rowOffset == row && dir.colOffset == col) {
-                return dir;
-            }
-        }
-        return NONE;
+        return Arrays.stream(values())
+                .filter(dir -> (dir.rowOffset == row) && (dir.colOffset == col))
+                .findFirst()
+                .orElse(NONE);
     }
 }

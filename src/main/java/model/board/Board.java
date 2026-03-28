@@ -63,10 +63,7 @@ public class Board {
     }
 
     public boolean isPathEmpty(Position position) {
-        if (findPiece(position) == null) {
-            return true;
-        }
-        return false;
+        return findPiece(position) == null;
     }
 
     public Map<Position, Piece> board() {
