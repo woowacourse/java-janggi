@@ -34,13 +34,7 @@ public class Runner {
     private boolean playTurnGame() {
         try {
             printCurrentStatus();
-            List<String> startPositionInput = InputView.askStartPosition();
-            Position startPosition = Position.from(startPositionInput);
-
-            List<String> endPositionInput = InputView.askEndPosition();
-            Position endPosition = Position.from(endPositionInput);
-
-            game.move(startPosition, endPosition);
+            movePiece();
 
             if(game.isFinished()) {
                 OutputView.printWinner(game.getWinnerSide());
@@ -56,5 +50,15 @@ public class Runner {
     private void printCurrentStatus() {
         OutputView.printBoard(game.getCurrentBoardDto());
         OutputView.printTurn(game.getCurrentSide());
+    }
+
+    private void movePiece() {
+        List<String> startPositionInput = InputView.askStartPosition();
+        Position startPosition = Position.from(startPositionInput);
+
+        List<String> endPositionInput = InputView.askEndPosition();
+        Position endPosition = Position.from(endPositionInput);
+
+        game.move(startPosition, endPosition);
     }
 }
