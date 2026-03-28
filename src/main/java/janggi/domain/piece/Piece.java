@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.MoveResult;
 import janggi.domain.PieceInfo;
 import janggi.domain.Side;
 import janggi.domain.board.BoardInterface;
@@ -21,4 +22,6 @@ public interface Piece {
     boolean isEqualSide(Side side);
 
     PieceInfo getPieceInfo();
+
+    MoveResult capturedResult();
 }

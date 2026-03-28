@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.MoveResult;
 import janggi.domain.PieceInfo;
 import janggi.domain.Side;
 
@@ -35,5 +36,10 @@ public abstract class BasePiece implements Piece {
     @Override
     public PieceInfo getPieceInfo() {
         return new PieceInfo(side, pieceType);
+    }
+
+    @Override
+    public MoveResult capturedResult(){
+        return new MoveResult(pieceType);
     }
 }

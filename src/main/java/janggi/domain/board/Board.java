@@ -59,18 +59,21 @@ public class Board implements BoardInterface {
     }
 
     public MoveResult move(Position start, Position end, Side side) {
-        Piece piece = board.get(start);
-        Piece target = board.get(end);
-        if (!piece.isEqualSide(side)) {
+        Piece startPiece = board.get(start);
+        Piece targetPiece = board.get(end);
+        if (!startPiece.isEqualSide(side)) {
             throw new IllegalArgumentException(INVALID_PIECE_SIDE_MESSAGE);
         }
 
-        List<Position> route = piece.findRoute(start, end);
-        piece.validateRoute(route, this);
+        List<Position> route = startPiece.findRoute(start, end);
+        startPiece.validateRoute(route, this);
 
-        board.put(end, piece);
+        movePiece(start, end, startPiece);
+        return targetPiece.capturedResult();
+    }
+
+    private void movePiece(Position start, Position end, Piece startPiece){
+        board.put(end, startPiece);
         board.put(start, new None());
-
-        return new MoveResult(target.getPieceInfo().pieceType());
     }
 }
