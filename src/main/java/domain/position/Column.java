@@ -17,17 +17,4 @@ public record Column(int column) {
             throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Column(int column1))) {
-            return false;
-        }
-        return column == column1;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(column);
-    }
 }
