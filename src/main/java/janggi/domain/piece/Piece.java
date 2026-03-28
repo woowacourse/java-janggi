@@ -24,6 +24,10 @@ public abstract class Piece {
         return this.side.equals(piece.side);
     }
 
+    public boolean isSameSide(Side side) {
+        return this.side.equals(side);
+    }
+
     public String getName() {
         return name;
     }

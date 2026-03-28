@@ -11,7 +11,6 @@ import janggi.strategy.SangMaMaSang;
 import janggi.strategy.SangMaSangMa;
 import janggi.view.ApplicationView;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class JanggiFlow {
 
@@ -33,30 +32,32 @@ public class JanggiFlow {
         ArrangementStrategy choStrategy = askStrategy(Side.CHO);
         Board board = Board.create(BoardAssembler.of(hanStrategy, choStrategy));
 
-        view.responseBoardArray(board.to2DArray());
-
         Side current = Side.HAN;
-        for (int i = 0; i < 2; i++) {
+        while (board.isNotEmpty()) {
+            view.responseBoardArray(board.to2DArray());
             view.responseCurrentSide(current);
-            Location locationOfPiece = retry(() -> askLocationOfPiece(board));
-            Location locationToMove = retry(() -> askLocationToMove(board));
 
+            final Side turnSide = current;
+            retryAction(() -> {
+                Location from = askLocationOfPiece(turnSide, board);
+                Location to = askLocationToMove(turnSide, board);
+                board.move(from, to);
+            });
             current = current.switchTurn();
         }
     }
 
-    private Location askLocationOfPiece(Board board) {
+    private Location askLocationOfPiece(Side current, Board board) {
         List<Integer> locationOfPiece = view.requestLocationOfPiece();
         Location verifiedLocation = Location.from(locationOfPiece);
-        board.validateLocation(verifiedLocation);
-        board.validatePieceExist(verifiedLocation);
+        board.validateLocationOfPiece(current, verifiedLocation);
         return verifiedLocation;
     }
 
-    private Location askLocationToMove(Board board) {
+    private Location askLocationToMove(Side current, Board board) {
         List<Integer> locationToMove = view.requestLocationToMove();
         Location verifiedLocation = Location.from(locationToMove);
-        board.validateLocation(verifiedLocation);
+        board.validateLocationToMove(current, verifiedLocation);
         return verifiedLocation;
     }
 
@@ -72,15 +73,14 @@ public class JanggiFlow {
                 .orElseThrow(() -> new IllegalArgumentException("일치하는 전략 번호가 없습니다: " + decisionNumber));
     }
 
-    private <T> T retry(Supplier<T> supplier) {
+    private void retryAction(Runnable runnable) {
         while (true) {
             try {
-                return supplier.get();
+                runnable.run();
+                return;
             } catch (IllegalArgumentException e) {
                 view.responseErrorMessage(e);
             }
         }
     }
-
-
 }

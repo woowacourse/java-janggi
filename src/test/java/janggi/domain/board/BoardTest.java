@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
-import janggi.strategy.MaSangMaSang;
 import janggi.support.TestArrangementStrategy;
 import janggi.support.TestPiece;
 import java.util.List;
@@ -22,74 +22,181 @@ class BoardTest {
     @Test
     @DisplayName("보드가 전략에 맞춰 정상적으로 생성된다.")
     void shouldReturnBoardWithSelectedArrangementStrategy() {
-        BoardAssembler assembler = BoardAssembler.of(new MaSangMaSang(), new MaSangMaSang());
+        // given
+        Side currentSide = Side.HAN;
+        Piece testPiece = new TestPiece(currentSide);
+        Piece emptyPiece = new EmptyPiece();
+        Map<Location, Piece> initialPieces = Map.of(
+                new Location(1, 1), testPiece,
+                new Location(2, 2), emptyPiece
+        );
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+        // when
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
         Board board = Board.create(assembler);
         List<List<Piece>> pieces = board.to2DArray();
 
-        Piece[][] assemble = assembler.assemble();
-
-        for (int row = 0; row < assemble.length; row++) {
-            for (int col = 0; col < assemble[row].length; col++) {
-                Piece result = assemble[row][col];
-                Piece expectedPiece = pieces.get(row).get(col);
-                Assertions.assertThat(result).isInstanceOf(expectedPiece.getClass());
-                Assertions.assertThat(result.isSameSide(expectedPiece)).isTrue();
-            }
-        }
+        // then
+        Assertions.assertThat(pieces.get(1).get(1)).isEqualTo(testPiece);
+        Assertions.assertThat(pieces.get(2).get(2)).isEqualTo(emptyPiece);
     }
 
     @Nested
-    class ValidateLocationTest {
+    class ValidateLocationExistenceTest {
         @Test
         @DisplayName("보드에 입력받은 좌표가 존재하면 예외를 발생시키지 않는다.")
         void shouldNotThrowExceptionWhenLocationExists() {
             // given
-            BoardAssembler assembler = BoardAssembler.of(new MaSangMaSang(), new MaSangMaSang());
+            Side currentSide = Side.HAN;
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new TestPiece(currentSide)
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(1,1));
+            Location location = Location.from(List.of(1, 1));
 
             // when & then
-            assertDoesNotThrow(() -> board.validateLocation(location));
+            assertDoesNotThrow(() -> board.validateLocationOfPiece(currentSide, location));
         }
 
         @Test
         @DisplayName("보드에 입력받은 좌표가 존재하지 않으면 예외를 발생시킨다.")
         void shouldThrowExceptionWhenLocationDoesNotExist() {
             // given
-            BoardAssembler assembler = BoardAssembler.of(new MaSangMaSang(), new MaSangMaSang());
+            Side currentSide = Side.HAN;
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new TestPiece(currentSide)
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(11,11));
+            Location location = Location.from(List.of(11, 11));
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.validateLocation(location))
-                            .isInstanceOf(IllegalArgumentException.class);
+            Assertions.assertThatThrownBy(() -> board.validateLocationOfPiece(currentSide, location))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
     @Nested
-    class ValidatePieceExistTest {
+    class ValidateLocationOfPieceTest {
         @Test
-        @DisplayName("입력받은 좌표에 기물이 존재하면 예외를 발생시키지 않는다.")
-        void shouldNotThrowExceptionWhenPieceExistsAtLocation() {
+        @DisplayName("출발 좌표에 같은 팀 기물이 존재하면 예외를 발생시키지 않는다.")
+        void shouldNotThrowExceptionWhenPieceOnSameSideExistsAtLocation() {
             // given
-            BoardAssembler assembler = BoardAssembler.of(new MaSangMaSang(), new MaSangMaSang());
+            Side currentSide = Side.HAN;
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new TestPiece(currentSide)
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(0,1));
+            Location location = Location.from(List.of(1, 1));
 
             // when & then
-            assertDoesNotThrow(() -> board.validatePieceExist(location));
+            assertDoesNotThrow(() -> board.validateLocationOfPiece(currentSide, location));
         }
 
         @Test
-        @DisplayName("입력받은 좌표에 기물이 존재하지 않으면 예외를 발생시킨다.")
-        void shouldThrowExceptionWhenPieceDoesNotExistsAtLocation() {
+        @DisplayName("출발 좌표에 상대 팀 기물이 존재하면 예외를 발생시킨다.")
+        void shouldThrowExceptionWhenPieceOnOtherSideExistsAtLocation() {
             // given
-            BoardAssembler assembler = BoardAssembler.of(new MaSangMaSang(), new MaSangMaSang());
+            Side currentSide = Side.HAN;
+            Side otherSide = Side.CHO;
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new TestPiece(currentSide)
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(5,5));
+            Location location = Location.from(List.of(1, 1));
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.validatePieceExist(location))
+            Assertions.assertThatThrownBy(() -> board.validateLocationOfPiece(otherSide, location))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("출발 좌표에 기물이 존재하지 않으면 예외를 발생시킨다.")
+        void shouldThrowExceptionWhenPieceDoesNotExistsAtLocation() {
+            // given
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(5, 5), new EmptyPiece()
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            Board board = Board.create(assembler);
+            Location location = Location.from(List.of(5, 5));
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> board.validateLocationOfPiece(Side.HAN, location))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Nested
+    class ValidateLocationToMoveTest {
+        @Test
+        @DisplayName("도착 좌표에 기물이 존재하지 않으면 예외를 발생시키지 않는다.")
+        void shouldNotThrowExceptionWhenPieceDoesNotExistsAtLocation() {
+            // given
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new EmptyPiece()
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            Board board = Board.create(assembler);
+            Location location = Location.from(List.of(1, 1));
+
+            // when & then
+            Assertions.assertThatNoException()
+                    .isThrownBy(() -> board.validateLocationToMove(Side.HAN, location));
+        }
+
+        @Test
+        @DisplayName("도착 좌표에 상대 팀 기물이 존재하면 예외를 발생시키지 않는다.")
+        void shouldThrowExceptionWhenPieceOnOtherSideExistsAtLocation() {
+            // given
+            Side currentSide = Side.HAN;
+            Side otherSide = Side.CHO;
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new TestPiece(otherSide)
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            Board board = Board.create(assembler);
+            Location location = Location.from(List.of(1, 1));
+
+            // when & then
+            Assertions.assertThatNoException()
+                    .isThrownBy(() -> board.validateLocationToMove(currentSide, location));
+        }
+
+        @Test
+        @DisplayName("도착 좌표에 같은 팀 기물이 존재하면 예외를 발생시킨다.")
+        void shouldNotThrowExceptionWhenPieceOnSameSideExistsAtLocation() {
+            // given
+            Side currentSide = Side.HAN;
+            Map<Location, Piece> initialPieces = Map.of(
+                    new Location(1, 1), new TestPiece(currentSide)
+            );
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            Board board = Board.create(assembler);
+            Location location = Location.from(List.of(1, 1));
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> board.validateLocationToMove(currentSide, location))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -107,7 +214,7 @@ class BoardTest {
         BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
         Board board = Board.create(assembler);
         Location from = new Location(1, 1);
-        Location to = new Location(0,0);
+        Location to = new Location(0, 0);
 
         // when
         board.move(from, to);
@@ -116,5 +223,37 @@ class BoardTest {
         // then
         Assertions.assertThat(board2DArray.get(from.y()).get(from.x()).isEmpty()).isTrue();
         Assertions.assertThat(board2DArray.get(to.y()).get(to.x())).isEqualTo(testPiece);
+    }
+
+    @Test
+    @DisplayName("보드에 기물이 하나라도 있으면 true를 반환한다")
+    void shouldReturnTrueForNoneEmptyBoard() {
+        // given
+        Map<Location, Piece> initialPieces = Map.of(
+                new Location(1, 1), new TestPiece(Side.HAN),
+                new Location(1, 2), new EmptyPiece()
+        );
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        Board board = Board.create(assembler);
+
+        // when & then
+        Assertions.assertThat(board.isNotEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("보드에 기물이 존재하지 않으면 false를 반환한다.")
+    void shouldReturnTrueForEmptyBoard() {
+        // given
+        Map<Location, Piece> initialPieces = Map.of(
+                new Location(1, 1), new EmptyPiece(),
+                new Location(1, 2), new EmptyPiece()
+        );
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        Board board = Board.create(assembler);
+
+        // when & then
+        Assertions.assertThat(board.isNotEmpty()).isFalse();
     }
 }

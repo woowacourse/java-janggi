@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Location;
+import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.strategy.BoardAssembler;
@@ -48,6 +49,28 @@ public class Board {
         executeMove(from, to, piece);
     }
 
+    public void validateLocationOfPiece(Side currentSide, Location locationOfPiece) {
+        validateLocation(locationOfPiece);
+        validatePieceExist(locationOfPiece);
+        Piece piece = boardState.get(locationOfPiece);
+        if (isNotSameSide(piece, currentSide)) {
+            throw new IllegalArgumentException("본인 팀의 기물만 선택할 수 있습니다.");
+        }
+    }
+
+    public boolean isNotEmpty() {
+        return !boardState.values().stream()
+                .allMatch(Piece::isEmpty);
+    }
+
+    public void validateLocationToMove(Side currentSide, Location locationToMove) {
+        validateLocation(locationToMove);
+        Piece target = boardState.get(locationToMove);
+        if (isOccupiedBySameSide(target, currentSide)) {
+            throw new IllegalArgumentException("같은 편의 기물이 있는 위치로 이동할 수 없습니다.");
+        }
+    }
+
     private void validateMove(Location from, Location to) {
         validateLocation(from);
         validateLocation(to);
@@ -78,15 +101,23 @@ public class Board {
         return List.copyOf(pieces);
     }
 
-    public void validateLocation(Location location) {
+    private void validateLocation(Location location) {
         if (!boardState.containsKey(location)) {
             throw new IllegalArgumentException("해당 좌표는 보드판에 존재하지 않습니다.");
         }
     }
 
-    public void validatePieceExist(Location location) {
+    private void validatePieceExist(Location location) {
         if (boardState.get(location).isEmpty()) {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
+    }
+
+    private boolean isNotSameSide(Piece piece, Side side) {
+        return !piece.isSameSide(side);
+    }
+
+    private boolean isOccupiedBySameSide(Piece piece, Side side) {
+        return !piece.isEmpty() && piece.isSameSide(side);
     }
 }
