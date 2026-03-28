@@ -4,7 +4,7 @@ public record Name(String name) {
 
     private static final int NAME_MAX_LENGTH = 10;
     private static final int NAME_MIN_LENGTH = 2;
-    private static final String MATCH_NUMBER_PATTERN = ".*\\d.*";
+    private static final String MATCH_NUMBER_PATTERN = "^[가-힣a-zA-Z0-9]+$";
 
     public Name {
         validate(name);
@@ -17,7 +17,7 @@ public record Name(String name) {
 
     private static void validateContainsNumber(String name) {
         if (name.matches(MATCH_NUMBER_PATTERN)) {
-            throw new IllegalArgumentException("[ERROR] 이름은 한글, 영문만 가능합니다.");
+            throw new IllegalArgumentException("[ERROR] 이름은 한글, 영문, 숫자만 가능합니다.");
         }
     }
 

@@ -3,8 +3,6 @@ package domain.position;
 import static domain.common.Constant.MAX_ROW;
 import static domain.common.Constant.MIN_ROW;
 
-import java.util.Objects;
-
 public record Row(int row) {
 
     public Row {
