@@ -24,8 +24,8 @@ public class RuleWithNoTracesTest {
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         List<Movement> movementOrder = List.of(
-                new Movement(1, Direction.valueOf(0, 1)),
-                new Movement(2, Direction.valueOf(-1, 1)));
+                new Movement(1, Direction.RIGHT),
+                new Movement(2, Direction.UP_RIGHT));
         Rule ruleWithNoTraces = new RuleWithNoTraces(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 

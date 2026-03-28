@@ -1,55 +1,21 @@
 package janggi.domain.movement;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.stream.IntStream;
-
 public final class Direction {
 
-    private static final int MINIMUM_ROW_DIRECTION = -1;
-    private static final int MAXIMUM_ROW_DIRECTION = 1;
-    private static final int MINIMUM_COLUMN_DIRECTION = -1;
-    private static final int MAXIMUM_COLUMN_DIRECTION = 1;
-    private static final Map<Integer, Map<Integer, Direction>> CACHE;
-
-    static {
-        CACHE = new LinkedHashMap<>();
-        IntStream.range(MINIMUM_COLUMN_DIRECTION, MAXIMUM_COLUMN_DIRECTION + 1)
-                .forEach(rowDirection -> CACHE.put(rowDirection, new LinkedHashMap<>()));
-    }
-
+    public static final Direction UP = new Direction(-1, 0);
+    public static final Direction DOWN = new Direction(1, 0);
+    public static final Direction LEFT = new Direction(0, -1);
+    public static final Direction RIGHT = new Direction(0, 1);
+    public static final Direction UP_RIGHT = new Direction(-1, 1);
+    public static final Direction UP_LEFT = new Direction(-1, -1);
+    public static final Direction DOWN_RIGHT = new Direction(1, 1);
+    public static final Direction DOWN_LEFT = new Direction(1, -1);
     private final int rowDirection;
     private final int columnDirection;
 
     private Direction(final int rowDirection, final int columnDirection) {
         this.rowDirection = rowDirection;
         this.columnDirection = columnDirection;
-    }
-
-    public static Direction valueOf(final int rowDirection, final int columnDirection) {
-        validateRowDirectionRange(rowDirection);
-        validateColumnDirectionRange(columnDirection);
-        final Map<Integer, Direction> secondaryMap = CACHE.get(rowDirection);
-        if (!secondaryMap.containsKey(columnDirection)) {
-            secondaryMap.put(columnDirection, new Direction(rowDirection, columnDirection));
-        }
-
-        return secondaryMap.get(columnDirection);
-    }
-
-    private static void validateRowDirectionRange(final int rowDirection) {
-        if (rowDirection < MINIMUM_ROW_DIRECTION || rowDirection > MAXIMUM_ROW_DIRECTION) {
-            throw new IllegalArgumentException(String.format(
-                    "행 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_ROW_DIRECTION, MAXIMUM_ROW_DIRECTION));
-        }
-    }
-
-    private static void validateColumnDirectionRange(final int columnDirection) {
-        if (columnDirection < MINIMUM_COLUMN_DIRECTION
-                || columnDirection > MAXIMUM_COLUMN_DIRECTION) {
-            throw new IllegalArgumentException(String.format(
-                    "열 방향 값은 %d ~ %d 사이의 정수 값이어야 합니다.", MINIMUM_COLUMN_DIRECTION, MAXIMUM_COLUMN_DIRECTION));
-        }
     }
 
     public int getRowDirection() {
@@ -59,5 +25,4 @@ public final class Direction {
     public int getColumnDirection() {
         return columnDirection;
     }
-
 }

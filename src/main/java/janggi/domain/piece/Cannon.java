@@ -16,10 +16,10 @@ public class Cannon implements Piece {
 
     static {
         final List<Rule> rules = List.of(
-                new RuleOfCannon(Direction.valueOf(1, 0)),
-                new RuleOfCannon(Direction.valueOf(-1, 0)),
-                new RuleOfCannon(Direction.valueOf(0, 1)),
-                new RuleOfCannon(Direction.valueOf(0, -1)));
+                new RuleOfCannon(Direction.UP),
+                new RuleOfCannon(Direction.DOWN),
+                new RuleOfCannon(Direction.RIGHT),
+                new RuleOfCannon(Direction.LEFT));
         PIECE_ACTION = new PieceAction(rules);
     }
 

@@ -20,30 +20,30 @@ public class Horse implements Piece {
     static {
         final List<Rule> rules = List.of(
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, 1)),
-                new Movement(1, Direction.valueOf(-1, 1)))),
+                new Movement(1, Direction.RIGHT),
+                new Movement(1, Direction.UP_RIGHT))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, 1)),
-                new Movement(1, Direction.valueOf(1, 1)))),
+                new Movement(1, Direction.RIGHT),
+                new Movement(1, Direction.DOWN_RIGHT))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(-1, 0)),
-                new Movement(1, Direction.valueOf(-1, 1)))),
+                new Movement(1, Direction.UP),
+                new Movement(1, Direction.UP_RIGHT))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(-1, 0)),
-                new Movement(1, Direction.valueOf(-1, -1)))),
+                new Movement(1, Direction.UP),
+                new Movement(1, Direction.UP_LEFT))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, -1)),
-                new Movement(1, Direction.valueOf(-1, -1)))),
+                new Movement(1, Direction.LEFT),
+                new Movement(1, Direction.UP_LEFT))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, -1)),
-                new Movement(1, Direction.valueOf(1, -1)))),
+                new Movement(1, Direction.LEFT),
+                new Movement(1, Direction.DOWN_LEFT))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(1, 0)),
-                new Movement(1, Direction.valueOf(1, -1)))),
+                new Movement(1, Direction.DOWN),
+                new Movement(1, Direction.DOWN_LEFT))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(1, 0)),
-                new Movement(1, Direction.valueOf(1, 1)))
-            ));
+                new Movement(1, Direction.DOWN),
+                new Movement(1, Direction.DOWN_RIGHT)))
+            );
 
         PIECE_ACTION = new PieceAction(rules);
     }
