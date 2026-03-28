@@ -17,24 +17,24 @@ public class Pho extends AbstractPiece {
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
-        int pathX = to.calculatePathColumn(from);
-        int pathY = to.calculatePathRow(from);
+        int pathCol = to.calculatePathColumn(from);
+        int pathRow = to.calculatePathRow(from);
 
-        if (pathY != 0 && pathX != 0) {
+        if (pathRow != 0 && pathCol != 0) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
 
-        int signX = Integer.compare(pathX, 0);
-        int signY = Integer.compare(pathY, 0);
+        int signCol = Integer.compare(pathCol, 0);
+        int signRow = Integer.compare(pathRow, 0);
 
-        int distance = Math.max(abs(pathX), abs(pathY));
+        int distance = Math.max(abs(pathCol), abs(pathRow));
 
         List<Point> route = new ArrayList<>();
 
         for (int i = 1; i < distance; i++) {
-            int nextX = from.getColumn() + (signX * i);
-            int nextY = from.getRow() + (signY * i);
-            route.add(Point.of(nextX, nextY));
+            int nextCol = from.getColumn() + (signCol * i);
+            int nextRow = from.getRow() + (signRow * i);
+            route.add(Point.of(nextCol, nextRow));
         }
         return new Points(route);
     }

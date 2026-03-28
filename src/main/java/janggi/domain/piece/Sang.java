@@ -14,10 +14,10 @@ public class Sang extends AbstractPiece {
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
-        int pathX = to.calculatePathColumn(from);
-        int pathY = to.calculatePathRow(from);
+        int pathCol = to.calculatePathColumn(from);
+        int pathRow = to.calculatePathRow(from);
 
-        SangDirection direction = SangDirection.find(pathX, pathY);
+        SangDirection direction = SangDirection.find(pathCol, pathRow);
 
         Point routePoint1 = Point.of(
                 from.getColumn() + direction.getRoute1Col(),

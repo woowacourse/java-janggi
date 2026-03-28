@@ -18,12 +18,12 @@ public class Sa extends AbstractPiece {
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
-        int pathX = to.calculatePathColumn(from);
-        int pathY = to.calculatePathRow(from);
-        int distanceX = abs(pathX);
-        int distanceY = abs(pathY);
+        int pathCol = to.calculatePathColumn(from);
+        int pathRow = to.calculatePathRow(from);
+        int distanceCol = abs(pathCol);
+        int distanceRow = abs(pathRow);
 
-        if (distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX == 0 && distanceY == 0)) {
+        if (distanceCol > MAX_DISTANCE || distanceRow > MAX_DISTANCE || (distanceCol == 0 && distanceRow == 0)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
         return new Points(List.of(to));

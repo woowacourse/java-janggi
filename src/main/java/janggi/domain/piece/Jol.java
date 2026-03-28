@@ -18,16 +18,16 @@ public class Jol extends AbstractPiece {
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
-        int pathX = to.calculatePathColumn(from);
-        int pathY = to.calculatePathRow(from);
-        int signY = Integer.compare(pathY, 0);
-        int distanceX = abs(pathX);
-        int distanceY = abs(pathY);
+        int pathCol = to.calculatePathColumn(from);
+        int pathRow = to.calculatePathRow(from);
+        int signRow = Integer.compare(pathRow, 0);
+        int distanceCol = abs(pathCol);
+        int distanceRow = abs(pathRow);
 
-        if (distanceX > MAX_DISTANCE || distanceY > MAX_DISTANCE || (distanceX + distanceY > MAX_DISTANCE)) {
+        if (distanceCol > MAX_DISTANCE || distanceRow > MAX_DISTANCE || (distanceCol + distanceRow > MAX_DISTANCE)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
-        if ((super.getTeam().equals(Team.CHO) && signY < 0) || (super.getTeam().equals(Team.HAN) && signY > 0)) {
+        if ((super.getTeam().equals(Team.CHO) && signRow < 0) || (super.getTeam().equals(Team.HAN) && signRow > 0)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
         return new Points(List.of(to));
