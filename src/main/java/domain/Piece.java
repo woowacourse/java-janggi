@@ -1,3 +1,5 @@
+package domain;
+
 public abstract class Piece {
     private final Side side;
 

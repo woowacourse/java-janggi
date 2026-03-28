@@ -1,3 +1,5 @@
+package domain;
+
 public class Horse extends Piece {
 
     public Horse(Side side) {

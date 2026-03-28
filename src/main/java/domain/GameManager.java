@@ -1,3 +1,8 @@
+package domain;
+
+import view.InputView;
+import view.OutputView;
+
 public class GameManager {
     private final InputView inputView;
     private final OutputView outputView;

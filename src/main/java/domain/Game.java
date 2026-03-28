@@ -1,3 +1,5 @@
+package domain;
+
 public class Game {
     private final Board board;
     private final Player choPlayer;
