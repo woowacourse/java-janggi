@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import janggi.exception.EmptyPositionException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +24,11 @@ public class Board implements BoardState{
 
     public void move(Position from, Position to) {
         Piece movingPiece = board.get(from);
+
+        if (movingPiece == null) {
+            throw new EmptyPositionException();
+        }
+
         movingPiece.verifyMove(from, to, this);
         board.remove(from);
         board.put(to, movingPiece);
