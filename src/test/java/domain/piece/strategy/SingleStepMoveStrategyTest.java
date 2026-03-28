@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class SingleStepMoveStrategyTest {
-
     private static final int EXPECT_SIZE = 0;
 
     @Test
@@ -14,9 +13,12 @@ class SingleStepMoveStrategyTest {
         // given
         Position start = Position.of(2, 10);
         Position destination = Position.of(3, 10);
-
         MoveStrategy strategy = new SingleStepMoveStrategy();
+
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
@@ -25,9 +27,12 @@ class SingleStepMoveStrategyTest {
         // given
         Position start = Position.of(2, 10);
         Position destination = Position.of(1, 10);
-
         MoveStrategy strategy = new SingleStepMoveStrategy();
+
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
@@ -36,9 +41,12 @@ class SingleStepMoveStrategyTest {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(2, 10);
-
         MoveStrategy strategy = new SingleStepMoveStrategy();
+
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
@@ -47,9 +55,12 @@ class SingleStepMoveStrategyTest {
         // given
         Position start = Position.of(2, 10);
         Position destination = Position.of(2, 9);
-
         MoveStrategy strategy = new SingleStepMoveStrategy();
+
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
@@ -58,10 +69,10 @@ class SingleStepMoveStrategyTest {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(4, 9);
-
         MoveStrategy strategy = new SingleStepMoveStrategy();
 
-        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        // when & then
+        Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

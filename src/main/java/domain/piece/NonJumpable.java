@@ -1,12 +1,15 @@
 package domain.piece;
 
 import domain.BoardStatus;
+import domain.PieceExceptionMessage;
 import domain.piece.strategy.MoveStrategy;
+import domain.position.Column;
 import domain.position.Position;
+import domain.position.Row;
 import java.util.List;
 
 public abstract class NonJumpable extends Piece {
-    public NonJumpable(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+    protected NonJumpable(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
         super(moveStrategy, pieceType, team);
     }
 
@@ -16,25 +19,20 @@ public abstract class NonJumpable extends Piece {
         checkPathIsEmpty(boardStatus, movablePath);
     }
 
-    private static void checkPathIsEmpty(BoardStatus boardStatus, List<Position> movablePaths) {
+    private void checkPathIsEmpty(BoardStatus boardStatus, List<Position> movablePaths) {
         for (Position movablePath : movablePaths) {
-            int rowValue = movablePath.getRow().getValue();
-            int columnValue = movablePath.getColumn().getValue();
+            Row rowValue = movablePath.getRow();
+            Column columnValue = movablePath.getColumn();
 
-            if (checkIsAlreadyExists(boardStatus, rowValue, columnValue)) {
-                throw new IllegalArgumentException("ㄴㄴ 안됨 ㅅㄱ");
+            if (isAlreadyExists(boardStatus, rowValue, columnValue)) {
+                throw new IllegalArgumentException(PieceExceptionMessage.BLOCKED_BY_PIECE.getMessage());
             }
         }
     }
 
-    private static boolean checkIsAlreadyExists(BoardStatus boardStatus, int rowValue, int columnValue) {
-        Piece piece = boardStatus.getBoardStatus().get(
-                Position.of(rowValue, columnValue)
-        );
+    private boolean isAlreadyExists(BoardStatus boardStatus, Row rowValue, Column columnValue) {
+        Piece piece = boardStatus.getBoardStatus().get(Position.of(rowValue, columnValue));
 
-        if (piece != null) {
-            return true;
-        }
-        return false;
+        return piece != null;
     }
 }

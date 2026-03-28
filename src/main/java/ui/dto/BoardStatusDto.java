@@ -1,4 +1,4 @@
-package view;
+package ui.dto;
 
 import domain.piece.Piece;
 import domain.position.Position;

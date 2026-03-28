@@ -13,6 +13,20 @@ public class Row {
         return new Row(this.value + value);
     }
 
+    public Row getUpper(Row row) {
+        if (value > row.value) {
+            return this;
+        }
+        return row;
+    }
+
+    public Row getLower(Row row) {
+        if (value < row.value) {
+            return this;
+        }
+        return row;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -34,17 +48,4 @@ public class Row {
         return value;
     }
 
-    public Row getUpper(Row row) {
-        if (value > row.value) {
-            return this;
-        }
-        return row;
-    }
-
-    public Row getLowerValue(Row row) {
-        if (value < row.value) {
-            return this;
-        }
-        return row;
-    }
 }

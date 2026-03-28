@@ -15,9 +15,12 @@ class MaMoveStrategyTest {
     void 움직일_수_있다면_경로를_반환한다(Position destination, int expectSize, List<Position> expectPath) {
         // given
         Position start = Position.of(3, 3);
-
         MoveStrategy strategy = new MaMoveStrategy();
+
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
         Assertions.assertThat(movablePath.size()).isEqualTo(expectSize);
         Assertions.assertThat(movablePath).containsAll(expectPath);
     }
@@ -44,13 +47,13 @@ class MaMoveStrategyTest {
     }
 
     @Test
-    void 잘못된_위치가_제공되면_예외가_발상해야_한다() {
+    void 잘못된_위치가_제공되면_예외가_발생해야_한다() {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(4, 9);
-
         MoveStrategy strategy = new JolMoveStrategy();
 
+        // when & then
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
                 IllegalArgumentException.class);
     }

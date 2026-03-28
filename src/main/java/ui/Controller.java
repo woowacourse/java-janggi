@@ -1,19 +1,19 @@
-package controller;
+package ui;
 
 import domain.BoardStatus;
 import domain.JanggiGame;
-import domain.SettingType;
 import domain.piece.Piece;
 import domain.position.Position;
+import domain.settingType.SettingType;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import view.ActionType;
-import view.BoardStatusDto;
-import view.InputView;
-import view.PositionDto;
-import view.ResultView;
+import ui.dto.ActionType;
+import ui.dto.BoardStatusDto;
+import ui.dto.PositionDto;
+import ui.view.InputView;
+import ui.view.ResultView;
 
 public class Controller {
     private final InputView inputView;
@@ -25,33 +25,8 @@ public class Controller {
     }
 
     public void play() {
-
         JanggiGame game = retry(this::initializeGame);
-
-        //2. 게임 진행 -> 반복문.
         playTurn(game);
-    }
-
-    private void playTurn(JanggiGame game) {
-        while (true) {
-            ActionType actionType = retry(() -> inputView.readAction(game.getTurn()));
-            if (actionType == ActionType.MOVE) {
-                retry(this::executeMove, game);
-            }
-            if (actionType == ActionType.PASS) {
-                game.passTurn();
-            }
-            printBoardStatus(game.getJanggiGameStatus());
-        }
-    }
-
-    private void executeMove(JanggiGame game) {
-        PositionDto positionDto = inputView.readMovePositions(game.getTurn());
-
-        Position startPosition = Position.of(positionDto.getStartRow(), positionDto.getStartColumn());
-        Position destinationPosition = Position.of(positionDto.getDestinationRow(),
-                positionDto.getDestinationColumn());
-        game.executeMove(startPosition, destinationPosition);
     }
 
     private JanggiGame initializeGame() {
@@ -62,6 +37,35 @@ public class Controller {
         JanggiGame game = JanggiGame.init(choSettingType, hanSettingType);
         printBoardStatus(game.getJanggiGameStatus());
         return game;
+    }
+
+    private void playTurn(JanggiGame game) {
+        while (true) {
+            ActionType actionType = retry(() -> inputView.readAction(game.getTurn()));
+            executeMoveIfActionIsMove(game, actionType);
+            executePassTurnIfActionIsPass(game, actionType);
+            printBoardStatus(game.getJanggiGameStatus());
+        }
+    }
+
+    private void executeMoveIfActionIsMove(JanggiGame game, ActionType actionType) {
+        if (actionType == ActionType.MOVE) {
+            retry(this::executeMove, game);
+        }
+    }
+
+    private void executeMove(JanggiGame game) {
+        PositionDto positionDto = inputView.readMovePositions(game.getTurn());
+
+        Position startPosition = Position.of(positionDto.getStartRow(), positionDto.getStartColumn());
+        Position destinationPosition = Position.of(positionDto.getDestinationRow(), positionDto.getDestinationColumn());
+        game.executeMove(startPosition, destinationPosition);
+    }
+
+    private void executePassTurnIfActionIsPass(JanggiGame game, ActionType actionType) {
+        if (actionType == ActionType.PASS) {
+            game.passTurn();
+        }
     }
 
     private void printBoardStatus(BoardStatus status) {
@@ -76,7 +80,7 @@ public class Controller {
             try {
                 return supplier.get();
             } catch (IllegalArgumentException e) {
-                resultView.printRetryDescription();
+                resultView.printErrorMessage(e.getMessage());
             }
         }
     }
@@ -87,7 +91,7 @@ public class Controller {
                 consumer.accept(janggiGame);
                 return;
             } catch (IllegalArgumentException e) {
-                resultView.printRetryDescription();
+                resultView.printErrorMessage(e.getMessage());
             }
         }
     }

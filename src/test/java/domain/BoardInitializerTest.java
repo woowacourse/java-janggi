@@ -17,6 +17,8 @@ import domain.piece.strategy.SangMoveStrategy;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
+import domain.settingType.SettingInfo;
+import domain.settingType.SettingType;
 import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -43,9 +45,10 @@ public class BoardInitializerTest {
     @Test
     void 입력된_왼상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new LeftSettingOfChoInfo();
-        SettingInfo hanInfo = new LeftSettingOfHanInfo();
+        SettingInfo choInfo = SettingInfo.of(SettingType.LEFT, Team.CHO);
+        SettingInfo hanInfo = SettingInfo.of(SettingType.LEFT, Team.HAN);
 
+        // when
         Map<Position, Piece> result = initializer.setup(SettingType.LEFT, SettingType.LEFT);
 
         //then
@@ -56,9 +59,10 @@ public class BoardInitializerTest {
     @Test
     void 입력된_오른상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new RightSettingOfChoInfo();
-        SettingInfo hanInfo = new RightSettingOfHanInfo();
+        SettingInfo choInfo = SettingInfo.of(SettingType.RIGHT, Team.CHO);
+        SettingInfo hanInfo = SettingInfo.of(SettingType.RIGHT, Team.HAN);
 
+        // when
         Map<Position, Piece> result = initializer.setup(SettingType.RIGHT, SettingType.RIGHT);
 
         //then
@@ -69,9 +73,10 @@ public class BoardInitializerTest {
     @Test
     void 입력된_안상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new InnerSettingOfChoInfo();
-        SettingInfo hanInfo = new InnerSettingOfHanInfo();
+        SettingInfo choInfo = SettingInfo.of(SettingType.INNER, Team.CHO);
+        SettingInfo hanInfo = SettingInfo.of(SettingType.INNER, Team.HAN);
 
+        // when
         Map<Position, Piece> result = initializer.setup(SettingType.INNER, SettingType.INNER);
 
         //then
@@ -83,9 +88,10 @@ public class BoardInitializerTest {
     @Test
     void 입력된_바깥상차림대로_생성되어야_한다() {
         //given
-        SettingInfo choInfo = new OuterSettingOfChoInfo();
-        SettingInfo hanInfo = new OuterSettingOfHanInfo();
+        SettingInfo choInfo = SettingInfo.of(SettingType.OUTER, Team.CHO);
+        SettingInfo hanInfo = SettingInfo.of(SettingType.OUTER, Team.HAN);
 
+        // when
         Map<Position, Piece> result = initializer.setup(SettingType.OUTER, SettingType.OUTER);
 
         //then
@@ -94,15 +100,15 @@ public class BoardInitializerTest {
     }
 
     private void assertSangAndMaPosition(Map<Position, Piece> result, SettingInfo choInfo, SettingInfo hanInfo) {
-        Assertions.assertThat(result.get(choInfo.sang1)).isEqualTo(sangOfCho);
-        Assertions.assertThat(result.get(choInfo.sang2)).isEqualTo(sangOfCho);
-        Assertions.assertThat(result.get(choInfo.ma1)).isEqualTo(maOfCho);
-        Assertions.assertThat(result.get(choInfo.ma2)).isEqualTo(maOfCho);
+        Assertions.assertThat(result.get(choInfo.getSang1())).isEqualTo(sangOfCho);
+        Assertions.assertThat(result.get(choInfo.getSang2())).isEqualTo(sangOfCho);
+        Assertions.assertThat(result.get(choInfo.getMa1())).isEqualTo(maOfCho);
+        Assertions.assertThat(result.get(choInfo.getMa2())).isEqualTo(maOfCho);
 
-        Assertions.assertThat(result.get(hanInfo.sang1)).isEqualTo(sangOfHan);
-        Assertions.assertThat(result.get(hanInfo.sang2)).isEqualTo(sangOfHan);
-        Assertions.assertThat(result.get(hanInfo.ma1)).isEqualTo(maOfHan);
-        Assertions.assertThat(result.get(hanInfo.ma2)).isEqualTo(maOfHan);
+        Assertions.assertThat(result.get(hanInfo.getSang1())).isEqualTo(sangOfHan);
+        Assertions.assertThat(result.get(hanInfo.getSang2())).isEqualTo(sangOfHan);
+        Assertions.assertThat(result.get(hanInfo.getMa1())).isEqualTo(maOfHan);
+        Assertions.assertThat(result.get(hanInfo.getMa2())).isEqualTo(maOfHan);
     }
 
     private void assertWithoutSangAndMaPosition(Map<Position, Piece> result) {

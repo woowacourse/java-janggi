@@ -13,6 +13,20 @@ public class Column {
         return new Column(this.value + value);
     }
 
+    public Column getUpper(Column target) {
+        if (value > target.value) {
+            return this;
+        }
+        return target;
+    }
+
+    public Column getLower(Column target) {
+        if (value < target.value) {
+            return this;
+        }
+        return target;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -32,19 +46,5 @@ public class Column {
 
     public int getValue() {
         return value;
-    }
-
-    public Column getUpper(Column target) {
-        if (value > target.value) {
-            return this;
-        }
-        return target;
-    }
-
-    public Column getLowerValue(Column target) {
-        if (value < target.value) {
-            return this;
-        }
-        return target;
     }
 }

@@ -5,13 +5,11 @@ import domain.piece.strategy.MaMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class MaTest {
     @Test
-    @DisplayName("목적지와 출발지 사이에 기물이 있으면 갈 수 없어야 한다")
-    void isMovable_fail() {
+    void 목적지와_출발지_사이에_기물이_있으면_예외가_발생해야_한다() {
         //given
         Ma testMa = new Ma(new MaMoveStrategy(), Team.CHO);
         Position start = Position.of(2, 2);
@@ -23,15 +21,14 @@ class MaTest {
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
-        //when
+        //when & then
         Assertions.assertThatThrownBy(() -> testMa.check(testBoard, start, destination)).isInstanceOf(
                 IllegalArgumentException.class);
     }
 
 
     @Test
-    @DisplayName("목적지와 출발지 사이에 기물이 없으면 갈 수 있어야 한다")
-    void isMovable_success() {
+    void 목적지와_출발지_사이에_기물이_없으면_이동할_수_있어야_한다() {
         //given
         Ma testMa = new Ma(new MaMoveStrategy(), Team.CHO);
         Position start = Position.of(2, 2);
@@ -40,7 +37,7 @@ class MaTest {
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
-        //when
+        //when & then
         Assertions.assertThatNoException().isThrownBy(() -> testMa.check(testBoard, start, destination));
     }
 }

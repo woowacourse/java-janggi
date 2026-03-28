@@ -16,8 +16,9 @@ class SangMoveStrategyTest {
     void 움직일_수_있다면_경로를_반환한다(Position destination, int expectSize, List<Position> expectPath) {
         // given
         Position start = Position.of(3, 3);
-
         MoveStrategy strategy = new SangMoveStrategy();
+
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
 
         // then
@@ -51,9 +52,9 @@ class SangMoveStrategyTest {
         // given
         Position start = Position.of(3, 3);
         Position destination = Position.of(4, 4);
-
         MoveStrategy strategy = new SangMoveStrategy();
 
+        // when & then
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }

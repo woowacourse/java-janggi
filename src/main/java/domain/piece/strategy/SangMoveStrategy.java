@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class SangMoveStrategy implements MoveStrategy {
-    private static final int SANG_MOVE_SPACE = 2;
     private static final int DESTINATION_INDEX = 2;
     private final int[][] dRow = {
             {-1, -2, -3}, // 1. 위 -> 오른쪽
@@ -31,17 +30,22 @@ public class SangMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
-        for (int way = 0; way < dColumn.length; way++) { // 8가지 움직임중 하나.
-            int[] dColumnOfSpecificAction = dColumn[way];
-            int[] dRowOfSpecificAction = dRow[way];
-            Position destinationCandidate = start.go(dRowOfSpecificAction[DESTINATION_INDEX],
-                    dColumnOfSpecificAction[DESTINATION_INDEX]);
+        for (int direction = 0; direction < dColumn.length; direction++) {
+            int[] rowSteps = dColumn[direction];
+            int[] columnSteps = dRow[direction];
+
+            Position destinationCandidate = start.go(columnSteps[DESTINATION_INDEX], rowSteps[DESTINATION_INDEX]);
+
             if (destination.equals(destinationCandidate)) {
-                return IntStream.range(0, SANG_MOVE_SPACE)
-                        .mapToObj(i -> start.go(dRowOfSpecificAction[i], dColumnOfSpecificAction[i]))
-                        .toList();
+                return getIntermediatePositions(start, rowSteps, columnSteps);
             }
         }
         throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다. 다시 입력하세요.");
+    }
+
+    private static List<Position> getIntermediatePositions(Position start, int[] rowSteps, int[] columnSteps) {
+        return IntStream.range(0, DESTINATION_INDEX)
+                .mapToObj(step -> start.go(columnSteps[step], rowSteps[step]))
+                .toList();
     }
 }

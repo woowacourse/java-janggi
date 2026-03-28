@@ -17,6 +17,10 @@ public class Position {
         return new Position(new Row(row), new Column(column));
     }
 
+    public static Position of(Row row, Column column) {
+        return new Position(row, column);
+    }
+
     public Position go(int row, int column) {
         return new Position(this.row.add(row), this.column.add(column));
     }
@@ -29,20 +33,20 @@ public class Position {
         return column.equals(destination);
     }
 
-    public List<Position> getSameColumnPositionsToDestination(Position destination) {
-        Row min = row.getLowerValue(destination.row);
+    public List<Position> getVerticalPathExcludeDestination(Position destination) {
+        Row min = row.getLower(destination.row);
         Row max = row.getUpper(destination.row);
 
         return IntStream.range(min.getValue() + 1, max.getValue())
-                .mapToObj(i -> Position.of(i, column.getValue()))
+                .mapToObj(row -> Position.of(row, column.getValue()))
                 .toList();
     }
 
-    public List<Position> getSameRowPositionsToDestination(Position destination) {
-        Column min = column.getLowerValue(destination.column);
+    public List<Position> getHorizontalPathExcludeDestination(Position destination) {
+        Column min = column.getLower(destination.column);
         Column max = column.getUpper(destination.column);
         return IntStream.range(min.getValue() + 1, max.getValue())
-                .mapToObj(i -> Position.of(row.getValue(), i))
+                .mapToObj(column -> Position.of(row.getValue(), column))
                 .toList();
     }
 

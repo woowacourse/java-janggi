@@ -7,7 +7,6 @@ import java.util.Map;
 public class BoardStatus {
     private final Map<Position, Piece> boardStatus;
 
-
     private BoardStatus(Map<Position, Piece> boardStatus) {
         this.boardStatus = boardStatus;
     }

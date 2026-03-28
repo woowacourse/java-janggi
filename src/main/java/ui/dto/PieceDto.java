@@ -1,4 +1,4 @@
-package view;
+package ui.dto;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -6,6 +6,7 @@ import domain.piece.Team;
 import domain.position.Position;
 
 public class PieceDto {
+    private static final String INVALID_PIECE_TYPE = "일치하는 기물 정보가 없습니다.";
     private final int row;
     private final int column;
     private final String description;
@@ -70,7 +71,7 @@ public class PieceDto {
             }
         }
 
-        throw new IllegalArgumentException("일치하는 기물 정보가 없습니다.");
+        throw new IllegalArgumentException(INVALID_PIECE_TYPE);
     }
 
     public int getRow() {

@@ -8,15 +8,18 @@ import org.junit.jupiter.api.Test;
 public class ByeongMoveStrategyTest {
     private static final int EXPECT_SIZE = 0;
 
-
     @Test
-    void 움직일_수_있다면_경로를_반환한다() {
+    void 움직일_수_있다면_경로를_반환한다_전진() {
         // given
         Position start = Position.of(2, 10);
         Position destination = Position.of(1, 10);
-
         MoveStrategy strategy = new ByeongMoveStrategy();
+
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
+        Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
     @Test
@@ -24,9 +27,12 @@ public class ByeongMoveStrategyTest {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(2, 10);
+        MoveStrategy strategy = new ByeongMoveStrategy();
 
-        MoveStrategy strategy = new JolMoveStrategy();
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        // then
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
@@ -35,21 +41,23 @@ public class ByeongMoveStrategyTest {
         // given
         Position start = Position.of(2, 10);
         Position destination = Position.of(2, 9);
+        MoveStrategy strategy = new ByeongMoveStrategy();
 
-        MoveStrategy strategy = new JolMoveStrategy();
+        // when
         List<Position> movablePath = strategy.findMovablePath(start, destination);
 
+        // then
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 
     @Test
-    void 잘못된_위치가_제공되면_예외가_발상해야_한다() {
+    void 잘못된_위치가_제공되면_예외가_발생해야_한다() {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(4, 9);
+        MoveStrategy strategy = new ByeongMoveStrategy();
 
-        MoveStrategy strategy = new JolMoveStrategy();
-
+        // when & then
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
                 IllegalArgumentException.class);
     }

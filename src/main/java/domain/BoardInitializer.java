@@ -18,6 +18,8 @@ import domain.piece.strategy.SangMoveStrategy;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
+import domain.settingType.SettingInfo;
+import domain.settingType.SettingType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,31 +95,17 @@ public class BoardInitializer {
 
     private void initSangAndMa(SettingType choSettingType, SettingType hanSettingType,
                                Map<Position, Piece> defaultSetting) {
-        SettingInfo choSettingInfo = convertToSettingInfo(choSettingType, Team.CHO);
-        SettingInfo hanSettingInfo = convertToSettingInfo(hanSettingType, Team.HAN);
+        SettingInfo choSettingInfo = SettingInfo.of(choSettingType, Team.CHO);
+        SettingInfo hanSettingInfo = SettingInfo.of(hanSettingType, Team.HAN);
         putSangAndMaByTeam(defaultSetting, choSettingInfo, choPieces);
         putSangAndMaByTeam(defaultSetting, hanSettingInfo, hanPieces);
     }
 
-    private SettingInfo convertToSettingInfo(SettingType settingType, Team team) {
-        if (settingType == SettingType.LEFT) {
-            return SettingType.getLeftInfo(team);
-        }
-        if (settingType == SettingType.RIGHT) {
-            return SettingType.getRightInfo(team);
-        }
-        if (settingType == SettingType.INNER) {
-            return SettingType.getInnerInfo(team);
-        }
-
-        return SettingType.getOuterInfo(team);
-    }
-
     private void putSangAndMaByTeam(Map<Position, Piece> defaultSetting, SettingInfo settingInfo,
                                     Map<PieceType, Piece> pieces) {
-        defaultSetting.put(settingInfo.ma1, pieces.get(PieceType.MA));
-        defaultSetting.put(settingInfo.ma2, pieces.get(PieceType.MA));
-        defaultSetting.put(settingInfo.sang1, pieces.get(PieceType.SANG));
-        defaultSetting.put(settingInfo.sang2, pieces.get(PieceType.SANG));
+        defaultSetting.put(settingInfo.getMa1(), pieces.get(PieceType.MA));
+        defaultSetting.put(settingInfo.getMa2(), pieces.get(PieceType.MA));
+        defaultSetting.put(settingInfo.getSang1(), pieces.get(PieceType.SANG));
+        defaultSetting.put(settingInfo.getSang2(), pieces.get(PieceType.SANG));
     }
 }

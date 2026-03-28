@@ -1,4 +1,4 @@
-package view;
+package ui.dto;
 
 public class PositionDto {
     private final int startRow;

@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.Team;
 import domain.position.Position;
+import domain.settingType.SettingType;
 
 public class JanggiGame {
     private final Board board;

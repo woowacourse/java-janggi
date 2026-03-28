@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SlidingMoveStrategyTest {
-    // 같은 row일떄
     @Test
     void 같은_Row이면_목적지까지의_경로를_반환해야_한다() {
         // given
@@ -29,7 +28,6 @@ public class SlidingMoveStrategyTest {
                 Position.of(1, 7)
         );
     }
-    // 같은 col 일때
 
     @Test
     void 같은_Column이면_목적지까지의_경로를_반환해야_한다() {
@@ -54,7 +52,6 @@ public class SlidingMoveStrategyTest {
         );
     }
 
-    // 둘 다 아닐때
     @Test
     void 둘_다_위치가_다를_경우_예외가_발생해야_한다() {
         // given

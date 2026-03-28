@@ -6,21 +6,13 @@ import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PoTest {
-    // 목적지와 포 사이에 기물이 1개 있는 경우 -> 가능
-    // 목적지에 상대방 포가 있는 경우 -> 不
-    // 목적지와 포 사이에 기물이 2개 있는 경우 -> 不
-    // 목적지와 포 사이에 포가 있는 경우 -> 不
-    // 목적지와 포 사이에 아무것도 없는 경 -> 不
-
     private static final Po TEST_PO = new Po(new SlidingMoveStrategy(), Team.CHO);
 
     @Test
-    @DisplayName("목적지에 상대방 포가 있는 경우 예외가 발생해야 한다")
-    void isMovable_fail_po_locates_destination() {
+    void 목적지에_상대방_포가_있는_경우_예외가_발생해야_한다() {
         //given
         Position start = Position.of(2, 2);
         Position destination = Position.of(2, 4);
@@ -32,14 +24,13 @@ class PoTest {
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
-        //when
+        //when & then
         Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
                 IllegalArgumentException.class);
     }
 
     @Test
-    @DisplayName("목적지와 포 사이에 포가 있는 경우 예외가 발생해야 한다")
-    void isMovable_fail_has_between_po() {
+    void 목적지와_포_사이에_포가_있는_경우_예외가_발생해야_한다() {
         //given
         Position start = Position.of(2, 2);
         Position destination = Position.of(2, 7);
@@ -51,14 +42,13 @@ class PoTest {
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
-        //when
+        //when & then
         Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
                 IllegalArgumentException.class);
     }
 
     @Test
-    @DisplayName("목적지와 포 사이에 기물이 1개만 있는 경우 갈 수 있어야 한다")
-    void isMovable_success_only_one_piece() {
+    void 목적지와_포_사이에_기물이_1개만_있는_경우_갈_수_있어야_한다() {
         //given
         Position start = Position.of(2, 2);
         Position destination = Position.of(2, 4);
@@ -71,13 +61,12 @@ class PoTest {
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
-        //when
+        //when & then
         Assertions.assertThatNoException().isThrownBy(() -> TEST_PO.check(testBoard, start, destination));
     }
 
     @Test
-    @DisplayName("목적지와 포 사이에 기물이 2개 이상인 경우 예외가 발생해야 한다")
-    void isMovable_fail_over_two_pieces() {
+    void 목적지와_포_사이에_기물이_2개_이상인_경우_예외가_발생해야_한다() {
         //given
         Position start = Position.of(2, 2);
         Position destination = Position.of(2, 5);
@@ -91,14 +80,13 @@ class PoTest {
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
-        //when
+        //when & then
         Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
                 IllegalArgumentException.class);
     }
 
     @Test
-    @DisplayName("목적지와 포 사이에 아무것도 없는 경우 이동 불가")
-    void isMovable_fail_clean_way() {
+    void 목적지와_포_사이에_기물이_없으면_예외가_발생해야_한다() {
         //given
         Position start = Position.of(2, 2);
         Position destination = Position.of(2, 4);

@@ -3,14 +3,14 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
+import domain.settingType.SettingType;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
     @Test
-    void 방어적_복사로_BoardStatus_를_생성함() {
+    void BoardStatus는_방어적_복사가_수행되어야_한다() {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(3, 1);
@@ -26,8 +26,7 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("목적지에 아군 기물이 있으면 이동 불가")
-    void move_fail_same_team_piece() {
+    void 목적지에_아군_기물이_있으면_예외가_발생해야_한다() {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(4, 1);
@@ -35,9 +34,8 @@ class BoardTest {
 
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
 
-        //when, then
-        Assertions.assertThatThrownBy(
-                () -> testBoard.move(turn, start, end)
-        ).isInstanceOf(IllegalArgumentException.class);
+        //when &then
+        Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
