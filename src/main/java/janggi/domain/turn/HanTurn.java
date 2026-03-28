@@ -1,5 +1,6 @@
 package janggi.domain.turn;
 
+import janggi.domain.MoveResult;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
@@ -11,9 +12,10 @@ public class HanTurn extends Started {
 
     @Override
     public PlayerTurn move(Position start, Position end) {
-        if (board.move(start, end, side)) {
-            return new ChoTurn(board);
+        MoveResult moveResult = board.move(start, end, side);
+        if (moveResult.isCapturedGung()) {
+            return new Finish(board);
         }
-        return new Finish(board);
+        return new ChoTurn(board);
     }
 }

@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.MoveResult;
 import janggi.domain.PieceInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
@@ -57,16 +58,19 @@ public class Board implements BoardInterface {
         return currentBoard;
     }
 
-    public boolean move(Position start, Position end, Side side) {
+    public MoveResult move(Position start, Position end, Side side) {
         Piece piece = board.get(start);
+        Piece target = board.get(end);
         if (!piece.isEqualSide(side)) {
             throw new IllegalArgumentException(INVALID_PIECE_SIDE_MESSAGE);
         }
-        List<Position> route = piece.findRoute(start, end);
 
+        List<Position> route = piece.findRoute(start, end);
         piece.validateRoute(route, this);
+
         board.put(end, piece);
         board.put(start, new None());
-        return true;
+
+        return new MoveResult(target.getPieceInfo().pieceType());
     }
 }
