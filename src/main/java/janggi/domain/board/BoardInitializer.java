@@ -98,11 +98,11 @@ public class BoardInitializer {
 
 
     private static void initializeHan(Map<Position, Piece> board, int openingFormationChoice) {
-        board.put(new Position(1, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(3, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(5, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(7, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(9, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
+        board.put(new Position(1, 4), new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN)));
+        board.put(new Position(3, 4), new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN)));
+        board.put(new Position(5, 4), new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN)));
+        board.put(new Position(7, 4), new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN)));
+        board.put(new Position(9, 4), new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN)));
 
         board.put(new Position(2, 3), new CannonPiece(Team.HAN, new CannonStrategy()));
         board.put(new Position(8, 3), new CannonPiece(Team.HAN, new CannonStrategy()));
@@ -119,11 +119,11 @@ public class BoardInitializer {
     }
 
     private static void initializeCho(Map<Position, Piece> board, int openingFormationChoice) {
-        board.put(new Position(1, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(3, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(5, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(7, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(9, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
+        board.put(new Position(1, 7), new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO)));
+        board.put(new Position(3, 7), new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO)));
+        board.put(new Position(5, 7), new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO)));
+        board.put(new Position(7, 7), new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO)));
+        board.put(new Position(9, 7), new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO)));
 
         board.put(new Position(2, 8), new CannonPiece(Team.CHO, new CannonStrategy()));
         board.put(new Position(8, 8), new CannonPiece(Team.CHO, new CannonStrategy()));
