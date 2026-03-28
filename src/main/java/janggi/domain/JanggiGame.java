@@ -3,7 +3,7 @@ package janggi.domain;
 import janggi.domain.piece.Team;
 
 public class JanggiGame {
-    public Team currentTurn = Team.CHO;
+    private Team currentTurn = Team.CHO;
     private boolean isFinished = false;
 
 
@@ -14,6 +14,14 @@ public class JanggiGame {
 
     public Team findCurrentTeam() {
         return currentTurn;
+    }
+
+    public void changeTurn() {
+        if (currentTurn == Team.CHO) {
+            currentTurn = Team.HAN;
+            return;
+        }
+        currentTurn = Team.CHO;
     }
 
 
