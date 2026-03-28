@@ -1,32 +1,25 @@
 package janggi.domain.piece;
 
 import janggi.domain.status.Team;
+import java.util.Map;
+import java.util.function.Function;
 
 public class PieceFactory {
 
-    public static Piece of (Team team, String pieceName) {
-        PieceType pieceType = PieceType.valueOf(pieceName);
-        if (pieceType.equals(PieceType.PHO)) {
-            return new Pho(team);
+    private static final Map<PieceType, Function<Team, Piece>> FACTORY = Map.of(
+            PieceType.CHA, Cha::new,
+            PieceType.MA, Ma::new,
+            PieceType.SANG, Sang::new,
+            PieceType.PHO, Pho::new,
+            PieceType.SA, Sa::new,
+            PieceType.JANG, Jang::new,
+            PieceType.JOL, Jol::new
+    );
+
+    public static Piece initPiece(Team team, PieceType pieceType) {
+        if (!FACTORY.containsKey(pieceType)) {
+            throw new IllegalArgumentException("존재하지 않는 기물입니다.");
         }
-        if (pieceType.equals(PieceType.MA)) {
-            return new Ma(team);
-        }
-        if (pieceType.equals(PieceType.SANG)) {
-            return new Sang(team);
-        }
-        if (pieceType.equals(PieceType.CHA)) {
-            return new Cha(team);
-        }
-        if (pieceType.equals(PieceType.JOL)) {
-            return new Jol(team);
-        }
-        if (pieceType.equals(PieceType.SA)) {
-            return new Sa(team);
-        }
-        if (pieceType.equals(PieceType.JANG)) {
-            return new Jang(team);
-        }
-        return null;
+        return FACTORY.get(pieceType).apply(team);
     }
 }
