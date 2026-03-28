@@ -2,6 +2,9 @@ package janggi.domain.movestorage;
 
 import janggi.domain.BoardState;
 import janggi.domain.Position;
+import janggi.domain.Team;
+
+import java.util.List;
 
 public class JolMoveStorage implements MoveStorage{
     // TODO: 이동 규칙 구현 (2026. 3. 26.)
