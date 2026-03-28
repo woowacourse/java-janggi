@@ -1,6 +1,7 @@
 package domain.place;
 
 import domain.board.BoardView;
+import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class Empty implements Place {
     }
 
     @Override
-    public boolean isCannon() {
+    public boolean isSameSymbol(PieceSymbol pieceSymbol) {
         return false;
     }
 

@@ -37,8 +37,8 @@ public abstract class Piece implements Place {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
+    public boolean isSameSymbol(PieceSymbol pieceSymbol) {
+        return getSymbol() == pieceSymbol;
     }
 
     @Override

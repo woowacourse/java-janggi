@@ -1,6 +1,7 @@
 package domain.place;
 
 import domain.board.BoardView;
+import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public interface Place {
 
     boolean hasSide(Side side);
 
-    boolean isCannon();
+    boolean isSameSymbol(PieceSymbol pieceSymbol);
 
     String getFormat();
 

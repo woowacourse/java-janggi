@@ -1,6 +1,7 @@
 package domain.place.moveStrategy;
 
 import domain.board.BoardView;
+import domain.place.piece.PieceSymbol;
 import domain.position.Position;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,7 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameSide(from, to) || board.isCannon(to)) {
+        if (board.isSameSide(from, to) || board.isSameSymbol(to, PieceSymbol.CANNON)) {
             return false;
         }
 
@@ -56,7 +57,7 @@ public class CannonMoveStrategy implements MoveStrategy {
                 obstacleCount++;
             }
 
-            if (board.isCannon(currentPosition.get())) {
+            if (board.isSameSymbol(currentPosition.get(), PieceSymbol.CANNON)) {
                 return false;
             }
 

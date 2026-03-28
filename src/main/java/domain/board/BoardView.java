@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.place.piece.PieceSymbol;
 import domain.position.Position;
 
 public interface BoardView {
@@ -8,6 +9,6 @@ public interface BoardView {
 
     boolean isSameSide(Position from, Position to);
 
-    boolean isCannon(Position position);
+    boolean isSameSymbol(Position position, PieceSymbol pieceSymbol);
 }
 

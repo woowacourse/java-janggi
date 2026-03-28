@@ -7,6 +7,7 @@ import static domain.common.Constant.MIN_ROW;
 
 import domain.place.Empty;
 import domain.place.Place;
+import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.ArrayList;
@@ -90,8 +91,8 @@ public class Board implements BoardView {
     }
 
     @Override
-    public boolean isCannon(Position position) {
+    public boolean isSameSymbol(Position position, PieceSymbol pieceSymbol) {
         Place place = board.get(position);
-        return place.isCannon();
+        return place.isSameSymbol(pieceSymbol);
     }
 }
