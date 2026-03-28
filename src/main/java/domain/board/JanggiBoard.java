@@ -55,25 +55,12 @@ public class JanggiBoard {
 
     public Intersection findMyIntersection(Point point, Team team) {
         Intersection from = findIntersection(point);
-        validateIsEmptyIntersection(from);
-        validateTryToMoveOpponentPiece(from, team);
+        from.validateMovable(team);
         return from;
     }
 
     public Intersection findIntersection(Point point) {
         return intersections.get(point);
-    }
-
-    private void validateTryToMoveOpponentPiece(Intersection from, Team currentTeam) {
-        if (!from.isSameTeam(currentTeam)) {
-            throw new IllegalArgumentException("상대방 기물은 이동시킬 수 없습니다.");
-        }
-    }
-
-    private void validateIsEmptyIntersection(Intersection from) {
-        if (!from.hasPiece()) {
-            throw new IllegalArgumentException("기물이 없어 움직일 수 없습니다.");
-        }
     }
 
     private Map<Point, Intersection> fillEmptyIntersections() {

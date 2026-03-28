@@ -69,6 +69,23 @@ public class Intersection {
         return this.piece;
     }
 
+    public void validateMovable(Team currentTeam) {
+        validateHasPiece();
+        validateSameTeam(currentTeam);
+    }
+
+    private void validateSameTeam(Team currentTeam) {
+        if (!isSameTeam(currentTeam)) {
+            throw new IllegalArgumentException("상대방 기물은 이동시킬 수 없습니다.");
+        }
+    }
+
+    private void validateHasPiece() {
+        if (hasPiece()) {
+            throw new IllegalArgumentException("기물이 없어 움직일 수 없습니다.");
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
