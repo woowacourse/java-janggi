@@ -55,7 +55,10 @@ public class CannonMoveStrategy implements MoveStrategy {
         Piece target = null;
         while (it.hasNext() && (target = state.get(it.next())) == null) {
         }
-        return target != null && !target.isCannon();
+        if (target == null || target.isCannon()) {
+            return false;
+        }
+        return true;
     }
 
     private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests, Piece me) {
@@ -74,8 +77,9 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private void addIfCapturable(Position pos, Piece target, List<Position> dests, Piece me) {
-        if (!target.isCannon() && !target.isSameSide(me)) {
-            dests.add(pos);
+        if (target.isCannon() || target.isSameSide(me)) {
+            return;
         }
+        dests.add(pos);
     }
 }
