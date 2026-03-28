@@ -7,6 +7,7 @@ import janggi.domain.Side;
 import janggi.domain.policy.RoutePolicy;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class LinearPiece extends ActivePiece {
     public LinearPiece(RoutePolicy routePolicy, Side side, PieceType pieceType) {
@@ -34,7 +35,7 @@ public abstract class LinearPiece extends ActivePiece {
 
     private List<Position> calculatePath(Position start, boolean isVertical, int dist) {
         Movement movement = resolveMovement(isVertical, dist);
-        return java.util.stream.Stream
+        return Stream
                 .iterate(start, current -> current.move(movement))
                 .limit(Math.abs(dist) + 1)
                 .toList();
