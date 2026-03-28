@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.diagonalMove.Ma;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.linearMove.Pho;
 import janggi.model.position.Column;
@@ -77,7 +78,36 @@ class PhoTest {
                 .isEqualTo(new Position(Row.EIGHT, Column.THREE));
     }
 
-    @DisplayName("아무런 기물이 없으면 예외가 발생한다.")
+    @DisplayName("경로 상에 포가 아닌 기물이 1개 있다면 true를 반환한다.")
+    @Test
+    void canPassThrough_true() {
+        //given
+        List<AbstractGimul> gimulsOnPath = List.of(
+                new Ma(Team.CHO)
+        );
+        Pho pho = new Pho(Team.CHO);
+
+        //when & then
+        assertThat(pho.canPassThrough(gimulsOnPath))
+                .isTrue();
+    }
+
+    @DisplayName("경로 상에 포가 아닌 기물이 1개 있고, 목적지에 상대 기물이 있으면 true를 반환한다.")
+    @Test
+    void canPassThrough_enemy_at_destination() {
+        //given
+        List<AbstractGimul> gimulsOnPath = List.of(
+                new Ma(Team.CHO)
+        );
+        Pho pho = new Pho(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.HAN);
+
+        //when & then
+        assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
+                .isTrue();
+    }
+
+    @DisplayName("아무런 기물이 없으면 false를 반환한다.")
     @Test
     void canPassThrough_Empty() {
         //given
@@ -88,7 +118,7 @@ class PhoTest {
                 .isFalse();
     }
 
-    @DisplayName("포함된 기물이 포이면 예외가 발생한다.")
+    @DisplayName("포함된 기물이 포이면 false를 반환한다.")
     @Test
     void canPassThrough_pho() {
         //given
@@ -112,5 +142,30 @@ class PhoTest {
         //when & then
         assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
+    }
+
+    @DisplayName("포가 포를 잡으려 하면 false를 반환한다.")
+    @Test
+    void canPassThrough_phoAtDestination() {
+        //given
+        List<AbstractGimul> gimulsOnPath = List.of(new Cha(Team.CHO));
+        Pho gimulAtTo = new Pho(Team.HAN);
+        Pho pho = new Pho(Team.CHO);
+
+        //when & then
+        assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
+                .isFalse();
+    }
+
+    @DisplayName("경로에 기물이 하나 있고 목적지가 비어있으면 true를 반환한다.")
+    @Test
+    void canPassThrough_oneGimulOnPath() {
+        //given
+        List<AbstractGimul> gimulsOnPath = List.of(new Cha(Team.CHO));
+        Pho pho = new Pho(Team.CHO);
+
+        //when & then
+        assertThat(pho.canPassThrough(gimulsOnPath))
+                .isTrue();
     }
 }
