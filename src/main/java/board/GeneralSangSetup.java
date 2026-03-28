@@ -14,80 +14,76 @@ import position.Position;
 
 public abstract class GeneralSangSetup implements SangSetup {
 
-    private final static Piece EMPTY_PIECE = EmptyPiece.getInstance();
+    private static final Piece EMPTY_PIECE = EmptyPiece.getInstance();
+    private static final int ONE_SPACE = 1;
+    private static final int CHO_START_ROW = 0;
+    private static final int HAN_START_ROW = 5;
+    private static final int BOARD_ROW_SIZE = 9;
+    private static final int BOARD_COLUMN_SIZE = 8;
 
     @Override
     public Board initialize(Side side) {
-        return new Board(setupBoard(side));
-    }
-
-    private Map<Position, Piece> setupBoard(Side side) {
         Map<Position, Piece> board = new HashMap<>();
-        if (side.isCho()) {
-            board.putAll(emptyChoBoard());
-            board.putAll(putChoPieces());
-        } else {
-            board.putAll(emptyHanBoard());
-            board.putAll(putHanPieces());
-        }
+        putEmptyArea(board, side);
+        putDefaultPieces(board, side);
         board.putAll(getSangAndMaPositions(side));
-        return board;
+        return new Board(board);
     }
 
-    private Map<Position, Piece> emptyChoBoard() {
-        Map<Position, Piece> board = new HashMap<>();
-        for (int row = 0; row <= 4; row++) {
+    private void putEmptyArea(Map<Position, Piece> board, Side side) {
+        int startRow = startRow(side);
+        int endRow = endRow(side);
+
+        for (int row = startRow; row <= endRow; row++) {
             for (int column = 0; column <= 8; column++) {
                 board.put(new Position(row, column), EMPTY_PIECE);
             }
         }
-        return board;
     }
 
-    private Map<Position, Piece> emptyHanBoard() {
-        Map<Position, Piece> board = new HashMap<>();
-        for (int row = 5; row <= 9; row++) {
-            for (int column = 0; column <= 8; column++) {
-                board.put(new Position(row, column), EMPTY_PIECE);
-            }
+    private int startRow(Side side) {
+        if (side.isCho()) {
+            return CHO_START_ROW;
         }
-        return board;
+        return HAN_START_ROW - ONE_SPACE;
     }
 
-    private Map<Position, Piece> putChoPieces() {
-        return Map.ofEntries(
-                Map.entry(new Position(0, 0), new Cha(Side.CHO)),
-                Map.entry(new Position(0, 3), new Sa(Side.CHO)),
-                Map.entry(new Position(1, 4), new Gung(Side.CHO)),
-                Map.entry(new Position(0, 5), new Sa(Side.CHO)),
-                Map.entry(new Position(0, 8), new Cha(Side.CHO)),
-
-                Map.entry(new Position(2, 1), new Po(Side.CHO)),
-                Map.entry(new Position(2, 7), new Po(Side.CHO)),
-
-                Map.entry(new Position(3, 0), new JolByeong(Side.CHO)),
-                Map.entry(new Position(3, 2), new JolByeong(Side.CHO)),
-                Map.entry(new Position(3, 4), new JolByeong(Side.CHO)),
-                Map.entry(new Position(3, 6), new JolByeong(Side.CHO)),
-                Map.entry(new Position(3, 8), new JolByeong(Side.CHO))
-        );
+    private int endRow(Side side) {
+        if (side.isCho()) {
+            return HAN_START_ROW;
+        }
+        return BOARD_ROW_SIZE;
     }
 
-    private Map<Position, Piece> putHanPieces() {
-        return Map.ofEntries(
-                Map.entry(new Position(9, 0), new Cha(Side.HAN)),
-                Map.entry(new Position(9, 3), new Sa(Side.HAN)),
-                Map.entry(new Position(8, 4), new Gung(Side.HAN)),
-                Map.entry(new Position(9, 5), new Sa(Side.HAN)),
-                Map.entry(new Position(9, 8), new Cha(Side.HAN)),
-                Map.entry(new Position(7, 1), new Po(Side.HAN)),
-                Map.entry(new Position(7, 7), new Po(Side.HAN)),
+    private void putDefaultPieces(Map<Position, Piece> board, Side side) {
+        board.put(toPosition(side, 0, 0), new Cha(side));
+        board.put(toPosition(side, 0, 3), new Sa(side));
+        board.put(toPosition(side, 1, 4), new Gung(side));
+        board.put(toPosition(side, 0, 5), new Sa(side));
+        board.put(toPosition(side, 0, 8), new Cha(side));
 
-                Map.entry(new Position(6, 0), new JolByeong(Side.HAN)),
-                Map.entry(new Position(6, 2), new JolByeong(Side.HAN)),
-                Map.entry(new Position(6, 4), new JolByeong(Side.HAN)),
-                Map.entry(new Position(6, 6), new JolByeong(Side.HAN)),
-                Map.entry(new Position(6, 8), new JolByeong(Side.HAN))
+        board.put(toPosition(side, 2, 1), new Po(side));
+        board.put(toPosition(side, 2, 7), new Po(side));
+
+        board.put(toPosition(side, 3, 0), new JolByeong(side));
+        board.put(toPosition(side, 3, 2), new JolByeong(side));
+        board.put(toPosition(side, 3, 4), new JolByeong(side));
+        board.put(toPosition(side, 3, 6), new JolByeong(side));
+        board.put(toPosition(side, 3, 8), new JolByeong(side));
+    }
+
+    protected Position toPosition(Side side, int choRow, int choColumn) {
+        Position position = new Position(choRow, choColumn);
+        if (side.isCho()) {
+            return position;
+        }
+        return reverse(position);
+    }
+
+    private Position reverse(Position position) {
+        return new Position(
+            BOARD_ROW_SIZE - position.row().index(),
+            BOARD_COLUMN_SIZE - position.column().index()
         );
     }
 
