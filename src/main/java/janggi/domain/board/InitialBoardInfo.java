@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import java.util.HashMap;
 import java.util.Map;
 
 public enum InitialBoardInfo {
@@ -26,36 +27,44 @@ public enum InitialBoardInfo {
         this.solderType = solderType;
     }
 
-    public void setPieces(Map<Position, Piece> initialBoard) {
-        initMajorPieces(initialBoard);
-        initPalaceAndCannons(initialBoard);
-        initSoldiers(initialBoard, solderType);
+    public Map<Position, Piece> generateInitialPiecePositions() {
+        Map<Position, Piece> initialPiecePositions = new HashMap<>();
+        initialPiecePositions.putAll(initMajorPieces());
+        initialPiecePositions.putAll(initPalaceAndCannons());
+        initialPiecePositions.putAll(initSoldiers());
+        return initialPiecePositions;
     }
 
-    private void initMajorPieces(Map<Position, Piece> initialBoard) {
-        put(initialBoard, bottomRow, 0, PieceType.CHARIOT, "0");
-        put(initialBoard, bottomRow, 8, PieceType.CHARIOT, "1");
-        put(initialBoard, bottomRow, 1, PieceType.ELEPHANT, "0");
-        put(initialBoard, bottomRow, 7, PieceType.ELEPHANT, "1");
-        put(initialBoard, bottomRow, 2, PieceType.HORSE, "0");
-        put(initialBoard, bottomRow, 6, PieceType.HORSE, "1");
-        put(initialBoard, bottomRow, 3, PieceType.GUARD, "0");
-        put(initialBoard, bottomRow, 5, PieceType.GUARD, "1");
+    private Map<Position, Piece> initMajorPieces() {
+        Map<Position, Piece> majorPieces = new HashMap<>();
+        putPiece(majorPieces, bottomRow, 0, PieceType.CHARIOT, "0");
+        putPiece(majorPieces, bottomRow, 8, PieceType.CHARIOT, "1");
+        putPiece(majorPieces, bottomRow, 1, PieceType.ELEPHANT, "0");
+        putPiece(majorPieces, bottomRow, 7, PieceType.ELEPHANT, "1");
+        putPiece(majorPieces, bottomRow, 2, PieceType.HORSE, "0");
+        putPiece(majorPieces, bottomRow, 6, PieceType.HORSE, "1");
+        putPiece(majorPieces, bottomRow, 3, PieceType.GUARD, "0");
+        putPiece(majorPieces, bottomRow, 5, PieceType.GUARD, "1");
+        return majorPieces;
     }
 
-    private void initPalaceAndCannons(Map<Position, Piece> initialBoard) {
-        put(initialBoard, palaceRow, 4, PieceType.PALACE, "0");
-        put(initialBoard, cannonRow, 1, PieceType.CANNON, "0");
-        put(initialBoard, cannonRow, 7, PieceType.CANNON, "1");
+    private Map<Position, Piece> initPalaceAndCannons() {
+        Map<Position, Piece> palaceAndCannons = new HashMap<>();
+        putPiece(palaceAndCannons, palaceRow, 4, PieceType.PALACE, "0");
+        putPiece(palaceAndCannons, cannonRow, 1, PieceType.CANNON, "0");
+        putPiece(palaceAndCannons, cannonRow, 7, PieceType.CANNON, "1");
+        return palaceAndCannons;
     }
 
-    private void initSoldiers(Map<Position, Piece> initialBoard, PieceType type) {
+    private Map<Position, Piece> initSoldiers() {
+        Map<Position, Piece> soldiers = new HashMap<>();
         for (int i = 0; i < 5; i++) {
-            put(initialBoard, solderRow, i * 2, type, String.valueOf(i));
+            putPiece(soldiers, solderRow, i * 2, this.solderType, String.valueOf(i));
         }
+        return soldiers;
     }
 
-    private void put(Map<Position, Piece> initialBoard, int row, int column, PieceType type, String number) {
-        initialBoard.put(new Position(row, column), new Piece(side, type, number));
+    private void putPiece(Map<Position, Piece> targetMap, int row, int column, PieceType type, String number) {
+        targetMap.put(new Position(row, column), new Piece(this.side, type, number));
     }
 }

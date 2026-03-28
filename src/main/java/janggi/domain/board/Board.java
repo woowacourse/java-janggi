@@ -17,28 +17,26 @@ public class Board {
 
     private final Map<Position, Piece> piecePosition;
 
-    private Board(Map<Position, Piece> piecePosition) {
+    public Board(Map<Position, Piece> piecePosition) {
         this.piecePosition = new HashMap<>(piecePosition);
     }
 
     public static Board initialize() {
-        Map<Position, Piece> initialBoard = new HashMap<>();
-        initializeEach(InitialBoardInfo.values(), initialBoard);
+        Map<Position, Piece> initialBoard = new HashMap<>(initializeEach());
         return new Board(initialBoard);
     }
 
-    private static void initializeEach(InitialBoardInfo[] boardInfos, Map<Position, Piece> initialBoard) {
-        Arrays.stream(boardInfos)
-                .forEach(boardInfo -> {
-                    boardInfo.setPieces(initialBoard);
-                });
+    private static Map<Position, Piece> initializeEach() {
+        Map<Position, Piece> initialPiecePosition = new HashMap<>();
+        Arrays.stream(InitialBoardInfo.values())
+                .forEach(boardInfo -> initialPiecePosition.putAll(boardInfo.generateInitialPiecePositions()));
+        return initialPiecePosition;
     }
 
     public List<Position> calculateDestinations(Position currentPosition) {
         Piece piece = piecePosition.get(currentPosition);
         Paths moveablePaths = piece.calculatePaths(currentPosition);
         Map<Position, Piece> boardState = generateStateByPaths(moveablePaths);
-
         return piece.determineDestinations(moveablePaths, boardState);
     }
 
