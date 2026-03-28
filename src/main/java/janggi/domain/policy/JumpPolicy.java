@@ -22,11 +22,9 @@ public class JumpPolicy implements RoutePolicy {
     }
 
     private boolean isMovableFirst(List<Position> path, BoardInterface boardInterface) {
-        List<Position> piecesOnPath = path.stream()
-                .filter(position -> !boardInterface.isEmpty(position))
-                .toList();
-
-        return piecesOnPath.size() == 1;
+         return path.stream()
+                 .filter(position -> !boardInterface.isEmpty(position))
+                 .count() == 1;
     }
 
     private boolean isMovableLast(Position position, Side side, BoardInterface boardInterface) {
