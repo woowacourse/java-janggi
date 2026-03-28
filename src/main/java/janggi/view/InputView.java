@@ -16,7 +16,7 @@ public class InputView {
     }
 
     public Optional<PositionRequest> readPieceSelection() {
-        System.out.println("기물을 선택해주세요. (x y / q: 취소)");
+        System.out.println("기물을 선택해주세요. (예시: 0 3)");
         String input = scanner.nextLine().trim();
         if (isQuit(input)) {
             return Optional.empty();
