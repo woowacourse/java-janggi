@@ -20,5 +20,7 @@ public class OutputView {
             }
             System.out.println();
         }
+
+        System.out.println();
     }
 }

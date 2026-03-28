@@ -1,10 +1,10 @@
+import view.InputView;
 import view.OutputView;
 
 public class Application {
 
     public static void main(String[] args) {
-        OutputView outputView = new OutputView();
-        JanggiController janggiController = new JanggiController(outputView);
+        JanggiController janggiController = new JanggiController(new InputView(), new OutputView());
         janggiController.run();
     }
 }
