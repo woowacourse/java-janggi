@@ -3,6 +3,7 @@ package domain.place.moveStrategy;
 import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
+import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -47,21 +48,21 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
-        Position currentPosition = from.move(direction);
+        Optional<Position> currentPosition = from.moveIfInBounds(direction);
         int obstacleCount = 0;
 
-        while (!to.equals(currentPosition)) {
-            if (!board.isEmpty(currentPosition)) {
+        while (currentPosition.isPresent() && !to.equals(currentPosition.get())) {
+            if (!board.isEmpty(currentPosition.get())) {
                 obstacleCount++;
             }
 
-            if (board.isCannon(currentPosition)) {
+            if (board.isCannon(currentPosition.get())) {
                 return false;
             }
 
-            currentPosition = currentPosition.move(direction);
+            currentPosition = currentPosition.get().moveIfInBounds(direction);
         }
-        return obstacleCount == REQUIRED_OBSTACLE_COUNT;
+        return obstacleCount == REQUIRED_OBSTACLE_COUNT && currentPosition.isPresent();
     }
 
 }

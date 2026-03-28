@@ -7,6 +7,7 @@ import static domain.common.Constant.MIN_ROW;
 
 import domain.place.moveStrategy.Direction;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Position {
 
@@ -16,10 +17,6 @@ public class Position {
     public Position(int row, int column) {
         this.row = new Row(row);
         this.column = new Column(column);
-    }
-
-    public static boolean isNotOutOfBounds(int row, int column) {
-        return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
     }
 
     public boolean isNotStrategyLine(Position position) {
@@ -34,8 +31,18 @@ public class Position {
         return column.column();
     }
 
-    public Position move(Direction direction) {
-        return new Position(getRow() + direction.getRow(), getColumn() + direction.getColumn());
+    public Optional<Position> moveIfInBounds(Direction direction) {
+        int currentRow = getRow() + direction.getRow();
+        int currentColumn = getColumn() + direction.getColumn();
+
+        if (!isNotOutOfBounds(currentRow, currentColumn)) {
+            return Optional.empty();
+        }
+        return Optional.of(new Position(currentRow, currentColumn));
+    }
+
+    private boolean isNotOutOfBounds(int row, int column) {
+        return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
     }
 
     @Override

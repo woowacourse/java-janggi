@@ -31,34 +31,25 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     private boolean isFirstStepClear(BoardView board, Position from, Direction direction) {
-        return isStepInBounds(from, direction)
-                && board.isEmpty(from.move(direction));
+        return from.moveIfInBounds(direction)
+                .map(board::isEmpty)
+                .orElse(false);
     }
 
     private boolean isPathClear(Position from, Position to, Direction direction) {
-        if (!isStepInBounds(from, direction)) {
-            return false;
-        }
-        Position step1 = from.move(direction);
-
-        return isStep2Clear(step1, to, direction);
+        return from.moveIfInBounds(direction)
+                .map(step1 -> isStep2Clear(step1, to, direction))
+                .orElse(false);
     }
 
     private boolean isStep2Clear(Position step1, Position to, Direction direction) {
         List<Direction> diagonal = DIAGONAL_DIRECTIONS.stream()
                 .filter(dig -> isAlignedWith(direction, dig))
-                .filter(dig -> isStepInBounds(step1, dig))
+                .filter(dig -> step1.moveIfInBounds(dig).isPresent())
                 .toList();
 
         return diagonal.stream()
-                .map(step1::move)
+                .flatMap(dig -> step1.moveIfInBounds(dig).stream())
                 .anyMatch(to::equals);
-    }
-
-    private boolean isStepInBounds(Position current, Direction direction) {
-        int nextRow = current.getRow() + direction.getRow();
-        int nextCol = current.getColumn() + direction.getColumn();
-
-        return Position.isNotOutOfBounds(nextRow, nextCol);
     }
 }

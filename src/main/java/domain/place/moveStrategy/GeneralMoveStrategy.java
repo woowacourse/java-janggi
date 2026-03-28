@@ -20,12 +20,8 @@ public class GeneralMoveStrategy implements MoveStrategy {
     }
 
     private boolean canReachAdjacentPosition(Position from, Position to) {
-        int currentRow = from.getRow();
-        int currentColumn = from.getColumn();
-
         return ORTHOGONAL_DIRECTIONS.stream()
-                .filter(d -> Position.isNotOutOfBounds(currentRow + d.getRow(), currentColumn + d.getColumn()))
-                .map(from::move)
+                .flatMap(d -> from.moveIfInBounds(d).stream())
                 .anyMatch(to::equals);
     }
 }

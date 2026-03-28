@@ -5,7 +5,6 @@ import domain.place.piece.Side;
 import domain.player.Player;
 import domain.player.Players;
 import domain.position.Position;
-import java.util.Arrays;
 import java.util.List;
 import parser.PlayerNameParser;
 import parser.PositionParser;
@@ -49,7 +48,7 @@ public class Janggi {
         }
     }
 
-    private boolean isGameRunning(Board board){
+    private boolean isGameRunning(Board board) {
         //todo: 게임이 끝났는지 판단하는 로직 추가
         return true;
     }

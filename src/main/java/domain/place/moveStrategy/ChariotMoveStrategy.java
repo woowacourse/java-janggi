@@ -3,6 +3,7 @@ package domain.place.moveStrategy;
 import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
+import java.util.Optional;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
@@ -46,16 +47,16 @@ public class ChariotMoveStrategy implements MoveStrategy {
     }
 
     private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
-        Position currentPosition = from.move(direction);
+        Optional<Position> currentPosition = from.moveIfInBounds(direction);
 
-        while (!to.equals(currentPosition)) {
-
-            if (!board.isEmpty(currentPosition)) {
+        while (currentPosition.isPresent() && !to.equals(currentPosition.get())) {
+            if (!board.isEmpty(currentPosition.get())) {
                 return false;
             }
-            currentPosition = currentPosition.move(direction);
+
+            currentPosition = currentPosition.get().moveIfInBounds(direction);
         }
 
-        return true;
+        return currentPosition.isPresent();
     }
 }

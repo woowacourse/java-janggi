@@ -1,8 +1,5 @@
 package domain.place.piece;
 
-import domain.place.moveStrategy.Direction;
-import java.util.List;
-
 public enum Side {
     CHO("C", 10, -1),
     HAN("H", 1, 1);
@@ -10,6 +7,7 @@ public enum Side {
     private final String name;
     private final int startLine;
     private final int setupDirection; // 초기화용
+
     Side(String name, int startLine, int setupDirection) {
         this.name = name;
         this.startLine = startLine;
