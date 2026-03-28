@@ -74,7 +74,7 @@ public class JanggiBoard {
         return intersections.values().stream()
                 .filter(Intersection::hasPiece)
                 .filter(intersection -> intersection.isSameTeam(team))
-                .noneMatch(Intersection::isGeneral);
+                .noneMatch(Intersection::hasGeneral);
     }
 
     public Map<Point, Intersection> getJanggiBoard() {

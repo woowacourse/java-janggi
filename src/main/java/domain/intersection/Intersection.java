@@ -42,7 +42,7 @@ public class Intersection {
         return point;
     }
 
-    public boolean isGeneral() {
+    public boolean hasGeneral() {
         return this.piece.isSamePiece(PieceType.GENERAL);
     }
 
