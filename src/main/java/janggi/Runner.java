@@ -38,6 +38,10 @@ public class Runner {
         }
     }
 
+    private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
+        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.sideName());
+    }
+
     private void playerTurn() {
         Position selected = selectPiecePosition();
         if (!gameManager.isThereMoveablePiece(selected)) {
@@ -58,10 +62,6 @@ public class Runner {
         return position;
     }
 
-    private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
-        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.sideName());
-    }
-
     private Position readTargetPosition() {
         return retry(() -> {
             outputView.printMovePositionRowNotice();
@@ -79,11 +79,18 @@ public class Runner {
                     return position.map(PositionDTO::new);
                 })
                 .toList();
-        outputView.printBoardStatus(gameManager.boardStatus(), selected.map(PositionDTO::new), positionDTOS);
-        Position target = selectTargetPosition();
-        gameManager.movePiece(selected, target, destinations);
+        Position target = movePieceToMoveablePosition(selected, destinations, positionDTOS);
         outputView.printBoardStatus(gameManager.boardStatus(), target.map(PositionDTO::new));
 
+    }
+
+    private Position movePieceToMoveablePosition(Position selected, List<Position> destinations, List<PositionDTO> positionDTOS) {
+        return retry(() -> {
+            outputView.printBoardStatus(gameManager.boardStatus(), selected.map(PositionDTO::new), positionDTOS);
+            Position target = selectTargetPosition();
+            gameManager.movePiece(selected, target, destinations);
+            return target;
+        });
     }
 
     private Position selectTargetPosition() {
