@@ -13,6 +13,9 @@ public class Paths implements Iterable<Path> {
     }
 
     public void addPath(Path path) {
+        if (path.isEmpty()) {
+            return;
+        }
         paths.add(path);
     }
 

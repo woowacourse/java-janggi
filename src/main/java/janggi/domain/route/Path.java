@@ -17,6 +17,10 @@ public class Path implements Iterable<Position> {
         positions.add(nextPosition);
     }
 
+    public boolean isEmpty() {
+        return positions.isEmpty();
+    }
+
     @Override
     public Iterator<Position> iterator() {
         return positions.iterator();
