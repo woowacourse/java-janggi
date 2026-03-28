@@ -25,11 +25,16 @@ public class Intersection {
         return new Intersection(point, Piece.none());
     }
 
-    public void arrive(Intersection from) {
+    public void move(Intersection to) {
+        to.arrive(this);
+        leave();
+    }
+
+    private void arrive(Intersection from) {
         this.piece = from.piece;
     }
 
-    public void leave() {
+    private void leave() {
         piece = Piece.none();
     }
 

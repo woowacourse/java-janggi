@@ -33,12 +33,7 @@ public class JanggiBoard {
         Intersection from = findMyIntersection(start, currentTeam);
         Intersection to = findIntersection(end);
         inspectPath(from, to);
-        move(from, to);
-    }
-
-    private void move(Intersection from, Intersection to) {
-        to.arrive(from);
-        from.leave();
+        from.move(to);
     }
 
     private void inspectPath(Intersection from, Intersection to) {
