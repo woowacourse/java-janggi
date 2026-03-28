@@ -45,7 +45,6 @@ public class HorseMoveStrategy implements MoveStrategy {
     private boolean isStep2Clear(Position step1, Position to, Direction direction) {
         List<Direction> diagonal = DIAGONAL_DIRECTIONS.stream()
                 .filter(dig -> isAlignedWith(direction, dig))
-                .filter(dig -> step1.moveIfInBounds(dig).isPresent())
                 .toList();
 
         return diagonal.stream()
