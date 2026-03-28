@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.movestorage.MoveStorage;
+import janggi.exception.InvalidMoveException;
 
 public class Piece {
     private final MoveStorage moveStorage;
@@ -14,12 +15,24 @@ public class Piece {
         this.score = score;
         this.name = name;
     }
-    // TODO: 이동가능 여부 구현 (2026. 3. 26.)
-    public void verifyMove(Position from, Position to, BoardState boardState) {
 
+    public void verifyMove(Position from, Position to, BoardState boardState) {
+        if (!moveStorage.canMove(from, to, boardState)) {
+            throw new InvalidMoveException();
+        }
+
+        Piece pieceTo = boardState.getPieceAt(to);
+
+        if (pieceTo != null && getTeam() == pieceTo.getTeam()) {
+            throw new InvalidMoveException();
+        }
     }
 
     public String getName() {
         return name;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }
