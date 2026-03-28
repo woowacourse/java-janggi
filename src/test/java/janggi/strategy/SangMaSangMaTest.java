@@ -5,6 +5,7 @@ import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
 import janggi.domain.Side;
+import janggi.domain.piece.TeamPiece;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

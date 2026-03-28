@@ -18,6 +18,8 @@ public abstract class Piece {
 
     public abstract List<Location> calculateRoute(Location from, Location to);
 
+    public abstract void detectCollision(List<Piece> piecesOnPath);
+
     public boolean isSameSide(Piece piece) {
         return this.side.equals(piece.side);
     }

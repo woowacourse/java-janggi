@@ -11,12 +11,15 @@ import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.rule.collision.CollisionDetector;
+import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.Route;
 import java.util.List;
 
 public class Sang extends Piece {
 
     private static final String PIECE_NAME = "상";
+    private static final CollisionDetector COLLISION_DETECTOR = new DefaultCollisionDetector();
 
     public Sang(Side side) {
         super(PIECE_NAME, side);
@@ -40,13 +43,18 @@ public class Sang extends Piece {
                 Route.of(List.of(BACK, BACK_RIGHT, BACK_RIGHT))
         );
 
-        for(Route route : directions) {
+        for (Route route : directions) {
             List<Location> locations = route.apply(from);
-            if(locations.getLast().equals(to)) {
+            if (locations.getLast().equals(to)) {
                 return locations;
             }
         }
 
         throw new IllegalArgumentException("상은 해당 위치에 도달할 수 없습니다.");
+    }
+
+    @Override
+    public void detectCollision(List<Piece> piecesOnPath) {
+        COLLISION_DETECTOR.check(this, piecesOnPath);
     }
 }

@@ -19,6 +19,11 @@ public class EmptyPiece extends Piece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        return List.of();
+        throw new IllegalArgumentException("빈 객체는 이동할 수 없습니다.");
+    }
+
+    @Override
+    public void detectCollision(List<Piece> piecesOnPath) {
+        throw new IllegalArgumentException("빈 객체는 이동할 수 없습니다.");
     }
 }

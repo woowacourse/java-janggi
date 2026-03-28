@@ -2,14 +2,17 @@ package janggi.domain.piece;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.rule.route.RouteProvider;
+import janggi.domain.rule.collision.CollisionDetector;
+import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.GungSeongRouteProvider;
+import janggi.domain.rule.route.RouteProvider;
 import java.util.List;
 
 public class Sa extends Piece {
 
     private static final String PIECE_NAME = "사";
     private static final RouteProvider ROUTE_PROVIDER = new GungSeongRouteProvider();
+    private static final CollisionDetector COLLISION_DETECTOR = new DefaultCollisionDetector();
 
     public Sa(Side side) {
         super(PIECE_NAME, side);
@@ -27,5 +30,10 @@ public class Sa extends Piece {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("사는 해당 위치에 도달할 수 없습니다.");
         }
+    }
+
+    @Override
+    public void detectCollision(List<Piece> piecesOnPath) {
+        COLLISION_DETECTOR.check(this, piecesOnPath);
     }
 }

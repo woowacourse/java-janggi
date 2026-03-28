@@ -27,9 +27,9 @@ public class GungSeongRouteProvider implements RouteProvider {
                 Route.of(List.of(BACK_RIGHT))
         );
 
-        for(Route route : directions) {
+        for (Route route : directions) {
             List<Location> locations = route.apply(from);
-            if(locations.getLast().equals(to)) {
+            if (locations.getLast().equals(to)) {
                 return locations;
             }
         }

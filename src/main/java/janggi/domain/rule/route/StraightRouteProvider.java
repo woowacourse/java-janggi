@@ -21,9 +21,9 @@ public class StraightRouteProvider implements RouteProvider {
                 Route.create(RIGHT, maxDistance)
         );
 
-        for(Route route : directions) {
+        for (Route route : directions) {
             List<Location> locations = route.apply(from);
-            if(locations.contains(to)) {
+            if (locations.contains(to)) {
                 return locations;
             }
         }

@@ -1,15 +1,25 @@
 package janggi.domain.piece;
 
-import static janggi.domain.rule.route.Direction.*;
+import static janggi.domain.rule.route.Direction.BACK;
+import static janggi.domain.rule.route.Direction.BACK_LEFT;
+import static janggi.domain.rule.route.Direction.BACK_RIGHT;
+import static janggi.domain.rule.route.Direction.FRONT;
+import static janggi.domain.rule.route.Direction.FRONT_LEFT;
+import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
+import static janggi.domain.rule.route.Direction.LEFT;
+import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.rule.collision.CollisionDetector;
+import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.Route;
 import java.util.List;
 
 public class Ma extends Piece {
 
     private static final String PIECE_NAME = "마";
+    private static final CollisionDetector COLLISION_DETECTOR = new DefaultCollisionDetector();
 
     public Ma(Side side) {
         super(PIECE_NAME, side);
@@ -33,13 +43,18 @@ public class Ma extends Piece {
                 Route.of(List.of(BACK, BACK_RIGHT))
         );
 
-        for(Route route : directions) {
+        for (Route route : directions) {
             List<Location> locations = route.apply(from);
-            if(locations.getLast().equals(to)) {
+            if (locations.getLast().equals(to)) {
                 return locations;
             }
         }
 
         throw new IllegalArgumentException("마는 해당 위치에 도달할 수 없습니다.");
+    }
+
+    @Override
+    public void detectCollision(List<Piece> piecesOnPath) {
+        COLLISION_DETECTOR.check(this, piecesOnPath);
     }
 }

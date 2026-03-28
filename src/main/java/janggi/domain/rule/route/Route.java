@@ -16,6 +16,14 @@ public class Route {
         return new Route(directions);
     }
 
+    public static Route create(Direction direction, int count) {
+        List<Direction> result = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            result.add(direction);
+        }
+        return new Route(result);
+    }
+
     public List<Location> apply(Location current) {
         List<Location> result = new ArrayList<>();
         for (Direction direction : directions) {
@@ -24,13 +32,5 @@ public class Route {
         }
 
         return result;
-    }
-
-    public static Route create(Direction direction, int count) {
-        List<Direction> result = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            result.add(direction);
-        }
-        return new Route(result);
     }
 }

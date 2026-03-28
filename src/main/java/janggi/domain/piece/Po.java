@@ -28,5 +28,10 @@ public class Po extends Piece {
             throw new IllegalArgumentException("포는 해당 위치에 도달할 수 없습니다.");
         }
     }
+
+    @Override
+    public void detectCollision(List<Piece> piecesOnPath) {
+
+    }
 }
 
