@@ -2,16 +2,12 @@ package domain.point;
 
 import domain.move.directions.Vector;
 
+import static constant.JanggiConstant.*;
+
 public record Point(
         int y,
         int x
 ) {
-
-    private static final int BASE_POINT = 0;
-    private static final int LENGTH_OF_ROW = 10;
-    private static final int LENGTH_OF_FILE = 9;
-    private static final int MAX_OF_ROW = BASE_POINT + LENGTH_OF_ROW;
-    private static final int MAX_OF_FILE = BASE_POINT + LENGTH_OF_FILE;
 
     public Point {
         validatePointRange(y, x);
@@ -33,7 +29,7 @@ public record Point(
     }
 
     private boolean checkPointRange(int y, int x) {
-        return BASE_POINT <= y && y < MAX_OF_ROW && BASE_POINT <= x && x < MAX_OF_FILE;
+        return BASE_POINT <= y && y < MAX_ROW && BASE_POINT <= x && x < MAX_FILE;
     }
 
     public boolean isSameFile(Point other) {

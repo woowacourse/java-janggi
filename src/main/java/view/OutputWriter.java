@@ -6,10 +6,11 @@ import domain.point.Point;
 
 import java.util.Map;
 
+import static constant.JanggiConstant.MAX_FILE;
+import static constant.JanggiConstant.MAX_ROW;
+
 public class OutputWriter {
 
-    private static final int MAX_ROW = 10;
-    private static final int MAX_FILE = 9;
     private static final String ROW_NUMBER_FORMAT = "%d   ";
     private static final String FILE_NUMBER_FORMAT = "   %d  ";
     private static final String BOARD_HEADER_PADDING = "    ";

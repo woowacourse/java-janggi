@@ -4,7 +4,6 @@ import domain.intersection.Intersection;
 import domain.piece.*;
 import domain.point.Point;
 
-import java.security.Guard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +11,7 @@ import java.util.stream.Stream;
 
 public class JanggiGenerator implements IntersectionGenerator {
 
-    public static final int MAX_ROW = 9;
+    public static final int REVERSE_ROW = 9;
     public static final int DEFAULT_SOLDIER_ROW = 3;
     public static final int DEFAULT_CANNON_ROW = 2;
     public static final int DEFAULT_GENERAL_ROW = 1;
@@ -85,7 +84,7 @@ public class JanggiGenerator implements IntersectionGenerator {
     }
 
     private int getRow(Team team, int row) {
-        return team == Team.CHO ? MAX_ROW - row : row;
+        return team == Team.CHO ? REVERSE_ROW - row : row;
     }
 
 }

@@ -14,10 +14,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class JanggiBoard {
+import static constant.JanggiConstant.*;
 
-    private static final int MAX_ROW = 10;
-    private static final int MAX_FILE = 9;
+public class JanggiBoard {
 
     private final Map<Point, Intersection> intersections;
     private final MoveRuleManager moveRuleManager;
@@ -88,7 +87,7 @@ public class JanggiBoard {
     }
 
     private IntStream range(int maxRange) {
-        return IntStream.range(0, maxRange);
+        return IntStream.range(BASE_POINT, maxRange);
     }
 
     public boolean isGameOver() {
