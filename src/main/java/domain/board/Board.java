@@ -5,7 +5,7 @@ import domain.piece.Cannon;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 
-import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Board {
@@ -14,14 +14,18 @@ public class Board {
     private static final int ROW_SIZE = 9;
     private static final int POSITION_THRESHOLD = 0;
 
-    private final Piece[][] board = new Piece[COL_SIZE][ROW_SIZE];
+    private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> initialize) {
+        Map<Position, Piece> board = new LinkedHashMap<>();
+
         for (int i = 0; i < COL_SIZE; i++) {
             for (int j = 0; j < ROW_SIZE; j++) {
-                board[i][j] = initialize.getOrDefault(new Position(i, j), EmptyPiece.getInstance());
+                board.put(new Position(i, j), initialize.getOrDefault(new Position(i, j), EmptyPiece.getInstance()));
             }
         }
+
+        this.board = board;
     }
 
     public boolean isEmpty(Position position) {
@@ -29,19 +33,22 @@ public class Board {
     }
 
     public boolean isCannon(Position position) {
-        return board[position.col()][position.row()] instanceof Cannon;
+        return board.get(position) instanceof Cannon;
     }
 
     public void move(Position start, Position destination) {
+        Piece movingPiece = board.get(start);
+
         validateRange(start);
         validateRange(destination);
-        board[destination.col()][destination.row()] = board[start.col()][start.row()];
-        board[start.col()][start.row()] = EmptyPiece.getInstance();
+
+        board.put(destination, movingPiece);
+        board.put(start, EmptyPiece.getInstance());
     }
 
     public Piece getPiece(Position position) {
         validateRange(position);
-        return board[position.col()][position.row()];
+        return board.get(position);
     }
 
     public boolean isInvalidRange(Position position) {
@@ -59,7 +66,7 @@ public class Board {
         }
     }
 
-    public Piece[][] getBoard() {
-        return Arrays.copyOf(board, board.length);
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
     }
 }

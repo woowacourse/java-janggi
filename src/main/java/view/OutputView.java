@@ -6,18 +6,20 @@ import domain.piece.Piece;
 import view.message.PieceView;
 
 import java.util.List;
+import java.util.Map;
+
 import view.message.SideView;
 
 public class OutputView {
 
 
-    public void printBoard(Piece[][] board) {
+    public void printBoard(Map<Position, Piece> board) {
         System.out.println("   0  1   2  3   4   5  6   7  8");
 
         for (int i = 0; i < 10; i++) {
             System.out.print(i + " ");
             for (int j = 0; j < 9; j++) {
-                printPieceBySide(board[i][j]);
+                printPieceBySide(board.get(new Position(i, j)));
             }
             System.out.println();
         }
