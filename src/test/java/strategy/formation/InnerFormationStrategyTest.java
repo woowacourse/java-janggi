@@ -1,9 +1,9 @@
 package strategy.formation;
 
-import domain.Piece;
-import domain.PieceType;
-import domain.Position;
-import domain.TeamColor;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.board.Position;
+import domain.piece.TeamColor;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -50,3 +50,5 @@ public class InnerFormationStrategyTest {
         }
     }
 }
+
+

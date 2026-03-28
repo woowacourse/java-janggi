@@ -1,5 +1,7 @@
-package domain;
+package domain.piece;
 
+import domain.board.Position;
+import domain.board.Route;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -63,3 +65,6 @@ public class Piece {
         return moveStrategies;
     }
 }
+
+
+

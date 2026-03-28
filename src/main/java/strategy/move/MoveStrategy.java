@@ -1,11 +1,11 @@
 package strategy.move;
 
-import domain.Direction;
-import domain.MovePath;
-import domain.Piece;
-import domain.Position;
-import domain.Route;
-import domain.TeamColor;
+import domain.board.Direction;
+import domain.board.MovePath;
+import domain.piece.Piece;
+import domain.board.Position;
+import domain.board.Route;
+import domain.piece.TeamColor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -65,3 +65,5 @@ public interface MoveStrategy {
     }
 
 }
+
+

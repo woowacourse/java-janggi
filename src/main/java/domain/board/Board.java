@@ -1,5 +1,7 @@
-package domain;
+package domain.board;
 
+import domain.piece.Piece;
+import domain.piece.TeamColor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +41,7 @@ public class Board {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().getTeamColor() == teamColor)
                 .sorted((left, right) -> {
-                    int rowCompare = Integer.compare(left.getKey().row(), right.getKey().row());
+                    final int rowCompare = Integer.compare(left.getKey().row(), right.getKey().row());
                     if (rowCompare != 0) {
                         return rowCompare;
                     }
@@ -78,3 +80,6 @@ public class Board {
         pieces.put(destination, piece);
     }
 }
+
+
+

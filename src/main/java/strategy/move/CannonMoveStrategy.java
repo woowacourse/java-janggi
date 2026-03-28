@@ -1,11 +1,11 @@
 package strategy.move;
 
-import domain.Direction;
-import domain.MovePath;
-import domain.Piece;
-import domain.PieceType;
-import domain.Route;
-import domain.TeamColor;
+import domain.board.Direction;
+import domain.board.MovePath;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.board.Route;
+import domain.piece.TeamColor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,3 +60,5 @@ public class CannonMoveStrategy implements MoveStrategy {
         return targetPiece.getTeamColor() != myTeam;
     }
 }
+
+

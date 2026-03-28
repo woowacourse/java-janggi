@@ -1,6 +1,6 @@
 package io;
 
-import domain.TeamColor;
+import domain.piece.TeamColor;
 import java.util.Scanner;
 
 public class InputView {
@@ -34,3 +34,5 @@ public class InputView {
     }
 
 }
+
+

@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public record Row(int value) {
     private static final int ROW_MIN_SIZE = 0;
@@ -17,3 +17,6 @@ public record Row(int value) {
         }
     }
 }
+
+
+

@@ -1,7 +1,7 @@
-import domain.Board;
-import domain.Piece;
-import domain.Position;
-import domain.TeamColor;
+import domain.board.Board;
+import domain.piece.Piece;
+import domain.board.Position;
+import domain.piece.TeamColor;
 import java.util.HashMap;
 import java.util.Map;
 import strategy.formation.InitialFormationStrategy;
@@ -23,3 +23,5 @@ public class Initializer {
         return new Board(board);
     }
 }
+
+

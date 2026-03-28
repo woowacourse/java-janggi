@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public enum Direction {
     NORTH(-1, 0),
@@ -26,3 +26,5 @@ public enum Direction {
         return dColumn;
     }
 }
+
+

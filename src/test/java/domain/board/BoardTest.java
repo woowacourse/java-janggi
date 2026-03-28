@@ -1,5 +1,8 @@
-package domain;
+package domain.board;
 
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.TeamColor;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -82,8 +85,8 @@ class BoardTest {
     class 이동 {
         @Test
         void 기물과_도착지를_받아_실제_이동을_반영한다() {
-            Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
-            Board movableBoard = new Board(Map.of(
+            final Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            final Board movableBoard = new Board(Map.of(
                     Position.of(4, 4), movingPawn
             ));
 
@@ -96,9 +99,9 @@ class BoardTest {
 
         @Test
         void 현재_판_상태를_기준으로_기물의_이동_가능_경로를_반환한다() {
-            Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
-            Piece allyPiece = Piece.of(TeamColor.CHO, PieceType.GUARD);
-            Board movableBoard = new Board(Map.of(
+            final Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            final Piece allyPiece = Piece.of(TeamColor.CHO, PieceType.GUARD);
+            final Board movableBoard = new Board(Map.of(
                     Position.of(4, 4), movingPawn,
                     Position.of(4, 5), allyPiece
             ));
@@ -109,3 +112,6 @@ class BoardTest {
         }
     }
 }
+
+
+

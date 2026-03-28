@@ -1,5 +1,6 @@
-package domain;
+package domain.game;
 
+import domain.piece.TeamColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,3 +32,6 @@ public class TurnManagerTest {
         }
     }
 }
+
+
+

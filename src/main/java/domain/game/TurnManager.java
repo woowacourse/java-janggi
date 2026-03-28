@@ -1,18 +1,20 @@
-package domain;
+package domain.game;
+
+import domain.piece.TeamColor;
 
 public class TurnManager {
 
-    TeamColor teamColor;
-    int moveCount;
+    private TeamColor teamColor;
+    private int moveCount;
 
-    public TurnManager(){
+    public TurnManager() {
         teamColor = TeamColor.CHO;
         moveCount = 0;
     }
 
-    public void progressTurn(){
+    public void progressTurn() {
         moveCount += 1;
-        if(teamColor.equals(TeamColor.CHO)) {
+        if (teamColor.equals(TeamColor.CHO)) {
             teamColor = TeamColor.HAN;
             return;
         }
@@ -23,3 +25,6 @@ public class TurnManager {
         return teamColor;
     }
 }
+
+
+

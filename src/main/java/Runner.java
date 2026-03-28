@@ -1,9 +1,9 @@
-import domain.Board;
-import domain.Piece;
-import domain.Position;
-import domain.Route;
-import domain.TeamColor;
-import domain.TurnManager;
+import domain.board.Board;
+import domain.piece.Piece;
+import domain.board.Position;
+import domain.board.Route;
+import domain.piece.TeamColor;
+import domain.game.TurnManager;
 import io.InputView;
 import io.OutputView;
 import java.util.List;
@@ -143,3 +143,5 @@ public class Runner {
         return routes.get(routeChoice - ZERO_BASE_INDEX_OFFSET);
     }
 }
+
+

@@ -1,11 +1,11 @@
 package io;
 
-import domain.Board;
-import domain.Piece;
-import domain.PieceType;
-import domain.Position;
-import domain.Route;
-import domain.TeamColor;
+import domain.board.Board;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.board.Position;
+import domain.board.Route;
+import domain.piece.TeamColor;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -141,3 +141,5 @@ public class OutputView {
         return pieceSymbols;
     }
 }
+
+

@@ -1,8 +1,8 @@
-import domain.Board;
-import domain.PieceType;
-import domain.Position;
+import domain.board.Board;
+import domain.piece.PieceType;
+import domain.board.Position;
 
-import domain.TeamColor;
+import domain.piece.TeamColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -88,3 +88,5 @@ class InitializerTest {
         }
     }
 }
+
+

@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,3 +93,6 @@ public class Position {
     }
 
 }
+
+
+

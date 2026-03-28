@@ -1,11 +1,11 @@
-package domain;
+package domain.board;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class ColumnTest {
+class RowTest {
 
     @Nested
     class 생성 {
@@ -13,9 +13,9 @@ public class ColumnTest {
         void 유효한_값으로_행_객체가_생성된_경우() {
             int input = 3;
 
-            Column column = new Column(input);
+            Row row = new Row(input);
 
-            assertThat(column.value()).isEqualTo(3);
+            assertThat(row.value()).isEqualTo(3);
         }
     }
 
@@ -25,18 +25,21 @@ public class ColumnTest {
         void 값이_최솟값보다_작으면_예외를_발행한다() {
             int input = -1;
 
-            assertThatThrownBy(() -> new Column(input))
+            assertThatThrownBy(() -> new Row(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("열의 최소 값은 0입니다.");
+                    .hasMessageContaining("행의 최소 값은 0입니다.");
         }
 
         @Test
         void 값이_최댓값을_초과하면_예외를_발행한다() {
             int input = 19;
 
-            assertThatThrownBy(() -> new Column(input))
+            assertThatThrownBy(() -> new Row(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("열의 최대 값은 8입니다.");
+                    .hasMessageContaining("행의 최대 값은 9입니다.");
         }
     }
 }
+
+
+

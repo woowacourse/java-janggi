@@ -1,8 +1,8 @@
 package strategy.move;
 
-import domain.Direction;
-import domain.MovePath;
-import domain.TeamColor;
+import domain.board.Direction;
+import domain.board.MovePath;
+import domain.piece.TeamColor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,3 +33,5 @@ public class RookMoveStrategy implements MoveStrategy {
     }
 
 }
+
+

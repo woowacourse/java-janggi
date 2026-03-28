@@ -1,8 +1,8 @@
 package strategy.move;
 
-import domain.Direction;
-import domain.MovePath;
-import domain.TeamColor;
+import domain.board.Direction;
+import domain.board.MovePath;
+import domain.piece.TeamColor;
 import java.util.List;
 
 public class GuardMoveStrategy implements MoveStrategy {
@@ -23,3 +23,5 @@ public class GuardMoveStrategy implements MoveStrategy {
         return PATHS;
     }
 }
+
+

@@ -1,4 +1,4 @@
-package domain;
+package domain.piece;
 
 public enum PieceType {
     CANNON,
@@ -11,3 +11,6 @@ public enum PieceType {
 
 
 }
+
+
+
