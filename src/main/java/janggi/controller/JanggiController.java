@@ -14,6 +14,7 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
+import janggi.dto.GameResultDto;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -45,6 +46,7 @@ public class JanggiController {
         final TurnManager turnManager = new TurnManager(List.of(redTeam, blueTeam));
         OutputView.printBoard(BoardDto.from(board, List.of()));
         progress(turnManager, board);
+        OutputView.printGameResult(GameResultDto.from(board));
     }
 
     private SetupCommand readSetupCommand() {

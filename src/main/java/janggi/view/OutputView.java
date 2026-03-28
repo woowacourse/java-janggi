@@ -4,6 +4,7 @@ import janggi.domain.command.SetupCommand;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardDto;
+import janggi.dto.GameResultDto;
 import java.util.List;
 
 public final class OutputView {
@@ -34,5 +35,9 @@ public final class OutputView {
 
     public static void printTurnStatus(final Team team) {
         System.out.printf("%s 차례입니다. ", team.getName());
+    }
+
+    public static void printGameResult(final GameResultDto gameResultDto) {
+        System.out.printf("%s가 승리했습니다! 게임을 종료합니다.\n", gameResultDto.winnerTeam());
     }
 }
