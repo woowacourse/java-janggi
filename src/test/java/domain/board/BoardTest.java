@@ -26,7 +26,7 @@ class BoardTest {
 
     @Test
     @DisplayName("보드 초기화 출력 테스트")
-    void 초기화_출력테스트() {
+    void board_initialization_output_test() {
         // given
         Board board = BoardFactory.create(
                 HorseElephantFormation.SANG_MA_SANG_MA,
@@ -45,7 +45,7 @@ class BoardTest {
 
     @Test
     @DisplayName("기물의 이동 규칙에 어긋나는 좌표로 이동 시 예외")
-    void 규칙_위반_이동_예외_테스트() {
+    void throw_exception_when_moving_to_invalid_position() {
         //given
         Position from = new Position(3, 1);
         Position to = new Position(7, 1);
@@ -58,7 +58,7 @@ class BoardTest {
 
     @Test
     @DisplayName("기물 선택에서 없는 부분 예외")
-    void 기물_선택_없는_부분_예외_테스트() {
+    void throw_exception_when_selecting_empty_position() {
         //given
         Position from = new Position(4, 1);
         Position to = new Position(7, 1);
@@ -71,7 +71,7 @@ class BoardTest {
 
     @Test
     @DisplayName("상대 기물 선택 예외")
-    void 상대_기물_선택_예외_테스트() {
+    void throw_exception_when_selecting_opponent_piece() {
         //given
         Position from = new Position(3, 1);
         Position to = new Position(7, 1);

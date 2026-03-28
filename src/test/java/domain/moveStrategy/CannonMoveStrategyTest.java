@@ -18,7 +18,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물을 넘을 수 있다.")
-    void 포_정상_이동() {
+    void should_move_over_piece_when_cannon_has_one_screen_piece() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
@@ -39,7 +39,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물을 넘어 상대 기물을 먹을 수 있다.")
-    void 포_기물_넘어_이동() {
+    void move_over_piece_and_capture_opponent_piece() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
@@ -62,7 +62,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 포를 넘을 수 없다.")
-    void 포_동일_기물_넘기() {
+    void cannot_move_over_another_cannon() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
@@ -82,7 +82,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물이 없을 때 넘을 수 없다")
-    void 포_기물_없음() {
+    void cannot_move_when_no_piece_to_jump_over() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
@@ -101,7 +101,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물이 여러 개일 때 넘을 수 없다")
-    void 포_기물_여러개() {
+    void cannot_move_when_multiple_pieces_exist_between() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
@@ -124,7 +124,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 자신의 팀 위치로 이동 불가하다")
-    void 포_자신의_팀_위치로_이동불가() {
+    void cannot_move_to_position_occupied_by_same_team() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
@@ -147,7 +147,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 자신의 위치로 이동 불가하다")
-    void 포_자신의_위치_이동불가() {
+    void cannot_move_to_same_position() {
         //given
         StubBoard stubBoard = new StubBoard();
         stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));

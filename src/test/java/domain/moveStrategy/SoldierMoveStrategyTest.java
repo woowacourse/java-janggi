@@ -16,7 +16,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 앞으로 한 칸 이동 가능")
-    void 초나라_졸_앞으로_이동_가능() {
+    void cho_soldier_should_move_forward_successfully() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(2, 1);
@@ -35,7 +35,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 좌측 이동 가능")
-    void 초나라_졸_좌측_이동_가능() {
+    void cho_soldier_should_move_left_successfully() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(2, 2);
@@ -54,7 +54,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 우측 이동 가능")
-    void 초나라_졸_우측_이동_가능() {
+    void cho_soldier_should_move_right_successfully() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(2, 2);
@@ -73,7 +73,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 뒤로 이동 불가")
-    void 초나라_졸_뒤로_이동_불가() {
+    void cho_soldier_cannot_move_backward() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(1, 2);
@@ -92,7 +92,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 대각선 이동 불가")
-    void 초나라_졸_대각선_이동_불가() {
+    void cho_soldier_cannot_move_diagonally() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(2, 2);
@@ -111,7 +111,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 두 칸 이동 불가")
-    void 초나라_졸_두칸_이동_불가() {
+    void cho_soldier_cannot_move_two_steps() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(1, 1);
@@ -130,7 +130,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 아군 위치로 이동 불가")
-    void 초나라_졸_아군_위치_이동_불가() {
+    void cho_soldier_cannot_move_to_position_occupied_by_same_team() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(2, 2);
@@ -153,7 +153,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸은 적군을 잡을 수 있다")
-    void 초나라_졸_적군_공격_가능() {
+    void cho_soldier_should_capture_opponent_piece() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(2, 2);
@@ -176,7 +176,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("한나라 졸은 앞으로 한 칸 이동 가능")
-    void 한나라_졸_앞으로_이동_가능() {
+    void han_soldier_should_move_forward_successfully() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(9, 2);
@@ -197,7 +197,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("한나라 졸은 좌우 이동 가능")
-    void 한나라_졸_좌우_이동_가능() {
+    void han_soldier_should_move_horizontally_successfully() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(9, 5);
@@ -218,7 +218,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("한나라 졸은 뒤로 이동 불가")
-    void 한나라_졸_뒤로_이동_불가() {
+    void han_soldier_cannot_move_backward() {
         // given
         StubBoard stub = new StubBoard();
         Position from = new Position(10, 5);
