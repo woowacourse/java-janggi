@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.piece.Camp;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,11 @@ public class Board implements PathChecker {
     @Override
     public Camp findCamp(Position position) {
         return findBy(position).camp();
+    }
+
+    @Override
+    public PieceType findPieceType(Position position) {
+        return findBy(position).type();
     }
 
     public Piece findBy(Position position) {
