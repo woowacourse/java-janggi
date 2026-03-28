@@ -11,7 +11,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
 import janggi.view.ConsoleColor;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -19,10 +18,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public record BoardDto(
+    List<Integer> rows,
+    String columns,
     List<String> rowStatuses
 ) {
 
     private static final Map<TeamType, Map<PieceType, String>> CHINESE_MAP;
+    private static final Map<Integer, String> INTEGER_FULL_WIDTH_MAP;
     private static final String EMPTY_SPACE = "＊";
     private static final String DELIMITER = "  ";
 
@@ -46,16 +48,32 @@ public record BoardDto(
                 PieceType.ELEPHANT, "象",
                 PieceType.SOLDIER, "卒"
             ));
+        INTEGER_FULL_WIDTH_MAP = Map.of(
+            0, "０",
+            1, "１",
+            2, "２",
+            3, "３",
+            4, "４",
+            5, "５",
+            6, "６",
+            7, "７",
+            8, "８",
+            9, "９"
+        );
     }
 
     public static BoardDto from(final Board board, final List<Position> movablePositions) {
-        final List<String> rowStatuses = new ArrayList<>();
         final Map<Position, Piece> positionPieceMap = board.getPositionPieceMap();
-        for (int row = MINIMUM_ROW; row <= MAXIMUM_ROW; row++) {
-            rowStatuses.add(composeRowStatus(row, positionPieceMap, movablePositions));
-        }
+        final List<Integer> rows = IntStream.rangeClosed(MINIMUM_ROW, MAXIMUM_ROW)
+            .boxed().toList();
+        final List<String> rowStatuses = rows.stream()
+            .map(row -> composeRowStatus(row, positionPieceMap, movablePositions))
+            .toList();
+        final String columns = IntStream.rangeClosed(MINIMUM_COLUMN, MAXIMUM_COLUMN)
+            .mapToObj(INTEGER_FULL_WIDTH_MAP::get)
+            .collect(Collectors.joining(DELIMITER));
 
-        return new BoardDto(rowStatuses);
+        return new BoardDto(rows, columns, rowStatuses);
     }
 
     private static String composeRowStatus(final int row,

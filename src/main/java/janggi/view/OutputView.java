@@ -1,5 +1,7 @@
 package janggi.view;
 
+import static janggi.domain.Position.MAXIMUM_ROW;
+
 import janggi.domain.command.SetupCommand;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
@@ -28,8 +30,9 @@ public final class OutputView {
     public static void printBoard(final BoardDto boardDto) {
         final List<String> rowStatuses = boardDto.rowStatuses();
 
-        for (String rowStatus : rowStatuses) {
-            System.out.println(rowStatus);
+        System.out.println("   " + boardDto.columns());
+        for (int row = 1; row <= MAXIMUM_ROW; row++) {
+            System.out.printf("%2d %s\n", row, rowStatuses.get(row - 1));
         }
     }
 
