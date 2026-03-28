@@ -58,8 +58,8 @@ public class Board implements PathChecker {
 
     @Override
     public boolean isSameCamp(Position from, Position to) {
-        Piece fromPiece = board.get(from);
-        Piece toPiece = board.get(to);
+        Piece fromPiece = findBy(from);
+        Piece toPiece = findBy(to);
 
         return fromPiece.camp() == toPiece.camp();
     }
