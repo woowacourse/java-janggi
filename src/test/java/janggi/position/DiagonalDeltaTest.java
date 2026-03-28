@@ -21,7 +21,7 @@ class DiagonalDeltaTest {
     @Test
     void of_east() {
         assertThat(new DiagonalDelta(1, 1).isEast()).isTrue();
-        assertThat(new DiagonalDelta(-1, 1).isNorth()).isTrue();
+        assertThat(new DiagonalDelta(-1, 1).isEast()).isTrue();
     }
 
     @DisplayName("가로 세로 거리가 같지 않으면 예외가 발생한다.")
