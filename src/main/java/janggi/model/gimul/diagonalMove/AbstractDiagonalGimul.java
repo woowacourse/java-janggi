@@ -11,7 +11,10 @@ public abstract class AbstractDiagonalGimul extends AbstractGimul {
     }
 
     @Override
-    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo) {
+    public boolean canPassThrough(
+            List<AbstractGimul> gimulsOnPath,
+            AbstractGimul abstractGimulAtTo
+    ) {
         return gimulsOnPath.isEmpty() && !this.isSameTeam(abstractGimulAtTo);
     }
 

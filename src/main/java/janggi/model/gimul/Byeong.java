@@ -6,6 +6,12 @@ import janggi.model.position.PositionPath;
 import java.util.List;
 
 public class Byeong extends AbstractGimul {
+
+    private static final int MAX_MOVE_DISTANCE = 1;
+    private static final int FORWARD_STEP = 1;
+    private static final int BACKWARD_STEP = -1;
+    private static final int NO_MOVEMENT = 0;
+
     public Byeong(Team team) {
         super(team);
     }
@@ -15,27 +21,43 @@ public class Byeong extends AbstractGimul {
         int rowDistance = to.getRowDistance(from);
         int columnDistance = to.getColumnDistance(from);
 
-        int absRowDistance = Math.abs(rowDistance);
-        int absColumnDistance = Math.abs(columnDistance);
+        validateMoveDistance(rowDistance, columnDistance);
 
-        if ((absRowDistance + absColumnDistance) >= 2) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-
-        if (rowDistance == 0) {
+        if (isHorizontalMove(rowDistance)) {
             return from.moveHorizontal(columnDistance).removeFromAndTo();
         }
 
-        if ((Team.CHO.equals(team) && rowDistance == 1) ||
-                (Team.HAN.equals(team) && rowDistance == -1)) {
+        if (isBackwardMove(rowDistance)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
+
         return from.moveVertical(rowDistance).removeFromAndTo();
     }
 
+    private void validateMoveDistance(int rowDistance, int columnDistance) {
+        int absRowDistance = Math.abs(rowDistance);
+        int absColumnDistance = Math.abs(columnDistance);
+
+        if ((absRowDistance + absColumnDistance) > MAX_MOVE_DISTANCE) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+    }
+
+    private boolean isHorizontalMove(int rowDistance) {
+        return rowDistance == NO_MOVEMENT;
+    }
+
+    private boolean isBackwardMove(int rowDistance) {
+        return (Team.CHO.equals(team) && rowDistance == FORWARD_STEP) ||
+                (Team.HAN.equals(team) && rowDistance == BACKWARD_STEP);
+    }
+
     @Override
-    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo) {
-        return gimulsOnPath.isEmpty() && !this.isSameTeam(abstractGimulAtTo);
+    public boolean canPassThrough(
+            List<AbstractGimul> gimulsOnPath,
+            AbstractGimul gimulAtTo
+    ) {
+        return gimulsOnPath.isEmpty() && !this.isSameTeam(gimulAtTo);
     }
 
     @Override
