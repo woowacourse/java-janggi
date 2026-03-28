@@ -3,6 +3,7 @@ package janggi.domain.board.coordinate;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FixedPathStrategy implements PathStrategy {
@@ -12,7 +13,7 @@ public class FixedPathStrategy implements PathStrategy {
         Point point = from;
         for (Direction direction : pattern.pattern()) {
             if (!Point.isInRange(point.x() + direction.getDx(), point.y() + direction.getDy())) {
-                continue;
+                return Collections.emptyList();
             }
             point = point.add(direction.getDx(), direction.getDy());
             path.add(point);
