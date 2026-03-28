@@ -25,13 +25,15 @@ public class JolMoveStorage implements MoveStorage{
             return true;
         }
 
-        if (boardState.getPieceAt(from).getTeam() == Team.HAN) {
+        Team currentTeam = boardState.getPieceAt(from).getTeam();
+
+        if (currentTeam == Team.HAN) {
             if (toY - fromY == HAN_FORWARD && fromX == toX) {
                 return true;
             }
         }
 
-        if (boardState.getPieceAt(from).getTeam() == Team.CHO) {
+        if (currentTeam == Team.CHO) {
             if (toY - fromY == CHO_FORWARD && fromX == toX) {
                 return true;
             }
