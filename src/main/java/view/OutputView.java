@@ -16,10 +16,10 @@ public class OutputView {
             "%s의 상차림을 입력해주세요.(예, 상마상마,마상마상, 상마마상, 마상상마)\n";
 
     private static final String INPUT_PIECE_MOVE =
-            "%s(%s)가 이동할 기물을 선택해주세요.\n";
+            "%s(%s)가 이동할 기물을 선택해주세요. (예: 3,5)\n";
 
     private static final String INPUT_POSITION_MOVE =
-            "%s(%s)가 이동할 위치를 입력해주세요.\n";
+            "%s(%s)가 이동할 위치를 입력해주세요. (예: 3,5)\n";
 
     private OutputView() {
     }
