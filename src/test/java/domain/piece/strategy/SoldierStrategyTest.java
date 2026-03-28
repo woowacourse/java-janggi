@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 public class SoldierStrategyTest {
     Map<Position, Piece> dummyBoard;
@@ -57,5 +58,89 @@ public class SoldierStrategyTest {
 
         assertThatThrownBy(() -> soldier.move(from, to, pathChecker))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("졸은 경로상의 기물 리스트가 비어있는 경우 정상 이동한다.")
+    void choSoldier_moveSuccessfully_When_PiecesIsEmpty() {
+        Position from = new Position(1, 7);
+        Position to = new Position(1, 6);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 경로상의 기물 리스트가 비어있는 경우 정상 이동한다.")
+    void hanSoldier_moveSuccessfully_When_PiecesIsEmpty() {
+        Position from = new Position(1, 4);
+        Position to = new Position(1, 5);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("졸은 좌측으로 한 칸 이동할 수 있다.")
+    void moveSuccess_When_ChoSoldierMovesLeft() {
+        Position from = new Position(1, 7);
+        Position to = new Position(2, 7);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("졸은 우측으로 한 칸 이동할 수 있다.")
+    void moveSuccess_When_ChoSoldierMovesRight() {
+        Position from = new Position(3, 7);
+        Position to = new Position(2, 7);
+
+        dummyBoard.put(
+                from,
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+        );
+        pathChecker = new Board(dummyBoard);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 좌측으로 한 칸 이동할 수 있다.")
+    void moveSuccess_When_HanSoldierMovesLeft() {
+        Position from = new Position(1, 4);
+        Position to = new Position(2, 4);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 우측으로 한 칸 이동할 수 있다.")
+    void moveSuccess_When_HanSoldierMovesRight() {
+        Position from = new Position(3, 4);
+        Position to = new Position(2, 4);
+
+        dummyBoard.put(
+                from,
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+        );
+        pathChecker = new Board(dummyBoard);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
     }
 }

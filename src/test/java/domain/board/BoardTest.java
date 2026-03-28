@@ -80,8 +80,7 @@ public class BoardTest {
         @Test
         @DisplayName("경로에 기물이 없으면 빈 리스트를 반환한다.")
         void noPiecesInPath() {
-            Board board = new Board(new HashMap<>());
-            PathChecker pathChecker = board;
+            PathChecker pathChecker = new Board(new HashMap<>());
 
             List<Position> path = List.of(
                     new Position(1, 2),
@@ -98,13 +97,10 @@ public class BoardTest {
         @DisplayName("경로에 여러 기물이 있으면 모두 반환한다.")
         void multiplePiecesInPath() {
             Map<Position, Piece> map = new HashMap<>();
-            map.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER,
-                    PieceType.SOLDIER.createStrategy()));
-            map.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.CANNON,
-                    PieceType.CANNON.createStrategy()));
+            map.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy()));
+            map.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy()));
 
-            Board board = new Board(map);
-            PathChecker pathChecker = board;
+            PathChecker pathChecker = new Board(map);
 
             List<Position> path = List.of(
                     new Position(1, 2),
@@ -120,8 +116,7 @@ public class BoardTest {
         @Test
         @DisplayName("빈 경로가 주어지면 빈 리스트를 반환한다.")
         void emptyPath() {
-            Board board = new Board(new HashMap<>());
-            PathChecker pathChecker = board;
+            PathChecker pathChecker = new Board(new HashMap<>());
             List<Position> path = List.of();
 
             List<Piece> result = pathChecker.findPiecesInPath(path);
@@ -139,12 +134,18 @@ public class BoardTest {
         void setUp() {
             dummyBoard = new HashMap<>();
 
-            dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.CHARIOT,
-                    PieceType.CHARIOT.createStrategy()));
-            dummyBoard.put(new Position(1, 4), new Piece(Camp.HAN, PieceType.SOLDIER,
-                    PieceType.SOLDIER.createStrategy()));
-            dummyBoard.put(new Position(1, 7), new Piece(Camp.CHO, PieceType.SOLDIER,
-                    PieceType.SOLDIER.createStrategy()));
+            dummyBoard.put(
+                    new Position(1, 1),
+                    new Piece(Camp.HAN, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy())
+            );
+            dummyBoard.put(
+                    new Position(1, 4),
+                    new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+            );
+            dummyBoard.put(
+                    new Position(1, 7),
+                    new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+            );
 
             pathChecker = new Board(dummyBoard);
         }

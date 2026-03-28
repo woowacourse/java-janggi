@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 public class GeneralAndGuardStrategyTest {
 
@@ -66,5 +67,17 @@ public class GeneralAndGuardStrategyTest {
 
         assertThatThrownBy(() -> generalAndGuard.move(from, to, pathChecker))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("경로상의 기물 리스트가 비어있는 경우 정상 이동한다.")
+    void moveSuccessfully_When_PiecesIsEmpty() {
+        Position from = new Position(1, 1);
+        Position to = new Position(1, 2);
+
+        Piece generalAndGuard = dummyBoard.get(from);
+
+        assertThatCode(() -> generalAndGuard.move(from, to, pathChecker))
+                .doesNotThrowAnyException();
     }
 }

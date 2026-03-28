@@ -5,7 +5,7 @@ import domain.board.Position;
 import domain.piece.Camp;
 
 public class SoldierStrategy implements MoveStrategy {
-    private static final String INVALID_SOLDIER_MOVE_ERROR_MESSAGE = "[ERROR] 졸/병은 앞으로 한 칸, 또는 좌우로 한 칸만 이동할 수 있습니다. (후퇴 불가)";
+    private static final String INVALID_SOLDIER_MOVE_ERROR_MESSAGE = "[ERROR] 졸/병은 후퇴가 불가능합니다.";
 
     @Override
     public void move(Position from, Position to, PathChecker checker) {
@@ -16,8 +16,12 @@ public class SoldierStrategy implements MoveStrategy {
         int dy = from.calculateDy(to);
         int distance = Math.abs(dx) + Math.abs(dy);
 
-        if (dy == -forwardDirection || distance != 1) {
+        if (dy == -forwardDirection) {
             throw new IllegalArgumentException(INVALID_SOLDIER_MOVE_ERROR_MESSAGE);
+        }
+
+        if (distance != 1) {
+            throw new IllegalArgumentException("[ERROR] 졸/병은 한 칸만 움직일 수 있습니다.");
         }
     }
 }

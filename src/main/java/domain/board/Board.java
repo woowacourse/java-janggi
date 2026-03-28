@@ -4,10 +4,7 @@ import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Board implements PathChecker {
 
@@ -24,8 +21,22 @@ public class Board implements PathChecker {
     }
 
     @Override
-    public PieceType findPieceType(Position position) {
-        return findBy(position).type();
+    public boolean isTargetType(Position position, PieceType pieceType) {
+        Piece piece = board.get(position);
+        if (piece == null) {
+            return false;
+        }
+
+        return piece.type() == pieceType;
+    }
+
+    public void move(Position from, Position to) {
+        Piece targetPiece = findBy(from);
+
+        targetPiece.move(from, to, this);
+
+        board.remove(from);
+        board.put(to, targetPiece);
     }
 
     public Piece findBy(Position position) {
@@ -59,7 +70,11 @@ public class Board implements PathChecker {
     @Override
     public boolean isSameCamp(Position from, Position to) {
         Piece fromPiece = findBy(from);
-        Piece toPiece = findBy(to);
+        Piece toPiece = board.get(to);
+
+        if (toPiece == null) {
+            return false;
+        }
 
         return fromPiece.camp() == toPiece.camp();
     }

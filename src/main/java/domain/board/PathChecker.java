@@ -13,5 +13,5 @@ public interface PathChecker {
 
     Camp findCamp(Position position);
 
-    PieceType findPieceType(Position position);
+    boolean isTargetType(Position position, PieceType pieceType);
 }

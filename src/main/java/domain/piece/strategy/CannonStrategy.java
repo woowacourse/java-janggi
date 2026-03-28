@@ -13,13 +13,13 @@ public class CannonStrategy implements MoveStrategy {
     private static final String ANOTHER_CANNON_IS_EXISTS_ON_PATH_ERROR_MESSAGE =
             "[ERROR] 포 이동 경로 상에 포가 존재하여 움직일 수 없습니다.";
     private static final String CANNON_CANNOT_CAPTURE_CANNON_ERROR_MESSAGE =
-            "[ERROR] 포는 포를 잡을 수 없습니다.";
+            "[ERROR] 포는 포를 잡을 수 없습니다.";w
 
     @Override
     public void move(Position from, Position to, PathChecker pathChecker) {
         List<Position> path = from.findPath(to);
         List<Piece> piecesInPath = pathChecker.findPiecesInPath(path);
-        PieceType targetPieceType = pathChecker.findPieceType(to);
+        boolean targetPieceType = pathChecker.isTargetType(to, PieceType.CANNON);
 
         validateOnePiece(piecesInPath);
         validateNoCannonInPath(piecesInPath);
@@ -42,8 +42,8 @@ public class CannonStrategy implements MoveStrategy {
         }
     }
 
-    private void validateCannonOnDestination(PieceType targetPieceType) {
-        if (targetPieceType != null && targetPieceType.equals(PieceType.CANNON)) {
+    private void validateCannonOnDestination(boolean targetPieceType) {
+        if (targetPieceType) {
             throw new IllegalArgumentException(CANNON_CANNOT_CAPTURE_CANNON_ERROR_MESSAGE);
         }
     }
