@@ -9,6 +9,25 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class GungSeongRouteProviderTest {
 
+    static List<List<Integer>> provideReachableCoordination() {
+        return List.of(
+                List.of(4, 2), //상
+                List.of(4, 0), //하
+                List.of(3, 1), //좌
+                List.of(5, 1), //우
+                List.of(5, 2), //우대각
+                List.of(3, 2) //좌대각
+        );
+    }
+
+    static List<List<Integer>> provideUnreachableCoordination() {
+        return List.of(
+                List.of(3, 4),
+                List.of(5, 2),
+                List.of(3, 5)
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("궁성 안에서 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
     @MethodSource("provideReachableCoordination")
@@ -23,17 +42,6 @@ class GungSeongRouteProviderTest {
                 .isEqualTo(List.of(to));
     }
 
-    static List<List<Integer>> provideReachableCoordination() {
-        return List.of(
-                List.of(4, 2), //상
-                List.of(4, 0), //하
-                List.of(3, 1), //좌
-                List.of(5, 1), //우
-                List.of(5, 2), //우대각
-                List.of(3, 2) //좌대각
-        );
-    }
-
     @ParameterizedTest
     @DisplayName("궁성을 벗어난 위치를 파라미터로 받으면 예외가 발생한다.")
     @MethodSource("provideUnreachableCoordination")
@@ -46,13 +54,5 @@ class GungSeongRouteProviderTest {
         // when & then
         Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    static List<List<Integer>> provideUnreachableCoordination() {
-        return List.of(
-                List.of(3, 4),
-                List.of(5, 2),
-                List.of(3, 5)
-        );
     }
 }

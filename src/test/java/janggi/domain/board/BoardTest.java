@@ -42,6 +42,62 @@ class BoardTest {
         Assertions.assertThat(pieces.get(2).get(2)).isEqualTo(emptyPiece);
     }
 
+    @Test
+    @DisplayName("이동할 기물의 위치와 도착지 좌표를 받아 기물을 이동시킨다.")
+    void shouldMovePieceToDestination() {
+        // given
+        Piece testPiece = new TestPiece(Side.HAN);
+        Map<Location, Piece> initialPieces = Map.of(
+                new Location(1, 1), testPiece
+        );
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        Board board = Board.create(assembler);
+        Location from = new Location(1, 1);
+        Location to = new Location(0, 0);
+
+        // when
+        board.move(from, to);
+        List<List<Piece>> board2DArray = board.to2DArray();
+
+        // then
+        Assertions.assertThat(board2DArray.get(from.y()).get(from.x()).isEmpty()).isTrue();
+        Assertions.assertThat(board2DArray.get(to.y()).get(to.x())).isEqualTo(testPiece);
+    }
+
+    @Test
+    @DisplayName("보드에 기물이 하나라도 있으면 true를 반환한다")
+    void shouldReturnTrueForNoneEmptyBoard() {
+        // given
+        Map<Location, Piece> initialPieces = Map.of(
+                new Location(1, 1), new TestPiece(Side.HAN),
+                new Location(1, 2), new EmptyPiece()
+        );
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        Board board = Board.create(assembler);
+
+        // when & then
+        Assertions.assertThat(board.isNotEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("보드에 기물이 존재하지 않으면 false를 반환한다.")
+    void shouldReturnTrueForEmptyBoard() {
+        // given
+        Map<Location, Piece> initialPieces = Map.of(
+                new Location(1, 1), new EmptyPiece(),
+                new Location(1, 2), new EmptyPiece()
+        );
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        Board board = Board.create(assembler);
+
+        // when & then
+        Assertions.assertThat(board.isNotEmpty()).isFalse();
+    }
+
     @Nested
     class ValidateLocationExistenceTest {
         @Test
@@ -199,61 +255,5 @@ class BoardTest {
             Assertions.assertThatThrownBy(() -> board.validateLocationToMove(currentSide, location))
                     .isInstanceOf(IllegalArgumentException.class);
         }
-    }
-
-    @Test
-    @DisplayName("이동할 기물의 위치와 도착지 좌표를 받아 기물을 이동시킨다.")
-    void shouldMovePieceToDestination() {
-        // given
-        Piece testPiece = new TestPiece(Side.HAN);
-        Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), testPiece
-        );
-        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
-        Board board = Board.create(assembler);
-        Location from = new Location(1, 1);
-        Location to = new Location(0, 0);
-
-        // when
-        board.move(from, to);
-        List<List<Piece>> board2DArray = board.to2DArray();
-
-        // then
-        Assertions.assertThat(board2DArray.get(from.y()).get(from.x()).isEmpty()).isTrue();
-        Assertions.assertThat(board2DArray.get(to.y()).get(to.x())).isEqualTo(testPiece);
-    }
-
-    @Test
-    @DisplayName("보드에 기물이 하나라도 있으면 true를 반환한다")
-    void shouldReturnTrueForNoneEmptyBoard() {
-        // given
-        Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), new TestPiece(Side.HAN),
-                new Location(1, 2), new EmptyPiece()
-        );
-        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
-        Board board = Board.create(assembler);
-
-        // when & then
-        Assertions.assertThat(board.isNotEmpty()).isTrue();
-    }
-
-    @Test
-    @DisplayName("보드에 기물이 존재하지 않으면 false를 반환한다.")
-    void shouldReturnTrueForEmptyBoard() {
-        // given
-        Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), new EmptyPiece(),
-                new Location(1, 2), new EmptyPiece()
-        );
-        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
-        Board board = Board.create(assembler);
-
-        // when & then
-        Assertions.assertThat(board.isNotEmpty()).isFalse();
     }
 }

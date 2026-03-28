@@ -16,19 +16,6 @@ public class SangTest {
     @Nested
     class CalculateRouteTest {
 
-        @ParameterizedTest
-        @DisplayName("상이 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
-        @MethodSource("provideListsForTesting")
-        void shouldReturnRouteForReachableLocation(Location destination, List<Location> expected) {
-            // given
-            Location from = Location.from(List.of(0, 0));
-            Piece piece = new Sang(Side.HAN);
-
-            // when & then
-            Assertions.assertThat(piece.calculateRoute(from, destination))
-                    .isEqualTo(expected);
-        }
-
         static Stream<Arguments> provideListsForTesting() {
             return Stream.of(
                     Arguments.of(
@@ -40,6 +27,27 @@ public class SangTest {
                             List.of(new Location(1, 0), new Location(2, 1), new Location(3, 2))
                     )
             );
+        }
+
+        static List<List<Integer>> provideUnreachableCoordination() {
+            return List.of(
+                    List.of(0, 4),
+                    List.of(-1, 3),
+                    List.of(0, 1)
+            );
+        }
+
+        @ParameterizedTest
+        @DisplayName("상이 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
+        @MethodSource("provideListsForTesting")
+        void shouldReturnRouteForReachableLocation(Location destination, List<Location> expected) {
+            // given
+            Location from = Location.from(List.of(0, 0));
+            Piece piece = new Sang(Side.HAN);
+
+            // when & then
+            Assertions.assertThat(piece.calculateRoute(from, destination))
+                    .isEqualTo(expected);
         }
 
         @ParameterizedTest
@@ -54,14 +62,6 @@ public class SangTest {
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(from, to))
                     .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        static List<List<Integer>> provideUnreachableCoordination() {
-            return List.of(
-                    List.of(0, 4),
-                    List.of(-1, 3),
-                    List.of(0, 1)
-            );
         }
     }
 }

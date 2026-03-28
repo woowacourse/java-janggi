@@ -15,17 +15,25 @@ public class MaTest {
     @Nested
     class CalculateRouteTest {
 
+        static List<List<Integer>> provideUnreachableCoordination() {
+            return List.of(
+                    List.of(0, 3),
+                    List.of(-1, 3),
+                    List.of(0, 1)
+            );
+        }
+
         @Test
         @DisplayName("마가 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
         void shouldReturnRouteForReachableLocation() {
             // given
             Location from = Location.from(List.of(0, 0));
-            Location to = Location.from(List.of(1,2));
+            Location to = Location.from(List.of(1, 2));
             Piece piece = new Ma(Side.HAN);
 
             List<Location> expected = List.of(
-                    Location.from(List.of(0,1)),
-                    Location.from(List.of(1,2))
+                    Location.from(List.of(0, 1)),
+                    Location.from(List.of(1, 2))
             );
 
             // when & then
@@ -45,13 +53,6 @@ public class MaTest {
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(from, to))
                     .isInstanceOf(IllegalArgumentException.class);
-        }
-        static List<List<Integer>> provideUnreachableCoordination() {
-            return List.of(
-                    List.of(0,3),
-                    List.of(-1,3),
-                    List.of(0,1)
-            );
         }
     }
 }

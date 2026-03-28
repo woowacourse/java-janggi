@@ -11,19 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class StraightRouteProviderTest {
 
-    @ParameterizedTest
-    @DisplayName("직선으로 이동할 위치를 파라미터로 받으면 이동 경로를 반환한다.")
-    @MethodSource("provideReachableCoordination")
-    void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
-        // given
-        Location from = Location.from(List.of(2, 2));
-        RouteProvider routeProvider = new StraightRouteProvider();
-
-        // when & then
-        Assertions.assertThat(routeProvider.calculateRoute(from, destination))
-                .isEqualTo(route);
-    }
-
     static Stream<Arguments> provideReachableCoordination() {
         return Stream.of(
                 Arguments.of(
@@ -45,6 +32,27 @@ class StraightRouteProviderTest {
         );
     }
 
+    static List<List<Integer>> provideUnreachableCoordination() {
+        return List.of(
+                List.of(3, 3),
+                List.of(3, 2),
+                List.of(2, 2)
+        );
+    }
+
+    @ParameterizedTest
+    @DisplayName("직선으로 이동할 위치를 파라미터로 받으면 이동 경로를 반환한다.")
+    @MethodSource("provideReachableCoordination")
+    void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
+        // given
+        Location from = Location.from(List.of(2, 2));
+        RouteProvider routeProvider = new StraightRouteProvider();
+
+        // when & then
+        Assertions.assertThat(routeProvider.calculateRoute(from, destination))
+                .isEqualTo(route);
+    }
+
     @ParameterizedTest
     @DisplayName("직선으로 이동이 불가능한 위치를 파라미터로 받으면 예외가 발생한다.")
     @MethodSource("provideUnreachableCoordination")
@@ -57,13 +65,5 @@ class StraightRouteProviderTest {
         // when & then
         Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    static List<List<Integer>> provideUnreachableCoordination() {
-        return List.of(
-                List.of(3, 3),
-                List.of(3, 2),
-                List.of(2, 2)
-        );
     }
 }
