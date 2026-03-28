@@ -3,6 +3,7 @@ package view.message;
 import domain.Side;
 
 public enum SideView {
+
     HAN(Side.HAN, "한나라", "\u001B[31m"),
     CHU(Side.CHU, "초나라", "\u001B[34m");
 
