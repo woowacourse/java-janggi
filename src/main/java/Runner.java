@@ -6,7 +6,6 @@ import domain.TeamColor;
 import domain.TurnManager;
 import io.InputView;
 import io.OutputView;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,7 +16,12 @@ import strategy.formation.OuterFormationStrategy;
 import strategy.formation.RightFormationStrategy;
 
 public class Runner {
-    private static final List<FormationFactory> FORMATION_FACTORIES = createFormationFactories();
+    private static final List<InitialFormationStrategy> FORMATIONS = List.of(
+            new InnerFormationStrategy(),
+            new OuterFormationStrategy(),
+            new LeftFormationStrategy(),
+            new RightFormationStrategy()
+    );
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -86,11 +90,11 @@ public class Runner {
 
     private InitialFormationStrategy createFormationStrategy(int choice) {
         validateFormationChoice(choice);
-        return FORMATION_FACTORIES.get(choice - 1).create();
+        return FORMATIONS.get(choice - 1);
     }
 
     private void validateFormationChoice(int choice) {
-        if (choice >= 1 && choice <= FORMATION_FACTORIES.size()) {
+        if (choice >= 1 && choice <= FORMATIONS.size()) {
             return;
         }
         throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
@@ -134,19 +138,5 @@ public class Runner {
             throw new IllegalArgumentException("경로 번호가 범위를 벗어났습니다.");
         }
         return routes.get(routeChoice - 1);
-    }
-
-    private static List<FormationFactory> createFormationFactories() {
-        List<FormationFactory> formationFactories = new ArrayList<>();
-        formationFactories.add(InnerFormationStrategy::new);
-        formationFactories.add(OuterFormationStrategy::new);
-        formationFactories.add(LeftFormationStrategy::new);
-        formationFactories.add(RightFormationStrategy::new);
-        return List.copyOf(formationFactories);
-    }
-
-    @FunctionalInterface
-    private interface FormationFactory {
-        InitialFormationStrategy create();
     }
 }
