@@ -36,7 +36,7 @@ public class PieceDto {
                 return new PieceDto(row, col, "사");
             }
             if (type == PieceType.JANG) {
-                return new PieceDto(row, col, "궁");
+                return new PieceDto(row, col, "장");
             }
             if (type == PieceType.PO) {
                 return new PieceDto(row, col, "포");

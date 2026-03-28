@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ResultView {
+    private static final String RETRY_DESCRIPTION = "잘못된 입력입니다. 다시 입력하세요.";
+
     public void printBoard(BoardStatusDto dto) {
         String[][] grid = initGrid();
 
@@ -13,6 +15,10 @@ public class ResultView {
         }
 
         writeBoard(grid);
+    }
+
+    public void printRetryDescription() {
+        System.out.println(RETRY_DESCRIPTION);
     }
 
     private String[][] initGrid() {

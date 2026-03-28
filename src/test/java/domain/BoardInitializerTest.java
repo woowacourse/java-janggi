@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Jang;
 import domain.piece.Jol;
@@ -144,11 +145,11 @@ public class BoardInitializerTest {
         setting.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), Team.HAN));
         setting.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), Team.HAN));
 
-        setting.put(Position.of(7, 1), new Jol(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 3), new Jol(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 5), new Jol(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 7), new Jol(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 9), new Jol(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(), Team.HAN));
 
         return setting;
     }

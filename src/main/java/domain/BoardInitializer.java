@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Jang;
 import domain.piece.Jol;
@@ -38,7 +39,7 @@ public class BoardInitializer {
         pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(), team));
         pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(), team));
         pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(), team));
-        pieces.put(PieceType.BYEONG, new Jol(new ByeongMoveStrategy(), team));
+        pieces.put(PieceType.BYEONG, new Byeong(new ByeongMoveStrategy(), team));
         return pieces;
     }
 

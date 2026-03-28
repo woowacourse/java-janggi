@@ -8,6 +8,6 @@ public class Main {
         ResultView resultView = new ResultView();
         Controller controller = new Controller(inputView, resultView);
 
-        controller.initializeGame();
+        controller.play();
     }
 }
