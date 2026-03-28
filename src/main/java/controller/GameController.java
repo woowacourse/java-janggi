@@ -41,4 +41,12 @@ public class GameController {
         }
         return new Army(new InnerElephant());
     }
+
+    private void choGamePhase() {
+
+    }
+
+    private void hanGamePhase() {
+
+    }
 }
