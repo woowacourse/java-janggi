@@ -8,7 +8,7 @@ import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PawnMoveStrategy implements MoveStrategy {
+public class ForwardStepStrategy implements MoveStrategy {
 
     @Override
     public List<Position> generate(Board board, Position start, Piece piece) {

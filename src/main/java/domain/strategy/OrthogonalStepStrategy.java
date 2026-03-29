@@ -8,7 +8,7 @@ import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KingMoveStrategy implements MoveStrategy {
+public class OrthogonalStepStrategy implements MoveStrategy {
 
     private static final List<Direction> DIRECTIONS = List.of(
             Direction.UP,

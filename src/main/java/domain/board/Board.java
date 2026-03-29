@@ -1,7 +1,6 @@
 package domain.board;
 
 import domain.coordinate.Position;
-import domain.piece.Cannon;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 
@@ -28,12 +27,22 @@ public class Board {
         this.board = board;
     }
 
+    public void validateStartPosition(Position start, Side turn) {
+        validateRange(start);
+        validateEnsureSameSidePiece(start, turn);
+    }
+
     public boolean isEmpty(Position position) {
         return isValidRange(position) && getPiece(position).isNeutral();
     }
 
-    public boolean isCannon(Position position) {
-        return board.get(position) instanceof Cannon;
+    public boolean isSameSide(Position position, Side turn) {
+        return getPiece(position).isSameSide(turn);
+    }
+
+    public boolean isValidRange(Position position) {
+        return position.col() >= POSITION_THRESHOLD && position.col() < COL_SIZE
+                && position.row() >= POSITION_THRESHOLD && position.row() < ROW_SIZE;
     }
 
     public void move(Position start, Position destination) {
@@ -49,12 +58,13 @@ public class Board {
         return board.get(position);
     }
 
-    public boolean isValidRange(Position position) {
-        return position.col() >= POSITION_THRESHOLD && position.col() < COL_SIZE
-                && position.row() >= POSITION_THRESHOLD && position.row() < ROW_SIZE;
+    private void validateEnsureSameSidePiece(Position start, Side turn) {
+        if (!isSameSide(start, turn)) {
+            throw new IllegalArgumentException("아군 기물만 이동 가능합니다. 다시 입력해주세요.");
+        }
     }
 
-    public void validateRange(Position position) {
+    private void validateRange(Position position) {
         if (position.col() < POSITION_THRESHOLD || position.col() >= COL_SIZE) {
             throw new IllegalArgumentException(String.format("잘못된 열 좌표: %d (열 좌표는 0 에서 9 사이여야 합니다.)", position.col()));
         }

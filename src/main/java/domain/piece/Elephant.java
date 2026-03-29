@@ -1,55 +1,41 @@
 package domain.piece;
 
+import domain.board.Side;
 import domain.coordinate.Direction;
-import domain.Game;
-import domain.coordinate.Position;
-import domain.Side;
+import domain.rule.BoardBoundaryRule;
+import domain.rule.BasicCaptureRule;
+import domain.rule.MiddlePathBlockRule;
+import domain.strategy.PathBasedMoveStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Elephant extends Piece {
 
+    private static final List<List<Direction>> PATHS = List.of(
+            List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
+            List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT),
+            List.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
+            List.of(Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT),
+            List.of(Direction.LEFT, Direction.UP_LEFT, Direction.UP_LEFT),
+            List.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
+            List.of(Direction.RIGHT, Direction.UP_RIGHT, Direction.UP_RIGHT),
+            List.of(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)
+    );
+
     public Elephant(Side side) {
-        super(side);
+        super(
+                side,
+                new PathBasedMoveStrategy(PATHS),
+                List.of(
+                        new BoardBoundaryRule(),
+                        new BasicCaptureRule(),
+                        new MiddlePathBlockRule(PATHS)
+                )
+        );
     }
 
     @Override
-    public Piece createWith(Side side) {
-        return new Elephant(side);
-    }
-
-    @Override
-    public List<Position> getPossibleMoves(Game game, Position start) {
-        List<List<Direction>> paths = List.of(
-                List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
-                List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT),
-                List.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
-                List.of(Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT),
-                List.of(Direction.LEFT, Direction.UP_LEFT, Direction.UP_LEFT),
-                List.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
-                List.of(Direction.RIGHT, Direction.UP_RIGHT, Direction.UP_RIGHT),
-                List.of(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT));
-
-        List<Position> possiblePositions = new ArrayList<>();
-
-        for (List<Direction> path : paths) {
-            Position firstMovePosition = start.nextPosition(path.getFirst());
-            if (game.isNotEmpty(firstMovePosition)) {
-                continue;
-            }
-
-            Position secondMovePosition = firstMovePosition.nextPosition(path.get(1));
-            if (game.isNotEmpty(secondMovePosition)) {
-                continue;
-            }
-
-            Position destination = secondMovePosition.nextPosition(path.get(1));
-            if (game.isAvailableDestination(destination)) {
-                possiblePositions.add(destination);
-            }
-        }
-
-        return possiblePositions;
+    public boolean isCannon() {
+        return false;
     }
 }

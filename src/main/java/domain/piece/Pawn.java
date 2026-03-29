@@ -1,42 +1,27 @@
 package domain.piece;
 
-import domain.coordinate.Direction;
-import domain.Game;
-import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
+import domain.rule.BoardBoundaryRule;
+import domain.rule.BasicCaptureRule;
+import domain.strategy.ForwardStepStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Pawn extends Piece {
 
     public Pawn(Side side) {
-        super(side);
-    }
-
-    @Override
-    public Piece createWith(Side side) {
-        return new Pawn(side);
-    }
-
-    @Override
-    public List<Position> getPossibleMoves(Game game, Position start) {
-        List<Position> possiblePositions = new ArrayList<>();
-
-        List<Direction> directions = List.of(
-                forward(),
-                Direction.LEFT,
-                Direction.RIGHT
+        super(
+                side,
+                new ForwardStepStrategy(),
+                List.of(
+                        new BoardBoundaryRule(),
+                        new BasicCaptureRule()
+                )
         );
+    }
 
-        for (Direction direction : directions) {
-            Position destination = start.nextPosition(direction);
-
-            if (game.isAvailableDestination(destination)) {
-                possiblePositions.add(destination);
-            }
-        }
-
-        return possiblePositions;
+    @Override
+    public boolean isCannon() {
+        return false;
     }
 }

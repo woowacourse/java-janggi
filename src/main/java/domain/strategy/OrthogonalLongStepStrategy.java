@@ -8,7 +8,7 @@ import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChariotMoveStrategy implements MoveStrategy {
+public class OrthogonalLongStepStrategy implements MoveStrategy {
 
     private static final List<Direction> DIRECTIONS = List.of(
             Direction.UP,

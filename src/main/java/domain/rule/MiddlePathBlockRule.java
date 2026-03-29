@@ -7,11 +7,11 @@ import domain.piece.Piece;
 
 import java.util.List;
 
-public class PathBasedBlockRule implements MoveRule {
+public class MiddlePathBlockRule implements MoveRule {
 
     private final List<List<Direction>> paths;
 
-    public PathBasedBlockRule(List<List<Direction>> paths) {
+    public MiddlePathBlockRule(List<List<Direction>> paths) {
         this.paths = paths;
     }
 
@@ -19,16 +19,20 @@ public class PathBasedBlockRule implements MoveRule {
     public boolean isValid(Board board, Position start, Position dest, Piece piece) {
         for (List<Direction> path : paths) {
             Position current = start;
+            boolean blocked = false;
 
             for (int i = 0; i < path.size() - 1; i++) {
                 current = current.nextPosition(path.get(i));
 
                 if (!board.isEmpty(current)) {
-                    return false;
+                    blocked = true;
+                    break;
                 }
             }
 
-            return true;
+            if (!blocked && current.nextPosition(path.getLast()).equals(dest)) {
+                return true;
+            }
         }
 
         return false;

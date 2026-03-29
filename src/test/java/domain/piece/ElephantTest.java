@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Game;
 import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -115,7 +115,7 @@ class ElephantTest {
     }
 
     @Test
-    @DisplayName("마는 상대 기물이 있는 위치로 이동할 수 있다.")
+    @DisplayName("상은 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
         Game game = new Game(new ElephantTestInitializer());

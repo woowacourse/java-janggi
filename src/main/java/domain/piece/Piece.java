@@ -3,14 +3,23 @@ package domain.piece;
 import domain.Game;
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
+import domain.rule.MoveRule;
+import domain.strategy.MoveStrategy;
 
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Piece {
 
     private final Side side;
+    private MoveStrategy moveStrategy;
+    private List<MoveRule> moveRules;
+
+    public Piece(Side side, MoveStrategy moveStrategy, List<MoveRule> moveRules) {
+        this.side = side;
+        this.moveStrategy = moveStrategy;
+        this.moveRules = moveRules;
+    }
 
     public Piece(Side side) {
         this.side = side;
@@ -32,7 +41,7 @@ public abstract class Piece {
         return side.isNeutral();
     }
 
-    public boolean isFriendly(Side side) {
+    public boolean isSameSide(Side side) {
         return this.side == side;
     }
 
@@ -40,21 +49,14 @@ public abstract class Piece {
         return side.getForward();
     }
 
-    public abstract Piece createWith(Side side);
+    public List<Position> getPossibleMoves(Game game, Position start) {
+        List<Position> candidates = moveStrategy.generate(game.getBoard(), start, this);
 
-    public abstract List<Position> getPossibleMoves(Game game, Position start);
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return side == piece.side;
+        return candidates.stream()
+                .filter(dest -> moveRules.stream()
+                        .allMatch(rule -> rule.isValid(game.getBoard(), start, dest, this)))
+                .toList();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(side);
-    }
+    public abstract boolean isCannon();
 }

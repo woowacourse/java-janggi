@@ -4,7 +4,7 @@ import domain.board.Board;
 import domain.coordinate.Position;
 import domain.piece.Piece;
 
-public class CaptureRule implements MoveRule {
+public class BasicCaptureRule implements MoveRule {
 
     @Override
     public boolean isValid(Board board, Position start, Position dest, Piece piece) {

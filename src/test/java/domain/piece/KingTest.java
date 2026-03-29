@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Game;
 import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -77,8 +77,7 @@ class KingTest {
         List<Position> possibleMoves = king.getPossibleMoves(game, start);
 
         // then
-        assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4),
-                new Position(1, 5));
+        assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4), new Position(1, 5));
     }
 
     @Test

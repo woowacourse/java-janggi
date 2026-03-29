@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Game;
 import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public Piece createWith(Side side) {
-        return getInstance();
+    public List<Position> getPossibleMoves(Game game, Position start) {
+        return List.of();
     }
 
     @Override
-    public List<Position> getPossibleMoves(Game game, Position start) {
-        return List.of();
+    public boolean isCannon() {
+        return false;
     }
 }

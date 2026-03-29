@@ -105,28 +105,6 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("해당 좌표가 포이면 True를 반환한다.")
-    void isCannon_True_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position cannonPosition = new Position(7, 1);
-
-        // when - then
-        assertThat(board.isCannon(cannonPosition)).isTrue();
-    }
-
-    @Test
-    @DisplayName("해당 좌표가 포가 아니면 False를 반환한다.")
-    void isCannon_False_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position cannonPosition = new Position(8, 1);
-
-        // when - then
-        assertThat(board.isCannon(cannonPosition)).isFalse();
-    }
-
-    @Test
     @DisplayName("해당 좌표가 비어있으면 True를 반환한다.")
     void isEmpty_True_Test() {
         // given

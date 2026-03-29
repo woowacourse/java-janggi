@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Game;
 import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
 import domain.board.BoardInitializer;
 import java.util.HashMap;
 import java.util.List;
