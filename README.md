@@ -59,191 +59,32 @@ ex) 기물들 이동, 잡기
 
 ---
 
-## 기능 목록
+## 주요 기능 목록
+### 게임 관리 (Game)
+- 게임 초기화 및 진행 상태 관리
+- 턴 기반 이동 처리
+- 게임판 상태 조회
 
-###  Game
+### 게임판(Board)
+- 10x9 크기의 게임판 구성
+- 기물 배치 및 이동 관리
+- 이동 가능 위치 계산 (공통 기물 이동)
 
-- 게임을 시작하고 전체 흐름을 관리한다
-- 기물 이동 요청을 처리한다
-- 특정 기물의 이동 가능 위치를 조회한다
+### 기물(Piece)
+- **8가지 기물**: 왕(General), 보(Advisor), 상(Elephant), 마(Horse), 차(Chariot), 포(Cannon), 졸(Soldier), 빈칸(Empty)
+- 기물별 이동 패턴 정의
+- 기물별 이동 경로 검증
 
+### 좌표계(Coordinate)
+- 게임판 좌표 관리 (Point)
+- 경로 계산 (Path)
+- 경로 전략 구현 (PathStrategy)
+  - LinearPathStrategy: 직선 이동 (차, 포)
+  - FixedPathStrategy: 고정 패턴 이동 (궁, 사, 마, 상, 졸)
 
-###  Board
-
-- 장기판의 상태(기물 배치)를 관리한다
-- 특정 위치의 기물을 조회한다
-- 기물의 이동 가능 위치를 계산한다
-- 기물을 실제로 이동시킨다
-- 같은 진영 기물이 있는 위치로 이동하지 못하도록 제한한다
-
-
-###  piecePiece
-
-- 기물의 기본 속성(이름, 진영)을 가진다
-- 자신의 이동 규칙에 따라 이동 가능한 위치를 계산한다
-- 같은 진영 여부를 판단한다
-
-
-###  piecemoveMoveStrategy
-
-- 기물 이동 경로가 유효한지 검증한다
-- 기물별 이동 제약 조건을 처리한다
-  (예: 경로 차단, 점프 여부 등)
-
-
-###  Path
-
-- 기물의 이동 경로를 표현한다
-- 이동 중간 경로 검증에 사용된다
-
-
-###  Point
-
-- 장기판의 좌표를 표현한다
-
-
-###  PlayerSetUp
-* Player
-  - 플레이어 정보를 관리한다
-* sideSide
-  - 플레이어의 진영을 설정한다 
-* BoardSetup
-  - 장기판의 초기 기물 배치를 생성한다
+### 게임판 초기화(Setup)
+- 초기 기물 배치 전략 패턴
+- 4가지 배치 옵션 지원
+  - InSetUp, LeftSetUp, RightSetUp, OutSetUp
 
 ---
-
-## 클래스 다이어그램
-```mermaid
-classDiagram
-    direction TB
-
-    %% 상단: 게임과 전체 구조
-    class Game {
-        playerSetUp : Map[sideSide, PlayerSetUp]
-        +movePiece(Point from, Point to)
-        +availablePoints(Point target) List[Point]
-    }
-
-    class PlayerSetUp {
-        player : Player
-        side : sideSide
-        boardSetUp : BoardSetUp
-    }
-
-    class Player {
-        +name : String
-    }
-
-    class BoardSetUp {
-        <<interface>>
-        board : List[List[piecePiece]]
-    }
-
-    class Board {
-        +grid : List[List[piecePiece]]
-        +getBoard() List[List[piecePiece]]
-        +isTherePiece(Point target) piecePiece
-        +availablePoints(Point target) List[Point]
-        +movePiece(from, to) void
-    }
-
-    class Point {
-        +x
-        +y
-    }
-
-    class Path {
-        path : List[Point]
-    }
-
-    class sideSide {
-        <<enum>>
-        HAN
-        CHO
-    }
-
-    %% 중간: 추상 피스 및 전략 구조
-    class piecePiece {
-        <<interface>>
-        +name : String
-        +side : enum
-        +moveStrategy : piecemoveMoveStrategy
-        +availablePoints(from, to, board) List[Point]
-        +isSameSide(sideSide side) bool
-        -path(Point from) List[Path]
-    }
-
-    class piecemoveMoveStrategy {
-        <<interface>>
-        +isValidPath(path, board) bool
-    }
-
-    %% 하단: 기물 및 전략 구현체
-    class Cha {
-        +moveStrategy : ChaMoveStrategy
-    }
-    class Ma {
-        +moveStrategy : MaMoveStrategy
-    }
-    class Sang {
-        +moveStrategy : SangMoveStrategy
-    }
-    class Po {
-        +moveStrategy : PoMoveStrategy
-    }
-    class Jol {
-        +moveStrategy : JolMoveStrategy
-    }
-    class King {
-        +moveStrategy : KingMoveStrategy
-    }
-
-    class ChaMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class MaMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class SangMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class PoMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class JolMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class KingMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-
-    %% 관계선
-    Game --> PlayerSetUp
-    Game --> Board
-    PlayerSetUp --> Player
-    PlayerSetUp --> BoardSetUp
-    Board ..> BoardSetUp
-    Board --> piecePiece : "manages"
-    Board --> Point
-    Path <.. piecePiece
-    piecePiece <|-- Cha
-    piecePiece <|-- Ma
-    piecePiece <|-- Sang
-    piecePiece <|-- Po
-    piecePiece <|-- Jol
-    piecePiece <|-- King
-
-    Cha --> piecemoveMoveStrategy : "uses"
-    Ma --> piecemoveMoveStrategy : "uses"
-    Sang --> piecemoveMoveStrategy : "uses"
-    Po --> piecemoveMoveStrategy : "uses"
-    Jol --> piecemoveMoveStrategy : "uses"
-    King --> piecemoveMoveStrategy : "uses"
-
-    piecemoveMoveStrategy <|.. ChaMoveStrategy
-    piecemoveMoveStrategy <|.. MaMoveStrategy
-    piecemoveMoveStrategy <|.. SangMoveStrategy
-    piecemoveMoveStrategy <|.. PoMoveStrategy
-    piecemoveMoveStrategy <|.. JolMoveStrategy
-    piecemoveMoveStrategy <|.. KingMoveStrategy
-```
