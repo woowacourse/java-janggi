@@ -11,11 +11,11 @@ import janggi.domain.piece.Piece;
 import janggi.dto.CampDto;
 import janggi.dto.PiecePositionDto;
 import janggi.exception.ExceptionMessage;
-import janggi.util.RetryHandler;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class JanggiGame {
 
@@ -26,11 +26,11 @@ public class JanggiGame {
     }
 
     private Board createBoard() {
-        ElephantSetting hanElephantSetting = RetryHandler.retryOnInvalidInput(
+        ElephantSetting hanElephantSetting = retryOnInvalidInput(
                 () -> ElephantSetting.findElephantSettingBy(
                         InputView.readElephantSettingCommand(CampDto.from(Camp.HAN))));
 
-        ElephantSetting choElephantSetting = RetryHandler.retryOnInvalidInput(
+        ElephantSetting choElephantSetting = retryOnInvalidInput(
                 () -> ElephantSetting.findElephantSettingBy(
                         InputView.readElephantSettingCommand(CampDto.from(Camp.CHO))));
 
@@ -47,7 +47,7 @@ public class JanggiGame {
     private void play(Board board) {
         Turn turn = new Turn();
         while (true) {
-            RetryHandler.retryOnInvalidInput(() -> playTurn(board, turn));
+            retryOnInvalidInput(() -> playTurn(board, turn));
             OutputView.printBoard(toPiecePositions(board.getBoard()));
         }
     }
@@ -55,13 +55,13 @@ public class JanggiGame {
     private void playTurn(Board board, Turn turn) {
         Camp camp = turn.currentTurn();
         Position source = readSource(board, camp);
-        Position destination = RetryHandler.retryOnInvalidInput(() -> toPosition(InputView.readDestination()));
+        Position destination = retryOnInvalidInput(() -> toPosition(InputView.readDestination()));
         board.movePiece(source, destination, camp);
         turn.finishTurn();
     }
 
     private Position readSource(Board board, Camp camp) {
-        return RetryHandler.retryOnInvalidInput(() -> {
+        return retryOnInvalidInput(() -> {
             Position source = toPosition(InputView.readSource(CampDto.from(camp)));
             board.validateCampTurn(source, camp);
             return source;
@@ -76,6 +76,27 @@ public class JanggiGame {
     private void validatePositionSize(List<Integer> rawPosition) {
         if (rawPosition.size() != 2) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
+        }
+    }
+
+    private <T> T retryOnInvalidInput(Supplier<T> input) {
+        while (true) {
+            try {
+                return input.get();
+            } catch (IllegalArgumentException e) {
+                OutputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void retryOnInvalidInput(Runnable input) {
+        while (true) {
+            try {
+                input.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                OutputView.printError(e.getMessage());
+            }
         }
     }
 }
