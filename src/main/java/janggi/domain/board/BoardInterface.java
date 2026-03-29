@@ -11,6 +11,4 @@ public interface BoardInterface {
     boolean isEqualPieceType(Position position, PieceType pieceType);
 
     boolean isAlly(Side side, Position position);
-
-    PieceInfo[][] getCurrentBoard();
 }

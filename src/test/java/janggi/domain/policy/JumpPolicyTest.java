@@ -28,11 +28,6 @@ class JumpPolicyTest {
             public boolean isAlly(Side side, Position position) {
                 return isAlly.contains(position);
             }
-
-            @Override
-            public PieceInfo[][] getCurrentBoard() {
-                return new PieceInfo[0][];
-            }
         };
     }
 

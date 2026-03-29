@@ -39,7 +39,6 @@ public class Board implements BoardInterface {
         return board.get(position).isEqualSide(side);
     }
 
-    @Override
     public PieceInfo[][] getCurrentBoard() {
         PieceInfo[][] currentBoard = new PieceInfo[10][9];
 
