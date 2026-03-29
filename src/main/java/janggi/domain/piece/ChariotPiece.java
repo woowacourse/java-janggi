@@ -27,7 +27,7 @@ public class ChariotPiece extends Piece {
                 }
                 return path;
             }
-            for (int y = nextY; y < preY; y++) {
+            for (int y = preY - 1; y >= nextY; y--) {
                 path.add(new Position(preX, y));
             }
             return path;
@@ -39,7 +39,7 @@ public class ChariotPiece extends Piece {
             }
             return path;
         }
-        for (int x = nextX; x <= preX; x++) {
+        for (int x = preX - 1; x >= nextX; x--) {
             path.add(new Position(x, preY));
         }
         return path;
