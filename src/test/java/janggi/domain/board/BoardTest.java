@@ -3,18 +3,21 @@ package janggi.domain.board;
 import janggi.domain.Arrangement;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.piece.PieceType;
 import janggi.initializer.BoardInitializer;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
     @Test
     void 자기_진영의_기물을_움직이면_정상_작동한다() {
         Board board = new Board(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG));
+        board.move(new Position(1, 1), new Position(2, 1), Side.HAN);
 
-        assertThatCode(() ->board.move(new Position(1, 1), new Position(2, 1), Side.HAN)).doesNotThrowAnyException();
+        assertThat(board.getCurrentBoard()[1][0].pieceType()).isEqualTo(PieceType.CHA);
+        assertThat(board.getCurrentBoard()[0][0].pieceType()).isEqualTo(PieceType.NONE);
     }
 
     @Test
