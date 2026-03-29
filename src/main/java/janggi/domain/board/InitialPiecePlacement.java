@@ -35,24 +35,20 @@ public enum InitialPiecePlacement {
     HAN_GUARD_RIGHT(9, 5, Camp.HAN, PieceRule.GUARD),
     HAN_CHARIOT_RIGHT(9, 8, Camp.HAN, PieceRule.CHARIOT);
 
-    private final int row;
-    private final int column;
-    private final Camp camp;
-    private final PieceRule pieceRule;
+    private final Position position;
+    private final Piece piece;
 
     InitialPiecePlacement(int row, int column, Camp camp, PieceRule pieceRule) {
-        this.row = row;
-        this.column = column;
-        this.camp = camp;
-        this.pieceRule = pieceRule;
+        this.position = new Position(row, column);
+        this.piece = new Piece(pieceRule, camp);
     }
 
     // TODO : 둘 다 같은 나라의 ElephantSetting 들어와도 컴파일 에러 X -> 타입 강제 고려하기
     public static Map<Position, Piece> init(ElephantSetting hanChoice, ElephantSetting choChoice) {
         Map<Position, Piece> board = new HashMap<>();
 
-        for (InitialPiecePlacement piece : values()) {
-            board.put(new Position(piece.row, piece.column), new Piece(piece.pieceRule, piece.camp));
+        for (InitialPiecePlacement placement : values()) {
+            board.put(placement.position, placement.piece);
         }
 
         board.putAll(hanChoice.createElephantOrder(Camp.HAN));
