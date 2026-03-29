@@ -34,7 +34,7 @@ class CannonPieceTest {
     }
 
     @ParameterizedTest
-    @DisplayName("포는 상하좌우 직전이면 칸 수에 상관없이 이동 가능하다.")
+    @DisplayName("포는 상하좌우 직선이 아니면 이동할 수 없다.")
     @CsvSource({
             "2, 3, 6, 4",
             "8, 3, 9, 1",
@@ -48,15 +48,27 @@ class CannonPieceTest {
                 .isFalse();
     }
 
-    @Test
-    @DisplayName("포는 상하좌우 직전이면 칸 수에 상관없이 이동 가능하다.")
-    void testFindDestinationPath() {
-        Position from = new Position(2, 3);
-        Position to = new Position(5, 3);
+    @ParameterizedTest
+    @DisplayName("포는 이동 방향에 맞는 순서로 도착 좌표까지의 경로를 반환한다.")
+    @CsvSource({
+            "2, 3, 5, 3, 3, 3, 4, 3, 5, 3",
+            "5, 3, 2, 3, 4, 3, 3, 3, 2, 3",
+            "2, 3, 2, 6, 2, 4, 2, 5, 2, 6",
+            "2, 6, 2, 3, 2, 5, 2, 4, 2, 3"
+    })
+    void testFindDestinationPath(int preX, int preY, int nextX, int nextY,
+                                 int pathX1, int pathY1, int pathX2, int pathY2,
+                                 int pathX3, int pathY3) {
+        Position from = new Position(preX, preY);
+        Position to = new Position(nextX, nextY);
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
 
         List<Position> result = cannonPiece.findPath(from, to);
-        assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3), new Position(5, 3));
+        assertThat(result).containsExactly(
+                new Position(pathX1, pathY1),
+                new Position(pathX2, pathY2),
+                new Position(pathX3, pathY3)
+        );
     }
 
     @Test
