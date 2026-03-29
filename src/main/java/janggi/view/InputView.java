@@ -20,5 +20,4 @@ public class InputView {
         return MoveCommand.from(numbers);
     }
 
-
 }

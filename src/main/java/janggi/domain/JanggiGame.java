@@ -6,11 +6,9 @@ public class JanggiGame {
     private Team currentTurn = Team.CHO;
     private boolean isFinished = false;
 
-
     public boolean isFinished() {
         return isFinished;
     }
-
 
     public Team findCurrentTeam() {
         return currentTurn;
@@ -23,6 +21,4 @@ public class JanggiGame {
         }
         currentTurn = Team.CHO;
     }
-
-
 }

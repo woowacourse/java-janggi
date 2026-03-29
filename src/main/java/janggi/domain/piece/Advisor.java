@@ -18,5 +18,4 @@ public class Advisor extends Piece {
     public MoveRule moveRule() {
         return new OneStepMoveRule();
     }
-
 }

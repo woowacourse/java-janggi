@@ -20,7 +20,6 @@ public class JanggiController {
             Team currentTeam = janggiGame.findCurrentTeam();
             attemptMove(board, currentTeam);
             janggiGame.changeTurn();
-
         }
     }
 
@@ -43,7 +42,4 @@ public class JanggiController {
             return false;
         }
     }
-
 }
-
-

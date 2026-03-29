@@ -39,7 +39,6 @@ class SoldierMoveRuleTest {
 
 
     @Test
-        //TODO
     void 진영상관없이_좌우로_이동할수있다() {
         MoveRule rule = new SoldierMoveRule(Team.CHO);
         assertThat(rule.canMove(new Position(3, 4), new Position(3, 5), board)).isTrue();
