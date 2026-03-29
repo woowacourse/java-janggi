@@ -4,7 +4,6 @@ import domain.Direction;
 import domain.Position;
 import domain.Side;
 import domain.strategy.MovementStrategy;
-
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -13,7 +12,7 @@ public class Cannon extends Piece {
     private static final String CANNOT_CAPTURE_CANNON_WITH_CANNON = "포는 포끼리 잡을 수 없습니다.";
 
     private final List<List<Direction>> paths = List.of(
-            List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT));
+        List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT));
 
     public Cannon(Side side, MovementStrategy movementStrategy) {
         super(side, movementStrategy);
@@ -27,28 +26,27 @@ public class Cannon extends Piece {
 
     @Override
     public void checkRoute(List<Piece> pieces) {
-        // 목적지까지는 포가아닌 기물이 한 개만 있어야 함.
-        int cnt = 0;
-        for(Piece piece : pieces) {
-            if(piece instanceof Cannon) {
+        int count = 0;
+        for (Piece piece : pieces) {
+            if (piece instanceof Cannon) {
                 throw new IllegalArgumentException(CANNOT_JUMP_WITH_CANNON);
             }
-            if(!(piece instanceof Empty)) {
-                cnt++;
+            if (!(piece instanceof Empty)) {
+                count++;
             }
         }
-        if(cnt != 1) {
+        if (count != 1) {
             throw new IllegalArgumentException(INVALID_TARGET_POSITION);
         }
     }
 
     @Override
     public void checkTarget(Piece piece) {
-        if(piece.getSide().equals(side)) {
+        if (piece.getSide().equals(side)) {
             throw new IllegalArgumentException(CANNOT_CAPTURE_OWN_PIECE);
         }
 
-        if(piece instanceof Cannon) {
+        if (piece instanceof Cannon) {
             throw new IllegalArgumentException(CANNOT_CAPTURE_CANNON_WITH_CANNON);
         }
     }
