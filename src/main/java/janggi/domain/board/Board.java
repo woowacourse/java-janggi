@@ -47,26 +47,21 @@ public class Board {
         return formation;
     }
 
-    public Piece selectPiece(int row, int col) {
-        Position position = Position.of(row, col);
-        Optional<Piece> piece = Optional.ofNullable(janggiBoard.get(position));
-        return piece.orElseThrow(
-                () -> new IllegalArgumentException("보드에 기물이 존재하지 않습니다.")
-        );
-    }
-
-    public void movePiece(int row, int col, Position from) {
-        Position to = Position.of(row, col);
+    public void movePiece(Position from, Position to) {
         Piece piece = selectPiece(from);
         Path path = findPath(piece, from, to);
-        validateRoute(piece, path);
-        validateDestination(piece, to);
+        validateMove(piece, path, to);
         executeMove(piece, from, to);
     }
 
-    private Piece selectPiece(Position position) {
+    public Piece selectPiece(Position position) {
         return Optional.ofNullable(janggiBoard.get(position))
                 .orElseThrow(() -> new IllegalArgumentException("보드에 기물이 존재하지 않습니다."));
+    }
+
+    private void validateMove(Piece piece, Path path, Position to) {
+        validateRoute(piece, path);
+        validateDestination(piece, to);
     }
 
     private Path findPath(Piece piece, Position from, Position to) {

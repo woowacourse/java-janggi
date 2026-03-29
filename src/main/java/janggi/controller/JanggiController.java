@@ -77,7 +77,8 @@ public class JanggiController {
 
     private boolean applyMoveToDomain(Janggi janggi, PositionRequest fromRequest, PositionRequest toRequest) {
         try {
-            janggi.movePiece(toRequest.row(), toRequest.column(), Position.of(fromRequest.row(), fromRequest.column()));
+            janggi.movePiece(Position.of(fromRequest.row(), fromRequest.column()),
+                    Position.of(toRequest.row(), toRequest.column()));
             return true;
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());

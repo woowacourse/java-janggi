@@ -37,12 +37,12 @@ public class Janggi {
         return FORMATIONS.get(choice - 1);
     }
 
-    public void movePiece(int row, int col, Position position) {
-        board.movePiece(row, col, position);
+    public void movePiece(Position from, Position to) {
+        board.movePiece(from, to);
     }
 
-    public void validateCamp(int row, int col, Camp camp) {
-        Piece piece = board.selectPiece(row, col);
+    public void validateCamp(Position position, Camp camp) {
+        Piece piece = board.selectPiece(position);
         if (!piece.isSameCamp(camp)) {
             throw new IllegalArgumentException("자신의 기물만 선택할 수 있습니다.");
         }
