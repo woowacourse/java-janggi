@@ -1,6 +1,8 @@
 package domain.board;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
+
 import java.util.List;
 
 public class PathPieces {
@@ -14,15 +16,22 @@ public class PathPieces {
         this.destinationPiece = destinationPiece;
     }
 
-    public Piece getSourcePiece() {
-        return sourcePiece;
+    public long countWaypoints() {
+        return waypointPieces.stream()
+                .filter(Piece::isNotNone)
+                .count();
     }
 
-    public List<Piece> getWaypointPieces() {
-        return waypointPieces;
+    public boolean hasPieceOnPath(PieceType type) {
+        return waypointPieces.stream()
+                .anyMatch(p -> p.getPieceType() == type);
     }
 
-    public Piece getDestinationPiece() {
-        return destinationPiece;
+    public boolean isDestinationType(PieceType type) {
+        return destinationPiece.getPieceType() == type;
+    }
+
+    public boolean isMovableDestination() {
+        return sourcePiece.isDifferentTeam(destinationPiece);
     }
 }
