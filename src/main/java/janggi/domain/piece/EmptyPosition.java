@@ -14,8 +14,8 @@ public class EmptyPosition extends Piece {
     }
 
     @Override
-    public PieceType pieceType() {
-        return PieceType.EMPTY;
+    public String toString() {
+        return "X";
     }
 
     @Override

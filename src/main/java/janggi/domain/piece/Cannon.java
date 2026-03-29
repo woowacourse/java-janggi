@@ -10,8 +10,8 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public PieceType pieceType() {
-        return PieceType.CANNON;
+    public String toString() {
+        return "포";
     }
 
     @Override

@@ -2,14 +2,18 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.piece.Advisor;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Soldier;
+import janggi.domain.piece.Tank;
 import janggi.domain.piece.Team;
 import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 class BoardInitializerTest {
     private List<List<Piece>> board = BoardInitializer.createBoard();
@@ -39,30 +43,36 @@ class BoardInitializerTest {
         assertThat(pieceCount).isEqualTo(32);
     }
 
-    @ParameterizedTest(name = "{0} 나라의 {1} 개수는 {2}개여야 한다")
-    @CsvSource({
-            "HAN, SOLDIER, 5",
-            "CHO, SOLDIER, 5",
-            "HAN, CANNON, 2",
-            "CHO, CANNON, 2",
-            "HAN, KING, 1",
-            "CHO, KING, 1",
-            "HAN, TANK, 2",
-            "CHO, TANK, 2",
-            "HAN, HORSE, 2",
-            "CHO, HORSE, 2",
-            "HAN, ELEPHANT, 2",
-            "CHO, ELEPHANT, 2",
-            "HAN, ADVISOR, 2",
-            "CHO, ADVISOR, 2"
-    })
-    void 생성기물_개수_테스트(Team team, PieceType pieceType, int expectedCount) {
-        long actualCount = board.stream()
+    @Test
+    void 한나라_기물_개수가_올바르다() {
+        assertTeamPieceCount(Team.HAN, Soldier.class, 5);
+        assertTeamPieceCount(Team.HAN, Cannon.class, 2);
+        assertTeamPieceCount(Team.HAN, King.class, 1);
+        assertTeamPieceCount(Team.HAN, Tank.class, 2);
+        assertTeamPieceCount(Team.HAN, Horse.class, 2);
+        assertTeamPieceCount(Team.HAN, Elephant.class, 2);
+        assertTeamPieceCount(Team.HAN, Advisor.class, 2);
+    }
+
+    @Test
+    void 초나라_기물_개수가_올바르다() {
+        assertTeamPieceCount(Team.CHO, Soldier.class, 5);
+        assertTeamPieceCount(Team.CHO, Cannon.class, 2);
+        assertTeamPieceCount(Team.CHO, King.class, 1);
+        assertTeamPieceCount(Team.CHO, Tank.class, 2);
+        assertTeamPieceCount(Team.CHO, Horse.class, 2);
+        assertTeamPieceCount(Team.CHO, Elephant.class, 2);
+        assertTeamPieceCount(Team.CHO, Advisor.class, 2);
+    }
+
+    private void assertTeamPieceCount(Team team, Class<? extends Piece> pieceClass, int expected) {
+        long count = board.stream()
                 .flatMap(Collection::stream)
                 .filter(piece -> piece.findTeam() == team)
-                .filter(piece -> piece.pieceType() == pieceType)
+                .filter(pieceClass::isInstance)
                 .count();
 
-        assertThat(actualCount).isEqualTo(expectedCount);
+        assertThat(count).isEqualTo(expected);
     }
+
 }

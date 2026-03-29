@@ -10,8 +10,8 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public PieceType pieceType() {
-        return PieceType.ELEPHANT;
+    public String toString() {
+        return "상";
     }
 
     @Override

@@ -23,12 +23,13 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract PieceType pieceType();
-
     public boolean canMove(Position from, Position to, BoardView board) {
         return moveRule().canMove(from, to, board);
     }
 
     protected abstract MoveRule moveRule();
+
+    @Override
+    public abstract String toString();
 
 }

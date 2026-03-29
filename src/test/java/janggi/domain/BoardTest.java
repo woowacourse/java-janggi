@@ -3,8 +3,8 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
@@ -19,10 +19,9 @@ public class BoardTest {
 
         Piece piece = board.findByPosition(position);
         Team team = piece.findTeam();
-        PieceType pieceType = piece.pieceType();
 
         assertThat(team).isEqualTo(Team.HAN);
-        assertThat(pieceType).isEqualTo(PieceType.KING);
+        assertThat(piece).isInstanceOf(King.class);
     }
 
     @Test
