@@ -36,29 +36,31 @@ public class ElephantStrategy implements MoveStrategy {
     private List<Position> createRowFirstPath(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
-        source = source.moveRow(directionInfo.calculateRowDirection());
-        path.add(source);
+        Position current = source.moveRow(directionInfo.calculateRowDirection());
+        path.add(current);
 
-        path.addAll(moveDiagonal(source, directionInfo));
+        path.addAll(moveDiagonal(current, directionInfo));
         return path;
     }
 
     private List<Position> createColFirstPath(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
-        source = source.moveCol(directionInfo.calculateColDirection());
-        path.add(source);
+        Position current = source.moveCol(directionInfo.calculateColDirection());
+        path.add(current);
 
-        path.addAll(moveDiagonal(source, directionInfo));
+        path.addAll(moveDiagonal(current, directionInfo));
         return path;
     }
 
     private List<Position> moveDiagonal(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
+        Position current = source;
         for (int i = 0; i < DIAGONAL_COUNT; i++) {
-            source = source.moveDiagonal(directionInfo.calculateRowDirection(), directionInfo.calculateColDirection());
-            path.add(source);
+            current = current.moveDiagonal(directionInfo.calculateRowDirection(),
+                    directionInfo.calculateColDirection());
+            path.add(current);
         }
         return path;
     }
