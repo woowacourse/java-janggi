@@ -30,7 +30,7 @@ public class JanggiController {
     }
 
     private void play(Game game) {
-        while (true) {
+        while (game.canPlay()) {
             Map<Point, Piece> board = game.getBoard();
             outputView.printBoard(board);
             outputView.printSide(game.getTurn());

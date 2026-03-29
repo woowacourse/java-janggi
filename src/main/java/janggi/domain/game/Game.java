@@ -58,4 +58,8 @@ public class Game {
         }
         turn = switchTurn;
     }
+
+    public boolean canPlay() {
+        return true;
+    }
 }
