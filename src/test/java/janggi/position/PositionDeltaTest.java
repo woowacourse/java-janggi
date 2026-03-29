@@ -46,4 +46,15 @@ class PositionDeltaTest {
         //then
         assertThat(moved.rowDistance()).isEqualTo(1);
     }
+
+    @DisplayName("가로와 세로가 입력한 거리만큼 각각 떨어져 있으면 false를 반환한다.")
+    @Test
+    void notMatchStepPattern() {
+        //given
+        PositionDelta connection = new PositionDelta(-2, 3);
+
+        //when & then
+        assertThat(connection.notMatchStepPattern(2, 3))
+                .isFalse();
+    }
 }

@@ -8,6 +8,7 @@ import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.linearMove.Pho;
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
@@ -54,11 +55,11 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when
-        PositionPath positionPath = pho.getLegalPath(from, to);
+        MoveResult moveResult = pho.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SIX, Column.FOUR));
+        assertThat(moveResult.getTo())
+                .isEqualTo(new Position(Row.SIX, Column.FIVE));
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -70,11 +71,11 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when
-        PositionPath positionPath = pho.getLegalPath(from, to);
+        MoveResult moveResult = pho.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.EIGHT, Column.THREE));
+        assertThat(moveResult.getTo())
+                .isEqualTo(new Position(Row.NINE, Column.THREE));
     }
 
     @DisplayName("아무런 기물이 없으면 예외가 발생한다.")

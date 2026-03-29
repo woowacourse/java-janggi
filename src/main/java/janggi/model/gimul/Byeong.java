@@ -1,8 +1,8 @@
 package janggi.model.gimul;
 
 import janggi.model.Team;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
 import java.util.List;
 
 public class Byeong extends AbstractGimul {
@@ -17,21 +17,21 @@ public class Byeong extends AbstractGimul {
     }
 
     @Override
-    public PositionPath getLegalPath(Position from, Position to) {
+    public MoveResult getLegalPath(Position from, Position to) {
         int rowDistance = to.getRowDistance(from);
         int columnDistance = to.getColumnDistance(from);
 
         validateMoveDistance(rowDistance, columnDistance);
 
         if (isHorizontalMove(rowDistance)) {
-            return from.moveHorizontal(columnDistance).removeFromAndTo();
+            return from.moveHorizontal(columnDistance);
         }
 
         if (isBackwardMove(rowDistance)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        return from.moveVertical(rowDistance).removeFromAndTo();
+        return from.moveVertical(rowDistance);
     }
 
     private void validateMoveDistance(int rowDistance, int columnDistance) {

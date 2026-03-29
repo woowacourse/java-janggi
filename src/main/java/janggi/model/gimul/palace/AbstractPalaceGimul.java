@@ -3,9 +3,9 @@ package janggi.model.gimul.palace;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.DiagonalDelta;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
 import janggi.model.position.PositionDelta;
-import janggi.model.position.PositionPath;
 import java.util.List;
 
 public abstract class AbstractPalaceGimul extends AbstractGimul {
@@ -15,7 +15,7 @@ public abstract class AbstractPalaceGimul extends AbstractGimul {
     }
 
     @Override
-    public PositionPath getLegalPath(Position from, Position to) {
+    public MoveResult getLegalPath(Position from, Position to) {
         PositionDelta positionDelta = PositionDelta.between(from, to);
 
         if (positionDelta.isMultiStep()) {
@@ -23,11 +23,11 @@ public abstract class AbstractPalaceGimul extends AbstractGimul {
         }
 
         if (positionDelta.isHorizontal()) {
-            return from.moveHorizontal(positionDelta.columnDistance()).removeFromAndTo();
+            return from.moveHorizontal(positionDelta.columnDistance());
         }
 
         if (positionDelta.isVertical()) {
-            return from.moveVertical(positionDelta.rowDistance()).removeFromAndTo();
+            return from.moveVertical(positionDelta.rowDistance());
         }
 
         DiagonalDelta diagonalDelta = new DiagonalDelta(
@@ -35,7 +35,7 @@ public abstract class AbstractPalaceGimul extends AbstractGimul {
                 positionDelta.columnDistance()
         );
 
-        return from.moveDiagonal(diagonalDelta).removeFromAndTo();
+        return from.moveDiagonal(diagonalDelta);
     }
 
     @Override

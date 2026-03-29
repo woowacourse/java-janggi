@@ -1,8 +1,8 @@
 package janggi.model.gimul;
 
 import janggi.model.Team;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
 import java.util.List;
 
 public abstract class AbstractGimul {
@@ -12,7 +12,7 @@ public abstract class AbstractGimul {
         this.team = team;
     }
 
-    public abstract PositionPath getLegalPath(Position from, Position to);
+    public abstract MoveResult getLegalPath(Position from, Position to);
 
     public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo);
 

@@ -35,9 +35,9 @@ public record PositionDelta(
         return getAbsRowDistance() >= SECOND_STEP || getAbsColumnDistance() >= SECOND_STEP;
     }
 
-    public boolean notMatchStepPattern(int first, int second) {
-        return (getAbsRowDistance() != first || getAbsColumnDistance() != second) &&
-                (getAbsRowDistance() != second || getAbsColumnDistance() != first);
+    public boolean notMatchStepPattern(int rowDistance, int columnDistance) {
+        return (getAbsRowDistance() != rowDistance || getAbsColumnDistance() != columnDistance) &&
+                (getAbsRowDistance() != columnDistance || getAbsColumnDistance() != rowDistance);
     }
 
     public boolean isHorizontal() {

@@ -8,6 +8,7 @@ import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Ma;
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
@@ -25,11 +26,11 @@ class MaTest {
         Ma ma = new Ma(Team.CHO);
 
         //when
-        PositionPath positionPath = ma.getLegalPath(from, to);
+        MoveResult moveResult = ma.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+        assertThat(moveResult.getTo())
+                .isEqualTo(new Position(Row.FIVE, Column.SIX));
     }
 
     @DisplayName("행과 열의 거리가 각각 (1,2) 혹은 (2,1)이 아니면 예외가 발생한다.")

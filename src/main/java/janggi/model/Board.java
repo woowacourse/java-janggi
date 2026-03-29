@@ -2,8 +2,8 @@ package janggi.model;
 
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +31,9 @@ public class Board {
             throw new IllegalArgumentException("상대편 기물을 움직일 수 없습니다.");
         }
 
-        PositionPath legalPath = gimulAtFrom.getLegalPath(from, to);
+        MoveResult moveResult = gimulAtFrom.getLegalPath(from, to);
 
-        List<AbstractGimul> gimulsOnPath = legalPath.stream()
+        List<AbstractGimul> gimulsOnPath = moveResult.getPath().stream()
                 .filter(board::containsKey)
                 .map(board::get)
                 .toList();
@@ -45,6 +45,20 @@ public class Board {
         movedBoard.remove(from);
 
         return new Board(movedBoard);
+    }
+
+    private void validateMovePathAndDestination(
+            Position to, AbstractGimul gimulAtFrom,
+            List<AbstractGimul> gimulsOnPath) {
+        if ((!board.containsKey(to) && gimulAtFrom.canPassThrough(gimulsOnPath))) {
+            return;
+        }
+
+        AbstractGimul gimulAtTo = board.get(to);
+        if (gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
     }
 
     @Override
@@ -106,19 +120,4 @@ public class Board {
     private boolean isHanAlive() {
         return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
     }
-
-    private void validateMovePathAndDestination(Position to, AbstractGimul gimulAtFrom,
-                                                List<AbstractGimul> gimulsOnPath) {
-        if ((!board.containsKey(to) && gimulAtFrom.canPassThrough(gimulsOnPath))) {
-            return;
-        }
-
-        AbstractGimul gimulAtTo = board.get(to);
-        if (gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
-            return;
-        }
-        throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
-    }
-
-
 }

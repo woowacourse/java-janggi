@@ -7,7 +7,7 @@ public record Position(
         Row row,
         Column column
 ) {
-    public PositionPath moveDiagonal(DiagonalDelta diagonalDelta) {
+    public MoveResult moveDiagonal(DiagonalDelta diagonalDelta) {
         int rowUnitDistance = diagonalDelta.getRowUnitDistance();
         int columnUnitDistance = diagonalDelta.getColumnUnitDistance();
 
@@ -23,11 +23,11 @@ public record Position(
             positions.add(new Position(nextRow, nextColumn));
         }
 
-        return new PositionPath(positions);
+
+        return MoveResult.of(new PositionPath(positions));
     }
 
-
-    public PositionPath moveHorizontal(int distance) {
+    public MoveResult moveHorizontal(int distance) {
         int nextValue = column.ordinal() + distance;
 
         if (nextValue < 1 || nextValue > 9) {
@@ -41,10 +41,15 @@ public record Position(
         );
 
         List<Column> columns = this.column.to(to.column);
-        return new PositionPath(columns.stream().map(column -> new Position(this.row, column)).toList());
+
+        List<Position> positions = columns.stream()
+                .map(column -> new Position(this.row, column))
+                .toList();
+
+        return MoveResult.of(new PositionPath(positions));
     }
 
-    public PositionPath moveVertical(int distance) {
+    public MoveResult moveVertical(int distance) {
         int nextValue = row.ordinal() + distance;
 
         if (nextValue < 1 || nextValue > 10) {
@@ -59,7 +64,11 @@ public record Position(
         );
 
         List<Row> rows = this.row.to(to.row);
-        return new PositionPath(rows.stream().map(row -> new Position(row, this.column)).toList());
+        List<Position> positions = rows.stream()
+                .map(row -> new Position(row, this.column))
+                .toList();
+
+        return MoveResult.of(new PositionPath(positions));
     }
 
 
