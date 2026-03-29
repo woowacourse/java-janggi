@@ -29,9 +29,12 @@ class SoldierMovementTest {
         @DisplayName("초 진영의 경우")
         @Test
         void 초_진영의_경우() {
-            List<Intersection> movableIntersections = movement.movableIntersections(CURRENT_INTERSECTION, Side.CHO);
+            List<Path> movablePaths = movement.movablePaths(CURRENT_INTERSECTION, Side.CHO);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(
                             new Intersection(4, 5),
                             new Intersection(5, 4),
@@ -42,9 +45,12 @@ class SoldierMovementTest {
         @DisplayName("한 진영의 경우")
         @Test
         void 한_진영의_경우() {
-            List<Intersection> movableIntersections = movement.movableIntersections(CURRENT_INTERSECTION, Side.HAN);
+            List<Path> movablePaths = movement.movablePaths(CURRENT_INTERSECTION, Side.HAN);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(
                             new Intersection(6, 5),
                             new Intersection(5, 4),
@@ -61,9 +67,12 @@ class SoldierMovementTest {
         @Test
         void 초_진영의_경우() {
             Intersection borderIntersection = new Intersection(1, 1);
-            List<Intersection> movableIntersections = movement.movableIntersections(borderIntersection, Side.CHO);
+            List<Path> movablePaths = movement.movablePaths(borderIntersection, Side.CHO);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(new Intersection(1, 2));
         }
 
@@ -71,9 +80,12 @@ class SoldierMovementTest {
         @Test
         void 한_진영의_경우() {
             Intersection borderIntersection = new Intersection(10, 1);
-            List<Intersection> movableIntersections = movement.movableIntersections(borderIntersection, Side.HAN);
+            List<Path> movablePaths = movement.movablePaths(borderIntersection, Side.HAN);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(new Intersection(10, 2));
         }
     }

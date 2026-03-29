@@ -12,27 +12,29 @@ public final class ChariotMovement extends PieceMovement {
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
     @Override
-    protected List<Intersection> candidateIntersections(Intersection from, Side side) {
-        return allDirectionIntersections(from, side);
+    protected List<Path> candidatePaths(Intersection from, Side side) {
+        return allDirectionPaths(from, side);
     }
 
-    private List<Intersection> allDirectionIntersections(Intersection from, Side side) {
+    private List<Path> allDirectionPaths(Intersection from, Side side) {
         return side.getAllDirections()
                 .stream()
-                .map(direction -> allIntersectionsOfDirection(from, direction))
+                .map(direction -> allPathsOfDirection(from, direction))
                 .flatMap(List::stream)
                 .toList();
     }
 
-    private List<Intersection> allIntersectionsOfDirection(Intersection from, Direction direction) {
-        List<Intersection> toDirectionIntersections = new ArrayList<>();
+    private List<Path> allPathsOfDirection(Intersection from, Direction direction) {
+        List<Path> paths = new ArrayList<>();
+        List<Intersection> passingIntersections = new ArrayList<>();
 
         Intersection current = direction.moveForward(from, MOVE_AMOUNT);
         while (current.isInBounds()) {
-            toDirectionIntersections.add(current);
+            paths.add(new Path(current, List.copyOf(passingIntersections)));
+            passingIntersections.add(current);
             current = direction.moveForward(current, MOVE_AMOUNT);
         }
 
-        return List.copyOf(toDirectionIntersections);
+        return List.copyOf(paths);
     }
 }

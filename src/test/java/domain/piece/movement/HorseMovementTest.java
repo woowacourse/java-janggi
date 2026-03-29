@@ -31,9 +31,12 @@ class HorseMovementTest {
         void 진영에_상관없이_동일하게_적용된다(Side side) {
             Intersection currentIntersection = new Intersection(5, 5);
 
-            List<Intersection> movableIntersections = movement.movableIntersections(currentIntersection, side);
+            List<Path> movablePaths = movement.movablePaths(currentIntersection, side);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(
                             new Intersection(3, 4),
                             new Intersection(3, 6),
@@ -57,9 +60,12 @@ class HorseMovementTest {
         void 진영에_상관없이_동일하게_적용된다(Side side) {
             Intersection borderIntersection = new Intersection(1, 1);
 
-            List<Intersection> movableIntersections = movement.movableIntersections(borderIntersection, side);
+            List<Path> movablePaths = movement.movablePaths(borderIntersection, side);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(
                             new Intersection(2, 3),
                             new Intersection(3, 2)

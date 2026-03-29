@@ -34,9 +34,12 @@ class ElephantMovementTest {
         void 진영에_상관없이_동일하게_적용된다(Side side) {
             Intersection currentIntersection = new Intersection(5, 5);
 
-            List<Intersection> movableIntersections = movement.movableIntersections(currentIntersection, side);
+            List<Path> movablePaths = movement.movablePaths(currentIntersection, side);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(
                             new Intersection(2, 3),
                             new Intersection(2, 7),
@@ -58,12 +61,18 @@ class ElephantMovementTest {
         @ParameterizedTest(name = "경계점 검증: {0}")
         @MethodSource("allBorderIntersections")
         void 진영에_상관없이_동일하게_적용된다(Intersection borderIntersection, List<Intersection> expected) {
-            List<Intersection> movableIntersectionsCho = movement.movableIntersections(borderIntersection, Side.CHO);
-            List<Intersection> movableIntersectionsHan = movement.movableIntersections(borderIntersection, Side.HAN);
+            List<Path> movablePathsCho = movement.movablePaths(borderIntersection, Side.CHO);
+            List<Path> movablePathsHan = movement.movablePaths(borderIntersection, Side.HAN);
+            List<Intersection> movableDestinationsCho = movablePathsCho.stream()
+                    .map(Path::destination)
+                    .toList();
+            List<Intersection> movableDestinationsHan = movablePathsHan.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersectionsCho)
+            assertThat(movableDestinationsCho)
                     .containsExactlyInAnyOrderElementsOf(expected);
-            assertThat(movableIntersectionsHan)
+            assertThat(movableDestinationsHan)
                     .containsExactlyInAnyOrderElementsOf(expected);
         }
 

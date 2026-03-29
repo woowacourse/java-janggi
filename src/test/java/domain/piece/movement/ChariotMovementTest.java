@@ -34,9 +34,12 @@ class ChariotMovementTest {
             Intersection currentIntersection = new Intersection(5, 5);
             List<Intersection> expected = allDirectionIntersectionsExcludeCurrentIntersection(currentIntersection);
 
-            List<Intersection> movableIntersections = movement.movableIntersections(currentIntersection, side);
+            List<Path> movablePaths = movement.movablePaths(currentIntersection, side);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrderElementsOf(expected);
         }
     }
@@ -52,9 +55,12 @@ class ChariotMovementTest {
             Intersection borderIntersection = new Intersection(1, 1);
             List<Intersection> expected = allDirectionIntersectionsExcludeCurrentIntersection(borderIntersection);
 
-            List<Intersection> movableIntersections = movement.movableIntersections(borderIntersection, side);
+            List<Path> movablePaths = movement.movablePaths(borderIntersection, side);
+            List<Intersection> movableDestinations = movablePaths.stream()
+                    .map(Path::destination)
+                    .toList();
 
-            assertThat(movableIntersections)
+            assertThat(movableDestinations)
                     .containsExactlyInAnyOrderElementsOf(expected);
         }
     }
