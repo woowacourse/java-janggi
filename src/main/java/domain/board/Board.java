@@ -1,7 +1,5 @@
 package domain.board;
 
-import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
-
 import common.exception.JanggiException;
 import domain.piece.None;
 import domain.piece.Piece;
@@ -11,6 +9,8 @@ import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static common.exception.ErrorMessage.*;
 
 public class Board {
 
@@ -31,12 +31,14 @@ public class Board {
         return destinationPiece;
     }
 
-    public boolean isPieceDifferentTeam(Position source, Team team) {
-        return findPiece(source).isDifferentTeam(team);
-    }
-
-    public boolean isPieceNone(Position source) {
-        return !findPiece(source).isNotNone();
+    public void validateOwnPiece(Position source, Team currentTeam) {
+        Piece piece = findPiece(source);
+        if (!piece.isNotNone()) {
+            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+        }
+        if (piece.isDifferentTeam(currentTeam)) {
+            throw new JanggiException(DIFFERENT_TEAM.formatted(currentTeam));
+        }
     }
 
     public Piece findPiece(Position position) {
