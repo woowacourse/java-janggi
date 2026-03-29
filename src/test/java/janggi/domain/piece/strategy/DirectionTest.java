@@ -18,7 +18,7 @@ public class DirectionTest {
         Position currentPosition = Position.of(currentRow, currentCol);
         for (Direction direction : Direction.linear()) {
             Optional<Position> position = direction.next(currentPosition);
-            Position expectedPosition = Position.of(currentRow + direction.dr(), currentCol + direction.dc());
+            Position expectedPosition = Position.of(currentRow + direction.directionRow(), currentCol + direction.directionColumn());
             assertThat(position).isPresent();
             assertThat(position.get()).isEqualTo(expectedPosition);
         }

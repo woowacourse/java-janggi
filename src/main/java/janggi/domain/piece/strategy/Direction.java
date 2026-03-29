@@ -5,7 +5,7 @@ import janggi.domain.Position;
 import java.util.List;
 import java.util.Optional;
 
-public record Direction(int dr, int dc) {
+public record Direction(int directionRow, int directionColumn) {
 
     public static List<Direction> linear() {
         return List.of(
@@ -17,6 +17,6 @@ public record Direction(int dr, int dc) {
     }
 
     public Optional<Position> next(Position current) {
-        return current.move(dr, dc);
+        return current.move(directionRow, directionColumn);
     }
 }
