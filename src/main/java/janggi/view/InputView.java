@@ -1,7 +1,7 @@
 package janggi.view;
 
-import static janggi.util.InputValidator.validateHorseElephantPositionOrdinal;
-import static janggi.util.InputValidator.validatePosition;
+import static janggi.util.InputParser.parseHorseElephantPositionOrdinal;
+import static janggi.util.InputParser.parsePosition;
 
 import janggi.dto.DynastyDto;
 import janggi.dto.PositionDto;
@@ -20,7 +20,7 @@ public class InputView {
         System.out.println("1: 마상마상, 2: 마상상마, 3: 상마상마, 4: 상마마상");
 
         String input = scanner.nextLine();
-        return validateHorseElephantPositionOrdinal(input);
+        return parseHorseElephantPositionOrdinal(input);
     }
 
     public PositionDto readPieceWantToMove(DynastyDto dynastyDto) {
@@ -36,7 +36,7 @@ public class InputView {
 
     private PositionDto readPosition() {
         String input = scanner.nextLine();
-        List<Integer> rowAndColumn = validatePosition(input);
+        List<Integer> rowAndColumn = parsePosition(input);
         return PositionDto.from(rowAndColumn);
     }
 
