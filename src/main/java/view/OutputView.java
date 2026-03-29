@@ -18,33 +18,37 @@ import static view.formater.BoardFormatter.formatSymbol;
 public class OutputView {
 
     public void displayBoard(Map<Position, Piece> board) {
-        displayColIndex();
+        StringBuilder outputBuilder = new StringBuilder();
         String border = formatHorizon(Board.BOARD_COL);
-        System.out.println(border);
-
-        displayPositionByPiece(board);
-
-        System.out.println(border);
+        appendColIndex(outputBuilder);
+        outputBuilder.append(border).append(System.lineSeparator());
+        appendRows(outputBuilder, board);
+        outputBuilder.append(border).append(System.lineSeparator());
+        System.out.print(outputBuilder);
     }
 
-    private static void displayPositionByPiece(Map<Position, Piece> board) {
-        for (int row = 0; row < Board.BOARD_ROW; row++) {
-            System.out.print(ROW_NUM[row] + " " + VERTICAL_LINE);
-            for (int col = 0; col < Board.BOARD_COL; col++) {
-                Piece piece = board.get(new Position(row, col));
-                System.out.print(SPACE + formatSymbol(piece));
-            }
-            System.out.println(SPACE + VERTICAL_LINE);
-        }
-    }
-
-    private static void displayColIndex() {
-        System.out.println();
-        System.out.print(SPACE + SPACE + SPACE);
+    private static void appendColIndex(StringBuilder outputBuilder) {
+        outputBuilder.append(System.lineSeparator())
+                .append(SPACE).append(SPACE).append(SPACE);
         for (String column : COL_NUM) {
-            System.out.print(SPACE + column);
+            outputBuilder.append(SPACE).append(column);
         }
-        System.out.println();
+        outputBuilder.append(System.lineSeparator());
+    }
+
+    private static void appendRows(StringBuilder outputBuilder, Map<Position, Piece> board) {
+        for (int row = 0; row < Board.BOARD_ROW; row++) {
+            appendRow(outputBuilder, board, row);
+        }
+    }
+
+    private static void appendRow(StringBuilder outputBuilder, Map<Position, Piece> board, int row) {
+        outputBuilder.append(ROW_NUM[row]).append(" ").append(VERTICAL_LINE);
+        for (int col = 0; col < Board.BOARD_COL; col++) {
+            Piece piece = board.get(new Position(row, col));
+            outputBuilder.append(SPACE).append(formatSymbol(piece));
+        }
+        outputBuilder.append(SPACE).append(VERTICAL_LINE).append(System.lineSeparator());
     }
 
     public void displayError(String message) {
