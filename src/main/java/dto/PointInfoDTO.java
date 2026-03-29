@@ -1,10 +1,14 @@
 package dto;
 
-public class IntersectionInfoDTO {
+public class PointInfoDTO {
 
-    private final String intersection;
+    private final String pointInfo;
 
-    public IntersectionInfoDTO(String intersection) {
-        this.intersection = intersection;
+    public PointInfoDTO(String pointInfo) {
+        this.pointInfo = pointInfo;
+    }
+
+    public String pointInfo(){
+        return pointInfo;
     }
 }
