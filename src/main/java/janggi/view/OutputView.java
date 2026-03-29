@@ -99,12 +99,4 @@ public class OutputView {
     public void printSelectTargetPosition() {
         printLine(Message.INPUT_TARGET_TO_MOVE_NOTICE);
     }
-
-    public void printPieceNotExist() {
-        printLine(Message.TARGET_POSITION_IS_NOT_MOVEABLE);
-    }
-
-    public void printNotOwnPiece() {
-        printLine(Message.TARGET_PIECE_IS_NOT_OWNED);
-    }
 }
