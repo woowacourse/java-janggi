@@ -8,6 +8,7 @@ import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.palace.Sa;
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
@@ -40,10 +41,10 @@ class SaTest {
         Sa sa = new Sa(Team.HAN);
 
         //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
+        MoveResult moveResult = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 
@@ -56,10 +57,10 @@ class SaTest {
         Sa sa = new Sa(Team.HAN);
 
         //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
+        MoveResult moveResult = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 
@@ -73,10 +74,10 @@ class SaTest {
         Sa sa = new Sa(Team.CHO);
 
         //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
+        MoveResult moveResult = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 
@@ -89,10 +90,10 @@ class SaTest {
         Sa sa = new Sa(Team.HAN);
 
         //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
+        MoveResult moveResult = sa.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 

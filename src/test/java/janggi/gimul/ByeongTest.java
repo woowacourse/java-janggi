@@ -8,6 +8,7 @@ import janggi.model.gimul.Byeong;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
@@ -25,10 +26,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        PositionPath positionPath = byeong.getLegalPath(from, to);
+        MoveResult moveResult = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 
@@ -41,10 +42,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.HAN);
 
         //when
-        PositionPath positionPath = byeong.getLegalPath(from, to);
+        MoveResult moveResult = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 
@@ -57,10 +58,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        PositionPath positionPath = byeong.getLegalPath(from, to);
+        MoveResult moveResult = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 
@@ -73,10 +74,10 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        PositionPath positionPath = byeong.getLegalPath(from, to);
+        MoveResult moveResult = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.stream().count())
+        assertThat(moveResult.getPath().stream().count())
                 .isEqualTo(0);
     }
 

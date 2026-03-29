@@ -8,8 +8,8 @@ import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Sang;
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -25,11 +25,11 @@ class SangTest {
         Sang sang = new Sang(Team.CHO);
 
         //when
-        PositionPath positionPath = sang.getLegalPath(from, to);
+        MoveResult moveResult = sang.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.FIVE, Column.FOUR));
+        assertThat(moveResult.getTo())
+                .isEqualTo(new Position(Row.FOUR, Column.THREE));
     }
 
     @DisplayName("행과 열의 거리가 각각 (1,3) 혹은 (3,1)이 아니면 예외가 발생한다.")

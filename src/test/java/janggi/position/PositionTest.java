@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
@@ -42,8 +43,8 @@ class PositionTest {
         Position from = new Position(Row.SIX, Column.THREE);
 
         //when & then
-        PositionPath positionPath = from.moveHorizontal(3);
-        assertThat(positionPath.getDestination()).isEqualTo(new Position(Row.SIX, Column.SIX));
+        MoveResult moveResult = from.moveHorizontal(3);
+        assertThat(moveResult.getTo()).isEqualTo(new Position(Row.SIX, Column.SIX));
     }
 
     @DisplayName("수평 이동 결과로 보드 밖으로 나가면 예외가 발생한다.")
@@ -65,8 +66,8 @@ class PositionTest {
         Position from = new Position(Row.SIX, Column.THREE);
 
         //when & then
-        PositionPath positionPath = from.moveVertical(3);
-        assertThat(positionPath.getDestination()).isEqualTo(new Position(Row.NINE, Column.THREE));
+        MoveResult moveResult = from.moveVertical(3);
+        assertThat(moveResult.getTo()).isEqualTo(new Position(Row.NINE, Column.THREE));
     }
 
     @DisplayName("수직 이동 결과로 보드 밖으로 나가면 예외가 발생한다.")

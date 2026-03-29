@@ -7,8 +7,8 @@ import janggi.model.Team;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Column;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -53,11 +53,11 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when
-        PositionPath positionPath = cha.getLegalPath(from, to);
+        MoveResult moveResult = cha.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.SIX, Column.FOUR));
+        assertThat(moveResult.getTo())
+                .isEqualTo(new Position(Row.SIX, Column.FIVE));
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -69,11 +69,11 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when
-        PositionPath positionPath = cha.getLegalPath(from, to);
+        MoveResult moveResult = cha.getLegalPath(from, to);
 
         //then
-        assertThat(positionPath.getDestination())
-                .isEqualTo(new Position(Row.EIGHT, Column.THREE));
+        assertThat(moveResult.getTo())
+                .isEqualTo(new Position(Row.NINE, Column.THREE));
     }
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")

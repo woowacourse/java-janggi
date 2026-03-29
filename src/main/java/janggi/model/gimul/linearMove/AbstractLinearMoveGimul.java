@@ -2,8 +2,8 @@ package janggi.model.gimul.linearMove;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
 import java.util.List;
 
 public abstract class AbstractLinearMoveGimul extends AbstractGimul {
@@ -13,7 +13,7 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
     }
 
     @Override
-    public PositionPath getLegalPath(Position from, Position to) {
+    public MoveResult getLegalPath(Position from, Position to) {
         if (from.equals(to)
                 || isDifferentRowAndColumn(from, to)
         ) {
@@ -21,10 +21,11 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
         }
 
         if (from.isSameRow(to)) {
-            return from.moveHorizontal(to.getColumnDistance(from)).removeFromAndTo();
+            return from.moveHorizontal(to.getColumnDistance(from));
         }
 
-        return from.moveVertical(to.getRowDistance(from)).removeFromAndTo();
+
+        return from.moveVertical(to.getRowDistance(from));
     }
 
     private boolean isDifferentRowAndColumn(Position from, Position to) {
