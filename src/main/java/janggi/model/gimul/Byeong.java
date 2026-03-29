@@ -35,9 +35,9 @@ public class Byeong extends AbstractGimul {
 
     private PositionPath calculatePath(Position from, int rowDistance, int columnDistance) {
         if (rowDistance == HORIZONTAL) {
-            return from.moveHorizontal(columnDistance).removeFromAndTo();
+            return from.moveHorizontal(columnDistance).getMiddlePath();
         }
-        return from.moveVertical(rowDistance).removeFromAndTo();
+        return from.moveVertical(rowDistance).getMiddlePath();
     }
 
     @Override

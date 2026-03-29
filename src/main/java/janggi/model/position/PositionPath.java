@@ -32,7 +32,7 @@ public class PositionPath {
         return path.stream();
     }
 
-    public PositionPath removeFromAndTo() {
+    public PositionPath getMiddlePath() {
         int startIndexOffset = 1;
         int endIndexOffset = 1;
         return new PositionPath(path.subList(startIndexOffset, path.size() - endIndexOffset));

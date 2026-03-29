@@ -35,7 +35,7 @@ public class Ma extends AbstractDiagonalGimul {
         PositionPath second = first.getDestination().moveDiagonal(
                 new DiagonalDelta(moved.rowDistance(), moved.columnDistance())
         );
-        return PositionPath.concatenate(first, second).removeFromAndTo();
+        return PositionPath.concatenate(first, second).getMiddlePath();
     }
 
     @Override

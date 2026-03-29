@@ -25,15 +25,15 @@ public abstract class AbstractPalaceGimul extends AbstractGimul {
 
     private PositionPath calculatePath(Position from, PositionDelta positionDelta) {
         if (positionDelta.isHorizontal()) {
-            return from.moveHorizontal(positionDelta.columnDistance()).removeFromAndTo();
+            return from.moveHorizontal(positionDelta.columnDistance()).getMiddlePath();
         }
         if (positionDelta.isVertical()) {
-            return from.moveVertical(positionDelta.rowDistance()).removeFromAndTo();
+            return from.moveVertical(positionDelta.rowDistance()).getMiddlePath();
         }
         return from.moveDiagonal(new DiagonalDelta(
                 positionDelta.rowDistance(),
                 positionDelta.columnDistance()
-        )).removeFromAndTo();
+        )).getMiddlePath();
     }
 
     @Override

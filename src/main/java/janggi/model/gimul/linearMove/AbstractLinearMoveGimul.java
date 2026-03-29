@@ -18,9 +18,9 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
         }
 
         if (from.isSameRow(to)) {
-            return from.moveHorizontal(to.getColumnDistance(from)).removeFromAndTo();
+            return from.moveHorizontal(to.getColumnDistance(from)).getMiddlePath();
         }
 
-        return from.moveVertical(to.getRowDistance(from)).removeFromAndTo();
+        return from.moveVertical(to.getRowDistance(from)).getMiddlePath();
     }
 }
