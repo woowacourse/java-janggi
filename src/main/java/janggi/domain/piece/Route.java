@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 public class Route {
     private final List<Position> route;
 
+    private static final int MINIMUM_ROUTE_SIZE = 2;
+
     public Route(List<Position> route) {
         this.route = route;
     }
@@ -30,7 +32,7 @@ public class Route {
     }
 
     public boolean isEveryBetween(Predicate<Position> predicate) {
-        if (route.size() <= 2) {
+        if (route.size() <= MINIMUM_ROUTE_SIZE) {
             return true;
         }
         return getBetween().stream()
@@ -38,7 +40,7 @@ public class Route {
     }
 
     public boolean isAnyBetween(Predicate<Position> predicate) {
-        if (route.size() <= 2) {
+        if (route.size() <= MINIMUM_ROUTE_SIZE) {
             return false;
         }
         return getBetween().stream()
@@ -46,7 +48,7 @@ public class Route {
     }
 
     public int countBetween(Predicate<Position> condition) {
-        if (route.size() <= 2) {
+        if (route.size() <= MINIMUM_ROUTE_SIZE) {
             return 0;
         }
         return (int) getBetween().stream()
