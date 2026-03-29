@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
 import domain.piece.ActivePiece;
-import domain.piece.Elephant;
-import domain.piece.Guard;
 import domain.piece.Piece;
 import domain.piece.Soldier;
 import domain.position.Column;
@@ -36,8 +34,14 @@ class SoldierTest {
     }
 
     @Test
+    void 한_진영에서_후진_불가() {
+        Piece soldier = new Soldier(Team.HAN);
+        assertThat(soldier.canMove(new Position(5, 5), new Position(6, 5))).isFalse();
+    }
+
+    @Test
     void 한_진영에서_정상_범위가_아니면_거짓() {
-        Piece soldier = new Elephant(Team.HAN);
+        Piece soldier = new Soldier(Team.HAN);
         assertThat(soldier.canMove(new Position(5, 5), new Position(8, 8))).isFalse();
     }
 
@@ -60,32 +64,38 @@ class SoldierTest {
     }
 
     @Test
+    void 초_진영에서_후진_불가() {
+        Piece soldier = new Soldier(Team.CHO);
+        assertThat(soldier.canMove(new Position(5, 5), new Position(4, 5))).isFalse();
+    }
+
+    @Test
     void 초_진영에서_정상_범위가_아니면_거짓() {
-        Piece soldier = new Elephant(Team.CHO);
+        Piece soldier = new Soldier(Team.CHO);
         assertThat(soldier.canMove(new Position(5, 5), new Position(8, 8))).isFalse();
     }
 
     @Test
     void 병은_빈_경로_출력_한다() {
-        ActivePiece guard = new Guard(Team.HAN);
+        ActivePiece soldier = new Soldier(Team.HAN);
 
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(2), new Column(3));
+        Position src = new Position(new Row(5), new Column(5));
+        Position dest = new Position(new Row(4), new Column(5));
         List<Position> routes = new ArrayList<>();
 
-        assertThat(guard.searchRoute(src, dest)).isEqualTo(routes);
+        assertThat(soldier.searchRoute(src, dest)).isEqualTo(routes);
     }
 
     @Test
     void 병_비정상_경로_출력_한다() {
-        ActivePiece guard = new Guard(Team.HAN);
+        ActivePiece soldier = new Soldier(Team.HAN);
 
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(2), new Column(3));
+        Position src = new Position(new Row(5), new Column(5));
+        Position dest = new Position(new Row(4), new Column(5));
         List<Position> routes = new ArrayList<>(
-                List.of(new Position(new Row(3), new Column(3))));
+                List.of(new Position(new Row(3), new Column(5))));
 
-        assertThat(guard.searchRoute(src, dest)).isNotEqualTo(routes);
+        assertThat(soldier.searchRoute(src, dest)).isNotEqualTo(routes);
     }
 
 }

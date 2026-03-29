@@ -1,9 +1,8 @@
-package domain;
+package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.board.Board;
 import domain.game.Team;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
@@ -147,5 +146,16 @@ public class BoardTest {
         assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 잡을 수 없습니다.");
+    }
+
+    @Test
+    void 빈_칸에서_이동_시도하면_예외() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(1, 1), new EmptyPiece());
+        Board board = new Board(pieces);
+
+        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
     }
 }

@@ -1,12 +1,18 @@
-package domain;
+package domain.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.position.Position;
 import org.junit.jupiter.api.Test;
 
 class PositionTest {
+
+    @Test
+    void 경계값_최소_범위의_위치를_생성한다() {
+        Position position = new Position(1, 1);
+
+        assertThat(position).isNotNull();
+    }
 
     @Test
     void 경계값_최대_범위의_위치를_생성한다() {
