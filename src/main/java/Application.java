@@ -1,8 +1,8 @@
-import domain.manager.GameManager;
+import domain.manager.JanggiGame;
 
 public class Application {
     public static void main(String[] args) {
-        GameManager gameManager = new GameManager();
-        gameManager.run();
+        JanggiGame janggiGame = new JanggiGame();
+        janggiGame.run();
     }
 }

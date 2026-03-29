@@ -1,6 +1,4 @@
 package domain.manager;
-
-import static common.exception.ErrorMessage.DIFFERENT_TEAM;
 import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
@@ -19,9 +17,10 @@ import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
 
-public class GameManager {
-    InputView inputView = new InputView();
-    OutputView outputView = new OutputView();
+public class JanggiGame {
+
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
     private Board board;
     private TurnManager turnManager;
 
@@ -35,8 +34,8 @@ public class GameManager {
     }
 
     private void playTurn() {
-        outputView.printPlayerTurnMessage(turnManager.getCurrentPlayer().getName(),
-                turnManager.getCurrentTeam().name());
+        Player currentPlayer = turnManager.getCurrentPlayer();
+        outputView.printPlayerTurnMessage(currentPlayer.getName(), currentPlayer.getTeam().toString());
 
         retryOnInvalidInput(this::executeMove);
 
@@ -49,9 +48,33 @@ public class GameManager {
         Position destination = createDestination();
 
         Piece caughtPiece = board.move(source, destination);
+
         if (caughtPiece.isNotNone()) {
-            turnManager.getCurrentPlayer().addCaughtPiece(caughtPiece);
+            turnManager.capturePiece(caughtPiece);
         }
+    }
+
+    private Position createSource() {
+        return retryOnInvalidInput(() -> {
+            List<Integer> numbers = inputView.askSourcePosition();
+            Position source = new Position(numbers.getFirst(), numbers.getLast());
+
+            Piece sourcePiece = board.findPiece(source);
+            if (!sourcePiece.isNotNone()) {
+                throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+            }
+
+            turnManager.validateTurn(sourcePiece.getTeam());
+
+            return source;
+        });
+    }
+
+    private Position createDestination() {
+        return retryOnInvalidInput(() -> {
+            List<Integer> numbers = inputView.askDestinationPosition();
+            return new Position(numbers.getFirst(), numbers.getLast());
+        });
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {
@@ -73,27 +96,6 @@ public class GameManager {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
-    }
-
-    private Position createSource() {
-        return retryOnInvalidInput(() -> {
-            List<Integer> numbers = inputView.askSourcePosition();
-            Position source = new Position(numbers.getFirst(), numbers.getLast());
-            if (board.isPieceNone(source)) {
-                throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
-            }
-            if (board.isPieceDifferentTeam(source, turnManager.getCurrentTeam())) {
-                throw new JanggiException(DIFFERENT_TEAM.formatted(turnManager.getCurrentTeam()));
-            }
-            return source;
-        });
-    }
-
-    private Position createDestination() {
-        return retryOnInvalidInput(() -> {
-            List<Integer> numbers = inputView.askDestinationPosition();
-            return new Position(numbers.getFirst(), numbers.getLast());
-        });
     }
 
     private Board initialize() {
@@ -124,8 +126,8 @@ public class GameManager {
 
     private Formation createChoFormation() {
         return retryOnInvalidInput(() -> {
-            int hanPositionInput = inputView.askChoPositionInput();
-            return createFormation(hanPositionInput);
+            int choPositionInput = inputView.askChoPositionInput();
+            return createFormation(choPositionInput);
         });
     }
 
@@ -135,7 +137,7 @@ public class GameManager {
             return createFormation(hanPositionInput);
         });
     }
-    
+
     private Formation createFormation(int positionInput) {
         return Formation.from(positionInput);
     }
