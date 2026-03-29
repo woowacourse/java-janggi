@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.KingMoveRule;
 import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.mouveRule.OneStepMoveRule;
 
 public class King extends Piece {
 
@@ -10,12 +10,12 @@ public class King extends Piece {
     }
 
     @Override
-    public PieceType pieceType() {
-        return PieceType.KING;
+    public String toString() {
+        return "장";
     }
 
     @Override
     public MoveRule moveRule() {
-        return new KingMoveRule();
+        return new OneStepMoveRule();
     }
 }

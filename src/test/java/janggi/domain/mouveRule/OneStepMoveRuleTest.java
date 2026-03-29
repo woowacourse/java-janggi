@@ -6,10 +6,10 @@ import janggi.domain.Board;
 import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
 
-class AdvisorMoveRuleTest {
+class OneStepMoveRuleTest {
 
     private Board board = Board.empty();
-    private final MoveRule moveRule = new AdvisorMoveRule();
+    private final MoveRule moveRule = new OneStepMoveRule();
 
     @Test
     void 상하좌우_1칸_이동가능() {

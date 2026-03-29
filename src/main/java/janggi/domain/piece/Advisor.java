@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.AdvisorMoveRule;
 import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.mouveRule.OneStepMoveRule;
 
 public class Advisor extends Piece {
 
@@ -10,13 +10,13 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public PieceType pieceType() {
-        return PieceType.ADVISOR;
+    public String toString() {
+        return "사";
     }
 
     @Override
     public MoveRule moveRule() {
-        return new AdvisorMoveRule();
+        return new OneStepMoveRule();
     }
 
 }
