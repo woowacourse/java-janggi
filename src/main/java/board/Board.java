@@ -27,7 +27,7 @@ public record Board(Map<Position, Piece> pieces) {
     }
 
     private void put(Position position, Piece piece, Map<Position, Piece> merged) {
-        if (merged.containsKey(position)) {
+        if (!piece.isEmpty() && merged.containsKey(position)) {
             throw new IllegalArgumentException("이미 기물이 존재하는 위치입니다.");
         }
         merged.put(position, piece);
