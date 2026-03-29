@@ -24,6 +24,7 @@ public final class Horse extends Piece {
 
     public Horse(Side side) {
         super(
+                PieceType.HORSE,
                 side,
                 new PathBasedMoveStrategy(PATHS),
                 List.of(

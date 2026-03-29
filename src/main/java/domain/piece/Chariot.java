@@ -11,6 +11,7 @@ public final class Chariot extends Piece {
 
     public Chariot(Side side) {
         super(
+                PieceType.CHARIOT,
                 side,
                 new OrthogonalLongStepStrategy(),
                 List.of(

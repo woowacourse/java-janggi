@@ -11,6 +11,7 @@ public final class Pawn extends Piece {
 
     public Pawn(Side side) {
         super(
+                PieceType.PAWN,
                 side,
                 new ForwardStepStrategy(),
                 List.of(

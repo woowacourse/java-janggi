@@ -5,9 +5,9 @@ import domain.piece.*;
 public enum PieceView {
 
     PAWN("졸"),
-    CHARIOT("차"),
     HORSE("마"),
     ELEPHANT("상"),
+    CHARIOT("차"),
     CANNON("포"),
     GUARD("사"),
     KING("장"),
@@ -20,38 +20,34 @@ public enum PieceView {
     }
 
     public static String from(Piece piece) {
-        if (piece instanceof Pawn) {
+        if (piece.getType() == PieceType.PAWN) {
             return PAWN.name;
         }
 
-        if (piece instanceof Chariot) {
-            return CHARIOT.name;
-        }
-
-        if (piece instanceof Horse) {
+        if (piece.getType() == PieceType.HORSE) {
             return HORSE.name;
         }
 
-        if (piece instanceof Elephant) {
+        if (piece.getType() == PieceType.ELEPHANT) {
             return ELEPHANT.name;
         }
 
-        if (piece instanceof Cannon) {
+        if (piece.getType() == PieceType.CHARIOT) {
+            return CHARIOT.name;
+        }
+
+        if (piece.getType() == PieceType.CANNON) {
             return CANNON.name;
         }
 
-        if (piece instanceof Guard) {
+        if (piece.getType() == PieceType.GUARD) {
             return GUARD.name;
         }
 
-        if (piece instanceof King) {
+        if (piece.getType() == PieceType.KING) {
             return KING.name;
         }
 
         return EMPTY.name;
-    }
-
-    public String getName() {
-        return name;
     }
 }

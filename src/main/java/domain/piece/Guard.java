@@ -11,6 +11,7 @@ public final class Guard extends Piece {
 
     public Guard(Side side) {
         super(
+                PieceType.GUARD,
                 side,
                 new OrthogonalStepStrategy(),
                 List.of(

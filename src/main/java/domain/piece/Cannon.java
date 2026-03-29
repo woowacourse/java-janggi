@@ -12,6 +12,7 @@ public final class Cannon extends Piece {
 
     public Cannon(Side side) {
         super(
+                PieceType.CANNON,
                 side,
                 new CannonMoveStrategy(),
                 List.of(

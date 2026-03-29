@@ -24,6 +24,7 @@ public final class Elephant extends Piece {
 
     public Elephant(Side side) {
         super(
+                PieceType.ELEPHANT,
                 side,
                 new PathBasedMoveStrategy(PATHS),
                 List.of(

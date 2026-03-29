@@ -11,6 +11,7 @@ public final class King extends Piece {
 
     public King(Side side) {
         super(
+                PieceType.KING,
                 side,
                 new OrthogonalStepStrategy(),
                 List.of(

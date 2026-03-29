@@ -11,11 +11,13 @@ import java.util.List;
 
 public abstract class Piece {
 
+    private PieceType type;
     private final Side side;
     private MoveStrategy moveStrategy;
     private List<MoveRule> moveRules;
 
-    public Piece(Side side, MoveStrategy moveStrategy, List<MoveRule> moveRules) {
+    public Piece(PieceType type, Side side, MoveStrategy moveStrategy, List<MoveRule> moveRules) {
+        this.type = type;
         this.side = side;
         this.moveStrategy = moveStrategy;
         this.moveRules = moveRules;
@@ -56,6 +58,10 @@ public abstract class Piece {
                 .filter(dest -> moveRules.stream()
                         .allMatch(rule -> rule.isValid(game.getBoard(), start, dest, this)))
                 .toList();
+    }
+
+    public PieceType getType() {
+        return type;
     }
 
     public abstract boolean isCannon();
