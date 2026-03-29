@@ -2,17 +2,17 @@ package domain.piece;
 
 import domain.Direction;
 import domain.ErrorMessage;
+import domain.Offset;
 import domain.Path;
-import domain.board.Position;
 
 import java.util.List;
 
 public class ElephantStrategy implements MoveStrategy {
     @Override
-    public List<Position> getPathPositions(Position from, Position to) {
+    public List<Offset> getPathPositions(Offset offset) {
 
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
+        int dx = offset.dx();
+        int dy = offset.dy();
 
         if (!((Math.abs(dx) == 3 && Math.abs(dy) == 2) || (Math.abs(dx) == 2 && Math.abs(dy) == 3))) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
@@ -31,8 +31,10 @@ public class ElephantStrategy implements MoveStrategy {
             subDirection = xDirection;
         }
 
-        Position step1 = from.next(mainDirection);
-        Position step2 = step1.next(mainDirection).next(subDirection);
+        Offset step = new Offset(0, 0);
+
+        Offset step1 = step.move(mainDirection);
+        Offset step2 = step1.move(mainDirection).move(subDirection);
 
         return List.of(step1, step2);
     }

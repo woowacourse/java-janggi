@@ -50,8 +50,4 @@ public class Position {
     public int getY() {
         return y;
     }
-
-    public Position next(Direction direction) {
-        return new Position(x + direction.getDx(), y + direction.getDy());
-    }
 }

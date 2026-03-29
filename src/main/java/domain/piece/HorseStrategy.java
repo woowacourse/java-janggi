@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Direction;
 import domain.ErrorMessage;
+import domain.Offset;
 import domain.Path;
 import domain.board.Position;
 
@@ -9,10 +10,10 @@ import java.util.List;
 
 public class HorseStrategy implements MoveStrategy {
     @Override
-    public List<Position> getPathPositions(Position from, Position to) {
+    public List<Offset> getPathPositions(Offset offset) {
 
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
+        int dx = offset.dx();
+        int dy = offset.dy();
 
         if (!((Math.abs(dx) == 2 && Math.abs(dy) == 1) || (Math.abs(dx) == 1 && Math.abs(dy) == 2))) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
@@ -31,8 +32,9 @@ public class HorseStrategy implements MoveStrategy {
             subDirection = xDirection;
         }
 
-        Position step1 = from.next(mainDirection);
+        Offset step = new Offset(0, 0);
 
+        Offset step1 = step.move(mainDirection);
 
         return List.of(step1);
     }

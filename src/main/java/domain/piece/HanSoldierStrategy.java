@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.ErrorMessage;
+import domain.Offset;
 import domain.Path;
 import domain.board.Position;
 
@@ -9,13 +10,11 @@ import java.util.List;
 public class HanSoldierStrategy implements MoveStrategy {
 
     @Override
-    public List<Position> getPathPositions(Position from, Position to) {
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
+    public List<Offset> getPathPositions(Offset offset) {
+        int dx = offset.dx();
+        int dy = offset.dy();
 
-        int straight = -1;
-
-        boolean isMoveStraight = dx == 0 && dy == straight;
+        boolean isMoveStraight = dx == 0 && dy == -1;
         boolean isMoveLeft = dx == -1 && dy == 0;
         boolean isMoveRight = dx == 1 && dy == 0;
 

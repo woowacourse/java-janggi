@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Direction;
 import domain.ErrorMessage;
+import domain.Offset;
 import domain.Path;
 import domain.board.Position;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class ChariotStrategy implements MoveStrategy {
     @Override
-    public List<Position> getPathPositions(Position from, Position to) {
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
+    public List<Offset> getPathPositions(Offset offset) {
+        int dx = offset.dx();
+        int dy = offset.dy();
 
         if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
@@ -28,11 +29,12 @@ public class ChariotStrategy implements MoveStrategy {
             distance = Math.abs(dx);
         }
 
-        Position step = from;
+        Offset step = new Offset(0, 0);
 
-        List<Position> route = new ArrayList<>();
+        List<Offset> route = new ArrayList<>();
+
         for (int i = 0; i < distance - 1; i++) {
-            step = step.next(mainDirection);
+            step = step.move(mainDirection);
             route.add(step);
         }
 

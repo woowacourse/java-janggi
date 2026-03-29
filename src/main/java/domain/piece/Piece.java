@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Offset;
 import domain.Path;
 import domain.board.Position;
 
@@ -8,8 +9,8 @@ import java.util.Objects;
 
 public record Piece(PieceType pieceType, Team team, MoveStrategy moveStrategy) {
 
-    public List<Position> getPathPositions(Position from, Position to) {
-        return moveStrategy.getPathPositions(from, to);
+    public List<Offset> getPathPositions(Offset offset) {
+        return moveStrategy.getPathPositions(offset);
     }
 
     public void canMove(List<Path> paths, Piece to) {

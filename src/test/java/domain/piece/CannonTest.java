@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Offset;
 import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,49 +20,47 @@ class CannonTest {
 
     @Test
     void 포는_왼쪽_직선으로_가는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(2, 5);
+        Offset offset = new Offset(-3, 0);
 
-        List<Position> pathPositions = cannon.getPathPositions(from, to);
+        List<Offset> pathPositions = cannon.getPathPositions(offset);
 
-
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5), new Position(3, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0), new Offset(-2, 0)));
     }
 
     @Test
     void 포는_오른쪽_직선으로_가는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(8, 5);
+        Offset offset = new Offset(3, 0);
 
-        List<Position> pathPositions = cannon.getPathPositions(from, to);
+        List<Offset> pathPositions = cannon.getPathPositions(offset);
 
-
-        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5), new Position(7, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0), new Offset(2, 0)));
     }
 
 
     @Test
     void 포는_위쪽_직선으로_가는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(5, 7);
+        Offset offset = new Offset(3, 0);
 
-        List<Position> pathPositions = cannon.getPathPositions(from, to);
+        List<Offset> pathPositions = cannon.getPathPositions(offset);
 
-
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0), new Offset(2, 0)));
     }
 
 
     @Test
     void 포는_아래쪽_직선으로_가는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(5, 0);
+        Offset offset = new Offset(0, -6);
 
-        List<Position> pathPositions = cannon.getPathPositions(from, to);
+        List<Offset> pathPositions = cannon.getPathPositions(offset);
 
-
-        assertThat(pathPositions).isEqualTo(List.of(
-                new Position(5, 4), new Position(5, 3), new Position(5, 2), new Position(5, 1)));
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(0, -1),
+                        new Offset(0, -2),
+                        new Offset(0, -3),
+                        new Offset(0, -4),
+                        new Offset(0, -5))
+        );
     }
 
 }

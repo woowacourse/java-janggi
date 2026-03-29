@@ -1,8 +1,13 @@
 package domain.board;
 
+import domain.Offset;
 import domain.Path;
-import domain.piece.*;
 
+import domain.piece.ElephantStrategy;
+import domain.piece.HorseStrategy;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -97,8 +102,8 @@ public class BoardTest {
 
     @Test
     void 기물이_이동할_경로에_대한_다른_기물의_위치_정보를_반환한다() {
-        List<Position> positions = List.of(new Position(1, 0), new Position(2, 0));
-        List<Path> path = board.getPath(positions);
+        List<Offset> offsets = List.of(new Offset(1, 0), new Offset(2, 0));
+        List<Path> path = board.getPath(new Position(0, 0), offsets);  // 차에 대해 진행
 
         assertThat(path).isEqualTo(List.of(new Path(
                         new Position(1, 0), new Piece(PieceType.HORSE, Team.CHO, new HorseStrategy())),

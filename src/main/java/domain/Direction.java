@@ -6,19 +6,14 @@ public enum Direction {
     LEFT(-1, 0),
     RIGHT(1, 0);
 
-    private final int dx;
-    private final int dy;
+
+    private final Offset offset;
 
     Direction(int dx, int dy) {
-        this.dx = dx;
-        this.dy = dy;
+        this.offset = new Offset(dx, dy);
     }
 
-    public int getDx() {
-        return dx;
-    }
-
-    public int getDy() {
-        return dy;
+    public Offset getOffset() {
+        return offset;
     }
 }

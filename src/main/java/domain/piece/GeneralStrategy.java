@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.ErrorMessage;
+import domain.Offset;
 import domain.Path;
 import domain.board.Position;
 
@@ -8,16 +9,11 @@ import java.util.List;
 
 public class GeneralStrategy implements MoveStrategy {
     @Override
-    public List<Position> getPathPositions(Position from, Position to) {
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
+    public List<Offset> getPathPositions(Offset offset) {
+        int dx = offset.dx();
+        int dy = offset.dy();
 
-        boolean isMoveUp = dx == 0 && dy == 1;
-        boolean isMoveLeft = dx == -1 && dy == 0;
-        boolean isMoveRight = dx == 1 && dy == 0;
-        boolean isMoveDown = dx == 0 && dy == -1;
-
-        if (!(isMoveLeft || isMoveRight || isMoveUp || isMoveDown)) {
+        if (!((Math.abs(dx) == 1 && Math.abs(dy) == 0) || (Math.abs(dx) == 0 && Math.abs(dy) == 1))) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
         return List.of();

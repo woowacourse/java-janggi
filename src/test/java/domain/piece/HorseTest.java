@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Offset;
 import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,88 +19,81 @@ class HorseTest {
 
     @Test
     void 마는_위로_두칸_왼쪽으로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(4, 7);
+        Offset offset = new Offset(-1, 2);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(0, 1)));
     }
 
     @Test
     void 마는_위로_두칸_오른쪽으로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(6, 7);
+        Offset offset = new Offset(1, 2);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 6)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(0, 1)));
     }
 
 
     @Test
     void 마는_위로_한칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(3, 6);
+        Offset offset = new Offset(-2, 1);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0)));
+
     }
 
 
     @Test
     void 마는_아래로_한칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(3, 4);
+        Offset offset = new Offset(-2, -1);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(4, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0)));
     }
 
 
     @Test
     void 마는_아래로_두칸_왼쪽으로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(4, 3);
+        Offset offset = new Offset(-1, -2);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 4)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(0, -1)));
+
     }
 
 
     @Test
     void 마는_아래로_두칸_오른쪽으로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(6, 3);
+        Offset offset = new Offset(1, -2);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(5, 4)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(0, -1)));
     }
 
 
     @Test
     void 마는_위로_한칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(7, 6);
+        Offset offset = new Offset(2, 1);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0)));
     }
 
 
     @Test
     void 마는_아래로_한칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 5);
-        Position to = new Position(7, 4);
+        Offset offset = new Offset(2, -1);
 
-        List<Position> pathPositions = horse.getPathPositions(from, to);
+        List<Offset> pathPositions = horse.getPathPositions(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Position(6, 5)));
+        assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0)));
     }
 }

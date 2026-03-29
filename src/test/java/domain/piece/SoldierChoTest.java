@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Offset;
 import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,31 +20,22 @@ class SoldierChoTest {
 
     @Test
     void 졸은_위로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(0, 3);
-        Position to = new Position(0, 4);
-
-        List<Position> pathPositions = soldier.getPathPositions(from, to);
-
+        Offset offset = new Offset(0, 1);
+        List<Offset> pathPositions = soldier.getPathPositions(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
     void 졸은_좌로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(2, 3);
-        Position to = new Position(1, 3);
-
-        List<Position> pathPositions = soldier.getPathPositions(from, to);
-
+        Offset offset = new Offset(-1, 0);
+        List<Offset> pathPositions = soldier.getPathPositions(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
     void 졸은_우로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(0, 3);
-        Position to = new Position(1, 3);
-
-        List<Position> pathPositions = soldier.getPathPositions(from, to);
-
+        Offset offset = new Offset(1, 0);
+        List<Offset> pathPositions = soldier.getPathPositions(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 

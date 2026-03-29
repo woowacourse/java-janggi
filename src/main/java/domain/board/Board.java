@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.Offset;
 import domain.Path;
 import domain.piece.Piece;
 
@@ -21,8 +22,9 @@ public class Board {
     public void move(Position from, Position to) {
         Piece fromPiece = pieces.get(from);
         Piece toPiece = pieces.get(to);
-        List<Position> pathPositions = fromPiece.getPathPositions(from, to);
-        List<Path> path = getPath(pathPositions);
+
+        List<Offset> pathPositions = fromPiece.getPathPositions(Offset.of(from, to));
+        List<Path> path = getPath(from,pathPositions);
         fromPiece.canMove(path, toPiece);
 
         if (toPiece != null && fromPiece.isSameTeam(toPiece)) {
@@ -33,9 +35,10 @@ public class Board {
         pieces.put(to, remove);
     }
 
-    public List<Path> getPath(List<Position> positions) {
+    public List<Path> getPath(Position from, List<Offset> offsets) {
         List<Path> paths = new ArrayList<>();
-        for (Position position : positions) {
+        for (Offset offset : offsets) {
+            Position position = offset.applyTo(from);
             if (pieces.containsKey(position)) {
                 paths.add(new Path(position, pieces.get(position)));
             }

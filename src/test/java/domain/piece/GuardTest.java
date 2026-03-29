@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.Position;
+import domain.Offset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,43 +17,30 @@ class GuardTest {
     }
 
     @Test
-    void 사는_위로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(3, 0);
-        Position to = new Position(3, 1);
-
-        List<Position> pathPositions = guard.getPathPositions(from, to);
-
+    void 궁은_위로_한칸_움직일_수_있는_경로가_있다() {
+        Offset offset = new Offset(0, 1);
+        List<Offset> pathPositions = guard.getPathPositions(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
-    void 사는_좌로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(5, 0);
-        Position to = new Position(4, 0);
-
-        List<Position> pathPositions = guard.getPathPositions(from, to);
-
+    void 궁은_아래로_한칸_움직일_수_있는_경로가_있다() {
+        Offset offset = new Offset(0, -1);
+        List<Offset> pathPositions = guard.getPathPositions(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
-    void 졸은_우로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(3, 0);
-        Position to = new Position(4, 0);
-
-        List<Position> pathPositions = guard.getPathPositions(from, to);
-
+    void 궁은_좌로_한칸_움직일_수_있는_경로가_있다() {
+        Offset offset = new Offset(-1, 0);
+        List<Offset> pathPositions = guard.getPathPositions(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
-
     @Test
-    void 사는_아래로_한칸_움직일_수_있는_경로가_있다() {
-        Position from = new Position(3, 1);
-        Position to = new Position(3, 0);
-
-        List<Position> pathPositions = guard.getPathPositions(from, to);
-
+    void 궁은_우로_한칸_움직일_수_있는_경로가_있다() {
+        Offset offset = new Offset(1, 0);
+        List<Offset> pathPositions = guard.getPathPositions(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 }
