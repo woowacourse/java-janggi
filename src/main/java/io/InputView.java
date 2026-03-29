@@ -11,13 +11,6 @@ public class InputView {
         String input = validate(scanner.nextLine().trim());
         return new Command(input);
     }
-    public String readSetupCommand() {
-        return validate(scanner.nextLine().trim());
-    }
-
-    public String readMoveCommand(Turn turn) {
-        return validate(scanner.nextLine().trim());
-    }
 
     private String validate(String input) {
         if (input.isEmpty()) {

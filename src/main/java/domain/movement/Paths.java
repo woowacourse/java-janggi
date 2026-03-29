@@ -21,14 +21,6 @@ public final class Paths {
         return new Paths(newPaths);
     }
 
-    public boolean hasPathEndingAt(Position position) {
-        return paths.stream().anyMatch(path -> path.endsAt(position));
-    }
-
-    public boolean hasPathContaining(Position position) {
-        return paths.stream().anyMatch(path -> path.contains(position));
-    }
-
     public List<Path> asList() {
         return paths;
     }
