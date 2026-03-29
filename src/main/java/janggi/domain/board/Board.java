@@ -23,41 +23,28 @@ public class Board {
 
     public static Board initializeToBoard(FormationStrategy formationStrategyByCho, FormationStrategy formationStrategyByHan) {
         Map<Position, Piece> initBoard = new HashMap<>();
-        initBoard.putAll(initializeToCho(formationStrategyByCho));
-        initBoard.putAll(initializeToHan(formationStrategyByHan));
+        initBoard.putAll(initializeFormation(Camp.CHO, formationStrategyByCho));
+        initBoard.putAll(initializeFormation(Camp.HAN, formationStrategyByHan));
         return new Board(initBoard);
     }
 
-    private static Map<Position, Piece> initializeToCho(FormationStrategy formationStrategyByCho) {
-        Camp cho = Camp.CHO;
-        Map<Position, Piece> choFormation = new HashMap<>(formationStrategyByCho.createPieces(cho));
-        choFormation.put(Position.of(1, 4), new General(cho, new GeneralStrategy()));
-        choFormation.put(Position.of(0, 0), new Chariot(cho, new ChariotStrategy()));
-        choFormation.put(Position.of(0, 8), new Chariot(cho, new ChariotStrategy()));
-        choFormation.put(Position.of(0, 3), new Advisor(cho, new AdvisorStrategy()));
-        choFormation.put(Position.of(0, 5), new Advisor(cho, new AdvisorStrategy()));
-        choFormation.put(Position.of(2, 1), new Cannon(cho, new CannonStrategy()));
-        choFormation.put(Position.of(2, 7), new Cannon(cho, new CannonStrategy()));
+    private static Map<Position, Piece> initializeFormation(Camp camp, FormationStrategy formationStrategy) {
+        Map<Position, Piece> formation = new HashMap<>(formationStrategy.createPieces(camp));
+        int initRow = camp.initRowPosition();
+        int generalRow = initRow + camp.direction();
+        int cannonRow = generalRow + camp.direction();
+        int soldierRow = cannonRow + camp.direction();
+        formation.put(Position.of(generalRow, 4), new General(camp, new GeneralStrategy()));
+        formation.put(Position.of(initRow, 0), new Chariot(camp, new ChariotStrategy()));
+        formation.put(Position.of(initRow, 8), new Chariot(camp, new ChariotStrategy()));
+        formation.put(Position.of(initRow, 3), new Advisor(camp, new AdvisorStrategy()));
+        formation.put(Position.of(initRow, 5), new Advisor(camp, new AdvisorStrategy()));
+        formation.put(Position.of(cannonRow, 1), new Cannon(camp, new CannonStrategy()));
+        formation.put(Position.of(cannonRow, 7), new Cannon(camp, new CannonStrategy()));
         for (int i = 0; i <= 8; i += 2) {
-            choFormation.put(Position.of(3, i), new Soldier(cho, new SoldierStrategy(cho.direction())));
+            formation.put(Position.of(soldierRow, i), new Soldier(camp, new SoldierStrategy(camp.direction())));
         }
-        return choFormation;
-    }
-
-    private static Map<Position, Piece> initializeToHan(FormationStrategy formationStrategyByHan) {
-        Camp han = Camp.HAN;
-        Map<Position, Piece> choFormation = new HashMap<>(formationStrategyByHan.createPieces(han));
-        choFormation.put(Position.of(8, 4), new General(han, new GeneralStrategy()));
-        choFormation.put(Position.of(9, 0), new Chariot(han, new ChariotStrategy()));
-        choFormation.put(Position.of(9, 8), new Chariot(han, new ChariotStrategy()));
-        choFormation.put(Position.of(9, 3), new Advisor(han, new AdvisorStrategy()));
-        choFormation.put(Position.of(9, 5), new Advisor(han, new AdvisorStrategy()));
-        choFormation.put(Position.of(7, 1), new Cannon(han, new CannonStrategy()));
-        choFormation.put(Position.of(7, 7), new Cannon(han, new CannonStrategy()));
-        for (int i = 0; i <= 8; i += 2) {
-            choFormation.put(Position.of(6, i), new Soldier(han, new SoldierStrategy(han.direction())));
-        }
-        return choFormation;
+        return formation;
     }
 
     public Piece selectPiece(int row, int col) {
