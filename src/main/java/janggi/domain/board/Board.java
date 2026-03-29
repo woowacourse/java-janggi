@@ -30,8 +30,8 @@ public class Board implements BoardInterface {
     }
 
     @Override
-    public boolean isPo(Position position) {
-        return board.get(position).isEqualPieceType(PieceType.PO);
+    public boolean isEqualPieceType(Position position, PieceType pieceType) {
+        return board.get(position).isEqualPieceType(pieceType);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Board implements BoardInterface {
     private void movePiece(Position start, Position end, Piece piece, Side side) {
         Piece destinationPiece = board.get(end);
 
-        if(destinationPiece.isGung()) {
+        if(destinationPiece.isEqualPieceType(PieceType.GUNG)) {
             isGungAlive.put(side.getOppositeSide(), false);
         }
         board.put(end, piece);

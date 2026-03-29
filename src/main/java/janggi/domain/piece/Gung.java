@@ -14,11 +14,6 @@ public class Gung extends StepPiece {
             List.of(Movement.RIGHT)
     );
 
-    @Override
-    public boolean isGung() {
-        return true;
-    }
-
     public Gung(Side side) {
         super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.GUNG);
     }

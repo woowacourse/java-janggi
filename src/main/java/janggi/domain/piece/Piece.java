@@ -12,10 +12,6 @@ public interface Piece {
 
     void validateRoute(List<Position> path, BoardInterface boardInterface);
 
-    boolean isPo();
-
-    boolean isGung();
-
     boolean isEqualPieceType(PieceType pieceType);
 
     boolean isEqualSide(Side side);

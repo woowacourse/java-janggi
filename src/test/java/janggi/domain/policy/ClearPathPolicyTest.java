@@ -4,6 +4,7 @@ import janggi.domain.PieceInfo;
 import janggi.domain.board.BoardInterface;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,7 +20,7 @@ class ClearPathPolicyTest {
             }
 
             @Override
-            public boolean isPo(Position position) {
+            public boolean isEqualPieceType(Position position, PieceType pieceType) {
                 return false;
             }
 

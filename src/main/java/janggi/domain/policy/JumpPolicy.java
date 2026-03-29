@@ -4,6 +4,7 @@ import janggi.domain.board.BoardInterface;
 import janggi.domain.Position;
 import janggi.domain.Side;
 
+import janggi.domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class JumpPolicy implements RoutePolicy {
     public boolean isMovable(List<Position> path, Side side, BoardInterface boardInterface) {
         List<Position> innerPath = new ArrayList<>(path.subList(1, path.size()));
         boolean hasPo = innerPath.stream()
-                .anyMatch(boardInterface::isPo);
+                .anyMatch(position -> boardInterface.isEqualPieceType(position, PieceType.PO));
         if (hasPo) {
             return false;
         }
