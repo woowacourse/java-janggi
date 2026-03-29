@@ -6,8 +6,7 @@ import domain.point.Point;
 
 import java.util.Map;
 
-import static common.constant.JanggiConstant.MAX_FILE;
-import static common.constant.JanggiConstant.MAX_ROW;
+import static common.constant.JanggiConstant.*;
 
 public class OutputWriter {
 
@@ -28,9 +27,9 @@ public class OutputWriter {
     }
 
     private void printJanggiBoard(Map<Point, PieceView> boardView) {
-        for (int y = 0; y < MAX_ROW; y++) {
+        for (int y = BASE_POINT; y < MAX_ROW; y++) {
             System.out.printf(ROW_NUMBER_FORMAT, y);
-            for (int x = 0; x < MAX_FILE; x++) {
+            for (int x = BASE_POINT; x < MAX_FILE; x++) {
                 PieceView view = boardView.getOrDefault(new Point(y, x), PieceView.NONE);
                 System.out.print(view.getViewMessage() + PIECE_SEPARATOR);
             }
@@ -40,7 +39,7 @@ public class OutputWriter {
 
     private void printFileNumber() {
         System.out.print(BOARD_HEADER_PADDING);
-        for (int x = 0; x < MAX_FILE; x++) {
+        for (int x = BASE_POINT; x < MAX_FILE; x++) {
             System.out.printf(FILE_NUMBER_FORMAT, x);
         }
         System.out.println();
