@@ -1,14 +1,13 @@
 package janggi.view;
 
-import janggi.model.Board;
+import janggi.view.view.GameStatus;
 
 public class OutputView {
 
-    public void printBoard(Board board, String team) {
-        System.out.println(board);
-        System.out.println(team + "의 차례입니다.");
+    public void printGameStatus(GameStatus gameStatus) {
+        System.out.println(gameStatus.board());
+        System.out.println("현재 팀은 " + gameStatus.team() + "입니다.");
     }
-
 
     public void printBoardInitialTypeMessage() {
         System.out.println("상차림 유형 번호를 입력해 주세요 (1.왼상차림 2.오른상차림 3.안상차림 4.바깥상차림)");

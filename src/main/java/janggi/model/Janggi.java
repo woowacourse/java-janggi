@@ -1,9 +1,10 @@
 package janggi.model;
 
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
 import janggi.model.turn.ChoTurn;
 import janggi.model.turn.Turn;
-import java.util.function.BiConsumer;
+import java.util.Map;
 
 public class Janggi {
 
@@ -26,7 +27,11 @@ public class Janggi {
         return turn.isGameOver();
     }
 
-    public void withBoard(BiConsumer<Board, String> consumer) {
-        turn.accept(consumer);
+    public Map<Position, AbstractGimul> getBoard() {
+        return turn.getBoard();
+    }
+
+    public boolean isChoTurn() {
+        return turn.isChoTurn();
     }
 }

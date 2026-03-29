@@ -1,10 +1,8 @@
 package janggi.model;
 
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.position.Column;
 import janggi.model.position.MoveResult;
 import janggi.model.position.Position;
-import janggi.model.position.Row;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,54 +59,6 @@ public class Board {
         throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
     }
 
-    @Override
-    public String toString() {
-        int rowStart = 1;
-        int rowEnd = 10;
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("    1  2  3  4  5  6  7  8  9\n");
-        sb.append("  ┌───────────────────────────┐\n");
-
-        for (int row = rowStart; row <= rowEnd; row++) {
-            sb.append(renderBoardRow(row));
-        }
-
-        sb.append("  └───────────────────────────┘\n");
-        return sb.toString();
-    }
-
-    private StringBuilder renderBoardRow(int row) {
-        StringBuilder sb = new StringBuilder();
-        int colStart = 1;
-        int colEnd = 9;
-
-        int displayRow = (row == 10) ? 0 : row;
-
-        sb.append(displayRow).append(" │");
-
-        for (int col = colStart; col <= colEnd; col++) {
-            sb.append(renderBoardColumn(row, col));
-        }
-        sb.append("│\n");
-        return sb;
-    }
-
-    private StringBuilder renderBoardColumn(int row, int col) {
-        StringBuilder sb = new StringBuilder();
-        Position position = new Position(Row.of(row), Column.of(col));
-
-        String symbol = "·";
-        if (board.containsKey(position)) {
-            AbstractGimul gimul = board.get(position);
-            symbol = gimul.getSymbol();
-        }
-
-        sb.append(" ").append(String.format("%-2s", symbol));
-        return sb;
-    }
-
     public boolean isGameOver() {
         return !isHanAlive() || !isChoAlive();
     }
@@ -119,5 +69,9 @@ public class Board {
 
     private boolean isHanAlive() {
         return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
+    }
+
+    public Map<Position, AbstractGimul> getBoard() {
+        return Map.copyOf(board);
     }
 }

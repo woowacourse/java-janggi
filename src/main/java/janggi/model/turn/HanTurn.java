@@ -2,8 +2,9 @@ package janggi.model.turn;
 
 import janggi.model.Board;
 import janggi.model.Team;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
-import java.util.function.BiConsumer;
+import java.util.Map;
 
 public class HanTurn implements Turn {
 
@@ -34,7 +35,12 @@ public class HanTurn implements Turn {
     }
 
     @Override
-    public void accept(BiConsumer<Board, String> consumer) {
-        consumer.accept(board, Team.CHO.getDisplayName());
+    public Map<Position, AbstractGimul> getBoard() {
+        return board.getBoard();
+    }
+
+    @Override
+    public boolean isChoTurn() {
+        return false;
     }
 }

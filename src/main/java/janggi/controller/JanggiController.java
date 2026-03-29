@@ -10,6 +10,7 @@ import janggi.model.position.Position;
 import janggi.model.position.Row;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.view.GameStatus;
 import java.util.List;
 
 public class JanggiController {
@@ -27,10 +28,12 @@ public class JanggiController {
         Janggi janggi = initializeBoard(boardType);
 
         while (!janggi.isGameOver()) {
-            janggi.withBoard(outputView::printBoard);
-            Position from = readFromPosition();
-            Position to = readToPosition();
-            janggi = janggi.play(from, to);
+            outputView.printGameStatus(GameStatus.from(janggi));
+
+            janggi = janggi.play(
+                    readFromPosition(),
+                    readToPosition()
+            );
         }
     }
 
