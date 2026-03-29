@@ -4,7 +4,7 @@ import common.exception.JanggiException;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
-import domain.board.dto.JanggiBoardView;
+import domain.board.dto.JanggiBoardDto;
 import domain.piece.Team;
 import domain.point.Command;
 import view.InputReader;
@@ -42,7 +42,7 @@ public class JanggiGame {
 
     private void startGame(JanggiBoard janggiBoard) {
         Team currentTeam = Team.HAN;
-        printJanggiBoard(JanggiBoardView.from(janggiBoard));
+        printJanggiBoard(JanggiBoardDto.from(janggiBoard));
         progressGame(janggiBoard, currentTeam);
     }
 
@@ -57,11 +57,11 @@ public class JanggiGame {
         retry(() -> {
             Command command = requestCommand(currentTeam);
             janggiBoard.tryToMove(command.start(), command.end(), currentTeam);
-            printJanggiBoard(JanggiBoardView.from(janggiBoard));
+            printJanggiBoard(JanggiBoardDto.from(janggiBoard));
         });
     }
 
-    private void printJanggiBoard(JanggiBoardView boardView) {
+    private void printJanggiBoard(JanggiBoardDto boardView) {
         writer.printJanggiBoard(boardView);
     }
 

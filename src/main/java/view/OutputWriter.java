@@ -1,6 +1,6 @@
 package view;
 
-import domain.board.dto.JanggiBoardView;
+import domain.board.dto.JanggiBoardDto;
 import domain.piece.Team;
 import domain.point.Point;
 
@@ -18,7 +18,7 @@ public class OutputWriter {
     private static final String WINNER_MESSAGE = "%s팀의 승리입니다!";
     private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
 
-    public void printJanggiBoard(JanggiBoardView boardView) {
+    public void printJanggiBoard(JanggiBoardDto boardView) {
         printFileNumber();
         printJanggiBoard(boardView.boardViews());
     }
