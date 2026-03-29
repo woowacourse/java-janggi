@@ -2,24 +2,25 @@ package parser;
 
 import domain.position.Position;
 import java.util.Arrays;
+import java.util.List;
 
 public class PositionParser {
 
     private static final String SEPARATOR = ",";
     private static final int COORDINATE_SIZE = 2;
+    private static final int ROW_INDEX = 0;
+    private static final int COLUMN_INDEX = 1;
 
     private PositionParser() {
     }
 
     public static Position parsePosition(String input) {
+        List<Integer> points = Arrays.stream(input.trim().split(SEPARATOR))
+                .map(PositionParser::parseInt)
+                .toList();
 
-        int[] coordinates = Arrays.stream(input.split(SEPARATOR))
-                .map(String::trim)
-                .mapToInt(PositionParser::parseInt)
-                .toArray();
-
-        validateSize(coordinates);
-        return new Position(coordinates[0], coordinates[1]);
+        validateSize(points);
+        return new Position(points.get(ROW_INDEX), points.get(COLUMN_INDEX));
     }
 
     private static int parseInt(String input) {
@@ -30,8 +31,8 @@ public class PositionParser {
         }
     }
 
-    private static void validateSize(int[] coordinates) {
-        if (coordinates.length != COORDINATE_SIZE) {
+    private static void validateSize(List<Integer> points) {
+        if (points.size() != COORDINATE_SIZE) {
             throw new IllegalArgumentException(
                     "[ERROR] 2의 숫자를 ','로 구분하여 입력해야 합니다."
             );
