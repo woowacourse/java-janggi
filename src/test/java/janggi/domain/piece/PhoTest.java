@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import janggi.domain.Blank;
 import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.Space;
@@ -53,6 +54,14 @@ class PhoTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateArrival(space))
                 .withMessage("이동하려는 위치에 상대팀의 포가 존재합니다.");
+    }
+
+    @Test
+    void 도착지가_빈칸인_경우_정상_테스트() {
+        Piece piece = new Pho(Team.CHO);
+        Space space = new Blank();
+
+        assertDoesNotThrow(() -> piece.validateArrival(space));
     }
 
     @Test
