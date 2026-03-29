@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.ErrorMessage;
 import domain.Path;
 import domain.board.Position;
 
@@ -19,7 +20,7 @@ public class HanSoldierStrategy implements MoveStrategy {
         boolean isMoveRight = dx == 1 && dy == 0;
 
         if (!(isMoveLeft || isMoveRight || isMoveStraight)) {
-            throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
+            throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
         return List.of();
     }
@@ -27,7 +28,7 @@ public class HanSoldierStrategy implements MoveStrategy {
     @Override
     public void canMove(List<Path> paths, Piece to) {
         if (!paths.isEmpty()) {
-            throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
         }
     }
 }

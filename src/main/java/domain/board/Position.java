@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.Direction;
+import domain.ErrorMessage;
 
 import java.util.Objects;
 
@@ -21,11 +22,11 @@ public class Position {
 
     private void validateRange(int x, int y) {
         if (x < MIN_RANGE || x > MAX_WIDTH_RANGE) {
-            throw new IllegalArgumentException("좌표 값이 올바르지 않습니다.");
+            throw new IllegalArgumentException(ErrorMessage.OUT_OF_BOARD.getMessage());
         }
 
         if (y < MIN_RANGE || y > MIN_HEIGHT_RANGE) {
-            throw new IllegalArgumentException("좌표 값이 올바르지 않습니다.");
+            throw new IllegalArgumentException(ErrorMessage.OUT_OF_BOARD.getMessage());
         }
     }
 

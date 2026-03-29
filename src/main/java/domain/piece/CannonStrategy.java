@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.ErrorMessage;
 import domain.Path;
 import domain.board.Position;
 
@@ -14,7 +15,7 @@ public class CannonStrategy implements MoveStrategy {
         int dy = to.getY() - from.getY();
 
         if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))) {
-            throw new IllegalArgumentException("포를 해당 위치로 옮길 수 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
 
         Direction mainDirection;
@@ -56,19 +57,22 @@ public class CannonStrategy implements MoveStrategy {
 
     @Override
     public void canMove(List<Path> paths, Piece to) {
-        if (paths.size() != 1) {
-            throw new IllegalStateException("포는 한 기물만 뛰어 넘을 수 있습니다.");
+        if (paths.isEmpty()) {
+            throw new IllegalStateException(ErrorMessage.CANNON_NEEDS_BRIDGE.getMessage());
+        }
+
+        if (paths.size() >= 2) {
+            throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_PIECES.getMessage());
         }
 
         Piece piece = paths.getFirst().piece();
 
-
         if (piece.pieceType() == PieceType.CANNON) {
-            throw new IllegalStateException("포는 포를 뛰어 넘을 수 있습니다.");
+            throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_CANNON.getMessage());
         }
 
         if (to != null && to.pieceType() == PieceType.CANNON) {
-            throw new IllegalStateException("포를 잡을 수 없습니다");
+            throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_TAKE_CANNON.getMessage());
         }
     }
 }

@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.ErrorMessage;
 import domain.Path;
 import domain.board.Position;
 
@@ -14,7 +15,7 @@ public class ElephantStrategy implements MoveStrategy {
         int dy = to.getY() - from.getY();
 
         if (!((Math.abs(dx) == 3 && Math.abs(dy) == 2) || (Math.abs(dx) == 2 && Math.abs(dy) == 3))) {
-            throw new IllegalArgumentException("상이 이동할 수 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
 
         Direction xDirection = decideXDirection(dx);
@@ -53,7 +54,7 @@ public class ElephantStrategy implements MoveStrategy {
     @Override
     public void canMove(List<Path> paths, Piece to) {
         if (!paths.isEmpty()) {
-            throw new IllegalArgumentException("이동 경로에 기물이 존재하면 이동할 수 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
         }
     }
 }
