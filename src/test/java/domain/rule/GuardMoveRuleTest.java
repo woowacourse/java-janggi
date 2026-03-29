@@ -3,7 +3,7 @@ package domain.rule;
 import domain.intersection.Intersection;
 import domain.piece.Guard;
 import domain.piece.Soldier;
-import domain.piece.Team;
+import domain.team.Team;
 import domain.piece.move.GuardMoveRule;
 import domain.point.Point;
 import java.util.List;

@@ -10,6 +10,7 @@ import domain.piece.move.HorseMoveRule;
 import domain.piece.move.MoveRule;
 import domain.piece.move.SoliderMoveRule;
 import domain.point.Point;
+import dto.BoardStatusDTO;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,13 +66,17 @@ public class JanggiBoard {
         return moveRules.stream()
                 .filter(moveRule -> moveRule.support(from))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("선택한 좌표에 이동 가능한 기물이 없습니다."));
     }
 
     private List<Intersection> findPath(List<Point> possiblePoints) {
         return possiblePoints.stream()
                 .map(this::findIntersection)
                 .toList();
+    }
+
+    public BoardStatusDTO boardStatus(){
+        return new BoardStatusDTO(intersections);
     }
 
     public Intersection findIntersection(Point point) {

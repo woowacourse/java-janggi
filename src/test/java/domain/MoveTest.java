@@ -5,7 +5,7 @@ import domain.fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.Chariot;
 import domain.piece.Soldier;
-import domain.piece.Team;
+import domain.team.Team;
 import domain.point.Point;
 import java.util.List;
 import org.assertj.core.api.Assertions;

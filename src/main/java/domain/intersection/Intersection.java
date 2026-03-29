@@ -52,6 +52,10 @@ public class Intersection {
         return piece.isCho();
     }
 
+    public String getChineseCharacter(){
+        return piece.getChineseCharacter();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

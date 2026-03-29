@@ -9,7 +9,7 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.Soldier;
-import domain.piece.Team;
+import domain.team.Team;
 import domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;

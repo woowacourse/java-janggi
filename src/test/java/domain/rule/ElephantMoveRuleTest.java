@@ -2,7 +2,7 @@ package domain.rule;
 
 import domain.intersection.Intersection;
 import domain.piece.Elephant;
-import domain.piece.Team;
+import domain.team.Team;
 import domain.piece.move.ElephantMoveRule;
 import domain.point.Point;
 import java.util.List;
