@@ -27,7 +27,7 @@ public class TurnManagerTest {
     class 턴진행 {
         @Test
         public void 턴이_바뀌면_반대팀이_현재_턴이_된다() {
-            turnManager.progressTurn();
+            turnManager.advanceTurn();
             assertThat(turnManager.getCurrentTurn()).isEqualTo(TeamColor.HAN);
         }
     }

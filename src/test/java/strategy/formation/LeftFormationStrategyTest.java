@@ -24,7 +24,7 @@ public class LeftFormationStrategyTest {
     class 한나라 {
         @Test
         public void 좌상차림일_때_마와_상의_좌표가_올바르다() {
-            Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.HAN);
+            Map<Position, Piece> formation = initialFormationStrategy.createInitialPieces(TeamColor.HAN);
 
             assertThat(formation.size()).isEqualTo(16);
             assertThat(formation.get(Position.of(0, 1)).getPieceType()).isEqualTo(PieceType.HORSE);
@@ -39,7 +39,7 @@ public class LeftFormationStrategyTest {
     class 초나라 {
         @Test
         public void 좌상차림일_때_마와_상의_좌표가_올바르다() {
-            Map<Position, Piece> formation = initialFormationStrategy.setUpPieces(TeamColor.CHO);
+            Map<Position, Piece> formation = initialFormationStrategy.createInitialPieces(TeamColor.CHO);
 
             assertThat(formation.size()).isEqualTo(16);
             assertThat(formation.get(Position.of(9, 1)).getPieceType()).isEqualTo(PieceType.HORSE);

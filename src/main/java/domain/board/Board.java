@@ -16,7 +16,7 @@ public class Board {
     }
 
     public List<Piece> getBlockingPieces(Route route) {
-        return route.intermeidateNodes().stream()
+        return route.intermediatePositions().stream()
                 .map(this::findPiece)
                 .flatMap(Optional::stream)
                 .toList();

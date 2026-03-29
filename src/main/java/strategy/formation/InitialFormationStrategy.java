@@ -25,8 +25,8 @@ public abstract class InitialFormationStrategy {
     private static final int RIGHT_EDGE_COLUMN = 8;
     private static final int PAWN_COLUMN_INTERVAL = 2;
 
-    public final Map<Position, Piece> setUpPieces(TeamColor teamColor) {
-        final Map<Position, Piece> formationPieces = setupFormation(teamColor);
+    public final Map<Position, Piece> createInitialPieces(TeamColor teamColor) {
+        final Map<Position, Piece> formationPieces = createFormationPieces(teamColor);
         final Map<Position, Piece> fixedPieces = placeFixedPieces(teamColor);
         final Map<Position, Piece> allPieces = new HashMap<>();
 
@@ -36,7 +36,7 @@ public abstract class InitialFormationStrategy {
         return allPieces;
     }
 
-    protected abstract Map<Position, Piece> setupFormation(TeamColor teamColor);
+    protected abstract Map<Position, Piece> createFormationPieces(TeamColor teamColor);
 
     protected final int findBackRankRow(TeamColor teamColor) {
         if (teamColor == TeamColor.CHO) {

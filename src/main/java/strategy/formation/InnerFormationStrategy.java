@@ -14,7 +14,7 @@ public class InnerFormationStrategy extends InitialFormationStrategy {
     private static final int RIGHT_HORSE_COLUMN = 7;
 
     @Override
-    protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
+    protected Map<Position, Piece> createFormationPieces(TeamColor teamColor) {
         if (teamColor.equals(TeamColor.CHO)) {
             return createFormation(teamColor, CHO_BACK_RANK_ROW);
         }

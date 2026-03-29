@@ -14,7 +14,7 @@ public class OuterFormationStrategy extends InitialFormationStrategy {
     private static final int RIGHT_ELEPHANT_COLUMN = 7;
 
     @Override
-    protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
+    protected Map<Position, Piece> createFormationPieces(TeamColor teamColor) {
         final Map<Position, Piece> formation = new HashMap<>();
         final int row = findBackRankRow(teamColor);
 

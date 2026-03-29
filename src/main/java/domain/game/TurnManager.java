@@ -4,25 +4,25 @@ import domain.piece.TeamColor;
 
 public class TurnManager {
 
-    private TeamColor teamColor;
+    private TeamColor currentTurn;
     private int moveCount;
 
     public TurnManager() {
-        teamColor = TeamColor.CHO;
+        currentTurn = TeamColor.CHO;
         moveCount = 0;
     }
 
-    public void progressTurn() {
+    public void advanceTurn() {
         moveCount += 1;
-        if (teamColor.equals(TeamColor.CHO)) {
-            teamColor = TeamColor.HAN;
+        if (currentTurn.equals(TeamColor.CHO)) {
+            currentTurn = TeamColor.HAN;
             return;
         }
-        teamColor = TeamColor.CHO;
+        currentTurn = TeamColor.CHO;
     }
 
     public TeamColor getCurrentTurn() {
-        return teamColor;
+        return currentTurn;
     }
 }
 

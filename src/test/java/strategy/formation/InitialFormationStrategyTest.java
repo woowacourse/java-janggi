@@ -25,7 +25,7 @@ class InitialFormationStrategyTest {
     class 한나라 {
         @Test
         void 고정_기물들이_올바른_위치에_배치된다() {
-            Map<Position, Piece> result = strategy.setUpPieces(TeamColor.HAN);
+            Map<Position, Piece> result = strategy.createInitialPieces(TeamColor.HAN);
 
             assertThat(result).hasSize(12);
             assertThat(result.get(Position.of(0, 0)).getPieceType()).isEqualTo(PieceType.ROOK);
@@ -45,7 +45,7 @@ class InitialFormationStrategyTest {
     class 초나라 {
         @Test
         void 고정_기물들이_올바른_위치에_배치된다() {
-            Map<Position, Piece> result = strategy.setUpPieces(TeamColor.CHO);
+            Map<Position, Piece> result = strategy.createInitialPieces(TeamColor.CHO);
 
             assertThat(result).hasSize(12);
             assertThat(result.get(Position.of(9, 0)).getPieceType()).isEqualTo(PieceType.ROOK);
@@ -64,7 +64,7 @@ class InitialFormationStrategyTest {
 
 class TestStrategy extends InitialFormationStrategy {
     @Override
-    protected Map<Position, Piece> setupFormation(TeamColor teamColor) {
+    protected Map<Position, Piece> createFormationPieces(TeamColor teamColor) {
         return Map.of();
     }
 }
