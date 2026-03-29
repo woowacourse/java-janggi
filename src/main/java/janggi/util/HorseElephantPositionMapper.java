@@ -6,13 +6,18 @@ import java.util.Map;
 
 public class HorseElephantPositionMapper {
 
+    public static final int HEHE_ORDINAL = 1;
+    public static final int HEEH_ORDINAL = 2;
+    public static final int EHEH_ORDINAL = 3;
+    public static final int EHHE_ORDINAL = 4;
+
     private static final Map<Integer, HorseElephantPosition> horseElephantPositionMap = new HashMap<>();
 
     static {
-        horseElephantPositionMap.put(1, HorseElephantPosition.HEHE);
-        horseElephantPositionMap.put(2, HorseElephantPosition.HEEH);
-        horseElephantPositionMap.put(3, HorseElephantPosition.EHEH);
-        horseElephantPositionMap.put(4, HorseElephantPosition.EHHE);
+        horseElephantPositionMap.put(HEHE_ORDINAL, HorseElephantPosition.HEHE);
+        horseElephantPositionMap.put(HEEH_ORDINAL, HorseElephantPosition.HEEH);
+        horseElephantPositionMap.put(EHEH_ORDINAL, HorseElephantPosition.EHEH);
+        horseElephantPositionMap.put(EHHE_ORDINAL, HorseElephantPosition.EHHE);
     }
 
     private HorseElephantPositionMapper() {

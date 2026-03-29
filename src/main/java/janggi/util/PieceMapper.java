@@ -15,16 +15,24 @@ import java.util.Map;
 
 public class PieceMapper {
 
+    public static final String CANNON_DISPLAY_NAME = "포";
+    public static final String CHARIOT_DISPLAY_NAME = "차";
+    public static final String ELEPHANT_DISPLAY_NAME = "상";
+    public static final String GENERAL_DISPLAY_NAME = "장";
+    public static final String GUARD_DISPLAY_NAME = "사";
+    public static final String HORSE_DISPLAY_NAME = "마";
+    public static final String SOLDIER_DISPLAY_NAME = "졸";
+
     private static final Map<PieceType, String> pieceMap = new EnumMap<>(PieceType.class);
 
     static {
-        pieceMap.put(CANNON, "포");
-        pieceMap.put(CHARIOT, "차");
-        pieceMap.put(ELEPHANT, "상");
-        pieceMap.put(GENERAL, "장");
-        pieceMap.put(SOLDIER, "졸");
-        pieceMap.put(GUARD, "사");
-        pieceMap.put(HORSE, "마");
+        pieceMap.put(CANNON, CANNON_DISPLAY_NAME);
+        pieceMap.put(CHARIOT, CHARIOT_DISPLAY_NAME);
+        pieceMap.put(ELEPHANT, ELEPHANT_DISPLAY_NAME);
+        pieceMap.put(GENERAL, GENERAL_DISPLAY_NAME);
+        pieceMap.put(GUARD, GUARD_DISPLAY_NAME);
+        pieceMap.put(HORSE, HORSE_DISPLAY_NAME);
+        pieceMap.put(SOLDIER, SOLDIER_DISPLAY_NAME);
     }
 
     private PieceMapper() {
