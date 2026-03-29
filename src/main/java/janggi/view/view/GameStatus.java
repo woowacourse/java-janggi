@@ -2,6 +2,13 @@ package janggi.view.view;
 
 import janggi.model.Janggi;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Byeong;
+import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.gimul.diagonalMove.Sang;
+import janggi.model.gimul.linearMove.Cha;
+import janggi.model.gimul.linearMove.Pho;
+import janggi.model.gimul.palace.Jang;
+import janggi.model.gimul.palace.Sa;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;
@@ -71,7 +78,28 @@ public record GameStatus(
 
         if (board.containsKey(position)) {
             AbstractGimul gimul = board.get(position);
-            symbol = gimul.getSymbol();
+
+            if (gimul instanceof Ma) {
+                symbol = "마";
+            }
+            if (gimul instanceof Sang) {
+                symbol = "상";
+            }
+            if (gimul instanceof Cha) {
+                symbol = "차";
+            }
+            if (gimul instanceof Pho) {
+                symbol = "포";
+            }
+            if (gimul instanceof Jang) {
+                symbol = "장";
+            }
+            if (gimul instanceof Sa) {
+                symbol = "사";
+            }
+            if (gimul instanceof Byeong) {
+                symbol = "병";
+            }
         }
 
         sb.append(" ").append(String.format("%-2s", symbol));

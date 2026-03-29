@@ -6,9 +6,4 @@ public class Sa extends AbstractPalaceGimul {
     public Sa(Team team) {
         super(team);
     }
-
-    @Override
-    public String getSymbol() {
-        return "사";
-    }
 }

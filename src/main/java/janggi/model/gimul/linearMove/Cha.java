@@ -14,9 +14,4 @@ public class Cha extends AbstractLinearMoveGimul {
     public boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo) {
         return gimulsOnPath.isEmpty() && !this.isSameTeam(abstractGimulAtTo);
     }
-
-    @Override
-    public String getSymbol() {
-        return "차";
-    }
 }
