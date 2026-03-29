@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
-import domain.move.moverule.JumpingRule;
+import domain.move.rule.JumpingRule;
 import domain.piece.AlivePieces;
 import domain.piece.Cannon;
 import domain.piece.Piece;

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
-import domain.move.moverule.BasicMoveRule;
+import domain.move.rule.BasicRule;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.Soldier;
@@ -19,13 +19,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 @DisplayName("다른 기물을 뛰어 넘을 수 없는 규칙 테스트")
-class BasicMoveRuleTest {
+class BasicRuleTest {
 
-    private BasicMoveRule basicMoveRule;
+    private BasicRule basicRule;
 
     @BeforeEach
     void setUp() {
-        basicMoveRule = new BasicMoveRule();
+        basicRule = new BasicRule();
     }
 
     @DisplayName("경유지에 기물이 있으면 해당 경로를 사용할 수 없다")
@@ -44,7 +44,7 @@ class BasicMoveRuleTest {
         AlivePieces alivePieces = createAlivePieces(blockedPassing, createDefaultPiece(sideOfBlockingPiece));
 
         // when
-        List<Intersection> movableDestinations = basicMoveRule
+        List<Intersection> movableDestinations = basicRule
                 .movableDestinations(mySide, paths, alivePieces);
 
         // then
@@ -69,7 +69,7 @@ class BasicMoveRuleTest {
             AlivePieces alivePieces = createAlivePieces(destination, createDefaultPiece(mySide));
 
             // when
-            List<Intersection> movableDestinations = basicMoveRule
+            List<Intersection> movableDestinations = basicRule
                     .movableDestinations(mySide, paths, alivePieces);
 
             // then
@@ -91,7 +91,7 @@ class BasicMoveRuleTest {
             AlivePieces alivePieces = createAlivePieces(destination, createDefaultPiece(oppositeSide));
 
             // when
-            List<Intersection> movableDestinations = basicMoveRule
+            List<Intersection> movableDestinations = basicRule
                     .movableDestinations(mySide, paths, alivePieces);
 
             // then
