@@ -14,7 +14,7 @@ public abstract class Piece {
         return team;
     }
 
-    public void canMove(Position targetPosition) {
-        // moveStrategy.movable();
+    public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
+        return false;
     }
 }

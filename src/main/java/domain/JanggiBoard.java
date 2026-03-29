@@ -35,7 +35,7 @@ public class JanggiBoard implements PieceProvider {
     }
 
     private void setupTeamPieces(Team team, int baseRow, int kingRow, int cannonRow, int pawnRow) {
-        // 예시: 차(車) 배치
+        // 차
         janggiBoard.put(new Position(baseRow, 0), new Chariot(team));
         janggiBoard.put(new Position(baseRow, 8), new Chariot(team));
         // 마
@@ -49,11 +49,11 @@ public class JanggiBoard implements PieceProvider {
         janggiBoard.put(new Position(baseRow, 5), new Guard(team));
         // 궁
         janggiBoard.put(new Position(kingRow, 4), new King(team));
-        // 예시: 포(包) 배치
+        // 포
         janggiBoard.put(new Position(cannonRow, 1), new Cannon(team));
         janggiBoard.put(new Position(cannonRow, 7), new Cannon(team));
 
-        // 예시: 졸/병 배치
+        // 졸/병
         for (int col = 0; col < 9; col += 2) {
             janggiBoard.put(new Position(pawnRow, col), new Pawn(team));
         }

@@ -15,6 +15,7 @@ public class Guard extends Piece {
         this.moveStrategy = new PalaceStrategy();
     }
 
+    @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(currentPosition, pieceProvider);
         boolean isTargetPositionBlank = pieceProvider.isBlank(targetPosition);

@@ -15,6 +15,7 @@ public class Chariot extends Piece {
         this.moveStrategy = new ChariotStrategy();
     }
 
+    @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(currentPosition, pieceProvider);
 

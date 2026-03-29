@@ -15,6 +15,7 @@ public class Pawn extends Piece{
         this.moveStrategy = new PawnStrategy();
     }
 
+    @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(currentPosition, pieceProvider);
         boolean isTargetPositionBlank = pieceProvider.isBlank(targetPosition);

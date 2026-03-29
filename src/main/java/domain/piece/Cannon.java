@@ -15,6 +15,7 @@ public class Cannon extends Piece {
         cannonStrategy = new CannonStrategy();
     }
 
+    @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         List<Position> moveCandidates = cannonStrategy.getMoveCandidates(currentPosition, pieceProvider);
         for (Position candidatePosition : moveCandidates) {
