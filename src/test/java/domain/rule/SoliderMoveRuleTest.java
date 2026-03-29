@@ -2,10 +2,10 @@ package domain.rule;
 
 import domain.intersection.Intersection;
 import domain.piece.Soldier;
-import domain.team.Team;
 import domain.piece.move.SoliderMoveRule;
 import domain.piece.move.Vector;
 import domain.point.Point;
+import domain.team.Team;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

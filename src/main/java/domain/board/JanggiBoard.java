@@ -75,7 +75,7 @@ public class JanggiBoard {
                 .toList();
     }
 
-    public BoardStatusDTO boardStatus(){
+    public BoardStatusDTO boardStatus() {
         return new BoardStatusDTO(intersections);
     }
 

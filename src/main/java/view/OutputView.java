@@ -15,7 +15,7 @@ public class OutputView {
     private static final String FULL_SPACE = "　";
     private static final String HALF_SPACE = " ";
 
-    public void printCurrentTurn(Team turn){
+    public void printCurrentTurn(Team turn) {
         System.out.print(turn.getKoreanTeamName() + "(" + turn.getChineseTeamName() + ")의 차례입니다.\n");
     }
 
@@ -43,7 +43,7 @@ public class OutputView {
                 .collect(Collectors.joining());
     }
 
-    public void printErrorMessage(String message){
+    public void printErrorMessage(String message) {
         System.out.println(message);
     }
 

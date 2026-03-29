@@ -12,11 +12,11 @@ public class MoveDTO {
         this.to = to.getPoint();
     }
 
-    public Point getFrom(){
+    public Point getFrom() {
         return from;
     }
 
-    public Point getTo(){
+    public Point getTo() {
         return to;
     }
 

@@ -16,19 +16,19 @@ public class Game {
         this.turn = Team.CHO;
     }
 
-    public void processTurn(MoveDTO move){
-        Point from =  move.getFrom();
+    public void processTurn(MoveDTO move) {
+        Point from = move.getFrom();
         Point to = move.getTo();
         janggiBoard.tryToMove(from, to);
 
         turn = turn.nextTurn();
     }
 
-    public Team currentTurn(){
+    public Team currentTurn() {
         return turn;
     }
 
-    public BoardStatusDTO boardStatus(){
+    public BoardStatusDTO boardStatus() {
         return janggiBoard.boardStatus();
     }
 

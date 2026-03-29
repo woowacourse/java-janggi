@@ -11,7 +11,7 @@ public class InputPointDTO {
         this.point = parsePoint(input);
     }
 
-    private void validate(String input){
+    private void validate(String input) {
         try {
             String[] tokens = input.trim().split("\\s+");
             String y = tokens[0];
@@ -23,7 +23,7 @@ public class InputPointDTO {
         }
     }
 
-    private Point parsePoint(String input){
+    private Point parsePoint(String input) {
         String[] tokens = input.trim().split("\\s+");
         int integerY = Integer.parseInt(tokens[0]);
         int integerX = Integer.parseInt(tokens[1]);
@@ -31,7 +31,7 @@ public class InputPointDTO {
         return new Point(integerY, integerX);
     }
 
-    public Point getPoint(){
+    public Point getPoint() {
         return this.point;
     }
 }

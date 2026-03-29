@@ -14,18 +14,18 @@ public enum Team {
         this.chineseTeamName = chineseTeamName;
     }
 
-    public Team nextTurn(){
-        if(this == CHO){
+    public Team nextTurn() {
+        if (this == CHO) {
             return HAN;
         }
         return CHO;
     }
 
-    public String getKoreanTeamName(){
+    public String getKoreanTeamName() {
         return koreanTeamName;
     }
 
-    public String getChineseTeamName(){
+    public String getChineseTeamName() {
         return chineseTeamName;
     }
 

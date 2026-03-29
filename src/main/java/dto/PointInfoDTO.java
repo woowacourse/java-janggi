@@ -8,7 +8,7 @@ public class PointInfoDTO {
         this.pointInfo = pointInfo;
     }
 
-    public String pointInfo(){
+    public String pointInfo() {
         return pointInfo;
     }
 }

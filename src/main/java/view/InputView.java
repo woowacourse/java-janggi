@@ -20,22 +20,22 @@ public class InputView {
 
     Scanner scanner = new Scanner(System.in);
 
-    public int inputHanWingSetup(){
+    public int inputHanWingSetup() {
         System.out.print(HAN_WING_SETUP_MESSAGE);
         return Integer.parseInt(scanner.nextLine().trim());
     }
 
-    public int inputChoWingSetup(){
+    public int inputChoWingSetup() {
         System.out.print(CHO_WING_SETUP_MESSAGE);
         return Integer.parseInt(scanner.nextLine().trim());
     }
 
-    public InputPointDTO inputMovePiecePoint(){
+    public InputPointDTO inputMovePiecePoint() {
         System.out.print(INPUT_MOVE_PIECE_POINT_MESSAGE);
         return new InputPointDTO(scanner.nextLine());
     }
 
-    public InputPointDTO inputDestinationPoint(){
+    public InputPointDTO inputDestinationPoint() {
         System.out.print(INPUT_DESTINATION_POINT_MESSAGE);
         return new InputPointDTO(scanner.nextLine());
     }

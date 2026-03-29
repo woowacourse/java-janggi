@@ -52,7 +52,7 @@ public class Intersection {
         return piece.isCho();
     }
 
-    public String getChineseCharacter(){
+    public String getChineseCharacter() {
         return piece.getChineseCharacter();
     }
 
