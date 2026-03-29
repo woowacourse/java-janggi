@@ -36,17 +36,19 @@ public class ElephantMovement implements Movement {
     @Override
     public Paths candidatePaths(Position from) {
         Paths paths = Paths.empty();
-
         for (ElephantMove move : MOVES) {
-            if (!from.canShift(move.orthogonalDelta())) {
-                continue;
-            }
-            Position blocking = from.shift(move.orthogonalDelta());
-            paths = addDiagonalPath(paths, blocking, move.firstDiagonalDelta());
-            paths = addDiagonalPath(paths, blocking, move.secondDiagonalDelta());
+            paths = addMovePaths(paths, from, move);
         }
-
         return paths;
+    }
+
+    private Paths addMovePaths(Paths paths, Position from, ElephantMove move) {
+        if (!from.canShift(move.orthogonalDelta())) {
+            return paths;
+        }
+        Position blocking = from.shift(move.orthogonalDelta());
+        paths = addDiagonalPath(paths, blocking, move.firstDiagonalDelta());
+        return addDiagonalPath(paths, blocking, move.secondDiagonalDelta());
     }
 
     private Paths addDiagonalPath(Paths paths, Position blocking, Delta diagonalDelta) {

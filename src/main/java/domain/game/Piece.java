@@ -24,8 +24,20 @@ public class Piece {
         return pieceType;
     }
 
+    public boolean isChariot() {
+        return pieceType == PieceType.CHARIOT;
+    }
+
     public boolean isCannon() {
         return pieceType == PieceType.CANNON;
+    }
+
+    public boolean isStepPiece() {
+        return pieceType == PieceType.HORSE || pieceType == PieceType.ELEPHANT;
+    }
+
+    public boolean isSoldier() {
+        return pieceType == PieceType.SOLDIER;
     }
 
     public boolean isOwnedBy(Team targetTeam) {

@@ -30,25 +30,41 @@ public class OutputView {
 
     public void printBoard(Board board, Turn turn) {
         StringBuilder stringBuilder = new StringBuilder();
+        appendHeader(stringBuilder, turn);
+        appendRows(stringBuilder, board);
+        System.out.println(stringBuilder);
+    }
+
+    private void appendHeader(StringBuilder stringBuilder, Turn turn) {
         stringBuilder.append("--------------------------------------\n");
         stringBuilder.append("현재 턴: [").append(turn.colorCode(RED, GREEN)).append(turn.display()).append(RESET).append(" 진영]\n\n");
         stringBuilder.append("     a   b   c   d   e   f   g   h   i\n");
+    }
 
+    private void appendRows(StringBuilder stringBuilder, Board board) {
         for (Row row : Row.values()) {
-            stringBuilder.append(String.format("%2s  ", row.display()));
-            for (Col col : Col.values()) {
-                Piece piece = board.getPieceAt(new Position(col, row));
-                if (piece != null) {
-                    stringBuilder.append(piece.colorCode(RED, GREEN)).append(piece.display()).append(RESET);
-                } else {
-                    stringBuilder.append("...");
-                }
-                stringBuilder.append(" ");
-            }
-            stringBuilder.append("\n");
+            appendRow(stringBuilder, board, row);
         }
+    }
 
-        System.out.println(stringBuilder);
+    private void appendRow(StringBuilder stringBuilder, Board board, Row row) {
+        stringBuilder.append(String.format("%2s  ", row.display()));
+        for (Col col : Col.values()) {
+            appendCell(stringBuilder, board, new Position(col, row));
+        }
+        stringBuilder.append("\n");
+    }
+
+    private void appendCell(StringBuilder stringBuilder, Board board, Position position) {
+        stringBuilder.append(cellDisplay(board, position)).append(" ");
+    }
+
+    private String cellDisplay(Board board, Position position) {
+        Piece piece = board.getPieceAt(position);
+        if (piece == null) {
+            return "...";
+        }
+        return piece.colorCode(RED, GREEN) + piece.display() + RESET;
     }
 
     public void printPieceMovement(Turn turn) {

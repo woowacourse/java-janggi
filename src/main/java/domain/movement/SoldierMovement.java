@@ -28,16 +28,23 @@ public class SoldierMovement implements Movement {
     @Override
     public Paths candidatePaths(Position from) {
         Paths paths = Paths.empty();
-
-        List<Delta> teamMoves = team == Team.HAN ? MOVES_HAN : MOVES_CHO;
-
-        for (Delta delta : teamMoves) {
-            if (!from.canShift(delta)) {
-                continue;
-            }
-            Position destination = from.shift(delta);
-            paths = paths.add(new Path(List.of(destination)));
+        for (Delta delta : teamMoves()) {
+            paths = addPathIfReachable(paths, from, delta);
         }
         return paths;
+    }
+
+    private Paths addPathIfReachable(Paths paths, Position from, Delta delta) {
+        if (!from.canShift(delta)) {
+            return paths;
+        }
+        return paths.add(new Path(List.of(from.shift(delta))));
+    }
+
+    private List<Delta> teamMoves() {
+        if (team == Team.HAN) {
+            return MOVES_HAN;
+        }
+        return MOVES_CHO;
     }
 }

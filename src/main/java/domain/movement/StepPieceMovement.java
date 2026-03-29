@@ -18,21 +18,26 @@ public class StepPieceMovement implements Movement {
     @Override
     public Paths candidatePaths(Position from) {
         Paths paths = Paths.empty();
-
         for (Delta delta : MOVES) {
-            if (!from.canShift(delta)) {
-                continue;
-            }
-
-            List<Position> path = new ArrayList<>();
-            Position nextPosition = from;
-            while (nextPosition.canShift(delta)) {
-                nextPosition = nextPosition.shift(delta);
-                path.add(nextPosition);
-            }
-
-            paths = paths.add(new Path(path));
+            paths = addLinePath(paths, from, delta);
         }
         return paths;
+    }
+
+    private Paths addLinePath(Paths paths, Position from, Delta delta) {
+        if (!from.canShift(delta)) {
+            return paths;
+        }
+        return paths.add(new Path(buildLine(from, delta)));
+    }
+
+    private List<Position> buildLine(Position from, Delta delta) {
+        List<Position> path = new ArrayList<>();
+        Position nextPosition = from;
+        while (nextPosition.canShift(delta)) {
+            nextPosition = nextPosition.shift(delta);
+            path.add(nextPosition);
+        }
+        return path;
     }
 }

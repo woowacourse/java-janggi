@@ -29,31 +29,37 @@ public class PositionLayout {
 
     public static Map<Position, Piece> build(Arrangements arrangements) {
         Map<Position, Piece> result = new HashMap<>();
-
-        hanPiecesLayout.forEach((position, pieceType) -> {
-            result.put(position, new Piece(Team.HAN, pieceType));
-        });
-
-        List<PieceType> innerPieces = arrangements.arrangeFor(Team.HAN).innerPieces();
-        for (int i = 0; i < INNER_COLS.size(); i++) {
-            Row row = Row.ZERO;
-            Position pos = new Position(INNER_COLS.get(i), row);
-            result.put(pos, new Piece(Team.HAN, innerPieces.get(i)));
-        }
-
-        hanPiecesLayout.forEach((position, pieceType) -> {
-            Position actualPosition = new Position(position.col(), position.row().reverse());
-            result.put(actualPosition, new Piece(Team.CHO, pieceType));
-        });
-
-        innerPieces = arrangements.arrangeFor(Team.CHO).innerPieces();
-        for (int i = 0; i < INNER_COLS.size(); i++) {
-            Row row = Row.ZERO.reverse();
-            Position pos = new Position(INNER_COLS.get(i), row);
-            result.put(pos, new Piece(Team.CHO, innerPieces.get(i)));
-        }
-
+        placeHanPieces(result);
+        placeHanInnerPieces(result, arrangements);
+        placeChoPieces(result);
+        placeCHoInnerPieces(result, arrangements);
         return result;
+    }
+
+    private static void placeHanPieces(Map<Position, Piece> result) {
+        hanPiecesLayout.forEach((position, pieceType) ->
+                result.put(position, new Piece(Team.HAN, pieceType)));
+    }
+
+    private static void placeHanInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
+        List<PieceType> innerPieces = arrangements.arrangeFor(Team.HAN).innerPieces();
+        for (int index = 0; index < INNER_COLS.size(); index++) {
+            result.put(new Position(INNER_COLS.get(index), Row.ZERO), new Piece(Team.HAN, innerPieces.get(index)));
+        }
+    }
+
+    private static void placeChoPieces(Map<Position, Piece> result) {
+        hanPiecesLayout.forEach((position, pieceType) -> {
+            Position reversedPosition = new Position(position.col(), position.row().reverse());
+            result.put(reversedPosition, new Piece(Team.CHO, pieceType));
+        });
+    }
+
+    private static void placeCHoInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
+        List<PieceType> innerPieces = arrangements.arrangeFor(Team.CHO).innerPieces();
+        for (int index = 0; index < INNER_COLS.size(); index++) {
+            result.put(new Position(INNER_COLS.get(index), Row.ZERO.reverse()), new Piece(Team.CHO, innerPieces.get(index)));
+        }
     }
 
 }

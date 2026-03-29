@@ -17,14 +17,16 @@ public class GeneralMovement implements Movement {
     @Override
     public Paths candidatePaths(Position from) {
         Paths paths = Paths.empty();
-
         for (Delta delta : MOVES) {
-            if (!from.canShift(delta)) {
-                continue;
-            }
-            Position destination = from.shift(delta);
-            paths = paths.add(new Path(List.of(destination)));
+            paths = addPathIfReachable(paths, from, delta);
         }
         return paths;
+    }
+
+    private Paths addPathIfReachable(Paths paths, Position from, Delta delta) {
+        if (!from.canShift(delta)) {
+            return paths;
+        }
+        return paths.add(new Path(List.of(from.shift(delta))));
     }
 }
