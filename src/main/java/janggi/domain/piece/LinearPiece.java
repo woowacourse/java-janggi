@@ -17,8 +17,9 @@ public abstract class LinearPiece extends ActivePiece {
     @Override
     public List<Position> findRoute(Position start, Position end) {
         boolean isVertical = start.isVertical(end);
-        boolean isHorizon = start.isHorizon(end);
-        if (!isVertical && !isHorizon) {
+        boolean isHorizontal = start.isHorizontal(end);
+
+        if (!isVertical && !isHorizontal) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
 

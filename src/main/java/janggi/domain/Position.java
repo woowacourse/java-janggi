@@ -63,7 +63,7 @@ public record Position(int x, int y) {
         return position.y - this.y;
     }
 
-    public boolean isHorizon(Position position) {
+    public boolean isHorizontal(Position position) {
         return position.x == this.x;
     }
 
