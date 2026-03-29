@@ -3,7 +3,7 @@ package domain.move.rule;
 import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.AlivePieces;
-import domain.move.movement.Path;
+import domain.move.Path;
 import java.util.List;
 
 public final class BasicRule implements MoveRule {

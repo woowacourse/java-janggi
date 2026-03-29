@@ -9,7 +9,7 @@ import domain.piece.AlivePieces;
 import domain.piece.Cannon;
 import domain.piece.Piece;
 import domain.piece.Soldier;
-import domain.move.movement.Path;
+import domain.move.Path;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;

@@ -5,7 +5,7 @@ import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Cannon;
 import domain.piece.Piece;
-import domain.move.movement.Path;
+import domain.move.Path;
 import java.util.List;
 
 public final class JumpingRule implements MoveRule {

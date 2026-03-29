@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.move.Path;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;

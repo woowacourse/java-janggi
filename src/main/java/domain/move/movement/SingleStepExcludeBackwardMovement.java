@@ -4,6 +4,7 @@ import domain.board.Intersection;
 import domain.direction.Direction;
 import domain.direction.MoveAmount;
 import domain.game.Side;
+import domain.move.Path;
 import java.util.Collections;
 import java.util.List;
 
