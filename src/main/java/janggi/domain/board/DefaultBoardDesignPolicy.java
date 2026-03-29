@@ -14,9 +14,6 @@ import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-import static janggi.domain.dynasty.Dynasty.CHO;
-import static janggi.domain.dynasty.Dynasty.HAN;
-
 public class DefaultBoardDesignPolicy implements BoardDesignPolicy {
 
     private final Map<Dynasty, HorseElephantPosition> horseElephantPositionMap;
@@ -26,56 +23,55 @@ public class DefaultBoardDesignPolicy implements BoardDesignPolicy {
     }
 
     public Map<Position, Piece> initBoard() {
-        Map<Position, Piece> policy = new HashMap<>();
-        settingCho(policy, horseElephantPositionMap.get(CHO));
-        settingHan(policy, horseElephantPositionMap.get(HAN));
-        return policy;
+        Map<Position, Piece> board = new HashMap<>();
+        for (Dynasty dynasty : Dynasty.values()) {
+            settingPiece(board, horseElephantPositionMap.get(dynasty), dynasty);
+        }
+        return board;
     }
-
-    private static void settingCho(Map<Position, Piece> board, HorseElephantPosition horseElephantPos) {
-        board.put(Position.from(1, 1), new Piece(CHO, new ChariotMoveStrategy()));
-        board.put(Position.from(1, horseElephantPos.leftHorseColumn()), new Piece(CHO, new HorseMoveStrategy()));
-        board.put(Position.from(1, horseElephantPos.leftElephantColumn()), new Piece(CHO, new ElephantMoveStrategy()));
-        board.put(Position.from(1, 4), new Piece(CHO, new GuardMoveStrategy()));
-
-        board.put(Position.from(1, 6), new Piece(CHO, new GuardMoveStrategy()));
-        board.put(Position.from(1, horseElephantPos.rightHorseColumn()), new Piece(CHO, new HorseMoveStrategy()));
-        board.put(Position.from(1, horseElephantPos.rightElephantColumn()), new Piece(CHO, new ElephantMoveStrategy()));
-        board.put(Position.from(1, 9), new Piece(CHO, new ChariotMoveStrategy()));
-
-        board.put(Position.from(2, 5), new Piece(CHO, new GeneralMoveStrategy()));
-
-        board.put(Position.from(3, 2), new Piece(CHO, new CannonMoveStrategy()));
-        board.put(Position.from(3, 8), new Piece(CHO, new CannonMoveStrategy()));
-
-        board.put(Position.from(4, 1), new Piece(CHO, new SoldierMoveStrategy()));
-        board.put(Position.from(4, 3), new Piece(CHO, new SoldierMoveStrategy()));
-        board.put(Position.from(4, 5), new Piece(CHO, new SoldierMoveStrategy()));
-        board.put(Position.from(4, 7), new Piece(CHO, new SoldierMoveStrategy()));
-        board.put(Position.from(4, 9), new Piece(CHO, new SoldierMoveStrategy()));
+    
+    private static void settingPiece(Map<Position, Piece> board, HorseElephantPosition horseElephantPos, Dynasty dynasty) {
+        settingFirstRow(board, horseElephantPos, dynasty);
+        settingSecondRow(board, dynasty);
+        settingThirdRow(board, dynasty);
+        settingFourthRow(board, dynasty);
     }
-
-    private static void settingHan(Map<Position, Piece> board, HorseElephantPosition horseElephantPos) {
-        board.put(Position.from(10, 1), new Piece(HAN, new ChariotMoveStrategy()));
-        board.put(Position.from(10, horseElephantPos.leftHorseColumn()), new Piece(HAN, new HorseMoveStrategy()));
-        board.put(Position.from(10, horseElephantPos.leftElephantColumn()), new Piece(HAN, new ElephantMoveStrategy()));
-        board.put(Position.from(10, 4), new Piece(HAN, new GuardMoveStrategy()));
-
-        board.put(Position.from(10, 6), new Piece(HAN, new GuardMoveStrategy()));
-        board.put(Position.from(10, horseElephantPos.rightHorseColumn()), new Piece(HAN, new HorseMoveStrategy()));
-        board.put(Position.from(10, horseElephantPos.rightElephantColumn()), new Piece(HAN, new ElephantMoveStrategy()));
-        board.put(Position.from(10, 9), new Piece(HAN, new ChariotMoveStrategy()));
-
-        board.put(Position.from(9, 5), new Piece(HAN, new GeneralMoveStrategy()));
-
-        board.put(Position.from(8, 2), new Piece(HAN, new CannonMoveStrategy()));
-        board.put(Position.from(8, 8), new Piece(HAN, new CannonMoveStrategy()));
-
-        board.put(Position.from(7, 1), new Piece(HAN, new SoldierMoveStrategy()));
-        board.put(Position.from(7, 3), new Piece(HAN, new SoldierMoveStrategy()));
-        board.put(Position.from(7, 5), new Piece(HAN, new SoldierMoveStrategy()));
-        board.put(Position.from(7, 7), new Piece(HAN, new SoldierMoveStrategy()));
-        board.put(Position.from(7, 9), new Piece(HAN, new SoldierMoveStrategy()));
+    
+    private static void settingFirstRow(Map<Position, Piece> board, HorseElephantPosition horseElephantPos, Dynasty dynasty) {
+        int row = dynasty.resolveRow(1);
+        
+        board.put(Position.from(row, 1), new Piece(dynasty, new ChariotMoveStrategy()));
+        board.put(Position.from(row, 4), new Piece(dynasty, new GuardMoveStrategy()));
+        board.put(Position.from(row, 6), new Piece(dynasty, new GuardMoveStrategy()));
+        board.put(Position.from(row, 9), new Piece(dynasty, new ChariotMoveStrategy()));
+        settingHorseAndElephant(board, horseElephantPos, dynasty, row);
+    }
+    
+    private static void settingHorseAndElephant(Map<Position, Piece> board, HorseElephantPosition horseElephantPos, Dynasty dynasty, int row) {
+        board.put(Position.from(row, horseElephantPos.leftHorseColumn()), new Piece(dynasty, new HorseMoveStrategy()));
+        board.put(Position.from(row, horseElephantPos.leftElephantColumn()), new Piece(dynasty, new ElephantMoveStrategy()));
+        board.put(Position.from(row, horseElephantPos.rightHorseColumn()), new Piece(dynasty, new HorseMoveStrategy()));
+        board.put(Position.from(row, horseElephantPos.rightElephantColumn()), new Piece(dynasty, new ElephantMoveStrategy()));
+    }
+    
+    private static void settingSecondRow(Map<Position, Piece> board, Dynasty dynasty) {
+        int row = dynasty.resolveRow(2);
+        board.put(Position.from(row, 5), new Piece(dynasty, new GeneralMoveStrategy()));
+    }
+    
+    private static void settingThirdRow(Map<Position, Piece> board, Dynasty dynasty) {
+        int row = dynasty.resolveRow(3);
+        board.put(Position.from(row, 2), new Piece(dynasty, new CannonMoveStrategy()));
+        board.put(Position.from(row, 8), new Piece(dynasty, new CannonMoveStrategy()));
+    }
+    
+    private static void settingFourthRow(Map<Position, Piece> board, Dynasty dynasty) {
+        int row = dynasty.resolveRow(4);
+        board.put(Position.from(row, 1), new Piece(dynasty, new SoldierMoveStrategy()));
+        board.put(Position.from(row, 3), new Piece(dynasty, new SoldierMoveStrategy()));
+        board.put(Position.from(row, 5), new Piece(dynasty, new SoldierMoveStrategy()));
+        board.put(Position.from(row, 7), new Piece(dynasty, new SoldierMoveStrategy()));
+        board.put(Position.from(row, 9), new Piece(dynasty, new SoldierMoveStrategy()));
     }
 
 }

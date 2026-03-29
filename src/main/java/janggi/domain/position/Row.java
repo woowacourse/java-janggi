@@ -17,6 +17,13 @@ public record Row(
         }
     }
 
+    public static Row flippedIfNeeded(boolean isFlipped, int row) {
+        if(isFlipped) {
+            return new Row(MIN_ROW + MAX_ROW - row);
+        }
+        return new Row(row);
+    }
+
     public Row add(int row) {
         return new Row(this.row + row);
     }

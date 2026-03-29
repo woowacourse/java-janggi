@@ -60,4 +60,23 @@ class RowTest {
         assertThat(offsetWithinBounds).isEqualTo(result);
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1, true, 10",
+            "1, false, 1",
+            "3, true, 8",
+            "3, false, 3",
+            "5, true, 6",
+            "5, false, 5",
+    })
+    @DisplayName("뒤집을지 여부에 따라 적절한 행 객체를 반환한다.")
+    public void flippedIfNeeded_success(int row, boolean isFlipped, int result) throws Exception {
+
+        // when
+        Row resultRow = Row.flippedIfNeeded(isFlipped, row);
+
+        // then
+        assertThat(resultRow.row()).isEqualTo(result);
+    }
+
 }
