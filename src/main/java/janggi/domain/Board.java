@@ -22,13 +22,13 @@ public class Board {
         Map<Position, Space> blankBoard = new HashMap<>();
 
         for (int y = 0; y < HORIZONTAL_LENGTH; y++) {
-            putHorizontal(blankBoard, y);
+            putHorizontally(blankBoard, y);
         }
 
         return blankBoard;
     }
 
-    private void putHorizontal(Map<Position, Space> blankBoard, int y) {
+    private void putHorizontally(Map<Position, Space> blankBoard, int y) {
         for (int x = 0; x < VERTICAL_LENGTH; x++) {
             blankBoard.put(new Position(x, y), new Blank());
         }
