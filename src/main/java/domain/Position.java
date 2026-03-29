@@ -14,9 +14,17 @@ public class Position {
         this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     private void validatePosX(int x) {
-        if (x < 1 || x > 9) {
-            throw new IllegalArgumentException("[ERROR] x 좌표는 1~9 사이어야합니다.");
+        if (x < 0 || x > 8) {
+            throw new IllegalArgumentException("[ERROR] x 좌표는 0~8 사이어야합니다.");
         }
     }
 

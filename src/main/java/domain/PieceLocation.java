@@ -22,11 +22,11 @@ public enum PieceLocation {
     private static Map<Camp, List<Position>> initGeneralPosition() {
         Map<Camp, List<Position>> generalPosition = new HashMap<>();
         generalPosition.put(Camp.HAN, List.of(
-                new Position(5, 2)
+                new Position(4, 1)
         ));
 
         generalPosition.put(Camp.CHO, List.of(
-                new Position(5, 9)
+                new Position(4, 8)
         ));
 
         return generalPosition;
@@ -35,13 +35,13 @@ public enum PieceLocation {
     private static Map<Camp, List<Position>> initGuardPosition() {
         Map<Camp, List<Position>> guardPosition = new HashMap<>();
         guardPosition.put(Camp.HAN, List.of(
-                new Position(4, 1),
-                new Position(6, 1)
+                new Position(3, 0),
+                new Position(5, 0)
         ));
 
         guardPosition.put(Camp.CHO, List.of(
-                new Position(4, 0),
-                new Position(6, 0)
+                new Position(3, 9),
+                new Position(5, 9)
         ));
 
         return guardPosition;
@@ -51,13 +51,13 @@ public enum PieceLocation {
         Map<Camp, List<Position>> horsePosition = new HashMap<>();
 
         horsePosition.put(Camp.HAN, List.of(
-                new Position(3, 1),
-                new Position(8, 1)
+                new Position(2, 0),
+                new Position(7, 0)
         ));
 
         horsePosition.put(Camp.CHO, List.of(
-                new Position(2, 0),
-                new Position(8, 0)
+                new Position(1, 9),
+                new Position(7, 9)
         ));
 
         return horsePosition;
@@ -67,12 +67,12 @@ public enum PieceLocation {
         Map<Camp, List<Position>> cannonPosition = new HashMap<>();
 
         cannonPosition.put(Camp.HAN, List.of(
-                new Position(2, 3),
-                new Position(8, 3)
+                new Position(1, 2),
+                new Position(7, 2)
         ));
         cannonPosition.put(Camp.CHO, List.of(
-                new Position(2, 8),
-                new Position(8, 8)
+                new Position(1, 7),
+                new Position(7, 7)
         ));
 
         return cannonPosition;
@@ -82,12 +82,12 @@ public enum PieceLocation {
         Map<Camp, List<Position>> elephantPosition = new HashMap<>();
 
         elephantPosition.put(Camp.HAN, List.of(
-                new Position(2, 1),
-                new Position(7, 1)
+                new Position(1, 0),
+                new Position(6, 0)
         ));
         elephantPosition.put(Camp.CHO, List.of(
-                new Position(3, 0),
-                new Position(7, 0)
+                new Position(2, 9),
+                new Position(6, 9)
         ));
 
         return elephantPosition;
@@ -97,18 +97,18 @@ public enum PieceLocation {
         Map<Camp, List<Position>> soldierPosition = new HashMap<>();
 
         soldierPosition.put(Camp.HAN, List.of(
-                new Position(1, 4),
-                new Position(3, 4),
-                new Position(5, 4),
-                new Position(7, 4),
-                new Position(9, 4)
+                new Position(0, 3),
+                new Position(2, 3),
+                new Position(4, 3),
+                new Position(6, 3),
+                new Position(8, 3)
         ));
         soldierPosition.put(Camp.CHO, List.of(
-                new Position(1, 7),
-                new Position(3, 7),
-                new Position(5, 7),
-                new Position(7, 7),
-                new Position(9, 7)
+                new Position(0, 6),
+                new Position(2, 6),
+                new Position(4, 6),
+                new Position(6, 6),
+                new Position(8, 6)
         ));
 
         return soldierPosition;
@@ -118,12 +118,12 @@ public enum PieceLocation {
         Map<Camp, List<Position>> chariotPosition = new HashMap<>();
 
         chariotPosition.put(Camp.HAN, List.of(
-                new Position(1, 1),
-                new Position(9, 1))
+                new Position(0, 0),
+                new Position(8, 0))
         );
         chariotPosition.put(Camp.CHO, List.of(
-                new Position(1, 0),
-                new Position(9, 0))
+                new Position(0, 9),
+                new Position(8, 9))
         );
 
         return chariotPosition;
