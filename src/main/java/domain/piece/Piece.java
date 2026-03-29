@@ -35,10 +35,16 @@ public abstract class Piece {
     }
 
     public boolean isDifferentTeam(Team team) {
+        if (team == null) {
+            return false;
+        }
         return this.team != team;
     }
 
     public boolean isDifferentTeam(Piece piece) {
+        if (!piece.isNotNone()) {
+            return false;
+        }
         return this.team != piece.team;
     }
 
