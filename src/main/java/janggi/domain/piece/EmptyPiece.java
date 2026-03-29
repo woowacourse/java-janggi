@@ -42,6 +42,6 @@ public class EmptyPiece implements Piece {
 
     @Override
     public PieceType getType() {
-        return PieceType.NONE;
+        return PieceType.EMPTY;
     }
 }

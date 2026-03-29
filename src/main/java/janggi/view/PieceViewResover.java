@@ -21,7 +21,7 @@ public class PieceViewResover {
             case PO -> "포";
             case SA -> "사";
             case SANG -> "상";
-            case NONE -> "ㆍ";
+            case EMPTY -> "ㆍ";
         };
 
         if (piece.isEmpty()) {

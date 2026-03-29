@@ -2,15 +2,16 @@ package janggi.support;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.piece.ActivePiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.List;
 
-public class TestPiece extends ActivePiece {
+public class TestPiece implements Piece {
+
+    private final Side side;
 
     public TestPiece(Side side) {
-        super(PieceType.NONE, side);
+        this.side = side;
     }
 
     @Override
@@ -20,5 +21,26 @@ public class TestPiece extends ActivePiece {
 
     @Override
     public void detectCollision(List<Piece> piecesOnPath) {
+        return;
+    }
+
+    @Override
+    public boolean isSameSide(Piece piece) {
+        return piece.isSameSide(side);
+    }
+
+    @Override
+    public boolean isSameSide(Side side) {
+        return this.side.equals(side);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public PieceType getType() {
+        return null;
     }
 }

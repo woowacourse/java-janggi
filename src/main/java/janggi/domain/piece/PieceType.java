@@ -8,5 +8,5 @@ public enum PieceType {
     PO,
     SA,
     SANG,
-    NONE
+    EMPTY
 }
