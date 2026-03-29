@@ -15,9 +15,4 @@ public class Pho extends AbstractLinearMoveGimul {
                 && !(gimulsOnPath.getFirst() instanceof Pho)
                 && !this.isSameTeam(abstractGimulAtTo);
     }
-
-    @Override
-    public String getSymbol() {
-        return "포";
-    }
 }

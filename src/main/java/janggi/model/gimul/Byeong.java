@@ -64,9 +64,4 @@ public class Byeong extends AbstractGimul {
     public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
         return gimulsOnPath.isEmpty();
     }
-
-    @Override
-    public String getSymbol() {
-        return "병";
-    }
 }

@@ -39,9 +39,4 @@ public class Ma extends AbstractDiagonalGimul {
 
         return first.cancatenate(second);
     }
-
-    @Override
-    public String getSymbol() {
-        return "마";
-    }
 }

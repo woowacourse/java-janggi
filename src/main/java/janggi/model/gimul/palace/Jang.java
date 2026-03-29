@@ -6,9 +6,4 @@ public class Jang extends AbstractPalaceGimul {
     public Jang(Team team) {
         super(team);
     }
-
-    @Override
-    public String getSymbol() {
-        return "장";
-    }
 }
