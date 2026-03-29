@@ -14,7 +14,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     public static MoveStrategy instance() {
         return HORSE_MOVE_STRATEGY;
     }
-    
+
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
@@ -39,11 +39,6 @@ public class HorseMoveStrategy implements MoveStrategy {
                 canMovePositions.add(to);
             }
         });
-    }
-
-    @Override
-    public PieceType pieceType() {
-        return PieceType.HORSE;
     }
 
 }

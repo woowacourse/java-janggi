@@ -29,9 +29,4 @@ public class GeneralMoveStrategy implements MoveStrategy {
         return canMovePositions;
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.GENERAL;
-    }
-
 }

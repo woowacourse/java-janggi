@@ -32,9 +32,4 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return canMovePositions;
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.SOLDIER;
-    }
-
 }

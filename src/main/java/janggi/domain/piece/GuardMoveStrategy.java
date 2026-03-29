@@ -14,7 +14,7 @@ public class GuardMoveStrategy implements MoveStrategy {
     public static MoveStrategy instance() {
         return GUARD_MOVE_STRATEGY;
     }
-    
+
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
@@ -27,11 +27,6 @@ public class GuardMoveStrategy implements MoveStrategy {
             });
         }
         return canMovePositions;
-    }
-
-    @Override
-    public PieceType pieceType() {
-        return PieceType.GUARD;
     }
 
 }
