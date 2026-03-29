@@ -16,7 +16,7 @@ public class InputView {
     }
 
     public Optional<PositionRequest> readPieceSelection() {
-        System.out.println("기물을 선택해주세요. (y x / q: 게임 종료)");
+        System.out.println("기물을 선택해주세요. (행 열 형태로 입력해주세요. / 예시: 3 0 / q: 게임 종료)");
         String input = scanner.nextLine().trim();
         if (isQuit(input)) {
             System.out.println("게임이 종료되었습니다.");
@@ -26,7 +26,7 @@ public class InputView {
     }
 
     public Optional<PositionRequest> readMoveDestination() {
-        System.out.println("이동할 위치를 입력해주세요. (y x / q: 취소)");
+        System.out.println("이동할 위치를 입력해주세요. (행 열 형태로 입력해주세요. / 예시: 3 0 / q: 뒤로 가기)");
         String input = scanner.nextLine().trim();
         if (isQuit(input)) {
             return Optional.empty();
