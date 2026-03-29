@@ -12,7 +12,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ClearPathPolicyTest {
-    private BoardInterface createBoardInterface(List<Position> isEmpty, List<Position> isEnemy, List<Position> isAlly) {
+    private BoardInterface createBoardInterface(List<Position> isEmpty, List<Position> isAlly) {
         return new BoardInterface() {
             @Override
             public boolean isEmpty(Position position) {
@@ -22,11 +22,6 @@ class ClearPathPolicyTest {
             @Override
             public boolean isEqualPieceType(Position position, PieceType pieceType) {
                 return false;
-            }
-
-            @Override
-            public boolean isEnemy(Side side, Position position) {
-                return isEnemy.contains(position);
             }
 
             @Override
@@ -46,10 +41,9 @@ class ClearPathPolicyTest {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
 
         List<Position> isEmpty = List.of(new Position(1, 2), new Position(2, 1), new Position(2, 2));
-        List<Position> isEnemy = List.of();
         List<Position> isAlly = List.of();
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isEnemy, isAlly);
+        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
         ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
         assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isTrue();
     }
@@ -59,10 +53,9 @@ class ClearPathPolicyTest {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
 
         List<Position> isEmpty = List.of(new Position(1, 2), new Position(2, 1));
-        List<Position> isEnemy = List.of(new Position(2, 2));
         List<Position> isAlly = List.of();
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isEnemy, isAlly);
+        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
         ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
         assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isTrue();
     }
@@ -72,10 +65,9 @@ class ClearPathPolicyTest {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
 
         List<Position> isEmpty = List.of(new Position(1, 2), new Position(2, 1));
-        List<Position> isEnemy = List.of();
         List<Position> isAlly = List.of(new Position(2, 2));
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isEnemy, isAlly);
+        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
         ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
         assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
     }
@@ -85,10 +77,9 @@ class ClearPathPolicyTest {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
 
         List<Position> isEmpty = List.of(new Position(2, 1), new Position(2, 2));
-        List<Position> isEnemy = List.of(new Position(1, 2));
         List<Position> isAlly = List.of();
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isEnemy, isAlly);
+        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
         ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
         assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
     }
