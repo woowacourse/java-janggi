@@ -22,6 +22,8 @@ import java.util.function.Function;
 public class BoardInitializer {
     private static final int MA_SANG_POSITION_COUNT = 4;
 
+    private static final String INVALID_INSTANCE_ACCESS = "객체를 생성할 수 없습니다.";
+
     private static final Map<Arrangement, List<PieceType>> arrangeMap = Map.of(
             Arrangement.MA_SANG_MA_SANG, List.of(PieceType.MA, PieceType.SANG, PieceType.MA, PieceType.SANG),
             Arrangement.MA_SANG_SANG_MA, List.of(PieceType.MA, PieceType.SANG, PieceType.SANG, PieceType.MA),
@@ -63,6 +65,10 @@ public class BoardInitializer {
             PieceType.PO, List.of(new Position(8, 2), new Position(8, 8)),
             PieceType.PAWN, List.of(new Position(7, 1), new Position(7, 3), new Position(7, 5), new Position(7, 7), new Position(7, 9))
     );
+
+    private BoardInitializer() {
+        throw new AssertionError(INVALID_INSTANCE_ACCESS);
+    }
 
     public static Map<Position, Piece> createBoard(Arrangement choArrangement, Arrangement hanArrangement) {
         Map<Position, Piece> board = initBoard();
