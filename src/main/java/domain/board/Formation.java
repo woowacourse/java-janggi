@@ -6,6 +6,8 @@ import static domain.piece.PieceType.SANG;
 
 import common.exception.JanggiException;
 import domain.piece.PieceType;
+
+import java.util.Arrays;
 import java.util.List;
 
 public enum Formation {
@@ -23,12 +25,10 @@ public enum Formation {
     }
 
     public static Formation from(int inputNumber) {
-        for (Formation formation : values()) {
-            if (formation.inputNumber == inputNumber) {
-                return formation;
-            }
-        }
-        throw new JanggiException(INVALID_FORMATION_INPUT.formatted(inputNumber));
+        return Arrays.stream(values())
+                .filter(formation -> formation.inputNumber == inputNumber)
+                .findFirst()
+                .orElseThrow(() -> new JanggiException(INVALID_FORMATION_INPUT.formatted(inputNumber)));
     }
 
     public List<PieceType> getFormation() {
