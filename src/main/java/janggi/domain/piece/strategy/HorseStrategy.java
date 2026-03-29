@@ -6,6 +6,7 @@ import janggi.domain.Position;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class HorseStrategy implements MoveStrategy {
     @Override
@@ -26,9 +27,10 @@ public class HorseStrategy implements MoveStrategy {
 
     private void addPath(List<Path> paths, Position current,
                          int routeRow, int routeCol, int destRow, int destCol) {
-        current.move(routeRow, routeCol)
-                .flatMap(route -> current.move(destRow, destCol)
-                        .map(dest -> new Path(List.of(route), dest)))
-                .ifPresent(paths::add);
+        Optional<Position> route = current.move(routeRow, routeCol);
+        Optional<Position> dest = current.move(destRow, destCol);
+        if (route.isPresent() && dest.isPresent()) {
+            paths.add(new Path(List.of(route.get()), dest.get()));
+        }
     }
 }

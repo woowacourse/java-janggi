@@ -6,6 +6,7 @@ import janggi.domain.Position;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ElephantStrategy implements MoveStrategy {
     @Override
@@ -26,10 +27,12 @@ public class ElephantStrategy implements MoveStrategy {
                          int routeRow1, int routeCol1,
                          int routeRow2, int routeCol2,
                          int destRow, int destCol) {
-        current.move(routeRow1, routeCol1)
-                .flatMap(route1 -> current.move(routeRow2, routeCol2)
-                        .flatMap(route2 -> current.move(destRow, destCol)
-                                .map(dest -> new Path(List.of(route1, route2), dest))))
-                .ifPresent(paths::add);
+        Optional<Position> route1 = current.move(routeRow1, routeCol1);
+        Optional<Position> route2 = current.move(routeRow2, routeCol2);
+        Optional<Position> dest = current.move(destRow, destCol);
+
+        if (route1.isPresent() && route2.isPresent() && dest.isPresent()) {
+            paths.add(new Path(List.of(route1.get(), route2.get()), dest.get()));
+        }
     }
 }
