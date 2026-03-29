@@ -19,12 +19,12 @@ class FixedPathStrategyTest {
         return Stream.of(
                 Arguments.of(
                         new Pattern(List.of(Direction.NORTH, Direction.EAST, Direction.NORTH_EAST)),
-                        new Point(7, 0),
-                        List.of(new Point(8, 0), new Point(8, 1), new Point(9, 2))
+                        Point.of(7, 0),
+                        List.of(Point.of(8, 0), Point.of(8, 1), Point.of(9, 2))
                 ),
                 Arguments.of(
                         new Pattern(List.of(Direction.NORTH)),
-                        new Point(9, 0),
+                        Point.of(9, 0),
                         Collections.emptyList())
         );
     }

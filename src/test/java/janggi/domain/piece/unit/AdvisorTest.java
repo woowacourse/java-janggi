@@ -38,17 +38,17 @@ class AdvisorTest {
         return Stream.of(
                 Arguments.of(Side.CHO,
                         List.of(
-                                new Path(List.of(new Point(0, 2))), new Path(List.of(new Point(1, 2))),
-                                new Path(List.of(new Point(1, 3))), new Path(List.of(new Point(1, 4))),
-                                new Path(List.of(new Point(0, 4)))
+                                new Path(List.of(Point.of(0, 2))), new Path(List.of(Point.of(1, 2))),
+                                new Path(List.of(Point.of(1, 3))), new Path(List.of(Point.of(1, 4))),
+                                new Path(List.of(Point.of(0, 4)))
                         ),
                         Collections.EMPTY_MAP,
                         List.of(
-                                new Point(1, 3),
-                                new Point(1, 4),
-                                new Point(0, 4),
-                                new Point(1, 2),
-                                new Point(0, 2)
+                                Point.of(1, 3),
+                                Point.of(1, 4),
+                                Point.of(0, 4),
+                                Point.of(1, 2),
+                                Point.of(0, 2)
                         ))
 
         );
