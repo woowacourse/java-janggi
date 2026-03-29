@@ -1,7 +1,6 @@
 package domain.board;
 
 import domain.coordinate.Position;
-import domain.Side;
 import domain.piece.*;
 
 import java.util.HashMap;
@@ -40,28 +39,26 @@ public class BasicBoardInitializer implements BoardInitializer {
         pieceInitPlacements.put(new Position(3, 8), new Pawn(Side.HAN));
     }
 
-    private void placeChu(Map<Position, Piece> placements) {
-        Map<Position, Piece> chuPlacements = new HashMap<>();
+    private void placeChu(Map<Position, Piece> pieceInitPlacements) {
+        pieceInitPlacements.put(new Position(9,0), new Chariot(Side.CHU));
+        pieceInitPlacements.put(new Position(9,1), new Horse(Side.CHU));
+        pieceInitPlacements.put(new Position(9,2), new Elephant(Side.CHU));
+        pieceInitPlacements.put(new Position(9,3), new Guard(Side.CHU));
+        pieceInitPlacements.put(new Position(9,5), new Guard(Side.CHU));
+        pieceInitPlacements.put(new Position(9,6), new Elephant(Side.CHU));
+        pieceInitPlacements.put(new Position(9,7), new Horse(Side.CHU));
+        pieceInitPlacements.put(new Position(9,8), new Chariot(Side.CHU));
 
-        for (Map.Entry<Position, Piece> entry : placements.entrySet()) {
-            Piece piece = entry.getValue();
-            if (!piece.isHan()) {
-                continue;
-            }
+        pieceInitPlacements.put(new Position(8,4), new King(Side.CHU));
 
-            Position pos = entry.getKey();
-            int row = pos.row();
-            int col = 9 - pos.col();
-            Position newPosition = new Position(col, row);
+        pieceInitPlacements.put(new Position(7,1), new Cannon(Side.CHU));
+        pieceInitPlacements.put(new Position(7,7), new Cannon(Side.CHU));
 
-            chuPlacements.put(newPosition, copyAsChu(piece));
-        }
-
-        placements.putAll(chuPlacements);
-    }
-
-    private Piece copyAsChu(Piece piece) {
-        return piece.createWith(Side.CHU);
+        pieceInitPlacements.put(new Position(6,0), new Pawn(Side.CHU));
+        pieceInitPlacements.put(new Position(6,2), new Pawn(Side.CHU));
+        pieceInitPlacements.put(new Position(6,4), new Pawn(Side.CHU));
+        pieceInitPlacements.put(new Position(6,6), new Pawn(Side.CHU));
+        pieceInitPlacements.put(new Position(6,8), new Pawn(Side.CHU));
     }
 
     public Side getFirstTurnSide() {
