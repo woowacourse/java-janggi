@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends ActivePiece {
-    private final List<Movements> MOVE_RANGE;
+    private final List<Movements> moveRange;
 
     public Pawn(Side side, List<Movements> moveRange) {
         super(new ClearPathPolicy(), side, PieceType.PAWN);
-        MOVE_RANGE = moveRange;
+        this.moveRange = moveRange;
     }
 
     public static Pawn from(Side side) {
@@ -33,7 +33,7 @@ public class Pawn extends ActivePiece {
 
     @Override
     public Route findRoute(Position start, Position end) {
-        for (Movements movements : MOVE_RANGE) {
+        for (Movements movements : moveRange) {
             Route calculatedPath = movements.calculatePath(start);
             if (calculatedPath.isArrivalPoint(end)) {
                 return calculatedPath;
