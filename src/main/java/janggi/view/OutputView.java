@@ -38,6 +38,10 @@ public class OutputView {
             Soldier.class, p -> SOLDIER_SYMBOL.get(p.isSameCamp(Camp.CHO))
     );
 
+    public void printError(String message) {
+        System.out.println(message);
+    }
+
     public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
         System.out.println();
 

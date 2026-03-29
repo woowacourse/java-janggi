@@ -19,53 +19,69 @@ public class JanggiController {
     }
 
     public void run() {
+        Janggi janggi = initializeJanggi();
+        playJanggiGame(janggi);
+    }
+
+    private Janggi initializeJanggi() {
         int choFormation = inputView.readFormationChoice(1);
         int hanFormation = inputView.readFormationChoice(2);
-        Janggi janggi = Janggi.start(choFormation, hanFormation);
+        return Janggi.start(choFormation, hanFormation);
+    }
 
+    private void playJanggiGame(Janggi janggi) {
         Camp currentCamp = Camp.CHO;
-        while (true) {
-            outputView.printBoard(janggi.getBoard(), currentCamp);
-
-            PositionRequest from = selectPiece(janggi, currentCamp);
-            boolean moved = tryMove(janggi, from);
-            if (moved) {
-                currentCamp = nextCamp(currentCamp);
-            }
+        while (janggi.isOnGoing()) {
+            currentCamp = playTurn(janggi, currentCamp);
         }
     }
 
-    private PositionRequest selectPiece(Janggi janggi, Camp currentCamp) {
-        while (true) {
-            Optional<PositionRequest> request = inputView.readPieceSelection();
-            if (request.isEmpty()) {
-                continue;
-            }
-            PositionRequest positionRequest = request.get();
-            try {
-                janggi.validateCamp(positionRequest.row(), positionRequest.column(), currentCamp);
-                return positionRequest;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+    private Camp playTurn(Janggi janggi, Camp currentCamp) {
+        outputView.printBoard(janggi.getBoard(), currentCamp);
+        return selectAndMove(janggi, currentCamp);
     }
 
-    // true: 이동 성공 → 턴 교대
-    // false: q 입력 → 기물 선택으로 복귀
+    private Camp selectAndMove(Janggi janggi, Camp currentCamp) {
+        Optional<PositionRequest> fromRequest = inputView.readPieceSelection();
+        if (fromRequest.isEmpty()) {
+            janggi.stopGame();
+            return currentCamp;
+        }
+        return processMove(janggi, fromRequest.get(), currentCamp);
+    }
+
+    private Camp processMove(Janggi janggi, PositionRequest fromRequest, Camp currentCamp) {
+        if (tryMove(janggi, fromRequest)) {
+            return nextCamp(currentCamp);
+        }
+        return currentCamp;
+    }
+
     private boolean tryMove(Janggi janggi, PositionRequest from) {
-        while (true) {
-            Optional<PositionRequest> request = inputView.readMoveDestination();
-            if (request.isEmpty()) {
-                return false;
-            }
-            PositionRequest to = request.get();
-            try {
-                janggi.movePiece(to.row(), to.column(), Position.of(from.row(), from.column()));
-                return true;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
+        try {
+            // 추후에 올바른 진영의 기물을 선택했는지 유효성 검사 로직 추가
+            return executeMoveSequence(janggi, from);
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean executeMoveSequence(Janggi janggi, PositionRequest fromRequest) {
+        Optional<PositionRequest> toRequest = inputView.readMoveDestination();
+        if (toRequest.isEmpty()) {
+            return false;
+        }
+        return applyMoveToDomain(janggi, fromRequest, toRequest.get());
+    }
+
+    private boolean applyMoveToDomain(Janggi janggi, PositionRequest fromRequest, PositionRequest toRequest) {
+        try {
+            janggi.movePiece(toRequest.row(), toRequest.column(), Position.of(fromRequest.row(), fromRequest.column()));
+            return true;
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return executeMoveSequence(janggi, fromRequest);
         }
     }
 

@@ -16,15 +16,18 @@ public class Janggi {
     );
 
     private final Board board;
+    private boolean ongoing;
 
-    private Janggi(Board board) {
+    private Janggi(Board board, boolean ongoing) {
         this.board = board;
+        this.ongoing = ongoing;
     }
 
     public static Janggi start(int choFormationNumber, int hanFormationNumber) {
         return new Janggi(Board.initializeToBoard(
                 readFormation(choFormationNumber),
-                readFormation(hanFormationNumber)));
+                readFormation(hanFormationNumber)),
+                true);
     }
 
     private static FormationStrategy readFormation(int choice) {
@@ -47,5 +50,13 @@ public class Janggi {
 
     public Map<Position, Piece> getBoard() {
         return board.janggiBoard();
+    }
+
+    public boolean isOnGoing() {
+        return ongoing;
+    }
+
+    public void stopGame() {
+        ongoing = false;
     }
 }

@@ -16,16 +16,17 @@ public class InputView {
     }
 
     public Optional<PositionRequest> readPieceSelection() {
-        System.out.println("기물을 선택해주세요. (예시: 0 3)");
+        System.out.println("기물을 선택해주세요. (y x / q: 게임 종료)");
         String input = scanner.nextLine().trim();
         if (isQuit(input)) {
+            System.out.println("게임이 종료되었습니다.");
             return Optional.empty();
         }
         return Optional.of(PositionRequest.from(input));
     }
 
     public Optional<PositionRequest> readMoveDestination() {
-        System.out.println("이동할 위치를 입력해주세요. (x y / q: 취소)");
+        System.out.println("이동할 위치를 입력해주세요. (y x / q: 취소)");
         String input = scanner.nextLine().trim();
         if (isQuit(input)) {
             return Optional.empty();
