@@ -34,7 +34,7 @@ class DownTest {
     @ValueSource(ints = {
             1, 2, 3
     })
-    void 방향을_기준으로_왼쪽으로_이동하면_좌표가_왼쪽으로_이동한다(int moveAmount) {
+    void 방향을_기준으로_왼쪽으로_이동하면_좌표가_오른쪽으로_이동한다(int moveAmount) {
         // given
         Down down = new Down();
         Intersection expected = new Intersection(
@@ -53,7 +53,7 @@ class DownTest {
     @ValueSource(ints = {
             1, 2, 3
     })
-    void 방향을_기준으로_오른쪽으로_이동하면_좌표가_오른쪽으로_이동한다(int moveAmount) {
+    void 방향을_기준으로_오른쪽으로_이동하면_좌표가_왼쪽으로_이동한다(int moveAmount) {
         // given
         Down down = new Down();
         Intersection expected = new Intersection(
