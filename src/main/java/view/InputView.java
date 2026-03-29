@@ -1,7 +1,7 @@
 package view;
 
 import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -40,6 +40,7 @@ public class InputView {
     public int requestPieceDestination(PossibleMovesDto possibleMovesDto) {
         try {
             int index = INIT_INDEX_COUNT;
+            System.out.println();
             for (Position possibleMove : possibleMovesDto.getPossibleMoves()) {
                 System.out.printf("%d. (%d, %d)\n", index++, possibleMove.col(), possibleMove.row());
             }

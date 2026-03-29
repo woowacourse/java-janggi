@@ -27,23 +27,17 @@ public class JanggiController {
         Game game = new Game(boardInitializer);
 
         while (true) {
-            outputView.printBoard(BoardMapper.toDto(game.getBoard()));
-            Position startPosition = readUntilValid(() -> {
-                Position pos = getStartPosition(game);
-                game.getPossibleMoves(pos);
-                return pos;
-            });
+            outputView.printBoard(BoardMapper.toDto(game.getBoard().getBoard()));
+            Position startPosition = readUntilValid(() ->
+                    game.getValidatedStartPosition(inputView.requestStartPiecePosition(game.getTurn()))
+            );
 
             PossibleMovesDto possibleMovesDto = PossibleMovesMapper.toDto(game.getPossibleMoves(startPosition));
-            Position destination = readUntilValid(() -> game.getDestination(inputView.requestPieceDestination(possibleMovesDto), possibleMovesDto));
-            game.movePiece(startPosition, destination);
+            Position endPosition = readUntilValid(() ->
+                    game.getEndPosition(inputView.requestPieceDestination(possibleMovesDto), possibleMovesDto)
+            );
+            game.movePiece(startPosition, endPosition);
         }
-    }
-
-    private Position getStartPosition(Game game) {
-        Position position = inputView.requestStartPiecePosition(game.getTurn());
-        game.validateStartPosition(position);
-        return position;
     }
 
     private static <T> T readUntilValid(Supplier<T> reader) {

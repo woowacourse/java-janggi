@@ -1,7 +1,7 @@
 package view;
 
 import domain.coordinate.Position;
-import domain.Side;
+import domain.board.Side;
 import domain.piece.Piece;
 import dto.BoardDto;
 import view.message.PieceView;
