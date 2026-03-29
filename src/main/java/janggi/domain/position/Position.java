@@ -13,26 +13,23 @@ public record Position(
         return new Position(new Row(row), new Column(column));
     }
 
-    public List<Position> findPositionsByDirection(Direction dir) {
+    public List<Position> findAllPositionsByDirection(Direction dir) {
         List<Position> positions = new ArrayList<>();
         Position cur = this;
-        while (true) {
-            try {
-                cur = cur.add(dir.row(), dir.column());
-                positions.add(cur);
-            } catch (IllegalArgumentException e) {
-                break;
-            }
+        while (cur.isOffsetWithinBounds(dir.row(), dir.column())) {
+            cur = cur.add(dir.row(), dir.column());
+            positions.add(cur);
         }
         return positions;
     }
 
-    public Optional<Position> findPositionByDirection(Direction dir) {
-        try {
+    public Optional<Position> findOnePositionByDirection(Direction dir) {
+
+        if(isOffsetWithinBounds(dir.row(), dir.column())) {
             return Optional.of(this.add(dir.row(), dir.column()));
-        } catch (IllegalArgumentException e) {
-            return Optional.empty();
         }
+
+        return Optional.empty();
     }
 
     private Position add(int row, int column) {

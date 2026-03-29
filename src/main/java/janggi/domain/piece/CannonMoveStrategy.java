@@ -14,7 +14,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            List<Position> positions = from.findPositionsByDirection(dir);
+            List<Position> positions = from.findAllPositionsByDirection(dir);
             movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
         }
 

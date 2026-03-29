@@ -16,7 +16,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
             if (dir.equals(dynasty.front().back())) {
                 continue;
             }
-            from.findPositionByDirection(dir).ifPresent(to -> {
+            from.findOnePositionByDirection(dir).ifPresent(to -> {
                 if (board.containsKey(to) && board.get(to).isSameDynasty(dynasty)) {
                     return;
                 }

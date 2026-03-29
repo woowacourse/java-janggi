@@ -13,7 +13,7 @@ public class GuardMoveStrategy implements MoveStrategy {
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            from.findPositionByDirection(dir).ifPresent(to -> {
+            from.findOnePositionByDirection(dir).ifPresent(to -> {
                 if (board.containsKey(to) && board.get(to).isSameDynasty(dynasty)) {
                     return;
                 }
