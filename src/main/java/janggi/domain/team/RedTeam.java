@@ -10,6 +10,7 @@ import java.util.Map;
 public class RedTeam implements Team {
 
     private static final TeamType TEAM_TYPE = TeamType.RED;
+
     private final SetupPolicy setupPolicy;
 
 

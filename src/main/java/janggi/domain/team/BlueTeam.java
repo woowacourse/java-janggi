@@ -10,6 +10,7 @@ import java.util.Map;
 public class BlueTeam implements Team {
 
     private static final TeamType TEAM_TYPE = TeamType.BLUE;
+
     private final SetupPolicy setupPolicy;
 
     public BlueTeam(final SetupPolicy setupPolicy) {
