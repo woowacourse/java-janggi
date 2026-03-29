@@ -5,6 +5,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 import java.util.List;
+import java.util.Map;
 
 public class Board implements BoardView {
     private final List<List<Piece>> board;
@@ -21,6 +22,15 @@ public class Board implements BoardView {
         return new Board(BoardInitializer.createEmptyBoard());
     }
 
+    public static Board of(Map<Position, Piece> pieces) {
+        Board board = Board.empty();
+        for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
+            board.place(entry.getKey(), entry.getValue());
+        }
+        return board;
+    }
+
+
     @Override
     public Piece findByPosition(Position position) {
         int row = position.getRow();
@@ -33,7 +43,7 @@ public class Board implements BoardView {
         return findByPosition(position).isEmpty();
     }
 
-    public void move(Position from, Position to, Team currentTeam) {// TODO 재입력 시도 로직에 따라 반환값 변경 고려
+    public void move(Position from, Position to, Team currentTeam) {
         Piece fromPiece = findByPosition(from);
         Piece toPiece = findByPosition(to);
 

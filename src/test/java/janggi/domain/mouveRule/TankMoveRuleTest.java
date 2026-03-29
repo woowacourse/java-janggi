@@ -1,12 +1,12 @@
 package janggi.domain.mouveRule;
 
-import static janggi.domain.BoardFixture.put;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.piece.Soldier;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class TankMoveRuleTest {
@@ -43,12 +43,12 @@ class TankMoveRuleTest {
 
     @Test
     void 중간_경로에_기물이_있으면_예외가_발생한다() {
+        Board board = Board.of(Map.of(
+                new Position(0, 2), new Soldier(Team.HAN)
+        ));
+
         from = new Position(0, 0);
         to = new Position(0, 3);
-
-        Position other = new Position(0, 2);
-        //board.place(other, new Soldier(Team.HAN));
-        put(board, other, new Soldier(Team.HAN));
 
         assertThat(moveRule.canMove(from, to, board)).isFalse();
     }
