@@ -39,7 +39,7 @@ public abstract class Piece {
 
     public boolean isDifferentTeam(Piece piece) {
         if (!piece.isNotNone()) {
-            return false;
+            return true;
         }
         return this.team != piece.team;
     }
