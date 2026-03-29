@@ -18,12 +18,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 class SoldierMoveStrategyTest {
 
     private Map<Position, Piece> board;
-    private MoveStrategy moveStrategy;
+    private PieceType pieceType;
 
     @BeforeEach
     void setUp() {
         board = new HashMap<>();
-        moveStrategy = new SoldierMoveStrategy();
+        pieceType = PieceType.SOLDIER;
     }
 
     @ParameterizedTest
@@ -31,15 +31,15 @@ class SoldierMoveStrategyTest {
     public void 졸_기물의_이동가능한_위치_목록을_반환한다(Dynasty ally, Dynasty enemy, List<Position> results) {
         // given
         Position from = Position.from(5, 5);
-        board.put(from, new Piece(ally, moveStrategy));
+        board.put(from, new Piece(ally, pieceType));
 
         // 1. 오른쪽에 상대편
-        board.put(Position.from(5, 6), new Piece(enemy, moveStrategy));
+        board.put(Position.from(5, 6), new Piece(enemy, pieceType));
         // 2. 왼쪽에 우리편
-        board.put(Position.from(5, 4), new Piece(ally, moveStrategy));
+        board.put(Position.from(5, 4), new Piece(ally, pieceType));
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, ally);
+        List<Position> positions = pieceType.moveStrategy().canMovePositions(board, from, ally);
 
         // then
         Assertions.assertThat(positions)

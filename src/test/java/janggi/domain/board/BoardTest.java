@@ -7,8 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.piece.ChariotMoveStrategy;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,13 +56,13 @@ class BoardTest {
     public void 특정_위치에_있는_기물을_다른_위치로_옮긴다() {
         // given
         Position from = Position.from(5, 5);
-        Piece fromPiece = new Piece(HAN, new ChariotMoveStrategy());
+        Piece fromPiece = new Piece(HAN, PieceType.CHARIOT);
         Position toCanEat = Position.from(3, 5);
         Position toCannotEat = Position.from(3, 3);
 
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece,
-                toCanEat, new Piece(CHO, new ChariotMoveStrategy())
+                toCanEat, new Piece(CHO, PieceType.CHARIOT)
         ));
         Board board = new Board(policy);
 
@@ -80,7 +80,7 @@ class BoardTest {
     public void 특정_기물을_해당_위치로_움직일_수_없으면_에러가_발생한다() {
         // given
         Position from = Position.from(5, 5);
-        Piece fromPiece = new Piece(HAN, new ChariotMoveStrategy());
+        Piece fromPiece = new Piece(HAN, PieceType.CHARIOT);
 
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece

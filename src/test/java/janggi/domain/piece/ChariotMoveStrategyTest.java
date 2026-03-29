@@ -15,15 +15,15 @@ class ChariotMoveStrategyTest {
     public void 차_기물의_이동가능한_위치_목록을_반환한다() {
         // given
         Map<Position, Piece> board = new HashMap<>();
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
+        PieceType pieceType = PieceType.CHARIOT;
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
-        board.put(from, new Piece(dynasty, moveStrategy));
-        board.put(Position.from(3, 5), new Piece(dynasty, moveStrategy));
-        board.put(Position.from(5, 1), new Piece(Dynasty.HAN, moveStrategy));
+        board.put(from, new Piece(dynasty, pieceType));
+        board.put(Position.from(3, 5), new Piece(dynasty, pieceType));
+        board.put(Position.from(5, 1), new Piece(Dynasty.HAN, pieceType));
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);
+        List<Position> positions = pieceType.moveStrategy().canMovePositions(board, from, dynasty);
 
         // then
         Assertions.assertThat(positions)
