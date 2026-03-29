@@ -25,15 +25,7 @@ public class Arrangements {
         return arrangements.containsKey(team);
     }
 
-    public Arrangement getHan() {
-        return get(Team.HAN);
-    }
-
-    public Arrangement getCho() {
-        return get(Team.CHO);
-    }
-
-    private Arrangement get(Team team) {
+    public Arrangement arrangeFor(Team team) {
         Arrangement arrangement = arrangements.get(team);
         if (arrangement != null) {
             return arrangement;

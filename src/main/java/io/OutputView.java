@@ -1,13 +1,11 @@
 package io;
 
 import domain.game.Board;
-import domain.game.JanggiGame;
 import domain.game.Piece;
 import domain.game.Position;
 import domain.game.Turn;
 import domain.vo.Col;
 import domain.vo.Row;
-import domain.vo.Team;
 
 public class OutputView {
     public static final String RED   = "\u001B[31m";
@@ -21,8 +19,8 @@ public class OutputView {
             4. 상-마-상-마 (Elephant-Horse-Elephant-Horse)""";
     private static final String REQUEST_MOVE = "[%s 진영] {출발 좌표} {도착 좌표} 형식으로 입력해 수를 두세요. (ex. e6 e5)";
 
-    public void printSetupTable(Team team) {
-        String message = String.format(REQUEST_SETUP, team.getTeamName());
+    public void printSetupTable(Turn turn) {
+        String message = String.format(REQUEST_SETUP, turn.display());
         System.out.println(message);
     }
 
@@ -32,18 +30,16 @@ public class OutputView {
 
     public void printBoard(Board board, Turn turn) {
         StringBuilder stringBuilder = new StringBuilder();
-        String color = turn.getTeam() == Team.HAN ? RED : GREEN;
         stringBuilder.append("--------------------------------------\n");
-        stringBuilder.append("현재 턴: [").append(color).append(turn.display()).append(RESET).append(" 진영]\n\n");
+        stringBuilder.append("현재 턴: [").append(turn.colorCode(RED, GREEN)).append(turn.display()).append(RESET).append(" 진영]\n\n");
         stringBuilder.append("     a   b   c   d   e   f   g   h   i\n");
 
         for (Row row : Row.values()) {
-            stringBuilder.append(String.format("%2s  ", row.getValue()));
+            stringBuilder.append(String.format("%2s  ", row.display()));
             for (Col col : Col.values()) {
                 Piece piece = board.getPieceAt(new Position(col, row));
                 if (piece != null) {
-                    String teamColor = piece.getTeam() == Team.HAN ? RED : GREEN;
-                    stringBuilder.append(teamColor).append(piece.display()).append(RESET);
+                    stringBuilder.append(piece.colorCode(RED, GREEN)).append(piece.display()).append(RESET);
                 } else {
                     stringBuilder.append("...");
                 }

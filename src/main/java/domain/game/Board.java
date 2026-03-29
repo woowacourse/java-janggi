@@ -6,7 +6,6 @@ import domain.movement.MovementValidator;
 import domain.movement.Paths;
 import domain.vo.Arrangements;
 import domain.vo.Coordinate;
-import domain.vo.Team;
 import java.util.Optional;
 
 public class Board {
@@ -24,9 +23,9 @@ public class Board {
         return pieces.getPieceAt(position);
     }
 
-    public Board move(Coordinate coordinate, Team team) {
-        validateMove(coordinate, team);
-        return new Board(pieces.move(coordinate.getStart(), coordinate.getEnd()));
+    public Board move(Coordinate coordinate, Turn turn) {
+        validateMove(coordinate, turn);
+        return new Board(pieces.move(coordinate.from(), coordinate.to()));
     }
 
     public Optional<Piece> pieceAt(Position position) {
@@ -41,24 +40,24 @@ public class Board {
         return !isEmpty(position);
     }
 
-    public boolean hasFriend(Position position, Team team) {
-        Piece piece = pieces.getPieceAt(position);
-        return piece != null && piece.getTeam() == team;
+    public boolean hasFriendOf(Position position, Piece movingPiece) {
+        Piece targetPiece = pieces.getPieceAt(position);
+        return targetPiece != null && movingPiece.isSameTeamAs(targetPiece);
     }
 
-    public boolean hasEnemy(Position position, Team team) {
-        Piece piece = pieces.getPieceAt(position);
-        return piece != null && piece.getTeam() != team;
+    public boolean hasEnemyOf(Position position, Piece movingPiece) {
+        Piece targetPiece = pieces.getPieceAt(position);
+        return targetPiece != null && !movingPiece.isSameTeamAs(targetPiece);
     }
 
-    private void validateMove(Coordinate coordinate, Team team) {
-        Position from = coordinate.getStart();
-        Position to = coordinate.getEnd();
+    private void validateMove(Coordinate coordinate, Turn turn) {
+        Position from = coordinate.from();
+        Position to = coordinate.to();
 
         Piece piece = pieces.at(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 없습니다: " + from));
 
-        if (!piece.isOwnedBy(team)) {
+        if (!turn.belongsTo(piece)) {
             throw new IllegalArgumentException("[ERROR] 출발 좌표의 기물이 상대 기물입니다.");
         }
 
@@ -66,8 +65,7 @@ public class Board {
         Paths paths = movement.candidatePaths(from);
 
         MovementValidator validator = new MovementValidator(this);
-        if (!validator.
-                isValid(piece, paths, to)) {
+        if (!validator.isValid(piece, paths, to)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 움직임입니다.");
         }
     }

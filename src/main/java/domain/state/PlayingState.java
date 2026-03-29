@@ -2,14 +2,13 @@ package domain.state;
 
 import domain.command.Command;
 import domain.game.JanggiGame;
-import domain.vo.Coordinate;
 import io.OutputView;
 
 public class PlayingState implements GameState {
 
     @Override
     public GameState handle(JanggiGame game, Command command) {
-        game.move(Coordinate.toCoordinate(command.getValue()));
+        game.move(command.toCoordinate());
         game.nextTurn();
         return this;
     }

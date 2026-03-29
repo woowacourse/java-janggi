@@ -34,7 +34,7 @@ public class PositionLayout {
             result.put(position, new Piece(Team.HAN, pieceType));
         });
 
-        List<PieceType> innerPieces = arrangements.getHan().getInnerPieces();
+        List<PieceType> innerPieces = arrangements.arrangeFor(Team.HAN).innerPieces();
         for (int i = 0; i < INNER_COLS.size(); i++) {
             Row row = Row.ZERO;
             Position pos = new Position(INNER_COLS.get(i), row);
@@ -46,7 +46,7 @@ public class PositionLayout {
             result.put(actualPosition, new Piece(Team.CHO, pieceType));
         });
 
-        innerPieces = arrangements.getCho().getInnerPieces();
+        innerPieces = arrangements.arrangeFor(Team.CHO).innerPieces();
         for (int i = 0; i < INNER_COLS.size(); i++) {
             Row row = Row.ZERO.reverse();
             Position pos = new Position(INNER_COLS.get(i), row);

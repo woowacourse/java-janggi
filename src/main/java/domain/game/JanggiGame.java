@@ -36,7 +36,7 @@ public class JanggiGame {
     }
 
     public void move(Coordinate coordinate) {
-        this.board = board.move(coordinate, turn.getTeam());
+        this.board = board.move(coordinate, turn);
     }
 
     public void nextTurn() {

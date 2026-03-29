@@ -34,7 +34,7 @@ public enum Row {
         return Row.values()[9 - this.ordinal()];
     }
 
-    public String getValue() {
+    public String display() {
         return value;
     }
 

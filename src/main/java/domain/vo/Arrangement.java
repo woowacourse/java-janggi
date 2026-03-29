@@ -17,7 +17,7 @@ public enum Arrangement {
         this.innerPieces = innerPieces;
     }
 
-    public List<PieceType> getInnerPieces() {
+    public List<PieceType> innerPieces() {
         return innerPieces;
     }
 

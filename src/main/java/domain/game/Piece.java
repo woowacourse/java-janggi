@@ -13,11 +13,11 @@ public class Piece {
     }
 
     public String display() {
-        return team.getPrefix() + pieceType.getDisplayName();
+        return team.displayPiece(pieceType);
     }
 
-    public Team getTeam() {
-        return team;
+    public String colorCode(String red, String green) {
+        return team.colorCode(red, green);
     }
 
     public PieceType getPieceType() {
@@ -28,7 +28,11 @@ public class Piece {
         return pieceType == PieceType.CANNON;
     }
 
-    public boolean isOwnedBy(Team team) {
-        return this.team == team;
+    public boolean isOwnedBy(Team targetTeam) {
+        return this.team == targetTeam;
+    }
+
+    public boolean isSameTeamAs(Piece other) {
+        return this.team == other.team;
     }
 }

@@ -10,15 +10,18 @@ public class Turn {
     }
 
     public String display() {
-        return team.getTeamName();
+        return team.display();
+    }
+
+    public String colorCode(String red, String green) {
+        return team.colorCode(red, green);
+    }
+
+    public boolean belongsTo(Piece piece) {
+        return piece.isOwnedBy(team);
     }
 
     public Turn changeTeam() {
-        return new Turn(team.getEnemy());
+        return new Turn(team.enemy());
     }
-
-    public Team getTeam() {
-        return team;
-    }
-
 }

@@ -41,11 +41,11 @@ public class Coordinate {
         }
     }
 
-    public Position getStart() {
+    public Position from() {
         return start;
     }
 
-    public Position getEnd() {
+    public Position to() {
         return end;
     }
 }

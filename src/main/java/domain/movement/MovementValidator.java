@@ -13,7 +13,7 @@ public final class MovementValidator {
     }
 
     public boolean isValid(Piece piece, Paths candidatePaths, Position to) {
-        if (board.hasFriend(to, piece.getTeam())) {
+        if (board.hasFriendOf(to, piece)) {
             return false;
         }
 
@@ -41,7 +41,7 @@ public final class MovementValidator {
                 continue;
             }
 
-            if (board.isEmpty(to) || board.hasEnemy(to, piece.getTeam())) {
+            if (board.isEmpty(to) || board.hasEnemyOf(to, piece)) {
                 return true;
             }
         }
@@ -74,7 +74,7 @@ public final class MovementValidator {
                 return true;
             }
 
-            if (board.hasEnemy(to, piece.getTeam())) {
+            if (board.hasEnemyOf(to, piece)) {
                 boolean destIsCannon = board.pieceAt(to).map(Piece::isCannon).orElse(false);
                 if (!destIsCannon) {
                     return true;
@@ -95,7 +95,7 @@ public final class MovementValidator {
                 continue;
             }
 
-            if (board.isEmpty(to) || board.hasEnemy(to, piece.getTeam())) {
+            if (board.isEmpty(to) || board.hasEnemyOf(to, piece)) {
                 return true;
             }
         }
@@ -108,7 +108,7 @@ public final class MovementValidator {
                 continue;
             }
 
-            if (board.isEmpty(to) || board.hasEnemy(to, piece.getTeam())) {
+            if (board.isEmpty(to) || board.hasEnemyOf(to, piece)) {
                 return true;
             }
         }

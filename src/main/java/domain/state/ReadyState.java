@@ -16,7 +16,7 @@ public class ReadyState implements GameState {
 
     @Override
     public GameState handle(JanggiGame game, Command command) {
-        Arrangement arrangement = Arrangement.toArrangement(command.getValue());
+        Arrangement arrangement = command.toArrangement();
 
         if (!arrangements.hasArrangementFor(Team.HAN)) {
             Arrangements nextArrangements = arrangements.assignArrangement(Team.HAN, arrangement);
@@ -27,10 +27,8 @@ public class ReadyState implements GameState {
         return new PlayingState();
     }
 
-
     @Override
     public void display(JanggiGame game, OutputView outputView) {
-        outputView.printSetupTable(game.getTurn().getTeam());
+        outputView.printSetupTable(game.getTurn());
     }
-
 }

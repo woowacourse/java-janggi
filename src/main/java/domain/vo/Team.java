@@ -12,15 +12,22 @@ public enum Team {
         this.prefix = prefix;
     }
 
-    public String getTeamName() {
+    public String display() {
         return teamName;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String displayPiece(PieceType pieceType) {
+        return prefix + pieceType.display();
     }
 
-    public Team getEnemy() {
+    public String colorCode(String red, String green) {
+        if (this == HAN) {
+            return red;
+        }
+        return green;
+    }
+
+    public Team enemy() {
         if (this == CHO) {
             return HAN;
         }

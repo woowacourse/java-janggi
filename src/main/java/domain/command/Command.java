@@ -1,5 +1,8 @@
 package domain.command;
 
+import domain.vo.Arrangement;
+import domain.vo.Coordinate;
+
 public class Command {
     private final String value;
 
@@ -7,7 +10,11 @@ public class Command {
         this.value = input;
     }
 
-    public String getValue() {
-        return value;
+    public Arrangement toArrangement() {
+        return Arrangement.toArrangement(value);
+    }
+
+    public Coordinate toCoordinate() {
+        return Coordinate.toCoordinate(value);
     }
 }
