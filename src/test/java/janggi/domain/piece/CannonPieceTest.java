@@ -4,9 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.CannonStrategy;
+import janggi.domain.movestrategy.ChoSoldierStrategy;
 import janggi.domain.movestrategy.ElephantStrategy;
 import janggi.domain.movestrategy.GeneralStrategy;
-import janggi.domain.movestrategy.SoliderStrategy;
+import janggi.domain.movestrategy.HanSoldierStrategy;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,7 @@ class CannonPieceTest {
     void testNotMoveIfOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoliderPiece(Team.HAN, new SoliderStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
         positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
         positionPieces.put(new Position(6, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
 
@@ -76,7 +77,7 @@ class CannonPieceTest {
     void testNotMoveIfTwoPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoliderPiece(Team.HAN, new SoliderStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
         positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
@@ -88,7 +89,7 @@ class CannonPieceTest {
     void testMoveIfNoCannonInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoliderPiece(Team.HAN, new SoliderStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
         positionPieces.put(new Position(7, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
@@ -100,7 +101,7 @@ class CannonPieceTest {
     void testNotMoveIfNoCannonInPathAndSameTeamInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoliderPiece(Team.HAN, new SoliderStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
         positionPieces.put(new Position(7, 6), new GeneralPiece(Team.HAN, new GeneralStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
@@ -112,7 +113,7 @@ class CannonPieceTest {
     void testMoveIfOnePieceInPathExceptCannon() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoliderPiece(Team.HAN, new SoliderStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
         assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isTrue();
@@ -135,7 +136,7 @@ class CannonPieceTest {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
         positionPieces.put(new Position(7, 6), new CannonPiece(Team.CHO, new CannonStrategy()));
-        positionPieces.put(new Position(5, 6), new SoliderPiece(Team.CHO, new SoliderStrategy()));
+        positionPieces.put(new Position(5, 6), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
         assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isFalse();
