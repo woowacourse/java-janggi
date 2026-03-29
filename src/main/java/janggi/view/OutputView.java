@@ -33,7 +33,7 @@ public class OutputView {
     public void printBoardStatus(BoardDTO boardDto, Position selected, List<Position> movables) {
         printLine(COLUMN_INDEXES);
         printLine(DIVIDER);
-        for (int row = 0; row < 10; row++) {
+        for (int row = Position.BOARD_MIN_ROW; row <= Position.BOARD_MAX_ROW; row++) {
             renderRow(row, boardDto.piecePosition(), selected, movables);
             renderVerticalLine(row);
         }
@@ -43,10 +43,12 @@ public class OutputView {
 
     private void renderRow(int row, Map<Position, PieceDTO> status, Position selected, List<Position> movables) {
         StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
-        for (int col = 0; col < 9; col++) {
+        for (int col = Position.BOARD_MIN_COLUMN; col <= Position.BOARD_MAX_COLUMN; col++) {
             Position current = new Position(row, col);
             sb.append(getFormattedCell(status, current, selected, movables));
-            if (col < 8) sb.append("━");
+            if (col < Position.BOARD_MAX_COLUMN) {
+                sb.append("━");
+            }
         }
         printLine(sb.toString());
     }
@@ -65,7 +67,9 @@ public class OutputView {
     }
 
     private void renderVerticalLine(int row) {
-        if (row < 9) printLine(VERTICAL_LINE);
+        if (row < Position.BOARD_MAX_ROW) {
+            printLine(VERTICAL_LINE);
+        }
     }
 
     private String toFullWidthRow(int i) {
