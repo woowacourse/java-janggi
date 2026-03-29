@@ -42,21 +42,21 @@ public abstract class LinearPiece extends ActivePiece {
     }
 
     private Movement resolveMovement(boolean isVertical, int dist) {
-        if(isVertical) {
+        if (isVertical) {
             return resolveVerticalMovement(dist);
         }
         return resolveHorizontalMovement(dist);
     }
 
     private Movement resolveVerticalMovement(int dist) {
-        if(dist < 0) {
+        if (dist < 0) {
             return Movement.UP;
         }
         return Movement.DOWN;
     }
 
     private Movement resolveHorizontalMovement(int dist) {
-        if(dist < 0) {
+        if (dist < 0) {
             return Movement.LEFT;
         }
         return Movement.RIGHT;

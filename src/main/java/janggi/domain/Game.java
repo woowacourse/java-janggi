@@ -33,7 +33,7 @@ public class Game {
 
     public Side getWinnerSide() {
         Side winnerSide = playerTurn.getWinnerSide();
-        if(winnerSide.equals(Side.EMPTY)) {
+        if (winnerSide.equals(Side.EMPTY)) {
             throw new IllegalStateException(INVALID_WINNER_SIDE);
         }
         return winnerSide;

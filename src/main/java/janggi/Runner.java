@@ -58,7 +58,7 @@ public class Runner {
     }
 
     private boolean isFinishedGame() {
-        if(game.isFinished()) {
+        if (game.isFinished()) {
             OutputView.printWinner(game.getWinnerSide());
             return false;
         }

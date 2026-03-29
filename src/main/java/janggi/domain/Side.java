@@ -27,7 +27,7 @@ public enum Side {
     public Side getOppositeSide() {
         Side side = oppositeSide.get(this);
 
-        if(side == null) {
+        if (side == null) {
             throw new IllegalArgumentException(INVALID_OPPOSITE_SIDE);
         }
 
