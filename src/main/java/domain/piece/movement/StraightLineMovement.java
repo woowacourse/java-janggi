@@ -7,7 +7,7 @@ import domain.game.Side;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ChariotMovement extends PieceMovement {
+public final class StraightLineMovement extends PieceMovement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 

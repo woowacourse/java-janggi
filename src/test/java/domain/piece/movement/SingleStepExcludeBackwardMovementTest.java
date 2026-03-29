@@ -14,14 +14,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("기물(졸) 행마법 테스트")
-class SoldierMovementTest {
+@DisplayName("좌, 우 전진 1칸 이동 테스트")
+class SingleStepExcludeBackwardMovementTest {
 
-    private SoldierMovement movement;
+    private SingleStepExcludeBackwardMovement movement;
 
     @BeforeEach
     void setUp() {
-        movement = new SoldierMovement();
+        movement = new SingleStepExcludeBackwardMovement();
     }
 
     @DisplayName("앞과 양 옆으로 1칸 이동이 가능하다")

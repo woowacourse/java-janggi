@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("기물(상) 행마법 테스트")
-class ElephantMovementTest {
+@DisplayName("밭전자 이동 테스트")
+class OrthogonalThenTwoDiagonalMovementTest {
 
     private PieceMovement movement;
 
     @BeforeEach
     void setUp() {
-        movement = new ElephantMovement();
+        movement = new OrthogonalThenTwoDiagonalMovement();
     }
 
     @DisplayName("앞, 뒤, 양 옆 방향마다 두 갈래의 밭전 방향으로 이동이 가능하다")

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class PalacePieceMovement extends PieceMovement {
+public final class SingleStepMovement extends PieceMovement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 

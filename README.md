@@ -47,7 +47,7 @@
 | **Screen**               | `포`가 이동하거나 공격하기 위해 뛰어넘어야 하는 징검다리 기물             |
 | **Wing**                 | 진. 상과 마가 배치되는 지역으로 좌진(`Left`)과 우진(`Right`)으로 나뉨 |
 | **Palace**               | 궁성. '궁'과 '사'가 위치하며 그 안에서만 움직일 수 있는 중앙 3x3 구역    |
-| **XxxMovement**          | (특정 기물의) 행마법                                    |
+| **XxxMovement**          | 특정 움직임을 나타내는 이동 방식                              |
 | **Path**                 | 기물이 목적지까지 도달하기 위해 거쳐야 하는 intersection들          |
 | **Destination**          | `Path` 중 목적지                                    |
 | **PassingIntersections** | `Path` 중 목적지를 제외한 나머지                           |

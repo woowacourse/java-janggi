@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public final class HorseMovement extends PieceMovement {
+public final class OrthogonalThenDiagonalMovement extends PieceMovement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 

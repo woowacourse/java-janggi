@@ -7,7 +7,7 @@ import domain.game.Side;
 import java.util.Collections;
 import java.util.List;
 
-public final class SoldierMovement extends PieceMovement {
+public final class SingleStepExcludeBackwardMovement extends PieceMovement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
