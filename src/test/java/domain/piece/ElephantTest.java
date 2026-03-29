@@ -39,7 +39,7 @@ class ElephantTest {
 
 
     @Test
-    void 마는_위로_두칸_왼쪽으로_세칸_움직일_수_있는_경로가_있다() {
+    void 상은_위로_두칸_왼쪽으로_세칸_움직일_수_있는_경로가_있다() {
         Position from = new Position(5, 5);
         Position to = new Position(2, 7);
 
@@ -50,7 +50,7 @@ class ElephantTest {
 
 
     @Test
-    void 마는_아래로_두칸_왼쪽으로_세칸_움직일_수_있는_경로가_있다() {
+    void 상은_아래로_두칸_왼쪽으로_세칸_움직일_수_있는_경로가_있다() {
         Position from = new Position(5, 5);
         Position to = new Position(2, 3);
 
@@ -61,7 +61,7 @@ class ElephantTest {
 
 
     @Test
-    void 마는_아래로_세칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
+    void 상은_아래로_세칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Position from = new Position(5, 5);
         Position to = new Position(3, 2);
 
@@ -72,7 +72,7 @@ class ElephantTest {
 
 
     @Test
-    void 마는_아래로_세칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
+    void 상은_아래로_세칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Position from = new Position(5, 5);
         Position to = new Position(7, 2);
 

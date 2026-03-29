@@ -96,7 +96,7 @@ class HorseTest {
     @Test
     void 마는_아래로_한칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Position from = new Position(5, 5);
-        Position to = new Position(7, 6);
+        Position to = new Position(7, 4);
 
         List<Position> pathPositions = horse.getPathPositions(from, to);
 
