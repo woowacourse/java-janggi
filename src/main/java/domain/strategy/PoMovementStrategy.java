@@ -1,20 +1,20 @@
 package domain.strategy;
 
 import domain.board.PathPieces;
-import domain.piece.Piece;
-import java.util.List;
+import domain.piece.PieceType;
 
 public class PoMovementStrategy implements MovementStrategy {
+
     @Override
     public boolean validatePath(PathPieces pathPieces) {
-        List<Piece> waypointPieces = pathPieces.getWaypointPieces();
-        if (waypointPieces.size() != 1) {
-            return false;
-        }
-        if (waypointPieces.getFirst().isPo() || pathPieces.getDestinationPiece().isPo()) {
+        if (pathPieces.countWaypoints() != 1) {
             return false;
         }
 
-        return pathPieces.getSourcePiece().isDifferentTeam(pathPieces.getDestinationPiece());
+        if (pathPieces.hasPieceOnPath(PieceType.PO) || pathPieces.isDestinationType(PieceType.PO)) {
+            return false;
+        }
+
+        return pathPieces.isMovableDestination();
     }
 }
