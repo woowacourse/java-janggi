@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
-    private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
+    private static final String NOT_EMPTY_PATH = "[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.";
+    private static final String CANNOT_MOVE_SAME_COUNTRY_POSITION = "[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.";
 
     protected final PieceInfo pieceInfo;
 
@@ -48,7 +49,7 @@ public abstract class Piece {
         for (int index = 1; index < states.size() - 1; index++) {
             State state = states.get(index);
             if (!state.isEmpty()) {
-                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+                throw new IllegalArgumentException(NOT_EMPTY_PATH);
             }
         }
         return true;
@@ -57,7 +58,7 @@ public abstract class Piece {
     void validateToState(State fromState, State toState) {
         if (!toState.isEmpty()) {
             if (fromState.getPieceCountry() == toState.getPieceCountry()) {
-                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+                throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
             }
         }
     }

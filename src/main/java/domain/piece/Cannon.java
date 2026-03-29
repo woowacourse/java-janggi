@@ -10,7 +10,10 @@ import java.util.Map;
 public class Cannon extends Piece {
     private static final String ONLY_MOVE_STRAIGHT = "[ERROR] 포는 직선으로만 이동 가능합니다.";
     private static final String FIXED_DIRECTION = "[ERROR] 포는 하나의 방향으로만 이동 가능합니다.";
-    private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
+    private static final String INVALID_JUMP_PIECE_COUNT = "[ERROR] 포는 하나의 기물만 뛰어 넘을 수 있습니다.";
+    private static final String CANNOT_JUMP_CANNON = "[ERROR] 포는 포를 뛰어 넘을 수 없습니다.";
+    private static final String CANNOT_KILL_CANNON = "[ERROR] 포는 포를 잡을 수 없습니다.";
+    private static final String CANNOT_MOVE_SAME_COUNTRY_POSITION = "[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.";
 
     private static final int CANNON_JUMP_PIECE_COUNT = 1;
 
@@ -43,13 +46,13 @@ public class Cannon extends Piece {
             State state = states.get(index);
             if (!state.isEmpty()) {
                 if (state.getPieceType() == fromState.getPieceType()) {
-                    throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+                    throw new IllegalArgumentException(CANNOT_JUMP_CANNON);
                 }
                 pieceCount++;
             }
         }
         if (pieceCount != CANNON_JUMP_PIECE_COUNT) {
-            throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+            throw new IllegalArgumentException(INVALID_JUMP_PIECE_COUNT);
         }
         return true;
     }
@@ -58,10 +61,10 @@ public class Cannon extends Piece {
     protected void validateToState(State fromState, State toState) {
         if (!toState.isEmpty()) {
             if (fromState.getPieceCountry() == toState.getPieceCountry()) {
-                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+                throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
             }
             if (fromState.getPieceType() == toState.getPieceType()) {
-                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+                throw new IllegalArgumentException(CANNOT_KILL_CANNON);
             }
         }
     }

@@ -5,7 +5,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
 import domain.Position;
+import domain.state.EmptyState;
+import domain.state.FullState;
+import domain.state.State;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,5 +92,53 @@ public class ElephantTest {
         assertThatThrownBy(() -> elephant.path(from, notExistDiagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 1번째 방향은 직선이고, 2, 3번째 방향은 대각선이어야 합니다.");
+    }
+
+    @Test
+    @DisplayName("상의 직선 경로에 다른 기물이 존재하면 예외가 발생한다.")
+    void elephantOtherPieceExistStraightPathExceptionTest() {
+        Piece chariot = new Chariot(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(chariot));
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(2, 3), new EmptyState());
+        pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.HAN)));
+
+        assertThatThrownBy(() -> chariot.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("상의 대각선 경로에 다른 기물이 존재하면 예외가 발생한다.")
+    void elephantOtherPieceExistDiagonalPathExceptionTest() {
+        Piece chariot = new Chariot(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(chariot));
+        pathStates.put(new Position(1, 2), new EmptyState());
+        pathStates.put(new Position(2, 3), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.HAN)));
+
+        assertThatThrownBy(() -> chariot.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
+    void elephantMoveSameCountryPieceExceptionTest() {
+        Piece chariot = new Elephant(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(chariot));
+        pathStates.put(new Position(1, 2), new EmptyState());
+        pathStates.put(new Position(2, 3), new EmptyState());
+        pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.CHO)));
+
+        assertThatThrownBy(() -> chariot.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }
 }

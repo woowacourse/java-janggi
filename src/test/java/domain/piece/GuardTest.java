@@ -5,7 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
 import domain.Position;
+import domain.state.FullState;
+import domain.state.State;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,5 +66,19 @@ public class GuardTest {
         assertThatThrownBy(() -> guard.path(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 사는 직선으로만 이동 가능합니다.");
+    }
+
+    @Test
+    @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
+    void guardMoveSameCountryPieceExceptionTest() {
+        Piece guard = new Guard(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(guard));
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.CHO)));
+
+        assertThatThrownBy(() -> guard.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }
 }

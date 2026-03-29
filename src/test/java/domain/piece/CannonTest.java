@@ -5,7 +5,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
 import domain.Position;
+import domain.state.EmptyState;
+import domain.state.FullState;
+import domain.state.State;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,5 +71,66 @@ public class CannonTest {
         assertThatThrownBy(() -> cannon.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 직선으로만 이동 가능합니다.");
+    }
+
+    @Test
+    @DisplayName("포의 from, to 사이 경로에 기물이 1개가 아니면 예외가 발생한다.")
+    void cannonJumpPieceCountExceptionTest() {
+        Cannon cannon = new Cannon(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(cannon));
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(1, 3), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(1, 4), new EmptyState());
+
+        assertThatThrownBy(() -> cannon.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 하나의 기물만 뛰어 넘을 수 있습니다.");
+    }
+
+    @Test
+    @DisplayName("포가 포를 뛰어 넘으려 할 경우 예외가 발생한다.")
+    void cannonJumpCannonExceptionTest() {
+        Cannon cannon = new Cannon(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(cannon));
+        pathStates.put(new Position(1, 2), new FullState(new Cannon(Country.HAN)));
+        pathStates.put(new Position(1, 3), new EmptyState());
+
+        assertThatThrownBy(() -> cannon.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 뛰어 넘을 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("포가 포를 잡으려 할 경우 예외가 발생한다.")
+    void cannonKillCannonExceptionTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(cannon));
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(1, 3), new FullState(new Cannon(Country.HAN)));
+
+        assertThatThrownBy(() -> cannon.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
+    void cannonMoveSameCountryPieceExceptionTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(1, 1), new FullState(cannon));
+        pathStates.put(new Position(1, 2), new EmptyState());
+        pathStates.put(new Position(1, 3), new FullState(new Soldier(Country.CHO)));
+
+        assertThatThrownBy(() -> cannon.canMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }
 }
