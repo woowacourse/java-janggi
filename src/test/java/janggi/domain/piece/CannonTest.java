@@ -58,7 +58,7 @@ class CannonTest {
                 Position.valueOf(6, 7), cannon,
                 Position.valueOf(4, 7), new Soldier(TeamType.BLUE),
                 Position.valueOf(6, 5), new Cannon(TeamType.BLUE),
-                Position.valueOf(6, 5), new Cannon(TeamType.RED));
+                Position.valueOf(9, 7), new Cannon(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of(

@@ -15,6 +15,7 @@ import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
+import janggi.utils.Parser;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -89,7 +90,7 @@ public class JanggiController {
 
     private Position readPositionOfMovingPiece(final Team team, final BoardMediator boardMediator) {
         final String rawPosition = InputView.readPositionOfMovingPiece();
-        final Position selectedPosition = Position.from(rawPosition);
+        final Position selectedPosition = Position.from(Parser.parsePosition(rawPosition));
         validateSelectedPosition(selectedPosition, team, boardMediator);
 
         return selectedPosition;
@@ -111,7 +112,7 @@ public class JanggiController {
 
     private Position readTargetPosition(final List<Position> movablePositions) {
         final String rawPosition = InputView.readTargetPosition();
-        final Position targetPosition = Position.from(rawPosition);
+        final Position targetPosition = Position.from(Parser.parsePosition(rawPosition));
         if (!movablePositions.contains(targetPosition)) {
             throw new IllegalArgumentException("입력된 위치에는 이동할 수 없습니다.");
         }

@@ -1,9 +1,8 @@
 package janggi.domain;
 
 import janggi.domain.movement.Direction;
-import janggi.utils.Parser;
+import janggi.global.Pair;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,16 +40,8 @@ public final class Position {
         return secondaryMap.get(column);
     }
 
-    public static Position from(final String rawPosition) {
-        final String delimiter = ",";
-        try {
-            final List<String> split = List.of(rawPosition.split(delimiter));
-            final int row = Parser.parseInteger(split.get(0));
-            final int column = Parser.parseInteger(split.get(1));
-            return Position.valueOf(row, column);
-        } catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("위치의 행 또는 열 입력값이 잘못되었습니다.");
-        }
+    public static Position from(final Pair<Integer, Integer> rawPosition) {
+        return valueOf(rawPosition.left(), rawPosition.right());
     }
 
     private static void validateRowRange(final int row) {
