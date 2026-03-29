@@ -16,14 +16,11 @@ public class ParserTest {
         @Test
         @DisplayName("정상 테스트")
         void success1() {
-            // given
             String input = "10";
             int expected = Integer.parseInt(input);
 
-            // when
             int actual = Parser.parseInteger(input);
 
-            // then
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -31,6 +28,7 @@ public class ParserTest {
         @DisplayName("정수가 아닌 값을 변환하는 경우 테스트")
         void failure1() {
             String input = "test";
+
             assertThatIllegalArgumentException()
                 .isThrownBy(() -> Parser.parseInteger(input));
         }

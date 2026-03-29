@@ -14,12 +14,10 @@ public class BoardGeneratorTest {
     @Test
     @DisplayName("보드판 및 기물 생성 테스트")
     void success() {
-        // given
         RedTeam redTeam = new RedTeam(new InnerElephantSetupPolicy());
         BlueTeam blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
         final int expected = 32;
 
-        // when
         Board board = BoardGenerator.generate(redTeam, blueTeam);
 
         // then
