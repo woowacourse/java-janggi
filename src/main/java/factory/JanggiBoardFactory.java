@@ -4,15 +4,15 @@ import domain.PieceProperty;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
-import domain.piece.Piece;
+import domain.Piece;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
-import domain.strategy.DownToUpSoldierMoveStrategy;
+import domain.strategy.DownwardSoldierMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
 import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
-import domain.strategy.NoneMoveableStrategy;
+import domain.strategy.NonMoveableStrategy;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class JanggiBoardFactory {
                 Position position = new Position(i, j);
                 board.putIfAbsent(position,
                         new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
-                                NoneMoveableStrategy.of(position)));
+                                NonMoveableStrategy.of(position)));
             }
         }
     }
@@ -66,14 +66,14 @@ public class JanggiBoardFactory {
         upTeamPiecePositionFactory.upTeamSoldierPositions()
                 .forEach(position -> board.putIfAbsent(position,
                         new Piece(PieceProperty.of(PieceType.SOLDIER, Team.RED),
-                                DownToUpSoldierMoveStrategy.of(position))));
+                                DownwardSoldierMoveStrategy.of(position))));
     }
 
     private void setupDownTeamSoldier() {
         downTeamPositionFactory.downTeamSoldierPositions()
                 .forEach(position -> board.putIfAbsent(position,
                         new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
-                                DownToUpSoldierMoveStrategy.of(position))));
+                                DownwardSoldierMoveStrategy.of(position))));
     }
 
     private void setupUpTeamGuards() {

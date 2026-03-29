@@ -1,16 +1,19 @@
 package domain.strategy;
 
 import domain.Position;
-import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralMoveStrategy extends MoveStrategy {
+public class UpwardSoldierMoveStrategy extends MoveStrategy {
 
     private List<Position> destinations;
 
-    private GeneralMoveStrategy(Position position) {
+    private UpwardSoldierMoveStrategy(Position position) {
         super(position);
         this.destinations = createDestinations();
+    }
+
+    public static UpwardSoldierMoveStrategy of(Position position) {
+        return new UpwardSoldierMoveStrategy(position);
     }
 
     @Override
@@ -18,15 +21,10 @@ public class GeneralMoveStrategy extends MoveStrategy {
         this.destinations = createDestinations();
     }
 
-    public static GeneralMoveStrategy of(Position position) {
-        return new GeneralMoveStrategy(position);
-    }
-
     private List<Position> createDestinations() {
         return List.of(
                 position().right(),
                 position().down(),
-                position().up(),
                 position().left()
         );
     }
@@ -37,7 +35,7 @@ public class GeneralMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+    public boolean hasPieceInPath(Position targetPosition, List<Position> occupiedPositions) {
         return false;
     }
 }

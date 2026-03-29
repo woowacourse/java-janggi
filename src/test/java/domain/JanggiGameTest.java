@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 
-import domain.piece.Piece;
 import domain.strategy.HorseMoveStrategy;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +20,8 @@ class JanggiGameTest {
                 HorseMoveStrategy.of(Position.of(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
                 HorseMoveStrategy.of(Position.of(5, 2)));
-        testBoard.put(horsePiece.position(), horsePiece);
-        testBoard.put(soldierPiece.position(), soldierPiece);
+        testBoard.put(horsePiece.currentPosition(), horsePiece);
+        testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = new JanggiGame(board);
@@ -40,8 +39,8 @@ class JanggiGameTest {
                 HorseMoveStrategy.of(Position.of(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
                 HorseMoveStrategy.of(Position.of(5, 2)));
-        testBoard.put(horsePiece.position(), horsePiece);
-        testBoard.put(soldierPiece.position(), soldierPiece);
+        testBoard.put(horsePiece.currentPosition(), horsePiece);
+        testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = new JanggiGame(board);
@@ -59,8 +58,8 @@ class JanggiGameTest {
                 HorseMoveStrategy.of(Position.of(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
                 HorseMoveStrategy.of(Position.of(5, 2)));
-        testBoard.put(horsePiece.position(), horsePiece);
-        testBoard.put(soldierPiece.position(), soldierPiece);
+        testBoard.put(horsePiece.currentPosition(), horsePiece);
+        testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = new JanggiGame(board);
@@ -78,8 +77,8 @@ class JanggiGameTest {
                 HorseMoveStrategy.of(Position.of(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
                 HorseMoveStrategy.of(Position.of(5, 2)));
-        testBoard.put(horsePiece.position(), horsePiece);
-        testBoard.put(soldierPiece.position(), soldierPiece);
+        testBoard.put(horsePiece.currentPosition(), horsePiece);
+        testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = new JanggiGame(board);

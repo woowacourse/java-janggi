@@ -17,7 +17,7 @@ class GeneralMoveStrategyTest {
     void general_move_test(Position guardPosition, Position expectedTarget) {
         GeneralMoveStrategy moveStrategy = GeneralMoveStrategy.of(guardPosition);
 
-        assertThat(moveStrategy.isMoveAble(expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(expectedTarget)).isTrue();
     }
 
     @ParameterizedTest
@@ -26,7 +26,7 @@ class GeneralMoveStrategyTest {
     void general_move_test_negative(Position guardPosition, Position wrongTarget) {
         GeneralMoveStrategy moveStrategy = GeneralMoveStrategy.of(guardPosition);
 
-        assertThat(moveStrategy.isMoveAble(wrongTarget)).isFalse();
+        assertThat(moveStrategy.canMoveTo(wrongTarget)).isFalse();
     }
 
     private static Stream<Arguments> moveablePositions() {

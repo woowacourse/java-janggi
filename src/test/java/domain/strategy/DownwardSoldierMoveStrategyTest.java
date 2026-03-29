@@ -9,24 +9,24 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class DownToUpSoldierMoveStrategyTest {
+class DownwardSoldierMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸 이동할 수 있다.")
     void soldier_move_test(Position guardPosition, Position expectedTarget) {
-        DownToUpSoldierMoveStrategy moveStrategy = DownToUpSoldierMoveStrategy.of(guardPosition);
+        DownwardSoldierMoveStrategy moveStrategy = DownwardSoldierMoveStrategy.of(guardPosition);
 
-        assertThat(moveStrategy.isMoveAble(expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(expectedTarget)).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
     void soldier_move_test_negative(Position guardPosition, Position wrongTarget) {
-        DownToUpSoldierMoveStrategy moveStrategy = DownToUpSoldierMoveStrategy.of(guardPosition);
+        DownwardSoldierMoveStrategy moveStrategy = DownwardSoldierMoveStrategy.of(guardPosition);
 
-        assertThat(moveStrategy.isMoveAble(wrongTarget)).isFalse();
+        assertThat(moveStrategy.canMoveTo(wrongTarget)).isFalse();
     }
 
     private static Stream<Arguments> moveablePositions() {

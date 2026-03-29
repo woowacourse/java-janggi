@@ -1,9 +1,8 @@
 package domain;
 
-import domain.piece.Piece;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
-import domain.strategy.NoneMoveableStrategy;
+import domain.strategy.NonMoveableStrategy;
 import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -20,14 +19,14 @@ class BoardTest {
                 HorseMoveStrategy.of(Position.of(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
                 HorseMoveStrategy.of(Position.of(5, 2)));
-        testBoard.put(horsePiece.position(), horsePiece);
-        testBoard.put(soldierPiece.position(), soldierPiece);
+        testBoard.put(horsePiece.currentPosition(), horsePiece);
+        testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
-        Position selectPiecePosition = horsePiece.position();
-        Position targetPosition = soldierPiece.position();
+        Position selectPiecePosition = horsePiece.currentPosition();
+        Position targetPosition = soldierPiece.currentPosition();
 
-        Assertions.assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        Assertions.assertThat(board.canMove(selectPiecePosition, targetPosition)).isFalse();
     }
 
     @Test
@@ -41,8 +40,8 @@ class BoardTest {
         Piece select = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN), HorseMoveStrategy.of(selectPosition));
         Piece target = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.RED), HorseMoveStrategy.of(targetPosition));
 
-        testBoard.put(select.position(), select);
-        testBoard.put(target.position(), target);
+        testBoard.put(select.currentPosition(), select);
+        testBoard.put(target.currentPosition(), target);
 
         Board board = Board.of(testBoard);
 
@@ -53,6 +52,23 @@ class BoardTest {
         Assertions.assertThat(board.nonePieces()).hasSize(1);
     }
 
+    @Test
+    @DisplayName("플레이어가 선택한 기물이 목적지로 이동할 수 있다.")
+    void canMoveTo_test() {
+        Map<Position, Piece> testBoard = new HashMap<>();
+        Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
+                HorseMoveStrategy.of(Position.of(3, 3)));
+        Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.RED),
+                HorseMoveStrategy.of(Position.of(5, 2)));
+        testBoard.put(horsePiece.currentPosition(), horsePiece);
+        testBoard.put(soldierPiece.currentPosition(), soldierPiece);
+        Board board = Board.of(testBoard);
+
+        Position selectPiecePosition = horsePiece.currentPosition();
+        Position targetPosition = soldierPiece.currentPosition();
+
+        Assertions.assertThat(board.canMove(selectPiecePosition, targetPosition)).isTrue();
+    }
 
     @Test
     @DisplayName("포는 포를 넘을 수 없다.")
@@ -65,17 +81,17 @@ class BoardTest {
                 CannonMoveStrategy.of(Position.of(5, 3)));
 
         Piece destination = new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
-                NoneMoveableStrategy.of(Position.of(7, 3)));
+                NonMoveableStrategy.of(Position.of(7, 3)));
 
-        testBoard.put(selected.position(), selected);
-        testBoard.put(fixed.position(), fixed);
-        testBoard.put(destination.position(), destination);
+        testBoard.put(selected.currentPosition(), selected);
+        testBoard.put(fixed.currentPosition(), fixed);
+        testBoard.put(destination.currentPosition(), destination);
         Board board = Board.of(testBoard);
 
-        Position selectPiecePosition = selected.position();
-        Position targetPosition = destination.position();
+        Position selectPiecePosition = selected.currentPosition();
+        Position targetPosition = destination.currentPosition();
 
-        Assertions.assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        Assertions.assertThat(board.canMove(selectPiecePosition, targetPosition)).isFalse();
     }
 
     @Test
@@ -91,14 +107,14 @@ class BoardTest {
         Piece destination = new Piece(PieceProperty.of(PieceType.CANNON, Team.RED),
                 CannonMoveStrategy.of(Position.of(7, 3)));
 
-        testBoard.put(selected.position(), selected);
-        testBoard.put(fixed.position(), fixed);
-        testBoard.put(destination.position(), destination);
+        testBoard.put(selected.currentPosition(), selected);
+        testBoard.put(fixed.currentPosition(), fixed);
+        testBoard.put(destination.currentPosition(), destination);
         Board board = Board.of(testBoard);
 
-        Position selectPiecePosition = selected.position();
-        Position targetPosition = destination.position();
+        Position selectPiecePosition = selected.currentPosition();
+        Position targetPosition = destination.currentPosition();
 
-        Assertions.assertThat(board.isMoveable(selectPiecePosition, targetPosition)).isFalse();
+        Assertions.assertThat(board.canMove(selectPiecePosition, targetPosition)).isFalse();
     }
 }

@@ -1,8 +1,6 @@
-package domain.piece;
+package domain;
 
 import domain.strategy.MoveStrategy;
-import domain.PieceProperty;
-import domain.Position;
 import java.util.List;
 
 public class Piece {
@@ -15,17 +13,17 @@ public class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public void moved(Position movedPosition) {
-        this.moveStrategy.changePosition(movedPosition);
+    public void moveTo(Position destination) {
+        this.moveStrategy.moveTo(destination);
         moveStrategy.updateRoute();
     }
 
-    public boolean isMoveAble(Position destination) {
-        return moveStrategy.isMoveAble(destination);
-    };
+    public boolean canMoveTo(Position destination) {
+        return moveStrategy.canMoveTo(destination);
+    }
 
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
-        return moveStrategy.hasPieceOnPath(destination, piecePositions);
+    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+        return moveStrategy.hasPieceInPath(destination, occupiedPositions);
     }
 
     public boolean isGeneral() {
@@ -36,7 +34,7 @@ public class Piece {
         return pieceProperty.isCannon();
     }
 
-    public String name () {
+    public String pieceName() {
         return pieceProperty.name();
     }
 
@@ -52,7 +50,7 @@ public class Piece {
         return pieceProperty.isNoneTeam();
     }
 
-    public Position position() {
+    public Position currentPosition() {
         return moveStrategy.position();
     }
 }

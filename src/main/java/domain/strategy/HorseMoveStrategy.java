@@ -2,18 +2,17 @@ package domain.strategy;
 
 import domain.HorseMoveRule;
 import domain.Position;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HorseMoveStrategy extends MoveStrategy {
 
-    private Map<Position, List<Position>> moves;
+    private Map<Position, List<Position>> routesByDestination;
 
-    HorseMoveStrategy(Position position) {
+    private HorseMoveStrategy(Position position) {
         super(position);
-        this.moves = setupDestinationAndRoutesFrom();
+        this.routesByDestination = createRoutesByDestination();
     }
 
     public static HorseMoveStrategy of(Position position) {
@@ -22,26 +21,34 @@ public class HorseMoveStrategy extends MoveStrategy {
 
     @Override
     public void updateRoute() {
-        this.moves = setupDestinationAndRoutesFrom();
+        this.routesByDestination = createRoutesByDestination();
     }
 
-    private Map<Position, List<Position>> setupDestinationAndRoutesFrom() {
-        Map<Position, List<Position>> moves = new HashMap<>();
-        Arrays.stream(HorseMoveRule.values())
-                .forEach(horseMoveRule ->
-                        moves.putIfAbsent(horseMoveRule.destination(position), horseMoveRule.route(position)));
-        return moves;
+    private Map<Position, List<Position>> createRoutesByDestination() {
+        Map<Position, List<Position>> routesByDestination = new HashMap<>();
+
+        for (HorseMoveRule moveRule : HorseMoveRule.values()) {
+            addRoute(routesByDestination, moveRule);
+        }
+
+        return routesByDestination;
+    }
+
+    private void addRoute(Map<Position, List<Position>> routesByDestination, HorseMoveRule moveRule) {
+        routesByDestination.put(
+                moveRule.destination(position()),
+                moveRule.route(position())
+        );
     }
 
     @Override
-    public boolean isMoveAble(Position destination) {
-        return moves.containsKey(destination);
+    public boolean canMoveTo(Position destination) {
+        return routesByDestination.containsKey(destination);
     }
 
     @Override
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
-        List<Position> route = moves.get(destination);
-
-        return piecePositions.stream().anyMatch(route::contains);
+    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+        return occupiedPositions.stream()
+                .anyMatch(routesByDestination.get(destination)::contains);
     }
 }

@@ -17,7 +17,7 @@ class CannonMoveStrategyTest {
         Position target = Position.of(9, 4);
         CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
 
-        assertThat(moveStrategy.isMoveAble(target)).isTrue();
+        assertThat(moveStrategy.canMoveTo(target)).isTrue();
     }
 
     @Test
@@ -27,7 +27,7 @@ class CannonMoveStrategyTest {
         Position target = Position.of(4, 5);
         CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
 
-        assertThat(moveStrategy.isMoveAble(target)).isFalse();
+        assertThat(moveStrategy.canMoveTo(target)).isFalse();
     }
 
     @Test
@@ -38,7 +38,7 @@ class CannonMoveStrategyTest {
         List<Position> piecePositions = List.of(Position.of(5, 4));
         CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
 
-        assertThat(moveStrategy.hasPieceOnPath(target, piecePositions)).isFalse();
+        assertThat(moveStrategy.hasPieceInPath(target, piecePositions)).isTrue();
     }
 
     @Test
@@ -49,6 +49,6 @@ class CannonMoveStrategyTest {
         List<Position> piecePositions = List.of(Position.of(4, 8), Position.of(4, 7));
         CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
 
-        assertThat(moveStrategy.hasPieceOnPath(target, piecePositions)).isTrue();
+        assertThat(moveStrategy.hasPieceInPath(target, piecePositions)).isFalse();
     }
 }

@@ -1,7 +1,7 @@
 package dto;
 
 import domain.Position;
-import domain.piece.Piece;
+import domain.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +29,8 @@ public record BoardDTO(Map<Position, Piece> board) {
             return " . ";
         }
         if (piece.isRedTeam()) {
-            return "R" + piece.name();
+            return "R" + piece.pieceName();
         }
-        return "G" + piece.name();
+        return "G" + piece.pieceName();
     }
 }

@@ -1,19 +1,15 @@
 package domain.strategy;
 
 import domain.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GuardMoveStrategy extends MoveStrategy {
-
-    private final static int[] DR = {0, 1, 0, -1};
-    private final static int[] DC = {1, 0, -1, 0};
 
     private List<Position> destinations;
 
     private GuardMoveStrategy(Position position) {
         super(position);
-        this.destinations = setupDestinations();
+        this.destinations = createDestinations();
     }
 
     public static GuardMoveStrategy of(Position position) {
@@ -22,28 +18,25 @@ public class GuardMoveStrategy extends MoveStrategy {
 
     @Override
     public void updateRoute() {
-        this.destinations = setupDestinations();
+        this.destinations = createDestinations();
     }
 
-    private List<Position> setupDestinations() {
-        List<Position> positions = new ArrayList<>();
-
-        for (int i = 0; i < DR.length; i++) {
-            int dr = position.row() + DR[i];
-            int dc = position.col() + DC[i];
-            positions.add(Position.of(dr, dc));
-        }
-
-        return positions;
+    private List<Position> createDestinations() {
+        return List.of(
+                position().right(),
+                position().down(),
+                position().up(),
+                position().left()
+        );
     }
 
     @Override
-    public boolean isMoveAble(Position targetPosition) {
-        return destinations.contains(targetPosition);
+    public boolean canMoveTo(Position destination) {
+        return destinations.contains(destination);
     }
 
     @Override
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
+    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
         return false;
     }
 }

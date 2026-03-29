@@ -5,21 +5,22 @@ import java.util.List;
 
 public abstract class MoveStrategy {
 
-    protected Position position;
+    private Position position;
 
-    MoveStrategy(Position position) {
+    protected MoveStrategy(Position position) {
         this.position = position;
     }
 
     public abstract void updateRoute();
 
-    public abstract boolean isMoveAble(Position position);
+    public abstract boolean canMoveTo(Position destination);
 
-    public abstract boolean hasPieceOnPath(Position destination, List<Position> piecePositions);
+    public abstract boolean hasPieceInPath(Position destination, List<Position> occupiedPositions);
 
-    public void changePosition(Position movedPosition) {
-        this.position = movedPosition;
+    public void moveTo(Position destination) {
+        this.position = destination;
     }
+
     public Position position() {
         return position;
     }

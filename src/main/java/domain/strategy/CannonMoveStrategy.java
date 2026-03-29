@@ -16,66 +16,76 @@ public class CannonMoveStrategy extends MoveStrategy {
 
     @Override
     public void updateRoute() {
-
     }
 
     @Override
-    public boolean isMoveAble(Position destination) {
-        if (position.row() == destination.row()) {
-            return !destination.equals(position.left()) && !destination.equals(position.right());
+    public boolean canMoveTo(Position destination) {
+        if (isHorizontalMove(destination)) {
+            return isNotAdjacentHorizontalMove(destination);
         }
-        if (position.col() == destination.col()) {
-            return !destination.equals(position.up()) && !destination.equals(position.down());
+
+        if (isVerticalMove(destination)) {
+            return isNotAdjacentVerticalMove(destination);
         }
         return false;
     }
 
     @Override
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
-        if (position.row() == destination.row()) {
-            List<Position> routePositions = getLeftOrRightRoutePositions(destination);
-            return piecePositions.stream().filter(routePositions::contains).count() != 1;
+    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+        if (isHorizontalMove(destination)) {
+            return doesHaveExactlyOnePieceInPath(horizontalRoute(destination), occupiedPositions);
         }
 
-        if (position.col() == destination.col()) {
-            List<Position> routePositions = getUpOrDownRoutePositions(destination);
-            return piecePositions.stream().filter(routePositions::contains).count() != 1;
+        if (isVerticalMove(destination)) {
+            return doesHaveExactlyOnePieceInPath(verticalRouteTo(destination), occupiedPositions);
         }
 
-        return true;
+        return false;
     }
 
-    private List<Position> getLeftOrRightRoutePositions(Position destination) {
-
-        List<Position> routePositons;
-        if (position.col() < destination.col()) {
-            routePositons = new ArrayList<>();
-            for (int i = position.col() + 1; i < destination.col(); i++) {
-                routePositons.add(Position.of(position.row(), i));
-            }
-            return routePositons;
-        }
-
-        routePositons = new ArrayList<>();
-        for (int i = destination.col() + 1; i < position.col(); i++) {
-            routePositons.add(Position.of(position.row(), i));
-        }
-        return routePositons;
+    private boolean isHorizontalMove(Position destination) {
+        return position().row() == destination.row();
     }
 
-    private List<Position> getUpOrDownRoutePositions(Position destination) {
-        if (position.row() < destination.row()) {
-            List<Position> routePositons = new ArrayList<>();
-            for (int i = position.row() + 1; i < destination.row(); i++) {
-                routePositons.add(Position.of(i, position.col()));
-            }
-            return routePositons;
-        }
+    private boolean isVerticalMove(Position destination) {
+        return position().col() == destination.col();
+    }
 
+    private boolean isNotAdjacentHorizontalMove(Position destination) {
+        return !destination.equals(position().left()) && !destination.equals(position().right());
+    }
+
+    private boolean isNotAdjacentVerticalMove(Position destination) {
+        return !destination.equals(position().up()) && !destination.equals(position().down());
+    }
+
+    private List<Position> horizontalRoute(Position destination) {
         List<Position> routePositons = new ArrayList<>();
-        for (int i = destination.row() + 1; i < position.row(); i++) {
-            routePositons.add(Position.of(i, position.col()));
+
+        int startCol = Math.min(position().col(), destination.col()) + 1;
+        int endCol = Math.max(position().col(), destination.col());
+
+        for (int col = startCol; col < endCol; col++) {
+            routePositons.add(Position.of(position().row(), col));
         }
         return routePositons;
+    }
+
+    private List<Position> verticalRouteTo(Position destination) {
+        List<Position> routePositons = new ArrayList<>();
+
+        int startRow = Math.min(position().row(), destination.row()) + 1;
+        int endRow = Math.max(position().row(), destination.row());
+
+        for (int row = startRow; row < endRow; row++) {
+            routePositons.add(Position.of(row, position().col()));
+        }
+        return routePositons;
+    }
+
+    private boolean doesHaveExactlyOnePieceInPath(List<Position> routePositions, List<Position> occupiedPositions) {
+        return occupiedPositions.stream()
+                .filter(routePositions::contains)
+                .count() == 1;
     }
 }

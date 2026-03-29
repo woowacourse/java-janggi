@@ -17,7 +17,7 @@ class GuardMoveStrategyTest {
     void guard_move_test(Position guardPosition, Position expectedTarget) {
         GuardMoveStrategy moveStrategy = GuardMoveStrategy.of(guardPosition);
 
-        assertThat(moveStrategy.isMoveAble(expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(expectedTarget)).isTrue();
     }
 
     @ParameterizedTest
@@ -26,7 +26,7 @@ class GuardMoveStrategyTest {
     void guard_move_test_negative(Position guardPosition, Position wrongTarget) {
         GuardMoveStrategy moveStrategy = GuardMoveStrategy.of(guardPosition);
 
-        assertThat(moveStrategy.isMoveAble(wrongTarget)).isFalse();
+        assertThat(moveStrategy.canMoveTo(wrongTarget)).isFalse();
     }
 
     private static Stream<Arguments> moveablePositions() {
