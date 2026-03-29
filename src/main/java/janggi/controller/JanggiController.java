@@ -1,10 +1,7 @@
 package janggi.controller;
 
+import janggi.model.BoardType;
 import janggi.model.Janggi;
-import janggi.model.initializer.InsideTableSetting;
-import janggi.model.initializer.LeftSidedTableSetting;
-import janggi.model.initializer.OutsideTableSetting;
-import janggi.model.initializer.RightSidedTableSetting;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;
@@ -40,25 +37,7 @@ public class JanggiController {
     }
 
     private Janggi initializeBoard(int boardType) {
-        int leftSideTableOption = 1;
-        int rightSideTableOption = 2;
-        int insideTableOption = 3;
-        int outsideTableOption = 4;
-
-        if (boardType == leftSideTableOption) {
-            return Janggi.of(new LeftSidedTableSetting().init());
-        }
-        if (boardType == rightSideTableOption) {
-            return Janggi.of(new RightSidedTableSetting().init());
-        }
-        if (boardType == insideTableOption) {
-            return Janggi.of(new InsideTableSetting().init());
-        }
-        if (boardType == outsideTableOption) {
-            return Janggi.of(new OutsideTableSetting().init());
-        }
-
-        throw new IllegalArgumentException("유효한 유형 번호를 입력하세요.");
+        return Janggi.of(BoardType.of(boardType).init());
     }
 
     private Position readFromPosition() {
