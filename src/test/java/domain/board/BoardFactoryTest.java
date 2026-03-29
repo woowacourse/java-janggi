@@ -1,8 +1,11 @@
 package domain.board;
 
+import static domain.piece.PieceType.MA;
+import static domain.piece.PieceType.SANG;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.stream.Stream;
@@ -14,7 +17,7 @@ class BoardFactoryTest {
 
     @ParameterizedTest
     @MethodSource("provideFormations")
-    void 배치_조합을_검증한다(int choNum, int hanNum, String[] choExpected, String[] hanExpected) {
+    void 배치_조합을_검증한다(int choNum, int hanNum, PieceType[] choExpected, PieceType[] hanExpected) {
         Board board = BoardFactory.createWithFormation(
                 Formation.from(choNum),
                 Formation.from(hanNum)
@@ -31,22 +34,23 @@ class BoardFactoryTest {
         assertPiece(board, 9, 7, Team.CHO, choExpected[3]);
     }
 
-    private void assertPiece(Board board, int row, int column, Team expectedTeam, String expectedPieceString) {
+    private void assertPiece(Board board, int row, int column, Team expectedTeam, PieceType expectedPieceType) {
         Piece piece = board.findPiece(new Position(row, column));
         assertEquals(expectedTeam, piece.getTeam());
-        assertEquals(expectedPieceString, piece.getPieceString());
+
+        assertEquals(expectedPieceType, piece.getPieceType());
     }
 
     static Stream<Arguments> provideFormations() {
-        String[] f1 = {"SD", "MA", "SD", "MA"};
-        String[] f2 = {"MA", "SD", "MA", "SD"};
-        String[] f3 = {"MA", "SD", "SD", "MA"};
-        String[] f4 = {"SD", "MA", "MA", "SD"};
+        PieceType[] f1 = {SANG, MA, SANG, MA};
+        PieceType[] f2 = {MA, SANG, MA, SANG};
+        PieceType[] f3 = {MA, SANG, SANG, MA};
+        PieceType[] f4 = {SANG, MA, MA, SANG};
 
-        String[] c1 = {"SD", "MA", "SD", "MA"};
-        String[] c2 = {"MA", "SD", "MA", "SD"};
-        String[] c3 = {"MA", "SD", "SD", "MA"};
-        String[] c4 = {"SD", "MA", "MA", "SD"};
+        PieceType[] c1 = {SANG, MA, SANG, MA};
+        PieceType[] c2 = {MA, SANG, MA, SANG};
+        PieceType[] c3 = {MA, SANG, SANG, MA};
+        PieceType[] c4 = {SANG, MA, MA, SANG};
 
         return Stream.of(
                 Arguments.of(1, 1, c1, f1),
