@@ -39,4 +39,9 @@ public record Position(
         return new Position(this.row.add(row), this.column.add(column));
     }
 
+    private boolean isOffsetWithinBounds(int row, int column) {
+        return this.row.isOffsetWithinBounds(row) &&
+                this.column.isOffsetWithinBounds(column);
+    }
+
 }

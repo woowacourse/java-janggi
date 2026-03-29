@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ColumnTest {
@@ -37,6 +39,25 @@ class ColumnTest {
 
         // then
         assertThat(result).isEqualTo(new Column(2));
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "-5, false",
+            "-4, true",
+            "5, false",
+            "4, true",
+    })
+    @DisplayName("기존 열에 특정 값을 더한 결과가 경계 내에 있는지 확인한다.")
+    public void isOffsetWithinBounds(int offset, boolean result) throws Exception {
+        // given
+        Column column = new Column(5);
+
+        // when
+        boolean offsetWithinBounds = column.isOffsetWithinBounds(offset);
+
+        // then
+        assertThat(offsetWithinBounds).isEqualTo(result);
     }
 
 }

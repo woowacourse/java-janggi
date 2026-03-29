@@ -21,4 +21,8 @@ public record Column(
         return new Column(this.column + column);
     }
 
+    public boolean isOffsetWithinBounds(int offset) {
+        return this.column + offset >= MIN_COLUMN &&
+                this.column + offset <= MAX_COLUMN;
+    }
 }
