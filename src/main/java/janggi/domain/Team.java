@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import java.util.Arrays;
+
 public enum Team {
     HAN("한"),
     CHO("초"),
@@ -12,14 +14,9 @@ public enum Team {
     }
 
     public static Team from(String name) {
-        if (name.equals(HAN.name)) {
-            return HAN;
-        }
-
-        if (name.equals(CHO.name)) {
-            return CHO;
-        }
-
-        throw new IllegalArgumentException("적절하지 않은 진영입니다.");
+        return Arrays.stream(values())
+                .filter(piece -> piece.name.equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("적절하지 않은 진영입니다."));
     }
 }
