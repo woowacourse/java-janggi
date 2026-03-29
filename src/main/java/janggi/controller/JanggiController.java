@@ -18,40 +18,55 @@ public class JanggiController {
     }
 
     public void start() {
-        List<Integer> openingFormationChoices = inputView.readOpeningFormationChoice();
+        List<Integer> openingFormationChoices = readOpeningFormationChoiceUntilValid();
         Board board = BoardInitializer.initializeBoard(openingFormationChoices.getFirst(),
                 openingFormationChoices.getLast());
 
         while (true) {
+            outputView.printBoardMap(BoardDto.from(board));
+            Position startPiecePosition = readStartPositionUntilValid();
+            Position endPiecePosition = readEndPositionUntilValid();
+            tryMove(board, startPiecePosition, endPiecePosition);
+        }
+    }
+
+    private void tryMove(Board board, Position from, Position to) {
+        try {
+            board.move(from, to);
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
+    }
+
+    private List<Integer> readOpeningFormationChoiceUntilValid() {
+        while (true) {
             try {
-                outputView.printBoardMap(BoardDto.from(board));
-                Position startPiecePosition = getStartPiecePosition();
-
-                if (!board.isPresentAt(startPiecePosition)) {
-                    throw new IllegalArgumentException("해당 좌표에는 기물이 존재하지 않습니다.");
-                }
-
-                Position endPiecePosition = getEndPiecePosition();
-                if (!board.canMove(startPiecePosition, endPiecePosition)) {
-                    continue;
-                }
-                playTurn(board, startPiecePosition, endPiecePosition);
-
+                return inputView.readOpeningFormationChoice();
             } catch (IllegalArgumentException e) {
-
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }
 
-    private static void playTurn(Board board, Position startPiecePosition, Position endPiecePosition) {
-        if (board.determineMoving(startPiecePosition, endPiecePosition)) {
-            board.changePiecePosition(startPiecePosition, endPiecePosition);
-            changeTurn(board);
+    private Position readStartPositionUntilValid() {
+        while (true) {
+            try {
+                Position startPiecePosition = getStartPiecePosition();
+                return startPiecePosition;
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
     }
 
-    private static void changeTurn(Board board) {
-        board.changeTurn();
+    private Position readEndPositionUntilValid() {
+        while (true) {
+            try {
+                return getEndPiecePosition();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private Position getEndPiecePosition() {
@@ -63,6 +78,4 @@ public class JanggiController {
         List<Integer> startPosition = inputView.readStartPiecePosition();
         return new Position(startPosition.getFirst(), startPosition.getLast());
     }
-
-
 }
