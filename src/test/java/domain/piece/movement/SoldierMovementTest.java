@@ -5,10 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("기물(졸) 행마법 테스트")
 class SoldierMovementTest {
@@ -64,29 +68,55 @@ class SoldierMovementTest {
     class 범위_밖으로는_이동이_불가능하다 {
 
         @DisplayName("초 진영의 경우")
-        @Test
-        void 초_진영의_경우() {
-            Intersection borderIntersection = new Intersection(1, 1);
+        @ParameterizedTest(name = "경계점 검증: {0}")
+        @MethodSource("allBorderIntersectionsForCho")
+        void 초_진영의_경우(Intersection borderIntersection, List<Intersection> expected) {
             List<Path> movablePaths = movement.movablePaths(borderIntersection, Side.CHO);
             List<Intersection> movableDestinations = movablePaths.stream()
                     .map(Path::destination)
                     .toList();
 
             assertThat(movableDestinations)
-                    .containsExactlyInAnyOrder(new Intersection(1, 2));
+                    .containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @DisplayName("한 진영의 경우")
-        @Test
-        void 한_진영의_경우() {
-            Intersection borderIntersection = new Intersection(10, 1);
+        @ParameterizedTest(name = "경계점 검증: {0}")
+        @MethodSource("allBorderIntersectionsForHan")
+        void 한_진영의_경우(Intersection borderIntersection, List<Intersection> expected) {
             List<Path> movablePaths = movement.movablePaths(borderIntersection, Side.HAN);
             List<Intersection> movableDestinations = movablePaths.stream()
                     .map(Path::destination)
                     .toList();
 
             assertThat(movableDestinations)
-                    .containsExactlyInAnyOrder(new Intersection(10, 2));
+                    .containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        private static Stream<Arguments> allBorderIntersectionsForCho() {
+            return Stream.of(
+                    Arguments.of(new Intersection(1, 1),
+                            List.of(new Intersection(1, 2))),
+                    Arguments.of(new Intersection(1, 9),
+                            List.of(new Intersection(1, 8))),
+                    Arguments.of(new Intersection(10, 1),
+                            List.of(new Intersection(9, 1), new Intersection(10, 2))),
+                    Arguments.of(new Intersection(10, 9),
+                            List.of(new Intersection(9, 9), new Intersection(10, 8)))
+            );
+        }
+
+        private static Stream<Arguments> allBorderIntersectionsForHan() {
+            return Stream.of(
+                    Arguments.of(new Intersection(1, 1),
+                            List.of(new Intersection(2, 1), new Intersection(1, 2))),
+                    Arguments.of(new Intersection(1, 9),
+                            List.of(new Intersection(2, 9), new Intersection(1, 8))),
+                    Arguments.of(new Intersection(10, 1),
+                            List.of(new Intersection(10, 2))),
+                    Arguments.of(new Intersection(10, 9),
+                            List.of(new Intersection(10, 8)))
+            );
         }
     }
 }

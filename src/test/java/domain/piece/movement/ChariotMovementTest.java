@@ -7,11 +7,14 @@ import domain.game.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("기물(차) 행마법 테스트")
 class ChariotMovementTest {
@@ -49,19 +52,35 @@ class ChariotMovementTest {
     class 범위_밖으로는_이동이_불가능하다 {
 
         @DisplayName("진영에 상관없이 동일하게 적용된다")
-        @ParameterizedTest
-        @EnumSource(Side.class)
-        void 진영에_상관없이_동일하게_적용된다(Side side) {
-            Intersection borderIntersection = new Intersection(1, 1);
-            List<Intersection> expected = allDirectionIntersectionsExcludeCurrentIntersection(borderIntersection);
-
-            List<Path> movablePaths = movement.movablePaths(borderIntersection, side);
-            List<Intersection> movableDestinations = movablePaths.stream()
+        @ParameterizedTest(name = "경계점 검증: {0}")
+        @MethodSource("allBorderIntersections")
+        void 진영에_상관없이_동일하게_적용된다(Intersection borderIntersection, List<Intersection> expected) {
+            List<Path> movablePathsCho = movement.movablePaths(borderIntersection, Side.CHO);
+            List<Path> movablePathsHan = movement.movablePaths(borderIntersection, Side.HAN);
+            List<Intersection> movableDestinationsCho = movablePathsCho.stream()
+                    .map(Path::destination)
+                    .toList();
+            List<Intersection> movableDestinationsHan = movablePathsHan.stream()
                     .map(Path::destination)
                     .toList();
 
-            assertThat(movableDestinations)
+            assertThat(movableDestinationsCho)
                     .containsExactlyInAnyOrderElementsOf(expected);
+            assertThat(movableDestinationsHan)
+                    .containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        private static Stream<Arguments> allBorderIntersections() {
+            return Stream.of(
+                    Arguments.of(new Intersection(1, 1),
+                            allDirectionIntersectionsExcludeCurrentIntersection(new Intersection(1, 1))),
+                    Arguments.of(new Intersection(1, 9),
+                            allDirectionIntersectionsExcludeCurrentIntersection(new Intersection(1, 9))),
+                    Arguments.of(new Intersection(10, 1),
+                            allDirectionIntersectionsExcludeCurrentIntersection(new Intersection(10, 1))),
+                    Arguments.of(new Intersection(10, 9),
+                            allDirectionIntersectionsExcludeCurrentIntersection(new Intersection(10, 9)))
+            );
         }
     }
 
