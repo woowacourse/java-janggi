@@ -31,16 +31,6 @@ public class Board {
         return destinationPiece;
     }
 
-    public void validateOwnPiece(Position source, Team currentTeam) {
-        Piece piece = findPiece(source);
-        if (!piece.isNotNone()) {
-            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
-        }
-        if (piece.isDifferentTeam(currentTeam)) {
-            throw new JanggiException(DIFFERENT_TEAM.formatted(currentTeam));
-        }
-    }
-
     public Piece findPiece(Position position) {
         return board.get(position);
     }
