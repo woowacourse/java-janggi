@@ -1,10 +1,9 @@
-package domain.piece.moverule;
+package domain.move.rule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
-import domain.move.rule.BasicRule;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.Soldier;
