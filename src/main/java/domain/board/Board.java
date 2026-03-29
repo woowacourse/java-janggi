@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.ErrorMessage;
 import domain.Offset;
 import domain.Path;
 import domain.piece.Piece;
@@ -28,7 +29,7 @@ public class Board {
         fromPiece.canMove(path, toPiece);
 
         if (toPiece != null && fromPiece.isSameTeam(toPiece)) {
-            throw new IllegalStateException("같은 팀의 기물을 잡을 수 없습니다.");
+            throw new IllegalStateException(ErrorMessage.SAME_TEAM_OCCUPIED.getMessage());
         }
 
         Piece remove = pieces.remove(from);
