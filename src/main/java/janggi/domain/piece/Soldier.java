@@ -18,13 +18,13 @@ public class Soldier implements Piece {
 
     static {
         final List<Rule> redRules = List.of(
-            new RuleWithTraces(List.of(new Movement(1, Direction.WEST))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.EAST))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.SOUTH))));
+            RuleWithTraces.of(new Movement(1, Direction.WEST)),
+            RuleWithTraces.of(new Movement(1, Direction.EAST)),
+            RuleWithTraces.of(new Movement(1, Direction.SOUTH)));
         final List<Rule> blueRules = List.of(
-            new RuleWithTraces(List.of(new Movement(1, Direction.WEST))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.EAST))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.NORTH))));
+            RuleWithTraces.of(new Movement(1, Direction.WEST)),
+            RuleWithTraces.of(new Movement(1, Direction.EAST)),
+            RuleWithTraces.of(new Movement(1, Direction.NORTH)));
         RED_PIECE_ACTION = new PieceAction(redRules);
         BLUE_PIECE_ACTION = new PieceAction(blueRules);
     }

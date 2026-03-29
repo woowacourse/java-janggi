@@ -15,6 +15,10 @@ public class RuleWithTraces implements Rule {
         this.movementOrder = movementOrder;
     }
 
+    public static RuleWithTraces of(final Movement movement) {
+        return new RuleWithTraces(List.of(movement));
+    }
+
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();

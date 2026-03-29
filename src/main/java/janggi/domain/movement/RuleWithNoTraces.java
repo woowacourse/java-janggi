@@ -14,6 +14,11 @@ public class RuleWithNoTraces implements Rule {
         this.movementOrder = movementOrder;
     }
 
+    public static RuleWithNoTraces of(final Movement movement) {
+        return new RuleWithNoTraces(List.of(movement));
+    }
+
+
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
