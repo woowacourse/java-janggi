@@ -1,4 +1,4 @@
-package domain.move.movement;
+package domain.move.strategy;
 
 import domain.board.Intersection;
 import domain.direction.Direction;
@@ -8,7 +8,7 @@ import domain.move.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class StraightLineMovement extends PieceMovement {
+public final class StraightLineMovement extends Movement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 

@@ -1,4 +1,4 @@
-package domain.move.movement;
+package domain.move.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

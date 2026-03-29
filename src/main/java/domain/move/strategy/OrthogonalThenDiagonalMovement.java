@@ -1,4 +1,4 @@
-package domain.move.movement;
+package domain.move.strategy;
 
 import domain.board.Intersection;
 import domain.direction.Direction;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public final class OrthogonalThenDiagonalMovement extends PieceMovement {
+public final class OrthogonalThenDiagonalMovement extends Movement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
