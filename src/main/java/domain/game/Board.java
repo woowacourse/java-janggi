@@ -25,7 +25,9 @@ public class Board {
 
     public Board move(Coordinate coordinate, Turn turn) {
         validateMove(coordinate, turn);
-        return new Board(pieces.move(coordinate.from(), coordinate.to()));
+        Position from = coordinate.from();
+        Position to = coordinate.to();
+        return new Board(pieces.move(from, to));
     }
 
     public Optional<Piece> pieceAt(Position position) {

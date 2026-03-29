@@ -1,7 +1,9 @@
 package domain.state;
 
 import domain.command.Command;
+import domain.game.Board;
 import domain.game.JanggiGame;
+import domain.game.Turn;
 import io.OutputView;
 
 public class PlayingState implements GameState {
@@ -15,7 +17,9 @@ public class PlayingState implements GameState {
 
     @Override
     public void display(JanggiGame game, OutputView outputView) {
-        outputView.printBoard(game.getBoard(), game.getTurn());
-        outputView.printPieceMovement(game.getTurn());
+        Board board = game.getBoard();
+        Turn turn = game.getTurn();
+        outputView.printBoard(board, turn);
+        outputView.printPieceMovement(turn);
     }
 }
