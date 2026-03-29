@@ -5,7 +5,6 @@ import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.position.Position;
 import java.util.Optional;
-import util.ColorMapper;
 
 public abstract class Piece implements Place {
 
@@ -21,7 +20,7 @@ public abstract class Piece implements Place {
 
     @Override
     public String getFormat() {
-        return ColorMapper.colorize(getSymbol().display(), side);
+        return getSymbol().display();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package util;
+package view;
 
 import domain.place.piece.Side;
 import java.util.Map;

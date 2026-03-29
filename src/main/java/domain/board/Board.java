@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board implements BoardView {
 
@@ -32,6 +33,14 @@ public class Board implements BoardView {
         return result;
     }
 
+    public List<List<Optional<Side>>> getSideBoard() {
+        List<List<Optional<Side>>> result = new ArrayList<>();
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            result.add(getSideRow(row));
+        }
+        return result;
+    }
+
     private List<String> getFormatRow(int row) {
         List<String> rowFormats = new ArrayList<>();
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
@@ -40,6 +49,15 @@ public class Board implements BoardView {
             rowFormats.add(place.getFormat());
         }
         return rowFormats;
+    }
+
+    private List<Optional<Side>> getSideRow(int row) {
+        List<Optional<Side>> sides = new ArrayList<>();
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+            Position position = new Position(row, column);
+            sides.add(board.get(position).getSide());
+        }
+        return sides;
     }
 
     public void move(Position from, Position to, Side side) {

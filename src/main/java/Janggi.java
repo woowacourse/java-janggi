@@ -54,7 +54,7 @@ public class Janggi {
     }
 
     private void turn(Player player, Board board) {
-        OutputView.printBoard(board.getFormatBoard());
+        OutputView.printBoard(board.getFormatBoard(), board.getSideBoard());
         executeTurn(player, board);
     }
 
