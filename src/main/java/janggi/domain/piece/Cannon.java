@@ -2,9 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
+import janggi.domain.movement.CannonMoveRule;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleOfCannon;
+import janggi.domain.movement.MoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -15,12 +15,12 @@ public class Cannon implements Piece {
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of(PieceType.CANNON);
 
     static {
-        final List<Rule> rules = List.of(
-                new RuleOfCannon(Direction.UP),
-                new RuleOfCannon(Direction.DOWN),
-                new RuleOfCannon(Direction.RIGHT),
-                new RuleOfCannon(Direction.LEFT));
-        PIECE_ACTION = new PieceAction(rules);
+        final List<MoveRule> movementStrategies = List.of(
+                new CannonMoveRule(Direction.UP),
+                new CannonMoveRule(Direction.DOWN),
+                new CannonMoveRule(Direction.RIGHT),
+                new CannonMoveRule(Direction.LEFT));
+        PIECE_ACTION = new PieceAction(movementStrategies);
     }
 
     private final TeamType teamType;

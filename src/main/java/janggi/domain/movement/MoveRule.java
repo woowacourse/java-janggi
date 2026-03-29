@@ -4,6 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import java.util.List;
 
-public interface Rule {
+public interface MoveRule {
     List<Position> execute(Position from, BoardMediator boardMediator);
 }

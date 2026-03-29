@@ -6,11 +6,11 @@ import janggi.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RuleWithTraces implements Rule {
+public class SlidingMoveRule implements MoveRule {
 
     private final List<Movement> movementOrder;
 
-    public RuleWithTraces(final List<Movement> movementOrder) {
+    public SlidingMoveRule(final List<Movement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 

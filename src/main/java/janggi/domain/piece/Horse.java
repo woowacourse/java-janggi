@@ -3,9 +3,9 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
+import janggi.domain.movement.MoveRule;
 import janggi.domain.movement.Movement;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithNoTraces;
+import janggi.domain.movement.StepMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -15,38 +15,38 @@ public class Horse implements Piece {
     private static final PieceAction PIECE_ACTION;
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
-    private final TeamType teamType;
-
     static {
-        final List<Rule> rules = List.of(
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.UP_RIGHT))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.DOWN_RIGHT))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.UP),
-                new Movement(1, Direction.UP_RIGHT))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.UP),
-                new Movement(1, Direction.UP_LEFT))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.LEFT),
-                new Movement(1, Direction.UP_LEFT))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.LEFT),
-                new Movement(1, Direction.DOWN_LEFT))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.DOWN),
-                new Movement(1, Direction.DOWN_LEFT))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.DOWN),
-                new Movement(1, Direction.DOWN_RIGHT)))
-            );
+        final List<MoveRule> movementStrategies = List.of(
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.RIGHT),
+                        new Movement(1, Direction.UP_RIGHT))),
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.RIGHT),
+                        new Movement(1, Direction.DOWN_RIGHT))),
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.UP),
+                        new Movement(1, Direction.UP_RIGHT))),
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.UP),
+                        new Movement(1, Direction.UP_LEFT))),
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.LEFT),
+                        new Movement(1, Direction.UP_LEFT))),
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.LEFT),
+                        new Movement(1, Direction.DOWN_LEFT))),
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.DOWN),
+                        new Movement(1, Direction.DOWN_LEFT))),
+                new StepMoveRule(List.of(
+                        new Movement(1, Direction.DOWN),
+                        new Movement(1, Direction.DOWN_RIGHT)))
+        );
 
-        PIECE_ACTION = new PieceAction(rules);
+        PIECE_ACTION = new PieceAction(movementStrategies);
     }
+
+    private final TeamType teamType;
 
     public Horse(final TeamType teamType) {
         this.teamType = teamType;
@@ -69,12 +69,12 @@ public class Horse implements Piece {
 
     @Override
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
-        return PIECE_ACTION.calculateMovablePositions(from,boardMediator);
+        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
     }
 
     @Override
     public boolean canKill(final Piece target) {
         return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
-            teamType);
+                teamType);
     }
 }

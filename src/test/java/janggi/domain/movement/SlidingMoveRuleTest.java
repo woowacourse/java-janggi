@@ -16,7 +16,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class RuleWithTracesTest {
+public class SlidingMoveRuleTest {
 
     Board board;
     BoardMediator boardMediator;
@@ -30,12 +30,12 @@ public class RuleWithTracesTest {
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         Direction direction = Direction.DOWN;
-        Rule ruleWithTraces = new RuleWithTraces(
+        MoveRule moveRuleWithTraces = new SlidingMoveRule(
                 List.of(new Movement(MAXIMUM_ROW, direction)));
         List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),
                 Position.valueOf(8, 3));
 
-        List<Position> actual = ruleWithTraces.execute(Position.valueOf(5, 3), boardMediator);
+        List<Position> actual = moveRuleWithTraces.execute(Position.valueOf(5, 3), boardMediator);
 
         assertThat(actual).hasSameElementsAs(expected);
     }

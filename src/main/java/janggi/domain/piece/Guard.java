@@ -3,9 +3,9 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
+import janggi.domain.movement.MoveRule;
 import janggi.domain.movement.Movement;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
+import janggi.domain.movement.SlidingMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -16,17 +16,18 @@ public class Guard implements Piece {
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     static {
-        final List<Rule> rules = List.of(
-            new RuleWithTraces(List.of(new Movement(1, Direction.UP_LEFT))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.UP))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.UP_RIGHT))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.LEFT))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.RIGHT))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.DOWN_LEFT))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.DOWN))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.DOWN_RIGHT))));
-        PIECE_ACTION = new PieceAction(rules);
+        final List<MoveRule> movementStrategies = List.of(
+                new SlidingMoveRule(List.of(new Movement(1, Direction.UP_LEFT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.UP))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.UP_RIGHT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.LEFT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.RIGHT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN_LEFT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN_RIGHT))));
+        PIECE_ACTION = new PieceAction(movementStrategies);
     }
+
     private final TeamType teamType;
 
     public Guard(final TeamType teamType) {

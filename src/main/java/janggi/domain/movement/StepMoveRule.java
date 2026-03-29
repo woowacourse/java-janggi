@@ -5,11 +5,11 @@ import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
 import java.util.List;
 
-public class RuleWithNoTraces implements Rule {
+public class StepMoveRule implements MoveRule {
 
     private final List<Movement> movementOrder;
 
-    public RuleWithNoTraces(final List<Movement> movementOrder) {
+    public StepMoveRule(final List<Movement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 

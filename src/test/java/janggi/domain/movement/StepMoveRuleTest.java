@@ -14,7 +14,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class RuleWithNoTracesTest {
+public class StepMoveRuleTest {
 
     @Test
     @DisplayName("이동 가능한 목적지 계산 테스트")
@@ -26,10 +26,10 @@ public class RuleWithNoTracesTest {
         List<Movement> movementOrder = List.of(
                 new Movement(1, Direction.RIGHT),
                 new Movement(2, Direction.UP_RIGHT));
-        Rule ruleWithNoTraces = new RuleWithNoTraces(movementOrder);
+        MoveRule moveRuleWithNoTraces = new StepMoveRule(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 
-        List<Position> actual = ruleWithNoTraces.execute(Position.valueOf(5, 3), boardMediator);
+        List<Position> actual = moveRuleWithNoTraces.execute(Position.valueOf(5, 3), boardMediator);
 
         assertThat(actual).hasSameElementsAs(expected);
     }

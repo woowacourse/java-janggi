@@ -3,9 +3,9 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
+import janggi.domain.movement.MoveRule;
 import janggi.domain.movement.Movement;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
+import janggi.domain.movement.SlidingMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -17,16 +17,16 @@ public class Soldier implements Piece {
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     static {
-        final List<Rule> redRules = List.of(
-                new RuleWithTraces(List.of(new Movement(1, Direction.LEFT))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.RIGHT))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.DOWN))));
-        final List<Rule> blueRules = List.of(
-                new RuleWithTraces(List.of(new Movement(1, Direction.LEFT))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.RIGHT))),
-                new RuleWithTraces(List.of(new Movement(1, Direction.UP))));
-        RED_PIECE_ACTION = new PieceAction(redRules);
-        BLUE_PIECE_ACTION = new PieceAction(blueRules);
+        final List<MoveRule> redMovementStrategies = List.of(
+                new SlidingMoveRule(List.of(new Movement(1, Direction.LEFT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.RIGHT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN))));
+        final List<MoveRule> blueMovementStrategies = List.of(
+                new SlidingMoveRule(List.of(new Movement(1, Direction.LEFT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.RIGHT))),
+                new SlidingMoveRule(List.of(new Movement(1, Direction.UP))));
+        RED_PIECE_ACTION = new PieceAction(redMovementStrategies);
+        BLUE_PIECE_ACTION = new PieceAction(blueMovementStrategies);
     }
 
     private final TeamType teamType;

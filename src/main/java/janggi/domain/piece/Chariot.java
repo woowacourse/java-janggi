@@ -6,9 +6,9 @@ import static janggi.domain.Position.MAXIMUM_ROW;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
+import janggi.domain.movement.MoveRule;
 import janggi.domain.movement.Movement;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
+import janggi.domain.movement.SlidingMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -19,12 +19,12 @@ public class Chariot implements Piece {
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     static {
-        final List<Rule> rules = List.of(
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.UP))),
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.DOWN))),
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.RIGHT))),
-                new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.LEFT))));
-        PIECE_ACTION = new PieceAction(rules);
+        final List<MoveRule> movementStrategies = List.of(
+                new SlidingMoveRule(List.of(new Movement(MAXIMUM_ROW, Direction.UP))),
+                new SlidingMoveRule(List.of(new Movement(MAXIMUM_ROW, Direction.DOWN))),
+                new SlidingMoveRule(List.of(new Movement(MAXIMUM_COLUMN, Direction.RIGHT))),
+                new SlidingMoveRule(List.of(new Movement(MAXIMUM_COLUMN, Direction.LEFT))));
+        PIECE_ACTION = new PieceAction(movementStrategies);
     }
 
     private final TeamType teamType;

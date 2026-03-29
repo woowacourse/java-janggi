@@ -9,11 +9,11 @@ import janggi.domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RuleOfCannon implements Rule {
+public class CannonMoveRule implements MoveRule {
 
     private final List<Movement> movementOrder;
 
-    public RuleOfCannon(final Direction direction) {
+    public CannonMoveRule(final Direction direction) {
         this.movementOrder = generateMovementOrder(direction);
     }
 
