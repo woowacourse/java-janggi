@@ -29,9 +29,24 @@ public class Board {
     }
 
     private void validateCannonRoute(List<Position> route, Position dest) {
-        //포는 포를 못 넘음
-        //포가 넘어야할 기물은 하나여야함
-        //포는 포를 잡을 수 없음
+        int count = 0;
+        for (Position position : route) {
+            if (pieceAt(position).isCannon()) {
+                throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
+            }
+
+            if (pieceAt(position).isNotEmpty()) {
+                count++;
+            }
+        }
+
+        if (count != 1) {
+            throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
+        }
+
+        if (pieceAt(dest).isCannon()) {
+            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
+        }
     }
 
     private void validateCanMove(Piece piece, Position src, Position dest) {
