@@ -1,9 +1,9 @@
 package janggi.model.turn;
 
-import janggi.model.Board;
+import janggi.model.Team;
+import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import java.util.Map;
 
 public class GameOver implements Turn {
     @Override
@@ -17,7 +17,12 @@ public class GameOver implements Turn {
     }
 
     @Override
-    public void accept(BiConsumer<Board, String> consumer) {
-        throw new IllegalStateException("이미 게임이 종료됐습니다.");
+    public Map<Position, AbstractGimul> getBoard() {
+        throw new IllegalStateException("게임이 이미 종료됐습니다.");
+    }
+
+    @Override
+    public boolean isChoTurn() {
+        throw new IllegalStateException("게임이 이미 종료됐습니다.");
     }
 }
