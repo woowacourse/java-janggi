@@ -34,6 +34,7 @@ public class JanggiController {
             outputView.printBoard(board.getBoard());
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            System.out.println();
             movePosition(board);
         }
     }

@@ -1,7 +1,7 @@
 package view;
 
-import domain.Piece;
 import domain.vo.Position;
+
 import java.util.Scanner;
 
 public class InputView {
@@ -20,6 +20,7 @@ public class InputView {
             return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            System.out.println();
             return readPosition();
         }
     }
@@ -35,6 +36,7 @@ public class InputView {
             return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            System.out.println();
             return readPosition();
         }
     }
@@ -47,6 +49,7 @@ public class InputView {
             validateRetryCommand(input);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            System.out.println();
             return readRetryCommand();
         }
 

@@ -31,11 +31,11 @@ public class BoardFactory {
         board.put(Position.of(1, 4),Piece.of(Team.CHU, Type.GENERAL, new GeneralMoveStrategy()));
         board.put(Position.of(2, 1),Piece.of(Team.CHU, Type.CANNON, new CannonMoveStrategy()));
         board.put(Position.of(2, 7),Piece.of(Team.CHU, Type.CANNON, new CannonMoveStrategy()));
-        board.put(Position.of(3, 0),Piece.of(Team.CHU, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(3, 2),Piece.of(Team.CHU, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(3, 4),Piece.of(Team.CHU, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(3, 6),Piece.of(Team.CHU, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(3, 8),Piece.of(Team.CHU, Type.SOLIDER, new SoldierMoveStrategy()));
+        board.put(Position.of(3, 0),Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(3, 2),Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(3, 4),Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(3, 6),Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(3, 8),Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
 
         board.put(Position.of(9, 0),Piece.of(Team.HAN, Type.CHARIOT, new ChariotMoveStrategy()));
         board.put(Position.of(9, 1),Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
@@ -48,11 +48,11 @@ public class BoardFactory {
         board.put(Position.of(8, 4),Piece.of(Team.HAN, Type.GENERAL, new GeneralMoveStrategy()));
         board.put(Position.of(7, 1),Piece.of(Team.HAN, Type.CANNON, new CannonMoveStrategy()));
         board.put(Position.of(7, 7),Piece.of(Team.HAN, Type.CANNON, new CannonMoveStrategy()));
-        board.put(Position.of(6, 0),Piece.of(Team.HAN, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(6, 2),Piece.of(Team.HAN, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(6, 4),Piece.of(Team.HAN, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(6, 6),Piece.of(Team.HAN, Type.SOLIDER, new SoldierMoveStrategy()));
-        board.put(Position.of(6, 8),Piece.of(Team.HAN, Type.SOLIDER, new SoldierMoveStrategy()));
+        board.put(Position.of(6, 0),Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(6, 2),Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(6, 4),Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(6, 6),Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
+        board.put(Position.of(6, 8),Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
 
         return Board.of(board);
     }

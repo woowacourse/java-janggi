@@ -33,8 +33,8 @@ class BoardTest {
     void 기물_이동() {
         // given
         Map<Position, Piece> tempBoard = new HashMap<>();
-        tempBoard.put(Position.of(0, 0), Piece.of(Team.CHU, Type.SOLIDER, new FixedMoveStrategy()));
-        tempBoard.put(Position.of(0, 3), Piece.of(Team.CHU, Type.SOLIDER, new FixedMoveStrategy()));
+        tempBoard.put(Position.of(0, 0), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
+        tempBoard.put(Position.of(0, 3), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
 
         Board board = Board.of(tempBoard);
 
@@ -45,7 +45,7 @@ class BoardTest {
 
         // then
         Piece findPiece = board.findPieceByPosition(to).get();
-        assertEquals(Type.SOLIDER, findPiece.getType());
+        assertEquals(Type.SOLDIER, findPiece.getType());
         assertFalse(board.isExistPosition(from));
     }
 
@@ -58,9 +58,9 @@ class BoardTest {
                 Arguments.of(0, 8, Type.CHARIOT),
                 Arguments.of(1, 4, Type.GENERAL),
                 Arguments.of(2, 1, Type.CANNON),
-                Arguments.of(3, 0, Type.SOLIDER),
-                Arguments.of(3, 4, Type.SOLIDER),
-                Arguments.of(6, 2, Type.SOLIDER),
+                Arguments.of(3, 0, Type.SOLDIER),
+                Arguments.of(3, 4, Type.SOLDIER),
+                Arguments.of(6, 2, Type.SOLDIER),
                 Arguments.of(7, 1, Type.CANNON),
                 Arguments.of(8, 4, Type.GENERAL),
                 Arguments.of(9, 0, Type.CHARIOT),

@@ -7,7 +7,7 @@ public enum Type {
     HORSE("마"),
     ELEPHANT("상"),
     GUARD("사"),
-    SOLIDER("졸");
+    SOLDIER("졸");
 
     private final String name;
 
