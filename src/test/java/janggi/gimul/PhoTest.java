@@ -107,25 +107,25 @@ class PhoTest {
                 .isTrue();
     }
 
-    @DisplayName("아무런 기물이 없으면 false를 반환한다.")
+    @DisplayName("경로에 기물이 없으면 false를 반환한다.")
     @Test
     void canPassThrough_Empty() {
         //given
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of(), null))
+        assertThat(pho.canPassThrough(List.of()))
                 .isFalse();
     }
 
-    @DisplayName("포함된 기물이 포이면 false를 반환한다.")
+    @DisplayName("경로에 포가 있으면 false를 반환한다.")
     @Test
     void canPassThrough_pho() {
         //given
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO)), null))
+        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO))))
                 .isFalse();
     }
 
