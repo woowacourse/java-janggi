@@ -64,31 +64,34 @@ ex) 기물들 이동, 잡기
 ###  Game
 
 - 게임을 시작하고 전체 흐름을 관리한다
-- 기물 이동 요청을 처리한다
+- 차례를 관리하고 기물 이동 요청을 처리한다
 - 특정 기물의 이동 가능 위치를 조회한다
 
 
 ###  Board
 
 - 장기판의 상태(기물 배치)를 관리한다
-- 특정 위치의 기물을 조회한다
 - 기물의 이동 가능 위치를 계산한다
 - 기물을 실제로 이동시킨다
 - 같은 진영 기물이 있는 위치로 이동하지 못하도록 제한한다
 
 
-###  piecePiece
+###  Piece
 
 - 기물의 기본 속성(이름, 진영)을 가진다
 - 자신의 이동 규칙에 따라 이동 가능한 위치를 계산한다
 - 같은 진영 여부를 판단한다
 
 
-###  piecemoveMoveStrategy
+###  PathStrategy
 
-- 기물 이동 경로가 유효한지 검증한다
-- 기물별 이동 제약 조건을 처리한다
-  (예: 경로 차단, 점프 여부 등)
+- 기물의 이동 경로를 계산한다
+
+
+### BoardSetup
+
+- 진영별 초기 기물 배치를 생성한다.
+- 4가지 차림 방식(왼상/오른상/안상/바깥상)을 지원한다.
 
 
 ###  Path
@@ -100,150 +103,6 @@ ex) 기물들 이동, 잡기
 ###  Point
 
 - 장기판의 좌표를 표현한다
-
-
-###  PlayerSetUp
-* Player
-  - 플레이어 정보를 관리한다
-* sideSide
-  - 플레이어의 진영을 설정한다 
-* BoardSetup
-  - 장기판의 초기 기물 배치를 생성한다
+- 유효하지 않은 좌표 생성을 제한한다.
 
 ---
-
-## 클래스 다이어그램
-```mermaid
-classDiagram
-    direction TB
-
-    %% 상단: 게임과 전체 구조
-    class Game {
-        playerSetUp : Map[sideSide, PlayerSetUp]
-        +movePiece(Point from, Point to)
-        +availablePoints(Point target) List[Point]
-    }
-
-    class PlayerSetUp {
-        player : Player
-        side : sideSide
-        boardSetUp : BoardSetUp
-    }
-
-    class Player {
-        +name : String
-    }
-
-    class BoardSetUp {
-        <<interface>>
-        board : List[List[piecePiece]]
-    }
-
-    class Board {
-        +grid : List[List[piecePiece]]
-        +getBoard() List[List[piecePiece]]
-        +isTherePiece(Point target) piecePiece
-        +availablePoints(Point target) List[Point]
-        +movePiece(from, to) void
-    }
-
-    class Point {
-        +x
-        +y
-    }
-
-    class Path {
-        path : List[Point]
-    }
-
-    class sideSide {
-        <<enum>>
-        HAN
-        CHO
-    }
-
-    %% 중간: 추상 피스 및 전략 구조
-    class piecePiece {
-        <<interface>>
-        +name : String
-        +side : enum
-        +moveStrategy : piecemoveMoveStrategy
-        +availablePoints(from, to, board) List[Point]
-        +isSameSide(sideSide side) bool
-        -path(Point from) List[Path]
-    }
-
-    class piecemoveMoveStrategy {
-        <<interface>>
-        +isValidPath(path, board) bool
-    }
-
-    %% 하단: 기물 및 전략 구현체
-    class Cha {
-        +moveStrategy : ChaMoveStrategy
-    }
-    class Ma {
-        +moveStrategy : MaMoveStrategy
-    }
-    class Sang {
-        +moveStrategy : SangMoveStrategy
-    }
-    class Po {
-        +moveStrategy : PoMoveStrategy
-    }
-    class Jol {
-        +moveStrategy : JolMoveStrategy
-    }
-    class King {
-        +moveStrategy : KingMoveStrategy
-    }
-
-    class ChaMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class MaMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class SangMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class PoMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class JolMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-    class KingMoveStrategy {
-        +isValidPath(path, board) bool
-    }
-
-    %% 관계선
-    Game --> PlayerSetUp
-    Game --> Board
-    PlayerSetUp --> Player
-    PlayerSetUp --> BoardSetUp
-    Board ..> BoardSetUp
-    Board --> piecePiece : "manages"
-    Board --> Point
-    Path <.. piecePiece
-    piecePiece <|-- Cha
-    piecePiece <|-- Ma
-    piecePiece <|-- Sang
-    piecePiece <|-- Po
-    piecePiece <|-- Jol
-    piecePiece <|-- King
-
-    Cha --> piecemoveMoveStrategy : "uses"
-    Ma --> piecemoveMoveStrategy : "uses"
-    Sang --> piecemoveMoveStrategy : "uses"
-    Po --> piecemoveMoveStrategy : "uses"
-    Jol --> piecemoveMoveStrategy : "uses"
-    King --> piecemoveMoveStrategy : "uses"
-
-    piecemoveMoveStrategy <|.. ChaMoveStrategy
-    piecemoveMoveStrategy <|.. MaMoveStrategy
-    piecemoveMoveStrategy <|.. SangMoveStrategy
-    piecemoveMoveStrategy <|.. PoMoveStrategy
-    piecemoveMoveStrategy <|.. JolMoveStrategy
-    piecemoveMoveStrategy <|.. KingMoveStrategy
-```
