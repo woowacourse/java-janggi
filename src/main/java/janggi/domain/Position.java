@@ -2,9 +2,12 @@ package janggi.domain;
 
 import janggi.domain.movement.Direction;
 import janggi.global.Pair;
+import janggi.utils.Lists;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public final class Position {
 
@@ -13,13 +16,19 @@ public final class Position {
     public static final int MINIMUM_ROW = 1;
     public static final int MINIMUM_COLUMN = 1;
     private static final int ROW_FLIP_VALUE = 11;
-    private static final Map<Integer, Map<Integer, Position>> CACHE;
+    private static final Map<Pair<Integer, Integer>, Position> CACHE;
 
     static {
+        final List<Integer> rows = IntStream.rangeClosed(MINIMUM_ROW, MAXIMUM_ROW)
+            .boxed().toList();
+        final List<Integer> columns = IntStream.rangeClosed(MINIMUM_COLUMN, MAXIMUM_COLUMN)
+            .boxed().toList();
+
         CACHE = new LinkedHashMap<>();
-        for (int row = MINIMUM_ROW; row <= MAXIMUM_ROW; row++) {
-            CACHE.put(row, new LinkedHashMap<>());
-        }
+        Lists.cartesianProduct(rows, columns)
+            .forEach(positionPair
+                -> CACHE.put(positionPair,
+                new Position(positionPair.left(), positionPair.right())));
     }
 
     private final int row;
@@ -33,11 +42,11 @@ public final class Position {
     public static Position valueOf(final int row, final int column) {
         validateRowRange(row);
         validateColumnRange(column);
-        final Map<Integer, Position> secondaryMap = CACHE.get(row);
-        if (!secondaryMap.containsKey(column)) {
-            secondaryMap.put(column, new Position(row, column));
+        final Pair<Integer, Integer> positionPair = new Pair<>(row, column);
+        if (!CACHE.containsKey(positionPair)) {
+            CACHE.put(positionPair, new Position(row, column));
         }
-        return secondaryMap.get(column);
+        return CACHE.get(positionPair);
     }
 
     public static Position from(final Pair<Integer, Integer> rawPosition) {
