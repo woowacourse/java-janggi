@@ -1,6 +1,6 @@
 package janggi.domain.turn;
 
-import janggi.domain.PieceInfo;
+import janggi.domain.piece.PieceInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 

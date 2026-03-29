@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.domain.PieceInfo;
+import janggi.domain.piece.PieceInfo;
 
 public record BoardDto(PieceInfo[][] board) {
 }

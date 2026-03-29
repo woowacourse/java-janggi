@@ -1,6 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece;
 
-import janggi.domain.piece.PieceType;
+import janggi.domain.Side;
 
 public record PieceInfo(Side side, PieceType pieceType) {
 }

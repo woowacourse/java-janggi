@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.PieceInfo;
 import janggi.domain.Side;
 
 public abstract class BasePiece implements Piece {

@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.PieceInfo;
+import janggi.domain.piece.PieceInfo;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
