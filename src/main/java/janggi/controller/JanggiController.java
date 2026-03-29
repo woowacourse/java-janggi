@@ -51,15 +51,15 @@ public class JanggiController {
     }
 
     private Camp processMove(Janggi janggi, PositionRequest fromRequest, Camp currentCamp) {
-        if (tryMove(janggi, fromRequest)) {
+        if (tryMove(janggi, fromRequest, currentCamp)) {
             return nextCamp(currentCamp);
         }
         return currentCamp;
     }
 
-    private boolean tryMove(Janggi janggi, PositionRequest from) {
+    private boolean tryMove(Janggi janggi, PositionRequest from, Camp currentCamp) {
         try {
-            // 추후에 올바른 진영의 기물을 선택했는지 유효성 검사 로직 추가
+            janggi.validateCamp(Position.of(from.row(), from.column()), currentCamp);
             return executeMoveSequence(janggi, from);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
