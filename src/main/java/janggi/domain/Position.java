@@ -86,16 +86,16 @@ public final class Position {
     }
 
     public boolean checkNextBound(final int distance, final Direction direction) {
-        final int nextRow = row + direction.getRowDirection() * distance;
-        final int nextColumn = column + direction.getColumnDirection() * distance;
+        final int nextRow = row + direction.getRow() * distance;
+        final int nextColumn = column + direction.getColumn() * distance;
 
         return nextRow >= MINIMUM_ROW && nextRow <= MAXIMUM_ROW && nextColumn >= MINIMUM_COLUMN
             && nextColumn <= MAXIMUM_COLUMN;
     }
 
     public Position calculateNext(final int distance, final Direction direction) {
-        final int nextRow = row + direction.getRowDirection() * distance;
-        final int nextColumn = column + direction.getColumnDirection() * distance;
+        final int nextRow = row + direction.getRow() * distance;
+        final int nextColumn = column + direction.getColumn() * distance;
 
         return Position.valueOf(Math.clamp(nextRow, MINIMUM_ROW, MAXIMUM_ROW),
             Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));

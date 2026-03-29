@@ -19,11 +19,11 @@ public enum Direction {
         this.column = column;
     }
 
-    public int getRowDirection() {
+    public int getRow() {
         return row;
     }
 
-    public int getColumnDirection() {
+    public int getColumn() {
         return column;
     }
 }
