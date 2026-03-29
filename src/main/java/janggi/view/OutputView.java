@@ -27,24 +27,21 @@ public final class OutputView {
             "０", "１", "２", "３", "４", "５", "６", "７", "８", "９"
     };
 
-    private OutputView() {
-    }
-
-    public static void printError(String errorMessage) {
+    public void printError(String errorMessage) {
         System.out.println(errorMessage);
     }
 
-    public static void printBoard(List<PiecePositionDto> piecePositions) {
+    public void printBoard(List<PiecePositionDto> piecePositions) {
         System.out.println(renderBoard(piecePositions));
     }
 
-    private static String renderBoard(List<PiecePositionDto> piecePositions) {
+    private String renderBoard(List<PiecePositionDto> piecePositions) {
         String[][] board = initializeBoard();
         applyPieces(board, piecePositions);
         return TITLE + LINE_SEPARATOR + renderHeader() + LINE_SEPARATOR + renderRows(board);
     }
 
-    private static String[][] initializeBoard() {
+    private String[][] initializeBoard() {
         String[][] board = new String[ROW_SIZE][COLUMN_SIZE];
         for (String[] row : board) {
             Arrays.fill(row, EMPTY_CELL);
@@ -52,44 +49,44 @@ public final class OutputView {
         return board;
     }
 
-    private static String renderHeader() {
+    private String renderHeader() {
         return "  " + IntStream.range(0, COLUMN_SIZE)
-                .mapToObj(OutputView::fullWidthNumber)
+                .mapToObj(this::fullWidthNumber)
                 .collect(joining(" "));
     }
 
-    private static void applyPieces(String[][] board, List<PiecePositionDto> piecePositions) {
+    private void applyPieces(String[][] board, List<PiecePositionDto> piecePositions) {
         for (PiecePositionDto piecePosition : piecePositions) {
             board[piecePosition.row()][piecePosition.col()] = colorize(piecePosition);
         }
     }
 
-    private static String renderRows(String[][] board) {
+    private String renderRows(String[][] board) {
         return IntStream.range(0, ROW_SIZE)
                 .mapToObj(row -> renderRow(row, board[row]))
                 .collect(joining(LINE_SEPARATOR));
     }
 
-    private static String renderRow(int row, String[] cells) {
+    private String renderRow(int row, String[] cells) {
         return fullWidthNumber(row) + ' ' + String.join(" ", cells);
     }
 
-    private static String colorize(PiecePositionDto piecePosition) {
+    private String colorize(PiecePositionDto piecePosition) {
         return colorOf(piecePosition.camp()) + piecePosition.type() + RESET;
     }
 
-    private static String colorOf(CampDto campDto) {
+    private String colorOf(CampDto campDto) {
         if (isCho(campDto.camp())) {
             return CHO_COLOR;
         }
         return HAN_COLOR;
     }
 
-    private static boolean isCho(String camp) {
+    private boolean isCho(String camp) {
         return camp.equals(CHO_NAME);
     }
 
-    private static String fullWidthNumber(int number) {
+    private String fullWidthNumber(int number) {
         return FULL_WIDTH_NUMBERS[number];
     }
 }

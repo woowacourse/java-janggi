@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public final class InputView {
 
-    private static final Scanner SCANNER = new Scanner(System.in);
     private static final String DELIMITER = ",";
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
@@ -24,33 +23,36 @@ public final class InputView {
     private static final String SOURCE = "공격할 기물의 좌표를 행,열 순으로 입력해 주세요. (예: 9,8)";
     private static final String DESTINATION = LINE_SEPARATOR + "이동 시킬 목적지의 좌표를 행,열 순으로 입력해 주세요. (예: 2,0)";
 
-    private InputView() {
+    private final Scanner scanner;
+
+    public InputView(Scanner scanner) {
+        this.scanner = scanner;
     }
 
-    public static String readElephantSettingCommand(CampDto campDto) {
+    public String readElephantSettingCommand(CampDto campDto) {
         System.out.println(String.format(ELEPHANT_SETTING, campDto.camp()));
         return readLine();
     }
 
-    private static String readLine() {
-        String input = SCANNER.nextLine().strip();
+    private String readLine() {
+        String input = scanner.nextLine().strip();
         validateInput(input);
         return input;
     }
 
-    private static void validateInput(String input) {
+    private void validateInput(String input) {
         if (input == null || input.isBlank()) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
         }
     }
 
-    public static List<Integer> readSource(CampDto campDto) {
+    public List<Integer> readSource(CampDto campDto) {
         System.out.println(String.format(TURN, campDto.camp()));
         System.out.println(SOURCE);
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }
 
-    public static List<Integer> readDestination() {
+    public List<Integer> readDestination() {
         System.out.println(DESTINATION);
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }

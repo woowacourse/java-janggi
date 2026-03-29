@@ -19,20 +19,28 @@ import java.util.function.Supplier;
 
 public class JanggiGame {
 
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    public JanggiGame(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
+
     public void run() {
         Board board = createBoard();
-        OutputView.printBoard(toPiecePositions(board.getBoard()));
+        outputView.printBoard(toPiecePositions(board.getBoard()));
         play(board);
     }
 
     private Board createBoard() {
         ElephantSetting hanElephantSetting = retryOnInvalidInput(
                 () -> ElephantSetting.findElephantSettingBy(
-                        InputView.readElephantSettingCommand(CampDto.from(Camp.HAN))));
+                        inputView.readElephantSettingCommand(CampDto.from(Camp.HAN))));
 
         ElephantSetting choElephantSetting = retryOnInvalidInput(
                 () -> ElephantSetting.findElephantSettingBy(
-                        InputView.readElephantSettingCommand(CampDto.from(Camp.CHO))));
+                        inputView.readElephantSettingCommand(CampDto.from(Camp.CHO))));
 
         BoardInitializer initializer = new StandardBoardInitializer(hanElephantSetting, choElephantSetting);
         return new Board(initializer);
@@ -48,21 +56,21 @@ public class JanggiGame {
         Turn turn = new Turn();
         while (true) {
             retryOnInvalidInput(() -> playTurn(board, turn));
-            OutputView.printBoard(toPiecePositions(board.getBoard()));
+            outputView.printBoard(toPiecePositions(board.getBoard()));
         }
     }
 
     private void playTurn(Board board, Turn turn) {
         Camp camp = turn.currentTurn();
         Position source = readSource(board, camp);
-        Position destination = retryOnInvalidInput(() -> toPosition(InputView.readDestination()));
+        Position destination = retryOnInvalidInput(() -> toPosition(inputView.readDestination()));
         board.movePiece(source, destination, camp);
         turn.finishTurn();
     }
 
     private Position readSource(Board board, Camp camp) {
         return retryOnInvalidInput(() -> {
-            Position source = toPosition(InputView.readSource(CampDto.from(camp)));
+            Position source = toPosition(inputView.readSource(CampDto.from(camp)));
             board.validateCampTurn(source, camp);
             return source;
         });
@@ -84,7 +92,7 @@ public class JanggiGame {
             try {
                 return input.get();
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -95,7 +103,7 @@ public class JanggiGame {
                 input.run();
                 return;
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
