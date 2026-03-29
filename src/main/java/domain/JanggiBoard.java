@@ -30,8 +30,8 @@ public class JanggiBoard implements PieceProvider {
     }
 
     private void setupInitialPieces() {
-        setupTeamPieces(Team.HAN, 0, 1,2, 3); // 한나라 기물 배치 (0~3행 위주)
-        setupTeamPieces(Team.CHO, 9, 8,7,6); // 초나라 기물 배치 (9~6행 위주)
+        setupTeamPieces(Team.HAN, 0, 1,2, 3); // 한나라 기물 배치
+        setupTeamPieces(Team.CHO, 9, 8,7,6); // 초나라 기물 배치
     }
 
     private void setupTeamPieces(Team team, int baseRow, int kingRow, int cannonRow, int pawnRow) {
@@ -57,6 +57,19 @@ public class JanggiBoard implements PieceProvider {
         for (int col = 0; col < 9; col += 2) {
             janggiBoard.put(new Position(pawnRow, col), new Pawn(team));
         }
+    }
+
+    public void movePiece(Position currentPosition, Position targetPosition) {
+        Piece currentPiece = getPiece(currentPosition);
+
+        if (currentPiece instanceof Blank) {
+            throw new IllegalArgumentException("[ERROR] 선택한 위치에 기물이 비어있습니다.");
+        }
+        if (!currentPiece.canMove(currentPosition, targetPosition, this)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 이동할 수 없습니다.");
+        }
+        janggiBoard.put(targetPosition, currentPiece);
+        janggiBoard.put(currentPosition, new Blank());
     }
 
     @Override
