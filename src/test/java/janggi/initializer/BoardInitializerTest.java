@@ -71,7 +71,7 @@ class BoardInitializerTest {
 
     @Test
     void 장기판은_10x9_모든_좌표를_생성한다() {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.마상마상, Arrangement.마상마상);
+        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
 
         assertThat(board.size()).isEqualTo(Position.BOARD_END_ROWS * Position.BOARD_END_COLS);
 
@@ -84,7 +84,7 @@ class BoardInitializerTest {
 
     @Test
     void 장기판은_고정된_위치의_기물을_제외한_나머지_칸을_NONE으로_채운다() {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.마상마상, Arrangement.마상마상);
+        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
 
         int noneCount = (int) board.values().stream()
                 .filter(piece -> piece.isEqualPieceType(PieceType.NONE))
@@ -95,7 +95,7 @@ class BoardInitializerTest {
 
     @Test
     void 장기판은_고정_기물을_정해진_좌표에_배치한다() {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.마상마상, Arrangement.마상마상);
+        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
 
         initialHanPiecePosition.forEach((position, expectedClass) -> {
             assertPiece(board, position, expectedClass, Side.HAN);
@@ -110,7 +110,7 @@ class BoardInitializerTest {
     @ParameterizedTest
     @MethodSource("choArrangementCases")
     void 장기판은_초_진영의_마상_포진을_반영한다(Arrangement arrangement, List<Class<? extends Piece>> pieceTypeList) {
-        Map<Position, Piece> board = BoardInitializer.createBoard(arrangement, Arrangement.마상마상);
+        Map<Position, Piece> board = BoardInitializer.createBoard(arrangement, Arrangement.MA_SANG_MA_SANG);
 
         for (int i = 0; i < 4; i++) {
             assertPiece(board, initialChoMaSangPosition.get(i), pieceTypeList.get(i), Side.CHO);
@@ -120,7 +120,7 @@ class BoardInitializerTest {
     @ParameterizedTest
     @MethodSource("hanArrangementCases")
     void 장기판은_한_진영의_마상_포진을_반영한다(Arrangement arrangement, List<Class<? extends Piece>> pieceTypeList) {
-        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.마상마상, arrangement);
+        Map<Position, Piece> board = BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, arrangement);
 
         for (int i = 0; i < 4; i++) {
             assertPiece(board, initialHanMaSangPosition.get(i), pieceTypeList.get(i), Side.HAN);
@@ -129,19 +129,19 @@ class BoardInitializerTest {
 
     private static Stream<Arguments> choArrangementCases() {
         return Stream.of(
-                Arguments.of(Arrangement.마상마상, List.of(Ma.class, Sang.class, Ma.class, Sang.class)),
-                Arguments.of(Arrangement.마상상마, List.of(Ma.class, Sang.class, Sang.class, Ma.class)),
-                Arguments.of(Arrangement.상마마상, List.of(Sang.class, Ma.class, Ma.class, Sang.class)),
-                Arguments.of(Arrangement.상마상마, List.of(Sang.class, Ma.class, Sang.class, Ma.class))
+                Arguments.of(Arrangement.MA_SANG_MA_SANG, List.of(Ma.class, Sang.class, Ma.class, Sang.class)),
+                Arguments.of(Arrangement.MA_SANG_SANG_MA, List.of(Ma.class, Sang.class, Sang.class, Ma.class)),
+                Arguments.of(Arrangement.SANG_MA_MA_SANG, List.of(Sang.class, Ma.class, Ma.class, Sang.class)),
+                Arguments.of(Arrangement.SANG_MA_SANG_MA, List.of(Sang.class, Ma.class, Sang.class, Ma.class))
         );
     }
 
     private static Stream<Arguments> hanArrangementCases() {
         return Stream.of(
-                Arguments.of(Arrangement.마상마상, List.of(Ma.class, Sang.class, Ma.class, Sang.class)),
-                Arguments.of(Arrangement.마상상마, List.of(Ma.class, Sang.class, Sang.class, Ma.class)),
-                Arguments.of(Arrangement.상마마상, List.of(Sang.class, Ma.class, Ma.class, Sang.class)),
-                Arguments.of(Arrangement.상마상마, List.of(Sang.class, Ma.class, Sang.class, Ma.class))
+                Arguments.of(Arrangement.MA_SANG_MA_SANG, List.of(Ma.class, Sang.class, Ma.class, Sang.class)),
+                Arguments.of(Arrangement.MA_SANG_SANG_MA, List.of(Ma.class, Sang.class, Sang.class, Ma.class)),
+                Arguments.of(Arrangement.SANG_MA_MA_SANG, List.of(Sang.class, Ma.class, Ma.class, Sang.class)),
+                Arguments.of(Arrangement.SANG_MA_SANG_MA, List.of(Sang.class, Ma.class, Sang.class, Ma.class))
         );
     }
 

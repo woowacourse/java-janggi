@@ -21,10 +21,10 @@ import java.util.function.Function;
 
 public class BoardInitializer {
     private static final Map<Arrangement, List<PieceType>> arrangeMap = Map.of(
-            Arrangement.마상마상, List.of(PieceType.MA, PieceType.SANG, PieceType.MA, PieceType.SANG),
-            Arrangement.마상상마, List.of(PieceType.MA, PieceType.SANG, PieceType.SANG, PieceType.MA),
-            Arrangement.상마마상, List.of(PieceType.SANG, PieceType.MA, PieceType.MA, PieceType.SANG),
-            Arrangement.상마상마, List.of(PieceType.SANG, PieceType.MA, PieceType.SANG, PieceType.MA)
+            Arrangement.MA_SANG_MA_SANG, List.of(PieceType.MA, PieceType.SANG, PieceType.MA, PieceType.SANG),
+            Arrangement.MA_SANG_SANG_MA, List.of(PieceType.MA, PieceType.SANG, PieceType.SANG, PieceType.MA),
+            Arrangement.SANG_MA_MA_SANG, List.of(PieceType.SANG, PieceType.MA, PieceType.MA, PieceType.SANG),
+            Arrangement.SANG_MA_SANG_MA, List.of(PieceType.SANG, PieceType.MA, PieceType.SANG, PieceType.MA)
     );
 
     private static final List<Position> choMaSangPosition = List.of(
