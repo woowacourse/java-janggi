@@ -7,13 +7,9 @@ import static common.Constants.MIN_ROW;
 
 import domain.board.Board;
 import domain.piece.Piece;
-import domain.player.Team;
 import domain.position.Position;
 
 public class OutputView {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_BLUE = "\u001B[34m";
 
     public void printBoard(Board board) {
         printColumnHeader();
@@ -50,7 +46,9 @@ public class OutputView {
         sb.append(String.format("%3d   ", row));
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             Piece piece = board.findPiece(new Position(row, column));
-            sb.append(formatCell(piece));
+
+            sb.append(ConsolePieceMapper.toViewString(piece.getTeam(), piece.getPieceType()));
+
             if (column != MAX_COLUMN) {
                 sb.append("---");
             }
@@ -68,21 +66,5 @@ public class OutputView {
             }
         }
         System.out.println(sb);
-    }
-
-    private String formatCell(Piece piece) {
-        String pieceString = piece.getPieceString();
-        Team team = piece.getTeam();
-
-        if (!piece.isNotNone()) {
-            return String.format("[%2s]", pieceString);
-        }
-        if (team.isCho()) {
-            return String.format("[%s%2s%s]", ANSI_BLUE, pieceString, ANSI_RESET);
-        }
-        if (team.isHan()) {
-            return String.format("[%s%2s%s]", ANSI_RED, pieceString, ANSI_RESET);
-        }
-        return String.format("[%2s]", pieceString);
     }
 }
