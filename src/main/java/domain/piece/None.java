@@ -7,7 +7,7 @@ import domain.strategy.MovementStrategy;
 public class None extends Piece {
 
     public None() {
-        super(Team.NULL, PieceType.NONE);
+        super(null, PieceType.NONE);
     }
 
     @Override
@@ -18,5 +18,15 @@ public class None extends Piece {
     @Override
     protected PathGenerator getPathGenerator() {
         return null;
+    }
+
+    @Override
+    public boolean isDifferentTeam(Team team) {
+        return false;
+    }
+
+    @Override
+    public boolean isDifferentTeam(Piece piece) {
+        return false;
     }
 }
