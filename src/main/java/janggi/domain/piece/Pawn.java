@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
+import janggi.domain.Movements;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
@@ -10,30 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends ActivePiece {
-    private final List<List<Movement>> MOVE_RANGE;
+    private final List<Movements> MOVE_RANGE;
 
-    public Pawn(Side side, List<List<Movement>> moveRange) {
+    public Pawn(Side side, List<Movements> moveRange) {
         super(new ClearPathPolicy(), side, PieceType.PAWN);
         MOVE_RANGE = moveRange;
     }
 
     public static Pawn from(Side side) {
-        List<List<Movement>> moveRange = new ArrayList<>(List.of(List.of(Movement.LEFT), List.of(Movement.RIGHT)));
+        List<Movements> moveRange = new ArrayList<>(List.of(new Movements(List.of(Movement.LEFT)), new Movements(List.of(Movement.RIGHT))));
         moveRange.add(calculateForwardMovement(side));
         return new Pawn(side, moveRange);
     }
 
-    private static List<Movement> calculateForwardMovement(Side side) {
+    private static Movements calculateForwardMovement(Side side) {
         if (side.equals(Side.CHO)) {
-            return List.of(Movement.UP);
+            return new Movements(List.of(Movement.UP));
         }
-        return List.of(Movement.DOWN);
+        return new Movements(List.of(Movement.DOWN));
     }
 
     @Override
     public Route findRoute(Position start, Position end) {
-        for (List<Movement> movements : MOVE_RANGE) {
-            Route calculatedPath = calculatePath(start, movements);
+        for (Movements movements : MOVE_RANGE) {
+            Route calculatedPath = movements.calculatePath(start);
             if (calculatedPath.isArrivalPoint(end)) {
                 return calculatedPath;
             }
@@ -46,11 +47,5 @@ public class Pawn extends ActivePiece {
         if (!routePolicy.isMovable(route, side, boardInterface)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
-    }
-
-    private Route calculatePath(Position start, List<Movement> path) {
-        List<Position> calculatedPath = new ArrayList<>(List.of(start));
-        path.forEach(movement -> calculatedPath.add(calculatedPath.getLast().move(movement)));
-        return new Route(calculatedPath);
     }
 }
