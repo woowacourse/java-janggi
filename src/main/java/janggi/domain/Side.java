@@ -31,6 +31,6 @@ public enum Side {
             throw new IllegalArgumentException(INVALID_OPPOSITE_SIDE);
         }
 
-        return oppositeSide.get(this);
+        return side;
     }
 }
