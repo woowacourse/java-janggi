@@ -2,11 +2,12 @@ package janggi.domain.board;
 
 import janggi.domain.movestrategy.CannonStrategy;
 import janggi.domain.movestrategy.ChariotStrategy;
+import janggi.domain.movestrategy.ChoSoldierStrategy;
 import janggi.domain.movestrategy.ElephantStrategy;
 import janggi.domain.movestrategy.GeneralStrategy;
 import janggi.domain.movestrategy.GuardStrategy;
+import janggi.domain.movestrategy.HanSoldierStrategy;
 import janggi.domain.movestrategy.HorseStrategy;
-import janggi.domain.movestrategy.SoliderStrategy;
 import janggi.domain.piece.CannonPiece;
 import janggi.domain.piece.ChariotPiece;
 import janggi.domain.piece.ElephantPiece;
@@ -14,7 +15,7 @@ import janggi.domain.piece.GeneralPiece;
 import janggi.domain.piece.GuardPiece;
 import janggi.domain.piece.HorsePiece;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.SoliderPiece;
+import janggi.domain.piece.SoldierPiece;
 import janggi.domain.piece.Team;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -97,11 +98,11 @@ public class BoardInitializer {
     }
 
     private static void initializeHan(Map<Position, Piece> board, int openingFormationChoice) {
-        board.put(new Position(1, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(3, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(5, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(7, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
-        board.put(new Position(9, 4), new SoliderPiece(Team.HAN, new SoliderStrategy()));
+        board.put(new Position(1, 4), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
+        board.put(new Position(3, 4), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
+        board.put(new Position(5, 4), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
+        board.put(new Position(7, 4), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
+        board.put(new Position(9, 4), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
 
         board.put(new Position(2, 3), new CannonPiece(Team.HAN, new CannonStrategy()));
         board.put(new Position(8, 3), new CannonPiece(Team.HAN, new CannonStrategy()));
@@ -118,11 +119,11 @@ public class BoardInitializer {
     }
 
     private static void initializeCho(Map<Position, Piece> board, int openingFormationChoice) {
-        board.put(new Position(1, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(3, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(5, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(7, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
-        board.put(new Position(9, 7), new SoliderPiece(Team.CHO, new SoliderStrategy()));
+        board.put(new Position(1, 7), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
+        board.put(new Position(3, 7), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
+        board.put(new Position(5, 7), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
+        board.put(new Position(7, 7), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
+        board.put(new Position(9, 7), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
 
         board.put(new Position(2, 8), new CannonPiece(Team.CHO, new CannonStrategy()));
         board.put(new Position(8, 8), new CannonPiece(Team.CHO, new CannonStrategy()));

@@ -5,8 +5,8 @@ import janggi.domain.movestrategy.MoveStrategy;
 import java.util.List;
 import java.util.Map;
 
-public class SoliderPiece extends Piece {
-    public SoliderPiece(Team team, MoveStrategy moveStrategy) {
+public class SoldierPiece extends Piece {
+    public SoldierPiece(Team team, MoveStrategy moveStrategy) {
         super(team, Name.SOLDIER, moveStrategy);
     }
 
