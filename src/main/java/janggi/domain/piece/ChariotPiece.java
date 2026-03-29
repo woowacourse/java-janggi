@@ -14,33 +14,17 @@ public class ChariotPiece extends Piece {
     @Override
     public List<Position> findPath(Position from, Position to) {
         List<Position> path = new ArrayList<>();
-        int preX = from.getX();
-        int preY = from.getY();
 
-        int nextX = to.getX();
-        int nextY = to.getY();
+        int currentX = from.getX();
+        int currentY = from.getY();
 
-        if (preX == nextX) {
-            if (nextY > preY) {
-                for (int y = preY + 1; y <= nextY; y++) {
-                    path.add(new Position(preX, y));
-                }
-                return path;
-            }
-            for (int y = preY - 1; y >= nextY; y--) {
-                path.add(new Position(preX, y));
-            }
-            return path;
-        }
+        int stepX = Integer.compare(to.getX(), from.getX());
+        int stepY = Integer.compare(to.getY(), from.getY());
 
-        if (nextX > preX) {
-            for (int x = preX + 1; x <= nextX; x++) {
-                path.add(new Position(x, preY));
-            }
-            return path;
-        }
-        for (int x = preX - 1; x >= nextX; x--) {
-            path.add(new Position(x, preY));
+        while (currentX != to.getX() || currentY != to.getY()) {
+            currentX += stepX;
+            currentY += stepY;
+            path.add(new Position(currentX, currentY));
         }
         return path;
     }
