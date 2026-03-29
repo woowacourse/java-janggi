@@ -30,7 +30,7 @@ public class CannonMoveRule implements MoveRule {
 
     // 포다리가 안되는 경우 검증(빈 공간인지 or 포다리가 포 인지)
     private boolean isInvalidBridge(final Position bridge, final BoardMediator boardMediator) {
-        return !boardMediator.existsInPosition(bridge)
+        return !boardMediator.hasPieceAt(bridge)
                 || boardMediator.getPieceInPosition(bridge).getPieceType() == PieceType.CANNON;
     }
 }

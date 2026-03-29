@@ -12,7 +12,7 @@ public class BoardMediatorImpl implements BoardMediator {
     }
 
     @Override
-    public boolean existsInPosition(final Position position) {
+    public boolean hasPieceAt(final Position position) {
         return !board.isBlank(position);
     }
 

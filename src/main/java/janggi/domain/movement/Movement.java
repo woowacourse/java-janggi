@@ -99,7 +99,7 @@ public class Movement {
     }
 
     private boolean hasPieceAt(final Position position, final BoardMediator boardMediator) {
-        return boardMediator.existsInPosition(position);
+        return boardMediator.hasPieceAt(position);
     }
 
     private Piece findPieceAt(final Position position, final BoardMediator boardMediator) {
