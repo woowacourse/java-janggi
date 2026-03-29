@@ -17,17 +17,11 @@ public record DirectionInformation(int rowDifference, int colDifference) {
     }
 
     public int calculateRowDirection() {
-        if (rowDifference == 0) {
-            return 0;
-        }
-        return rowDifference / Math.abs(rowDifference);
+        return Integer.signum(rowDifference);
     }
 
     public int calculateColDirection() {
-        if (colDifference == 0) {
-            return 0;
-        }
-        return colDifference / Math.abs(colDifference);
+        return Integer.signum(colDifference);
     }
 
     public boolean isRowBiggerThanCol() {
