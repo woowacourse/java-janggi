@@ -3,8 +3,6 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -46,7 +44,6 @@ class CannonTest {
                     Position.valueOf(6, 5), enemySoldier,
                     Position.valueOf(7, 7), allySoldier);
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of(
                     Position.valueOf(6, 1),
                     Position.valueOf(6, 2),
@@ -57,7 +54,7 @@ class CannonTest {
                     Position.valueOf(10, 7));
 
             List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
-                    boardMediator);
+                    board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -71,14 +68,13 @@ class CannonTest {
                     Position.valueOf(6, 5), enemyCannon,
                     Position.valueOf(9, 7), allyCannon);
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of(
                     Position.valueOf(1, 7),
                     Position.valueOf(2, 7),
                     Position.valueOf(3, 7));
 
             List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
-                    boardMediator);
+                    board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -91,11 +87,10 @@ class CannonTest {
                     Position.valueOf(6, 3), enemyCannon,
                     Position.valueOf(6, 4), allySoldier);
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of();
 
             List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
-                    boardMediator);
+                    board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

@@ -24,9 +24,9 @@ public class BoardTest {
         void success_1() {
             Board board = new Board(new LinkedHashMap<>());
             Position position = Position.valueOf(1, 1);
-            boolean expected = true;
+            boolean expected = false;
 
-            boolean actual = board.isBlank(position);
+            boolean actual = board.hasPieceAt(position);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -35,12 +35,11 @@ public class BoardTest {
         @DisplayName("빈칸이 아닌 경우")
         void success_2() {
             Position position = Position.valueOf(1, 1);
-            Map<Position, Piece> positionPieceMap = Map.of(
-                    position, new Cannon(TeamType.RED));
+            Map<Position, Piece> positionPieceMap = Map.of(position, new Cannon(TeamType.RED));
             Board board = new Board(positionPieceMap);
-            boolean expected = false;
+            boolean expected = true;
 
-            boolean actual = board.isBlank(position);
+            boolean actual = board.hasPieceAt(position);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -55,11 +54,10 @@ public class BoardTest {
         void success() {
             Position position = Position.valueOf(1, 1);
             Piece expected = new Cannon(TeamType.RED);
-            Map<Position, Piece> positionPieceMap = Map.of(
-                    position, expected);
+            Map<Position, Piece> positionPieceMap = Map.of(position, expected);
             Board board = new Board(positionPieceMap);
 
-            Piece actual = board.findPieceByPosition(position);
+            Piece actual = board.getPieceInPosition(position);
 
             assertThat(actual).usingRecursiveComparison()
                     .isEqualTo(expected);
@@ -72,7 +70,7 @@ public class BoardTest {
             Board board = new Board(new LinkedHashMap<>());
 
             assertThatIllegalStateException()
-                    .isThrownBy(() -> board.findPieceByPosition(position));
+                    .isThrownBy(() -> board.getPieceInPosition(position));
         }
     }
 }

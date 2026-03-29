@@ -47,7 +47,7 @@ public record BoardDto(
 
     public static BoardDto from(final Board board) {
         final List<String> rowStatuses = new ArrayList<>();
-        final Map<Position, Piece> positionPieceMap = board.getPositionPieceMap();
+        final Map<Position, Piece> positionPieceMap = board.getPositionPieceMapForDTO();
         for (int row = MINIMUM_ROW; row <= MAXIMUM_ROW; row++) {
             rowStatuses.add(composeRowStatus(row, positionPieceMap));
         }

@@ -3,8 +3,6 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -65,8 +63,7 @@ public class ChariotTest {
                     Position.valueOf(6, 3), Position.valueOf(7, 3));
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3), boardMediator);
+            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3), board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -84,8 +81,7 @@ public class ChariotTest {
                     Position.valueOf(5, 5), Position.valueOf(6, 3));
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3), boardMediator);
+            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3), board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

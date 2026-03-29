@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -65,7 +64,7 @@ public class GuardTest {
                     Position.valueOf(7, 4), Position.valueOf(7, 5));
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            BoardMediator boardMediator = board;
             List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4),
                     boardMediator);
 
@@ -83,9 +82,7 @@ public class GuardTest {
                     Position.valueOf(7, 4), Position.valueOf(7, 5));
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4),
-                    boardMediator);
+            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4), board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -100,9 +97,7 @@ public class GuardTest {
             List<Position> expected = List.of();
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(1, 1),
-                    boardMediator);
+            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(1, 1), board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

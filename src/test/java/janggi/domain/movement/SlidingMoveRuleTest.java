@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Piece;
@@ -18,25 +16,30 @@ import org.junit.jupiter.api.Test;
 
 public class SlidingMoveRuleTest {
 
-    Board board;
-    BoardMediator boardMediator;
-
     @Test
     @DisplayName("이동 가능한 자취 경로 계산 테스트")
     public void execute() {
+        // given
         Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(5, 3), new Chariot(TeamType.RED),
-                Position.valueOf(8, 3), new Elephant(TeamType.BLUE));
+                Position.valueOf(8, 3), new Elephant(TeamType.BLUE)
+        );
         Board board = new Board(positionPieceMap);
-        BoardMediator boardMediator = new BoardMediatorImpl(board);
         Direction direction = Direction.DOWN;
         MoveRule moveRuleWithTraces = new SlidingMoveRule(
-                List.of(new Movement(MAXIMUM_ROW, direction)));
-        List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),
-                Position.valueOf(8, 3));
+                List.of(new Movement(MAXIMUM_ROW, direction))
+        );
+        Position from = Position.valueOf(5, 3);
 
-        List<Position> actual = moveRuleWithTraces.execute(Position.valueOf(5, 3), boardMediator);
+        // when
+        List<Position> actual = moveRuleWithTraces.execute(from, board);
 
+        // then
+        List<Position> expected = List.of(
+                Position.valueOf(6, 3),
+                Position.valueOf(7, 3),
+                Position.valueOf(8, 3)
+        );
         assertThat(actual).hasSameElementsAs(expected);
     }
 }

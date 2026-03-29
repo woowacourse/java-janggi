@@ -3,8 +3,6 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
@@ -53,10 +51,9 @@ public class BlueSoldierTest {
             );
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
 
             List<Position> actual = blueSoldier.calculateMovablePositions(
-                    Position.valueOf(6, 4), boardMediator
+                    Position.valueOf(6, 4), board
             );
 
             assertThat(actual).hasSameElementsAs(expected);
@@ -74,10 +71,9 @@ public class BlueSoldierTest {
             );
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
 
             List<Position> actual = blueSoldier.calculateMovablePositions(
-                    Position.valueOf(6, 4), boardMediator
+                    Position.valueOf(6, 4), board
             );
 
             assertThat(actual).hasSameElementsAs(expected);
@@ -92,10 +88,9 @@ public class BlueSoldierTest {
             List<Position> expected = List.of();
 
             Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
 
             List<Position> actual = blueSoldier.calculateMovablePositions(
-                    Position.valueOf(1, 1), boardMediator
+                    Position.valueOf(1, 1), board
             );
 
             assertThat(actual).hasSameElementsAs(expected);

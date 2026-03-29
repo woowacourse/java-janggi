@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -27,17 +25,20 @@ public class CannonMoveRuleTest {
         @Test
         @DisplayName("이동 경로에 죽일 수 없는 기물이 있는 경우")
         void success() {
+            // given
             Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
             positionPieceMap.put(Position.valueOf(6, 2), new Cannon(TeamType.BLUE));
             positionPieceMap.put(Position.valueOf(6, 4), new Soldier(TeamType.RED));
             positionPieceMap.put(Position.valueOf(6, 7), new Cannon(TeamType.RED));
-            BoardMediator boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
+            Board board = new Board(positionPieceMap);
             Position from = Position.valueOf(6, 7);
             MoveRule moveRuleOfCannon = new CannonMoveRule(Direction.LEFT);
+
+            // when
+            List<Position> actual = moveRuleOfCannon.execute(from, board);
+
+            // then
             List<Position> expected = List.of(Position.valueOf(6, 3));
-
-            List<Position> actual = moveRuleOfCannon.execute(from, boardMediator);
-
             assertThat(actual).isEqualTo(expected);
         }
     }
