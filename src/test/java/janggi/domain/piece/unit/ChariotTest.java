@@ -34,29 +34,29 @@ class ChariotTest {
                 Arguments.of(Side.CHO,
                         List.of(
                                 new Path(List.of(
-                                        new Point(1, 0), new Point(2, 0),
-                                        new Point(3, 0), new Point(4, 0),
-                                        new Point(5, 0), new Point(6, 0),
-                                        new Point(7, 0), new Point(8, 0),
-                                        new Point(9, 0)
+                                        Point.of(1, 0), Point.of(2, 0),
+                                        Point.of(3, 0), Point.of(4, 0),
+                                        Point.of(5, 0), Point.of(6, 0),
+                                        Point.of(7, 0), Point.of(8, 0),
+                                        Point.of(9, 0)
                                 )),
                                 new Path(List.of(
-                                        new Point(0, 1), new Point(0, 2),
-                                        new Point(0, 3), new Point(0, 4),
-                                        new Point(0, 5), new Point(0, 6),
-                                        new Point(0, 7), new Point(0, 8)
+                                        Point.of(0, 1), Point.of(0, 2),
+                                        Point.of(0, 3), Point.of(0, 4),
+                                        Point.of(0, 5), Point.of(0, 6),
+                                        Point.of(0, 7), Point.of(0, 8)
                                 ))
                         ),
-                        Map.of(new Point(6, 0), new Chariot(Side.HAN), new Point(0, 2), new Chariot(Side.CHO)),
+                        Map.of(Point.of(6, 0), new Chariot(Side.HAN), Point.of(0, 2), new Chariot(Side.CHO)),
                         List.of(
-                                new Point(0,1),
-                                new Point(0,2),
-                                new Point(1, 0),
-                                new Point(2, 0),
-                                new Point(3, 0),
-                                new Point(4, 0),
-                                new Point(5, 0),
-                                new Point(6, 0)
+                                Point.of(0,1),
+                                Point.of(0,2),
+                                Point.of(1, 0),
+                                Point.of(2, 0),
+                                Point.of(3, 0),
+                                Point.of(4, 0),
+                                Point.of(5, 0),
+                                Point.of(6, 0)
                         ))
 
         );

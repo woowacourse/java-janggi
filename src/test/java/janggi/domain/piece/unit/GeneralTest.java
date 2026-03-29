@@ -38,21 +38,21 @@ class GeneralTest {
         return Stream.of(
                 Arguments.of(Side.CHO,
                         List.of(
-                                new Path(List.of(new Point(0, 3))), new Path(List.of(new Point(0, 4))),
-                                new Path(List.of(new Point(0, 5))), new Path(List.of(new Point(1, 3))),
-                                new Path(List.of(new Point(1, 5))), new Path(List.of(new Point(2, 3))),
-                                new Path(List.of(new Point(2, 4))), new Path(List.of(new Point(2, 5)))
+                                new Path(List.of(Point.of(0, 3))), new Path(List.of(Point.of(0, 4))),
+                                new Path(List.of(Point.of(0, 5))), new Path(List.of(Point.of(1, 3))),
+                                new Path(List.of(Point.of(1, 5))), new Path(List.of(Point.of(2, 3))),
+                                new Path(List.of(Point.of(2, 4))), new Path(List.of(Point.of(2, 5)))
                         ),
                         Collections.EMPTY_MAP,
                         List.of(
-                                new Point(0, 3),
-                                new Point(0, 4),
-                                new Point(0, 5),
-                                new Point(1, 3),
-                                new Point(1, 5),
-                                new Point(2, 3),
-                                new Point(2, 4),
-                                new Point(2, 5)
+                                Point.of(0, 3),
+                                Point.of(0, 4),
+                                Point.of(0, 5),
+                                Point.of(1, 3),
+                                Point.of(1, 5),
+                                Point.of(2, 3),
+                                Point.of(2, 4),
+                                Point.of(2, 5)
                         ))
 
         );

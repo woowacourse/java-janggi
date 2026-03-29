@@ -42,7 +42,7 @@ public class InputView {
 
         int x = XPointFormat.convertToInt(matcher.group(1));
         int y = parseToInt(matcher.group(2));
-        return new Point(x, y);
+        return Point.of(x, y);
     }
 
     public Point readDestination() {
@@ -60,7 +60,7 @@ public class InputView {
 
         int x = XPointFormat.convertToInt(matcher.group(1));
         int y = parseToInt(matcher.group(2));
-        return new Point(x, y);
+        return Point.of(x, y);
     }
 
 

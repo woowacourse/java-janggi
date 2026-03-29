@@ -15,17 +15,17 @@ class PathTest {
         return Stream.of(
                 Arguments.of(
                         new Path(List.of(
-                                new Point(0, 1),
-                                new Point(0, 2),
-                                new Point(0, 3),
-                                new Point(0, 4),
-                                new Point(0, 5))),
-                        new Point(0, 4),
+                                Point.of(0, 1),
+                                Point.of(0, 2),
+                                Point.of(0, 3),
+                                Point.of(0, 4),
+                                Point.of(0, 5))),
+                        Point.of(0, 4),
                         new Path(List.of(
-                                new Point(0, 1),
-                                new Point(0, 2),
-                                new Point(0, 3),
-                                new Point(0, 4)))
+                                Point.of(0, 1),
+                                Point.of(0, 2),
+                                Point.of(0, 3),
+                                Point.of(0, 4)))
                 )
         );
     }

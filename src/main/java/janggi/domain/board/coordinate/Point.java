@@ -1,17 +1,41 @@
 package janggi.domain.board.coordinate;
 
-public record Point(
-        int x,
-        int y
-) {
+import java.util.Objects;
+import java.util.stream.IntStream;
+
+public final class Point {
     private static final int MIN_X = 0;
     private static final int MAX_X = 9;
 
     private static final int MIN_Y = 0;
     private static final int MAX_Y = 8;
 
-    public Point {
+    private static final Point[][] INSTANCE = new Point[MAX_X + 1][MAX_Y + 1];
+
+    static {
+        IntStream.rangeClosed(Point.MIN_X, Point.MAX_X)
+                .forEach(Point::InitInstance);
+    }
+
+    private final int x;
+    private final int y;
+
+    private Point(int x, int y) {
         validateRange(x, y);
+        this.x = x;
+        this.y = y;
+    }
+
+    public static Point of(int x, int y) {
+        return INSTANCE[x][y];
+    }
+
+    private static void InitInstance(int x) {
+        IntStream.rangeClosed(MIN_Y, MAX_Y)
+                .forEach(y -> {
+                    INSTANCE[x][y] = new Point(x, y);
+                });
+
     }
 
     public static boolean isInRange(int nx, int ny) {
@@ -25,6 +49,40 @@ public record Point(
     }
 
     public Point add(int x, int y) {
-        return new Point(x + this.x, y + this.y);
+        return Point.of(x + this.x, y + this.y);
     }
+
+    public int x() {
+        return x;
+    }
+
+    public int y() {
+        return y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        var that = (Point) obj;
+        return this.x == that.x &&
+                this.y == that.y;
+    }
+
+    @Override
+    public String toString() {
+        return "Point[" +
+                "x=" + x + ", " +
+                "y=" + y + ']';
+    }
+
 }

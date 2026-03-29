@@ -34,11 +34,11 @@ class HorseTest {
     public static Stream<Arguments> availablePoints() {
         return Stream.of(
                 Arguments.of(Side.CHO,
-                        List.of(new Path(List.of(new Point(1, 1), new Point(2, 0))),
-                                new Path(List.of(new Point(1, 1), new Point(2, 2))),
-                                new Path(List.of(new Point(0, 2), new Point(1, 3)))), // 경로에 기물 존재
-                        Map.of(new Point(0, 2), new Horse(Side.CHO)),
-                        List.of(new Point(2, 0), new Point(2, 2)))
+                        List.of(new Path(List.of(Point.of(1, 1), Point.of(2, 0))),
+                                new Path(List.of(Point.of(1, 1), Point.of(2, 2))),
+                                new Path(List.of(Point.of(0, 2), Point.of(1, 3)))), // 경로에 기물 존재
+                        Map.of(Point.of(0, 2), new Horse(Side.CHO)),
+                        List.of(Point.of(2, 0), Point.of(2, 2)))
         );
     }
 

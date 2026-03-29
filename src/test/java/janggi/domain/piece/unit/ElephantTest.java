@@ -34,13 +34,13 @@ class ElephantTest {
     public static Stream<Arguments> availablePoints() {
         return Stream.of(
                 Arguments.of(Side.CHO,
-                        List.of(new Path(List.of(new Point(1, 2), new Point(2, 1), new Point(3, 0))), // 경로에 기물 존재
-                                new Path(List.of(new Point(1, 2), new Point(2, 3), new Point(3, 4))),
-                                new Path(List.of(new Point(0, 3), new Point(1, 4), new Point(2, 5)))), // 경로에 기물 존재
-                        Map.of(new Point(2, 1), new Elephant(Side.CHO), new Point(0, 3), new Elephant(Side.CHO)),
+                        List.of(new Path(List.of(Point.of(1, 2), Point.of(2, 1), Point.of(3, 0))), // 경로에 기물 존재
+                                new Path(List.of(Point.of(1, 2), Point.of(2, 3), Point.of(3, 4))),
+                                new Path(List.of(Point.of(0, 3), Point.of(1, 4), Point.of(2, 5)))), // 경로에 기물 존재
+                        Map.of(Point.of(2, 1), new Elephant(Side.CHO), Point.of(0, 3), new Elephant(Side.CHO)),
                         List.of(
-                                new Point(3, 0),
-                                new Point(3, 4)
+                                Point.of(3, 0),
+                                Point.of(3, 4)
                         ))
         );
     }
