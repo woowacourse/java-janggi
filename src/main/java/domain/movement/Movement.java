@@ -1,6 +1,6 @@
 package domain.movement;
 
-import domain.game.Position;
+import domain.board.Position;
 
 public interface Movement {
     Paths candidatePaths(Position from);

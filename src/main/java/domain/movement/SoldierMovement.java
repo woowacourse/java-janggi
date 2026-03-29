@@ -1,10 +1,7 @@
 package domain.movement;
 
-import domain.game.Position;
-import domain.vo.ColDelta;
-import domain.vo.Delta;
-import domain.vo.RowDelta;
-import domain.vo.Team;
+import domain.board.Position;
+import domain.piece.Team;
 import java.util.List;
 
 public class SoldierMovement implements Movement {

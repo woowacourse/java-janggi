@@ -1,11 +1,11 @@
 package io;
 
-import domain.game.Board;
-import domain.game.Piece;
-import domain.game.Position;
+import domain.board.Board;
+import domain.piece.Piece;
+import domain.board.Position;
 import domain.game.Turn;
-import domain.vo.Col;
-import domain.vo.Row;
+import domain.board.Col;
+import domain.board.Row;
 
 public class OutputView {
     public static final String RED   = "\u001B[31m";

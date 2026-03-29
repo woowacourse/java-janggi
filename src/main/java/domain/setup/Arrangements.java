@@ -1,5 +1,6 @@
-package domain.vo;
+package domain.setup;
 
+import domain.piece.Team;
 import java.util.EnumMap;
 import java.util.Map;
 

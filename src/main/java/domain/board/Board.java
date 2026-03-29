@@ -1,11 +1,13 @@
-package domain.game;
+package domain.board;
 
+import domain.game.Turn;
 import domain.movement.Movement;
 import domain.movement.MovementFactory;
 import domain.movement.MovementValidator;
 import domain.movement.Paths;
-import domain.vo.Arrangements;
-import domain.vo.Coordinate;
+import domain.piece.Piece;
+import domain.setup.Arrangements;
+import domain.setup.Coordinate;
 import java.util.Optional;
 
 public class Board {

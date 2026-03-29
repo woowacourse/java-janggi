@@ -1,5 +1,6 @@
-package domain.vo;
+package domain.setup;
 
+import domain.piece.PieceType;
 import java.util.Arrays;
 import java.util.List;
 

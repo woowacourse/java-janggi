@@ -1,6 +1,7 @@
-package domain.game;
+package domain.board;
 
-import domain.vo.Arrangements;
+import domain.piece.Piece;
+import domain.setup.Arrangements;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

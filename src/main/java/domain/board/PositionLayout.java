@@ -1,10 +1,9 @@
-package domain.game;
+package domain.board;
 
-import domain.vo.Arrangements;
-import domain.vo.Col;
-import domain.vo.PieceType;
-import domain.vo.Row;
-import domain.vo.Team;
+import domain.piece.Piece;
+import domain.setup.Arrangements;
+import domain.piece.PieceType;
+import domain.piece.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

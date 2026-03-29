@@ -1,4 +1,4 @@
-package domain.vo;
+package domain.piece;
 
 public enum Team {
     CHO("초(CHO)", "초"),

@@ -1,6 +1,6 @@
 package io;
 
-import domain.command.Command;
+import domain.setup.Command;
 import domain.game.Turn;
 import java.util.Scanner;
 

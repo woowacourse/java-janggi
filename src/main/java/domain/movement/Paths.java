@@ -1,6 +1,6 @@
 package domain.movement;
 
-import domain.game.Position;
+import domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 

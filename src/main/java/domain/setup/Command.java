@@ -1,7 +1,4 @@
-package domain.command;
-
-import domain.vo.Arrangement;
-import domain.vo.Coordinate;
+package domain.setup;
 
 public class Command {
     private final String value;

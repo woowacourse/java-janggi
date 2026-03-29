@@ -1,11 +1,12 @@
 package domain.game;
 
-import domain.command.Command;
+import domain.board.Board;
+import domain.setup.Command;
 import domain.state.GameState;
 import domain.state.ReadyState;
-import domain.vo.Arrangements;
-import domain.vo.Coordinate;
-import domain.vo.Team;
+import domain.setup.Arrangements;
+import domain.setup.Coordinate;
+import domain.piece.Team;
 import io.OutputView;
 
 public class JanggiGame {

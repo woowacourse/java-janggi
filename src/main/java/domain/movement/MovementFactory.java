@@ -1,8 +1,8 @@
 package domain.movement;
 
-import domain.game.Piece;
-import domain.vo.PieceType;
-import domain.vo.Team;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;

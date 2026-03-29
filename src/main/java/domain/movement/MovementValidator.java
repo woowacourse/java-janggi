@@ -1,8 +1,8 @@
 package domain.movement;
 
-import domain.game.Board;
-import domain.game.Piece;
-import domain.game.Position;
+import domain.board.Board;
+import domain.piece.Piece;
+import domain.board.Position;
 import java.util.List;
 import java.util.Optional;
 

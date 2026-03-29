@@ -1,9 +1,6 @@
 package domain.movement;
 
-import domain.game.Position;
-import domain.vo.ColDelta;
-import domain.vo.Delta;
-import domain.vo.RowDelta;
+import domain.board.Position;
 import java.util.List;
 
 public final class HorseMovement implements Movement {

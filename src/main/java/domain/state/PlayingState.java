@@ -1,7 +1,7 @@
 package domain.state;
 
-import domain.command.Command;
-import domain.game.Board;
+import domain.setup.Command;
+import domain.board.Board;
 import domain.game.JanggiGame;
 import domain.game.Turn;
 import io.OutputView;

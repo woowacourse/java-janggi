@@ -1,10 +1,10 @@
 package domain.state;
 
-import domain.command.Command;
+import domain.setup.Command;
 import domain.game.JanggiGame;
-import domain.vo.Arrangement;
-import domain.vo.Arrangements;
-import domain.vo.Team;
+import domain.setup.Arrangement;
+import domain.setup.Arrangements;
+import domain.piece.Team;
 import io.OutputView;
 
 public class ReadyState implements GameState {

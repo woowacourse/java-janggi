@@ -1,6 +1,8 @@
-package domain.vo;
+package domain.setup;
 
-import domain.game.Position;
+import domain.board.Position;
+import domain.board.Col;
+import domain.board.Row;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;

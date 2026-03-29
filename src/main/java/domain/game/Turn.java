@@ -1,6 +1,7 @@
 package domain.game;
 
-import domain.vo.Team;
+import domain.piece.Piece;
+import domain.piece.Team;
 
 public class Turn {
     private final Team team;

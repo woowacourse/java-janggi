@@ -1,7 +1,4 @@
-package domain.game;
-
-import domain.vo.PieceType;
-import domain.vo.Team;
+package domain.piece;
 
 public class Piece {
     private final Team team;
