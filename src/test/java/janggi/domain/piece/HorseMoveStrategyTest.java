@@ -14,16 +14,16 @@ class HorseMoveStrategyTest {
     public void 말_기물의_이동가능한_위치_목록을_반환한다() {
         // given
         Map<Position, Piece> board = new HashMap<>();
-        MoveStrategy moveStrategy = new HorseMoveStrategy();
+        PieceType pieceType = PieceType.HORSE;
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
-        board.put(from, new Piece(dynasty, moveStrategy));
-        board.put(Position.from(3, 4), new Piece(dynasty, moveStrategy));
-        board.put(Position.from(5, 6), new Piece(Dynasty.HAN, moveStrategy));
-        board.put(Position.from(7, 6), new Piece(Dynasty.HAN, moveStrategy));
+        board.put(from, new Piece(dynasty, pieceType));
+        board.put(Position.from(3, 4), new Piece(dynasty, pieceType));
+        board.put(Position.from(5, 6), new Piece(Dynasty.HAN, pieceType));
+        board.put(Position.from(7, 6), new Piece(Dynasty.HAN, pieceType));
 
         // when
-        List<Position> positions = moveStrategy.canMovePositions(board, from, dynasty);
+        List<Position> positions = pieceType.moveStrategy().canMovePositions(board, from, dynasty);
 
         // then
         Assertions.assertThat(positions)

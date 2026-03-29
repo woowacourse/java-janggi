@@ -7,15 +7,11 @@ import java.util.Map;
 
 public record Piece(
         Dynasty dynasty,
-        MoveStrategy moveStrategy
+        PieceType pieceType
 ) {
 
     public List<Position> canMovePosition(Map<Position, Piece> board, Position from) {
-        return moveStrategy.canMovePositions(board, from, dynasty);
-    }
-
-    public PieceType pieceType() {
-        return moveStrategy.pieceType();
+        return pieceType.moveStrategy().canMovePositions(board, from, dynasty);
     }
 
     public boolean isSameDynasty(Dynasty dynasty) {
