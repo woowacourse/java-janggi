@@ -1,11 +1,10 @@
 package janggi.domain.policy;
 
 import janggi.domain.board.BoardInterface;
-import janggi.domain.Position;
 import janggi.domain.Side;
 
-import java.util.List;
+import janggi.domain.piece.Route;
 
 public interface RoutePolicy {
-    boolean isMovable(List<Position> path, Side side, BoardInterface boardInterface);
+    boolean isMovable(Route route, Side side, BoardInterface boardInterface);
 }

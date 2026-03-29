@@ -27,13 +27,13 @@ class PoTest {
         Position start = new Position(3, 3);
         Position end = new Position(3, 5);
 
-        List<Position> routes = po.findRoute(start, end);
+        Route routes = po.findRoute(start, end);
 
-        assertThat(routes).containsExactly(
+        assertThat(routes).isEqualTo(new Route(List.of(
                 start,
                 new Position(3, 4),
                 end
-        );
+        )));
     }
 
     @Test
@@ -42,13 +42,13 @@ class PoTest {
         Position start = new Position(3, 3);
         Position end = new Position(3, 1);
 
-        List<Position> routes = po.findRoute(start, end);
+        Route routes = po.findRoute(start, end);
 
-        assertThat(routes).containsExactly(
+        assertThat(routes).isEqualTo(new Route(List.of(
                 start,
                 new Position(3, 2),
                 end
-        );
+        )));
     }
 
     @Test
@@ -57,13 +57,13 @@ class PoTest {
         Position start = new Position(3, 3);
         Position end = new Position(1, 3);
 
-        List<Position> routes = po.findRoute(start, end);
+        Route routes = po.findRoute(start, end);
 
-        assertThat(routes).containsExactly(
+        assertThat(routes).isEqualTo(new Route(List.of(
                 start,
                 new Position(2, 3),
                 end
-        );
+        )));
     }
 
     @Test
@@ -72,12 +72,12 @@ class PoTest {
         Position start = new Position(3, 3);
         Position end = new Position(5, 3);
 
-        List<Position> routes = po.findRoute(start, end);
+        Route routes = po.findRoute(start, end);
 
-        assertThat(routes).containsExactly(
+        assertThat(routes).isEqualTo(new Route(List.of(
                 start,
                 new Position(4, 3),
                 end
-        );
+        )));
     }
 }

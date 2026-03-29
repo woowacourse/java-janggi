@@ -1,10 +1,10 @@
 package janggi.domain.policy;
 
-import janggi.domain.piece.PieceInfo;
 import janggi.domain.board.BoardInterface;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Route;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,6 +12,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ClearPathPolicyTest {
+    private boolean checkMovable(List<Position> path, BoardInterface board) {
+        Route route = new Route(path);
+        ClearPathPolicy policy = new ClearPathPolicy();
+        return policy.isMovable(route, Side.CHO, board);
+    }
+
     private BoardInterface createBoardInterface(List<Position> isEmpty, List<Position> isAlly) {
         return new BoardInterface() {
             @Override
@@ -20,13 +26,13 @@ class ClearPathPolicyTest {
             }
 
             @Override
-            public boolean isEqualPieceType(Position position, PieceType pieceType) {
-                return false;
+            public boolean isAlly(Side side, Position position) {
+                return isAlly.contains(position);
             }
 
             @Override
-            public boolean isAlly(Side side, Position position) {
-                return isAlly.contains(position);
+            public boolean isEqualPieceType(Position position, PieceType pieceType) {
+                return false;
             }
         };
     }
@@ -34,48 +40,37 @@ class ClearPathPolicyTest {
     @Test
     void 기물은_모든_경로와_도착지에_모두_비어있는_경우_움직일_수_있다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
-
         List<Position> isEmpty = List.of(new Position(1, 2), new Position(2, 1), new Position(2, 2));
-        List<Position> isAlly = List.of();
+        BoardInterface board = createBoardInterface(isEmpty, List.of());
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
-        ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
-        assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isTrue();
+        assertThat(checkMovable(path, board)).isTrue();
     }
 
     @Test
     void 기물은_모든_경로가_모두_비어있고_도착지에_적이_있는_경우_움직일_수_있다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
-
         List<Position> isEmpty = List.of(new Position(1, 2), new Position(2, 1));
-        List<Position> isAlly = List.of();
+        BoardInterface board = createBoardInterface(isEmpty, List.of());
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
-        ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
-        assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isTrue();
+        assertThat(checkMovable(path, board)).isTrue();
     }
 
     @Test
     void 기물은_모든_경로가_모두_비어있고_도착지에_아군이_있는_경우_움직일_수_없다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
-
         List<Position> isEmpty = List.of(new Position(1, 2), new Position(2, 1));
         List<Position> isAlly = List.of(new Position(2, 2));
+        BoardInterface board = createBoardInterface(isEmpty, isAlly);
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
-        ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
-        assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
+        assertThat(checkMovable(path, board)).isFalse();
     }
 
     @Test
     void 기물은_경로_중_일부에_기물이_있으면_움직일_수_없다() {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(2, 1), new Position(2, 2));
-
         List<Position> isEmpty = List.of(new Position(2, 1), new Position(2, 2));
-        List<Position> isAlly = List.of();
+        BoardInterface board = createBoardInterface(isEmpty, List.of());
 
-        BoardInterface boardInterface = createBoardInterface(isEmpty, isAlly);
-        ClearPathPolicy clearPathPolicy = new ClearPathPolicy();
-        assertThat(clearPathPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
+        assertThat(checkMovable(path, board)).isFalse();
     }
 }

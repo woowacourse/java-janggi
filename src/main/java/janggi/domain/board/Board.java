@@ -7,6 +7,7 @@ import janggi.domain.piece.Empty;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 
+import janggi.domain.piece.Route;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +52,7 @@ public class Board implements BoardInterface {
             throw new IllegalArgumentException(INVALID_PIECE_SIDE_MESSAGE);
         }
 
-        List<Position> route = piece.findRoute(start, end);
+        Route route = piece.findRoute(start, end);
         piece.validateRoute(route, this);
 
         movePiece(start, end, piece, side);

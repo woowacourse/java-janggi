@@ -4,8 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.BoardInterface;
 
-import java.util.List;
-
 public class Empty extends BasePiece {
     private static final String IMMOVABLE_PIECE_MESSAGE = "이동할 수 없는 말입니다.";
 
@@ -14,12 +12,12 @@ public class Empty extends BasePiece {
     }
 
     @Override
-    public List<Position> findRoute(Position start, Position end) {
-        return List.of();
+    public Route findRoute(Position start, Position end) {
+        throw new IllegalStateException(IMMOVABLE_PIECE_MESSAGE);
     }
 
     @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
+    public void validateRoute(Route route, BoardInterface boardInterface) {
         throw new IllegalArgumentException(IMMOVABLE_PIECE_MESSAGE);
     }
 }

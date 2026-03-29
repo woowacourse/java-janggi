@@ -6,7 +6,6 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.RoutePolicy;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class LinearPiece extends ActivePiece {
@@ -15,7 +14,7 @@ public abstract class LinearPiece extends ActivePiece {
     }
 
     @Override
-    public List<Position> findRoute(Position start, Position end) {
+    public Route findRoute(Position start, Position end) {
         boolean isVertical = start.isVertical(end);
         boolean isHorizontal = start.isHorizontal(end);
 
@@ -28,18 +27,18 @@ public abstract class LinearPiece extends ActivePiece {
     }
 
     @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if (!routePolicy.isMovable(path, side, boardInterface)) {
+    public void validateRoute(Route route, BoardInterface boardInterface) {
+        if (!routePolicy.isMovable(route, side, boardInterface)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }
 
-    private List<Position> calculatePath(Position start, boolean isVertical, int dist) {
+    private Route calculatePath(Position start, boolean isVertical, int dist) {
         Movement movement = resolveMovement(isVertical, dist);
-        return Stream
+        return new Route(Stream
                 .iterate(start, current -> current.move(movement))
                 .limit(Math.abs(dist) + 1)
-                .toList();
+                .toList());
     }
 
     private Movement resolveMovement(boolean isVertical, int dist) {

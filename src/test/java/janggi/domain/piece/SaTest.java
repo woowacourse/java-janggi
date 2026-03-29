@@ -24,9 +24,9 @@ class SaTest {
 
         Sa sa = new Sa(Side.CHO);
 
-        List<Position> actual = sa.findRoute(startPosition, endPosition);
+        Route actual = sa.findRoute(startPosition, endPosition);
 
-        assertThat(actual.getLast()).isEqualTo(endPosition);
+        assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
     }
 
     @ParameterizedTest

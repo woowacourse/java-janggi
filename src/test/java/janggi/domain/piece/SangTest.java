@@ -28,9 +28,9 @@ class SangTest {
 
         Sang sang = new Sang(Side.CHO);
 
-        List<Position> actual = sang.findRoute(startPosition, endPosition);
+        Route actual = sang.findRoute(startPosition, endPosition);
 
-        assertThat(actual.getLast()).isEqualTo(endPosition);
+        assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
     }
 
     @ParameterizedTest

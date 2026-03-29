@@ -31,10 +31,10 @@ public class Pawn extends ActivePiece {
     }
 
     @Override
-    public List<Position> findRoute(Position start, Position end) {
+    public Route findRoute(Position start, Position end) {
         for (List<Movement> movements : MOVE_RANGE) {
-            List<Position> calculatedPath = calculatePath(start, movements);
-            if (calculatedPath.getLast().equals(end)) {
+            Route calculatedPath = calculatePath(start, movements);
+            if (calculatedPath.isArrivalPoint(end)) {
                 return calculatedPath;
             }
         }
@@ -42,15 +42,15 @@ public class Pawn extends ActivePiece {
     }
 
     @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if (!routePolicy.isMovable(path, side, boardInterface)) {
+    public void validateRoute(Route route, BoardInterface boardInterface) {
+        if (!routePolicy.isMovable(route, side, boardInterface)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }
 
-    private List<Position> calculatePath(Position start, List<Movement> path) {
+    private Route calculatePath(Position start, List<Movement> path) {
         List<Position> calculatedPath = new ArrayList<>(List.of(start));
         path.forEach(movement -> calculatedPath.add(calculatedPath.getLast().move(movement)));
-        return calculatedPath;
+        return new Route(calculatedPath);
     }
 }

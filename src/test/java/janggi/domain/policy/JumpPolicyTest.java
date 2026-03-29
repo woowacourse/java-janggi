@@ -1,10 +1,10 @@
 package janggi.domain.policy;
 
-import janggi.domain.piece.PieceInfo;
 import janggi.domain.board.BoardInterface;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Route;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,6 +12,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class JumpPolicyTest {
+    private boolean checkMovable(List<Position> path, Side side, BoardInterface board) {
+        Route route = new Route(path);
+        JumpPolicy jumpPolicy = new JumpPolicy();
+        return jumpPolicy.isMovable(route, side, board);
+    }
+
     private BoardInterface createBoardInterface(List<Position> isEmpty, List<Position> isPo, List<Position> isAlly) {
         return new BoardInterface() {
             @Override
@@ -21,7 +27,7 @@ class JumpPolicyTest {
 
             @Override
             public boolean isEqualPieceType(Position position, PieceType pieceType) {
-                return isPo.contains(position);
+                return pieceType == PieceType.PO && isPo.contains(position);
             }
 
             @Override
@@ -36,14 +42,12 @@ class JumpPolicyTest {
         List<Position> path = List.of(new Position(8, 2), new Position(8, 3), new Position(8, 4), new Position(8, 5), new Position(8, 6), new Position(8, 7));
 
         List<Position> isEmpty = List.of(new Position(8, 4), new Position(8, 5), new Position(8, 6), new Position(8, 7));
-        List<Position> isPo = List.of(new Position(8, 2));
+        List<Position> isPo = List.of(new Position(8, 2)); // 출발지(8,2)만 포
         List<Position> isAlly = List.of(new Position(8, 2), new Position(8, 3));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isAlly);
-        JumpPolicy jumpPolicy = new JumpPolicy();
-        assertThat(jumpPolicy.isMovable(path, Side.CHO, boardInterface)).isTrue();
+        assertThat(checkMovable(path, Side.CHO, boardInterface)).isTrue();
     }
-
 
     @Test
     void 포는_경로에_포가_아닌_기물이_한_개_있으며_도착_지점에_포가_아닌_적이_있으면_움직일_수_있다() {
@@ -54,8 +58,7 @@ class JumpPolicyTest {
         List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isAlly);
-        JumpPolicy jumpPolicy = new JumpPolicy();
-        assertThat(jumpPolicy.isMovable(path, Side.CHO, boardInterface)).isTrue();
+        assertThat(checkMovable(path, Side.CHO, boardInterface)).isTrue();
     }
 
     @Test
@@ -63,12 +66,11 @@ class JumpPolicyTest {
         List<Position> path = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 3), new Position(1, 4));
 
         List<Position> isEmpty = List.of(new Position(1, 3));
-        List<Position> isPo = List.of(new Position(1, 1), new Position(1, 4));
+        List<Position> isPo = List.of(new Position(1, 1), new Position(1, 4)); // 도착지(1,4)도 포
         List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isAlly);
-        JumpPolicy jumpPolicy = new JumpPolicy();
-        assertThat(jumpPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
+        assertThat(checkMovable(path, Side.CHO, boardInterface)).isFalse();
     }
 
     @Test
@@ -77,11 +79,10 @@ class JumpPolicyTest {
 
         List<Position> isEmpty = List.of(new Position(1, 3));
         List<Position> isPo = List.of(new Position(1, 1));
-        List<Position> isAlly = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 4));
+        List<Position> isAlly = List.of(new Position(1, 1), new Position(1, 4)); // 도착지(1,4) 아군
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isAlly);
-        JumpPolicy jumpPolicy = new JumpPolicy();
-        assertThat(jumpPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
+        assertThat(checkMovable(path, Side.CHO, boardInterface)).isFalse();
     }
 
     @Test
@@ -93,8 +94,7 @@ class JumpPolicyTest {
         List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isAlly);
-        JumpPolicy jumpPolicy = new JumpPolicy();
-        assertThat(jumpPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
+        assertThat(checkMovable(path, Side.CHO, boardInterface)).isFalse();
     }
 
     @Test
@@ -106,7 +106,6 @@ class JumpPolicyTest {
         List<Position> isAlly = List.of(new Position(1, 1));
 
         BoardInterface boardInterface = createBoardInterface(isEmpty, isPo, isAlly);
-        JumpPolicy jumpPolicy = new JumpPolicy();
-        assertThat(jumpPolicy.isMovable(path, Side.CHO, boardInterface)).isFalse();
+        assertThat(checkMovable(path, Side.CHO, boardInterface)).isFalse();
     }
 }

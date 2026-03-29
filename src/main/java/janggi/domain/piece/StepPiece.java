@@ -18,17 +18,17 @@ public abstract class StepPiece extends ActivePiece {
     }
 
     @Override
-    public List<Position> findRoute(Position start, Position end) {
-        return moveRange.stream()
+    public Route findRoute(Position start, Position end) {
+        return new Route(moveRange.stream()
                 .map(movements -> calculatePath(start, movements))
                 .filter(path -> path.getLast().equals(end))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE)));
     }
 
     @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if (!routePolicy.isMovable(path, side, boardInterface)) {
+    public void validateRoute(Route route, BoardInterface boardInterface) {
+        if (!routePolicy.isMovable(route, side, boardInterface)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }

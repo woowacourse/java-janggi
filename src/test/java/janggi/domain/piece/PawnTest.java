@@ -23,9 +23,9 @@ class PawnTest {
 
         Pawn pawn = Pawn.from(Side.HAN);
 
-        List<Position> actual = pawn.findRoute(startPosition, endPosition);
+        Route actual = pawn.findRoute(startPosition, endPosition);
 
-        assertThat(actual.getLast()).isEqualTo(endPosition);
+        assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
     }
 
     @ParameterizedTest
@@ -40,9 +40,9 @@ class PawnTest {
 
         Pawn pawn = Pawn.from(Side.CHO);
 
-        List<Position> actual = pawn.findRoute(startPosition, endPosition);
+        Route actual = pawn.findRoute(startPosition, endPosition);
 
-        assertThat(actual.getLast()).isEqualTo(endPosition);
+        assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
     }
 
     @ParameterizedTest

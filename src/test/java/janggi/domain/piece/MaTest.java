@@ -28,9 +28,9 @@ public class MaTest {
 
         Ma ma = new Ma(Side.CHO);
 
-        List<Position> actual = ma.findRoute(startPosition, endPosition);
+        Route actual = ma.findRoute(startPosition, endPosition);
 
-        assertThat(actual.getLast()).isEqualTo(endPosition);
+        assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
     }
 
     @ParameterizedTest

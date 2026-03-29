@@ -24,9 +24,9 @@ public class GungTest {
 
         Gung gung = new Gung(Side.CHO);
 
-        List<Position> actual = gung.findRoute(startPosition, endPosition);
+        Route actual = gung.findRoute(startPosition, endPosition);
 
-        assertThat(actual.getLast()).isEqualTo(endPosition);
+        assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
     }
 
     @ParameterizedTest

@@ -4,12 +4,10 @@ import janggi.domain.Side;
 import janggi.domain.board.BoardInterface;
 import janggi.domain.Position;
 
-import java.util.List;
-
 public interface Piece {
-    List<Position> findRoute(Position start, Position end);
+    Route findRoute(Position start, Position end);
 
-    void validateRoute(List<Position> path, BoardInterface boardInterface);
+    void validateRoute(Route route, BoardInterface boardInterface);
 
     boolean isEqualPieceType(PieceType pieceType);
 

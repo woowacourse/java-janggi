@@ -5,28 +5,23 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 
 import janggi.domain.piece.PieceType;
-import java.util.ArrayList;
-import java.util.List;
+import janggi.domain.piece.Route;
 
 public class JumpPolicy implements RoutePolicy {
     @Override
-    public boolean isMovable(List<Position> path, Side side, BoardInterface boardInterface) {
-        List<Position> innerPath = new ArrayList<>(path.subList(1, path.size()));
-        boolean hasPo = innerPath.stream()
-                .anyMatch(position -> boardInterface.isEqualPieceType(position, PieceType.PO));
+    public boolean isMovable(Route route, Side side, BoardInterface boardInterface) {
+        boolean hasPo = route.isAnyBetween(position -> isPo(position, boardInterface)) || route.isDestinationSatisfied(position -> isPo(position, boardInterface));
         if (hasPo) {
             return false;
         }
-        Position target = innerPath.removeLast();
 
-        return isMovableFirst(innerPath, boardInterface) && isMovableLast(target, side, boardInterface);
+        return route.countBetween(position -> !boardInterface.isEmpty(position)) == 1 && route.isDestinationSatisfied(position -> !boardInterface.isAlly(side, position));
     }
 
-    private boolean isMovableFirst(List<Position> path, BoardInterface boardInterface) {
-         return path.stream()
-                 .filter(position -> !boardInterface.isEmpty(position))
-                 .count() == 1;
+    private boolean isPo(Position position, BoardInterface boardInterface) {
+        return boardInterface.isEqualPieceType(position, PieceType.PO);
     }
+
 
     private boolean isMovableLast(Position position, Side side, BoardInterface boardInterface) {
         return !boardInterface.isAlly(side, position);
