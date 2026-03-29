@@ -1,3 +1,4 @@
+import domain.Board;
 import domain.BoardFactory;
 import domain.vo.Position;
 import view.InputView;
@@ -14,16 +15,26 @@ public class JanggiController {
     }
 
     public void run() {
-        outputView.printBoard(BoardFactory.setUp().getBoard());
+        Board board = BoardFactory.setUp();
+        outputView.printBoard(board.getBoard());
 
-        Position position = inputView.readPosition();
+        movePosition(board);
 
-        while (true) {
-            if (!inputView.readRetryCommand()) {
-                break;
-            }
+        while (inputView.readRetryCommand()) {
+            movePosition(board);
+        }
+    }
 
-            inputView.readPosition();
+    private void movePosition(Board board) {
+        try {
+            Position position = inputView.readPosition();
+            Position targetPosition = inputView.readTargetPosition();
+
+            board.move(position, targetPosition);
+            outputView.printBoard(board.getBoard());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            movePosition(board);
         }
     }
 }

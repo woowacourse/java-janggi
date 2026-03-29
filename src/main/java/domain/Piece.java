@@ -1,6 +1,7 @@
 package domain;
 
 import domain.strategy.MoveStrategy;
+import domain.vo.Position;
 
 public class Piece {
 
@@ -20,6 +21,10 @@ public class Piece {
 
     public boolean isAnotherTeam(final Piece anotherPiece) {
         return this.team != anotherPiece.team;
+    }
+
+    public boolean canMovePiece(Position from, Position to, Board board) {
+        return moveStrategy.canMove(from, to, board);
     }
 
     public Type getType() {

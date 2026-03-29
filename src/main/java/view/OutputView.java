@@ -8,6 +8,7 @@ import java.util.Map;
 public class OutputView {
 
     public void printBoard(Map<Position, Piece> board) {
+        System.out.println();
         for (int row = 9; row >= 0; row--) {
             for (int col = 0; col <= 8; col++) {
                 Position position = Position.of(row, col);

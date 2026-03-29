@@ -10,7 +10,22 @@ public class InputView {
     final Scanner scanner = new Scanner(System.in);
     
     public Position readPosition() {
-        System.out.println("기물의 위치를 입력해주세요. (예: 0 0)");
+        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0)");
+
+        String input = scanner.nextLine();
+        try {
+            validatePositionFormat(input);
+
+            String[] tokens = input.split(" ");
+            return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return readPosition();
+        }
+    }
+
+    public Position readTargetPosition() {
+        System.out.println("기물을 움직일 위치를 입력해주세요. (예: 0 0)");
 
         String input = scanner.nextLine();
         try {
