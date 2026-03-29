@@ -16,8 +16,8 @@ class BoardTest {
         Board board = new Board(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG));
         board.move(new Position(1, 1), new Position(2, 1), Side.HAN);
 
-        assertThat(board.getCurrentBoard()[1][0].pieceType()).isEqualTo(PieceType.CHA);
-        assertThat(board.getCurrentBoard()[0][0].pieceType()).isEqualTo(PieceType.NONE);
+        assertThat(board.getCurrentBoard().get(1).getFirst().pieceType()).isEqualTo(PieceType.CHA);
+        assertThat(board.getCurrentBoard().getFirst().getFirst().pieceType()).isEqualTo(PieceType.NONE);
     }
 
     @Test

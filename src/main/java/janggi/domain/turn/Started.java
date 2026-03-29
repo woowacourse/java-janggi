@@ -3,6 +3,7 @@ package janggi.domain.turn;
 import janggi.domain.piece.PieceInfo;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
+import java.util.List;
 
 public abstract class Started implements PlayerTurn {
     protected final Board board;
@@ -19,7 +20,7 @@ public abstract class Started implements PlayerTurn {
     }
 
     @Override
-    public PieceInfo[][] getCurrentBoard() {
+    public List<List<PieceInfo>> getCurrentBoard() {
         return board.getCurrentBoard();
     }
 

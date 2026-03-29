@@ -4,6 +4,7 @@ import janggi.domain.piece.PieceInfo;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
+import java.util.List;
 
 public class OutputView {
     private static final int CELL_WIDTH = 5;
@@ -16,9 +17,9 @@ public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
 
     public static void printBoard(BoardDto boardDto) {
-        PieceInfo[][] board = boardDto.board();
+        List<List<PieceInfo>> board = boardDto.board();
         StringBuilder result = new StringBuilder();
-        result.append(buildColumnHeader(board[0].length));
+        result.append(buildColumnHeader(board.getFirst().size()));
         appendBoardRows(board, result);
         System.out.print(result);
     }
@@ -44,15 +45,15 @@ public class OutputView {
         return header.toString();
     }
 
-    private static void appendBoardRows(PieceInfo[][] board, StringBuilder result) {
-        result.append(buildTopBorder(board[0].length));
-        for (int row = 0; row < board.length; row++) {
-            appendBoardRow(board[row], row, result);
-            result.append(buildDivider(board[row].length, row == board.length - 1));
+    private static void appendBoardRows(List<List<PieceInfo>> board, StringBuilder result) {
+        result.append(buildTopBorder(board.getFirst().size()));
+        for (int row = 0; row < board.size(); row++) {
+            appendBoardRow(board.get(row), row, result);
+            result.append(buildDivider(board.get(row).size(), row == board.size() - 1));
         }
     }
 
-    private static void appendBoardRow(PieceInfo[] row, int rowIndex, StringBuilder result) {
+    private static void appendBoardRow(List<PieceInfo> row, int rowIndex, StringBuilder result) {
         result.append(String.format(" %2d ┃", rowIndex + 1));
         for (PieceInfo pieceInfo : row) {
             result.append(formatCell(pieceInfo));

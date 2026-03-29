@@ -7,6 +7,7 @@ import janggi.domain.piece.Empty;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +40,9 @@ public class Board implements BoardInterface {
         return board.get(position).isEqualSide(side);
     }
 
-    public PieceInfo[][] getCurrentBoard() {
-        PieceInfo[][] currentBoard = new PieceInfo[10][9];
-
-        board.forEach((position, piece) -> currentBoard[position.x() - 1][position.y() - 1] = piece.getPieceInfo());
-        return currentBoard;
+    public List<List<PieceInfo>> getCurrentBoard() {
+        CurrentBoard currentBoard = CurrentBoard.from(Collections.unmodifiableMap(board));
+        return currentBoard.getValues();
     }
 
     public void move(Position start, Position end, Side side) {
