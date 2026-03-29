@@ -14,7 +14,6 @@ public class Soldier implements Piece {
     private static final PieceType PIECE_TYPE = PieceType.SOLDIER;
     private static final PieceAction RED_PIECE_ACTION;
     private static final PieceAction BLUE_PIECE_ACTION;
-    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     static {
         final List<Rule> redRules = List.of(
@@ -66,7 +65,6 @@ public class Soldier implements Piece {
 
     @Override
     public boolean canCatch(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.isOnSameTeamAs(
-            this);
+        return !target.isOnSameTeamAs(this);
     }
 }

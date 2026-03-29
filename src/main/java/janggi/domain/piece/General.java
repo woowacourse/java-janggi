@@ -13,7 +13,6 @@ public class General implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.GENERAL;
     private static final PieceAction PIECE_ACTION;
-    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     static {
         final List<Rule> rules = List.of(
@@ -62,7 +61,6 @@ public class General implements Piece {
 
     @Override
     public boolean canCatch(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.isOnSameTeamAs(
-            this);
+        return !target.isOnSameTeamAs(this);
     }
 }
