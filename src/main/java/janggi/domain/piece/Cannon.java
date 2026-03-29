@@ -12,7 +12,6 @@ public class Cannon implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.CANNON;
     private static final PieceAction PIECE_ACTION;
-    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of(PieceType.CANNON);
 
     static {
         final List<MoveRule> movementStrategies = List.of(
@@ -51,6 +50,6 @@ public class Cannon implements Piece {
 
     @Override
     public boolean canKill(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(teamType);
+        return !PIECE_TYPE.equals(target.getPieceType()) && !target.belongsToTeam(teamType);
     }
 }

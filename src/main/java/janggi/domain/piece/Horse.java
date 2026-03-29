@@ -13,7 +13,6 @@ public class Horse implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.HORSE;
     private static final PieceAction PIECE_ACTION;
-    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of();
 
     static {
         final List<MoveRule> movementStrategies = List.of(
@@ -74,7 +73,7 @@ public class Horse implements Piece {
 
     @Override
     public boolean canKill(final Piece target) {
-        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.belongsToTeam(
+        return !target.belongsToTeam(
                 teamType);
     }
 }
