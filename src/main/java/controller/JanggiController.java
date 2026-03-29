@@ -4,7 +4,6 @@ import domain.Country;
 import domain.Position;
 import domain.TableSetting;
 import domain.board.Board;
-import java.util.ArrayList;
 import java.util.List;
 import view.CountryFormatter;
 import view.InputParser;
@@ -21,20 +20,16 @@ public class JanggiController {
     }
 
     public void run() {
-        List<TableSetting> tableSettings = makeTableSetting();
-        Board board = new Board(tableSettings.get(1), tableSettings.get(0));
+        Board board = makeBoard();
         List<Country> playOrders = List.of(Country.CHO, Country.HAN);
 
         playTurn(board, playOrders);
     }
 
-    private List<TableSetting> makeTableSetting() {
-        List<TableSetting> tableSettings = new ArrayList<>();
-        for (Country country : Country.values()) {
-            TableSetting tableSetting = readTableSetting(country);
-            tableSettings.add(tableSetting);
-        }
-        return tableSettings;
+    private Board makeBoard() {
+        TableSetting choTableSetting = readTableSetting(Country.CHO);
+        TableSetting hanTableSetting = readTableSetting(Country.HAN);
+        return new Board(choTableSetting, hanTableSetting);
     }
 
     private void playTurn(Board board, List<Country> playOrders) {
