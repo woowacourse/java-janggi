@@ -1,33 +1,40 @@
 package domain.manager;
 
+import common.exception.JanggiException;
+import domain.piece.Piece;
 import domain.player.Player;
 import domain.player.Team;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TurnManager {
 
-    private final List<Player> players;
+    private Player currentPlayer;
+    private Player standbyPlayer;
     private boolean isGameRunning;
 
     public TurnManager(Player choPlayer, Player hanPlayer) {
-        players = new ArrayList<>();
-        players.add(choPlayer);
-        players.add(hanPlayer);
-        isGameRunning = true;
+        this.currentPlayer = choPlayer;
+        this.standbyPlayer = hanPlayer;
+        this.isGameRunning = true;
     }
 
-    public Player getCurrentPlayer() {
-        return players.getFirst();
+    public void validateTurn(Team team) {
+        if (currentPlayer.getTeam() != team) {
+            throw new JanggiException("현재 차례가 아닙니다.");
+        }
     }
 
-    public Team getCurrentTeam() {
-        return players.getFirst().getTeam();
+    public void capturePiece(Piece piece) {
+        currentPlayer.addCaughtPiece(piece);
     }
 
     public void switchTurn() {
-        Player player = players.removeFirst();
-        players.add(player);
+        Player temp = currentPlayer;
+        currentPlayer = standbyPlayer;
+        standbyPlayer = temp;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public boolean isGameRunning() {
@@ -37,4 +44,5 @@ public class TurnManager {
     public void endGame() {
         isGameRunning = false;
     }
+
 }
