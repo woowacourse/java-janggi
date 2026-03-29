@@ -27,21 +27,21 @@ public class HorseTest {
     static Stream<Arguments> expectedHorsePaths() {
         return Stream.of(
                 Arguments.arguments(new Position(4, 4), new Position(5, 6),
-                        List.of(new Position(4, 5), new Position(5, 6))),
+                        List.of(new Position(4, 4), new Position(4, 5), new Position(5, 6))),
                 Arguments.arguments(new Position(4, 4), new Position(3, 6),
-                        List.of(new Position(4, 5), new Position(3, 6))),
+                        List.of(new Position(4, 4), new Position(4, 5), new Position(3, 6))),
                 Arguments.arguments(new Position(4, 4), new Position(6, 5),
-                        List.of(new Position(5, 4), new Position(6, 5))),
+                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 5))),
                 Arguments.arguments(new Position(4, 4), new Position(6, 3),
-                        List.of(new Position(5, 4), new Position(6, 3))),
+                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 3))),
                 Arguments.arguments(new Position(4, 4), new Position(5, 2),
-                        List.of(new Position(4, 3), new Position(5, 2))),
+                        List.of(new Position(4, 4), new Position(4, 3), new Position(5, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(3, 2),
-                        List.of(new Position(4, 3), new Position(3, 2))),
+                        List.of(new Position(4, 4), new Position(4, 3), new Position(3, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 3),
-                        List.of(new Position(3, 4), new Position(2, 3))),
+                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 3))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 5),
-                        List.of(new Position(3, 4), new Position(2, 5)))
+                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 5)))
         );
     }
 

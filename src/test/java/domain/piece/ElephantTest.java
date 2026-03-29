@@ -27,21 +27,21 @@ public class ElephantTest {
     static Stream<Arguments> expectedElephantPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(4, 4), new Position(6, 7),
-                        List.of(new Position(4, 5), new Position(5, 6), new Position(6, 7))),
+                        List.of(new Position(4, 4), new Position(4, 5), new Position(5, 6), new Position(6, 7))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 7),
-                        List.of(new Position(4, 5), new Position(3, 6), new Position(2, 7))),
+                        List.of(new Position(4, 4), new Position(4, 5), new Position(3, 6), new Position(2, 7))),
                 Arguments.arguments(new Position(4, 4), new Position(7, 6),
-                        List.of(new Position(5, 4), new Position(6, 5), new Position(7, 6))),
+                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 5), new Position(7, 6))),
                 Arguments.arguments(new Position(4, 4), new Position(7, 2),
-                        List.of(new Position(5, 4), new Position(6, 3), new Position(7, 2))),
+                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 3), new Position(7, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(6, 1),
-                        List.of(new Position(4, 3), new Position(5, 2), new Position(6, 1))),
+                        List.of(new Position(4, 4), new Position(4, 3), new Position(5, 2), new Position(6, 1))),
                 Arguments.arguments(new Position(4, 4), new Position(2, 1),
-                        List.of(new Position(4, 3), new Position(3, 2), new Position(2, 1))),
+                        List.of(new Position(4, 4), new Position(4, 3), new Position(3, 2), new Position(2, 1))),
                 Arguments.arguments(new Position(4, 4), new Position(1, 2),
-                        List.of(new Position(3, 4), new Position(2, 3), new Position(1, 2))),
+                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 3), new Position(1, 2))),
                 Arguments.arguments(new Position(4, 4), new Position(1, 6),
-                        List.of(new Position(3, 4), new Position(2, 5), new Position(1, 6)))
+                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 5), new Position(1, 6)))
         );
     }
 

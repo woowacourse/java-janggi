@@ -4,7 +4,6 @@ import domain.Country;
 import domain.Position;
 import domain.TableSetting;
 import domain.piece.PieceInfo;
-import domain.piece.PieceType;
 import domain.state.State;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,27 +28,32 @@ public class BoardStates {
         return boardStates.get(position).isEmpty();
     }
 
-    public boolean isSameCountry(Position from, Position to) {
-        return getPieceCountry(from) == getPieceCountry(to);
+    public boolean canMovePiece(Position from, List<Position> path) {
+        Map<Position, State> wayPointStates = getPathStates(path);
+        return boardStates.get(from).getPiece().canMove(wayPointStates);
+    }
+
+    private Map<Position, State> getPathStates(List<Position> path) {
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        for (Position position : path) {
+            pathStates.put(position, boardStates.get(position).copy());
+        }
+        return pathStates;
     }
 
     public List<Position> getPiecePath(Position from, Position to) {
         return boardStates.get(from).getPiece().path(from, to);
     }
 
-    public PieceType getPieceType(Position position) {
-        return boardStates.get(position).getPiece().getPieceType();
-    }
-
     public Country getPieceCountry(Position position) {
-        return boardStates.get(position).getPiece().getPieceCountry();
+        return boardStates.get(position).getPieceCountry();
     }
 
     public Map<Position, PieceInfo> getPieceInfos() {
         Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
         for (Entry<Position, State> entry : boardStates.entrySet()) {
             if (!entry.getValue().isEmpty()) {
-                pieceInfos.put(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
+                pieceInfos.put(entry.getKey(), entry.getValue().getPieceInfo());
             }
         }
         return pieceInfos;

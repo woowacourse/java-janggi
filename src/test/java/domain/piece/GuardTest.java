@@ -28,13 +28,13 @@ public class GuardTest {
     static Stream<Arguments> expectedChoGuardPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 2))),
+                        List.of(new Position(1, 1), new Position(1, 2))),
                 Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(0, 1))),
+                        List.of(new Position(1, 1), new Position(0, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(2, 1))),
+                        List.of(new Position(1, 1), new Position(2, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(1, 0),
-                        List.of(new Position(1, 0)))
+                        List.of(new Position(1, 1), new Position(1, 0)))
         );
     }
 
@@ -52,13 +52,13 @@ public class GuardTest {
     static Stream<Arguments> expectedHanGuardPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 2))),
+                        List.of(new Position(1, 1), new Position(1, 2))),
                 Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(0, 1))),
+                        List.of(new Position(1, 1), new Position(0, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(2, 1))),
+                        List.of(new Position(1, 1), new Position(2, 1))),
                 Arguments.arguments(new Position(1, 1), new Position(1, 0),
-                        List.of(new Position(1, 0)))
+                        List.of(new Position(1, 1), new Position(1, 0)))
         );
     }
 

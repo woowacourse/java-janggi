@@ -1,9 +1,20 @@
 package domain.state;
 
+import domain.Country;
 import domain.piece.Piece;
+import domain.piece.PieceInfo;
+import domain.piece.PieceType;
 
 public interface State {
-    Piece getPiece();
+    State copy();
 
     boolean isEmpty();
+
+    Piece getPiece();
+
+    PieceInfo getPieceInfo();
+
+    PieceType getPieceType();
+
+    Country getPieceCountry();
 }
