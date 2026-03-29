@@ -4,72 +4,44 @@ import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HorseStrategy implements MoveStrategy{
-    private static final List<List<Integer>> destinations = List.of(
-            List.of(1, 2), List.of(2, 1), List.of(1, -2), List.of(2, -1),
-            List.of(-1, 2), List.of(-2, 1), List.of(-1, -2), List.of(-2, -1)
+public class HorseStrategy implements MoveStrategy {
+    private static final List<List<RelativePosition>> POSSIBLE_RELATIVE_POSITIONS = List.of(
+            List.of(new RelativePosition(1, 0), new RelativePosition(2, 1)),
+            List.of(new RelativePosition(1, 0), new RelativePosition(2, -1)),
+            List.of(new RelativePosition(-1, 0), new RelativePosition(-2, 1)),
+            List.of(new RelativePosition(-1, 0), new RelativePosition(-2, -1)),
+            List.of(new RelativePosition(0, 1), new RelativePosition(1, 2)),
+            List.of(new RelativePosition(0, 1), new RelativePosition(-1, 2)),
+            List.of(new RelativePosition(0, -1), new RelativePosition(1, -2)),
+            List.of(new RelativePosition(0, -1), new RelativePosition(-1, -2))
     );
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextX = to.getX();
-        int nextY = to.getY();
-
-        for (List<Integer> destination : destinations) {
-            if (nextY - preY == destination.get(1)
-                    && nextX - preX == destination.get(0)) {
-                return true;
-            }
-        }
-        return false;
+        return POSSIBLE_RELATIVE_POSITIONS.stream()
+                .map(relativePositions -> relativePositions.getLast())
+                .anyMatch(relativePosition -> isSamePosition(from, to, relativePosition));
     }
 
     @Override
     public List<Position> findPath(Position from, Position to) {
+        return POSSIBLE_RELATIVE_POSITIONS.stream()
+                .map(relativePositions -> createPath(from, relativePositions))
+                .filter(positions -> positions.getLast().equals(to))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("마의 이동 경로를 생성할 수 없습니다."));
+    }
+
+    private boolean isSamePosition(Position from, Position to, RelativePosition relativePosition) {
+        return to.getX() - from.getX() == relativePosition.dx() && to.getY() - from.getY() == relativePosition.dy();
+    }
+
+    private List<Position> createPath(Position from, List<RelativePosition> relativePositions) {
         List<Position> path = new ArrayList<>();
-
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextX = to.getX();
-        int nextY = to.getY();
-
-        if (Math.abs(preX - nextX) == 2) {
-            if (nextX > preX) {
-                path.add(new Position(preX + 1, preY));
-                if (nextY > preY) {
-                    path.add(new Position(preX + 2, preY + 1));
-                    return path;
-                }
-                path.add(new Position(preX + 2, preY - 1));
-                return path;
-            }
-            path.add(new Position(preX - 1, preY));
-            if (nextY > preY) {
-                path.add(new Position(preX - 2, preY + 1));
-                return path;
-            }
-            path.add(new Position(preX - 2, preY - 1));
-            return path;
+        for (RelativePosition relativePosition : relativePositions) {
+            path.add(new Position(from.getX() + relativePosition.dx(), from.getY() + relativePosition.dy()));
         }
-        if (nextY > preY) {
-            path.add(new Position(preX, preY + 1));
-            if (nextX > preX) {
-                path.add(new Position(preX + 1, preY + 2));
-                return path;
-            }
-            path.add(new Position(preX - 1, preY + 2));
-            return path;
-        }
-        path.add(new Position(preX, preY - 1));
-        if (nextX > preX) {
-            path.add(new Position(preX + 1, preY - 2));
-            return path;
-        }
-        path.add(new Position(preX - 1, preY - 2));
         return path;
     }
+
 }

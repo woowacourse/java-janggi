@@ -4,7 +4,7 @@ import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChariotStrategy implements MoveStrategy{
+public class ChariotStrategy implements MoveStrategy {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
