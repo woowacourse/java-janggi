@@ -20,6 +20,7 @@ public class CannonTest {
     void cannonPathTest(Position from, Position to, List<Position> paths) {
         Piece choCannon = new Cannon(Country.CHO);
         Piece hanCannon = new Cannon(Country.HAN);
+
         assertThat(choCannon.path(from, to)).isEqualTo(paths);
         assertThat(hanCannon.path(from, to)).isEqualTo(paths);
     }

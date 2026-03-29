@@ -20,6 +20,7 @@ public class HorseTest {
     void horsePathTest(Position from, Position to, List<Position> paths) {
         Piece choHorse = new Horse(Country.CHO);
         Piece hanHorse = new Horse(Country.HAN);
+
         assertThat(choHorse.path(from, to)).isEqualTo(paths);
         assertThat(hanHorse.path(from, to)).isEqualTo(paths);
     }

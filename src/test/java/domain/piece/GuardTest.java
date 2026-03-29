@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class GuardTest {
     @ParameterizedTest
-    @DisplayName("초나라 사의 목적지까지의 경로를 정확히 계산한다.")
+    @DisplayName("사의 목적지까지의 경로를 정확히 계산한다.")
     @MethodSource("expectedChoGuardPaths")
     void choGuardPathTest(Position from, Position to, List<Position> paths) {
         Piece choGuard = new Guard(Country.CHO);
@@ -26,30 +26,6 @@ public class GuardTest {
     }
 
     static Stream<Arguments> expectedChoGuardPaths() {
-        return Stream.of(
-                Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 1), new Position(1, 2))),
-                Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(1, 1), new Position(0, 1))),
-                Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(1, 1), new Position(2, 1))),
-                Arguments.arguments(new Position(1, 1), new Position(1, 0),
-                        List.of(new Position(1, 1), new Position(1, 0)))
-        );
-    }
-
-    @ParameterizedTest
-    @DisplayName("한나라 사의 목적지까지의 경로를 정확히 계산한다.")
-    @MethodSource("expectedHanGuardPaths")
-    void hanGuardPathTest(Position from, Position to, List<Position> paths) {
-        Piece choGuard = new Guard(Country.CHO);
-        Piece handGuard = new Guard(Country.HAN);
-
-        assertThat(choGuard.path(from, to)).isEqualTo(paths);
-        assertThat(handGuard.path(from, to)).isEqualTo(paths);
-    }
-
-    static Stream<Arguments> expectedHanGuardPaths() {
         return Stream.of(
                 Arguments.arguments(new Position(1, 1), new Position(1, 2),
                         List.of(new Position(1, 1), new Position(1, 2))),

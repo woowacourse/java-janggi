@@ -44,7 +44,7 @@ public class ChariotTest {
 
     @Test
     @DisplayName("차가 하나의 방향으로만 이동하지 않을 경우 예외가 발생한다.")
-    void cannonOneDirectionExceptionTest() {
+    void chariotOneDirectionExceptionTest() {
         Piece chariot = new Chariot(Country.CHO);
 
         Position from = new Position(1, 2);
@@ -57,7 +57,7 @@ public class ChariotTest {
 
     @Test
     @DisplayName("차가 대각선으로 이동할 경우 예외가 발생한다.")
-    void cannonDiagonalExceptionTest() {
+    void chariotDiagonalExceptionTest() {
         Piece chariot = new Chariot(Country.CHO);
 
         Position from = new Position(1, 1);

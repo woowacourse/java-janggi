@@ -59,6 +59,7 @@ public class SoldierTest {
     void soldierDownExceptionTest() {
         Piece choSoldier = new Soldier(Country.CHO);
         Piece hanSoldier = new Soldier(Country.HAN);
+
         Position from = new Position(1, 1);
         Position choTo = new Position(1, 0);
         Position hanTo = new Position(1, 2);

@@ -20,6 +20,7 @@ public class ElephantTest {
     void elephantPathTest(Position from, Position to, List<Position> paths) {
         Piece choElephant = new Elephant(Country.CHO);
         Piece hanElephant = new Elephant(Country.HAN);
+
         assertThat(choElephant.path(from, to)).isEqualTo(paths);
         assertThat(hanElephant.path(from, to)).isEqualTo(paths);
     }

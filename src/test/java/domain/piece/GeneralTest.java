@@ -20,6 +20,7 @@ public class GeneralTest {
     void generalPathTest(Position from, Position to, List<Position> paths) {
         Piece choGeneral = new General(Country.CHO);
         Piece hanGeneral = new General(Country.HAN);
+
         assertThat(choGeneral.path(from, to)).isEqualTo(paths);
         assertThat(hanGeneral.path(from, to)).isEqualTo(paths);
     }
