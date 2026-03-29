@@ -17,14 +17,14 @@ public class General implements Piece {
 
     static {
         final List<Rule> rules = List.of(
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, -1)))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, 0)))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(-1, 1)))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(0, -1)))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(0, 1)))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, -1)))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, 0)))),
-            new RuleWithTraces(List.of(new Movement(1, Direction.valueOf(1, 1)))));
+            new RuleWithTraces(List.of(new Movement(1, Direction.NORTH_WEST))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.NORTH))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.NORTH_EAST))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.WEST))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.EAST))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.SOUTH_WEST))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.SOUTH))),
+            new RuleWithTraces(List.of(new Movement(1, Direction.SOUTH_EAST))));
         PIECE_ACTION = new PieceAction(rules);
     }
 

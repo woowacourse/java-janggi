@@ -26,7 +26,7 @@ public class RuleWithTracesTest {
             Position.valueOf(8, 3), new Elephant(TeamType.BLUE));
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
-        Direction direction = Direction.valueOf(1, 0);
+        Direction direction = Direction.SOUTH;
         Rule ruleWithTraces = new RuleWithTraces(
             List.of(new Movement(MAXIMUM_ROW, direction)));
         List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),

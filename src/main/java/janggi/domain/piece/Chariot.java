@@ -20,10 +20,10 @@ public class Chariot implements Piece {
 
     static {
         final List<Rule> rules = List.of(
-            new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(1, 0)))),
-            new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.valueOf(-1, 0)))),
-            new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, 1)))),
-            new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.valueOf(0, -1)))));
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.SOUTH))),
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_ROW, Direction.NORTH))),
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.EAST))),
+            new RuleWithTraces(List.of(new Movement(MAXIMUM_COLUMN, Direction.WEST))));
         PIECE_ACTION = new PieceAction(rules);
     }
 

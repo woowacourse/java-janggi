@@ -18,37 +18,37 @@ public class Elephant implements Piece {
     static {
         final List<Rule> rules = List.of(
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, 1)),
-                new Movement(1, Direction.valueOf(-1, 1)),
-                new Movement(1, Direction.valueOf(-1, 1)))),
+                new Movement(1, Direction.EAST),
+                new Movement(1, Direction.NORTH_EAST),
+                new Movement(1, Direction.NORTH_EAST))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, 1)),
-                new Movement(1, Direction.valueOf(1, 1)),
-                new Movement(1, Direction.valueOf(1, 1)))),
+                new Movement(1, Direction.EAST),
+                new Movement(1, Direction.SOUTH_EAST),
+                new Movement(1, Direction.SOUTH_EAST))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(-1, 0)),
-                new Movement(1, Direction.valueOf(-1, 1)),
-                new Movement(1, Direction.valueOf(-1, 1)))),
+                new Movement(1, Direction.NORTH),
+                new Movement(1, Direction.NORTH_EAST),
+                new Movement(1, Direction.NORTH_EAST))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(-1, 0)),
-                new Movement(1, Direction.valueOf(-1, -1)),
-                new Movement(1, Direction.valueOf(-1, -1)))),
+                new Movement(1, Direction.NORTH),
+                new Movement(1, Direction.NORTH_WEST),
+                new Movement(1, Direction.NORTH_WEST))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, -1)),
-                new Movement(1, Direction.valueOf(-1, -1)),
-                new Movement(1, Direction.valueOf(-1, -1)))),
+                new Movement(1, Direction.WEST),
+                new Movement(1, Direction.NORTH_WEST),
+                new Movement(1, Direction.NORTH_WEST))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(0, -1)),
-                new Movement(1, Direction.valueOf(1, -1)),
-                new Movement(1, Direction.valueOf(1, -1)))),
+                new Movement(1, Direction.WEST),
+                new Movement(1, Direction.SOUTH_WEST),
+                new Movement(1, Direction.SOUTH_WEST))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(1, 0)),
-                new Movement(1, Direction.valueOf(1, -1)),
-                new Movement(1, Direction.valueOf(1, -1)))),
+                new Movement(1, Direction.SOUTH),
+                new Movement(1, Direction.SOUTH_WEST),
+                new Movement(1, Direction.SOUTH_WEST))),
             new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.valueOf(1, 0)),
-                new Movement(1, Direction.valueOf(1, 1)),
-                new Movement(1, Direction.valueOf(1, 1)))
+                new Movement(1, Direction.SOUTH),
+                new Movement(1, Direction.SOUTH_EAST),
+                new Movement(1, Direction.SOUTH_EAST))
             ));
 
         PIECE_ACTION = new PieceAction(rules);

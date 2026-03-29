@@ -42,7 +42,7 @@ class MovementTest {
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(1, direction);
             boolean expected = true;
 
@@ -57,7 +57,7 @@ class MovementTest {
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(1, direction);
             boolean expected = false;
 
@@ -71,7 +71,7 @@ class MovementTest {
         void success_3() {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(1, direction);
             boolean expected = true;
 
@@ -102,7 +102,7 @@ class MovementTest {
         void success_1() {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(1, direction);
             boolean expected = false;
 
@@ -117,7 +117,7 @@ class MovementTest {
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(1, direction);
             boolean expected = true;
 
@@ -146,7 +146,7 @@ class MovementTest {
             boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(maxDistance, direction);
             Position expected = Position.valueOf(5, 5);
 
@@ -162,7 +162,7 @@ class MovementTest {
             boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(maxDistance, direction);
             Position expected = Position.valueOf(5, 6);
 
@@ -177,7 +177,7 @@ class MovementTest {
             boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(maxDistance, direction);
             Position expected = Position.valueOf(5, 7);
 
@@ -207,11 +207,12 @@ class MovementTest {
             boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = Movement.calculateTraces(from, boardMediator.getPieceInPosition(from), boardMediator);
+            List<Position> actual = Movement.calculateTraces(from,
+                boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -223,12 +224,13 @@ class MovementTest {
             boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6));
 
-            List<Position> actual = Movement.calculateTraces(from, boardMediator.getPieceInPosition(from), boardMediator);
+            List<Position> actual = Movement.calculateTraces(from,
+                boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -239,12 +241,13 @@ class MovementTest {
             boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
-            Direction direction = Direction.valueOf(0, 1);
+            Direction direction = Direction.EAST;
             Movement Movement = new Movement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = Movement.calculateTraces(from, boardMediator.getPieceInPosition(from), boardMediator);
+            List<Position> actual = Movement.calculateTraces(from,
+                boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
