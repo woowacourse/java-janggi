@@ -67,86 +67,38 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
 
     @Override
     protected Map<Position, AbstractGimul> initCha() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
-
-        Cha cho = new Cha(Team.CHO);
-        Cha han = new Cha(Team.HAN);
-
-        for (Position position : CHA_CHO) {
-            board.put(position, cho);
-        }
-
-        for (Position position : CHA_HAN) {
-            board.put(position, han);
-        }
-
-        return board;
-    }
-
-    @Override
-    protected Map<Position, AbstractGimul> initJang() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
-
-        Jang cho = new Jang(Team.CHO);
-        Jang han = new Jang(Team.HAN);
-
-        board.put(JANG_CHO, cho);
-        board.put(JANG_HAN, han);
-
-        return board;
+        return initGimul(CHA_CHO, new Cha(Team.CHO), CHA_HAN, new Cha(Team.HAN));
     }
 
     @Override
     protected Map<Position, AbstractGimul> initSa() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+        return initGimul(SA_CHO, new Sa(Team.CHO), SA_HAN, new Sa(Team.HAN));
+    }
 
-        Sa cho = new Sa(Team.CHO);
-        Sa han = new Sa(Team.HAN);
-
-        for (Position position : SA_CHO) {
-            board.put(position, cho);
-        }
-
-        for (Position position : SA_HAN) {
-            board.put(position, han);
-        }
-
+    @Override
+    protected Map<Position, AbstractGimul> initJang() {
+        Map<Position, AbstractGimul> board = new HashMap<>();
+        board.put(JANG_CHO, new Jang(Team.CHO));
+        board.put(JANG_HAN, new Jang(Team.HAN));
         return board;
     }
 
     @Override
     protected Map<Position, AbstractGimul> initByeong() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
-
-        Byeong cho = new Byeong(Team.CHO);
-        Byeong han = new Byeong(Team.HAN);
-
-        for (Position position : BYEONG_CHO) {
-            board.put(position, cho);
-        }
-
-        for (Position position : BYEONG_HAN) {
-            board.put(position, han);
-        }
-
-        return board;
+        return initGimul(BYEONG_CHO, new Byeong(Team.CHO), BYEONG_HAN, new Byeong(Team.HAN));
     }
 
     @Override
     protected Map<Position, AbstractGimul> initPho() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+        return initGimul(PHO_CHO, new Pho(Team.CHO), PHO_HAN, new Pho(Team.HAN));
+    }
 
-        Pho cho = new Pho(Team.CHO);
-        Pho han = new Pho(Team.HAN);
-
-        for (Position position : PHO_CHO) {
-            board.put(position, cho);
-        }
-
-        for (Position position : PHO_HAN) {
-            board.put(position, han);
-        }
-
+    protected Map<Position, AbstractGimul> initGimul(
+            List<Position> choPositions, AbstractGimul cho,
+            List<Position> hanPositions, AbstractGimul han) {
+        Map<Position, AbstractGimul> board = new HashMap<>();
+        choPositions.forEach(position -> board.put(position, cho));
+        hanPositions.forEach(position -> board.put(position, han));
         return board;
     }
 }

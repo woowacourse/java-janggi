@@ -18,24 +18,23 @@ public class Sang extends AbstractDiagonalGimul {
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
         PositionDelta positionDelta = PositionDelta.between(from, to);
-
         if (positionDelta.notMatchStepPattern(FIRST_MOVE, SECOND_MOVE)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
+        return calculatePath(from, positionDelta);
+    }
 
+    private PositionPath calculatePath(Position from, PositionDelta positionDelta) {
         int firstDistance = positionDelta.getStepSign();
         PositionPath first = from.moveVertical(firstDistance);
         PositionDelta moved = positionDelta.movedVertically(firstDistance);
-
         if (positionDelta.isHorizontalDominant()) {
             first = from.moveHorizontal(firstDistance);
             moved = positionDelta.movedHorizontally(firstDistance);
         }
-
         PositionPath second = first.getDestination().moveDiagonal(
                 new DiagonalDelta(moved.rowDistance(), moved.columnDistance())
         );
-
         return PositionPath.concatenate(first, second).removeFromAndTo();
     }
 

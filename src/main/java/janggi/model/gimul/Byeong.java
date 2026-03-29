@@ -6,6 +6,11 @@ import janggi.model.position.PositionPath;
 import java.util.List;
 
 public class Byeong extends AbstractGimul {
+    private static final int MAX_DISTANCE = 2;
+    private static final int CHO_BACKWARD = 1;
+    private static final int HAN_BACKWARD = -1;
+    private static final int HORIZONTAL = 0;
+
     public Byeong(Team team) {
         super(team);
     }
@@ -14,21 +19,23 @@ public class Byeong extends AbstractGimul {
     public PositionPath getLegalPath(Position from, Position to) {
         int rowDistance = to.getRowDistance(from);
         int columnDistance = to.getColumnDistance(from);
+        validateDistance(rowDistance, columnDistance);
+        return calculatePath(from, rowDistance, columnDistance);
+    }
 
-        int absRowDistance = Math.abs(rowDistance);
-        int absColumnDistance = Math.abs(columnDistance);
-
-        if ((absRowDistance + absColumnDistance) >= 2) {
+    private void validateDistance(int rowDistance, int columnDistance) {
+        if ((Math.abs(rowDistance) + Math.abs(columnDistance)) >= MAX_DISTANCE) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
+        if ((Team.CHO.equals(team) && rowDistance == CHO_BACKWARD) ||
+                (Team.HAN.equals(team) && rowDistance == HAN_BACKWARD)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+    }
 
-        if (rowDistance == 0) {
+    private PositionPath calculatePath(Position from, int rowDistance, int columnDistance) {
+        if (rowDistance == HORIZONTAL) {
             return from.moveHorizontal(columnDistance).removeFromAndTo();
-        }
-
-        if ((Team.CHO.equals(team) && rowDistance == 1) ||
-                (Team.HAN.equals(team) && rowDistance == -1)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
         return from.moveVertical(rowDistance).removeFromAndTo();
     }

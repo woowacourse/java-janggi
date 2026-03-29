@@ -5,7 +5,7 @@ import janggi.model.Board;
 public class OutputView {
 
     public void printBoard(Board board, String team) {
-        System.out.println(board);
+        System.out.println(board.render());
         System.out.println(team + "의 차례입니다.");
     }
 

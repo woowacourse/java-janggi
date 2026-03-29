@@ -9,8 +9,12 @@ import java.util.Map;
 public abstract class BoardInitializer {
 
     public Board init() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
+        initAllGimuls(board);
+        return new Board(board);
+    }
 
+    private void initAllGimuls(Map<Position, AbstractGimul> board) {
         board.putAll(initCha());
         board.putAll(initMa());
         board.putAll(initSang());
@@ -18,8 +22,6 @@ public abstract class BoardInitializer {
         board.putAll(initSa());
         board.putAll(initByeong());
         board.putAll(initPho());
-
-        return new Board(board);
     }
 
     protected abstract Map<Position, AbstractGimul> initCha();

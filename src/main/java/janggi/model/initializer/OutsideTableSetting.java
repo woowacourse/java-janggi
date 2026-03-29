@@ -7,7 +7,6 @@ import janggi.model.gimul.diagonalMove.Sang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,37 +34,11 @@ public class OutsideTableSetting extends BoardInitializerWithConst {
 
     @Override
     protected Map<Position, AbstractGimul> initMa() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
-
-        Ma cho = new Ma(Team.CHO);
-        Ma han = new Ma(Team.HAN);
-
-        for (Position position : MA_CHO) {
-            board.put(position, cho);
-        }
-
-        for (Position position : MA_HAN) {
-            board.put(position, han);
-        }
-
-        return board;
+        return initGimul(MA_CHO, new Ma(Team.CHO), MA_HAN, new Ma(Team.HAN));
     }
 
     @Override
     protected Map<Position, AbstractGimul> initSang() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
-
-        Sang cho = new Sang(Team.CHO);
-        Sang han = new Sang(Team.HAN);
-
-        for (Position position : SANG_CHO) {
-            board.put(position, cho);
-        }
-
-        for (Position position : SANG_HAN) {
-            board.put(position, han);
-        }
-
-        return board;
+        return initGimul(SANG_CHO, new Sang(Team.CHO), SANG_HAN, new Sang(Team.HAN));
     }
 }

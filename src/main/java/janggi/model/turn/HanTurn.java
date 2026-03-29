@@ -15,16 +15,10 @@ public class HanTurn implements Turn {
 
     @Override
     public Turn play(Position from, Position to) {
-        Board movedBoard = board.move(
-                Team.HAN,
-                from,
-                to
-        );
-
+        Board movedBoard = board.move(Team.HAN, from, to);
         if (movedBoard.isGameOver()) {
             return new GameOver();
         }
-
         return new ChoTurn(movedBoard);
     }
 

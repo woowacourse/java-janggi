@@ -17,86 +17,78 @@ public class Board {
         this.board = board;
     }
 
-    public Board move(
-            Team team,
-            Position from,
-            Position to
-    ) {
+    public Board move(Team team, Position from, Position to) {
+        validateFrom(team, from);
+        AbstractGimul gimulAtFrom = board.get(from);
+        PositionPath legalPath = gimulAtFrom.getLegalPath(from, to);
+        List<AbstractGimul> gimulsOnPath = getGimulsOnPath(legalPath);
+        validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
+        return createMovedBoard(from, to, gimulAtFrom);
+    }
+
+    private void validateFrom(Team team, Position from) {
         if (!board.containsKey(from)) {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }
-
-        AbstractGimul gimulAtFrom = board.get(from);
-        if (!gimulAtFrom.isSameTeam(team)) {
+        if (!board.get(from).isSameTeam(team)) {
             throw new IllegalArgumentException("상대편 기물을 움직일 수 없습니다.");
         }
+    }
 
-        PositionPath legalPath = gimulAtFrom.getLegalPath(from, to);
-
-        List<AbstractGimul> gimulsOnPath = legalPath.stream()
+    private List<AbstractGimul> getGimulsOnPath(PositionPath legalPath) {
+        return legalPath.stream()
                 .filter(board::containsKey)
                 .map(board::get)
                 .toList();
+    }
 
-        validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
-
+    private Board createMovedBoard(Position from, Position to, AbstractGimul gimulAtFrom) {
         Map<Position, AbstractGimul> movedBoard = new HashMap<>(board);
         movedBoard.put(to, gimulAtFrom);
         movedBoard.remove(from);
-
         return new Board(movedBoard);
     }
 
-    @Override
-    public String toString() {
-        int rowStart = 1;
-        int rowEnd = 10;
-
+    public String render() {
         StringBuilder sb = new StringBuilder();
-
         sb.append("    1  2  3  4  5  6  7  8  9\n");
         sb.append("  ┌───────────────────────────┐\n");
-
-        for (int row = rowStart; row <= rowEnd; row++) {
-            sb.append(renderBoardRow(row));
-        }
-
+        appendRows(sb);
         sb.append("  └───────────────────────────┘\n");
         return sb.toString();
     }
 
+    private void appendRows(StringBuilder sb) {
+        int rowStart = 1;
+        int rowEnd = 10;
+        for (int row = rowStart; row <= rowEnd; row++) {
+            sb.append(renderBoardRow(row));
+        }
+    }
+
     private StringBuilder renderBoardRow(int row) {
         StringBuilder sb = new StringBuilder();
-        int colStart = 1;
-        int colEnd = 9;
-        int zeroRow = 0;
-
-        int displayRow = row;
-
-        if (row == colEnd) {
-            displayRow = zeroRow;
-        }
-        sb.append(displayRow).append(" │");
-
-        for (int col = colStart; col <= colEnd; col++) {
+        sb.append(getDisplayRow(row)).append(" │");
+        for (int col = 1; col <= 9; col++) {
             sb.append(renderBoardColumn(row, col));
         }
         sb.append("│\n");
         return sb;
     }
 
-    private StringBuilder renderBoardColumn(int row, int col) {
-        StringBuilder sb = new StringBuilder();
-        Position position = new Position(Row.of(row), Column.of(col));
-
-        String symbol = "·";
-        if (board.containsKey(position)) {
-            AbstractGimul gimul = board.get(position);
-            symbol = gimul.getSymbol();
+    private int getDisplayRow(int row) {
+        int zeroRow = 0;
+        int nineRow = 9;
+        if (row == nineRow) {
+            return zeroRow;
         }
+        return row;
+    }
 
-        sb.append(" ").append(String.format("%-2s", symbol));
-        return sb;
+    private StringBuilder renderBoardColumn(int row, int col) {
+        Position position = new Position(Row.of(row), Column.of(col));
+        String symbol = board.containsKey(position) ? board.get(position).getSymbol() : "·";
+        return new StringBuilder().append(" ").append(String.format("%-2s", symbol));
     }
 
     public boolean isGameOver() {

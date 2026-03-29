@@ -8,22 +8,20 @@ public record Position(
         Column column
 ) {
     public PositionPath moveDiagonal(DiagonalDelta diagonalDelta) {
-        int rowUnitDistance = diagonalDelta.getRowUnitDistance();
-        int columnUnitDistance = diagonalDelta.getColumnUnitDistance();
+        List<Position> positions = new ArrayList<>();
+        positions.add(this);
+        addDiagonalPositions(positions, diagonalDelta);
+        return new PositionPath(positions);
+    }
 
+    private void addDiagonalPositions(List<Position> positions, DiagonalDelta diagonalDelta) {
         Row nextRow = row;
         Column nextColumn = column;
-
-        List<Position> positions = new ArrayList<>();
-        positions.add(new Position(nextRow, nextColumn));
-
         for (int i = 0; i < diagonalDelta.getCountOfUnitDiagonal(); i++) {
-            nextRow = nextRow.moved(rowUnitDistance);
-            nextColumn = nextColumn.moved(columnUnitDistance);
+            nextRow = nextRow.moved(diagonalDelta.getRowUnitDistance());
+            nextColumn = nextColumn.moved(diagonalDelta.getColumnUnitDistance());
             positions.add(new Position(nextRow, nextColumn));
         }
-
-        return new PositionPath(positions);
     }
 
     public PositionPath moveHorizontal(int distance) {

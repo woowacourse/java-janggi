@@ -15,16 +15,10 @@ public class ChoTurn implements Turn {
 
     @Override
     public Turn play(Position from, Position to) {
-        Board movedBoard = board.move(
-                Team.CHO,
-                from,
-                to
-        );
-
+        Board movedBoard = board.move(Team.CHO, from, to);
         if (movedBoard.isGameOver()) {
             return new GameOver();
         }
-
         return new HanTurn(movedBoard);
     }
 
