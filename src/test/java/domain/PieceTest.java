@@ -1,7 +1,7 @@
 package domain;
 
 import domain.piece.Cannon;
-import domain.piece.Team;
+import domain.team.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

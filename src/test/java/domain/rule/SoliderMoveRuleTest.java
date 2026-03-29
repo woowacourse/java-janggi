@@ -2,7 +2,7 @@ package domain.rule;
 
 import domain.intersection.Intersection;
 import domain.piece.Soldier;
-import domain.piece.Team;
+import domain.team.Team;
 import domain.piece.move.SoliderMoveRule;
 import domain.piece.move.Vector;
 import domain.point.Point;

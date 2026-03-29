@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.team.Team;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -31,6 +32,10 @@ public abstract class Piece {
 
     public boolean hasPiece() {
         return this.pieceType != PieceType.NONE;
+    }
+
+    public String getChineseCharacter(){
+        return pieceType.getChineseCharacter(team);
     }
 
     @Override
