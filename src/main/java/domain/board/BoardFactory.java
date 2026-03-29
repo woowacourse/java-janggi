@@ -11,13 +11,13 @@ import domain.piece.Jol;
 import domain.piece.Ma;
 import domain.piece.None;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
 import domain.player.Team;
 import domain.position.Position;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class BoardFactory {
         for (int i = 0; i < formation.size(); i++) {
             PieceType pieceType = formation.get(i);
             int column = columnPositions.get(i);
-            Piece piece = PieceFactory.createPiece(team, pieceType);
+            Piece piece = pieceType.createPiece(team);
             Position position = new Position(team.getColumn(), column);
             board.put(position, piece);
         }
@@ -60,13 +60,8 @@ public class BoardFactory {
 
     private static void addHanPieces(Map<Position, Piece> board) {
         board.put(new Position(0, 0), new Cha(Team.HAN));
-        board.put(new Position(0, 1), new Sang(Team.HAN));
-        board.put(new Position(0, 2), new Ma(Team.HAN));
         board.put(new Position(0, 3), new Sa(Team.HAN));
-        board.put(new Position(0, 4), new None());
         board.put(new Position(0, 5), new Sa(Team.HAN));
-        board.put(new Position(0, 6), new Ma(Team.HAN));
-        board.put(new Position(0, 7), new Sang(Team.HAN));
         board.put(new Position(0, 8), new Cha(Team.HAN));
 
         board.put(new Position(1, 4), new Jang(Team.HAN));
@@ -81,13 +76,8 @@ public class BoardFactory {
 
     private static void addChoPieces(Map<Position, Piece> board) {
         board.put(new Position(9, 0), new Cha(Team.CHO));
-        board.put(new Position(9, 1), new Sang(Team.CHO));
-        board.put(new Position(9, 2), new Ma(Team.CHO));
         board.put(new Position(9, 3), new Sa(Team.CHO));
-        board.put(new Position(9, 4), new None());
         board.put(new Position(9, 5), new Sa(Team.CHO));
-        board.put(new Position(9, 6), new Ma(Team.CHO));
-        board.put(new Position(9, 7), new Sang(Team.CHO));
         board.put(new Position(9, 8), new Cha(Team.CHO));
 
         board.put(new Position(8, 4), new Jang(Team.CHO));
