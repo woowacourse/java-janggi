@@ -2,7 +2,7 @@ package janggi.dto;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.formatter.PieceFormatter;
+import janggi.view.formatter.PieceFormatter;
 
 public record PiecePositionDto(
         int row,

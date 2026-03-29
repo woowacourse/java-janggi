@@ -1,4 +1,4 @@
-package janggi.formatter;
+package janggi.view.formatter;
 
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;

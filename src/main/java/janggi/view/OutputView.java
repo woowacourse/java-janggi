@@ -1,6 +1,6 @@
 package janggi.view;
 
-import static janggi.formatter.CampFormatter.CHO_NAME;
+import static janggi.view.formatter.CampFormatter.CHO_NAME;
 import static java.util.stream.Collectors.joining;
 
 import janggi.dto.CampDto;

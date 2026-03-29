@@ -1,7 +1,7 @@
 package janggi.dto;
 
 import janggi.domain.piece.Camp;
-import janggi.formatter.CampFormatter;
+import janggi.view.formatter.CampFormatter;
 
 public record CampDto(String camp) {
 
