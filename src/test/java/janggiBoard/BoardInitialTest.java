@@ -1,6 +1,6 @@
 package janggiBoard;
 
-import domain.JanggiBoard;
+import domain.board.JanggiBoard;
 import domain.Position;
 import domain.Team;
 import domain.piece.*;

@@ -3,7 +3,7 @@ package janggiBoard.gameTest;
 import domain.Position;
 import domain.Team;
 import domain.board.JanggiBoard;
-import domain.game.JanggiGame;
+import game.JanggiGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

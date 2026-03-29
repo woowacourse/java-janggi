@@ -1,5 +1,7 @@
-package domain;
+package domain.board;
 
+import domain.Position;
+import domain.Team;
 import domain.piece.*;
 
 import java.util.Collections;

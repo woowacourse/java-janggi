@@ -1,4 +1,4 @@
-package domain.game;
+package game;
 
 import domain.Position;
 import domain.Team;
