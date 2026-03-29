@@ -15,10 +15,6 @@ public class Board {
         this.board = new HashMap<>(boardDesignPolicy.initBoard());
     }
 
-    public Map<Position, Piece> board() {
-        return Map.copyOf(board);
-    }
-
     public List<Position> canMovePosition(Position from, Dynasty currentTurn) {
         if (!board.containsKey(from)) {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
@@ -38,6 +34,10 @@ public class Board {
 
         Piece fromPiece = board.remove(from);
         board.put(to, fromPiece);
+    }
+
+    public Map<Position, Piece> board() {
+        return Map.copyOf(board);
     }
 
 }
