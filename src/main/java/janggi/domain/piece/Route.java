@@ -5,14 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class Route {
-    private final List<Position> route;
-
+public record Route(List<Position> route) {
     private static final int MINIMUM_ROUTE_SIZE = 2;
-
-    public Route(List<Position> route) {
-        this.route = route;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -24,11 +18,6 @@ public class Route {
         }
         Route other = (Route) o;
         return Objects.equals(route, other.route);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(route);
     }
 
     public boolean isEveryBetween(Predicate<Position> predicate) {
