@@ -2,36 +2,21 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
-import janggi.domain.movement.Direction;
-import janggi.domain.movement.Movement;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
+import janggi.domain.pieceaction.PieceAction;
+import janggi.domain.pieceaction.SoldierAction;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
 public class Soldier implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.SOLDIER;
-    private static final PieceAction RED_PIECE_ACTION;
-    private static final PieceAction BLUE_PIECE_ACTION;
-
-    static {
-        final List<Rule> redRules = List.of(
-            RuleWithTraces.of(new Movement(1, Direction.WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH)));
-        final List<Rule> blueRules = List.of(
-            RuleWithTraces.of(new Movement(1, Direction.WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.NORTH)));
-        RED_PIECE_ACTION = new PieceAction(redRules);
-        BLUE_PIECE_ACTION = new PieceAction(blueRules);
-    }
 
     private final TeamType teamType;
+    private final PieceAction pieceAction;
 
     public Soldier(final TeamType teamType) {
         this.teamType = teamType;
+        this.pieceAction = new SoldierAction(teamType);
     }
 
     @Override
@@ -57,10 +42,7 @@ public class Soldier implements Piece {
     @Override
     public List<Position> calculateMovablePositions(final Position from,
         final BoardMediator boardMediator) {
-        if (teamType == TeamType.RED) {
-            return RED_PIECE_ACTION.calculateMovablePositions(from, boardMediator);
-        }
-        return BLUE_PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+        return pieceAction.calculateMovablePositions(from, boardMediator);
     }
 
     @Override

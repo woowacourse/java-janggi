@@ -1,30 +1,16 @@
 package janggi.domain.piece;
 
-import static janggi.domain.Position.MAXIMUM_COLUMN;
-import static janggi.domain.Position.MAXIMUM_ROW;
-
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
-import janggi.domain.movement.Direction;
-import janggi.domain.movement.Movement;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
+import janggi.domain.pieceaction.ChariotAction;
+import janggi.domain.pieceaction.PieceAction;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
 public class Chariot implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.CHARIOT;
-    private static final PieceAction PIECE_ACTION;
-
-    static {
-        final List<Rule> rules = List.of(
-            RuleWithTraces.of(new Movement(MAXIMUM_ROW, Direction.SOUTH)),
-            RuleWithTraces.of(new Movement(MAXIMUM_ROW, Direction.NORTH)),
-            RuleWithTraces.of(new Movement(MAXIMUM_COLUMN, Direction.EAST)),
-            RuleWithTraces.of(new Movement(MAXIMUM_COLUMN, Direction.WEST)));
-        PIECE_ACTION = new PieceAction(rules);
-    }
+    private static final PieceAction PIECE_ACTION = new ChariotAction();
 
     private final TeamType teamType;
 

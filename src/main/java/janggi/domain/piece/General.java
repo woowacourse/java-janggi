@@ -2,30 +2,15 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
-import janggi.domain.movement.Direction;
-import janggi.domain.movement.Movement;
-import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
+import janggi.domain.pieceaction.GeneralAction;
+import janggi.domain.pieceaction.PieceAction;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
 public class General implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.GENERAL;
-    private static final PieceAction PIECE_ACTION;
-
-    static {
-        final List<Rule> rules = List.of(
-            RuleWithTraces.of(new Movement(1, Direction.NORTH_WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.NORTH)),
-            RuleWithTraces.of(new Movement(1, Direction.NORTH_EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH_WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH_EAST)));
-        PIECE_ACTION = new PieceAction(rules);
-    }
+    private static final PieceAction PIECE_ACTION = new GeneralAction();
 
     private final TeamType teamType;
 
