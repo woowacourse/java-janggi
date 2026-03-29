@@ -9,6 +9,12 @@ import java.util.Map;
 
 public class GuardMoveStrategy implements MoveStrategy {
 
+    private static final GuardMoveStrategy GUARD_MOVE_STRATEGY = new GuardMoveStrategy();
+
+    public static MoveStrategy instance() {
+        return GUARD_MOVE_STRATEGY;
+    }
+    
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();

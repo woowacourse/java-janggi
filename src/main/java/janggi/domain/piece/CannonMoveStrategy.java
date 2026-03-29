@@ -9,6 +9,12 @@ import java.util.Map;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
+    private static final CannonMoveStrategy CANNON_MOVE_STRATEGY = new CannonMoveStrategy();
+
+    public static MoveStrategy instance() {
+        return CANNON_MOVE_STRATEGY;
+    }
+
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();

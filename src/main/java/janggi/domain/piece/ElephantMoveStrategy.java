@@ -9,6 +9,12 @@ import java.util.Map;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
+    private static final ElephantMoveStrategy ELEPHANT_MOVE_STRATEGY = new ElephantMoveStrategy();
+
+    public static MoveStrategy instance() {
+        return ELEPHANT_MOVE_STRATEGY;
+    }
+    
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
@@ -23,6 +29,11 @@ public class ElephantMoveStrategy implements MoveStrategy {
         }
 
         return canMovePositions;
+    }
+
+    @Override
+    public PieceType pieceType() {
+        return PieceType.ELEPHANT;
     }
 
     private static void canPassByDirection(Position from, Direction dir,
@@ -44,11 +55,6 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 canMovePositions.add(to);
             }
         });
-    }
-
-    @Override
-    public PieceType pieceType() {
-        return PieceType.ELEPHANT;
     }
 
 }

@@ -9,6 +9,12 @@ import java.util.Map;
 
 public class GeneralMoveStrategy implements MoveStrategy {
 
+    private static final GeneralMoveStrategy GENERAL_MOVE_STRATEGY = new GeneralMoveStrategy();
+
+    public static MoveStrategy instance() {
+        return GENERAL_MOVE_STRATEGY;
+    }
+
     @Override
     public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
