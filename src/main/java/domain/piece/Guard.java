@@ -20,7 +20,7 @@ public class Guard extends Piece {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }
         // 궁성 영역 생각하지 않음
-        if (directions.getFirst().isDialog()) {
+        if (directions.getFirst().isDiagonal()) {
             throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
         }
     }

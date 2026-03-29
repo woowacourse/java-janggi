@@ -86,7 +86,7 @@ public class SoldierTest {
 
     @Test
     @DisplayName("졸병이 대각선으로 이동할 경우 예외가 발생한다.")
-    void soldierDialogExceptionTest() {
+    void soldierDiagonalExceptionTest() {
         Piece choSoldier = new Soldier(Country.CHO);
         Piece hanSoldier = new Soldier(Country.HAN);
 

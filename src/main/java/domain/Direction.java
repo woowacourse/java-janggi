@@ -6,24 +6,22 @@ import java.util.Comparator;
 import java.util.List;
 
 public enum Direction implements Comparator<Direction> {
-    UP(0, 1, false),
-    DOWN(0, -1, false),
-    LEFT(-1, 0, false),
-    RIGHT(1, 0, false),
-    LEFT_UP(-1, 1, true),
-    RIGHT_UP(1, 1, true),
-    LEFT_DOWN(-1, -1, true),
-    RIGHT_DOWN(1, -1, true),
+    UP(0, 1),
+    DOWN(0, -1),
+    LEFT(-1, 0),
+    RIGHT(1, 0),
+    LEFT_UP(-1, 1),
+    RIGHT_UP(1, 1),
+    LEFT_DOWN(-1, -1),
+    RIGHT_DOWN(1, -1),
     ;
 
     private final int x;
     private final int y;
-    private final boolean isDialog;
 
-    Direction(int x, int y, boolean isDialog) {
+    Direction(int x, int y) {
         this.x = x;
         this.y = y;
-        this.isDialog = isDialog;
     }
 
     public static List<Direction> findDirections(int x, int y) {
@@ -34,7 +32,7 @@ public enum Direction implements Comparator<Direction> {
                 direction = findStraight(x, y);
             }
             if (x != 0 && y != 0) {
-                direction = findDialog(x, y);
+                direction = findDiagonal(x, y);
             }
             directions.add(direction);
             x += -direction.x;
@@ -57,7 +55,7 @@ public enum Direction implements Comparator<Direction> {
         return RIGHT;
     }
 
-    private static Direction findDialog(int x, int y) {
+    private static Direction findDiagonal(int x, int y) {
         if (x < 0 && y > 0) {
             return LEFT_UP;
         }
@@ -70,26 +68,26 @@ public enum Direction implements Comparator<Direction> {
         return RIGHT_UP;
     }
 
+    @Override
+    public int compare(Direction direction1, Direction direction2) {
+        if (!direction1.isDiagonal() && direction2.isDiagonal()) {
+            return -1;
+        }
+        if (direction1.isDiagonal() && !direction2.isDiagonal()) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public boolean isDiagonal() {
+        return x != 0 && y != 0;
+    }
+
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
-    }
-
-    public boolean isDialog() {
-        return isDialog;
-    }
-
-    @Override
-    public int compare(Direction direction1, Direction direction2) {
-        if (!direction1.isDialog && direction2.isDialog) {
-            return -1;
-        }
-        if (direction1.isDialog && !direction2.isDialog) {
-            return 1;
-        }
-        return 0;
     }
 }

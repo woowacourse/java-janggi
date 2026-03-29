@@ -52,7 +52,7 @@ public class CannonTest {
 
     @Test
     @DisplayName("포가 대각선으로 이동할 경우 예외가 발생한다.")
-    void cannonDialogExceptionTest() {
+    void cannonDiagonalExceptionTest() {
         Piece cannon = new Cannon(Country.CHO);
 
         Position from = new Position(1, 1);

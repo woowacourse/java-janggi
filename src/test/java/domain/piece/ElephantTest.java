@@ -73,17 +73,17 @@ public class ElephantTest {
 
     @Test
     @DisplayName("상의 1번째 방향이 대각선이거나, 2번째, 3번째 방향이 모두 대각선이 아닐 경우 예외가 발생한다.")
-    void elephantDialogExceptionTest() {
+    void elephantDiagonalExceptionTest() {
         Piece elephant = new Elephant(Country.CHO);
 
         Position from = new Position(1, 1);
-        Position allDialogTo = new Position(4, 4);
-        Position notExistDialogTo = new Position(1, 4);
+        Position allDiagonalTo = new Position(4, 4);
+        Position notExistDiagonalTo = new Position(1, 4);
 
-        assertThatThrownBy(() -> elephant.path(from, allDialogTo))
+        assertThatThrownBy(() -> elephant.path(from, allDiagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 1번째 방향은 직선이고, 2, 3번째 방향은 대각선이어야 합니다.");
-        assertThatThrownBy(() -> elephant.path(from, notExistDialogTo))
+        assertThatThrownBy(() -> elephant.path(from, notExistDiagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 1번째 방향은 직선이고, 2, 3번째 방향은 대각선이어야 합니다.");
     }

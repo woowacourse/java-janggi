@@ -52,7 +52,7 @@ public class GeneralTest {
 
     @Test
     @DisplayName("궁이 대각선으로 이동할 경우 예외가 발생한다.")
-    void generalDialogExceptionTest() {
+    void generalDiagonalExceptionTest() {
         Piece general = new General(Country.CHO);
 
         Position from = new Position(3, 0);

@@ -23,7 +23,7 @@ public class Elephant extends Piece {
         if (directions.get(1) != directions.get(2)) {
             throw new IllegalArgumentException(MUST_SAME_DIRECTION);
         }
-        if (directions.getFirst().isDialog() || !directions.get(1).isDialog()) {
+        if (directions.getFirst().isDiagonal() || !directions.get(1).isDiagonal()) {
             throw new IllegalArgumentException(FIXED_DIRECTION);
         }
     }

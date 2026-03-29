@@ -61,17 +61,17 @@ public class HorseTest {
 
     @Test
     @DisplayName("마의 1번째 방향이 대각선이거나, 2번째 방향이 대각선이 아닐 경우 예외가 발생한다.")
-    void horseDialogExceptionTest() {
+    void horseDiagonalExceptionTest() {
         Piece horse = new Horse(Country.CHO);
 
         Position from = new Position(1, 1);
-        Position allDialogTo = new Position(3, 3);
-        Position notExistDialogTo = new Position(1, 3);
+        Position allDiagonalTo = new Position(3, 3);
+        Position notExistDiagonalTo = new Position(1, 3);
 
-        assertThatThrownBy(() -> horse.path(from, allDialogTo))
+        assertThatThrownBy(() -> horse.path(from, allDiagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 1번째 방향은 직선이고, 2번째 방향은 대각선이어야 합니다.");
-        assertThatThrownBy(() -> horse.path(from, notExistDialogTo))
+        assertThatThrownBy(() -> horse.path(from, notExistDiagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 1번째 방향은 직선이고, 2번째 방향은 대각선이어야 합니다.");
     }

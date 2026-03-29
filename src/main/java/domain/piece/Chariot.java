@@ -21,7 +21,7 @@ public class Chariot extends Piece {
             throw new IllegalArgumentException(FIXED_DIRECTION);
         }
         // 궁성 영역 생각하지 않음
-        if (oneSide.isDialog()) {
+        if (oneSide.isDiagonal()) {
             throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
         }
     }
