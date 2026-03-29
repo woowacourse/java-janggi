@@ -1,39 +1,37 @@
 package domain.movement;
 
 import domain.game.Position;
+import domain.vo.ColDelta;
+import domain.vo.Delta;
+import domain.vo.RowDelta;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StepPieceMovement implements Movement {
-    private static final int[][] MOVES = {
-            {-1, 0},
-            {1, 0},
-            {0, -1},
-            {0, 1}
-    };
+    private static final List<Delta> MOVES = List.of(
+            new Delta(new ColDelta(0), new RowDelta(-1)),
+            new Delta(new ColDelta(0), new RowDelta(1)),
+            new Delta(new ColDelta(-1), new RowDelta(0)),
+            new Delta(new ColDelta(1), new RowDelta(0))
+    );
 
     @Override
-    public List<Path> candidatePaths(Position from) {
-        List<Path> paths = new ArrayList<>();
+    public Paths candidatePaths(Position from) {
+        Paths paths = Paths.empty();
 
-        for (int[] move : MOVES) {
-            int orthRow = move[0];
-            int orthCol = move[1];
-
-            if (!from.canShift(orthCol, orthRow)) {
+        for (Delta delta : MOVES) {
+            if (!from.canShift(delta)) {
                 continue;
             }
 
             List<Position> path = new ArrayList<>();
-            // 보드 범위가 허용안될때까지
-
             Position nextPosition = from;
-            while (nextPosition.canShift(orthCol, orthRow)) {
-                nextPosition = nextPosition.shift(orthCol, orthRow);
+            while (nextPosition.canShift(delta)) {
+                nextPosition = nextPosition.shift(delta);
                 path.add(nextPosition);
             }
 
-            paths.add(new Path(path));
+            paths = paths.add(new Path(path));
         }
         return paths;
     }

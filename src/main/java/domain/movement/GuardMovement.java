@@ -1,34 +1,29 @@
 package domain.movement;
 
 import domain.game.Position;
-import java.util.ArrayList;
+import domain.vo.ColDelta;
+import domain.vo.Delta;
+import domain.vo.RowDelta;
 import java.util.List;
 
 public class GuardMovement implements Movement {
-    private static final int[][] MOVES = {
-            {-1, 0},
-            {1, 0},
-            {0, -1},
-            {0, 1}
-    };
+    private static final List<Delta> MOVES = List.of(
+            new Delta(new ColDelta(0), new RowDelta(-1)),
+            new Delta(new ColDelta(0), new RowDelta(1)),
+            new Delta(new ColDelta(-1), new RowDelta(0)),
+            new Delta(new ColDelta(1), new RowDelta(0))
+    );
 
     @Override
-    public List<Path> candidatePaths(Position from) {
-        List<Path> paths = new ArrayList<>();
+    public Paths candidatePaths(Position from) {
+        Paths paths = Paths.empty();
 
-        for (int[] move : MOVES) {
-            int orthRow = move[0];
-            int orthCol = move[1];
-
-            if (!from.canShift(orthCol, orthRow)) {
+        for (Delta delta : MOVES) {
+            if (!from.canShift(delta)) {
                 continue;
             }
-            // 보드 밖으로 나갈 일은 없음.
-            Position destination = from.shift(orthCol, orthRow);
-            // 데스티네이션: 목적지
-            List<Position> path = new ArrayList<>();
-            path.add(destination);
-            paths.add(new Path(path));
+            Position destination = from.shift(delta);
+            paths = paths.add(new Path(List.of(destination)));
         }
         return paths;
     }

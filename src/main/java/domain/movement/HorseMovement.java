@@ -1,44 +1,59 @@
 package domain.movement;
 
 import domain.game.Position;
-import java.util.ArrayList;
+import domain.vo.ColDelta;
+import domain.vo.Delta;
+import domain.vo.RowDelta;
 import java.util.List;
 
 public final class HorseMovement implements Movement {
-    private static final int[][] MOVES = {
-            {-1, 0, -1, -1, -1, 1},
-            {1, 0, 1, -1, 1, 1},
-            {0, -1, -1, -1, 1, -1},
-            {0, 1, -1, 1, 1, 1}
-    };
+
+    private record HorseMove(Delta orthogonalDelta, Delta firstDiagonalDelta, Delta secondDiagonalDelta) {}
+
+    private static final List<HorseMove> MOVES = List.of(
+            new HorseMove(
+                    new Delta(new ColDelta(0), new RowDelta(-1)),
+                    new Delta(new ColDelta(-1), new RowDelta(-1)),
+                    new Delta(new ColDelta(1), new RowDelta(-1))
+            ),
+            new HorseMove(
+                    new Delta(new ColDelta(0), new RowDelta(1)),
+                    new Delta(new ColDelta(-1), new RowDelta(1)),
+                    new Delta(new ColDelta(1), new RowDelta(1))
+            ),
+            new HorseMove(
+                    new Delta(new ColDelta(-1), new RowDelta(0)),
+                    new Delta(new ColDelta(-1), new RowDelta(-1)),
+                    new Delta(new ColDelta(-1), new RowDelta(1))
+            ),
+            new HorseMove(
+                    new Delta(new ColDelta(1), new RowDelta(0)),
+                    new Delta(new ColDelta(1), new RowDelta(-1)),
+                    new Delta(new ColDelta(1), new RowDelta(1))
+            )
+    );
 
     @Override
-    public List<Path> candidatePaths(Position from) {
-        List<Path> paths = new ArrayList<>();
+    public Paths candidatePaths(Position from) {
+        Paths paths = Paths.empty();
 
-        for (int[] move : MOVES) {
-            int orthRow = move[0];
-            int orthCol = move[1];
-
-            if (!from.canShift(orthCol, orthRow)) {
+        for (HorseMove move : MOVES) {
+            if (!from.canShift(move.orthogonalDelta())) {
                 continue;
             }
-            Position blocking = from.shift(orthCol, orthRow);
-
-            for (int i = 2; i <= 4; i += 2) {
-                int diagRow = move[i];
-                int diagCol = move[i + 1];
-
-                if (blocking.canShift(diagCol, diagRow)) {
-                    Position destination = blocking.shift(diagCol, diagRow);
-                    List<Position> path = new ArrayList<>();
-                    path.add(blocking);
-                    path.add(destination);
-                    paths.add(new Path(path));
-                }
-            }
+            Position blocking = from.shift(move.orthogonalDelta());
+            paths = addDiagonalPath(paths, blocking, move.firstDiagonalDelta());
+            paths = addDiagonalPath(paths, blocking, move.secondDiagonalDelta());
         }
 
         return paths;
+    }
+
+    private Paths addDiagonalPath(Paths paths, Position blocking, Delta diagonalDelta) {
+        if (!blocking.canShift(diagonalDelta)) {
+            return paths;
+        }
+        Position destination = blocking.shift(diagonalDelta);
+        return paths.add(new Path(List.of(blocking, destination)));
     }
 }

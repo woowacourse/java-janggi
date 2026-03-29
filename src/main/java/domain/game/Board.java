@@ -3,11 +3,10 @@ package domain.game;
 import domain.movement.Movement;
 import domain.movement.MovementFactory;
 import domain.movement.MovementValidator;
-import domain.movement.Path;
+import domain.movement.Paths;
 import domain.vo.Arrangements;
 import domain.vo.Coordinate;
 import domain.vo.Team;
-import java.util.List;
 import java.util.Optional;
 
 public class Board {
@@ -64,7 +63,7 @@ public class Board {
         }
 
         Movement movement = MovementFactory.create(piece);
-        List<Path> paths = movement.candidatePaths(from);
+        Paths paths = movement.candidatePaths(from);
 
         MovementValidator validator = new MovementValidator(this);
         if (!validator.

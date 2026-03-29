@@ -1,21 +1,23 @@
 package domain.movement;
 
 import domain.game.Position;
+import domain.vo.ColDelta;
+import domain.vo.Delta;
+import domain.vo.RowDelta;
 import domain.vo.Team;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SoldierMovement implements Movement {
-    private static final int[][] MOVES_HAN = {
-            {1, 0},
-            {0, -1},
-            {0, 1}
-    };
-    private static final int[][] MOVES_CHO = {
-            {-1, 0},
-            {0, -1},
-            {0, 1}
-    };
+    private static final List<Delta> MOVES_HAN = List.of(
+            new Delta(new ColDelta(0), new RowDelta(1)),
+            new Delta(new ColDelta(-1), new RowDelta(0)),
+            new Delta(new ColDelta(1), new RowDelta(0))
+    );
+    private static final List<Delta> MOVES_CHO = List.of(
+            new Delta(new ColDelta(0), new RowDelta(-1)),
+            new Delta(new ColDelta(-1), new RowDelta(0)),
+            new Delta(new ColDelta(1), new RowDelta(0))
+    );
 
     private final Team team;
 
@@ -24,24 +26,17 @@ public class SoldierMovement implements Movement {
     }
 
     @Override
-    public List<Path> candidatePaths(Position from) {
-        List<Path> paths = new ArrayList<>();
+    public Paths candidatePaths(Position from) {
+        Paths paths = Paths.empty();
 
-        int[][] teamMoves = team == Team.HAN ? MOVES_HAN : MOVES_CHO;
+        List<Delta> teamMoves = team == Team.HAN ? MOVES_HAN : MOVES_CHO;
 
-        for (int[] move : teamMoves) {
-            int orthRow = move[0];
-            int orthCol = move[1];
-
-            if (!from.canShift(orthCol, orthRow)) {
+        for (Delta delta : teamMoves) {
+            if (!from.canShift(delta)) {
                 continue;
             }
-
-            Position destination = from.shift(orthCol, orthRow);
-
-            List<Position> path = new ArrayList<>();
-            path.add(destination);
-            paths.add(new Path(path));
+            Position destination = from.shift(delta);
+            paths = paths.add(new Path(List.of(destination)));
         }
         return paths;
     }

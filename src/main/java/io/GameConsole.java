@@ -24,24 +24,23 @@ public class GameConsole {
         ///
 //        Arrangements arrangements = new Arrangements(
 //                readArrangement(Team.HAN),
-//                readArrangement(Team.CHO)
+//                readArrangement(Team.CHO)₩₩
 //        );
 //
 //        janggiGame.setupBoard(arrangements);
         ///
-        while (true) {
-            outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
-            movePiece();
-            janggiGame.nextTurn();
-
-            break;
-        }
+//        while (true) {
+//            outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
+//            movePiece();
+//            janggiGame.nextTurn();
+//
+//            break;
+//        }
         ///
 
         while (true) {
             janggiGame.displayRequestCommand(outputView);
             janggiGame.processCommand(inputView.readCommand());
-            break;
         }
     }
 
