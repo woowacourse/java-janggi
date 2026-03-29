@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
+import janggi.domain.Route;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

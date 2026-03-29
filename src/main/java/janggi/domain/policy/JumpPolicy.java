@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.BoardInterface;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Route;
+import janggi.domain.Route;
 
 public class JumpPolicy implements RoutePolicy {
     @Override

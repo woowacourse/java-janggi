@@ -1,6 +1,5 @@
-package janggi.domain.piece;
+package janggi.domain;
 
-import janggi.domain.Position;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
