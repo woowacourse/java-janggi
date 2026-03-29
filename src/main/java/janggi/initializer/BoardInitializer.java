@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class BoardInitializer {
+    private static final int MA_SANG_POSITION_COUNT = 4;
+
     private static final Map<Arrangement, List<PieceType>> arrangeMap = Map.of(
             Arrangement.MA_SANG_MA_SANG, List.of(PieceType.MA, PieceType.SANG, PieceType.MA, PieceType.SANG),
             Arrangement.MA_SANG_SANG_MA, List.of(PieceType.MA, PieceType.SANG, PieceType.SANG, PieceType.MA),
@@ -71,7 +73,7 @@ public class BoardInitializer {
         List<PieceType> choMaSangPieceOrder = arrangeMap.get(choArrangement);
         List<PieceType> hanMaSangPieceOrder = arrangeMap.get(hanArrangement);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < MA_SANG_POSITION_COUNT; i++) {
             board.put(choMaSangPosition.get(i), pieceMap.get(choMaSangPieceOrder.get(i)).apply(Side.CHO));
             board.put(hanMaSangPosition.get(i), pieceMap.get(hanMaSangPieceOrder.get(i)).apply(Side.HAN));
         }

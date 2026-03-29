@@ -3,6 +3,8 @@ package janggi.domain;
 import java.util.List;
 
 public record Position(int x, int y) {
+    public static final int POSITION_COMPONENTS_SIZE = 2;
+
     public static final int BOARD_START_ROWS = 1;
     public static final int BOARD_START_COLS = 1;
     public static final int BOARD_END_ROWS = 10;
@@ -28,7 +30,7 @@ public record Position(int x, int y) {
     }
 
     private static void validateSize(List<String> inputs) {
-        if (inputs.size() != 2) {
+        if (inputs.size() != POSITION_COMPONENTS_SIZE) {
             throw new IllegalArgumentException(INVALID_POSITION_SIZE);
         }
     }
