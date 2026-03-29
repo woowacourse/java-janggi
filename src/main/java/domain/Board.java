@@ -4,7 +4,7 @@ import domain.pieces.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board {
+public class Board implements ExistBoard {
 
     private final Map<Position, Piece> board = new HashMap<>();
 
@@ -25,13 +25,33 @@ public class Board {
         return board.get(position);
     }
 
+    @Override
     public boolean isExist(Position position) {
         return board.containsKey(position);
     }
 
     public void move(Position fromPosition, Position toPosition) {
+        if (fromPosition.equals(toPosition)) {
+            throw new IllegalArgumentException("[ERROR] 제자리 이동은 불가능합니다.");
+        }
+
         Piece piece = board.get(fromPosition);
-        board.remove(fromPosition);
-        locatePiece(toPosition, piece);
+        boolean canMove = piece.canMove(fromPosition, toPosition, this);
+        if (canMove) {
+            locatePiece(toPosition, piece);
+            board.remove(fromPosition);
+            return;
+        }
+
+        throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다");
+    }
+
+    @Override
+    public boolean isDifferentPieceType(Position position, Piece piece) {
+        if (!board.containsKey(position)) {
+            return true;
+        }
+
+        return board.get(position).isDifferentPieceType(piece);
     }
 }

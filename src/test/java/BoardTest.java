@@ -12,7 +12,7 @@ public class BoardTest {
     @Test
     void 특정_위치에_기물을_놓을_수_있다() {
         Board board = new Board();
-        Position position = new Position(2, 3);
+        Position position = new Position(1, 2);
         Piece piece = new Piece(Camp.HAN);
         board.locatePiece(position, piece);
 
@@ -22,7 +22,7 @@ public class BoardTest {
     @Test
     void 같은_팀_기물은_잡을_수_없다() {
         Board board = new Board();
-        Position position = new Position(2, 3);
+        Position position = new Position(1, 2);
         Piece locatedPiece = new Piece(Camp.HAN);
         Piece anotherPiece = new Piece(Camp.HAN);
         board.locatePiece(position, locatedPiece);
@@ -34,8 +34,8 @@ public class BoardTest {
     @Test
     void 기물을_이동시킬_수_있다() {
         Board board = new Board();
-        Position fromPosition = new Position(2,3);
-        Position toPosition = new Position(2,4);
+        Position fromPosition = new Position(1, 2);
+        Position toPosition = new Position(1, 3);
 
         Piece piece = new Piece(Camp.HAN);
         board.locatePiece(fromPosition, piece); //초기 배치

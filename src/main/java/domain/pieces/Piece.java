@@ -1,6 +1,8 @@
 package domain.pieces;
 
 import domain.Camp;
+import domain.ExistBoard;
+import domain.Position;
 
 public class Piece {
 
@@ -12,5 +14,65 @@ public class Piece {
 
     public boolean isSameCamp(Piece comparedPiece) {
         return this.camp == comparedPiece.camp;
+    }
+
+    public boolean isSameCamp(Camp camp) {
+        return this.camp == camp;
+    }
+
+    public boolean isDifferentPieceType(Piece piece) {
+        return this.getClass() != piece.getClass();
+    }
+
+    Position up(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(x, --y);
+    }
+
+    Position down(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(x, ++y);
+    }
+
+    Position left(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(--x, y);
+    }
+
+    Position right(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(++x, y);
+    }
+
+    Position leftUpDiagonal(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(--x, --y);
+    }
+
+    Position rightUpDiagonal(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(++x, --y);
+    }
+
+    Position leftDownDiagonal(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(--x, ++y);
+    }
+
+    Position rightDownDiagonal(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        return new Position(++x, ++y);
+    }
+
+    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
+        return true;
     }
 }
