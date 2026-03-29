@@ -1,11 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.BoardInterface;
 import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.board.BoardInterface;
 import janggi.domain.policy.RoutePolicy;
-
 import java.util.stream.Stream;
 
 public abstract class LinearPiece extends ActivePiece {

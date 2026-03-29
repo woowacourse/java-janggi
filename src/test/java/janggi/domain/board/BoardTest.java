@@ -1,14 +1,14 @@
 package janggi.domain.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.domain.Arrangement;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
 import janggi.initializer.BoardInitializer;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
     @Test

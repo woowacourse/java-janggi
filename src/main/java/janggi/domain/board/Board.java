@@ -1,12 +1,11 @@
 package janggi.domain.board;
 
-import janggi.domain.piece.PieceInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Empty;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceInfo;
 import janggi.domain.piece.PieceType;
-
 import janggi.domain.piece.Route;
 import java.util.Collections;
 import java.util.HashMap;

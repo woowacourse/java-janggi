@@ -14,8 +14,12 @@ public class Route {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Route other = (Route) o;
         return Objects.equals(route, other.route);
     }
@@ -27,7 +31,7 @@ public class Route {
 
     public boolean isEveryBetween(Predicate<Position> predicate) {
         if (route.size() <= 2) {
-            return  true;
+            return true;
         }
         return getBetween().stream()
                 .allMatch(predicate);

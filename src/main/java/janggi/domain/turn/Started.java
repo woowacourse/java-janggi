@@ -1,8 +1,8 @@
 package janggi.domain.turn;
 
-import janggi.domain.piece.PieceInfo;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
+import janggi.domain.piece.PieceInfo;
 import java.util.List;
 
 public abstract class Started implements PlayerTurn {

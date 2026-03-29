@@ -1,13 +1,12 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-import janggi.domain.Side;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import janggi.domain.Position;
+import janggi.domain.Side;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 class PoTest {
     @Test

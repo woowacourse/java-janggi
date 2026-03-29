@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.Movement;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
-
 import java.util.List;
 
 public class Sa extends StepPiece {

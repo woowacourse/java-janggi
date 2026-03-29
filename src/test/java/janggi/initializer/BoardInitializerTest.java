@@ -1,28 +1,26 @@
 package janggi.initializer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.Arrangement;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Ma;
-import janggi.domain.piece.Sang;
 import janggi.domain.piece.Pawn;
-import janggi.domain.piece.Po;
-import janggi.domain.piece.Sa;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-
+import janggi.domain.piece.Po;
+import janggi.domain.piece.Sa;
+import janggi.domain.piece.Sang;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class BoardInitializerTest {
     private static final Map<Position, Class<? extends Piece>> initialHanPiecePosition = Map.ofEntries(

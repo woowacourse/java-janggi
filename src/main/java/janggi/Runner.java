@@ -5,7 +5,6 @@ import janggi.domain.Game;
 import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-
 import java.util.List;
 
 public class Runner {

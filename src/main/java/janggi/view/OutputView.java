@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.domain.piece.PieceInfo;
 import janggi.domain.Side;
+import janggi.domain.piece.PieceInfo;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
 import java.util.List;

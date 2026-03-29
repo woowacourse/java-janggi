@@ -1,15 +1,14 @@
 package janggi.domain.policy;
 
-import janggi.domain.board.BoardInterface;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.board.BoardInterface;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Route;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class ClearPathPolicyTest {
     private boolean checkMovable(List<Position> path, BoardInterface board) {

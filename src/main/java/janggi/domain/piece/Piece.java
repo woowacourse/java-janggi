@@ -1,8 +1,8 @@
 package janggi.domain.piece;
 
+import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.BoardInterface;
-import janggi.domain.Position;
 
 public interface Piece {
     Route findRoute(Position start, Position end);

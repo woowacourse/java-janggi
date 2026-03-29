@@ -4,16 +4,15 @@ import janggi.domain.Arrangement;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Cha;
+import janggi.domain.piece.Empty;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Ma;
-import janggi.domain.piece.Empty;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

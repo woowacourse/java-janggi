@@ -1,9 +1,8 @@
 package janggi.domain.policy;
 
-import janggi.domain.board.BoardInterface;
 import janggi.domain.Position;
 import janggi.domain.Side;
-
+import janggi.domain.board.BoardInterface;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Route;
 
