@@ -1,10 +1,7 @@
 package controller;
 
+import domain.board.AbstractBoardFactory;
 import domain.board.Board;
-import domain.board.LeftGwimaFactory;
-import domain.board.RightGwimaFactory;
-import domain.board.WonangmaFactory;
-import domain.board.YanggwimaFactory;
 import domain.game.Team;
 import domain.game.Turn;
 import domain.piece.Piece;
@@ -27,7 +24,6 @@ public class JanggiController {
     public void run() {
         Board board = createBoard();
         outputView.printBoard(board);
-
         Turn turn = Turn.first();
         while (true) {
             turn = playTurn(board, turn);
@@ -38,33 +34,23 @@ public class JanggiController {
         int choFormationNumber = inputView.initialFormation(Team.CHO);
         int hanFormationNumber = inputView.initialFormation(Team.HAN);
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.putAll(initialBoard(choFormationNumber, Team.CHO));
-        pieces.putAll(initialBoard(hanFormationNumber, Team.HAN));
+        pieces.putAll(AbstractBoardFactory.from(choFormationNumber).createFormation(Team.CHO));
+        pieces.putAll(AbstractBoardFactory.from(hanFormationNumber).createFormation(Team.HAN));
         return new Board(pieces);
     }
 
     private Turn playTurn(Board board, Turn turn) {
-        List<String> movePositions = inputView.askMovePiecePoisiton(turn.current());
-        Position src = Position.from(movePositions.get(0), movePositions.get(1));
-        Position dest = Position.from(movePositions.get(2), movePositions.get(3));
-        board.move(src, dest);
-        outputView.printBoard(board);
-        return turn.next();
-    }
-
-    private Map<Position, Piece> initialBoard(int input, Team team) {
-        if (input == 1) {
-            return new LeftGwimaFactory().createFormation(team);
+        while (true) {
+            try {
+                List<String> movePositions = inputView.askMovePiecePoisiton(turn.current());
+                Position src = Position.from(movePositions.get(0), movePositions.get(1));
+                Position dest = Position.from(movePositions.get(2), movePositions.get(3));
+                board.move(src, dest);
+                outputView.printBoard(board);
+                return turn.next();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
-
-        if (input == 2) {
-            return new RightGwimaFactory().createFormation(team);
-        }
-
-        if (input == 3) {
-            return new WonangmaFactory().createFormation(team);
-        }
-
-        return new YanggwimaFactory().createFormation(team);
     }
 }

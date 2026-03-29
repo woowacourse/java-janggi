@@ -9,6 +9,19 @@ import java.util.Map;
 
 public abstract class AbstractBoardFactory implements BoardFactory {
 
+    public static BoardFactory from(int number) {
+        if (number == 1) {
+            return new LeftGwimaFactory();
+        }
+        if (number == 2) {
+            return new RightGwimaFactory();
+        }
+        if (number == 3) {
+            return new WonangmaFactory();
+        }
+        return new YanggwimaFactory();
+    }
+
     @Override
     public Map<Position, Piece> createFormation(Team team) {
         Map<Position, Piece> pieces = new HashMap<>();

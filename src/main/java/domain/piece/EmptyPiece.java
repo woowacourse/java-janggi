@@ -20,7 +20,12 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public String display(PieceAppearance colorizer) {
+        return colorizer.colorizeEmpty();
+    }
+
+    @Override
     public String toString() {
-        return PieceType.EMPTY.getDisplayName();
+        return PieceType.EMPTY.name();
     }
 }

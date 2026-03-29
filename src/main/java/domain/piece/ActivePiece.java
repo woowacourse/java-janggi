@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.position.Position;
 import domain.game.Team;
+import domain.position.Position;
 import java.util.List;
 
 public abstract class ActivePiece implements Piece {
@@ -13,7 +13,7 @@ public abstract class ActivePiece implements Piece {
         this.type = type;
     }
 
-    public boolean isSameTeam(ActivePiece other) {
+    private boolean isSameTeam(ActivePiece other) {
         return this.team == other.team;
     }
 
@@ -31,8 +31,13 @@ public abstract class ActivePiece implements Piece {
     public abstract List<Position> searchRoute(Position source, Position target);
 
     @Override
+    public String display(PieceAppearance colorizer) {
+        return colorizer.colorize(team, type);
+    }
+
+    @Override
     public String toString() {
-        return team.colorize(type.getDisplayName());
+        return type.name();
     }
 
     @Override

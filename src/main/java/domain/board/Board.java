@@ -1,9 +1,9 @@
 package domain.board;
 
-import domain.position.Position;
 import domain.piece.ActivePiece;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
+import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +19,19 @@ public class Board {
         Piece piece = pieces.get(src);
         validateCanMove(piece, src, dest);
         List<Position> route = ((ActivePiece) piece).searchRoute(src, dest);
-        validateIntermediateRoute(route);
+        if (piece.isCannon()) {
+            validateCannonRoute(route, dest);
+        } else {
+            validateIntermediateRoute(route);
+        }
         validateDestination(dest, piece);
         applyMove(src, dest, piece);
+    }
+
+    private void validateCannonRoute(List<Position> route, Position dest) {
+        //포는 포를 못 넘음
+        //포가 넘어야할 기물은 하나여야함
+        //포는 포를 잡을 수 없음
     }
 
     private void validateCanMove(Piece piece, Position src, Position dest) {

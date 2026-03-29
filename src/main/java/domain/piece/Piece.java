@@ -8,4 +8,10 @@ public interface Piece {
     boolean isNotEmpty();
 
     boolean isAlly(Piece other);
+
+    String display(PieceAppearance colorizer);
+
+    default boolean isCannon() {
+        return false;
+    }
 }

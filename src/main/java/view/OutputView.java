@@ -1,13 +1,18 @@
 package view;
 
-import domain.position.Position;
 import domain.board.Board;
 import domain.piece.Piece;
+import domain.piece.PieceAppearance;
+import domain.position.Position;
 
 public class OutputView {
-
     private static final int MAX_ROW = 10;
     private static final int MAX_COLUMN = 9;
+    private final PieceAppearance appearance;
+
+    public OutputView(PieceAppearance appearance) {
+        this.appearance = appearance;
+    }
 
     public void printBoard(Board board) {
         StringBuilder sb = new StringBuilder();
@@ -31,7 +36,7 @@ public class OutputView {
     private void appendRow(StringBuilder sb, Board board, int row) {
         for (int col = 1; col <= MAX_COLUMN; col++) {
             Piece piece = board.pieceAt(new Position(row, col));
-            sb.append(piece.toString()).append("\t");
+            sb.append(piece.display(appearance)).append("\t");
         }
     }
 }

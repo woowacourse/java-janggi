@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.position.Position;
 import domain.game.Team;
+import domain.position.Position;
 import java.util.List;
 
 public class Cannon extends ActivePiece {
@@ -22,5 +22,9 @@ public class Cannon extends ActivePiece {
         }
 
         return source.makeColStraightRoute(target);
+    }
+
+    public boolean isCannon() {
+        return true;
     }
 }

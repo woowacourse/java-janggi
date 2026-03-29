@@ -1,29 +1,21 @@
 package domain.game;
 
 public enum Team {
-    CHO("초", "\u001B[34m", 1, 2, 3, 4),
-    HAN("한", "\u001B[31m", 10, 9, 8, 7);
-
-    private static final String RESET = "\u001B[0m";
+    CHO("초", 1, 2, 3, 4),
+    HAN("한", 10, 9, 8, 7);
 
     private final String teamName;
-    private final String colorCode;
     private final int backRow;
     private final int generalRow;
     private final int cannonRow;
     private final int soldierRow;
 
-    Team(String teamName, String colorCode, int backRow, int generalRow, int cannonRow, int soldierRow) {
+    Team(String teamName, int backRow, int generalRow, int cannonRow, int soldierRow) {
         this.teamName = teamName;
-        this.colorCode = colorCode;
         this.backRow = backRow;
         this.generalRow = generalRow;
         this.cannonRow = cannonRow;
         this.soldierRow = soldierRow;
-    }
-
-    public String colorize(String text) {
-        return colorCode + text + RESET;
     }
 
     public int getBackRow() {
