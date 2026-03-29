@@ -3,16 +3,10 @@ package domain.board;
 import domain.Country;
 import domain.Position;
 import domain.TableSetting;
-import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
-import domain.state.EmptyState;
-import domain.state.FullState;
-import domain.state.State;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class Board {
     private static final String NOT_MY_PIECE = "[ERROR] 본인 진영의 기물이 아닙니다.";
@@ -20,63 +14,54 @@ public class Board {
 
     private static final int CANNON_JUMP_PIECE_COUNT = 1;
 
-    private final Map<Position, State> board;
+    private final BoardStates boardStates;
 
     public Board(TableSetting choTableSetting, TableSetting hanTableSetting) {
-        this.board = BoardInitializer.initialize(choTableSetting, hanTableSetting);
+        this.boardStates = new BoardStates(choTableSetting, hanTableSetting);
     }
 
     public void validateFromPosition(Position from, Country country) {
-        State fromState = board.get(from);
-        if (fromState.getPiece().getPieceCountry() != country) {
+        if (boardStates.getPieceCountry(from) != country) {
             throw new IllegalArgumentException(NOT_MY_PIECE);
         }
     }
 
     public void move(Position from, Position to) {
-        Piece piece = board.get(from).getPiece();
-        PieceType pieceType = piece.getPieceInfo().pieceType();
+        List<Position> paths = boardStates.getPiecePath(from, to);
 
-        List<Position> paths = piece.path(from, to);
-
-        if (!board.get(to).isEmpty()) {
-            Country fromCountry = board.get(from).getPiece().getPieceCountry();
-            Country toCountry = board.get(to).getPiece().getPieceCountry();
-            if (fromCountry == toCountry) {
+        if (!boardStates.isEmpty(to)) {
+            if (boardStates.isSameCountry(from, to)) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
 
-        if (pieceType == PieceType.CANNON) {
+        if (boardStates.getPieceType(from) == PieceType.CANNON) {
             checkCannonPath(paths, to);
         }
-        if (pieceType != PieceType.CANNON) {
+        if (boardStates.getPieceType(from) != PieceType.CANNON) {
             checkPathExceptCannon(paths);
         }
-        board.put(to, new FullState(piece));
-        board.put(from, new EmptyState());
+        boardStates.changeState(to, from);
     }
 
     private void checkPathExceptCannon(List<Position> paths) {
         for (int index = 0; index < paths.size() - 1; index++) {
-            if (!board.get(paths.get(index)).isEmpty()) {
+            if (!boardStates.isEmpty(paths.get(index))) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
     }
 
     private void checkCannonPath(List<Position> paths, Position to) {
-        if (!board.get(to).isEmpty()) {
-            if (board.get(to).getPiece().getPieceType() == PieceType.CANNON) {
+        if (!boardStates.isEmpty(to)) {
+            if (boardStates.getPieceType(to) == PieceType.CANNON) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
         int pieceCount = 0;
         for (int index = 0; index < paths.size() - 1; index++) {
-            State state = board.get(paths.get(index));
-            if (!state.isEmpty()) {
-                PieceType pieceType = state.getPiece().getPieceType();
-                if (pieceType == PieceType.CANNON) {
+            if (!boardStates.isEmpty(paths.get(index))) {
+                if (boardStates.getPieceType(paths.get(index)) == PieceType.CANNON) {
                     throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
                 }
                 pieceCount++;
@@ -89,12 +74,6 @@ public class Board {
     }
 
     public Map<Position, PieceInfo> getPieceInfos() {
-        Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
-        for (Entry<Position, State> entry : board.entrySet()) {
-            if (!entry.getValue().isEmpty()) {
-                pieceInfos.put(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
-            }
-        }
-        return pieceInfos;
+        return boardStates.getPieceInfos();
     }
 }
