@@ -4,8 +4,7 @@ import static janggi.common.ErrorMessage.NO_AVAILABLE_MOVES;
 import static janggi.domain.dynasty.Dynasty.CHO;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.DefaultBoardDesignPolicy;
-import janggi.domain.board.HorseElephantPosition;
+import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -22,9 +21,8 @@ public class Game {
         this.currentTurn = currentTurn;
     }
 
-    public static Game initGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
-        DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(horseElephantPositions);
-        return new Game(new Board(policy), new CurrentTurn(CHO));
+    public static Game initGame(BoardDesignPolicy boardDesignPolicy) {
+        return new Game(new Board(boardDesignPolicy), new CurrentTurn(CHO));
     }
 
     public List<Position> canMovePosition(Position from) {
