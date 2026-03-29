@@ -36,7 +36,9 @@ public abstract class Piece {
         return moveStrategy.canMoveByBasicMovingRule(from, to);
     }
 
-    abstract public List<Position> findPath(Position from, Position to);
+    public List<Position> findPath(Position from, Position to) {
+        return moveStrategy.findPath(from, to);
+    }
 
     abstract public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to);
 }

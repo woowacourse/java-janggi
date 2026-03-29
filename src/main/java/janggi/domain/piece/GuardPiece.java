@@ -12,11 +12,6 @@ public class GuardPiece extends Piece {
     }
 
     @Override
-    public List<Position> findPath(Position from, Position to) {
-        return List.of(to);
-    }
-
-    @Override
     public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to) {
         for (Piece piece : positionPieces.values()) {
             if (piece.isSameTeam(this)) {
