@@ -2,11 +2,11 @@ package domain.activePiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.game.Team;
 import domain.piece.ActivePiece;
 import domain.piece.Horse;
-import domain.position.Position;
 import domain.piece.Piece;
-import domain.game.Team;
+import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class HorseTest {
         Position src = new Position(3, 3);
         Position mid = new Position(4, 3);
         Position dest = new Position(5, 4);
-        List<Position> routes = List.of(src, mid, dest);
+        List<Position> routes = List.of(mid);
 
         assertThat(horse.searchRoute(src, dest)).isEqualTo(routes);
     }

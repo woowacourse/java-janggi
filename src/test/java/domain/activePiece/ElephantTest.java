@@ -2,11 +2,11 @@ package domain.activePiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.game.Team;
 import domain.piece.ActivePiece;
 import domain.piece.Elephant;
-import domain.position.Position;
 import domain.piece.Piece;
-import domain.game.Team;
+import domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,7 @@ class ElephantTest {
         Position mid = new Position(4, 3);
         Position mid2 = new Position(5, 4);
         Position dest = new Position(6, 5);
-        List<Position> routes = List.of(src, mid, mid2, dest);
+        List<Position> routes = List.of(mid, mid2);
 
         assertThat(elephant.searchRoute(src, dest)).isEqualTo(routes);
     }
