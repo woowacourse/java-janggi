@@ -9,8 +9,8 @@ import util.ColorMapper;
 
 public abstract class Piece implements Place {
 
-    protected final Side side;
-    protected final MoveStrategy moveStrategy;
+    private final Side side;
+    private final MoveStrategy moveStrategy;
 
     public Piece(Side side, MoveStrategy moveStrategy) {
         this.side = side;
