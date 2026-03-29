@@ -1,0 +1,27 @@
+package domain.place.moveStrategy;
+
+import domain.board.BoardView;
+import domain.position.Position;
+import java.util.List;
+
+public class GuardMoveStrategy implements MoveStrategy {
+
+    private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
+            Direction.DOWN, Direction.LEFT, Direction.RIGHT, Direction.TOP
+    );
+
+    @Override
+    public boolean canMove(BoardView board, Position from, Position to) {
+        if (board.isSameSide(from, to)) {
+            return false;
+        }
+
+        return canReachAdjacentPosition(from, to);
+    }
+
+    private boolean canReachAdjacentPosition(Position from, Position to) {
+        return ORTHOGONAL_DIRECTIONS.stream()
+                .flatMap(d -> from.moveIfInBounds(d).stream())
+                .anyMatch(to::equals);
+    }
+}
