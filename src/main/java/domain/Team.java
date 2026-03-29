@@ -1,5 +1,16 @@
 package domain;
 
 public enum Team {
-    HAN, CHO;
+    CHO("초"),
+    HAN("한");
+
+    private final String koreanName;
+
+    Team(String koreanName){
+        this.koreanName = koreanName;
+    }
+
+    public String getKoreanName() {
+        return koreanName;
+    }
 }

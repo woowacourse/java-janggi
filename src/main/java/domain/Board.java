@@ -1,5 +1,6 @@
 package domain;
 
+import controller.dto.CurrentBoardStatus;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,52 @@ public class Board {
         movePiece(from, to, piece);
     }
 
+    public boolean isExistSameType(Position position, Piece piece) {
+        if (hasPieceInPosition(position)) {
+            return pieces.get(position).getType()
+                    .equals(piece.getType());
+        }
+
+        return false;
+    }
+
+    public boolean isEmpty(Position position) {
+        return !pieces.containsKey(position);
+    }
+
+    public boolean hasSameTeamOn(Position position, Piece piece) {
+        if (hasPieceInPosition(position)) {
+            return pieces.get(position).isSameTeam(piece);
+        }
+
+        return false;
+    }
+
+    public List<Piece> findPiecesInLinePath(Position from, Position to) {
+        if (from.isSameRow(to)) {
+            return findPiecesInRow(from, to);
+        }
+
+        if (from.isSameColumn(to)) {
+            return findPiecesInColumn(from, to);
+        }
+        return new ArrayList<>();
+    }
+
+    public List<CurrentBoardStatus> getCurrentStatus(){
+        List<CurrentBoardStatus> currentBoardStatuses = new ArrayList<>();
+
+        pieces.forEach(((position, piece) ->
+                currentBoardStatuses.add(
+                        CurrentBoardStatus.of(position, piece.getType(), piece.getTeam())
+                )));
+
+        return currentBoardStatuses;
+    }
+
+    /**
+     * 헬퍼 메서드
+     */
     private Piece validateMovablePiece(Position from, Position to, PieceType pieceType) {
         Piece piece = pieces.get(from);
 
@@ -55,44 +102,12 @@ public class Board {
         pieces.put(to, piece);
     }
 
-    public boolean isExistSameType(Position position, Piece piece) {
-        if (hasPieceInPosition(position)) {
-            return pieces.get(position).getType()
-                    .equals(piece.getType());
-        }
-
-        return false;
-    }
-
-    public boolean isEmpty(Position position) {
-        return !pieces.containsKey(position);
-    }
-
-    public boolean hasSameTeamOn(Position position, Piece piece) {
-        if (hasPieceInPosition(position)) {
-            return pieces.get(position).isSameTeam(piece);
-        }
-
-        return false;
-    }
-
     private boolean hasPieceInPosition(Position position) {
         return pieces.containsKey(position);
     }
 
     private void initTeamBoard(InitializeStrategy strategy, Team team) {
         pieces.putAll(strategy.initialize(team));
-    }
-
-    public List<Piece> findPiecesInLinePath(Position from, Position to) {
-        if (from.isSameRow(to)) {
-            return findPiecesInRow(from, to);
-        }
-
-        if (from.isSameColumn(to)) {
-            return findPiecesInColumn(from, to);
-        }
-        return new ArrayList<>();
     }
 
     private List<Piece> findPiecesInRow(Position from, Position to) {

@@ -6,12 +6,16 @@ import domain.Position;
 import domain.Team;
 
 public abstract class Piece {
-    public Team team;
-    public PieceType type;
+    protected final Team team;
+    protected final PieceType type;
 
     public Piece(Team team, PieceType type) {
         this.team = team;
         this.type = type;
+    }
+
+    public Team getTeam() {
+        return this.team;
     }
 
     public PieceType getType() {
