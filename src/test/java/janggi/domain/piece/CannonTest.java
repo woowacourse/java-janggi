@@ -20,29 +20,20 @@ class CannonTest {
     @DisplayName("이동 가능한 위치 계산 테스트")
     class CalculateMovablePositions {
 
-        static Piece cannon;
-        static Piece allySoldier;
-        static Piece allyCannon;
-        static Piece enemySoldier;
-        static Piece enemyCannon;
-        static Map<Position, Piece> positionPieceMap;
+        Piece cannon;
 
         @BeforeEach
         void setUp() {
             cannon = new Cannon(TeamType.RED);
-            enemySoldier = new Soldier(TeamType.BLUE);
-            enemyCannon = new Cannon(TeamType.BLUE);
-            allySoldier = new Soldier(TeamType.BLUE);
-            allyCannon = new Cannon(TeamType.RED);
         }
 
         @Test
         @DisplayName("기물을 뛰어 넘어서 이동할 수 있다.")
         void success_1() {
-            positionPieceMap = Map.of(
+            Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(6, 7), cannon,
-                Position.valueOf(6, 5), enemySoldier,
-                Position.valueOf(7, 7), allySoldier);
+                Position.valueOf(6, 5), new Soldier(TeamType.BLUE),
+                Position.valueOf(7, 7), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of(
@@ -63,11 +54,11 @@ class CannonTest {
         @Test
         @DisplayName("포를 넘을 수 없다.")
         void success_2() {
-            positionPieceMap = Map.of(
+            Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(6, 7), cannon,
-                Position.valueOf(4, 7), enemySoldier,
-                Position.valueOf(6, 5), enemyCannon,
-                Position.valueOf(9, 7), allyCannon);
+                Position.valueOf(4, 7), new Soldier(TeamType.BLUE),
+                Position.valueOf(6, 5), new Cannon(TeamType.BLUE),
+                Position.valueOf(6, 5), new Cannon(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of(
@@ -84,10 +75,10 @@ class CannonTest {
         @Test
         @DisplayName("포를 잡을 수 없다.")
         void success_3() {
-            positionPieceMap = Map.of(
+            Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(6, 7), cannon,
-                Position.valueOf(6, 3), enemyCannon,
-                Position.valueOf(6, 4), allySoldier);
+                Position.valueOf(6, 3), new Cannon(TeamType.BLUE),
+                Position.valueOf(6, 4), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of();

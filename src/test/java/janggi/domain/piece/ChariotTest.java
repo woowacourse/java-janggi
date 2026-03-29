@@ -21,28 +21,12 @@ public class ChariotTest {
     @DisplayName("이동 가능한 위치 계산 테스트")
     class CalculateMovablePositions {
 
-        static Piece chariot;
-        static Piece enemy1;
-        static Piece enemy2;
-        static Piece enemy3;
-        static Piece enemy4;
-        static Piece ally1;
-        static Piece ally2;
-        static Piece ally3;
-        static Piece ally4;
-        static Map<Position, Piece> positionPieceMap;
+        Piece chariot;
+        Map<Position, Piece> positionPieceMap;
 
         @BeforeEach
         void setUp() {
             chariot = new Chariot(TeamType.RED);
-            enemy1 = new Soldier(TeamType.BLUE);
-            enemy3 = new Soldier(TeamType.BLUE);
-            enemy4 = new Soldier(TeamType.BLUE);
-            enemy2 = new Soldier(TeamType.BLUE);
-            ally1 = new Soldier(TeamType.RED);
-            ally2 = new Soldier(TeamType.RED);
-            ally3 = new Soldier(TeamType.RED);
-            ally4 = new Soldier(TeamType.RED);
             positionPieceMap = new LinkedHashMap<>();
         }
 
@@ -50,10 +34,10 @@ public class ChariotTest {
         @DisplayName("적군을 뛰어넘어 갈 수 없다.")
         void success_1() {
             positionPieceMap.put(Position.valueOf(5, 3), chariot);
-            positionPieceMap.put(Position.valueOf(5, 1), enemy1);
-            positionPieceMap.put(Position.valueOf(3, 3), enemy2);
-            positionPieceMap.put(Position.valueOf(5, 6), enemy3);
-            positionPieceMap.put(Position.valueOf(7, 3), enemy4);
+            positionPieceMap.put(Position.valueOf(5, 1), new Soldier(TeamType.BLUE));
+            positionPieceMap.put(Position.valueOf(3, 3), new Soldier(TeamType.BLUE));
+            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.BLUE));
+            positionPieceMap.put(Position.valueOf(7, 3), new Soldier(TeamType.BLUE));
             List<Position> expected = List.of(Position.valueOf(3, 3), Position.valueOf(4, 3),
                 Position.valueOf(5, 1),
                 Position.valueOf(5, 2), Position.valueOf(5, 4),
@@ -72,10 +56,10 @@ public class ChariotTest {
         @DisplayName("아군을 뛰어넘어 갈 수 없다.")
         void success_2() {
             positionPieceMap.put(Position.valueOf(5, 3), chariot);
-            positionPieceMap.put(Position.valueOf(5, 1), ally1);
-            positionPieceMap.put(Position.valueOf(3, 3), ally2);
-            positionPieceMap.put(Position.valueOf(5, 6), ally3);
-            positionPieceMap.put(Position.valueOf(7, 3), ally4);
+            positionPieceMap.put(Position.valueOf(5, 1), new Soldier(TeamType.RED));
+            positionPieceMap.put(Position.valueOf(3, 3), new Soldier(TeamType.RED));
+            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.RED));
+            positionPieceMap.put(Position.valueOf(7, 3), new Soldier(TeamType.RED));
             List<Position> expected = List.of(Position.valueOf(4, 3),
                 Position.valueOf(5, 2), Position.valueOf(5, 4),
                 Position.valueOf(5, 5), Position.valueOf(6, 3));
