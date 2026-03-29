@@ -1,25 +1,23 @@
 package domain.board;
 
-import domain.position.Position;
+import domain.game.Team;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.game.Team;
+import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractBoardFactory implements BoardFactory {
 
-    public static BoardFactory from(int number) {
-        if (number == 1) {
-            return new LeftGwimaFactory();
-        }
-        if (number == 2) {
-            return new RightGwimaFactory();
-        }
-        if (number == 3) {
-            return new WonangmaFactory();
-        }
-        return new YanggwimaFactory();
+    private static final Map<Integer, AbstractBoardFactory> factories = Map.of(
+            1, new LeftGwimaFactory(),
+            2, new RightGwimaFactory(),
+            3, new WonangmaFactory(),
+            4, new YanggwimaFactory()
+    );
+
+    public static AbstractBoardFactory from(int input) {
+        return factories.get(input);
     }
 
     @Override
