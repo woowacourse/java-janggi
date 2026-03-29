@@ -15,10 +15,10 @@ class SangTest {
             "2,3,5,1",
             "2,3,5,5",
             "2,3,4,6",
-            "2,3,0,6",
+            "3,4,1,7",
             "4,3,1,1",
-            "4,3,6,0",
-            "4,3,2,0"
+            "5,4,7,1",
+            "5,4,3,1"
     })
     void 상은_상하좌우와_대각선_두_칸_이동할_수_있다(int startX, int startY, int endX, int endY) {
         Position startPosition = new Position(startX, startY);
