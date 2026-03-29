@@ -11,13 +11,13 @@ public class BasicBoardInitializer implements BoardInitializer {
     public Map<Position, Piece> initialize() {
         Map<Position, Piece> pieceInitPlacements = new HashMap<>();
 
-        placeHan(pieceInitPlacements);
-        placeChu(pieceInitPlacements);
+        initializeHanPieces(pieceInitPlacements);
+        initializeChuPieces(pieceInitPlacements);
 
         return pieceInitPlacements;
     }
 
-    private void placeHan(Map<Position, Piece> pieceInitPlacements) {
+    private void initializeHanPieces(Map<Position, Piece> pieceInitPlacements) {
         pieceInitPlacements.put(new Position(0, 0), new Chariot(Side.HAN));
         pieceInitPlacements.put(new Position(0, 1), new Horse(Side.HAN));
         pieceInitPlacements.put(new Position(0, 2), new Elephant(Side.HAN));
@@ -39,7 +39,7 @@ public class BasicBoardInitializer implements BoardInitializer {
         pieceInitPlacements.put(new Position(3, 8), new Pawn(Side.HAN));
     }
 
-    private void placeChu(Map<Position, Piece> pieceInitPlacements) {
+    private void initializeChuPieces(Map<Position, Piece> pieceInitPlacements) {
         pieceInitPlacements.put(new Position(9,0), new Chariot(Side.CHU));
         pieceInitPlacements.put(new Position(9,1), new Horse(Side.CHU));
         pieceInitPlacements.put(new Position(9,2), new Elephant(Side.CHU));
