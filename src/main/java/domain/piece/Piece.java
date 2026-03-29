@@ -30,10 +30,6 @@ public abstract class Piece {
         return this.getMovementStrategy().validatePath(pathPieces);
     }
 
-    public String getPieceString() {
-        return pieceType.getSymbol();
-    }
-
     public boolean isDifferentTeam(Team team) {
         if (team == null) {
             return false;
@@ -49,11 +45,11 @@ public abstract class Piece {
     }
 
     public boolean isNotNone() {
-        return !(this instanceof None);
+        return this.pieceType != PieceType.NONE;
     }
 
     public boolean isPo() {
-        return this instanceof Po;
+        return this.pieceType == PieceType.PO;
     }
 
     @Override
@@ -76,5 +72,9 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 }
