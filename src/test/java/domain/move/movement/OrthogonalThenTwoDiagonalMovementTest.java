@@ -1,4 +1,4 @@
-package domain.piece.movement;
+package domain.move.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,19 +14,19 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("날일자 이동 테스트")
-class OrthogonalThenDiagonalMovementTest {
+@DisplayName("밭전자 이동 테스트")
+class OrthogonalThenTwoDiagonalMovementTest {
 
     private PieceMovement movement;
 
     @BeforeEach
     void setUp() {
-        movement = new OrthogonalThenDiagonalMovement();
+        movement = new OrthogonalThenTwoDiagonalMovement();
     }
 
-    @DisplayName("앞, 뒤, 양 옆 방향마다 두 갈래의 날일 방향으로 이동이 가능하다")
+    @DisplayName("앞, 뒤, 양 옆 방향마다 두 갈래의 밭전 방향으로 이동이 가능하다")
     @Nested
-    class 모든_방향마다_두_갈래의_날일_방향으로_이동이_가능하다 {
+    class 모든_방향마다_두_갈래의_밭전_방향으로_이동이_가능하다 {
 
         @DisplayName("진영에 상관없이 동일하게 적용된다")
         @ParameterizedTest
@@ -41,14 +41,14 @@ class OrthogonalThenDiagonalMovementTest {
 
             assertThat(movableDestinations)
                     .containsExactlyInAnyOrder(
-                            new Intersection(3, 4),
-                            new Intersection(3, 6),
-                            new Intersection(7, 4),
-                            new Intersection(7, 6),
-                            new Intersection(4, 3),
-                            new Intersection(6, 3),
-                            new Intersection(4, 7),
-                            new Intersection(6, 7)
+                            new Intersection(2, 3),
+                            new Intersection(2, 7),
+                            new Intersection(8, 3),
+                            new Intersection(8, 7),
+                            new Intersection(3, 2),
+                            new Intersection(3, 8),
+                            new Intersection(7, 2),
+                            new Intersection(7, 8)
                     );
         }
     }
@@ -79,13 +79,13 @@ class OrthogonalThenDiagonalMovementTest {
         private static Stream<Arguments> allBorderIntersections() {
             return Stream.of(
                     Arguments.of(new Intersection(1, 1),
-                            List.of(new Intersection(2, 3), new Intersection(3, 2))),
+                            List.of(new Intersection(3, 4), new Intersection(4, 3))),
                     Arguments.of(new Intersection(1, 9),
-                            List.of(new Intersection(2, 7), new Intersection(3, 8))),
+                            List.of(new Intersection(3, 6), new Intersection(4, 7))),
                     Arguments.of(new Intersection(10, 1),
-                            List.of(new Intersection(8, 2), new Intersection(9, 3))),
+                            List.of(new Intersection(7, 3), new Intersection(8, 4))),
                     Arguments.of(new Intersection(10, 9),
-                            List.of(new Intersection(8, 8), new Intersection(9, 7)))
+                            List.of(new Intersection(8, 6), new Intersection(7, 7)))
             );
         }
     }

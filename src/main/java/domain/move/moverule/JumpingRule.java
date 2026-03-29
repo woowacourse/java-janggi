@@ -1,11 +1,11 @@
-package domain.piece.moverule;
+package domain.move.moverule;
 
 import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Cannon;
 import domain.piece.Piece;
-import domain.piece.movement.Path;
+import domain.move.movement.Path;
 import java.util.List;
 
 public final class JumpingRule {

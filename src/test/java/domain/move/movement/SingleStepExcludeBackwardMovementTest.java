@@ -1,4 +1,4 @@
-package domain.piece.movement;
+package domain.move.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package domain.piece.movement;
+package domain.move.movement;
 
 import domain.board.Intersection;
 import java.util.List;

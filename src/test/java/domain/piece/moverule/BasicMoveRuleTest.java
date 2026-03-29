@@ -4,10 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.move.moverule.BasicMoveRule;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.Soldier;
-import domain.piece.movement.Path;
+import domain.move.movement.Path;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
