@@ -2,8 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.MoveStrategy;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ChariotPiece extends Piece {

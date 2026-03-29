@@ -3,7 +3,6 @@ package janggi.dto;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

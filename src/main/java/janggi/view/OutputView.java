@@ -3,7 +3,6 @@ package janggi.view;
 import janggi.constants.Color;
 import janggi.dto.BoardDto;
 import janggi.dto.PositionPieceDto;
-
 import java.util.List;
 
 public class OutputView {
