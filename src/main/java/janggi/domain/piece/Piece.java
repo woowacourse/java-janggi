@@ -26,11 +26,11 @@ public abstract class Piece implements Space {
         }
 
         Piece piece = (Piece) space;
-        if (!isEqualTeam(piece.team)) {
-            return;
+        if (isEqualTeam(piece.team)) {
+            throw new IllegalArgumentException("이동하려는 위치에 같은 팀의 말이 존재합니다.");
         }
 
-        throw new IllegalArgumentException("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+        validateSpecificArrival(piece);
     }
 
     public void validateRoutes(List<Piece> pieces) {
@@ -50,5 +50,8 @@ public abstract class Piece implements Space {
 
     public boolean isSameType(Piece piece) {
         return this.pieceType == piece.pieceType;
+    }
+
+    protected void validateSpecificArrival(Piece piece) {
     }
 }

@@ -22,10 +22,7 @@ public class Pho extends Piece {
     }
 
     @Override
-    public void validateArrival(Space space) {
-        super.validateArrival(space);
-
-        Piece piece = (Piece) space;
+    protected void validateSpecificArrival(Piece piece) {
         if (isSameType(piece)) {
             throw new IllegalArgumentException("이동하려는 위치에 상대팀의 포가 존재합니다.");
         }
