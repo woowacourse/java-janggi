@@ -1,6 +1,7 @@
 package domain;
 
 import controller.dto.CurrentBoardStatus;
+import controller.dto.MovedPieceRequest;
 import java.util.List;
 import java.util.Map;
 import strategy.InitializeStrategy;
@@ -15,8 +16,14 @@ public class GameManager {
         );
     }
 
-    public List<CurrentBoardStatus> getCurrentBoardStatus(){
+    public List<CurrentBoardStatus> getCurrentBoardStatus() {
         return board.getCurrentStatus();
+    }
+
+    public void movePiece(MovedPieceRequest request) {
+        board.move(Position.from(request.currentRow(), request.currentColumn()),
+                Position.from(request.nextRow(), request.nextColumn()),
+                PieceType.getPieceType(request.pieceType()));
     }
 
     /**

@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Arrays;
+
 public enum PieceType {
     KING("궁"),
     ROOK("차"),
@@ -17,5 +19,12 @@ public enum PieceType {
 
     public String getKoreanName() {
         return koreanName;
+    }
+
+    public static PieceType getPieceType(String koreanName) {
+        return Arrays.stream(PieceType.values())
+                .filter(type -> type.koreanName.equals(koreanName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기물 타입입니다: " + koreanName));
     }
 }

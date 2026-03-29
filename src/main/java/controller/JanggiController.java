@@ -1,6 +1,7 @@
 package controller;
 
 import controller.dto.CurrentBoardStatus;
+import controller.dto.MovedPieceRequest;
 import domain.GameManager;
 import domain.Team;
 import java.util.HashMap;
@@ -19,10 +20,10 @@ public class JanggiController {
         this.outputView = outputView;
     }
 
-    public void start(){
+    public void start() {
         this.gameManager = new GameManager(readHorseElephantFormation());
-        List<CurrentBoardStatus> currentBoardStatus = gameManager.getCurrentBoardStatus();
-        outputView.printCurrentBoard(currentBoardStatus);
+        printCurrentBoardStatus();
+        movePiece();
     }
 
     private Map<Team, String> readHorseElephantFormation() {
@@ -33,7 +34,18 @@ public class JanggiController {
         return horseElephantInputs;
     }
 
-    private List<CurrentBoardStatus> getCurrentBoardStatus(){
-        return gameManager.getCurrentBoardStatus();
+    private void printCurrentBoardStatus() {
+        List<CurrentBoardStatus> statuses = gameManager.getCurrentBoardStatus();
+        outputView.printCurrentBoard(statuses);
+    }
+
+    public void movePiece() {
+        MovedPieceRequest movedPieceRequest = readMovedPiece();
+        gameManager.movePiece(movedPieceRequest);
+        printCurrentBoardStatus();
+    }
+
+    private MovedPieceRequest readMovedPiece(){
+        return inputView.readMovedPieceInput();
     }
 }
