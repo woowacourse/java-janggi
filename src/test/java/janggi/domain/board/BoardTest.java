@@ -37,7 +37,7 @@ class BoardTest {
     })
     void testHasPiecePresentAtPosition(int x, int y) {
         Position position = new Position(x, y);
-        assertThat(board.isPresentAt(position)).isTrue();
+        assertThat(board.hasPieceAt(position)).isTrue();
     }
 
     @ParameterizedTest
@@ -50,6 +50,6 @@ class BoardTest {
     })
     void testHasPieceNotPresentAtPosition(int x, int y) {
         Position position = new Position(x, y);
-        assertThat(board.isPresentAt(position)).isFalse();
+        assertThat(board.hasPieceAt(position)).isFalse();
     }
 }

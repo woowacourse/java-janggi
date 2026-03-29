@@ -29,7 +29,7 @@ class CannonPieceTest {
     void testMoveCannon(int preX, int preY, int nextX, int nextY) {
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
 
-        assertThat(cannonPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+        assertThat(cannonPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
     }
 
@@ -44,7 +44,7 @@ class CannonPieceTest {
     void testNotMovableCannon(int preX, int preY, int nextX, int nextY) {
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
 
-        assertThat(cannonPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+        assertThat(cannonPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
     }
 
@@ -69,7 +69,7 @@ class CannonPieceTest {
         positionPieces.put(new Position(6, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+        assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
     @Test
@@ -81,7 +81,7 @@ class CannonPieceTest {
         positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+        assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
     @Test
@@ -93,7 +93,7 @@ class CannonPieceTest {
         positionPieces.put(new Position(7, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isTrue();
+        assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isTrue();
     }
 
     @Test
@@ -105,7 +105,7 @@ class CannonPieceTest {
         positionPieces.put(new Position(7, 6), new GeneralPiece(Team.HAN, new GeneralStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isFalse();
+        assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isFalse();
     }
 
     @Test
@@ -116,7 +116,7 @@ class CannonPieceTest {
         positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isTrue();
+        assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isTrue();
     }
 
     @Test
@@ -127,7 +127,7 @@ class CannonPieceTest {
         positionPieces.put(new Position(4, 6), new CannonPiece(Team.HAN, new CannonStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isFalse();
+        assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isFalse();
     }
 
     @Test
@@ -139,6 +139,6 @@ class CannonPieceTest {
         positionPieces.put(new Position(5, 6), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
 
         CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isFalse();
+        assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isFalse();
     }
 }

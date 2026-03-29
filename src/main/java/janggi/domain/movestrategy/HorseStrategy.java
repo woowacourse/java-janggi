@@ -10,7 +10,7 @@ public class HorseStrategy implements MoveStrategy{
     );
 
     @Override
-    public boolean canMove(Position from, Position to) {
+    public boolean canMoveByBasicMovingRule(Position from, Position to) {
         int preX = from.getX();
         int preY = from.getY();
 

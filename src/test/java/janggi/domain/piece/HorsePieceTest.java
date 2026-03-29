@@ -25,7 +25,7 @@ class HorsePieceTest {
     })
     void testMovableHorse(int preX, int preY, int nextX, int nextY) {
         HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(horsePiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
 
@@ -39,7 +39,7 @@ class HorsePieceTest {
     })
     void testNotMovableHorse(int preX, int preY, int nextX, int nextY) {
         HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(horsePiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
@@ -69,7 +69,7 @@ class HorsePieceTest {
         positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
         HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+        assertThat(horsePiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
     @Test
@@ -80,7 +80,7 @@ class HorsePieceTest {
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
         HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+        assertThat(horsePiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
     @Test
@@ -91,6 +91,6 @@ class HorsePieceTest {
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
 
         HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+        assertThat(horsePiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }

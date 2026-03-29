@@ -46,7 +46,7 @@ public class CannonPiece extends Piece {
     }
 
     @Override
-    public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to) {
+    public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to) {
         if (positionPieces.size() >= 3) {
             return false;
         }

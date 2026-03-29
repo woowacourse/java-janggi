@@ -67,7 +67,7 @@ public class ElephantPiece extends Piece {
     }
 
     @Override
-    public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to) {
+    public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to) {
         if (positionPieces.size() >= 2) {
             return false;
         }

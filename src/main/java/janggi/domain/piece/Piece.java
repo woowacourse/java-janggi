@@ -32,11 +32,11 @@ public abstract class Piece {
         return team;
     }
 
-    public boolean canMove(Position from, Position to) {
-        return moveStrategy.canMove(from, to);
+    public boolean canMoveByBasicMovingRule(Position from, Position to) {
+        return moveStrategy.canMoveByBasicMovingRule(from, to);
     }
 
     abstract public List<Position> findPath(Position from, Position to);
 
-    abstract public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to);
+    abstract public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to);
 }

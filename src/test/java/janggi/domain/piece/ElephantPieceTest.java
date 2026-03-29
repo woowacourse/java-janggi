@@ -25,7 +25,7 @@ class ElephantPieceTest {
     })
     void testMovableElephant(int preX, int preY, int nextX, int nextY) {
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
-        assertThat(elephantPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(elephantPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
 
@@ -39,7 +39,7 @@ class ElephantPieceTest {
     })
     void testNotMovableElephant(int preX, int preY, int nextX, int nextY) {
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
-        assertThat(elephantPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(elephantPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
@@ -71,7 +71,7 @@ class ElephantPieceTest {
         positionPieces.put(new Position(6, 6), new CannonPiece(Team.HAN, new CannonStrategy()));
 
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
-        assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+        assertThat(elephantPiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
     @Test
@@ -82,7 +82,7 @@ class ElephantPieceTest {
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
-        assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+        assertThat(elephantPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
     @Test
@@ -93,6 +93,6 @@ class ElephantPieceTest {
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
 
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN, new ElephantStrategy());
-        assertThat(elephantPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+        assertThat(elephantPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }

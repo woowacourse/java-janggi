@@ -16,7 +16,7 @@ public class SoldierPiece extends Piece {
     }
 
     @Override
-    public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to) {
+    public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to) {
 
         for (Piece piece : positionPieces.values()) {
             if (piece.isSameTeam(this)) {

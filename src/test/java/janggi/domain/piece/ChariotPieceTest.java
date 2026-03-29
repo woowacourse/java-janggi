@@ -26,7 +26,7 @@ class ChariotPieceTest {
     void testNotMovableChariot(int preX, int preY, int nextX, int nextY) {
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
 
-        Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+        Assertions.assertThat(chariotPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
     }
 
@@ -41,7 +41,7 @@ class ChariotPieceTest {
     void testMoveChariot(int preX, int preY, int nextX, int nextY) {
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
 
-        Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+        Assertions.assertThat(chariotPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
     }
 
@@ -65,7 +65,7 @@ class ChariotPieceTest {
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+        assertThat(chariotPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
     @Test
@@ -76,7 +76,7 @@ class ChariotPieceTest {
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
 
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+        assertThat(chariotPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
     @Test
@@ -87,7 +87,7 @@ class ChariotPieceTest {
         positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
 
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+        assertThat(chariotPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 
     @Test
@@ -96,7 +96,7 @@ class ChariotPieceTest {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+        assertThat(chariotPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 
 

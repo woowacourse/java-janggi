@@ -25,7 +25,7 @@ class GeneralPieceTest {
     })
     void testMoveGeneral(int preX, int preY, int nextX, int nextY) {
         GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
-        assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
 
@@ -39,7 +39,7 @@ class GeneralPieceTest {
     })
     void testNotMovableGeneral(int preX, int preY, int nextX, int nextY) {
         GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
-        assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
@@ -63,7 +63,7 @@ class GeneralPieceTest {
 
         positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
         GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
-        assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 5))).isFalse();
+        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 
     @Test
@@ -72,7 +72,7 @@ class GeneralPieceTest {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
         GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
-        assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 
     @Test
@@ -82,6 +82,6 @@ class GeneralPieceTest {
 
         positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
         GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
-        assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 5))).isFalse();
+        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 }
