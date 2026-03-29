@@ -26,7 +26,6 @@ public class JanggiController {
     }
 
     public void run() {
-        // 장기판 상차림 입력
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
         Game game = Game.initGame(horseElephantPositions);
         outputView.printBoard(BoardDto.from(game.boardMap()));
@@ -84,6 +83,8 @@ public class JanggiController {
         while (true) {
             try {
                 return supplier.get();
+            } catch (IllegalArgumentException | IllegalStateException e) {
+                outputView.printWarningMessage(e.getMessage());
             } catch (Exception e) {
                 outputView.printErrorMessage(e.getMessage());
             }
@@ -95,6 +96,8 @@ public class JanggiController {
             try {
                 runnable.run();
                 break;
+            } catch (IllegalArgumentException | IllegalStateException e) {
+                outputView.printWarningMessage(e.getMessage());
             } catch (Exception e) {
                 outputView.printErrorMessage(e.getMessage());
             }

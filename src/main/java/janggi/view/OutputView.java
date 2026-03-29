@@ -10,6 +10,7 @@ public class OutputView {
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ERROR_PREFIX = "[ERROR] ";
+    private static final String WARING_PREFIX = "[WARING] ";
 
     public void printBoard(BoardDto boardDto) {
         // 상단 가로 좌표 출력 (1~9)
@@ -44,6 +45,11 @@ public class OutputView {
 
     public void printErrorMessage(String errorMessage) {
         System.out.println(ERROR_PREFIX + errorMessage);
+        System.out.println();
+    }
+
+    public void printWarningMessage(String errorMessage) {
+        System.out.println(WARING_PREFIX + errorMessage);
         System.out.println();
     }
 
