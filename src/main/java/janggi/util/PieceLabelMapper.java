@@ -16,10 +16,6 @@ public class PieceLabelMapper {
         return getPieceName(vo) + convertToFullWidthChar(vo.pieceNumber());
     }
 
-    public static String toHalfWidth(PieceDTO vo) {
-        return getPieceName(vo) + vo.pieceNumber();
-    }
-
     private static String getPieceName(PieceDTO vo) {
         if (vo.type() == PieceType.PALACE) {
             return vo.side() == Side.CHO ? "초" : "한";
