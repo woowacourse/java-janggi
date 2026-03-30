@@ -16,17 +16,19 @@ public class ChariotMoveStrategy implements MoveStrategy {
         int row = from.getRow();
         int col = from.getCol();
 
-        while (true) {
+        while (row != to.getRow() || col != to.getCol()) {
             row += nx;
             col += ny;
 
             if (row == to.getRow() && col == to.getCol()) {
-                return board.isAnotherTeam(from, to);
+                break;
             }
             if (board.isExistPosition(Position.of(row, col))) {
                 return false;
             }
         }
+
+        return board.isAnotherTeam(from, to);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {

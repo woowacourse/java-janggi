@@ -20,12 +20,12 @@ public class CannonMoveStrategy implements MoveStrategy {
         int row = from.getRow();
         int col = from.getCol();
 
-        while (true) {
+        while (row != to.getRow() || col != to.getCol()) {
             row += nx;
             col += ny;
 
             if (row == to.getRow() && col == to.getCol()) {
-                return isCannonValidTarget(from, to, board, pieceCount);
+                break;
             }
 
             if (board.isExistPosition(Position.of(row, col))) {
@@ -40,6 +40,8 @@ public class CannonMoveStrategy implements MoveStrategy {
                 return false;
             }
         }
+
+        return isCannonValidTarget(from, to, board, pieceCount);
     }
 
     private boolean isCannonValidTarget(final Position from, final Position to, final Board board, final int pieceCount) {
