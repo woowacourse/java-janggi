@@ -2,7 +2,6 @@ package janggi.view;
 
 import janggi.domain.board.Position;
 import janggi.dto.PieceDTO;
-import janggi.util.PieceLabelMapper;
 import janggi.dto.BoardDTO;
 import java.util.Map;
 import java.util.Set;
@@ -82,7 +81,7 @@ public class OutputView {
         if (vo == null) {
             return EMPTY_CELL;
         }
-        return PieceLabelMapper.toFullWidth(vo);
+        return PieceLabelFormatter.toFullWidth(vo);
     }
 
     private boolean isMovable(Position current, Set<Position> movables) {

@@ -1,11 +1,11 @@
-package janggi.util;
+package janggi.view;
 
 import janggi.domain.piece.PieceType;
 import janggi.dto.PieceDTO;
 import janggi.domain.game.Side;
 import java.util.Map;
 
-public class PieceLabelMapper {
+public class PieceLabelFormatter {
     private static final Map<PieceType, String> NAMES = Map.of(
             PieceType.GUARD, "사",
             PieceType.CHARIOT, "차",
