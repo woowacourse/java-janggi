@@ -2,10 +2,10 @@ package janggi.model.initializer;
 
 import janggi.model.Team;
 import janggi.model.gimul.Byeong;
-import janggi.model.gimul.linearMove.Cha;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.straightMove.Cha;
+import janggi.model.gimul.Piece;
 import janggi.model.gimul.palace.Jang;
-import janggi.model.gimul.linearMove.Pho;
+import janggi.model.gimul.straightMove.Pho;
 import janggi.model.gimul.palace.Sa;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
@@ -67,8 +67,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
     );
 
     @Override
-    protected Map<Position, AbstractGimul> initCha() {
-        Map<Position, AbstractGimul> board = new HashMap<>();
+    protected Map<Position, Piece> initCha() {
+        Map<Position, Piece> board = new HashMap<>();
 
         Cha cho = new Cha(Team.CHO);
         Cha han = new Cha(Team.HAN);
@@ -85,8 +85,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
     }
 
     @Override
-    protected Map<Position, AbstractGimul> initJang() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+    protected Map<Position, Piece> initJang() {
+        Map<Position, Piece> board = new HashMap<Position, Piece>();
 
         Jang cho = new Jang(Team.CHO);
         Jang han = new Jang(Team.HAN);
@@ -98,8 +98,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
     }
 
     @Override
-    protected Map<Position, AbstractGimul> initSa() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+    protected Map<Position, Piece> initSa() {
+        Map<Position, Piece> board = new HashMap<Position, Piece>();
 
         Sa cho = new Sa(Team.CHO);
         Sa han = new Sa(Team.HAN);
@@ -116,8 +116,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
     }
 
     @Override
-    protected Map<Position, AbstractGimul> initByeong() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+    protected Map<Position, Piece> initByeong() {
+        Map<Position, Piece> board = new HashMap<Position, Piece>();
 
         Byeong cho = new Byeong(Team.CHO);
         Byeong han = new Byeong(Team.HAN);
@@ -135,8 +135,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
 
 
     @Override
-    protected Map<Position, AbstractGimul> initPho() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+    protected Map<Position, Piece> initPho() {
+        Map<Position, Piece> board = new HashMap<Position, Piece>();
 
         Pho cho = new Pho(Team.CHO);
         Pho han = new Pho(Team.HAN);

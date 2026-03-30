@@ -1,6 +1,6 @@
 package janggi.model.turn;
 
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.board.position.Position;
 import java.util.Map;
 
@@ -10,7 +10,7 @@ public interface Turn {
 
     boolean isGameOver();
 
-    Map<Position, AbstractGimul> getBoard();
+    Map<Position, Piece> getBoard();
 
     boolean isChoTurn();
 }

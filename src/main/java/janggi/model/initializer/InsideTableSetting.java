@@ -1,7 +1,7 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.gimul.diagonalMove.Ma;
 import janggi.model.gimul.diagonalMove.Sang;
 import janggi.model.board.position.Column;
@@ -34,8 +34,8 @@ public class InsideTableSetting extends BoardInitializerWithConst {
     );
 
     @Override
-    protected Map<Position, AbstractGimul> initMa() {
-        Map<Position, AbstractGimul> board = new HashMap<Position, AbstractGimul>();
+    protected Map<Position, Piece> initMa() {
+        Map<Position, Piece> board = new HashMap<Position, Piece>();
 
         Ma cho = new Ma(Team.CHO);
         Ma han = new Ma(Team.HAN);
@@ -52,8 +52,8 @@ public class InsideTableSetting extends BoardInitializerWithConst {
     }
 
     @Override
-    protected Map<Position, AbstractGimul> initSang() {
-        Map<Position, AbstractGimul> board = new HashMap<>();
+    protected Map<Position, Piece> initSang() {
+        Map<Position, Piece> board = new HashMap<>();
 
         Sang cho = new Sang(Team.CHO);
         Sang han = new Sang(Team.HAN);

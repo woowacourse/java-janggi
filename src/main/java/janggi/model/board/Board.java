@@ -2,16 +2,16 @@ package janggi.model.board;
 
 import janggi.model.Team;
 import janggi.model.board.position.Position;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Board {
 
-    private final Map<Position, AbstractGimul> board;
+    private final Map<Position, Piece> board;
 
-    public Board(Map<Position, AbstractGimul> board) {
+    public Board(Map<Position, Piece> board) {
         this.board = board;
     }
 
@@ -24,7 +24,7 @@ public class Board {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }
 
-        AbstractGimul gimulAtFrom = board.get(from);
+        Piece gimulAtFrom = board.get(from);
 
         if (!gimulAtFrom.isSameTeam(team)) {
             throw new IllegalArgumentException("상대편 기물을 움직일 수 없습니다.");
@@ -33,11 +33,11 @@ public class Board {
         PositionPath path = gimulAtFrom.getLegalPath(from, to);
 
         if (!path.isEmpty()) {
-            List<AbstractGimul> gimulsOnPath = path.findGimulsOn(board);
+            List<Piece> gimulsOnPath = path.findGimulsOn(board);
             validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
         }
 
-        Map<Position, AbstractGimul> movedBoard = new HashMap<>(board);
+        Map<Position, Piece> movedBoard = new HashMap<>(board);
         movedBoard.put(to, gimulAtFrom);
         movedBoard.remove(from);
 
@@ -46,8 +46,8 @@ public class Board {
 
     private void validateMovePathAndDestination(
             Position to,
-            AbstractGimul gimulAtFrom,
-            List<AbstractGimul> gimulsOnPath
+            Piece gimulAtFrom,
+            List<Piece> gimulsOnPath
     ) {
         boolean hasTarget = board.containsKey(to);
 
@@ -69,7 +69,7 @@ public class Board {
         return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
     }
 
-    public Map<Position, AbstractGimul> getBoard() {
+    public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
     }
 }

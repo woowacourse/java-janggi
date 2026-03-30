@@ -6,7 +6,7 @@ import janggi.model.board.position.Position;
 import janggi.model.board.movement.MaMovement;
 import janggi.model.board.movement.Movement;
 
-public class Ma extends AbstractDiagonalGimul {
+public class Ma extends DiagonalMovePiece {
 
     private final Movement movement;
 

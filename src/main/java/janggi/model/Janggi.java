@@ -1,7 +1,7 @@
 package janggi.model;
 
 import janggi.model.board.Board;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.board.position.Position;
 import janggi.model.turn.ChoTurn;
 import janggi.model.turn.Turn;
@@ -28,7 +28,7 @@ public class Janggi {
         return turn.isGameOver();
     }
 
-    public Map<Position, AbstractGimul> getBoard() {
+    public Map<Position, Piece> getBoard() {
         return turn.getBoard();
     }
 

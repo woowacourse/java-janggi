@@ -1,18 +1,18 @@
-package janggi.model.gimul.linearMove;
+package janggi.model.gimul.straightMove;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.board.position.Position;
 import janggi.model.board.movement.Movement;
 import janggi.model.board.movement.StraightMovement;
 import java.util.List;
 
-public abstract class AbstractLinearMoveGimul extends AbstractGimul {
+public abstract class StraightMovePiece extends Piece {
 
     protected final Movement movement;
 
-    protected AbstractLinearMoveGimul(Team team) {
+    protected StraightMovePiece(Team team) {
         super(team);
         this.movement = new StraightMovement();
     }
@@ -24,7 +24,7 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
 
 
     @Override
-    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
+    public boolean canPassThrough(List<Piece> gimulsOnPath) {
         return gimulsOnPath.isEmpty();
     }
 }

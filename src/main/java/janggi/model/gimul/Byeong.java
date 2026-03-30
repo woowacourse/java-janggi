@@ -7,7 +7,7 @@ import janggi.model.board.movement.ByeongMovement;
 import janggi.model.board.movement.Movement;
 import java.util.List;
 
-public class Byeong extends AbstractGimul {
+public class Byeong extends Piece {
 
     private final Movement movement;
 
@@ -28,8 +28,8 @@ public class Byeong extends AbstractGimul {
 
     @Override
     public boolean canPassThrough(
-            List<AbstractGimul> gimulsOnPath,
-            AbstractGimul gimulAtTo
+            List<Piece> gimulsOnPath,
+            Piece gimulAtTo
     ) {
         return gimulsOnPath.isEmpty() && !this.isSameTeam(gimulAtTo);
     }
@@ -39,7 +39,7 @@ public class Byeong extends AbstractGimul {
     }
 
     @Override
-    public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
+    public boolean canPassThrough(List<Piece> gimulsOnPath) {
         return gimulsOnPath.isEmpty();
     }
 }

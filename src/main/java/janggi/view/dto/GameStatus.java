@@ -1,12 +1,12 @@
 package janggi.view.dto;
 
 import janggi.model.Janggi;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.gimul.Byeong;
 import janggi.model.gimul.diagonalMove.Ma;
 import janggi.model.gimul.diagonalMove.Sang;
-import janggi.model.gimul.linearMove.Cha;
-import janggi.model.gimul.linearMove.Pho;
+import janggi.model.gimul.straightMove.Cha;
+import janggi.model.gimul.straightMove.Pho;
 import janggi.model.gimul.palace.Jang;
 import janggi.model.gimul.palace.Sa;
 import janggi.model.board.position.Column;
@@ -25,7 +25,7 @@ public record GameStatus(
         );
     }
 
-    private static String renderBoard(Map<Position, AbstractGimul> board) {
+    private static String renderBoard(Map<Position, Piece> board) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("    1  2  3  4  5  6  7  8  9\n");
@@ -44,7 +44,7 @@ public record GameStatus(
     }
 
     private static StringBuilder renderBoardRow(
-            Map<Position, AbstractGimul> board,
+            Map<Position, Piece> board,
             int row
     ) {
         StringBuilder sb = new StringBuilder();
@@ -67,7 +67,7 @@ public record GameStatus(
     }
 
     private static StringBuilder renderBoardColumn(
-            Map<Position, AbstractGimul> board,
+            Map<Position, Piece> board,
             int row,
             int col
     ) {
@@ -77,7 +77,7 @@ public record GameStatus(
         String symbol = "·";
 
         if (board.containsKey(position)) {
-            AbstractGimul gimul = board.get(position);
+            Piece gimul = board.get(position);
 
             if (gimul instanceof Ma) {
                 symbol = "마";
