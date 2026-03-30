@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public enum Direction {
     E(0, 1),
@@ -17,20 +18,23 @@ public enum Direction {
     private final int row;
     private final int col;
 
+    private static final Map<Direction, List<Direction>> ADJACENT_DIAGONALS = Map.of(
+            N, List.of(NE, NW),
+            S, List.of(SE, SW),
+            E, List.of(NE, SE),
+            W, List.of(NW, SW)
+    );
+
     Direction(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    public Position move(Position currentPosition) {
-        return currentPosition.move(this.row, this.col);
+    public List<Direction> getAdjacentDiagonals() {
+        return ADJACENT_DIAGONALS.getOrDefault(this, Collections.emptyList());
     }
 
-    public List<Direction> getAdjacentDiagonals() {
-        if (this == N) return List.of(NE, NW);
-        if (this == S) return List.of(SE, SW);
-        if (this == E) return List.of(NE, SE);
-        if (this == W) return List.of(NW, SW);
-        return Collections.emptyList();
+    public Position move(Position currentPosition) {
+        return currentPosition.move(this.row, this.col);
     }
 }
