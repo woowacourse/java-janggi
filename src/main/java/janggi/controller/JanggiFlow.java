@@ -34,8 +34,8 @@ public class JanggiFlow {
 
         Side current = Side.HAN;
         while (board.isNotEmpty()) {
-            view.responseBoardArray(board.to2DArray());
-            view.responseCurrentSide(current);
+            view.respondBoardArray(board.to2DArray());
+            view.respondCurrentSide(current);
 
             final Side turnSide = current;
             retryAction(() -> {
@@ -79,7 +79,7 @@ public class JanggiFlow {
                 runnable.run();
                 return;
             } catch (IllegalArgumentException e) {
-                view.responseErrorMessage(e);
+                view.respondErrorMessage(e);
             }
         }
     }

@@ -30,7 +30,7 @@ public class ApplicationView {
         return retry(inputReader::readInt);
     }
 
-    public void responseBoardArray(List<List<Piece>> board2DArray) {
+    public void respondBoardArray(List<List<Piece>> board2DArray) {
         this.lastBoard = board2DArray;
         outputWriter.clearScreen();
         List<List<String>> stringMatrix = new ArrayList<>();
@@ -58,7 +58,7 @@ public class ApplicationView {
         outputWriter.printStringMatrix(stringMatrix);
     }
 
-    public void responseCurrentSide(Side currentSide) {
+    public void respondCurrentSide(Side currentSide) {
         this.lastSide = currentSide;
         outputWriter.printPromptMessage(currentSide.getName() + "팀의 차례입니다.");
     }
@@ -86,12 +86,12 @@ public class ApplicationView {
         return List.of(row, col);
     }
 
-    public void responseErrorMessage(RuntimeException e) {
+    public void respondErrorMessage(RuntimeException e) {
         if (lastBoard != null) {
-            responseBoardArray(lastBoard);
+            respondBoardArray(lastBoard);
         }
         if (lastSide != null) {
-            responseCurrentSide(lastSide);
+            respondCurrentSide(lastSide);
         }
         outputWriter.printErrorMessage(e);
     }
@@ -101,7 +101,7 @@ public class ApplicationView {
             try {
                 return supplier.get();
             } catch (IllegalArgumentException e) {
-                responseErrorMessage(e);
+                respondErrorMessage(e);
             }
         }
     }
