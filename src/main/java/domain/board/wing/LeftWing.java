@@ -1,6 +1,7 @@
 package domain.board.wing;
 
 import domain.board.Intersection;
+import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.Piece;
 import java.util.List;
@@ -14,28 +15,13 @@ public final class LeftWing extends Wing {
 
     @Override
     public Map<Intersection, Piece> setUpPieces(Side side) {
-        if (side == Side.HAN) {
-            return setUpHanPieces();
-        }
-
-        return setUpChoPieces();
-    }
-
-    private Map<Intersection, Piece> setUpHanPieces() {
-        int row = Side.HAN.getBaseRow();
+        int row = side.getRowAt(FAR_FROM_BASE_ROW);
+        int firstPieceFile = side.getFileAt(new MoveAmount(1));
+        int secondPieceFile = side.getFileAt(new MoveAmount(2));
 
         return Map.of(
-                new Intersection(row, 8), first,
-                new Intersection(row, 7), second
-        );
-    }
-
-    private Map<Intersection, Piece> setUpChoPieces() {
-        int row = Side.CHO.getBaseRow();
-
-        return Map.of(
-                new Intersection(row, 2), first,
-                new Intersection(row, 3), second
+                new Intersection(row, firstPieceFile), first,
+                new Intersection(row, secondPieceFile), second
         );
     }
 }

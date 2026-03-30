@@ -10,13 +10,13 @@ import domain.direction.Up;
 import java.util.List;
 
 public enum Side {
-    HAN(1, new Down(), new Right()) {
+    HAN(1, 9, new Down(), new Right()) {
         @Override
         public Side nextTurn() {
             return CHO;
         }
     },
-    CHO(10, new Up(), new Left()) {
+    CHO(10, 1, new Up(), new Left()) {
         @Override
         public Side nextTurn() {
             return HAN;
@@ -25,6 +25,7 @@ public enum Side {
     ;
 
     private final int baseRow;
+    private final int baseFile;
     private final Direction forwardDirection;
     private final Direction backwardDirection;
     private final Direction leftDirection;
@@ -32,10 +33,12 @@ public enum Side {
 
     Side(
             int baseRow,
+            int baseFile,
             Direction forwardDirection,
             Direction leftDirection
     ) {
         this.baseRow = baseRow;
+        this.baseFile = baseFile;
         this.forwardDirection = forwardDirection;
         this.backwardDirection = forwardDirection.reverse();
         this.leftDirection = leftDirection;
@@ -46,11 +49,20 @@ public enum Side {
         return baseRow;
     }
 
-    public int farTo(MoveAmount farAmount) {
+    public int getRowAt(MoveAmount distance) {
         final int defaultFile = 5;
-        Intersection farIntersection = forwardDirection.moveForward(new Intersection(baseRow, defaultFile), farAmount);
+        Intersection targetIntersection =
+                forwardDirection.moveForward(new Intersection(baseRow, defaultFile), distance);
 
-        return farIntersection.row();
+        return targetIntersection.row();
+    }
+
+    public int getFileAt(MoveAmount distance) {
+        final int defaultRow = 5;
+        Intersection targetIntersection =
+                forwardDirection.moveRight(new Intersection(defaultRow, baseFile), distance);
+
+        return targetIntersection.file();
     }
 
     public Direction getForwardDirection() {

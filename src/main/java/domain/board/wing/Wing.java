@@ -1,6 +1,7 @@
 package domain.board.wing;
 
 import domain.board.Intersection;
+import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 public abstract class Wing {
 
+    protected static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(0);
     private static final int WING_SIZE = 2;
     private static final int ELEPHANT_COUNT = 1;
     private static final int HORSE_COUNT = 1;

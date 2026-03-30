@@ -27,7 +27,7 @@ public record InitialPosition(
     }
 
     private List<Intersection> intersections() {
-        int row = side.farTo(farFromBaseRow);
+        int row = side.getRowAt(farFromBaseRow);
 
         return Arrays.stream(initialFiles)
                 .map(file -> new Intersection(row, file))
