@@ -1,7 +1,10 @@
 package domain.piece;
 
+import domain.board.PathPieces;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
+import domain.position.Path;
+import domain.position.Position;
 import domain.strategy.MovementStrategy;
 
 public class None extends Piece {
@@ -11,17 +14,12 @@ public class None extends Piece {
     }
 
     @Override
-    protected MovementStrategy getMovementStrategy() {
+    public Path calculatePath(Position source, Position destination) {
         return null;
     }
 
     @Override
-    protected PathGenerator getPathGenerator() {
-        return null;
-    }
-
-    @Override
-    public boolean isDifferentTeam(Team team) {
+    public boolean validatePath(PathPieces pathPieces) {
         return false;
     }
 

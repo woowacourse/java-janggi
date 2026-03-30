@@ -1,8 +1,11 @@
 package domain.piece;
 
+import domain.board.PathPieces;
 import domain.pathgenerator.PathGenerator;
 import domain.pathgenerator.StraightPathGenerator;
 import domain.player.Team;
+import domain.position.Path;
+import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
 import domain.strategy.MovementStrategy;
 
@@ -14,13 +17,14 @@ public class Cha extends Piece {
         super(team, PieceType.CHA);
     }
 
+
     @Override
-    protected MovementStrategy getMovementStrategy() {
-        return MOVEMENT_STRATEGY;
+    public Path calculatePath(Position source, Position destination) {
+        return PATH_GENERATOR.calculatePath(source, destination);
     }
 
     @Override
-    protected PathGenerator getPathGenerator() {
-        return PATH_GENERATOR;
+    public boolean validatePath(PathPieces pathPieces) {
+        return MOVEMENT_STRATEGY.validatePath(pathPieces);
     }
 }

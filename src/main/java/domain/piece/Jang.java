@@ -9,10 +9,13 @@ import static domain.direction.Direction.SOUTH_EAST;
 import static domain.direction.Direction.SOUTH_WEST;
 import static domain.direction.Direction.WEST;
 
+import domain.board.PathPieces;
 import domain.direction.Direction;
 import domain.pathgenerator.NonStraightPathGenerator;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
+import domain.position.Path;
+import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
 import domain.strategy.MovementStrategy;
 import java.util.List;
@@ -38,12 +41,12 @@ public class Jang extends Piece {
     }
 
     @Override
-    protected MovementStrategy getMovementStrategy() {
-        return MOVEMENT_STRATEGY;
+    public Path calculatePath(Position source, Position destination) {
+        return PATH_GENERATOR.calculatePath(source, destination);
     }
 
     @Override
-    protected PathGenerator getPathGenerator() {
-        return PATH_GENERATOR;
+    public boolean validatePath(PathPieces pathPieces) {
+        return MOVEMENT_STRATEGY.validatePath(pathPieces);
     }
 }

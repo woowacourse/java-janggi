@@ -18,24 +18,9 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
-    protected abstract MovementStrategy getMovementStrategy();
+    public abstract Path calculatePath(Position source, Position destination);
 
-    protected abstract PathGenerator getPathGenerator();
-
-    public Path calculatePath(Position source, Position destination) {
-        return this.getPathGenerator().calculatePath(source, destination);
-    }
-
-    public boolean validatePath(PathPieces pathPieces) {
-        return this.getMovementStrategy().validatePath(pathPieces);
-    }
-
-    public boolean isDifferentTeam(Team team) {
-        if (team == null) {
-            return false;
-        }
-        return this.team != team;
-    }
+    public abstract boolean validatePath(PathPieces pathPieces);
 
     public boolean isDifferentTeam(Piece piece) {
         if (!piece.isNotNone()) {
