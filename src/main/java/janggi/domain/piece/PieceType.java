@@ -17,9 +17,9 @@ import java.util.function.Function;
 
 public enum PieceType {
 
-    //    사이클 2 에서 궁성 구현 시
-//    PALACE(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
-//    GUARD(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
+    //    TODO 사이클 2 에서 궁성 구현 시
+    //    PALACE(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
+    //    GUARD(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
     PALACE(side -> Direction.cardinalDirections(), new StepMoveStrategy()),
     GUARD(side -> Direction.cardinalDirections(), new StepMoveStrategy()),
     CHARIOT(side -> Direction.cardinalDirections(), new SlideMoveStrategy()),

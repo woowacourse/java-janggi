@@ -49,9 +49,9 @@ public enum InitialBoardInfo {
     }
 
     private void putPieces(Map<Position, Piece> board, int row, List<Integer> columns, PieceType type) {
-        for (int columnIndex = 0; columnIndex < columns.size(); columnIndex++) {
-            int column = columns.get(columnIndex);
-            String pieceNumber = String.valueOf(columnIndex);
+        for (int currentColumn = 0; currentColumn < columns.size(); currentColumn++) {
+            int column = columns.get(currentColumn);
+            String pieceNumber = String.valueOf(currentColumn);
             board.put(new Position(row, column), new Piece(side, type, pieceNumber));
         }
     }
