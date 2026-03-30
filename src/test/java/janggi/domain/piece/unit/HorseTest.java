@@ -2,10 +2,10 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.coordinate.Path;
-import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.Path;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;

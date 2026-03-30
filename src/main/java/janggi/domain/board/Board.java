@@ -1,10 +1,10 @@
 package janggi.domain.board;
 
-import janggi.domain.board.coordinate.Path;
-import janggi.domain.board.coordinate.PathStrategy;
-import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.piece.unit.Empty;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;

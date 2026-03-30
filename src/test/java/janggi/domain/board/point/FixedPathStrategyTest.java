@@ -1,9 +1,11 @@
-package janggi.domain.board.coordinate;
+package janggi.domain.board.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.FixedPathStrategy;
+import janggi.domain.piece.path.PathStrategy;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;

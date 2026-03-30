@@ -1,12 +1,12 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.board.coordinate.FixedPathStrategy;
-import janggi.domain.board.coordinate.Path;
-import janggi.domain.board.coordinate.PathStrategy;
-import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.path.FixedPathStrategy;
+import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,18 @@ public class Horse extends Piece {
 
     public Horse(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
+    }
+
+    @Override
+    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
+        if (path.isEmpty()) {
+            return false;
+        }
+        List<Point> points = path.getPath();
+
+        return points.stream()
+                .limit(points.size() - 1)
+                .noneMatch(piecesOnPaths::containsKey);
     }
 
     @Override
@@ -48,15 +60,5 @@ public class Horse extends Piece {
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
         return path;
-    }
-
-    @Override
-    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        if(path.isEmpty()) return false;
-        List<Point> points = path.getPath();
-
-        return points.stream()
-                .limit(points.size()-1)
-                .noneMatch(piecesOnPaths::containsKey);
     }
 }

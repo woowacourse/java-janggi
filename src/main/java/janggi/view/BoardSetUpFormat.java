@@ -1,16 +1,16 @@
 package janggi.view;
 
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.board.setup.InSetUp;
-import janggi.domain.board.setup.LeftSetUp;
-import janggi.domain.board.setup.OutSetUp;
-import janggi.domain.board.setup.RightSetUp;
+import janggi.domain.board.setup.InElephantSetUp;
+import janggi.domain.board.setup.LeftElephantSetUp;
+import janggi.domain.board.setup.OutElephantSetUp;
+import janggi.domain.board.setup.RightElephantSetUp;
 
 public enum BoardSetUpFormat {
-    LEFT_SET_UP(1,"왼상차림 (상마상마)" ,new LeftSetUp()),
-    RIGHT_SET_UP(2,"오른상차림 (마상마상)", new RightSetUp()),
-    IN_SET_UP(3,"안상차림 (마상상마)", new InSetUp()),
-    OUT_SET_UP(4,"바깥상차림 (상마마상)" ,new OutSetUp()),
+    LEFT_SET_UP(1, "왼상차림 (상마상마)", new LeftElephantSetUp()),
+    RIGHT_SET_UP(2, "오른상차림 (마상마상)", new RightElephantSetUp()),
+    IN_SET_UP(3, "안상차림 (마상상마)", new InElephantSetUp()),
+    OUT_SET_UP(4, "바깥상차림 (상마마상)", new OutElephantSetUp()),
     ;
 
     private final int number;
@@ -23,9 +23,9 @@ public enum BoardSetUpFormat {
         this.boardSetUp = boardSetUp;
     }
 
-    public static BoardSetUp getBoardSetUp(int number){
+    public static BoardSetUp getBoardSetUp(int number) {
         for (BoardSetUpFormat value : values()) {
-            if(value.number == number){
+            if (value.number == number) {
                 return value.getBoardSetUp();
             }
         }

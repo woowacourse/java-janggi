@@ -1,6 +1,6 @@
 package janggi.domain.board.setup;
 
-import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.unit.Advisor;
 import janggi.domain.piece.unit.Cannon;
 import janggi.domain.piece.unit.Chariot;
@@ -14,11 +14,11 @@ import java.util.Map;
 public interface BoardSetUp {
     Map<Point, Piece> generate(Side side);
 
-    default Map<Point,Piece> createCommonBoard(Side side){
-        if(Side.CHO.equals(side)){
+    default Map<Point, Piece> createCommonBoard(Side side) {
+        if (Side.CHO.equals(side)) {
             return createChoCommonBoard();
         }
-        if(Side.HAN.equals(side)){
+        if (Side.HAN.equals(side)) {
             return createHanCommonBoard();
         }
         throw new IllegalStateException("EMPTY SIDE는 보드 생성이 불가능합니다.");
@@ -45,7 +45,7 @@ public interface BoardSetUp {
         return board;
     }
 
-    private Map<Point,Piece> createChoCommonBoard(){
+    private Map<Point, Piece> createChoCommonBoard() {
         Map<Point, Piece> board = new HashMap<>();
         board.put(Point.of(0, 0), new Chariot(Side.CHO));
         board.put(Point.of(0, 3), new Advisor(Side.CHO));

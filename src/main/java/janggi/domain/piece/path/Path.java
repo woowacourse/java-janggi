@@ -1,5 +1,6 @@
-package janggi.domain.board.coordinate;
+package janggi.domain.piece.path;
 
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +21,27 @@ public class Path {
         return path;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return path.isEmpty();
     }
 
-    public Path cutUntil(Point point) {
+    public Path takeUntil(Point to) {
+        if (to == null) {
+            throw new IllegalStateException("to는 null값이 될 수 없습니다.");
+        }
         List<Point> curPath = new ArrayList<>();
         for (Point pathPoint : path) {
             curPath.add(pathPoint);
-            if (pathPoint.equals(point)) {
+            if (pathPoint.equals(to)) {
                 break;
             }
         }
         return new Path(curPath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(path);
     }
 
     @Override
@@ -45,10 +54,5 @@ public class Path {
         }
 
         return Objects.equals(path, path1.path);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(path);
     }
 }

@@ -1,7 +1,8 @@
-package janggi.domain.board.coordinate;
+package janggi.domain.board.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.piece.path.Path;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PathTest {
 
-    public static Stream<Arguments> cutUntil() {
+    public static Stream<Arguments> takeUntil() {
         return Stream.of(
                 Arguments.of(
                         new Path(List.of(
@@ -33,7 +34,7 @@ class PathTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("cutUntil(): point까지 잘라서 Path를 리턴한다.")
-    void cutUntil(Path path, Point point, Path expected) {
-        assertThat(path.cutUntil(point)).isEqualTo(expected);
+    void takeUntil(Path path, Point point, Path expected) {
+        assertThat(path.takeUntil(point)).isEqualTo(expected);
     }
 }

@@ -1,4 +1,4 @@
-package janggi.domain.board.coordinate;
+package janggi.domain.board.point;
 
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -44,7 +44,7 @@ public final class Point {
 
     private void validateRange(int x, int y) {
         if (!isInRange(x, y)) {
-            throw new IllegalStateException("좌표의 범위는 {%d,%d} ~ {%d,%d} 입니다.".formatted(MIN_X, MIN_Y, MAX_X, MAX_Y));
+            throw new IllegalStateException("좌표의 범위는 {0,0} ~ {8,9} 입니다.");
         }
     }
 
@@ -52,11 +52,11 @@ public final class Point {
         return Point.of(x + this.x, y + this.y);
     }
 
-    public int x() {
+    public int getX() {
         return x;
     }
 
-    public int y() {
+    public int getY() {
         return y;
     }
 

@@ -1,7 +1,7 @@
 package janggi.domain.game;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;

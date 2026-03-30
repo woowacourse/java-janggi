@@ -2,10 +2,10 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.coordinate.Path;
-import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.Path;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +49,8 @@ class ChariotTest {
                         ),
                         Map.of(Point.of(6, 0), new Chariot(Side.HAN), Point.of(0, 2), new Chariot(Side.CHO)),
                         List.of(
-                                Point.of(0,1),
-                                Point.of(0,2),
+                                Point.of(0, 1),
+                                Point.of(0, 2),
                                 Point.of(1, 0),
                                 Point.of(2, 0),
                                 Point.of(3, 0),

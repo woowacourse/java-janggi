@@ -1,5 +1,6 @@
-package janggi.domain.board.coordinate;
+package janggi.domain.piece.path;
 
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.Pattern;
 import java.util.List;
 

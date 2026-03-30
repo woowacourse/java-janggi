@@ -1,10 +1,12 @@
-package janggi.domain.board.coordinate;
+package janggi.domain.board.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.LinearPathStrategy;
+import janggi.domain.piece.path.PathStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class LinearPathStrategyTest {
     private static final PathStrategy LINEAR_PATH_STRATEGY = new LinearPathStrategy();
+
     @Nested
     @DisplayName("calculate(): ")
     class Calculate {
@@ -46,7 +49,7 @@ class LinearPathStrategyTest {
         @MethodSource
         @DisplayName("pattern에 따른 경로 계산")
         void calculate(Pattern pattern, Point from, List<Point> expected) {
-            assertThat(LINEAR_PATH_STRATEGY.calculate(pattern,from))
+            assertThat(LINEAR_PATH_STRATEGY.calculate(pattern, from))
                     .containsAll(expected);
         }
 

@@ -1,6 +1,6 @@
 package janggi.controller;
 
-import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
 import janggi.domain.piece.unit.Piece;
@@ -36,12 +36,8 @@ public class JanggiController {
             outputView.printSide(game.getTurn());
 
             Point from = retry(() -> printPath(inputView.readPoint(), game, board));
-            retry(() -> move(game, from, inputView.readDestination()));
+            retry(() -> game.move(from, inputView.readDestination()));
         }
-    }
-
-    private void move(Game game, Point from, Point to) {
-        game.move(from, to);
     }
 
 
@@ -56,10 +52,9 @@ public class JanggiController {
             try {
                 runnable.run();
                 break;
-            }catch (PieceCancelException e) {
+            } catch (PieceCancelException e) {
                 break;
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
