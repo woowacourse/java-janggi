@@ -38,9 +38,7 @@ public final class JanggiController {
 
             Intersection startPosition = readValidStartPositionAndPrintBoard(currentTurn, board);
 
-            Intersection destination = inputView.readDestination();
-            janggiGame.movePiece(startPosition, destination, currentTurn);
-            outputView.printBoard(board);
+            readValidDestinationAndPrintBoard(janggiGame, board, startPosition, currentTurn);
         }
     }
 
@@ -68,6 +66,24 @@ public final class JanggiController {
                 outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
 
                 return startPosition;
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private Intersection readValidDestinationAndPrintBoard(
+            JanggiGame janggiGame,
+            Board board,
+            Intersection startPosition,
+            Side currentTurn) {
+        while (true) {
+            try {
+                Intersection destination = inputView.readDestination();
+                janggiGame.movePiece(startPosition, destination, currentTurn);
+                outputView.printBoard(board);
+
+                return destination;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
