@@ -28,9 +28,7 @@ public class Players {
     }
 
     private static void validateNonDuplicate(List<String> names) {
-        Set<String> s = new HashSet<>(names);
-
-        if (s.size() != names.size()) {
+        if (new HashSet<>(names).size() != names.size()) {
             throw new IllegalArgumentException("[ERROR] 플레이어 이름은 중복될 수 없습니다.");
         }
     }
