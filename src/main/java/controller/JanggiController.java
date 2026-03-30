@@ -16,6 +16,8 @@ import view.OutputView;
 
 public class JanggiController {
 
+    private static final int USER_INPUT_START_INDEX = 1;
+
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -84,16 +86,14 @@ public class JanggiController {
 
     private Entry<Position, PieceInfoDto> selectPieceToMove(Board board, Team team) {
         PieceInfosDto teamPieces = board.getPieceInfosBy(team);
-        List<Entry<Position, PieceInfoDto>> entryList = new ArrayList<>(teamPieces.pieceInfos().entrySet());
+        List<Entry<Position, PieceInfoDto>> PiecesByPosition = new ArrayList<>(teamPieces.pieceInfos().entrySet());
 
-        outputView.printChoosePieceToMovePrompt(entryList);
-        int pieceIndex = inputView.readPieceNumber() - 1;
+        outputView.printChoosePieceToMovePrompt(PiecesByPosition);
+        int pieceIndexToMove = toZeroBasedIndex(inputView.readPieceNumber());
 
-        if (pieceIndex < 0 || pieceIndex >= entryList.size()) {
-            throw new IllegalArgumentException();
-        }
+        validateIndex(pieceIndexToMove, PiecesByPosition.size());
 
-        return entryList.get(pieceIndex);
+        return PiecesByPosition.get(pieceIndexToMove);
     }
 
     private Position selectPositionToMove(Board board, Position from) {
@@ -104,13 +104,21 @@ public class JanggiController {
         }
 
         outputView.printChoosePositionToMovePrompt(movablePositions);
-        int positionIndex = inputView.readPositionNumber() - 1;
+        int positionIndexToMove = toZeroBasedIndex(inputView.readPositionNumber());
 
-        if (positionIndex < 0 || positionIndex >= movablePositions.size()) {
+        validateIndex(positionIndexToMove, movablePositions.size());
+
+        return movablePositions.get(positionIndexToMove);
+    }
+
+    private int toZeroBasedIndex(int userInputNumber) {
+        return userInputNumber - USER_INPUT_START_INDEX;
+    }
+
+    private void validateIndex(int index, int size) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException();
         }
-
-        return movablePositions.get(positionIndex);
     }
 
     private void retry(Runnable callback) {
