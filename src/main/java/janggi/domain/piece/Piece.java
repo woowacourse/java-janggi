@@ -1,11 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.Path;
+import janggi.domain.Paths;
 import janggi.domain.position.Position;
 import janggi.domain.piece.strategy.MoveStrategy;
 
-import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
@@ -17,7 +16,7 @@ public abstract class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public List<Path> findMovablePaths(Position current) {
+    public Paths findMovablePaths(Position current) {
         return moveStrategy.findMovablePaths(current);
     }
 
