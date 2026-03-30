@@ -71,12 +71,13 @@ public class OutputView {
     }
 
     private String formatCell(Piece piece) {
+        if (piece.isNone()) {
+            return String.format("[%2s]", piece.getPieceString());
+        }
+
         String pieceString = piece.getPieceString();
         Team team = piece.getTeam();
 
-        if (!piece.isNone()) {
-            return String.format("[%2s]", pieceString);
-        }
         if (team.isCho()) {
             return String.format("[%s%2s%s]", ANSI_BLUE, pieceString, ANSI_RESET);
         }

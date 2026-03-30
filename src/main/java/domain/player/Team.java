@@ -2,8 +2,7 @@ package domain.player;
 
 public enum Team {
     CHO(9),
-    HAN(0),
-    NULL(-1);
+    HAN(0);
 
     private final int column;
 
@@ -17,10 +16,6 @@ public enum Team {
 
     public boolean isCho() {
         return this == CHO;
-    }
-
-    public boolean isNull() {
-        return this == NULL;
     }
 
     public int getColumn() {
