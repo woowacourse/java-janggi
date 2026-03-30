@@ -2,6 +2,7 @@ package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.strategy.InitializeStrategy;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,10 @@ public class Board {
     public Board(InitializeStrategy initializeStrategy) {
         piecesInfo = generateBlankBoard();
         initializeStrategy.basicSetting(piecesInfo);
+    }
+
+    public Map<Position, Space> getPiecesInfo() {
+        return Collections.unmodifiableMap(piecesInfo);
     }
 
     private Map<Position, Space> generateBlankBoard() {
