@@ -18,5 +18,4 @@ class PositionTest {
         assertThatCode(() -> Position.create(10, 9))
                 .doesNotThrowAnyException();
     }
-
 }

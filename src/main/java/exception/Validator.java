@@ -10,7 +10,7 @@ public final class Validator {
     }
 
     public static void validateNumberInRange(int min, int max, int input) {
-        if (input>max || input<min) {
+        if (input > max || input < min) {
             throw new IllegalArgumentException("범위 내의 숫자가 아닙니다.");
         }
     }
