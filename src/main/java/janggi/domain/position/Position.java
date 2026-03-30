@@ -34,9 +34,9 @@ public class Position {
         return position;
     }
 
-    public Optional<Position> move(int deltaRow, int deltaColumn) {
+    public Optional<Position> move(Direction direction) {
         return Optional.ofNullable(
-                ALL_POSITION.get((row.value() + deltaRow) + "," + (column.value() + deltaColumn))
+                ALL_POSITION.get((row.value() + direction.dr()) + "," + (column.value() + direction.dc()))
         );
     }
 

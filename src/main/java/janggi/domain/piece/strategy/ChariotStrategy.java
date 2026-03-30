@@ -1,53 +1,35 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.WayPoints;
+import janggi.domain.Paths;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 public class ChariotStrategy implements MoveStrategy {
-
-    private static final int CHARIOT_MIN_DISTANCE = 1;
-    private static final int INITIAL_DISTANCE = 1;
-    private static final int DISTANCE_INCREMENT = 1;
-
     @Override
-    public List<Path> findMovablePaths(Position current) {
-        List<Path> totalPaths = new ArrayList<>();
-        List<Direction> directions = Direction.linear();
-
-        for (Direction direction : directions) {
-            totalPaths.addAll(collectPathsByDirection(current, direction));
+    public Paths findMovablePaths(Position current) {
+        List<Path> paths = new ArrayList<>();
+        for (Direction direction : Direction.straight()) {
+            paths.addAll(collectPaths(current, direction));
         }
-
-        return Collections.unmodifiableList(totalPaths);
+        return new Paths(paths);
     }
 
-    private List<Path> collectPathsByDirection(Position current, Direction direction) {
+    private List<Path> collectPaths(Position current, Direction direction) {
         List<Path> paths = new ArrayList<>();
-        List<Position> route = new ArrayList<>();
-        int currentDistance = INITIAL_DISTANCE;
-        Optional<Position> next = direction.next(current);
+        List<Position> waypoints = new ArrayList<>();
+        Optional<Position> next = current.move(direction);
 
         while (next.isPresent()) {
             Position destination = next.get();
-            addValidPath(paths, route, destination, currentDistance);
-
-            route.add(destination);
-            next = direction.next(destination);
-            currentDistance += DISTANCE_INCREMENT;
+            paths.add(Path.of(List.copyOf(waypoints), destination));
+            waypoints.add(destination);
+            next = destination.move(direction);
         }
-
         return paths;
-    }
-
-    private void addValidPath(List<Path> paths, List<Position> route, Position destination, int distance) {
-        if (distance >= CHARIOT_MIN_DISTANCE) {
-            paths.add(Path.of(List.copyOf(route), destination));
-        }
     }
 }

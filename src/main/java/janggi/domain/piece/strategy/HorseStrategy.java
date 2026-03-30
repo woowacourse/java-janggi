@@ -1,35 +1,35 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.WayPoints;
+import janggi.domain.Paths;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class HorseStrategy implements MoveStrategy {
     @Override
-    public List<Path> findMovablePaths(Position current) {
-        List<Path> paths = new ArrayList<>();
-
-        addPath(paths, current, 1, 0, 2, 1);
-        addPath(paths, current, 0, 1, 1, 2);
-        addPath(paths, current, 0, 1, -1, 2);
-        addPath(paths, current, -1, 0, -2, 1);
-        addPath(paths, current, 1, 0, 2, -1);
-        addPath(paths, current, 0, -1, 1, -2);
-        addPath(paths, current, 0, -1, -1, -2);
-        addPath(paths, current, -1, 0, -2, -1);
-
-        return Collections.unmodifiableList(paths);
+    public Paths findMovablePaths(Position current) {
+        return new Paths(Stream.of(
+                        createPath(current, Direction.UP, Direction.UP_RIGHT),
+                        createPath(current, Direction.UP, Direction.UP_LEFT),
+                        createPath(current, Direction.DOWN, Direction.DOWN_RIGHT),
+                        createPath(current, Direction.DOWN, Direction.DOWN_LEFT),
+                        createPath(current, Direction.RIGHT, Direction.UP_RIGHT),
+                        createPath(current, Direction.RIGHT, Direction.DOWN_RIGHT),
+                        createPath(current, Direction.LEFT, Direction.UP_LEFT),
+                        createPath(current, Direction.LEFT, Direction.DOWN_LEFT)
+                )
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList());
     }
 
-    private void addPath(List<Path> paths, Position current,
-                         int routeRow, int routeCol, int destRow, int destCol) {
-        current.move(routeRow, routeCol)
-                .flatMap(route -> current.move(destRow, destCol)
-                        .map(dest -> Path.of(List.of(route), dest)))
-                .ifPresent(paths::add);
+    public Optional<Path> createPath(Position current, Direction straight, Direction diagonal) {
+        return current.move(straight)
+                .flatMap(wp -> wp.move(diagonal)
+                        .map(dest -> Path.of(List.of(wp), dest)));
     }
 }
