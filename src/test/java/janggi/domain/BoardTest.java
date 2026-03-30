@@ -33,8 +33,8 @@ public class BoardTest {
             "HAN,ZOL,1,4", "HAN,ZOL,3,4", "HAN,ZOL,5,4", "HAN,ZOL,7,4", "HAN,ZOL,9,4"
 
     })
-    @DisplayName("초기 위치에 각나라 졸이 있다.")
-    void 초기_위치에_각나라_졸_세팅(Team team, PieceType pieceType, int x, int y){
+    @DisplayName("초기화된 보드의 지정된 위치에 각 나라의 기물이 알맞게 배치되어 있다")
+    void 보드_초기화_기물_배치_확인(Team team, PieceType pieceType, int x, int y){
         //given
         Board board = new Board();
         board.initialize();
@@ -49,8 +49,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("졸의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 졸_이동가능_좌표_확인_다_가능() {
+    @DisplayName("초나라 졸은 경로에 장애물이 없으면 위쪽, 왼쪽, 오른쪽으로 이동할 수 있다")
+    void 초나라_졸_장애물_없을때_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(5,7);
@@ -68,8 +68,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("졸의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 졸_이동가능_좌표_확인_위_불가능() {
+    @DisplayName("초나라 졸의 이동 방향에 아군 기물이 있으면 해당 방향으로는 이동할 수 없다")
+    void 초나라_졸_아군이_막고있을때_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(5,7);
@@ -88,8 +88,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("마의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 마_이동가능_좌표_확인_다_가능() {
+    @DisplayName("마는 이동 경로(멱)에 장애물이 없으면 8방향 모두 이동할 수 있다")
+    void 마_장애물_없을때_8방향_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(4,6);
@@ -113,8 +113,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("마의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 마_이동가능_좌표_확인_경로에_다른_기물() {
+    @DisplayName("마는 이동 경로(멱)에 다른 기물이 있으면 해당 방향으로 이동할 수 없다")
+    void 마_멱이_막혀있을때_해당_방향_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(4,6);
@@ -137,8 +137,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("마의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 마_이동가능_좌표_확인_목적지에_같은팀_기물() {
+    @DisplayName("마의 최종 목적지에 아군 기물이 있으면 해당 좌표로 이동할 수 없다")
+    void 마_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(4,6);
@@ -162,8 +162,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 상_이동가능_좌표_확인_다_가능() {
+    @DisplayName("상은 이동 경로(멱)에 장애물이 없으면 8방향 모두 이동할 수 있다")
+    void 상_장애물_없을때_8방향_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(5,7);
@@ -187,8 +187,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 상_이동가능_좌표_확인_경로에_다른_기물_대각선() {
+    @DisplayName("상은 대각선 경로(멱)에 다른 기물이 있으면 해당 방향으로 이동할 수 없다")
+    void 상_대각선_멱이_막혀있을때_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(5,7);
@@ -212,8 +212,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 상_이동가능_좌표_확인_경로에_다른_기물_직선() {
+    @DisplayName("상은 직선 경로(멱)에 다른 기물이 있으면 해당 방향으로 이동할 수 없다")
+    void 상_직선_멱이_막혀있을때_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(5,7);
@@ -236,8 +236,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 상_이동가능_좌표_확인_목적지에_같은팀_기물() {
+    @DisplayName("상의 최종 목적지에 아군 기물이 있으면 해당 좌표로 이동할 수 없다")
+    void 상_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(5,7);
@@ -261,8 +261,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("사의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
-    void 사_이동가능_좌표_확인_초기_위치에서_모든_방향_가능() {
+    @DisplayName("사는 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)")
+    void 사_장애물_없을때_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(4,10);
@@ -283,8 +283,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("사의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
-    void 사_이동가능_좌표_확인_초기_위치에서_목적지에_같은_팀() {
+    @DisplayName("사의 목적지에 아군 기물이 있으면 이동할 수 없다 (사이클1 규칙)")
+    void 사_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(4,10);
@@ -305,8 +305,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("사의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
-    void 사_이동가능_좌표_확인_초기_위치에서_목적지에_다른_팀() {
+    @DisplayName("사의 목적지에 적군 기물이 있으면 이동할 수 있다 (사이클1 규칙)")
+    void 사_목적지에_적군_존재시_이동_가능() {
         //given
         Board board = new Board();
         Position position = new Position(4,10);
@@ -328,8 +328,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("왕의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
-    void 왕_이동가능_좌표_확인_초기_위치에서_모든_방향_가능() {
+    @DisplayName("왕은 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)" )
+    void 왕_장애물_없을때_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(5,9);
@@ -353,8 +353,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("왕의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
-    void 왕_이동가능_좌표_확인_초기_위치에서_목적지에_같은_팀() {
+    @DisplayName("왕의 이동하려는 목적지에 아군 기물이 있으면 이동할 수 없다(사이클1 규칙)")
+    void 왕_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(5,9);
@@ -378,8 +378,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("왕의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
-    void 왕_이동가능_좌표_확인_초기_위치에서_목적지에_다른_팀() {
+    @DisplayName("왕의 목적지에 적군 기물이 있으면 이동할 수 있다 (사이클1 규칙)")
+    void 왕_목적있지에_적군_존재시_이동_가능() {
         //given
         Board board = new Board();
         Position position = new Position(5,9);
@@ -405,8 +405,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("차의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 차_이동가능_좌표_확인_초기_위치에서_모두_다_가능() {
+    @DisplayName("차는 직선 경로상에 장애물이 없으면 끝까지 이동할 수 있다")
+    void 차_장애물_없을때_직선_끝까지_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(1,10);
@@ -435,8 +435,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("차의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 차_이동가능_좌표_확인_초기_위치에서_위쪽에_같은_팀() {
+    @DisplayName("차는 직선 경로상에 아군 기물이 있으면 아군 기물 직전까지만 이동할 수 있다")
+    void 차_경로에_아군_존재시_아군_직전까지_이동_가능() {
         //given
         Board board = new Board();
         Position position = new Position(1,10);
@@ -464,8 +464,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("차의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 차_이동가능_좌표_확인_초기_위치에서_위쪽에_다른_팀() {
+    @DisplayName("차는 직선 경로상에 적군 기물이 있으면 포획할 수 있는 적군 기물 위치까지만 이동할 수 있다")
+    void 차_경로에_적군_존재시_적군_위치까지_이동_가능() {
         //given
         Board board = new Board();
         Position position = new Position(1,10);
@@ -493,8 +493,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("포의_위쪽경로에_포다리_존재")
-    void 포의_위쪽경로에_포다리_존재() {
+    @DisplayName("포는 이동 경로상에 일반 기물(포다리)이 딱 1개 존재하면 그 너머로 이동할 수 있다")
+    void 포_경로에_일반_기물_포다리가_1개_있을때_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(5,8);
@@ -516,8 +516,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("포의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 포의_위쪽경로에_포다리1개와_포가_붙어있음() {
+    @DisplayName("포는 넘어가려는 목적지에 또 다른 포가 있으면, 포는 포를 포획할 수 없으므로 이동할 수 없다")
+    void 포_목적지에_다른_포가_있으면_포획_및_이동_불가() {
         //given
         Board board = new Board();
         Position position = new Position(5,8);
@@ -537,8 +537,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("포의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
-    void 포의_위쪽경로에_포다리1개와_포가아닌_상대팀_기물_존재() {
+    @DisplayName("포는 포다리 너머에 일반 적군 기물이 존재하면 해당 기물을 포획하며 이동할 수 있다")
+    void 포_목적지에_일반_적군_기물이_있을때_이동_성공() {
         //given
         Board board = new Board();
         Position position = new Position(5,8);
