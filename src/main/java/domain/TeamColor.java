@@ -6,8 +6,8 @@ public enum TeamColor {
 
     public String displayName() {
         if (this == CHO) {
-            return "초";
+            return CHO;
         }
-        return "한";
+        return HAN;
     }
 }
