@@ -12,6 +12,9 @@ import view.OutputView;
 
 public final class JanggiController {
 
+    private static final String invalidPositionErrorMessage =
+            "(1,1)에서 (10,9) 사이의 유효한 좌표를 입력해주세요.(이전 입력: %d,%d)";
+
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -24,7 +27,7 @@ public final class JanggiController {
         outputView.printGameStart();
 
         InitialPieces initialPieces = setUpInitialPieces();
-        AlivePieces alivePieces = new AlivePieces(initialPieces.get());
+        AlivePieces alivePieces = new AlivePieces(initialPieces.toMap());
         Board board = new Board(alivePieces);
         JanggiGame janggiGame = new JanggiGame(board);
 
@@ -32,8 +35,8 @@ public final class JanggiController {
 
         while (true) {
             Side currentTurn = janggiGame.currentTurn();
-            Intersection startPosition = inputView.readStartPosition(currentTurn);
-            outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
+
+            Intersection startPosition = readValidStartPositionAndPrintBoard(currentTurn, board);
 
             Intersection destination = inputView.readDestination();
             janggiGame.movePiece(startPosition, destination, currentTurn);
@@ -52,6 +55,19 @@ public final class JanggiController {
         while (true) {
             try {
                 return inputView.readWings(side);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private Intersection readValidStartPositionAndPrintBoard(Side currentTurn, Board board) {
+        while (true) {
+            try {
+                Intersection startPosition = inputView.readStartPosition(currentTurn);
+                outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
+
+                return startPosition;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

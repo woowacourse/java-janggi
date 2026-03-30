@@ -42,7 +42,7 @@ public class InitialPieces {
         );
     }
 
-    public Map<Intersection, Piece> get() {
+    public Map<Intersection, Piece> toMap() {
         return Map.copyOf(initialPieces);
     }
 }
