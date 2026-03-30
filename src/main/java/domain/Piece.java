@@ -1,12 +1,9 @@
-package domain.pieces;
+package domain;
 
-import domain.Country;
-import domain.PieceType;
-import domain.Position;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Piece {
+public class Piece {
     private final Country country;
     private final PieceType pieceType;
 
@@ -19,9 +16,13 @@ public abstract class Piece {
         return pieceType;
     }
 
-    public abstract boolean canMovePosition(Position start, Position end);
+    public boolean canMovePosition(Position start, Position end) {
+        return pieceType.canMovePosition(start, end, this);
+    }
 
-    public abstract boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType);
+    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+        return pieceType.isAvailableRoute(pieces, endPieceType);
+    }
 
     public boolean isDifferentCountry(Country endCountry) {
         return !country.equals(endCountry);

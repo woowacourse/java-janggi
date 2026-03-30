@@ -21,6 +21,7 @@
 - [x] position 테스트 추가
 - [x] JanggiGameTest 테스트 추가
 - [x] BoardTest 테스트 추가
+- [x] Validator 테스트 추가
 
 
 ### 입출력 예시

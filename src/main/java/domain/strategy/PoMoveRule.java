@@ -1,19 +1,14 @@
-package domain.pieces;
+package domain.strategy;
 
-import java.util.List;
-
-import domain.Country;
 import domain.PieceType;
 import domain.Position;
+import domain.Piece;
+import java.util.List;
 
-public class Po extends Piece {
-
-    public Po(Country country) {
-        super(country, PieceType.PO);
-    }
+public class PoMoveRule implements MoveRule {
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
+    public boolean canMovePosition(Position start, Position end, Piece piece) {
         return start.getX() == end.getX() || start.getY() == end.getY();
     }
 

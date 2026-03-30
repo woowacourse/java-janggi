@@ -1,8 +1,6 @@
 package domain;
 
-import domain.pieces.Piece;
 import java.util.List;
-import java.util.Map;
 
 public class JanggiGame {
     private final Board board;
