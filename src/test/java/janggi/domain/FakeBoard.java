@@ -3,7 +3,6 @@ package janggi.domain;
 import janggi.domain.board.BoardView;
 import janggi.domain.piece.EmptyPosition;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 
@@ -32,6 +31,14 @@ public class FakeBoard implements BoardView {
 
     @Override
     public boolean isEmptyPosition(Position position) {
-        return findByPosition(position).pieceType() == PieceType.EMPTY;
+        return findByPosition(position).isEmpty();
+    }
+
+    public static FakeBoard createBoardWith(Object... args) {
+        FakeBoard board = new FakeBoard();
+        for (int i = 0; i < args.length; i += 2) {
+            board.place((Position) args[i], (Piece) args[i + 1]);
+        }
+        return board;
     }
 }
