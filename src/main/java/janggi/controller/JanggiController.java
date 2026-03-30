@@ -35,7 +35,7 @@ public class JanggiController {
             outputView.printBoard(board);
             outputView.printSide(game.getTurn());
 
-            PieceDto pieceDto = getResult(game);
+            PieceDto pieceDto = retry(() -> getResult(game));
             outputView.printBoardWithPath(board, pieceDto.destinations());
 
             retry(this::movePath, game, pieceDto.from());
