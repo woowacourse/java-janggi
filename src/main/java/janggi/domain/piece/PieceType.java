@@ -15,7 +15,7 @@ import java.util.Map;
 
 public enum PieceType {
 
-//    사이클 2 에서 궁성 구현 시
+//    TODO: 사이클 2 에서 궁성 구현 시
 //    PALACE(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
 //    GUARD(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
     PALACE(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new StepMoveStrategy()),
