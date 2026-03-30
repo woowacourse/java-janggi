@@ -1,6 +1,5 @@
 package ui;
 
-import domain.BoardStatus;
 import domain.JanggiGame;
 import domain.piece.Piece;
 import domain.position.Position;
@@ -68,8 +67,7 @@ public class Controller {
         }
     }
 
-    private void printBoardStatus(BoardStatus status) {
-        Map<Position, Piece> boardStatus = status.getBoardStatus();
+    private void printBoardStatus(Map<Position, Piece> boardStatus) {
         BoardStatusDto statusDto = BoardStatusDto.from(boardStatus);
 
         resultView.printBoard(statusDto);

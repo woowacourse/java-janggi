@@ -4,6 +4,7 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -24,44 +25,32 @@ public class Board {
     }
 
     public void move(Position start, Position destination) {
-        Piece startPiece = getPiece(start);
+        Piece startPiece = getPieceOrThrowException(start);
         pieces.remove(start);
         pieces.put(destination, startPiece);
     }
 
-    public Piece getPiece(Position position) {
-        Piece piece = pieces.get(position);
-        if (piece == null) {
-            throw new IllegalArgumentException(EMPTY_POSITION);
-        }
-        return piece;
-    }
-
     public void validateIsAlly(Team turn, Position startPosition) {
-        Piece startPiece = getPiece(startPosition);
+        Piece startPiece = getPieceOrThrowException(startPosition);
         if (!startPiece.isSameTeam(turn)) {
             throw new IllegalArgumentException(SHOULD_CHOOSE_CORRECT_TEAM_PIECE);
         }
     }
 
-    public BoardStatus getBoardStatus() {
-        return BoardStatus.from(Map.copyOf(pieces));
-    }
-
     public void validateIsMovable(Position start, Position destination) {
-        validateIsReachable(start, destination); // 변할 수 없는 Rule (이동 가능 위치와 목표 좌표가 다르면 이동 불가)
-        validateCanMove(start, destination); // 변할 수 있는 RUle
-        validateCrashWithAlly(start, destination); // 변할 수 없는 Rule (아군이 있으면 이동할 수 없는 건 고정)
+        validateIsReachable(start, destination);
+        validateCanMove(start, destination);
+        validateCrashWithAlly(start, destination);
     }
 
-    public void validateIsReachable(Position start, Position destination) {
-        Piece startPiece = getPiece(start);
+    private void validateIsReachable(Position start, Position destination) {
+        Piece startPiece = getPieceOrThrowException(start);
 
         startPiece.findMovablePath(start, destination);
     }
 
-    public void validateCanMove(Position start, Position destination) {
-        Piece startPiece = getPiece(start);
+    private void validateCanMove(Position start, Position destination) {
+        Piece startPiece = getPieceOrThrowException(start);
 
         List<Position> movablePath = startPiece.findMovablePath(start, destination);
         Map<Position, Piece> pathMap = toPathMap(movablePath);
@@ -70,20 +59,35 @@ public class Board {
 
     private Map<Position, Piece> toPathMap(List<Position> movablePath) {
         return movablePath.stream()
-                .filter(position -> pieces.get(position) != null)
+                .filter(position -> getPieceWithNull(position) != null)
                 .collect(Collectors.toMap(
                         Function.identity(),
-                        pieces::get
-                ));
+                        pieces::get));
     }
 
-    public void validateCrashWithAlly(Position start, Position destination) {
-        Piece startPiece = getPiece(start);
-        Piece destinationPiece = pieces.get(destination);
+    private void validateCrashWithAlly(Position start, Position destination) {
+        Piece startPiece = getPieceOrThrowException(start);
+        Piece destinationPiece = getPieceWithNull(destination);
 
         if (destinationPiece == null) {
             return;
         }
         startPiece.capture(destinationPiece);
+    }
+
+    public Piece getPieceOrThrowException(Position position) {
+        Piece piece = pieces.get(position);
+        if (piece == null) {
+            throw new IllegalArgumentException(EMPTY_POSITION);
+        }
+        return piece;
+    }
+
+    public Piece getPieceWithNull(Position position) {
+        return pieces.get(position);
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return Collections.unmodifiableMap(pieces);
     }
 }

@@ -1,8 +1,10 @@
 package domain;
 
+import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
+import java.util.Map;
 
 public class JanggiGame {
     private final Board board;
@@ -34,8 +36,8 @@ public class JanggiGame {
         turn = Team.CHO;
     }
 
-    public BoardStatus getJanggiGameStatus() {
-        return board.getBoardStatus();
+    public Map<Position, Piece> getJanggiGameStatus() {
+        return board.getPieces();
     }
 
     public Team getTurn() {

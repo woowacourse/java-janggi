@@ -1,7 +1,7 @@
 package domain;
 
 public enum PieceExceptionMessage {
-    INVALID_POSITION("잘못된 좌표입니다. 다시 입력하세요."),
+    INVALID_POSITION("해당 기물로 도달할 수 없는 위치입니다."),
     BLOCKED_BY_PIECE("다른 기물에 가로막혀 이동할 수 없습니다."),
     CANT_JUMP_OVER_PO("포는 포를 뛰어넘을 수 없습니다."),
     CANT_JUMP_OVER_THAN_TWO_PIECES("포는 두 기물 이상 뛰어넘을 수 없습니다."),
