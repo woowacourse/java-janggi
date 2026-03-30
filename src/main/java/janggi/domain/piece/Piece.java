@@ -40,5 +40,7 @@ public abstract class Piece {
         return moveStrategy.findPath(from, to);
     }
 
-    abstract public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to);
+    public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to) {
+        return moveStrategy.determineMovingRule(this, positionPieces, to);
+    }
 }

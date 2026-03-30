@@ -1,8 +1,10 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.piece.Piece;
 
 import java.util.List;
+import java.util.Map;
 
 public class ElephantStrategy implements MoveStrategy {
 
@@ -17,4 +19,19 @@ public class ElephantStrategy implements MoveStrategy {
         Position second = first.moveDiagonal(to);
         return List.of(first, second, to);
     }
+
+    @Override
+    public boolean determineMovingRule(Piece sourcePiece, Map<Position, Piece> positionPieces, Position to) {
+        if (positionPieces.size() >= 2) {
+            return false;
+        }
+        for (Position position : positionPieces.keySet()) {
+            if (position.equals(to)) {
+                return !sourcePiece.isSameTeam(positionPieces.get(position));
+            }
+            return false;
+        }
+        return true;
+    }
+
 }
