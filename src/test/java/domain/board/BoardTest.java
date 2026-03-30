@@ -86,7 +86,7 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("아군 위치로 이동")
+    @DisplayName("아군 위치로 이동 예외")
     void throws_exception_when_moving_to_same_team_position() {
         //given
         Position from = new Position(3, 1);
