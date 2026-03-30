@@ -10,6 +10,8 @@ import java.util.List;
 
 public class PawnStrategy implements MoveStrategy {
 
+    private static final List<Direction> directions = new ArrayList<>(List.of(Direction.EAST, Direction.WEST));
+
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
@@ -17,7 +19,7 @@ public class PawnStrategy implements MoveStrategy {
         Piece piece = board.getPiece(currentPosition);
         Team team = piece.getTeam();
 
-        ArrayList<Direction> directions = getDirections(team);
+        List<Direction> directions = getDirections(team);
         for (Direction direction : directions) {
             int targetRow = currentPosition.getRows() + direction.getRowOffset();
             int targetColumns = currentPosition.getColumns() + direction.getColOffset();
@@ -29,8 +31,7 @@ public class PawnStrategy implements MoveStrategy {
         return candidates;
     }
 
-    private static ArrayList<Direction> getDirections(Team team) {
-        ArrayList<Direction> directions = new ArrayList<>(List.of(Direction.EAST, Direction.WEST));
+    private static List<Direction> getDirections(Team team) {
         if (team == Team.HAN) {
             directions.add(Direction.SOUTH);
         }

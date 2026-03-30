@@ -9,10 +9,11 @@ import java.util.List;
 
 public class CannonStrategy implements MoveStrategy {
 
+    private static final List<Direction> straightDirections = List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
         for (Direction direction : straightDirections) {
             addCannonCandidates(currentPosition, direction, board, candidates);
         }

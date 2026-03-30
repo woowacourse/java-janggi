@@ -8,11 +8,11 @@ import java.util.List;
 
 public class ChariotStrategy implements MoveStrategy {
 
+    private static final List<Direction> straightDirections = List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
-
         for (Direction direction : straightDirections) {
             addPathCandidates(currentPosition, direction, board, candidates);
         }

@@ -8,11 +8,11 @@ import java.util.List;
 
 public class ElephantStrategy implements MoveStrategy {
 
+    private static final List<Direction> straightDirections = List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
-
         for (Direction straight : straightDirections) {
             Position straightStepPosition = new Position(
                     currentPosition.getRows() + straight.getRowOffset(),
