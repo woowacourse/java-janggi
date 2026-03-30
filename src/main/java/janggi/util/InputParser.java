@@ -9,7 +9,7 @@ import java.util.List;
 public class InputParser {
 
     public static int parseHorseElephantPositionOrdinal(String input) {
-        int ordinal = parseOrdinal(input);
+        int ordinal = parseInt(input);
         validateRange(ordinal);
         return ordinal;
     }
@@ -20,11 +20,11 @@ public class InputParser {
             throw new IllegalArgumentException("콤마로 구분된 두 개의 숫자를 올바르게 입력해주세요.");
         }
         return Arrays.stream(split)
-                .map(InputParser::parseOrdinal)
+                .map(InputParser::parseInt)
                 .toList();
     }
 
-    private static int parseOrdinal(String input) {
+    private static int parseInt(String input) {
         try {
             return Integer.parseInt(input.strip());
         } catch (NumberFormatException e) {
