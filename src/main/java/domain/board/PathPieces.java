@@ -1,7 +1,6 @@
 package domain.board;
 
 import domain.piece.Piece;
-import java.util.Collections;
 import java.util.List;
 
 public final class PathPieces {
@@ -20,7 +19,7 @@ public final class PathPieces {
     }
 
     public List<Piece> getWaypointPieces() {
-        return Collections.unmodifiableList(waypointPieces);
+        return waypointPieces;
     }
 
     public Piece getDestinationPiece() {
