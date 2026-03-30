@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Position;
+import domain.position.Position;
 import domain.Team;
 import domain.strategy.HorseStrategy;
 import domain.strategy.MoveStrategy;
@@ -16,9 +16,9 @@ public class Horse extends Piece {
         this.moveStrategy = new HorseStrategy();
     }
 
+    @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(currentPosition, pieceProvider);
-
         for (Position candidatePosition : moveCandidates) {
             if (candidatePosition.equals(targetPosition)) {
                 return true;

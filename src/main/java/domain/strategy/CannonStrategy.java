@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.Position;
+import domain.position.Position;
 import domain.piece.Cannon;
 import domain.piece.PieceProvider;
 

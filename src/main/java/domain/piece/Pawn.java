@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Position;
+import domain.position.Position;
 import domain.Team;
 import domain.strategy.MoveStrategy;
 import domain.strategy.PawnStrategy;
@@ -15,10 +15,10 @@ public class Pawn extends Piece{
         this.moveStrategy = new PawnStrategy();
     }
 
+    @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(currentPosition, pieceProvider);
         boolean isTargetPositionBlank = pieceProvider.isBlank(targetPosition);
-
         for (Position candidatePosition : moveCandidates) {
             if (candidatePosition.equals(targetPosition) && isTargetPositionBlank) {
                 return true;

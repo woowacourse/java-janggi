@@ -2,6 +2,7 @@ package controller;
 
 import domain.JanggiBoard;
 import domain.position.Position;
+import java.util.LinkedHashMap;
 import view.InputView;
 import view.OutputView;
 
@@ -17,6 +18,8 @@ public class JanggiController {
     public void run() {
         Position movePosition = inputMovePosition();
         Position targetPosition = inputTargetPosition();
+        JanggiBoard janggiBoard = new JanggiBoard(new LinkedHashMap<>());
+        outputView.printBoard(janggiBoard);
     }
 
     private Position inputMovePosition() {

@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Position;
+import domain.position.Position;
 import domain.Team;
 
 public abstract class Piece {
@@ -17,4 +17,6 @@ public abstract class Piece {
     public void canMove(Position targetPosition) {
         // moveStrategy.movable();
     }
+
+    public abstract boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider);
 }

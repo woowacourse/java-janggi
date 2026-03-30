@@ -1,6 +1,6 @@
 package janggiBoard.PieceTest;
 
-import domain.Position;
+import domain.position.Position;
 import domain.Team;
 import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;

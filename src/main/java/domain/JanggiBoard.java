@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.*;
 
+import domain.position.Position;
 import java.util.Collections;
 import java.util.Map;
 

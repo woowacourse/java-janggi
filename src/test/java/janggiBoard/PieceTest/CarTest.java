@@ -1,6 +1,6 @@
 package janggiBoard.PieceTest;
 
-import domain.Position;
+import domain.position.Position;
 import domain.Team;
 import domain.piece.Blank;
 import domain.piece.Car;
