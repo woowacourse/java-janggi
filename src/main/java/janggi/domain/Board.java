@@ -70,11 +70,6 @@ public class Board {
             Position endPosition,
             TeamType nowTurn
     ) {
-        validateRange(startPosition);
-        validateRange(endPosition);
-        Piece piece = findTeamPiece(startPosition, currentTeam(nowTurn));
-        validateTargetPosition(currentTeam(nowTurn), endPosition);
-        validateCanMove(piece, startPosition, endPosition);
         Team movedCurrentTeam = currentTeam(nowTurn).move(startPosition, endPosition);
         Team remainedOpponentTeam = removeOpponentPiece(nowTurn, endPosition);
         return createMovedBoard(nowTurn, movedCurrentTeam, remainedOpponentTeam);
