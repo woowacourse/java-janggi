@@ -1,7 +1,5 @@
 package domain;
 
-import domain.Position;
-import domain.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,28 +15,28 @@ public class Chariot extends Piece {
     public List<Position> getAllPosition(Position position) {
         List<Position> positions = new ArrayList<>();
         // 상
-        Position curPosition = position;
-        while (curPosition.upPossible()) {
-            curPosition = curPosition.up();
-            positions.add(curPosition);
+        Position currentPosition = position;
+        while (currentPosition.upPossible()) {
+            currentPosition = currentPosition.up();
+            positions.add(currentPosition);
         }
         // 하
-        curPosition = position;
-        while (curPosition.downPossible()) {
-            curPosition = curPosition.down();
-            positions.add(curPosition);
+        currentPosition = position;
+        while (currentPosition.downPossible()) {
+            currentPosition = currentPosition.down();
+            positions.add(currentPosition);
         }
         // 좌
-        curPosition = position;
-        while (curPosition.leftPossible()) {
-            curPosition = curPosition.left();
-            positions.add(curPosition);
+        currentPosition = position;
+        while (currentPosition.leftPossible()) {
+            currentPosition = currentPosition.left();
+            positions.add(currentPosition);
         }
         // 우
-        curPosition = position;
-        while (curPosition.rightPossible()) {
-            curPosition = curPosition.right();
-            positions.add(curPosition);
+        currentPosition = position;
+        while (currentPosition.rightPossible()) {
+            currentPosition = currentPosition.right();
+            positions.add(currentPosition);
         }
 
         return positions;
@@ -49,56 +47,56 @@ public class Chariot extends Piece {
         List<Position> destinations = new ArrayList<>();
 
         // 상
-        Position curPosition = position;
-        while (curPosition.upPossible()) {
-            curPosition = curPosition.up();
-            if (board.containsKey(curPosition)) {
-                Piece piece = board.get(curPosition);
+        Position currentPosition = position;
+        while (currentPosition.upPossible()) {
+            currentPosition = currentPosition.up();
+            if (board.containsKey(currentPosition)) {
+                Piece piece = board.get(currentPosition);
                 if (!piece.isSameSideAs(side)) {
-                    destinations.add(curPosition);
+                    destinations.add(currentPosition);
                 }
                 break;
             }
-            destinations.add(curPosition);
+            destinations.add(currentPosition);
         }
         // 하
-        curPosition = position;
-        while (curPosition.downPossible()) {
-            curPosition = curPosition.down();
-            if (board.containsKey(curPosition)) {
-                Piece piece = board.get(curPosition);
+        currentPosition = position;
+        while (currentPosition.downPossible()) {
+            currentPosition = currentPosition.down();
+            if (board.containsKey(currentPosition)) {
+                Piece piece = board.get(currentPosition);
                 if (!piece.isSameSideAs(side)) {
-                    destinations.add(curPosition);
+                    destinations.add(currentPosition);
                 }
                 break;
             }
-            destinations.add(curPosition);
+            destinations.add(currentPosition);
         }
         // 좌
-        curPosition = position;
-        while (curPosition.leftPossible()) {
-            curPosition = curPosition.left();
-            if (board.containsKey(curPosition)) {
-                Piece piece = board.get(curPosition);
+        currentPosition = position;
+        while (currentPosition.leftPossible()) {
+            currentPosition = currentPosition.left();
+            if (board.containsKey(currentPosition)) {
+                Piece piece = board.get(currentPosition);
                 if (!piece.isSameSideAs(side)) {
-                    destinations.add(curPosition);
+                    destinations.add(currentPosition);
                 }
                 break;
             }
-            destinations.add(curPosition);
+            destinations.add(currentPosition);
         }
         // 우
-        curPosition = position;
-        while (curPosition.rightPossible()) {
-            curPosition = curPosition.right();
-            if (board.containsKey(curPosition)) {
-                Piece piece = board.get(curPosition);
+        currentPosition = position;
+        while (currentPosition.rightPossible()) {
+            currentPosition = currentPosition.right();
+            if (board.containsKey(currentPosition)) {
+                Piece piece = board.get(currentPosition);
                 if (!piece.isSameSideAs(side)) {
-                    destinations.add(curPosition);
+                    destinations.add(currentPosition);
                 }
                 break;
             }
-            destinations.add(curPosition);
+            destinations.add(currentPosition);
         }
 
         return destinations;

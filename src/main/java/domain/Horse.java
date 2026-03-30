@@ -17,46 +17,46 @@ public class Horse extends Piece {
 
         // 상
         if (position.upPossible()) {
-            Position curPosition = position.up(); // 애초에 넘길때 가능한지 체크하고 만들면 조건문 하나 줄일 수 있지!
-            positions.add(curPosition);
-            if (curPosition.rightUpPossible()) {
-                positions.add(curPosition.rightUp());
+            Position currentPosition = position.up(); // 애초에 넘길때 가능한지 체크하고 만들면 조건문 하나 줄일 수 있지!
+            positions.add(currentPosition);
+            if (currentPosition.rightUpPossible()) {
+                positions.add(currentPosition.rightUp());
             }
-            if (curPosition.leftUpPossible()) {
-                positions.add(curPosition.leftUp());
+            if (currentPosition.leftUpPossible()) {
+                positions.add(currentPosition.leftUp());
             }
         }
         // 하
         if (position.downPossible()) {
-            Position curPosition = position.down();
-            positions.add(curPosition);
-            if (curPosition.rightDownPossible()) {
-                positions.add(curPosition.rightDown());
+            Position currentPosition = position.down();
+            positions.add(currentPosition);
+            if (currentPosition.rightDownPossible()) {
+                positions.add(currentPosition.rightDown());
             }
-            if (curPosition.leftDownPossible()) {
-                positions.add(curPosition.leftDown());
+            if (currentPosition.leftDownPossible()) {
+                positions.add(currentPosition.leftDown());
             }
         }
         // 좌
         if (position.leftPossible()) {
-            Position curPosition = position.left();
-            positions.add(curPosition);
-            if (curPosition.leftUpPossible()) {
-                positions.add(curPosition.leftUp());
+            Position currentPosition = position.left();
+            positions.add(currentPosition);
+            if (currentPosition.leftUpPossible()) {
+                positions.add(currentPosition.leftUp());
             }
-            if (curPosition.leftDownPossible()) {
-                positions.add(curPosition.leftDown());
+            if (currentPosition.leftDownPossible()) {
+                positions.add(currentPosition.leftDown());
             }
         }
         // 우
         if (position.rightPossible()) {
-            Position curPosition = position.right();
-            positions.add(curPosition);
-            if (curPosition.rightUpPossible()) {
-                positions.add(curPosition.rightUp());
+            Position currentPosition = position.right();
+            positions.add(currentPosition);
+            if (currentPosition.rightUpPossible()) {
+                positions.add(currentPosition.rightUp());
             }
-            if (curPosition.rightDownPossible()) {
-                positions.add(curPosition.rightDown());
+            if (currentPosition.rightDownPossible()) {
+                positions.add(currentPosition.rightDown());
             }
         }
 
@@ -69,52 +69,52 @@ public class Horse extends Piece {
 
         // 상
         if (position.upPossible()) {
-            Position curPosition = position.up();
-            if (!map.containsKey(curPosition)) {
-                if (curPosition.rightUpPossible() && (!map.containsKey(curPosition.rightUp()) || !map.get(curPosition.rightUp()).isSameSideAs(side))) {
-                    destinations.add(curPosition.rightUp());
+            Position currentPosition = position.up();
+            if (!map.containsKey(currentPosition)) {
+                if (currentPosition.rightUpPossible() && (!map.containsKey(currentPosition.rightUp()) || !map.get(currentPosition.rightUp()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.rightUp());
                 }
-                if (curPosition.leftUpPossible() && (!map.containsKey(curPosition.leftUp()) || !map.get(curPosition.leftUp()).isSameSideAs(side))) {
-                    destinations.add(curPosition.leftUp());
+                if (currentPosition.leftUpPossible() && (!map.containsKey(currentPosition.leftUp()) || !map.get(currentPosition.leftUp()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.leftUp());
                 }
             }
         }
 
         // 하
         if (position.downPossible()) {
-            Position curPosition = position.down();
-            if (!map.containsKey(curPosition)) {
-                if (curPosition.rightDownPossible() && (!map.containsKey(curPosition.rightDown()) || !map.get(curPosition.rightDown()).isSameSideAs(side))) {
-                    destinations.add(curPosition.rightDown());
+            Position currentPosition = position.down();
+            if (!map.containsKey(currentPosition)) {
+                if (currentPosition.rightDownPossible() && (!map.containsKey(currentPosition.rightDown()) || !map.get(currentPosition.rightDown()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.rightDown());
                 }
-                if (curPosition.leftDownPossible() && (!map.containsKey(curPosition.leftDown())  || !map.get(curPosition.leftDown()).isSameSideAs(side))) {
-                    destinations.add(curPosition.leftDown());
+                if (currentPosition.leftDownPossible() && (!map.containsKey(currentPosition.leftDown())  || !map.get(currentPosition.leftDown()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.leftDown());
                 }
             }
         }
 
         // 좌
         if (position.leftPossible()) {
-            Position curPosition = position.left();
-            if (!map.containsKey(curPosition)) {
-                if (curPosition.leftUpPossible() && (!map.containsKey(curPosition.leftUp()) || !map.get(curPosition.leftUp()).isSameSideAs(side))) {
-                    destinations.add(curPosition.leftUp());
+            Position currentPosition = position.left();
+            if (!map.containsKey(currentPosition)) {
+                if (currentPosition.leftUpPossible() && (!map.containsKey(currentPosition.leftUp()) || !map.get(currentPosition.leftUp()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.leftUp());
                 }
-                if (curPosition.leftDownPossible() && (!map.containsKey(curPosition.leftDown()) || !map.get(curPosition.leftDown()).isSameSideAs(side))) {
-                    destinations.add(curPosition.leftDown());
+                if (currentPosition.leftDownPossible() && (!map.containsKey(currentPosition.leftDown()) || !map.get(currentPosition.leftDown()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.leftDown());
                 }
             }
         }
 
         // 우
         if (position.rightPossible()) {
-            Position curPosition = position.right();
-            if (!map.containsKey(curPosition)) {
-                if (curPosition.rightUpPossible() && (!map.containsKey(curPosition.rightUp()) || !map.get(curPosition.rightUp()).isSameSideAs(side))) {
-                    destinations.add(curPosition.rightUp());
+            Position currentPosition = position.right();
+            if (!map.containsKey(currentPosition)) {
+                if (currentPosition.rightUpPossible() && (!map.containsKey(currentPosition.rightUp()) || !map.get(currentPosition.rightUp()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.rightUp());
                 }
-                if (curPosition.rightDownPossible() && (!map.containsKey(curPosition.rightDown()) || !map.get(curPosition.rightDown()).isSameSideAs(side))) {
-                    destinations.add(curPosition.rightDown());
+                if (currentPosition.rightDownPossible() && (!map.containsKey(currentPosition.rightDown()) || !map.get(currentPosition.rightDown()).isSameSideAs(side))) {
+                    destinations.add(currentPosition.rightDown());
                 }
             }
         }
