@@ -39,8 +39,8 @@ public class PieceTest {
         assertThat(choPiece.isSameSide(hanPiece)).isFalse();
     }
 
-    @Test
     @DisplayName("포(Cannon)인지 확인한다.")
+    @Test
     void 포_확인_테스트() {
         // given
         Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "1");
@@ -49,5 +49,16 @@ public class PieceTest {
         // when & then
         assertThat(cannon.isCannon()).isTrue();
         assertThat(chariot.isCannon()).isFalse();
+    }
+
+    @DisplayName("같은 진영, 같은 타입, 같은 번호의 기물인 경우, 같은 객체로 취급한다.")
+    @Test
+    void 같은_기물_확인_테스트(){
+        // given
+        Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "1");
+        Piece cannon2 = new Piece(Side.CHO, PieceType.CANNON, "1");
+
+        // when & then
+        assertThat(cannon).isEqualTo(cannon2);
     }
 }

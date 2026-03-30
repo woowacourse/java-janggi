@@ -5,9 +5,9 @@ import janggi.domain.game.Side;
 import janggi.domain.route.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Piece {
-
     private final Side side;
     private final PieceType pieceType;
     private final String pieceNumber;
@@ -47,5 +47,20 @@ public class Piece {
 
     public String getPieceNumber() {
         return pieceNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return side == piece.side && pieceType == piece.pieceType && Objects.equals(pieceNumber,
+                piece.pieceNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(side, pieceType, pieceNumber);
     }
 }
