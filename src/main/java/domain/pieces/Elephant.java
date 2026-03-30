@@ -2,6 +2,7 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.PieceType;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Elephant extends Piece {
+
+    private final PieceType pieceType = PieceType.ELEPHANT;
 
     public Elephant(Camp camp) {
         super(camp);
@@ -197,5 +200,10 @@ public class Elephant extends Piece {
         }
 
         return routeOfDestination;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return this.pieceType;
     }
 }

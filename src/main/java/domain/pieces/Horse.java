@@ -2,6 +2,7 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.PieceType;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Horse extends Piece {
+
+    private final PieceType pieceType = PieceType.HORSE;
 
     public Horse(Camp camp) {
         super(camp);
@@ -168,5 +171,10 @@ public class Horse extends Piece {
             // 생성할 수 없는 Position이면 무시
         }
         return routeOfDestination;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return this.pieceType;
     }
 }

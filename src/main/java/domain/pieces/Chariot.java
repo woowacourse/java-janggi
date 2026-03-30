@@ -2,11 +2,14 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Chariot extends Piece {
+
+    private final PieceType pieceType = PieceType.CHARIOT;
 
     public Chariot(Camp camp) {
         super(camp);
@@ -76,5 +79,8 @@ public class Chariot extends Piece {
         return movablePositions;
     }
 
-
+    @Override
+    public PieceType getPieceType() {
+        return this.pieceType;
+    }
 }

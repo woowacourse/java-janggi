@@ -2,10 +2,12 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.PieceType;
 import domain.Position;
 
 public class Piece {
 
+    private final PieceType pieceType = PieceType.NONE;
     private final Camp camp;
 
     public Piece(Camp camp) {
@@ -74,5 +76,13 @@ public class Piece {
 
     public boolean canMove(Position from, Position to, ExistBoard existBoard) {
         return true;
+    }
+
+    public PieceType getPieceType() {
+        return this.pieceType;
+    }
+
+    public Camp getCamp() {
+        return this.camp;
     }
 }

@@ -2,11 +2,14 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Cannon extends Piece {
+
+    private final PieceType pieceType = PieceType.CANNON;
 
     public Cannon(Camp camp) {
         super(camp);
@@ -134,5 +137,10 @@ public class Cannon extends Piece {
 
     private boolean checkCannonJumping(Position position, ExistBoard existBoard) {
         return existBoard.isExist(position) && existBoard.isDifferentPieceType(position, this);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return this.pieceType;
     }
 }
