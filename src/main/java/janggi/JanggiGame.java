@@ -7,12 +7,16 @@ import janggi.domain.board.BoardFactory;
 import janggi.domain.position.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+
+import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
 
     private static final String END_COMMAND = "end";
     private static final String KING_NAME = "장";
+    private static final int FROM_INDEX = 0;
+    private static final int TO_INDEX = 1;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -31,25 +35,29 @@ public class JanggiGame {
 
     private void initializeBoard() {
         String hanSetup = inputView.readHanSetup();
-        String choSetup = inputView.readChosetup();
+        String choSetup = inputView.readChoSetup();
         board = BoardFactory.create(hanSetup, choSetup);
     }
 
     private void play() {
         Team currentTeam = Team.CHO;
         while (currentTeam != Team.NONE) {
-            String input = inputView.readPosition(currentTeam.getDisplayName());
-            if (input.equals(END_COMMAND)) {
+            List<String> positions = inputView.readPosition(currentTeam.getDisplayName());
+            if (isEndCommand(positions)) {
                 outputView.printGameEnd();
                 return;
             }
-            currentTeam = processTurn(input, currentTeam);
+            currentTeam = processTurn(positions, currentTeam);
         }
     }
 
-    private Team processTurn(String input, Team currentTeam) {
+    private boolean isEndCommand(List<String> positions) {
+        return positions.getFirst().equals(END_COMMAND);
+    }
+
+    private Team processTurn(List<String> positions, Team currentTeam) {
         try {
-            Map<Position, Piece> updatedBoard = movePiece(input);
+            Map<Position, Piece> updatedBoard = movePiece(positions);
             if (isGeneralCaptured(updatedBoard)) {
                 outputView.printBoard(updatedBoard);
                 outputView.printWinner(currentTeam);
@@ -63,10 +71,9 @@ public class JanggiGame {
         }
     }
 
-    private Map<Position, Piece> movePiece(String input) {
-        String[] positions = input.split(" ");
-        Position from = Position.from(positions[0]);
-        Position to = Position.from(positions[1]);
+    private Map<Position, Piece> movePiece(List<String> positions) {
+        Position from = Position.from(positions.get(FROM_INDEX));
+        Position to = Position.from(positions.get(TO_INDEX));
         return board.move(from, to);
     }
 
