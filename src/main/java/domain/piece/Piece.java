@@ -42,17 +42,4 @@ public abstract class Piece {
 
     public abstract List<Position> getPossibleMoves(Game game, Position start);
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return side == piece.side;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(side);
-    }
 }
