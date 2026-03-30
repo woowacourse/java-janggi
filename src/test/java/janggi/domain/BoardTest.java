@@ -2,6 +2,7 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -400,6 +401,94 @@ public class BoardTest {
 
         //then
         assertThat(maRoutesPositions).hasSize(8)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("차의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 차_이동가능_좌표_확인_초기_위치에서_모두_다_가능() {
+        //given
+        Board board = new Board();
+        Position position = new Position(1,10);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
+        List<Position> upRoutes = List.of(
+                new Position(1, 9), new Position(1, 8), new Position(1, 7),
+                new Position(1, 6), new Position(1, 5), new Position(1, 4),
+                new Position(1, 3), new Position(1, 2), new Position(1, 1)
+        );
+
+        List<Position> rightRoutes = List.of(
+                new Position(2, 10), new Position(3, 10), new Position(4, 10),
+                new Position(5, 10), new Position(6, 10), new Position(7, 10),
+                new Position(8, 10), new Position(9, 10)
+        );
+        List<Position> rightAnswer = new ArrayList<>();
+        rightAnswer.addAll(upRoutes);
+        rightAnswer.addAll(rightRoutes);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(17)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("차의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 차_이동가능_좌표_확인_초기_위치에서_위쪽에_같은_팀() {
+        //given
+        Board board = new Board();
+        Position position = new Position(1,10);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
+        board.getBoard().put(new Position(1,7), new Piece(Team.CHO, PieceType.ZOL));
+        List<Position> upRoutes = List.of(
+                new Position(1, 9), new Position(1,8)
+        );
+
+        List<Position> rightRoutes = List.of(
+                new Position(2, 10), new Position(3, 10), new Position(4, 10),
+                new Position(5, 10), new Position(6, 10), new Position(7, 10),
+                new Position(8, 10), new Position(9, 10)
+        );
+        List<Position> rightAnswer = new ArrayList<>();
+        rightAnswer.addAll(upRoutes);
+        rightAnswer.addAll(rightRoutes);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(10)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("차의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 차_이동가능_좌표_확인_초기_위치에서_위쪽에_다른_팀() {
+        //given
+        Board board = new Board();
+        Position position = new Position(1,10);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
+        board.getBoard().put(new Position(1,7), new Piece(Team.HAN, PieceType.CHA));
+        List<Position> upRoutes = List.of(
+                new Position(1, 9), new Position(1, 8), new Position(1, 7)
+        );
+
+        List<Position> rightRoutes = List.of(
+                new Position(2, 10), new Position(3, 10), new Position(4, 10),
+                new Position(5, 10), new Position(6, 10), new Position(7, 10),
+                new Position(8, 10), new Position(9, 10)
+        );
+        List<Position> rightAnswer = new ArrayList<>();
+        rightAnswer.addAll(upRoutes);
+        rightAnswer.addAll(rightRoutes);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(11)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 }

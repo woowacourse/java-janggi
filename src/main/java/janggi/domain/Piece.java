@@ -39,4 +39,12 @@ public class Piece {
     public Team getTeam() {
         return team;
     }
+
+    public boolean isCha(){
+        return pieceType == PieceType.CHA;
+    }
+
+    public boolean isPo(){
+        return pieceType ==PieceType.PO;
+    }
 }

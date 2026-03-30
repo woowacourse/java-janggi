@@ -65,7 +65,7 @@ public class Board {
 
         List<Route> routes = moveRule.findRoutes(piece.getTeam());
 
-        Map<Position, List<Position>> routePositions = convertToPositions(position, routes);
+        Map<Position, List<Position>> routePositions = convertToPositions(position, piece, routes);
 
         List<Position> availablePositions = new ArrayList<>();
         for (Map.Entry<Position, List<Position>> entry : routePositions.entrySet()) {
@@ -101,8 +101,12 @@ public class Board {
         return false;
     }
 
-    private Map<Position, List<Position>> convertToPositions(Position position, List<Route> routes) {
+    private Map<Position, List<Position>> convertToPositions(Position position, Piece piece, List<Route> routes) {
         Map<Position, List<Position>> result = new HashMap<>();
+
+        if(piece.isCha()) {
+            return convertToContinuousRoutes(position, routes, result);
+        }
 
         return convertToFixedRoutes(position, routes, result);
     }
@@ -127,6 +131,30 @@ public class Board {
             }
             if (isInBoard && !routeToPositions.isEmpty()) {
                 result.put(routeToPositions.getLast(), routeToPositions);
+            }
+        }
+        return result;
+    }
+
+    private Map<Position, List<Position>> convertToContinuousRoutes(Position position, List<Route> routes, Map<Position, List<Position>> result) {
+        for(Route route: routes) {
+            int currentX = position.getX();
+            int currentY = position.getY();
+            List<Direction> directions = route.getRoutes();
+
+            for(Direction direction:directions) {
+                List<Position> routeToPositions = new ArrayList<>();
+                currentX += direction.getX();
+                currentY += direction.getY();
+                while(Position.isInsideBoundary(currentX, currentY)) {
+                    Position movePosition = new Position(currentX, currentY);
+                    routeToPositions.add(movePosition);
+
+                    result.put(movePosition, new ArrayList<>(routeToPositions));
+
+                    currentX += direction.getX();
+                    currentY += direction.getY();
+                }
             }
         }
         return result;
