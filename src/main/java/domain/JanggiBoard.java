@@ -22,6 +22,11 @@ public class JanggiBoard implements PieceProvider {
         return Collections.unmodifiableMap(janggiBoard);
     }
 
+    public void move(Position currentPosition, Position targetPosition, Piece currentPiece) {
+        janggiBoard.put(targetPosition, currentPiece);
+        janggiBoard.put(currentPosition, new Blank());
+    }
+
     private void initializeBoard() {
         for (int row = 0; row < BOARD_ROWS; row++) {
             for (int column = 0; column < BOARD_COLUMNS; column++) {

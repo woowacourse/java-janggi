@@ -18,6 +18,7 @@ public class Car extends Piece {
     @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(currentPosition, pieceProvider);
+
         for (Position candidatePosition : moveCandidates) {
             if (candidatePosition.equals(targetPosition)) {
                 return true;

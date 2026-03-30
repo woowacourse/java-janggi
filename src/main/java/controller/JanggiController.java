@@ -1,6 +1,7 @@
 package controller;
 
 import domain.JanggiBoard;
+import domain.piece.Piece;
 import domain.position.Position;
 import java.util.LinkedHashMap;
 import view.InputView;
@@ -16,10 +17,18 @@ public class JanggiController {
     }
 
     public void run() {
-        Position movePosition = inputMovePosition();
-        Position targetPosition = inputTargetPosition();
         JanggiBoard janggiBoard = new JanggiBoard(new LinkedHashMap<>());
-        outputView.printBoard(janggiBoard);
+        while (true) {
+            outputView.printBoard(janggiBoard);
+            Position currentPosition = inputMovePosition();
+            Position targetPosition = inputTargetPosition();
+            Piece currentPiece = janggiBoard.getPiece(currentPosition);
+            boolean movePiece = currentPiece.canMove(currentPosition, targetPosition, janggiBoard);
+            if (movePiece) {
+                janggiBoard.move(currentPosition, targetPosition, currentPiece);
+                outputView.printBoard(janggiBoard);
+            }
+        }
     }
 
     private Position inputMovePosition() {
@@ -33,8 +42,8 @@ public class JanggiController {
     }
 
     private Position inputTargetPosition() {
-        String inputMovePosition = inputView.inputMovePiece();
-        String[] parts = inputMovePosition.split(",");
+        String inputTargetPosition = inputView.inputTargetPosition();
+        String[] parts = inputTargetPosition.split(",");
 
         int row = Integer.parseInt(parts[0].trim());
         int column = Integer.parseInt(parts[1].trim());
