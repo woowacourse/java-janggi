@@ -47,13 +47,13 @@ public class Runner {
         while (true) {
             PlayerDTO currentPlayer = players.getCurrentPlayer();
             printPlayerTurnNotice(currentPlayer);
-            playerTurn(players);
+            playerTurn(currentPlayer);
             players.switchTurn();
         }
     }
 
-    private void playerTurn(Players players) {
-        Side currentSide = players.getCurrentPlayer().side();
+    private void playerTurn(PlayerDTO currentPlayer) {
+        Side currentSide = currentPlayer.side();
         Position selected = selectMovablePiece(currentSide);
         List<Position> destinations = board.calculateDestinations(selected, currentSide);
         movePiece(selected, destinations);
