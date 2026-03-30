@@ -3,6 +3,11 @@ package janggi.domain;
 import java.util.Objects;
 
 public class Position {
+
+    private static final int MIN_X = 1;
+    private static final int MAX_X = 9;
+    private static final int MIN_Y = 1;
+    private static final int MAX_Y = 10;
     private final int x;
     private final int y;
 
@@ -13,14 +18,21 @@ public class Position {
     }
 
     private void validateBoundary(int x, int y) {
-        if(x < 1 || x > 9 || y < 1 || y > 10) {
+        if (x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y) {
             throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
         }
     }
 
-
     public static boolean isInsideBoundary(int x, int y) {
-        return x >= 1 && x <= 9 && y >= 1 && y <= 10;
+        return x >= MIN_X && x <= MAX_X && y >= MIN_Y && y <= MAX_Y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     @Override
@@ -34,13 +46,5 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 }

@@ -14,7 +14,7 @@ public class SaMoveRuleTest {
 
     @Test
     @DisplayName("사는 직선과 대각선으로 갈 수 있다")
-    void 사의_이동규칙(){
+    void 사의_이동규칙() {
         //given
         MoveRule moveRule = new SaMoveRule();
         Team team = Team.CHO;

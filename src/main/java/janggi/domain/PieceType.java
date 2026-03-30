@@ -10,13 +10,13 @@ import janggi.domain.moveRules.ZolMoveRule;
 import java.util.List;
 
 public enum PieceType {
-    KING("왕", List.of(5),9, new KingMoveRule()),
-    SA("사",List.of(4,6),10, new SaMoveRule()),
-    SANG("상",List.of(3,7),10, new SangMoveRule()),
-    MA("마",List.of(2,8),10, new MaMoveRule()),
-    CHA("차",List.of(1,9),10, new ChaMoveRule()),
-    PO("포",List.of(2,8),8, new PoMoveRule()),
-    ZOL("졸",List.of(1,3,5,7,9),7, new ZolMoveRule());
+    KING("왕", List.of(5), 9, new KingMoveRule()),
+    SA("사", List.of(4, 6), 10, new SaMoveRule()),
+    SANG("상", List.of(3, 7), 10, new SangMoveRule()),
+    MA("마", List.of(2, 8), 10, new MaMoveRule()),
+    CHA("차", List.of(1, 9), 10, new ChaMoveRule()),
+    PO("포", List.of(2, 8), 8, new PoMoveRule()),
+    ZOL("졸", List.of(1, 3, 5, 7, 9), 7, new ZolMoveRule());
 
     private final String name;
     private final List<Integer> xPositions;
@@ -30,7 +30,7 @@ public enum PieceType {
         this.moveRule = moveRule;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 

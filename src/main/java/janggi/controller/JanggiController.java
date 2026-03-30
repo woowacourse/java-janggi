@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class JanggiController {
+
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
@@ -18,7 +19,7 @@ public class JanggiController {
 
         outputView.printBoard(board.getBoard());
 
-        while(true) {
+        while (true) {
             outputView.printTurnMessage(isChoTurn);
 
             Position movePiecePosition = doLoop(() -> {
@@ -28,11 +29,11 @@ public class JanggiController {
                 return position;
             });
 
-            List<Position> availablePositions =  board.findAvailablePositions(movePiecePosition);
+            List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
 
             outputView.printAvailablePositions(board.getBoard(), availablePositions);
 
-            Position movePosition = doLoop(()->{
+            Position movePosition = doLoop(() -> {
                 outputView.printMoveChoiceInfo();
                 Position position = inputView.readPosition();
                 board.validateDestination(movePiecePosition, position);

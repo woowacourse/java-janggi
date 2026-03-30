@@ -14,7 +14,7 @@ class ChaMoveRuleTest {
 
     @Test
     @DisplayName("차는 직선으로 갈 수 있다")
-    void 차의_이동규칙(){
+    void 차의_이동규칙() {
         //given
         MoveRule moveRule = new ChaMoveRule();
         Team team = Team.CHO;
@@ -30,5 +30,4 @@ class ChaMoveRuleTest {
         //then
         assertThat(chaRoutes).isEqualTo(routes);
     }
-
 }

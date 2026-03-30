@@ -14,7 +14,7 @@ public class KingMoveRuleTest {
 
     @Test
     @DisplayName("왕은 직선과 대각선으로 갈 수 있다.")
-    void 왕의_이동규칙(){
+    void 왕의_이동규칙() {
         //given
         MoveRule moveRule = new KingMoveRule();
         Team team = Team.CHO;
