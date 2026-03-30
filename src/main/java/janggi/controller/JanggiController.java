@@ -1,6 +1,6 @@
 package janggi.controller;
 
-import janggi.domain.Board;
+import janggi.domain.board.Board;
 import janggi.domain.JanggiGame;
 import janggi.domain.dto.MoveCommand;
 import janggi.domain.piece.Team;

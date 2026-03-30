@@ -1,6 +1,6 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.BoardView;
+import janggi.domain.board.BoardView;
 import janggi.domain.vo.Position;
 
 public interface MoveRule {

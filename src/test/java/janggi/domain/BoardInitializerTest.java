@@ -2,6 +2,7 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.BoardInitializer;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;

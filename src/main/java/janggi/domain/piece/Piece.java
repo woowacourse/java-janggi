@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.BoardView;
+import janggi.domain.board.BoardView;
 import janggi.domain.mouveRule.MoveRule;
 import janggi.domain.vo.Position;
 
