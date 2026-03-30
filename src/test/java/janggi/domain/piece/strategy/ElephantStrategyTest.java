@@ -18,49 +18,49 @@ public class ElephantStrategyTest {
 
     private static Stream<Arguments> createPositionsAndPath() {
         return Stream.of(
-                Arguments.of(new Position(6, 4), new Position(3, 2),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(5, 4),
                                 new Position(4, 3),
                                 new Position(3, 2)
                         )),
-                Arguments.of(new Position(6, 4), new Position(4, 1),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(6, 3),
                                 new Position(5, 2),
                                 new Position(4, 1)
                         )),
-                Arguments.of(new Position(6, 4), new Position(8, 1),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(6, 3),
                                 new Position(7, 2),
                                 new Position(8, 1)
                         )),
-                Arguments.of(new Position(6, 4), new Position(9, 2),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(7, 4),
                                 new Position(8, 3),
                                 new Position(9, 2)
                         )),
-                Arguments.of(new Position(6, 4), new Position(9, 6),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(7, 4),
                                 new Position(8, 5),
                                 new Position(9, 6)
                         )),
-                Arguments.of(new Position(6, 4), new Position(8, 7),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(6, 5),
                                 new Position(7, 6),
                                 new Position(8, 7)
                         )),
-                Arguments.of(new Position(6, 4), new Position(4, 7),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(6, 5),
                                 new Position(5, 6),
                                 new Position(4, 7)
                         )),
-                Arguments.of(new Position(6, 4), new Position(3, 6),
+                Arguments.of(new Position(6, 4),
                         List.of(
                                 new Position(5, 4),
                                 new Position(4, 5),
@@ -71,7 +71,10 @@ public class ElephantStrategyTest {
 
     @ParameterizedTest
     @MethodSource("createPositionsAndPath")
-    void 상은_직선_1칸_이동_후_대각선_2칸_이동한다(Position source, Position destination, List<Position> expectedPath) {
+    void 상은_직선_1칸_이동_후_대각선_2칸_이동한다(Position source, List<Position> expectedPath) {
+        // given
+        
+        Position destination = expectedPath.getLast();
         // when
         List<Position> path = strategy.findPath(source, destination, Camp.HAN);
         // then
