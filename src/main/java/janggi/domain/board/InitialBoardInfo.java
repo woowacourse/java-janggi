@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public enum InitialBoardInfo {
         initialPiecePositions.putAll(initMajorPieces());
         initialPiecePositions.putAll(initPalaceAndCannons());
         initialPiecePositions.putAll(initSoldiers());
-        return initialPiecePositions;
+        return Collections.unmodifiableMap(initialPiecePositions);
     }
 
     private Map<Position, Piece> initMajorPieces() {
