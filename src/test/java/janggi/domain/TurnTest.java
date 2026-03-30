@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.Piece;
+import janggi.dto.BoardSpot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -89,19 +90,19 @@ class TurnTest {
 
         // when
         Turn movedTurn = turn.move(new Position(1, 4), new Position(1, 5));
+        BoardSpot originSpot = turn.makeBoardSnapShot().value().get(new Position(1, 4));
+        BoardSpot movedSpot = movedTurn.makeBoardSnapShot().value().get(new Position(1, 5));
 
         // then
         assertAll(
             () -> assertThat(turn.nextTurnTeam()).isEqualTo("초나라"),
             () -> assertThat(movedTurn.nextTurnTeam()).isEqualTo("한나라"),
-            () -> assertThat(turn.makeBoardSnapShot()).anySatisfy(boardSpot -> {
-                assertThat(boardSpot.position()).isEqualTo("1,4");
-                assertThat(boardSpot.pieceName()).isEqualTo("졸");
-            }),
-            () -> assertThat(movedTurn.makeBoardSnapShot()).anySatisfy(boardSpot -> {
-                assertThat(boardSpot.position()).isEqualTo("1,5");
-                assertThat(boardSpot.pieceName()).isEqualTo("졸");
-            })
+            () -> assertThat(originSpot).isNotNull(),
+            () -> assertThat(originSpot.position()).isEqualTo(new Position(1, 4)),
+            () -> assertThat(originSpot.pieceName()).isEqualTo("졸"),
+            () -> assertThat(movedSpot).isNotNull(),
+            () -> assertThat(movedSpot.position()).isEqualTo(new Position(1, 5)),
+            () -> assertThat(movedSpot.pieceName()).isEqualTo("졸")
         );
     }
 }

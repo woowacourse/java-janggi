@@ -44,24 +44,26 @@ class PiecesTest {
         assertAll(
             () -> assertThat(pieces.findPiece(target)).get().isInstanceOf(Jol.class),
             () -> assertThat(removedPieces.findPiece(target)).isEmpty(),
-            () -> assertThat(removedPieces.makeSnapShot()).hasSize(15)
+            () -> assertThat(removedPieces.makeSnapShot().value()).hasSize(15)
         );
     }
 
     @Test
-    @DisplayName("보드 스냅샷은 좌표 키와 기물 이름을 포함한다.")
+    @DisplayName("보드 스냅샷은 좌표, 기물 이름, 팀 정보를 포함한다.")
     void makeSnapShot() {
         // given
         Pieces pieces = Pieces.createChu();
 
         // when
         var boardSpots = pieces.makeSnapShot();
+        var gungSpot = boardSpots.value().get(new Position(5, 2));
 
         // then
-        assertThat(boardSpots)
-            .anySatisfy(boardSpot -> {
-                assertThat(boardSpot.position()).isEqualTo("5,2");
-                assertThat(boardSpot.pieceName()).isEqualTo(PieceType.GUNG.getNickname());
-            });
+        assertThat(gungSpot).isNotNull();
+        assertAll(
+            () -> assertThat(gungSpot.position()).isEqualTo(new Position(5, 2)),
+            () -> assertThat(gungSpot.pieceName()).isEqualTo(PieceType.GUNG.getNickname()),
+            () -> assertThat(gungSpot.teamType()).isEqualTo(janggi.domain.side.TeamType.CHU)
+        );
     }
 }

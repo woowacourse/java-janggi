@@ -62,4 +62,9 @@ public class Sang implements Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
+
+    @Override
+    public TeamType getTeamType() {
+        return teamType;
+    }
 }

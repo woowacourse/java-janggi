@@ -2,8 +2,7 @@ package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.side.TeamType;
-import janggi.dto.BoardSpot;
-import java.util.List;
+import janggi.dto.BoardSpots;
 
 public class Turn {
 
@@ -42,7 +41,7 @@ public class Turn {
         return teamType.getName();
     }
 
-    public List<BoardSpot> makeBoardSnapShot() {
+    public BoardSpots makeBoardSnapShot() {
         return board.makeSnapShot();
     }
 

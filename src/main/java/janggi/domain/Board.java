@@ -6,8 +6,8 @@ import janggi.domain.side.Han;
 import janggi.domain.side.Team;
 import janggi.domain.side.TeamType;
 import janggi.dto.BoardSpot;
-import java.util.ArrayList;
-import java.util.List;
+import janggi.dto.BoardSpots;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class Board {
@@ -28,12 +28,10 @@ public class Board {
         return new Board(Chu.createInitialChu(), Han.createInitialHan());
     }
 
-    public List<BoardSpot> makeSnapShot() {
-        List<BoardSpot> chuBoardSpots = chu.makeSnapShot();
-        List<BoardSpot> hanBoardSpots = han.makeSnapShot();
-        List<BoardSpot> boardSpots = new ArrayList<>(chuBoardSpots);
-        boardSpots.addAll(hanBoardSpots);
-        return boardSpots;
+    public BoardSpots makeSnapShot() {
+        HashMap<Position, BoardSpot> boardSpots = new HashMap<>(chu.makeSnapShot().value());
+        boardSpots.putAll(han.makeSnapShot().value());
+        return new BoardSpots(boardSpots);
     }
 
     public boolean isPieceExist(Position position, TeamType beforeTeam) {
@@ -60,6 +58,7 @@ public class Board {
     }
 
     public void canMove(Position startPosition, Position endPosition, TeamType nowTeam) {
+        validateRange(startPosition);
         validateRange(endPosition);
         Piece piece = findTeamPiece(startPosition, currentTeam(nowTeam));
         validateTargetPosition(currentTeam(nowTeam), endPosition);
@@ -81,7 +80,7 @@ public class Board {
         return createMovedBoard(nowTurn, movedCurrentTeam, remainedOpponentTeam);
     }
 
-    private Piece findTeamPiece(Position position, Team nowTeam) { // public 메서드 아래로 두는지 질문
+    private Piece findTeamPiece(Position position, Team nowTeam) {
         return nowTeam.findPiece(position)
                 .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
     }

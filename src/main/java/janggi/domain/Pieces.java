@@ -10,9 +10,8 @@ import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
 import janggi.domain.side.TeamType;
 import janggi.dto.BoardSpot;
-import java.util.ArrayList;
+import janggi.dto.BoardSpots;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -63,15 +62,14 @@ public class Pieces {
     }
 
 
-    public List<BoardSpot> makeSnapShot() {
-        List<BoardSpot> snapShot = new ArrayList<>();
+    public BoardSpots makeSnapShot() {
+        Map<Position, BoardSpot> snapShot = new HashMap<>();
         for (Map.Entry<Position, Piece> entry : value.entrySet()) {
-            snapShot.add(new BoardSpot(
-                    entry.getKey().makePositionKey(),
-                    entry.getValue().nickname()
-            ));
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+            snapShot.put(position, new BoardSpot(position, piece.nickname(), piece.getTeamType()));
         }
-        return snapShot;
+        return new BoardSpots(snapShot);
     }
 
     public Optional<Piece> findPiece(Position position) {

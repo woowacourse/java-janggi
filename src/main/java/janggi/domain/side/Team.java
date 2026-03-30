@@ -2,13 +2,12 @@ package janggi.domain.side;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.dto.BoardSpot;
-import java.util.List;
+import janggi.dto.BoardSpots;
 import java.util.Optional;
 
 public interface Team {
 
-    List<BoardSpot> makeSnapShot();
+    BoardSpots makeSnapShot();
 
     Optional<Piece> findPiece(Position position);
 

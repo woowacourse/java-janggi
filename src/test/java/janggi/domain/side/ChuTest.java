@@ -24,7 +24,7 @@ class ChuTest {
 
         // when & then
         assertAll(
-            () -> assertThat(chu.makeSnapShot()).hasSize(16),
+            () -> assertThat(chu.makeSnapShot().value()).hasSize(16),
             () -> assertThat(chu.findPiece(new Position(1, 1))).get().isInstanceOf(Cha.class),
             () -> assertThat(chu.findPiece(new Position(9, 1))).get().isInstanceOf(Cha.class),
             () -> assertThat(chu.findPiece(new Position(2, 1))).get().isInstanceOf(Ma.class),
@@ -78,7 +78,7 @@ class ChuTest {
         // then
         assertAll(
             () -> assertThat(removedChu.findPiece(chuJolPosition)).isEmpty(),
-            () -> assertThat(removedChu.makeSnapShot()).hasSize(15),
+            () -> assertThat(removedChu.makeSnapShot().value()).hasSize(15),
             () -> assertThat(chu.findPiece(chuJolPosition)).get().isInstanceOf(Jol.class)
         );
     }

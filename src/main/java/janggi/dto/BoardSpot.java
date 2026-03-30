@@ -1,8 +1,12 @@
 package janggi.dto;
 
+import janggi.domain.Position;
+import janggi.domain.side.TeamType;
+
 public record BoardSpot(
-    String position,
-    String pieceName
+    Position position,
+    String pieceName,
+    TeamType teamType
 ) {
 
 }
