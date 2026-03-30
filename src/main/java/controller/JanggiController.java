@@ -59,25 +59,17 @@ public class JanggiController {
     private Board initBoard() {
         outputView.printGameStartMessage();
 
-        List<PieceType> choMasangChoose = initChoMaSang();
-        List<PieceType> hanMasangChoose = initHanMaSang();
+        List<PieceType> choMasangChoose = initMaSang(Country.CHO);
+        List<PieceType> hanMasangChoose = initMaSang(Country.HAN);
 
         return janggiService.createBoard(choMasangChoose, hanMasangChoose);
     }
 
-    private List<PieceType> initChoMaSang() {
+    private List<PieceType> initMaSang(Country country) {
         return doRetry(() -> {
-            outputView.printCountry(Country.CHO);
-            int choMaSangChoice = inputView.requestMaSangPosition();
-            return janggiService.createMasang(choMaSangChoice);
-        });
-    }
-
-    private List<PieceType> initHanMaSang() {
-        return doRetry(() -> {
-            outputView.printCountry(Country.HAN);
-            int hanMaSangChoice = inputView.requestMaSangPosition();
-            return janggiService.createMasang(hanMaSangChoice);
+            outputView.printCountry(country);
+            int maSangChoice = inputView.requestMaSangPosition();
+            return janggiService.createMasang(maSangChoice);
         });
     }
 
