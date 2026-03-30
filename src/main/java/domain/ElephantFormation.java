@@ -1,18 +1,21 @@
 package domain;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public enum ElephantFormation {
-    RIGHT(initRight()),
-    INNER(initInner()),
-    LEFT(initLeft()),
-    OUTER(initOuter());
+    RIGHT(1, initRight()),
+    INNER(2, initInner()),
+    LEFT(3, initLeft()),
+    OUTER(4, initOuter());
 
+    private final int formationNumber;
     private final Map<PieceLocation, Map<Camp, List<Position>>> positions;
 
-    ElephantFormation(Map<PieceLocation, Map<Camp, List<Position>>> positions) {
+    ElephantFormation(int formationNumber, Map<PieceLocation, Map<Camp, List<Position>>> positions) {
+        this.formationNumber = formationNumber;
         this.positions = positions;
     }
 
@@ -138,6 +141,13 @@ public enum ElephantFormation {
         position.put(PieceLocation.ELEPHANT, elephantOuterPosition);
 
         return position;
+    }
+
+    public static ElephantFormation getFormationType(int formationNumber) {
+        return Arrays.stream(ElephantFormation.values())
+                .filter(n -> n.formationNumber == formationNumber)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 타입 번호입니다." + formationNumber));
     }
 
     public List<Position> getPositions(PieceLocation pieceLocation, Camp camp) {
