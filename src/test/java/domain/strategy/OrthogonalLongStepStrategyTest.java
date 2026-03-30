@@ -47,7 +47,7 @@ class OrthogonalLongStepStrategyTest {
         // when
         List<Position> result = strategy.generate(board, start, piece);
 
-        // then (일부만 검증)
+        // then
         assertThat(result).containsOnly(
                 new Position(0, 4),
                 new Position(1, 4),
@@ -83,11 +83,8 @@ class OrthogonalLongStepStrategyTest {
         // when
         List<Position> result = strategy.generate(board, start, piece);
 
-        // then (일부만 검증)
-        assertThat(result).contains(
-                new Position(0, 5)
-        );
-
+        // then
+        assertThat(result).contains(new Position(0, 5));
         assertThat(result).doesNotContain(
                 new Position(0, 6),
                 new Position(0, 7),

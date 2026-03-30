@@ -1,5 +1,6 @@
 package view;
 
+import domain.board.strategy.InitialStrategyType;
 import domain.coordinate.Position;
 import domain.board.Side;
 import java.util.Arrays;
@@ -8,13 +9,22 @@ import java.util.Scanner;
 import java.util.regex.PatternSyntaxException;
 
 import dto.PossibleMovesDto;
+import view.message.FormationStrategyView;
 import view.message.SideView;
 
 public class InputView {
 
     private static final int INIT_INDEX_COUNT = 1;
+    private static final int MAX_INDEX = 4;
     private static final String COMMA_DELIMITER = ",";
 
+    private static final String REQUEST_INIT_FORMAT_STRATEGY =
+            "\n%s는 초기 (상·마) 포진을 선택해주세요.\n" +
+            "1. 마상상마\n" +
+            "2. 마상마상\n" +
+            "3. 상마마상\n" +
+            "4. 상마상마\n" +
+            "번호를 입력해주세요.\n";
     private static final String REQUEST_MOVING_START_PIECE_POSITION = "\n%s 턴! 이동할 기물의 좌표를 입력해주세요. (e.g. 2,3)\n";
     private static final String REQUEST_PIECE_DESTINATION = "움직일 좌표의 번호를 선택해주세요.";
 
@@ -22,6 +32,17 @@ public class InputView {
 
     public InputView(Scanner sc) {
         this.sc = sc;
+    }
+
+    public InitialStrategyType requestInitialType(Side side) {
+        try {
+            System.out.printf(REQUEST_INIT_FORMAT_STRATEGY, SideView.from(side));
+            int index = Integer.parseInt(userInput());
+            validateIndex(index, MAX_INDEX);
+            return FormationStrategyView.from(index);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
+        }
     }
 
     public Position requestStartPiecePosition(Side side) {
@@ -33,13 +54,14 @@ public class InputView {
 
             return new Position(col, row);
         } catch (PatternSyntaxException | NumberFormatException | IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("잘못된 형식의 입력입니다. 다시 입력 해주세요.");
+            throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
         }
     }
 
     public int requestPieceDestination(PossibleMovesDto possibleMovesDto) {
         try {
             int index = INIT_INDEX_COUNT;
+
             System.out.println();
             for (Position possibleMove : possibleMovesDto.getPossibleMoves()) {
                 System.out.printf("%d. (%d, %d)\n", index++, possibleMove.col(), possibleMove.row());
@@ -50,13 +72,13 @@ public class InputView {
             validateIndex(userInput, possibleMovesDto.getPossibleMoveCount());
             return userInput;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력 가능합니다. 다시 입력 해주세요.");
+            throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
         }
     }
 
     private void validateIndex(int userInput, int maxIndex) {
         if (userInput < INIT_INDEX_COUNT || userInput > maxIndex) {
-            throw new IllegalArgumentException(String.format("%d부터 %d 사이의 숫자만 입력 가능합니다. 다시 입력 해주세요.", INIT_INDEX_COUNT, maxIndex));
+            throw new IllegalArgumentException(String.format("\n%d부터 %d 사이의 숫자만 입력 가능합니다. 다시 입력 해주세요.", INIT_INDEX_COUNT, maxIndex));
         }
     }
 

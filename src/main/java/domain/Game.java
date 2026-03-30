@@ -20,7 +20,7 @@ public class Game {
     }
 
     public void movePiece(Position start, Position destination) {
-        board.move(start, destination);
+        board.movePiece(start, destination);
         changeTurn();
     }
 

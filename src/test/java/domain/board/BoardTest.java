@@ -22,14 +22,14 @@ class BoardTest {
 
     @Test
     @DisplayName("장기판 범위 내의 좌표 입력은 정상 작동한다.")
-    void moveTest() {
+    void movePieceTest() {
         // given
         Board board = new Board(basicBoardInitializer.initialize());
         Position start = new Position(9, 0);
         Position destination = new Position(8, 0);
 
         // when - then
-        assertDoesNotThrow(() -> board.move(start, destination));
+        assertDoesNotThrow(() -> board.movePiece(start, destination));
     }
 
     @Test
@@ -74,7 +74,7 @@ class BoardTest {
         Position destination = new Position(4, 4);
 
         // when - then
-        assertThatThrownBy(() -> board.move(start, destination))
+        assertThatThrownBy(() -> board.movePiece(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -87,7 +87,7 @@ class BoardTest {
         Position destination = new Position(4, 4);
 
         // when - then
-        assertThatThrownBy(() -> board.move(start, destination))
+        assertThatThrownBy(() -> board.movePiece(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -100,7 +100,7 @@ class BoardTest {
         Position destination = new Position(4, 4);
 
         // when - then
-        assertThatThrownBy(() -> board.move(start, destination))
+        assertThatThrownBy(() -> board.movePiece(start, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

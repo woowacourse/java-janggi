@@ -45,7 +45,7 @@ public class Board {
                 && position.row() >= POSITION_THRESHOLD && position.row() < ROW_SIZE;
     }
 
-    public void move(Position start, Position destination) {
+    public void movePiece(Position start, Position destination) {
         validateRange(start);
         validateRange(destination);
 

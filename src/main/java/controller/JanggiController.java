@@ -1,7 +1,9 @@
 package controller;
 
 import domain.Game;
-import domain.board.BoardInitializer;
+import domain.board.BasicBoardInitializer;
+import domain.board.strategy.InitialStrategyType;
+import domain.board.Side;
 import domain.coordinate.Position;
 import dto.PossibleMovesDto;
 import mapper.BoardMapper;
@@ -15,17 +17,29 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardInitializer boardInitializer;
 
-    public JanggiController(InputView inputView, OutputView outputView, BoardInitializer boardInitializer) {
+    public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardInitializer = boardInitializer;
     }
 
     public void play() {
-        Game game = new Game(boardInitializer);
+        Game game = initializeGame();
+        processTurns(game);
+    }
 
+    private Game initializeGame() {
+        InitialStrategyType hanSideInitialType = readUntilValid(() -> inputView.requestInitialType(Side.HAN));
+        InitialStrategyType chuSideInitialType = readUntilValid(() -> inputView.requestInitialType(Side.CHU));
+        return new Game(
+                new BasicBoardInitializer(
+                        hanSideInitialType.from(Side.HAN),
+                        chuSideInitialType.from(Side.CHU)
+                )
+        );
+    }
+
+    private void processTurns(Game game) {
         while (true) {
             outputView.printBoard(BoardMapper.toDto(game.getBoard().getBoard()));
             Position startPosition = readUntilValid(() ->
@@ -40,7 +54,7 @@ public class JanggiController {
         }
     }
 
-    private static <T> T readUntilValid(Supplier<T> reader) {
+    private <T> T readUntilValid(Supplier<T> reader) {
         while (true) {
             try {
                 return reader.get();

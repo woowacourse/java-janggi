@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.board.strategy.InitialStrategy;
 import domain.coordinate.Position;
 import domain.piece.*;
 
@@ -8,23 +9,29 @@ import java.util.Map;
 
 public class BasicBoardInitializer implements BoardInitializer {
 
+    private final InitialStrategy hanSideInitialType;
+    private final InitialStrategy chuSideInitialType;
+
+    public BasicBoardInitializer(InitialStrategy hanSideInitialType, InitialStrategy chuSideInitialType) {
+        this.hanSideInitialType = hanSideInitialType;
+        this.chuSideInitialType = chuSideInitialType;
+    }
+
     public Map<Position, Piece> initialize() {
         Map<Position, Piece> pieceInitPlacements = new HashMap<>();
 
         initializeHanPieces(pieceInitPlacements);
+        hanSideInitialType.apply(pieceInitPlacements);
         initializeChuPieces(pieceInitPlacements);
+        chuSideInitialType.apply(pieceInitPlacements);
 
         return pieceInitPlacements;
     }
 
     private void initializeHanPieces(Map<Position, Piece> pieceInitPlacements) {
         pieceInitPlacements.put(new Position(0, 0), new Chariot(Side.HAN));
-        pieceInitPlacements.put(new Position(0, 1), new Horse(Side.HAN));
-        pieceInitPlacements.put(new Position(0, 2), new Elephant(Side.HAN));
         pieceInitPlacements.put(new Position(0, 3), new Guard(Side.HAN));
         pieceInitPlacements.put(new Position(0, 5), new Guard(Side.HAN));
-        pieceInitPlacements.put(new Position(0, 6), new Elephant(Side.HAN));
-        pieceInitPlacements.put(new Position(0, 7), new Horse(Side.HAN));
         pieceInitPlacements.put(new Position(0, 8), new Chariot(Side.HAN));
 
         pieceInitPlacements.put(new Position(1, 4), new King(Side.HAN));
@@ -41,12 +48,8 @@ public class BasicBoardInitializer implements BoardInitializer {
 
     private void initializeChuPieces(Map<Position, Piece> pieceInitPlacements) {
         pieceInitPlacements.put(new Position(9,0), new Chariot(Side.CHU));
-        pieceInitPlacements.put(new Position(9,1), new Horse(Side.CHU));
-        pieceInitPlacements.put(new Position(9,2), new Elephant(Side.CHU));
         pieceInitPlacements.put(new Position(9,3), new Guard(Side.CHU));
         pieceInitPlacements.put(new Position(9,5), new Guard(Side.CHU));
-        pieceInitPlacements.put(new Position(9,6), new Elephant(Side.CHU));
-        pieceInitPlacements.put(new Position(9,7), new Horse(Side.CHU));
         pieceInitPlacements.put(new Position(9,8), new Chariot(Side.CHU));
 
         pieceInitPlacements.put(new Position(8,4), new King(Side.CHU));
