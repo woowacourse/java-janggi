@@ -6,9 +6,9 @@ import domain.piece.PieceType;
 import java.util.List;
 
 public class PathPieces {
-    Piece sourcePiece;
-    List<Piece> waypointPieces;
-    Piece destinationPiece;
+    private final Piece sourcePiece;
+    private final List<Piece> waypointPieces;
+    private final Piece destinationPiece;
 
     public PathPieces(Piece sourcePiece, List<Piece> waypointPieces, Piece destinationPiece) {
         this.sourcePiece = sourcePiece;
