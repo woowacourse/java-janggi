@@ -1,5 +1,4 @@
 package domain.manager;
-import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
@@ -59,12 +58,8 @@ public class JanggiGame {
             List<Integer> numbers = inputView.askSourcePosition();
             Position source = new Position(numbers.getFirst(), numbers.getLast());
 
-            Piece sourcePiece = board.findPiece(source);
-            if (!sourcePiece.isNotNone()) {
-                throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
-            }
-
-            turnManager.validateTurn(sourcePiece.getTeam());
+            Team sourceTeam = board.getTeamAt(source);
+            turnManager.validateTurn(sourceTeam);
 
             return source;
         });
