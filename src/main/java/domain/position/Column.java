@@ -9,7 +9,6 @@ public record Column(int column) {
 
     public Column {
         validateColumn(column);
-
     }
 
     private void validateColumn(int column) {
