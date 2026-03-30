@@ -84,4 +84,78 @@ public class BoardTest {
         //then
         assertThat(rightAnswer).isEqualTo(zolRoutesPositions);
     }
+
+    @Test
+    @DisplayName("마의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 마_이동가능_좌표_확인_다_가능() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4,6);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
+        Position maPos1 = new Position(3, 4);
+        Position maPos2 = new Position(5, 4);
+        Position maPos3 = new Position(6, 5);
+        Position maPos4 = new Position(6, 7);
+        Position maPos5 = new Position(3, 8);
+        Position maPos6 = new Position(5, 8);
+        Position maPos7 = new Position(2,5);
+        Position maPos8 = new Position(2,7);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(8)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("마의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 마_이동가능_좌표_확인_경로에_다른_기물() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4,6);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
+        board.getBoard().put(new Position(4,5), new Piece(Team.HAN, PieceType.CHA));
+        Position maPos1 = new Position(6, 5);
+        Position maPos2 = new Position(6, 7);
+        Position maPos3 = new Position(3, 8);
+        Position maPos4 = new Position(5, 8);
+        Position maPos5 = new Position(2,5);
+        Position maPos6 = new Position(2,7);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(6)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("마의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 마_이동가능_좌표_확인_목적지에_같은팀_기물() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4,6);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
+        board.getBoard().put(new Position(2,7), new Piece(Team.CHO, PieceType.CHA));
+        Position maPos1 = new Position(3, 4);
+        Position maPos2 = new Position(5, 4);
+        Position maPos3 = new Position(6, 5);
+        Position maPos4 = new Position(6, 7);
+        Position maPos5 = new Position(3, 8);
+        Position maPos6 = new Position(5, 8);
+        Position maPos7 = new Position(2,5);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(7)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
 }
