@@ -4,7 +4,6 @@ import domain.ErrorMessage;
 import domain.Offset;
 import domain.piece.Piece;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,13 +39,9 @@ public class Board {
     }
 
     public List<Piece> getBlockedPieces(Position from, List<Offset> offsets) {
-        List<Piece> blockedPieces = new ArrayList<>();
-        for (Offset offset : offsets) {
-            Position position = offset.applyTo(from);
-            if (pieces.containsKey(position)) {
-                blockedPieces.add(pieces.get(position));
-            }
-        }
-        return blockedPieces;
+        return offsets.stream()
+                .map(offset -> offset.applyTo(from))
+                .filter(pieces::containsKey)
+                .map(pieces::get).toList();
     }
 }
