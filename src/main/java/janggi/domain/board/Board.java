@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
+    private static final String ERROR_NOT_FOUND_PIECE = "[ERROR] 해당 위치에 기물이 없습니다.";
+    private static final String ERROR_NOT_OWNED_PIECE = "[ERROR] 상대방의 기물은 선택할 수 없습니다.";
+    private static final String ERROR_NO_MOVABLE_PATH = "[ERROR] 이동할 수 있는 경로가 없는 기물입니다.";
+
     private final Map<Position, Piece> piecePosition;
 
     private Board(Map<Position, Piece> piecePosition) {
@@ -88,20 +92,20 @@ public class Board {
 
     private void validatePieceExist(Position position) {
         if (piecePosition.get(position) == null) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
+            throw new IllegalArgumentException(ERROR_NOT_FOUND_PIECE);
         }
     }
 
     private void validateOwnPiece(Position position, Side currentTurn) {
         Piece piece = piecePosition.get(position);
         if (piece.getSide() != currentTurn) {
-            throw new IllegalArgumentException("[ERROR] 상대방의 기물은 선택할 수 없습니다.");
+            throw new IllegalArgumentException(ERROR_NOT_OWNED_PIECE);
         }
     }
 
     private void validateDestinationsExist(List<Position> destinations) {
         if (destinations.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 이동할 수 있는 경로가 없는 기물입니다.");
+            throw new IllegalArgumentException(ERROR_NO_MOVABLE_PATH);
         }
     }
 
