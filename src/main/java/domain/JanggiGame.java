@@ -2,7 +2,6 @@ package domain;
 
 import dto.PieceInfo;
 import exception.JanggiBusinessException;
-import exception.JanggiGameException;
 import java.util.List;
 
 public class JanggiGame {
@@ -59,11 +58,11 @@ public class JanggiGame {
     }
 
     private void checkGameFinished() {
-        if(!board.hasGreenTeamGeneral()) {
+        if (!board.hasGreenTeamGeneral()) {
             gameStatus = GameStatus.RED_TEAM_WIN;
         }
 
-        if(!board.hasRedTeamGeneral()) {
+        if (!board.hasRedTeamGeneral()) {
             gameStatus = GameStatus.GREEN_TEAM_WIN;
         }
     }
@@ -75,18 +74,18 @@ public class JanggiGame {
     }
 
     private void requirePieceExists(Position position) {
-        if(board.isNone(position)) {
+        if (board.isNone(position)) {
             throw new JanggiBusinessException("[ERROR] 해당 위치에는 기물이 없습니다.");
         }
     }
 
     private void requireCorrectTurn(Position position) {
-        if(gameStatus.equals(GameStatus.GREEN_PLAYER_TURN) && board.isPieceRedTeamAt(position)) {
+        if (gameStatus.equals(GameStatus.GREEN_PLAYER_TURN) && board.isPieceRedTeamAt(position)) {
             throw new JanggiBusinessException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
         }
 
-        if(gameStatus.equals(GameStatus.RED_PLAYER_TURN) && board.isPieceGreenTeamAt(position)) {
-            throw new JanggiGameException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
+        if (gameStatus.equals(GameStatus.RED_PLAYER_TURN) && board.isPieceGreenTeamAt(position)) {
+            throw new JanggiBusinessException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
         }
     }
 }

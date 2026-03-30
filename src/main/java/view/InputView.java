@@ -4,7 +4,7 @@ import dto.PieceInfo;
 import dto.SelectPositionRequest;
 import java.util.Scanner;
 
-public class InputView {
+public final class InputView {
 
     private static final String RESET = "\u001B[0m";
     private static final String GREEN = "\u001B[32m";

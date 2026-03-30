@@ -1,7 +1,6 @@
 package domain;
 
 import exception.JanggiBusinessException;
-import exception.JanggiGameException;
 import java.util.List;
 import java.util.Map;
 
