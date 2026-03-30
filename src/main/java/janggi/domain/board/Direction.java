@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 public enum Direction {
@@ -22,6 +23,10 @@ public enum Direction {
         this.row = row;
         this.col = col;
         this.directions = directions;
+    }
+
+    public static EnumSet<Direction> cardinalDirections() {
+        return EnumSet.of(N, S, E, W);
     }
 
     public boolean canMove(Position currentPosition) {
