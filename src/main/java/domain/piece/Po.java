@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.PieceExceptionMessage;
 import domain.piece.policy.MovementPolicy;
 import domain.piece.strategy.MoveStrategy;
 
@@ -10,15 +11,17 @@ public class Po extends Piece {
     }
 
     @Override
-    public boolean jumpable() {
+    public boolean canBeJumpedOver() {
         return false;
     }
 
     @Override
-    public boolean isEatable(Piece destinationPiece) {
-        if (!destinationPiece.jumpable()) {
-            throw new IllegalArgumentException("포는 포를 잡을 수 없어염");
+    public void capture(Piece target) {
+        if (isSameTeam(target)) {
+            throw new IllegalArgumentException(PieceExceptionMessage.DESTINATION_HAS_ALLY.getMessage());
         }
-        return true;
+        if (target instanceof Po) { // 기필코 바꾸겠다는 의지를 표명하는 instanceOf
+            throw new IllegalArgumentException(PieceExceptionMessage.PO_CANT_CAPTURE_PO.getMessage());
+        }
     }
 }

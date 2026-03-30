@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-    private static final String DESTINATION_HAS_ALLY = "목적지에 아군이 존재하여 이동할 수 없습니다.";
     private static final String SHOULD_CHOOSE_CORRECT_TEAM_PIECE = "자신의 아군 기물만 이동할 수 있습니다.";
     private static final String EMPTY_POSITION = "해당 위치에 기물이 존재하지 않습니다.";
     private final Map<Position, Piece> pieces;
@@ -79,12 +78,9 @@ public class Board {
         Piece startPiece = getPiece(start);
         Piece destinationPiece = pieces.get(destination);
 
-        if (destinationPiece != null) {
-            if (startPiece.isSameTeam(destinationPiece)) {
-                throw new IllegalArgumentException(DESTINATION_HAS_ALLY);
-            }
-
-            startPiece.isEatable(destinationPiece);
+        if (destinationPiece == null) {
+            return;
         }
+        startPiece.capture(destinationPiece);
     }
 }

@@ -18,7 +18,7 @@ public class PoMovementPolicy implements MovementPolicy {
             if (pieceToCheck == null) {
                 continue;
             }
-            if (!pieceToCheck.jumpable()) {
+            if (!pieceToCheck.canBeJumpedOver()) {
                 throw new IllegalArgumentException(PieceExceptionMessage.CANT_JUMP_OVER_PO.getMessage());
             }
             jumpedPieces += 1;

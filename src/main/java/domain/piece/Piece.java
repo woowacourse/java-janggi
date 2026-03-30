@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.PieceExceptionMessage;
 import domain.piece.policy.MovementPolicy;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
@@ -10,8 +11,8 @@ import java.util.Objects;
 public abstract class Piece {
     protected final MoveStrategy moveStrategy;
     protected final MovementPolicy movementPolicy;
-    private final PieceType pieceType;
     private final Team team;
+    private final PieceType pieceType;
 
     public Piece(MoveStrategy moveStrategy, MovementPolicy movementPolicy, PieceType pieceType, Team team) {
         this.moveStrategy = moveStrategy;
@@ -28,7 +29,15 @@ public abstract class Piece {
         return moveStrategy.findMovablePath(start, destination);
     }
 
-    abstract public boolean jumpable();
+    public boolean canBeJumpedOver() {
+        return true;
+    }
+
+    public void capture(Piece target) {
+        if (isSameTeam(target)) {
+            throw new IllegalArgumentException(PieceExceptionMessage.DESTINATION_HAS_ALLY.getMessage());
+        }
+    }
 
     public boolean isSameTeam(Piece piece) {
         return team == piece.team;
@@ -62,6 +71,4 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
-
-    abstract public boolean isEatable(Piece destinationPiece);
 }
