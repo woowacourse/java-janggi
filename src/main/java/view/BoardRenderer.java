@@ -24,6 +24,8 @@ public class BoardRenderer {
     public String render(Board board) {
         List<String> lines = new ArrayList<>();
 
+        lines.add(renderXAxis());
+
         for (int y = MIN_Y; y <= MAX_Y; y++) {
             lines.add(formatRowLabel(y) + " " + renderRow(board, y));
 
@@ -94,5 +96,9 @@ public class BoardRenderer {
         }
 
         return ANSI_RED + symbol + ANSI_RESET;
+    }
+
+    private String renderXAxis() {
+        return "   １　２　３　４　５　６　７　８　９";
     }
 }
