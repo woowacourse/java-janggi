@@ -3,30 +3,34 @@ package janggi.util;
 import janggi.domain.game.Side;
 import janggi.domain.piece.PieceType;
 import java.util.Map;
+import java.util.function.Function;
 
 public class PieceLabelMapper {
 
-    private static final Map<PieceType, String> NAMES = Map.of(
-            PieceType.GUARD, "사", 
-            PieceType.CHARIOT, "차", 
-            PieceType.CANNON, "포",
-            PieceType.HORSE, "마", 
-            PieceType.ELEPHANT, "상", 
-            PieceType.CHO_SOLDIER, "졸",
-            PieceType.HAN_SOLDIER, "병"
+    private static final Map<Side, String> SOLDIER_NAMES = Map.of(
+            Side.CHO, "졸",
+            Side.HAN, "병"
+    );
+
+    private static final Map<PieceType, Function<Side, String>> NAMES = Map.of(
+            PieceType.GUARD, side -> "사",
+            PieceType.CHARIOT, side -> "차",
+            PieceType.CANNON, side -> "포",
+            PieceType.HORSE, side -> "마",
+            PieceType.ELEPHANT, side -> "상",
+            PieceType.PALACE, SideDisplayNameMapper::toDisplayName,
+            PieceType.SOLDIER, SOLDIER_NAMES::get
     );
 
     public static String toLabel(Side side, PieceType type, String pieceNumber) {
         String pieceTypeLabel = findPieceTypeLabel(side, type);
         String pieceNumberLabel = convertToFullWidthChar(pieceNumber);
-        return pieceTypeLabel + pieceNumberLabel; // "포0", "초0" 형태로 완벽히 평탄화
+        return pieceTypeLabel + pieceNumberLabel;
     }
 
     private static String findPieceTypeLabel(Side side, PieceType type) {
-        if (type == PieceType.PALACE) {
-            return SideDisplayNameMapper.toDisplayName(side);
-        }
-        return NAMES.get(type);
+        Function<Side, String> pieceTypeLabelFunction = NAMES.get(type);
+        return pieceTypeLabelFunction.apply(side);
     }
 
     private static String convertToFullWidthChar(String halfWidthNumber) {
