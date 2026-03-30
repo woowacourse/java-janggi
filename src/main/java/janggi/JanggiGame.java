@@ -7,9 +7,9 @@ import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.ElephantSetting;
 import janggi.domain.board.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
-import janggi.dto.CampDto;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.dto.CampDto;
 import java.util.function.Supplier;
 
 public class JanggiGame {

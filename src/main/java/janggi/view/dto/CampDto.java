@@ -1,4 +1,4 @@
-package janggi.dto;
+package janggi.view.dto;
 
 import janggi.domain.piece.Camp;
 import janggi.view.formatter.CampFormatter;

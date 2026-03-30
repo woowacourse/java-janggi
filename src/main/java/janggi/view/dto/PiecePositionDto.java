@@ -1,4 +1,4 @@
-package janggi.dto;
+package janggi.view.dto;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
@@ -10,7 +10,7 @@ public record PiecePositionDto(
         String type,
         CampDto camp
 ) {
-    public static PiecePositionDto of(Position position, Piece piece) {
+    public static PiecePositionDto from(Position position, Piece piece) {
         return new PiecePositionDto(
                 position.row(),
                 position.column(),

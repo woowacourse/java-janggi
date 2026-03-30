@@ -1,9 +1,9 @@
 package janggi.view;
 
 import janggi.domain.Position;
-import janggi.dto.CampDto;
 import janggi.exception.ExceptionMessage;
 import janggi.util.Parser;
+import janggi.view.dto.CampDto;
 import java.util.List;
 import java.util.Scanner;
 

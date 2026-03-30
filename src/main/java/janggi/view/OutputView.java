@@ -5,8 +5,8 @@ import static java.util.stream.Collectors.joining;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.dto.CampDto;
-import janggi.dto.PiecePositionDto;
+import janggi.view.dto.CampDto;
+import janggi.view.dto.PiecePositionDto;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +40,7 @@ public final class OutputView {
 
     private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
         return boardState.entrySet().stream()
-                .map(entry -> PiecePositionDto.of(entry.getKey(), entry.getValue()))
+                .map(entry -> PiecePositionDto.from(entry.getKey(), entry.getValue()))
                 .toList();
     }
 
