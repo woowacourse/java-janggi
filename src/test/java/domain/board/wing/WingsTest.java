@@ -70,10 +70,14 @@ public class WingsTest {
             Map<Intersection, Piece> setUpPieces = choWings.setUpPieces();
 
             // then
-            assertThat(setUpPieces.get(new Intersection(10, 2))).isEqualTo(first);
-            assertThat(setUpPieces.get(new Intersection(10, 3))).isEqualTo(second);
-            assertThat(setUpPieces.get(new Intersection(10, 7))).isEqualTo(third);
-            assertThat(setUpPieces.get(new Intersection(10, 8))).isEqualTo(fourth);
+            assertThat(setUpPieces).containsExactlyInAnyOrderEntriesOf(
+                    Map.of(
+                            new Intersection(10, 2), first,
+                            new Intersection(10, 3), second,
+                            new Intersection(10, 7), third,
+                            new Intersection(10, 8), fourth
+                    )
+            );
         }
     }
 
@@ -131,10 +135,14 @@ public class WingsTest {
             Map<Intersection, Piece> setUpPieces = hanWings.setUpPieces();
 
             // then
-            assertThat(setUpPieces.get(new Intersection(1, 8))).isEqualTo(first);
-            assertThat(setUpPieces.get(new Intersection(1, 7))).isEqualTo(second);
-            assertThat(setUpPieces.get(new Intersection(1, 3))).isEqualTo(third);
-            assertThat(setUpPieces.get(new Intersection(1, 2))).isEqualTo(fourth);
+            assertThat(setUpPieces).containsExactlyInAnyOrderEntriesOf(
+                    Map.of(
+                            new Intersection(1, 8), first,
+                            new Intersection(1, 7), second,
+                            new Intersection(1, 3), third,
+                            new Intersection(1, 2), fourth
+                    )
+            );
         }
     }
 }
