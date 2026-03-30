@@ -5,7 +5,6 @@ import domain.board.Placement;
 import domain.piece.Piece;
 import domain.piece.Side;
 import domain.position.Position;
-import dto.BoardResponseDto;
 
 import java.util.Map;
 
@@ -28,5 +27,9 @@ public class Player {
 
     public Map<Position, Piece> findBoardState() {
         return board.findState();
+    }
+
+    public void move(Position from, Position to) {
+        board.move(from, to, side);
     }
 }

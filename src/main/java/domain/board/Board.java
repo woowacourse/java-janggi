@@ -27,15 +27,17 @@ public class Board {
 
     public void move(Position from, Position to, Side side) {
         validatePosition(from, to);
-
         Piece fromPiece = state.get(from);
         Piece toPiece = state.get(to);
-
         validateMoveBySide(side, fromPiece, toPiece);
+        validatePieceCanMove(from, to, side, fromPiece);
+        state.put(to, fromPiece);
+        state.remove(from);
+    }
 
-        if (fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
-            state.put(to, fromPiece);
-            state.remove(from);
+    private void validatePieceCanMove(Position from, Position to, Side side, Piece fromPiece) {
+        if (!fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
+            throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
         }
     }
 
@@ -91,17 +93,6 @@ public class Board {
         state.put(adjustPositionBySide(side, Position.of(1, 8)), Piece.of(side, placement.getFourthPieceType()));
     }
 
-    private void validatePosition(Position from, Position to) {
-        validateSamePosition(from, to);
-        validateExistPiece(from);
-    }
-
-    private void validateExistPiece(Position from) {
-        if (!state.containsKey(from)) {
-            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
-        }
-    }
-
     private Position adjustPositionBySide(Side side, Position from) {
         if (side == Side.HAN) {
             return Position.rotate180from(from);
@@ -120,6 +111,17 @@ public class Board {
         return state;
     }
 
+    private void validatePosition(Position from, Position to) {
+        validateSamePosition(from, to);
+        validateExistPiece(from);
+    }
+
+    private void validateExistPiece(Position from) {
+        if (!state.containsKey(from)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
+    }
+
     private static void validateSamePosition(Position from, Position to) {
         if (from.equals(to)) {
             throw new IllegalArgumentException("출발지와 목적지가 같을 수 없습니다.");
@@ -128,7 +130,7 @@ public class Board {
 
     private static void validateMoveBySide(Side side, Piece fromPiece, Piece toPiece) {
         validateCanMoveSameSidePiece(side, fromPiece);
-        validateCanCatchSameSidePiece(side, toPiece);
+        validateDestinationIsNotSameSide(side, toPiece);
     }
 
     private static void validateCanMoveSameSidePiece(Side side, Piece fromPiece) {
@@ -137,9 +139,9 @@ public class Board {
         }
     }
 
-    private static void validateCanCatchSameSidePiece(Side side, Piece toPiece) {
+    private static void validateDestinationIsNotSameSide(Side side, Piece toPiece) {
         if (toPiece != null && toPiece.isSameSide(side)) {
-            throw new IllegalArgumentException("본인 진영의 말은 포획할 수 없습니다.");
+            throw new IllegalArgumentException("본인 진영의 말이 위치한 곳으로는 갈 수 없습니다.");
         }
     }
 }

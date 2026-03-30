@@ -32,6 +32,14 @@ public class OutputView {
         System.out.println("당신은 " + side.getName() + "입니다.");
     }
 
+    public static void printErrorMessage(String message) {
+        System.out.println(message);
+    }
+
+    public static void printSide(Side attackerSide) {
+        System.out.println(attackerSide.getName() + "진영 차례 입니다.");
+    }
+
     private static void printRows(Map<Position, PieceDto> state) {
         for (int row = MAX_ROW; row >= MIN_ROW; row--) {
             System.out.println(buildRowLine(state, row));

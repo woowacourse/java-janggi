@@ -29,6 +29,16 @@ public class InputView {
         return scanner.nextLine();
     }
 
+    public static String inputFromPosition() {
+        System.out.println("움직일 기물의 좌표를 입력해주세요. (쉼표로 구분)");
+        return scanner.nextLine();
+    }
+
+    public static String inputToPosition() {
+        System.out.println("기물을 놓을 좌표를 입력해주세요. (쉼표로 구분)");
+        return scanner.nextLine();
+    }
+
     private static void printPlacementChoice() {
         System.out.println("1. 내부 코끼리 (마상상마)");
         System.out.println("2. 외부 코끼리 (상마마상)");
