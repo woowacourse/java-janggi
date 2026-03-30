@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-import static janggi.common.ErrorMessage.*;
+import static janggi.domain.board.Board.*;
 import static janggi.domain.board.HorseElephantPosition.HEHE;
 import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
@@ -37,7 +37,7 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(Position.from(4, 5), HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_PIECE_OWNER.message());
+                .hasMessageContaining(INVALID_PIECE_OWNER_MESSAGE);
     }
 
     @Test
@@ -49,7 +49,7 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(Position.from(5, 5), CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(PIECE_NOT_FOUND.message());
+                .hasMessageContaining(PIECE_NOT_FOUND_MESSAGE);
     }
 
 
@@ -92,6 +92,6 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.movePiece(from, to, HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_PIECE_MOVE.message());
+                .hasMessageContaining(INVALID_PIECE_MOVE_MESSAGE);
     }
 }

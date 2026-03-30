@@ -1,6 +1,7 @@
 package janggi.domain.game;
 
 import static janggi.domain.dynasty.Dynasty.CHO;
+import static janggi.domain.game.Game.NO_AVAILABLE_MOVES_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -33,7 +34,7 @@ class GameTest {
         // when & then
         assertThatThrownBy(() -> game.canMovePosition(from))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("선택된 기물이 이동할 수 있는 위치가 없습니다.");
+                .hasMessageContaining(NO_AVAILABLE_MOVES_MESSAGE);
     }
 
     @Test
@@ -44,6 +45,7 @@ class GameTest {
         BoardDesignPolicy boardDesignPolicy = () -> Map.of(
                 from, new Piece(CHO, new ChariotMoveStrategy())
         );
+
         Game game = Game.initGame(boardDesignPolicy);
         Dynasty currentTurn = game.currentTurn();
 

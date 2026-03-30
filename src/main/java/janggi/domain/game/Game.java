@@ -1,6 +1,5 @@
 package janggi.domain.game;
 
-import static janggi.common.ErrorMessage.NO_AVAILABLE_MOVES;
 import static janggi.domain.dynasty.Dynasty.CHO;
 
 import janggi.domain.board.Board;
@@ -16,6 +15,9 @@ public class Game {
     private final Board board;
     private final CurrentTurn currentTurn;
 
+    public static final String NO_AVAILABLE_MOVES_MESSAGE = "선택된 기물이 이동할 수 있는 위치가 없습니다.";
+
+
     private Game(Board board, CurrentTurn currentTurn) {
         this.board = board;
         this.currentTurn = currentTurn;
@@ -28,7 +30,7 @@ public class Game {
     public List<Position> canMovePosition(Position from) {
         List<Position> positions = board.canMovePosition(from, currentTurn.currentDynasty());
         if (positions.isEmpty()) {
-            throw new IllegalStateException(NO_AVAILABLE_MOVES.message());
+            throw new IllegalStateException(NO_AVAILABLE_MOVES_MESSAGE);
         }
         return positions;
     }
