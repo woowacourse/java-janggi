@@ -13,6 +13,6 @@ public class CannonDestinationPolicy implements DestinationPolicy {
         Piece toPiece = board.findPiece(move.to());
 
         return pathPolicy.isValid() && (toPiece == null || (fromPiece.country() != toPiece.country()
-                || toPiece.pieceType() == PieceType.CANNON));
+                && toPiece.pieceType() != PieceType.CANNON));
     }
 }
