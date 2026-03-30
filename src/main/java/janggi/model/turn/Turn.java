@@ -1,7 +1,7 @@
 package janggi.model.turn;
 
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.position.Position;
+import janggi.model.board.position.Position;
 import java.util.Map;
 
 public interface Turn {

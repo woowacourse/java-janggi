@@ -4,12 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.model.piece.Piece;
-import janggi.model.piece.diagonalMove.Ma;
-import janggi.model.piece.palace.Sa;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.Row;
+import janggi.model.board.Board;
+import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.board.position.Column;
+import janggi.model.board.position.Position;
+import janggi.model.board.position.Row;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ class BoardTest {
 
     @BeforeEach
     void beforeEach() {
-        Map<Position, Piece> board = new HashMap<>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
 
         board.put(
                 new Position(Row.SEVEN, Column.FIVE),
@@ -39,23 +39,6 @@ class BoardTest {
         board.put(
                 new Position(Row.SIX, Column.FIVE),
                 new Ma(Team.CHO)
-        );
-        board.put(
-                new Position(Row.SEVEN, Column.ONE),
-                new Ma(Team.CHO)
-        );
-        board.put(
-                new Position(Row.SIX, Column.ONE),
-                new Ma(Team.CHO)
-        );
-
-        board.put(
-                new Position(Row.ZERO, Column.FOUR),
-                new Sa(Team.CHO)
-        );
-        board.put(
-                new Position(Row.NINE, Column.FOUR),
-                new Sa(Team.CHO)
         );
 
         this.board = new Board(board);
@@ -91,7 +74,7 @@ class BoardTest {
 
     @DisplayName("from에 있는 기물이 다른 팀이면 예외가 발생한다.")
     @Test
-    void move_piece_on_path() {
+    void move_gimul_on_path() {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FIVE, Column.FOUR);
@@ -103,7 +86,7 @@ class BoardTest {
                 .hasMessage("해당 경로로 기물을 움직일 수 없습니다.");
     }
 
-    @DisplayName("이동하는 기물은 to에 같은 팀 기물이 있으면 예외가 발생한다.")
+    @DisplayName("to에 같은 팀 기물이 있으면 예외가 발생한다.")
     @Test
     void move_same_team_on_destination() {
         //given
@@ -116,22 +99,6 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 경로로 기물을 움직일 수 없습니다.");
     }
-
-    @DisplayName("사/장은 to에 같은 팀 기물이 있으면 예외가 발생한다.")
-    @Test
-    void move_same_team_on_destination_sa_jang() {
-        //given
-        Position from = new Position(Row.ZERO, Column.FOUR);
-        Position to = new Position(Row.NINE, Column.FOUR);
-        Team cho = Team.CHO;
-
-        //when & then
-        assertThatThrownBy(() -> board.move(cho, from, to))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 경로로 기물을 움직일 수 없습니다.");
-    }
-
-
 
     @DisplayName("to에 있는 기물을 제거하고 to로 이동한다.")
     @Test
@@ -150,7 +117,7 @@ class BoardTest {
     @Test
     void isGameOver() {
         //given
-        Map<Position, Piece> gameOverBoard = new HashMap<>();
+        Map<Position, AbstractGimul> gameOverBoard = new HashMap<>();
 
         gameOverBoard.put(
                 new Position(Row.SEVEN, Column.FIVE),

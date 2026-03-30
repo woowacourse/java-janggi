@@ -2,13 +2,13 @@ package janggi.model.turn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.model.Board;
+import janggi.model.board.Board;
 import janggi.model.Team;
-import janggi.model.piece.Piece;
-import janggi.model.piece.diagonalMove.Ma;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.Row;
+import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.board.position.Column;
+import janggi.model.board.position.Position;
+import janggi.model.board.position.Row;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ class ChoTurnTest {
 
     @BeforeEach
     void beforeEach() {
-        Map<Position, Piece> board = new HashMap<>();
+        Map<Position, AbstractGimul> board = new HashMap<>();
 
         board.put(
                 new Position(Row.SEVEN, Column.FIVE),

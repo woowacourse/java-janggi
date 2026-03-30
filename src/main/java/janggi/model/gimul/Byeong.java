@@ -1,55 +1,29 @@
 package janggi.model.gimul;
 
 import janggi.model.Team;
-import janggi.model.position.MoveResult;
-import janggi.model.position.Position;
+import janggi.model.board.moveResult.MoveResult;
+import janggi.model.board.position.Position;
+import janggi.model.board.movement.ByeongMovement;
+import janggi.model.board.movement.Movement;
 import java.util.List;
 
 public class Byeong extends AbstractGimul {
 
-    private static final int MAX_MOVE_DISTANCE = 1;
-    private static final int FORWARD_STEP = 1;
-    private static final int BACKWARD_STEP = -1;
-    private static final int NO_MOVEMENT = 0;
+    private final Movement movement;
 
     public Byeong(Team team) {
         super(team);
+        this.movement = new ByeongMovement();
     }
 
     @Override
     public MoveResult getLegalPath(Position from, Position to) {
-        int rowDistance = to.getRowDistance(from);
-        int columnDistance = to.getColumnDistance(from);
-
-        validateMoveDistance(rowDistance, columnDistance);
-
-        if (isHorizontalMove(rowDistance)) {
-            return from.moveHorizontal(columnDistance);
-        }
-
-        if (isBackwardMove(rowDistance)) {
+        if ((team == Team.CHO && isMovingSouth(from, to))
+                ||(team == Team.HAN && !isMovingSouth(from, to))) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        return from.moveVertical(rowDistance);
-    }
-
-    private void validateMoveDistance(int rowDistance, int columnDistance) {
-        int absRowDistance = Math.abs(rowDistance);
-        int absColumnDistance = Math.abs(columnDistance);
-
-        if ((absRowDistance + absColumnDistance) > MAX_MOVE_DISTANCE) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-    }
-
-    private boolean isHorizontalMove(int rowDistance) {
-        return rowDistance == NO_MOVEMENT;
-    }
-
-    private boolean isBackwardMove(int rowDistance) {
-        return (Team.CHO.equals(team) && rowDistance == FORWARD_STEP) ||
-                (Team.HAN.equals(team) && rowDistance == BACKWARD_STEP);
+        return movement.move(from, to);
     }
 
     @Override
@@ -58,6 +32,10 @@ public class Byeong extends AbstractGimul {
             AbstractGimul gimulAtTo
     ) {
         return gimulsOnPath.isEmpty() && !this.isSameTeam(gimulAtTo);
+    }
+
+    private boolean isMovingSouth(Position from, Position to) {
+        return from.row().getValue() < to.row().getValue();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.view.view.GameStatus;
+import janggi.view.dto.GameStatus;
 
 public class OutputView {
 

@@ -5,12 +5,12 @@ import janggi.model.initializer.InsideTableSetting;
 import janggi.model.initializer.LeftSidedTableSetting;
 import janggi.model.initializer.OutsideTableSetting;
 import janggi.model.initializer.RightSidedTableSetting;
-import janggi.model.position.Column;
-import janggi.model.position.Position;
-import janggi.model.position.Row;
+import janggi.model.board.position.Column;
+import janggi.model.board.position.Position;
+import janggi.model.board.position.Row;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import janggi.view.view.GameStatus;
+import janggi.view.dto.GameStatus;
 import java.util.List;
 
 public class JanggiController {
@@ -80,7 +80,12 @@ public class JanggiController {
         int rowIndex = 0;
         int columnIndex = 1;
 
-        Row row = Row.of(positionInfo.get(rowIndex));
+        int rowNumber = positionInfo.get(rowIndex);
+        if (rowNumber == 0) {
+            rowNumber = 10;
+        }
+
+        Row row = Row.of(rowNumber);
         Column column = Column.of(positionInfo.get(columnIndex));
 
         return new Position(row, column);
