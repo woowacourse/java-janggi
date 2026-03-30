@@ -30,7 +30,7 @@ public class PoMoveRule implements MoveRule {
                 throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
             }
 
-            if (!piece.equals(None.INSTANCE)) {
+            if (!piece.equals(Piece.getEmptyPiece())) {
                 pieceCount++;
             }
         }

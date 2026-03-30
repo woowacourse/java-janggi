@@ -22,7 +22,6 @@ public class JanggiController {
     private final OutputView outputView;
     private final JanggiService janggiService;
 
-
     public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;

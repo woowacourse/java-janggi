@@ -13,8 +13,8 @@ public class Board {
     }
 
     public void move(Position start, Position end) {
-        Piece startPiece = board.getOrDefault(start, new Piece(Country.NONE, PieceType.NONE));
-        Piece endPiece = board.getOrDefault(end, new Piece(Country.NONE, PieceType.NONE));
+        Piece startPiece = board.getOrDefault(start, Piece.getEmptyPiece());
+        Piece endPiece = board.getOrDefault(end, Piece.getEmptyPiece());
 
         if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry())
                 && startPiece.isAvailableRoute(getSameLine(startPiece, start, end), endPiece.getPieceType()))) {
@@ -44,7 +44,7 @@ public class Board {
             int minY = Math.min(startY, endY);
             int maxY = Math.max(startY, endY);
             for (int i = minY + 1; i < maxY; i++) {
-                pieces.add(board.getOrDefault(Position.create(startX, i), new Piece(Country.NONE, PieceType.NONE)));
+                pieces.add(board.getOrDefault(Position.create(startX, i), Piece.getEmptyPiece()));
             }
         }
 
@@ -52,7 +52,7 @@ public class Board {
             int minX = Math.min(startX, endX);
             int maxX = Math.max(startX, endX);
             for (int i = minX + 1; i < maxX; i++) {
-                pieces.add(board.getOrDefault(Position.create(i, startY), new Piece(Country.NONE, PieceType.NONE)));
+                pieces.add(board.getOrDefault(Position.create(i, startY), Piece.getEmptyPiece()));
             }
         }
 

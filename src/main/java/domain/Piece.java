@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Piece {
+    private static final Piece EMPTY = new Piece(Country.NONE, PieceType.NONE);
+
     private final Country country;
     private final PieceType pieceType;
 
@@ -30,6 +32,10 @@ public class Piece {
 
     public Country getCountry() {
         return country;
+    }
+
+    public static Piece getEmptyPiece() {
+        return EMPTY;
     }
 
     @Override
