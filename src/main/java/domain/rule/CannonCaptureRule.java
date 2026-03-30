@@ -3,6 +3,7 @@ package domain.rule;
 import domain.board.Board;
 import domain.coordinate.Position;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 
 public class CannonCaptureRule implements MoveRule {
 
@@ -14,6 +15,6 @@ public class CannonCaptureRule implements MoveRule {
             return true;
         }
 
-        return !(target.isCannon());
+        return !(target.getType() == PieceType.CANNON);
     }
 }

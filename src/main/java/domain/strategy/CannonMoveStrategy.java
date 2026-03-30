@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class CannonMoveStrategy implements MoveStrategy {
 
             Piece target = board.getPiece(current);
 
-            if (target.isCannon()) {
+            if (target.getType() == PieceType.CANNON) {
                 break;
             }
 

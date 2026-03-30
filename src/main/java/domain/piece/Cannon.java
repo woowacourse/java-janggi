@@ -22,9 +22,4 @@ public final class Cannon extends Piece {
                 )
         );
     }
-
-    @Override
-    public boolean isCannon() {
-        return true;
-    }
 }

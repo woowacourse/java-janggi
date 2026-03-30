@@ -20,9 +20,4 @@ public final class King extends Piece {
                 )
         );
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

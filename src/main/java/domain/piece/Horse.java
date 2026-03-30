@@ -34,9 +34,4 @@ public final class Horse extends Piece {
                 )
         );
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

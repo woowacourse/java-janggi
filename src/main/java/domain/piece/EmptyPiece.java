@@ -22,9 +22,4 @@ public class EmptyPiece extends Piece {
     public List<Position> getPossibleMoves(Board board, Position start) {
         return List.of();
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

@@ -34,9 +34,4 @@ public final class Elephant extends Piece {
                 )
         );
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

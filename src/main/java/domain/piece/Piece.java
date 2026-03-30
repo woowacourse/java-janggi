@@ -55,6 +55,4 @@ public abstract class Piece {
     public PieceType getType() {
         return type;
     }
-
-    public abstract boolean isCannon();
 }

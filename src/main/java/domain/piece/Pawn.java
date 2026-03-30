@@ -20,9 +20,4 @@ public final class Pawn extends Piece {
                 )
         );
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

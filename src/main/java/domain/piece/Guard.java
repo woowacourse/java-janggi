@@ -20,9 +20,4 @@ public final class Guard extends Piece {
                 )
         );
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }
