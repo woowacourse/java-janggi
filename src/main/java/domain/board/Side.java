@@ -8,14 +8,6 @@ public enum Side {
     CHU,
     NEUTRAL;
 
-    public boolean isChu() {
-        return this == CHU;
-    }
-
-    public boolean isHan() {
-        return this == HAN;
-    }
-
     public boolean isNeutral() {
         return this == NEUTRAL;
     }
@@ -34,5 +26,13 @@ public enum Side {
         }
 
         return Direction.UP;
+    }
+
+    public int getStartingRow() {
+        if (this == Side.HAN) {
+            return 0;
+        }
+
+        return 9;
     }
 }

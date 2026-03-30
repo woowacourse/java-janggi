@@ -18,13 +18,7 @@ public class SangMaSangMaStrategy implements InitialStrategy {
 
     @Override
     public void apply(Map<Position, Piece> pieceInitPlacements) {
-        if (side.isHan()) {
-            initStrategyType(pieceInitPlacements, Side.HAN, 0);
-        }
-
-        if (side.isChu()) {
-            initStrategyType(pieceInitPlacements, Side.CHU, 9);
-        }
+        initStrategyType(pieceInitPlacements, side, side.getStartingRow());
     }
 
     private void initStrategyType(Map<Position, Piece> pieceInitPlacements, Side side, int col) {
