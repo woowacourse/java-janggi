@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
 
+    private static final String HAN_TURN_MESSAGE = "지금은 " + Side.HAN + "의 차례입니다.";
+    private static final String CHO_TURN_MESSAGE = "지금은 " + Side.CHO + "의 차례입니다.";
+
     private static final Piece CHO_PIECE = new Soldier(Side.CHO);
     private static final Intersection CHO_START_INTERSECTION = new Intersection(5, 5);
     private static final Intersection CHO_FIRST_DESTINATION = new Intersection(4, 5);
@@ -45,7 +48,8 @@ class JanggiGameTest {
 
             // when and then
             assertThatThrownBy(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(CHO_TURN_MESSAGE);
         }
 
         @Test
@@ -80,7 +84,8 @@ class JanggiGameTest {
                         CHO_SECOND_DESTINATION,
                         Side.CHO
                 );
-            }).isInstanceOf(IllegalArgumentException.class);
+            }).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(HAN_TURN_MESSAGE);
         }
 
         @Test

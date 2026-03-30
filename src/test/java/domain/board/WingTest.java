@@ -19,27 +19,34 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class WingTest {
 
+    private static final String CANNOT_BELONG_TO_WING_MESSAGE = "진에 소속될 수 없는 기물이 포함되어 있습니다";
+    private static final String DUPLICATED_PIECE_MESSAGE = "하나의 진에는 중복되지 않은 기물들만 포함될 수 있습니다";
+
     private static final Soldier DEFAULT_PIECE = new Soldier(Side.CHO);
 
     private final Piece wingPiece1 = new Elephant(Side.CHO);
     private final Piece wingPiece2 = new Horse(Side.CHO);
-    private final Piece notWingPiece = new Elephant(Side.CHO);
+    private final Piece notWingPiece = new Soldier(Side.CHO);
 
     @Nested
     class 기물_개수를_검증한다 {
+
+        private static final String ILLEGAL_PIECE_AMOUNT_MESSAGE = "진의 기물 수는 2개여야 합니다";
 
         @ParameterizedTest
         @MethodSource("lessPieces")
         void 기물_개수가_2개_미만이면_예외를_던진다(List<Piece> lessPieces) {
             assertThatThrownBy(() -> new LeftWing(lessPieces))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining(ILLEGAL_PIECE_AMOUNT_MESSAGE);
         }
 
         @ParameterizedTest
         @MethodSource("morePieces")
         void 기물_개수가_2개_초과면_예외를_던진다(List<Piece> morePieces) {
             assertThatThrownBy(() -> new LeftWing(morePieces))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining(ILLEGAL_PIECE_AMOUNT_MESSAGE);
         }
 
         private static Stream<Arguments> lessPieces() {
@@ -82,7 +89,8 @@ class WingTest {
 
         // when and then
         assertThatThrownBy(() -> new LeftWing(illegalPieces))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(CANNOT_BELONG_TO_WING_MESSAGE);
     }
 
     @Test
@@ -92,7 +100,8 @@ class WingTest {
 
         // when and then
         assertThatThrownBy(() -> new LeftWing(illegalPieces))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(DUPLICATED_PIECE_MESSAGE);
     }
 
     @Test

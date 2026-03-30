@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
+    private static final String EMPTY_INTERSECTION_MESSAGE = "기물이 있는 지점을 선택해야 합니다.";
+    private static final String DIFFERENT_SIDE_MESSAGE = "같은 진영의 기물을 선택해야 합니다.";
+    private static final String NOT_MOVABLE_MESSAGE = "도착 가능한 지점을 선택해야 합니다.";
+
     private static final Intersection DEFAULT_INTERSECTION = new Intersection(5, 5);
     private static final Intersection DEFAULT_START_POINT = new Intersection(6, 6);
     private static final Intersection DEFAULT_DESTINATION = new Intersection(7, 7);
@@ -37,7 +41,8 @@ class BoardTest {
                         DEFAULT_INTERSECTION,
                         DEFAULT_SIDE
                 );
-            }).isInstanceOf(IllegalArgumentException.class);
+            }).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(EMPTY_INTERSECTION_MESSAGE);
         }
 
         @Test
@@ -56,7 +61,8 @@ class BoardTest {
                         oppositePieceIntersection,
                         SAME_SIDE
                 );
-            }).isInstanceOf(IllegalArgumentException.class);
+            }).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(DIFFERENT_SIDE_MESSAGE);
         }
     }
 
@@ -77,7 +83,8 @@ class BoardTest {
                         DEFAULT_DESTINATION,
                         DEFAULT_SIDE
                 );
-            }).isInstanceOf(IllegalArgumentException.class);
+            }).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(EMPTY_INTERSECTION_MESSAGE);
         }
 
         @Test
@@ -97,7 +104,8 @@ class BoardTest {
                         DEFAULT_DESTINATION,
                         SAME_SIDE
                 );
-            }).isInstanceOf(IllegalArgumentException.class);
+            }).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(DIFFERENT_SIDE_MESSAGE);
         }
 
         @Test
@@ -118,7 +126,8 @@ class BoardTest {
                         unreachableDestination,
                         SAME_SIDE
                 );
-            }).isInstanceOf(IllegalArgumentException.class);
+            }).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(NOT_MOVABLE_MESSAGE);
         }
 
         @Test
