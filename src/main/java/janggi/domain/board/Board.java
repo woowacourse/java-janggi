@@ -47,7 +47,7 @@ public class Board {
     }
 
     public Set<Point> destinations(Point from) {
-        Piece piece = getPieceAtPoint(from);
+        Piece piece = getPieceAt(from);
         List<CandidatePath> candidatePaths = piece.createCandidatePaths(from);
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(candidatePaths);
 
@@ -58,7 +58,7 @@ public class Board {
     }
 
     public void moveTo(Point from, Point to) {
-        Piece fromPiece = getPieceAtPoint(from);
+        Piece fromPiece = getPieceAt(from);
         Set<Point> destinations = destinations(from);
 
         if (!destinations.contains(to)) {
@@ -69,8 +69,8 @@ public class Board {
         board.remove(from);
     }
 
-    public Side getPointPieceSide(Point point) {
-        Piece piece = getPieceAtPoint(point);
+    public Side getSideAt(Point point) {
+        Piece piece = getPieceAt(point);
         return piece.getSide();
     }
 
@@ -78,7 +78,7 @@ public class Board {
         if (isNotTherePiece(destination)) {
             return true;
         }
-        return getPieceAtPoint(destination)
+        return getPieceAt(destination)
                 .isOtherSide(piece.getSide());
     }
 
@@ -100,7 +100,7 @@ public class Board {
                 continue;
             }
 
-            Piece piece = getPieceAtPoint(point);
+            Piece piece = getPieceAt(point);
             pieces.put(point, piece);
         }
         return pieces;
@@ -110,7 +110,7 @@ public class Board {
         return !board.containsKey(point);
     }
 
-    private Piece getPieceAtPoint(Point point) {
+    private Piece getPieceAt(Point point) {
         if (isNotTherePiece(point)) {
             throw new IllegalArgumentException("빈 공간 입니다.");
         }

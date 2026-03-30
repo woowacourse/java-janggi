@@ -28,7 +28,7 @@ public class Game {
     }
 
     public Set<Point> destinations(Point from) {
-        Side pointPieceSide = board.getPointPieceSide(from);
+        Side pointPieceSide = board.getSideAt(from);
         if (!turn.equals(pointPieceSide)) {
             throw new IllegalArgumentException("%s 사이드의 차례가 아닙니다.".formatted(turn.getName()));
         }
@@ -36,7 +36,7 @@ public class Game {
     }
 
     public void move(Point from, Point to) {
-        Side pointPieceSide = board.getPointPieceSide(from);
+        Side pointPieceSide = board.getSideAt(from);
         if (!turn.equals(pointPieceSide)) {
             throw new IllegalArgumentException("%s 사이드의 차례가 아닙니다.".formatted(turn.getName()));
         }
