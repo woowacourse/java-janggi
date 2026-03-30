@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -518,7 +519,6 @@ public class BoardTest {
     @Test
     @DisplayName("포는 넘어가려는 목적지에 또 다른 포가 있으면, 포는 포를 포획할 수 없으므로 이동할 수 없다")
     void 포_목적지에_다른_포가_있으면_포획_및_이동_불가() {
-        //given
         Board board = new Board();
         Position position = new Position(5,8);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
@@ -528,12 +528,9 @@ public class BoardTest {
 
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
 
-        //when
-        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
-
-        //then
-        assertThat(chaRoutesPositions).hasSize(0)
-                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+        assertThrows(IllegalArgumentException.class, () -> {
+            board.findAvailablePositions(position);
+        });
     }
 
     @Test
