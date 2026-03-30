@@ -75,7 +75,8 @@ public class HorseStrategyTest {
 
     private static Stream<Arguments> createExceptionPosition() {
         return Stream.of(
-                Arguments.of(new Position(6, 4), new Position(0, 1)),
+                Arguments.of(new Position(6, 4), new Position(5, 1)),
+                Arguments.of(new Position(6, 4), new Position(4, 2)),
                 Arguments.of(new Position(6, 4), new Position(6, 4))
         );
     }

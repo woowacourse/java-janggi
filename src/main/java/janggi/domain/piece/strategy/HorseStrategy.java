@@ -53,8 +53,11 @@ public class HorseStrategy implements MoveStrategy {
         int absRowDifference = directionInformation.calculateAbsRowDifference();
         int absColDifference = directionInformation.calculateAbsColDifference();
 
-        if ((absRowDifference != MIN_ABS_DELTA || absColDifference != MAX_ABS_DELTA)
-                && (absRowDifference != MAX_ABS_DELTA || absColDifference != MIN_ABS_DELTA)) {
+        boolean isValidHorseMove =
+                (absRowDifference == MIN_ABS_DELTA && absColDifference == MAX_ABS_DELTA)
+                        || (absRowDifference == MAX_ABS_DELTA && absColDifference == MIN_ABS_DELTA);
+
+        if (!isValidHorseMove) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
         }
     }
