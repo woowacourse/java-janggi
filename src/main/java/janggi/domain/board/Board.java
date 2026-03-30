@@ -64,8 +64,7 @@ public class Board {
         Position position = Position.of(row, col);
         Optional<Piece> piece = Optional.ofNullable(janggiBoard.get(position));
         return piece.orElseThrow(
-                () -> new IllegalArgumentException("보드에 기물이 존재하지 않습니다.")
-        );
+                () -> new IllegalArgumentException("보드에 기물이 존재하지 않습니다."));
     }
 
     public void movePiece(int row, int col, Position from) {
