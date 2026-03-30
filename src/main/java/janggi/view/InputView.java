@@ -10,6 +10,9 @@ public class InputView {
     private static final String START_POSITION_MESSAGE = "움직일 기물의 시작 좌표를 입력해주세요. (예: 3,4)";
     private static final String END_POSITION_MESSAGE = "움직일 기물의 도착 좌표를 입력해주세요. (예: 4,4)";
     private static final String BASE_DELIMITER = ",";
+
+    private static final String INVALID_POSITION_TYPE = "숫자만 입력 가능합니다.";
+
     private static final Scanner scanner = new Scanner(System.in);
 
     public static String askHanArrangement() {
@@ -22,15 +25,27 @@ public class InputView {
         return scanner.nextLine();
     }
 
-    public static List<String> askStartPosition() {
+    public static List<Integer> askStartPosition() {
         System.out.println(START_POSITION_MESSAGE);
         String input = scanner.nextLine();
-        return Arrays.stream(input.split(BASE_DELIMITER)).map(String::trim).toList();
+        return Arrays.stream(input.split(BASE_DELIMITER))
+                .map(InputView::parseInt)
+                .toList();
     }
 
-    public static List<String> askEndPosition() {
+    public static List<Integer> askEndPosition() {
         System.out.println(END_POSITION_MESSAGE);
         String input = scanner.nextLine();
-        return Arrays.stream(input.split(BASE_DELIMITER)).map(String::trim).toList();
+        return Arrays.stream(input.split(BASE_DELIMITER))
+                .map(InputView::parseInt)
+                .toList();
+    }
+
+    private static Integer parseInt(String input) {
+        try {
+            return Integer.parseInt(input.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_POSITION_TYPE);
+        }
     }
 }

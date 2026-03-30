@@ -10,7 +10,6 @@ public record Position(int x, int y) {
     public static final int BOARD_END_ROWS = 10;
     public static final int BOARD_END_COLS = 9;
 
-    private static final String INVALID_POSITION_TYPE = "숫자만 입력 가능합니다.";
     private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";
     private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
@@ -19,20 +18,15 @@ public record Position(int x, int y) {
         validate(x, y);
     }
 
-    public static Position from(List<String> inputs) {
-        try {
+    public static Position from(List<Integer> inputs) {
             validateSize(inputs);
-            List<Integer> parsedInputs = inputs.stream().map(Integer::parseInt).toList();
-            int r = parsedInputs.getFirst();
-            int c = parsedInputs.getLast();
+            int r = inputs.getFirst();
+            int c = inputs.getLast();
 
             return new Position(r, c);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_POSITION_TYPE);
-        }
     }
 
-    private static void validateSize(List<String> inputs) {
+    private static void validateSize(List<Integer> inputs) {
         if (inputs.size() != POSITION_COMPONENTS_SIZE) {
             throw new IllegalArgumentException(INVALID_POSITION_SIZE);
         }

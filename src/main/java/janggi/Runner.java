@@ -53,10 +53,10 @@ public class Runner {
     }
 
     private void movePiece() {
-        List<String> startPositionInput = InputView.askStartPosition();
+        List<Integer> startPositionInput = InputView.askStartPosition();
         Position startPosition = Position.from(startPositionInput);
 
-        List<String> endPositionInput = InputView.askEndPosition();
+        List<Integer> endPositionInput = InputView.askEndPosition();
         Position endPosition = Position.from(endPositionInput);
 
         game.move(startPosition, endPosition);
