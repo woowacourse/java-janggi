@@ -25,7 +25,7 @@ public class ElephantMovingCondition implements MovingCondition {
             Position startPosition,
             Queue<Direction> directions
     ) {
-        Direction firstDirection = directions.poll();
+        Direction firstDirection = directions.remove();
         if (!canFirstStep(state, startPosition, firstDirection)) {
             return false;
         }

@@ -20,7 +20,7 @@ public class HorseMovingCondition implements MovingCondition {
             return false;
         }
 
-        Direction firstDirection = directions.poll();
+        Direction firstDirection = directions.remove();
         if (!firstDirection.isStraight()) {
             return false;
         }
@@ -30,7 +30,7 @@ public class HorseMovingCondition implements MovingCondition {
             return false;
         }
 
-        Direction secondDirection = directions.poll();
+        Direction secondDirection = directions.remove();
         if (!secondDirection.isSameAtLeastOne(firstDirection) || secondDirection.isStraight()) {
             return false;
         }
