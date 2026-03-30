@@ -1,31 +1,12 @@
-import board.InnerSangSetup;
-import board.LeftSangSetup;
-import game.JanggiGame;
-import pieces.Side;
-import position.Position;
+import controller.GameController;
+import view.InputView;
+import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        // TODO : view 에서 받아서 처리
-        JanggiGame game = JanggiGame.of(new InnerSangSetup(), new LeftSangSetup());
-
-        Side curSide = Side.CHO;
-        boolean isChoTurn = true;
-        boolean notJangGun = true;
-        // TODO : 왕이 잡히면 게임 종료 (사이클 2)
-        while (notJangGun) {
-            // TODO : view 에서 받아서 처리
-            Position departure = new Position(0, 0);
-            Position destination = new Position(1, 0);
-
-            // 하드코딩 되어 있으니 터지는 게 당연한가
-            game.move(departure, destination, curSide);
-            if (isChoTurn) {
-                curSide = Side.HAN;
-            } else {
-                curSide = Side.CHO;
-            }
-            isChoTurn = !isChoTurn;
-        }
+        InputView inputView = new InputView();
+        OutputView outputView = new OutputView();
+        GameController gameController = new GameController(inputView, outputView);
+        gameController.run();
     }
 }

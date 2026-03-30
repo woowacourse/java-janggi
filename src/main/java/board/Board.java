@@ -7,7 +7,6 @@ import movepolicy.MoveContext;
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.PathRule;
 import pieces.EmptyPiece;
-import pieces.FullPiece;
 import pieces.Piece;
 import position.Position;
 
@@ -44,13 +43,13 @@ public record Board(Map<Position, Piece> pieces) {
 
     private void validateDestination(Piece departurePiece, Piece destinationPiece,
                                      DestinationRule destinationRule) {
-        destinationRule.validateDestination((FullPiece) departurePiece, destinationPiece);
+        destinationRule.validateDestination(departurePiece, destinationPiece);
     }
 
     private List<Piece> getPathPieces(List<Position> pathPositions) {
         return pathPositions.stream()
-            .map(pieces::get)
-            .toList();
+                .map(pieces::get)
+                .toList();
     }
 
     private void movePiece(Position departure, Position destination, Piece departurePiece) {

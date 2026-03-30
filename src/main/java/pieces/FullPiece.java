@@ -39,19 +39,25 @@ public abstract class FullPiece implements Piece {
 
     public abstract boolean isPo();
 
-    protected final boolean isHan() {
+    @Override
+    public final boolean isHan() {
         return side.isHan();
     }
 
-    protected final boolean isCho() {
+    @Override
+    public final boolean isCho() {
         return side.isCho();
     }
 
-    public final boolean isSameSide(FullPiece destinationPiece) {
-        if (isHan() && destinationPiece.isHan()) {
+    @Override
+    public final boolean isSameSide(Piece other) {
+        if (other.isEmpty()) {
+            return false;
+        }
+        if (isHan() && other.isHan()) {
             return true;
         }
-        return isCho() && destinationPiece.isCho();
+        return isCho() && other.isCho();
     }
 
     @Override

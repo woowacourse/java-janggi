@@ -1,9 +1,8 @@
 package movepolicy.destination;
 
-import pieces.FullPiece;
 import pieces.Piece;
 
 public interface DestinationRule {
 
-    void validateDestination(FullPiece departurePiece, Piece destinationPiece);
+    void validateDestination(Piece departurePiece, Piece destinationPiece);
 }

@@ -1,7 +1,6 @@
 package movepolicy.path;
 
 import java.util.List;
-import pieces.FullPiece;
 import pieces.Piece;
 
 public class PoPathRule implements PathRule {
@@ -10,14 +9,13 @@ public class PoPathRule implements PathRule {
 
     @Override
     public void validatePathPieces(List<Piece> pathPieces) {
-        List<FullPiece> pathFullPieces = pathPieces.stream()
-            .filter(piece -> !piece.isEmpty())
-            .map(piece -> (FullPiece) piece)
-            .toList();
+        List<Piece> pathFullPieces = pathPieces.stream()
+                .filter(piece -> !piece.isEmpty())
+                .toList();
         validateFullPieces(pathFullPieces);
     }
 
-    private void validateFullPieces(List<FullPiece> pathFullPieces) {
+    private void validateFullPieces(List<Piece> pathFullPieces) {
         if (pathFullPieces.isEmpty()) {
             throw new IllegalArgumentException("이동 경로엔 기물이 존재해야 합니다.");
         }
@@ -29,7 +27,7 @@ public class PoPathRule implements PathRule {
         }
     }
 
-    private static boolean hasPo(List<FullPiece> pathPieces) {
+    private static boolean hasPo(List<Piece> pathPieces) {
         return pathPieces.getFirst().isPo();
     }
 }

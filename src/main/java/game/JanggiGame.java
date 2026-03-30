@@ -29,4 +29,8 @@ public class JanggiGame {
         board.move(departure, destination);
         isChoTurn = !isChoTurn;
     }
+
+    public Side currentTurn() {
+        return isChoTurn ? Side.CHO : Side.HAN;
+    }
 }
