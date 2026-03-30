@@ -36,13 +36,14 @@ public class Board {
         return isValidRange(position) && getPiece(position).isNeutral();
     }
 
-    public boolean isSameSide(Position position, Side turn) {
-        return getPiece(position).isSameSide(turn);
-    }
-
     public boolean isValidRange(Position position) {
         return position.col() >= POSITION_THRESHOLD && position.col() < COL_SIZE
                 && position.row() >= POSITION_THRESHOLD && position.row() < ROW_SIZE;
+    }
+
+    public Piece getPiece(Position position) {
+        validateRange(position);
+        return board.get(position);
     }
 
     protected void movePiece(Position start, Position destination) {
@@ -53,9 +54,8 @@ public class Board {
         board.put(start, EmptyPiece.getInstance());
     }
 
-    public Piece getPiece(Position position) {
-        validateRange(position);
-        return board.get(position);
+    private boolean isSameSide(Position position, Side turn) {
+        return getPiece(position).isSameSide(turn);
     }
 
     private void validateEnsureSameSidePiece(Position start, Side turn) {
