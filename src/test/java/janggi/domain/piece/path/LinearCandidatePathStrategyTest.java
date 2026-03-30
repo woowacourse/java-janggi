@@ -25,21 +25,21 @@ class LinearCandidatePathStrategyTest {
             return Stream.of(
                     Arguments.of(
                             new Movement(List.of(Direction.NORTH)),
-                            Point.of(7, 0),
-                            List.of(Point.of(8, 0), Point.of(9, 0))
+                            new Point(7, 0),
+                            List.of(new Point(8, 0), new Point(9, 0))
 
                     ),
                     Arguments.of(
                             new Movement(List.of(Direction.NORTH_EAST)),
-                            Point.of(0, 0),
-                            List.of(Point.of(1, 1),
-                                    Point.of(2, 2),
-                                    Point.of(3, 3),
-                                    Point.of(4, 4),
-                                    Point.of(5, 5),
-                                    Point.of(6, 6),
-                                    Point.of(7, 7),
-                                    Point.of(8, 8))
+                            new Point(0, 0),
+                            List.of(new Point(1, 1),
+                                    new Point(2, 2),
+                                    new Point(3, 3),
+                                    new Point(4, 4),
+                                    new Point(5, 5),
+                                    new Point(6, 6),
+                                    new Point(7, 7),
+                                    new Point(8, 8))
                     )
             );
         }
@@ -58,7 +58,7 @@ class LinearCandidatePathStrategyTest {
             assertThatThrownBy(
                     () -> LINEAR_PATH_STRATEGY.calculate(
                             new Movement(List.of(Direction.NORTH_EAST, Direction.EAST)),
-                            Point.of(0, 0)))
+                            new Point(0, 0)))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

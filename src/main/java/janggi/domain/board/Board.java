@@ -12,11 +12,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Board {
+    private static final int MIN_X = 0;
+    private static final int MAX_X = 9;
 
+    private static final int MIN_Y = 0;
+    private static final int MAX_Y = 8;
     private final Map<Point, Piece> board;
 
     private Board(Map<Point, Piece> board) {
+        board.keySet().forEach(this::validateRange);
         this.board = board;
+    }
+
+    public static boolean isInRange(int nx, int ny) {
+        return nx >= MIN_X && nx <= MAX_X && ny >= MIN_Y && ny <= MAX_Y;
     }
 
     public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
@@ -25,6 +34,12 @@ public class Board {
         board.putAll(hanBoardSetUp.generate(Side.HAN));
 
         return new Board(board);
+    }
+
+    private void validateRange(Point point) {
+        if (!isInRange(point.x(), point.y())) {
+            throw new IllegalStateException("좌표의 범위는 {0,0} ~ {8,9} 입니다.");
+        }
     }
 
     public final Map<Point, Piece> getBoard() {

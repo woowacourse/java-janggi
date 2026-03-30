@@ -28,7 +28,7 @@ public class OutputView {
             System.out.print(cell(xLabels[x]));
 
             for (int y = 0; y <= 8; y++) {
-                Point point = Point.of(x, y);
+                Point point = new Point(x, y);
                 Piece piece = board.getOrDefault(point, null);
 
                 if (destinations != null && destinations.contains(point)) {

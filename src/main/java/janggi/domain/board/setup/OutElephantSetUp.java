@@ -13,17 +13,17 @@ public class OutElephantSetUp implements BoardSetUp {
         Map<Point, Piece> setup = createCommonBoard(side);
 
         if (side == Side.CHO) {
-            setup.put(Point.of(0, 1), new Elephant(side));
-            setup.put(Point.of(0, 2), new Horse(side));
-            setup.put(Point.of(0, 6), new Horse(side));
-            setup.put(Point.of(0, 7), new Elephant(side));
+            setup.put(new Point(0, 1), new Elephant(side));
+            setup.put(new Point(0, 2), new Horse(side));
+            setup.put(new Point(0, 6), new Horse(side));
+            setup.put(new Point(0, 7), new Elephant(side));
         }
 
         if (side == Side.HAN) {
-            setup.put(Point.of(9, 7), new Elephant(side));
-            setup.put(Point.of(9, 6), new Horse(side));
-            setup.put(Point.of(9, 2), new Horse(side));
-            setup.put(Point.of(9, 1), new Elephant(side));
+            setup.put(new Point(9, 7), new Elephant(side));
+            setup.put(new Point(9, 6), new Horse(side));
+            setup.put(new Point(9, 2), new Horse(side));
+            setup.put(new Point(9, 1), new Elephant(side));
         }
         return setup;
     }

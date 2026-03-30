@@ -34,13 +34,15 @@ class SoldierTest {
     public static Stream<Arguments> availablePoints() {
         return Stream.of(
                 Arguments.of(Side.CHO,
-                        List.of(new CandidatePath(List.of(Point.of(4, 0))), new CandidatePath(List.of(Point.of(3, 1)))),
+                        List.of(new CandidatePath(List.of(new Point(4, 0))),
+                                new CandidatePath(List.of(new Point(3, 1)))),
                         Collections.EMPTY_MAP,
-                        List.of(Point.of(4, 0), Point.of(3, 1))),
+                        List.of(new Point(4, 0), new Point(3, 1))),
                 Arguments.of(Side.HAN,
-                        List.of(new CandidatePath(List.of(Point.of(5, 8))), new CandidatePath(List.of(Point.of(6, 7)))),
+                        List.of(new CandidatePath(List.of(new Point(5, 8))),
+                                new CandidatePath(List.of(new Point(6, 7)))),
                         Collections.EMPTY_MAP,
-                        List.of(Point.of(5, 8), Point.of(6, 7)))
+                        List.of(new Point(5, 8), new Point(6, 7)))
         );
     }
 

@@ -34,38 +34,38 @@ class CannonTest {
                 Arguments.of(Side.CHO,
                         List.of(
                                 new CandidatePath(List.of(
-                                        Point.of(6, 5),
-                                        Point.of(7, 5),
-                                        Point.of(8, 5),
-                                        Point.of(9, 5)
+                                        new Point(6, 5),
+                                        new Point(7, 5),
+                                        new Point(8, 5),
+                                        new Point(9, 5)
                                 )),
                                 new CandidatePath(List.of(
-                                        Point.of(5, 6),
-                                        Point.of(5, 7),
-                                        Point.of(5, 8)
+                                        new Point(5, 6),
+                                        new Point(5, 7),
+                                        new Point(5, 8)
 
                                 )),
                                 new CandidatePath(List.of(
-                                        Point.of(4, 5),
-                                        Point.of(3, 5), Point.of(2, 5),
-                                        Point.of(1, 5), Point.of(0, 5)
+                                        new Point(4, 5),
+                                        new Point(3, 5), new Point(2, 5),
+                                        new Point(1, 5), new Point(0, 5)
                                 )),
                                 new CandidatePath(List.of(
-                                        Point.of(5, 4), Point.of(5, 3),
-                                        Point.of(5, 2), Point.of(5, 1),
-                                        Point.of(5, 0)
+                                        new Point(5, 4), new Point(5, 3),
+                                        new Point(5, 2), new Point(5, 1),
+                                        new Point(5, 0)
                                 ))
                         ),
-                        Map.of(Point.of(7, 5), new Soldier(Side.CHO), Point.of(9, 5), new Soldier(Side.HAN),
-                                Point.of(5, 4), new Soldier(Side.HAN), Point.of(5, 2), new Soldier(Side.CHO),
-                                Point.of(4, 5), new Cannon(Side.HAN),
-                                Point.of(5, 6), new Soldier(Side.CHO), Point.of(5, 8), new Cannon(Side.CHO)),
+                        Map.of(new Point(7, 5), new Soldier(Side.CHO), new Point(9, 5), new Soldier(Side.HAN),
+                                new Point(5, 4), new Soldier(Side.HAN), new Point(5, 2), new Soldier(Side.CHO),
+                                new Point(4, 5), new Cannon(Side.HAN),
+                                new Point(5, 6), new Soldier(Side.CHO), new Point(5, 8), new Cannon(Side.CHO)),
                         List.of(
-                                Point.of(8, 5),
-                                Point.of(9, 5),
-                                Point.of(5, 2),
-                                Point.of(5, 3),
-                                Point.of(5, 7)
+                                new Point(8, 5),
+                                new Point(9, 5),
+                                new Point(5, 2),
+                                new Point(5, 3),
+                                new Point(5, 7)
                         ))
 
         );

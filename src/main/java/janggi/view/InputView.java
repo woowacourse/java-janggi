@@ -43,7 +43,7 @@ public class InputView {
 
         int x = XPointFormat.convertToInt(matcher.group(1));
         int y = parseToInt(matcher.group(2));
-        return Point.of(x, y);
+        return new Point(x, y);
     }
 
     public Optional<Point> readDestination() {
@@ -61,7 +61,7 @@ public class InputView {
 
         int x = XPointFormat.convertToInt(matcher.group(1));
         int y = parseToInt(matcher.group(2));
-        return Optional.of(Point.of(x, y));
+        return Optional.of(new Point(x, y));
     }
 
 
