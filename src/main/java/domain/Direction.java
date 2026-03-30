@@ -28,12 +28,9 @@ public enum Direction implements Comparator<Direction> {
     public static List<Direction> findDirections(int x, int y) {
         List<Direction> directions = new ArrayList<>();
         while (!(x == 0 && y == 0)) {
-            Direction direction = null;
+            Direction direction = findDiagonal(x, y);
             if (x == 0 || y == 0) {
                 direction = findStraight(x, y);
-            }
-            if (x != 0 && y != 0) {
-                direction = findDiagonal(x, y);
             }
             directions.add(direction);
             x += -direction.x;
