@@ -68,13 +68,13 @@ public final class Soldier extends StaticPositionedPiece {
             AlivePieces alivePieces,
             List<Intersection> movableIntersections
     ) {
-        Piece rightPiece = alivePieces.placedAt(destination);
-
         if (destination.isOutOfBoard()) {
             return;
         }
 
-        if (alivePieces.isEmpty(destination) || rightPiece.hasDifferentSide(side)) {
+        Piece destinationPiece = alivePieces.placedAt(destination);
+
+        if (alivePieces.isEmpty(destination) || destinationPiece.hasDifferentSide(side)) {
             movableIntersections.add(destination);
         }
     }
