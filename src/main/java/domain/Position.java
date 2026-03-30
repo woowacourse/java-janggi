@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Position {
     private final Row row;
-
     private final Column column;
+
     private Position(Row row, Column column) {
         this.row = row;
         this.column = column;
@@ -17,6 +17,7 @@ public class Position {
 
         return Position.of(nextRow, nextCol);
     }
+
     public static Position of(int row, int column) {
         return new Position(new Row(row), new Column(column));
     }
@@ -51,5 +52,4 @@ public class Position {
     public String toString() {
         return "(" + row() + "," + column() + ")";
     }
-
 }
