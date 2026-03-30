@@ -2,11 +2,13 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MultiStepStraightStrategy implements MoveStrategy {
+
+    private static final String ONLY_STRAIGHT_MOVE_ALLOWED = "[ERROR] 해당 기물은 직선 이동만 가능합니다.";
+    private static final String PIECE_MUST_MOVE = "[ERROR] 기물은 반드시 이동해야 합니다.";
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
@@ -26,11 +28,11 @@ public class MultiStepStraightStrategy implements MoveStrategy {
         int columnDifference = directionInformation.columnDifference();
 
         if (sum != rowDifference && sum != columnDifference) {
-            throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
+            throw new IllegalArgumentException(ONLY_STRAIGHT_MOVE_ALLOWED);
         }
 
         if (rowDifference == 0 && columnDifference == 0) {
-            throw new IllegalArgumentException(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
+            throw new IllegalArgumentException(PIECE_MUST_MOVE);
         }
     }
 

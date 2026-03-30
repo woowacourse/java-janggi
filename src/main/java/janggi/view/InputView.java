@@ -1,7 +1,6 @@
 package janggi.view;
 
 import janggi.domain.Position;
-import janggi.exception.ExceptionMessage;
 import janggi.util.Parser;
 import janggi.view.dto.CampDto;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.Scanner;
 
 public final class InputView {
 
+    private static final String INVALID_INPUT_FORMAT = "[ERROR] 잘못된 입력 형식입니다.";
     private static final String DELIMITER = ",";
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
@@ -43,7 +43,7 @@ public final class InputView {
 
     private void validateInput(String input) {
         if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
+            throw new IllegalArgumentException(INVALID_INPUT_FORMAT);
         }
     }
 
@@ -65,7 +65,7 @@ public final class InputView {
 
     private void validatePositionSize(List<Integer> rawPosition) {
         if (rawPosition.size() != 2) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
+            throw new IllegalArgumentException(INVALID_INPUT_FORMAT);
         }
     }
 }

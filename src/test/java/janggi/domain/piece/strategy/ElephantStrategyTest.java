@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
@@ -93,6 +92,6 @@ public class ElephantStrategyTest {
     void 상은_행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
         assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
+                .hasMessage("[ERROR] 해당 기물은 직선 1칸 이동 후 대각선 2칸 이동만 가능합니다.");
     }
 }

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
@@ -55,14 +54,14 @@ class SoldierStrategyTest {
         void 병은_1칸_이동이_아니면_예외가_발생한다(Position source, Position destination) {
             assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.HAN))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
         }
 
         @Test
         void 병은_후진_시_예외가_발생한다() {
             assertThatThrownBy(() -> strategy.findPath(new Position(6, 0), new Position(7, 0), Camp.HAN))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 후진할 수 없습니다.");
         }
     }
 
@@ -86,14 +85,14 @@ class SoldierStrategyTest {
         void 졸은_1칸_이동이_아니면_예외가_발생한다() {
             assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(5, 0), Camp.CHO))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
         }
 
         @Test
         void 졸은_후진_시_예외가_발생한다() {
             assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(2, 0), Camp.CHO))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 후진할 수 없습니다.");
         }
     }
 }

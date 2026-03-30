@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
-import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -58,7 +57,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(1, 4), new Position(3, 4), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
         }
     }
 
@@ -85,7 +84,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 3), new Position(0, 5), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
         }
     }
 
@@ -114,7 +113,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 1), new Position(2, 2), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
+                    .hasMessage("[ERROR] 경로 상에 기물이 존재합니다.");
         }
 
         @Test
@@ -126,7 +125,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 1), new Position(0, 7), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선 1칸 이동 후 대각선 1칸 이동만 가능합니다.");
         }
     }
 
@@ -153,7 +152,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 6), new Position(3, 3), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선 1칸 이동 후 대각선 2칸 이동만 가능합니다.");
         }
     }
 
@@ -169,7 +168,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 정확히 1개의 기물만 뛰어넘을 수 있습니다.");
         }
 
         @Test
@@ -184,7 +183,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(2, 1), new Position(8, 1), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 정확히 1개의 기물만 뛰어넘을 수 있습니다.");
         }
 
         @Test
@@ -228,7 +227,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 0), new Position(9, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
+                    .hasMessage("[ERROR] 경로 상에 기물이 존재합니다.");
         }
 
         @Test
@@ -240,7 +239,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 0), new Position(3, 3), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선 이동만 가능합니다.");
         }
     }
 
@@ -267,7 +266,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(3, 0), new Position(2, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 후진할 수 없습니다.");
         }
 
         @Test
@@ -279,7 +278,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(3, 0), new Position(5, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
         }
     }
 
@@ -306,7 +305,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(6, 0), new Position(7, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
+                    .hasMessage("[ERROR] 해당 기물은 후진할 수 없습니다.");
         }
 
         @Test
@@ -318,7 +317,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(6, 0), new Position(1, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
-        }
+                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
     }
+}
 }

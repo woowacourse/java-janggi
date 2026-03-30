@@ -4,7 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.exception.ExceptionMessage;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ public enum ElephantSetting {
     INNER_ELEPHANT("3", List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT, PieceType.HORSE)),
     OUTER_ELEPHANT("4", List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT));
 
+    private static final String INVALID_ELEPHANT_SETTING = "[ERROR] 존재하지 않는 상차림 입니다.";
     private static final List<Integer> SETTING_COLUMNS = List.of(1, 2, 6, 7);
 
     private final String command;
@@ -32,7 +32,7 @@ public enum ElephantSetting {
                 .filter(element -> element.command.equals(command))
                 .findFirst()
                 .orElseThrow(
-                        () -> new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_SETTING.getMessage()));
+                        () -> new IllegalArgumentException(INVALID_ELEPHANT_SETTING));
     }
 
     public Map<Position, Piece> createElephantOrder(Camp camp) {

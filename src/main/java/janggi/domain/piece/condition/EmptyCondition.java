@@ -4,10 +4,12 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceType;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class EmptyCondition implements MoveCondition {
+
+    private static final String PATH_NOT_EMPTY = "[ERROR] 경로 상에 기물이 존재합니다.";
+    public static final String SAME_CAMP_PIECE_AT_DESTINATION = "[ERROR] 목적지에 같은 진영의 기물이 존재합니다.";
 
     @Override
     public void checkPath(List<Position> path, Camp camp, BoardChecker board, PieceType pieceType) {
@@ -19,13 +21,13 @@ public class EmptyCondition implements MoveCondition {
 
     private void validateEmptyPosition(Position position, BoardChecker board) {
         if (board.hasPieceAt(position)) {
-            throw new IllegalArgumentException(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
+            throw new IllegalArgumentException(PATH_NOT_EMPTY);
         }
     }
 
     private void validateDestination(Position destination, Camp camp, BoardChecker board) {
         if (board.isSameCampPieceAt(destination, camp)) {
-            throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
+            throw new IllegalArgumentException(SAME_CAMP_PIECE_AT_DESTINATION);
         }
     }
 }

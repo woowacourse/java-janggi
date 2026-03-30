@@ -1,10 +1,11 @@
 package janggi.util;
 
-import janggi.exception.ExceptionMessage;
 import java.util.Arrays;
 import java.util.List;
 
 public final class Parser {
+
+    private static final String ONLY_NUMBERS_ALLOWED = "[ERROR] 숫자만 입력 가능합니다";
 
     private Parser() {
     }
@@ -20,7 +21,7 @@ public final class Parser {
         try {
             return Integer.parseInt(number);
         } catch (NumberFormatException numberFormatException) {
-            throw new IllegalArgumentException(ExceptionMessage.ONLY_NUMBERS_ALLOWED.getMessage());
+            throw new IllegalArgumentException(ONLY_NUMBERS_ALLOWED);
         }
     }
 }

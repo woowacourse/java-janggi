@@ -2,12 +2,15 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class SingleStepStraightStrategy implements MoveStrategy {
 
     public static final int SINGLE_STEP_DISTANCE = 1;
+    private static final String INVALID_SINGLE_STEP_STRAIGHT_MOVE = String.format(
+            "[ERROR] 해당 기물은 직선으로 %d칸 이동해야 합니다.",
+            SINGLE_STEP_DISTANCE
+    );
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
@@ -20,7 +23,7 @@ public class SingleStepStraightStrategy implements MoveStrategy {
     private void validateSingleStepMovement(DirectionInformation directionInformation) {
         if (directionInformation.calculateAbsRowDifference()
                 + directionInformation.calculateAbsColumnDifference() != SINGLE_STEP_DISTANCE) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+            throw new IllegalArgumentException(INVALID_SINGLE_STEP_STRAIGHT_MOVE);
         }
     }
 }

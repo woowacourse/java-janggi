@@ -4,7 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -49,7 +48,7 @@ class BoardTest {
         // then
         Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_CAMP_PIECE.getMessage());
+                .hasMessage("[ERROR] 상대 진영의 기물은 이동할 수 없습니다.");
     }
 
     @Test
@@ -62,6 +61,6 @@ class BoardTest {
         // then
         Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
+                .hasMessage("[ERROR] 출발지에 기물이 존재하지 않습니다.");
     }
 }

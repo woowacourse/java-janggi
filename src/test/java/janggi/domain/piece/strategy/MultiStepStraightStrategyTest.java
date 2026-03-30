@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
@@ -86,13 +85,13 @@ public class MultiStepStraightStrategyTest {
     void 차와_포는_한_방향으로_이동하지_않으면_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(0, 0), new Position(5, 5), Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
+                .hasMessage("[ERROR] 해당 기물은 직선 이동만 가능합니다.");
     }
 
     @Test
     void 차와_포는_제자리_이동_시_예외가_발생한다1() {
         assertThatThrownBy(() -> strategy.findPath(new Position(0, 0), new Position(0, 0), Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
+                .hasMessage("[ERROR] 기물은 반드시 이동해야 합니다.");
     }
 }

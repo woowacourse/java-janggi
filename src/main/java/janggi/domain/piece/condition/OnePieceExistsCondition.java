@@ -4,12 +4,18 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceType;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class OnePieceExistsCondition implements MoveCondition {
 
     public static final int PASS_PIECE_COUNT = 1;
+    private static final String SAME_PIECE_TYPE_IN_PATH = "[ERROR] 경로상에 같은 종류의 기물이 존재합니다.";
+    private static final String INVALID_JUMPED_PIECE_COUNT = String.format(
+            "[ERROR] 해당 기물은 정확히 %d개의 기물만 뛰어넘을 수 있습니다.",
+            PASS_PIECE_COUNT
+    );
+    private static final String SAME_PIECE_TYPE_AT_DESTINATION = "[ERROR] 목적지에 같은 종류의 기물이 존재합니다.";
+    private static final String SAME_CAMP_PIECE_AT_DESTINATION = "[ERROR] 목적지에 같은 진영의 기물이 존재합니다.";
 
     @Override
     public void checkPath(List<Position> path, Camp camp, BoardChecker board, PieceType pieceType) {
@@ -33,23 +39,23 @@ public class OnePieceExistsCondition implements MoveCondition {
 
     private void validateSamePieceRule(BoardChecker board, PieceType pieceType, Position position) {
         if (board.hasSamePieceRuleAt(position, pieceType)) {
-            throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
+            throw new IllegalArgumentException(SAME_PIECE_TYPE_IN_PATH);
         }
     }
 
     private void validateExactPieceCount(int countOfPiece) {
         if (countOfPiece != PASS_PIECE_COUNT) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
+            throw new IllegalArgumentException(INVALID_JUMPED_PIECE_COUNT);
         }
     }
 
     private void validateDestination(Position destination, Camp camp, BoardChecker board, PieceType pieceType) {
         if (board.isSameCampPieceAt(destination, camp)) {
-            throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
+            throw new IllegalArgumentException(SAME_CAMP_PIECE_AT_DESTINATION);
         }
 
         if (board.hasSamePieceRuleAt(destination, pieceType)) {
-            throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
+            throw new IllegalArgumentException(SAME_PIECE_TYPE_AT_DESTINATION);
         }
     }
 }

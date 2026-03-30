@@ -2,7 +2,6 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +9,13 @@ public class HorseStrategy implements MoveStrategy {
 
     private static final int MIN_ABS_DELTA = 1;
     private static final int MAX_ABS_DELTA = 2;
-
     public static final int HORSE_STRAIGHT_MOVE_DISTANCE = 1;
     public static final int HORSE_DIAGONAL_MOVE_DISTANCE = 1;
+    private static final String INVALID_HORSE_MOVE = String.format(
+            "[ERROR] 해당 기물은 직선 %d칸 이동 후 대각선 %d칸 이동만 가능합니다.",
+            HORSE_STRAIGHT_MOVE_DISTANCE,
+            HORSE_DIAGONAL_MOVE_DISTANCE
+    );
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
@@ -58,7 +61,7 @@ public class HorseStrategy implements MoveStrategy {
 
         if ((absRowDifference != MIN_ABS_DELTA || absColumnDifference != MAX_ABS_DELTA)
                 && (absRowDifference != MAX_ABS_DELTA || absColumnDifference != MIN_ABS_DELTA)) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
+            throw new IllegalArgumentException(INVALID_HORSE_MOVE);
         }
     }
 }

@@ -8,7 +8,6 @@ import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.EmptyConditionTestBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceType;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +33,7 @@ public class EmptyConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
+                .hasMessage("[ERROR] 경로 상에 기물이 존재합니다.");
     }
 
     @Test
@@ -54,6 +53,6 @@ public class EmptyConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
+                .hasMessage("[ERROR] 목적지에 같은 진영의 기물이 존재합니다.");
     }
 }

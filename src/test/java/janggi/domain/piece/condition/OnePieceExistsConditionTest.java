@@ -8,7 +8,6 @@ import janggi.domain.board.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.exception.ExceptionMessage;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
+                .hasMessage("[ERROR] 해당 기물은 정확히 1개의 기물만 뛰어넘을 수 있습니다.");
     }
 
     @Test
@@ -59,7 +58,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
+                .hasMessage("[ERROR] 해당 기물은 정확히 1개의 기물만 뛰어넘을 수 있습니다.");
     }
 
     @Test
@@ -82,7 +81,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
+                .hasMessage("[ERROR] 경로상에 같은 종류의 기물이 존재합니다.");
     }
 
     @Test
@@ -106,7 +105,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
+                .hasMessage("[ERROR] 목적지에 같은 진영의 기물이 존재합니다.");
     }
 
     @Test
@@ -130,6 +129,6 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
+                .hasMessage("[ERROR] 목적지에 같은 종류의 기물이 존재합니다.");
     }
 }
