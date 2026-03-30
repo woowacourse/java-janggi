@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
+import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.board.initializer;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;

@@ -1,6 +1,7 @@
-package janggi.domain.board;
+package janggi.domain.board.initializer;
 
 import janggi.domain.Position;
+import janggi.domain.board.initializer.dto.ElephantSetUpDto;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -43,16 +44,15 @@ public enum InitialPiecePlacement {
         this.piece = new Piece(pieceType, camp);
     }
 
-    // TODO : 둘 다 같은 나라의 ElephantSetting 들어와도 컴파일 에러 X -> 타입 강제 고려하기
-    public static Map<Position, Piece> init(ElephantSetUp hanChoice, ElephantSetUp choChoice) {
+    public static Map<Position, Piece> init(ElephantSetUpDto firstChoice, ElephantSetUpDto secondChoice) {
         Map<Position, Piece> board = new HashMap<>();
 
         for (InitialPiecePlacement placement : values()) {
             board.put(placement.position, placement.piece);
         }
 
-        board.putAll(hanChoice.settingUp(Camp.HAN));
-        board.putAll(choChoice.settingUp(Camp.CHO));
+        board.putAll(firstChoice.settingUp());
+        board.putAll(secondChoice.settingUp());
         return board;
     }
 }

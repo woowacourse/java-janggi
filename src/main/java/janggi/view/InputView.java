@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.domain.Position;
-import janggi.domain.board.ElephantSetUp;
+import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.util.Parser;
 import janggi.view.dto.CampDto;
 import janggi.view.format.ElephantSetUpFormat;

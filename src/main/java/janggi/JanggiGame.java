@@ -3,9 +3,10 @@ package janggi;
 import janggi.domain.Position;
 import janggi.domain.Turn;
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardInitializer;
-import janggi.domain.board.ElephantSetUp;
-import janggi.domain.board.StandardBoardInitializer;
+import janggi.domain.board.initializer.BoardInitializer;
+import janggi.domain.board.initializer.ElephantSetUp;
+import janggi.domain.board.initializer.StandardBoardInitializer;
+import janggi.domain.board.initializer.dto.ElephantSetUpDto;
 import janggi.domain.piece.Camp;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -29,14 +30,19 @@ public class JanggiGame {
     }
 
     private Board createBoard() {
-        ElephantSetUp hanElephantSetUp = retryOnInvalidInput(
-                () -> inputView.readElephantSetting(CampDto.from(Camp.HAN)));
+        ElephantSetUpDto hanElephantSetUp = readElephantSetUp(Camp.HAN);
+        ElephantSetUpDto choElephantSetUp = readElephantSetUp(Camp.CHO);
 
-        ElephantSetUp choElephantSetUp = retryOnInvalidInput(
-                () -> inputView.readElephantSetting(CampDto.from(Camp.CHO)));
-
-        BoardInitializer initializer = new StandardBoardInitializer(hanElephantSetUp, choElephantSetUp);
+        BoardInitializer initializer
+                = new StandardBoardInitializer(hanElephantSetUp, choElephantSetUp);
         return new Board(initializer);
+    }
+
+    private ElephantSetUpDto readElephantSetUp(Camp camp) {
+        ElephantSetUp elephantSetUp = retryOnInvalidInput(
+                () -> inputView.readElephantSetting(CampDto.from(camp))
+        );
+        return new ElephantSetUpDto(camp, elephantSetUp);
     }
 
     private void play(Board board) {
