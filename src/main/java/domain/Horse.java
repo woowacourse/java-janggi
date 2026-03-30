@@ -71,10 +71,10 @@ public class Horse extends Piece {
         if (position.upPossible()) {
             Position currentPosition = position.up();
             if (!map.containsKey(currentPosition)) {
-                if (currentPosition.rightUpPossible() && (!map.containsKey(currentPosition.rightUp()) || !map.get(currentPosition.rightUp()).isSameSideAs(side))) {
+                if (currentPosition.rightUpPossible() && (!map.containsKey(currentPosition.rightUp()) || !map.get(currentPosition.rightUp()).isAlly(side))) {
                     destinations.add(currentPosition.rightUp());
                 }
-                if (currentPosition.leftUpPossible() && (!map.containsKey(currentPosition.leftUp()) || !map.get(currentPosition.leftUp()).isSameSideAs(side))) {
+                if (currentPosition.leftUpPossible() && (!map.containsKey(currentPosition.leftUp()) || !map.get(currentPosition.leftUp()).isAlly(side))) {
                     destinations.add(currentPosition.leftUp());
                 }
             }
@@ -84,10 +84,10 @@ public class Horse extends Piece {
         if (position.downPossible()) {
             Position currentPosition = position.down();
             if (!map.containsKey(currentPosition)) {
-                if (currentPosition.rightDownPossible() && (!map.containsKey(currentPosition.rightDown()) || !map.get(currentPosition.rightDown()).isSameSideAs(side))) {
+                if (currentPosition.rightDownPossible() && (!map.containsKey(currentPosition.rightDown()) || !map.get(currentPosition.rightDown()).isAlly(side))) {
                     destinations.add(currentPosition.rightDown());
                 }
-                if (currentPosition.leftDownPossible() && (!map.containsKey(currentPosition.leftDown())  || !map.get(currentPosition.leftDown()).isSameSideAs(side))) {
+                if (currentPosition.leftDownPossible() && (!map.containsKey(currentPosition.leftDown())  || !map.get(currentPosition.leftDown()).isAlly(side))) {
                     destinations.add(currentPosition.leftDown());
                 }
             }
@@ -97,10 +97,10 @@ public class Horse extends Piece {
         if (position.leftPossible()) {
             Position currentPosition = position.left();
             if (!map.containsKey(currentPosition)) {
-                if (currentPosition.leftUpPossible() && (!map.containsKey(currentPosition.leftUp()) || !map.get(currentPosition.leftUp()).isSameSideAs(side))) {
+                if (currentPosition.leftUpPossible() && (!map.containsKey(currentPosition.leftUp()) || !map.get(currentPosition.leftUp()).isAlly(side))) {
                     destinations.add(currentPosition.leftUp());
                 }
-                if (currentPosition.leftDownPossible() && (!map.containsKey(currentPosition.leftDown()) || !map.get(currentPosition.leftDown()).isSameSideAs(side))) {
+                if (currentPosition.leftDownPossible() && (!map.containsKey(currentPosition.leftDown()) || !map.get(currentPosition.leftDown()).isAlly(side))) {
                     destinations.add(currentPosition.leftDown());
                 }
             }
@@ -110,10 +110,10 @@ public class Horse extends Piece {
         if (position.rightPossible()) {
             Position currentPosition = position.right();
             if (!map.containsKey(currentPosition)) {
-                if (currentPosition.rightUpPossible() && (!map.containsKey(currentPosition.rightUp()) || !map.get(currentPosition.rightUp()).isSameSideAs(side))) {
+                if (currentPosition.rightUpPossible() && (!map.containsKey(currentPosition.rightUp()) || !map.get(currentPosition.rightUp()).isAlly(side))) {
                     destinations.add(currentPosition.rightUp());
                 }
-                if (currentPosition.rightDownPossible() && (!map.containsKey(currentPosition.rightDown()) || !map.get(currentPosition.rightDown()).isSameSideAs(side))) {
+                if (currentPosition.rightDownPossible() && (!map.containsKey(currentPosition.rightDown()) || !map.get(currentPosition.rightDown()).isAlly(side))) {
                     destinations.add(currentPosition.rightDown());
                 }
             }

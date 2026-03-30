@@ -10,7 +10,7 @@ class BoardTest {
 
     @Test
     void 장기판은_올바른_위치에_기물을_초기화한다() {
-        Board board = InitialBoardFactory.create(Formation.LEFT_ELEPHANT, Formation.RIGHT_ELEPHANT);
+        Board board = BoardFactory.create(Formation.LEFT_ELEPHANT, Formation.RIGHT_ELEPHANT);
         Map<Position, Piece> actual = board.getBoard();
 
         assertThat(actual).hasSize(32);

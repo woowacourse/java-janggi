@@ -10,8 +10,8 @@ public abstract class Piece {
         this.side = side;
     }
 
-    public boolean isSameSideAs(Side other) {
-        return side.isSameAs(other);
+    public boolean isAlly(Side other) {
+        return side.isAlly(other);
     }
 
     public Side getSide() {

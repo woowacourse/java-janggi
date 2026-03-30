@@ -52,30 +52,30 @@ public class Soldier extends Piece {
 
         if (side.isCho()) {
             // 상
-            if (position.upPossible() && (!map.containsKey(position.up()) || !map.get(position.up()).isSameSideAs(side))) {
+            if (position.upPossible() && (!map.containsKey(position.up()) || !map.get(position.up()).isAlly(side))) {
                 destinations.add(position.up());
             }
             // 좌
-            if (position.leftPossible() && (!map.containsKey(position.left()) || !map.get(position.left()).isSameSideAs(side))) {
+            if (position.leftPossible() && (!map.containsKey(position.left()) || !map.get(position.left()).isAlly(side))) {
                 destinations.add(position.left());
             }
             // 우
-            if (position.rightPossible() && (!map.containsKey(position.right()) || !map.get(position.right()).isSameSideAs(side))) {
+            if (position.rightPossible() && (!map.containsKey(position.right()) || !map.get(position.right()).isAlly(side))) {
                 destinations.add(position.right());
             }
             return destinations;
         }
 
         // 하
-        if (position.downPossible() && (!map.containsKey(position.down()) || !map.get(position.down()).isSameSideAs(side))) {
+        if (position.downPossible() && (!map.containsKey(position.down()) || !map.get(position.down()).isAlly(side))) {
             destinations.add(position.down());
         }
         // 좌
-        if (position.leftPossible() && (!map.containsKey(position.left()) || !map.get(position.left()).isSameSideAs(side))) {
+        if (position.leftPossible() && (!map.containsKey(position.left()) || !map.get(position.left()).isAlly(side))) {
             destinations.add(position.left());
         }
         // 우
-        if (position.rightPossible() && (!map.containsKey(position.right()) || !map.get(position.right()).isSameSideAs(side))) {
+        if (position.rightPossible() && (!map.containsKey(position.right()) || !map.get(position.right()).isAlly(side))) {
             destinations.add(position.right());
         }
 

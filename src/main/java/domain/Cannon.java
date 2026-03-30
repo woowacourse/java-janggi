@@ -54,7 +54,7 @@ public class Cannon extends Piece {
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
                 if (canPut) {
-                    if (!piece.isSameSideAs(side) && !(piece instanceof Cannon)) {
+                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
                         destinations.add(currentPosition);
                     }
                     break;
@@ -80,7 +80,7 @@ public class Cannon extends Piece {
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
                 if (canPut) {
-                    if (!piece.isSameSideAs(side) && !(piece instanceof Cannon)) {
+                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
                         destinations.add(currentPosition);
                     }
                     break;
@@ -106,7 +106,7 @@ public class Cannon extends Piece {
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
                 if (canPut) {
-                    if (!piece.isSameSideAs(side) && !(piece instanceof Cannon)) {
+                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
                         destinations.add(currentPosition);
                     }
                     break;
@@ -132,7 +132,7 @@ public class Cannon extends Piece {
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
                 if (canPut) {
-                    if (!piece.isSameSideAs(side) && !(piece instanceof Cannon)) {
+                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
                         destinations.add(currentPosition);
                     }
                     break;

@@ -3,9 +3,9 @@ package domain;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InitialBoardFactory {
+public class BoardFactory {
 
-    private InitialBoardFactory() {
+    private BoardFactory() {
     }
 
     public static Board create(Formation choFormation, Formation hanFormation) {

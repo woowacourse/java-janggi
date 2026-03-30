@@ -10,10 +10,10 @@ class FormationTest {
 
     @Test
     void 선택값으로_포메이션을_찾는다() {
-        assertThat(Formation.from(Selection.FIRST)).isEqualTo(Formation.LEFT_ELEPHANT);
-        assertThat(Formation.from(Selection.SECOND)).isEqualTo(Formation.RIGHT_ELEPHANT);
-        assertThat(Formation.from(Selection.THIRD)).isEqualTo(Formation.OUTER_ELEPHANT);
-        assertThat(Formation.from(Selection.FOURTH)).isEqualTo(Formation.INNER_ELEPHANT);
+        assertThat(Formation.from(FormationCommand.FIRST)).isEqualTo(Formation.LEFT_ELEPHANT);
+        assertThat(Formation.from(FormationCommand.SECOND)).isEqualTo(Formation.RIGHT_ELEPHANT);
+        assertThat(Formation.from(FormationCommand.THIRD)).isEqualTo(Formation.OUTER_ELEPHANT);
+        assertThat(Formation.from(FormationCommand.FOURTH)).isEqualTo(Formation.INNER_ELEPHANT);
     }
 
     @Test

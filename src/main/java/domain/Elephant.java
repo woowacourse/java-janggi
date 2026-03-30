@@ -104,13 +104,13 @@ public class Elephant extends Piece {
             Position currentPosition = position.up(); // 애초에 넘길때 가능한지 체크하고 만들면 조건문 하나 줄일 수 있지!
             if (currentPosition.rightUpPossible() && !map.containsKey(currentPosition.rightUp())) {
                 Position rightUpPosition = currentPosition.rightUp();
-                if (rightUpPosition.rightUpPossible() && (!map.containsKey(rightUpPosition.rightUp()) || !map.get(rightUpPosition.rightUp()).isSameSideAs(side))) {
+                if (rightUpPosition.rightUpPossible() && (!map.containsKey(rightUpPosition.rightUp()) || !map.get(rightUpPosition.rightUp()).isAlly(side))) {
                     destinations.add(rightUpPosition.rightUp());
                 }
             }
             if (currentPosition.leftUpPossible() && !map.containsKey(currentPosition.leftUp())) {
                 Position leftUpPosition = currentPosition.leftUp();
-                if (leftUpPosition.leftUpPossible() && (!map.containsKey(leftUpPosition.rightUp()) || !map.get(leftUpPosition.leftUp()).isSameSideAs(side))) {
+                if (leftUpPosition.leftUpPossible() && (!map.containsKey(leftUpPosition.rightUp()) || !map.get(leftUpPosition.leftUp()).isAlly(side))) {
                     destinations.add(leftUpPosition.leftUp());
                 }
             }
@@ -120,13 +120,13 @@ public class Elephant extends Piece {
             Position currentPosition = position.down(); // 애초에 넘길때 가능한지 체크하고 만들면 조건문 하나 줄일 수 있지!
             if (currentPosition.rightDownPossible() && !map.containsKey(currentPosition.rightDown())) {
                 Position rightDownPosition = currentPosition.rightDown();
-                if (rightDownPosition.rightDownPossible() && (!map.containsKey(rightDownPosition.rightDown()) || !map.get(rightDownPosition.rightDown()).isSameSideAs(side))) {
+                if (rightDownPosition.rightDownPossible() && (!map.containsKey(rightDownPosition.rightDown()) || !map.get(rightDownPosition.rightDown()).isAlly(side))) {
                     destinations.add(rightDownPosition.rightDown());
                 }
             }
             if (currentPosition.leftDownPossible() && !map.containsKey(currentPosition.leftDown())) {
                 Position leftDownPosition = currentPosition.leftDown();
-                if (leftDownPosition.leftDownPossible() && (!map.containsKey(leftDownPosition.leftDown()) || !map.get(leftDownPosition.leftDown()).isSameSideAs(side))) {
+                if (leftDownPosition.leftDownPossible() && (!map.containsKey(leftDownPosition.leftDown()) || !map.get(leftDownPosition.leftDown()).isAlly(side))) {
                     destinations.add(leftDownPosition.leftDown());
                 }
             }
@@ -136,13 +136,13 @@ public class Elephant extends Piece {
             Position currentPosition = position.left(); // 애초에 넘길때 가능한지 체크하고 만들면 조건문 하나 줄일 수 있지!
             if (currentPosition.leftUpPossible() && !map.containsKey(currentPosition.leftUp())) {
                 Position leftUpPosition = currentPosition.leftUp();
-                if (leftUpPosition.leftUpPossible() && (!map.containsKey(leftUpPosition.leftUp()) || !map.get(leftUpPosition.leftUp()).isSameSideAs(side))) {
+                if (leftUpPosition.leftUpPossible() && (!map.containsKey(leftUpPosition.leftUp()) || !map.get(leftUpPosition.leftUp()).isAlly(side))) {
                     destinations.add(leftUpPosition.leftUp());
                 }
             }
             if (currentPosition.leftDownPossible() && !map.containsKey(currentPosition.leftDown())) {
                 Position leftDownPosition = currentPosition.leftDown();
-                if (leftDownPosition.leftDownPossible() && (!map.containsKey(leftDownPosition.leftDown()) || !map.get(leftDownPosition.leftDown()).isSameSideAs(side))) {
+                if (leftDownPosition.leftDownPossible() && (!map.containsKey(leftDownPosition.leftDown()) || !map.get(leftDownPosition.leftDown()).isAlly(side))) {
                     destinations.add(leftDownPosition.leftDown());
                 }
             }
@@ -152,13 +152,13 @@ public class Elephant extends Piece {
             Position currentPosition = position.right(); // 애초에 넘길때 가능한지 체크하고 만들면 조건문 하나 줄일 수 있지!
             if (currentPosition.rightUpPossible() && !map.containsKey(currentPosition.rightUp())) {
                 Position rightUpPosition = currentPosition.rightUp();
-                if (rightUpPosition.rightUpPossible() && (!map.containsKey(rightUpPosition.rightUp()) || !map.get(rightUpPosition.rightUp()).isSameSideAs(side))) {
+                if (rightUpPosition.rightUpPossible() && (!map.containsKey(rightUpPosition.rightUp()) || !map.get(rightUpPosition.rightUp()).isAlly(side))) {
                     destinations.add(rightUpPosition.rightUp());
                 }
             }
             if (currentPosition.rightDownPossible() && !map.containsKey(currentPosition.rightDown())) {
                 Position rightDownPosition = currentPosition.rightDown();
-                if (rightDownPosition.rightDownPossible() && (!map.containsKey(rightDownPosition.rightDown()) || !map.get(rightDownPosition.rightDown()).isSameSideAs(side))) {
+                if (rightDownPosition.rightDownPossible() && (!map.containsKey(rightDownPosition.rightDown()) || !map.get(rightDownPosition.rightDown()).isAlly(side))) {
                     destinations.add(rightDownPosition.rightDown());
                 }
             }

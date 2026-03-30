@@ -10,35 +10,35 @@ class PositionTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8})
-    void x의_값은_0_이상_8_이하여야_한다(int value) {
+    void x의_값은_0_이상_8_이하여야_한다(int validX) {
         int y = 0;
-        assertThatCode(() -> new Position(value, y))
+        assertThatCode(() -> new Position(validX, y))
                 .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
-    void y의_값은_0_이상_9_이하여야_한다(int value) {
+    void y의_값은_0_이상_9_이하여야_한다(int validY) {
         int x = 0;
-        assertThatCode(() -> new Position(x, value))
+        assertThatCode(() -> new Position(x, validY))
                 .doesNotThrowAnyException();
     }
 
 
     @ParameterizedTest
     @ValueSource(ints = {-1, -2, 9, 10, 100})
-    void x의_값이_0_이상_8_이하가_아니면_예외가_발생한다(int value) {
+    void x_좌표가_0_미만이거나_8_초과이면_예외가_발생한다(int invalidX) {
         int y = 0;
-        assertThatThrownBy(() -> new Position(value, y))
+        assertThatThrownBy(() -> new Position(invalidX, y))
                 .isInstanceOf(IllegalArgumentException.class);
 
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-1, -2, 10, 11, 100})
-    void y의_값이_0_이상_9_이하가_아니면_예외가_발생한다(int value) {
+    void y_좌표가_0_미만이거나_9_초과이면_예외가_발생한다(int invalidY) {
         int x = 0;
-        assertThatThrownBy(() -> new Position(x, value))
+        assertThatThrownBy(() -> new Position(x, invalidY))
                 .isInstanceOf(IllegalArgumentException.class);
 
     }

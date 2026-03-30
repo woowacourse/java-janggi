@@ -52,7 +52,7 @@ public class Chariot extends Piece {
             currentPosition = currentPosition.up();
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
-                if (!piece.isSameSideAs(side)) {
+                if (!piece.isAlly(side)) {
                     destinations.add(currentPosition);
                 }
                 break;
@@ -65,7 +65,7 @@ public class Chariot extends Piece {
             currentPosition = currentPosition.down();
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
-                if (!piece.isSameSideAs(side)) {
+                if (!piece.isAlly(side)) {
                     destinations.add(currentPosition);
                 }
                 break;
@@ -78,7 +78,7 @@ public class Chariot extends Piece {
             currentPosition = currentPosition.left();
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
-                if (!piece.isSameSideAs(side)) {
+                if (!piece.isAlly(side)) {
                     destinations.add(currentPosition);
                 }
                 break;
@@ -91,7 +91,7 @@ public class Chariot extends Piece {
             currentPosition = currentPosition.right();
             if (board.containsKey(currentPosition)) {
                 Piece piece = board.get(currentPosition);
-                if (!piece.isSameSideAs(side)) {
+                if (!piece.isAlly(side)) {
                     destinations.add(currentPosition);
                 }
                 break;

@@ -14,9 +14,9 @@ class GameTest {
     @BeforeEach
     void setUp() {
         players = Players.createInitial(new Name("cho"), new Name("han"));
-        Formation choFormation = Formation.from(Selection.from("1"));
-        Formation hanFormation = Formation.from(Selection.from("1"));
-        Board board = InitialBoardFactory.create(choFormation, hanFormation);
+        Formation choFormation = Formation.from(FormationCommand.from("1"));
+        Formation hanFormation = Formation.from(FormationCommand.from("1"));
+        Board board = BoardFactory.create(choFormation, hanFormation);
         game = new Game(board, players);
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public enum Formation {
-    LEFT_ELEPHANT(Selection.FIRST) {
+    LEFT_ELEPHANT(FormationCommand.FIRST) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -17,7 +17,7 @@ public enum Formation {
             place(pieces, side, orders);
         }
     },
-    RIGHT_ELEPHANT(Selection.SECOND) {
+    RIGHT_ELEPHANT(FormationCommand.SECOND) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -29,7 +29,7 @@ public enum Formation {
             place(pieces, side, orders);
         }
     },
-    OUTER_ELEPHANT(Selection.THIRD) {
+    OUTER_ELEPHANT(FormationCommand.THIRD) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -41,7 +41,7 @@ public enum Formation {
             place(pieces, side, orders);
         }
     },
-    INNER_ELEPHANT(Selection.FOURTH) {
+    INNER_ELEPHANT(FormationCommand.FOURTH) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -55,15 +55,15 @@ public enum Formation {
     },
     ;
 
-    private final Selection selection;
+    private final FormationCommand formationCommand;
 
-    Formation(Selection selection) {
-        this.selection = selection;
+    Formation(FormationCommand formationCommand) {
+        this.formationCommand = formationCommand;
     }
 
-    public static Formation from(Selection selection ) {
+    public static Formation from(FormationCommand formationCommand) {
         return Arrays.stream(values())
-                .filter(formation -> formation.selection.equals(selection))
+                .filter(formation -> formation.formationCommand.equals(formationCommand))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("올바른 배치가 아닙니다."));
     }

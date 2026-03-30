@@ -40,19 +40,19 @@ public class General extends Piece {
         List<Position> destinations = new ArrayList<>();
 
         // 상
-        if (position.upPossible() && (!board.containsKey(position.up()) || !board.get(position.up()).isSameSideAs(side))) {
+        if (position.upPossible() && (!board.containsKey(position.up()) || !board.get(position.up()).isAlly(side))) {
             destinations.add(position.up());
         }
         // 하
-        if (position.downPossible() && (!board.containsKey(position.down()) || !board.get(position.down()).isSameSideAs(side))) {
+        if (position.downPossible() && (!board.containsKey(position.down()) || !board.get(position.down()).isAlly(side))) {
             destinations.add(position.down());
         }
         // 좌
-        if (position.leftPossible() && (!board.containsKey(position.left()) || !board.get(position.left()).isSameSideAs(side))) {
+        if (position.leftPossible() && (!board.containsKey(position.left()) || !board.get(position.left()).isAlly(side))) {
             destinations.add(position.left());
         }
         // 우
-        if (position.rightPossible() && (!board.containsKey(position.right()) || !board.get(position.right()).isSameSideAs(side))) {
+        if (position.rightPossible() && (!board.containsKey(position.right()) || !board.get(position.right()).isAlly(side))) {
             destinations.add(position.right());
         }
 

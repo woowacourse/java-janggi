@@ -68,7 +68,7 @@ public enum Side {
     public abstract int soldierY();
     public abstract List<Integer> formationX();
 
-    public boolean isSameAs(Side other) {
+    public boolean isAlly(Side other) {
         return this.equals(other);
     }
 

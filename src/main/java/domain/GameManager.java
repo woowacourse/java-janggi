@@ -29,7 +29,7 @@ public class GameManager {
             Name hanName = getPlayerName(Side.HAN);
             return Players.createInitial(choName, hanName);
         });
-        Board board = InitialBoardFactory.create(getFormation(Side.CHO), getFormation(Side.HAN));
+        Board board = BoardFactory.create(getFormation(Side.CHO), getFormation(Side.HAN));
         return new Game(board, players);
     }
 
@@ -38,13 +38,13 @@ public class GameManager {
     }
 
     private Formation getFormation(Side side) {
-        return retry(() -> Formation.from(Selection.from(inputView.readFormation(side))));
+        return retry(() -> Formation.from(FormationCommand.from(inputView.readFormation(side))));
     }
 
     private void playTurn(Game game) {
         Position from = selectPiecePosition(game);
         retry(() -> {
-            Position to = InputParser.parsePosition(inputView.readDestination());
+            Position to = InputParser.parsePosition(inputView.readTargetPosition());
             game.move(from, to);
         });
         outputView.printBoard(game.getBoard());
@@ -52,7 +52,7 @@ public class GameManager {
 
     private Position selectPiecePosition(Game game) {
         return retry(() -> {
-            Position position = InputParser.parsePosition(inputView.readPlayerPieceSelection(game.getCurrentSide()));
+            Position position = InputParser.parsePosition(inputView.readSourcePosition(game.getCurrentSide()));
             List<Position> destinations = game.selectSource(position);
             outputView.printDestinations(destinations);
             return position;
