@@ -73,18 +73,29 @@ public class Board {
             Piece destinationPiece = board.get(destination);
             List<Position> route = entry.getValue();
 
-            if (hasObstacleOnRoute(route)) {
-                continue;
-            }
-
-            if (board.containsKey(destination)) {
-                if (isDestinationIsMyTeam(destinationPiece, piece)) {
+            if(piece.getPieceType() == PieceType.PO) {
+                if(!hasOneObstacleAndNotPo(route)) {
                     continue;
                 }
-            }
-            availablePositions.add(destination);
-        }
 
+                if(board.containsKey(destination)) {
+                    if(isDestinationIsMyTeam(destinationPiece, piece) || isDestinationIsPo(destinationPiece)) {
+                        continue;
+                    }
+                }
+                availablePositions.add(destination);
+            } else {
+                if(hasObstacleOnRoute(route)) {
+                    continue;
+                }
+                if(board.containsKey(destination)) {
+                    if(isDestinationIsMyTeam(destinationPiece, piece)) {
+                        continue;
+                    }
+                }
+                availablePositions.add(destination);
+            }
+        }
         return availablePositions;
     }
 
@@ -104,7 +115,7 @@ public class Board {
     private Map<Position, List<Position>> convertToPositions(Position position, Piece piece, List<Route> routes) {
         Map<Position, List<Position>> result = new HashMap<>();
 
-        if(piece.isCha()) {
+        if(piece.isCha()|| piece.isPo()) {
             return convertToContinuousRoutes(position, routes, result);
         }
 
@@ -158,5 +169,22 @@ public class Board {
             }
         }
         return result;
+    }
+
+    private boolean isDestinationIsPo(Piece destinationPiece) {
+        return destinationPiece.getPieceType() == PieceType.PO;
+    }
+
+    private boolean hasOneObstacleAndNotPo(List<Position> route) {
+        int count = 0;
+        List<Piece> obstacles = new ArrayList<>();
+        // 마지막 경로는 목적지이므로 빼고 검사
+        for(int i = 0; i < route.size() -1; i++) {
+            if(board.containsKey(route.get(i))) {
+                count+=1;
+                obstacles.add(board.get(route.get(i)));
+            }
+        }
+        return count == 1 && obstacles.getFirst().getPieceType() != PieceType.PO;
     }
 }

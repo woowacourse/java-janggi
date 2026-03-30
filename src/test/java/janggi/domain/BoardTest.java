@@ -491,4 +491,69 @@ public class BoardTest {
         assertThat(chaRoutesPositions).hasSize(11)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
+
+    @Test
+    @DisplayName("포의_위쪽경로에_포다리_존재")
+    void 포의_위쪽경로에_포다리_존재() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,8);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
+        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.CHA));
+        List<Position> upRoutes = List.of(
+                new Position(5, 5), new Position(5, 4), new Position(5, 3),
+                new Position(5, 2), new Position(5, 1)
+        );
+
+        List<Position> rightAnswer = new ArrayList<>(upRoutes);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(5)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("포의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 포의_위쪽경로에_포다리1개와_포가_붙어있음() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,8);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
+        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.CHA));
+        board.getBoard().put(new Position(5,5), new Piece(Team.HAN, PieceType.PO));
+        List<Position> upRoutes = List.of();
+
+        List<Position> rightAnswer = new ArrayList<>(upRoutes);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(0)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("포의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 포의_위쪽경로에_포다리1개와_포가아닌_상대팀_기물_존재() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,8);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
+        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.CHA));
+        board.getBoard().put(new Position(5,5), new Piece(Team.HAN, PieceType.ZOL));
+        List<Position> upRoutes = List.of(new Position(5, 5));
+
+        List<Position> rightAnswer = new ArrayList<>(upRoutes);
+
+        //when
+        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(chaRoutesPositions).hasSize(1)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
 }
