@@ -56,10 +56,9 @@ public class JanggiController {
             try {
                 runnable.run();
                 break;
-            }catch (PieceCancelException e) {
+            } catch (PieceCancelException e) {
                 break;
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
