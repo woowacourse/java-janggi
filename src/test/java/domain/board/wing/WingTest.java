@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.wing;
 
 import static domain.util.AssertUtils.assertThatNoException;
 import static java.util.Collections.EMPTY_LIST;

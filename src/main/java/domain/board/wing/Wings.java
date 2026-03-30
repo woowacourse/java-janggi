@@ -1,5 +1,6 @@
-package domain.board;
+package domain.board.wing;
 
+import domain.board.Intersection;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;

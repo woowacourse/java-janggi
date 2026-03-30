@@ -1,8 +1,7 @@
-package domain;
+package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.board.Intersection;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.Piece;

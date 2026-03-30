@@ -1,6 +1,5 @@
-package domain;
+package domain.board;
 
-import domain.board.Intersection;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.Piece;

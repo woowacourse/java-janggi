@@ -1,5 +1,6 @@
-package domain.board;
+package domain.board.wing;
 
+import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.Piece;
 import java.util.HashMap;

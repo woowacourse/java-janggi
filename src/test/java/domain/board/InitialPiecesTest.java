@@ -1,5 +1,7 @@
 package domain.board;
 
+import domain.board.wing.ChoWings;
+import domain.board.wing.HanWings;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;

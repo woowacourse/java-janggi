@@ -1,9 +1,10 @@
-package domain.board;
+package domain.board.wing;
 
 import static domain.util.AssertUtils.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;

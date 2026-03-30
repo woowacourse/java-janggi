@@ -1,6 +1,7 @@
 package domain.board;
 
-import domain.InitialPosition;
+import domain.board.wing.ChoWings;
+import domain.board.wing.HanWings;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.Piece;
