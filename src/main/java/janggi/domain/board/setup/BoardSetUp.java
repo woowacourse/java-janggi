@@ -8,6 +8,7 @@ import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public interface BoardSetUp {
         board.put(Point.of(9, 3), new Advisor(Side.HAN));
         board.put(Point.of(9, 0), new Chariot(Side.HAN));
 
-        return board;
+        return Collections.unmodifiableMap(board);
     }
 
     private Map<Point,Piece> createChoCommonBoard(){
@@ -62,7 +63,7 @@ public interface BoardSetUp {
         board.put(Point.of(3, 4), new Soldier(Side.CHO));
         board.put(Point.of(3, 6), new Soldier(Side.CHO));
         board.put(Point.of(3, 8), new Soldier(Side.CHO));
-        return board;
+        return Collections.unmodifiableMap(board);
     }
 
 }

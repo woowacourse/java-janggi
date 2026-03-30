@@ -9,7 +9,7 @@ public class Path {
     private final List<Point> path;
 
     public Path(List<Point> path) {
-        this.path = path;
+        this.path = new ArrayList<>(path);
     }
 
     public Path(Pattern pattern, Point from, PathStrategy pathStrategy) {
@@ -17,7 +17,7 @@ public class Path {
     }
 
     public List<Point> getPath() {
-        return path;
+        return new ArrayList<>(path);
     }
 
     public boolean isEmpty(){
