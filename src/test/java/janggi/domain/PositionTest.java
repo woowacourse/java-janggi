@@ -178,4 +178,45 @@ class PositionTest {
         // when & then
         assertThat(from.isMatchDistance(to, v1, v2)).isFalse();
     }
+
+    @ParameterizedTest
+    @DisplayName("시작 위치에서 도착 위치 방향으로 직선 한 칸 이동한다.")
+    @CsvSource({
+            "5, 5, 8, 5, 6, 5",
+            "5, 5, 2, 5, 4, 5",
+            "5, 5, 5, 8, 5, 6",
+            "5, 5, 5, 2, 5, 4",
+            "5, 5, 7, 6, 6, 5"
+    })
+    void testMoveStraight(int x1, int y1, int x2, int y2, int nx, int ny) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when
+        Position position = from.moveStraight(to);
+
+        // then
+        assertThat(position).isEqualTo(new Position(nx, ny));
+    }
+
+    @ParameterizedTest
+    @DisplayName("도착지를 향해 대각선 방향으로 1칸 이동한 위치를 반환한다.")
+    @CsvSource({
+            "5, 5, 7, 7, 6, 6",
+            "5, 5, 3, 7, 4, 6",
+            "5, 5, 7, 3, 6, 4",
+            "5, 5, 3, 3, 4, 4"
+    })
+    void testMoveDiagonal(int x1, int y1, int x2, int y2, int nx, int ny) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when
+        Position expected = new Position(nx, ny);
+
+        // then
+        assertThat(from.moveDiagonal(to)).isEqualTo(expected);
+    }
 }
