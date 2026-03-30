@@ -21,10 +21,6 @@ public class Board {
         return new Board(Pieces.of(arrangements));
     }
 
-    public Piece getPieceAt(Position position) {
-        return pieces.getPieceAt(position);
-    }
-
     public Board move(Coordinate coordinate, Turn turn) {
         validateMove(coordinate, turn);
         Position from = coordinate.from();
@@ -37,7 +33,7 @@ public class Board {
     }
 
     public boolean isEmpty(Position position) {
-        return pieces.getPieceAt(position) == null;
+        return pieces.at(position).isEmpty();
     }
 
     public boolean hasAnyPiece(Position position) {
@@ -45,13 +41,15 @@ public class Board {
     }
 
     public boolean hasFriendOf(Position position, Piece movingPiece) {
-        Piece targetPiece = pieces.getPieceAt(position);
-        return targetPiece != null && movingPiece.isSameTeamAs(targetPiece);
+        return pieces.at(position)
+                .map(movingPiece::isSameTeamAs)
+                .orElse(false);
     }
 
     public boolean hasEnemyOf(Position position, Piece movingPiece) {
-        Piece targetPiece = pieces.getPieceAt(position);
-        return targetPiece != null && !movingPiece.isSameTeamAs(targetPiece);
+        return pieces.at(position)
+                .map(targetPiece -> !movingPiece.isSameTeamAs(targetPiece))
+                .orElse(false);
     }
 
     private void validateMove(Coordinate coordinate, Turn turn) {

@@ -20,6 +20,7 @@ public class ReadyState implements GameState {
 
         if (!arrangements.hasArrangementFor(Team.HAN)) {
             Arrangements nextArrangements = arrangements.assignArrangement(Team.HAN, arrangement);
+            game.nextTurn();
             return new ReadyState(nextArrangements);
         }
 

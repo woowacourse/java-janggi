@@ -17,10 +17,6 @@ public class Pieces {
         return new Pieces(PositionLayout.build(arrangements));
     }
 
-    public Piece getPieceAt(Position position) {
-        return pieces.get(position);
-    }
-
     public Pieces move(Position from, Position to) {
         Piece piece = pieces.get(from);
         if (piece == null) {

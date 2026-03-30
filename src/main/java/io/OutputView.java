@@ -1,7 +1,6 @@
 package io;
 
 import domain.board.Board;
-import domain.piece.Piece;
 import domain.board.Position;
 import domain.game.Turn;
 import domain.board.Col;
@@ -60,11 +59,9 @@ public class OutputView {
     }
 
     private String cellDisplay(Board board, Position position) {
-        Piece piece = board.getPieceAt(position);
-        if (piece == null) {
-            return "...";
-        }
-        return piece.colorCode(RED, GREEN) + piece.display() + RESET;
+        return board.pieceAt(position)
+                .map(piece -> piece.colorCode(RED, GREEN) + piece.display() + RESET)
+                .orElse("...");
     }
 
     public void printPieceMovement(Turn turn) {
