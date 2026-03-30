@@ -1,33 +1,34 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.BoardView;
+import janggi.domain.Direction;
+import janggi.domain.board.BoardView;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 
-public final class SoldierMoveRule implements MoveRule {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final Team team;
+public final class SoldierMoveRule implements MoveRule {
+    private final List<Direction> SOLDIER_PATHS;
 
     public SoldierMoveRule(Team team) {
-        this.team = team;
+        this.SOLDIER_PATHS = List.of(Direction.forwardDirection(team), Direction.EAST, Direction.WEST);
     }
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        int rowDis = to.getRow() - from.getRow();
-        int colDis = to.getCol() - from.getCol();
-        return isForward(rowDis, colDis) || isSideStep(rowDis, colDis);
+        return candidatePositions(from).contains(to);
     }
 
-    // 한이 위쪽배치임 -> 행증가가 전진
-    // 초가아래 배치 ->   행 감소가 전진
-    private boolean isForward(int rowDis, int colDis) {
-        int forwardDirection = (team == Team.CHO) ? -1 : 1;
-        return rowDis == forwardDirection && colDis == 0;
-    }
+    private List<Position> candidatePositions(Position from) {
+        List<Position> positions =  new ArrayList<>();
 
-    private boolean isSideStep(int rowDis, int colDis) {
-        return rowDis == 0 && Math.abs(colDis) == 1;
-    }
+        for (Direction direction : SOLDIER_PATHS) {
+            if (from.hasNext(direction)) {
+                positions.add(from.nextPosition(direction));
+            }
+        }
 
+        return positions;
+    }
 }
