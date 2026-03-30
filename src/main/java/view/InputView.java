@@ -11,28 +11,49 @@ import java.util.Scanner;
 
 public final class InputView {
 
-    private static final Map<Character, PieceType> WING_TYPES = Map.of(
-            '마', PieceType.HORSE,
-            '상', PieceType.ELEPHANT
-    );
-
     private static final Map<Side, String> SIDE_NAMES = Map.of(
             Side.CHO, "초(楚)",
             Side.HAN, "한(漢)"
     );
+    private static final Map<Integer, String> RAW_WINGS_BY_NUMBER = Map.of(
+            1, "마상마상",
+            2, "마상상마",
+            3, "상마마상",
+            4, "상마상마"
+    );
+    private static final Map<Character, PieceType> WING_TYPES = Map.of(
+            '마', PieceType.HORSE,
+            '상', PieceType.ELEPHANT
+    );
+    private static final int WING_SIZE = 2;
 
     private final Scanner scanner = new Scanner(System.in);
 
     public Wings readWings(Side side) {
-        System.out.println(SIDE_NAMES.get(side) + "의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
-        String rowWings = readLine();
+        System.out.println(SIDE_NAMES.get(side) + "의 상차림을 번호로 선택해주세요 (예: 1)");
+        System.out.printf("1. %s%n2. %s%n3. %s%n4. %s%n", "마상마상", "마상상마", "상마마상", "상마상마");
+
+        int rawWingsNumber = readInt();
+        if (!RAW_WINGS_BY_NUMBER.containsKey(rawWingsNumber)) {
+            throw new IllegalArgumentException("선택한 상차림이 옳바르지 않습니다. 1~4 중 선택해주세요(이전 입력: " + rawWingsNumber + ")");
+        }
+
+        String rawWings = RAW_WINGS_BY_NUMBER.get(rawWingsNumber);
         System.out.println();
 
         return new Wings(
-                Side.CHO,
-                createWingPieces(rowWings.substring(0, 2), side),
-                createWingPieces(rowWings.substring(2, 4), side)
+                side,
+                createWingPieces(rawWings.substring(0, WING_SIZE), side),
+                createWingPieces(rawWings.substring(WING_SIZE), side)
         );
+    }
+
+    private List<Piece> createWingPieces(String wingInput, Side side) {
+        return wingInput.chars()
+                .mapToObj(c -> (char) c)
+                .filter(WING_TYPES::containsKey)
+                .map(symbol -> new Piece(WING_TYPES.get(symbol), side))
+                .toList();
     }
 
     public Intersection readStartPosition(Side currentTurn) {
@@ -53,19 +74,15 @@ public final class InputView {
                 .trim();
     }
 
+    private int readInt() {
+        return Integer.parseInt(readLine());
+    }
+
     private Intersection parseIntersection(String input) {
         String[] split = input.split(",");
         int row = Integer.parseInt(split[0]);
         int file = Integer.parseInt(split[1]);
 
         return new Intersection(row, file);
-    }
-
-    private List<Piece> createWingPieces(String wingInput, Side side) {
-        return wingInput.chars()
-                .mapToObj(c -> (char) c)
-                .filter(WING_TYPES::containsKey)
-                .map(symbol -> new Piece(WING_TYPES.get(symbol), side))
-                .toList();
     }
 }
