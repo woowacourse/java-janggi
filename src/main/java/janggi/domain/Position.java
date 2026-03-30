@@ -18,6 +18,11 @@ public class Position {
         }
     }
 
+
+    public static boolean isInsideBoundary(int x, int y) {
+        return x >= 1 && x <= 9 && y >= 1 && y <= 10;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Position position)) {
@@ -29,5 +34,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

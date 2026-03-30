@@ -35,4 +35,8 @@ public class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }

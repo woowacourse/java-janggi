@@ -23,4 +23,8 @@ public class Route {
     public int hashCode() {
         return Objects.hashCode(routes);
     }
+
+    public List<Direction> getRoutes() {
+        return routes;
+    }
 }

@@ -2,8 +2,10 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -42,5 +44,44 @@ public class BoardTest {
 
         //then
         assertThat(checkZol.get(position)).isEqualTo(zol);
+    }
+
+    @Test
+    @DisplayName("졸의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 졸_이동가능_좌표_확인_다_가능() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,7);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
+        Position zolUp = new Position(5, 6);
+        Position zolLeft = new Position(4, 7);
+        Position zolRight = new Position(6, 7);
+        List<Position> rightAnswer = List.of(zolUp, zolRight, zolLeft);
+
+        //when
+        List<Position> zolRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(rightAnswer).isEqualTo(zolRoutesPositions);
+    }
+
+    @Test
+    @DisplayName("졸의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 졸_이동가능_좌표_확인_위_불가능() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,7);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
+        Position zolUp = new Position(5, 6);
+        board.getBoard().put(zolUp, new Piece(Team.CHO, PieceType.ZOL));
+        Position zolLeft = new Position(4, 7);
+        Position zolRight = new Position(6, 7);
+        List<Position> rightAnswer = List.of(zolRight, zolLeft);
+
+        //when
+        List<Position> zolRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(rightAnswer).isEqualTo(zolRoutesPositions);
     }
 }
