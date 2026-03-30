@@ -29,8 +29,8 @@ public class Pawn extends Piece {
 
     private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
         if (team == Team.CHO) {
-            return Math.abs(from.columnDistanceTo(to)) == 1 || from.rowDistanceTo(to) == -1;
+            return (Math.abs(from.columnDistanceTo(to)) == 1 && from.rowDistanceTo(to) == 0) || (from.rowDistanceTo(to) == -1 && from.columnDistanceTo(to) == 0) ;
         }
-        return Math.abs(from.columnDistanceTo(to)) == 1 || from.rowDistanceTo(to) == 1;
+        return (Math.abs(from.columnDistanceTo(to)) == 1 && from.rowDistanceTo(to) == 0) || (from.rowDistanceTo(to) == 1 && from.columnDistanceTo(to) == 0) ;
     }
 }
