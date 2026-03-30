@@ -29,16 +29,20 @@ public class InitialPieces {
 
     private void putFixedPieces(Side side) {
         initialPieces.putAll(
-
-                new InitialPosition(side, new MoveAmount(3), 1, 3, 5, 7, 9).placePiece(new SoldierFactory()));
+                new InitialPosition(side, new MoveAmount(3), 1, 3, 5, 7, 9).placePiece(new SoldierFactory())
+        );
         initialPieces.putAll(
-                new InitialPosition(side, new MoveAmount(2), 2, 8).placePiece(new CannonFactory()));
+                new InitialPosition(side, new MoveAmount(2), 2, 8).placePiece(new CannonFactory())
+        );
         initialPieces.putAll(
-                new InitialPosition(side, new MoveAmount(0), 1, 9).placePiece(new ChariotFactory()));
+                new InitialPosition(side, new MoveAmount(0), 1, 9).placePiece(new ChariotFactory())
+        );
         initialPieces.putAll(
-                new InitialPosition(side, new MoveAmount(0), 4, 6).placePiece(new GuardFactory()));
+                new InitialPosition(side, new MoveAmount(0), 4, 6).placePiece(new GuardFactory())
+        );
         initialPieces.putAll(
-                new InitialPosition(side, new MoveAmount(1), 5).placePiece(new GeneralFactory()));
+                new InitialPosition(side, new MoveAmount(1), 5).placePiece(new GeneralFactory())
+        );
     }
 
     public Map<Intersection, Piece> get() {
