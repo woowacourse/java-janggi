@@ -19,26 +19,46 @@ public enum FormationStrategyView {
 
     public static InitialStrategyType from(int index) {
         if (index == 1) {
-            return TYPE_1.getFormatationStrategyType();
+            return TYPE_1.getInitialStrategyType();
         }
 
         if (index == 2) {
-            return TYPE_2.getFormatationStrategyType();
+            return TYPE_2.getInitialStrategyType();
         }
 
         if (index == 3) {
-            return TYPE_3.getFormatationStrategyType();
+            return TYPE_3.getInitialStrategyType();
         }
 
         if (index == 4) {
-            return TYPE_3.getFormatationStrategyType();
+            return TYPE_3.getInitialStrategyType();
+        }
+
+        throw new IllegalArgumentException("일치하는 타입이 없습니다.");
+    }
+
+    public static String format(int index) {
+        if (index == 1) {
+            return TYPE_1.getMessage();
+        }
+
+        if (index == 2) {
+            return TYPE_2.getMessage();
+        }
+
+        if (index == 3) {
+            return TYPE_3.getMessage();
+        }
+
+        if (index == 4) {
+            return TYPE_3.getMessage();
         }
 
         throw new IllegalArgumentException("일치하는 타입이 없습니다.");
     }
 
 
-    public InitialStrategyType getFormatationStrategyType() {
+    public InitialStrategyType getInitialStrategyType() {
         return initialStrategyType;
     }
 

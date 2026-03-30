@@ -47,7 +47,7 @@ public class Game {
         List<Position> possibleMoves = getPossibleMoves(position);
 
         if (possibleMoves.isEmpty()) {
-            throw new IllegalArgumentException("\n해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.\n");
+            throw new IllegalArgumentException("\n해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.");
         }
     }
 

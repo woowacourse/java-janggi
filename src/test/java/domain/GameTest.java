@@ -2,6 +2,7 @@ package domain;
 
 import domain.board.BasicBoardInitializer;
 import domain.board.Side;
+import domain.board.strategy.MaSangSangMaStrategy;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GameTest {
 
-    private final BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer();
+    BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer(new MaSangSangMaStrategy(Side.HAN), new MaSangSangMaStrategy(Side.CHU));
 
     @Test
     @DisplayName("해당 좌표가 비어있으면 시작 좌표로 선택할 수 없다.")

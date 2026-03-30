@@ -18,13 +18,7 @@ public class InputView {
     private static final int MAX_INDEX = 4;
     private static final String COMMA_DELIMITER = ",";
 
-    private static final String REQUEST_INIT_FORMAT_STRATEGY =
-            "\n%s는 초기 (상·마) 포진을 선택해주세요.\n" +
-            "1. 마상상마\n" +
-            "2. 마상마상\n" +
-            "3. 상마마상\n" +
-            "4. 상마상마\n" +
-            "번호를 입력해주세요.\n";
+    private static final String REQUEST_INIT_FORMAT_STRATEGY = "\n%s는 초기 (상·마) 포진을 선택해주세요.\n";
     private static final String REQUEST_MOVING_START_PIECE_POSITION = "\n%s 턴! 이동할 기물의 좌표를 입력해주세요. (e.g. 2,3)\n";
     private static final String REQUEST_PIECE_DESTINATION = "움직일 좌표의 번호를 선택해주세요.";
 
@@ -36,10 +30,16 @@ public class InputView {
 
     public InitialStrategyType requestInitialType(Side side) {
         try {
+            int index = INIT_INDEX_COUNT;
             System.out.printf(REQUEST_INIT_FORMAT_STRATEGY, SideView.from(side));
-            int index = Integer.parseInt(userInput());
-            validateIndex(index, MAX_INDEX);
-            return FormationStrategyView.from(index);
+            for (int i = 0; i < MAX_INDEX; i++) {
+                System.out.printf("%d. %s\n", index, FormationStrategyView.format(index));
+                index++;
+            }
+            System.out.println("번호를 입력해주세요.");
+            int userInput = Integer.parseInt(userInput());
+            validateIndex(userInput, MAX_INDEX);
+            return FormationStrategyView.from(userInput);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
         }
