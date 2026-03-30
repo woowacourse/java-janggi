@@ -9,6 +9,12 @@ public class Point {
     private static final List<List<Point>> CACHE;
     private static final int ROW_RANGE = 10;
     private static final int COLUMN_RANGE = 9;
+    private static final int HAN_CASTLE_ZONE_ROW_MIN = 7;
+    private static final int HAN_CASTLE_ZONE_ROW_MAX = 9;
+    private static final int CHO_CASTLE_ZONE_ROW_MIN =0;
+    private static final int CHO_CASTLE_ZONE_ROW_MAX =2;
+    private static final int CASTLE_ZONE_COLUMN_MIN = 3;
+    private static final int CASTLE_ZONE_COLUMN_MAX = 5;
 
     private final int col;
     private final int row;
@@ -45,7 +51,7 @@ public class Point {
 
     public boolean inSameCastle(Point other) {
         if (this.isCastle() && other.isCastle()) {
-            return (this.row <= 2) == (other.row <= 2);
+            return (this.row <= CHO_CASTLE_ZONE_ROW_MAX) == (other.row <= CHO_CASTLE_ZONE_ROW_MAX);
         }
         return false;
     }
@@ -65,9 +71,9 @@ public class Point {
     }
 
     private boolean isCastle() {
-        boolean isColumnCastle = col >= 3 && col <= 5;
-        boolean isRowTopCastle = row >= 7 && row <= 9;
-        boolean isRowBottomCastle = row <= 2 && row >= 0;
-        return isColumnCastle && (isRowTopCastle || isRowBottomCastle);
+        boolean isColumnCastle = col >= CASTLE_ZONE_COLUMN_MIN && col <= CASTLE_ZONE_COLUMN_MAX;
+        boolean isRowHanCastle = row >= HAN_CASTLE_ZONE_ROW_MIN && row <= HAN_CASTLE_ZONE_ROW_MAX;
+        boolean isRowChoCastle = row <= CHO_CASTLE_ZONE_ROW_MAX && row >= CHO_CASTLE_ZONE_ROW_MIN;
+        return isColumnCastle && (isRowHanCastle || isRowChoCastle);
     }
 }
