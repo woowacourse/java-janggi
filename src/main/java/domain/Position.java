@@ -35,7 +35,7 @@ public class Position {
 
     private void validatePosY(int y) {
         if (y < MIN_Y_VALUE || y > MAX_Y_VALUE) {
-            throw new IllegalArgumentException("[ERROR] y 좌표는" + MIN_Y_VALUE + "~" + MAX_Y_VALUE + "사이어야합니다.");
+            throw new IllegalArgumentException("[ERROR] y 좌표는 " + MIN_Y_VALUE + "~" + MAX_Y_VALUE + "사이어야합니다.");
         }
     }
 

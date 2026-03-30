@@ -39,7 +39,7 @@ public class InputView {
     private int readElephantFormation(Camp camp) {
         while (true) {
             try {
-                System.out.println(camp.getCampName() + "상 차림을 결정해주세요.");
+                System.out.println(camp.getCampName() + " 상 차림을 결정해주세요.");
                 System.out.println("1. [마 상 마 상]");
                 System.out.println("2. [마 상 상 마]");
                 System.out.println("3. [상 마 상 마]");

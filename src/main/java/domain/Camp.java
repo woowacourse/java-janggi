@@ -1,8 +1,8 @@
 package domain;
 
 public enum Camp {
-    HAN("한"),
-    CHO("초");
+    HAN("한나라"),
+    CHO("초나라");
 
     private final String campName;
 
