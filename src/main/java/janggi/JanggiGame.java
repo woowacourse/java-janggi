@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.domain.board.PieceSetup;
 import janggi.domain.piece.Piece;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
@@ -36,7 +37,7 @@ public class JanggiGame {
     private void initializeBoard() {
         String hanSetup = inputView.readHanSetup();
         String choSetup = inputView.readChoSetup();
-        board = BoardFactory.create(hanSetup, choSetup);
+        board = BoardFactory.create(PieceSetup.from(hanSetup), PieceSetup.from(choSetup));
     }
 
     private void play() {

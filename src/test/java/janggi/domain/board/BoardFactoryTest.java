@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import static janggi.domain.board.PieceSetup.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.Piece;
@@ -19,7 +20,7 @@ public class BoardFactoryTest {
 
     @Test
     void 한나라_기물_차림_입력이_4면_한나라는_바깥상_차림이다() {
-        Board board = BoardFactory.create("4", "4");
+        Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
         Map<Position, Piece> boardState = board.showBoard();
 
         assertPiece(boardState, "11", new Chariot(Team.HAN),  Team.HAN);
@@ -42,7 +43,7 @@ public class BoardFactoryTest {
 
     @Test
     void 초나라_기물_차림_입력이_4면_초나라는_바깥상_차림이다() {
-        Board board = BoardFactory.create("4", "4");
+        Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
         Map<Position, Piece> boardState = board.showBoard();
 
         assertPiece(boardState, "01", new Chariot(Team.CHO),  Team.CHO);
@@ -65,7 +66,7 @@ public class BoardFactoryTest {
 
     @Test
     void 차림_번호가_1번이면_왼상차림이다() {
-        Board board = BoardFactory.create("1", "1");
+        Board board = BoardFactory.create(LEFT_ELEPHANT, LEFT_ELEPHANT);
         Map<Position, Piece> boardState = board.showBoard();
 
         assertPiece(boardState, "12", new Horse(Team.HAN),    Team.HAN);
@@ -80,7 +81,7 @@ public class BoardFactoryTest {
 
     @Test
     void 차림_번호가_2번이면_오른상차림이다() {
-        Board board = BoardFactory.create("2", "2");
+        Board board = BoardFactory.create(RIGHT_ELEPHANT, RIGHT_ELEPHANT);
         Map<Position, Piece> boardState = board.showBoard();
 
         assertPiece(boardState, "12", new Elephant(Team.HAN), Team.HAN);
@@ -95,7 +96,7 @@ public class BoardFactoryTest {
 
     @Test
     void 차림_번호가_3번이면_안상차림이다() {
-        Board board = BoardFactory.create("3", "3");
+        Board board = BoardFactory.create(INNER_ELEPHANT, INNER_ELEPHANT);
         Map<Position, Piece> boardState = board.showBoard();
 
         assertPiece(boardState, "12", new Horse(Team.HAN),    Team.HAN);
@@ -110,7 +111,7 @@ public class BoardFactoryTest {
 
     @Test
     void 차림_번호가_4번이면_바깥상차림이다() {
-        Board board = BoardFactory.create("4", "4");
+        Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
         Map<Position, Piece> boardState = board.showBoard();
 
         assertPiece(boardState, "12", new Elephant(Team.HAN), Team.HAN);

@@ -16,7 +16,7 @@ public class Position {
         this.column = column;
     }
 
-    public static Position from(int rowValue, int colValue) {
+    public static Position of(int rowValue, int colValue) {
         return new Position(new Row(rowValue), new Column(colValue));
     }
 
@@ -63,9 +63,9 @@ public class Position {
         int diffColumn = to.getColumnValue() - getColumnValue();
 
         if (Math.abs(diffRow) > Math.abs(diffColumn)) {
-            return Position.from(getRowValue() + toUnit(diffRow), getColumnValue());
+            return Position.of(getRowValue() + toUnit(diffRow), getColumnValue());
         }
-        return Position.from(getRowValue(), getColumnValue() + toUnit(diffColumn));
+        return Position.of(getRowValue(), getColumnValue() + toUnit(diffColumn));
     }
 
     // 대각선 이동: 양 축 모두 1칸씩
@@ -73,7 +73,7 @@ public class Position {
         int unitRow = toUnit(to.getRowValue() - getRowValue());
         int unitColumn = toUnit(to.getColumnValue() - getColumnValue());
 
-        return Position.from(getRowValue() + unitRow, getColumnValue() + unitColumn);
+        return Position.of(getRowValue() + unitRow, getColumnValue() + unitColumn);
     }
 
     private int toUnit(int diff) {

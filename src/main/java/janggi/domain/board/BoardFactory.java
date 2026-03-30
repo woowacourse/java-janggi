@@ -17,26 +17,28 @@ import janggi.domain.position.Row;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static janggi.domain.board.PieceSetup.*;
+
 public class BoardFactory {
 
     private BoardFactory() {
 
     }
 
-    public static Board create(String hanBoardType, String choBoardType) {
+    public static Board create(PieceSetup hanSetup, PieceSetup choSetup) {
         Map<Position, Piece> base = new LinkedHashMap<>();
         initializeEmpty(base);
         placeHan(base);
         placeCho(base);
-        applyHanSetUp(base, hanBoardType);
-        applyChoSetUp(base, choBoardType);
+        applyHanSetUp(base, hanSetup);
+        applyChoSetUp(base, choSetup);
         return new Board(base);
     }
 
     private static void initializeEmpty(Map<Position, Piece> base) {
         for (int row = Row.ROW_LOWER_THRESH_HOLD; row <= Row.ROW_UPPER_THRESH_HOLD; row++) {
             for (int col = Column.COLUMN_LOWER_THRESH_HOLD; col <= Column.COLUMN_UPPER_THRESH_HOLD; col++) {
-                base.put(Position.from(row, col), new EmptyPiece());
+                base.put(Position.of(row, col), new EmptyPiece());
             }
         }
     }
@@ -79,41 +81,41 @@ public class BoardFactory {
         board.put(Position.from("79"), new Soldier(Team.CHO));
     }
 
-    private static void applyHanSetUp(Map<Position, Piece> board, String hanBoardType) {
-        if (hanBoardType.equals("1")) {
+    private static void applyHanSetUp(Map<Position, Piece> board, PieceSetup hanSetup) {
+        if (hanSetup == LEFT_ELEPHANT) {
             swap(board, Position.from("12"), Position.from("13"));
             return;
         }
-        if (hanBoardType.equals("2")) {
+        if (hanSetup == RIGHT_ELEPHANT) {
             swap(board, Position.from("17"), Position.from("18"));
             return;
         }
-        if (hanBoardType.equals("3")) {
+        if (hanSetup == INNER_ELEPHANT) {
             swap(board, Position.from("17"), Position.from("18"));
             swap(board, Position.from("12"), Position.from("13"));
         }
     }
 
-    private static void applyChoSetUp(Map<Position, Piece> board, String choBoardType) {
-        if (choBoardType.equals("1")) {
+    private static void applyChoSetUp(Map<Position, Piece> board, PieceSetup choSetup) {
+        if (choSetup == LEFT_ELEPHANT) {
             swap(board, Position.from("07"), Position.from("08"));
             return;
         }
-        if (choBoardType.equals("2")) {
+        if (choSetup == RIGHT_ELEPHANT) {
             swap(board, Position.from("02"), Position.from("03"));
             return;
         }
-        if (choBoardType.equals("3")) {
+        if (choSetup == INNER_ELEPHANT) {
             swap(board, Position.from("07"), Position.from("08"));
             swap(board, Position.from("02"), Position.from("03"));
         }
     }
 
-    private static void swap(Map<Position, Piece> board, Position position1, Position position2) {
-        Piece piece1 = board.get(position1);
-        Piece piece2 = board.get(position2);
+    private static void swap(Map<Position, Piece> base, Position position1, Position position2) {
+        Piece piece1 = base.get(position1);
+        Piece piece2 = base.get(position2);
 
-        board.put(position1, piece2);
-        board.put(position2, piece1);
+        base.put(position1, piece2);
+        base.put(position2, piece1);
     }
 }
