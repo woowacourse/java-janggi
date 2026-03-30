@@ -11,6 +11,11 @@ public final class Cannon extends StraightMovingPiece {
     }
 
     @Override
+    public boolean isCannon() {
+        return true;
+    }
+
+    @Override
     public void canMove(List<Path> paths, Piece to) {
         if (paths.isEmpty()) {
             throw new IllegalStateException(ErrorMessage.CANNON_NEEDS_BRIDGE.getMessage());
@@ -22,11 +27,11 @@ public final class Cannon extends StraightMovingPiece {
 
         Piece piece = paths.getFirst().piece();
 
-        if (piece.getPieceType() == PieceType.CANNON) {
+        if (piece.isCannon()) {
             throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_CANNON.getMessage());
         }
 
-        if (to != null && to.getPieceType() == PieceType.CANNON) {
+        if (to != null && to.isCannon()) {
             throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_TAKE_CANNON.getMessage());
         }
     }

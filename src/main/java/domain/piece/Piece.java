@@ -28,6 +28,10 @@ public abstract class Piece {
         return team;
     }
 
+    public boolean isCannon() {
+        return false;
+    }
+
     abstract public List<Offset> getPathPositions(Offset offset);
 
     public void canMove(List<Path> paths, Piece to) {
