@@ -20,42 +20,46 @@ public class CannonStrategy implements MoveStrategy {
     }
 
     private void addCannonCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidatesPosition) {
-        Position bridge = findFirstPiece(currentPosition, direction, board);
-        boolean isInstanceOfCannon = board.getPiece(bridge) instanceof Cannon;
-        if (!isWithinBoard(bridge) || isInstanceOfCannon) {
-            return;
-        }
-        collectTargets(bridge, direction, board, candidatesPosition);
-    }
+        int nextRows = currentPosition.getRows() + direction.getRowOffset();
+        int nextColumns = currentPosition.getColumns() + direction.getColOffset();
 
-    private Position findFirstPiece(Position position, Direction direction, PieceProvider board) {
-        Position nextPosition = getNext(position, direction);
-        while (isWithinBoard(nextPosition) && board.isBlank(nextPosition)) {
-            nextPosition = getNext(nextPosition, direction);
-        }
-        return nextPosition;
-    }
-
-    private Position getNext(Position position, Direction direction) {
-        int nextRows = position.getRows() + direction.getRowOffset();
-        int nextColumns = position.getColumns() + direction.getColOffset();
-        return new Position(nextRows, nextColumns);
-    }
-
-    private void collectTargets(Position bridge, Direction direction, PieceProvider board, List<Position> candidates) {
-        Position target = getNext(bridge, direction);
-        while (isWithinBoard(target) && board.isBlank(target)) {
-            candidates.add(target);
-            target = getNext(target, direction);
-        }
-        boolean isInstanceOfCannon = board.getPiece(target) instanceof Cannon;
-        if (isWithinBoard(target) && !isInstanceOfCannon) {
-            candidates.add(target);
+        while (isWithinBoard(nextRows, nextColumns)) {
+            Position nextPosition = new Position(nextRows, nextColumns);
+            if (!board.isBlank(nextPosition)) {
+                checkBridgeAndCollect(nextPosition, direction, board, candidatesPosition);
+                return;
+            }
+            nextRows += direction.getRowOffset();
+            nextColumns += direction.getColOffset();
         }
     }
 
-    private boolean isWithinBoard(Position position) {
-        return position.getRows() >= 0 && position.getRows() < 10 &&
-                position.getColumns() >= 0 && position.getColumns() < 9;
+    private void checkBridgeAndCollect(Position nextPosition, Direction direction, PieceProvider board, List<Position> candidatesPosition) {
+        if (board.getPiece(nextPosition) instanceof Cannon) return;
+        int nextRow = nextPosition.getRows() + direction.getRowOffset();
+        int nextColumn = nextPosition.getColumns() + direction.getColOffset();
+
+        while (isWithinBoard(nextRow, nextColumn)) {
+            if (addCandidateAndCheckPiece(new Position(nextRow, nextColumn), board, candidatesPosition)) return;
+            nextRow += direction.getRowOffset();
+            nextColumn += direction.getColOffset();
+        }
+
+    }
+
+    private boolean addCandidateAndCheckPiece(Position targetPosition, PieceProvider board, List<Position> candidatesPosition) {
+        if (board.isBlank(targetPosition)) {
+            candidatesPosition.add(targetPosition);
+            return false;
+        }
+        if (!(board.getPiece(targetPosition) instanceof Cannon)) {
+            candidatesPosition.add(targetPosition);
+        }
+        return true;
+    }
+
+
+    private boolean isWithinBoard(int row, int column) {
+        return row >= 0 && row < 10 && column >= 0 && column < 9;
     }
 }

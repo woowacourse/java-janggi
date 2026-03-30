@@ -16,10 +16,7 @@ public class JanggiGame {
     }
 
     public void progress(Position currentPosition, Position targetPosition) {
-        Piece currentPiece = janggiBoard.getPiece(currentPosition);
-
-        validateCorrectTurn(currentPiece);
-
+        validateCorrectTurn(janggiBoard.getPiece(currentPosition));
         janggiBoard.movePiece(currentPosition, targetPosition);
         switchTeam();
     }

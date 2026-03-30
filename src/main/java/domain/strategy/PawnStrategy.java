@@ -22,8 +22,9 @@ public class PawnStrategy implements MoveStrategy {
             int targetRow = currentPosition.getRows() + direction.getRowOffset();
             int targetColumns = currentPosition.getColumns() + direction.getColOffset();
 
-            Position targetPosition = new Position(targetRow, targetColumns);
-            candidates.add(targetPosition);
+            if (isWithinBoard(targetRow, targetColumns)) {
+                candidates.add(new Position(targetRow, targetColumns));
+            }
         }
         return candidates;
     }
@@ -37,5 +38,9 @@ public class PawnStrategy implements MoveStrategy {
             directions.add(Direction.NORTH);
         }
         return directions;
+    }
+
+    private boolean isWithinBoard(int row, int column) {
+        return row >= 0 && row < 10 && column >= 0 && column < 9;
     }
 }
