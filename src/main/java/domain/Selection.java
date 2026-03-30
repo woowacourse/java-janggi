@@ -17,7 +17,7 @@ public enum Selection {
 
     public static Selection from(String input) {
         return Arrays.stream(values())
-                .filter(selection -> selection.input.equals(input))
+                .filter(selection -> selection.input.equals(input.strip()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("올바른 입력이 아닙니다."));
     }
