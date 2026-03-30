@@ -33,10 +33,9 @@ public class OutputView {
 
                     System.out.print(color + type + RESET_COLOR + "  ");
                 } else {
-                    System.out.print("x   ");
+                    System.out.print("ㅁ  ");
                 }
             }
-            System.out.println();
             System.out.println();
         }
 
