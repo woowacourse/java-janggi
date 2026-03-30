@@ -15,7 +15,6 @@ import java.util.Map;
 public class JanggiGame {
 
     private static final String END_COMMAND = "end";
-    private static final String KING_NAME = "장";
     private static final int FROM_INDEX = 0;
     private static final int TO_INDEX = 1;
 

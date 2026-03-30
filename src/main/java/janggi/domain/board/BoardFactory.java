@@ -43,71 +43,71 @@ public class BoardFactory {
         }
     }
 
-    private static void placeHan(Map<Position, Piece> board) {
-        board.put(Position.from("11"), new Chariot(Team.HAN));
-        board.put(Position.from("12"), new Elephant(Team.HAN));
-        board.put(Position.from("13"), new Horse(Team.HAN));
-        board.put(Position.from("14"), new Guard(Team.HAN));
-        board.put(Position.from("16"), new Guard(Team.HAN));
-        board.put(Position.from("17"), new Horse(Team.HAN));
-        board.put(Position.from("18"), new Elephant(Team.HAN));
-        board.put(Position.from("19"), new Chariot(Team.HAN));
-        board.put(Position.from("25"), new General(Team.HAN));
-        board.put(Position.from("32"), new Cannon(Team.HAN));
-        board.put(Position.from("38"), new Cannon(Team.HAN));
-        board.put(Position.from("41"), new Soldier(Team.HAN));
-        board.put(Position.from("43"), new Soldier(Team.HAN));
-        board.put(Position.from("45"), new Soldier(Team.HAN));
-        board.put(Position.from("47"), new Soldier(Team.HAN));
-        board.put(Position.from("49"), new Soldier(Team.HAN));
+    private static void placeHan(Map<Position, Piece> base) {
+        base.put(Position.from("11"), new Chariot(Team.HAN));
+        base.put(Position.from("12"), new Elephant(Team.HAN));
+        base.put(Position.from("13"), new Horse(Team.HAN));
+        base.put(Position.from("14"), new Guard(Team.HAN));
+        base.put(Position.from("16"), new Guard(Team.HAN));
+        base.put(Position.from("17"), new Horse(Team.HAN));
+        base.put(Position.from("18"), new Elephant(Team.HAN));
+        base.put(Position.from("19"), new Chariot(Team.HAN));
+        base.put(Position.from("25"), new General(Team.HAN));
+        base.put(Position.from("32"), new Cannon(Team.HAN));
+        base.put(Position.from("38"), new Cannon(Team.HAN));
+        base.put(Position.from("41"), new Soldier(Team.HAN));
+        base.put(Position.from("43"), new Soldier(Team.HAN));
+        base.put(Position.from("45"), new Soldier(Team.HAN));
+        base.put(Position.from("47"), new Soldier(Team.HAN));
+        base.put(Position.from("49"), new Soldier(Team.HAN));
     }
 
-    private static void placeCho(Map<Position, Piece> board) {
-        board.put(Position.from("01"), new Chariot(Team.CHO));
-        board.put(Position.from("02"), new Elephant(Team.CHO));
-        board.put(Position.from("03"), new Horse(Team.CHO));
-        board.put(Position.from("04"), new Guard(Team.CHO));
-        board.put(Position.from("06"), new Guard(Team.CHO));
-        board.put(Position.from("07"), new Horse(Team.CHO));
-        board.put(Position.from("08"), new Elephant(Team.CHO));
-        board.put(Position.from("09"), new Chariot(Team.CHO));
-        board.put(Position.from("95"), new General(Team.CHO));
-        board.put(Position.from("82"), new Cannon(Team.CHO));
-        board.put(Position.from("88"), new Cannon(Team.CHO));
-        board.put(Position.from("71"), new Soldier(Team.CHO));
-        board.put(Position.from("73"), new Soldier(Team.CHO));
-        board.put(Position.from("75"), new Soldier(Team.CHO));
-        board.put(Position.from("77"), new Soldier(Team.CHO));
-        board.put(Position.from("79"), new Soldier(Team.CHO));
+    private static void placeCho(Map<Position, Piece> base) {
+        base.put(Position.from("01"), new Chariot(Team.CHO));
+        base.put(Position.from("02"), new Elephant(Team.CHO));
+        base.put(Position.from("03"), new Horse(Team.CHO));
+        base.put(Position.from("04"), new Guard(Team.CHO));
+        base.put(Position.from("06"), new Guard(Team.CHO));
+        base.put(Position.from("07"), new Horse(Team.CHO));
+        base.put(Position.from("08"), new Elephant(Team.CHO));
+        base.put(Position.from("09"), new Chariot(Team.CHO));
+        base.put(Position.from("95"), new General(Team.CHO));
+        base.put(Position.from("82"), new Cannon(Team.CHO));
+        base.put(Position.from("88"), new Cannon(Team.CHO));
+        base.put(Position.from("71"), new Soldier(Team.CHO));
+        base.put(Position.from("73"), new Soldier(Team.CHO));
+        base.put(Position.from("75"), new Soldier(Team.CHO));
+        base.put(Position.from("77"), new Soldier(Team.CHO));
+        base.put(Position.from("79"), new Soldier(Team.CHO));
     }
 
-    private static void applyHanSetUp(Map<Position, Piece> board, PieceSetup hanSetup) {
+    private static void applyHanSetUp(Map<Position, Piece> base, PieceSetup hanSetup) {
         if (hanSetup == LEFT_ELEPHANT) {
-            swap(board, Position.from("12"), Position.from("13"));
+            swap(base, Position.from("12"), Position.from("13"));
             return;
         }
         if (hanSetup == RIGHT_ELEPHANT) {
-            swap(board, Position.from("17"), Position.from("18"));
+            swap(base, Position.from("17"), Position.from("18"));
             return;
         }
         if (hanSetup == INNER_ELEPHANT) {
-            swap(board, Position.from("17"), Position.from("18"));
-            swap(board, Position.from("12"), Position.from("13"));
+            swap(base, Position.from("17"), Position.from("18"));
+            swap(base, Position.from("12"), Position.from("13"));
         }
     }
 
-    private static void applyChoSetUp(Map<Position, Piece> board, PieceSetup choSetup) {
+    private static void applyChoSetUp(Map<Position, Piece> base, PieceSetup choSetup) {
         if (choSetup == LEFT_ELEPHANT) {
-            swap(board, Position.from("07"), Position.from("08"));
+            swap(base, Position.from("07"), Position.from("08"));
             return;
         }
         if (choSetup == RIGHT_ELEPHANT) {
-            swap(board, Position.from("02"), Position.from("03"));
+            swap(base, Position.from("02"), Position.from("03"));
             return;
         }
         if (choSetup == INNER_ELEPHANT) {
-            swap(board, Position.from("07"), Position.from("08"));
-            swap(board, Position.from("02"), Position.from("03"));
+            swap(base, Position.from("07"), Position.from("08"));
+            swap(base, Position.from("02"), Position.from("03"));
         }
     }
 
