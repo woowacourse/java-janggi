@@ -29,9 +29,9 @@ public class SoliderMoveRule implements MoveRule {
     }
 
     @Override
-    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        Directions directions = getDirections(from);
-        return directions.findPoints(from, to);
+    public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        Directions directions = getDirections(origin);
+        return directions.findPoints(origin, destination);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class SoliderMoveRule implements MoveRule {
     }
 
 
-    public Directions getDirections(Intersection from){
-        if (from.isChoIntersection()) {
+    public Directions getDirections(Intersection origin){
+        if (origin.isChoIntersection()) {
             return DEFAULT_CHO_DIRECTIONS;
         }
         return DEFAULT_HAN_DIRECTIONS;

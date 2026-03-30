@@ -28,14 +28,14 @@ public class SoliderMoveRuleTest {
         Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
-        Intersection from = new Intersection(start, soldier);
+        Intersection origin = new Intersection(start, soldier);
         Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     soliderMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             sameTeamIntersection))
                     );
                 }).isInstanceOf(PathException.class)
@@ -53,12 +53,12 @@ public class SoliderMoveRuleTest {
         Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
         Piece anotherTeamPiece = new Piece(anotherTeam, PieceType.SOLDIER);
 
-        Intersection from = new Intersection(start, soldier);
-        Intersection to = new Intersection(end, anotherTeamPiece);
+        Intersection origin = new Intersection(start, soldier);
+        Intersection destination = new Intersection(end, anotherTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
-        Assertions.assertThat(soliderMoveRule.checkMoveRule(new Path(List.of(from, to))))
+        Assertions.assertThat(soliderMoveRule.checkMoveRule(new Path(List.of(origin, destination))))
                 .isTrue();
 
     }
@@ -74,12 +74,12 @@ public class SoliderMoveRuleTest {
         Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
         Piece anotherTeamPiece = new Piece(anotherTeam, PieceType.SOLDIER);
 
-        Intersection from = new Intersection(start, soldier);
-        Intersection to = new Intersection(end, anotherTeamPiece);
+        Intersection origin = new Intersection(start, soldier);
+        Intersection destination = new Intersection(end, anotherTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
-        Assertions.assertThat(soliderMoveRule.checkMoveRule(new Path(List.of(from, to))))
+        Assertions.assertThat(soliderMoveRule.checkMoveRule(new Path(List.of(origin, destination))))
                 .isTrue();
 
     }

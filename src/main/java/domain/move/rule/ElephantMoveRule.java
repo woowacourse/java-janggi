@@ -24,8 +24,8 @@ public class ElephantMoveRule implements MoveRule {
     }
 
     @Override
-    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return DEFAULT_ELEPHANT_DIRECTIONS.findPoints(from, to);
+    public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        return DEFAULT_ELEPHANT_DIRECTIONS.findPoints(origin, destination);
     }
 
     @Override

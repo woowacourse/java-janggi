@@ -31,7 +31,7 @@ public class ElephantMoveRuleTest {
         Piece elephant = new Piece(sameTeam, PieceType.ELEPHANT);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.ELEPHANT);
 
-        Intersection from = new Intersection(start, elephant);
+        Intersection origin = new Intersection(start, elephant);
         Intersection middleIntersection1 = Intersection.empty(middlePoint1);
         Intersection middleIntersection2 = Intersection.empty(middlePoint2);
         Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
@@ -40,7 +40,7 @@ public class ElephantMoveRuleTest {
 
         Assertions.assertThatThrownBy(() -> {
                     elephantRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             middleIntersection1,
                             middleIntersection2,
                             sameTeamIntersection)));
@@ -60,19 +60,19 @@ public class ElephantMoveRuleTest {
         Piece elephant = new Piece(sameTeam, PieceType.ELEPHANT);
         Piece obstacle = new Piece(sameTeam, PieceType.ELEPHANT);
 
-        Intersection from = new Intersection(start, elephant);
+        Intersection origin = new Intersection(start, elephant);
         Intersection obstacleIntersection = new Intersection(middlePoint1, obstacle);
         Intersection intersection = Intersection.empty(middlePoint2);
-        Intersection to = Intersection.empty(end);
+        Intersection destination = Intersection.empty(end);
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     elephantMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             obstacleIntersection,
                             intersection,
-                            to)));
+                            destination)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_PATH_HAS_OBSTACLE.getMessage());
     }
@@ -87,19 +87,19 @@ public class ElephantMoveRuleTest {
 
         Piece elephant = new Piece(Team.CHO, PieceType.ELEPHANT);
 
-        Intersection from = new Intersection(start, elephant);
+        Intersection origin = new Intersection(start, elephant);
         Intersection intersection1 = Intersection.empty(middlePoint1);
         Intersection intersection2 = Intersection.empty(middlePoint2);
-        Intersection to = Intersection.empty(end);
+        Intersection destination = Intersection.empty(end);
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
                         elephantMoveRule.checkMoveRule(new Path(List.of(
-                                from,
+                                origin,
                                 intersection1,
                                 intersection2,
-                                to))))
+                                destination))))
                 .isTrue();
     }
 
@@ -116,19 +116,19 @@ public class ElephantMoveRuleTest {
         Piece elephant = new Piece(team, PieceType.ELEPHANT);
         Piece opponent = new Piece(opponentTeam, PieceType.ELEPHANT);
 
-        Intersection from = new Intersection(start, elephant);
+        Intersection origin = new Intersection(start, elephant);
         Intersection intersection1 = Intersection.empty(middlePoint1);
         Intersection intersection2 = Intersection.empty(middlePoint2);
-        Intersection to = new Intersection(end, opponent);
+        Intersection destination = new Intersection(end, opponent);
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
                         elephantMoveRule.checkMoveRule(new Path((List.of(
-                                from,
+                                origin,
                                 intersection1,
                                 intersection2,
-                                to)))))
+                                destination)))))
                 .isTrue();
     }
 

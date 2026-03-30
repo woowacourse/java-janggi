@@ -16,7 +16,7 @@ public class FormationTest {
         String notNumberInput = "ㄱ";
 
         Assertions.assertThatThrownBy(() -> {
-                    Formation.from(notNumberInput);
+                    Formation.origin(notNumberInput);
                 }).isInstanceOf(FormationException.class)
                 .hasMessage(FORMATION_IS_NOT_NUMERIC.getMessage());
     }

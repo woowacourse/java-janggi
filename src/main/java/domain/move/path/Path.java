@@ -20,34 +20,34 @@ public record Path(
         return new Path(addOriginPath);
     }
 
-    public Intersection getFirstIntersection() {
+    public Intersection getOrigin() {
         return intersections.getFirst();
     }
 
-    public Intersection getLastIntersection() {
+    public Intersection getDestination() {
         return intersections.getLast();
     }
 
-    public List<Intersection> getPathWithoutOriginAndLast() {
+    public boolean hasObstacle() {
+        return getPathWithoutOriginAndDestination().stream()
+                .anyMatch(Intersection::hasPiece);
+    }
+
+    public List<Intersection> getObstacleIntersection() {
+        return getPathWithoutOriginAndDestination().stream()
+                .filter(Intersection::hasPiece)
+                .toList();
+    }
+
+    public List<Intersection> getPathWithoutOriginAndDestination() {
         if (intersections.size() <= EXCEPT_ORIGIN + EXCEPT_DESTINATION) {
             return List.of();
         }
         return intersections.subList(EXCEPT_ORIGIN, intersections.size() - EXCEPT_DESTINATION);
     }
 
-    public boolean hasObstacle() {
-        return getPathWithoutOriginAndLast().stream()
-                .anyMatch(Intersection::hasPiece);
-    }
-
-    public List<Intersection> getObstacleIntersection() {
-        return getPathWithoutOriginAndLast().stream()
-                .filter(Intersection::hasPiece)
-                .toList();
-    }
-
     public void validateIsSameTeam() {
-        if (getFirstIntersection().isSameTeam(getLastIntersection())) {
+        if (getOrigin().isSameTeam(getDestination())) {
             throw new PathException(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
         }
     }

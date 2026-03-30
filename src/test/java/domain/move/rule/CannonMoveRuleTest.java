@@ -42,7 +42,7 @@ class CannonMoveRuleTest {
     void shouldThrowExceptionWhenDestinationIsSameTeam() {
         Team sameTeam = Team.CHO;
 
-        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
 
         Intersection onlyObstacleIntersection = new Intersection(middlePoint5, new Piece(sameTeam, PieceType.CANNON));
         Intersection sameTeamIntersection = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
@@ -51,7 +51,7 @@ class CannonMoveRuleTest {
 
         Assertions.assertThatThrownBy(() -> {
                     cannonMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             intersection1,
                             intersection2,
                             intersection3,
@@ -71,15 +71,15 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
         Intersection cannonObstacle = new Intersection(middlePoint7, new Piece(anotherTeam, PieceType.CANNON));
-        Intersection to = Intersection.empty(end);
+        Intersection destination = Intersection.empty(end);
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     cannonMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             intersection1,
                             intersection2,
                             intersection3,
@@ -88,7 +88,7 @@ class CannonMoveRuleTest {
                             intersection6,
                             cannonObstacle,
                             intersection8,
-                            to)));
+                            destination)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNON_CANNOT_JUMP_CANNON.getMessage());
     }
@@ -99,16 +99,16 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
         Intersection obstacle1 = new Intersection(middlePoint5, new Piece(anotherTeam, PieceType.CHARIOT));
         Intersection obstacle2 = new Intersection(middlePoint6, new Piece(anotherTeam, PieceType.CHARIOT));
-        Intersection to = Intersection.empty(end);
+        Intersection destination = Intersection.empty(end);
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     cannonMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             intersection1,
                             intersection2,
                             intersection3,
@@ -117,7 +117,7 @@ class CannonMoveRuleTest {
                             obstacle2,
                             intersection7,
                             intersection8,
-                            to)));
+                            destination)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
     }
@@ -127,14 +127,14 @@ class CannonMoveRuleTest {
     void shouldThrowExceptionWhenCannonPathDoesntObstacle() {
         Team sameTeam = Team.CHO;
 
-        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
-        Intersection to = Intersection.empty(end);
+        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection destination = Intersection.empty(end);
 
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     cannonMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             intersection1,
                             intersection2,
                             intersection3,
@@ -143,7 +143,7 @@ class CannonMoveRuleTest {
                             intersection6,
                             intersection7,
                             intersection8,
-                            to)));
+                            destination)));
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
     }
@@ -154,7 +154,7 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection from = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
         Intersection obstacle = new Intersection(middlePoint6, new Piece(sameTeam, PieceType.CHARIOT));
         Intersection cannonIntersection = new Intersection(end, new Piece(anotherTeam, PieceType.CANNON));
 
@@ -163,7 +163,7 @@ class CannonMoveRuleTest {
 
         Assertions.assertThatThrownBy(() -> {
                     cannonMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             intersection1,
                             intersection2,
                             intersection3,

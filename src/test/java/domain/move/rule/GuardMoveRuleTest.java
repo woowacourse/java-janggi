@@ -27,14 +27,14 @@ public class GuardMoveRuleTest {
         Piece guard = new Piece(sameTeam, PieceType.GUARD);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
-        Intersection from = new Intersection(start, guard);
+        Intersection origin = new Intersection(start, guard);
         Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     guardMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             sameTeamIntersection))
                     );
                 }).isInstanceOf(PathException.class)
@@ -50,12 +50,12 @@ public class GuardMoveRuleTest {
         Team sameTeam = Team.HAN;
         Piece guard = new Piece(sameTeam, PieceType.GUARD);
 
-        Intersection from = new Intersection(start, guard);
+        Intersection origin = new Intersection(start, guard);
         Intersection emptyIntersection = Intersection.empty(end);
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(new Path(List.of(from, emptyIntersection))))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(new Path(List.of(origin, emptyIntersection))))
                 .isTrue();
     }
 
@@ -70,12 +70,12 @@ public class GuardMoveRuleTest {
         Piece guard = new Piece(sameTeam, PieceType.GUARD);
         Piece opponent = new Piece(anotherTeam, PieceType.GUARD);
 
-        Intersection from = new Intersection(start, guard);
+        Intersection origin = new Intersection(start, guard);
         Intersection opponentIntersection = new Intersection(end, opponent);
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(new Path(List.of(from, opponentIntersection))))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(new Path(List.of(origin, opponentIntersection))))
                 .isTrue();
     }
 

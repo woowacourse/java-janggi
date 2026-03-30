@@ -26,8 +26,8 @@ public class CannonMoveRule implements MoveRule {
     }
 
     @Override
-    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return DEFAULT_CANNON_DIRECTIONS.findPoints(from, to);
+    public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        return DEFAULT_CANNON_DIRECTIONS.findPoints(origin, destination);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CannonMoveRule implements MoveRule {
     }
 
     private void validateDestinationIsNotCannon(Path path) {
-        if (path.getLastIntersection().hasCannon()) {
+        if (path.getDestination().hasCannon()) {
             throw new PathException(CANNON_CANNOT_ATTACK_CANNON.getMessage());
         }
     }

@@ -24,16 +24,16 @@ public class JanggiBoard {
     }
 
     public void tryToMove(Point start, Point end, Team currentTeam) {
-        Intersection from = findOriginIntersection(start, currentTeam);
-        Intersection to = findIntersection(end);
-        inspectPath(from, to);
-        from.move(to);
+        Intersection origin = findOriginIntersection(start, currentTeam);
+        Intersection destination = findIntersection(end);
+        inspectPath(origin, destination);
+        origin.move(destination);
     }
 
-    private void inspectPath(Intersection from, Intersection to) {
-        Path path = buildPath(moveRuleManager.findPathOfPoints(from, to))
-                .addOrigin(from);
-        moveRuleManager.inspectPathByMoveRule(from, path);
+    private void inspectPath(Intersection origin, Intersection destination) {
+        Path path = buildPath(moveRuleManager.findPathOfPoints(origin, destination))
+                .addOrigin(origin);
+        moveRuleManager.inspectPathByMoveRule(path);
     }
 
     private Path buildPath(List<Point> possiblePoints) {
@@ -44,9 +44,9 @@ public class JanggiBoard {
     }
 
     public Intersection findOriginIntersection(Point point, Team team) {
-        Intersection from = findIntersection(point);
-        from.validateMovable(team);
-        return from;
+        Intersection origin = findIntersection(point);
+        origin.validateMovable(team);
+        return origin;
     }
 
     public Intersection findIntersection(Point point) {

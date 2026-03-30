@@ -24,18 +24,18 @@ public class MoveRuleManager {
         );
     }
 
-    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        MoveRule moveRule = findMoveRule(from);
-        return moveRule.findPathOfPoints(from, to);
+    public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        MoveRule moveRule = findMoveRule(origin);
+        return moveRule.findPathOfPoints(origin, destination);
     }
 
-    public void inspectPathByMoveRule(Intersection from, Path path) {
-        MoveRule moveRule = findMoveRule(from);
+    public void inspectPathByMoveRule(Path path) {
+        MoveRule moveRule = findMoveRule(path.getOrigin());
         moveRule.checkMoveRule(path);
     }
 
-    public MoveRule findMoveRule(Intersection from) {
-        Piece piece = from.readPiece();
+    public MoveRule findMoveRule(Intersection origin) {
+        Piece piece = origin.readPiece();
         return moveRules.get(piece.pieceType());
     }
 

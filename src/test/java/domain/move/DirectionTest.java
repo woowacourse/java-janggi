@@ -33,12 +33,12 @@ public class DirectionTest {
         Point start = new Point(0, 0);
         Point end = new Point(2, 1);
 
-        Intersection from = Intersection.empty(start);
-        Intersection to = Intersection.empty(end);
+        Intersection origin = Intersection.empty(start);
+        Intersection destination = Intersection.empty(end);
 
         Directions directions = new Directions(List.of(direction1, direction2));
 
-        List<Point> actual = directions.findPoints(from, to);
+        List<Point> actual = directions.findPoints(origin, destination);
 
         Assertions.assertThat(actual).containsExactlyInAnyOrder(
                 new Point(1, 0),

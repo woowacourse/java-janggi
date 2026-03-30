@@ -24,13 +24,13 @@ public class Intersection {
         return new Intersection(point, Piece.none());
     }
 
-    public void move(Intersection to) {
-        to.arrive(this);
+    public void move(Intersection destination) {
+        destination.arrive(this);
         leave();
     }
 
-    private void arrive(Intersection from) {
-        this.piece = from.piece;
+    private void arrive(Intersection origin) {
+        this.piece = origin.piece;
     }
 
     private void leave() {
@@ -53,8 +53,8 @@ public class Intersection {
         return piece.isSameTeam(team);
     }
 
-    public boolean isSameTeam(Intersection to) {
-        return piece.isSameTeam(to.piece);
+    public boolean isSameTeam(Intersection destination) {
+        return piece.isSameTeam(destination.piece);
     }
 
     public boolean hasPiece() {

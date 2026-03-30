@@ -29,7 +29,7 @@ public class HorseMoveRuleTest {
         Piece horse = new Piece(sameTeam, PieceType.HORSE);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.HORSE);
 
-        Intersection from = new Intersection(start, horse);
+        Intersection origin = new Intersection(start, horse);
         Intersection intersection = Intersection.empty(middlePoint);
         Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
@@ -37,7 +37,7 @@ public class HorseMoveRuleTest {
 
         Assertions.assertThatThrownBy(() -> {
                     horseRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             intersection,
                             sameTeamIntersection))
                     );
@@ -56,17 +56,17 @@ public class HorseMoveRuleTest {
         Piece horse = new Piece(sameTeam, PieceType.HORSE);
         Piece obstacle = new Piece(sameTeam, PieceType.HORSE);
 
-        Intersection from = new Intersection(start, horse);
+        Intersection origin = new Intersection(start, horse);
         Intersection obstacleIntersection = new Intersection(middlePoint, obstacle);
-        Intersection to = Intersection.empty(end);
+        Intersection destination = Intersection.empty(end);
 
         HorseMoveRule horseRule = new HorseMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     horseRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             obstacleIntersection,
-                            to))
+                            destination))
                     );
                 }).isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_PATH_HAS_OBSTACLE.getMessage());
@@ -81,13 +81,13 @@ public class HorseMoveRuleTest {
 
         Piece horse = new Piece(Team.CHO, PieceType.HORSE);
 
-        Intersection from = new Intersection(start, horse);
+        Intersection origin = new Intersection(start, horse);
         Intersection intersection = Intersection.empty(middlePoint);
         Intersection emptyIntersection = Intersection.empty(end);
 
         HorseMoveRule horseRule = new HorseMoveRule();
 
-        Assertions.assertThat(horseRule.checkMoveRule(new Path(List.of(from, intersection, emptyIntersection))))
+        Assertions.assertThat(horseRule.checkMoveRule(new Path(List.of(origin, intersection, emptyIntersection))))
                 .isTrue();
     }
 
@@ -103,13 +103,13 @@ public class HorseMoveRuleTest {
         Piece horse = new Piece(team, PieceType.HORSE);
         Piece opponent = new Piece(opponentTeam, PieceType.HORSE);
 
-        Intersection from = new Intersection(start, horse);
+        Intersection origin = new Intersection(start, horse);
         Intersection intersection = Intersection.empty(middlePoint);
         Intersection opponentIntersection = new Intersection(end, opponent);
 
         HorseMoveRule horseRule = new HorseMoveRule();
 
-        Assertions.assertThat(horseRule.checkMoveRule(new Path(List.of(from, intersection, opponentIntersection))))
+        Assertions.assertThat(horseRule.checkMoveRule(new Path(List.of(origin, intersection, opponentIntersection))))
                 .isTrue();
 
     }

@@ -20,8 +20,8 @@ public class GeneralMoveRule implements MoveRule {
     }
 
     @Override
-    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return DEFAULT_GENERAL_DIRECTIONS.findPoints(from, to);
+    public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        return DEFAULT_GENERAL_DIRECTIONS.findPoints(origin, destination);
     }
 
     @Override

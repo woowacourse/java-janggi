@@ -26,7 +26,7 @@ public enum Formation {
         this.horseFormations = horseFormations;
     }
 
-    public static Formation from(String input) {
+    public static Formation origin(String input) {
         validateNumeric(input);
         return valueOf(Integer.parseInt(input));
     }

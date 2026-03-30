@@ -6,7 +6,6 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -73,10 +72,10 @@ public class BoardTest {
 
         Piece hanGeneral = new Piece(Team.HAN, PieceType.GENERAL);
 
-        Intersection from = new Intersection(start, hanGeneral);
-        Intersection to = Intersection.empty(end);
+        Intersection origin = new Intersection(start, hanGeneral);
+        Intersection destination = Intersection.empty(end);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
 
         Assertions.assertThat(janggiBoard.isGameOver())
                 .isTrue();
@@ -91,10 +90,10 @@ public class BoardTest {
         Piece hanGeneral = new Piece(Team.HAN, PieceType.GENERAL);
         Piece choGeneral = new Piece(Team.CHO, PieceType.GENERAL);
 
-        Intersection from = new Intersection(start, hanGeneral);
-        Intersection to = new Intersection(end, choGeneral);
+        Intersection origin = new Intersection(start, hanGeneral);
+        Intersection destination = new Intersection(end, choGeneral);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
 
         Assertions.assertThat(janggiBoard.isGameOver())
                 .isFalse();
@@ -110,10 +109,10 @@ public class BoardTest {
         Team expectedWinner = Team.HAN;
         Piece hanGeneral = new Piece(expectedWinner, PieceType.GENERAL);
 
-        Intersection from = new Intersection(start, hanGeneral);
-        Intersection to = Intersection.empty(end);
+        Intersection origin = new Intersection(start, hanGeneral);
+        Intersection destination = Intersection.empty(end);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
         Team actualWinner = janggiBoard.getWinner();
 
         Assertions.assertThat(actualWinner)

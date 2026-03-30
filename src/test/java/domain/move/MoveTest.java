@@ -25,17 +25,17 @@ public class MoveTest {
         Piece chariot = new Piece(currentTurn, PieceType.CHARIOT);
         Piece soldier = new Piece(Team.HAN, PieceType.SOLDIER);
 
-        Intersection from = new Intersection(start, chariot);
-        Intersection to = new Intersection(end, soldier);
+        Intersection origin = new Intersection(start, chariot);
+        Intersection destination = new Intersection(end, soldier);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(from, to)));
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
         janggiBoard.tryToMove(start, end, currentTurn);
 
         Intersection expectedEmpty = Intersection.empty(start);
         Intersection expectedChariot = new Intersection(end, chariot);
 
-        Assertions.assertThat(from).isEqualTo(expectedEmpty);
-        Assertions.assertThat(to).isEqualTo(expectedChariot);
+        Assertions.assertThat(origin).isEqualTo(expectedEmpty);
+        Assertions.assertThat(destination).isEqualTo(expectedChariot);
     }
 
 }

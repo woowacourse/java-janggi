@@ -24,8 +24,8 @@ public class ChariotMoveRule implements MoveRule {
     }
 
     @Override
-    public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return DEFAULT_CHARIOT_DIRECTIONS.findPoints(from, to);
+    public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        return DEFAULT_CHARIOT_DIRECTIONS.findPoints(origin, destination);
     }
 
     @Override

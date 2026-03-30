@@ -29,11 +29,11 @@ public class IntersectionTest {
         Piece choPiece = new Piece(team, PieceType.SOLDIER);
 
         Intersection opponentIntersection = new Intersection(start, choPiece);
-        Intersection to = Intersection.empty(end);
+        Intersection destination = Intersection.empty(end);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 opponentIntersection,
-                to)
+                destination)
         ));
 
         Assertions.assertThatThrownBy(() -> {
@@ -49,11 +49,11 @@ public class IntersectionTest {
         Point end = new Point(1, 0);
 
         Intersection emptyIntersection = Intersection.empty(start);
-        Intersection to = Intersection.empty(end);
+        Intersection destination = Intersection.empty(end);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 emptyIntersection,
-                to)
+                destination)
         ));
 
         Assertions.assertThatThrownBy(() -> {

@@ -12,9 +12,9 @@ public class Directions {
         this.directions = directions;
     }
 
-    public List<Point> findPoints(Intersection from, Intersection to){
-        Point start = from.getPoint();
-        Point end = to.getPoint();
+    public List<Point> findPoints(Intersection origin, Intersection destination){
+        Point start = origin.getPoint();
+        Point end = destination.getPoint();
         return directions.stream()
                 .filter(direction -> direction.canReach(start, end))
                 .findFirst()

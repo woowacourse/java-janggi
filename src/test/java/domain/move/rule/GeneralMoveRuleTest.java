@@ -27,14 +27,14 @@ public class GeneralMoveRuleTest {
         Piece general = new Piece(sameTeam, PieceType.GENERAL);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
-        Intersection from = new Intersection(start, general);
+        Intersection origin = new Intersection(start, general);
         Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
                     generalMoveRule.checkMoveRule(new Path(List.of(
-                            from,
+                            origin,
                             sameTeamIntersection))
                     );
                 }).isInstanceOf(PathException.class)
@@ -50,12 +50,12 @@ public class GeneralMoveRuleTest {
         Team sameTeam = Team.HAN;
         Piece general = new Piece(sameTeam, PieceType.GENERAL);
 
-        Intersection from = new Intersection(start, general);
+        Intersection origin = new Intersection(start, general);
         Intersection emptyIntersection = Intersection.empty(end);
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(new Path(List.of(from, emptyIntersection))))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(new Path(List.of(origin, emptyIntersection))))
                 .isTrue();
     }
 
@@ -70,12 +70,12 @@ public class GeneralMoveRuleTest {
         Piece general = new Piece(sameTeam, PieceType.GENERAL);
         Piece opponent = new Piece(anotherTeam, PieceType.SOLDIER);
 
-        Intersection from = new Intersection(start, general);
+        Intersection origin = new Intersection(start, general);
         Intersection opponentIntersection = new Intersection(end, opponent);
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(new Path(List.of(from, opponentIntersection))))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(new Path(List.of(origin, opponentIntersection))))
                 .isTrue();
     }
 
