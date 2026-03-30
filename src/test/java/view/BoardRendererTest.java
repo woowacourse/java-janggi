@@ -17,6 +17,6 @@ public class BoardRendererTest {
         String renderedBoard = new BoardRenderer().render(board);
         String[] lines = renderedBoard.split(System.lineSeparator());
 
-        assertThat(lines[lines.length - 1]).isEqualTo("   1   2   3   4   5   6   7   8   9");
+        assertThat(lines[lines.length - 1]).isEqualTo("   1  2  3  4  5  6  7  8  9");
     }
 }
