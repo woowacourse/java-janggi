@@ -2,6 +2,8 @@ package janggi.domain.board;
 
 import janggi.domain.Camp;
 import janggi.domain.Path;
+import janggi.domain.Paths;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import janggi.domain.board.strategy.FormationStrategy;
 import janggi.domain.piece.*;
@@ -39,7 +41,7 @@ public class Board {
         choFormation.put(Position.of(2, 1), new Cannon(cho, new CannonStrategy()));
         choFormation.put(Position.of(2, 7), new Cannon(cho, new CannonStrategy()));
         for (int i = 0; i <= 8; i += 2) {
-            choFormation.put(Position.of(3, i), new Soldier(cho, new SoldierStrategy(cho.direction())));
+            choFormation.put(Position.of(3, i), new Soldier(cho, new SoldierStrategy(Direction.UP)));
         }
         return choFormation;
     }
@@ -55,7 +57,7 @@ public class Board {
         choFormation.put(Position.of(7, 1), new Cannon(han, new CannonStrategy()));
         choFormation.put(Position.of(7, 7), new Cannon(han, new CannonStrategy()));
         for (int i = 0; i <= 8; i += 2) {
-            choFormation.put(Position.of(6, i), new Soldier(han, new SoldierStrategy(han.direction())));
+            choFormation.put(Position.of(6, i), new Soldier(han, new SoldierStrategy(Direction.DOWN)));
         }
         return choFormation;
     }
@@ -82,10 +84,8 @@ public class Board {
     }
 
     private Path findPath(Piece piece, Position from, Position to) {
-        return piece.findMovablePaths(from).stream()
-                .filter(path -> path.isDestination(to))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 좌표입니다."));
+        Paths movablePaths = piece.findMovablePaths(from);
+        return movablePaths.findPathByDestination(to);
     }
 
     private void validateRoute(Piece piece, Path path) {
