@@ -25,7 +25,7 @@ class CannonStrategyTest {
     void 포는_기물이_사이에_하나의_기물이_있으면_정상적으로_움직일_수_있다() {
         List<Path> paths = List.of(new Path(new Position(3, 0), new Horse(Team.HAN)));
 
-        assertDoesNotThrow(() -> piece.canMove(paths, new Horse(Team.HAN)));
+        assertDoesNotThrow(() -> piece.validateMove(paths, new Horse(Team.HAN)));
     }
 
 
@@ -34,7 +34,7 @@ class CannonStrategyTest {
         List<Path> paths = List.of();
 
         assertThrows(IllegalStateException.class,
-                () -> piece.canMove(paths, new Horse(Team.HAN))
+                () -> piece.validateMove(paths, new Horse(Team.HAN))
         );
     }
 
@@ -47,7 +47,7 @@ class CannonStrategyTest {
 
 
         assertThrows(IllegalStateException.class,
-                () -> piece.canMove(paths, new Horse(Team.HAN))
+                () -> piece.validateMove(paths, new Horse(Team.HAN))
         );
     }
 
@@ -58,7 +58,7 @@ class CannonStrategyTest {
         );
 
         assertThrows(IllegalStateException.class,
-                () -> piece.canMove(paths, new Horse(Team.HAN))
+                () -> piece.validateMove(paths, new Horse(Team.HAN))
         );
     }
 
@@ -69,7 +69,7 @@ class CannonStrategyTest {
         );
 
         assertThrows(IllegalStateException.class,
-                () -> piece.canMove(paths, new Cannon(Team.HAN))
+                () -> piece.validateMove(paths, new Cannon(Team.HAN))
         );
     }
 

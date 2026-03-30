@@ -26,7 +26,7 @@ public class Board {
 
         List<Offset> pathPositions = fromPiece.getPathPositions(Offset.of(from, to));
         List<Path> path = getPath(from,pathPositions);
-        fromPiece.canMove(path, toPiece);
+        fromPiece.validateMove(path, toPiece);
 
         if (toPiece != null && fromPiece.isSameTeam(toPiece)) {
             throw new IllegalStateException(ErrorMessage.SAME_TEAM_OCCUPIED.getMessage());

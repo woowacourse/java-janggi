@@ -34,7 +34,7 @@ public abstract class Piece {
 
     abstract public List<Offset> getPathPositions(Offset offset);
 
-    public void canMove(List<Path> paths, Piece to) {
+    public void validateMove(List<Path> paths, Piece to) {
         if (!paths.isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
         }

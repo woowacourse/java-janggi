@@ -16,7 +16,7 @@ public final class Cannon extends StraightMovingPiece {
     }
 
     @Override
-    public void canMove(List<Path> paths, Piece to) {
+    public void validateMove(List<Path> paths, Piece to) {
         if (paths.isEmpty()) {
             throw new IllegalStateException(ErrorMessage.CANNON_NEEDS_BRIDGE.getMessage());
         }
