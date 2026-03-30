@@ -2,108 +2,48 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Chariot extends Piece {
-    private final String name = "차";
-
-    public Chariot(Side side) {
-        super(side);
+    public Chariot(Side side, MovementStrategy movementStrategy) {
+        super(side, movementStrategy);
     }
 
     @Override
-    public List<Position> getAllPosition(Position position) {
-        List<Position> positions = new ArrayList<>();
-        // 상
-        Position currentPosition = position;
-        while (currentPosition.upPossible()) {
-            currentPosition = currentPosition.up();
-            positions.add(currentPosition);
+    protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
+        List<Position> valid = new ArrayList<>();
+        for (Path path : paths) {
+            collectPathPositions(valid, path, board);
         }
-        // 하
-        currentPosition = position;
-        while (currentPosition.downPossible()) {
-            currentPosition = currentPosition.down();
-            positions.add(currentPosition);
-        }
-        // 좌
-        currentPosition = position;
-        while (currentPosition.leftPossible()) {
-            currentPosition = currentPosition.left();
-            positions.add(currentPosition);
-        }
-        // 우
-        currentPosition = position;
-        while (currentPosition.rightPossible()) {
-            currentPosition = currentPosition.right();
-            positions.add(currentPosition);
-        }
-
-        return positions;
+        return valid;
     }
 
-    @Override
-    public List<Position> getPossibleDestinations(Position position, Map<Position, Piece> board) {
-        List<Position> destinations = new ArrayList<>();
+    private void collectPathPositions(List<Position> valid, Path path, BoardReader board) {
+        for (Position pos : path.getPositions()) {
+            if (processPosition(valid, pos, board)) {
+                break;
+            }
+        }
+    }
 
-        // 상
-        Position currentPosition = position;
-        while (currentPosition.upPossible()) {
-            currentPosition = currentPosition.up();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (!piece.isAlly(side)) {
-                    destinations.add(currentPosition);
-                }
-                break;
-            }
-            destinations.add(currentPosition);
-        }
-        // 하
-        currentPosition = position;
-        while (currentPosition.downPossible()) {
-            currentPosition = currentPosition.down();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (!piece.isAlly(side)) {
-                    destinations.add(currentPosition);
-                }
-                break;
-            }
-            destinations.add(currentPosition);
-        }
-        // 좌
-        currentPosition = position;
-        while (currentPosition.leftPossible()) {
-            currentPosition = currentPosition.left();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (!piece.isAlly(side)) {
-                    destinations.add(currentPosition);
-                }
-                break;
-            }
-            destinations.add(currentPosition);
-        }
-        // 우
-        currentPosition = position;
-        while (currentPosition.rightPossible()) {
-            currentPosition = currentPosition.right();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (!piece.isAlly(side)) {
-                    destinations.add(currentPosition);
-                }
-                break;
-            }
-            destinations.add(currentPosition);
+    private boolean processPosition(List<Position> valid, Position pos, BoardReader board) {
+        if (board.isEmpty(pos)) {
+            valid.add(pos);
+            return false;
         }
 
-        return destinations;
+        addIfEnemy(valid, pos, board);
+        return true;
+    }
+
+    private void addIfEnemy(List<Position> valid, Position pos, BoardReader board) {
+        Piece target = board.getPiece(pos);
+        if (!target.isAlly(getSide())) {
+            valid.add(pos);
+        }
     }
 
     @Override
     public String toString() {
-        return name;
+        return "차";
     }
 }

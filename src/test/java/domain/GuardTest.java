@@ -2,43 +2,25 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GuardTest {
-
     @Test
-    void 빈_보드에서는_상하좌우로_이동한다() {
-        Guard guard = new Guard(Side.HAN);
-        Position from = new Position(4, 4);
-
-        List<Position> destinations = guard.getPossibleDestinations(from, new HashMap<>());
-
-        assertThat(destinations).containsExactlyInAnyOrder(
-                new Position(4, 5),
-                new Position(4, 3),
-                new Position(3, 4),
-                new Position(5, 4)
+    @DisplayName("사는 상하좌우 1칸 이동하며 아군 기물이 있으면 이동할 수 없다")
+    void move() {
+        Position current = Position.of(3, 1);
+        Map<Position, Piece> pieces = Map.of(
+                current, PieceFactory.createGuard(Side.CHO),
+                Position.of(3, 2), PieceFactory.createChariot(Side.CHO)
         );
-    }
+        Board board = new Board(pieces);
 
-    @Test
-    void 같은_진영_기물이_있는_칸으로는_이동하지_못한다() {
-        Guard guard = new Guard(Side.HAN);
-        Position from = new Position(4, 4);
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(4, 5), new Soldier(Side.HAN));
-        board.put(new Position(4, 3), new Soldier(Side.CHO));
-        board.put(new Position(3, 4), new Soldier(Side.HAN));
-        board.put(new Position(5, 4), new Soldier(Side.CHO));
+        MovablePositions movable = board.findMovablePositions(current);
 
-        List<Position> destinations = guard.getPossibleDestinations(from, board);
-
-        assertThat(destinations).containsExactlyInAnyOrder(
-                new Position(4, 3),
-                new Position(5, 4)
+        assertThat(movable.getPositions()).containsExactlyInAnyOrder(
+                Position.of(4, 1), Position.of(2, 1), Position.of(3,0)
         );
     }
 }

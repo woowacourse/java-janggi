@@ -14,49 +14,60 @@ class GameTest {
     @BeforeEach
     void setUp() {
         players = Players.createInitial(new Name("cho"), new Name("han"));
-        Formation choFormation = Formation.from(FormationCommand.from("1"));
-        Formation hanFormation = Formation.from(FormationCommand.from("1"));
-        Board board = BoardFactory.create(choFormation, hanFormation);
+        Board board = BoardFactory.create(Formation.from(FormationCommand.FIRST), Formation.from(FormationCommand.FIRST));
         game = new Game(board, players);
     }
 
     @Test
-    void 턴이_바뀌면_진영이_바뀐다() {
-        Side first = game.getCurrentSide();
-        players.switchPlayer();
-        Side second = game.getCurrentSide();
+    void 기물_이동이_완료되면_턴이_상대방_진영으로_변경된다() {
+        // Given: 초나라 졸(0,3)을 (0,4)로 전진
+        Position from = Position.of(0, 3);
+        Position to = Position.of(0, 4);
 
-        assertThat(first).isEqualTo(Side.CHO);
-        assertThat(second).isEqualTo(Side.HAN);
-    }
-
-    @Test
-    void 보드의_기물을_이동이_가능하다() {
-        Position from = new Position(0, 3);
-        Piece expected = game.getBoard().get(from);
-        Position to = new Position(1, 3);
+        // When
         game.move(from, to);
 
-        assertThat(game.getBoard()).doesNotContainKey(from);
-        assertThat(game.getBoard().get(to)).isEqualTo(expected);
+        // Then
+        assertThat(game.getCurrentSide()).isEqualTo(Side.HAN);
     }
 
     @Test
-    void 존재하지_않는_목적지로_이동하는_경우_예외가_발생한다() {
-        Position from = new Position(0, 3);
-        Position to = new Position(1, 4);
+    void 이동할_수_있는_목적지가_전혀_없는_기물을_선택하면_예외가_발생한다() {
+        // Given: 사(Guard)를 기물들로 사방을 포위하여 이동 경로가 0개인 상황 연출
+        Position guardPos = Position.of(4, 0);
+        Map<Position, Piece> blockedMap = Map.of(
+                guardPos, PieceFactory.createGuard(Side.CHO),
+                Position.of(3, 0), PieceFactory.createChariot(Side.CHO),
+                Position.of(5, 0), PieceFactory.createChariot(Side.CHO),
+                Position.of(4, 1), PieceFactory.createChariot(Side.CHO)
+        );
+        Game blockedGame = new Game(new Board(blockedMap), players);
 
-        assertThatThrownBy(() -> game.move(from, to))
+        // When & Then: selectSource 내부에서 movablePositions.isEmpty() 체크 시 예외 발생
+        assertThatThrownBy(() -> blockedGame.selectSource(guardPos))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void 장군이_하나면_게임은_종료상태다() {
-        Game game = new Game(
-                new Board(Map.of(new Position(4, 1), new General(Side.CHO))),
-                Players.createInitial(new Name("cho"), new Name("han"))
-        );
+    void 선택한_기물이_이동할_수_없는_위치를_목적지로_입력하면_예외가_발생한다() {
+        // Given: 초나라 졸(0,3) 선택 (졸은 대각선 이동 불가)
+        Position from = Position.of(0, 3);
+        Position invalidTo = Position.of(1, 4);
 
-        assertThat(game.isOver()).isTrue();
+        // When & Then: validateDestinations(to) 호출 시 예외 발생
+        assertThatThrownBy(() -> game.move(from, invalidTo))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 보드에_궁이_하나만_남게_되면_게임은_종료_상태가_된다() {
+        // Given: 한나라 궁(General)이 잡히고 초나라 궁만 남은 보드 상황
+        Map<Position, Piece> oneGeneralMap = Map.of(
+                Position.of(4, 1), PieceFactory.createGeneral(Side.CHO)
+        );
+        Game gameOverGame = new Game(new Board(oneGeneralMap), players);
+
+        // When & Then
+        assertThat(gameOverGame.isOver()).isTrue();
     }
 }

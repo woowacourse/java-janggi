@@ -2,43 +2,26 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GeneralTest {
-
     @Test
-    void 빈_보드에서는_상하좌우로_이동한다() {
-        General general = new General(Side.CHO);
-        Position from = new Position(4, 4);
-
-        List<Position> destinations = general.getPossibleDestinations(from, new HashMap<>());
-
-        assertThat(destinations).containsExactlyInAnyOrder(
-                new Position(4, 5),
-                new Position(4, 3),
-                new Position(3, 4),
-                new Position(5, 4)
+    @DisplayName("궁은 상하좌우 1칸 이동하며, 범위를 벗어나거나 아군이 있으면 이동할 수 없다")
+    void move() {
+        // (4,1)에 궁, (4,2)에 아군 사 배치 -> (4,2) 이동 불가, (4,0), (3,1), (5,1) 이동 가능
+        Position current = Position.of(4, 1);
+        Map<Position, Piece> pieces = Map.of(
+                current, PieceFactory.createGeneral(Side.CHO),
+                Position.of(4, 2), PieceFactory.createGuard(Side.CHO)
         );
-    }
+        Board board = new Board(pieces);
 
-    @Test
-    void 같은_진영_기물이_있는_칸으로는_이동하지_못한다() {
-        General general = new General(Side.CHO);
-        Position from = new Position(4, 4);
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(4, 5), new Soldier(Side.CHO));
-        board.put(new Position(4, 3), new Soldier(Side.HAN));
-        board.put(new Position(3, 4), new Soldier(Side.CHO));
-        board.put(new Position(5, 4), new Soldier(Side.HAN));
+        MovablePositions movable = board.findMovablePositions(current);
 
-        List<Position> destinations = general.getPossibleDestinations(from, board);
-
-        assertThat(destinations).containsExactlyInAnyOrder(
-                new Position(4, 3),
-                new Position(5, 4)
+        assertThat(movable.getPositions()).containsExactlyInAnyOrder(
+                Position.of(4, 0), Position.of(3, 1), Position.of(5, 1)
         );
     }
 }

@@ -12,10 +12,10 @@ class PieceTest {
 
     @ParameterizedTest
     @MethodSource("provideSideCase")
-    void 주어진_진영과_자신의_진영이_같은지_올바르게_판별한다(Side side, Side ohter, boolean expected) {
-        Piece piece = new Soldier(side);
+    void 주어진_진영과_자신의_진영이_같은지_올바르게_판별한다(Side side, Side other, boolean expected) {
+        Piece piece = PieceFactory.createSoldier(side);
 
-        boolean actual = piece.isAlly(ohter);
+        boolean actual = piece.isAlly(other);
 
         assertThat(actual).isEqualTo(expected);
     }

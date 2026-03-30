@@ -2,54 +2,26 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class SoldierTest {
-
     @Test
-    void 초_졸은_위_좌_우로_이동한다() {
-        Soldier soldier = new Soldier(Side.CHO);
-        Position from = new Position(4, 4);
+    @DisplayName("초나라 졸은 상/좌/우 이동이 가능하고 한나라 졸은 하/좌/우 이동이 가능하다")
+    void moveBySide() {
+        Position choPos = Position.of(4, 3);
+        Position hanPos = Position.of(4, 6);
+        Board board = new Board(Map.of(
+                choPos, PieceFactory.createSoldier(Side.CHO),
+                hanPos, PieceFactory.createSoldier(Side.HAN)
+        ));
 
-        List<Position> destinations = soldier.getPossibleDestinations(from, new HashMap<>());
-
-        assertThat(destinations).containsExactlyInAnyOrder(
-                new Position(4, 5),
-                new Position(3, 4),
-                new Position(5, 4)
+        assertThat(board.findMovablePositions(choPos).getPositions()).containsExactlyInAnyOrder(
+                Position.of(4, 4), Position.of(3, 3), Position.of(5, 3)
         );
-    }
-
-    @Test
-    void 한_졸은_아래_좌_우로_이동한다() {
-        Soldier soldier = new Soldier(Side.HAN);
-        Position from = new Position(4, 4);
-
-        List<Position> destinations = soldier.getPossibleDestinations(from, new HashMap<>());
-
-        assertThat(destinations).containsExactlyInAnyOrder(
-                new Position(4, 3),
-                new Position(3, 4),
-                new Position(5, 4)
-        );
-    }
-
-    @Test
-    void 같은_진영_기물이_있는_칸으로는_이동하지_못한다() {
-        Soldier soldier = new Soldier(Side.CHO);
-        Position from = new Position(4, 4);
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(4, 5), new Soldier(Side.CHO));
-        board.put(new Position(3, 4), new Soldier(Side.HAN));
-        board.put(new Position(5, 4), new Soldier(Side.CHO));
-
-        List<Position> destinations = soldier.getPossibleDestinations(from, board);
-
-        assertThat(destinations).containsExactlyInAnyOrder(
-                new Position(3, 4)
+        assertThat(board.findMovablePositions(hanPos).getPositions()).containsExactlyInAnyOrder(
+                Position.of(4, 5), Position.of(3, 6), Position.of(5, 6)
         );
     }
 }

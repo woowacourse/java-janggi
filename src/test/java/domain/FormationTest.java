@@ -22,9 +22,9 @@ class FormationTest {
 
         Formation.LEFT_ELEPHANT.placeElephant(pieces, Side.CHO);
 
-        assertThat(pieces.get(new Position(1, 0))).isInstanceOf(Elephant.class);
-        assertThat(pieces.get(new Position(2, 0))).isInstanceOf(Horse.class);
-        assertThat(pieces.get(new Position(6, 0))).isInstanceOf(Elephant.class);
-        assertThat(pieces.get(new Position(7, 0))).isInstanceOf(Horse.class);
+        assertThat(pieces.get(Position.of(1, 0))).isInstanceOf(Elephant.class);
+        assertThat(pieces.get(Position.of(2, 0))).isInstanceOf(Horse.class);
+        assertThat(pieces.get(Position.of(6, 0))).isInstanceOf(Elephant.class);
+        assertThat(pieces.get(Position.of(7, 0))).isInstanceOf(Horse.class);
     }
 }

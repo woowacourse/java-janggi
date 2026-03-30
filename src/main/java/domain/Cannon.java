@@ -2,160 +2,81 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Cannon extends Piece {
-    private final String name = "포";
-
-    public Cannon(Side side) {
-        super(side);
+    public Cannon(Side side, MovementStrategy movementStrategy) {
+        super(side, movementStrategy);
     }
 
     @Override
-    public List<Position> getAllPosition(Position position) {
-        List<Position> positions = new ArrayList<>();
-        // 상
-        Position currentPosition = position;
-        while (currentPosition.upPossible()) {
-            currentPosition = currentPosition.up();
-            positions.add(currentPosition);
+    protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
+        List<Position> valid = new ArrayList<>();
+        for (Path path : paths) {
+            addJumpPathPositions(valid, path, board);
         }
-        // 하
-        currentPosition = position;
-        while (currentPosition.downPossible()) {
-            currentPosition = currentPosition.down();
-            positions.add(currentPosition);
-        }
-        // 좌
-        currentPosition = position;
-        while (currentPosition.leftPossible()) {
-            currentPosition = currentPosition.left();
-            positions.add(currentPosition);
-        }
-        // 우
-        currentPosition = position;
-        while (currentPosition.rightPossible()) {
-            currentPosition = currentPosition.right();
-            positions.add(currentPosition);
+        return valid;
+    }
+
+    private void addJumpPathPositions(List<Position> valid, Path path, BoardReader board) {
+        List<Position> positions = path.getPositions();
+        int bridgeIndex = findBridgeIndex(positions, board);
+
+        if (isInvalidBridge(bridgeIndex, positions, board)) {
+            return;
         }
 
-        return positions;
+        collectValidDestinations(valid, positions, bridgeIndex + 1, board);
+    }
+
+    private int findBridgeIndex(List<Position> positions, BoardReader board) {
+        for (int i = 0; i < positions.size(); i++) {
+            if (!board.isEmpty(positions.get(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean isInvalidBridge(int index, List<Position> positions, BoardReader board) {
+        if (index == -1) {
+            return true;
+        }
+        Piece bridge = board.getPiece(positions.get(index));
+        return bridge.isCannon();
+    }
+
+    private void collectValidDestinations(List<Position> valid, List<Position> positions, int startIndex, BoardReader board) {
+        for (int i = startIndex; i < positions.size(); i++) {
+            if (processPositionAfterJump(valid, positions.get(i), board)) {
+                break;
+            }
+        }
+    }
+
+    private boolean processPositionAfterJump(List<Position> valid, Position pos, BoardReader board) {
+        if (board.isEmpty(pos)) {
+            valid.add(pos);
+            return false;
+        }
+
+        addIfCatchable(valid, pos, board);
+        return true;
+    }
+
+    private void addIfCatchable(List<Position> valid, Position pos, BoardReader board) {
+        Piece target = board.getPiece(pos);
+        if (!target.isCannon() && !target.isAlly(getSide())) {
+            valid.add(pos);
+        }
     }
 
     @Override
-    public List<Position> getPossibleDestinations(Position position, Map<Position, Piece> board) {
-        List<Position> destinations = new ArrayList<>();
-
-        // 상
-        Position currentPosition = position;
-        boolean canPut = false;
-        while (currentPosition.upPossible()) {
-            currentPosition = currentPosition.up();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (canPut) {
-                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
-                        destinations.add(currentPosition);
-                    }
-                    break;
-                }
-
-                if (piece instanceof Cannon) {
-                    break;
-                }
-
-                canPut = true;
-                continue;
-            }
-
-            if (canPut) {
-                destinations.add(currentPosition);
-            }
-        }
-        // 하
-        currentPosition = position;
-        canPut = false;
-        while (currentPosition.downPossible()) {
-            currentPosition = currentPosition.down();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (canPut) {
-                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
-                        destinations.add(currentPosition);
-                    }
-                    break;
-                }
-
-                if (piece instanceof Cannon) {
-                    break;
-                }
-
-                canPut = true;
-                continue;
-            }
-
-            if (canPut) {
-                destinations.add(currentPosition);
-            }
-        }
-        // 좌
-        currentPosition = position;
-        canPut = false;
-        while (currentPosition.leftPossible()) {
-            currentPosition = currentPosition.left();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (canPut) {
-                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
-                        destinations.add(currentPosition);
-                    }
-                    break;
-                }
-
-                if (piece instanceof Cannon) {
-                    break;
-                }
-
-                canPut = true;
-                continue;
-            }
-
-            if (canPut) {
-                destinations.add(currentPosition);
-            }
-        }
-        // 우
-        currentPosition = position;
-        canPut = false;
-        while (currentPosition.rightPossible()) {
-            currentPosition = currentPosition.right();
-            if (board.containsKey(currentPosition)) {
-                Piece piece = board.get(currentPosition);
-                if (canPut) {
-                    if (!piece.isAlly(side) && !(piece instanceof Cannon)) {
-                        destinations.add(currentPosition);
-                    }
-                    break;
-                }
-
-                if (piece instanceof Cannon) {
-                    break;
-                }
-
-                canPut = true;
-                continue;
-            }
-
-            if (canPut) {
-                destinations.add(currentPosition);
-            }
-        }
-
-        return destinations;
+    public boolean isCannon() {
+        return true;
     }
 
     @Override
     public String toString() {
-        return name;
+        return "포";
     }
 }
