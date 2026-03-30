@@ -2,11 +2,14 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Soldier extends Piece {
+
+    private final PieceType pieceType = PieceType.SOLDIER;
 
     public Soldier(Camp camp) {
         super(camp);
@@ -61,5 +64,10 @@ public class Soldier extends Piece {
         } catch (IllegalArgumentException e) {
             return position;
         }
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return this.pieceType;
     }
 }
