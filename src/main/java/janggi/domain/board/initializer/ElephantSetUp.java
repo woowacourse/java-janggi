@@ -1,0 +1,39 @@
+package janggi.domain.board.initializer;
+
+import janggi.domain.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public enum ElephantSetUp {
+
+    LEFT_ELEPHANT(List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE)),
+    RIGHT_ELEPHANT(List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT)),
+    INNER_ELEPHANT(List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT, PieceType.HORSE)),
+    OUTER_ELEPHANT(List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT));
+
+    private static final List<Integer> SETTING_COLUMNS = List.of(1, 2, 6, 7);
+
+    private final List<PieceType> elephantOrder;
+
+    ElephantSetUp(List<PieceType> elephantOrder) {
+        this.elephantOrder = elephantOrder;
+    }
+
+    public Map<Position, Piece> settingUp(Camp camp) {
+        List<Integer> settingColumns = camp.convertElephantColumns(SETTING_COLUMNS);
+
+        Map<Position, Piece> map = new HashMap<>();
+        for (int i = 0; i < settingColumns.size(); i++) {
+            map.put(
+                    new Position(camp.getStartRowPosition(), settingColumns.get(i)),
+                    new Piece(elephantOrder.get(i), camp)
+            );
+        }
+
+        return map;
+    }
+}
