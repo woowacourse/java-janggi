@@ -1,6 +1,5 @@
 import controller.JanggiController;
 
-import domain.board.BasicBoardInitializer;
 import view.InputView;
 import view.OutputView;
 

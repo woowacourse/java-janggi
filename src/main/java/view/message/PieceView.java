@@ -4,13 +4,13 @@ import domain.piece.*;
 
 public enum PieceView {
 
-    PAWN("졸"),
-    HORSE("마"),
-    ELEPHANT("상"),
-    CHARIOT("차"),
-    CANNON("포"),
-    GUARD("사"),
-    KING("장"),
+    PAWN("卒"),
+    HORSE("馬"),
+    ELEPHANT("象"),
+    CHARIOT("車"),
+    CANNON("包"),
+    GUARD("士"),
+    KING("將"),
     EMPTY("ㅁ");
 
     private final String name;

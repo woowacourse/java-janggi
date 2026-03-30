@@ -31,14 +31,6 @@ public abstract class Piece {
         return this.side;
     }
 
-    public boolean isChu() {
-        return side.isChu();
-    }
-
-    public boolean isHan() {
-        return side.isHan();
-    }
-
     public boolean isNeutral() {
         return side.isNeutral();
     }
