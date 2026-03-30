@@ -18,10 +18,6 @@ public class Board {
         return new Board(setup);
     }
 
-    public BoardStatus getBoardStatus() {
-        return BoardStatus.from(Map.copyOf(pieces));
-    }
-
     public void move(Team turn, Position start, Position destination) {
         // 목적지에 있는 기물 아군 적군 판별
         Piece startPiece = selectNotEmptyPiece(start);
@@ -45,5 +41,9 @@ public class Board {
             throw new IllegalArgumentException(ErrorMessage.EMPTY_POSITION.getMessage());
         }
         return piece;
+    }
+
+    public BoardStatus getBoardStatus() {
+        return BoardStatus.from(Map.copyOf(pieces));
     }
 }
