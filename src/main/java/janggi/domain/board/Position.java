@@ -37,6 +37,21 @@ public class Position {
         return (xDistance == value1 && yDistance == value2) || (xDistance == value2 && yDistance == value1);
     }
 
+    public Position moveStraight(Position to) {
+        int xDistance = calculateX(to);
+        int yDistance = calculateY(to);
+        if (Math.abs(xDistance) > Math.abs(yDistance)) {
+            return new Position(this.x + Integer.signum(xDistance), this.y);
+        }
+        return new Position(this.x, this.y + Integer.signum(yDistance));
+    }
+
+    public Position moveDiagonal(Position to) {
+        int xDistance = calculateX(to);
+        int yDistance = calculateY(to);
+        return new Position(this.x + Integer.signum(xDistance), this.y + Integer.signum(yDistance));
+    }
+
     public int getX() {
         return x;
     }
