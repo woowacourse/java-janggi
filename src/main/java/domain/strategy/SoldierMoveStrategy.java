@@ -35,12 +35,12 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) != 1) {
-            return true;
+        if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) == 1) {
+            return false;
         }
 
-        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) != 1) {
-            return true;
+        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) == 1) {
+            return false;
         }
 
         return false;

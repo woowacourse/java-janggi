@@ -15,6 +15,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
         int row = from.getRow();
         int col = from.getCol();
+
         while (true) {
             row += nx;
             col += ny;

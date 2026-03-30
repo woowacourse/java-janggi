@@ -19,6 +19,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         int pieceCount = 0;
         int row = from.getRow();
         int col = from.getCol();
+
         while (true) {
             row += nx;
             col += ny;
@@ -56,9 +57,6 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(Position from, Position to) {
-        if (from.getRow() != to.getRow() && from.getCol() != to.getCol()) {
-            return true;
-        }
-        return false;
+        return from.getRow() != to.getRow() && from.getCol() != to.getCol();
     }
 }
