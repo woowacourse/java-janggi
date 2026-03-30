@@ -1,6 +1,7 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.gimul.Byeong;
 import janggi.model.gimul.straightMove.Cha;
 import janggi.model.gimul.Piece;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BoardInitializerWithConst extends BoardInitializer {
+public abstract class BoardInitializerWithConst implements BoardInitializer {
 
     private static final List<Position> CHA_CHO = List.of(
             new Position(Row.ZERO, Column.ONE),
@@ -66,7 +67,24 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
             new Position(Row.THREE, Column.EIGHT)
     );
 
-    @Override
+    public Board init() {
+        Map<Position, Piece> board = new HashMap<>();
+
+        board.putAll(initCha());
+        board.putAll(initMa());
+        board.putAll(initSang());
+        board.putAll(initJang());
+        board.putAll(initSa());
+        board.putAll(initByeong());
+        board.putAll(initPho());
+
+        return new Board(board);
+    }
+
+    protected abstract Map<Position, Piece> initMa();
+    protected abstract Map<Position, Piece> initSang();
+
+
     protected Map<Position, Piece> initCha() {
         Map<Position, Piece> board = new HashMap<>();
 
@@ -84,9 +102,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
         return board;
     }
 
-    @Override
     protected Map<Position, Piece> initJang() {
-        Map<Position, Piece> board = new HashMap<Position, Piece>();
+        Map<Position, Piece> board = new HashMap<>();
 
         Jang cho = new Jang(Team.CHO);
         Jang han = new Jang(Team.HAN);
@@ -97,9 +114,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
         return board;
     }
 
-    @Override
     protected Map<Position, Piece> initSa() {
-        Map<Position, Piece> board = new HashMap<Position, Piece>();
+        Map<Position, Piece> board = new HashMap<>();
 
         Sa cho = new Sa(Team.CHO);
         Sa han = new Sa(Team.HAN);
@@ -115,9 +131,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
         return board;
     }
 
-    @Override
     protected Map<Position, Piece> initByeong() {
-        Map<Position, Piece> board = new HashMap<Position, Piece>();
+        Map<Position, Piece> board = new HashMap<>();
 
         Byeong cho = new Byeong(Team.CHO);
         Byeong han = new Byeong(Team.HAN);
@@ -134,9 +149,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
     }
 
 
-    @Override
     protected Map<Position, Piece> initPho() {
-        Map<Position, Piece> board = new HashMap<Position, Piece>();
+        Map<Position, Piece> board = new HashMap<>();
 
         Pho cho = new Pho(Team.CHO);
         Pho han = new Pho(Team.HAN);
@@ -151,6 +165,4 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
 
         return board;
     }
-
-
 }

@@ -35,7 +35,7 @@ public class LeftSidedTableSetting extends BoardInitializerWithConst {
 
     @Override
     protected Map<Position, Piece> initMa() {
-        Map<Position, Piece> board = new HashMap<Position, Piece>();
+        Map<Position, Piece> board = new HashMap<>();
 
         Ma cho = new Ma(Team.CHO);
         Ma han = new Ma(Team.HAN);
