@@ -6,8 +6,14 @@ import java.util.Objects;
 public class Position {
 
     private static final int POSITION_SIZE = 2;
+
     private final int x;
     private final int y;
+
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public static Position makePosition(List<String> parsedPiecePosition) {
         if (parsedPiecePosition.size() != POSITION_SIZE) {
@@ -20,11 +26,6 @@ public class Position {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("좌표는 숫자가 입력되어야 합니다.");
         }
-    }
-
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 
     public int getX() {

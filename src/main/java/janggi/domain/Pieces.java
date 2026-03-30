@@ -1,16 +1,9 @@
 package janggi.domain;
 
-import janggi.domain.piece.Cha;
-import janggi.domain.piece.Gung;
-import janggi.domain.piece.Jol;
-import janggi.domain.piece.Ma;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Po;
-import janggi.domain.piece.Sa;
-import janggi.domain.piece.Sang;
+import janggi.domain.piece.*;
 import janggi.domain.side.TeamType;
 import janggi.dto.BoardSpot;
-import janggi.dto.BoardSpots;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -70,6 +63,10 @@ public class Pieces {
             snapShot.put(position, new BoardSpot(position, piece.nickname(), piece.getTeamType()));
         }
         return snapShot;
+    }
+
+    public boolean isPieceExist(Position position) {
+        return value.containsKey(position);
     }
 
     public Optional<Piece> findPiece(Position position) {

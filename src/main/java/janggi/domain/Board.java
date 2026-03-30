@@ -34,10 +34,10 @@ public class Board {
         return new BoardSpots(boardSpots);
     }
 
-    public boolean isPieceExist(Position position, TeamType beforeTeam) {
+    public boolean isPieceExist(Position position, TeamType currentTeamType) {
         validateRange(position);
-        Team nowTeam = opponentTeam(beforeTeam);
-        return nowTeam.findPiece(position).isPresent();
+        Team currentTeam = currentTeam(currentTeamType);
+        return currentTeam.isPieceExist(position);
     }
 
     public Piece findNextTurnTeamPiece(Position position, TeamType beforeTeamType) {

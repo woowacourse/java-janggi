@@ -12,6 +12,8 @@ public interface Team {
 
     Map<Position, BoardSpot> makeSnapShot();
 
+    boolean isPieceExist(Position position);
+
     Optional<Piece> findPiece(Position position);
 
     Team remove(Position position);

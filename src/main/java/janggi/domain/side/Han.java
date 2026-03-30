@@ -27,6 +27,11 @@ public class Han implements Team {
     }
 
     @Override
+    public boolean isPieceExist(Position position) {
+        return pieces.isPieceExist(position);
+    }
+
+    @Override
     public Optional<Piece> findPiece(Position position) {
         return pieces.findPiece(position);
     }
