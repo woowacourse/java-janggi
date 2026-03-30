@@ -7,28 +7,11 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-
         if (isNotCorrectPath(from, to))
             return false;
 
-        int nx = 0, ny = 0;
-        if (from.getRow() == to.getRow()) {
-            if (from.getCol() < to.getCol()) {
-                ny = 1;
-            }
-            if (from.getCol() > to.getCol()) {
-                ny = -1;
-            }
-        }
-
-        if (from.getCol() == to.getCol()) {
-            if (from.getRow() < to.getRow()) {
-                nx = 1;
-            }
-            if (from.getRow() > to.getRow()) {
-                nx = -1;
-            }
-        }
+        int nx = Integer.compare(to.getRow(), from.getRow());
+        int ny = Integer.compare(to.getCol(), from.getCol());
 
         int row = from.getRow();
         int col = from.getCol();
