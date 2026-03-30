@@ -6,14 +6,14 @@ import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
 
-public class LeftWing extends Wing {
+public final class LeftWing extends Wing {
 
     public LeftWing(List<Piece> pieces) {
         super(pieces);
     }
 
     @Override
-    public final Map<Intersection, Piece> setUpPieces(Side side) {
+    public Map<Intersection, Piece> setUpPieces(Side side) {
         if (side == Side.HAN) {
             return setUpHanPieces();
         }
