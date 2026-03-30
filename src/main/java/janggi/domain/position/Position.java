@@ -29,23 +29,19 @@ public record Position(
         return row + "," + column;
     }
 
-    // TODO: find all position 과 같이 방향 전체를 담는다는 의미를 강조
-    public List<Position> findPositionsByDirection(Direction dir) {
+    public List<Position> findAllPositionsByDirection(Direction dir) {
         List<Position> positions = new ArrayList<>();
-        Position cur = this;
-        while (true) {
-            try {
-                cur = cur.add(dir.row(), dir.column());
-                positions.add(cur);
-            } catch (IllegalArgumentException e) {
-                break;
-            }
+        Optional<Position> current = nextPositionByDirection(dir);
+        
+        while (current.isPresent()) {
+            Position position = current.get();
+            positions.add(position);
+            current = position.nextPositionByDirection(dir);
         }
         return positions;
     }
 
-    // TODO: find -> next 메서드 명 변경 nextPositionByDirection?
-    public Optional<Position> findPositionByDirection(Direction dir) {
+    public Optional<Position> nextPositionByDirection(Direction dir) {
         try {
             return Optional.of(this.add(dir.row(), dir.column()));
         } catch (IllegalArgumentException e) {

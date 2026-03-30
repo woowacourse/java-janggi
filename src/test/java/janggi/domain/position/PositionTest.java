@@ -26,7 +26,7 @@ class PositionTest {
         Position from = Position.from(5, 5);
 
         // when
-        List<Position> positions = from.findPositionsByDirection(direction);
+        List<Position> positions = from.findAllPositionsByDirection(direction);
 
         // then
         assertThat(positions.getFirst()).isEqualTo(results.getFirst());
@@ -40,7 +40,7 @@ class PositionTest {
         Position from = Position.from(5, 5);
 
         // when
-        Optional<Position> to = from.findPositionByDirection(direction);
+        Optional<Position> to = from.nextPositionByDirection(direction);
 
         // then
         assertThat(to).isPresent().get().isEqualTo(result);

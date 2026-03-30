@@ -22,7 +22,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
             if (dir.equals(dynasty.front().back())) {
                 continue;
             }
-            from.findPositionByDirection(dir).ifPresent(to -> {
+            from.nextPositionByDirection(dir).ifPresent(to -> {
                 if (board.hasPieceAt(to) && board.isSameDynasty(to, dynasty)) {
                     return;
                 }

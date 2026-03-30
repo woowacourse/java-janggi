@@ -21,11 +21,11 @@ public class CannonMoveStrategy implements MoveStrategy {
     public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            List<Position> allPositions = from.findPositionsByDirection(dir);
+            List<Position> allPositions = from.findAllPositionsByDirection(dir);
             List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
 
             if (!positions.isEmpty() && !board.isSamePieceType(positions.getLast(), CANNON)) {
-                List<Position> allPositions2 = positions.getLast().findPositionsByDirection(dir);
+                List<Position> allPositions2 = positions.getLast().findAllPositionsByDirection(dir);
                 List<Position> positions2 = board.selectUntilNearestPiecePosition(allPositions2);
                 if (!positions2.isEmpty() && (board.isSamePieceType(positions2.getLast(), CANNON)
                         || board.isSameDynasty(positions2.getLast(), dynasty))) {

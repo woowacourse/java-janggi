@@ -19,7 +19,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
     public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            List<Position> allPositions = from.findPositionsByDirection(dir);
+            List<Position> allPositions = from.findAllPositionsByDirection(dir);
             List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
             if (!positions.isEmpty() && board.isSameDynasty(positions.getLast(), dynasty)) {
                 positions.removeLast();

@@ -19,7 +19,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            from.findPositionByDirection(dir).ifPresent(to -> {
+            from.nextPositionByDirection(dir).ifPresent(to -> {
                 if (board.hasPieceAt(to)) {
                     return;
                 }
@@ -34,7 +34,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     private static void canMoveByDirection(Position from, Direction dir,
                                            BoardSnapshot board, Dynasty dynasty,
                                            List<Position> canMovePositions) {
-        from.findPositionByDirection(dir).ifPresent(to -> {
+        from.nextPositionByDirection(dir).ifPresent(to -> {
             if (!board.hasPieceAt(to) || !board.isSameDynasty(to, dynasty)) {
                 canMovePositions.add(to);
             }
