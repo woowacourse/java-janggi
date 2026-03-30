@@ -9,6 +9,7 @@ import janggi.domain.board.BoardInterface;
 import janggi.domain.policy.ClearPathPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Pawn extends ActivePiece {
     private final List<Movements> moveRange;
@@ -33,13 +34,11 @@ public class Pawn extends ActivePiece {
 
     @Override
     public Route findRoute(Position start, Position end) {
-        for (Movements movements : moveRange) {
-            Route calculatedPath = movements.calculatePath(start);
-            if (calculatedPath.isArrivalPoint(end)) {
-                return calculatedPath;
-            }
-        }
-        throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
+        return moveRange.stream()
+                .map(movements -> movements.calculatePath(start))
+                .flatMap(Optional::stream)
+                .filter(route -> route.isArrivalPoint(end))
+                .findFirst().orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));
     }
 
     @Override

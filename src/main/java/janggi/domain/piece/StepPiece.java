@@ -7,6 +7,7 @@ import janggi.domain.Side;
 import janggi.domain.board.BoardInterface;
 import janggi.domain.policy.RoutePolicy;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class StepPiece extends ActivePiece {
     private final List<Movements> moveRange;
@@ -20,6 +21,7 @@ public abstract class StepPiece extends ActivePiece {
     public Route findRoute(Position start, Position end) {
         return moveRange.stream()
                 .map(movements -> movements.calculatePath(start))
+                .flatMap(Optional::stream)
                 .filter(route -> route.isArrivalPoint(end))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));

@@ -2,11 +2,16 @@ package janggi.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public record Movements(List<Movement> movements) {
-    public Route calculatePath(Position start) {
+    public Optional<Route> calculatePath(Position start) {
         List<Position> calculatedPath = new ArrayList<>(List.of(start));
-        movements.forEach(movement -> calculatedPath.add(calculatedPath.getLast().move(movement)));
-        return new Route(calculatedPath);
+        try {
+            movements.forEach(movement -> calculatedPath.add(calculatedPath.getLast().move(movement)));
+            return Optional.of(new Route(calculatedPath));
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
     }
 }
