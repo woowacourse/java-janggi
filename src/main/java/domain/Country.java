@@ -2,7 +2,8 @@ package domain;
 
 public enum Country {
     CHO("초나라", "\u001B[32m"),
-    HAN("한나라", "\u001B[31m");
+    HAN("한나라", "\u001B[31m"),
+    NONE("없음", "\u001B[0m");
 
     private final String name;
     private final String color;
@@ -14,5 +15,9 @@ public enum Country {
 
     public String getName() {
         return name;
+    }
+
+    public String getColor() {
+        return color;
     }
 }

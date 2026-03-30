@@ -4,11 +4,14 @@ import java.util.List;
 
 import domain.Country;
 import domain.PieceType;
+import domain.Position;
 import service.dto.BoardDto;
+import service.dto.ColorDto;
 import service.dto.PositionDto;
 
 public class OutputView {
     public static final String PREFEIX_ERROR_MESSAGE = "[ERROR] ";
+    public static final String DEFAULT_COLOR = Country.NONE.getColor();
 
     private final OutputViewFormatter formatter;
 
@@ -36,10 +39,14 @@ public class OutputView {
         System.out.printf("\n차례 : %s\n", countryName);
     }
 
-    public void printBoard(BoardDto boardDto) {
-        for (BoardDto.Row dto : boardDto.rows()) {
-            for (String r : dto.pieces()) {
-                System.out.printf("%-3s", r);
+    public void printBoard(BoardDto boardDto, ColorDto colorDto) {
+        for (int y = 0; y< Position.MAX_ROW; y++){
+            BoardDto.Row boardRow = boardDto.rows().get(y);
+            ColorDto.Row colorRow = colorDto.rows().get(y);
+
+            for (int x=0;x<Position.MAX_COL;x++){
+                String color = colorRow.colors().get(x);
+                System.out.printf(color+"%-3s"+DEFAULT_COLOR, boardRow.pieces().get(x));
             }
             System.out.println();
         }

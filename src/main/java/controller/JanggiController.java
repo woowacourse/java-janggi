@@ -11,6 +11,7 @@ import domain.PieceType;
 import domain.Position;
 import service.JanggiService;
 import service.dto.BoardDto;
+import service.dto.ColorDto;
 import service.dto.PositionDto;
 import view.InputView;
 import view.OutputView;
@@ -43,7 +44,7 @@ public class JanggiController {
     private void playTurn(List<PositionDto> positionDtos, JanggiGame janggiGame, Board board) {
         Position start = requestStartPiecePosition(positionDtos);
         requestEndPosition(start, janggiGame);
-        outputView.printBoard(janggiService.getBoard(board));
+        outputView.printBoard(janggiService.getBoard(board),janggiService.getColor(board));
     }
 
     private void requestEndPosition(Position start, JanggiGame janggiGame) {
@@ -59,10 +60,10 @@ public class JanggiController {
     private Board initBoard() {
         outputView.printGameStartMessage();
 
-        List<PieceType> choMasangChoose = initMaSang(Country.CHO);
-        List<PieceType> hanMasangChoose = initMaSang(Country.HAN);
+        List<PieceType> choMaSangChoose = initMaSang(Country.CHO);
+        List<PieceType> hanMaSangChoose = initMaSang(Country.HAN);
 
-        return janggiService.createBoard(choMasangChoose, hanMasangChoose);
+        return janggiService.createBoard(choMaSangChoose, hanMaSangChoose);
     }
 
     private List<PieceType> initMaSang(Country country) {
@@ -77,7 +78,8 @@ public class JanggiController {
         outputView.printTurnStartMessage();
 
         BoardDto boardDto = janggiService.getBoard(board);
-        outputView.printBoard(boardDto);
+        ColorDto colorDto = janggiService.getColor(board);
+        outputView.printBoard(boardDto, colorDto);
 
         return janggiService.createJanggiGame(board);
     }

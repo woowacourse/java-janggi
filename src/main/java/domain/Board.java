@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import domain.pieces.Cha;
 import domain.pieces.Jang;
@@ -99,6 +100,13 @@ public class Board {
             return PieceType.NONE;
         }
         return board.get(position).getPieceType();
+    }
+
+    public Country getPieceCountry(Position position) {
+        if (!board.containsKey(position)) {
+            return Country.NONE;
+        }
+        return board.get(position).getCountry();
     }
 
     public List<Position> getPiecesNowPosition(Country country, PieceType pieceType) {
