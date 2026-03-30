@@ -28,7 +28,7 @@ class GungTest {
             Position destination = departure.moveUp();
             // when & then
             assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -39,7 +39,7 @@ class GungTest {
             Position destination = departure.moveDown();
             // when & then
             assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -50,7 +50,7 @@ class GungTest {
             Position destination = departure.moveLeft();
             // when & then
             assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -61,7 +61,7 @@ class GungTest {
             Position destination = departure.moveRight();
             // when & then
             assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -72,7 +72,7 @@ class GungTest {
             Position destination = departure.moveUp().moveUp();
             // when & then
             assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -83,7 +83,7 @@ class GungTest {
             Position destination = departure.moveUp().moveRight();
             // when & then
             assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -109,7 +109,7 @@ class GungTest {
         MoveContext moveContext = hanGung.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.destinationRule())
-            .isInstanceOf(BasicDestinationRule.class);
+                .isInstanceOf(BasicDestinationRule.class);
     }
 
     @Test
@@ -122,6 +122,14 @@ class GungTest {
         MoveContext moveContext = hanGung.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathRule())
-            .isInstanceOf(EmptyPathRule.class);
+                .isInstanceOf(EmptyPathRule.class);
+    }
+
+    @Test
+    void 궁은_본인의_식별자를_반환한다() {
+        // given
+        Piece gung = new Gung(Side.HAN);
+        // when & then
+        assertThat(gung.getType()).isEqualTo(PieceType.GUNG);
     }
 }

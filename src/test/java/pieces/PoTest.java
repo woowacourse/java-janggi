@@ -29,7 +29,7 @@ class PoTest {
             Position destination = departure.moveUp().moveUp();
             // when & then
             assertThatCode(() -> po.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -40,7 +40,7 @@ class PoTest {
             Position destination = departure.moveDown().moveDown();
             // when & then
             assertThatCode(() -> po.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -51,7 +51,7 @@ class PoTest {
             Position destination = departure.moveLeft().moveLeft();
             // when & then
             assertThatCode(() -> po.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -62,7 +62,7 @@ class PoTest {
             Position destination = departure.moveRight().moveRight();
             // when & then
             assertThatCode(() -> po.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -73,7 +73,7 @@ class PoTest {
             Position destination = departure.moveRightUp();
             // when & then
             assertThatThrownBy(() -> po.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -102,7 +102,7 @@ class PoTest {
             Position destination = departure.moveUp();
             // when & then
             assertThatThrownBy(() -> po.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -113,7 +113,7 @@ class PoTest {
             Position destination = departure.moveDown();
             // when & then
             assertThatThrownBy(() -> po.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -124,7 +124,7 @@ class PoTest {
             Position destination = departure.moveLeft();
             // when & then
             assertThatThrownBy(() -> po.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -135,7 +135,7 @@ class PoTest {
             Position destination = departure.moveRight();
             // when & then
             assertThatThrownBy(() -> po.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -205,7 +205,7 @@ class PoTest {
         MoveContext moveContext = po.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.destinationRule())
-            .isInstanceOf(PoDestinationRule.class);
+                .isInstanceOf(PoDestinationRule.class);
     }
 
     @Test
@@ -218,6 +218,14 @@ class PoTest {
         MoveContext moveContext = po.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathRule())
-            .isInstanceOf(PoPathRule.class);
+                .isInstanceOf(PoPathRule.class);
+    }
+
+    @Test
+    void 포는_본인의_식별자를_반환한다() {
+        // given
+        Piece po = new Po(Side.HAN);
+        // when & then
+        assertThat(po.getType()).isEqualTo(PieceType.PO);
     }
 }

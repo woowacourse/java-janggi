@@ -16,14 +16,14 @@ public class Sang extends FullPiece {
     @Override
     protected void validateDestination(Position departure, Position destination) {
         List<Position> movableDestinations = List.of(
-            departure.moveUp().moveRightUp().moveRightUp(),
-            departure.moveUp().moveLeftUp().moveLeftUp(),
-            departure.moveDown().moveRightDown().moveRightDown(),
-            departure.moveDown().moveLeftDown().moveLeftDown(),
-            departure.moveLeft().moveLeftUp().moveLeftUp(),
-            departure.moveLeft().moveLeftDown().moveLeftDown(),
-            departure.moveRight().moveRightUp().moveRightUp(),
-            departure.moveRight().moveRightDown().moveRightDown());
+                departure.moveUp().moveRightUp().moveRightUp(),
+                departure.moveUp().moveLeftUp().moveLeftUp(),
+                departure.moveDown().moveRightDown().moveRightDown(),
+                departure.moveDown().moveLeftDown().moveLeftDown(),
+                departure.moveLeft().moveLeftUp().moveLeftUp(),
+                departure.moveLeft().moveLeftDown().moveLeftDown(),
+                departure.moveRight().moveRightUp().moveRightUp(),
+                departure.moveRight().moveRightDown().moveRightDown());
         if (!movableDestinations.contains(destination)) {
             throw new IllegalArgumentException("상의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
@@ -71,5 +71,10 @@ public class Sang extends FullPiece {
     @Override
     public boolean isPo() {
         return false;
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.SANG;
     }
 }

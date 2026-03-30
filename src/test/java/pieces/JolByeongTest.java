@@ -111,7 +111,7 @@ class JolByeongTest {
             Position destination = departure.moveLeft();
             // when & then
             assertThatCode(() -> byeong.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -122,7 +122,7 @@ class JolByeongTest {
             Position destination = departure.moveRight();
             // when & then
             assertThatCode(() -> byeong.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -133,7 +133,7 @@ class JolByeongTest {
             Position destination = departure.moveDown().moveDown();
             // when & then
             assertThatThrownBy(() -> byeong.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -144,7 +144,7 @@ class JolByeongTest {
             Position destination = departure.moveRightDown();
             // when & then
             assertThatThrownBy(() -> byeong.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -181,7 +181,7 @@ class JolByeongTest {
         MoveContext moveContext = jolByeong.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.destinationRule())
-            .isInstanceOf(BasicDestinationRule.class);
+                .isInstanceOf(BasicDestinationRule.class);
     }
 
     @Test
@@ -194,6 +194,14 @@ class JolByeongTest {
         MoveContext moveContext = jolByeong.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathRule())
-            .isInstanceOf(EmptyPathRule.class);
+                .isInstanceOf(EmptyPathRule.class);
+    }
+
+    @Test
+    void 졸병은_본인의_식별자를_반환한다() {
+        // given
+        Piece jolByeong = new JolByeong(Side.HAN);
+        // when & then
+        assertThat(jolByeong.getType()).isEqualTo(PieceType.JOL_BYEONG);
     }
 }

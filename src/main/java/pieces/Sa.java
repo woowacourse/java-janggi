@@ -16,10 +16,10 @@ public class Sa extends FullPiece {
     @Override
     protected void validateDestination(Position departure, Position destination) {
         List<Position> movableDestinations = List.of(
-            departure.moveUp(),
-            departure.moveDown(),
-            departure.moveLeft(),
-            departure.moveRight());
+                departure.moveUp(),
+                departure.moveDown(),
+                departure.moveLeft(),
+                departure.moveRight());
         if (!movableDestinations.contains(destination)) {
             throw new IllegalArgumentException("사의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
@@ -43,5 +43,10 @@ public class Sa extends FullPiece {
     @Override
     public boolean isPo() {
         return false;
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.SA;
     }
 }

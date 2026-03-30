@@ -21,25 +21,6 @@ public abstract class FullPiece implements Piece {
     }
 
     @Override
-    public final MoveContext askMoveContext(Position departure, Position destination) {
-        validateDestination(departure, destination);
-        List<Position> pathPositions = getPathPositions(departure, destination);
-        DestinationRule destinationRule = getDestinationRule();
-        PathRule pathRule = getPathRule();
-        return new MoveContext(pathPositions, destinationRule, pathRule);
-    }
-
-    protected abstract void validateDestination(Position departure, Position destination);
-
-    protected abstract List<Position> getPathPositions(Position departure, Position destination);
-
-    protected abstract DestinationRule getDestinationRule();
-
-    protected abstract PathRule getPathRule();
-
-    public abstract boolean isPo();
-
-    @Override
     public final boolean isHan() {
         return side.isHan();
     }
@@ -59,6 +40,27 @@ public abstract class FullPiece implements Piece {
         }
         return isCho() && other.isCho();
     }
+
+    @Override
+    public final MoveContext askMoveContext(Position departure, Position destination) {
+        validateDestination(departure, destination);
+        List<Position> pathPositions = getPathPositions(departure, destination);
+        DestinationRule destinationRule = getDestinationRule();
+        PathRule pathRule = getPathRule();
+        return new MoveContext(pathPositions, destinationRule, pathRule);
+    }
+
+    protected abstract void validateDestination(Position departure, Position destination);
+
+    protected abstract List<Position> getPathPositions(Position departure, Position destination);
+
+    protected abstract DestinationRule getDestinationRule();
+
+    protected abstract PathRule getPathRule();
+
+    public abstract PieceType getType();
+
+    public abstract boolean isPo();
 
     @Override
     public boolean equals(Object o) {

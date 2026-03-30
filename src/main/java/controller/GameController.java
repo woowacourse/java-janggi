@@ -5,12 +5,14 @@ import board.SangSetupType;
 import game.JanggiGame;
 import pieces.Side;
 import position.Position;
+import view.BoardViewMapper;
 import view.InputView;
 import view.OutputView;
 
 public class GameController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardViewMapper boardViewMapper = new BoardViewMapper();
 
     public GameController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -22,7 +24,7 @@ public class GameController {
         SangSetup hanSangSetup = readSangSetup(Side.HAN);
 
         JanggiGame game = JanggiGame.of(choSangSetup, hanSangSetup);
-        outputView.printBoard(game.board());
+        outputView.printBoard(boardViewMapper.map(game.board()));
 
         while (true) {
             try {
@@ -34,7 +36,7 @@ public class GameController {
                 Position destination = inputView.readPosition("도착지");
 
                 game.move(departure, destination, currentTurn);
-                outputView.printBoard(game.board());
+                outputView.printBoard(boardViewMapper.map(game.board()));
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }

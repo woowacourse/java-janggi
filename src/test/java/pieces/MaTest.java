@@ -28,7 +28,7 @@ class MaTest {
             Position destination = departure.moveUp().moveRightUp();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -39,7 +39,7 @@ class MaTest {
             Position destination = departure.moveUp().moveLeftUp();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -50,7 +50,7 @@ class MaTest {
             Position destination = departure.moveDown().moveRightDown();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -61,7 +61,7 @@ class MaTest {
             Position destination = departure.moveDown().moveLeftDown();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -72,7 +72,7 @@ class MaTest {
             Position destination = departure.moveLeft().moveLeftUp();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -83,7 +83,7 @@ class MaTest {
             Position destination = departure.moveLeft().moveLeftDown();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -94,7 +94,7 @@ class MaTest {
             Position destination = departure.moveRight().moveRightUp();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -105,7 +105,7 @@ class MaTest {
             Position destination = departure.moveRight().moveRightDown();
             // when & then
             assertThatCode(() -> ma.askMoveContext(departure, destination))
-                .doesNotThrowAnyException();
+                    .doesNotThrowAnyException();
         }
 
         @Test
@@ -116,7 +116,7 @@ class MaTest {
             Position destination = departure.moveUp().moveUp();
             // when & then
             assertThatThrownBy(() -> ma.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -127,7 +127,7 @@ class MaTest {
             Position destination = departure.moveRightUp();
             // when & then
             assertThatThrownBy(() -> ma.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -258,7 +258,7 @@ class MaTest {
             Position destination = departure.moveRight().moveRight();
             // when & then
             assertThatThrownBy(() -> ma.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -272,7 +272,7 @@ class MaTest {
         MoveContext moveContext = ma.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.destinationRule())
-            .isInstanceOf(BasicDestinationRule.class);
+                .isInstanceOf(BasicDestinationRule.class);
     }
 
     @Test
@@ -285,6 +285,14 @@ class MaTest {
         MoveContext moveContext = ma.askMoveContext(departure, destination);
         // then
         assertThat(moveContext.pathRule())
-            .isInstanceOf(EmptyPathRule.class);
+                .isInstanceOf(EmptyPathRule.class);
+    }
+
+    @Test
+    void 마는_본인의_식별자를_반환한다() {
+        // given
+        Piece ma = new Ma(Side.HAN);
+        // when & then
+        assertThat(ma.getType()).isEqualTo(PieceType.MA);
     }
 }

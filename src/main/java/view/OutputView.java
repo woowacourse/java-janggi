@@ -1,17 +1,8 @@
 package view;
 
-import board.Board;
-import java.util.Map;
-import pieces.Cha;
-import pieces.Gung;
-import pieces.JolByeong;
-import pieces.Ma;
-import pieces.Piece;
-import pieces.Po;
-import pieces.Sa;
-import pieces.Sang;
+import pieces.PieceType;
 import pieces.Side;
-import position.Position;
+import view.dto.PieceDto;
 
 public class OutputView {
     private static final String RED = "\u001B[31m";
@@ -27,7 +18,12 @@ public class OutputView {
     }
 
     public void printTurn(Side side) {
-        System.out.printf("현재 턴: %s%n", side.isCho() ? "초" : "한");
+        if (side.isCho()) {
+            System.out.println("현재 턴: 초");
+        }
+        if (side.isHan()) {
+            System.out.println("현재 턴: 한");
+        }
     }
 
     public void printMoveGuide() {
@@ -38,14 +34,11 @@ public class OutputView {
         System.out.println("[ERROR] " + message);
     }
 
-    public void printBoard(Board board) {
-        Map<Position, Piece> pieces = board.pieces();
-
+    public void printBoard(PieceDto[][] board) {
         for (int row = 9; row >= 0; row--) {
             System.out.printf("%2d ", row);
             for (int column = 0; column <= 8; column++) {
-                Piece piece = pieces.get(new Position(row, column));
-                System.out.print("|" + displayPiece(piece));
+                System.out.print("|" + displayPiece(board[row][column]));
             }
             System.out.println("|");
             System.out.println("   ---------------------------------------------");
@@ -60,44 +53,54 @@ public class OutputView {
         return "한나라";
     }
 
-    private String displayPiece(Piece piece) {
-        String text = pieceText(piece);
+    private String displayPiece(PieceDto pieceDto) {
+        String text = pieceSymbol(pieceDto);
         String padded = String.format(" %-2s", text);
 
-        if (piece.isCho()) {
+        if (pieceDto.isEmpty()) {
+            return padded;
+        }
+        if (pieceDto.side().isCho()) {
             return GREEN + padded + RESET;
         }
-        if (piece.isHan()) {
-            return RED + padded + RESET;
-        }
-        return padded;
+        return RED + padded + RESET;
     }
 
-    private String pieceText(Piece piece) {
-        if (piece.isEmpty()) {
+    private String pieceSymbol(PieceDto pieceDto) {
+        if (pieceDto.pieceType() == PieceType.EMPTY) {
             return "・";
         }
-        if (piece instanceof Cha) {
-            return "車";
-        }
-        if (piece instanceof Ma) {
-            return "馬";
-        }
-        if (piece instanceof Sang) {
-            return "象";
-        }
-        if (piece instanceof Sa) {
-            return "士";
-        }
-        if (piece instanceof Gung) {
+        if (pieceDto.pieceType() == PieceType.GUNG) {
+            if (pieceDto.side().isCho()) {
+                return "將";
+            }
             return "宮";
         }
-        if (piece instanceof Po) {
-            return "包";
-        }
-        if (piece instanceof JolByeong) {
+        if (pieceDto.pieceType() == PieceType.JOL_BYEONG) {
+            if (pieceDto.side().isCho()) {
+                return "兵";
+            }
             return "卒";
         }
-        throw new IllegalArgumentException("알 수 없는 기물입니다.");
+        return basicSymbol(pieceDto.pieceType());
+    }
+
+    private String basicSymbol(PieceType pieceType) {
+        if (pieceType == PieceType.CHA) {
+            return "車";
+        }
+        if (pieceType == PieceType.MA) {
+            return "馬";
+        }
+        if (pieceType == PieceType.SANG) {
+            return "象";
+        }
+        if (pieceType == PieceType.SA) {
+            return "士";
+        }
+        if (pieceType == PieceType.PO) {
+            return "包";
+        }
+        throw new IllegalArgumentException("지원하지 않는 기물입니다.");
     }
 }

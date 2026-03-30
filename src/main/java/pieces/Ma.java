@@ -16,14 +16,14 @@ public class Ma extends FullPiece {
     @Override
     protected void validateDestination(Position departure, Position destination) {
         List<Position> movableDestinations = List.of(
-            departure.moveUp().moveRightUp(),
-            departure.moveUp().moveLeftUp(),
-            departure.moveDown().moveRightDown(),
-            departure.moveDown().moveLeftDown(),
-            departure.moveLeft().moveLeftUp(),
-            departure.moveLeft().moveLeftDown(),
-            departure.moveRight().moveRightUp(),
-            departure.moveRight().moveRightDown());
+                departure.moveUp().moveRightUp(),
+                departure.moveUp().moveLeftUp(),
+                departure.moveDown().moveRightDown(),
+                departure.moveDown().moveLeftDown(),
+                departure.moveLeft().moveLeftUp(),
+                departure.moveLeft().moveLeftDown(),
+                departure.moveRight().moveRightUp(),
+                departure.moveRight().moveRightDown());
         if (!movableDestinations.contains(destination)) {
             throw new IllegalArgumentException("마의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
@@ -59,5 +59,10 @@ public class Ma extends FullPiece {
     @Override
     public boolean isPo() {
         return false;
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.MA;
     }
 }

@@ -13,7 +13,9 @@ public interface Piece {
 
     boolean isSameSide(Piece other);
 
-    boolean isPo();
+    PieceType getType();
 
     MoveContext askMoveContext(Position departure, Position destination);
+
+    boolean isPo();
 }

@@ -224,4 +224,12 @@ class ChaTest {
         assertThat(moveContext.pathRule())
             .isInstanceOf(EmptyPathRule.class);
     }
+
+    @Test
+    void 차는_본인의_식별자를_반환한다() {
+        // given
+        Piece cha = new Cha(Side.HAN);
+        // when & then
+        assertThat(cha.getType()).isEqualTo(PieceType.CHA);
+    }
 }

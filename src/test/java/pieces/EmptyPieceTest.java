@@ -1,5 +1,6 @@
 package pieces;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,14 @@ class EmptyPieceTest {
         Piece emptyPiece = new EmptyPiece();
         // when & then
         assertThatThrownBy(() -> emptyPiece.askMoveContext(departure, destination))
-            .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 비어있는기물은_비어있는_식별자를_반환한다() {
+        // given
+        Piece emptyPiece = new EmptyPiece();
+        // when & then
+        assertThat(emptyPiece.getType()).isEqualTo(PieceType.EMPTY);
     }
 }

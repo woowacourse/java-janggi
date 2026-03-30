@@ -34,4 +34,9 @@ public record EmptyPiece() implements Piece {
     public MoveContext askMoveContext(Position departure, Position destination) {
         throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
     }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.EMPTY;
+    }
 }
