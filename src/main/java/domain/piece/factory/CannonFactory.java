@@ -4,7 +4,7 @@ import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 
-public final class CannonFactory implements CompositionPieceFactory {
+public final class CannonFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
