@@ -124,8 +124,8 @@ public class GameManager {
 
     private Formation createChoFormation() {
         return retryOnInvalidInput(() -> {
-            int hanPositionInput = inputView.askChoPositionInput();
-            return createFormation(hanPositionInput);
+            int choPositionInput = inputView.askChoPositionInput();
+            return createFormation(choPositionInput);
         });
     }
 
@@ -135,7 +135,7 @@ public class GameManager {
             return createFormation(hanPositionInput);
         });
     }
-    
+
     private Formation createFormation(int positionInput) {
         return Formation.from(positionInput);
     }
