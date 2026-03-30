@@ -19,23 +19,9 @@ class BoardTest {
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
         BoardStatus prevMoveBoardStatus = testBoard.getBoardStatus();
 
-        testBoard.move(turn, start, end);
+        testBoard.move(start, end);
 
         Piece piece = prevMoveBoardStatus.getBoardStatus().get(Position.of(3, 1));
         Assertions.assertThat(piece).isNull();
-    }
-
-    @Test
-    void 목적지에_아군_기물이_있으면_예외가_발생해야_한다() {
-        //given
-        Position start = Position.of(1, 1);
-        Position end = Position.of(4, 1);
-        Team turn = Team.CHO;
-
-        Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
-
-        //when &then
-        Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
-                .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -21,16 +21,8 @@ public class Board {
         return new Board(setup);
     }
 
-    public void move(Team turn, Position start, Position destination) {
+    public void move(Position start, Position destination) {
         Piece startPiece = getPiece(start);
-
-        validateIsSameTeam(turn, startPiece);
-        Piece destinationPiece = pieces.get(destination);
-
-        validateIsNotAlly(startPiece, destinationPiece);
-
-        startPiece.check(BoardStatus.from(pieces), start, destination);
-
         pieces.remove(start);
         pieces.put(destination, startPiece);
     }
@@ -43,21 +35,49 @@ public class Board {
         return piece;
     }
 
-    private void validateIsSameTeam(Team turn, Piece startPiece) {
-        if (startPiece != null && startPiece.isSameTeam(turn)) {
+    public void validateIsAlly(Team turn, Position startPosition) {
+        Piece startPiece = getPiece(startPosition);
+        if (!startPiece.isSameTeam(turn)) {
             throw new IllegalArgumentException(SHOULD_CHOOSE_CORRECT_TEAM_PIECE);
-        }
-    }
-
-    private void validateIsNotAlly(Piece startPiece, Piece destinationPiece) {
-        if (destinationPiece != null) {
-            if (startPiece.isSameTeam(destinationPiece)) {
-                throw new IllegalArgumentException(DESTINATION_HAS_ALLY);
-            }
         }
     }
 
     public BoardStatus getBoardStatus() {
         return BoardStatus.from(Map.copyOf(pieces));
+    }
+
+    public void validateIsMovable(Position start, Position destination) {
+        validateIsReachable(start, destination); // 변할 수 없는 Rule (이동 가능 위치와 목표 좌표가 다르면 이동 불가)
+        validateCanMove(start, destination); // 변할 수 있는 RUle
+        validateCrashWithAlly(start, destination); // 변할 수 없는 Rule (아군이 있으면 이동할 수 없는 건 고정)
+    }
+
+    public void validateIsReachable(Position start, Position destination) {
+        Piece startPiece = getPiece(start);
+
+        startPiece.findMovablePath(start, destination);
+    }
+
+    public void validateCanMove(Position start, Position destination) {
+        Piece startPiece = getPiece(start);
+
+        // TODO: 정책상 가능한가?
+        if (!startPiece.canMoveWithRule(BoardStatus.from(pieces), start, destination)) {
+            throw new IllegalArgumentException("도달불가능");
+        }
+    }
+
+    public void validateCrashWithAlly(Position start, Position destination) {
+        // TODO: 아군과 충돌하는가?
+        Piece startPiece = getPiece(start);
+        Piece destinationPiece = pieces.get(destination);
+
+        if (destinationPiece != null) {
+            if (startPiece.isSameTeam(destinationPiece)) {
+                throw new IllegalArgumentException(DESTINATION_HAS_ALLY);
+            }
+
+        }
+        startPiece.isEatable(destinationPiece);
     }
 }

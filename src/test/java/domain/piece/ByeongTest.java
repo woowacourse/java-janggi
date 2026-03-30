@@ -3,6 +3,7 @@ package domain.piece;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.BoardStatus;
+import domain.piece.policy.NormalMovementPolicy;
 import domain.piece.strategy.ByeongMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ class ByeongTest {
     @Test
     void 목적지와_출발지_사이에_상대_기물이_존재할_수_없으므로_잘_간다고_판단한다() {
         //given
-        Byeong testByeong = new Byeong(new ByeongMoveStrategy(), Team.CHO);
+        Byeong testByeong = new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.CHO);
 
         Position start = Position.of(2, 2);
         Position destination = Position.of(2, 3);

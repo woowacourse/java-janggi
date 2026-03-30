@@ -10,6 +10,8 @@ import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
 import domain.piece.Team;
+import domain.piece.policy.NormalMovementPolicy;
+import domain.piece.policy.PoMovementPolicy;
 import domain.piece.strategy.ByeongMoveStrategy;
 import domain.piece.strategy.JolMoveStrategy;
 import domain.piece.strategy.MaMoveStrategy;
@@ -36,10 +38,10 @@ public class BoardInitializerTest {
     @BeforeEach
     void setUp() {
         initializer = new BoardInitializer();
-        sangOfCho = new Sang(new SangMoveStrategy(), Team.CHO);
-        sangOfHan = new Sang(new SangMoveStrategy(), Team.HAN);
-        maOfCho = new Ma(new MaMoveStrategy(), Team.CHO);
-        maOfHan = new Ma(new MaMoveStrategy(), Team.HAN);
+        sangOfCho = new Sang(new SangMoveStrategy(), new NormalMovementPolicy(), Team.CHO);
+        sangOfHan = new Sang(new SangMoveStrategy(), new NormalMovementPolicy(), Team.HAN);
+        maOfCho = new Ma(new MaMoveStrategy(), new NormalMovementPolicy(), Team.CHO);
+        maOfHan = new Ma(new MaMoveStrategy(), new NormalMovementPolicy(), Team.HAN);
     }
 
     @Test
@@ -122,40 +124,40 @@ public class BoardInitializerTest {
         Map<Position, Piece> setting = new HashMap<>();
 
         // 초나라
-        setting.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(), Team.CHO));
-        setting.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(), Team.CHO));
+        setting.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
 
-        setting.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(), Team.CHO));
-        setting.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(), Team.CHO));
+        setting.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
 
-        setting.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(), Team.CHO));
+        setting.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
 
-        setting.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(), Team.CHO));
-        setting.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(), Team.CHO));
+        setting.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO));
+        setting.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO));
 
-        setting.put(Position.of(4, 1), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 3), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 5), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 7), new Jol(new JolMoveStrategy(), Team.CHO));
-        setting.put(Position.of(4, 9), new Jol(new JolMoveStrategy(), Team.CHO));
+        setting.put(Position.of(4, 1), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(4, 3), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(4, 5), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(4, 7), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        setting.put(Position.of(4, 9), new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
 
         // 한나라
-        setting.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(), Team.HAN));
-        setting.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(), Team.HAN));
+        setting.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
 
-        setting.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(), Team.HAN));
-        setting.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(), Team.HAN));
+        setting.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
 
-        setting.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(), Team.HAN));
+        setting.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
 
-        setting.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), Team.HAN));
-        setting.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), Team.HAN));
+        setting.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.HAN));
+        setting.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.HAN));
 
-        setting.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        setting.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        setting.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
+        setting.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.HAN));
 
         return setting;
     }

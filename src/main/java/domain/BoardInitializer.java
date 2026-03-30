@@ -11,6 +11,8 @@ import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
 import domain.piece.Team;
+import domain.piece.policy.NormalMovementPolicy;
+import domain.piece.policy.PoMovementPolicy;
 import domain.piece.strategy.ByeongMoveStrategy;
 import domain.piece.strategy.JolMoveStrategy;
 import domain.piece.strategy.MaMoveStrategy;
@@ -34,14 +36,14 @@ public class BoardInitializer {
 
     private Map<PieceType, Piece> initPieceByTeam(Team team) {
         Map<PieceType, Piece> pieces = new HashMap<>();
-        pieces.put(PieceType.PO, new Po(new SlidingMoveStrategy(), team));
-        pieces.put(PieceType.MA, new Ma(new MaMoveStrategy(), team));
-        pieces.put(PieceType.SANG, new Sang(new SangMoveStrategy(), team));
-        pieces.put(PieceType.SA, new Sa(new SingleStepMoveStrategy(), team));
-        pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(), team));
-        pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(), team));
-        pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(), team));
-        pieces.put(PieceType.BYEONG, new Byeong(new ByeongMoveStrategy(), team));
+        pieces.put(PieceType.PO, new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), team));
+        pieces.put(PieceType.MA, new Ma(new MaMoveStrategy(), new NormalMovementPolicy(), team));
+        pieces.put(PieceType.SANG, new Sang(new SangMoveStrategy(), new NormalMovementPolicy(), team));
+        pieces.put(PieceType.SA, new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), team));
+        pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(), new NormalMovementPolicy(), team));
+        pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), team));
+        pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), team));
+        pieces.put(PieceType.BYEONG, new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), team));
         return pieces;
     }
 

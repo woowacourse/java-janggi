@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.BoardStatus;
+import domain.piece.policy.NormalMovementPolicy;
+import domain.piece.policy.PoMovementPolicy;
 import domain.piece.strategy.ByeongMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
@@ -9,7 +11,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class PoTest {
-    private static final Po TEST_PO = new Po(new SlidingMoveStrategy(), Team.CHO);
+    private static final Po TEST_PO = new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO);
 
     @Test
     void 목적지에_상대방_포가_있는_경우_예외가_발생해야_한다() {
@@ -20,7 +22,7 @@ class PoTest {
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
         testPieces.put(start, TEST_PO);
-        testPieces.put(obstacle, new Po(new SlidingMoveStrategy(), Team.CHO));
+        testPieces.put(obstacle, new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO));
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
@@ -38,7 +40,7 @@ class PoTest {
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
         testPieces.put(start, TEST_PO);
-        testPieces.put(obstacle, new Po(new SlidingMoveStrategy(), Team.CHO));
+        testPieces.put(obstacle, new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO));
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
@@ -57,7 +59,7 @@ class PoTest {
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
         testPieces.put(start, TEST_PO);
-        testPieces.put(obstaclePosition, new Byeong(new ByeongMoveStrategy(), Team.CHO));
+        testPieces.put(obstaclePosition, new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
@@ -75,8 +77,10 @@ class PoTest {
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
         testPieces.put(start, TEST_PO);
-        testPieces.put(firstObstaclePosition, new Byeong(new ByeongMoveStrategy(), Team.CHO));
-        testPieces.put(secondObstaclePosition, new Byeong(new ByeongMoveStrategy(), Team.CHO));
+        testPieces.put(firstObstaclePosition,
+                new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
+        testPieces.put(secondObstaclePosition,
+                new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
