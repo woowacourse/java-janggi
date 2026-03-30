@@ -17,6 +17,10 @@ public final class Player {
         caughtPiece = new ArrayList<>();
     }
 
+    public boolean hasName(String name) {
+        return playerProfile.name().value().equals(name);
+    }
+
     public String getName() {
         return playerProfile.name().value();
     }
