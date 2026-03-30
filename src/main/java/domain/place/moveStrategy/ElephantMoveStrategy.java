@@ -6,12 +6,15 @@ import java.util.List;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
-    private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
-            Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.TOP
-    );
-
-    private static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
-            Direction.LEFT_DOWN, Direction.LEFT_TOP, Direction.RIGHT_DOWN, Direction.RIGHT_TOP
+    public static final List<List<Direction>> ELEPHANT_MOVE_SEQUENCES = List.of(
+            List.of(Direction.TOP, Direction.LEFT_TOP, Direction.LEFT_TOP),
+            List.of(Direction.TOP, Direction.RIGHT_TOP, Direction.RIGHT_TOP),
+            List.of(Direction.DOWN, Direction.LEFT_DOWN, Direction.LEFT_DOWN),
+            List.of(Direction.DOWN, Direction.RIGHT_DOWN, Direction.RIGHT_DOWN),
+            List.of(Direction.LEFT, Direction.LEFT_TOP, Direction.LEFT_TOP),
+            List.of(Direction.LEFT, Direction.LEFT_DOWN, Direction.LEFT_DOWN),
+            List.of(Direction.RIGHT, Direction.RIGHT_TOP, Direction.RIGHT_TOP),
+            List.of(Direction.RIGHT, Direction.RIGHT_DOWN, Direction.RIGHT_DOWN)
     );
 
     @Override
@@ -20,36 +23,21 @@ public class ElephantMoveStrategy implements MoveStrategy {
             return false;
         }
 
-        return ORTHOGONAL_DIRECTIONS.stream()
-                .filter(d -> isFirstStepClear(board, from, d))
-                .anyMatch(d -> canReachViaDiagonalPath(board, from, to, d));
+        return ELEPHANT_MOVE_SEQUENCES.stream()
+                .anyMatch(sequence -> canFollowSequence(board, from, to, sequence));
     }
 
-    private boolean isAlignedWith(Direction straight, Direction diagonal) {
-        return straight.getRow() == diagonal.getRow()
-                || straight.getColumn() == diagonal.getColumn();
-    }
+    private boolean canFollowSequence(BoardView board, Position from, Position to, List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+        Direction thirdStepDirection = sequence.get(2);
 
-    private boolean isFirstStepClear(BoardView board, Position from, Direction direction) {
-        return from.moveIfInBounds(direction)
-                .map(board::isEmpty)
-                .orElse(false);
-    }
-
-    private boolean canReachViaDiagonalPath(BoardView board, Position from, Position to, Direction direction) {
-        return from.moveIfInBounds(direction)
-                .map(firstStep -> DIAGONAL_DIRECTIONS.stream()
-                        .filter(d -> isAlignedWith(direction, d))
-                        .anyMatch(d -> isValidElephantPath(board, firstStep, to, d)))
-                .orElse(false);
-    }
-
-    private boolean isValidElephantPath(BoardView board, Position current, Position to, Direction direction) {
-        return current.moveIfInBounds(direction)
+        return from.moveIfInBounds(firstStepDirection)
                 .filter(board::isEmpty)
-                .flatMap(step1 -> step1.moveIfInBounds(direction))
-                .map(to::equals)
-                .orElse(false);
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
+                .filter(board::isEmpty)
+                .flatMap(secondStepPosition -> secondStepPosition.moveIfInBounds(thirdStepDirection))
+                .filter(to::equals)
+                .isPresent();
     }
-
 }
