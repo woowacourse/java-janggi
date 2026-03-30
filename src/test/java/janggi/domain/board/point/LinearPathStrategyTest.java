@@ -3,10 +3,10 @@ package janggi.domain.board.point;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.board.path.LinearPathStrategy;
-import janggi.domain.board.path.PathStrategy;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.LinearPathStrategy;
+import janggi.domain.piece.path.PathStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

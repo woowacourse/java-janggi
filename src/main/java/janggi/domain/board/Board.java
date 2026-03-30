@@ -1,10 +1,8 @@
 package janggi.domain.board;
 
-import janggi.domain.board.path.Path;
-import janggi.domain.board.path.PathStrategy;
 import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.Path;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.HashMap;
@@ -35,7 +33,7 @@ public class Board {
 
     public Set<Point> destinations(Point from) {
         Piece piece = getPieceAtPoint(from);
-        List<Path> paths = convertToPaths(piece.patterns(), from, piece.pathStrategy());
+        List<Path> paths = piece.createCandidatePaths(from);
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
 
         return piece.availablePoints(paths, piecesOnPaths)
@@ -59,12 +57,6 @@ public class Board {
     public Side getPointPieceSide(Point point) {
         Piece piece = getPieceAtPoint(point);
         return piece.getSide();
-    }
-
-    private List<Path> convertToPaths(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
-        return patterns.stream()
-                .map(pattern -> new Path(pattern, from, pathStrategy))
-                .toList();
     }
 
     private boolean isDestinationOtherSide(Piece piece, Point destination) {

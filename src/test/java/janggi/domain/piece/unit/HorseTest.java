@@ -2,10 +2,10 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.path.Path;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+import janggi.domain.piece.path.Path;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,8 @@ class HorseTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths, List<Point> expected) {
+    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths,
+                         List<Point> expected) {
         Piece horse = new Horse(side);
 
         List<Point> points = horse.availablePoints(paths, piecesOnPaths);
@@ -59,7 +60,7 @@ class HorseTest {
     void patterns(Side side, List<Pattern> expected) {
         Piece horse = new Horse(side);
 
-        List<Pattern> patterns = horse.patterns();
+        List<Pattern> patterns = horse.createCandidatePattern();
 
         assertThat(expected.containsAll(patterns)).isTrue();
     }

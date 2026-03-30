@@ -1,10 +1,10 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.board.path.Path;
-import janggi.domain.board.path.PathStrategy;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,17 @@ public abstract class Piece {
         return !path.isEmpty();
     }
 
-    public abstract List<Pattern> patterns();
+    public final List<Path> createCandidatePaths(Point from) {
+        return convertToPaths(createCandidatePattern(), from, pathStrategy);
+    }
+
+    private List<Path> convertToPaths(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
+        return patterns.stream()
+                .map(pattern -> new Path(pattern, from, pathStrategy))
+                .toList();
+    }
+
+    protected abstract List<Pattern> createCandidatePattern();
 
     protected abstract Path refinePath(Path path, Map<Point, Piece> piecesOnPaths);
 

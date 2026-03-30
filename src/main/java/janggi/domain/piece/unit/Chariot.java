@@ -1,12 +1,12 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.board.path.LinearPathStrategy;
-import janggi.domain.board.path.Path;
-import janggi.domain.board.path.PathStrategy;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.path.LinearPathStrategy;
+import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Pattern> patterns() {
+    protected List<Pattern> createCandidatePattern() {
         List<Pattern> paths = new ArrayList<>();
         paths.add(new Pattern(List.of(Direction.NORTH)));
         paths.add(new Pattern(List.of(Direction.SOUTH)));
