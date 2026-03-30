@@ -2,6 +2,8 @@ package domain;
 
 import controller.dto.CurrentBoardStatus;
 import domain.piece.Piece;
+import exception.GameErrorMessage;
+import exception.custom.InvalidGameInputException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +23,8 @@ public class Board {
         initTeamBoard(hanInitializeStrategy, Team.HAN);
     }
 
-    public void move(Position from, Position to, PieceType pieceType) {
-        Piece piece = validateMovablePiece(from, to, pieceType);
+    public void move(Position from, Position to, PieceType pieceType, Team team) {
+        Piece piece = validateMovablePiece(from, to, pieceType, team);
         validateCanMove(from, to, piece);
         movePiece(from, to, piece);
     }
@@ -59,7 +61,7 @@ public class Board {
         return new ArrayList<>();
     }
 
-    public List<CurrentBoardStatus> getCurrentStatus(){
+    public List<CurrentBoardStatus> getCurrentStatus() {
         List<CurrentBoardStatus> currentBoardStatuses = new ArrayList<>();
 
         pieces.forEach(((position, piece) ->
@@ -73,19 +75,27 @@ public class Board {
     /**
      * 헬퍼 메서드
      */
-    private Piece validateMovablePiece(Position from, Position to, PieceType pieceType) {
+    private Piece validateMovablePiece(Position from, Position to, PieceType pieceType, Team team) {
         Piece piece = pieces.get(from);
 
         if (piece == null) {
-            throw new IllegalArgumentException("해당 위치에 피스가 없습니다.");
+            throw new InvalidGameInputException(GameErrorMessage.PIECE_NOT_FOUND.getMessage());
+        }
+
+        if (piece.getTeam() != team) {
+            throw new InvalidGameInputException(
+                    String.format(GameErrorMessage.INVALID_TEAM_TURN.getMessage(), team.getKoreanName())
+            );
         }
 
         if (piece.getType() != pieceType) {
-            throw new IllegalArgumentException("해당 위치에 해당 타입이 없습니다.");
+            throw new InvalidGameInputException(
+                    String.format(GameErrorMessage.INVALID_PIECE_TYPE.getMessage(), pieceType.getKoreanName())
+            );
         }
 
         if (!to.isPossiblePosition(MAX_ROW, MIN_ROW, MAX_COLUMN, MIN_COLUMN)) {
-            throw new IllegalArgumentException("기물의 도착지점이 판 범위를 넘어섰습니다.");
+            throw new InvalidGameInputException(GameErrorMessage.INVALID_POSITION_RANGE.getMessage());
         }
 
         return piece;
@@ -93,7 +103,7 @@ public class Board {
 
     private void validateCanMove(Position from, Position to, Piece piece) {
         if (!piece.canMove(from, to, this)) {
-            throw new IllegalArgumentException("해당 위치로 옮길 수 없습니다.");
+            throw new InvalidGameInputException(GameErrorMessage.INVALID_MOVE.getMessage());
         }
     }
 

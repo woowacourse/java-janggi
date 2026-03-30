@@ -25,6 +25,10 @@ public class OutputView {
         }
     }
 
+    public void printErrorMessage(String message){
+        System.out.println(message);
+    }
+
     /**
      * 헬퍼 메서드
      */

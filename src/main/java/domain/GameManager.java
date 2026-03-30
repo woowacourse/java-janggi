@@ -20,10 +20,11 @@ public class GameManager {
         return board.getCurrentStatus();
     }
 
-    public void movePiece(MovedPieceRequest request) {
+    public void movePiece(MovedPieceRequest request, Team team) {
         board.move(Position.from(request.currentRow(), request.currentColumn()),
                 Position.from(request.nextRow(), request.nextColumn()),
-                PieceType.getPieceType(request.pieceType()));
+                PieceType.getPieceType(request.pieceType()),
+                team);
     }
 
     /**

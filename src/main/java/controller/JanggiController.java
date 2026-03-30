@@ -4,6 +4,8 @@ import controller.dto.CurrentBoardStatus;
 import controller.dto.MovedPieceRequest;
 import domain.GameManager;
 import domain.Team;
+import exception.GameExceptionHandler;
+import exception.custom.GameException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +13,13 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
+    private final GameExceptionHandler gameExceptionHandler;
     private final InputView inputView;
     private final OutputView outputView;
     private GameManager gameManager;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(GameExceptionHandler gameExceptionHandler, InputView inputView, OutputView outputView) {
+        this.gameExceptionHandler = gameExceptionHandler;
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -23,7 +27,7 @@ public class JanggiController {
     public void start() {
         this.gameManager = new GameManager(readHorseElephantFormation());
         printCurrentBoardStatus();
-        movePiece();
+        playJanggiGame();
     }
 
     private Map<Team, String> readHorseElephantFormation() {
@@ -39,13 +43,34 @@ public class JanggiController {
         outputView.printCurrentBoard(statuses);
     }
 
-    public void movePiece() {
+    private void playJanggiGame() {
+        /**
+         * TODO: 2차 사이클 - 게임 종료 조건 추가 예정
+         */
+        while (true) {
+            playTurn(Team.CHO);
+            playTurn(Team.HAN);
+        }
+    }
+
+    private void playTurn(Team team) {
+        while (true) {
+            try {
+                movePiece(team);
+                return;
+            } catch (GameException e) {
+                gameExceptionHandler.handle(e);
+            }
+        }
+    }
+
+    private void movePiece(Team team) {
         MovedPieceRequest movedPieceRequest = readMovedPiece();
-        gameManager.movePiece(movedPieceRequest);
+        gameManager.movePiece(movedPieceRequest, team);
         printCurrentBoardStatus();
     }
 
-    private MovedPieceRequest readMovedPiece(){
+    private MovedPieceRequest readMovedPiece() {
         return inputView.readMovedPieceInput();
     }
 }
