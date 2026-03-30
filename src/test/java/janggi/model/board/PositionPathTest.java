@@ -6,7 +6,7 @@ import janggi.model.Team;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.gimul.diagonalMove.Ma;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +34,7 @@ class PositionPathTest {
         Ma third = new Ma(Team.CHO);
         Ma fourth = new Ma(Team.CHO);
 
-        Map<Position, AbstractGimul> board = Map.of(
+        Map<Position, Piece> board = Map.of(
                 new Position(Row.NINE, Column.EIGHT), first,
                 new Position(Row.NINE, Column.SEVEN), second,
                 new Position(Row.EIGHT, Column.SEVEN), third,
@@ -42,7 +42,7 @@ class PositionPathTest {
         );
 
         //when
-        List<AbstractGimul> gimuls = path.findGimulsOn(board);
+        List<Piece> gimuls = path.findGimulsOn(board);
 
         //then
         assertThat(gimuls)

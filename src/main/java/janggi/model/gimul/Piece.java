@@ -5,20 +5,20 @@ import janggi.model.board.PositionPath;
 import janggi.model.board.position.Position;
 import java.util.List;
 
-public abstract class AbstractGimul {
+public abstract class Piece {
     protected final Team team;
 
-    protected AbstractGimul(Team team) {
+    protected Piece(Team team) {
         this.team = team;
     }
 
     public abstract PositionPath getLegalPath(Position from, Position to);
 
-    public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo);
+    public abstract boolean canPassThrough(List<Piece> gimulsOnPath, Piece pieceAtTo);
 
-    public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath);
+    public abstract boolean canPassThrough(List<Piece> gimulsOnPath);
 
-    public boolean isSameTeam(AbstractGimul other) {
+    public boolean isSameTeam(Piece other) {
         return this.team.equals(other.team);
     }
 

@@ -1,6 +1,6 @@
 package janggi.model.turn;
 
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.board.position.Position;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class GameOver implements Turn {
     }
 
     @Override
-    public Map<Position, AbstractGimul> getBoard() {
+    public Map<Position, Piece> getBoard() {
         throw new IllegalStateException("게임이 이미 종료됐습니다.");
     }
 

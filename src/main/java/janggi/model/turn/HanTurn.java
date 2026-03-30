@@ -2,7 +2,7 @@ package janggi.model.turn;
 
 import janggi.model.board.Board;
 import janggi.model.Team;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.board.position.Position;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public class HanTurn implements Turn {
     }
 
     @Override
-    public Map<Position, AbstractGimul> getBoard() {
+    public Map<Position, Piece> getBoard() {
         return board.getBoard();
     }
 

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.Piece;
 import janggi.model.gimul.diagonalMove.Ma;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
@@ -22,7 +22,7 @@ class BoardTest {
 
     @BeforeEach
     void beforeEach() {
-        Map<Position, AbstractGimul> board = new HashMap<>();
+        Map<Position, Piece> board = new HashMap<>();
 
         board.put(
                 new Position(Row.SEVEN, Column.FIVE),
@@ -117,7 +117,7 @@ class BoardTest {
     @Test
     void isGameOver() {
         //given
-        Map<Position, AbstractGimul> gameOverBoard = new HashMap<>();
+        Map<Position, Piece> gameOverBoard = new HashMap<>();
 
         gameOverBoard.put(
                 new Position(Row.SEVEN, Column.FIVE),
