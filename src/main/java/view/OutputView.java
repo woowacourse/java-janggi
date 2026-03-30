@@ -3,9 +3,9 @@ package view;
 import static domain.common.Constant.MAX_COLUMN;
 import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
-
 import domain.place.piece.Side;
 import java.util.List;
+import java.util.Optional;
 
 public class OutputView {
 
@@ -44,25 +44,41 @@ public class OutputView {
         System.out.printf(INPUT_POSITION_MOVE, name, side.getName());
     }
 
-    public static void printBoard(List<List<String>> boardFormats) {
-        StringBuilder sb = new StringBuilder();
 
+    public static void printBoard(List<List<String>> boardFormats, List<List<Optional<Side>>> boardSides) {
+        StringBuilder sb = new StringBuilder();
+        appendHeader(sb);
+
+        for (int row = 0; row < boardFormats.size(); row++) {
+            appendRow(sb, row, boardFormats.get(row), boardSides.get(row));
+        }
+
+        System.out.println(sb);
+    }
+
+    private static void appendHeader(StringBuilder sb) {
         sb.append(" ");
         for (int i = MIN_COLUMN; i <= MAX_COLUMN; i++) {
             sb.append(String.format("%2d", i)).append(" ");
         }
         sb.append("\n");
+    }
 
-        int rowNumber = MIN_ROW;
-        for (List<String> row : boardFormats) {
-            sb.append(String.format("%2d ", rowNumber));
-            for (String format : row) {
-                sb.append(format).append(" ");
-            }
-            sb.append("\n");
-            rowNumber++;
+    private static void appendRow(StringBuilder sb, int rowNumber,
+                                  List<String> rowFormats,
+                                  List<Optional<Side>> rowSides) {
+        sb.append(String.format("%2d ", rowNumber + MIN_ROW));
+
+        for (int col = 0; col < rowFormats.size(); col++) {
+            sb.append(colorize(rowFormats.get(col), rowSides.get(col))).append(" ");
         }
 
-        System.out.println(sb);
+        sb.append("\n");
+    }
+
+    private static String colorize(String format, Optional<Side> side) {
+        return side
+                .map(s -> ColorMapper.colorize(format, s))
+                .orElse(format);
     }
 }

@@ -15,11 +15,13 @@ public class PositionParser {
     }
 
     public static Position parsePosition(String input) {
-        List<Integer> points = Arrays.stream(input.trim().split(SEPARATOR))
+        List<Integer> points = Arrays.stream(input.split(SEPARATOR))
+                .map(String::trim)
                 .map(PositionParser::parseInt)
                 .toList();
 
         validateSize(points);
+
         return new Position(points.get(ROW_INDEX), points.get(COLUMN_INDEX));
     }
 

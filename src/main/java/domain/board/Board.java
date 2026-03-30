@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Optional;
+import java.util.function.Function;
+
 public class Board implements BoardView {
 
     private final Map<Position, Place> board;
@@ -24,22 +27,29 @@ public class Board implements BoardView {
     }
 
     public List<List<String>> getFormatBoard() {
-        List<List<String>> result = new ArrayList<>();
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            result.add(getFormatRow(row));
-        }
+        return getBoard(Place::getFormat);
+    }
 
+    public List<List<Optional<Side>>> getSideBoard() {
+        return getBoard(Place::getSide);
+    }
+
+    private <T> List<List<T>> getBoard(Function<Place, T> mapper) {
+        List<List<T>> result = new ArrayList<>();
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            result.add(getRow(row, mapper));
+        }
         return result;
     }
 
-    private List<String> getFormatRow(int row) {
-        List<String> rowFormats = new ArrayList<>();
+    private <T> List<T> getRow(int row, Function<Place, T> mapper) {
+        List<T> rowResult = new ArrayList<>();
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             Position position = new Position(row, column);
             Place place = board.get(position);
-            rowFormats.add(place.getFormat());
+            rowResult.add(mapper.apply(place));
         }
-        return rowFormats;
+        return rowResult;
     }
 
     public void move(Position from, Position to, Side side) {
