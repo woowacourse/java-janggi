@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Position, Piece> board;
+    private final Map<Position, Piece> piecesByPosition;
 
-    public Board(Map<Position, Piece> board) {
-        this.board = board;
+    public Board(Map<Position, Piece> base) {
+        this.piecesByPosition = base;
     }
 
     public Map<Position, Piece> move(Position from, Position to) {
@@ -20,20 +20,20 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
         }
 
-        Piece fromPiece = board.get(from);
+        Piece fromPiece = piecesByPosition.get(from);
         List<Position> path = fromPiece.getPath(from, to);
         List<Piece> pieceOnPath = new ArrayList<>();
         for (Position position : path) {
-            pieceOnPath.add(board.get(position));
+            pieceOnPath.add(piecesByPosition.get(position));
         }
-        if (fromPiece.canMove(pieceOnPath, board.get(to))) {
-            board.put(from, new EmptyPiece());
-            board.put(to, fromPiece);
+        if (fromPiece.canMove(pieceOnPath, piecesByPosition.get(to))) {
+            piecesByPosition.put(from, new EmptyPiece());
+            piecesByPosition.put(to, fromPiece);
         }
         return showBoard();
     }
 
     public Map<Position, Piece> showBoard() {
-        return Map.copyOf(board);
+        return Map.copyOf(piecesByPosition);
     }
 }
