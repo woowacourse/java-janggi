@@ -12,6 +12,7 @@ import java.util.Map;
 
 public final class OutputView {
 
+    private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
@@ -25,6 +26,11 @@ public final class OutputView {
             PieceType.CANNON, Map.of(Side.HAN, "包", Side.CHO, "包"),
             PieceType.SOLDIER, Map.of(Side.HAN, "兵", Side.CHO, "卒")
     );
+
+    public void printError(String message) {
+        System.out.println(ERROR_MESSAGE_PREFIX + message);
+        System.out.println();
+    }
 
     public void printGameStart() {
         System.out.println("장기 게임을 시작합니다." + System.lineSeparator());

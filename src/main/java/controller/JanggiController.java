@@ -23,10 +23,7 @@ public final class JanggiController {
     public void run() {
         outputView.printGameStart();
 
-        Wings choWings = inputView.readWings(Side.CHO);
-        Wings hanWings = inputView.readWings(Side.HAN);
-
-        InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
+        InitialPieces initialPieces = setUpInitialPieces();
         AlivePieces alivePieces = new AlivePieces(initialPieces.get());
         Board board = new Board(alivePieces);
         JanggiGame janggiGame = new JanggiGame(board);
@@ -36,14 +33,28 @@ public final class JanggiController {
         while (true) {
             Side currentTurn = janggiGame.currentTurn();
             Intersection startPosition = inputView.readStartPosition(currentTurn);
-            outputView.printBoardWithMovable(
-                    board,
-                    board.getMovableIntersections(startPosition, currentTurn)
-            );
+            outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
 
             Intersection destination = inputView.readDestination();
             janggiGame.movePiece(startPosition, destination, currentTurn);
             outputView.printBoard(board);
+        }
+    }
+
+    private InitialPieces setUpInitialPieces() {
+        Wings choWings = readValidWings(Side.CHO);
+        Wings hanWings = readValidWings(Side.HAN);
+
+        return new InitialPieces(hanWings, choWings);
+    }
+
+    private Wings readValidWings(Side side) {
+        while (true) {
+            try {
+                return inputView.readWings(side);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
         }
     }
 }

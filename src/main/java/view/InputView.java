@@ -15,11 +15,11 @@ public final class InputView {
             Side.CHO, "초(楚)",
             Side.HAN, "한(漢)"
     );
-    private static final Map<Integer, String> RAW_WINGS_BY_NUMBER = Map.of(
-            1, "마상마상",
-            2, "마상상마",
-            3, "상마마상",
-            4, "상마상마"
+    private static final Map<String, String> RAW_WINGS_BY_NUMBER = Map.of(
+            "1", "마상마상",
+            "2", "마상상마",
+            "3", "상마마상",
+            "4", "상마상마"
     );
     private static final Map<Character, PieceType> WING_TYPES = Map.of(
             '마', PieceType.HORSE,
@@ -33,7 +33,7 @@ public final class InputView {
         System.out.println(SIDE_NAMES.get(side) + "의 상차림을 번호로 선택해주세요 (예: 1)");
         System.out.printf("1. %s%n2. %s%n3. %s%n4. %s%n", "마상마상", "마상상마", "상마마상", "상마상마");
 
-        int rawWingsNumber = readInt();
+        String rawWingsNumber = readLine();
         if (!RAW_WINGS_BY_NUMBER.containsKey(rawWingsNumber)) {
             throw new IllegalArgumentException("선택한 상차림이 옳바르지 않습니다. 1~4 중 선택해주세요(이전 입력: " + rawWingsNumber + ")");
         }
@@ -72,10 +72,6 @@ public final class InputView {
     private String readLine() {
         return scanner.nextLine()
                 .trim();
-    }
-
-    private int readInt() {
-        return Integer.parseInt(readLine());
     }
 
     private Intersection parseIntersection(String input) {
