@@ -4,9 +4,10 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Board {
     private static final String SHOULD_CHOOSE_CORRECT_TEAM_PIECE = "자신의 아군 기물만 이동할 수 있습니다.";
@@ -63,14 +64,17 @@ public class Board {
         Piece startPiece = getPiece(start);
 
         List<Position> movablePath = startPiece.findMovablePath(start, destination);
+        Map<Position, Piece> pathMap = toPathMap(movablePath);
+        startPiece.movePolicy(PathContext.from(pathMap));
+    }
 
-        Map<Position, Piece> map = new HashMap<>();
-        for (Position position : movablePath) {
-            if (pieces.get(position) != null) {
-                map.put(position, pieces.get(position));
-            }
-        }
-        startPiece.movePolicy(map, movablePath);
+    private Map<Position, Piece> toPathMap(List<Position> movablePath) {
+        return movablePath.stream()
+                .filter(position -> pieces.get(position) != null)
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        pieces::get
+                ));
     }
 
     public void validateCrashWithAlly(Position start, Position destination) {

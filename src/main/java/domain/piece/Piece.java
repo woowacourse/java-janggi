@@ -1,11 +1,11 @@
 package domain.piece;
 
+import domain.PathContext;
 import domain.PieceExceptionMessage;
 import domain.piece.policy.MovementPolicy;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -21,8 +21,8 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public void movePolicy(Map<Position, Piece> positionInfoOfBoard, List<Position> movablePath) {
-        movementPolicy.check(positionInfoOfBoard, movablePath);
+    public void movePolicy(PathContext pathContext) {
+        movementPolicy.check(pathContext);
     }
 
     public List<Position> findMovablePath(Position start, Position destination) {
