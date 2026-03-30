@@ -15,6 +15,12 @@ import java.util.Map;
 public class Chariot extends Piece {
     private static final PieceName NAME = PieceName.CHARIOT;
     private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
+    private static final List<Pattern> PATTERNS = List.of(
+            new Pattern(List.of(Direction.NORTH)),
+            new Pattern(List.of(Direction.SOUTH)),
+            new Pattern(List.of(Direction.WEST)),
+            new Pattern(List.of(Direction.EAST))
+    );
 
     public Chariot(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
@@ -31,13 +37,7 @@ public class Chariot extends Piece {
 
     @Override
     public List<Pattern> patterns() {
-        List<Pattern> paths = new ArrayList<>();
-        paths.add(new Pattern(List.of(Direction.NORTH)));
-        paths.add(new Pattern(List.of(Direction.SOUTH)));
-        paths.add(new Pattern(List.of(Direction.WEST)));
-        paths.add(new Pattern(List.of(Direction.EAST)));
-
-        return paths;
+        return PATTERNS;
     }
 
     @Override

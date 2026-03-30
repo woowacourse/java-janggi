@@ -9,12 +9,16 @@ import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class Advisor extends Piece {
     private static final PieceName NAME = PieceName.ADVISOR;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+    private static final List<Pattern> PATTERNS = Arrays.stream(Direction.values())
+            .map(direction -> new Pattern(List.of(direction)))
+            .toList();
 
     public Advisor(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
@@ -31,13 +35,7 @@ public class Advisor extends Piece {
 
     @Override
     public List<Pattern> patterns() {
-        List<Pattern> paths = new ArrayList<>();
-        for (Direction value : Direction.values()) {
-            Pattern path = new Pattern(List.of(value));
-            paths.add(path);
-        }
-
-        return paths;
+        return PATTERNS;
     }
 
     @Override

@@ -8,13 +8,23 @@ import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class Soldier extends Piece {
     private static final PieceName NAME = PieceName.SOLDIER;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+    private static final List<Pattern> CHO_PATTERNS = List.of(
+            new Pattern(List.of(Direction.NORTH)),
+            new Pattern(List.of(Direction.WEST)),
+            new Pattern(List.of(Direction.EAST))
+    );
+    private static final List<Pattern> HAN_PATTERNS = List.of(
+            new Pattern(List.of(Direction.SOUTH)),
+            new Pattern(List.of(Direction.WEST)),
+            new Pattern(List.of(Direction.EAST))
+    );
 
     public Soldier(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
@@ -31,18 +41,13 @@ public class Soldier extends Piece {
 
     @Override
     public List<Pattern> patterns() {
-        List<Pattern> directions = new ArrayList<>();
         if (Side.CHO.equals(side)) {
-            directions.add(new Pattern(List.of(Direction.NORTH)));
-            directions.add(new Pattern(List.of(Direction.WEST)));
-            directions.add(new Pattern(List.of(Direction.EAST)));
+            return CHO_PATTERNS;
         }
         if (Side.HAN.equals(side)) {
-            directions.add(new Pattern(List.of(Direction.SOUTH)));
-            directions.add(new Pattern(List.of(Direction.WEST)));
-            directions.add(new Pattern(List.of(Direction.EAST)));
+            return HAN_PATTERNS;
         }
-        return directions;
+        return Collections.EMPTY_LIST;
     }
 
     @Override

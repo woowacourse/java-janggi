@@ -15,6 +15,16 @@ import java.util.Map;
 public class Horse extends Piece {
     private static final PieceName NAME = PieceName.HORSE;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+    private static final List<Pattern> PATTERNS = List.of(
+            new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST)),
+            new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST)),
+            new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST)),
+            new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST)),
+            new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST)),
+            new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST)),
+            new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST)),
+            new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST))
+    );
 
     public Horse(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
@@ -31,18 +41,7 @@ public class Horse extends Piece {
 
     @Override
     public List<Pattern> patterns() {
-        List<Pattern> directions = new ArrayList<>();
-
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST)));
-
-        return directions;
+        return PATTERNS;
     }
 
     @Override

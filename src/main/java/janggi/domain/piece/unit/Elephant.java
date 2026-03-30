@@ -15,6 +15,16 @@ import java.util.Map;
 public class Elephant extends Piece {
     private static final PieceName NAME = PieceName.ELEPHANT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+    private static final List<Pattern> PATTERNS = List.of(
+            new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+            new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+            new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+            new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
+            new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
+            new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)),
+            new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+            new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST))
+    );
 
     public Elephant(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
@@ -31,18 +41,7 @@ public class Elephant extends Piece {
 
     @Override
     public List<Pattern> patterns() {
-        List<Pattern> directions = new ArrayList<>();
-
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
-
-        return directions;
+        return PATTERNS;
     }
 
     @Override
@@ -52,11 +51,13 @@ public class Elephant extends Piece {
 
     @Override
     protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        if(path.isEmpty()) return false;
+        if (path.isEmpty()) {
+            return false;
+        }
         List<Point> points = path.getPath();
 
-        return  points.stream()
-                .limit(points.size()-1)
+        return points.stream()
+                .limit(points.size() - 1)
                 .noneMatch(piecesOnPaths::containsKey);
     }
 }
