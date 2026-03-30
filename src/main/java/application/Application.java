@@ -1,13 +1,23 @@
 package application;
 
+import domain.board.SetUp;
 import domain.game.Game;
 import domain.piece.Camp;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import view.GameCommand;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
+    private static final String INVALID_SETUP_NUMBER_ERROR_MESSAGE =
+            "[ERROR] 상차림 번호는 1, 2, 3, 4 중 하나여야 합니다.";
+    private static final Map<Integer, SetUp> INPUT_MAP = Map.of(
+            1, SetUp.LEFT_ELEPHANT,
+            2, SetUp.RIGHT_ELEPHANT,
+            3, SetUp.INNER_ELEPHANT,
+            4, SetUp.OUTER_ELEPHANT
+    );
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
@@ -17,8 +27,8 @@ public class Application {
 
     public void run() {
         outputView.printSetUpOptions();
-        int hanSetUp = readSetUp(Camp.HAN);
-        int choSetUp = readSetUp(Camp.CHO);
+        SetUp hanSetUp = readSetUp(Camp.HAN);
+        SetUp choSetUp = readSetUp(Camp.CHO);
 
         Game game = new Game(choSetUp, hanSetUp);
         outputView.printBoard(game.board());
@@ -42,16 +52,24 @@ public class Application {
         }
     }
 
-    private int readSetUp(Camp camp) {
+    private SetUp readSetUp(Camp camp) {
         while (true) {
             outputView.printSetUpPrompt(camp);
 
             try {
-                return inputView.readSetUp();
+                return toSetUp(inputView.readSetUpNumber());
             } catch (IllegalArgumentException exception) {
                 outputView.printError(exception.getMessage());
             }
         }
     }
 
+    public static SetUp toSetUp(int input) {
+        SetUp setUp = INPUT_MAP.get(input);
+        if (setUp == null) {
+            throw new IllegalArgumentException(INVALID_SETUP_NUMBER_ERROR_MESSAGE);
+        }
+
+        return setUp;
+    }
 }

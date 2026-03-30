@@ -1,9 +1,6 @@
 package view;
 
 import domain.board.Position;
-import domain.board.SetUp;
-
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class InputView {
@@ -17,13 +14,11 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public int readSetUp() {
+    public int readSetUpNumber() {
         String input = readLine();
 
         try {
-            int setUpNumber = Integer.parseInt(input);
-            SetUp.from(setUpNumber);
-            return setUpNumber;
+            return Integer.parseInt(input);
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException(COMMAND_MUST_BE_NUMBER_ERROR_MESSAGE);
         }

@@ -23,11 +23,11 @@ public class BoardInitializer {
     private static final int RIGHT_GUARD_X_COORDINATE = 6;
     private static final int GENERAL_X_COORDINATE = 5;
 
-    public static Map<Position, Piece> init(int choInput, int hanInput) {
+    public static Map<Position, Piece> init(SetUp choSetUp, SetUp hanSetUp) {
         Map<Position, Piece> initialBoard = new HashMap<>();
 
-        setUpElephantAndHorse(initialBoard, Camp.CHO, choInput);
-        setUpElephantAndHorse(initialBoard, Camp.HAN, hanInput);
+        setUpElephantAndHorse(initialBoard, Camp.CHO, choSetUp);
+        setUpElephantAndHorse(initialBoard, Camp.HAN, hanSetUp);
         setUpOtherPieces(initialBoard);
 
         return initialBoard;
@@ -115,9 +115,8 @@ public class BoardInitializer {
                 new Piece(camp, PieceType.GENERAL, PieceType.GENERAL.createStrategy()));
     }
 
-    private static void setUpElephantAndHorse(Map<Position, Piece> initialBoard, Camp camp, int input) {
-        List<PieceType> pieceTypes = SetUp.from(input);
-        pieceTypes = arrangeByCamp(camp, pieceTypes);
+    private static void setUpElephantAndHorse(Map<Position, Piece> initialBoard, Camp camp, SetUp setUp) {
+        List<PieceType> pieceTypes = arrangeByCamp(camp, setUp.placeOrder());
 
         int y = resolveY(camp, HAN_OTHER_PIECES_Y_COORDINATE);
 

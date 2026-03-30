@@ -18,8 +18,8 @@ public class BoardInitializerTest {
 
     @BeforeEach
     void setUp() {
-        leftRightInitialBoard = BoardInitializer.init(1, 2);
-        innerOuterInitialBoard = BoardInitializer.init(3, 4);
+        leftRightInitialBoard = BoardInitializer.init(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
+        innerOuterInitialBoard = BoardInitializer.init(SetUp.INNER_ELEPHANT, SetUp.OUTER_ELEPHANT);
     }
 
     @Test
@@ -103,4 +103,3 @@ public class BoardInitializerTest {
 
 
 }
-

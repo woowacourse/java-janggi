@@ -23,7 +23,7 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(BoardInitializer.init(1, 2));
+        board = new Board(BoardInitializer.init(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT));
     }
 
     @Test

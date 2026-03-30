@@ -3,6 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.board.Position;
+import domain.board.SetUp;
 import domain.piece.Camp;
 import domain.piece.Piece;
 
@@ -12,7 +13,7 @@ public class Game {
     private final Board board;
     private Camp currentTurn;
 
-    public Game(int choSetUp, int hanSetUp) {
+    public Game(SetUp choSetUp, SetUp hanSetUp) {
         this.board = new Board(BoardInitializer.init(choSetUp, hanSetUp));
         this.currentTurn = Camp.CHO;
     }
