@@ -1,22 +1,32 @@
-import board.InnerSangSetup;
-import board.LeftSangSetup;
+import board.SangSetup;
 import core.JanggiGame;
-import position.Position;
+import view.DisplayBoard;
+import view.InputView;
+import view.JanggiView;
+import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        // TODO : view 에서 상차림 선택 받기 (사이클2)
-        JanggiGame game = JanggiGame.of(new InnerSangSetup(), new LeftSangSetup());
+        JanggiView view = new JanggiView(new InputView(), new OutputView());
+        SangSetup choSangSetupType = view.askChoSangSetup();
+        SangSetup hanSangSetupType = view.askHanSangSetup();
+        JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);
 
+        new Application(game, view).run();
+    }
+
+    private final JanggiGame game;
+    private final JanggiView view;
+
+    public Application(JanggiGame game, JanggiView view) {
+        this.game = game;
+        this.view = view;
+    }
+
+    public void run() {
         boolean notJangGun = true;
         while (notJangGun) {
-            // TODO : view 에서 좌표 선택 받기 (사이클2)
-            Position departure = new Position(0, 0);
-            Position destination = new Position(1, 0);
-
-            game.move(departure, destination);
-
-            // TODO : 왕이 잡히면 게임 종료 (사이클2)
+            view.printBoard(DisplayBoard.of(game.getBoard()));
             notJangGun = false;
         }
     }

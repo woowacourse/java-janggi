@@ -62,4 +62,9 @@ public class Ma extends FullPiece {
     public boolean isPo() {
         return false;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.MA;
+    }
 }

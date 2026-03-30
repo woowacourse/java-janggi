@@ -24,4 +24,9 @@ public final class EmptyPiece implements Piece {
     public FullPiece asFullPiece() {
         throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.EMPTY;
+    }
 }

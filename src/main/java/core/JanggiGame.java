@@ -21,6 +21,10 @@ public class JanggiGame {
         this(board, new ChoTurn());
     }
 
+    public Board getBoard() {
+        return new Board(board.pieces());
+    }
+
     public static JanggiGame of(SangSetup choSangSetup, SangSetup hanSangSetup) {
         Board choBoard = choSangSetup.initialize(Side.CHO);
         Board hanBoard = hanSangSetup.initialize(Side.HAN);

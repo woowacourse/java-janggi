@@ -52,4 +52,9 @@ public class JolByeong extends FullPiece {
     public boolean isPo() {
         return false;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.JOL_BYEONG;
+    }
 }
