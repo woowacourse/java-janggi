@@ -14,9 +14,7 @@ import java.util.Map.Entry;
 public class Board {
     private static final String NOT_MY_PIECE = "[ERROR] 본인 진영의 기물이 아닙니다.";
     private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
-
-    private static final int CANNON_JUMP_PIECE_COUNT = 1;
-
+    
     private final Map<Position, State> board;
 
     private Board(Map<Position, State> board) {
@@ -47,41 +45,10 @@ public class Board {
             }
         }
 
-        PieceType pieceType = piece.getPieceInfo().pieceType();
-        if (pieceType == PieceType.CANNON) {
-            checkCannonPath(paths);
-        }
-        if (pieceType != PieceType.CANNON) {
-            checkPathExceptCannon(paths);
-        }
+        piece.validatePath(paths, this);
+
         board.put(to, new FullState(piece));
         board.put(from, new EmptyState());
-    }
-
-    private void checkPathExceptCannon(List<Position> paths) {
-        for (int index = 0; index < paths.size() - 1; index++) {
-            if (!board.get(paths.get(index)).isEmpty()) {
-                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
-            }
-        }
-    }
-
-    private void checkCannonPath(List<Position> paths) {
-        int pieceCount = 0;
-        for (int index = 0; index < paths.size() - 1; index++) {
-            State state = board.get(paths.get(index));
-            if (!state.isEmpty()) {
-                PieceType pieceType = state.getPiece().getPieceType();
-                if (pieceType == PieceType.CANNON) {
-                    throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
-                }
-                pieceCount++;
-            }
-        }
-
-        if (pieceCount != CANNON_JUMP_PIECE_COUNT) {
-            throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
-        }
     }
 
     public Map<Position, PieceInfo> getPieceInfos() {
@@ -92,5 +59,17 @@ public class Board {
             }
         }
         return pieceInfos;
+    }
+
+    public boolean isEmpty(Position position) {
+        return board.get(position).isEmpty();
+    }
+
+    public boolean isCannon(Position position) {
+        State state = board.get(position);
+        if (state.isEmpty()) {
+            return false;
+        }
+        return state.getPiece().getPieceType() == PieceType.CANNON;
     }
 }

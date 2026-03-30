@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Board;
 import domain.Country;
 import domain.Direction;
 import domain.Distance;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
+    private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
+
     protected final PieceInfo pieceInfo;
 
     public Piece(PieceInfo pieceInfo) {
@@ -35,6 +38,14 @@ public abstract class Piece {
     }
 
     abstract void validateDirections(List<Direction> directions);
+
+    public void validatePath(List<Position> paths, Board board) {
+        for (int index = 0; index < paths.size() - 1; index++) {
+            if (!board.isEmpty(paths.get(index))) {
+                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+            }
+        }
+    }
 
     public PieceInfo getPieceInfo() {
         return pieceInfo;
