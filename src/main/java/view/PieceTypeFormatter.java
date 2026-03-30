@@ -16,6 +16,8 @@ public enum PieceTypeFormatter {
     HAN_GENERAL(PieceType.GENERAL, "漢"),
     ;
 
+    private static final String NOT_FOUND_PIECE_TYPE = "[ERROR] 존재하지 않는 기물 종류입니다.";
+
     public static final String RED = "\u001B[31m";
     public static final String BLUE = "\u001B[34m";
     public static final String EXIT = "\u001B[0m";
@@ -33,7 +35,7 @@ public enum PieceTypeFormatter {
                 .filter(pieceTypeFormatter -> pieceTypeFormatter.pieceType == pieceType)
                 .map(PieceTypeFormatter::getPieceName)
                 .findAny()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 기물 종류입니다."));
+                .orElseThrow(() -> new IllegalStateException(NOT_FOUND_PIECE_TYPE));
 
         if (pieceType == PieceType.SOLDIER) {
             return getSoldierName(country);
