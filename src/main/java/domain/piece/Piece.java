@@ -48,10 +48,6 @@ public abstract class Piece {
         return this.pieceType != PieceType.NONE;
     }
 
-    public boolean isPo() {
-        return this.pieceType == PieceType.PO;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
