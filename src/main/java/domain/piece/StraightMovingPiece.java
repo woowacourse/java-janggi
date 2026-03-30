@@ -13,7 +13,7 @@ public abstract class StraightMovingPiece extends Piece{
     }
 
     @Override
-    public List<Offset> getPathPositions(Offset offset) {
+    public List<Offset> getPathOffset(Offset offset) {
         validateMoveRule(offset);
         Direction mainDirection = offset.getMainDirection();
 

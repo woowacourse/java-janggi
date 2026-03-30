@@ -1,7 +1,6 @@
 package domain.board;
 
 import domain.Offset;
-import domain.Path;
 
 import domain.piece.Elephant;
 import domain.piece.Horse;
@@ -100,11 +99,9 @@ public class BoardTest {
     @Test
     void 기물이_이동할_경로에_대한_다른_기물의_위치_정보를_반환한다() {
         List<Offset> offsets = List.of(new Offset(1, 0), new Offset(2, 0));
-        List<Path> path = board.getPath(new Position(0, 0), offsets);  // 차에 대해 진행
+        List<Piece> obstacles = board.getBlockedPieces(new Position(0, 0), offsets);  // 차에 대해 진행
 
-        assertThat(path).isEqualTo(List.of(new Path(
-                        new Position(1, 0), new Horse(Team.CHO)),
-                new Path(new Position(2, 0), new Elephant(Team.CHO))
-        ));
+        assertThat(obstacles).isEqualTo(List.of(new Horse(Team.CHO), new Elephant(Team.CHO)));
+
     }
 }

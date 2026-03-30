@@ -20,21 +20,21 @@ class SoldierHanTest {
     @Test
     void 병은_아래로_한칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(0, -1);
-        List<Offset> pathPositions = soldier.getPathPositions(offset);
+        List<Offset> pathPositions = soldier.getPathOffset(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
     void 병은_좌로_한칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-1, 0);
-        List<Offset> pathPositions = soldier.getPathPositions(offset);
+        List<Offset> pathPositions = soldier.getPathOffset(offset);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
     @Test
     void 병은_우로_한칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(1, 0);
-        List<Offset> pathPositions = soldier.getPathPositions(offset);
+        List<Offset> pathPositions = soldier.getPathOffset(offset);
         assertThat(pathPositions).isEqualTo(List.of());
 
     }

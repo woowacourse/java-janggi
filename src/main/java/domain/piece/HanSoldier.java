@@ -12,8 +12,8 @@ public final class HanSoldier extends SingleStepPiece {
     }
 
     @Override
-    public List<Offset> getPathPositions(Offset offset) {
-        super.getPathPositions(offset);
+    public List<Offset> getPathOffset(Offset offset) {
+        super.getPathOffset(offset);
         boolean isMoveBack = offset.equals(Direction.UP.getOffset());
         if (isMoveBack) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());

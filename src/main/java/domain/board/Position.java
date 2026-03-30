@@ -1,23 +1,14 @@
 package domain.board;
 
-import domain.Direction;
 import domain.ErrorMessage;
 
-import java.util.Objects;
-
-public class Position {
+public record Position(int x, int y) {
     private static final int MIN_RANGE = 0;
     private static final int MAX_WIDTH_RANGE = 8;
     private static final int MIN_HEIGHT_RANGE = 9;
 
-    private final int x;
-    private final int y;
-
-    public Position(int x, int y) {
+    public Position {
         validateRange(x, y);
-
-        this.x = x;
-        this.y = y;
     }
 
     private void validateRange(int x, int y) {
@@ -28,26 +19,5 @@ public class Position {
         if (y < MIN_RANGE || y > MIN_HEIGHT_RANGE) {
             throw new IllegalArgumentException(ErrorMessage.OUT_OF_BOARD.getMessage());
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Position position)) {
-            return false;
-        }
-        return x == position.x && y == position.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 }

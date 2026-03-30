@@ -11,7 +11,7 @@ public abstract class SingleStepPiece extends Piece {
     }
 
     @Override
-    public List<Offset> getPathPositions(Offset offset) {
+    public List<Offset> getPathOffset(Offset offset) {
         validateMoveRule(offset);
         return List.of();
     }

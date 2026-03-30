@@ -10,7 +10,7 @@ class PositionTest {
     void 장기판의_좌표의_범위는_가로_9칸_세로_10칸이다() {
         Position position = new Position(2, 7);
 
-        assertThat(position).isInstanceOf(Position.class);
+        assertThat(position).isEqualTo(new Position(2, 7));
     }
 
     @Test

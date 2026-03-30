@@ -5,8 +5,8 @@ import domain.board.Position;
 public record Offset(int dx, int dy) {
     public static Offset of(Position source, Position target) {
         return new Offset(
-                target.getX() - source.getX(),
-                target.getY() - source.getY()
+                target.x() - source.x(),
+                target.y() - source.y()
         );
     }
 
@@ -20,8 +20,8 @@ public record Offset(int dx, int dy) {
 
     public Position applyTo(Position source) {
         return new Position(
-                source.getX() + dx,
-                source.getY() + dy
+                source.x() + dx,
+                source.y() + dy
         );
     }
 

@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.ErrorMessage;
-import domain.Path;
 
 import java.util.List;
 
@@ -16,16 +15,16 @@ public final class Cannon extends StraightMovingPiece {
     }
 
     @Override
-    public void validateMove(List<Path> paths, Piece to) {
-        if (paths.isEmpty()) {
+    public void validateMove(List<Piece> blockedPieces, Piece to) {
+        if (blockedPieces.isEmpty()) {
             throw new IllegalStateException(ErrorMessage.CANNON_NEEDS_BRIDGE.getMessage());
         }
 
-        if (paths.size() >= 2) {
+        if (blockedPieces.size() >= 2) {
             throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_PIECES.getMessage());
         }
 
-        Piece piece = paths.getFirst().piece();
+        Piece piece = blockedPieces.getFirst();
 
         if (piece.isCannon()) {
             throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_CANNON.getMessage());

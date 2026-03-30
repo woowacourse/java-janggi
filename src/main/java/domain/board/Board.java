@@ -2,12 +2,12 @@ package domain.board;
 
 import domain.ErrorMessage;
 import domain.Offset;
-import domain.Path;
 import domain.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 public class Board {
     private final Map<Position, Piece> pieces;
@@ -21,29 +21,32 @@ public class Board {
     }
 
     public void move(Position from, Position to) {
+        if (!pieces.containsKey(from)) {
+            throw new IllegalArgumentException(ErrorMessage.EMPTY_SOURCE.getMessage());
+        }
+
         Piece fromPiece = pieces.get(from);
         Piece toPiece = pieces.get(to);
-
-        List<Offset> pathPositions = fromPiece.getPathPositions(Offset.of(from, to));
-        List<Path> path = getPath(from,pathPositions);
-        fromPiece.validateMove(path, toPiece);
 
         if (toPiece != null && fromPiece.isSameTeam(toPiece)) {
             throw new IllegalStateException(ErrorMessage.SAME_TEAM_OCCUPIED.getMessage());
         }
 
-        Piece remove = pieces.remove(from);
-        pieces.put(to, remove);
+        List<Offset> pathPositions = fromPiece.getPathOffset(Offset.of(from, to));
+        List<Piece> blockedPieces = getBlockedPieces(from, pathPositions);
+
+        fromPiece.validateMove(blockedPieces, toPiece);
+        pieces.put(to, pieces.remove(from));
     }
 
-    public List<Path> getPath(Position from, List<Offset> offsets) {
-        List<Path> paths = new ArrayList<>();
+    public List<Piece> getBlockedPieces(Position from, List<Offset> offsets) {
+        List<Piece> blockedPieces = new ArrayList<>();
         for (Offset offset : offsets) {
             Position position = offset.applyTo(from);
             if (pieces.containsKey(position)) {
-                paths.add(new Path(position, pieces.get(position)));
+                blockedPieces.add(pieces.get(position));
             }
         }
-        return paths;
+        return blockedPieces;
     }
 }

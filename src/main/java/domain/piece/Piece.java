@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.ErrorMessage;
 import domain.Offset;
-import domain.Path;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,10 +31,10 @@ public abstract class Piece {
         return false;
     }
 
-    abstract public List<Offset> getPathPositions(Offset offset);
+    abstract public List<Offset> getPathOffset(Offset offset);
 
-    public void validateMove(List<Path> paths, Piece to) {
-        if (!paths.isEmpty()) {
+    public void validateMove(List<Piece> blockedPieces, Piece to) {
+        if (!blockedPieces.isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
         }
     }
