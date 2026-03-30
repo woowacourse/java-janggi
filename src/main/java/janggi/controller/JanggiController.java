@@ -28,7 +28,6 @@ public class JanggiController {
     }
 
     public void run() {
-        // 장기판 상차림 입력
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
         Game game = Game.initGame(new DefaultBoardDesignPolicy(horseElephantPositions));
         outputView.printBoard(BoardDto.from(game.boardMap()));

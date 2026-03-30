@@ -12,16 +12,21 @@ public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
 
     public void printBoard(BoardDto boardDto) {
-        // 상단 가로 좌표 출력 (1~9)
+        printRow();
+        printColumn(boardDto);
+    }
+
+    private static void printRow() {
         System.out.print("   ");
         for (int col = 1; col <= 9; col++) {
             System.out.print(col + "  ");
         }
         System.out.println();
+    }
 
+    private static void printColumn(BoardDto boardDto) {
         int rowIndex = 1;
         for (List<PieceDto> piecesByRow : boardDto.board()) {
-            // 좌측 세로 좌표 출력 (1~10)
             System.out.printf("%2d ", rowIndex++);
 
             for (PieceDto piece : piecesByRow) {

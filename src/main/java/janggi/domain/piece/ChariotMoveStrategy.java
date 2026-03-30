@@ -16,7 +16,6 @@ public class ChariotMoveStrategy implements MoveStrategy {
             List<Position> positions = from.findAllPositionsByDirection(dir);
             for (Position to : positions) {
                 if (board.containsKey(to)) {
-                    // 다른 팀을 만났을 때
                     if (!board.get(to).isSameDynasty(dynasty)) {
                         movablePositions.add(to);
                     }
