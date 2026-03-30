@@ -1,6 +1,5 @@
 package domain.piece;
 
-import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.SangMoveStrategy;
 import domain.piece.strategy.SingleStepMoveStrategy;
@@ -28,7 +27,7 @@ class SangTest {
         //when
         Assertions.assertThatThrownBy(() -> testMa.check(testBoard, start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.PATH_BLOCKED.getMessage());
+                .hasMessage(MoveErrorMessage.PATH_BLOCKED.getMessage());
     }
 
 

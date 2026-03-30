@@ -1,6 +1,5 @@
 package domain;
 
-import common.ErrorMessage;
 import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
@@ -38,7 +37,7 @@ public class Board {
     private Piece selectNotEmptyPiece(Position position) {
         Piece piece = pieces.get(position);
         if (piece == null) {
-            throw new IllegalArgumentException(ErrorMessage.EMPTY_POSITION.getMessage());
+            throw new IllegalArgumentException(BoardErrorMessage.EMPTY_POSITION.getMessage());
         }
         return piece;
     }

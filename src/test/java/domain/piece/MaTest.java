@@ -1,6 +1,5 @@
 package domain.piece;
 
-import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.MaMoveStrategy;
 import domain.position.Position;
@@ -27,7 +26,7 @@ class MaTest {
         //when
         Assertions.assertThatThrownBy(() -> testMa.check(testBoard, start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.PATH_BLOCKED.getMessage());
+                .hasMessage(MoveErrorMessage.PATH_BLOCKED.getMessage());
     }
 
 

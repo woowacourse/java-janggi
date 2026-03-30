@@ -2,7 +2,7 @@ package domain.piece.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import common.ErrorMessage;
+import domain.piece.MoveErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -52,7 +52,7 @@ public class ByeongMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("잘못된 위치가 제공되면 예외가 발상해야 한다")
+    @DisplayName("목적지까지 이동한 가능한 경로가 없는 경우 예외가 발상해야 한다")
     void findMovablePath_fail_incorrect_position() {
         // given
         Position start = Position.of(2, 9);
@@ -62,6 +62,6 @@ public class ByeongMoveStrategyTest {
 
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.INVALID_POS_INPUT.getMessage());
+                .hasMessage(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage());
     }
 }

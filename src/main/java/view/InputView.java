@@ -1,6 +1,5 @@
 package view;
 
-import common.ErrorMessage;
 import domain.SettingType;
 import domain.piece.Team;
 import java.util.Arrays;
@@ -22,7 +21,7 @@ public class InputView {
     public List<SettingType> readSettings() {
         System.out.println(SETTING_DESCRIPTION);
         String[] userInput = sc.nextLine().split(DELIMITER);
-        validateUSerInputLength(userInput, IDEAL_INPUT_SIZE_AS_MOVE_POSITION);
+        validateUSerInputLength(userInput, IDEAL_INPUT_SIZE_AS_SETTING_TYPE);
         return Arrays.stream(userInput)
                 .map(String::strip)
                 .map(InputView::selectSettingType)
@@ -31,7 +30,7 @@ public class InputView {
 
     private static void validateUSerInputLength(String[] userInput, int idealSize) {
         if (userInput.length != idealSize) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_ACTION_INPUT.getMessage());
+            throw new IllegalArgumentException(ViewErrorMessage.INVALID_ACTION_INPUT.getMessage());
         }
     }
 
@@ -49,7 +48,7 @@ public class InputView {
             return SettingType.OUTER;
         }
 
-        throw new IllegalArgumentException(ErrorMessage.OUT_OF_INPUT_RANGE.getMessage());
+        throw new IllegalArgumentException(ViewErrorMessage.INVALID_SETTING_TYPE_INPUT.getMessage());
     }
 
     public ActionType readAction(Team team) {
@@ -60,7 +59,7 @@ public class InputView {
         try {
             action = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_ACTION_INPUT.getMessage());
+            throw new IllegalArgumentException(ViewErrorMessage.INVALID_ACTION_INPUT.getMessage());
         }
         return ActionType.toValue(action);
     }

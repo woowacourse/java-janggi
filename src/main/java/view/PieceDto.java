@@ -1,6 +1,5 @@
 package view;
 
-import common.ErrorMessage;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -51,7 +50,7 @@ public class PieceDto {
     private static String getSymbol(Team team, PieceType type) {
         return Optional.ofNullable(SYMBOLS.get(team))
                 .map(map -> map.get(type))
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_MATCH_PIECE.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(ViewErrorMessage.NOT_MATCH_PIECE.getMessage()));
     }
 
     public int getRow() {

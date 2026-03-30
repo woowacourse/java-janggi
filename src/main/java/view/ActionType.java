@@ -1,7 +1,5 @@
 package view;
 
-import common.ErrorMessage;
-
 public enum ActionType {
     MOVE, PASS;
 
@@ -12,6 +10,6 @@ public enum ActionType {
         if (value == 2) {
             return PASS;
         }
-        throw new IllegalArgumentException(ErrorMessage.INVALID_ACTION_INPUT.getMessage());
+        throw new IllegalArgumentException(ViewErrorMessage.INVALID_ACTION_INPUT.getMessage());
     }
 }

@@ -1,6 +1,6 @@
 package domain.piece.strategy;
 
-import common.ErrorMessage;
+import domain.piece.MoveErrorMessage;
 import domain.position.Position;
 import java.util.List;
 
@@ -13,6 +13,6 @@ public class SlidingMoveStrategy implements MoveStrategy {
         if (start.isSameColumn(destination.getColumn())) {
             return start.getSameColumnPositionsToDestination(destination);
         }
-        throw new IllegalArgumentException(ErrorMessage.INVALID_POS_INPUT.getMessage());
+        throw new IllegalArgumentException(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage());
     }
 }

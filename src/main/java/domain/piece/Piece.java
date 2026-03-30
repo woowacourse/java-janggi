@@ -1,6 +1,5 @@
 package domain.piece;
 
-import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
@@ -21,13 +20,13 @@ public abstract class Piece {
 
     public void validateTurn(Team turn) {
         if (this.team != turn) {
-            throw new IllegalArgumentException(ErrorMessage.ONLY_ALLY.getMessage());
+            throw new IllegalArgumentException(MoveErrorMessage.NOT_YOUR_PIECE.getMessage());
         }
     }
 
     public void validateNotAlly(Piece destinationPiece) {
         if (destinationPiece != null && destinationPiece.isSameTeam(this)) {
-            throw new IllegalArgumentException(ErrorMessage.DESTINATION_ALLY.getMessage());
+            throw new IllegalArgumentException(MoveErrorMessage.ALREADY_OCCUPIED_BY_ALLY.getMessage());
         }
     }
 

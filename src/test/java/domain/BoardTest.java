@@ -2,7 +2,7 @@ package domain;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import common.ErrorMessage;
+import domain.piece.MoveErrorMessage;
 import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
@@ -43,7 +43,7 @@ class BoardTest {
         //when, then
         Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.DESTINATION_ALLY.getMessage());
+                .hasMessage(MoveErrorMessage.ALREADY_OCCUPIED_BY_ALLY.getMessage());
     }
 
     @Test
@@ -59,7 +59,7 @@ class BoardTest {
         //when, then
         Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.INVALID_POS_INPUT.getMessage());
+                .hasMessage(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage());
     }
 
     @Test

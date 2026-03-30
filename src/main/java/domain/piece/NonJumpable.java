@@ -1,6 +1,5 @@
 package domain.piece;
 
-import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
@@ -23,7 +22,7 @@ public abstract class NonJumpable extends Piece {
             int columnValue = movablePath.getColumn().getValue();
 
             if (isOccupied(boardStatus, rowValue, columnValue)) {
-                throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
+                throw new IllegalArgumentException(MoveErrorMessage.PATH_BLOCKED.getMessage());
             }
         }
     }

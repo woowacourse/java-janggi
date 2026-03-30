@@ -1,6 +1,6 @@
 package domain.piece.strategy;
 
-import common.ErrorMessage;
+import domain.piece.MoveErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -16,7 +16,7 @@ public class SingleStepMoveStrategy implements MoveStrategy {
                 .mapToObj(index -> List.<Position>of())
                 .findFirst()
                 .orElseThrow(
-                        () -> new IllegalArgumentException(ErrorMessage.INVALID_POS_INPUT.getMessage())
+                        () -> new IllegalArgumentException(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage())
                 );
     }
 

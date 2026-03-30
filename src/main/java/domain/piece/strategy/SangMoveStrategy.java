@@ -1,6 +1,6 @@
 package domain.piece.strategy;
 
-import common.ErrorMessage;
+import domain.piece.MoveErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -32,25 +32,27 @@ public class SangMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
-        for (int way = 0; way < dColumn.length; way++) { // 8가지 움직임중 하나.
-            int[] dColumnOfSpecificAction = dColumn[way];
-            int[] dRowOfSpecificAction = dRow[way];
-            Position destinationCandidate = createDestinationCandidate(start, dRowOfSpecificAction,
-                    dColumnOfSpecificAction);
-            if (destination.equals(destinationCandidate)) {
-                return IntStream.range(0, SANG_MOVE_SPACE)
-                        .mapToObj(i -> start.go(dRowOfSpecificAction[i], dColumnOfSpecificAction[i]))
-                        .toList();
-            }
-        }
-        throw new IllegalArgumentException(ErrorMessage.INVALID_POS_INPUT.getMessage());
+        return IntStream.range(0, dRow.length)
+                .filter(index -> isEqualToDestination(start, destination, dRow[index], dColumn[index]))
+                .mapToObj(index -> consistMovablePath(start, dRow[index], dColumn[index]))
+                .findFirst()
+                .orElseThrow(
+                        () -> new IllegalArgumentException(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage())
+                );
     }
 
-    private static Position createDestinationCandidate(Position start, int[] dRowOfSpecificAction,
-                                                       int[] dColumnOfSpecificAction) {
-        return start.go(
-                dRowOfSpecificAction[DESTINATION_INDEX],
-                dColumnOfSpecificAction[DESTINATION_INDEX]
-        );
+    private List<Position> consistMovablePath(Position start, int[] dRowOfSpecificAction,
+                                              int[] dColumnOfSpecificAction) {
+        return IntStream.range(0, SANG_MOVE_SPACE)
+                .mapToObj(i -> start.go(dRowOfSpecificAction[i], dColumnOfSpecificAction[i]))
+                .toList();
+    }
+
+    private boolean isEqualToDestination(Position start, Position destination, int[] dRowOfSpecificAction,
+                                         int[] dColumnOfSpecificAction) {
+        Position destinationCandidate = start.go(dRowOfSpecificAction[DESTINATION_INDEX],
+                dColumnOfSpecificAction[DESTINATION_INDEX]);
+
+        return destination.equals(destinationCandidate);
     }
 }

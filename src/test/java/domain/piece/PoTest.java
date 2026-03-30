@@ -1,6 +1,5 @@
 package domain.piece;
 
-import common.ErrorMessage;
 import domain.BoardStatus;
 import domain.piece.strategy.ByeongMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
@@ -31,7 +30,7 @@ class PoTest {
         //when
         Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.CANNOT_JUMP_PO.getMessage());
+                .hasMessage(MoveErrorMessage.PO_CANNOT_CAPTURE_PO.getMessage());
     }
 
     @Test
@@ -51,7 +50,7 @@ class PoTest {
         //when
         Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.CANNOT_JUMP_PO.getMessage());
+                .hasMessage(MoveErrorMessage.PO_CANNOT_JUMP_PO.getMessage());
     }
 
     @Test
