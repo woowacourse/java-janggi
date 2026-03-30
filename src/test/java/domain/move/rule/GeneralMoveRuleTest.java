@@ -6,7 +6,6 @@ import domain.move.path.exception.PathException;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
-import domain.move.rule.GeneralMoveRule;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static domain.move.path.exception.ErrorMessage.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
+import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
 
 public class GeneralMoveRuleTest {
 
@@ -38,7 +37,7 @@ public class GeneralMoveRuleTest {
                             sameTeamIntersection))
                     );
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
+                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
     }
 
     @Test

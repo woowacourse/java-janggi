@@ -6,7 +6,6 @@ import domain.move.path.exception.PathException;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
-import domain.move.rule.CannonMoveRule;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static domain.move.path.exception.ErrorMessage.*;
+import static domain.move.path.exception.PathError.*;
 
 class CannonMoveRuleTest {
 
@@ -61,7 +60,7 @@ class CannonMoveRuleTest {
                             intersection8,
                             sameTeamIntersection)));
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
+                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
     }
 
     @Test
@@ -87,7 +86,7 @@ class CannonMoveRuleTest {
                             intersection8,
                             to)));
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNON_CANNOT_JUMP_CANNON.getErrorMessage());
+                .hasMessage(CANNON_CANNOT_JUMP_CANNON.getMessage());
     }
 
     @Test
@@ -114,7 +113,7 @@ class CannonMoveRuleTest {
                             intersection8,
                             to)));
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getErrorMessage());
+                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
     }
 
     @Test
@@ -138,7 +137,7 @@ class CannonMoveRuleTest {
                             intersection8,
                             to)));
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getErrorMessage());
+                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
     }
 
     @Test
@@ -165,7 +164,7 @@ class CannonMoveRuleTest {
                             intersection8,
                             cannonIntersection)));
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNON_CANNOT_ATTACK_CANNON.getErrorMessage());
+                .hasMessage(CANNON_CANNOT_ATTACK_CANNON.getMessage());
     }
 
 }

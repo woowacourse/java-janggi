@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static domain.point.exception.ErrorMessage.*;
+import static domain.point.exception.PointError.*;
 
 public class CommandTest {
 
@@ -18,7 +18,7 @@ public class CommandTest {
         Assertions.assertThatThrownBy(() -> {
                     Command.from(overPoint);
                 }).isInstanceOf(PointException.class)
-                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getErrorMessage());
+                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
     }
 
     @Test
@@ -29,7 +29,7 @@ public class CommandTest {
         Assertions.assertThatThrownBy(() -> {
                     Command.from(lessPoint);
                 }).isInstanceOf(PointException.class)
-                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getErrorMessage());
+                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class CommandTest {
         Assertions.assertThatThrownBy(() -> {
                     Command.from(blankInput);
                 }).isInstanceOf(PointException.class)
-                .hasMessage(POINT_INPUT_IS_BLANK.getErrorMessage());
+                .hasMessage(POINT_INPUT_IS_BLANK.getMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class CommandTest {
         Assertions.assertThatThrownBy(() -> {
                     Command.from(wrongPointFormat);
                 }).isInstanceOf(PointException.class)
-                .hasMessage(POINT_FORMAT_IS_WRONG.getErrorMessage());
+                .hasMessage(POINT_FORMAT_IS_WRONG.getMessage());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CommandTest {
         Assertions.assertThatThrownBy(() -> {
                     Command.from(notNumberInput);
                 }).isInstanceOf(PointException.class)
-                .hasMessage(POINT_IS_NOT_NUMERIC.getErrorMessage());
+                .hasMessage(POINT_IS_NOT_NUMERIC.getMessage());
     }
 
     @Test

@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static domain.intersection.exception.ErrorMessage.ORIGIN_INTERSECTION_IS_EMPTY;
-import static domain.intersection.exception.ErrorMessage.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_EMPTY;
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
 
 public class IntersectionTest {
 
@@ -39,7 +39,7 @@ public class IntersectionTest {
         Assertions.assertThatThrownBy(() -> {
                     janggiBoard.tryToMove(start, end, opponentTeam);
                 }).isInstanceOf(IntersectionException.class)
-                .hasMessage(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getErrorMessage());
+                .hasMessage(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getMessage());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class IntersectionTest {
         Assertions.assertThatThrownBy(() -> {
                     janggiBoard.tryToMove(start, end, Team.CHO);
                 }).isInstanceOf(IntersectionException.class)
-                .hasMessage(ORIGIN_INTERSECTION_IS_EMPTY.getErrorMessage());
+                .hasMessage(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
     }
 
 }

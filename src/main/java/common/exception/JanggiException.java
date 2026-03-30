@@ -2,8 +2,8 @@ package common.exception;
 
 public abstract class JanggiException extends RuntimeException{
 
-    protected JanggiException(ExceptionInformation exceptionInformation) {
-        super(exceptionInformation.getErrorMessage());
+    protected JanggiException(String errorMessage) {
+        super(errorMessage);
     }
 
 }

@@ -1,11 +1,12 @@
 package domain.move.path;
 
 import domain.intersection.Intersection;
-import domain.move.path.exception.ErrorMessage;
 import domain.move.path.exception.PathException;
 import domain.piece.PieceType;
 
 import java.util.List;
+
+import static domain.move.path.exception.PathError.*;
 
 public record Path(
         List<Intersection> intersections
@@ -35,13 +36,13 @@ public record Path(
 
     public void validateIsSameTeam(Intersection from) {
         if (from.isSameTeam(getLastIntersection())) {
-            throw new PathException(ErrorMessage.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM);
+            throw new PathException(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
         }
     }
 
     public void validateHasObstacle() {
         if (hasObstacle()) {
-            throw new PathException(ErrorMessage.CANNOT_MOVE_PATH_HAS_OBSTACLE);
+            throw new PathException(CANNOT_MOVE_PATH_HAS_OBSTACLE.getMessage());
         }
     }
 
@@ -52,19 +53,19 @@ public record Path(
 
     private void validateObstacleIsOnly() {
         if (getObstacleIntersection().size() != CANNON_JUMP_OBSTACLE_CONDITION) {
-            throw new PathException(ErrorMessage.CANNON_MUST_JUMP_ONE_PIECE);
+            throw new PathException(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
         }
     }
 
     private static void validateObstacleIsNotCannon(Intersection obstacle) {
         if (obstacle.isSamePiece(PieceType.CANNON)) {
-            throw new PathException(ErrorMessage.CANNON_CANNOT_JUMP_CANNON);
+            throw new PathException(CANNON_CANNOT_JUMP_CANNON.getMessage());
         }
     }
 
     public void validateDestinationIsNotCannon() {
         if (getLastIntersection().isSamePiece(PieceType.CANNON)) {
-            throw new PathException(ErrorMessage.CANNON_CANNOT_ATTACK_CANNON);
+            throw new PathException(CANNON_CANNOT_ATTACK_CANNON.getMessage());
         }
     }
 

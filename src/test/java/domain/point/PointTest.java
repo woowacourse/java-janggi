@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static domain.point.exception.ErrorMessage.POINT_RANGE_IS_OVER;
+import static domain.point.exception.PointError.POINT_RANGE_IS_OVER;
 
 public class PointTest {
     @Test
@@ -19,7 +19,7 @@ public class PointTest {
         Assertions.assertThatThrownBy(() -> {
                     new Point(outOfIndexY, outOfIndexX);
                 }).isInstanceOf(PointException.class)
-                .hasMessage(POINT_RANGE_IS_OVER.getErrorMessage());
+                .hasMessage(POINT_RANGE_IS_OVER.getMessage());
     }
 
     @Test
@@ -145,7 +145,7 @@ public class PointTest {
             Assertions.assertThatThrownBy(() -> {
                         point.next(Vector.LEFT_UP);
                     }).isInstanceOf(PointException.class)
-                    .hasMessage(POINT_RANGE_IS_OVER.getErrorMessage());
+                    .hasMessage(POINT_RANGE_IS_OVER.getMessage());
         }
 
     }

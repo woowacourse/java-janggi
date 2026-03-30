@@ -5,8 +5,8 @@ import domain.board.exception.FormationException;
 import java.util.Arrays;
 import java.util.List;
 
-import static domain.board.exception.ErrorMessage.FORMATION_IS_NOT_NUMERIC;
-import static domain.board.exception.ErrorMessage.FORMATION_NUMBER_RANGE_IS_INVALID;
+import static domain.board.exception.BoardError.FORMATION_IS_NOT_NUMERIC;
+import static domain.board.exception.BoardError.FORMATION_NUMBER_RANGE_IS_INVALID;
 
 public enum Formation {
 
@@ -35,14 +35,14 @@ public enum Formation {
         return Arrays.stream(Formation.values())
                 .filter(formation -> formation.formatNumber == formatNumber)
                 .findFirst()
-                .orElseThrow(() -> new FormationException(FORMATION_NUMBER_RANGE_IS_INVALID));
+                .orElseThrow(() -> new FormationException(FORMATION_NUMBER_RANGE_IS_INVALID.getMessage()));
     }
 
     private static void validateNumeric(String input) {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new FormationException(FORMATION_IS_NOT_NUMERIC);
+            throw new FormationException(FORMATION_IS_NOT_NUMERIC.getMessage());
         }
     }
 

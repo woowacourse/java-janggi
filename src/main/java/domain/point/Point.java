@@ -4,7 +4,7 @@ import domain.move.directions.Vector;
 import domain.point.exception.PointException;
 
 import static common.constant.JanggiConstant.*;
-import static domain.point.exception.ErrorMessage.POINT_RANGE_IS_OVER;
+import static domain.point.exception.PointError.POINT_RANGE_IS_OVER;
 
 public record Point(
         int y,
@@ -25,7 +25,7 @@ public record Point(
 
     private void validatePointRange(int y, int x) {
         if (!checkPointRange(y, x)) {
-            throw new PointException(POINT_RANGE_IS_OVER);
+            throw new PointException(POINT_RANGE_IS_OVER.getMessage());
         }
     }
 

@@ -2,7 +2,6 @@ package domain.move.rule;
 
 import domain.intersection.Intersection;
 import domain.move.path.Path;
-import domain.move.path.exception.ErrorMessage;
 import domain.move.path.exception.PathException;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -13,8 +12,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static domain.move.path.exception.ErrorMessage.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
-import static domain.move.path.exception.ErrorMessage.CANNOT_MOVE_PATH_HAS_OBSTACLE;
+import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
+import static domain.move.path.exception.PathError.CANNOT_MOVE_PATH_HAS_OBSTACLE;
 
 public class ChariotMoveRuleTest {
 
@@ -59,7 +58,7 @@ public class ChariotMoveRuleTest {
                             intersection8,
                             sameTeamIntersection)));
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getErrorMessage());
+                .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
     }
 
     @Test
@@ -84,7 +83,7 @@ public class ChariotMoveRuleTest {
                             intersection8,
                             to)));
                 }).isInstanceOf(PathException.class)
-                .hasMessage(CANNOT_MOVE_PATH_HAS_OBSTACLE.getErrorMessage());
+                .hasMessage(CANNOT_MOVE_PATH_HAS_OBSTACLE.getMessage());
     }
 
     @Test

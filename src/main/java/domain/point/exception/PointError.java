@@ -1,8 +1,7 @@
 package domain.point.exception;
 
-import common.exception.ExceptionInformation;
 
-public enum ErrorMessage implements ExceptionInformation {
+public enum PointError {
 
     POINT_RANGE_IS_OVER("좌표의 범위는 y: 0-9, x: 0-8 입니다."),
     POINT_IS_NOT_NUMERIC("좌표는 숫자여야 합니다."),
@@ -11,15 +10,14 @@ public enum ErrorMessage implements ExceptionInformation {
     POINT_FORMAT_IS_WRONG("좌표는 'y,x' 형식이어야 합니다."),
     ;
 
-    private final String errorMessage;
+    private final String message;
 
-    ErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    PointError(String message) {
+        this.message = message;
     }
 
-    @Override
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
 }

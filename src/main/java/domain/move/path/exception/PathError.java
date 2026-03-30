@@ -1,8 +1,6 @@
 package domain.move.path.exception;
 
-import common.exception.ExceptionInformation;
-
-public enum ErrorMessage implements ExceptionInformation {
+public enum PathError {
 
     CANNOT_MOVE_DESTINATION_IS_SAME_TEAM("같은 팀의 위치로 이동할 수 없습니다."),
     CANNOT_MOVE_PATH_HAS_OBSTACLE("이동 경로에 다른 기물이 있어 통과할 수 없습니다."),
@@ -11,15 +9,14 @@ public enum ErrorMessage implements ExceptionInformation {
     CANNON_CANNOT_ATTACK_CANNON("포는 포를 공격할 수 없습니다.")
     ;
 
-    private final String errorMessage;
+    private final String message;
 
-    ErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    PathError(String message) {
+        this.message = message;
     }
 
-    @Override
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
 }

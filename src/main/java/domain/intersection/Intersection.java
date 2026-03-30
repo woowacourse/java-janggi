@@ -8,8 +8,8 @@ import domain.point.Point;
 
 import java.util.Objects;
 
-import static domain.intersection.exception.ErrorMessage.ORIGIN_INTERSECTION_IS_EMPTY;
-import static domain.intersection.exception.ErrorMessage.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_EMPTY;
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
 
 public class Intersection {
 
@@ -81,13 +81,13 @@ public class Intersection {
 
     private void validateSameTeam(Team currentTeam) {
         if (!isSameTeam(currentTeam)) {
-            throw new IntersectionException(ORIGIN_INTERSECTION_IS_NOT_OPPONENT);
+            throw new IntersectionException(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getMessage());
         }
     }
 
     private void validateHasPiece() {
         if (!hasPiece()) {
-            throw new IntersectionException(ORIGIN_INTERSECTION_IS_EMPTY);
+            throw new IntersectionException(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
         }
     }
 

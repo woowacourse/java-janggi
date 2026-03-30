@@ -3,7 +3,7 @@ package domain.point.dto;
 import domain.point.Point;
 import domain.point.exception.PointException;
 
-import static domain.point.exception.ErrorMessage.*;
+import static domain.point.exception.PointError.*;
 
 public record Command(
         Point start,
@@ -38,25 +38,25 @@ public record Command(
             int x = Integer.parseInt(coordinates[COORDINATE_OF_X]);
             return new Point(y, x);
         } catch (NumberFormatException e) {
-            throw new PointException(POINT_IS_NOT_NUMERIC);
+            throw new PointException(POINT_IS_NOT_NUMERIC.getMessage());
         }
     }
 
     private static void validateBlank(String input) {
         if (input.isBlank()) {
-            throw new PointException(POINT_INPUT_IS_BLANK);
+            throw new PointException(POINT_INPUT_IS_BLANK.getMessage());
         }
     }
 
     private static void validateCommandSize(String[] parts) {
         if (parts.length != EXPECTED_COMMAND_SIZE) {
-            throw new PointException(POINT_PAIR_FORMAT_IS_WRONG);
+            throw new PointException(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
         }
     }
 
     private static void validatePointSize(String[] coordinates) {
         if (coordinates.length != EXPECTED_POINT_SIZE) {
-            throw new PointException(POINT_FORMAT_IS_WRONG);
+            throw new PointException(POINT_FORMAT_IS_WRONG.getMessage());
         }
     }
 }

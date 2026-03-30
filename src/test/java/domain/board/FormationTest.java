@@ -1,13 +1,12 @@
 package domain.board;
 
-import common.exception.JanggiException;
 import domain.board.exception.FormationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static domain.board.exception.ErrorMessage.FORMATION_IS_NOT_NUMERIC;
-import static domain.board.exception.ErrorMessage.FORMATION_NUMBER_RANGE_IS_INVALID;
+import static domain.board.exception.BoardError.FORMATION_IS_NOT_NUMERIC;
+import static domain.board.exception.BoardError.FORMATION_NUMBER_RANGE_IS_INVALID;
 
 public class FormationTest {
 
@@ -19,7 +18,7 @@ public class FormationTest {
         Assertions.assertThatThrownBy(() -> {
                     Formation.from(notNumberInput);
                 }).isInstanceOf(FormationException.class)
-                .hasMessage(FORMATION_IS_NOT_NUMERIC.getErrorMessage());
+                .hasMessage(FORMATION_IS_NOT_NUMERIC.getMessage());
     }
 
     @Test
@@ -31,12 +30,12 @@ public class FormationTest {
         Assertions.assertThatThrownBy(() -> {
                     Formation.from(lessThanOne);
                 }).isInstanceOf(FormationException.class)
-                .hasMessage(FORMATION_NUMBER_RANGE_IS_INVALID.getErrorMessage());
+                .hasMessage(FORMATION_NUMBER_RANGE_IS_INVALID.getMessage());
 
         Assertions.assertThatThrownBy(() -> {
                     Formation.from(overThanFour);
                 }).isInstanceOf(FormationException.class)
-                .hasMessage(FORMATION_NUMBER_RANGE_IS_INVALID.getErrorMessage());
+                .hasMessage(FORMATION_NUMBER_RANGE_IS_INVALID.getMessage());
     }
 
 }
