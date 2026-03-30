@@ -1,7 +1,9 @@
 package domain;
 
+import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
+import domain.piece.strategy.EmptyMoveStrategy;
 import domain.position.Position;
 import java.util.Map;
 
@@ -35,8 +37,9 @@ public class Board {
     }
 
     private Piece selectNotEmptyPiece(Position position) {
-        Piece piece = pieces.get(position);
-        if (piece == null) {
+        EmptyPiece emptyPiece = new EmptyPiece(new EmptyMoveStrategy(), Team.UNDEFINED);
+        Piece piece = pieces.getOrDefault(position, emptyPiece);
+        if (piece.isEmpty()) {
             throw new IllegalArgumentException(BoardErrorMessage.EMPTY_POSITION.getMessage());
         }
         return piece;
