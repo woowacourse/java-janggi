@@ -18,6 +18,9 @@ public class Jang extends AbstractPiece {
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
+        if (!from.inSameCastle(to)) {
+            throw new IllegalArgumentException("[ERROR] 장은 궁성 밖으로 나갈 수 없습니다.");
+        }
         int pathCol = to.calculatePathColumn(from);
         int pathRow = to.calculatePathRow(from);
         int distanceCol = abs(pathCol);
