@@ -15,16 +15,16 @@ public enum InitialBoardInfo {
     final int bottomRow;
     final int palaceRow;
     final int cannonRow;
-    final int solderRow;
-    final PieceType solderType;
+    final int soldierRow;
+    final PieceType soldierType;
 
-    InitialBoardInfo(Side side, int bottomRow, int palaceRow, int cannonRow, int solderRow, PieceType solderType) {
+    InitialBoardInfo(Side side, int bottomRow, int palaceRow, int cannonRow, int soldierRow, PieceType soldierType) {
         this.side = side;
         this.bottomRow = bottomRow;
         this.palaceRow = palaceRow;
         this.cannonRow = cannonRow;
-        this.solderRow = solderRow;
-        this.solderType = solderType;
+        this.soldierRow = soldierRow;
+        this.soldierType = soldierType;
     }
 
     public Map<Position, Piece> generateInitialPiecePositions() {
@@ -59,7 +59,7 @@ public enum InitialBoardInfo {
     private Map<Position, Piece> initSoldiers() {
         Map<Position, Piece> soldiers = new HashMap<>();
         for (int i = 0; i < 5; i++) {
-            putPiece(soldiers, solderRow, i * 2, this.solderType, String.valueOf(i));
+            putPiece(soldiers, soldierRow, i * 2, this.soldierType, String.valueOf(i));
         }
         return soldiers;
     }
