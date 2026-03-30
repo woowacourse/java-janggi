@@ -2,6 +2,62 @@
 
 장기 미션 저장소
 
+## 디렉터리 구조
+
+```
+src/main/java/
+├── JanggiApplication
+├── controller/
+│   └── JanggiController
+├── domain/
+│   ├── board/
+│   │   ├── File - 장기판의 열(Column)
+│   │   ├── Row - 장기판의 행
+│   │   ├── Intersection - 장기판의 좌표(열 + 행)
+│   │   ├── Wing - 하나의 진을 표현하는 추상 클래스
+│   │   ├── LeftWing - 좌진
+│   │   ├── RightWing - 우진
+│   │   └── Wings - 두 진(좌진 + 우진)을 표현하는 추상 클래스
+│   │   ├── ChoWings - 초의 진(좌진 + 우진)
+│   │   ├── HanWings - 한의 진(좌진 + 우진)
+│   │   ├── Board - 장기판
+│   │   ├── InitialPieces - 모든 기물을 초기 위치에 배치
+│   ├── direction/
+│   │   ├── Direction - 방향을 표현하는 인터페이스
+│   │   └── Up - 좌표 기준 위쪽 방향
+│   │   ├── Down - 좌표 기준 아래쪽 방향
+│   │   ├── Left - 좌표 기준 왼쪽 방향
+│   │   ├── Right - 좌표 기준 오른쪽 방향
+│   │   ├── MoveAmount - 이동 거리
+│   ├── game/
+│   │   ├── JanggiGame - 장기 게임의 흐름을 담당
+│   │   └── Side - 진영(한, 초)
+│   └── piece/
+│       ├── Piece - 기물을 표현하는 추상 클래스
+│       └── StaticPositionedPiece - 시작 위치가 고정된 기물을 표현하는 추상 클래스
+│       ├── PalacePiece - 궁성 기물(궁, 사)을 표현하는 추상 클래스
+│       ├── General - 궁
+│       ├── Chariot - 차
+│       ├── Cannon - 포
+│       ├── Horse - 마
+│       ├── Elephant - 상
+│       ├── Guard - 사
+│       ├── Soldier - 졸/병
+│       ├── AlivePieces - 게임에 남아 있는 장기말에 대한 일급 컬렉션
+├── util/
+│   └── RetryUtil
+└── view/
+    ├── ApplicationView
+    ├── BoardOutputView
+    ├── ErrorOutputView
+    ├── GuideOutputView
+    ├── InputView
+    └── label/
+        ├── PieceLabel
+        ├── SideLabel
+        └── WingLabel
+```
+
 ## 구현할 기능 목록
 
 ### 입력 기능
