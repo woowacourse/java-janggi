@@ -42,8 +42,8 @@ public abstract class Piece {
         return this.team != piece.team;
     }
 
-    public boolean isNotNone() {
-        return !(this instanceof None);
+    public boolean isNone() {
+        return this instanceof None;
     }
 
     public boolean isPo() {

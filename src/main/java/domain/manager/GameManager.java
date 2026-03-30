@@ -49,7 +49,7 @@ public class GameManager {
         Position destination = createDestination();
 
         Piece caughtPiece = board.move(source, destination);
-        if (caughtPiece.isNotNone()) {
+        if (!caughtPiece.isNone()) {
             turnManager.getCurrentPlayer().addCaughtPiece(caughtPiece);
         }
     }
@@ -79,7 +79,7 @@ public class GameManager {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askSourcePosition();
             Position source = new Position(numbers.getFirst(), numbers.getLast());
-            if (board.isPieceNone(source)) {
+            if (board.isNonePiece(source)) {
                 throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
             }
             if (board.isPieceDifferentTeam(source, turnManager.getCurrentTeam())) {

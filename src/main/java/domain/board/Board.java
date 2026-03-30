@@ -36,8 +36,8 @@ public class Board {
         return findPiece(source).isDifferentTeam(team);
     }
 
-    public boolean isPieceNone(Position source) {
-        return !findPiece(source).isNotNone();
+    public boolean isNonePiece(Position source) {
+        return findPiece(source).isNone();
     }
 
     public Map<Position, Piece> getBoardMap() {
@@ -70,7 +70,7 @@ public class Board {
     }
 
     private void addPieceInPath(Piece piece, List<Piece> pieces) {
-        if (piece.isNotNone()) {
+        if (!piece.isNone()) {
             pieces.add(piece);
         }
     }

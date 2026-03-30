@@ -74,7 +74,7 @@ public class OutputView {
         String pieceString = piece.getPieceString();
         Team team = piece.getTeam();
 
-        if (team.isNull()) {
+        if (!piece.isNone()) {
             return String.format("[%2s]", pieceString);
         }
         if (team.isCho()) {
