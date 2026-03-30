@@ -3,10 +3,13 @@ package janggi.view;
 import static janggi.view.formatter.CampFormatter.CHO_NAME;
 import static java.util.stream.Collectors.joining;
 
+import janggi.domain.Position;
+import janggi.domain.piece.Piece;
 import janggi.dto.CampDto;
 import janggi.dto.PiecePositionDto;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public final class OutputView {
@@ -31,8 +34,14 @@ public final class OutputView {
         System.out.println(errorMessage);
     }
 
-    public void printBoard(List<PiecePositionDto> piecePositions) {
-        System.out.println(renderBoard(piecePositions));
+    public void printBoard(Map<Position, Piece> boardState) {
+        System.out.println(renderBoard(toPiecePositions(boardState)));
+    }
+
+    private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
+        return boardState.entrySet().stream()
+                .map(entry -> PiecePositionDto.of(entry.getKey(), entry.getValue()))
+                .toList();
     }
 
     private String renderBoard(List<PiecePositionDto> piecePositions) {

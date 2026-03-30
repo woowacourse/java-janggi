@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.Position;
 import janggi.dto.CampDto;
 import janggi.exception.ExceptionMessage;
 import janggi.util.Parser;
@@ -46,14 +47,25 @@ public final class InputView {
         }
     }
 
-    public List<Integer> readSource(CampDto campDto) {
+    public Position readSource(CampDto campDto) {
         System.out.println(String.format(TURN, campDto.camp()));
         System.out.println(SOURCE);
-        return Parser.parseByDelimiter(DELIMITER, readLine());
+        return toPosition(Parser.parseByDelimiter(DELIMITER, readLine()));
     }
 
-    public List<Integer> readDestination() {
+    public Position readDestination() {
         System.out.println(DESTINATION);
-        return Parser.parseByDelimiter(DELIMITER, readLine());
+        return toPosition(Parser.parseByDelimiter(DELIMITER, readLine()));
+    }
+
+    private Position toPosition(List<Integer> rawPosition) {
+        validatePositionSize(rawPosition);
+        return new Position(rawPosition.get(0), rawPosition.get(1));
+    }
+
+    private void validatePositionSize(List<Integer> rawPosition) {
+        if (rawPosition.size() != 2) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
+        }
     }
 }
