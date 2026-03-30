@@ -1,7 +1,6 @@
 package janggi.view;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.unit.Empty;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class OutputView {
 
             for (int y = 0; y <= 8; y++) {
                 Point point = Point.of(x, y);
-                Piece piece = board.getOrDefault(point, Empty.INSTANCE);
+                Piece piece = board.getOrDefault(point, null);
 
                 if (destinations != null && destinations.contains(point)) {
                     String symbol = isEmpty(piece) ? PATH_SYMBOL : piece.getName();
@@ -66,7 +65,7 @@ public class OutputView {
     }
 
     private boolean isEmpty(Piece piece) {
-        return piece instanceof Empty;
+        return piece == null;
     }
 
     // 전각 문자는 모두 2컬럼이므로 뒤에 공백 1개만 붙이면 정렬됨

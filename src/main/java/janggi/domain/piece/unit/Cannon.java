@@ -38,7 +38,7 @@ public class Cannon extends Piece {
         List<Point> cutPoints = new ArrayList<>();
 
         for (Point point : points) {
-            if (piecesOnPaths.getOrDefault(point, new Empty()) instanceof Cannon) {
+            if (piecesOnPaths.getOrDefault(point, null) instanceof Cannon) {
                 break;
             }
             if (piecesOnPaths.containsKey(point)) {

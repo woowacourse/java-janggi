@@ -5,7 +5,6 @@ import janggi.domain.board.path.PathStrategy;
 import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.unit.Empty;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.HashMap;
@@ -46,9 +45,6 @@ public class Board {
     }
 
     public void moveTo(Point from, Point to) {
-        if (isNotTherePiece(from)) {
-            throw new IllegalArgumentException("빈 공간은 선택 할 수 없습니다.");
-        }
         Piece fromPiece = getPieceAtPoint(from);
         Set<Point> destinations = destinations(from);
 
@@ -61,11 +57,7 @@ public class Board {
     }
 
     public Side getPointPieceSide(Point point) {
-        if (!board.containsKey(point)) {
-            throw new IllegalArgumentException("해당 좌표에는 기물이 없습니다.");
-        }
-        Piece piece = board.get(point);
-
+        Piece piece = getPieceAtPoint(point);
         return piece.getSide();
     }
 
@@ -111,7 +103,10 @@ public class Board {
     }
 
     private Piece getPieceAtPoint(Point point) {
-        return board.getOrDefault(point, Empty.INSTANCE);
+        if (isNotTherePiece(point)) {
+            throw new IllegalArgumentException("빈 공간 입니다.");
+        }
+        return board.get(point);
     }
 
 }

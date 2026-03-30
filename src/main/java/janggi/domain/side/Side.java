@@ -3,7 +3,6 @@ package janggi.domain.side;
 public enum Side {
     HAN("한"),
     CHO("초"),
-    NONE("  "),
     ;
 
     private final String name;
@@ -12,7 +11,7 @@ public enum Side {
         this.name = name;
     }
 
-    public static boolean isSameSide(Side firstSide, Side secondSide){
+    public static boolean isSameSide(Side firstSide, Side secondSide) {
         return firstSide.equals(secondSide);
     }
 
