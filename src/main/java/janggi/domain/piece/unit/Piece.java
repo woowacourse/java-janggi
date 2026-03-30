@@ -1,7 +1,7 @@
 package janggi.domain.piece.unit;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.path.Path;
 import janggi.domain.piece.path.PathStrategy;
@@ -53,13 +53,13 @@ public abstract class Piece {
         return convertToPaths(createCandidatePattern(), from, pathStrategy);
     }
 
-    private List<Path> convertToPaths(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
-        return patterns.stream()
+    private List<Path> convertToPaths(List<Movement> movements, Point from, PathStrategy pathStrategy) {
+        return movements.stream()
                 .map(pattern -> new Path(pattern, from, pathStrategy))
                 .toList();
     }
 
-    protected abstract List<Pattern> createCandidatePattern();
+    protected abstract List<Movement> createCandidatePattern();
 
     protected abstract Path refinePath(Path path, Map<Point, Piece> piecesOnPaths);
 

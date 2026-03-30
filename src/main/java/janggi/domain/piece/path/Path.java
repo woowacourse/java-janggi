@@ -1,7 +1,7 @@
 package janggi.domain.piece.path;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,8 +13,8 @@ public class Path {
         this.path = path;
     }
 
-    public Path(Pattern pattern, Point from, PathStrategy pathStrategy) {
-        this(pathStrategy.calculate(pattern, from));
+    public Path(Movement movement, Point from, PathStrategy pathStrategy) {
+        this(pathStrategy.calculate(movement, from));
     }
 
     public List<Point> getPath() {

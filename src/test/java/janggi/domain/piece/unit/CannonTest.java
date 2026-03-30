@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.path.Path;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -21,10 +21,10 @@ class CannonTest {
                 Arguments.of(
                         Side.CHO,
                         List.of(
-                                new Pattern(List.of(Direction.NORTH)),
-                                new Pattern(List.of(Direction.EAST)),
-                                new Pattern(List.of(Direction.WEST)),
-                                new Pattern(List.of(Direction.SOUTH))
+                                new Movement(List.of(Direction.NORTH)),
+                                new Movement(List.of(Direction.EAST)),
+                                new Movement(List.of(Direction.WEST)),
+                                new Movement(List.of(Direction.SOUTH))
                         )
                 ));
     }
@@ -88,12 +88,12 @@ class CannonTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("patterns(): 이동 경로의 방향을 전달한다.")
-    void patterns(Side side, List<Pattern> expected) {
+    void patterns(Side side, List<Movement> expected) {
         Piece piece = new Cannon(side);
 
-        List<Pattern> patterns = piece.createCandidatePattern();
+        List<Movement> movements = piece.createCandidatePattern();
 
-        assertThat(expected.containsAll(patterns)).isTrue();
-        assertThat(patterns.size()).isEqualTo(expected.size());
+        assertThat(expected.containsAll(movements)).isTrue();
+        assertThat(movements.size()).isEqualTo(expected.size());
     }
 }

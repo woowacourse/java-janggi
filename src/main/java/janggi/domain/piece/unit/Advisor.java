@@ -2,7 +2,7 @@ package janggi.domain.piece.unit;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.path.FixedPathStrategy;
 import janggi.domain.piece.path.Path;
@@ -21,10 +21,10 @@ public class Advisor extends Piece {
     }
 
     @Override
-    protected List<Pattern> createCandidatePattern() {
-        List<Pattern> paths = new ArrayList<>();
+    protected List<Movement> createCandidatePattern() {
+        List<Movement> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
-            Pattern path = new Pattern(List.of(value));
+            Movement path = new Movement(List.of(value));
             paths.add(path);
         }
 

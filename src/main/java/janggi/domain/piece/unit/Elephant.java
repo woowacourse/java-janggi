@@ -2,7 +2,7 @@ package janggi.domain.piece.unit;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.path.FixedPathStrategy;
 import janggi.domain.piece.path.Path;
@@ -33,17 +33,17 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected List<Pattern> createCandidatePattern() {
-        List<Pattern> directions = new ArrayList<>();
+    protected List<Movement> createCandidatePattern() {
+        List<Movement> directions = new ArrayList<>();
 
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
-        directions.add(new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)));
-        directions.add(new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
+        directions.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)));
+        directions.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)));
+        directions.add(new Movement(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)));
+        directions.add(new Movement(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
+        directions.add(new Movement(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
+        directions.add(new Movement(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
+        directions.add(new Movement(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)));
+        directions.add(new Movement(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
 
         return directions;
     }

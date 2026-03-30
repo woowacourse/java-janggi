@@ -3,7 +3,7 @@ package janggi.domain.board.point;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.path.FixedPathStrategy;
 import janggi.domain.piece.path.PathStrategy;
 import java.util.Collections;
@@ -20,12 +20,12 @@ class FixedPathStrategyTest {
     public static Stream<Arguments> calculate() {
         return Stream.of(
                 Arguments.of(
-                        new Pattern(List.of(Direction.NORTH, Direction.EAST, Direction.NORTH_EAST)),
+                        new Movement(List.of(Direction.NORTH, Direction.EAST, Direction.NORTH_EAST)),
                         Point.of(7, 0),
                         List.of(Point.of(8, 0), Point.of(8, 1), Point.of(9, 2))
                 ),
                 Arguments.of(
-                        new Pattern(List.of(Direction.NORTH)),
+                        new Movement(List.of(Direction.NORTH)),
                         Point.of(9, 0),
                         Collections.emptyList())
         );
@@ -34,8 +34,8 @@ class FixedPathStrategyTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("calculate(): pattern에 따른 경로 계산")
-    void calculate(Pattern pattern, Point from, List<Point> expected) {
-        assertThat(FIXED_PATH_STRATEGY.calculate(pattern, from))
+    void calculate(Movement movement, Point from, List<Point> expected) {
+        assertThat(FIXED_PATH_STRATEGY.calculate(movement, from))
                 .containsAll(expected);
     }
 }

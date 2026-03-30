@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.path.LinearPathStrategy;
 import janggi.domain.piece.path.PathStrategy;
 import java.util.List;
@@ -25,13 +25,13 @@ class LinearPathStrategyTest {
         public static Stream<Arguments> calculate() {
             return Stream.of(
                     Arguments.of(
-                            new Pattern(List.of(Direction.NORTH)),
+                            new Movement(List.of(Direction.NORTH)),
                             Point.of(7, 0),
                             List.of(Point.of(8, 0), Point.of(9, 0))
 
                     ),
                     Arguments.of(
-                            new Pattern(List.of(Direction.NORTH_EAST)),
+                            new Movement(List.of(Direction.NORTH_EAST)),
                             Point.of(0, 0),
                             List.of(Point.of(1, 1),
                                     Point.of(2, 2),
@@ -48,8 +48,8 @@ class LinearPathStrategyTest {
         @ParameterizedTest
         @MethodSource
         @DisplayName("pattern에 따른 경로 계산")
-        void calculate(Pattern pattern, Point from, List<Point> expected) {
-            assertThat(LINEAR_PATH_STRATEGY.calculate(pattern, from))
+        void calculate(Movement movement, Point from, List<Point> expected) {
+            assertThat(LINEAR_PATH_STRATEGY.calculate(movement, from))
                     .containsAll(expected);
         }
 
@@ -58,7 +58,7 @@ class LinearPathStrategyTest {
         void whenDirectionIsNotUnique() {
             assertThatThrownBy(
                     () -> LINEAR_PATH_STRATEGY.calculate(
-                            new Pattern(List.of(Direction.NORTH_EAST, Direction.EAST)),
+                            new Movement(List.of(Direction.NORTH_EAST, Direction.EAST)),
                             Point.of(0, 0)))
                     .isInstanceOf(IllegalArgumentException.class);
         }

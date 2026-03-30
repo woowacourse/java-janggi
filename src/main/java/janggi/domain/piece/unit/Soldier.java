@@ -2,7 +2,7 @@ package janggi.domain.piece.unit;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.path.FixedPathStrategy;
 import janggi.domain.piece.path.Path;
@@ -21,17 +21,17 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected List<Pattern> createCandidatePattern() {
-        List<Pattern> directions = new ArrayList<>();
+    protected List<Movement> createCandidatePattern() {
+        List<Movement> directions = new ArrayList<>();
         if (Side.CHO.equals(side)) {
-            directions.add(new Pattern(List.of(Direction.NORTH)));
-            directions.add(new Pattern(List.of(Direction.WEST)));
-            directions.add(new Pattern(List.of(Direction.EAST)));
+            directions.add(new Movement(List.of(Direction.NORTH)));
+            directions.add(new Movement(List.of(Direction.WEST)));
+            directions.add(new Movement(List.of(Direction.EAST)));
         }
         if (Side.HAN.equals(side)) {
-            directions.add(new Pattern(List.of(Direction.SOUTH)));
-            directions.add(new Pattern(List.of(Direction.WEST)));
-            directions.add(new Pattern(List.of(Direction.EAST)));
+            directions.add(new Movement(List.of(Direction.SOUTH)));
+            directions.add(new Movement(List.of(Direction.WEST)));
+            directions.add(new Movement(List.of(Direction.EAST)));
         }
         return directions;
     }

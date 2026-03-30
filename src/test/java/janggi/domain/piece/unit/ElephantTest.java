@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.path.Path;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -19,14 +19,14 @@ class ElephantTest {
     public static Stream<Arguments> patterns() {
         return Stream.of(
                 Arguments.of(Side.CHO, List.of(
-                        new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
-                        new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
-                        new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)),
-                        new Pattern(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
-                        new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
-                        new Pattern(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)),
-                        new Pattern(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)),
-                        new Pattern(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST))
+                        new Movement(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+                        new Movement(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+                        new Movement(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)),
+                        new Movement(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
+                        new Movement(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)),
+                        new Movement(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)),
+                        new Movement(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)),
+                        new Movement(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST))
                 ))
         );
     }
@@ -61,11 +61,11 @@ class ElephantTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("patterns(): 이동 경로의 방향을 전달한다.")
-    void patterns(Side side, List<Pattern> expected) {
+    void patterns(Side side, List<Movement> expected) {
         Piece piece = new Elephant(side);
 
-        List<Pattern> patterns = piece.createCandidatePattern();
+        List<Movement> movements = piece.createCandidatePattern();
 
-        assertThat(expected.containsAll(patterns)).isTrue();
+        assertThat(expected.containsAll(movements)).isTrue();
     }
 }
