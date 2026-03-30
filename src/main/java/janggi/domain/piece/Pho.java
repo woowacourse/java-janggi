@@ -30,7 +30,7 @@ public class Pho extends Piece {
         super.validateArrival(space);
 
         Piece piece = (Piece) space;
-        if (isSameType(piece)) {
+        if (piece.isSameType(PieceType.PHO)) {
             throw new IllegalArgumentException("이동하려는 위치에 상대팀의 포가 존재합니다.");
         }
     }
@@ -48,7 +48,7 @@ public class Pho extends Piece {
 
     private boolean isContainsPho(List<Piece> pieces) {
         return pieces.stream()
-            .anyMatch(piece -> piece.isSameType(this));
+            .anyMatch(piece -> piece.isSameType(PieceType.PHO));
     }
 
     @Override
