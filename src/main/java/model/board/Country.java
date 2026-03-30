@@ -17,6 +17,10 @@ public enum Country {
         this.color = color;
     }
 
+    public boolean myTurn(Country country) {
+        return this == country;
+    }
+
     public String title() {
         return title;
     }

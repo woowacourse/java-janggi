@@ -32,26 +32,22 @@ public class Board {
         board.remove(position);
     }
 
+    public void checkTurn(Position from, Country country) {
+        Piece fromPiece = findPiece(from);
+        validatePieceExists(fromPiece);
+        if (!country.myTurn(fromPiece.country())) {
+            throw new IllegalArgumentException("[ERROR] 아군 기물이 아닙니다.");
+        }
+    }
+
     public void move(Move move) {
         Piece piece = findPiece(move.from());
-        validatePieceExists(piece);
 
         if (!piece.canMove(move, this)) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다.");
         }
 
         executeMove(move, piece);
-    }
-
-    private static void validatePieceExists(Piece piece) {
-        if (piece == null) {
-            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
-        }
-    }
-
-    private void executeMove(Move move, Piece piece) {
-        place(move.to(), piece);
-        remove(move.from());
     }
 
     public boolean isPieceAt(Position position, Piece piece) {
@@ -66,4 +62,14 @@ public class Board {
         return findPiece(position) == null;
     }
 
+    private void executeMove(Move move, Piece piece) {
+        place(move.to(), piece);
+        remove(move.from());
+    }
+
+    private static void validatePieceExists(Piece piece) {
+        if (piece == null) {
+            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
+        }
+    }
 }
