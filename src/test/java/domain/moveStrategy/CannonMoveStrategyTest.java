@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.board.StubBoard;
+import domain.place.Place;
 import domain.place.moveStrategy.CannonMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
@@ -11,156 +12,134 @@ import domain.place.piece.Cannon;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;
 import domain.position.Position;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CannonMoveStrategyTest {
 
-    @Test
-    @DisplayName("포는 기물을 넘을 수 있다.")
-    void should_move_over_piece_when_cannon_has_one_screen_piece() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 5),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
-        Board board = stubBoard.create();
+    private final MoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        Position from = new Position(1, 1);
-        Position to = new Position(1, 7);
+    @ParameterizedTest
+    @DisplayName("포는 기물을 하나 넘어서 이동할 수 있다")
+    @MethodSource("validJumpMoves")
+    void can_move_over_one_piece(Position from, Position screen, Position to) {
+        // given
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Cannon(Side.CHO, moveStrategy));
+        board.put(screen, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
 
         // when
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
 
-        //then
+        // then
         assertThat(result).isTrue();
     }
 
-    @Test
-    @DisplayName("포는 기물을 넘어 상대 기물을 먹을 수 있다.")
-    void move_over_piece_and_capture_opponent_piece() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 5),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
-        stubBoard.put(new Position(1, 9),
-                new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN)));
-        Board board = stubBoard.create();
+    static Stream<Arguments> validJumpMoves() {
+        return Stream.of(
+                Arguments.of(new Position(1,1), new Position(1,5), new Position(1,7)),
+                Arguments.of(new Position(1,7), new Position(1,5), new Position(1,1)),
+                Arguments.of(new Position(1,1), new Position(5,1), new Position(7,1)),
+                Arguments.of(new Position(7,1), new Position(5,1), new Position(1,1))
+        );
+    }
 
+    @Test
+    @DisplayName("포는 기물을 넘어 상대 기물을 먹을 수 있다")
+    void move_over_piece_and_capture_opponent_piece() {
+        // given
         Position from = new Position(1, 1);
+        Position screen = new Position(1, 5);
         Position to = new Position(1, 9);
 
-        // when
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Cannon(Side.CHO, moveStrategy));
+        board.put(screen, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
+        board.put(to, new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN)));
 
-        //then
+        // when
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
+
+        // then
         assertThat(result).isTrue();
     }
 
     @Test
-    @DisplayName("포는 포를 넘을 수 없다.")
-    void cannot_move_over_another_cannon() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 5), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        Board board = stubBoard.create();
-
+    @DisplayName("포는 포를 넘을 수 없다")
+    void cannot_move_over_cannon() {
+        // given
         Position from = new Position(1, 1);
+        Position screen = new Position(1, 5);
         Position to = new Position(1, 7);
 
-        // when
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Cannon(Side.CHO, moveStrategy));
+        board.put(screen, new Cannon(Side.CHO, moveStrategy));
 
-        //then
+        // when
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
+
+        // then
         assertThat(result).isFalse();
     }
 
     @Test
-    @DisplayName("포는 기물이 없을 때 넘을 수 없다")
-    void cannot_move_when_no_piece_to_jump_over() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        Board board = stubBoard.create();
-
+    @DisplayName("포는 넘을 기물이 없으면 이동할 수 없다")
+    void cannot_move_without_screen_piece() {
+        // given
         Position from = new Position(1, 1);
         Position to = new Position(1, 7);
 
-        // when
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Cannon(Side.CHO, moveStrategy));
 
-        //then
+        // when
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
+
+        // then
         assertThat(result).isFalse();
     }
 
     @Test
-    @DisplayName("포는 기물이 여러 개일 때 넘을 수 없다")
-    void cannot_move_when_multiple_pieces_exist_between() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 5),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
-        stubBoard.put(new Position(1, 6),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
-        Board board = stubBoard.create();
-
+    @DisplayName("포는 장애물이 여러 개면 이동할 수 없다")
+    void cannot_move_when_multiple_obstacles() {
+        // given
         Position from = new Position(1, 1);
         Position to = new Position(1, 7);
 
-        // when
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Cannon(Side.CHO, moveStrategy));
+        board.put(new Position(1, 5), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
+        board.put(new Position(1, 6), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
 
-        //then
+        // when
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
+
+        // then
         assertThat(result).isFalse();
     }
 
     @Test
-    @DisplayName("포는 자신의 팀 위치로 이동 불가하다")
-    void cannot_move_to_position_occupied_by_same_team() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1, 4),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
-        stubBoard.put(new Position(1, 7),
-                new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
-        Board board = stubBoard.create();
-
+    @DisplayName("포는 직선으로만 이동 가능하다")
+    void cannot_move_diagonally() {
+        // given
         Position from = new Position(1, 1);
-        Position to = new Position(1, 7);
+        Position to = new Position(3, 3);
+
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Cannon(Side.CHO, moveStrategy));
+        board.put(new Position(2, 2), new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
 
         // when
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
 
-        //then
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    @DisplayName("포는 자신의 위치로 이동 불가하다")
-    void cannot_move_to_same_position() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        Board board = stubBoard.create();
-
-        Position from = new Position(1, 1);
-        Position to = new Position(1, 1);
-
-        // when
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        //then
+        // then
         assertThat(result).isFalse();
     }
 }

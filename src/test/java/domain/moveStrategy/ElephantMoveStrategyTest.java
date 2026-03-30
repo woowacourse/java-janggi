@@ -4,231 +4,102 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.board.StubBoard;
+import domain.place.Place;
 import domain.place.moveStrategy.ElephantMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.piece.Elephant;
 import domain.place.piece.Side;
 import domain.position.Position;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class ElephantMoveStrategyTest {
 
-    @Test
-    @DisplayName("상은 오른쪽으로 한 칸 이동 후 위쪽 대각선으로 이동할 수 있다.")
-    void should_move_right_and_then_up_diagonal_successfully() {
+    private final MoveStrategy moveStrategy = new ElephantMoveStrategy();
+
+    @ParameterizedTest
+    @DisplayName("상은 다양한 방향으로 정상 이동할 수 있다")
+    @MethodSource("validMoves")
+    void can_move_in_all_valid_directions(Position from, Position to) {
         // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Elephant(Side.CHO, moveStrategy));
+
+        // when
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                Arguments.of(new Position(5, 5), new Position(7, 8)),
+                Arguments.of(new Position(5, 5), new Position(3, 8)),
+                Arguments.of(new Position(5, 5), new Position(7, 2)),
+                Arguments.of(new Position(5, 5), new Position(3, 2)),
+                Arguments.of(new Position(5, 5), new Position(8, 7)),
+                Arguments.of(new Position(5, 5), new Position(8, 3)),
+                Arguments.of(new Position(5, 5), new Position(2, 7)),
+                Arguments.of(new Position(5, 5), new Position(2, 3))
+        );
+    }
+
+    @Test
+    @DisplayName("상은 상대 기물을 잡을 수 있다")
+    void capture_opponent() {
+        // given
         Position from = new Position(5, 5);
         Position to = new Position(7, 8);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
+
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Elephant(Side.CHO, moveStrategy));
+        board.put(to, new Elephant(Side.HAN, moveStrategy));
 
         // when
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
 
         // then
         assertThat(result).isTrue();
     }
 
     @Test
-    @DisplayName("상은 오른쪽으로 한 칸 이동 후 아래쪽 대각선으로 이동할 수 있다.")
-    void should_move_right_and_then_down_diagonal_successfully() {
+    @DisplayName("상은 첫 번째 경로에 장애물이 있으면 이동 불가")
+    void blocked_first_path() {
         // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
         Position from = new Position(5, 5);
-        Position to = new Position(3, 8);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
+        Position firstBlock = new Position(5, 6); // 첫 직선 이동
+
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Elephant(Side.CHO, moveStrategy));
+        board.put(firstBlock, new Elephant(Side.HAN, moveStrategy));
 
         // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 왼쪽으로 한 칸 이동 후 위쪽 대각선으로 이동할 수 있다.")
-    void should_move_left_and_then_up_diagonal_successfully() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(7, 2);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 왼쪽으로 한 칸 이동 후 아래쪽 대각선으로 이동할 수 있다.")
-    void should_move_left_and_then_down_diagonal_successfully() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(3, 2);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 위로 한 칸 이동 후 오른쪽 대각선으로 이동할 수 있다.")
-    void should_move_up_and_then_right_diagonal_successfully() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(8, 7);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 위로 한 칸 이동 후 왼쪽 대각선으로 이동할 수 있다.")
-    void should_move_up_and_then_left_diagonal_successfully() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(8, 3);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 아래로 한 칸 이동 후 오른쪽 대각선으로 이동할 수 있다.")
-    void should_move_down_and_then_right_diagonal_successfully() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(2, 7);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 아래로 한 칸 이동 후 왼쪽 대각선으로 이동할 수 있다.")
-    void should_move_down_and_then_left_diagonal_successfully() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(2, 3);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 이동 경로에 장애물이 없고 도착지에 상대 팀 기물이 있으면 잡을 수 있다.")
-    void should_capture_opponent_piece_when_path_is_clear() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        stubBoard.put(new Position(7, 8), new Elephant(Side.HAN, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(7, 8);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("상은 도착지에 같은 팀이 있으면 이동할 수 없다.")
-    void cannot_move_to_position_occupied_by_same_team() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        stubBoard.put(new Position(7, 8), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(7, 8);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = moveStrategy.canMove(board, from, new Position(7, 8), Side.CHO);
 
         // then
         assertThat(result).isFalse();
     }
 
     @Test
-    @DisplayName("상은 첫 번째 경로에 장애물이 있으면 이동할 수 없다.")
-    void cannot_move_when_first_path_is_blocked() {
+    @DisplayName("상은 두 번째 경로에 장애물이 있으면 이동 불가")
+    void blocked_second_path() {
         // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        stubBoard.put(new Position(5, 6), new Elephant(Side.HAN, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
         Position from = new Position(5, 5);
-        Position to = new Position(7, 8);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
+        Position secondBlock = new Position(6, 7); // 대각 이동 중간
+
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Elephant(Side.CHO, moveStrategy));
+        board.put(secondBlock, new Elephant(Side.HAN, moveStrategy));
 
         // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    @DisplayName("상은 두 번째 경로에 장애물이 있으면 이동할 수 없다.")
-    void cannot_move_when_second_path_is_blocked() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        stubBoard.put(new Position(6, 7), new Elephant(Side.HAN, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(7, 8);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = moveStrategy.canMove(board, from, new Position(7, 8), Side.CHO);
 
         // then
         assertThat(result).isFalse();

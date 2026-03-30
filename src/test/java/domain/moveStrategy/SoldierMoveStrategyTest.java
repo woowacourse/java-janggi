@@ -4,236 +4,120 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.board.StubBoard;
+import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;
 import domain.position.Position;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierMoveStrategyTest {
 
-    @Test
-    @DisplayName("초나라 졸은 앞으로 한 칸 이동 가능")
-    void cho_soldier_should_move_forward_successfully() {
+    @ParameterizedTest
+    @MethodSource("validMoves")
+    @DisplayName("졸은 정상적으로 이동할 수 있다")
+    void can_move_valid_cases(Side side, Position from, Position to) {
         // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(2, 1);
-        Position to = new Position(1, 1);
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
+        MoveStrategy strategy = new SoldierMoveStrategy(side);
+
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Soldier(side, strategy));
 
         // when
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = strategy.canMove(board, from, to, side);
 
         // then
         assertThat(result).isTrue();
     }
 
-    @Test
-    @DisplayName("초나라 졸은 좌측 이동 가능")
-    void cho_soldier_should_move_left_successfully() {
-        // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(2, 2);
-        Position to = new Position(2, 1);
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                // CHO
+                Arguments.of(Side.CHO, new Position(2, 1), new Position(1, 1)), // 앞으로
+                Arguments.of(Side.CHO, new Position(2, 2), new Position(2, 1)), // 좌
+                Arguments.of(Side.CHO, new Position(2, 2), new Position(2, 3)), // 우
 
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
+                // HAN
+                Arguments.of(Side.HAN, new Position(9, 2), new Position(10, 2)), // 앞으로
+                Arguments.of(Side.HAN, new Position(9, 5), new Position(9, 6))  // 좌/우
+        );
     }
 
-    @Test
-    @DisplayName("초나라 졸은 우측 이동 가능")
-    void cho_soldier_should_move_right_successfully() {
+    @ParameterizedTest
+    @MethodSource("invalidMoves")
+    @DisplayName("졸은 잘못된 이동을 할 수 없다")
+    void cannot_move_invalid_cases(Side side, Position from, Position to) {
         // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(2, 2);
-        Position to = new Position(2, 3);
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
+        MoveStrategy strategy = new SoldierMoveStrategy(side);
+
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Soldier(side, strategy));
 
         // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("초나라 졸은 뒤로 이동 불가")
-    void cho_soldier_cannot_move_backward() {
-        // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(1, 2);
-        Position to = new Position(2, 2);
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = strategy.canMove(board, from, to, Side.CHO);
 
         // then
         assertThat(result).isFalse();
     }
 
-    @Test
-    @DisplayName("초나라 졸은 대각선 이동 불가")
-    void cho_soldier_cannot_move_diagonally() {
-        // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(2, 2);
-        Position to = new Position(3, 3);
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
+    static Stream<Arguments> invalidMoves() {
+        return Stream.of(
+                // CHO
+                Arguments.of(Side.CHO, new Position(1, 2), new Position(2, 2)),
+                Arguments.of(Side.CHO, new Position(2, 2), new Position(3, 3)),
+                Arguments.of(Side.CHO, new Position(1, 1), new Position(3, 1)),
 
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
+                // HAN
+                Arguments.of(Side.HAN, new Position(10, 5), new Position(9, 5))
+        );
     }
 
     @Test
-    @DisplayName("초나라 졸은 두 칸 이동 불가")
-    void cho_soldier_cannot_move_two_steps() {
+    @DisplayName("졸은 아군 위치로 이동할 수 없다")
+    void cannot_move_to_same_team() {
         // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(1, 1);
-        Position to = new Position(3, 1);
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
+        Side side = Side.CHO;
+        MoveStrategy strategy = new SoldierMoveStrategy(side);
 
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    @DisplayName("초나라 졸은 아군 위치로 이동 불가")
-    void cho_soldier_cannot_move_to_position_occupied_by_same_team() {
-        // given
-        StubBoard stub = new StubBoard();
         Position from = new Position(2, 2);
         Position to = new Position(2, 3);
 
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        stub.put(to, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Soldier(side, strategy));
+        board.put(to, new Soldier(side, strategy));
 
         // when
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = strategy.canMove(board, from, to, Side.CHO);
 
         // then
         assertThat(result).isFalse();
     }
 
     @Test
-    @DisplayName("초나라 졸은 적군을 잡을 수 있다")
-    void cho_soldier_should_capture_opponent_piece() {
+    @DisplayName("졸은 적군을 잡을 수 있다")
+    void can_capture_opponent() {
         // given
-        StubBoard stub = new StubBoard();
+        MoveStrategy choStrategy = new SoldierMoveStrategy(Side.CHO);
+
         Position from = new Position(2, 2);
         Position to = new Position(2, 3);
 
-        stub.put(from, new Soldier(Side.CHO,
-                new SoldierMoveStrategy(Side.CHO)));
-        stub.put(to, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN)));
-
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.CHO);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Soldier(Side.CHO, choStrategy));
+        board.put(to, new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN)));
 
         // when
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = choStrategy.canMove(board, from, to, Side.CHO);
 
         // then
         assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("한나라 졸은 앞으로 한 칸 이동 가능")
-    void han_soldier_should_move_forward_successfully() {
-        // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(9, 2);
-        Position to = new Position(10, 2);
-
-        stub.put(from, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN)));
-
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN);
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("한나라 졸은 좌우 이동 가능")
-    void han_soldier_should_move_horizontally_successfully() {
-        // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(9, 5);
-        Position to = new Position(9, 6);
-
-        stub.put(from, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN)));
-
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN);
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("한나라 졸은 뒤로 이동 불가")
-    void han_soldier_cannot_move_backward() {
-        // given
-        StubBoard stub = new StubBoard();
-        Position from = new Position(10, 5);
-        Position to = new Position(9, 5);
-
-        stub.put(from, new Soldier(Side.HAN,
-                new SoldierMoveStrategy(Side.HAN)));
-
-        Board board = stub.create();
-        MoveStrategy moveStrategy = new SoldierMoveStrategy(Side.HAN);
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
     }
 }

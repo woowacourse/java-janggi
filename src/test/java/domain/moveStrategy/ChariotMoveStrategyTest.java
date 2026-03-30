@@ -4,149 +4,100 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.board.StubBoard;
+import domain.place.Place;
 import domain.place.moveStrategy.ChariotMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.piece.Chariot;
 import domain.place.piece.Side;
 import domain.position.Position;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class ChariotMoveStrategyTest {
 
-    @Test
-    @DisplayName("차는 우로 이동 가능하다.")
-    void should_move_right_successfully() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
+    private final MoveStrategy moveStrategy = new ChariotMoveStrategy();
 
-        Position from = new Position(3, 5);
-        Position to = new Position(3, 7);
+    @ParameterizedTest
+    @DisplayName("차는 직선 방향으로 이동 가능하다")
+    @MethodSource("validMoves")
+    void can_move_straight(Position from, Position to) {
+        // given
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Chariot(Side.CHO, moveStrategy));
 
         // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
 
-        //then
+        // then
         assertThat(result).isTrue();
     }
 
-    @Test
-    @DisplayName("차는 좌로 이동 가능하다.")
-    void should_move_left_successfully() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
-
-        Position from = new Position(3, 5);
-        Position to = new Position(3, 2);
-
-        // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        //then
-        assertThat(result).isTrue();
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                Arguments.of(new Position(3, 5), new Position(3, 7)),
+                Arguments.of(new Position(3, 5), new Position(3, 2)),
+                Arguments.of(new Position(3, 5), new Position(5, 5)),
+                Arguments.of(new Position(3, 5), new Position(1, 5))
+        );
     }
 
     @Test
-    @DisplayName("차는 위로 이동 가능하다.")
-    void should_move_up_successfully() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
-
-        Position from = new Position(3, 5);
-        Position to = new Position(5, 5);
-
-        // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        //then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("차는 아래로 이동 가능하다.")
-    void should_move_down_successfully() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
-
-        Position from = new Position(3, 5);
-        Position to = new Position(1, 5);
-
-        // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        //then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("차는 상대편을 먹을 수 있다.")
+    @DisplayName("차는 상대 기물을 먹을 수 있다")
     void should_capture_opponent_piece() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        stubBoard.put(new Position(3, 7), new Chariot(Side.HAN, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
-
+        // given
         Position from = new Position(3, 5);
         Position to = new Position(3, 7);
 
-        // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Chariot(Side.CHO, moveStrategy));
+        board.put(to, new Chariot(Side.HAN, moveStrategy));
 
-        //then
+        // when
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
+
+        // then
         assertThat(result).isTrue();
     }
 
     @Test
-    @DisplayName("차가 장애물을 중간에 만나면 이동 불가능하다.")
+    @DisplayName("차는 경로에 장애물이 있으면 이동할 수 없다")
     void cannot_move_when_obstacle_exists_in_path() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        stubBoard.put(new Position(3, 6), new Chariot(Side.HAN, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
-
+        // given
         Position from = new Position(3, 5);
+        Position obstacle = new Position(3, 6);
         Position to = new Position(3, 7);
 
-        // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Chariot(Side.CHO, moveStrategy));
+        board.put(obstacle, new Chariot(Side.HAN, moveStrategy));
 
-        //then
+        // when
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
+
+        // then
         assertThat(result).isFalse();
     }
 
     @Test
-    @DisplayName("차가 자신의 팀을 만나면 이동 불가능하다.")
-    void cannot_move_to_position_occupied_by_same_team() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        stubBoard.put(new Position(3, 7), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
-
+    @DisplayName("차는 직선으로만 이동 가능하다")
+    void cannot_move_diagonally() {
+        // given
         Position from = new Position(3, 5);
-        Position to = new Position(3, 7);
+        Position to = new Position(5, 7);
+
+        Map<Position, Place> board = new HashMap<>();
+        board.put(from, new Chariot(Side.CHO, moveStrategy));
 
         // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
+        boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
 
-        //then
+        // then
         assertThat(result).isFalse();
     }
 }
