@@ -55,6 +55,7 @@ public class JanggiBoard {
 
     public boolean isGameOver() {
         return Arrays.stream(Team.values())
+                .filter(team -> team != Team.NONE)
                 .anyMatch(this::isGeneralDead);
     }
 

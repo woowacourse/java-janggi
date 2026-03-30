@@ -33,6 +33,7 @@ public class JanggiIntersectionGenerator implements IntersectionGenerator {
 
     public List<Intersection> makeIntersection() {
         return Stream.of(Team.values())
+                .filter(team -> team != Team.NONE)
                 .flatMap(team -> Stream.of(
                         createDefaultSoldierIntersection(team),
                         createDefaultCannonIntersection(team),

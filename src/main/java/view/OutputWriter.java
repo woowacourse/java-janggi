@@ -1,6 +1,7 @@
 package view;
 
 import domain.board.dto.JanggiBoardDto;
+import domain.board.dto.PieceViewDto;
 import domain.piece.Team;
 import domain.point.Point;
 
@@ -10,28 +11,28 @@ import static common.constant.JanggiConstant.*;
 
 public class OutputWriter {
 
-    private static final String ROW_NUMBER_FORMAT = "%d   ";
-    private static final String FILE_NUMBER_FORMAT = "   %d  ";
-    private static final String BOARD_HEADER_PADDING = "    ";
-    private static final String PIECE_SEPARATOR = " ";
+    private static final String ROW_NUMBER_FORMAT = "%d　 ";      // 전각 공백
+    private static final String FILE_NUMBER_FORMAT = "　 %d 　";    // 전각 공백
+    private static final String BOARD_HEADER_PADDING = "　　 ";
+    private static final String PIECE_SEPARATOR = "　";           // 전각 공백
     private static final String WINNER_MESSAGE = "%s팀의 승리입니다!";
-    private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
+    private static final String ERROR_MESSAGE_PREFIX = "［ERROR］ ";
 
     public void printJanggiBoard(JanggiBoardDto boardView) {
         printFileNumber();
-        printJanggiBoard(boardView.boardViews());
+        printBoard(boardView.boardViews());
     }
 
     public void printWinner(Team team) {
         System.out.printf(WINNER_MESSAGE, team);
     }
 
-    private void printJanggiBoard(Map<Point, PieceView> boardView) {
+    private void printBoard(Map<Point, PieceViewDto> boardView) {
         for (int y = BASE_POINT; y < MAX_ROW; y++) {
             System.out.printf(ROW_NUMBER_FORMAT, y);
             for (int x = BASE_POINT; x < MAX_FILE; x++) {
-                PieceView view = boardView.getOrDefault(new Point(y, x), PieceView.NONE);
-                System.out.print(view.getViewMessage() + PIECE_SEPARATOR);
+                PieceViewDto view = boardView.get(new Point(y, x));
+                System.out.print(view.getColoredMessage() + PIECE_SEPARATOR);
             }
             System.out.println();
         }
@@ -48,5 +49,4 @@ public class OutputWriter {
     public void printErrorMessage(String errorMessage) {
         System.out.println(ERROR_MESSAGE_PREFIX + errorMessage);
     }
-
 }
