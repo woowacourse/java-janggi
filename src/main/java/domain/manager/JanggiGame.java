@@ -18,10 +18,15 @@ import view.OutputView;
 
 public class JanggiGame {
 
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
+    private final InputView inputView;
+    private final OutputView outputView;
     private Board board;
     private TurnManager turnManager;
+
+    public JanggiGame(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
 
     public void run() {
         board = initialize();
