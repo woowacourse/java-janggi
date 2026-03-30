@@ -13,19 +13,13 @@ import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.path.Path;
-import domain.piece.PieceType;
 import domain.point.Point;
 import java.util.List;
 
 public class ElephantMoveRule extends MoveRule {
 
     public ElephantMoveRule() {
-        super(PieceType.ELEPHANT, initializeDirections());
-    }
-
-    @Override
-    public boolean support(Intersection from) {
-        return from.isSamePiece(pieceType);
+        super(initializeDirections());
     }
 
     @Override

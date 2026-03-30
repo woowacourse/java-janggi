@@ -2,23 +2,26 @@ package domain.move.rule;
 
 import domain.intersection.Intersection;
 import domain.move.path.Path;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.point.Point;
 
 import java.util.List;
+import java.util.Map;
 
 public class MoveRuleManager {
 
-    private final List<MoveRule> moveRules;
+    private final Map<PieceType, MoveRule> moveRules;
 
     public MoveRuleManager() {
-        this.moveRules = List.of(
-                new ChariotMoveRule(),
-                new GeneralMoveRule(),
-                new GuardMoveRule(),
-                new ElephantMoveRule(),
-                new SoliderMoveRule(),
-                new CannonMoveRule(),
-                new HorseMoveRule()
+        this.moveRules = Map.of(
+                PieceType.CHARIOT, new ChariotMoveRule(),
+                PieceType.GENERAL, new GeneralMoveRule(),
+                PieceType.GUARD, new GuardMoveRule(),
+                PieceType.ELEPHANT, new ElephantMoveRule(),
+                PieceType.SOLDIER, new SoliderMoveRule(),
+                PieceType.CANNON, new CannonMoveRule(),
+                PieceType.HORSE, new HorseMoveRule()
         );
     }
 
@@ -33,10 +36,8 @@ public class MoveRuleManager {
     }
 
     public MoveRule findMoveRule(Intersection from) {
-        return moveRules.stream()
-                .filter(moveRule -> moveRule.support(from))
-                .findFirst()
-                .orElse(null);
+        Piece piece = from.readPiece();
+        return moveRules.get(piece.pieceType());
     }
 
 }
