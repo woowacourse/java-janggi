@@ -6,8 +6,6 @@ import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
 import dto.BoardDto;
-import util.PieceName;
-
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +25,6 @@ public class Board {
         Piece piece = board.get(from);
         piece.validateMovable(from, to, Map.copyOf(board));
         resolve(from, to, piece);
-    }
-
-    public String find(int col, int row) {
-        Piece piece = board.get(Coordination.of(col, row));
-        return PieceName.from(piece.getClass().getSimpleName(), piece.team());
     }
 
     private void resolve(Coordination from, Coordination to, Piece piece) {
