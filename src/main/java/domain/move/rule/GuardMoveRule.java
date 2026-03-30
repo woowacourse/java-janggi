@@ -24,7 +24,6 @@ public class GuardMoveRule implements MoveRule {
     @Override
     public boolean checkMoveRule(Path path) {
         path.validateIsSameTeam();
-        path.validateHasObstacle();
         return true;
     }
 
