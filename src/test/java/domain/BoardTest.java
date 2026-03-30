@@ -11,19 +11,20 @@ import org.junit.jupiter.api.Test;
 class BoardTest {
 
     @Test
-    @DisplayName("보드 상태는 방어적 복사를 이용해서 반환받는다")
-    void getBoardStatus_use_defensiveCopy() {
+    @DisplayName("보드 상태는 외부에서 조작할 수 없다")
+    void cannot_update_board_at_the_out_of_board() {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(3, 1);
         Team turn = Team.CHO;
 
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
-        BoardStatus prevMoveBoardStatus = testBoard.getBoardStatus();
+        BoardStatus boardStatusPlacedAtOutOfBoard = testBoard.getBoardStatus();
 
         testBoard.move(turn, start, end);
 
-        Piece piece = prevMoveBoardStatus.getBoardStatus().get(Position.of(3, 1));
+        Piece piece = boardStatusPlacedAtOutOfBoard.getBoardStatus()
+                .get(Position.of(3, 1));
         Assertions.assertThat(piece).isNull();
     }
 
