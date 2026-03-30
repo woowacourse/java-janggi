@@ -13,7 +13,7 @@ public class Path {
     private final List<Position> path;
 
     public Path(List<Position> path) {
-        this.path = path;
+        this.path = List.copyOf(path);
     }
 
     public List<Piece> getBlockedPieces(Map<Position, Space> piecesInfo) {
