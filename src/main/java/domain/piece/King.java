@@ -15,6 +15,11 @@ public final class King extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return new King(side);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }

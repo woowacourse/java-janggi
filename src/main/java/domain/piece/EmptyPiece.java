@@ -19,6 +19,11 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return this;
+    }
+
+    @Override
     public boolean isEmpty() {
         return true;
     }

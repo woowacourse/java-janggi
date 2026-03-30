@@ -15,6 +15,11 @@ public final class Elephant extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return new Elephant(side);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }

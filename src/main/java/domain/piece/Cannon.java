@@ -15,6 +15,11 @@ public final class Cannon extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return new Cannon(side);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }

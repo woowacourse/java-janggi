@@ -14,6 +14,11 @@ public final class Guard extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return new Guard(side);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }

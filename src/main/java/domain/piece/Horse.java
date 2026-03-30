@@ -15,6 +15,11 @@ public final class Horse extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return new Horse(side);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }

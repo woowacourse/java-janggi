@@ -15,6 +15,11 @@ public final class Pawn extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return new Pawn(side);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }

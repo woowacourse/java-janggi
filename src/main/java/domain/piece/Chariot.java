@@ -15,6 +15,11 @@ public final class Chariot extends Piece {
     }
 
     @Override
+    public Piece withSide(Side side) {
+        return new Chariot(side);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }
