@@ -11,7 +11,10 @@ class PieceTest {
     void 기물_생성() {
         // given
         // when
+        Piece piece = Piece.of(Team.CHU, Type.CHARIOT, new FixedMoveStrategy()));
+
         // then
-        Assertions.assertDoesNotThrow(() -> Piece.of(Team.CHU, Type.CHARIOT, new FixedMoveStrategy()));
+        Assertions.assertEquals(Type.CHARIOT, piece.getType());
+        Assertions.assertEquals(Team.CHU, piece.getTeam());
     }
 }

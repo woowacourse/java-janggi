@@ -43,6 +43,6 @@ public class SoldierMoveStrategy implements MoveStrategy {
             return false;
         }
 
-        return false;
+        return true;
     }
 }

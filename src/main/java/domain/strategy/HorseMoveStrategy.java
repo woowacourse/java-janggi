@@ -31,6 +31,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         if (Math.abs(from.getRow() - to.getRow()) == 2 && Math.abs(from.getCol() - to.getCol()) == 1) {
             return false;
         }
+
         return true;
     }
 }
