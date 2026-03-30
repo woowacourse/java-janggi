@@ -21,15 +21,6 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return paths.stream()
-                .map(path -> cutPath(path, piecesOnPaths))
-                .filter(path -> isValidPath(path, piecesOnPaths))
-                .flatMap(path -> path.getPath().stream())
-                .toList();
-    }
-
-    @Override
     public List<Pattern> patterns() {
         List<Pattern> paths = new ArrayList<>();
         paths.add(new Pattern(List.of(Direction.NORTH)));
@@ -41,7 +32,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+    protected Path refinePath(Path path, Map<Point, Piece> piecesOnPaths) {
         return path.getPath().stream()
                 .filter(piecesOnPaths::containsKey)
                 .findFirst()

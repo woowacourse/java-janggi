@@ -21,15 +21,6 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return paths.stream()
-                .filter(path -> isValidPath(path, piecesOnPaths))
-                .map(path -> cutPath(path, piecesOnPaths))
-                .flatMap(path -> path.getPath().stream())
-                .toList();
-    }
-
-    @Override
     public List<Pattern> patterns() {
         List<Pattern> directions = new ArrayList<>();
         if (Side.CHO.equals(side)) {
@@ -46,7 +37,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+    protected Path refinePath(Path path, Map<Point, Piece> piecesOnPaths) {
         return path;
     }
 }

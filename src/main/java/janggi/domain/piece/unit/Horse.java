@@ -33,15 +33,6 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return paths.stream()
-                .map(path -> cutPath(path, piecesOnPaths))
-                .filter(path -> isValidPath(path, piecesOnPaths))
-                .map(path -> path.getPath().getLast())
-                .toList();
-    }
-
-    @Override
     public List<Pattern> patterns() {
         List<Pattern> directions = new ArrayList<>();
 
@@ -58,7 +49,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return path;
+    protected Path refinePath(Path path, Map<Point, Piece> piecesOnPaths) {
+        return path.takeLast();
     }
 }

@@ -37,15 +37,21 @@ public abstract class Piece {
         return pathStrategy;
     }
 
+    public final List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
+        return paths.stream()
+                .filter(path -> isValidPath(path, piecesOnPaths))
+                .map(path -> refinePath(path, piecesOnPaths))
+                .flatMap(path -> path.getPath().stream())
+                .toList();
+    }
+
     protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
         return !path.isEmpty();
     }
 
-    public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
-
     public abstract List<Pattern> patterns();
 
-    protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
+    protected abstract Path refinePath(Path path, Map<Point, Piece> piecesOnPaths);
 
 
     @Override

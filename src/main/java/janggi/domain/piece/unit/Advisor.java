@@ -21,15 +21,6 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        return paths.stream()
-                .filter(path -> isValidPath(path, piecesOnPaths))
-                .map(path -> cutPath(path, piecesOnPaths))
-                .map(path -> path.getPath().getLast())
-                .toList();
-    }
-
-    @Override
     public List<Pattern> patterns() {
         List<Pattern> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
@@ -41,7 +32,7 @@ public class Advisor extends Piece {
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+    protected Path refinePath(Path path, Map<Point, Piece> piecesOnPaths) {
         return path;
     }
 }

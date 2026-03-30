@@ -22,17 +22,12 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
-        throw new IllegalStateException("Piece Empty 객체입니다.");
-    }
-
-    @Override
     public List<Pattern> patterns() {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+    protected Path refinePath(Path path, Map<Point, Piece> piecesOnPaths) {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 }

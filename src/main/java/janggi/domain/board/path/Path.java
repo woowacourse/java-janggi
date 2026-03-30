@@ -25,9 +25,17 @@ public class Path {
         return path.isEmpty();
     }
 
+    public Path takeLast() {
+        return new Path(List.of(path.getLast()));
+    }
+
     public Path takeUntil(Point to) {
-        if (to == null) {
-            throw new IllegalStateException("to는 null값이 될 수 없습니다.");
+        return subPath(path.getFirst(), to);
+    }
+
+    private Path subPath(Point from, Point to) {
+        if (to == null || from == null) {
+            throw new IllegalStateException("Point 값은 null이 될 수 없습니다.");
         }
         List<Point> curPath = new ArrayList<>();
         for (Point pathPoint : path) {
@@ -37,6 +45,7 @@ public class Path {
             }
         }
         return new Path(curPath);
+
     }
 
     @Override
