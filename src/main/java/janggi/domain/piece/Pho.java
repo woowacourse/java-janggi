@@ -45,31 +45,34 @@ public class Pho extends Piece {
 
     @Override
     public Path getPath(Position from, Position to) {
-        int dx = from.deltaX(to);
-        int dy = from.deltaY(to);
-
-        if (dx != 0) {
-            List<Position> positions = getHorizontalPath(from, dx);
+        if (from.x() != to.x()) {
+            List<Position> positions = getHorizontalPath(from, to);
             return new Path(positions);
         }
 
-        List<Position> positions = getVerticalPath(from, dy);
+        List<Position> positions = getVerticalPath(from, to);
         return new Path(positions);
     }
 
-    private List<Position> getHorizontalPath(Position from, int dx) {
+    private List<Position> getHorizontalPath(Position from, Position to) {
         List<Position> positions = new ArrayList<>();
-        for (int i = 2; i < dx; i++) {
-            positions.add(new Position(from.x() + i, from.y()));
+        int step = Integer.compare(to.x(), from.x());
+
+        for (int x = from.x() + step; x != to.x(); x += step) {
+            positions.add(new Position(x, from.y()));
         }
+
         return positions;
     }
 
-    private List<Position> getVerticalPath(Position from, int dy) {
+    private List<Position> getVerticalPath(Position from, Position to) {
         List<Position> positions = new ArrayList<>();
-        for (int i = 2; i < dy; i++) {
-            positions.add(new Position(from.x(), from.y() + i));
+        int step = Integer.compare(to.y(), from.y());
+
+        for (int y = from.y() + step; y != to.y(); y += step) {
+            positions.add(new Position(from.x(), y));
         }
+
         return positions;
     }
 
