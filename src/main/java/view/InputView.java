@@ -9,6 +9,7 @@ import util.InputParser;
 public class InputView {
     private final Scanner scanner;
     private static final int CHOICE_START_NUMBER = 1;
+    private static final int COORDINATE_INPUT_LENGTH = 2;
 
     public InputView(Scanner scanner) {
         this.scanner = scanner;
@@ -42,6 +43,8 @@ public class InputView {
 
     public List<Integer> requestMovePosition() {
         System.out.println("\n이동할 좌표를 입력해 주세요. ");
-        return InputParser.splitBy(",", scanner.nextLine());
+        List<Integer> coordinate = InputParser.splitBy(",", scanner.nextLine());
+        Validator.validateLength(COORDINATE_INPUT_LENGTH, coordinate.size());
+        return coordinate;
     }
 }

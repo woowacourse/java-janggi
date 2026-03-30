@@ -14,4 +14,10 @@ public final class Validator {
             throw new IllegalArgumentException("범위 내의 숫자가 아닙니다.");
         }
     }
+
+    public static void validateLength(int size, int input) {
+        if (input!=size) {
+            throw new IllegalArgumentException(String.format("%d개의 숫자를 입력해주세요.",size));
+        }
+    }
 }

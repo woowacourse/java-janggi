@@ -8,7 +8,7 @@ import service.dto.BoardDto;
 import service.dto.PositionDto;
 
 public class OutputView {
-    public static final String PREFEIX_ERROR_MESSAGE = "[ERROR]";
+    public static final String PREFEIX_ERROR_MESSAGE = "[ERROR] ";
 
     private final OutputViewFormatter formatter;
 
