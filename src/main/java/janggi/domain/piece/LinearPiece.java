@@ -26,13 +26,6 @@ public abstract class LinearPiece extends ActivePiece {
         return calculatePath(start, isVertical, dist);
     }
 
-    @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if (!routePolicy.isMovable(path, side, boardInterface)) {
-            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
-        }
-    }
-
     private List<Position> calculatePath(Position start, boolean isVertical, int dist) {
         Movement movement = resolveMovement(isVertical, dist);
         return Stream.iterate(start, current -> current.move(movement))

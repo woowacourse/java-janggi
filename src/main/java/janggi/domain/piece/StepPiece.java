@@ -26,13 +26,6 @@ public abstract class StepPiece extends ActivePiece {
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));
     }
 
-    @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if (!routePolicy.isMovable(path, side, boardInterface)) {
-            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
-        }
-    }
-
     private List<Position> calculatePath(Position start, List<Movement> path) {
         List<Position> calculatedPath = new ArrayList<>(List.of(start));
         for (Movement movement : path) {
