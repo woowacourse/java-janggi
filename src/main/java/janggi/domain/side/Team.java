@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface Team {
 
-    List<BoardSpot> makeSpots();
+    List<BoardSpot> makeSnapShot();
 
     Optional<Piece> findPiece(Position position);
 

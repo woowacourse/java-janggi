@@ -63,15 +63,15 @@ public class Pieces {
     }
 
 
-    public List<BoardSpot> makeSpots() {
-        List<BoardSpot> boardSpots = new ArrayList<>();
+    public List<BoardSpot> makeSnapShot() {
+        List<BoardSpot> snapShot = new ArrayList<>();
         for (Map.Entry<Position, Piece> entry : value.entrySet()) {
-            boardSpots.add(new BoardSpot(
+            snapShot.add(new BoardSpot(
                     entry.getKey().makePositionKey(),
                     entry.getValue().nickname()
             ));
         }
-        return boardSpots;
+        return snapShot;
     }
 
     public Optional<Piece> findPiece(Position position) {

@@ -20,8 +20,8 @@ public class Han implements Team {
     }
 
     @Override
-    public List<BoardSpot> makeSpots() {
-        return pieces.makeSpots();
+    public List<BoardSpot> makeSnapShot() {
+        return pieces.makeSnapShot();
     }
 
     @Override

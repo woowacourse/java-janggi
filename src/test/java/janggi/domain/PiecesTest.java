@@ -44,18 +44,18 @@ class PiecesTest {
         assertAll(
             () -> assertThat(pieces.findPiece(target)).get().isInstanceOf(Jol.class),
             () -> assertThat(removedPieces.findPiece(target)).isEmpty(),
-            () -> assertThat(removedPieces.makeSpots()).hasSize(15)
+            () -> assertThat(removedPieces.makeSnapShot()).hasSize(15)
         );
     }
 
     @Test
     @DisplayName("보드 스냅샷은 좌표 키와 기물 이름을 포함한다.")
-    void makeSpots() {
+    void makeSnapShot() {
         // given
         Pieces pieces = Pieces.createChu();
 
         // when
-        var boardSpots = pieces.makeSpots();
+        var boardSpots = pieces.makeSnapShot();
 
         // then
         assertThat(boardSpots)
