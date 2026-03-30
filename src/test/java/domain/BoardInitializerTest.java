@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BoardInitializerTest {
@@ -41,7 +42,8 @@ public class BoardInitializerTest {
     }
 
     @Test
-    void 입력된_왼상차림대로_생성되어야_한다() {
+    @DisplayName("입력된 왼상차림대로 생성되어야 한다")
+    void setUp_success_with_SettingTypeLeft() {
         //given
         SettingType choSettingType = SettingType.LEFT;
         SettingType hangSettingType = SettingType.LEFT;
@@ -60,7 +62,8 @@ public class BoardInitializerTest {
     }
 
     @Test
-    void 입력된_오른상차림대로_생성되어야_한다() {
+    @DisplayName("입력된 오른상차림대로 생성되어야 한다")
+    void setUp_success_with_SettingTypeRight() {
         //given
         SettingType choSettingType = SettingType.RIGHT;
         SettingType hangSettingType = SettingType.RIGHT;
@@ -79,7 +82,8 @@ public class BoardInitializerTest {
     }
 
     @Test
-    void 입력된_안상차림대로_생성되어야_한다() {
+    @DisplayName("setUp_success_with_SettingTypeInner")
+    void setUp_success_with_SettingTypeInner() {
         //given
         SettingType choSettingType = SettingType.INNER;
         SettingType hangSettingType = SettingType.INNER;
@@ -98,7 +102,8 @@ public class BoardInitializerTest {
     }
 
     @Test
-    void 입력된_바깥상차림대로_생성되어야_한다() {
+    @DisplayName("입력된 바깥상차림대로 생성되어야 한다")
+    void setUp_success_with_SettingTypeOuter() {
         //given
         SettingType choSettingType = SettingType.OUTER;
         SettingType hangSettingType = SettingType.OUTER;

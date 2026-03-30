@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 class BoardTest {
 
     @Test
-    void 방어적_복사로_BoardStatus_를_생성함() {
+    @DisplayName("보드 상태는 방어적 복사를 이용해서 반환받는다")
+    void getBoardStatus_use_defensiveCopy() {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(3, 1);

@@ -5,6 +5,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,7 +15,8 @@ class SangMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("moveWays")
-    void 움직일_수_있다면_경로를_반환한다(Position destination, int expectSize, List<Position> expectPath) {
+    @DisplayName("움직일 수 있다면 경로를 반환한다")
+    void findMovablePath_success(Position destination, int expectSize, List<Position> expectPath) {
         // given
         Position start = Position.of(3, 3);
 
@@ -48,7 +50,8 @@ class SangMoveStrategyTest {
     }
 
     @Test
-    void 잘못된_위치가_제공되면_예외가_발생해야_한다() {
+    @DisplayName("잘못된 위치가 제공되면 예외가 발상해야 한다")
+    void findMovablePath_fail_cause_of_incorrect_position() {
         // given
         Position start = Position.of(3, 3);
         Position destination = Position.of(4, 4);

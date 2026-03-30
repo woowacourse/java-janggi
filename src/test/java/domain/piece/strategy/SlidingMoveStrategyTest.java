@@ -4,11 +4,13 @@ import common.ErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class SlidingMoveStrategyTest {
     @Test
-    void 같은_Row이면_목적지까지의_경로를_반환해야_한다() {
+    @DisplayName("같은 Row이면 목적지까지의 경로를 반환해야 한다")
+    void findMovablePath_success_same_row() {
         // given
         Position start = Position.of(1, 1);
         Position destination = Position.of(1, 8);
@@ -31,7 +33,8 @@ public class SlidingMoveStrategyTest {
     }
 
     @Test
-    void 같은_Column이면_목적지까지의_경로를_반환해야_한다() {
+    @DisplayName("같은 Row이면 목적지까지의 경로를 반환해야 한다")
+    void findMovablePath_success_same_column() {
         // given
         Position start = Position.of(1, 1);
         Position destination = Position.of(8, 1);
@@ -53,9 +56,9 @@ public class SlidingMoveStrategyTest {
         );
     }
 
-    // 둘 다 아닐때
     @Test
-    void 둘_다_위치가_다를_경우_예외가_발생해야_한다() {
+    @DisplayName("둘 다 위치가 다를 경우 예외가 발생해야 한다")
+    void findMovablePath_fail_now_same_row_and_column() {
         // given
         Position start = Position.of(1, 2);
         Position destination = Position.of(3, 4);
