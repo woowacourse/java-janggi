@@ -11,10 +11,21 @@ import domain.move.path.Path;
 import domain.point.Point;
 import java.util.List;
 
-public class SoliderMoveRule extends MoveRule {
+public class SoliderMoveRule implements MoveRule {
+
+    private static final Directions DEFAULT_HAN_DIRECTIONS = new Directions(List.of(
+            new Direction(List.of(DOWN)),
+            new Direction(List.of(RIGHT)),
+            new Direction(List.of(LEFT)))
+    );
+
+    private static final Directions DEFAULT_CHO_DIRECTIONS = new Directions(List.of(
+            new Direction(List.of(DOWN)),
+            new Direction(List.of(RIGHT)),
+            new Direction(List.of(LEFT)))
+    );
 
     public SoliderMoveRule() {
-        super(initializeDirections());
     }
 
     @Override
@@ -29,22 +40,12 @@ public class SoliderMoveRule extends MoveRule {
         return true;
     }
 
-    public static Directions initializeDirections() {
-        return new Directions(List.of(
-                new Direction(List.of(DOWN)),
-                new Direction(List.of(RIGHT)),
-                new Direction(List.of(LEFT)))
-        );
-    }
 
     public Directions getDirections(Intersection from){
         if (from.isChoIntersection()) {
-            return new Directions(List.of(
-                    new Direction(List.of(UP)),
-                    new Direction(List.of(RIGHT)),
-                    new Direction(List.of(LEFT))));
+            return DEFAULT_CHO_DIRECTIONS;
         }
-        return directions;
+        return DEFAULT_HAN_DIRECTIONS;
     }
 
 }

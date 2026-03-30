@@ -9,15 +9,16 @@ import java.util.List;
 
 import static domain.move.directions.Vector.*;
 
-public class HorseMoveRule extends MoveRule {
+public class HorseMoveRule implements MoveRule {
+
+    private static final Directions DEFAULT_HORSE_DIRECTIONS = initializeDirections();
 
     public HorseMoveRule() {
-        super(initializeDirections());
     }
 
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return directions.findPoints(from, to);
+        return DEFAULT_HORSE_DIRECTIONS.findPoints(from, to);
     }
 
     @Override

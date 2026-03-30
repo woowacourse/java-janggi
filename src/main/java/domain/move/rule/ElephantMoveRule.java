@@ -16,15 +16,16 @@ import domain.move.path.Path;
 import domain.point.Point;
 import java.util.List;
 
-public class ElephantMoveRule extends MoveRule {
+public class ElephantMoveRule implements MoveRule {
+
+    private static final Directions DEFAULT_ELEPHANT_DIRECTIONS = initializeDirections();
 
     public ElephantMoveRule() {
-        super(initializeDirections());
     }
 
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return directions.findPoints(from, to);
+        return DEFAULT_ELEPHANT_DIRECTIONS.findPoints(from, to);
     }
 
     @Override

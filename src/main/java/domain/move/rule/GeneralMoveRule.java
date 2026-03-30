@@ -12,15 +12,16 @@ import domain.move.path.Path;
 import domain.point.Point;
 import java.util.List;
 
-public class GeneralMoveRule extends MoveRule {
+public class GeneralMoveRule implements MoveRule {
+
+    private static final Directions DEFAULT_GENERAL_DIRECTIONS = initializeDirections();
 
     public GeneralMoveRule() {
-        super(initializeDirections());
     }
 
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return directions.findPoints(from, to);
+        return DEFAULT_GENERAL_DIRECTIONS.findPoints(from, to);
     }
 
     @Override

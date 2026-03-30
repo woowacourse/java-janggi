@@ -6,16 +6,12 @@ import domain.move.path.Path;
 import domain.point.Point;
 import java.util.List;
 
-public abstract class MoveRule {
+public interface MoveRule {
 
-    protected final Directions directions;
+    List<Point> findPathOfPoints(Intersection from, Intersection to);
 
-    protected MoveRule(Directions directions) {
-        this.directions = directions;
-    }
+    boolean checkMoveRule(Path path);
 
-    public abstract List<Point> findPathOfPoints(Intersection from, Intersection to);
-
-    public abstract boolean checkMoveRule(Path path);
+//    Directions getDirections();
 
 }

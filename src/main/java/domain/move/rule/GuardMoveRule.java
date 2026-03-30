@@ -9,15 +9,16 @@ import domain.move.path.Path;
 import domain.point.Point;
 import java.util.List;
 
-public class GuardMoveRule extends MoveRule {
+public class GuardMoveRule implements MoveRule {
+
+    private static final Directions DEFAULT_GUARD_DIRECTIONS = initializeDirections();
 
     public GuardMoveRule() {
-        super(initializeDirections());
     }
 
     @Override
     public List<Point> findPathOfPoints(Intersection from, Intersection to) {
-        return directions.findPoints(from, to);
+        return DEFAULT_GUARD_DIRECTIONS.findPoints(from, to);
     }
 
     @Override
