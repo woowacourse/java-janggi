@@ -4,7 +4,7 @@
 
 | 순번  | 규칙         | 내용                  |                ✅                 |
 |-----|------------|---------------------|:--------------------------------:|
-| `1` | 테스트 단위 기준  | 각 도메인의 public 메서드   |     <input type="checkbox">      |
+| `1` | 테스트 단위 기준  | 각 도메인의 public 메서드   | <input type="checkbox" checked > |
 | `2` | 테스트 제외 기준  | 단순 조회, IO           | <input type="checkbox" checked > |
 | `3` | 테스트 난항 대응  | 기능의 분리와 추출          | <input type="checkbox" checked > |
 | `4` | 리팩터링 우선 순위 | 컨벤션 > 책임 분리 > 기능 개선 | <input type="checkbox" checked > |
