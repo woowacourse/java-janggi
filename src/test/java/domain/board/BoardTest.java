@@ -19,7 +19,7 @@ class BoardTest {
     @DisplayName("보드 초기화 테스트")
     public void boardInitTest() {
         // given & when
-        Board board = Board.init(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
+        Board board = Board.init(ElephantSetup.INNER_ELEPHANT_SETUP, ElephantSetup.INNER_ELEPHANT_SETUP);
 
         // then
         Map<Position, PieceType> pieces = board.getPieces().entrySet().stream()
@@ -70,7 +70,7 @@ class BoardTest {
     @Test
     @DisplayName("기물 이동 위치 계산 테스트")
     public void getMovablePositionsTest() {
-        Board board = Board.init(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
+        Board board = Board.init(ElephantSetup.INNER_ELEPHANT_SETUP, ElephantSetup.INNER_ELEPHANT_SETUP);
         Position from = Position.of(7, 1);
         List<Position> movablePositions = board.getMovablePositions(from);
 
@@ -80,7 +80,7 @@ class BoardTest {
     @Test
     @DisplayName("기물 이동 테스트")
     public void moveTest() {
-        Board board = Board.init(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
+        Board board = Board.init(ElephantSetup.INNER_ELEPHANT_SETUP, ElephantSetup.INNER_ELEPHANT_SETUP);
         Position from = Position.of(7, 1);
         Position to = Position.of(8, 1);
 

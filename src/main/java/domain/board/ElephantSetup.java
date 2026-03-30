@@ -11,28 +11,28 @@ import java.util.Map;
 
 public enum ElephantSetup {
 
-    InnerElephantSetup("마상상마(馬象象馬)",
+    INNER_ELEPHANT_SETUP("마상상마(馬象象馬)",
             Map.of(
                     Position.of(1, 2), HORSE,
                     Position.of(1, 3), ELEPHANT,
                     Position.of(1, 7), ELEPHANT,
                     Position.of(1, 8), HORSE
             )),
-    OuterElephantSetup("상마마상(象馬馬象)",
+    OUTER_ELEPHANT_SETUP("상마마상(象馬馬象)",
             Map.of(
                     Position.of(1, 2), ELEPHANT,
                     Position.of(1, 3), HORSE,
                     Position.of(1, 7), HORSE,
                     Position.of(1, 8), ELEPHANT
             )),
-    RightElephantSetup("마상마상(馬象馬象)",
+    RIGHT_ELEPHANT_SETUP("마상마상(馬象馬象)",
             Map.of(
                     Position.of(1, 2), HORSE,
                     Position.of(1, 3), ELEPHANT,
                     Position.of(1, 7), HORSE,
                     Position.of(1, 8), ELEPHANT
             )),
-    LeftElephantSetup("상마상마(象馬象馬)",
+    LEFT_ELEPHANT_SETUP("상마상마(象馬象馬)",
             Map.of(
                     Position.of(1, 2), ELEPHANT,
                     Position.of(1, 3), HORSE,
