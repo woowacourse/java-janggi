@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Offset;
-import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ class HorseTest {
 
     @BeforeEach
     void setUp() {
-        horse = new Piece(PieceType.HORSE, Team.CHO, new HorseStrategy());
+        horse = new Horse(Team.CHO);
     }
 
     @Test

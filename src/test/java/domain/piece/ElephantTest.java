@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Offset;
-import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ class ElephantTest {
 
     @BeforeEach
     void setUp() {
-        elephant = new Piece(PieceType.ELEPHANT, Team.CHO, new ElephantStrategy());
+        elephant = new Elephant(Team.CHO);
     }
 
     @Test

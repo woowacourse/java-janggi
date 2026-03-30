@@ -3,8 +3,8 @@ package domain.board;
 import domain.Offset;
 import domain.Path;
 
-import domain.piece.ElephantStrategy;
-import domain.piece.HorseStrategy;
+import domain.piece.Elephant;
+import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -35,7 +35,7 @@ public class BoardTest {
         @MethodSource("soldierProvider")
         void 졸을_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece.pieceType()).isEqualTo(PieceType.SOLDIER);
+            assertThat(piece.getPieceType()).isEqualTo(PieceType.SOLDIER);
         }
 
         static Stream<Arguments> soldierProvider() {
@@ -52,7 +52,7 @@ public class BoardTest {
         @MethodSource("chariotProvider")
         void 차를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece.pieceType()).isEqualTo(PieceType.CHARIOT);
+            assertThat(piece.getPieceType()).isEqualTo(PieceType.CHARIOT);
         }
 
         static Stream<Arguments> chariotProvider() {
@@ -66,7 +66,7 @@ public class BoardTest {
         @MethodSource("guardProvider")
         void 사를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece.pieceType()).isEqualTo(PieceType.GUARD);
+            assertThat(piece.getPieceType()).isEqualTo(PieceType.GUARD);
         }
 
         static Stream<Arguments> guardProvider() {
@@ -76,19 +76,17 @@ public class BoardTest {
             );
         }
 
-
         @Test
         void 궁을_올바른_위치에_초기화한다() {
             Piece piece = board.getPiece(new Position(4, 1));
-            assertThat(piece.pieceType()).isEqualTo(PieceType.GENERAL);
+            assertThat(piece.getPieceType()).isEqualTo(PieceType.GENERAL);
         }
-
 
         @ParameterizedTest
         @MethodSource("cannonProvider")
         void 포를_올바른_위치에_초기화한다(Position position) {
             Piece piece = board.getPiece(position);
-            assertThat(piece.pieceType()).isEqualTo(PieceType.CANNON);
+            assertThat(piece.getPieceType()).isEqualTo(PieceType.CANNON);
         }
 
         static Stream<Arguments> cannonProvider() {
@@ -99,15 +97,14 @@ public class BoardTest {
         }
     }
 
-
     @Test
     void 기물이_이동할_경로에_대한_다른_기물의_위치_정보를_반환한다() {
         List<Offset> offsets = List.of(new Offset(1, 0), new Offset(2, 0));
         List<Path> path = board.getPath(new Position(0, 0), offsets);  // 차에 대해 진행
 
         assertThat(path).isEqualTo(List.of(new Path(
-                        new Position(1, 0), new Piece(PieceType.HORSE, Team.CHO, new HorseStrategy())),
-                new Path(new Position(2, 0), new Piece(PieceType.ELEPHANT, Team.CHO, new ElephantStrategy()))
+                        new Position(1, 0), new Horse(Team.CHO)),
+                new Path(new Position(2, 0), new Elephant(Team.CHO))
         ));
     }
 }

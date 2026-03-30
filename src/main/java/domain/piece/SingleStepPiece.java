@@ -2,14 +2,17 @@ package domain.piece;
 
 import domain.ErrorMessage;
 import domain.Offset;
-import domain.Path;
-import domain.board.Position;
 
 import java.util.List;
 
-public class GeneralStrategy implements MoveStrategy {
+public abstract class SingleStepPiece extends Piece{
+    public SingleStepPiece(PieceType pieceType, Team team) {
+        super(pieceType, team);
+    }
+
     @Override
     public List<Offset> getPathPositions(Offset offset) {
+
         int dx = offset.dx();
         int dy = offset.dy();
 
@@ -19,10 +22,4 @@ public class GeneralStrategy implements MoveStrategy {
         return List.of();
     }
 
-    @Override
-    public void canMove(List<Path> paths, Piece to) {
-        if (!paths.isEmpty()) {
-            throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
-        }
-    }
 }

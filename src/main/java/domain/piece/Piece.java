@@ -1,34 +1,51 @@
 package domain.piece;
 
+import domain.ErrorMessage;
 import domain.Offset;
 import domain.Path;
-import domain.board.Position;
 
 import java.util.List;
 import java.util.Objects;
 
-public record Piece(PieceType pieceType, Team team, MoveStrategy moveStrategy) {
+public abstract class Piece {
+    private final PieceType pieceType;
+    private final Team team;
 
-    public List<Offset> getPathPositions(Offset offset) {
-        return moveStrategy.getPathPositions(offset);
+    public Piece(PieceType pieceType, Team team) {
+        this.pieceType = pieceType;
+        this.team = team;
     }
 
+    public boolean isSameTeam(Piece another) {
+        return another.team == team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    abstract public List<Offset> getPathPositions(Offset offset);
+
     public void canMove(List<Path> paths, Piece to) {
-        moveStrategy.canMove(paths, to);
+        if (!paths.isEmpty()) {
+            throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
+        }
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Piece piece)) return false;
-        return team == piece.team && pieceType == piece.pieceType;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return pieceType == piece.pieceType && team == piece.team;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(pieceType, team);
-    }
-
-    public boolean isSameTeam(Piece another) {
-        return another.team == team;
     }
 }

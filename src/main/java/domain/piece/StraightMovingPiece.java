@@ -3,12 +3,15 @@ package domain.piece;
 import domain.Direction;
 import domain.ErrorMessage;
 import domain.Offset;
-import domain.Path;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CannonStrategy implements MoveStrategy {
+public abstract class StraightMovingPiece extends Piece{
+    public StraightMovingPiece(PieceType pieceType, Team team) {
+        super(pieceType, team);
+    }
+
     @Override
     public List<Offset> getPathPositions(Offset offset) {
         int dx = offset.dx();
@@ -53,27 +56,5 @@ public class CannonStrategy implements MoveStrategy {
             return Direction.UP;
         }
         return Direction.DOWN;
-    }
-
-
-    @Override
-    public void canMove(List<Path> paths, Piece to) {
-        if (paths.isEmpty()) {
-            throw new IllegalStateException(ErrorMessage.CANNON_NEEDS_BRIDGE.getMessage());
-        }
-
-        if (paths.size() >= 2) {
-            throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_PIECES.getMessage());
-        }
-
-        Piece piece = paths.getFirst().piece();
-
-        if (piece.pieceType() == PieceType.CANNON) {
-            throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_CANNON.getMessage());
-        }
-
-        if (to != null && to.pieceType() == PieceType.CANNON) {
-            throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_TAKE_CANNON.getMessage());
-        }
     }
 }

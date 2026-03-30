@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Offset;
-import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ class CannonTest {
 
     @BeforeEach
     void setUp() {
-        cannon = new Piece(PieceType.CANNON, Team.CHO, new CannonStrategy());
+        cannon = new Cannon(Team.CHO);
     }
 
     @Test

@@ -30,15 +30,15 @@ public class OutputView {
             return " . ";
         }
 
-        String teamPrefix = piece.team() == Team.CHO ? "초" : "한";
-        String typeName = switch (piece.pieceType()) {
+        String teamPrefix = piece.getTeam() == Team.CHO ? "초" : "한";
+        String typeName = switch (piece.getPieceType()) {
             case GENERAL -> "장";
             case CHARIOT -> "차";
             case CANNON -> "포";
             case HORSE -> "마";
             case ELEPHANT -> "상";
             case GUARD -> "사";
-            case SOLDIER -> piece.team() == Team.CHO ? "졸" : "병";
+            case SOLDIER -> piece.getTeam() == Team.CHO ? "졸" : "병";
         };
 
         return teamPrefix + typeName;

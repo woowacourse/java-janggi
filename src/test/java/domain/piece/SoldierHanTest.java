@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Offset;
-import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ class SoldierHanTest {
 
     @BeforeEach
     void setUp() {
-        soldier = new Piece(PieceType.SOLDIER, Team.HAN, new HanSoldierStrategy());
+        soldier = new HanSoldier(Team.HAN);
     }
 
     @Test

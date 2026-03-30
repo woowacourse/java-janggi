@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Offset;
-import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ class ChariotTest {
 
     @BeforeEach
     void setUp() {
-        chariot = new Piece(PieceType.CHARIOT, Team.CHO, new ChariotStrategy());
+        chariot = new Chariot(Team.CHO);
     }
 
     @Test
