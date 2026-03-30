@@ -14,11 +14,4 @@ public class ExceptionHandler {
             }
         }
     }
-
-    public static void retryUntilSuccess(Runnable runnable) {
-        retryUntilSuccess(() -> {
-            runnable.run();
-            return null;
-        });
-    }
 }
