@@ -39,6 +39,12 @@ public abstract class Piece implements Space {
         }
     }
 
+    public void verifyMove(Position from, Position to, List<Piece> blockedPieces, Space targetSpace) {
+        validateMove(from, to);
+        validateRoutes(blockedPieces);
+        validateArrival(targetSpace);
+    }
+
     public boolean isEqualTeam(Team team) {
         return this.team == team;
     }

@@ -50,13 +50,10 @@ public class Board {
     }
 
     private void validatePieceRule(Position from, Position to, Piece selectedPiece) {
-        selectedPiece.validateMove(from, to);
+        List<Piece> blockedPieces = getBlockedPiece(from, to, selectedPiece);
+        Space targetSpace = piecesInfo.get(to);
 
-        List<Piece> blockedPiece = getBlockedPiece(from, to, selectedPiece);
-        selectedPiece.validateRoutes(blockedPiece);
-
-        Space spaceTo = piecesInfo.get(to);
-        selectedPiece.validateArrival(spaceTo);
+        selectedPiece.verifyMove(from, to, blockedPieces, targetSpace);
     }
 
     private void validateBlankSpace(Space spaceFrom) {
