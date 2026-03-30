@@ -30,7 +30,7 @@ class PoTest {
         //when
         Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(MoveErrorMessage.PO_CANNOT_CAPTURE_PO.getMessage());
+                .hasMessage(PieceErrorMessage.PO_CANNOT_CAPTURE_PO.getMessage());
     }
 
     @Test
@@ -50,7 +50,7 @@ class PoTest {
         //when
         Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(MoveErrorMessage.PO_CANNOT_JUMP_PO.getMessage());
+                .hasMessage(PieceErrorMessage.PO_CANNOT_JUMP_PO.getMessage());
     }
 
     @Test

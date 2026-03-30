@@ -28,7 +28,7 @@ class ChaTest {
         //when
         Assertions.assertThatThrownBy(() -> testCha.check(testBoard, start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(MoveErrorMessage.PATH_BLOCKED.getMessage());
+                .hasMessage(PieceErrorMessage.PATH_BLOCKED.getMessage());
     }
 
     @Test

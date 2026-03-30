@@ -16,13 +16,18 @@ public abstract class NonJumpable extends Piece {
         checkPathIsEmpty(boardStatus, movablePath);
     }
 
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
     private void checkPathIsEmpty(BoardStatus boardStatus, List<Position> movablePaths) {
         for (Position movablePath : movablePaths) {
             int rowValue = movablePath.getRow().getValue();
             int columnValue = movablePath.getColumn().getValue();
 
             if (isOccupied(boardStatus, rowValue, columnValue)) {
-                throw new IllegalArgumentException(MoveErrorMessage.PATH_BLOCKED.getMessage());
+                throw new IllegalArgumentException(PieceErrorMessage.PATH_BLOCKED.getMessage());
             }
         }
     }

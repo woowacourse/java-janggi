@@ -1,6 +1,5 @@
 package domain.piece.strategy;
 
-import domain.piece.MoveErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -16,7 +15,7 @@ public class JolMoveStrategy implements MoveStrategy {
                 .mapToObj(index -> List.<Position>of())
                 .findFirst()
                 .orElseThrow(
-                        () -> new IllegalArgumentException(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage())
+                        () -> new IllegalArgumentException(MoveStrategyErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage())
                 );
     }
 

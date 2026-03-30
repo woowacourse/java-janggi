@@ -1,5 +1,5 @@
 package domain.piece;
 
 public enum Team {
-    CHO, HAN
+    CHO, HAN, UNDEFINED
 }

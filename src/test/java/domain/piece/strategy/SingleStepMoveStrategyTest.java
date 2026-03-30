@@ -1,6 +1,5 @@
 package domain.piece.strategy;
 
-import domain.piece.MoveErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -70,6 +69,6 @@ class SingleStepMoveStrategyTest {
 
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage());
+                .hasMessage(MoveStrategyErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage());
     }
 }

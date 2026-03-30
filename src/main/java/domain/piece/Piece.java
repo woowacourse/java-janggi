@@ -18,15 +18,17 @@ public abstract class Piece {
 
     abstract public void check(BoardStatus boardStatus, Position start, Position destination);
 
+    abstract public boolean isEmpty();
+
     public void validateTurn(Team turn) {
         if (this.team != turn) {
-            throw new IllegalArgumentException(MoveErrorMessage.NOT_YOUR_PIECE.getMessage());
+            throw new IllegalArgumentException(PieceErrorMessage.NOT_YOUR_PIECE.getMessage());
         }
     }
 
     public void validateNotAlly(Piece destinationPiece) {
         if (destinationPiece != null && destinationPiece.isSameTeam(this)) {
-            throw new IllegalArgumentException(MoveErrorMessage.ALREADY_OCCUPIED_BY_ALLY.getMessage());
+            throw new IllegalArgumentException(PieceErrorMessage.ALREADY_OCCUPIED_BY_ALLY.getMessage());
         }
     }
 

@@ -1,6 +1,5 @@
 package domain.piece.strategy;
 
-import domain.piece.MoveErrorMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -36,7 +35,7 @@ public class MaMoveStrategy implements MoveStrategy {
                 .mapToObj(index -> consistMovablePath(start, dRow[index], dColumn[index]))
                 .findFirst()
                 .orElseThrow(
-                        () -> new IllegalArgumentException(MoveErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage())
+                        () -> new IllegalArgumentException(MoveStrategyErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage())
                 );
     }
 
