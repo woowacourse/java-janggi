@@ -28,6 +28,6 @@ public class Guard extends Piece {
     }
 
     private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
-        return Math.abs(from.columnDistanceTo(to)) == 1 || Math.abs(from.rowDistanceTo(to)) == 1;
+        return (Math.abs(from.columnDistanceTo(to)) == 1 && from.rowDistanceTo(to) == 0) || (Math.abs(from.rowDistanceTo(to)) == 1 && from.columnDistanceTo(to) == 0);
     }
 }

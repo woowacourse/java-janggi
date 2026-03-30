@@ -9,7 +9,10 @@ import domain.strategy.NoInitializeStrategy;
 import domain.stub.StubBoard;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import strategy.InitializeStrategy;
 
 class RookTest {
@@ -87,15 +90,15 @@ class RookTest {
     /**
      * 정상 테스트
      */
-    @Test
-    void 출발지와_도착지_사이에_기물이_없고_직선_움직임인_경우_차는_정상_이동한다() {
+    @ParameterizedTest
+    @MethodSource("validDirectionsPositions")
+    void 출발지와_도착지_사이에_기물이_없고_직선_움직임인_경우_차는_정상_이동한다(Position to) {
         // given
         StubBoard board = new StubBoard(strategy);
         Piece rook = new Rook(Team.CHO);
 
         // when
         Position from = Position.from(10, 1);
-        Position to = Position.from(10, 3);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Rook(Team.CHO));
@@ -104,5 +107,12 @@ class RookTest {
 
         // then
         assertThat(rook.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    static Stream<Position> validDirectionsPositions() {
+        return Stream.of(
+                Position.from(10, 3),
+                Position.from(8, 1)
+        );
     }
 }

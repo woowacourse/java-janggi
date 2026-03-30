@@ -9,7 +9,11 @@ import domain.strategy.NoInitializeStrategy;
 import domain.stub.StubBoard;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import strategy.InitializeStrategy;
 
 class ElephantTest {
@@ -18,18 +22,27 @@ class ElephantTest {
     /**
      * 직진 1칸 + 대각선 2칸만 이동 가능
      */
-    @Test
-    void 코끼리의_이동범위가_직진1칸_대각선_2칸이_아닌_경우_움직일수_없다() {
+    @ParameterizedTest
+    @MethodSource("invalidDirectionsProvider")
+    void 코끼리의_이동범위가_직진1칸_대각선_2칸이_아닌_경우_움직일수_없다(Position to) {
         // given
         Board board = new StubBoard(strategy);
         Piece elephant = new Elephant(Team.CHO);
 
         // when
         Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
 
         // then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    static Stream<Position> invalidDirectionsProvider() {
+        return Stream.of(
+                Position.from(6, 1),
+                Position.from(5, 1),
+                Position.from(6, 2),
+                Position.from(7, 3)
+        );
     }
 
     /**
@@ -76,21 +89,28 @@ class ElephantTest {
     /**
      * 정상테스트 1. 도착지에 같은 팀이 존재하지 않고, 2. 도착지와 출발지 사이에 다른 기물이 존재하지 않는다면 이동 가능
      */
-    @Test
-    void 도착지에_같은_팀이_존재하지_않고_경로에_다른_기물이_존재하지_않을_경우() {
+    @ParameterizedTest
+    @MethodSource("validDirectionsProvider")
+    void 도착지에_같은_팀이_존재하지_않고_경로에_다른_기물이_존재하지_않을_경우(Position to, Position from) {
         // given
         StubBoard board = new StubBoard(strategy);
         Piece elephant = new Elephant(Team.CHO);
 
         // when
-        Position from = Position.from(10, 3);
-        Position to = Position.from(7, 5);
-
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Elephant(Team.CHO));
         board.putPieces(testPiece);
 
         // then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    static Stream<Arguments> validDirectionsProvider() {
+        return Stream.of(
+                Arguments.of(Position.from(10, 3), Position.from(7, 5)),
+                Arguments.of(Position.from(10, 5), Position.from(7, 3)),
+                Arguments.of(Position.from(7, 3), Position.from(10, 5)),
+                Arguments.of(Position.from(7, 5), Position.from(10, 3))
+        );
     }
 }

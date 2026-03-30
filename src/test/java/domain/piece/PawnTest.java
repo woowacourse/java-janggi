@@ -7,7 +7,11 @@ import domain.strategy.NoInitializeStrategy;
 import domain.stub.StubBoard;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import strategy.InitializeStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,37 +23,30 @@ class PawnTest {
      * 졸/병 규칙 : 앞, 양 옆 한 칸씩 이동 가능
      * 1. 도착 지점이 한칸 앞, 혹은 양옆인지 검증
      */
-    @Test
-    void 도착_지점이_한칸거리이면서_양쪽_옆_혹은_앞인_경우_정상_테스트(){
-        // given
-        Board board = new StubBoard(strategy);
-        Piece pawn = new Pawn(Team.CHO);
-
-        // when
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
-
-        // then
-        // 규칙은 기물이 가지고 있음, 이동 가능 여부는 보드가 판단
-        // 그럼 가능한 거리인가에 대한 판단은 누가?
-        assertThat(pawn.canMove(from, to, board)).isEqualTo(true);
-    }
 
     /**
      * 이동 진로가 빈칸인 경우 1. 한칸 앞이 빈칸인 경우, 이동할 수 있다. 2. 한칸 오른쪽이 빈칸인 경우, 이동할 수 있다. 3. 한칸 왼쪽이 빈칸인 경우, 이동할 수 있다.
      */
-    @Test
-    void 한칸_앞이_빈칸인_경우_이동할_수_있다() {
+    @ParameterizedTest
+    @MethodSource("toProvider")
+    void 도착_지점이_한칸거리이면서_양쪽_옆_혹은_앞인_경우_정상_테스트(Position to){
         // given
         Board board = new StubBoard(strategy);
         Piece pawn = new Pawn(Team.CHO);
 
         // when
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
+        Position from = Position.from(7, 3);
 
         // then
         assertThat(pawn.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    static Stream<Position> toProvider() {
+        return Stream.of(
+                Position.from(6, 3),
+                Position.from(7, 2),
+                Position.from(7, 4)
+        );
     }
 
     /**
@@ -75,5 +72,25 @@ class PawnTest {
 
         // when & then
         assertThat(pawn.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidDirectionProvider")
+    void 목적지가_앞_또는_좌_우_한_칸이_아닌_경우_이동할_수_없다(Position to) {
+        // given
+        StubBoard board = new StubBoard(strategy);
+        Piece pawn = new Pawn(Team.CHO);
+
+        Position from = Position.from(7, 3);
+
+        assertThat(pawn.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    static Stream<Position> invalidDirectionProvider() {
+        return Stream.of(
+                Position.from(6, 4),
+                Position.from(5, 3),
+                Position.from(8, 3)
+        );
     }
 }

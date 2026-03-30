@@ -86,6 +86,21 @@ class CannonTest {
         assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
     }
 
+    @Test
+    void 중간에_말이_없는_경우_이동_불가능하다() {
+        StubBoard board = new StubBoard(strategy);
+        Piece cannon = new Cannon(Team.CHO);
+
+        Position from = Position.from(5, 1);
+        Position to = Position.from(5, 4);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, cannon);
+        board.putPieces(testPiece);
+
+        assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
+    }
+
     /**
      * 4. 도착지와 출발지 사이의 말 하나가 포인 경우 이동 불가
      */
@@ -152,7 +167,7 @@ class CannonTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Cannon(Team.CHO));
         testPiece.put(between, new Pawn(Team.CHO));
-        testPiece.put(to, new Cannon(Team.CHO));
+        testPiece.put(to, new Cannon(Team.HAN));
 
         board.putPieces(testPiece);
 
