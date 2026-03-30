@@ -64,6 +64,10 @@ public class OutputView {
         System.out.println("잘못된 말 선택입니다.");
     }
 
+    public void printErrorMessage(Exception e) {
+        System.out.println(e.getMessage());
+    }
+
     private String formatPiece(PositionStatusDto cell) {
         if (cell.pieceType() == PieceType.NONE) {
             return EMPTY_SPACE; // 전각 마침표 반환

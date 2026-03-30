@@ -36,9 +36,14 @@ public class JanggiController {
     private void playJanggi(Board board) {
         Camp camp = Camp.CHO;
         while (true) {
-            Position fromPosition = askFromPosition(camp, board);
-            Position toPosition = inputView.askToPosition(camp);
-            board.move(fromPosition, toPosition);
+            try{
+                Position fromPosition = askFromPosition(camp, board);
+                Position toPosition = inputView.askToPosition(camp);
+                board.move(fromPosition, toPosition);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e);
+                continue;
+            }
             printBoard(board);
             camp = turnCamp(camp);
 
