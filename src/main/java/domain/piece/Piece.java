@@ -8,7 +8,7 @@ public record Piece(
 ) {
 
     public static Piece none() {
-        return new Piece(null, PieceType.NONE);
+        return new Piece(Team.NONE, PieceType.NONE);
     }
 
     public boolean isSameTeam(Piece other) {
