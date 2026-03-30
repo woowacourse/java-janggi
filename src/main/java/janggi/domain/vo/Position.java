@@ -23,10 +23,6 @@ public class Position {
         this.col = col;
     }
 
-    public static boolean canMakePositionOnBoard(int row, int col) {
-        return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
-    }
-
     public List<Position> generatePath(List<Direction> directions) {
         List<Position> path = new ArrayList<>();
         Position current = this;
@@ -61,6 +57,10 @@ public class Position {
 
     public boolean hasNext(Direction direction) {
         return canMakePositionOnBoard(this.getRow() + direction.getDx(), this.getCol() + direction.getDy());
+    }
+
+    private boolean canMakePositionOnBoard(int row, int col) {
+        return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
     }
 
     private void validateRange(int row, int col) {
