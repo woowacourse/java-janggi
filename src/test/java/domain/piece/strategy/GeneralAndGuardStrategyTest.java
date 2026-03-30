@@ -25,10 +25,7 @@ public class GeneralAndGuardStrategyTest {
     void setUp() {
         dummyBoard = new HashMap<>();
 
-        dummyBoard.put(
-                new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.GENERAL, PieceType.GENERAL.createStrategy())
-        );
+        dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.GENERAL));
 
         pathChecker = new Board(dummyBoard);
     }

@@ -54,49 +54,27 @@ public class BoardInitializer {
 
     private static void setUpSoldier(Map<Position, Piece> initialBoard, Camp camp, int soldierY) {
         for (int soldierX = 1; soldierX <= 9; soldierX += 2) {
-            initialBoard.put(new Position(soldierX, soldierY), new Piece(camp, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy()));
+            initialBoard.put(new Position(soldierX, soldierY), new Piece(camp, PieceType.SOLDIER));
         }
     }
 
     private static void setUpCannon(Map<Position, Piece> initialBoard, Camp camp, int cannonY) {
-        initialBoard.put(
-                new Position(LEFT_CANNON_X_COORDINATE, cannonY),
-                new Piece(camp, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
-
-        initialBoard.put(
-                new Position(RIGHT_CANNON_X_COORDINATE, cannonY),
-                new Piece(camp, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
+        initialBoard.put(new Position(LEFT_CANNON_X_COORDINATE, cannonY), new Piece(camp, PieceType.CANNON));
+        initialBoard.put(new Position(RIGHT_CANNON_X_COORDINATE, cannonY), new Piece(camp, PieceType.CANNON));
     }
 
     private static void setUpChariot(Map<Position, Piece> initialBoard, Camp camp, int otherY) {
-        initialBoard.put(
-                new Position(LEFT_CHARIOT_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy())
-        );
-
-        initialBoard.put(
-                new Position(RIGHT_CHARIOT_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy())
-        );
+        initialBoard.put(new Position(LEFT_CHARIOT_X_COORDINATE, otherY), new Piece(camp, PieceType.CHARIOT));
+        initialBoard.put(new Position(RIGHT_CHARIOT_X_COORDINATE, otherY), new Piece(camp, PieceType.CHARIOT));
     }
 
     private static void setUpGuard(Map<Position, Piece> initialBoard, Camp camp, int otherY) {
-        initialBoard.put(
-                new Position(LEFT_GUARD_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.GUARD, PieceType.GUARD.createStrategy())
-        );
-
-        initialBoard.put(
-                new Position(RIGHT_GUARD_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.GUARD, PieceType.GUARD.createStrategy())
-        );
+        initialBoard.put(new Position(LEFT_GUARD_X_COORDINATE, otherY), new Piece(camp, PieceType.GUARD));
+        initialBoard.put(new Position(RIGHT_GUARD_X_COORDINATE, otherY), new Piece(camp, PieceType.GUARD));
     }
 
     private static void setUpGeneral(Map<Position, Piece> initialBoard, Camp camp, int generalY) {
-        initialBoard.put(new Position(GENERAL_X_COORDINATE, generalY),
-                new Piece(camp, PieceType.GENERAL, PieceType.GENERAL.createStrategy()));
+        initialBoard.put(new Position(GENERAL_X_COORDINATE, generalY), new Piece(camp, PieceType.GENERAL));
     }
 
     private static void setUpElephantAndHorse(Map<Position, Piece> initialBoard, Camp camp, int input) {
@@ -106,10 +84,7 @@ public class BoardInitializer {
         int y = resolveY(camp, HAN_OTHER_PIECES_Y_COORDINATE);
 
         for (int i = 0; i < ELEPHANT_SETUP_POSITION.size(); i++) {
-            initialBoard.put(
-                    new Position(ELEPHANT_SETUP_POSITION.get(i), y),
-                    new Piece(camp, pieceTypes.get(i), pieceTypes.get(i).createStrategy())
-            );
+            initialBoard.put(new Position(ELEPHANT_SETUP_POSITION.get(i), y), new Piece(camp, pieceTypes.get(i)));
         }
     }
 

@@ -59,8 +59,7 @@ public class BoardTest {
         @DisplayName("경로 중간에 기물이 있으면 해당 기물을 반환한다.")
         void check_If_PiecesInPath() {
             Map<Position, Piece> map = new HashMap<>();
-            map.put(new Position(1, 3), new Piece(Camp.HAN, PieceType.SOLDIER,
-                    PieceType.SOLDIER.createStrategy()));
+            map.put(new Position(1, 3), new Piece(Camp.HAN, PieceType.SOLDIER));
 
             PathChecker pathChecker = new Board(map);
 
@@ -97,8 +96,8 @@ public class BoardTest {
         @DisplayName("경로에 여러 기물이 있으면 모두 반환한다.")
         void multiplePiecesInPath() {
             Map<Position, Piece> map = new HashMap<>();
-            map.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy()));
-            map.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy()));
+            map.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER));
+            map.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.CANNON));
 
             PathChecker pathChecker = new Board(map);
 
@@ -134,18 +133,9 @@ public class BoardTest {
         void setUp() {
             dummyBoard = new HashMap<>();
 
-            dummyBoard.put(
-                    new Position(1, 1),
-                    new Piece(Camp.HAN, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy())
-            );
-            dummyBoard.put(
-                    new Position(1, 4),
-                    new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-            );
-            dummyBoard.put(
-                    new Position(1, 7),
-                    new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-            );
+            dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.CHARIOT));
+            dummyBoard.put(new Position(1, 4), new Piece(Camp.HAN, PieceType.SOLDIER));
+            dummyBoard.put(new Position(1, 7), new Piece(Camp.CHO, PieceType.SOLDIER));
 
             pathChecker = new Board(dummyBoard);
         }

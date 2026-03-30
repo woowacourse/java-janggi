@@ -25,30 +25,12 @@ public class ElephantStrategyTest {
     void setUp() {
         dummyBoard = new HashMap<>();
 
-        dummyBoard.put(
-                new Position(3, 3),
-                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(4, 4),
-                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(4, 5),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(5, 6),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(6, 7),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(7, 2),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(new Position(3, 3), new Piece(Camp.HAN, PieceType.ELEPHANT));
+        dummyBoard.put(new Position(4, 4), new Piece(Camp.HAN, PieceType.ELEPHANT));
+        dummyBoard.put(new Position(4, 5), new Piece(Camp.HAN, PieceType.SOLDIER));
+        dummyBoard.put(new Position(5, 6), new Piece(Camp.HAN, PieceType.SOLDIER));
+        dummyBoard.put(new Position(6, 7), new Piece(Camp.CHO, PieceType.SOLDIER));
+        dummyBoard.put(new Position(7, 2), new Piece(Camp.CHO, PieceType.SOLDIER));
 
         pathChecker = new Board(dummyBoard);
     }
@@ -83,10 +65,7 @@ public class ElephantStrategyTest {
         Position from = new Position(4, 4);
         Position to = new Position(6, 7);
 
-        dummyBoard.put(
-                new Position(4, 5),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(new Position(4, 5), new Piece(Camp.CHO, PieceType.SOLDIER));
 
         Piece elephant = dummyBoard.get(from);
 
@@ -100,10 +79,7 @@ public class ElephantStrategyTest {
         Position from = new Position(4, 4);
         Position to = new Position(6, 7);
 
-        dummyBoard.put(
-                new Position(5, 6),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(new Position(5, 6), new Piece(Camp.CHO, PieceType.SOLDIER));
 
         Piece elephant = dummyBoard.get(from);
 

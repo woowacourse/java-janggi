@@ -29,18 +29,9 @@ public class CannonStrategyTest {
     @Test
     @DisplayName("경로상에 기물이 정확히 한 개가 아닐 경우 예외를 발생한다.")
     void throwException_When_PiecesAreNotExactlyOne() {
-        dummyBoard.put(
-                new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(1, 2),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(1, 4),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER));
+        dummyBoard.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.SOLDIER));
         pathChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
@@ -55,14 +46,8 @@ public class CannonStrategyTest {
     @Test
     @DisplayName("경로상에 포가 존재할 경우 예외를 발생한다.")
     void throwException_When_CannonIsExists() {
-        dummyBoard.put(
-                new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
+        dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(1, 3), new Piece(Camp.CHO, PieceType.CANNON));
         pathChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
@@ -77,14 +62,8 @@ public class CannonStrategyTest {
     @Test
     @DisplayName("경로상에 포가 아닌 기물이 정확히 한 개 존재할 경우 정상 이동한다.")
     void moveSuccessfully_When_NoCannonInPathAndExactlyOnePiece() {
-        dummyBoard.put(
-                new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(1, 3), new Piece(Camp.CHO, PieceType.SOLDIER));
         pathChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
@@ -99,18 +78,9 @@ public class CannonStrategyTest {
     @Test
     @DisplayName("도착 위치에 존재하는 기물이 포일 경우 움직일 수 없다.")
     void throwException_When_CannonIsOnDestination() {
-        dummyBoard.put(
-                new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(1, 5),
-                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy())
-        );
+        dummyBoard.put(new Position(1, 1), new Piece(Camp.HAN, PieceType.CANNON));
+        dummyBoard.put(new Position(1, 3), new Piece(Camp.CHO, PieceType.SOLDIER));
+        dummyBoard.put(new Position(1, 5), new Piece(Camp.CHO, PieceType.CANNON));
         pathChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);

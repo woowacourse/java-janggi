@@ -24,14 +24,8 @@ public class SoldierStrategyTest {
     void setUp() {
         dummyBoard = new HashMap<>();
 
-        dummyBoard.put(
-                new Position(1, 4),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
-        dummyBoard.put(
-                new Position(1, 7),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(new Position(1, 4), new Piece(Camp.HAN, PieceType.SOLDIER));
+        dummyBoard.put(new Position(1, 7), new Piece(Camp.CHO, PieceType.SOLDIER));
 
         pathChecker = new Board(dummyBoard);
     }
@@ -102,10 +96,7 @@ public class SoldierStrategyTest {
         Position from = new Position(3, 7);
         Position to = new Position(2, 7);
 
-        dummyBoard.put(
-                from,
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(from, new Piece(Camp.CHO, PieceType.SOLDIER));
         pathChecker = new Board(dummyBoard);
 
         Piece soldier = dummyBoard.get(from);
@@ -132,10 +123,7 @@ public class SoldierStrategyTest {
         Position from = new Position(3, 4);
         Position to = new Position(2, 4);
 
-        dummyBoard.put(
-                from,
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
-        );
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.SOLDIER));
         pathChecker = new Board(dummyBoard);
 
         Piece soldier = dummyBoard.get(from);
