@@ -55,6 +55,11 @@ public final class Cannon extends StaticPositionedPiece {
         return List.copyOf(movableIntersections);
     }
 
+    @Override
+    public boolean canBelongToWing() {
+        return false;
+    }
+
     private void addIfMovable(
             Intersection from,
             Direction direction,

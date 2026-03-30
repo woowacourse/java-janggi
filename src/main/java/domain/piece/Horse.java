@@ -38,6 +38,11 @@ public final class Horse extends Piece {
         return List.copyOf(movableIntersections);
     }
 
+    @Override
+    public boolean canBelongToWing() {
+        return true;
+    }
+
     private void addIfMovable(
             Intersection from,
             Direction direction,

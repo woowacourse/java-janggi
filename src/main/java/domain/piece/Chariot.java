@@ -55,6 +55,11 @@ public final class Chariot extends StaticPositionedPiece {
         return List.copyOf(movableIntersections);
     }
 
+    @Override
+    public boolean canBelongToWing() {
+        return false;
+    }
+
     private void addReachableIntersections(
             Intersection from,
             Direction direction,

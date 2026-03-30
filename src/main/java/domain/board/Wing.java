@@ -1,17 +1,15 @@
 package domain.board;
 
 import domain.game.Side;
-import domain.piece.Elephant;
-import domain.piece.Horse;
 import domain.piece.Piece;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Wing {
 
     private static final int WING_SIZE = 2;
-    private static final int ELEPHANT_COUNT = 1;
-    private static final int HORSE_COUNT = 1;
 
     protected final Piece first;
     protected final Piece second;
@@ -25,8 +23,8 @@ public abstract class Wing {
 
     private void validatePieces(List<Piece> pieces) {
         validateSize(pieces);
-        validateElephantCount(pieces);
-        validateHorseCount(pieces);
+        validatePiecesUnique(pieces);
+        validatePiecesEligibility(pieces);
     }
 
     private void validateSize(List<Piece> pieces) {
@@ -35,23 +33,20 @@ public abstract class Wing {
         }
     }
 
-    private void validateElephantCount(List<Piece> pieces) {
-        long count = pieces.stream()
-                .filter(piece -> piece instanceof Elephant)
-                .count();
+    private void validatePiecesEligibility(Collection<Piece> pieces) {
+        boolean allLegalPieces = pieces.stream()
+                .allMatch(Piece::canBelongToWing);
 
-        if (count != ELEPHANT_COUNT) {
-            throw new IllegalArgumentException("상의 기물 수는 " + ELEPHANT_COUNT + "개여야 합니다(현재 기물 수: " + count + "개).");
+        if (!allLegalPieces) {
+            throw new IllegalArgumentException("진에 소속될 수 없는 기물이 포함되어 있습니다. (현재 기물: " + pieces + ")");
         }
     }
 
-    private void validateHorseCount(List<Piece> pieces) {
-        long count = pieces.stream()
-                .filter(piece -> piece instanceof Horse)
-                .count();
+    private void validatePiecesUnique(Collection<Piece> pieces) {
+        HashSet<Piece> distinctPieces = new HashSet<>(pieces);
 
-        if (count != HORSE_COUNT) {
-            throw new IllegalArgumentException("마의 기물 수는 " + HORSE_COUNT + "개여야 합니다(현재 기물 수: " + count + "개).");
+        if (distinctPieces.size() != pieces.size()) {
+            throw new IllegalArgumentException("하나의 진에는 중복되지 않은 기물들만 포함될 수 있습니다. (현재 기물: " + pieces + ")");
         }
     }
 

@@ -21,8 +21,12 @@ class WingTest {
 
     private static final Soldier DEFAULT_PIECE = new Soldier(Side.CHO);
 
+    private final Piece wingPiece1 = new Elephant(Side.CHO);
+    private final Piece wingPiece2 = new Horse(Side.CHO);
+    private final Piece notWingPiece = new Elephant(Side.CHO);
+
     @Nested
-    class 기물_개수가_2개가_아니면_예외를_던진다 {
+    class 기물_개수를_검증한다 {
 
         @ParameterizedTest
         @MethodSource("lessPieces")
@@ -71,57 +75,29 @@ class WingTest {
         }
     }
 
-    @Nested
-    class 상의_개수가_1개가_아니면_예외를_던진다 {
+    @Test
+    void 진에_속할_수_있는_기물이_아니면_예외를_던진다() {
+        // given
+        List<Piece> illegalPieces = List.of(notWingPiece, wingPiece1);
 
-        @Test
-        void 상의_개수가_1개_미만이면_예외를_던진다() {
-            // given
-            List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
-
-            // when and then
-            assertThatThrownBy(() -> new LeftWing(illegalPieces))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        void 상의_개수가_1개_초과면_예외를_던진다() {
-            // given
-            List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), new Elephant(Side.CHO));
-
-            // when and then
-            assertThatThrownBy(() -> new LeftWing(illegalPieces))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    @Nested
-    class 마의_개수가_1개가_아니면_예외를_던진다 {
-
-        @Test
-        void 마의_개수가_1개_미만이면_예외를_던진다() {
-            // given
-            List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), DEFAULT_PIECE);
-
-            // when and then
-            assertThatThrownBy(() -> new LeftWing(illegalPieces))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        void 마의_개수가_1개_초과면_예외를_던진다() {
-            // given
-            List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
-
-            // when and then
-            assertThatThrownBy(() -> new LeftWing(illegalPieces))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
+        // when and then
+        assertThatThrownBy(() -> new LeftWing(illegalPieces))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void 상과_마가_1개씩_있다면_정상적으로_생성된다() {
-        List<Piece> pieces = List.of(new Horse(Side.CHO), new Elephant(Side.CHO));
+    void 기물이_중복되면_예외를_던진다() {
+        // given
+        List<Piece> illegalPieces = List.of(wingPiece1, wingPiece1);
+
+        // when and then
+        assertThatThrownBy(() -> new LeftWing(illegalPieces))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 진에_속할_수_있는_기물이_1개씩_총_2개_있다면_정상적으로_생성된다() {
+        List<Piece> pieces = List.of(wingPiece1, wingPiece2);
 
         assertThatNoException(() -> new LeftWing(pieces));
     }

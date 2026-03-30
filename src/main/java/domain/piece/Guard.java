@@ -25,6 +25,11 @@ public class Guard extends PalacePiece {
                 .toList();
     }
 
+    @Override
+    public boolean canBelongToWing() {
+        return false;
+    }
+
     private Intersection currentIntersection(int file) {
         return new Intersection(side.getBaseRow(), file);
     }

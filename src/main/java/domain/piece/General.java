@@ -24,4 +24,9 @@ public class General extends PalacePiece {
                 FAR_FROM_BASE_ROW
         ));
     }
+
+    @Override
+    public boolean canBelongToWing() {
+        return false;
+    }
 }

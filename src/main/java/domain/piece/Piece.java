@@ -32,6 +32,8 @@ public abstract class Piece {
             AlivePieces alivePieces
     );
 
+    public abstract boolean canBelongToWing();
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Piece piece)) {
