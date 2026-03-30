@@ -19,7 +19,7 @@ public class BoardInitialTest {
 
     @BeforeEach
     void setUp() {
-        janggiBoard = new JanggiBoard(new LinkedHashMap<>());
+        janggiBoard = new JanggiBoard();
     }
 
     @Test

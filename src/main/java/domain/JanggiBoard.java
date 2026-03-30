@@ -4,6 +4,7 @@ import domain.piece.*;
 
 import domain.position.Position;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JanggiBoard implements PieceProvider {
@@ -12,8 +13,8 @@ public class JanggiBoard implements PieceProvider {
 
     private final Map<Position, Piece> janggiBoard;
 
-    public JanggiBoard(Map<Position, Piece> janggiBoard) {
-        this.janggiBoard = janggiBoard;
+    public JanggiBoard() {
+        this.janggiBoard = new LinkedHashMap<>();
         initializeBoard();
         setupInitialPieces();
     }

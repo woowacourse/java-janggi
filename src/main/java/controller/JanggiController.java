@@ -17,7 +17,7 @@ public class JanggiController {
     }
 
     public void run() {
-        JanggiBoard janggiBoard = new JanggiBoard(new LinkedHashMap<>());
+        JanggiBoard janggiBoard = new JanggiBoard();
         while (true) {
             outputView.printBoard(janggiBoard);
             Position currentPosition = inputMovePosition();
