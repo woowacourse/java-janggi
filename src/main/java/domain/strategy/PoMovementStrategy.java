@@ -5,9 +5,11 @@ import domain.piece.PieceType;
 
 public class PoMovementStrategy implements MovementStrategy {
 
+    private static final int PO_COUNT_WAYPOINTS= 1;
+
     @Override
     public boolean validatePath(PathPieces pathPieces) {
-        if (pathPieces.countWaypoints() != 1) {
+        if (pathPieces.countWaypoints() != PO_COUNT_WAYPOINTS) {
             return false;
         }
 
