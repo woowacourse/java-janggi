@@ -1,6 +1,7 @@
 package domain;
 
 import domain.board.BasicBoardInitializer;
+import domain.board.Game;
 import domain.board.Side;
 import domain.board.strategy.OutsideMaStrategy;
 import domain.coordinate.Position;

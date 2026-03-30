@@ -2,7 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Game;
+import domain.board.Game;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -80,7 +80,7 @@ class CannonTest {
         Piece cannon = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = cannon.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -99,7 +99,7 @@ class CannonTest {
         Piece cannon = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = cannon.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -116,7 +116,7 @@ class CannonTest {
         Piece cannon = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = cannon.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(6, 6));
@@ -131,7 +131,7 @@ class CannonTest {
         Piece cannon = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = cannon.getPossibleMoves(game.getBoard(), start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -147,7 +147,7 @@ class CannonTest {
         Piece cannon = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = cannon.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).doesNotContain(

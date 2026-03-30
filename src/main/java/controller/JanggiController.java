@@ -1,6 +1,6 @@
 package controller;
 
-import domain.Game;
+import domain.board.Game;
 import domain.board.BasicBoardInitializer;
 import domain.board.strategy.InitialStrategyType;
 import domain.board.Side;

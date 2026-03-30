@@ -2,7 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Game;
+import domain.board.Game;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -71,7 +71,7 @@ public class GuardTest {
         Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(2, 0), new Position(3, 1));
@@ -86,7 +86,7 @@ public class GuardTest {
         Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
@@ -101,7 +101,7 @@ public class GuardTest {
         Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game.getBoard(), start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -116,7 +116,7 @@ public class GuardTest {
         Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = guard.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));

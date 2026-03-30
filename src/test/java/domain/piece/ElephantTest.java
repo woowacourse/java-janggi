@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Game;
+import domain.board.Game;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -54,7 +54,7 @@ class ElephantTest {
         Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -78,7 +78,7 @@ class ElephantTest {
         Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -93,7 +93,7 @@ class ElephantTest {
         Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -108,7 +108,7 @@ class ElephantTest {
         Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).doesNotContain(new Position(6, 2));
@@ -123,7 +123,7 @@ class ElephantTest {
         Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(7, 3));

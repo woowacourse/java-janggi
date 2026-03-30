@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Game;
+import domain.board.Game;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -52,7 +52,7 @@ class ChariotTest {
         Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
+        List<Position> possibleMoves = chariot.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -84,7 +84,7 @@ class ChariotTest {
         Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
+        List<Position> possibleMoves = chariot.getPossibleMoves(game.getBoard(), start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -99,7 +99,7 @@ class ChariotTest {
         Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
+        List<Position> possibleMoves = chariot.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).contains(new Position(5, 8), new Position(6, 8));

@@ -2,7 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Game;
+import domain.board.Game;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -49,7 +49,7 @@ class HorseTest {
         Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -73,7 +73,7 @@ class HorseTest {
         Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game.getBoard(), start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -88,7 +88,7 @@ class HorseTest {
         Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).doesNotContain(new Position(7, 1));
@@ -103,7 +103,7 @@ class HorseTest {
         Piece horse = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = horse.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(8, 2));

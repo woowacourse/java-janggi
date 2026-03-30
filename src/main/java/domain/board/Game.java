@@ -1,8 +1,5 @@
-package domain;
+package domain.board;
 
-import domain.board.Board;
-import domain.board.BoardInitializer;
-import domain.board.Side;
 import domain.coordinate.Position;
 import domain.piece.Piece;
 import dto.PossibleMovesDto;

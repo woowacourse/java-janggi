@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Game;
+import domain.board.Game;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -74,7 +74,7 @@ class KingTest {
         Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4), new Position(1, 5));
@@ -89,7 +89,7 @@ class KingTest {
         Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
@@ -104,7 +104,7 @@ class KingTest {
         Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game.getBoard(), start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -119,7 +119,7 @@ class KingTest {
         Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = king.getPossibleMoves(game.getBoard(), start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));
