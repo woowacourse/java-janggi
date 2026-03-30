@@ -2,13 +2,10 @@ package application;
 
 import domain.game.Game;
 import domain.piece.Camp;
+import java.util.NoSuchElementException;
 import view.GameCommand;
 import view.InputView;
-import view.MoveCommand;
 import view.OutputView;
-import view.PassCommand;
-
-import java.util.NoSuchElementException;
 
 public class Application {
     private final InputView inputView = new InputView();
@@ -35,7 +32,7 @@ public class Application {
 
             try {
                 GameCommand command = inputView.readCommand();
-                execute(game, command);
+                command.execute(game);
                 outputView.printBoard(game.board());
             } catch (IllegalArgumentException | NoSuchElementException exception) {
                 outputView.printError(exception.getMessage());
@@ -57,13 +54,4 @@ public class Application {
         }
     }
 
-    private void execute(Game game, GameCommand command) {
-        if (command instanceof PassCommand) {
-            game.passTurn();
-            return;
-        }
-
-        MoveCommand moveCommand = (MoveCommand) command;
-        game.move(moveCommand.from(), moveCommand.to());
-    }
 }
