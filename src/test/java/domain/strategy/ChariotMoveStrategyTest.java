@@ -37,7 +37,7 @@ class ChariotMoveStrategyTest {
         List<Position> piecePositions = List.of(Position.of(4, 8));
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
-        assertThat(moveStrategy.hasPieceInPath(target, piecePositions)).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(target, piecePositions)).isFalse();
     }
 
     @Test
@@ -48,7 +48,7 @@ class ChariotMoveStrategyTest {
         List<Position> piecePositions = List.of(Position.of(4, 3));
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
-        assertThat(moveStrategy.hasPieceInPath(target, piecePositions)).isFalse();
+        assertThat(moveStrategy.hasValidPathTo(target, piecePositions)).isTrue();
     }
 
 

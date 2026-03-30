@@ -22,8 +22,8 @@ public class Piece {
         return moveStrategy.canMoveTo(destination);
     }
 
-    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
-        return moveStrategy.hasPieceInPath(destination, occupiedPositions);
+    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
+        return moveStrategy.hasValidPathTo(destination, occupiedPositions);
     }
 
     public boolean isGeneral() {

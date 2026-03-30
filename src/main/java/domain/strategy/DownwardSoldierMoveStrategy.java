@@ -35,7 +35,7 @@ public class DownwardSoldierMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
-        return false;
+    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
+        return true;
     }
 }

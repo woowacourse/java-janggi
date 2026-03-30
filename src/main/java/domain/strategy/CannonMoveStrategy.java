@@ -31,7 +31,7 @@ public class CannonMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
         if (isHorizontalMove(destination)) {
             return doesHaveExactlyOnePieceInPath(horizontalRoute(destination), occupiedPositions);
         }

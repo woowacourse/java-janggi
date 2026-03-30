@@ -3,8 +3,10 @@ package domain.strategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Position;
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -27,6 +29,15 @@ class DownwardSoldierMoveStrategyTest {
         DownwardSoldierMoveStrategy moveStrategy = DownwardSoldierMoveStrategy.of(guardPosition);
 
         assertThat(moveStrategy.canMoveTo(wrongTarget)).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("nonMovablePositions")
+    @DisplayName("졸은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
+    void hasValidPathTo_always_true_test(Position guardPosition, Position wrongTarget) {
+        DownwardSoldierMoveStrategy moveStrategy = DownwardSoldierMoveStrategy.of(guardPosition);
+
+        assertThat(moveStrategy.hasValidPathTo(wrongTarget, List.of())).isTrue();
     }
 
     private static Stream<Arguments> moveablePositions() {

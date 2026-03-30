@@ -47,8 +47,8 @@ public class HorseMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
         return occupiedPositions.stream()
-                .anyMatch(routesByDestination.get(destination)::contains);
+                .noneMatch(routesByDestination.get(destination)::contains);
     }
 }

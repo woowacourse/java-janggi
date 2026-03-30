@@ -15,7 +15,7 @@ public abstract class MoveStrategy {
 
     public abstract boolean canMoveTo(Position destination);
 
-    public abstract boolean hasPieceInPath(Position destination, List<Position> occupiedPositions);
+    public abstract boolean hasValidPathTo(Position destination, List<Position> occupiedPositions);
 
     public void moveTo(Position destination) {
         this.position = destination;

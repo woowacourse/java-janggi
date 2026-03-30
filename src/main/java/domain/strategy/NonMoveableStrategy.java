@@ -23,7 +23,7 @@ public class NonMoveableStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
         return false;
     }
 }

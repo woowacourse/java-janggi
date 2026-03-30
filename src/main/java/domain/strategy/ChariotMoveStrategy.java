@@ -24,13 +24,13 @@ public class ChariotMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasPieceInPath(Position destination, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
         if (isHorizontalMove(destination)) {
-            return hasOccupiedPositionIn(horizontalRoute(destination), occupiedPositions);
+            return hasNotOccupiedPositionIn(horizontalRoute(destination), occupiedPositions);
         }
 
         if (isVerticalMove(destination)) {
-            return hasOccupiedPositionIn(verticalRouteTo(destination), occupiedPositions);
+            return hasNotOccupiedPositionIn(verticalRouteTo(destination), occupiedPositions);
         }
 
         return false;
@@ -68,8 +68,8 @@ public class ChariotMoveStrategy extends MoveStrategy {
         return routePositions;
     }
 
-    private boolean hasOccupiedPositionIn(List<Position> routePositions, List<Position> occupiedPositions) {
+    private boolean hasNotOccupiedPositionIn(List<Position> routePositions, List<Position> occupiedPositions) {
         return occupiedPositions.stream()
-                .anyMatch(routePositions::contains);
+                .noneMatch(routePositions::contains);
     }
 }
