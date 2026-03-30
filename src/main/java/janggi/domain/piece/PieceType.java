@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-public enum Name {
+public enum PieceType {
     GENERAL("將"),
     CHARIOT("車"),
     CANNON("包"),
@@ -9,13 +9,13 @@ public enum Name {
     GUARD("士"),
     SOLDIER("兵");
 
-    private String name;
+    private final String type;
 
-    Name(final String name) {
-        this.name = name;
+    PieceType(final String type) {
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 }

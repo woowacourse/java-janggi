@@ -5,19 +5,19 @@ import janggi.domain.movestrategy.MoveStrategy;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Piece {
+public class Piece {
     private final Team team;
-    private final Name name;
     private final MoveStrategy moveStrategy;
+    private final PieceType pieceType;
 
-    public Piece(Team team, Name name, MoveStrategy moveStrategy) {
+    public Piece(Team team, MoveStrategy moveStrategy) {
         this.team = team;
-        this.name = name;
         this.moveStrategy = moveStrategy;
+        this.pieceType = moveStrategy.getIdentity();
     }
 
     public String getPieceName() {
-        return name.getName();
+        return pieceType.getType();
     }
 
     public String getTeamName() {
