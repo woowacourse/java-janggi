@@ -55,9 +55,9 @@ public class ElephantMoveStrategy implements MoveStrategy {
         Direction thirdStepDirection = sequence.get(2);
 
         return from.moveIfInBounds(firstStepDirection)
-                .filter(firstStepPosition -> !path.containsKey(firstStepPosition)) // 첫 번째 멱 확인
+                .filter(firstStepPosition -> !path.containsKey(firstStepPosition))
                 .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
-                .filter(secondStepPosition -> !path.containsKey(secondStepPosition)) // 두 번째 멱 확인
+                .filter(secondStepPosition -> !path.containsKey(secondStepPosition))
                 .flatMap(secondStepPosition -> secondStepPosition.moveIfInBounds(thirdStepDirection))
                 .filter(to::equals)
                 .isPresent();

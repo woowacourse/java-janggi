@@ -37,7 +37,7 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
-        if (isTargetCannon(board, to)) {
+        if (isTargetCannon(getPlace(board, to))) {
             return false;
         }
 
@@ -54,37 +54,26 @@ public class CannonMoveStrategy implements MoveStrategy {
                                 Position from,
                                 Position to,
                                 Direction direction) {
-        int obstacleCount = 0;
+
+        int count = 0;
         Optional<Position> current = from.moveIfInBounds(direction);
 
-        while (canContinue(current, to, obstacleCount)) {
-            Position pos = current.get();
-            Place place = board.getOrDefault(pos, new Empty());
-            if (place.isSameSymbol(PieceSymbol.CANNON)) {
-                return false;
-            }
-            if (!place.isEmpty()) {
-                obstacleCount++;
-            }
+        while (current.isPresent() && !current.get().equals(to) && count <= REQUIRED_OBSTACLE_COUNT) {
+            Place place = getPlace(board, current.get());
 
-            current = pos.moveIfInBounds(direction);
+            if (isTargetCannon(place)) return false;
+            if (!place.isEmpty()) count++;
+
+            current = current.get().moveIfInBounds(direction);
         }
-
-        return isArrived(current, to) && obstacleCount == REQUIRED_OBSTACLE_COUNT;
+        return current.filter(to::equals).isPresent() && count == REQUIRED_OBSTACLE_COUNT;
     }
 
-    private boolean canContinue(Optional<Position> current, Position to, int count) {
-        return current.isPresent()
-                && !current.get().equals(to)
-                && count <= REQUIRED_OBSTACLE_COUNT;
+    private Place getPlace(Map<Position, Place> board, Position pos) {
+        return board.getOrDefault(pos, new Empty());
     }
 
-    private boolean isArrived(Optional<Position> current, Position to) {
-        return current.filter(to::equals).isPresent();
-    }
-
-    private boolean isTargetCannon(Map<Position, Place> board, Position to) {
-        Place place = board.getOrDefault(to, new Empty());
+    private boolean isTargetCannon(Place place) {
         return place.isSameSymbol(PieceSymbol.CANNON);
     }
 
