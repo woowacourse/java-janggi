@@ -1,7 +1,5 @@
 package janggi.domain.board;
 
-import static janggi.view.Message.TARGET_POSITION_IS_NOT_MOVEABLE;
-
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
 import janggi.domain.route.Path;
@@ -60,7 +58,7 @@ public class Board {
 
     public void movePiece(Position selected, Position target, List<Position> destinations) {
         if (!destinations.contains(target)) {
-            throw new IllegalArgumentException(TARGET_POSITION_IS_NOT_MOVEABLE);
+            throw new IllegalArgumentException("[ERROR] 표시된 이동 가능 좌표를 선택해주세요.");
         }
         Piece movingPiece = piecePosition.remove(selected);
         piecePosition.put(target, movingPiece);
@@ -81,7 +79,8 @@ public class Board {
         return piecePosition.get(selectedPosition);
     }
 
-    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper, PieceMapper<V> pieceMapper) {
+    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper,
+                                             PieceMapper<V> pieceMapper) {
         return piecePosition.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> entry.getKey().map(positionMapper), // Position 상태 Push

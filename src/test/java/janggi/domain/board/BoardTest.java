@@ -33,7 +33,7 @@ class BoardTest {
 
         assertThatThrownBy(() -> board.movePiece(selected, invalidTarget, allowedDestinations))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("이동이 불가능한 좌표입니다");
+                .hasMessageContaining("[ERROR] 표시된 이동 가능 좌표를 선택해주세요.");
     }
 
     @DisplayName("정상적인 타겟 좌표가 주어지면 기물이 해당 위치로 이동한다")
