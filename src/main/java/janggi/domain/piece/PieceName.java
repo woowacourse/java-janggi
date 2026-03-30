@@ -21,13 +21,13 @@ public enum PieceName {
     }
 
     public String getNameFormat(Side side) {
+        if (side == null) {
+            throw new IllegalStateException("Side는 Han 또는 Cho를 넣어주세요");
+        }
         if (Side.HAN.equals(side)) {
             return hanName;
         }
-        if (Side.CHO.equals(side)) {
-            return choName;
-        }
-        throw new IllegalStateException("Side는 Han 또는 Cho를 넣어주세요");
+        return choName;
     }
 
 }
