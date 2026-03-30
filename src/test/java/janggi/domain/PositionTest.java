@@ -60,4 +60,122 @@ class PositionTest {
 
         assertThat(p1).isEqualTo(p2);
     }
+
+    @ParameterizedTest
+    @DisplayName("두 위치 사이의 X 거리를 계산한다.")
+    @CsvSource({
+            "1, 1, 5, 1, 4",
+            "5, 1, 1, 1, -4",
+            "3, 3, 3, 4, 0"
+    })
+    void testCalculateX(int x1, int y1, int x2, int y2, int result) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.calculateX(to)).isEqualTo(result);
+    }
+
+    @ParameterizedTest
+    @DisplayName("두 위치 사이의 Y 거리를 계산한다.")
+    @CsvSource({
+            "1, 1, 1, 5, 4",
+            "1, 5, 1, 1, -4",
+            "3, 3, 7, 3, 0"
+    })
+    void testCalculateY(int x1, int y1, int x2, int y2, int result) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.calculateY(to)).isEqualTo(result);
+    }
+
+    @ParameterizedTest
+    @DisplayName("두 위치 사이의 거리가 1인지 계산한다.")
+    @CsvSource({
+            "5, 5, 5, 6, 1",
+            "5, 5, 6, 5, 1",
+            "1, 1, 3, 4, 5",
+            "5, 5, 5, 5, 0"
+    })
+    void testIsApartFrom(int x1, int y1, int x2, int y2, int result) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.isApartFrom(to)).isEqualTo(result);
+    }
+
+    @ParameterizedTest
+    @DisplayName("같은 행 또는 같은 열에 있으면 직선상에 있다.")
+    @CsvSource({
+            "1, 1, 1, 5",
+            "1, 1, 9, 1",
+            "5, 3, 5, 10"
+    })
+    void testTrueWhenInSameLine(int x1, int y1, int x2, int y2) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.isInSameLine(to)).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("다른 행과 다른 열에 있거나 동일 위치이면 직선상에 있지 않다.")
+    @CsvSource({
+            "1, 1, 2, 2",
+            "3, 3, 5, 7",
+            "5, 5, 5, 5"
+    })
+    void testFalseWhenSameLineFalse(int x1, int y1, int x2, int y2) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.isInSameLine(to)).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("두 위치 사이 거리가 주어진 값 쌍과 일치하면 true를 반환한다.")
+    @CsvSource({
+            "5, 5, 6, 7, 1, 2",
+            "5, 5, 6, 7, 2, 1",
+            "5, 5, 7, 6, 1, 2",
+            "5, 5, 7, 6, 2, 1",
+            "5, 5, 3, 4, 1, 2",
+            "5, 5, 7, 8, 2, 3",
+            "5, 5, 8, 7, 2, 3",
+            "5, 5, 3, 2, 2, 3"
+    })
+    void testTrueWhenIsMatchDistance(int x1, int y1, int x2, int y2, int v1, int v2) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.isMatchDistance(to, v1, v2)).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("두 위치 사이 거리가 주어진 값 쌍과 일치하지 않으면 false를 반환한다.")
+    @CsvSource({
+            "5, 5, 6, 6, 1, 2",
+            "5, 5, 8, 8, 2, 3",
+            "5, 5, 5, 6, 1, 2"
+    })
+    void testFalseWhenIsMatchDistance(int x1, int y1, int x2, int y2, int v1, int v2) {
+        // given
+        Position from = new Position(x1, y1);
+        Position to = new Position(x2, y2);
+
+        // when & then
+        assertThat(from.isMatchDistance(to, v1, v2)).isFalse();
+    }
 }
