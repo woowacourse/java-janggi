@@ -105,9 +105,9 @@ public class BoardInitializer {
 
     private void putSangAndMaByTeam(Map<Position, Piece> defaultSetting, SettingInfo settingInfo,
                                     Map<PieceType, Piece> pieces) {
-        defaultSetting.put(settingInfo.ma1, pieces.get(PieceType.MA));
-        defaultSetting.put(settingInfo.ma2, pieces.get(PieceType.MA));
-        defaultSetting.put(settingInfo.sang1, pieces.get(PieceType.SANG));
-        defaultSetting.put(settingInfo.sang2, pieces.get(PieceType.SANG));
+        defaultSetting.put(settingInfo.ma1(), pieces.get(PieceType.MA));
+        defaultSetting.put(settingInfo.ma2(), pieces.get(PieceType.MA));
+        defaultSetting.put(settingInfo.sang1(), pieces.get(PieceType.SANG));
+        defaultSetting.put(settingInfo.sang2(), pieces.get(PieceType.SANG));
     }
 }

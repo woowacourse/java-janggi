@@ -117,14 +117,14 @@ public class BoardInitializerTest {
     }
 
     private void putSangAndMa(Map<Position, Piece> piecesWithoutSangAndMa, SettingInfo choInfo, SettingInfo hanInfo) {
-        piecesWithoutSangAndMa.put(choInfo.sang1, sangOfCho);
-        piecesWithoutSangAndMa.put(choInfo.sang2, sangOfCho);
-        piecesWithoutSangAndMa.put(choInfo.ma1, maOfCho);
-        piecesWithoutSangAndMa.put(choInfo.ma2, maOfCho);
-        piecesWithoutSangAndMa.put(hanInfo.sang1, sangOfHan);
-        piecesWithoutSangAndMa.put(hanInfo.sang2, sangOfHan);
-        piecesWithoutSangAndMa.put(hanInfo.ma1, maOfHan);
-        piecesWithoutSangAndMa.put(hanInfo.ma2, maOfHan);
+        piecesWithoutSangAndMa.put(choInfo.sang1(), sangOfCho);
+        piecesWithoutSangAndMa.put(choInfo.sang2(), sangOfCho);
+        piecesWithoutSangAndMa.put(choInfo.ma1(), maOfCho);
+        piecesWithoutSangAndMa.put(choInfo.ma2(), maOfCho);
+        piecesWithoutSangAndMa.put(hanInfo.sang1(), sangOfHan);
+        piecesWithoutSangAndMa.put(hanInfo.sang2(), sangOfHan);
+        piecesWithoutSangAndMa.put(hanInfo.ma1(), maOfHan);
+        piecesWithoutSangAndMa.put(hanInfo.ma2(), maOfHan);
     }
 
     private void putWithoutSangAndMa(Map<Position, Piece> expect) {
