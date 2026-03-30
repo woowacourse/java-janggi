@@ -23,8 +23,9 @@ public final class JanggiGame {
         if (requestingSide != currentTurn) {
             throw new IllegalArgumentException("지금은 " + currentTurn + "의 차례입니다.");
         }
-        currentTurn = currentTurn.nextTurn();
 
         board.movePiece(startIntersection, destination, requestingSide);
+
+        currentTurn = currentTurn.nextTurn();
     }
 }
