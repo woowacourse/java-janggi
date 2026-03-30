@@ -36,21 +36,16 @@ public enum ElephantSetting {
     }
 
     public Map<Position, Piece> createElephantOrder(Camp camp) {
-        if (camp == Camp.HAN) {
-            return createByCamp(camp, SETTING_COLUMNS);
-        }
-        return createByCamp(camp, SETTING_COLUMNS.reversed());
-    }
+        List<Integer> settingColumns = camp.convertElephantColumns(SETTING_COLUMNS);
 
-    private Map<Position, Piece> createByCamp(Camp camp, List<Integer> settingColumns) {
         Map<Position, Piece> map = new HashMap<>();
-
         for (int i = 0; i < settingColumns.size(); i++) {
             map.put(
                     new Position(camp.getStartRowPosition(), settingColumns.get(i)),
                     new Piece(elephantOrder.get(i), camp)
             );
         }
+
         return map;
     }
 }
