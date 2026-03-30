@@ -1,4 +1,4 @@
-package core;
+package game;
 
 import board.Board;
 import board.SangSetup;

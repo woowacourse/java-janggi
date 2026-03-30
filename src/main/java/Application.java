@@ -1,7 +1,6 @@
-package core;
-
 import board.InnerSangSetup;
 import board.LeftSangSetup;
+import game.JanggiGame;
 import pieces.Side;
 import position.Position;
 
@@ -16,9 +15,10 @@ public class Application {
         // TODO : 왕이 잡히면 게임 종료 (사이클 2)
         while (notJangGun) {
             // TODO : view 에서 받아서 처리
-            Position departure = new Position(1, 1);
-            Position destination = new Position(1, 2);
+            Position departure = new Position(0, 0);
+            Position destination = new Position(1, 0);
 
+            // 하드코딩 되어 있으니 터지는 게 당연한가
             game.move(departure, destination, curSide);
             if (isChoTurn) {
                 curSide = Side.HAN;

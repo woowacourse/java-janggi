@@ -1,4 +1,4 @@
-package core;
+package game;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
