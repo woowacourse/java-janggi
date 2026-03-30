@@ -9,23 +9,26 @@ public final class Position {
     private static final int MAX_COLUMN = 9;
     private static final int MIN_ROW = 1;
     private static final int MIN_COLUMN = 1;
-    private final Coordinate coordinate;
 
-    private Position(Coordinate coordinate) {
-        this.coordinate = coordinate;
+    private final int row;
+    private final int column;
+
+    private Position(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
     public static Position of(int row, int column) {
         validateRange(row, column);
-        return new Position(new Coordinate(row, column));
+        return new Position(row, column);
     }
 
     public static Position rotate180from(Position position) {
-        return new Position(Coordinate.rotate180from(position.getRow(), position.getColumn()));
+        return Position.of(11 - position.getRow(), 10 - position.getColumn());
     }
 
-    public Coordinate minus(Position position) {
-        return new Coordinate(this.getRow() - position.getRow(), this.getColumn() - position.getColumn());
+    public PositionDelta minus(Position position) {
+        return new PositionDelta(this.getRow() - position.getRow(), this.getColumn() - position.getColumn());
     }
 
     public Position append(Direction direction) {
@@ -33,24 +36,24 @@ public final class Position {
     }
 
     public int getRow() {
-        return coordinate.row();
+        return row;
     }
 
     public int getColumn() {
-        return coordinate.column();
+        return column;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof Position position)) return false;
-        return Objects.equals(coordinate.row(), position.getRow()) &&
-                Objects.equals(coordinate.column(), position.getColumn());
+        return Objects.equals(row, position.getRow()) &&
+                Objects.equals(column, position.getColumn());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(coordinate.row(), coordinate.column());
+        return Objects.hash(row, column);
     }
 
     private static void validateRange(int row, int column) {

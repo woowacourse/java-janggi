@@ -126,7 +126,7 @@ public class PositionTest {
         Position startPosition = Position.of(4, 4);
         Position endPosition = Position.of(5, 5);
 
-        Coordinate distance = endPosition.minus(startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(1);
         assertThat(distance.column()).isEqualTo(1);
@@ -138,7 +138,7 @@ public class PositionTest {
         Position startPosition = Position.of(4, 6);
         Position endPosition = Position.of(5, 5);
 
-        Coordinate distance = endPosition.minus(startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(1);
         assertThat(distance.column()).isEqualTo(-1);
@@ -150,7 +150,7 @@ public class PositionTest {
         Position startPosition = Position.of(6, 4);
         Position endPosition = Position.of(5, 5);
 
-        Coordinate distance = endPosition.minus(startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(-1);
         assertThat(distance.column()).isEqualTo(1);
@@ -162,7 +162,7 @@ public class PositionTest {
         Position startPosition = Position.of(6, 6);
         Position endPosition = Position.of(5, 5);
 
-        Coordinate distance = endPosition.minus(startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(-1);
         assertThat(distance.column()).isEqualTo(-1);

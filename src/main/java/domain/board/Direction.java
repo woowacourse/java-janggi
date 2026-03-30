@@ -1,7 +1,7 @@
 package domain.board;
 
-import domain.position.Coordinate;
 import domain.position.Position;
+import domain.position.PositionDelta;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -36,11 +36,24 @@ public enum Direction {
     }
 
     public static Queue<Direction> of(Position startPosition, Position endPosition) {
-        Coordinate differentCoordinate = endPosition.minus(startPosition);
-        int row = differentCoordinate.row();
-        int column = differentCoordinate.column();
+        PositionDelta differentPosition = endPosition.minus(startPosition);
+        return calculateDirections(differentPosition.row(), differentPosition.column());
+    }
 
-        return calculateDirections(row, column);
+    public boolean isStraight() {
+        return isStraight;
+    }
+
+    public int getdRow() {
+        return dRow;
+    }
+
+    public int getdColumn() {
+        return dColumn;
+    }
+
+    public boolean isSameAtLeastOne(Direction direction) {
+        return (dRow == direction.dRow || dColumn == direction.dColumn);
     }
 
     private static Queue<Direction> calculateDirections(int row, int column) {
@@ -78,21 +91,5 @@ public enum Direction {
         for (int i = 0; i < Math.abs(row); i++) {
             directions.add(from(row / Math.abs(row), column / Math.abs(column)));
         }
-    }
-
-    public boolean isStraight() {
-        return isStraight;
-    }
-
-    public int getdRow() {
-        return dRow;
-    }
-
-    public int getdColumn() {
-        return dColumn;
-    }
-
-    public boolean isSameAtLeastOne(Direction direction) {
-        return (dRow == direction.dRow || dColumn == direction.dColumn);
     }
 }
