@@ -23,7 +23,7 @@ public class ElephantTest {
     }
 
     @Test
-    void 마가_목적지에_갈_수_있다() {
+    void 상이_목적지에_갈_수_있다() {
         Position currentPosition = new Position(5, 5);
         Position targetPosition = new Position(3, 8);
 
@@ -33,7 +33,7 @@ public class ElephantTest {
     }
 
     @Test
-    void 마가_목적지에_갈_수_없다() {
+    void 상이_목적지에_갈_수_없다() {
         Position currentPosition = new Position(5, 5);
         Position targetPosition = new Position(3, 8);
 
