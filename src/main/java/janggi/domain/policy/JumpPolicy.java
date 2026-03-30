@@ -20,9 +20,4 @@ public class JumpPolicy implements RoutePolicy {
     private boolean isPo(Position position, BoardInterface boardInterface) {
         return boardInterface.isEqualPieceType(position, PieceType.PO);
     }
-
-
-    private boolean isMovableLast(Position position, Side side, BoardInterface boardInterface) {
-        return !boardInterface.isAlly(side, position);
-    }
 }
