@@ -4,19 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-import model.board.Country;
 
 public class InputView {
     private static final String DELIMITER = ",";
 
     static Scanner sc = new Scanner(System.in);
 
-    public static String readArrangement(Country country) {
-        System.out.println(country.color() + "1. 마상상마" + Country.RESET);
-        System.out.println(country.color() + "2. 상마마상" + Country.RESET);
-        System.out.println(country.color() + "3. 마상마상" + Country.RESET);
-        System.out.println(country.color() + "4. 상마상마" + Country.RESET);
-        return sc.nextLine();
+    public static int readArrangement() {
+        try {
+            return Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 올바른 번호를 입력해 주세요.");
+        }
     }
 
     public static List<Integer> readStartPosition() {

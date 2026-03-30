@@ -1,5 +1,6 @@
 package view;
 
+import java.util.List;
 import model.board.Board;
 import model.board.Country;
 import model.pieces.Piece;
@@ -22,6 +23,12 @@ public class OutputView {
 
     public static void printArrangeCountry(Country country) {
         System.out.printf("%s나라의 진영을 선택해주세요.%n", country.color() + country.title() + Country.RESET);
+    }
+
+    public static void printArrangeList(List<String> list, Country country) {
+        for (String arrangement : list) {
+            System.out.println(country.color() + arrangement + Country.RESET);
+        }
     }
 
     public static void printLine() {

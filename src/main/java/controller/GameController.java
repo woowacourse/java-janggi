@@ -4,10 +4,8 @@ import java.util.List;
 import model.board.Army;
 import model.board.Board;
 import model.board.Country;
-import model.board.strategy.InnerElephant;
-import model.board.strategy.LeftElephant;
-import model.board.strategy.OuterElephant;
-import model.board.strategy.RightElephant;
+import model.board.HorseElephantStrategy;
+import model.board.strategy.ElephantSetup;
 import model.move.Move;
 import model.position.Position;
 import view.InputHandler;
@@ -18,6 +16,7 @@ public class GameController {
 
     public void start() {
         Board board = new Board();
+        OutputView.printArrangeCountry(Country.CHO);
         init(board);
         OutputView.printBoard(board);
         while (true) {
@@ -26,8 +25,7 @@ public class GameController {
         }
     }
 
-    private void init(Board board) {
-        OutputView.printArrangeCountry(Country.CHO);
+    public void init(Board board) {
         Army cho = initArmy(Country.CHO);
         cho.deployTo(board, Country.CHO);
         OutputView.printLine();
@@ -37,17 +35,12 @@ public class GameController {
     }
 
     private Army initArmy(Country country) {
-        String number = InputView.readArrangement(country);
-        if (number.equals("2")) {
-            return new Army(new OuterElephant());
-        }
-        if (number.equals("3")) {
-            return new Army(new RightElephant());
-        }
-        if (number.equals("4")) {
-            return new Army(new LeftElephant());
-        }
-        return new Army(new InnerElephant());
+        OutputView.printArrangeList(ElephantSetup.arrangementList(), country);
+        HorseElephantStrategy strategy = InputHandler.retry(() -> {
+            int number = InputView.readArrangement();
+            return ElephantSetup.init(number);
+        });
+        return new Army(strategy);
     }
 
     private void choGamePhase(Board board) {
@@ -63,16 +56,21 @@ public class GameController {
     }
 
     private void gamePhase(Board board, Country country) {
-        InputHandler.retry(() -> {
-            List<Integer> startList = InputView.readStartPosition();
-            Position from = Position.of(startList.get(0), startList.get(1));
-            board.checkTurn(from, country);
-            List<Integer> endList = InputView.readEndPosition();
-            Position to = Position.of(endList.get(0), endList.get(1));
-            Move move = new Move(from, to);
-            board.move(move);
-            OutputView.printBoard(board);
-            return null;
-        });
+        InputHandler.retry(() -> gamePhaseRetry(board, country));
+        OutputView.printBoard(board);
+    }
+
+    private Object gamePhaseRetry(Board board, Country country) {
+        Position from = selectPosition();
+        board.checkTurn(from, country);
+        Position to = selectPosition();
+        Move move = new Move(from, to);
+        board.move(move);
+        return null;
+    }
+
+    private Position selectPosition() {
+        List<Integer> startList = InputView.readStartPosition();
+        return Position.of(startList.get(0), startList.get(1));
     }
 }
