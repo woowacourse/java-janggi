@@ -22,20 +22,12 @@ public class Pho extends AbstractPiece {
         int pathRow = to.calculatePathRow(from);
         int signCol = Integer.compare(pathCol, 0);
         int signRow = Integer.compare(pathRow, 0);
-        List<Point> points = new ArrayList<>();
-        if (from.inSameCastle(to)) {
-            CastleDirection castleDirection = CastleDirection.find(from, signCol, signRow);
-            points.add(Point.of(
-                    from.getColumn() + castleDirection.getTargetCol(),
-                    from.getRow() + castleDirection.getTargetRow()
-                    )
-            );
-            return new Points(points);
-        }
-        if (pathRow != 0 && pathCol != 0) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
-        }
+
+        validateDirection(from, to, signCol, signRow, pathCol, pathRow);
+
         int distance = Math.max(abs(pathCol), abs(pathRow));
+
+        List<Point> points = new ArrayList<>();
         for (int i = 1; i < distance; i++) {
             int nextCol = from.getColumn() + (signCol * i);
             int nextRow = from.getRow() + (signRow * i);
@@ -55,5 +47,16 @@ public class Pho extends AbstractPiece {
     @Override
     public boolean canCapture(Piece target) {
         return !target.isSameType(PieceType.PHO);
+    }
+
+    private void validateDirection(Point from, Point to, int signCol, int signRow, int pathCol, int pathRow) {
+        if (from.inSameCastle(to)) {
+            CastleDirection.find(from, signCol, signRow);
+            return;
+        }
+
+        if (pathCol != 0 && pathRow !=0) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
+        }
     }
 }
