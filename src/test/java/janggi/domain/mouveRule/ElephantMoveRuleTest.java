@@ -30,15 +30,32 @@ class ElephantMoveRuleTest {
 
     private static Stream<Arguments> provideNormalMove() {
         return Stream.of(
-                Arguments.of("빈 칸으로 정상 이동 (북->북동->북동)",
+                Arguments.of("북쪽 방향 정상 이동 (북->북동->북동)",
                         new Position(0, 0), new Position(3, 2), new FakeBoard()),
 
-                Arguments.of("적군을 잡으며 이동",
+                Arguments.of("적군을 잡으며 이동 (북->북서->북서)",
                         new Position(0, 0), new Position(3, 2),
-                        FakeBoard.createBoardWith(new Position(3, 2), new Soldier(Team.HAN)))
+                        FakeBoard.createBoardWith(new Position(3, 2), new Soldier(Team.HAN))),
+
+                Arguments.of("남쪽 방향 정상 이동 (남 -> 남서 -> 남서)",
+                        new Position(9, 4), new Position(6, 2), new FakeBoard()),
+
+                Arguments.of("남쪽 방향 정상 이동 (남 -> 남동 -> 남동)",
+                        new Position(7, 3), new Position(4, 5), new FakeBoard()),
+
+                Arguments.of("동쪽 방향 정상 이동 (동 -> 북동 -> 북동)",
+                        new Position(0, 0), new Position(2, 3), new FakeBoard()),
+
+                Arguments.of("동쪽 방향 정상 이동 (동 -> 남동 -> 남동)",
+                        new Position(4, 4), new Position(2, 7), new FakeBoard()),
+
+                Arguments.of("서쪽 방향 정상 이동 (서 -> 북서 -> 북서)",
+                        new Position(0, 8), new Position(2, 5), new FakeBoard()),
+
+                Arguments.of("서쪽 방향 정상 이동 (서 -> 남서 -> 남서)",
+                        new Position(5, 5), new Position(3, 2), new FakeBoard())
         );
     }
-
     private static Stream<Arguments> provideInvalidMove() {
         return Stream.of(
                 Arguments.of("첫 번째 멱(직선 칸)이 막힌 경우",
