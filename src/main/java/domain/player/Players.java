@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Players {
+    public static final String PLAYER_DUPLICATED = "플레이어는 중복될 수 없습니다.";
+    public static final String PLAYER_LIMIT_EXCEEDED = "플레이어는 두 명을 초과할 수 없습니다.";
     private final List<Player> players;
 
     public Players() {
@@ -19,7 +21,7 @@ public class Players {
 
     private void validateSize(List<Player> players) {
         if (players.size() > 2) {
-            throw new JanggiException("플레이어는 두 명을 초과할 수 없습니다.");
+            throw new JanggiException(PLAYER_LIMIT_EXCEEDED);
 
         }
     }
@@ -30,7 +32,7 @@ public class Players {
                 .distinct()
                 .count();
         if (players.size() != distinctPlayerNameCount) {
-            throw new JanggiException("플레이어는 중복될 수 없습니다.");
+            throw new JanggiException(PLAYER_DUPLICATED);
         }
     }
 
