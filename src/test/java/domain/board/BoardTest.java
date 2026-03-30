@@ -4,7 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import domain.board.strategy.MaSangSangMaStrategy;
+import domain.board.strategy.OutsideMaStrategy;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer(new MaSangSangMaStrategy(Side.HAN), new MaSangSangMaStrategy(Side.CHU));
+    BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer(new OutsideMaStrategy(Side.HAN), new OutsideMaStrategy(Side.CHU));
 
     @Test
     @DisplayName("장기판을 생성한다.")

@@ -8,11 +8,11 @@ import domain.piece.Piece;
 
 import java.util.Map;
 
-public class SangMaSangMaStrategy implements InitialStrategy {
+public class RightSangStrategy implements InitialStrategy {
 
     private final Side side;
 
-    public SangMaSangMaStrategy(Side side) {
+    public RightSangStrategy(Side side) {
         this.side = side;
     }
 
@@ -22,9 +22,9 @@ public class SangMaSangMaStrategy implements InitialStrategy {
     }
 
     private void initStrategyType(Map<Position, Piece> pieceInitPlacements, Side side, int col) {
-        pieceInitPlacements.put(new Position(col, 1), new Elephant(side));
-        pieceInitPlacements.put(new Position(col, 2), new Horse(side));
-        pieceInitPlacements.put(new Position(col, 6), new Elephant(side));
-        pieceInitPlacements.put(new Position(col, 7), new Horse(side));
+        pieceInitPlacements.put(new Position(col,1), new Horse(side));
+        pieceInitPlacements.put(new Position(col,2), new Elephant(side));
+        pieceInitPlacements.put(new Position(col,6), new Horse(side));
+        pieceInitPlacements.put(new Position(col,7), new Elephant(side));
     }
 }

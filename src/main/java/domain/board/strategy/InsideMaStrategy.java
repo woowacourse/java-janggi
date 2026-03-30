@@ -8,11 +8,11 @@ import domain.piece.Piece;
 
 import java.util.Map;
 
-public class SangMaMaSangStrategy implements InitialStrategy {
+public class InsideMaStrategy implements InitialStrategy {
 
     private final Side side;
 
-    public SangMaMaSangStrategy(Side side) {
+    public InsideMaStrategy(Side side) {
         this.side = side;
     }
 

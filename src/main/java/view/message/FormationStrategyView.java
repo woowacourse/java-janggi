@@ -4,10 +4,10 @@ import domain.board.strategy.InitialStrategyType;
 
 public enum FormationStrategyView {
 
-    TYPE_1(InitialStrategyType.MASANG_SANGMA, "마상상마"),
-    TYPE_2(InitialStrategyType.MASANG_MASANG, "마상마상"),
-    TYPE_3(InitialStrategyType.SANGMA_MASANG, "상마마상"),
-    TYPE_4(InitialStrategyType.SANGMA_SANGMA, "상마상마");
+    TYPE_1(InitialStrategyType.OUTSIDE_MA, "마-상-상-마 (외마)"),
+    TYPE_2(InitialStrategyType.RIGHT_SANG, "마-상-마-상 (오른상)"),
+    TYPE_3(InitialStrategyType.INSIDE_MA, "상-마-마-상 (안마)"),
+    TYPE_4(InitialStrategyType.LEFT_SANG, "상-마-상-마 (왼상)");
 
     private final InitialStrategyType initialStrategyType;
     private final String message;

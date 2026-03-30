@@ -9,6 +9,6 @@ public class Application {
 
     public static void main(String[] args) {
         JanggiController janggiController = new JanggiController(new InputView(new Scanner(System.in)), new OutputView());
-        janggiController.play();
+        janggiController.run();
     }
 }

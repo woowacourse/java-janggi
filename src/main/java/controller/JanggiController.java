@@ -23,9 +23,9 @@ public class JanggiController {
         this.outputView = outputView;
     }
 
-    public void play() {
+    public void run() {
         Game game = initializeGame();
-        processTurns(game);
+        playGame(game);
     }
 
     private Game initializeGame() {
@@ -39,7 +39,7 @@ public class JanggiController {
         );
     }
 
-    private void processTurns(Game game) {
+    private void playGame(Game game) {
         while (true) {
             outputView.printBoard(BoardMapper.toDto(game.getBoard().getBoard()));
             Position startPosition = readUntilValid(() ->
