@@ -46,7 +46,12 @@ public abstract class Piece implements Space {
         return false;
     }
 
-    public boolean isSameType(Piece piece) {
-        return this.pieceType == piece.pieceType;
+    @Override
+    public String displayValue() {
+        return pieceType.getName();
+    }
+
+    public boolean isSameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
     }
 }

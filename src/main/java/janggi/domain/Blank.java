@@ -6,4 +6,9 @@ public class Blank implements Space {
     public boolean isBlank() {
         return true;
     }
+
+    @Override
+    public String displayValue() {
+        return "●";
+    }
 }

@@ -25,4 +25,8 @@ public enum PieceType {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("적절하지 않은 기물 타입입니다."));
     }
+
+    public String getName() {
+        return name;
+    }
 }
