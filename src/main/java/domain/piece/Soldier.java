@@ -17,6 +17,11 @@ public class Soldier extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.SOLDIER;
+    }
+
+    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         validateLocation(from, to);
         validateSameTeam(from, to, board);

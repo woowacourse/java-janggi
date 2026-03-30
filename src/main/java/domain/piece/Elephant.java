@@ -17,6 +17,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.ELEPHANT;
+    }
+
+    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         int columnDifferent = from.differentColumn(to);
         int rowDifferent = from.differentRow(to);

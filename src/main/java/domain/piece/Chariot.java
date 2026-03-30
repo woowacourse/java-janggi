@@ -15,6 +15,11 @@ public class Chariot extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.CHARIOT;
+    }
+
+    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         validateLocation(from, to);
         validatePathClear(from, to, board);

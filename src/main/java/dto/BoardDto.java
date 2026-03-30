@@ -16,7 +16,7 @@ public record BoardDto(Map<List<Integer>, String> board) {
         Map<List<Integer>, String> result = boardMap.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> entry.getKey().coordination(),
-                        entry -> PieceName.from(entry.getValue().getClass().getSimpleName(), entry.getValue().team())
+                        entry -> PieceName.display(entry.getValue().pieceType(), entry.getValue().team())
                 ));
         return new BoardDto(result);
     }

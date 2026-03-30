@@ -16,6 +16,11 @@ public class Guard extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.GUARD;
+    }
+
+    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         validateLocation(from, to);
         validateSameTeam(from, to, board);

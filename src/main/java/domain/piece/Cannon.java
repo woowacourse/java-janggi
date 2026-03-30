@@ -15,6 +15,11 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.CANNON;
+    }
+
+    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         validateLocation(from, to);
         validateOnlyOnePieceNotCannon(from, to, board);

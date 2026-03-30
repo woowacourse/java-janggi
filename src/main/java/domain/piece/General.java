@@ -16,6 +16,11 @@ public class General extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.GENERAL;
+    }
+
+    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         validateLocation(from, to);
         validateSameTeam(from, to, board);

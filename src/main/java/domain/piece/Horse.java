@@ -17,6 +17,11 @@ public class Horse extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         int colDifferent = from.differentColumn(to);
         int rowDifferent = from.differentRow(to);

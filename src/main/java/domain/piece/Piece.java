@@ -50,6 +50,8 @@ public abstract class Piece {
         }
     }
 
+    public abstract PieceType pieceType();
+
     public abstract void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board);
 
     public boolean isCannon() {
