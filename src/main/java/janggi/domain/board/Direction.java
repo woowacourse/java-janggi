@@ -14,8 +14,8 @@ public enum Direction {
     SW(1, -1),
     ;
 
-    public final int row;
-    public final int col;
+    private final int row;
+    private final int col;
 
     Direction(int row, int col) {
         this.row = row;
