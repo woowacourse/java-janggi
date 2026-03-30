@@ -25,7 +25,7 @@ public enum GameStatus {
         return this != GREEN_PLAYER_TURN && this != RED_PLAYER_TURN;
     }
 
-    public String description()  {
+    public String description() {
         return this.description;
     }
 }
