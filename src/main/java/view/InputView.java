@@ -3,7 +3,6 @@ package view;
 import domain.board.Position;
 import domain.board.SetUp;
 
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class InputView {

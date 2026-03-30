@@ -57,12 +57,5 @@ public class Application {
 
     private void execute(Game game, GameCommand command) {
         command.execute(game);
-//        if (command instanceof PassCommand) {
-//            game.passTurn();
-//            return;
-//        }
-//
-//        MoveCommand moveCommand = (MoveCommand) command;
-//        game.move(moveCommand.from(), moveCommand.to());
     }
 }
