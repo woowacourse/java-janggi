@@ -2,7 +2,7 @@ package janggi.controller;
 
 import janggi.domain.Camp;
 import janggi.domain.Janggi;
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.PositionRequest;

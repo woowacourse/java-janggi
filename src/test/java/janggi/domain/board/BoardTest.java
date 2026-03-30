@@ -1,7 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 import janggi.domain.board.strategy.ElephantHorseElephantHorse;
 import janggi.domain.piece.*;
 import org.assertj.core.api.Assertions;

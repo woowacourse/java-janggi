@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Camp;
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 import janggi.domain.board.strategy.FormationStrategy;
 import janggi.domain.piece.*;
 import janggi.domain.piece.strategy.*;

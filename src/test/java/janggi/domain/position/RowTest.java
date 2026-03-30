@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.position;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -6,10 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-
 class RowTest {
-
-
     @ParameterizedTest
     @CsvSource({"0", "9"})
     void 행은_0과_9_사이_값이다(int input) {

@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.Map;

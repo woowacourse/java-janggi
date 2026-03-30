@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.position;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,5 +22,4 @@ class ColumnTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("열은 0 ~ 8 입니다.");
     }
-
 }

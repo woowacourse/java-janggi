@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import janggi.domain.position.Position;
+
 import java.util.List;
 
 public class Path {

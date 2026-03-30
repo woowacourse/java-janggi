@@ -1,7 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package janggi.domain.piece.strategy;
 
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
