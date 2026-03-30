@@ -1,19 +1,20 @@
-package janggi.domain.piece;
-
-import static org.assertj.core.api.Assertions.assertThat;
+package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.GeneralStrategy;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class GeneralPieceTest {
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class GeneralStrategyTest {
 
     @ParameterizedTest
     @DisplayName("궁은 상하좌우 한 칸씩 이동 가능하다.")
@@ -24,7 +25,7 @@ class GeneralPieceTest {
             "5,2,5,1"
     })
     void testMoveGeneral(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
         assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -38,7 +39,7 @@ class GeneralPieceTest {
             "5,2,3,2"
     })
     void testNotMovableGeneral(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
         assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -51,7 +52,7 @@ class GeneralPieceTest {
             "5,2,5,1"
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
         List<Position> path = generalPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(nextX, nextY));
     }
@@ -61,8 +62,8 @@ class GeneralPieceTest {
     void testNotMoveIfSameTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
+        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
         assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 
@@ -71,7 +72,7 @@ class GeneralPieceTest {
     void testMoveNoPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
         assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 
@@ -80,8 +81,8 @@ class GeneralPieceTest {
     void testMoveOtherTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
+        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
         assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 }

@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 
 import java.util.List;
@@ -44,4 +45,8 @@ public class SoliderStrategy implements MoveStrategy {
         return true;
     }
 
+    @Override
+    public PieceType getIdentity() {
+        return PieceType.SOLDIER;
+    }
 }

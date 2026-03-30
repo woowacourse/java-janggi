@@ -1,20 +1,21 @@
-package janggi.domain.piece;
-
-import static org.assertj.core.api.Assertions.assertThat;
+package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ChariotStrategy;
-import janggi.domain.movestrategy.ElephantStrategy;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class ChariotPieceTest {
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class ChariotStrategyTest {
     @ParameterizedTest
     @DisplayName("차는 상하좌우 직전이면 칸 수에 상관없이 이동 가능하다.")
     @CsvSource({
@@ -24,7 +25,7 @@ class ChariotPieceTest {
             "8, 3, 2, 4",
     })
     void testNotMovableChariot(int preX, int preY, int nextX, int nextY) {
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
@@ -39,7 +40,7 @@ class ChariotPieceTest {
             "8, 3, 8, 1",
     })
     void testMoveChariot(int preX, int preY, int nextX, int nextY) {
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
@@ -50,7 +51,7 @@ class ChariotPieceTest {
     void testFindDestinationPath() {
         Position from = new Position(2, 3);
         Position to = new Position(5, 3);
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
 
         List<Position> result = chariotPiece.findPath(from, to);
         assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3), new Position(5, 3));
@@ -61,10 +62,10 @@ class ChariotPieceTest {
     void testMoveOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new Piece(Team.HAN, new ElephantStrategy()));
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
@@ -73,9 +74,9 @@ class ChariotPieceTest {
     void testNotMoveIfSameTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new Piece(Team.HAN, new ElephantStrategy()));
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
@@ -84,9 +85,9 @@ class ChariotPieceTest {
     void testNotMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new Piece(Team.CHO, new ElephantStrategy()));
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 
@@ -95,7 +96,7 @@ class ChariotPieceTest {
     void testMoveNoPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
         assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 

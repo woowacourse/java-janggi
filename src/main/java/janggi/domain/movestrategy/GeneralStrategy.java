@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +29,8 @@ public class GeneralStrategy implements MoveStrategy{
         return true;
     }
 
-
+    @Override
+    public PieceType getIdentity() {
+        return PieceType.GENERAL;
+    }
 }

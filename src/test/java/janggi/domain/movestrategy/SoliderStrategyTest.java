@@ -1,8 +1,8 @@
-package janggi.domain.piece;
+package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.SoliderStrategy;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SoliderPieceTest {
+class SoliderStrategyTest {
 
     @ParameterizedTest
     @DisplayName("진영이 한이면 위로 한 칸 이동 가능하다.")
@@ -23,7 +23,7 @@ class SoliderPieceTest {
             "3, 5, 3, 6"
     })
     void testMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
-        SoliderPiece soliderPiece = new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN));
+        Piece soliderPiece = new Piece(Team.HAN, new SoliderStrategy(Team.HAN));
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -35,7 +35,7 @@ class SoliderPieceTest {
             "3, 5, 3, 4"
     })
     void testNotMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
-        SoliderPiece soliderPiece = new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN));
+        Piece soliderPiece = new Piece(Team.HAN, new SoliderStrategy(Team.HAN));
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -47,7 +47,7 @@ class SoliderPieceTest {
             "3, 5, 3, 4"
     })
     void testMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
-        SoliderPiece soliderPiece = new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO));
+        Piece soliderPiece = new Piece(Team.CHO, new SoliderStrategy(Team.CHO));
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -60,7 +60,7 @@ class SoliderPieceTest {
             "3, 5, 3, 6"
     })
     void testNotMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
-        SoliderPiece soliderPiece = new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO));
+        Piece soliderPiece = new Piece(Team.CHO, new SoliderStrategy(Team.CHO));
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -73,8 +73,8 @@ class SoliderPieceTest {
             "3, 5, 2, 5"
     })
     void testMoveSoliderHorizontally(int preX, int preY, int nextX, int nextY) {
-        SoliderPiece soliderPiece1 = new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO));
-        SoliderPiece soliderPiece2 = new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN));
+        Piece soliderPiece1 = new Piece(Team.CHO, new SoliderStrategy(Team.CHO));
+        Piece soliderPiece2 = new Piece(Team.HAN, new SoliderStrategy(Team.HAN));
         assertThat(soliderPiece1.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
         assertThat(soliderPiece2.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
@@ -89,8 +89,8 @@ class SoliderPieceTest {
             "3, 5, 3, 3"
     })
     void testNotMoveSoliderTwoStepMore(int preX, int preY, int nextX, int nextY) {
-        SoliderPiece soliderPiece1 = new SoliderPiece(Team.CHO, new SoliderStrategy(Team.CHO));
-        SoliderPiece soliderPiece2 = new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN));
+        Piece soliderPiece1 = new Piece(Team.CHO, new SoliderStrategy(Team.CHO));
+        Piece soliderPiece2 = new Piece(Team.HAN, new SoliderStrategy(Team.HAN));
         assertThat(soliderPiece1.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
         assertThat(soliderPiece2.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
@@ -100,8 +100,8 @@ class SoliderPieceTest {
     void testNotMoveIfSameTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
-        SoliderPiece soliderPiece = new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN));
+        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
+        Piece soliderPiece = new Piece(Team.HAN, new SoliderStrategy(Team.HAN));
         assertThat(soliderPiece.determineMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 
@@ -110,7 +110,7 @@ class SoliderPieceTest {
     void testMoveNoPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        SoliderPiece soliderPiece = new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN));
+        Piece soliderPiece = new Piece(Team.HAN, new SoliderStrategy(Team.HAN));
         assertThat(soliderPiece.determineMovingRule(positionPieces, new Position(5, 5))).isTrue();
     }
 
@@ -119,8 +119,8 @@ class SoliderPieceTest {
     void testMoveOtherTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
-        SoliderPiece soliderPiece = new SoliderPiece(Team.HAN, new SoliderStrategy(Team.HAN));
+        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
+        Piece soliderPiece = new Piece(Team.HAN, new SoliderStrategy(Team.HAN));
         assertThat(soliderPiece.determineMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 }

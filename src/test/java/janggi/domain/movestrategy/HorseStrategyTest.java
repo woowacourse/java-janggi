@@ -1,19 +1,20 @@
-package janggi.domain.piece;
-
-import static org.assertj.core.api.Assertions.assertThat;
+package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.HorseStrategy;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class HorsePieceTest {
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class HorseStrategyTest {
 
     @ParameterizedTest
     @DisplayName("마는 직선 한 칸 대각선으로 한 칸 이동 가능하다.")
@@ -24,7 +25,7 @@ class HorsePieceTest {
             "5, 4, 4, 6", "5, 4, 6, 6",
     })
     void testMovableHorse(int preX, int preY, int nextX, int nextY) {
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
         assertThat(horsePiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -38,7 +39,7 @@ class HorsePieceTest {
             "5, 4, 4, 7", "5, 4, 6, 5",
     })
     void testNotMovableHorse(int preX, int preY, int nextX, int nextY) {
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
         assertThat(horsePiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -56,7 +57,7 @@ class HorsePieceTest {
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY,
                                  int pathX1, int pathY1) {
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
         List<Position> path = horsePiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(nextX, nextY));
     }
@@ -66,9 +67,9 @@ class HorsePieceTest {
     void testMoveOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
 
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
         assertThat(horsePiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
@@ -77,9 +78,9 @@ class HorsePieceTest {
     void testNotMoveIfSameTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new Piece(Team.HAN, new ElephantStrategy()));
 
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
         assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
@@ -88,9 +89,9 @@ class HorsePieceTest {
     void testNotMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new Piece(Team.CHO, new ElephantStrategy()));
 
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
         assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }
