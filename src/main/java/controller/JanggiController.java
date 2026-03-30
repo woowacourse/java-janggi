@@ -32,8 +32,8 @@ public class JanggiController {
 
     private Map<Team, String> readHorseElephantFormation() {
         Map<Team, String> horseElephantInputs = new HashMap<>();
-        horseElephantInputs.put(Team.CHO, inputView.readHorseElephantFormation(Team.CHO.getKoreanName()));
-        horseElephantInputs.put(Team.HAN, inputView.readHorseElephantFormation(Team.HAN.getKoreanName()));
+        horseElephantInputs.put(Team.CHO, readEachHorseElephantFormation(Team.CHO));
+        horseElephantInputs.put(Team.HAN, readEachHorseElephantFormation(Team.HAN));
 
         return horseElephantInputs;
     }
@@ -75,14 +75,24 @@ public class JanggiController {
         printCurrentBoardStatus();
     }
 
-    private MovedPieceRequest readMovedPiece(){
+    private MovedPieceRequest readMovedPiece() {
         String sourcePositionAndPieceType = readSourcePositionAndPieceType();
         String targetPosition = readTargetPosition();
         return MovedPieceRequest.of(sourcePositionAndPieceType, targetPosition);
     }
 
+    private String readEachHorseElephantFormation(Team team) {
+        while (true) {
+            try {
+                return inputView.readHorseElephantFormation(team.getKoreanName());
+            } catch (GameException e) {
+                gameExceptionHandler.handle(e);
+            }
+        }
+    }
+
     private String readSourcePositionAndPieceType() {
-        while(true){
+        while (true) {
             try {
                 String input = inputView.readSourcePositionAndPieceType();
                 return input;
@@ -93,7 +103,7 @@ public class JanggiController {
     }
 
     private String readTargetPosition() {
-        while(true){
+        while (true) {
             try {
                 String input = inputView.readTargetPosition();
                 return input;
