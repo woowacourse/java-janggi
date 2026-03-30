@@ -60,7 +60,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private static boolean isEnemy(Piece piece, Dynasty dynasty) {
-        return !piece.isSameDynasty(dynasty);
+        return !piece.isAlly(dynasty);
     }
 
     @Override

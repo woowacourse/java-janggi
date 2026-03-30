@@ -33,7 +33,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
             return;
         }
         from.findOnePositionByDirection(dir).ifPresent(to -> {
-            if (isPiecePresent(board, to) && board.get(to).isSameDynasty(dynasty)) {
+            if (isPiecePresent(board, to) && board.get(to).isAlly(dynasty)) {
                 return;
             }
             movablePositions.add(to);

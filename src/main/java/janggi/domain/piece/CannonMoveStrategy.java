@@ -63,7 +63,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private static boolean isEnemy(Dynasty dynasty, Piece piece) {
-        return !piece.isSameDynasty(dynasty);
+        return !piece.isAlly(dynasty);
     }
 
     private static boolean isPiecePresent(Map<Position, Piece> board, Position position) {

@@ -18,7 +18,7 @@ public record Piece(
         return moveStrategy.pieceType();
     }
 
-    public boolean isSameDynasty(Dynasty dynasty) {
+    public boolean isAlly(Dynasty dynasty) {
         return this.dynasty.equals(dynasty);
     }
 

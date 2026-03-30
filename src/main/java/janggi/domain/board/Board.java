@@ -30,7 +30,7 @@ public class Board {
                     String.format(PIECE_NOT_FOUND_MESSAGE, from.row().row(), from.column().column()));
         }
         Piece piece = board.get(from);
-        if (!piece.isSameDynasty(currentTurn)) {
+        if (!piece.isAlly(currentTurn)) {
             throw new IllegalArgumentException(
                     String.format(INVALID_PIECE_OWNER_MESSAGE, from.row().row(), from.column().column()));
         }

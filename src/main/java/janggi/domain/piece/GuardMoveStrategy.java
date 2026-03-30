@@ -30,7 +30,7 @@ public class GuardMoveStrategy implements MoveStrategy {
 
     private static void addIfMovable(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {
         from.findOnePositionByDirection(dir).ifPresent(to -> {
-            if (isPiecePresent(board, to) && board.get(to).isSameDynasty(dynasty)) {
+            if (isPiecePresent(board, to) && board.get(to).isAlly(dynasty)) {
                 return;
             }
             movablePositions.add(to);
