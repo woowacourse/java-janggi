@@ -23,7 +23,11 @@ public class Turn {
     }
 
     public Piece findPiece(Position position) {
-        return board.findNextTurnTeamPiece(position, movedTeam);
+        return board.findNextTurnTeamPiece(position, opponentTeamType());
+    }
+
+    public String getPieceName(Position position) {
+        return board.getPieceName(position, opponentTeamType());
     }
 
     public Turn move(Position startPosition, Position endPosition) {

@@ -41,6 +41,10 @@ public class JanggiGame {
         return getLastTurn().findPiece(position);
     }
 
+    public String getPieceName(Position position) {
+        return getLastTurn().getPieceName(position);
+    }
+
     public void doGame(Position startPosition, Position endPosition) {
         Turn lastTurn = getLastTurn();
         Turn newTurn = lastTurn.move(startPosition, endPosition);

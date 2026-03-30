@@ -62,8 +62,8 @@ public class Jol implements Piece {
     }
 
     @Override
-    public String nickname() {
-        return pieceType.getNickname();
+    public String name() {
+        return pieceType.getName();
     }
 
     @Override

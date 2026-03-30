@@ -10,13 +10,13 @@ public enum PieceType {
     SANG("상"),
     ;
 
-    PieceType(String nickname) {
-        this.nickname = nickname;
+    PieceType(String name) {
+        this.name = name;
     }
 
-    private final String nickname;
+    private final String name;
 
-    public String getNickname() {
-        return nickname;
+    public String getName() {
+        return name;
     }
 }

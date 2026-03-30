@@ -14,7 +14,7 @@ public interface Piece {
 
     boolean isObstaclesNotExist(Position start, Position end, Board board);
 
-    String nickname();
+    String name();
 
     PieceType getPieceType();
 

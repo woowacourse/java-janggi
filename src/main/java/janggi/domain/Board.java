@@ -40,9 +40,9 @@ public class Board {
         return currentTeam.isPieceExist(position);
     }
 
-    public Piece findNextTurnTeamPiece(Position position, TeamType beforeTeamType) {
-        Team nowTeam = opponentTeam(beforeTeamType);
-        return findTeamPiece(position, nowTeam);
+    public Piece findNextTurnTeamPiece(Position position, TeamType currentTeamType) {
+        Team currentTeam = currentTeam(currentTeamType);
+        return findTeamPiece(position, currentTeam);
     }
 
     public Optional<Piece> findPiece(Position position) {
@@ -75,8 +75,13 @@ public class Board {
         return createMovedBoard(nowTurn, movedCurrentTeam, remainedOpponentTeam);
     }
 
-    private Piece findTeamPiece(Position position, Team nowTeam) {
-        return nowTeam.findPiece(position)
+    public String getPieceName(Position position, TeamType currentTeamType) {
+        Piece piece = findTeamPiece(position, currentTeam(currentTeamType));
+        return piece.name();
+    }
+
+    private Piece findTeamPiece(Position position, Team currentTeam) {
+        return currentTeam.findPiece(position)
                 .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
     }
 

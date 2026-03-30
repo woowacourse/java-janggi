@@ -60,7 +60,7 @@ public class Pieces {
         for (Map.Entry<Position, Piece> entry : value.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
-            snapShot.put(position, new BoardSpot(position, piece.nickname(), piece.getTeamType()));
+            snapShot.put(position, new BoardSpot(position, piece.name(), piece.getTeamType()));
         }
         return snapShot;
     }

@@ -114,7 +114,7 @@ public class OutputView {
         printMessage("움직일 기물의 좌표를 입력해주세요. (ex. 1,3)");
     }
 
-    public static void printAskMovePosition(String nickname) {
-        printMessage(nickname + "의 목적 좌표를 입력해주세요. (ex. 1,3)");
+    public static void printAskMovePosition(String pieceName) {
+        printMessage(pieceName + "의 목적 좌표를 입력해주세요. (ex. 1,3)");
     }
 }

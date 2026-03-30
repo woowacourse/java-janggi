@@ -62,7 +62,7 @@ class PiecesTest {
         assertThat(gungSpot).isNotNull();
         assertAll(
             () -> assertThat(gungSpot.position()).isEqualTo(new Position(5, 2)),
-            () -> assertThat(gungSpot.pieceName()).isEqualTo(PieceType.GUNG.getNickname()),
+            () -> assertThat(gungSpot.pieceName()).isEqualTo(PieceType.GUNG.getName()),
             () -> assertThat(gungSpot.teamType()).isEqualTo(janggi.domain.side.TeamType.CHU)
         );
     }
