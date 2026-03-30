@@ -39,6 +39,9 @@ public enum HorseElephantFormation {
         this.pattern = pattern;
     }
 
+    /**
+     * 각 상/마 패턴에 맞는 전략 생성
+     */
     public abstract InitializeStrategy createStrategy();
 
     public static HorseElephantFormation from(String pattern) {

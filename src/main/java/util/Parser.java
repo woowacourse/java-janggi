@@ -5,6 +5,15 @@ import domain.Position;
 import dto.MoveCommand;
 
 public class Parser {
+    /**
+     * 플레이어의 기물 이동 입력값을 처리한다
+     *
+     * 예) 졸 7,1 -> 6,1
+     * 과 같이 [이동을 원하는 기물 + 해당 기물의 현위치 + -> + 목적지 위치] 를 검증한다
+     *
+     * @param command 플레이어의 기물 이동 입력값
+     * @return PieceType, Position, Positin으로 파싱된 정보
+     */
     public static MoveCommand parse(String command) {
         String[] split = command.split(" ");
         validateCommand(split);

@@ -29,8 +29,25 @@ public abstract class InitializeStrategy {
         return initializeHanDefaultFormation();
     }
 
+    /**
+     * 팀에 따라 상/마의 초기 배치를 생성한다.
+     *
+     * 기본 기물 배치는 InitializeStrategy에서 공통으로 처리되며,
+     * 각 구현체는 상/마 배치 전략만 정의한다.
+     *
+     * @param team 배치를 생성할 팀
+     * @return 해당 팀의 상/마 배치 정보
+     */
     protected abstract Map<Position, Piece> initializeElephantHorseFormation(Team team);
 
+    /**
+     * 한나라의 상/마를 제외한 초기 배치를 생성한다.
+     *
+     * 기본 기물 배치를 처리하며,
+     * 상/마에 대한 배치는 처리하지 않는다.
+     *
+     * @return 한나라의 기본 기물 배치 정보
+     */
     private Map<Position, Piece> initializeHanDefaultFormation() {
         Map<Position, Piece> pieces = new HashMap<>();
 
@@ -52,6 +69,14 @@ public abstract class InitializeStrategy {
         return pieces;
     }
 
+    /**
+     * 초나라의 상/마를 제외한 초기 배치를 생성한다.
+     *
+     * 기본 기물 배치를 처리하며,
+     * 상/마에 대한 배치는 처리하지 않는다.
+     *
+     * @return 초나라의 기본 기물 배치 정보
+     */
     private Map<Position, Piece> initializeChoDefaultFormation() {
         Map<Position, Piece> pieces = new HashMap<>();
 

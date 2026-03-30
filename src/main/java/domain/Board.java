@@ -26,6 +26,22 @@ public class Board {
         movePiece(from, to, piece);
     }
 
+    /**
+     * 플레이어가 입력한 기물의 이동 가능 여부를 판단한다
+     *
+     * 판단 요소 :
+     * from 의 위치에 기물이 있는지
+     * from 의 위치의 해당 기물이 있는지
+     * from 위치의 기물이 같은 팀 기물인지
+     * to 의 범위가 보드의 범위를 넘어가지 않는지
+     *
+     * @param from 이동하길 원하는 기물의 위치
+     * @param to 이동하고 싶은 목적지
+     * @param pieceType 이동하기 원하는 기물의 타입
+     * @return 이동하는 해당 기물
+     * @throws IllegalArgumentException 위 판단 요소를 하나라도 통과하지 못하면
+     *  예외 발생
+     */
     private Piece validateMovablePiece(Position from, Position to, PieceType pieceType, Team team) {
         Piece piece = pieces.get(from);
 
@@ -48,6 +64,17 @@ public class Board {
         return piece;
     }
 
+    /**
+     * 기물의 이동 가능 여부를 판단한다
+     *
+     * 판단 요소 :
+     * from 에서 to로 기물이 이동 규칙을 준수하여 이동할 수 있는지
+     *
+     * @param from 이동하길 원하는 기물의 위치
+     * @param to 이동하고 싶은 목적지
+     * @param piece 이동하는 기물
+     * @throws IllegalArgumentException 기물의 이동 규칙을 준수하지 못하면 예외 발생
+     */
     private void validateCanMove(Position from, Position to, Piece piece) {
         if (!piece.canMove(from, to, this)) {
             throw new IllegalArgumentException("해당 위치로 옮길 수 없습니다.");
