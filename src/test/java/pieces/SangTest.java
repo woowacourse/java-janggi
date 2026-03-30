@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import movepolicy.MoveContext;
-import movepolicy.destination.BasicDestinationRule;
-import movepolicy.path.EmptyPathRule;
+import movepolicy.rule.BasicMoveRule;
+import movepolicy.rule.MoveRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,7 +32,7 @@ class SangTest {
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -48,7 +47,7 @@ class SangTest {
                 .move(side.leftForwardDelta())
                 .move(side.leftForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -63,7 +62,7 @@ class SangTest {
                 .move(side.rightBackDelta())
                 .move(side.rightBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -78,7 +77,7 @@ class SangTest {
                 .move(side.leftBackDelta())
                 .move(side.leftBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -93,7 +92,7 @@ class SangTest {
                 .move(side.leftForwardDelta())
                 .move(side.leftForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -108,7 +107,7 @@ class SangTest {
                 .move(side.leftBackDelta())
                 .move(side.leftBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -123,7 +122,7 @@ class SangTest {
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -138,7 +137,7 @@ class SangTest {
                 .move(side.rightBackDelta())
                 .move(side.rightBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -152,7 +151,7 @@ class SangTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -164,14 +163,14 @@ class SangTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
     @Nested
     @DisplayName("상의 이동 경로를 검증한다")
-    class PathPosition {
+    class InterveningPosition {
 
         @ParameterizedTest
         @EnumSource(Side.class)
@@ -184,9 +183,9 @@ class SangTest {
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(2);
+            assertThat(positions).hasSize(2);
         }
 
         @ParameterizedTest
@@ -200,13 +199,12 @@ class SangTest {
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.forwardDelta())
             );
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.forwardDelta())
                     .move(side.rightForwardDelta())
@@ -224,13 +222,12 @@ class SangTest {
                 .move(side.leftForwardDelta())
                 .move(side.leftForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.forwardDelta())
             );
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.forwardDelta())
                     .move(side.leftForwardDelta())
@@ -248,13 +245,12 @@ class SangTest {
                 .move(side.rightBackDelta())
                 .move(side.rightBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.backDelta())
             );
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.backDelta())
                     .move(side.rightBackDelta())
@@ -272,13 +268,12 @@ class SangTest {
                 .move(side.leftBackDelta())
                 .move(side.leftBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.backDelta()))
             ;
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.backDelta())
                     .move(side.leftBackDelta())
@@ -295,16 +290,13 @@ class SangTest {
                 .move(side.leftDelta())
                 .move(side.leftForwardDelta())
                 .move(side.leftForwardDelta());
-
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
-
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.leftDelta())
             );
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.leftDelta())
                     .move(side.leftForwardDelta())
@@ -322,13 +314,12 @@ class SangTest {
                 .move(side.leftBackDelta())
                 .move(side.leftBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.leftDelta())
             );
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.leftDelta())
                     .move(side.leftBackDelta())
@@ -346,13 +337,12 @@ class SangTest {
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.rightDelta())
             );
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.rightDelta())
                     .move(side.rightForwardDelta())
@@ -370,13 +360,12 @@ class SangTest {
                 .move(side.rightBackDelta())
                 .move(side.rightBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPosition = moveContext.pathPositions();
-            assertThat(pathPosition.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.rightDelta())
             );
-            assertThat(pathPosition.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.rightDelta())
                     .move(side.rightBackDelta())
@@ -393,7 +382,7 @@ class SangTest {
                 .move(side.rightDelta())
                 .move(side.rightDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -409,26 +398,8 @@ class SangTest {
             .move(side.rightForwardDelta())
             .move(side.rightForwardDelta());
         // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
+        MoveRule moveRule = piece.getMoveRule();
         // then
-        assertThat(moveContext.destinationRule())
-            .isInstanceOf(BasicDestinationRule.class);
-    }
-
-    @ParameterizedTest
-    @EnumSource(Side.class)
-    void 상은_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
-        // given
-        FullPiece piece = new Sang(side);
-        Position departure = DEFAULT;
-        Position destination = departure
-            .move(side.forwardDelta())
-            .move(side.rightForwardDelta())
-            .move(side.rightForwardDelta());
-        // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
-        // then
-        assertThat(moveContext.pathRule())
-            .isInstanceOf(EmptyPathRule.class);
+        assertThat(moveRule).isInstanceOf(BasicMoveRule.class);
     }
 }

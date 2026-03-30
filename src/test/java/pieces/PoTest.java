@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import movepolicy.MoveContext;
-import movepolicy.destination.PoDestinationRule;
-import movepolicy.path.PoPathRule;
+import movepolicy.rule.MoveRule;
+import movepolicy.rule.PoMoveRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,7 +31,7 @@ class PoTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -46,7 +45,7 @@ class PoTest {
                 .move(side.backDelta())
                 .move(side.backDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -60,7 +59,7 @@ class PoTest {
                 .move(side.leftDelta())
                 .move(side.leftDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -74,7 +73,7 @@ class PoTest {
                 .move(side.rightDelta())
                 .move(side.rightDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -86,14 +85,14 @@ class PoTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
     @Nested
     @DisplayName("포의 이동 경로를 검증한다")
-    class PathPosition {
+    class InterveningPosition {
 
         @ParameterizedTest
         @EnumSource(Side.class)
@@ -105,9 +104,9 @@ class PoTest {
                 .move(side.backDelta())
                 .move(side.backDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(1);
+            assertThat(positions).hasSize(1);
         }
 
         @ParameterizedTest
@@ -118,7 +117,7 @@ class PoTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -130,7 +129,7 @@ class PoTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -142,7 +141,7 @@ class PoTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -154,7 +153,7 @@ class PoTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -169,13 +168,12 @@ class PoTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.forwardDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.forwardDelta())
                     .move(side.forwardDelta())
@@ -193,13 +191,12 @@ class PoTest {
                 .move(side.backDelta())
                 .move(side.backDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.backDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.backDelta())
                     .move(side.backDelta())
@@ -217,13 +214,12 @@ class PoTest {
                 .move(side.leftDelta())
                 .move(side.leftDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.leftDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.leftDelta())
                     .move(side.leftDelta())
@@ -241,13 +237,12 @@ class PoTest {
                 .move(side.rightDelta())
                 .move(side.rightDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.rightDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
+            assertThat(positions.get(1)).isEqualTo(
                 departure
                     .move(side.rightDelta())
                     .move(side.rightDelta())
@@ -260,30 +255,9 @@ class PoTest {
     void 포는_포를_제외한_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
         FullPiece piece = new Po(side);
-        Position departure = DEFAULT;
-        Position destination = departure
-            .move(side.forwardDelta())
-            .move(side.forwardDelta());
         // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
+        MoveRule moveRule = piece.getMoveRule();
         // then
-        assertThat(moveContext.destinationRule())
-            .isInstanceOf(PoDestinationRule.class);
-    }
-
-    @ParameterizedTest
-    @EnumSource(Side.class)
-    void 포는_이동_경로에_포를_제외한_기물이_1개_있을_때_이동할_수_있는_규칙을_반환한다(Side side) {
-        // given
-        FullPiece piece = new Po(side);
-        Position departure = DEFAULT;
-        Position destination = departure
-            .move(side.forwardDelta())
-            .move(side.forwardDelta());
-        // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
-        // then
-        assertThat(moveContext.pathRule())
-            .isInstanceOf(PoPathRule.class);
+        assertThat(moveRule).isInstanceOf(PoMoveRule.class);
     }
 }

@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import movepolicy.MoveContext;
-import movepolicy.destination.BasicDestinationRule;
-import movepolicy.path.EmptyPathRule;
+import java.util.List;
+import movepolicy.rule.BasicMoveRule;
+import movepolicy.rule.MoveRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,7 +29,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -41,7 +41,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -53,7 +53,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -67,7 +67,7 @@ class JolByeongTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -79,7 +79,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -91,7 +91,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -104,9 +104,9 @@ class JolByeongTest {
         Position departure = DEFAULT;
         Position destination = departure.move(side.forwardDelta());
         // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
+        List<Position> positions = piece.getInterveningPositions(departure, destination);
         // then
-        assertThat(moveContext.pathPositions()).hasSize(0);
+        assertThat(positions).hasSize(0);
     }
 
     @ParameterizedTest
@@ -114,26 +114,9 @@ class JolByeongTest {
     void 졸병은_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
         FullPiece piece = new JolByeong(side);
-        Position departure = DEFAULT;
-        Position destination = departure.move(side.forwardDelta());
         // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
+        MoveRule moveRule = piece.getMoveRule();
         // then
-        assertThat(moveContext.destinationRule())
-            .isInstanceOf(BasicDestinationRule.class);
-    }
-
-    @ParameterizedTest
-    @EnumSource(Side.class)
-    void 졸병은_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
-        // given
-        FullPiece piece = new JolByeong(side);
-        Position departure = DEFAULT;
-        Position destination = departure.move(side.forwardDelta());
-        // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
-        // then
-        assertThat(moveContext.pathRule())
-            .isInstanceOf(EmptyPathRule.class);
+        assertThat(moveRule).isInstanceOf(BasicMoveRule.class);
     }
 }

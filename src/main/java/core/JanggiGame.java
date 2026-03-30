@@ -41,7 +41,7 @@ public class JanggiGame {
     }
 
     public JanggiGame move(Position departure, Position destination) {
-        board.validateDeparturePieceSide(departure, turn);
+        board.validateDeparturePiece(departure, turn);
         board = board.move(departure, destination);
         turn = turn.move();
         // TODO: 장군이 잡히면 isOver = true 초기화 (사이클2)

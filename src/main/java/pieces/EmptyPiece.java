@@ -2,16 +2,12 @@ package pieces;
 
 public final class EmptyPiece implements Piece {
 
-    private static EmptyPiece EMPTY_PIECE;
+    private static final EmptyPiece EMPTY_PIECE = new EmptyPiece();
 
     private EmptyPiece() {
     }
 
     public static EmptyPiece getInstance() {
-        if (EMPTY_PIECE == null) {
-            EMPTY_PIECE = new EmptyPiece();
-            return EMPTY_PIECE;
-        }
         return EMPTY_PIECE;
     }
 
@@ -21,12 +17,12 @@ public final class EmptyPiece implements Piece {
     }
 
     @Override
-    public FullPiece asFullPiece() {
-        throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+    public PieceType type() {
+        return PieceType.EMPTY;
     }
 
     @Override
-    public PieceType type() {
-        return PieceType.EMPTY;
+    public FullPiece asFullPiece() {
+        throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
     }
 }

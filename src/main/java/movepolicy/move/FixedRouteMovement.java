@@ -19,10 +19,10 @@ public class FixedRouteMovement implements Movement {
     }
 
     @Override
-    public List<Position> getPathPositions(Position departure, Position destination, Side side) {
+    public List<Position> getInterveningPositions(Position departure, Position destination, Side side) {
         return routeOf(departure, destination, side)
             .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 이동입니다."))
-            .getPathPositionsOf(departure, side);
+            .getInterveningPositionsOf(departure, side);
     }
 
     private Optional<Route> routeOf(Position departure, Position destination, Side side) {

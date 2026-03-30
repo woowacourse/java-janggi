@@ -1,24 +1,23 @@
 package pieces;
 
 import java.util.List;
-import movepolicy.destination.DestinationRule;
-import movepolicy.destination.PoDestinationRule;
 import movepolicy.move.LinearRouteMovement;
 import movepolicy.move.Movement;
-import movepolicy.path.PathRule;
-import movepolicy.path.PoPathRule;
+import movepolicy.rule.MoveRule;
+import movepolicy.rule.PoMoveRule;
 import position.Position;
 
 public class Po extends FullPiece {
 
     private static final Movement MOVEMENT = new LinearRouteMovement();
+    private static final MoveRule PO_MOVE_RULE = new PoMoveRule();
 
     public Po(Side side) {
         super(side);
     }
 
     @Override
-    protected void validateDestination(Position departure, Position destination) {
+    public void validateDestination(Position departure, Position destination) {
         if (!MOVEMENT.canReach(departure, destination, side)) {
             throw new IllegalArgumentException("포의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
@@ -28,27 +27,22 @@ public class Po extends FullPiece {
     }
 
     @Override
-    protected List<Position> getPathPositions(Position departure, Position destination) {
-        return MOVEMENT.getPathPositions(departure, destination, side);
+    public List<Position> getInterveningPositions(Position departure, Position destination) {
+        return MOVEMENT.getInterveningPositions(departure, destination, side);
     }
 
     @Override
-    protected DestinationRule getDestinationRule() {
-        return new PoDestinationRule();
-    }
-
-    @Override
-    protected PathRule getPathRule() {
-        return new PoPathRule();
-    }
-
-    @Override
-    public boolean isPo() {
-        return true;
+    public MoveRule getMoveRule() {
+        return PO_MOVE_RULE;
     }
 
     @Override
     public PieceType type() {
         return PieceType.PO;
+    }
+
+    @Override
+    public boolean isPo() {
+        return true;
     }
 }

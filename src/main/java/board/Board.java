@@ -3,9 +3,8 @@ package board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import movepolicy.MoveContext;
-import movepolicy.destination.DestinationRule;
-import movepolicy.path.PathRule;
+import movepolicy.rule.MovePath;
+import movepolicy.rule.MoveRule;
 import participant.Turn;
 import pieces.EmptyPiece;
 import pieces.FullPiece;
@@ -21,53 +20,72 @@ public record Board(Map<Position, Piece> pieces) {
 
     public Board merge(Board other) {
         Map<Position, Piece> merged = new HashMap<>(pieces);
-        other.pieces.forEach((position, piece) ->
-            put(position, piece, merged));
+        other.pieces
+            .forEach((position, piece) -> put(position, piece, merged));
         return new Board(merged);
     }
 
     private void put(Position position, Piece piece, Map<Position, Piece> merged) {
-        if (!piece.isEmpty() && merged.containsKey(position)) {
+        if (isDuplicatedFullPiece(position, piece, merged)) {
             throw new IllegalArgumentException("이미 기물이 존재하는 위치입니다.");
         }
         merged.put(position, piece);
     }
 
-    public void validateDeparturePieceSide(Position departure, Turn turn) {
-        FullPiece piece = pieces.get(departure).asFullPiece();
+    private static boolean isDuplicatedFullPiece(Position position, Piece piece,
+                                                 Map<Position, Piece> merged) {
+        return !piece.isEmpty() && merged.containsKey(position);
+    }
+
+    public void validateDeparturePiece(Position departure, Turn turn) {
+        FullPiece piece = fullPieceAt(departure);
         if (!piece.isSameSide(turn.side())) {
             throw new IllegalArgumentException("본인 진영의 기물만 이동시킬 수 있습니다.");
         }
     }
 
     public Board move(Position departure, Position destination) {
-        FullPiece departurePiece = pieces.get(departure).asFullPiece();
-        Piece destinationPiece = pieces.get(destination);
-        MoveContext moveContext = departurePiece.askMoveContext(departure, destination);
+        FullPiece movingPiece = fullPieceAt(departure);
+        MovePath movePath = createMovePath(movingPiece, departure, destination);
 
-        validatePathPieces(moveContext.pathPositions(), moveContext.pathRule());
-        validateDestination(departurePiece, destinationPiece, moveContext.destinationRule());
+        MoveRule moveRule = movingPiece.getMoveRule();
+        moveRule.validatePathPieces(movePath);
 
-        Map<Position, Piece> moved = new HashMap<>(pieces);
-        moved.put(departure, EmptyPiece.getInstance());
-        moved.put(destination, departurePiece);
-
-        return new Board(moved);
+        return replace(departure, destination, movingPiece);
     }
 
-    private void validatePathPieces(List<Position> pathPositions, PathRule pathRule) {
-        List<Piece> pathPieces = getPathPieces(pathPositions);
-        pathRule.validatePathPieces(pathPieces);
+    private MovePath createMovePath(FullPiece movingPiece, Position departure,
+                                    Position destination) {
+        List<Position> interveningPositions = movingPiece
+            .getInterveningPositions(departure, destination);
+        List<Piece> interveningPieces = findInterveningPieces(interveningPositions);
+        Piece targetPiece = pieceAt(destination);
+
+        return new MovePath(movingPiece, interveningPieces, targetPiece);
     }
 
-    private List<Piece> getPathPieces(List<Position> pathPositions) {
-        return pathPositions.stream()
-            .map(pieces::get)
+    private List<Piece> findInterveningPieces(List<Position> interveningPositions) {
+        return interveningPositions.stream()
+            .map(this::pieceAt)
             .toList();
     }
 
-    private void validateDestination(FullPiece departurePiece, Piece destinationPiece,
-                                     DestinationRule destinationRule) {
-        destinationRule.validateDestination(departurePiece, destinationPiece);
+    private FullPiece fullPieceAt(Position position) {
+        Piece piece = pieceAt(position);
+        if (piece.isEmpty()) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
+        return piece.asFullPiece();
+    }
+
+    private Piece pieceAt(Position position) {
+        return pieces.get(position);
+    }
+
+    private Board replace(Position departure, Position destination, FullPiece movingPiece) {
+        Map<Position, Piece> moved = new HashMap<>(pieces);
+        moved.put(departure, EmptyPiece.getInstance());
+        moved.put(destination, movingPiece);
+        return new Board(moved);
     }
 }

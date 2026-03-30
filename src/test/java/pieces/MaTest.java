@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import movepolicy.MoveContext;
-import movepolicy.destination.BasicDestinationRule;
-import movepolicy.path.EmptyPathRule;
+import java.util.List;
+import movepolicy.rule.BasicMoveRule;
+import movepolicy.rule.MoveRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,7 +31,7 @@ class MaTest {
                 .move(side.forwardDelta())
                 .move(side.rightForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -45,7 +45,7 @@ class MaTest {
                 .move(side.forwardDelta())
                 .move(side.leftForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -59,7 +59,7 @@ class MaTest {
                 .move(side.backDelta())
                 .move(side.leftBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -73,7 +73,7 @@ class MaTest {
                 .move(side.backDelta())
                 .move(side.rightBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -87,7 +87,7 @@ class MaTest {
                 .move(side.leftDelta())
                 .move(side.leftForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -101,7 +101,7 @@ class MaTest {
                 .move(side.leftDelta())
                 .move(side.leftBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -115,7 +115,7 @@ class MaTest {
                 .move(side.rightDelta())
                 .move(side.rightForwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -129,7 +129,7 @@ class MaTest {
                 .move(side.rightDelta())
                 .move(side.rightBackDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -143,14 +143,14 @@ class MaTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
     @Nested
     @DisplayName("마의 이동 경로를 검증한다")
-    class PathPosition {
+    class InterveningPosition {
 
         @ParameterizedTest
         @EnumSource(Side.class)
@@ -162,9 +162,9 @@ class MaTest {
                 .move(side.forwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(1);
+            assertThat(positions).hasSize(1);
         }
 
         @ParameterizedTest
@@ -177,10 +177,10 @@ class MaTest {
                 .move(side.forwardDelta())
                 .move(side.leftForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.forwardDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.forwardDelta()));
         }
 
         @ParameterizedTest
@@ -193,10 +193,10 @@ class MaTest {
                 .move(side.forwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.forwardDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.forwardDelta()));
         }
 
         @ParameterizedTest
@@ -209,10 +209,10 @@ class MaTest {
                 .move(side.backDelta())
                 .move(side.leftBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.backDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.backDelta()));
         }
 
         @ParameterizedTest
@@ -225,10 +225,10 @@ class MaTest {
                 .move(side.backDelta())
                 .move(side.rightBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.backDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.backDelta()));
         }
 
         @ParameterizedTest
@@ -241,10 +241,10 @@ class MaTest {
                 .move(side.leftDelta())
                 .move(side.leftForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.leftDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.leftDelta()));
         }
 
         @ParameterizedTest
@@ -257,10 +257,10 @@ class MaTest {
                 .move(side.leftDelta())
                 .move(side.leftBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.leftDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.leftDelta()));
         }
 
         @ParameterizedTest
@@ -273,10 +273,10 @@ class MaTest {
                 .move(side.rightDelta())
                 .move(side.rightForwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.rightDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.rightDelta()));
         }
 
         @ParameterizedTest
@@ -289,10 +289,10 @@ class MaTest {
                 .move(side.rightDelta())
                 .move(side.rightBackDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            Position pathPosition = moveContext.pathPositions().getFirst();
-            assertThat(pathPosition).isEqualTo(departure.move(side.rightDelta()));
+            Position interveningPosition = positions.getFirst();
+            assertThat(interveningPosition).isEqualTo(departure.move(side.rightDelta()));
         }
 
         @ParameterizedTest
@@ -305,7 +305,7 @@ class MaTest {
                 .move(side.rightDelta())
                 .move(side.rightDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -315,30 +315,9 @@ class MaTest {
     void 마는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
         FullPiece piece = new Ma(side);
-        Position departure = DEFAULT;
-        Position destination = departure
-            .move(side.forwardDelta())
-            .move(side.rightForwardDelta());
         // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
+        MoveRule moveRule = piece.getMoveRule();
         // then
-        assertThat(moveContext.destinationRule())
-            .isInstanceOf(BasicDestinationRule.class);
-    }
-
-    @ParameterizedTest
-    @EnumSource(Side.class)
-    void 마는_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
-        // given
-        FullPiece piece = new Ma(side);
-        Position departure = DEFAULT;
-        Position destination = departure
-            .move(side.forwardDelta())
-            .move(side.rightForwardDelta());
-        // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
-        // then
-        assertThat(moveContext.pathRule())
-            .isInstanceOf(EmptyPathRule.class);
+        assertThat(moveRule).isInstanceOf(BasicMoveRule.class);
     }
 }

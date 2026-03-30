@@ -2,9 +2,7 @@ package pieces;
 
 import java.util.List;
 import java.util.Objects;
-import movepolicy.MoveContext;
-import movepolicy.destination.DestinationRule;
-import movepolicy.path.PathRule;
+import movepolicy.rule.MoveRule;
 import position.Position;
 
 public abstract class FullPiece implements Piece {
@@ -21,7 +19,7 @@ public abstract class FullPiece implements Piece {
     }
 
     @Override
-    public FullPiece asFullPiece() {
+    public final FullPiece asFullPiece() {
         return this;
     }
 
@@ -30,24 +28,14 @@ public abstract class FullPiece implements Piece {
     }
 
     public final boolean isSameSide(FullPiece piece) {
-        return piece.isSameSide(this.side);
+        return isSameSide(piece.side);
     }
 
-    public final MoveContext askMoveContext(Position departure, Position destination) {
-        validateDestination(departure, destination);
-        List<Position> pathPositions = getPathPositions(departure, destination);
-        DestinationRule destinationRule = getDestinationRule();
-        PathRule pathRule = getPathRule();
-        return new MoveContext(pathPositions, destinationRule, pathRule);
-    }
+    public abstract void validateDestination(Position departure, Position destination);
 
-    protected abstract void validateDestination(Position departure, Position destination);
+    public abstract List<Position> getInterveningPositions(Position departure, Position destination);
 
-    protected abstract List<Position> getPathPositions(Position departure, Position destination);
-
-    protected abstract DestinationRule getDestinationRule();
-
-    protected abstract PathRule getPathRule();
+    public abstract MoveRule getMoveRule();
 
     public abstract boolean isPo();
 

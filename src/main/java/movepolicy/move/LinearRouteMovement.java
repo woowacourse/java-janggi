@@ -13,19 +13,19 @@ public class LinearRouteMovement implements Movement {
     }
 
     @Override
-    public List<Position> getPathPositions(Position departure, Position destination, Side side) {
+    public List<Position> getInterveningPositions(Position departure, Position destination, Side side) {
         if (!canReach(departure, destination, side)) {
             throw new IllegalArgumentException("직선 이동이 아닙니다.");
         }
 
         Step step = decideDirection(departure, destination, side);
-        List<Position> pathPositions = new ArrayList<>();
+        List<Position> positions = new ArrayList<>();
         Position current = departure;
         while (!step.move(current, side).equals(destination)) {
             current = step.move(current, side);
-            pathPositions.add(current);
+            positions.add(current);
         }
-        return List.copyOf(pathPositions);
+        return List.copyOf(positions);
     }
 
     private Step decideDirection(Position departure, Position destination, Side side) {

@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import movepolicy.MoveContext;
-import movepolicy.destination.BasicDestinationRule;
-import movepolicy.path.EmptyPathRule;
+import movepolicy.rule.BasicMoveRule;
+import movepolicy.rule.MoveRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,7 +31,7 @@ class ChaTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -46,7 +45,7 @@ class ChaTest {
                 .move(side.backDelta())
                 .move(side.backDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -60,7 +59,7 @@ class ChaTest {
                 .move(side.leftDelta())
                 .move(side.leftDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -74,7 +73,7 @@ class ChaTest {
                 .move(side.rightDelta())
                 .move(side.rightDelta());
             // when & then
-            assertThatCode(() -> piece.askMoveContext(departure, destination))
+            assertThatCode(() -> piece.validateDestination(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -88,14 +87,14 @@ class ChaTest {
                 .move(side.forwardDelta())
                 .move(side.rightDelta());
             // when & then
-            assertThatThrownBy(() -> piece.askMoveContext(departure, destination))
+            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
     @Nested
     @DisplayName("차의 이동 경로를 검증한다")
-    class PathPosition {
+    class InterveningPosition {
 
         @ParameterizedTest
         @EnumSource(Side.class)
@@ -107,9 +106,9 @@ class ChaTest {
                 .move(side.backDelta())
                 .move(side.backDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(1);
+            assertThat(positions).hasSize(1);
         }
 
         @ParameterizedTest
@@ -120,9 +119,9 @@ class ChaTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            assertThat(positions).hasSize(0);
         }
 
         @ParameterizedTest
@@ -133,9 +132,9 @@ class ChaTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            assertThat(positions).hasSize(0);
         }
 
         @ParameterizedTest
@@ -146,9 +145,9 @@ class ChaTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            assertThat(positions).hasSize(0);
         }
 
         @ParameterizedTest
@@ -159,9 +158,9 @@ class ChaTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            assertThat(moveContext.pathPositions()).hasSize(0);
+            assertThat(positions).hasSize(0);
         }
 
         @ParameterizedTest
@@ -175,14 +174,15 @@ class ChaTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.forwardDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
-                departure.move(side.forwardDelta()).move(side.forwardDelta())
+            assertThat(positions.get(1)).isEqualTo(
+                departure
+                    .move(side.forwardDelta())
+                    .move(side.forwardDelta())
             );
         }
 
@@ -197,14 +197,15 @@ class ChaTest {
                 .move(side.backDelta())
                 .move(side.backDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.backDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
-                departure.move(side.backDelta()).move(side.backDelta())
+            assertThat(positions.get(1)).isEqualTo(
+                departure
+                    .move(side.backDelta())
+                    .move(side.backDelta())
             );
         }
 
@@ -219,14 +220,15 @@ class ChaTest {
                 .move(side.leftDelta())
                 .move(side.leftDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.leftDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
-                departure.move(side.leftDelta()).move(side.leftDelta())
+            assertThat(positions.get(1)).isEqualTo(
+                departure
+                    .move(side.leftDelta())
+                    .move(side.leftDelta())
             );
         }
 
@@ -241,14 +243,15 @@ class ChaTest {
                 .move(side.rightDelta())
                 .move(side.rightDelta());
             // when
-            MoveContext moveContext = piece.askMoveContext(departure, destination);
+            List<Position> positions = piece.getInterveningPositions(departure, destination);
             // then
-            List<Position> pathPositions = moveContext.pathPositions();
-            assertThat(pathPositions.get(0)).isEqualTo(
+            assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.rightDelta())
             );
-            assertThat(pathPositions.get(1)).isEqualTo(
-                departure.move(side.rightDelta()).move(side.rightDelta())
+            assertThat(positions.get(1)).isEqualTo(
+                departure
+                    .move(side.rightDelta())
+                    .move(side.rightDelta())
             );
         }
     }
@@ -258,26 +261,9 @@ class ChaTest {
     void 차는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
         FullPiece piece = new Cha(side);
-        Position departure = DEFAULT;
-        Position destination = departure.move(side.forwardDelta());
         // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
+        MoveRule moveRule = piece.getMoveRule();
         // then
-        assertThat(moveContext.destinationRule())
-            .isInstanceOf(BasicDestinationRule.class);
-    }
-
-    @ParameterizedTest
-    @EnumSource(Side.class)
-    void 차는_이동_경로에_기물이_없을_때_이동할_수_있는_규칙을_반환한다(Side side) {
-        // given
-        FullPiece piece = new Cha(side);
-        Position departure = DEFAULT;
-        Position destination = departure.move(side.forwardDelta());
-        // when
-        MoveContext moveContext = piece.askMoveContext(departure, destination);
-        // then
-        assertThat(moveContext.pathRule())
-            .isInstanceOf(EmptyPathRule.class);
+        assertThat(moveRule).isInstanceOf(BasicMoveRule.class);
     }
 }
