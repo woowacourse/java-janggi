@@ -58,13 +58,13 @@ public class JanggiGame {
     private Team processTurn(List<String> positions, Team currentTeam) {
         try {
             Map<Position, Piece> updatedBoard = movePiece(positions, currentTeam);
-            if (isGeneralCaptured(updatedBoard)) {
-                outputView.printBoard(updatedBoard);
+            outputView.printBoard(updatedBoard);
+            Team nextTeam = currentTeam.convert();
+            if (board.isGeneralCaptured(nextTeam)) {
                 outputView.printWinner(currentTeam);
                 return Team.NONE;
             }
-            outputView.printBoard(updatedBoard);
-            return currentTeam.convert();
+            return nextTeam;
         } catch (IllegalArgumentException exception) {
             outputView.printError(exception.getMessage());
             return currentTeam;
@@ -75,12 +75,5 @@ public class JanggiGame {
         Position from = Position.from(positions.get(FROM_INDEX));
         Position to = Position.from(positions.get(TO_INDEX));
         return board.move(from, to, currentTeam);
-    }
-
-    private boolean isGeneralCaptured(Map<Position, Piece> updatedBoard) {
-        return updatedBoard.values().stream()
-                .filter(piece -> !piece.isEmptyPiece())
-                .filter(piece -> piece.getDisplayName().equals(KING_NAME))
-                .count() < 2;
     }
 }

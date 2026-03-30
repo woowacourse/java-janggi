@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Team;
+import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.position.Position;
@@ -26,6 +27,15 @@ public class Board {
             piecesByPosition.put(to, fromPiece);
         }
         return showBoard();
+    }
+
+    public boolean isGeneralCaptured(Team team) {
+        return piecesByPosition.values().stream()
+                .noneMatch(piece -> piece.isSamePiece(new General(team)) && piece.isSame(team));
+    }
+
+    public Map<Position, Piece> showBoard() {
+        return Map.copyOf(piecesByPosition);
     }
 
     private List<Piece> getPiecesOnPath(List<Position> path) {
@@ -59,9 +69,5 @@ public class Board {
         if (!fromPiece.isSame(currentTeam)) {
             throw new IllegalArgumentException("[ERROR] 자신의 기물만 이동시킬 수 있습니다.");
         }
-    }
-
-    public Map<Position, Piece> showBoard() {
-        return Map.copyOf(piecesByPosition);
     }
 }
