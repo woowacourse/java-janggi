@@ -4,9 +4,7 @@ import domain.game.Game;
 import domain.piece.Camp;
 import view.GameCommand;
 import view.InputView;
-import view.MoveCommand;
 import view.OutputView;
-import view.PassCommand;
 
 import java.util.NoSuchElementException;
 
@@ -58,12 +56,13 @@ public class Application {
     }
 
     private void execute(Game game, GameCommand command) {
-        if (command instanceof PassCommand) {
-            game.passTurn();
-            return;
-        }
-
-        MoveCommand moveCommand = (MoveCommand) command;
-        game.move(moveCommand.from(), moveCommand.to());
+        command.execute(game);
+//        if (command instanceof PassCommand) {
+//            game.passTurn();
+//            return;
+//        }
+//
+//        MoveCommand moveCommand = (MoveCommand) command;
+//        game.move(moveCommand.from(), moveCommand.to());
     }
 }
