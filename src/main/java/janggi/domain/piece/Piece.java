@@ -30,7 +30,7 @@ public class Piece {
     }
 
     public Paths calculatePaths(Position current) {
-        return type.calculatePaths(current);
+        return type.calculatePaths(current, side);
     }
 
     public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState) {
