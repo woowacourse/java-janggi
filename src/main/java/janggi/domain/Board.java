@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.strategy.InitializeStrategy;
 import java.util.HashMap;
 import java.util.List;
@@ -68,5 +69,27 @@ public class Board {
     private void applyMove(Position from, Position to, Piece selectedPiece) {
         piecesInfo.put(to, selectedPiece);
         piecesInfo.put(from, new Blank());
+    }
+
+    public boolean gameEnd() {
+        long kingCount = piecesInfo.values().stream()
+            .filter(space -> !space.isBlank())
+            .map(space -> (Piece) space)
+            .filter(piece -> piece.isSameType(PieceType.KING))
+            .count();
+
+        return kingCount < 2;
+    }
+
+    public Space getSpace(Position position) {
+        return piecesInfo.get(position);
+    }
+
+    public int getBoardWidth() {
+        return HORIZONTAL_LENGTH;
+    }
+
+    public int getBoardHeight() {
+        return VERTICAL_LENGTH;
     }
 }
