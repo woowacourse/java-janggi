@@ -7,7 +7,7 @@ import domain.strategy.PawnStrategy;
 
 import java.util.List;
 
-public class Pawn extends Piece{
+public class Pawn extends Piece {
     private final MoveStrategy moveStrategy;
 
     public Pawn(Team team) {

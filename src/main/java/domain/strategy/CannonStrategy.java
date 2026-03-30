@@ -7,7 +7,7 @@ import domain.piece.PieceProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CannonStrategy implements MoveStrategy{
+public class CannonStrategy implements MoveStrategy {
 
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
