@@ -48,7 +48,7 @@ public class Cannon extends AbstractPiece {
     private List<Piece> getPieces(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         return resolvePath(from, to).stream()
                 .map(board::get)
-                .filter(piece -> !piece.isEmpty()) // EmptyPiece인지 확인 (isEmpty() 메서드가 있다고 가정)
+                .filter(piece -> !piece.isEmpty())
                 .toList();
     }
 
