@@ -16,7 +16,6 @@ public class GameController {
 
     public void start() {
         Board board = new Board();
-        OutputView.printArrangeCountry(Country.CHO);
         init(board);
         OutputView.printBoard(board);
         while (true) {
@@ -26,6 +25,7 @@ public class GameController {
     }
 
     public void init(Board board) {
+        OutputView.printArrangeCountry(Country.CHO);
         Army cho = initArmy(Country.CHO);
         cho.deployTo(board, Country.CHO);
         OutputView.printLine();

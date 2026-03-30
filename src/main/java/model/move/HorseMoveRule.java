@@ -8,57 +8,41 @@ import model.policy.DestinationPolicy;
 import model.policy.PathPolicy;
 
 public class HorseMoveRule extends MoveRule {
+    private static final List<Direction> straightDirections = List.of(Direction.UP, Direction.RIGHT, Direction.DOWN,
+            Direction.LEFT);
+    private static final List<List<Direction>> diagonals = List.of(
+            List.of(Direction.UP_LEFT, Direction.UP_RIGHT),
+            List.of(Direction.UP_RIGHT, Direction.DOWN_RIGHT),
+            List.of(Direction.DOWN_LEFT, Direction.DOWN_RIGHT),
+            List.of(Direction.UP_LEFT, Direction.UP_LEFT));
 
     @Override
     protected List<MovePattern> patterns(Move move) {
-        List<MovePattern> patterns = new ArrayList<>();
+        List<MovePattern> patternList = new ArrayList<>();
         PathPolicy pathPolicy = new DefaultPathPolicy();
         DestinationPolicy destinationPolicy = new DefaultDestinationPolicy();
 
-        // 위쪽 방향
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.UP),
-                new Step(Direction.UP_LEFT)
-        ), pathPolicy, destinationPolicy));
+        for (int i = 0; i < straightDirections.size(); i++) {
+            Direction base = straightDirections.get(i);
+            diagonals.get(i).stream().map(diagonal -> createPattern(base, diagonal, pathPolicy, destinationPolicy))
+                    .forEach(patternList::add);
+        }
+        return patternList;
+    }
 
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.UP),
-                new Step(Direction.UP_RIGHT)
-        ), pathPolicy, destinationPolicy));
-
-        // 오른쪽 방향
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.RIGHT),
-                new Step(Direction.DOWN_RIGHT)
-        ), pathPolicy, destinationPolicy));
-
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.RIGHT),
-                new Step(Direction.UP_RIGHT)
-        ), pathPolicy, destinationPolicy));
-
-        // 아래쪽 방향
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.DOWN),
-                new Step(Direction.DOWN_RIGHT)
-        ), pathPolicy, destinationPolicy));
-
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.DOWN),
-                new Step(Direction.DOWN_LEFT)
-        ), pathPolicy, destinationPolicy));
-
-        // 왼쪽 방향
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.LEFT),
-                new Step(Direction.DOWN_LEFT)
-        ), pathPolicy, destinationPolicy));
-
-        patterns.add(new MovePattern(List.of(
-                new Step(Direction.LEFT),
-                new Step(Direction.UP_LEFT)
-        ), pathPolicy, destinationPolicy));
-
-        return patterns;
+    private MovePattern createPattern(
+            Direction base,
+            Direction diagonal,
+            PathPolicy pathPolicy,
+            DestinationPolicy destinationPolicy
+    ) {
+        return new MovePattern(
+                List.of(
+                        new Step(base),
+                        new Step(diagonal)
+                ),
+                pathPolicy,
+                destinationPolicy
+        );
     }
 }
