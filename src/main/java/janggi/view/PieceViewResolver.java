@@ -3,13 +3,13 @@ package janggi.view;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 
-public class PieceViewResover {
+public class PieceViewResolver {
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_BLUE = "\u001B[34m";
 
-    private PieceViewResover() {
+    private PieceViewResolver() {
     }
 
     public static String toDisplayName(Piece piece) {

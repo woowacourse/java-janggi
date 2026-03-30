@@ -50,7 +50,7 @@ public class ApplicationView {
             stringRow.add(String.format("%2d", rowLabel)); // 행 레이블 (2칸)
 
             for (Piece piece : row) {
-                stringRow.add(PieceViewResover.toDisplayName(piece));
+                stringRow.add(PieceViewResolver.toDisplayName(piece));
             }
             stringMatrix.add(stringRow);
         }
