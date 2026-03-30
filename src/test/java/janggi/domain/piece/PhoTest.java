@@ -108,4 +108,16 @@ public class PhoTest {
         // then
         assertThat(pho.canMove(pieces)).isFalse();
     }
+
+    @ParameterizedTest
+    @DisplayName("궁성 안에서는 대각선으로 이동 할 수 있다.")
+    @CsvSource(value = {"3:0:5:2:4:1","3:7:5:9:4:8","3:9:5:7:4:8"}, delimiter = ':')
+    void can_move_diagonal(int fromColumn, int fromRow, int toColumn, int toRow, int routeColumn, int routeRow) {
+        Piece pho = new Pho(Team.HAN);
+        Point from = Point.of(fromColumn, fromRow);
+        Point to = Point.of(toColumn, toRow);
+        Points routePoints = pho.getRoutePoints(from, to);
+        assertThat(routePoints.getPoints().getFirst().getColumn()).isEqualTo(routeColumn);
+        assertThat(routePoints.getPoints().getFirst().getRow()).isEqualTo(routeRow);
+    }
 }
