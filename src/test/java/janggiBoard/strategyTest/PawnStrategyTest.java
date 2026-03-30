@@ -1,7 +1,9 @@
 package janggiBoard.strategyTest;
 
 import domain.Position;
+import domain.Team;
 import domain.piece.Blank;
+import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
 import domain.strategy.PawnStrategy;
@@ -26,39 +28,46 @@ public class PawnStrategyTest {
     }
 
     @Test
-    void 졸은_4가지_이동_후보_모두_반환() {
+    void 초나라_졸인_경우_3가지_경우_반환() {
         Position currentPosition = new Position(5, 5);
-        testBoard.setAllBlank();
+
+        testBoard.setPiece(currentPosition, new Pawn(Team.CHO));
 
         List<Position> candidates = pawnStrategy.getMoveCandidates(currentPosition, testBoard);
-
-        assertThat(candidates).hasSize(4)
+        assertThat(candidates).hasSize(3)
                 .containsExactlyInAnyOrder(
-                        new Position(4, 5), new Position(6, 5),
-                        new Position(5, 4), new Position(5, 6)
+                        new Position(5, 4), new Position(5, 6), new Position(4, 5)
+                );
+    }
+
+    @Test
+    void 한나라_졸인_경우_3가지_경우_반환() {
+        Position currentPosition = new Position(3, 5);
+
+        testBoard.setPiece(currentPosition, new Pawn(Team.HAN));
+
+        List<Position> candidates = pawnStrategy.getMoveCandidates(currentPosition, testBoard);
+        assertThat(candidates).hasSize(3)
+                .containsExactlyInAnyOrder(
+                        new Position(4, 5), new Position(3, 6), new Position(3, 4)
                 );
     }
 
     private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Boolean> boardState = new HashMap<>();
-        private boolean defaultState = true;
+        private Map<Position, Piece> pieces = new HashMap<>();
 
-        void setBlank(Position pos) {
-            boardState.put(pos, false);
-        }
-
-        void setAllBlank() {
-            this.defaultState = true;
+        void setPiece(Position position, Piece piece) {
+            pieces.put(position, piece);
         }
 
         @Override
         public boolean isBlank(Position position) {
-            return boardState.getOrDefault(position, defaultState);
+            return getPiece(position) instanceof Blank;
         }
 
         @Override
         public Piece getPiece(Position position) {
-            return new Blank();
+            return pieces.getOrDefault(position, new Blank());
         }
     }
 }
