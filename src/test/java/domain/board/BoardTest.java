@@ -24,7 +24,7 @@ public class BoardTest {
 
         board.move(new Position(1, 1), new Position(1, 5));
 
-        assertThat(board.pieceAt(new Position(1, 1)).isNotEmpty()).isFalse();
+        assertThat(board.currentPieces().get(new Position(1, 1)).isNotEmpty()).isFalse();
     }
 
     @Test
@@ -35,7 +35,7 @@ public class BoardTest {
 
         board.move(new Position(1, 1), new Position(1, 5));
 
-        assertThat(board.pieceAt(new Position(1, 5)).isNotEmpty()).isTrue();
+        assertThat(board.currentPieces().get(new Position(1, 5)).isNotEmpty()).isTrue();
     }
 
     @Test
@@ -71,8 +71,8 @@ public class BoardTest {
 
         board.move(new Position(1, 1), new Position(1, 5));
 
-        assertThat(board.pieceAt(new Position(1, 5))).isInstanceOf(Chariot.class);
-        assertThat(board.pieceAt(new Position(1, 1))).isInstanceOf(EmptyPiece.class);
+        assertThat(board.currentPieces().get(new Position(1, 5))).isInstanceOf(Chariot.class);
+        assertThat(board.currentPieces().get(new Position(1, 1))).isInstanceOf(EmptyPiece.class);
     }
 
     @Test
@@ -95,8 +95,8 @@ public class BoardTest {
 
         board.move(new Position(1, 1), new Position(1, 5));
 
-        assertThat(board.pieceAt(new Position(1, 5)).isNotEmpty()).isTrue();
-        assertThat(board.pieceAt(new Position(1, 1)).isNotEmpty()).isFalse();
+        assertThat(board.currentPieces().get(new Position(1, 5)).isNotEmpty()).isTrue();
+        assertThat(board.currentPieces().get(new Position(1, 1)).isNotEmpty()).isFalse();
     }
 
     @Test

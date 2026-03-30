@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.position.Position;
+import java.util.List;
 
 public class EmptyPiece implements Piece {
 
@@ -22,6 +23,11 @@ public class EmptyPiece implements Piece {
     @Override
     public String display(PieceAppearance colorizer) {
         return colorizer.colorizeEmpty();
+    }
+
+    @Override
+    public List<Position> searchRoute(Position src, Position dest) {
+        throw new IllegalArgumentException("이동할 기물이 없는 위치입니다.");
     }
 
     @Override

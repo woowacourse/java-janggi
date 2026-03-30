@@ -1,9 +1,9 @@
 package domain.board;
 
-import domain.piece.ActivePiece;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.position.Position;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class Board {
     public void move(Position src, Position dest) {
         Piece piece = pieces.get(src);
         validateCanMove(piece, src, dest);
-        List<Position> route = ((ActivePiece) piece).searchRoute(src, dest);
+        List<Position> route = piece.searchRoute(src, dest);
         if (piece.isCannon()) {
             validateCannonRoute(route, dest);
         } else {
@@ -31,20 +31,29 @@ public class Board {
     private void validateCannonRoute(List<Position> route, Position dest) {
         int count = 0;
         for (Position position : route) {
-            if (pieceAt(position).isCannon()) {
-                throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
-            }
-
-            if (pieceAt(position).isNotEmpty()) {
+            if (findPiece(position).isNotEmpty()) {
+                validatePieceIsNotCannon(position);
                 count++;
             }
         }
+        validateCannonJumpCount(count);
+        validateDestinationIsNotCannon(dest);
+    }
 
+    private void validateCannonJumpCount(int count) {
         if (count != 1) {
             throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
         }
+    }
 
-        if (pieceAt(dest).isCannon()) {
+    private void validatePieceIsNotCannon(Position position) {
+        if (findPiece(position).isCannon()) {
+            throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
+        }
+    }
+
+    private void validateDestinationIsNotCannon(Position dest) {
+        if (findPiece(dest).isCannon()) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
@@ -57,14 +66,14 @@ public class Board {
 
     private void validateIntermediateRoute(List<Position> route) {
         for (Position position : route) {
-            if (pieceAt(position).isNotEmpty()) {
+            if (findPiece(position).isNotEmpty()) {
                 throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
             }
         }
     }
 
     private void validateDestination(Position dest, Piece movingPiece) {
-        if (pieceAt(dest).isAlly(movingPiece)) {
+        if (findPiece(dest).isAlly(movingPiece)) {
             throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
         }
     }
@@ -74,7 +83,11 @@ public class Board {
         pieces.put(src, new EmptyPiece());
     }
 
-    public Piece pieceAt(Position position) {
+    private Piece findPiece(Position position) {
         return pieces.getOrDefault(position, new EmptyPiece());
+    }
+
+    public Map<Position, Piece> currentPieces() {
+        return Collections.unmodifiableMap(pieces);
     }
 }

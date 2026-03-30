@@ -1,8 +1,6 @@
 package domain.piece;
 
 import domain.game.Team;
-import domain.position.Position;
-import java.util.List;
 
 public abstract class ActivePiece implements Piece {
     private final Team team;
@@ -27,8 +25,6 @@ public abstract class ActivePiece implements Piece {
     protected int forwardDirection() {
         return team.forwardRowDirection();
     }
-
-    public abstract List<Position> searchRoute(Position source, Position target);
 
     @Override
     public String display(PieceAppearance colorizer) {
