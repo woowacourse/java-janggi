@@ -1,6 +1,5 @@
 package janggi.view;
 
-import static janggi.view.formatter.CampFormatter.CHO_NAME;
 import static java.util.stream.Collectors.joining;
 
 import janggi.domain.Position;
@@ -23,9 +22,6 @@ public final class OutputView {
     private static final String EMPTY_CELL = "．";
 
     private static final String RESET = "\u001B[0m";
-    private static final String CHO_COLOR = "\u001B[32m";
-    private static final String HAN_COLOR = "\u001B[31m";
-
     private static final String[] FULL_WIDTH_NUMBERS = {
             "０", "１", "２", "３", "４", "５", "６", "７", "８", "９"
     };
@@ -81,18 +77,8 @@ public final class OutputView {
     }
 
     private String colorize(PiecePositionDto piecePosition) {
-        return colorOf(piecePosition.camp()) + piecePosition.type() + RESET;
-    }
-
-    private String colorOf(CampDto campDto) {
-        if (isCho(campDto.camp())) {
-            return CHO_COLOR;
-        }
-        return HAN_COLOR;
-    }
-
-    private boolean isCho(String camp) {
-        return camp.equals(CHO_NAME);
+        CampDto camp = piecePosition.camp();
+        return camp.color() + piecePosition.type() + RESET;
     }
 
     private String fullWidthNumber(int number) {

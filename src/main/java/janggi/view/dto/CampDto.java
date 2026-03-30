@@ -1,11 +1,12 @@
 package janggi.view.dto;
 
 import janggi.domain.piece.Camp;
-import janggi.view.formatter.CampFormatter;
+import janggi.view.format.CampFormat;
 
-public record CampDto(String camp) {
+public record CampDto(String name, String color) {
 
     public static CampDto from(Camp camp) {
-        return new CampDto(CampFormatter.format(camp));
+        CampFormat campFormat = CampFormat.from(camp);
+        return new CampDto(campFormat.displayName(), campFormat.color());
     }
 }
