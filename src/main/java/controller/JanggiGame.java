@@ -36,7 +36,7 @@ public class JanggiGame {
 
     private Formation requestFormation(Team team) {
         return retry(() -> {
-            return reader.requestFormation(team);
+            reader.requestFormation(team);
         });
     }
 
