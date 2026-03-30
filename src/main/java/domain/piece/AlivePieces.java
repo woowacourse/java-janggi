@@ -44,7 +44,7 @@ public class AlivePieces {
 
         Piece piece = placedAt(intersection);
 
-        return piece.side == side;
+        return piece.hasSameSide(side);
     }
 
     public boolean placedNotSameSide(Intersection intersection, Side side) {
@@ -58,6 +58,6 @@ public class AlivePieces {
 
         Piece piece = placedAt(intersection);
 
-        return piece.side != side;
+        return piece.hasDifferentSide(side);
     }
 }

@@ -13,8 +13,12 @@ public abstract class Piece {
         this.side = side;
     }
 
-    public boolean hasDifferentSide(Side side) {
-        return this.side != side;
+    public final boolean hasSameSide(Side side) {
+        return this.side == side;
+    }
+
+    public final boolean hasDifferentSide(Side side) {
+        return !hasSameSide(side);
     }
 
     public abstract boolean canMove(
