@@ -15,8 +15,6 @@ public enum ElephantDirection {
     RIGHT_UP(3, 2, 1, 0, 2, 1),
     RIGHT_DOWN(3, -2, 1, 0, 2, -1);
 
-    private static final String INVALID_ELEPHANT_MOVE_ERROR_MESSAGE = "[ERROR] 상의 이동 방향이 올바르지 않습니다.";
-
     private final int dx;
     private final int dy;
     private final int firstPathX;
@@ -37,7 +35,7 @@ public enum ElephantDirection {
         return Arrays.stream(values())
                 .filter(direction -> direction.matches(dx, dy))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_ELEPHANT_MOVE_ERROR_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 상의 이동 방향이 올바르지 않습니다."));
     }
 
     private boolean matches(int dx, int dy) {

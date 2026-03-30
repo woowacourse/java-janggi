@@ -8,8 +8,6 @@ import domain.piece.Camp;
 import domain.piece.Piece;
 
 public class Game {
-    private static final String INVALID_TURN_ERROR_MESSAGE = "[ERROR] 현재 턴의 기물만 움직일 수 있습니다.";
-
     private final Board board;
     private Camp currentTurn;
 
@@ -40,7 +38,7 @@ public class Game {
 
     private void validateTurn(Piece piece) {
         if (piece.camp() != currentTurn) {
-            throw new IllegalArgumentException(INVALID_TURN_ERROR_MESSAGE);
+            throw new IllegalArgumentException("[ERROR] 현재 턴의 기물만 움직일 수 있습니다.");
         }
     }
 

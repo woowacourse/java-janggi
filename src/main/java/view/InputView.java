@@ -5,12 +5,9 @@ import java.util.Scanner;
 
 public class InputView {
     private static final String PASS_COMMAND = "pass";
-    private static final String INVALID_COMMAND_ERROR_MESSAGE = "[ERROR] 명령은 pass 또는 x y x y 형식이어야 합니다.";
-    private static final String INPUT_CLOSED_ERROR_MESSAGE = "[ERROR] 입력이 종료되었습니다.";
     private static final int MOVE_COMMAND_TOKEN_SIZE = 4;
     private static final int DISPLAYED_LAST_ROW = 0;
     private static final int ACTUAL_LAST_ROW = 10;
-    public static final String COMMAND_MUST_BE_NUMBER_ERROR_MESSAGE = "[ERROR] 상차림 번호는 숫자여야 합니다.";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -20,7 +17,7 @@ public class InputView {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException(COMMAND_MUST_BE_NUMBER_ERROR_MESSAGE);
+            throw new IllegalArgumentException("[ERROR] 상차림 번호는 숫자여야 합니다.");
         }
     }
 
@@ -34,7 +31,7 @@ public class InputView {
         String[] tokens = input.split(" ");
 
         if (tokens.length != MOVE_COMMAND_TOKEN_SIZE) {
-            throw new IllegalArgumentException(INVALID_COMMAND_ERROR_MESSAGE);
+            throw new IllegalArgumentException("[ERROR] 명령은 pass 또는 x y x y 형식이어야 합니다.");
         }
 
         return new MoveCommand(
@@ -54,13 +51,13 @@ public class InputView {
 
             return new Position(x, y);
         } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException(INVALID_COMMAND_ERROR_MESSAGE);
+            throw new IllegalArgumentException("[ERROR] 명령은 pass 또는 x y x y 형식이어야 합니다.");
         }
     }
 
     private String readLine() {
         if (!scanner.hasNextLine()) {
-            throw new IllegalStateException(INPUT_CLOSED_ERROR_MESSAGE);
+            throw new IllegalStateException("[ERROR] 입력이 종료되었습니다.");
         }
 
         return scanner.nextLine().trim();

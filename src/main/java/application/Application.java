@@ -10,8 +10,6 @@ import view.InputView;
 import view.OutputView;
 
 public class Application {
-    private static final String INVALID_SETUP_NUMBER_ERROR_MESSAGE =
-            "[ERROR] 상차림 번호는 1, 2, 3, 4 중 하나여야 합니다.";
     private static final Map<Integer, SetUp> INPUT_MAP = Map.of(
             1, SetUp.LEFT_ELEPHANT,
             2, SetUp.RIGHT_ELEPHANT,
@@ -67,7 +65,7 @@ public class Application {
     public static SetUp toSetUp(int input) {
         SetUp setUp = INPUT_MAP.get(input);
         if (setUp == null) {
-            throw new IllegalArgumentException(INVALID_SETUP_NUMBER_ERROR_MESSAGE);
+            throw new IllegalArgumentException("[ERROR] 상차림 번호는 1, 2, 3, 4 중 하나여야 합니다.");
         }
 
         return setUp;

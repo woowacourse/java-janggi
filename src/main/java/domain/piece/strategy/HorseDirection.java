@@ -15,8 +15,6 @@ public enum HorseDirection {
     RIGHT_UP(2, 1, 1, 0),
     RIGHT_DOWN(2, -1, 1, 0);
 
-    private static final String INVALID_HORSE_MOVE_ERROR_MESSAGE = "[ERROR] 마의 이동 방향이 올바르지 않습니다.";
-
     private final int dx;
     private final int dy;
     private final int pathX;
@@ -33,7 +31,7 @@ public enum HorseDirection {
         return Arrays.stream(values())
                 .filter(direction -> direction.matches(dx, dy))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_HORSE_MOVE_ERROR_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 마의 이동 방향이 올바르지 않습니다."));
     }
 
     private boolean matches(int dx, int dy) {
