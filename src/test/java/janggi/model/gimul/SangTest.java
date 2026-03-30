@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.diagonalMove.Sang;
 import janggi.model.board.position.Column;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
 import java.util.List;
@@ -24,11 +24,11 @@ class SangTest {
         Sang sang = new Sang(Team.CHO);
 
         //when
-        MoveResult moveResult = sang.getLegalPath(from, to);
+        PositionPath path = sang.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getTo())
-                .isEqualTo(new Position(Row.FOUR, Column.THREE));
+        assertThat(path.isEmpty())
+                .isFalse();
     }
 
     @DisplayName("행과 열의 거리가 각각 (1,3) 혹은 (3,1)이 아니면 예외가 발생한다.")

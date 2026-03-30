@@ -24,8 +24,7 @@ public class JanggiController {
     }
 
     public void run() {
-        int boardType = readInitialBoardType();
-        Janggi janggi = initializeBoard(boardType);
+        Janggi janggi = setUpJanggi();
 
         while (!janggi.isGameOver()) {
             outputView.printGameStatus(GameStatus.from(janggi));
@@ -37,13 +36,9 @@ public class JanggiController {
         }
     }
 
+    private Janggi setUpJanggi() {
+        int boardType = readBoardType();
 
-    private int readInitialBoardType() {
-        outputView.printBoardInitialTypeMessage();
-        return inputView.readBoardInitializeType();
-    }
-
-    private Janggi initializeBoard(int boardType) {
         int leftSideTableOption = 1;
         int rightSideTableOption = 2;
         int insideTableOption = 3;
@@ -65,11 +60,15 @@ public class JanggiController {
         throw new IllegalArgumentException("유효한 유형 번호를 입력하세요.");
     }
 
+    private int readBoardType() {
+        outputView.printBoardInitialTypeMessage();
+        return inputView.readBoardInitializeType();
+    }
+
     private Position readFromPosition() {
         outputView.printFromPositionMessage();
         return convertPositionInfoToPosition(inputView.readPosition());
     }
-
 
     private Position readToPosition() {
         outputView.printToPositionMessage();
@@ -78,15 +77,17 @@ public class JanggiController {
 
     private Position convertPositionInfoToPosition(List<Integer> positionInfo) {
         int rowIndex = 0;
-        int columnIndex = 1;
-
         int rowNumber = positionInfo.get(rowIndex);
+
         if (rowNumber == 0) {
             rowNumber = 10;
         }
 
+        int columnIndex = 1;
+        Integer columnNumber = positionInfo.get(columnIndex);
+
         Row row = Row.of(rowNumber);
-        Column column = Column.of(positionInfo.get(columnIndex));
+        Column column = Column.of(columnNumber);
 
         return new Position(row, column);
     }

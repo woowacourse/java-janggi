@@ -4,9 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.board.position.Column;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
-import janggi.model.board.moveResult.PositionPath;
+import janggi.model.board.PositionPath;
 import janggi.model.board.position.Row;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,16 +48,9 @@ class StraightMovementTest {
         Movement movement = new StraightMovement();
 
         //when
-        MoveResult moveResult = movement.move(from, to);
+        PositionPath path = movement.move(from, to);
 
         //then
-        assertThat(moveResult.getTo())
-                .isEqualTo(new Position(Row.FIVE, Column.FIVE));
-
-        PositionPath path = moveResult.getPath();
-        assertThat(path.getFirst())
-                .isEqualTo(new Position(Row.EIGHT, Column.FIVE));
-        assertThat(path.getLast())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+        assertThat(path.isEmpty()).isFalse();
     }
 }

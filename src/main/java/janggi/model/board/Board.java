@@ -1,7 +1,6 @@
 package janggi.model.board;
 
 import janggi.model.Team;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
 import janggi.model.gimul.AbstractGimul;
 import java.util.HashMap;
@@ -26,18 +25,17 @@ public class Board {
         }
 
         AbstractGimul gimulAtFrom = board.get(from);
+
         if (!gimulAtFrom.isSameTeam(team)) {
             throw new IllegalArgumentException("상대편 기물을 움직일 수 없습니다.");
         }
 
-        MoveResult moveResult = gimulAtFrom.getLegalPath(from, to);
+        PositionPath path = gimulAtFrom.getLegalPath(from, to);
 
-        List<AbstractGimul> gimulsOnPath = moveResult.getPath().stream()
-                .filter(board::containsKey)
-                .map(board::get)
-                .toList();
-
-        validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
+        if (!path.isEmpty()) {
+            List<AbstractGimul> gimulsOnPath = path.findGimulsOn(board);
+            validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
+        }
 
         Map<Position, AbstractGimul> movedBoard = new HashMap<>(board);
         movedBoard.put(to, gimulAtFrom);
@@ -47,18 +45,16 @@ public class Board {
     }
 
     private void validateMovePathAndDestination(
-            Position to, AbstractGimul gimulAtFrom,
-            List<AbstractGimul> gimulsOnPath) {
-        if ((!board.containsKey(to) && gimulAtFrom.canPassThrough(gimulsOnPath))) {
-            return;
-        }
+            Position to,
+            AbstractGimul gimulAtFrom,
+            List<AbstractGimul> gimulsOnPath
+    ) {
+        boolean hasTarget = board.containsKey(to);
 
-        AbstractGimul gimulAtTo = board.get(to);
-        if (gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
-            return;
+        if ((!hasTarget && !gimulAtFrom.canPassThrough(gimulsOnPath))
+                || (hasTarget && !gimulAtFrom.canPassThrough(gimulsOnPath, board.get(to)))) {
+            throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
         }
-
-        throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
     }
 
     public boolean isGameOver() {

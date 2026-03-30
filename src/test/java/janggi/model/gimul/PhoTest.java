@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.linearMove.Pho;
 import janggi.model.board.position.Column;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
 import java.util.List;
@@ -53,11 +53,11 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when
-        MoveResult moveResult = pho.getLegalPath(from, to);
+        PositionPath path = pho.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getTo())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+        assertThat(path.isEmpty())
+                .isFalse();
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -69,11 +69,11 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when
-        MoveResult moveResult = pho.getLegalPath(from, to);
+        PositionPath path = pho.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getTo())
-                .isEqualTo(new Position(Row.NINE, Column.THREE));
+        assertThat(path.isEmpty())
+                .isFalse();
     }
 
     @DisplayName("아무런 기물이 없으면 예외가 발생한다.")
