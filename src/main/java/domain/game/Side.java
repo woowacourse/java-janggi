@@ -1,8 +1,10 @@
 package domain.game;
 
+import domain.board.Intersection;
 import domain.direction.Direction;
 import domain.direction.Down;
 import domain.direction.Left;
+import domain.direction.MoveAmount;
 import domain.direction.Right;
 import domain.direction.Up;
 import java.util.List;
@@ -42,6 +44,13 @@ public enum Side {
 
     public int getBaseRow() {
         return baseRow;
+    }
+
+    public int farTo(MoveAmount farAmount) {
+        final int defaultFile = 5;
+        Intersection farIntersection = forwardDirection.moveForward(new Intersection(baseRow, defaultFile), farAmount);
+
+        return farIntersection.row();
     }
 
     public Direction getForwardDirection() {
