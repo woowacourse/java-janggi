@@ -1,4 +1,5 @@
 package domain.manager;
+import static common.exception.ErrorMessage.DUPLICATE_NAME;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
@@ -100,7 +101,7 @@ public class JanggiGame {
 
     private Board initialize() {
         Player choPlayer = createChoPlayer();
-        Player hanPlayer = createHanPlayer();
+        Player hanPlayer = createHanPlayer(choPlayer);
 
         turnManager = new TurnManager(choPlayer, hanPlayer);
 
@@ -115,11 +116,17 @@ public class JanggiGame {
         return createPlayer(choName, CHO);
     }
 
-    private Player createHanPlayer() {
-        String hanName = inputView.askHanPlayerName();
-        return createPlayer(hanName, HAN);
-    }
+    private Player createHanPlayer(Player choPlayer) {
+        return retryOnInvalidInput(() -> {
+            String hanName = inputView.askHanPlayerName();
 
+            if (choPlayer.hasName(hanName)) {
+                throw new JanggiException(DUPLICATE_NAME.getMessage());
+            }
+
+            return createPlayer(hanName, HAN);
+        });
+    }
     private Player createPlayer(String name, Team team) {
         return new Player(new Name(name), team);
     }
