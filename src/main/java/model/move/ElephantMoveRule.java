@@ -8,20 +8,20 @@ import model.policy.DestinationPolicy;
 import model.policy.PathPolicy;
 
 public class ElephantMoveRule extends MoveRule {
+    private static final List<Direction> straightDirections = List.of(Direction.UP, Direction.RIGHT, Direction.DOWN,
+            Direction.LEFT);
+    private static final List<List<Direction>> diagonals = List.of(
+            List.of(Direction.UP_LEFT, Direction.UP_RIGHT),
+            List.of(Direction.UP_RIGHT, Direction.DOWN_RIGHT),
+            List.of(Direction.DOWN_LEFT, Direction.DOWN_RIGHT),
+            List.of(Direction.UP_LEFT, Direction.UP_LEFT));
 
     @Override
     protected List<MovePattern> patterns(Move move) {
         List<MovePattern> patternList = new ArrayList<>();
         PathPolicy pathPolicy = new DefaultPathPolicy();
         DestinationPolicy destinationPolicy = new DefaultDestinationPolicy();
-
-        List<Direction> straightDirections = List.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT);
-        List<List<Direction>> diagonals = List.of(
-                List.of(Direction.UP_LEFT, Direction.UP_RIGHT),
-                List.of(Direction.UP_RIGHT, Direction.DOWN_RIGHT),
-                List.of(Direction.DOWN_LEFT, Direction.DOWN_RIGHT),
-                List.of(Direction.UP_LEFT, Direction.UP_LEFT));
-
+        
         for (int i = 0; i < straightDirections.size(); i++) {
             Direction base = straightDirections.get(i);
             diagonals.get(i).stream().map(diagonal -> createPattern(base, diagonal, pathPolicy, destinationPolicy))
