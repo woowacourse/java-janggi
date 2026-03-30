@@ -35,10 +35,6 @@ public class Position {
         return y;
     }
 
-    public String makePositionKey() {
-        return x + "," + y;
-    }
-
     public Position move(Delta delta) {
         return new Position(x + delta.dx(), y + delta.dy());
     }
