@@ -98,7 +98,7 @@ class PhoTest {
     }
 
     @Test
-    void 포_경로_반환_테스트() {
+    void 포_경로_우측_방향_반환_테스트() {
         Piece piece = new Pho(Team.CHO);
 
         Position from = new Position(0, 0);
@@ -106,9 +106,61 @@ class PhoTest {
         Path actual = piece.getPath(from, to);
 
         Path expect = new Path(List.of(
+                new Position(1, 0),
                 new Position(2, 0),
                 new Position(3, 0),
                 new Position(4, 0)
+        ));
+        assertThat(actual).isEqualTo(expect);
+    }
+
+    @Test
+    void 포_경로_좌측_방향_반환_테스트() {
+        Piece piece = new Pho(Team.CHO);
+
+        Position from = new Position(5, 0);
+        Position to = new Position(0, 0);
+        Path actual = piece.getPath(from, to);
+
+        Path expect = new Path(List.of(
+                new Position(4, 0),
+                new Position(3, 0),
+                new Position(2, 0),
+                new Position(1, 0)
+        ));
+        assertThat(actual).isEqualTo(expect);
+    }
+
+    @Test
+    void 포_경로_상단_방향_반환_테스트() {
+        Piece piece = new Pho(Team.CHO);
+
+        Position from = new Position(0, 0);
+        Position to = new Position(0, 5);
+        Path actual = piece.getPath(from, to);
+
+        Path expect = new Path(List.of(
+                new Position(0, 1),
+                new Position(0, 2),
+                new Position(0, 3),
+                new Position(0, 4)
+        ));
+        assertThat(actual).isEqualTo(expect);
+    }
+
+    @Test
+    void 포_경로_하단_방향_반환_테스트() {
+        Piece piece = new Pho(Team.CHO);
+
+        Position from = new Position(0, 5);
+        Position to = new Position(0, 0);
+        Path actual = piece.getPath(from, to);
+
+        Path expect = new Path(List.of(
+                new Position(0, 4),
+                new Position(0, 3),
+                new Position(0, 2),
+                new Position(0, 1)
         ));
         assertThat(actual).isEqualTo(expect);
     }
