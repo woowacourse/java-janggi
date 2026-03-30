@@ -9,10 +9,10 @@ public enum Formation {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
-                    new Elephant(side),
-                    new Horse(side),
-                    new Elephant(side),
-                    new Horse(side)
+                    PieceFactory.createElephant(side),
+                    PieceFactory.createHorse(side),
+                    PieceFactory.createElephant(side),
+                    PieceFactory.createHorse(side)
             );
             place(pieces, side, orders);
         }
@@ -21,10 +21,10 @@ public enum Formation {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
-                    new Horse(side),
-                    new Elephant(side),
-                    new Horse(side),
-                    new Elephant(side)
+                    PieceFactory.createHorse(side),
+                    PieceFactory.createElephant(side),
+                    PieceFactory.createHorse(side),
+                    PieceFactory.createElephant(side)
             );
             place(pieces, side, orders);
         }
@@ -33,10 +33,10 @@ public enum Formation {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
-                    new Elephant(side),
-                    new Horse(side),
-                    new Horse(side),
-                    new Elephant(side)
+                    PieceFactory.createElephant(side),
+                    PieceFactory.createHorse(side),
+                    PieceFactory.createHorse(side),
+                    PieceFactory.createElephant(side)
             );
             place(pieces, side, orders);
         }
@@ -45,10 +45,10 @@ public enum Formation {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
-                    new Horse(side),
-                    new Elephant(side),
-                    new Elephant(side),
-                    new Horse(side)
+                    PieceFactory.createHorse(side),
+                    PieceFactory.createElephant(side),
+                    PieceFactory.createElephant(side),
+                    PieceFactory.createHorse(side)
             );
             place(pieces, side, orders);
         }
@@ -73,7 +73,7 @@ public enum Formation {
     private static void place(Map<Position, Piece> pieces, Side side, List<Piece> orders) {
         List<Integer> a = side.formationX();
         for (int i = 0; i < orders.size(); i++) {
-            pieces.put(new Position(a.get(i), side.baseY()), orders.get(i));
+            pieces.put(Position.of(a.get(i), side.baseY()), orders.get(i));
         }
     }
 }
