@@ -30,10 +30,23 @@ public class Piece {
     private final PieceType pieceType;
     private final MoveStrategy moveStrategy;
 
+    
     private Piece(TeamColor teamColor, PieceType pieceType, MoveStrategy moveStrategy) {
         this.teamColor = teamColor;
         this.pieceType = pieceType;
         this.moveStrategy = moveStrategy;
+    }
+
+    public static Piece of(TeamColor teamColor, PieceType pieceType) {
+        return new Piece(teamColor, pieceType, createMoveStrategy(pieceType));
+    }
+
+    private static MoveStrategy createMoveStrategy(PieceType pieceType) {
+        Supplier<MoveStrategy> supplier = MOVE_STRATEGY_SUPPLIERS.get(pieceType);
+        if (supplier == null) {
+            throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
+        }
+        return supplier.get();
     }
 
     public PieceType getPieceType() {
@@ -52,15 +65,5 @@ public class Piece {
         return moveStrategy.canMove(route, blockingPieces, destinationPiece, teamColor);
     }
 
-    public static Piece of(TeamColor teamColor, PieceType pieceType) {
-        return new Piece(teamColor, pieceType, createMoveStrategy(pieceType));
-    }
 
-    private static MoveStrategy createMoveStrategy(PieceType pieceType) {
-        Supplier<MoveStrategy> supplier = MOVE_STRATEGY_SUPPLIERS.get(pieceType);
-        if (supplier == null) {
-            throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
-        }
-        return supplier.get();
-    }
 }
