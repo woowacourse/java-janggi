@@ -6,7 +6,7 @@ import domain.TeamColor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RookMoveStrategy implements MoveStrategy {
+public class RookMoveStrategy extends MoveStrategy {
 
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {

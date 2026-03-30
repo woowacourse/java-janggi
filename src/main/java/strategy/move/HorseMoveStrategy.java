@@ -5,7 +5,7 @@ import domain.MovePath;
 import domain.TeamColor;
 import java.util.List;
 
-public class HorseMoveStrategy implements MoveStrategy {
+public class HorseMoveStrategy extends MoveStrategy {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Direction.NORTH, Direction.NORTH_EAST)),

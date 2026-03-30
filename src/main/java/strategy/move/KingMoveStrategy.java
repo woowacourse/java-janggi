@@ -5,7 +5,7 @@ import domain.MovePath;
 import domain.TeamColor;
 import java.util.List;
 
-public class KingMoveStrategy implements MoveStrategy {
+public class KingMoveStrategy extends MoveStrategy {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Direction.NORTH)),

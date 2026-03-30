@@ -5,7 +5,7 @@ import domain.MovePath;
 import domain.TeamColor;
 import java.util.List;
 
-public class ElephantMoveStrategy implements MoveStrategy {
+public class ElephantMoveStrategy extends MoveStrategy {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),

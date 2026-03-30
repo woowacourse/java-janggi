@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CannonMoveStrategy implements MoveStrategy {
+public class CannonMoveStrategy extends MoveStrategy {
 
     @Override
     public List<MovePath> getPaths(TeamColor teamColor) {

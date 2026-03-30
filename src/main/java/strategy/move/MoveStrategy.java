@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public interface MoveStrategy {
+public abstract class MoveStrategy {
 
-    List<MovePath> getPaths(TeamColor teamColor);
+    public abstract List<MovePath> getPaths(TeamColor teamColor);
 
-    default List<Route> makeRoutes(Position curPos, TeamColor teamColor) {
+    public List<Route> makeRoutes(Position curPos, TeamColor teamColor) {
         List<Route> validRoutes = new ArrayList<>();
         List<MovePath> paths = getPaths(teamColor);
 
@@ -45,7 +45,7 @@ public interface MoveStrategy {
         return validRoutes;
     }
 
-    default boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
+    public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
         if (!blockingPieces.isEmpty()) {
             return false;
         }

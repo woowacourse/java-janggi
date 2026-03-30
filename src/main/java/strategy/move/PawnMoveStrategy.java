@@ -5,7 +5,7 @@ import domain.MovePath;
 import domain.TeamColor;
 import java.util.List;
 
-public class PawnMoveStrategy implements MoveStrategy{
+public class PawnMoveStrategy extends MoveStrategy {
 
 
     @Override
