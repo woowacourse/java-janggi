@@ -4,8 +4,8 @@ import janggi.domain.board.Position;
 import janggi.dto.PieceDTO;
 import janggi.util.PieceLabelMapper;
 import janggi.dto.BoardDTO;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class OutputView {
     private static final String PLAYER_NAME_NOTICE = "선수(%s) 플레이어의 이름을 입력하세요.";
@@ -37,7 +37,7 @@ public class OutputView {
         printBoardStatus(boardDto, selected, null);
     }
 
-    public void printBoardStatus(BoardDTO boardDto, Position selected, List<Position> movables) {
+    public void printBoardStatus(BoardDTO boardDto, Position selected, Set<Position> movables) {
         printLine(COLUMN_INDEXES);
         printLine(DIVIDER);
         for (int row = Position.BOARD_MIN_ROW; row <= Position.BOARD_MAX_ROW; row++) {
@@ -48,7 +48,7 @@ public class OutputView {
         printLine(COLUMN_INDEXES);
     }
 
-    private void renderRow(int row, Map<Position, PieceDTO> status, Position selected, List<Position> movables) {
+    private void renderRow(int row, Map<Position, PieceDTO> status, Position selected, Set<Position> movables) {
         StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
         for (int col = Position.BOARD_MIN_COLUMN; col <= Position.BOARD_MAX_COLUMN; col++) {
             Position current = new Position(row, col);
@@ -60,17 +60,37 @@ public class OutputView {
         printLine(sb.toString());
     }
 
-    private String getFormattedCell(Map<Position, PieceDTO> status, Position current, Position selected, List<Position> movables) {
-        PieceDTO vo = status.get(current);
-        String label = (vo == null) ? EMPTY_CELL : PieceLabelMapper.toFullWidth(vo);
+    private String getFormattedCell(Map<Position, PieceDTO> status, Position current, Position selected,
+                                    Set<Position> movables) {
+        String label = convertPieceToLabel(status.get(current));
         String cell = "［" + label + "］";
+
+        // 선택된 기물 -> 파란색
         if (current.equals(selected)) {
-            return ANSI_BLUE + cell + ANSI_RESET;
+            return applyColor(cell, ANSI_BLUE);
         }
-        if (movables != null && movables.contains(current)) {
-            return ANSI_GREEN + cell + ANSI_RESET;
+
+        // 이동 가능한 경로 -> 초록색
+        if (isMovable(current, movables)) {
+            return applyColor(cell, ANSI_GREEN);
         }
+
         return cell;
+    }
+
+    private String convertPieceToLabel(PieceDTO vo) {
+        if (vo == null) {
+            return EMPTY_CELL;
+        }
+        return PieceLabelMapper.toFullWidth(vo);
+    }
+
+    private boolean isMovable(Position current, Set<Position> movables) {
+        return movables != null && movables.contains(current);
+    }
+
+    private String applyColor(String cell, String colorCode) {
+        return colorCode + cell + ANSI_RESET;
     }
 
     private void renderVerticalLine(int row) {

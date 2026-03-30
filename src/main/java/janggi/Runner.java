@@ -8,6 +8,7 @@ import janggi.dto.BoardDTO;
 import janggi.dto.PlayerDTO;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -69,7 +70,7 @@ public class Runner {
     }
 
     private void movePiece(Position selected, List<Position> destinations) {
-        outputView.printBoardStatus(BoardDTO.from(board), selected, destinations);
+        outputView.printBoardStatus(BoardDTO.from(board), selected, new HashSet<>(destinations));
         Position target = selectValidTarget(destinations);
         board.movePiece(selected, target);
         outputView.printBoardStatus(BoardDTO.from(board), target);
