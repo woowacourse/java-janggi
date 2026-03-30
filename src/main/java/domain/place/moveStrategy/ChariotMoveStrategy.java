@@ -22,28 +22,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
 
         return ORTHOGONAL_DIRECTIONS.stream()
-                .filter(d -> isAlignedWithAxis(from, to, d))
-                .filter(d -> isHeadingTowardsTarget(from, to, d))
                 .anyMatch(d -> isPathClear(board, from, to, d));
-    }
-
-    private boolean isAlignedWithAxis(Position from, Position to, Direction direction) {
-        if (direction.getRow() == 0) {
-            return from.getRow() == to.getRow();
-        }
-
-        if (direction.getColumn() == 0) {
-            return from.getColumn() == to.getColumn();
-        }
-
-        return false;
-    }
-
-    private boolean isHeadingTowardsTarget(Position from, Position to, Direction direction) {
-        int vectorSum = (to.getRow() - from.getRow()) + (to.getColumn() - from.getColumn());
-        int movedVectorSum = vectorSum + direction.getRow() + direction.getColumn();
-
-        return Math.abs(vectorSum) < Math.abs(movedVectorSum);
     }
 
     private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
@@ -57,6 +36,6 @@ public class ChariotMoveStrategy implements MoveStrategy {
             currentPosition = currentPosition.get().moveIfInBounds(direction);
         }
 
-        return currentPosition.isPresent();
+        return currentPosition.filter(to::equals).isPresent();
     }
 }
