@@ -12,6 +12,9 @@ public class ElephantStrategy implements MoveStrategy {
     private static final int MIN_ABS_DELTA = 2;
     private static final int MAX_ABS_DELTA = 3;
 
+    public static final int ELEPHANT_STRAIGHT_MOVE_DISTANCE = 1;
+    public static final int ELEPHANT_DIAGONAL_MOVE_DISTANCE = 2;
+
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
         DirectionInformation directionInfo = new DirectionInformation(source, destination);

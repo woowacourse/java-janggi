@@ -1,14 +1,14 @@
 package janggi.exception;
 
-import static janggi.constant.GameRule.ELEPHANT_DIAGONAL_MOVE_DISTANCE;
-import static janggi.constant.GameRule.ELEPHANT_STRAIGHT_MOVE_DISTANCE;
-import static janggi.constant.GameRule.HORSE_DIAGONAL_MOVE_DISTANCE;
-import static janggi.constant.GameRule.HORSE_STRAIGHT_MOVE_DISTANCE;
-import static janggi.constant.GameRule.MAX_COLUMN_INDEX;
-import static janggi.constant.GameRule.MAX_ROW_INDEX;
-import static janggi.constant.GameRule.MIN_POSITION_INDEX;
-import static janggi.constant.GameRule.PASS_PIECE_COUNT;
-import static janggi.constant.GameRule.SINGLE_STEP_DISTANCE;
+import static janggi.domain.Position.MAX_COLUMN_INDEX;
+import static janggi.domain.Position.MAX_ROW_INDEX;
+import static janggi.domain.Position.MIN_POSITION_INDEX;
+import static janggi.domain.piece.condition.OnePieceExistsCondition.PASS_PIECE_COUNT;
+import static janggi.domain.piece.strategy.ElephantStrategy.ELEPHANT_DIAGONAL_MOVE_DISTANCE;
+import static janggi.domain.piece.strategy.ElephantStrategy.ELEPHANT_STRAIGHT_MOVE_DISTANCE;
+import static janggi.domain.piece.strategy.HorseStrategy.HORSE_DIAGONAL_MOVE_DISTANCE;
+import static janggi.domain.piece.strategy.HorseStrategy.HORSE_STRAIGHT_MOVE_DISTANCE;
+import static janggi.domain.piece.strategy.SingleStepStraightStrategy.SINGLE_STEP_DISTANCE;
 
 public enum ExceptionMessage {
 
@@ -30,7 +30,6 @@ public enum ExceptionMessage {
             SINGLE_STEP_DISTANCE
     )),
     INVALID_BACKWARD_MOVEMENT("해당 기물은 후진할 수 없습니다."),
-    INVALID_SOLDIER_MOVE(String.format("해당 기물은 %d칸만 이동할 수 있습니다.", SINGLE_STEP_DISTANCE)),
     INVALID_JUMPED_PIECE_COUNT(String.format("해당 기물은 정확히 %d개의 기물만 뛰어넘을 수 있습니다.", PASS_PIECE_COUNT)),
     INVALID_HORSE_MOVE(String.format(
             "해당 기물은 직선 %d칸 이동 후 대각선 %d칸 이동만 가능합니다.",

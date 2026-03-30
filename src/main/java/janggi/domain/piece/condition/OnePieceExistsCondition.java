@@ -1,7 +1,5 @@
 package janggi.domain.piece.condition;
 
-import static janggi.constant.GameRule.PASS_PIECE_COUNT;
-
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
@@ -10,6 +8,8 @@ import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class OnePieceExistsCondition implements MoveCondition {
+
+    public static final int PASS_PIECE_COUNT = 1;
 
     @Override
     public void checkPath(List<Position> path, Camp camp, BoardChecker board, PieceType pieceType) {

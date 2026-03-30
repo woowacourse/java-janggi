@@ -11,6 +11,9 @@ public class HorseStrategy implements MoveStrategy {
     private static final int MIN_ABS_DELTA = 1;
     private static final int MAX_ABS_DELTA = 2;
 
+    public static final int HORSE_STRAIGHT_MOVE_DISTANCE = 1;
+    public static final int HORSE_DIAGONAL_MOVE_DISTANCE = 1;
+
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
         DirectionInformation directionInformation = new DirectionInformation(source, destination);
