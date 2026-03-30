@@ -61,7 +61,7 @@ public class HorseTest {
 
     @Test
     @DisplayName("마의 1번째 방향이 대각선이거나, 2번째 방향이 대각선이 아닐 경우 예외가 발생한다.")
-    void horseDialogExceptionTest() {
+    void horseDiagonalExceptionTest() {
         Piece horse = new Horse(Country.CHO);
 
         Position from = new Position(1, 1);

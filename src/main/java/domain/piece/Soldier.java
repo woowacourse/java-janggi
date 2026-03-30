@@ -28,7 +28,7 @@ public class Soldier extends Piece {
             throw new IllegalArgumentException(TRY_GO_BACK);
         }
         // 궁성 영역 생각하지 않음
-        if (directions.getFirst().isDialog()) {
+        if (directions.getFirst().isDiagonal()) {
             throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
         }
     }

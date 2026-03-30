@@ -18,12 +18,12 @@ public enum Direction implements Comparator<Direction> {
 
     private final int x;
     private final int y;
-    private final boolean isDialog;
+    private final boolean isDiagonal;
 
-    Direction(int x, int y, boolean isDialog) {
+    Direction(int x, int y, boolean isDiagonal) {
         this.x = x;
         this.y = y;
-        this.isDialog = isDialog;
+        this.isDiagonal = isDiagonal;
     }
 
     public static List<Direction> findDirections(int x, int y) {
@@ -34,7 +34,7 @@ public enum Direction implements Comparator<Direction> {
                 direction = findStraight(x, y);
             }
             if (x != 0 && y != 0) {
-                direction = findDialog(x, y);
+                direction = findDiagonal(x, y);
             }
             directions.add(direction);
             x += -direction.x;
@@ -57,7 +57,7 @@ public enum Direction implements Comparator<Direction> {
         return RIGHT;
     }
 
-    private static Direction findDialog(int x, int y) {
+    private static Direction findDiagonal(int x, int y) {
         if (x < 0 && y > 0) {
             return LEFT_UP;
         }
@@ -78,16 +78,16 @@ public enum Direction implements Comparator<Direction> {
         return y;
     }
 
-    public boolean isDialog() {
-        return isDialog;
+    public boolean isDiagonal() {
+        return isDiagonal;
     }
 
     @Override
     public int compare(Direction direction1, Direction direction2) {
-        if (!direction1.isDialog && direction2.isDialog) {
+        if (!direction1.isDiagonal && direction2.isDiagonal) {
             return -1;
         }
-        if (direction1.isDialog && !direction2.isDialog) {
+        if (direction1.isDiagonal && !direction2.isDiagonal) {
             return 1;
         }
         return 0;

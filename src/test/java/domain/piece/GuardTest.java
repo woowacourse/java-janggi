@@ -77,7 +77,7 @@ public class GuardTest {
 
     @Test
     @DisplayName("사가 대각선으로 이동할 경우 예외가 발생한다.")
-    void soldierDialogExceptionTest() {
+    void soldierDiagonalExceptionTest() {
         Piece guard = new Guard(Country.CHO);
 
         Position from = new Position(3, 0);

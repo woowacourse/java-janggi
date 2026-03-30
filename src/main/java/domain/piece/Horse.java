@@ -19,7 +19,7 @@ public class Horse extends Piece {
         if (directions.size() != HORSE_DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }
-        if (directions.getFirst().isDialog() || !directions.get(1).isDialog()) {
+        if (directions.getFirst().isDiagonal() || !directions.get(1).isDiagonal()) {
             throw new IllegalArgumentException(FIXED_DIRECTION);
         }
     }
