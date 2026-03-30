@@ -18,6 +18,14 @@ public abstract class Piece {
 
     abstract public void check(BoardStatus boardStatus, Position start, Position destination);
 
+    public boolean isSameTeam(Piece piece) {
+        return team == piece.team;
+    }
+
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

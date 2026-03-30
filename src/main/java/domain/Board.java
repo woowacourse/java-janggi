@@ -44,14 +44,14 @@ public class Board {
     }
 
     private void validateIsSameTeam(Team turn, Piece startPiece) {
-        if (startPiece != null && startPiece.getTeam() != turn) {
+        if (startPiece != null && startPiece.isSameTeam(turn)) {
             throw new IllegalArgumentException(SHOULD_CHOOSE_CORRECT_TEAM_PIECE);
         }
     }
 
     private void validateIsNotAlly(Piece startPiece, Piece destinationPiece) {
         if (destinationPiece != null) {
-            if (destinationPiece.getTeam() == startPiece.getTeam()) {
+            if (startPiece.isSameTeam(destinationPiece)) {
                 throw new IllegalArgumentException(DESTINATION_HAS_ALLY);
             }
         }

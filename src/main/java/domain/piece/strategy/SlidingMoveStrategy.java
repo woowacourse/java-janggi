@@ -7,10 +7,10 @@ import java.util.List;
 public class SlidingMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
-        if (start.isSameRow(destination.getRow())) {
+        if (start.isSameRow(destination)) {
             return start.getHorizontalPathExcludeDestination(destination);
         }
-        if (start.isSameColumn(destination.getColumn())) {
+        if (start.isSameColumn(destination)) {
             return start.getVerticalPathExcludeDestination(destination);
         }
         throw new IllegalArgumentException(PieceExceptionMessage.INVALID_POSITION.getMessage());
