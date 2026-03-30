@@ -17,18 +17,18 @@ class CannonMoveStrategyTest {
     public void cannon_findMovablePositions_success() {
         // given
         Map<Position, Piece> board = new HashMap<>();
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
+        MoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
 
         // 1. 위쪽에 기물이 하나만 있을 때
-        board.put(Position.from(3, 5), new Piece(dynasty, new ChariotMoveStrategy()));
+        board.put(Position.from(3, 5), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
         // 2. 오른쪽에 기물이 두개 있을 때 (도착 지점이 아군)
-        board.put(Position.from(5, 7), new Piece(dynasty, new ChariotMoveStrategy()));
-        board.put(Position.from(5, 9), new Piece(dynasty, new ChariotMoveStrategy()));
+        board.put(Position.from(5, 7), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
+        board.put(Position.from(5, 9), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
         // 3. 아래쪽에 기물이 두개 있을 때 (도착 지점이 적군)
-        board.put(Position.from(7, 5), new Piece(dynasty, new ChariotMoveStrategy()));
-        board.put(Position.from(9, 5), new Piece(Dynasty.HAN, new ChariotMoveStrategy()));
+        board.put(Position.from(7, 5), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
+        board.put(Position.from(9, 5), new Piece(Dynasty.HAN, ChariotMoveStrategy.getInstance()));
 
         // when
         List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);
@@ -48,17 +48,17 @@ class CannonMoveStrategyTest {
     public void 포_기물의_이동가능한_위치_목록을_반환한다_경로에_포가_있는_경우() {
         // given
         Map<Position, Piece> board = new HashMap<>();
-        MoveStrategy moveStrategy = new CannonMoveStrategy();
+        MoveStrategy moveStrategy = CannonMoveStrategy.getInstance();
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
 
         // 1. 첫번째로 만난 기물이 포인 경우
         board.put(Position.from(3, 5), new Piece(dynasty, moveStrategy));
         // 2. 두번째로 만난 기물이 포인 경우 (도착 지점이 아군)
-        board.put(Position.from(5, 7), new Piece(dynasty, new ChariotMoveStrategy()));
+        board.put(Position.from(5, 7), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
         board.put(Position.from(5, 9), new Piece(dynasty, moveStrategy));
         // 3. 두번째로 만난 기물이 포인 경우 (도착 지점이 적군)
-        board.put(Position.from(7, 5), new Piece(dynasty, new ChariotMoveStrategy()));
+        board.put(Position.from(7, 5), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
         board.put(Position.from(9, 5), new Piece(Dynasty.HAN, moveStrategy));
 
         // when

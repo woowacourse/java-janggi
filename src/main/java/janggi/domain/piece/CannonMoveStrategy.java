@@ -10,6 +10,15 @@ import java.util.Map;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
+    private static final CannonMoveStrategy cannonMoveStrategy = new CannonMoveStrategy();
+
+    private CannonMoveStrategy() {
+    }
+
+    public static CannonMoveStrategy getInstance() {
+        return cannonMoveStrategy;
+    }
+
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();

@@ -25,9 +25,9 @@ class GameTest {
         // given
         Position from = Position.from(1, 1);
         BoardDesignPolicy boardDesignPolicy = () -> Map.of(
-                from, new Piece(CHO, new ChariotMoveStrategy()),
-                Position.from(1, 2), new Piece(CHO, new HorseMoveStrategy()),
-                Position.from(2, 1), new Piece(CHO, new SoldierMoveStrategy())
+                from, new Piece(CHO, ChariotMoveStrategy.getInstance()),
+                Position.from(1, 2), new Piece(CHO, HorseMoveStrategy.getInstance()),
+                Position.from(2, 1), new Piece(CHO, SoldierMoveStrategy.getInstance())
         );
         Game game = Game.initGame(boardDesignPolicy);
 
@@ -43,7 +43,7 @@ class GameTest {
         // given
         Position from = Position.from(1, 1);
         BoardDesignPolicy boardDesignPolicy = () -> Map.of(
-                from, new Piece(CHO, new ChariotMoveStrategy())
+                from, new Piece(CHO, ChariotMoveStrategy.getInstance())
         );
 
         Game game = Game.initGame(boardDesignPolicy);

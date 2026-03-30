@@ -62,13 +62,13 @@ class BoardTest {
     public void movePiece_success() {
         // given
         Position from = Position.from(5, 5);
-        Piece fromPiece = new Piece(HAN, new ChariotMoveStrategy());
+        Piece fromPiece = new Piece(HAN, ChariotMoveStrategy.getInstance());
         Position toCanEat = Position.from(3,5);
         Position toCannotEat = Position.from(3,3);
 
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece,
-                toCanEat,  new Piece(CHO, new ChariotMoveStrategy())
+                toCanEat,  new Piece(CHO, ChariotMoveStrategy.getInstance())
         ));
         Board board = new Board(policy);
 
@@ -87,7 +87,7 @@ class BoardTest {
     public void movePiece_fail() {
         // given
         Position from = Position.from(5, 5);
-        Piece fromPiece = new Piece(HAN, new ChariotMoveStrategy());
+        Piece fromPiece = new Piece(HAN, ChariotMoveStrategy.getInstance());
 
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece

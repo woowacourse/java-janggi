@@ -18,7 +18,7 @@ class HorseMoveStrategyTest {
     public void findMovablePositions_success() {
         // given
         Map<Position, Piece> board = new HashMap<>();
-        MoveStrategy moveStrategy = new HorseMoveStrategy();
+        MoveStrategy moveStrategy = HorseMoveStrategy.getInstance();
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
         board.put(from, new Piece(dynasty, moveStrategy));

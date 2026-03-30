@@ -9,6 +9,15 @@ import java.util.Map;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
+    private static final ChariotMoveStrategy chariotMoveStrategy = new ChariotMoveStrategy();
+
+    private ChariotMoveStrategy () {
+    }
+
+    public static ChariotMoveStrategy getInstance() {
+        return chariotMoveStrategy;
+    }
+
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();

@@ -9,6 +9,15 @@ import java.util.Map;
 
 public class SoldierMoveStrategy implements MoveStrategy {
 
+    private static final SoldierMoveStrategy soldierMoveStrategy = new SoldierMoveStrategy();
+
+    private SoldierMoveStrategy() {
+    }
+
+    public static SoldierMoveStrategy getInstance() {
+        return soldierMoveStrategy;
+    }
+
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();

@@ -9,6 +9,15 @@ import java.util.Map;
 
 public class GeneralMoveStrategy implements MoveStrategy {
 
+    private static final GeneralMoveStrategy generalMoveStrategy = new GeneralMoveStrategy();
+
+    private GeneralMoveStrategy() {
+    }
+
+    public static GeneralMoveStrategy getInstance() {
+        return generalMoveStrategy;
+    }
+
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();

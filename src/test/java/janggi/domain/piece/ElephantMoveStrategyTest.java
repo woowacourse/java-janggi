@@ -20,7 +20,7 @@ class ElephantMoveStrategyTest {
     public void elephant_findMovablePositions_success() {
         // given
         Map<Position, Piece> board = new HashMap<>();
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
+        MoveStrategy moveStrategy = ElephantMoveStrategy.getInstance();
         Dynasty dynasty = CHO;
         Position from = Position.from(5, 5);
         board.put(from, new Piece(dynasty, moveStrategy));

@@ -18,7 +18,7 @@ class ChariotMoveStrategyTest {
     public void chariot_findMovablePositions_success() {
         // given
         Map<Position, Piece> board = new HashMap<>();
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
+        MoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
         board.put(from, new Piece(dynasty, moveStrategy));

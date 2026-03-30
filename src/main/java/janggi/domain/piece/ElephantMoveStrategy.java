@@ -9,6 +9,15 @@ import java.util.Map;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
+    private static final ElephantMoveStrategy elephantMoveStrategy = new ElephantMoveStrategy();
+
+    private ElephantMoveStrategy() {
+    }
+
+    public static ElephantMoveStrategy getInstance() {
+        return elephantMoveStrategy;
+    }
+
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
@@ -51,7 +60,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private static boolean isEnemy(Piece piece, Dynasty dynasty) {
-        return piece.isSameDynasty(dynasty);
+        return !piece.isSameDynasty(dynasty);
     }
 
     @Override

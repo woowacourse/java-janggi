@@ -25,7 +25,7 @@ class SoldierMoveStrategyTest {
     @BeforeEach
     void setUp() {
         board = new HashMap<>();
-        moveStrategy = new SoldierMoveStrategy();
+        moveStrategy = SoldierMoveStrategy.getInstance();
     }
 
     @ParameterizedTest
