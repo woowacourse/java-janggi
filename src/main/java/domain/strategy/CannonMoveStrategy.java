@@ -72,15 +72,15 @@ public class CannonMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> verticalRouteTo(Position destination) {
-        List<Position> routePositons = new ArrayList<>();
+        List<Position> routePositions = new ArrayList<>();
 
         int startRow = Math.min(position().row(), destination.row()) + 1;
         int endRow = Math.max(position().row(), destination.row());
 
         for (int row = startRow; row < endRow; row++) {
-            routePositons.add(Position.of(row, position().col()));
+            routePositions.add(Position.of(row, position().col()));
         }
-        return routePositons;
+        return routePositions;
     }
 
     private boolean doesHaveExactlyOnePieceInPath(List<Position> routePositions, List<Position> occupiedPositions) {
