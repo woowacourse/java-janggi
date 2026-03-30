@@ -6,6 +6,7 @@ public class Position {
     public static final int MIN = 0;
     public static final int MAX_X = 8;
     public static final int MAX_Y = 9;
+
     private final int x;
     private final int y;
 
@@ -38,6 +39,11 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
     }
 
     public Position up() {

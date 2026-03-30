@@ -3,7 +3,7 @@ package domain;
 import java.util.List;
 
 public enum Side {
-    CHO {
+    CHO("초") {
         @Override
         public int baseY() {
             return 0;
@@ -29,7 +29,7 @@ public enum Side {
             return List.of(1, 2, 6, 7);
         }
     },
-    HAN {
+    HAN("한") {
         @Override
         public int baseY() {
             return 9;
@@ -56,6 +56,12 @@ public enum Side {
         }
     };
 
+    private final String name;
+
+    Side(String name) {
+        this.name = name;
+    }
+
     public abstract int baseY();
     public abstract int generalY();
     public abstract int cannonY();
@@ -72,5 +78,9 @@ public enum Side {
 
     public boolean isHan() {
         return this.equals(Side.HAN);
+    }
+
+    public String getName() {
+        return name;
     }
 }
