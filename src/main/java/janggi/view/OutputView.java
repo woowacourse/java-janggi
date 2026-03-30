@@ -3,6 +3,10 @@ package janggi.view;
 import janggi.controller.dto.BoardDto;
 import janggi.controller.dto.PieceDto;
 import janggi.controller.dto.PositionDto;
+import janggi.controller.dto.mapper.DynastyColorMapper;
+import janggi.domain.dynasty.Dynasty;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -14,6 +18,7 @@ public class OutputView {
     public void printBoard(BoardDto boardDto) {
         printRow();
         printColumn(boardDto);
+        printColorInfoByDynasty();
     }
 
     private static void printRow() {
@@ -34,6 +39,14 @@ public class OutputView {
             }
             System.out.println();
         }
+    }
+
+    private static void printColorInfoByDynasty() {
+        StringBuilder sb = new StringBuilder("나라별 색상: ");
+        Arrays.stream(Dynasty.values()).forEach(dynasty -> {
+            sb.append(DynastyColorMapper.getColorInfoByDynasty(dynasty));
+        });
+        System.out.println(sb);
     }
 
     public void printCanMovePositions(List<PositionDto> positions) {
