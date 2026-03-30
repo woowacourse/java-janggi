@@ -1,5 +1,6 @@
 package domain.janggigame;
 
+import domain.board.Board;
 import domain.piece.Side;
 import domain.players.Players;
 import dto.BoardResponseDto;
@@ -13,15 +14,19 @@ import java.util.List;
 
 public class JanggiGame {
     private final Players players;
+    private final Board board;
 
-    public JanggiGame(Players players) {
+    public JanggiGame(Players players, Board board) {
         this.players = players;
+        this.board = board;
     }
 
     public void run() {
         selectSide();
         hanPlayerPlacement();
         choPlayerPlacement();
+
+        // 턴마다 번갈아가면서 기물 배치
     }
 
     private void selectSide() {
@@ -41,16 +46,14 @@ public class JanggiGame {
     private void hanPlayerPlacement() {
         String input = InputView.inputHanPlacementCode();
         int code = Parser.parseToPlacementCode(input);
-        players.initPlacementBySide(Side.HAN, code);
-        BoardResponseDto nowBoardState = players.findBoardState();
-        OutputView.printBoard(nowBoardState);
+        players.initPlacementBySide(Side.HAN, code, board);
+        OutputView.printBoard(board.findState());
     }
 
     private void choPlayerPlacement() {
         String input = InputView.inputChoPlacementCode();
         int code = Parser.parseToPlacementCode(input);
-        players.initPlacementBySide(Side.CHO, code);
-        BoardResponseDto nowBoardState = players.findBoardState();
-        OutputView.printBoard(nowBoardState);
+        players.initPlacementBySide(Side.CHO, code, board);
+        OutputView.printBoard(board.findState());
     }
 }

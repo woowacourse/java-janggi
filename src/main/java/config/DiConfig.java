@@ -11,7 +11,10 @@ public class DiConfig {
     private final Board board = new Board();
 
     public JanggiGame janggiGame() {
-        return new JanggiGame(players());
+        return new JanggiGame(
+                players(),
+                board
+        );
     }
 
     private Players players() {
@@ -19,10 +22,10 @@ public class DiConfig {
     }
 
     private Player choPlayer() {
-        return new Player(Side.CHO, board);
+        return new Player(Side.CHO);
     }
 
     private Player hanPlayer() {
-        return new Player(Side.HAN, board);
+        return new Player(Side.HAN);
     }
 }

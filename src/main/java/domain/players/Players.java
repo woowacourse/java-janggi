@@ -1,5 +1,6 @@
 package domain.players;
 
+import domain.board.Board;
 import domain.piece.Side;
 import domain.player.Player;
 import dto.BoardResponseDto;
@@ -13,12 +14,8 @@ public class Players {
         this.hanPlayer = hanPlayer;
     }
 
-    public void initPlacementBySide(Side side, int placementCode) {
-        if (side == Side.HAN) hanPlayer.initBoard(placementCode);
-        if (side == Side.CHO) choPlayer.initBoard(placementCode);
-    }
-
-    public BoardResponseDto findBoardState() {
-        return hanPlayer.findBoardState();
+    public void initPlacementBySide(Side side, int placementCode, Board board) {
+        if (side == Side.HAN) hanPlayer.initBoard(board, placementCode);
+        if (side == Side.CHO) choPlayer.initBoard(board, placementCode);
     }
 }
