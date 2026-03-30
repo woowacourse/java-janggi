@@ -12,12 +12,6 @@ public class InputView {
         return playerName;
     }
 
-    public String readPieceName() {
-        String pieceName = scanner.nextLine();
-        validateNotBlank(pieceName);
-        return pieceName;
-    }
-
     public int readTargetRow() {
         String targetRow = scanner.nextLine();
         validateNotBlank(targetRow);
