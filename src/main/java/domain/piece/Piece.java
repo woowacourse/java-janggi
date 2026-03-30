@@ -61,6 +61,6 @@ public abstract class Piece {
     }
 
     public void isSameTeam(Turn turn) {
-        team.validateSameTeam(turn);
+        turn.validateSameTeam(team);
     }
 }
