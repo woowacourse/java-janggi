@@ -52,34 +52,42 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean findBridge(Iterator<Position> it, Map<Position, Piece> state) {
-        Piece target = null;
-        while (it.hasNext() && (target = state.get(it.next())) == null) {
+        Piece firstPiece = findFirstPiece(it, state);
+        return isValidBridge(firstPiece);
+    }
+
+    private Piece findFirstPiece(Iterator<Position> it, Map<Position, Piece> state) {
+        while (it.hasNext()) {
+            Piece piece = state.get(it.next());
+            if (piece != null) {
+                return piece;
+            }
         }
-        if (target == null || target.isCannon()) {
-            return false;
-        }
-        return true;
+        return null;
+    }
+
+    private boolean isValidBridge(Piece piece) {
+        return (piece != null) && !piece.isCannon();
     }
 
     private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests, Piece me) {
-        while (it.hasNext() && !processTarget(it.next(), state, dests, me)) {
-        }
-    }
+        while (it.hasNext()) {
+            Position position = it.next();
+            Piece target = state.get(position);
 
-    private boolean processTarget(Position pos, Map<Position, Piece> state, List<Position> dests, Piece me) {
-        Piece target = state.get(pos);
-        if (target == null) {
-            dests.add(pos);
-            return false;
-        }
-        addIfCapturable(pos, target, dests, me);
-        return true;
-    }
+            if (target == null) {
+                dests.add(position);
+                continue;
+            }
 
-    private void addIfCapturable(Position pos, Piece target, List<Position> dests, Piece me) {
-        if (target.isCannon() || target.isSameSide(me)) {
+            addTargetIfCapturable(position, target, dests, me);
             return;
         }
-        dests.add(pos);
+    }
+
+    private void addTargetIfCapturable(Position position, Piece target, List<Position> dests, Piece me) {
+        if (!target.isCannon() && !target.isSameSide(me)) {
+            dests.add(position);
+        }
     }
 }
