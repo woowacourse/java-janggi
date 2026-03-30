@@ -26,10 +26,7 @@ public class Sa extends AbstractPiece {
         int pathRow = to.calculatePathRow(from);
         int distanceCol = abs(pathCol);
         int distanceRow = abs(pathRow);
-
-        if (distanceCol > MAX_DISTANCE || distanceRow > MAX_DISTANCE || (distanceCol == 0 && distanceRow == 0)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
-        }
+        validateDistance(distanceCol, distanceRow);
         CastleDirection direction = CastleDirection.find(from, pathCol, pathRow);
         Point point = Point.of(from.getColumn() + direction.getTargetCol(), from.getRow() + direction.getTargetRow());
         return new Points(List.of(point));
@@ -38,5 +35,11 @@ public class Sa extends AbstractPiece {
     @Override
     public boolean canMove(Route route) {
         return !route.hasAlly(super.getTeam());
+    }
+
+    private void validateDistance(int distanceCol, int distanceRow) {
+        if (distanceCol > MAX_DISTANCE || distanceRow > MAX_DISTANCE || (distanceCol == 0 && distanceRow == 0)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
+        }
     }
 }
