@@ -26,4 +26,18 @@ class CampTest {
         boolean choCamp = cho.isCho();
         assertThat(choCamp).isEqualTo(true);
     }
+
+    @Test
+    void 현재_턴이_한이면_다음_턴은_초이다(){
+        Camp han = Camp.HAN;
+        Camp next = han.next();
+        assertThat(next).isEqualTo(Camp.CHO);
+    }
+
+    @Test
+    void 현재_턴이_초이면_다음_턴은_한이다(){
+        Camp cho = Camp.CHO;
+        Camp next = cho.next();
+        assertThat(next).isEqualTo(Camp.HAN);
+    }
 }

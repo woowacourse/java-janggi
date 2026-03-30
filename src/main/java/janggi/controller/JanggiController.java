@@ -30,7 +30,7 @@ public class JanggiController {
             PositionRequest from = selectPiece(janggi, currentCamp);
             boolean moved = tryMove(janggi, from);
             if (moved) {
-                currentCamp = nextCamp(currentCamp);
+                currentCamp = currentCamp.next();
             }
         }
     }
@@ -51,8 +51,6 @@ public class JanggiController {
         }
     }
 
-    // true: 이동 성공 → 턴 교대
-    // false: q 입력 → 기물 선택으로 복귀
     private boolean tryMove(Janggi janggi, PositionRequest from) {
         while (true) {
             Optional<PositionRequest> request = inputView.readMoveDestination();
@@ -67,12 +65,5 @@ public class JanggiController {
                 System.out.println(e.getMessage());
             }
         }
-    }
-
-    private Camp nextCamp(Camp currentCamp) {
-        if (currentCamp.isCho()) {
-            return Camp.HAN;
-        }
-        return Camp.CHO;
     }
 }
