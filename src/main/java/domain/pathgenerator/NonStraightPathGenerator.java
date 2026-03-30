@@ -30,19 +30,25 @@ public class NonStraightPathGenerator implements PathGenerator {
 
     private Optional<Path> tryBuildPath(Position source, Position destination, List<Direction> directionPath) {
         try {
-            List<Position> waypoints = new ArrayList<>();
-            Position current = source;
-            for (Direction direction : directionPath) {
-                current = direction.calculateNextPosition(current);
-                waypoints.add(current);
-            }
+            List<Position> waypoints = gatherWaypoints(source, directionPath);
 
-            if (destination.equals(current)) {
+            if (destination.equals(waypoints.getLast())) {
                 waypoints.removeLast();
                 return Optional.of(new Path(source, destination, waypoints));
             }
         } catch (JanggiException ignored) {
+            return Optional.empty();
         }
         return Optional.empty();
+    }
+
+    private List<Position> gatherWaypoints(Position source, List<Direction> directionPath) {
+        List<Position> waypoints = new ArrayList<>();
+        Position current = source;
+        for (Direction direction : directionPath) {
+            current = direction.calculateNextPosition(current);
+            waypoints.add(current);
+        }
+        return waypoints;
     }
 }
