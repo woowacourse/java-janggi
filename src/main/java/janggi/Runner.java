@@ -32,6 +32,7 @@ public class Runner {
     private Players initialPlayers() {
         String choPlayerName = readPlayerName(Side.CHO);
         String hanPlayerName = readPlayerName(Side.HAN);
+
         return Players.of(choPlayerName, hanPlayerName);
     }
 
@@ -60,12 +61,8 @@ public class Runner {
         return retry(() -> {
             outputView.printSelectPiecePosition();
             Position position = readTargetPosition();
-
             board.calculateDestinations(position, currentSide);
 
-            if (board.calculateDestinations(position, currentSide).isEmpty()) {
-                throw new IllegalArgumentException("[ERROR] 이동할 수 있는 경로가 없는 기물입니다. 다시 선택하세요.");
-            }
             return position;
         });
     }
@@ -85,6 +82,7 @@ public class Runner {
             if (!destinations.contains(inputTarget)) {
                 throw new IllegalArgumentException("[ERROR] 해당 기물이 이동할 수 없는 위치입니다. 다시 선택하세요.");
             }
+
             return inputTarget;
         });
     }
