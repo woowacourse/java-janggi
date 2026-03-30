@@ -64,9 +64,11 @@ public class Cannon extends Piece {
         return false;
     }
 
+
+
     private boolean hasCannonTypeInList(Position from, Position to, Board board) {
         List<Piece> result = board.findPiecesInLinePath(from, to);
         return result.stream()
-                .anyMatch(Piece::isCannon);
+                .anyMatch(piece -> piece.isSameType(PieceType.CANNON));
     }
 }

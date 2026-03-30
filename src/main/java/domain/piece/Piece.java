@@ -26,8 +26,8 @@ public abstract class Piece {
         return this.team == team;
     }
 
-    public boolean isCannon() {
-        return this.type == PieceType.CANNON;
+    public boolean isSameType(PieceType type) {
+        return this.type == type;
     }
 
     public abstract boolean canMove(Position from, Position to, Board board);
