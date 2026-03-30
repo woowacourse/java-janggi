@@ -1,9 +1,8 @@
 package janggi.model.board.movement;
 
 import janggi.model.board.position.Column;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
-import janggi.model.board.moveResult.PositionPath;
+import janggi.model.board.PositionPath;
 import janggi.model.board.position.Row;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 public class StraightMovement implements Movement {
 
     @Override
-    public MoveResult move(Position from, Position to) {
+    public PositionPath move(Position from, Position to) {
         if (from.isSameColumn(to) == from.isSameRow(to)) {
             throw new IllegalArgumentException("직선 관계에 위치해 있지 않습니다.");
         }
@@ -23,7 +22,7 @@ public class StraightMovement implements Movement {
         return moveVertically(from, to);
     }
 
-    protected MoveResult moveHorizontally(Position from, Position to) {
+    protected PositionPath moveHorizontally(Position from, Position to) {
         List<Position> between = new ArrayList<>();
 
         int fromValue = from.column().getValue();
@@ -43,14 +42,10 @@ public class StraightMovement implements Movement {
             ));
         }
 
-        return new MoveResult(
-                new PositionPath(between),
-                from,
-                to
-        );
+        return new PositionPath(between);
     }
 
-    protected MoveResult moveVertically(Position from, Position to) {
+    protected PositionPath moveVertically(Position from, Position to) {
         List<Position> between = new ArrayList<>();
 
         int fromValue = from.row().getValue();
@@ -72,10 +67,6 @@ public class StraightMovement implements Movement {
             current += step;
         }
 
-        return new MoveResult(
-                new PositionPath(between),
-                from,
-                to
-        );
+        return new PositionPath(between);
     }
 }

@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.palace.Jang;
 import janggi.model.board.position.Column;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
 import java.util.List;
@@ -38,11 +38,11 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        MoveResult moveResult = jang.getLegalPath(from, to);
+        PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getPath().stream().count())
-                .isEqualTo(0);
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("북쪽으로 한칸 이동한다.")
@@ -54,11 +54,11 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        MoveResult moveResult = jang.getLegalPath(from, to);
+        PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getPath().stream().count())
-                .isEqualTo(0);
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
 
@@ -71,11 +71,11 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        MoveResult moveResult = jang.getLegalPath(from, to);
+        PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getPath().stream().count())
-                .isEqualTo(0);
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -87,11 +87,11 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when
-        MoveResult moveResult = jang.getLegalPath(from, to);
+        PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getPath().stream().count())
-                .isEqualTo(0);
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
 

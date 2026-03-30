@@ -1,9 +1,8 @@
 package janggi.model.board.movement;
 
 import janggi.model.board.position.Column;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
-import janggi.model.board.moveResult.PositionPath;
+import janggi.model.board.PositionPath;
 import janggi.model.board.position.Row;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class SangMovement implements Movement{
     private static final int THREE_STEP = 3;
 
     @Override
-    public MoveResult move(Position from, Position to) {
+    public PositionPath move(Position from, Position to) {
         int rowDiff = from.getRowDiff(to);
         int rowDistance = Math.abs(rowDiff);
 
@@ -37,7 +36,7 @@ public class SangMovement implements Movement{
     }
 
 
-    private MoveResult moveVerticallyAndDiagonally(Position from, Position to) {
+    private PositionPath moveVerticallyAndDiagonally(Position from, Position to) {
         List<Position> between = new ArrayList<>();
 
         int rowStep = 1;
@@ -63,14 +62,10 @@ public class SangMovement implements Movement{
                 Column.of(secondColumn)
         ));
 
-        return new MoveResult(
-                new PositionPath(between),
-                from,
-                to
-        );
+        return new PositionPath(between);
     }
 
-    private MoveResult moveHorizontallyAndDiagonally(Position from, Position to) {
+    private PositionPath moveHorizontallyAndDiagonally(Position from, Position to) {
         List<Position> between = new ArrayList<>();
 
         int rowStep = 1;
@@ -96,10 +91,6 @@ public class SangMovement implements Movement{
                 Column.of(secondColumn)
         ));
 
-        return new MoveResult(
-                new PositionPath(between),
-                from,
-                to
-        );
+        return new PositionPath(between);
     }
 }

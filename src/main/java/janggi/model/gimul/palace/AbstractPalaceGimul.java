@@ -1,8 +1,8 @@
 package janggi.model.gimul.palace;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
 import janggi.model.board.movement.Movement;
 import janggi.model.board.movement.OneStepMovement;
@@ -18,7 +18,7 @@ public abstract class AbstractPalaceGimul extends AbstractGimul {
     }
 
     @Override
-    public MoveResult getLegalPath(Position from, Position to) {
+    public PositionPath getLegalPath(Position from, Position to) {
         return movement.move(from, to);
     }
 

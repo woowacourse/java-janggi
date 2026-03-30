@@ -1,7 +1,7 @@
 package janggi.model.gimul;
 
 import janggi.model.Team;
-import janggi.model.board.moveResult.MoveResult;
+import janggi.model.board.PositionPath;
 import janggi.model.board.position.Position;
 import janggi.model.board.movement.ByeongMovement;
 import janggi.model.board.movement.Movement;
@@ -17,7 +17,7 @@ public class Byeong extends AbstractGimul {
     }
 
     @Override
-    public MoveResult getLegalPath(Position from, Position to) {
+    public PositionPath getLegalPath(Position from, Position to) {
         if ((team == Team.CHO && isMovingSouth(from, to))
                 ||(team == Team.HAN && !isMovingSouth(from, to))) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");

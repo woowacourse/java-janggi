@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.board.position.Column;
-import janggi.model.board.moveResult.MoveResult;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
 import java.util.List;
@@ -52,11 +52,11 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when
-        MoveResult moveResult = cha.getLegalPath(from, to);
+        PositionPath path = cha.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getTo())
-                .isEqualTo(new Position(Row.SIX, Column.FIVE));
+        assertThat(path.isEmpty())
+                .isFalse();
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -68,11 +68,11 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when
-        MoveResult moveResult = cha.getLegalPath(from, to);
+        PositionPath path = cha.getLegalPath(from, to);
 
         //then
-        assertThat(moveResult.getTo())
-                .isEqualTo(new Position(Row.NINE, Column.THREE));
+        assertThat(path.isEmpty())
+                .isFalse();
     }
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")

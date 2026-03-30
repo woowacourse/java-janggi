@@ -1,6 +1,6 @@
 package janggi.model.board.movement;
 
-import janggi.model.board.moveResult.MoveResult;
+import janggi.model.board.PositionPath;
 import janggi.model.board.position.Position;
 
 public class ByeongMovement extends StraightMovement{
@@ -8,7 +8,7 @@ public class ByeongMovement extends StraightMovement{
     private static final int MAX_MOVE_DISTANCE = 1;
 
     @Override
-    public MoveResult move(Position from, Position to) {
+    public PositionPath move(Position from, Position to) {
         if (from.getDistanceTo(to) > MAX_MOVE_DISTANCE) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }

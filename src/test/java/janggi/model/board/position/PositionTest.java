@@ -1,11 +1,8 @@
-package janggi.model.board;
+package janggi.model.board.position;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import janggi.model.board.position.Column;
-import janggi.model.board.position.Position;
-import janggi.model.board.position.Row;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
