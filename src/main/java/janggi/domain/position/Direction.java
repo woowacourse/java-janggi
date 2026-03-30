@@ -1,22 +1,38 @@
-package janggi.domain.piece.strategy;
-
-import janggi.domain.position.Position;
+package janggi.domain.position;
 
 import java.util.List;
-import java.util.Optional;
 
-public record Direction(int dr, int dc) {
+public enum Direction{
+    UP(1, 0),
+    DOWN(-1, 0),
+    LEFT(0, -1),
+    RIGHT(0, 1),
+    UP_RIGHT(1, 1),
+    UP_LEFT(1, -1),
+    DOWN_RIGHT(-1, 1),
+    DOWN_LEFT(-1, -1);
 
-    public static List<Direction> linear() {
-        return List.of(
-                new Direction(1, 0),
-                new Direction(-1, 0),
-                new Direction(0, 1),
-                new Direction(0, -1)
-        );
+    private final int dr;
+    private final int dc;
+
+    Direction(int dr, int dc) {
+        this.dr = dr;
+        this.dc = dc;
     }
 
-    public Optional<Position> next(Position current) {
-        return current.move(dr, dc);
+    public static List<Direction> straight() {
+        return List.of(UP, DOWN, LEFT, RIGHT);
+    }
+
+    public static List<Direction> all() {
+        return List.of(values());
+    }
+
+    int dr() {
+        return dr;
+    }
+
+    int dc() {
+        return dc;
     }
 }
