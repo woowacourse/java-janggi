@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 public class OutputView {
+    private static final String PLAYER_NAME_NOTICE = "선수(%s) 플레이어의 이름을 입력하세요.";
+    private static final String BOARD_SETTING_NOTICE = "장기판의 현황은 다음과 같습니다.";
+    private static final String PLAYER_TURN_NOTICE = "(%s) 플레이어 %s 님의 턴입니다.";
+    private static final String INPUT_PIECE_TO_MOVE_NOTICE = "이동할 기물의 좌표를 입력해주세요.";
+    private static final String INPUT_TARGET_TO_MOVE_NOTICE = "기물을 이동할 좌표를 입력해주세요.";
+    private static final String MOVE_POSITION_ROW_NOTICE = "좌표의 행을 입력해주세요.";
+    private static final String MOVE_POSITION_COLUMN_NOTICE = "좌표의 열을 입력해주세요.";
 
     private static final String EMPTY_CELL = "　　";
     private static final String COLUMN_INDEXES = "　　║　　０　　　　１　　　　２　　　　３　　　　４　　　　５　　　　６　　　　７　　　　８";
@@ -19,7 +26,7 @@ public class OutputView {
     private static final String ANSI_GREEN = "\u001B[32m";
 
     public void printBoardSettingNotice() {
-        printLine(Message.BOARD_SETTING_NOTICE);
+        printLine(BOARD_SETTING_NOTICE);
     }
 
     public void printBoardStatus(BoardDTO boardDto) {
@@ -81,26 +88,26 @@ public class OutputView {
     }
 
     public void printPlayerNameNotice(String displayName) {
-        printLine(String.format(Message.PLAYER_NAME_NOTICE, displayName));
+        printLine(String.format(PLAYER_NAME_NOTICE, displayName));
     }
 
     public void printPlayerTurnNotice(String playerName, String sideName) {
-        printLine(String.format(Message.PLAYER_TURN_NOTICE, sideName, playerName));
+        printLine(String.format(PLAYER_TURN_NOTICE, sideName, playerName));
     }
 
     public void printMovePositionRowNotice() {
-        printLine(Message.MOVE_POSITION_ROW_NOTICE);
+        printLine(MOVE_POSITION_ROW_NOTICE);
     }
 
     public void printMovePositionColumnNotice() {
-        printLine(Message.MOVE_POSITION_COLUMN_NOTICE);
+        printLine(MOVE_POSITION_COLUMN_NOTICE);
     }
 
     public void printSelectPiecePosition() {
-        printLine(Message.INPUT_PIECE_TO_MOVE_NOTICE);
+        printLine(INPUT_PIECE_TO_MOVE_NOTICE);
     }
 
     public void printSelectTargetPosition() {
-        printLine(Message.INPUT_TARGET_TO_MOVE_NOTICE);
+        printLine(INPUT_TARGET_TO_MOVE_NOTICE);
     }
 }
