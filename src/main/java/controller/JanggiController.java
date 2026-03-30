@@ -22,7 +22,7 @@ public class JanggiController {
 
     public void run() {
         List<TableSetting> tableSettings = makeTableSetting();
-        Board board = new Board(tableSettings.get(1), tableSettings.get(0));
+        Board board = Board.create(tableSettings.get(1), tableSettings.get(0));
         List<Country> playOrders = List.of(Country.CHO, Country.HAN);
 
         playTurn(board, playOrders);
