@@ -35,9 +35,7 @@ public class JanggiGame {
     }
 
     private Formation requestFormation(Team team) {
-        return retry(() -> {
-            reader.requestFormation(team);
-        });
+        return retry(() -> reader.requestFormation(team));
     }
 
     private void startGame(JanggiBoard janggiBoard) {
