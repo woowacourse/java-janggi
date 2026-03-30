@@ -178,7 +178,6 @@ public class Board {
     private boolean hasOneObstacleAndNotPo(List<Position> route) {
         int count = 0;
         List<Piece> obstacles = new ArrayList<>();
-        // 마지막 경로는 목적지이므로 빼고 검사
         for(int i = 0; i < route.size() -1; i++) {
             if(board.containsKey(route.get(i))) {
                 count+=1;
@@ -186,5 +185,11 @@ public class Board {
             }
         }
         return count == 1 && obstacles.getFirst().getPieceType() != PieceType.PO;
+    }
+
+    public void movePiece(Position movePiecePosition, Position movePosition) {
+        Piece piece = board.get(movePiecePosition);
+        board.remove(movePiecePosition);
+        board.put(movePosition, piece);
     }
 }
