@@ -4,7 +4,6 @@ import domain.board.Board;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,8 @@ public class BoardRenderer {
     private static final String EMPTY_CELL = "＋";
     private static final String HORIZONTAL_LINE = "－";
     private static final String VERTICAL_LINE = "   ｜　｜　｜　｜　｜　｜　｜　｜　｜";
+    private static final String COLUMN_LABEL_PREFIX = "   ";
+    private static final String COLUMN_LABEL_GAP = "  ";
 
     public String render(Board board) {
         List<String> lines = new ArrayList<>();
@@ -31,6 +32,8 @@ public class BoardRenderer {
                 lines.add(VERTICAL_LINE);
             }
         }
+
+        lines.add(renderColumnLabels());
 
         return String.join(System.lineSeparator(), lines);
     }
@@ -52,6 +55,16 @@ public class BoardRenderer {
         }
 
         return y + " ";
+    }
+
+    private String renderColumnLabels() {
+        List<String> labels = new ArrayList<>();
+
+        for (int x = MIN_X; x <= MAX_X; x++) {
+            labels.add(String.valueOf(x));
+        }
+
+        return COLUMN_LABEL_PREFIX + String.join(COLUMN_LABEL_GAP, labels);
     }
 
     private String renderPiece(Piece piece) {
