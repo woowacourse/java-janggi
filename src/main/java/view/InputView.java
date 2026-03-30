@@ -31,7 +31,7 @@ public class InputView {
         return number;
     }
 
-    public List<String> askMovePiecePoisiton(Team team) {
+    public List<String> askMovePiecePosition(Team team) {
         while (true) {
             System.out.println(team + "의 차례입니다. 움직일 기물의 위치와 이동할 위치를 행과 열 순서대로 입력하세요. ( 예: 2,5,4,3 )");
             try {
