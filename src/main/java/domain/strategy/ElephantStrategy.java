@@ -14,23 +14,23 @@ public class ElephantStrategy implements MoveStrategy {
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction straight : straightDirections) {
-            Position myeok1 = new Position(
+            Position straightStepPosition = new Position(
                     currentPosition.getRows() + straight.getRowOffset(),
                     currentPosition.getColumns() + straight.getColOffset()
             );
 
-            if (!board.isBlank(myeok1)) continue;
+            if (!board.isBlank(straightStepPosition)) continue;
 
             for (Direction diag : getDiagonalsFor(straight)) {
-                Position myeok2 = new Position(
-                        myeok1.getRows() + diag.getRowOffset(),
-                        myeok1.getColumns() + diag.getColOffset()
+                Position diagonalStepPosition = new Position(
+                        straightStepPosition.getRows() + diag.getRowOffset(),
+                        straightStepPosition.getColumns() + diag.getColOffset()
                 );
 
-                if (!board.isBlank(myeok2)) continue;
+                if (!board.isBlank(diagonalStepPosition)) continue;
 
-                Position target = new Position(myeok2.getRows() + diag.getRowOffset(),
-                        myeok2.getColumns() + diag.getColOffset()
+                Position target = new Position(diagonalStepPosition.getRows() + diag.getRowOffset(),
+                        diagonalStepPosition.getColumns() + diag.getColOffset()
                 );
                 candidates.add(target);
             }
