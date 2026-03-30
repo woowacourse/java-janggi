@@ -44,6 +44,16 @@ public class Board {
         }
     }
 
+    public Team getTeamAt(Position position) {
+        Piece piece = findPiece(position);
+
+        if (!piece.isNotNone()) {
+            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+        }
+
+        return piece.getTeam();
+    }
+
     private PathPieces createPathPieces(Path path) {
         List<Position> wayPoints = path.waypoints();
         List<Piece> pieces = new ArrayList<>();
