@@ -3,6 +3,7 @@ package janggi.domain.movestorage;
 import janggi.domain.BoardState;
 import janggi.domain.Column;
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Row;
 
@@ -34,7 +35,7 @@ public class PoMoveStrategy implements MoveStrategy {
                 Position position = Position.of(Row.of(fromX), Column.of(i));
                 if (boardState.hasPieceAt(position)) {
                     Piece jumpPiece = boardState.getPieceAt(position);
-                    if (jumpPiece.getName().equals("包")) {
+                    if (jumpPiece.getPieceType() == PieceType.PO) {
                         return false;
                     }
                     jumpCount++;
@@ -50,7 +51,7 @@ public class PoMoveStrategy implements MoveStrategy {
                 Position position = Position.of(Row.of(i), Column.of(fromY));
                 if (boardState.hasPieceAt(position)) {
                     Piece jumpPiece = boardState.getPieceAt(position);
-                    if (jumpPiece.getName().equals("包")) {
+                    if (jumpPiece.getPieceType() == PieceType.PO) {
                         return false;
                     }
                     jumpCount++;
@@ -64,7 +65,7 @@ public class PoMoveStrategy implements MoveStrategy {
 
         if (boardState.hasPieceAt(to)) {
             Piece targetPiece = boardState.getPieceAt(to);
-            if (targetPiece.getName().equals("包")) {
+            if (targetPiece.getPieceType() == PieceType.PO) {
                 return false;
             }
         }

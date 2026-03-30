@@ -3,6 +3,7 @@ package janggi.domain.movestorage;
 import janggi.domain.BoardState;
 import janggi.domain.Column;
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Row;
 import janggi.domain.Team;
@@ -54,7 +55,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(3));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(1));
-        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
@@ -71,7 +72,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(1));
-        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
@@ -88,7 +89,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(3), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
-        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
@@ -105,7 +106,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
-        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
@@ -122,7 +123,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(1), Column.of(3));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(1));
-        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece obstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -190,7 +191,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(3));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(3));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -206,7 +207,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(0));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -222,7 +223,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(3), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(3), Column.of(0));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -238,7 +239,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(0));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -254,7 +255,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(3));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(2));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -270,7 +271,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(0), Column.of(2));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -286,7 +287,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(3), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -302,7 +303,7 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
-        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece obstaclePiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
@@ -318,10 +319,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(3));
 
         Position pathObstaclePosition = Position.of(Row.of(0), Column.of(2));
-        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position targetPosition = Position.of(Row.of(0), Column.of(3));
-        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition, pathObstaclePiece,
@@ -343,10 +344,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position pathObstaclePosition = Position.of(Row.of(0), Column.of(2));
-        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position targetPosition = Position.of(Row.of(0), Column.of(0));
-        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition, pathObstaclePiece,
@@ -368,10 +369,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(3), Column.of(0));
 
         Position pathObstaclePosition = Position.of(Row.of(2), Column.of(0));
-        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position targetPosition = Position.of(Row.of(3), Column.of(0));
-        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition, pathObstaclePiece,
@@ -385,7 +386,7 @@ class PoMoveStorageTest {
     }
 
     @Test
-    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_s낮고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_실패를_반환한다() {
+    void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_중간에_포가_아닌_기물이_한_개_있고_도착지점_기물이_포면_실패를_반환한다() {
         // given
         MoveStrategy moveStorage = new PoMoveStrategy();
 
@@ -393,10 +394,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position pathObstaclePosition = Position.of(Row.of(2), Column.of(0));
-        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position targetPosition = Position.of(Row.of(0), Column.of(0));
-        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, 7,  "包");
+        Piece targetPiece = new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition, pathObstaclePiece,
@@ -418,10 +419,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(3));
 
         Position pathObstaclePosition1 = Position.of(Row.of(0), Column.of(1));
-        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position pathObstaclePosition2 = Position.of(Row.of(0), Column.of(2));
-        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, 5,  "馬");
+        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, PieceType.MA);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition1, pathObstaclePiece1,
@@ -443,10 +444,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position pathObstaclePosition1 = Position.of(Row.of(0), Column.of(1));
-        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position pathObstaclePosition2 = Position.of(Row.of(0), Column.of(2));
-        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, 5,  "馬");
+        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, PieceType.MA);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition1, pathObstaclePiece1,
@@ -468,10 +469,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(3), Column.of(0));
 
         Position pathObstaclePosition1 = Position.of(Row.of(1), Column.of(0));
-        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position pathObstaclePosition2 = Position.of(Row.of(2), Column.of(0));
-        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, 5,  "馬");
+        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, PieceType.MA);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition1, pathObstaclePiece1,
@@ -493,10 +494,10 @@ class PoMoveStorageTest {
         Position to = Position.of(Row.of(0), Column.of(0));
 
         Position pathObstaclePosition1 = Position.of(Row.of(1), Column.of(0));
-        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
+        Piece pathObstaclePiece1 = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Position pathObstaclePosition2 = Position.of(Row.of(2), Column.of(0));
-        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, 5,  "馬");
+        Piece pathObstaclePiece2 = new Piece(new MaMoveStrategy(), Team.HAN, PieceType.MA);
 
         Map<Position, Piece> initialPieces = Map.of(
                 pathObstaclePosition1, pathObstaclePiece1,

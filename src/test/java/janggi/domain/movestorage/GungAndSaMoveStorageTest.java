@@ -3,6 +3,7 @@ package janggi.domain.movestorage;
 import janggi.domain.BoardState;
 import janggi.domain.Column;
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Row;
 import janggi.domain.Team;
@@ -38,7 +39,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(8));
         Position to = Position.of(Row.of(4), Column.of(7));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -50,7 +51,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(8));
         Position to = Position.of(Row.of(4), Column.of(9));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -62,7 +63,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(8));
         Position to = Position.of(Row.of(3), Column.of(8));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -74,7 +75,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(8));
         Position to = Position.of(Row.of(5), Column.of(8));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -86,7 +87,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(7));
         Position to = Position.of(Row.of(2), Column.of(7));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -98,7 +99,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(8));
         Position to = Position.of(Row.of(2), Column.of(8));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -110,7 +111,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(9));
         Position to = Position.of(Row.of(2), Column.of(9));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -122,7 +123,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(5), Column.of(7));
         Position to = Position.of(Row.of(6), Column.of(7));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -134,7 +135,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(5), Column.of(8));
         Position to = Position.of(Row.of(6), Column.of(8));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -146,7 +147,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(5), Column.of(9));
         Position to = Position.of(Row.of(6), Column.of(9));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -158,7 +159,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(7));
         Position to = Position.of(Row.of(4), Column.of(6));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -170,7 +171,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(0));
         Position to = Position.of(Row.of(2), Column.of(0));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -182,7 +183,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(1));
         Position to = Position.of(Row.of(2), Column.of(1));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -194,7 +195,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(2));
         Position to = Position.of(Row.of(2), Column.of(2));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -206,7 +207,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(5), Column.of(0));
         Position to = Position.of(Row.of(6), Column.of(0));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -218,7 +219,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(5), Column.of(1));
         Position to = Position.of(Row.of(6), Column.of(1));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -230,7 +231,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(5), Column.of(2));
         Position to = Position.of(Row.of(6), Column.of(2));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -242,7 +243,7 @@ class GungAndSaMoveStorageTest {
         MoveStrategy moveStorage = new GungseongBoundMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(2));
         Position to = Position.of(Row.of(4), Column.of(3));
-        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 9, "士");
+        Piece piece = new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA);
         BoardState boardState = new ObstaclFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();

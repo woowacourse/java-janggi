@@ -3,6 +3,7 @@ package janggi.domain.movestorage;
 import janggi.domain.BoardState;
 import janggi.domain.Column;
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Row;
 import janggi.domain.Team;
@@ -50,7 +51,7 @@ class JolMoveStorageTest {
         MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(6));
         Position to = Position.of(Row.of(4), Column.of(5));
-        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, 2, "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL);
         BoardState boardState = new JolFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -62,7 +63,7 @@ class JolMoveStorageTest {
         MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(6));
         Position to = Position.of(Row.of(4), Column.of(7));
-        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, 2, "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL);
         BoardState boardState = new JolFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -74,7 +75,7 @@ class JolMoveStorageTest {
         MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(4), Column.of(4));
-        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
         BoardState boardState = new JolFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -86,7 +87,7 @@ class JolMoveStorageTest {
         MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(4), Column.of(2));
-        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
         BoardState boardState = new JolFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -98,7 +99,7 @@ class JolMoveStorageTest {
         MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(3), Column.of(3));
-        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, 2, "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, PieceType.HAN_JOL);
         BoardState boardState = new JolFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -110,7 +111,7 @@ class JolMoveStorageTest {
         MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(5), Column.of(3));
-        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, 2, "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, PieceType.HAN_JOL);
         BoardState boardState = new JolFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -122,7 +123,7 @@ class JolMoveStorageTest {
         MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(5), Column.of(5));
-        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, 2, "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.CHO, PieceType.HAN_JOL);
         BoardState boardState = new JolFakeBoard(Map.of(from, piece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();

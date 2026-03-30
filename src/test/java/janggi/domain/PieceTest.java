@@ -37,8 +37,8 @@ class PieceTest {
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(4), Column.of(4));
 
-        Piece pieceHan = new Piece(new JolMoveStrategy(), Team.HAN, 9, "兵");
-        Piece pieceCho = new Piece(new JolMoveStrategy(), Team.CHO, 9, "卒");
+        Piece pieceHan = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
+        Piece pieceCho = new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL);
 
         Map<Position, Piece> fakeBoard = new HashMap<>();
         fakeBoard.put(from, pieceHan);
@@ -57,8 +57,8 @@ class PieceTest {
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(4), Column.of(4));
 
-        Piece pieceHan1 = new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵");
-        Piece pieceHan2 = new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵");
+        Piece pieceHan1 = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
+        Piece pieceHan2 = new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL);
 
         Map<Position, Piece> fakeBoard = new HashMap<>();
         fakeBoard.put(from, pieceHan1);

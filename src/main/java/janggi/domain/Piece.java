@@ -8,14 +8,12 @@ import java.util.Objects;
 public class Piece {
     private final MoveStrategy moveStorage;
     private final Team team;
-    private final int score;
-    private final String name;
+    private final PieceType pieceType;
 
-    public Piece(MoveStrategy moveStorage, Team team, int score, String name) {
+    public Piece(MoveStrategy moveStorage, Team team, PieceType pieceType) {
         this.moveStorage = moveStorage;
         this.team = team;
-        this.score = score;
-        this.name = name;
+        this.pieceType = pieceType;
     }
 
     public void verifyMove(Position from, Position to, BoardState boardState) {
@@ -34,23 +32,23 @@ public class Piece {
         return moveStorage;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Team getTeam() {
         return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
-        return score == piece.score && Objects.equals(moveStorage, piece.moveStorage) && team == piece.team && Objects.equals(name, piece.name);
+        return Objects.equals(moveStorage, piece.moveStorage) && team == piece.team && pieceType == piece.pieceType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(moveStorage, team, score, name);
+        return Objects.hash(moveStorage, team, pieceType);
     }
 }

@@ -20,7 +20,7 @@ public class BoardDto {
         Map<Position, Piece> pieces = board.getBoard();
 
         for (Position position : pieces.keySet()) {
-            result.put(position.getPosition(), pieces.get(position).getName());
+            result.put(position.getPosition(), pieces.get(position).getPieceType().getName());
         }
         return new BoardDto(result);
     }
