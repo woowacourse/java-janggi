@@ -18,9 +18,4 @@ public class DefaultPathPolicy extends PathPolicy {
 
         return toPiece == null || (fromPiece.country() != toPiece.country());
     }
-
-    @Override
-    public boolean isValid() {
-        return false;
-    }
 }

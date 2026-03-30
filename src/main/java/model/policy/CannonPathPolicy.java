@@ -32,7 +32,6 @@ public class CannonPathPolicy extends PathPolicy {
                 && toPiece.pieceType() != PieceType.CANNON));
     }
 
-    @Override
     public boolean isValid() {
         return count >= JUMP_PIECE;
     }
