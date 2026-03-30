@@ -1,12 +1,12 @@
 package janggi.domain.policy;
 
 import janggi.domain.Side;
-import janggi.domain.board.BoardInterface;
+import janggi.domain.board.BoardInfo;
 import janggi.domain.Route;
 
 public class ClearPathPolicy implements RoutePolicy {
     @Override
-    public boolean isMovable(Route route, Side side, BoardInterface boardInterface) {
-        return route.isEveryBetween(boardInterface::isEmpty) && route.isDestinationSatisfied(position -> !boardInterface.isAlly(side, position));
+    public boolean isMovable(Route route, Side side, BoardInfo boardInfo) {
+        return route.isEveryBetween(boardInfo::isEmpty) && route.isDestinationSatisfied(position -> !boardInfo.isAlly(side, position));
     }
 }

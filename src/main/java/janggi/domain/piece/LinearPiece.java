@@ -4,7 +4,7 @@ import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
-import janggi.domain.board.BoardInterface;
+import janggi.domain.board.BoardInfo;
 import janggi.domain.policy.RoutePolicy;
 import java.util.stream.Stream;
 
@@ -27,8 +27,8 @@ public abstract class LinearPiece extends ActivePiece {
     }
 
     @Override
-    public void validateRoute(Route route, BoardInterface boardInterface) {
-        if (!routePolicy.isMovable(route, side, boardInterface)) {
+    public void validateRoute(Route route, BoardInfo boardInfo) {
+        if (!routePolicy.isMovable(route, side, boardInfo)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }
