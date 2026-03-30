@@ -1,8 +1,5 @@
 package domain.piece;
 
-import static domain.piece.Team.CHO;
-import static domain.piece.Team.HAN;
-
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +9,11 @@ public class Piece {
     private final PieceType pieceType;
 
     public static Piece choPieceOf(final PieceType pieceType) {
-        return new Piece(CHO, pieceType);
+        return new Piece(Team.CHO, pieceType);
     }
 
     public static Piece hanPieceOf(final PieceType pieceType) {
-        return new Piece(HAN, pieceType);
+        return new Piece(Team.HAN, pieceType);
     }
 
     private Piece(final Team team, final PieceType pieceType) {
@@ -26,6 +23,10 @@ public class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public boolean isCannon() {
@@ -40,11 +41,23 @@ public class Piece {
         return this.team == other.team;
     }
 
-    public String getPieceTypeNameBy(Team team) {
-        return pieceType.getNameOf(team);
+    public boolean isChoPiece() {
+        return team == Team.CHO;
+    }
+
+    public String getNameForCho() {
+        return pieceType.getNameForCho();
+    }
+
+    public String getNameForHan() {
+        return pieceType.getNameForHan();
     }
 
     public List<Position> calculateMovablePositions(Position current, Map<Position, Piece> pieces) {
         return pieceType.calculateMovablePositions(current, pieces);
+    }
+
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
     }
 }

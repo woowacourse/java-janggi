@@ -49,34 +49,35 @@ public enum PieceType {
                     Position.of(1, 9)
             ));
 
-    private final String nameOfCho;
-    private final String nameOfHan;
+    private final String nameForCho;
+    private final String nameForHan;
     private final MoveStrategy moveStrategy;
     private final List<Position> initPositions;
 
-    PieceType(final String nameOfCho,
-              final String nameOfHan,
+    PieceType(final String nameForCho,
+              final String nameForHan,
               final MoveStrategy moveStrategy,
               final List<Position> initPositions
     ) {
-        this.nameOfCho = nameOfCho;
-        this.nameOfHan = nameOfHan;
+        this.nameForCho = nameForCho;
+        this.nameForHan = nameForHan;
         this.moveStrategy = moveStrategy;
         this.initPositions = initPositions;
     }
 
-    public List<Position> getInitPositions() {
-        return initPositions;
-    }
-
-    public String getNameOf(Team team) {
-        if (team == Team.CHO) {
-            return nameOfCho;
-        }
-        return nameOfHan;
-    }
-
     public List<Position> calculateMovablePositions(Position current, Map<Position, Piece> pieces) {
         return moveStrategy.calculateMovablePositions(current, pieces);
+    }
+
+    public String getNameForCho() {
+        return nameForCho;
+    }
+
+    public String getNameForHan() {
+        return nameForHan;
+    }
+
+    public List<Position> getInitPositions() {
+        return initPositions;
     }
 }

@@ -1,12 +1,14 @@
 package dto;
 
 import domain.piece.Piece;
-import domain.piece.Team;
+import domain.piece.Position;
 
-public record PieceInfoDto(Team team, String pieceType) {
+public record PieceInfoDto(String pieceName, PositionDto position) {
 
-    public static PieceInfoDto from(final Piece piece) {
-        Team team = piece.getTeam();
-        return new PieceInfoDto(team, piece.getPieceTypeNameBy(team));
+    public static PieceInfoDto of(Piece piece, Position position) {
+        if (piece.isChoPiece()) {
+            return new PieceInfoDto(piece.getNameForCho(), PositionDto.from(position));
+        }
+        return new PieceInfoDto(piece.getNameForHan(), PositionDto.from(position));
     }
 }

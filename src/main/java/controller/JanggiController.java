@@ -7,9 +7,9 @@ import domain.piece.Team;
 import domain.player.Player;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
-import java.util.ArrayList;
+import dto.PositionDto;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -27,12 +27,12 @@ public class JanggiController {
     }
 
     public void run() {
-        Player choPlayer = setupChoPlayer();
-        Player hanPlayer = setupHanPlayer();
+        Player choPlayer = retry(this::setupChoPlayer);
+        Player hanPlayer = retry(this::setupHanPlayer);
 
         Board board = initBoard();
 
-        outputView.printBoardWithPieces(board.getAllPieceInfos());
+        outputView.printBoardWithPieces(PieceInfosDto.from(board));
 
         // TODO: 게임 종료 구현 (사이클 2)
         while (true) {
@@ -71,54 +71,63 @@ public class JanggiController {
     }
 
     private void processTurn(Board board, Team team) {
-        retry(() -> {
-            movePiece(board, team);
-            outputView.printBoardWithPieces(board.getAllPieceInfos());
-        });
+        retry(() -> process(board, team));
     }
 
-    private void movePiece(Board board, Team team) {
-        Position from = selectPieceToMove(board, team).getKey();
-        Position to = selectPositionToMove(board, from);
+    private void process(Board board, Team team) {
+        Map<Position, List<Position>> moveOptions = board.getMoveOptionsFor(team);
+
+        // 한 턴 쉬기
+        if (moveOptions.isEmpty()) {
+            outputView.printNoMovablePiecePrompt();
+            return;
+        }
+
+        Position from = choosePieceToMove(board, moveOptions);
+        Position to = choosePositionToMove(moveOptions, from);
 
         board.move(from, to, team);
+
+        outputView.printBoardWithPieces(PieceInfosDto.from(board));
     }
 
-    private Entry<Position, PieceInfoDto> selectPieceToMove(Board board, Team team) {
-        PieceInfosDto teamPieces = board.getPieceInfosBy(team);
-        List<Entry<Position, PieceInfoDto>> PiecesByPosition = new ArrayList<>(teamPieces.pieceInfos().entrySet());
+    private Position choosePieceToMove(Board board, Map<Position, List<Position>> moveOptions) {
+        List<PieceInfoDto> pieceInfos = moveOptions.keySet().stream()
+                .map(position -> PieceInfoDto.of(board.getPieceAt(position), position))
+                .toList();
 
-        outputView.printChoosePieceToMovePrompt(PiecesByPosition);
-        int pieceIndexToMove = toZeroBasedIndex(inputView.readPieceNumber());
+        outputView.printChoosePieceToMovePrompt(pieceInfos);
+        int pieceIndex = toZeroBasedIndex(inputView.readPieceNumber());
 
-        validateIndex(pieceIndexToMove, PiecesByPosition.size());
+        if (pieceIndex < 0 || pieceIndex >= pieceInfos.size()) {
+            throw new IllegalArgumentException("범위 벗어난 입력");
+        }
 
-        return PiecesByPosition.get(pieceIndexToMove);
+        PositionDto selectedPiecePosition = pieceInfos.get(pieceIndex).position();
+        return Position.of(selectedPiecePosition.column(), selectedPiecePosition.row());
     }
 
-    private Position selectPositionToMove(Board board, Position from) {
-        List<Position> movablePositions = board.getMovablePositions(from);
-
+    private Position choosePositionToMove(Map<Position, List<Position>> moveOptions, Position from) {
+        List<PositionDto> movablePositions = moveOptions.get(from).stream()
+                .map(PositionDto::from)
+                .toList();
         if (movablePositions.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("이동 가능한 위치 없음");
         }
 
         outputView.printChoosePositionToMovePrompt(movablePositions);
-        int positionIndexToMove = toZeroBasedIndex(inputView.readPositionNumber());
+        int positionIndex = toZeroBasedIndex(inputView.readPositionNumber());
 
-        validateIndex(positionIndexToMove, movablePositions.size());
+        if (positionIndex < 0 || positionIndex >= movablePositions.size()) {
+            throw new IllegalArgumentException("범위 벗어난 입력");
+        }
 
-        return movablePositions.get(positionIndexToMove);
+        PositionDto selectedPosition = movablePositions.get(positionIndex);
+        return Position.of(selectedPosition.column(), selectedPosition.row());
     }
 
     private int toZeroBasedIndex(int userInputNumber) {
         return userInputNumber - USER_INPUT_START_INDEX;
-    }
-
-    private void validateIndex(int index, int size) {
-        if (index < 0 || index >= size) {
-            throw new IllegalArgumentException();
-        }
     }
 
     private void retry(Runnable callback) {
@@ -127,7 +136,7 @@ public class JanggiController {
                 callback.run();
                 return;
             } catch (IllegalArgumentException exception) {
-                outputView.printInvalidNumberInput();
+                outputView.printExceptionMessage(exception.getMessage());
             }
         }
     }
@@ -137,7 +146,7 @@ public class JanggiController {
             try {
                 return callback.get();
             } catch (IllegalArgumentException exception) {
-                outputView.printInvalidNumberInput();
+                outputView.printExceptionMessage(exception.getMessage());
             }
         }
     }

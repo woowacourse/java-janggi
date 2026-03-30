@@ -6,10 +6,10 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
 import domain.piece.Team;
-import dto.PieceInfoDto;
-import dto.PieceInfosDto;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,49 +18,52 @@ class BoardTest {
     @Test
     @DisplayName("보드 초기화 테스트")
     public void boardInitTest() {
-        // given
+        // given & when
         Board board = Board.init(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
 
-        // when
-        PieceInfosDto pieceInfos = board.getAllPieceInfos();
-
         // then
-        assertThat(pieceInfos.pieceInfos()).containsAllEntriesOf(Map.ofEntries(
+        Map<Position, PieceType> pieces = board.getPieces().entrySet().stream()
+                .collect(Collectors.toMap(
+                        Entry::getKey,
+                        entry -> entry.getValue().getPieceType()
+                ));
+
+        assertThat(pieces).containsAllEntriesOf(Map.ofEntries(
                 // ===== CHO =====
-                Map.entry(Position.of(10, 1), PieceInfoDto.from(Piece.choPieceOf(PieceType.CHARIOT))),
-                Map.entry(Position.of(10, 9), PieceInfoDto.from(Piece.choPieceOf(PieceType.CHARIOT))),
-                Map.entry(Position.of(10, 2), PieceInfoDto.from(Piece.choPieceOf(PieceType.HORSE))),
-                Map.entry(Position.of(10, 3), PieceInfoDto.from(Piece.choPieceOf(PieceType.ELEPHANT))),
-                Map.entry(Position.of(10, 4), PieceInfoDto.from(Piece.choPieceOf(PieceType.GUARD))),
-                Map.entry(Position.of(9, 5), PieceInfoDto.from(Piece.choPieceOf(PieceType.GENERAL))),
-                Map.entry(Position.of(10, 6), PieceInfoDto.from(Piece.choPieceOf(PieceType.GUARD))),
-                Map.entry(Position.of(10, 7), PieceInfoDto.from(Piece.choPieceOf(PieceType.ELEPHANT))),
-                Map.entry(Position.of(10, 8), PieceInfoDto.from(Piece.choPieceOf(PieceType.HORSE))),
-                Map.entry(Position.of(8, 2), PieceInfoDto.from(Piece.choPieceOf(PieceType.CANNON))),
-                Map.entry(Position.of(8, 8), PieceInfoDto.from(Piece.choPieceOf(PieceType.CANNON))),
-                Map.entry(Position.of(7, 1), PieceInfoDto.from(Piece.choPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(7, 3), PieceInfoDto.from(Piece.choPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(7, 5), PieceInfoDto.from(Piece.choPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(7, 7), PieceInfoDto.from(Piece.choPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(7, 9), PieceInfoDto.from(Piece.choPieceOf(PieceType.SOLDIER))),
+                Map.entry(Position.of(10, 1), PieceType.CHARIOT),
+                Map.entry(Position.of(10, 9), PieceType.CHARIOT),
+                Map.entry(Position.of(10, 2), PieceType.HORSE),
+                Map.entry(Position.of(10, 3), PieceType.ELEPHANT),
+                Map.entry(Position.of(10, 4), PieceType.GUARD),
+                Map.entry(Position.of(9, 5), PieceType.GENERAL),
+                Map.entry(Position.of(10, 6), PieceType.GUARD),
+                Map.entry(Position.of(10, 7), PieceType.ELEPHANT),
+                Map.entry(Position.of(10, 8), PieceType.HORSE),
+                Map.entry(Position.of(8, 2), PieceType.CANNON),
+                Map.entry(Position.of(8, 8), PieceType.CANNON),
+                Map.entry(Position.of(7, 1), PieceType.SOLDIER),
+                Map.entry(Position.of(7, 3), PieceType.SOLDIER),
+                Map.entry(Position.of(7, 5), PieceType.SOLDIER),
+                Map.entry(Position.of(7, 7), PieceType.SOLDIER),
+                Map.entry(Position.of(7, 9), PieceType.SOLDIER),
 
                 // ===== HAN =====
-                Map.entry(Position.of(1, 1), PieceInfoDto.from(Piece.hanPieceOf(PieceType.CHARIOT))),
-                Map.entry(Position.of(1, 2), PieceInfoDto.from(Piece.hanPieceOf(PieceType.HORSE))),
-                Map.entry(Position.of(1, 3), PieceInfoDto.from(Piece.hanPieceOf(PieceType.ELEPHANT))),
-                Map.entry(Position.of(1, 4), PieceInfoDto.from(Piece.hanPieceOf(PieceType.GUARD))),
-                Map.entry(Position.of(2, 5), PieceInfoDto.from(Piece.hanPieceOf(PieceType.GENERAL))),
-                Map.entry(Position.of(1, 6), PieceInfoDto.from(Piece.hanPieceOf(PieceType.GUARD))),
-                Map.entry(Position.of(1, 7), PieceInfoDto.from(Piece.hanPieceOf(PieceType.ELEPHANT))),
-                Map.entry(Position.of(1, 8), PieceInfoDto.from(Piece.hanPieceOf(PieceType.HORSE))),
-                Map.entry(Position.of(1, 9), PieceInfoDto.from(Piece.hanPieceOf(PieceType.CHARIOT))),
-                Map.entry(Position.of(3, 2), PieceInfoDto.from(Piece.hanPieceOf(PieceType.CANNON))),
-                Map.entry(Position.of(3, 8), PieceInfoDto.from(Piece.hanPieceOf(PieceType.CANNON))),
-                Map.entry(Position.of(4, 1), PieceInfoDto.from(Piece.hanPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(4, 3), PieceInfoDto.from(Piece.hanPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(4, 5), PieceInfoDto.from(Piece.hanPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(4, 7), PieceInfoDto.from(Piece.hanPieceOf(PieceType.SOLDIER))),
-                Map.entry(Position.of(4, 9), PieceInfoDto.from(Piece.hanPieceOf(PieceType.SOLDIER)))
+                Map.entry(Position.of(1, 1), PieceType.CHARIOT),
+                Map.entry(Position.of(1, 2), PieceType.HORSE),
+                Map.entry(Position.of(1, 3), PieceType.ELEPHANT),
+                Map.entry(Position.of(1, 4), PieceType.GUARD),
+                Map.entry(Position.of(2, 5), PieceType.GENERAL),
+                Map.entry(Position.of(1, 6), PieceType.GUARD),
+                Map.entry(Position.of(1, 7), PieceType.ELEPHANT),
+                Map.entry(Position.of(1, 8), PieceType.HORSE),
+                Map.entry(Position.of(1, 9), PieceType.CHARIOT),
+                Map.entry(Position.of(3, 2), PieceType.CANNON),
+                Map.entry(Position.of(3, 8), PieceType.CANNON),
+                Map.entry(Position.of(4, 1), PieceType.SOLDIER),
+                Map.entry(Position.of(4, 3), PieceType.SOLDIER),
+                Map.entry(Position.of(4, 5), PieceType.SOLDIER),
+                Map.entry(Position.of(4, 7), PieceType.SOLDIER),
+                Map.entry(Position.of(4, 9), PieceType.SOLDIER)
         ));
     }
 
@@ -83,8 +86,8 @@ class BoardTest {
 
         board.move(from, to, Team.CHO);
 
-        PieceInfosDto infos = board.getAllPieceInfos();
-        assertThat(infos.pieceInfos().get(from)).isNull();
-        assertThat(infos.pieceInfos().get(to)).isNotNull();
+        Map<Position, Piece> pieces = board.getPieces();
+        assertThat(pieces.containsKey(from)).isFalse();
+        assertThat(pieces.containsKey(to)).isTrue();
     }
 }

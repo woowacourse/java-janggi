@@ -2,10 +2,10 @@ package view;
 
 import domain.board.Board;
 import domain.board.ElephantSetup;
-import domain.piece.Position;
-import domain.piece.Team;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
+import dto.PieceName;
+import dto.PositionDto;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class OutputView {
 
     private static final String BLUE_CODE = "\u001B[34m";
     private static final String RED_CODE = "\u001B[31m";
-    private static final String RESET_CODE = "\u001B[0m";
+    private static final String COLOR_RESET_CODE = "\u001B[0m";
 
     private static final String EMPTY_CELL_SYMBOL = "口";
     private static final String HEADER_PREFIX = "    ";
@@ -55,7 +55,7 @@ public class OutputView {
 
     public void printBoardWithPieces(final PieceInfosDto pieceInfos) {
         StringBuilder builder = new StringBuilder();
-        Map<Position, PieceInfoDto> pieceByPosition = pieceInfos.pieceInfos();
+        Map<PositionDto, PieceName> pieceByPosition = pieceInfos.pieceInfos();
 
         appendRowHeader(builder);
         appendBoardRows(builder, pieceByPosition);
@@ -74,14 +74,14 @@ public class OutputView {
         builder.append(LINE_SEPARATOR);
     }
 
-    private void appendBoardRows(final StringBuilder builder, final Map<Position, PieceInfoDto> pieceByPosition) {
+    private void appendBoardRows(final StringBuilder builder, final Map<PositionDto, PieceName> pieceByPosition) {
         for (int column = Board.MIN_COLUMN_RANGE; column <= Board.MAX_COLUMN_RANGE; column++) {
             appendBoardRow(builder, column, pieceByPosition);
         }
     }
 
     private void appendBoardRow(final StringBuilder builder, final int column,
-                                final Map<Position, PieceInfoDto> pieceByPosition
+                                final Map<PositionDto, PieceName> pieceByPosition
     ) {
         builder.append(String.format("%2d ", column));
 
@@ -96,19 +96,19 @@ public class OutputView {
             final StringBuilder builder,
             final int column,
             final int row,
-            final Map<Position, PieceInfoDto> pieceByPosition
+            final Map<PositionDto, PieceName> pieceByPosition
     ) {
-        Position position = Position.of(column, row);
+        PositionDto position = new PositionDto(column, row);
         builder.append(CELL_PADDING)
                 .append(renderCell(position, pieceByPosition))
                 .append(CELL_PADDING);
     }
 
     private String renderCell(
-            final Position position,
-            final Map<Position, PieceInfoDto> pieceByPosition
+            final PositionDto position,
+            final Map<PositionDto, PieceName> pieceByPosition
     ) {
-        PieceInfoDto pieceInfo = pieceByPosition.get(position);
+        PieceName pieceInfo = pieceByPosition.get(position);
 
         if (pieceInfo == null) {
             return EMPTY_CELL_SYMBOL;
@@ -117,47 +117,48 @@ public class OutputView {
         return colorize(pieceInfo);
     }
 
-    private String colorize(final PieceInfoDto pieceInfo) {
-        return colorCodeBy(pieceInfo.team()) + pieceInfo.pieceType() + RESET_CODE;
+    private String colorize(final PieceName pieceInfo) {
+        if (pieceInfo.isCho()) {
+            return BLUE_CODE + pieceInfo.displayName() + COLOR_RESET_CODE;
+        }
+        return RED_CODE + pieceInfo.displayName() + COLOR_RESET_CODE;
     }
 
-    private String colorCodeBy(final Team team) {
-        if (team == Team.CHO) {
-            return BLUE_CODE;
+    public void printChoosePieceToMovePrompt(List<PieceInfoDto> pieceInfos) {
+        StringBuilder prompt = new StringBuilder();
+        prompt.append("현재 보드 움직일 기물을 선택하세요:")
+                .append(LINE_SEPARATOR);
+
+        for (int oneBasedIndex = 1; oneBasedIndex <= pieceInfos.size(); oneBasedIndex++) {
+            String pieceName = pieceInfos.get(oneBasedIndex).pieceName();
+            PositionDto position = pieceInfos.get(oneBasedIndex).position();
+            prompt.append(oneBasedIndex).append(". ")
+                    .append(pieceName).append("(")
+                    .append(position.column()).append(", ").append(position.row()).append(")  ");
         }
 
-        return RED_CODE;
+        System.out.println(prompt);
     }
 
-    public void printChoosePieceToMovePrompt(List<Map.Entry<Position, PieceInfoDto>> pieces) {
-        System.out.println("현재 보드 움직일 기물을 선택하세요:");
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < pieces.size(); i++) {
-            Position pos = pieces.get(i).getKey();
-            PieceInfoDto pieceInfo = pieces.get(i).getValue();
-            builder.append(i + 1).append(". ")
-                    .append(pieceInfo.pieceType()).append("(")
-                    .append(pos.column()).append(", ").append(pos.row()).append(") ");
+    public void printChoosePositionToMovePrompt(List<PositionDto> movablePositions) {
+        StringBuilder prompt = new StringBuilder();
+        prompt.append("해당 기물이 이동할 위치의 번호를 입력하세요:")
+                .append(LINE_SEPARATOR);
+
+        for (int positionIndex = 1; positionIndex <= movablePositions.size(); positionIndex++) {
+            PositionDto position = movablePositions.get(positionIndex);
+            prompt.append(positionIndex).append(". (")
+                    .append(position.column()).append(", ")
+                    .append(position.row()).append(") ");
         }
-        System.out.println(builder);
+        System.out.println(prompt);
     }
 
-    public void printInvalidNumberInput() {
-        System.out.println("잘못된 번호 입력입니다. 다시 입력하세요.");
+    public void printNoMovablePiecePrompt() {
+        System.out.println("현재 움직일 수 있는 기물이 없습니다. 한 턴 쉽니다.");
     }
 
-    public void printNoMovablePositionMessage() {
-        System.out.println("해당 기물은 이동할 수 있는 곳이 없습니다. 기물을 다시 선택해주세요.");
-    }
-
-    public void printChoosePositionToMovePrompt(List<Position> movablePositions) {
-        System.out.println("해당 기물이 이동할 위치의 번호를 입력하세요:");
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < movablePositions.size(); i++) {
-            Position pos = movablePositions.get(i);
-            builder.append(i + 1).append(". (")
-                    .append(pos.column()).append(", ").append(pos.row()).append(") ");
-        }
-        System.out.println(builder);
+    public void printExceptionMessage(String exceptionMessage) {
+        System.out.println("[ERROR] " + exceptionMessage);
     }
 }
