@@ -13,7 +13,7 @@ import janggi.domain.piece.strategy.SingleStepStraightStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 import java.util.List;
 
-public enum PieceRule {
+public enum PieceType {
 
     GENERAL(new SingleStepStraightStrategy(), new EmptyCondition()),
     CHARIOT(new MultiStepStraightStrategy(), new EmptyCondition()),
@@ -26,7 +26,7 @@ public enum PieceRule {
     private final MoveStrategy moveStrategy;
     private final MoveCondition moveCondition;
 
-    PieceRule(MoveStrategy moveStrategy, MoveCondition moveCondition) {
+    PieceType(MoveStrategy moveStrategy, MoveCondition moveCondition) {
         this.moveStrategy = moveStrategy;
         this.moveCondition = moveCondition;
     }

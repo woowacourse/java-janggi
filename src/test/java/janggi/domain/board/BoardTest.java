@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -19,14 +19,14 @@ class BoardTest {
         Position destination = new Position(0, 1);
 
         Board board = new Board(() -> Map.of(
-                new Position(4, 1), new Piece(PieceRule.SOLDIER, Camp.HAN),
-                destination, new Piece(PieceRule.HORSE, Camp.CHO),
-                source, new Piece(PieceRule.CANNON, Camp.HAN)
+                new Position(4, 1), new Piece(PieceType.SOLDIER, Camp.HAN),
+                destination, new Piece(PieceType.HORSE, Camp.CHO),
+                source, new Piece(PieceType.CANNON, Camp.HAN)
         ));
         // when
         board.movePiece(source, destination, Camp.HAN);
         // then
-        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceRule.CANNON);
+        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceType.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
 
         SoftAssertions.assertSoftly(assertSoftly -> {
@@ -43,8 +43,8 @@ class BoardTest {
 
         // when
         Board board = new Board(() -> Map.of(
-                destination, new Piece(PieceRule.HORSE, Camp.CHO),
-                source, new Piece(PieceRule.CANNON, Camp.CHO)
+                destination, new Piece(PieceType.HORSE, Camp.CHO),
+                source, new Piece(PieceType.CANNON, Camp.CHO)
         ));
         // then
         Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))

@@ -7,7 +7,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.EmptyConditionTestBoardInitializer;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 import janggi.exception.ExceptionMessage;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class EmptyConditionTest {
         BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }
@@ -52,7 +52,7 @@ public class EmptyConditionTest {
         BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
     }

@@ -7,7 +7,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 import janggi.exception.ExceptionMessage;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class OnePieceExistsConditionTest {
         BoardInitializer boardInitializer = Map::of;
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
     }
@@ -52,12 +52,12 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 3), new Piece(PieceRule.CHARIOT, Camp.HAN),
-                new Position(0, 4), new Piece(PieceRule.ELEPHANT, Camp.HAN)
+                new Position(0, 3), new Piece(PieceType.CHARIOT, Camp.HAN),
+                new Position(0, 4), new Piece(PieceType.ELEPHANT, Camp.HAN)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
     }
@@ -76,11 +76,11 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 4), new Piece(PieceRule.CANNON, Camp.CHO)
+                new Position(0, 4), new Piece(PieceType.CANNON, Camp.CHO)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
     }
@@ -99,12 +99,12 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.HAN),
-                new Position(0, 5), new Piece(PieceRule.CHARIOT, Camp.HAN)
+                new Position(0, 3), new Piece(PieceType.SOLDIER, Camp.HAN),
+                new Position(0, 5), new Piece(PieceType.CHARIOT, Camp.HAN)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
     }
@@ -123,12 +123,12 @@ public class OnePieceExistsConditionTest {
         Camp camp = Camp.HAN;
 
         BoardInitializer boardInitializer = () -> Map.of(
-                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.HAN),
-                new Position(0, 5), new Piece(PieceRule.CANNON, Camp.CHO)
+                new Position(0, 3), new Piece(PieceType.SOLDIER, Camp.HAN),
+                new Position(0, 5), new Piece(PieceType.CANNON, Camp.CHO)
         );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceType.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
     }

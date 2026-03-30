@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 
 public interface BoardChecker {
 
@@ -10,5 +10,5 @@ public interface BoardChecker {
 
     boolean isSameCampPieceAt(Position position, Camp camp);
 
-    boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule);
+    boolean hasSamePieceRuleAt(Position position, PieceType pieceType);
 }

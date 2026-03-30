@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 import janggi.exception.ExceptionMessage;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,17 +12,17 @@ import java.util.Map;
 
 public enum ElephantSetting {
 
-    LEFT_ELEPHANT("1", List.of(PieceRule.ELEPHANT, PieceRule.HORSE, PieceRule.ELEPHANT, PieceRule.HORSE)),
-    RIGHT_ELEPHANT("2", List.of(PieceRule.HORSE, PieceRule.ELEPHANT, PieceRule.HORSE, PieceRule.ELEPHANT)),
-    INNER_ELEPHANT("3", List.of(PieceRule.HORSE, PieceRule.ELEPHANT, PieceRule.ELEPHANT, PieceRule.HORSE)),
-    OUTER_ELEPHANT("4", List.of(PieceRule.ELEPHANT, PieceRule.HORSE, PieceRule.HORSE, PieceRule.ELEPHANT));
+    LEFT_ELEPHANT("1", List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE)),
+    RIGHT_ELEPHANT("2", List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT)),
+    INNER_ELEPHANT("3", List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT, PieceType.HORSE)),
+    OUTER_ELEPHANT("4", List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT));
 
     private static final List<Integer> SETTING_COLS = List.of(1, 2, 6, 7);
 
     private final String command;
-    private final List<PieceRule> elephantOrder;
+    private final List<PieceType> elephantOrder;
 
-    ElephantSetting(String command, List<PieceRule> elephantOrder) {
+    ElephantSetting(String command, List<PieceType> elephantOrder) {
         this.command = command;
         this.elephantOrder = elephantOrder;
     }
@@ -31,7 +31,8 @@ public enum ElephantSetting {
         return Arrays.stream(values())
                 .filter(element -> element.command.equals(command))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_SETTING.getMessage()));
+                .orElseThrow(
+                        () -> new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_SETTING.getMessage()));
     }
 
     public Map<Position, Piece> createElephantOrder(Camp camp) {

@@ -2,7 +2,7 @@ package janggi.view.formatter;
 
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 
 public final class PieceFormatter {
 
@@ -11,14 +11,14 @@ public final class PieceFormatter {
 
     public static String format(Piece piece) {
         if (piece.isSameCamp(Camp.CHO)) {
-            return choFormat(piece.pieceRule());
+            return choFormat(piece.pieceType());
         }
-        return hanFormat(piece.pieceRule());
+        return hanFormat(piece.pieceType());
 
     }
 
-    private static String choFormat(PieceRule pieceRule) {
-        return switch (pieceRule) {
+    private static String choFormat(PieceType pieceType) {
+        return switch (pieceType) {
             case GENERAL -> "楚";
             case CHARIOT -> "車";
             case HORSE -> "馬";
@@ -29,8 +29,8 @@ public final class PieceFormatter {
         };
     }
 
-    private static String hanFormat(PieceRule pieceRule) {
-        return switch (pieceRule) {
+    private static String hanFormat(PieceType pieceType) {
+        return switch (pieceType) {
             case GENERAL -> "漢";
             case CHARIOT -> "車";
             case HORSE -> "馬";

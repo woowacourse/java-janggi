@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 import janggi.exception.ExceptionMessage;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +30,10 @@ public class Board implements BoardChecker {
     }
 
     @Override
-    public boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule) {
+    public boolean hasSamePieceRuleAt(Position position, PieceType pieceType) {
         if (board.containsKey(position)) {
             Piece foundPiece = board.get(position);
-            return foundPiece.isSamePieceRule(pieceRule);
+            return foundPiece.isSamePieceRule(pieceType);
         }
         return false;
     }

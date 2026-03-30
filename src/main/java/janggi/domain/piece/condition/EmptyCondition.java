@@ -3,14 +3,14 @@ package janggi.domain.piece.condition;
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceType;
 import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class EmptyCondition implements MoveCondition {
 
     @Override
-    public void checkPath(List<Position> path, Camp camp, BoardChecker board, PieceRule pieceRule) {
+    public void checkPath(List<Position> path, Camp camp, BoardChecker board, PieceType pieceType) {
         for (int i = 0; i < path.size() - 1; i++) {
             validateEmptyPosition(path.get(i), board);
         }
