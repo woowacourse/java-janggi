@@ -27,11 +27,6 @@ public class Board {
         this.board = board;
     }
 
-    protected void validateStartPosition(Position start, Side turn) {
-        validateRange(start);
-        validateEnsureSameSidePiece(start, turn);
-    }
-
     public boolean isEmpty(Position position) {
         return isValidRange(position) && getPiece(position).isNeutral();
     }
@@ -44,6 +39,11 @@ public class Board {
     public Piece getPiece(Position position) {
         validateRange(position);
         return board.get(position);
+    }
+
+    protected void validateStartPosition(Position start, Side turn) {
+        validateRange(start);
+        validateEnsureSameSidePiece(start, turn);
     }
 
     protected void movePiece(Position start, Position destination) {
