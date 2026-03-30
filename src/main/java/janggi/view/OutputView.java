@@ -4,6 +4,8 @@ import janggi.domain.piece.Piece;
 import janggi.domain.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
+import janggi.domain.position.Row;
+
 import java.util.Map;
 
 public class OutputView {
@@ -12,8 +14,8 @@ public class OutputView {
     private static final String ANSI_BLUE  = "\u001B[1;34m";
     private static final String ANSI_RESET = "\u001B[0m";
 
-    private static final int FIRST_ROW = 1;
-    private static final int LAST_ROW  = 10;
+    private static final int FIRST_ROW = Row.ROW_LOWER_THRESH_HOLD;
+    private static final int LAST_ROW  = Row.ROW_UPPER_THRESH_HOLD;
     private static final int FIRST_COL = Column.COLUMN_LOWER_THRESH_HOLD;
     private static final int LAST_COL  = Column.COLUMN_UPPER_THRESH_HOLD;
 
@@ -40,7 +42,7 @@ public class OutputView {
     }
 
     private void printColumnHeader() {
-        System.out.print("    ");
+        System.out.print("   ");
         for (int col = FIRST_COL; col <= LAST_COL; col++) {
             System.out.printf(" %d ", col);
             if (col < LAST_COL) System.out.print("   ");

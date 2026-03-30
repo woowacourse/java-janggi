@@ -13,6 +13,7 @@ import janggi.domain.piece.Soldier;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,12 +33,10 @@ public class BoardFactory {
         return new Board(board);
     }
 
-    private static void initializeEmpty(Map<Position, Piece> board) {
+    private static void initializeEmpty(Map<Position, Piece> base) {
         for (int row = Row.ROW_LOWER_THRESH_HOLD; row <= Row.ROW_UPPER_THRESH_HOLD; row++) {
             for (int col = Column.COLUMN_LOWER_THRESH_HOLD; col <= Column.COLUMN_UPPER_THRESH_HOLD; col++) {
-                int rowInput = row;
-                if (row == 10) rowInput = 0;
-                board.put(Position.from("" + rowInput + col), new EmptyPiece());
+                base.put(Position.from(row, col), new EmptyPiece());
             }
         }
     }

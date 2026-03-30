@@ -93,7 +93,7 @@ public class Cannon implements Piece {
     private void validateJumpOnlyOnePiece(List<Piece> piecesOnPath) {
         if (piecesOnPath.stream()
                 .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
-            throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
         }
     }
 }

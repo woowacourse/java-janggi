@@ -53,7 +53,7 @@ public class CannonTest {
 
         assertThatThrownBy(() -> cannon.canMove(List.of(new Soldier(Team.HAN), new Elephant(Team.HAN)), new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CannonTest {
 
         assertThatThrownBy(() -> cannon.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
     }
 
     @Test
@@ -71,7 +71,7 @@ public class CannonTest {
 
         assertThatThrownBy(() -> cannon.canMove(List.of(), new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
     }
 
     @Test
