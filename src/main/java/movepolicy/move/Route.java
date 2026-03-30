@@ -2,6 +2,7 @@ package movepolicy.move;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import pieces.Side;
 import position.Position;
 
@@ -13,12 +14,16 @@ public class Route {
         this.steps = steps;
     }
 
-    public Position destinationOf(Position departure, Side side) {
+    public Optional<Position> destinationOf(Position departure, Side side) {
         Position current = departure;
         for (Step step : steps) {
-            current = step.move(current, side);
+            try {
+                current = step.move(current, side);
+            } catch (IllegalArgumentException ignored) {
+                return Optional.empty();
+            }
         }
-        return current;
+        return Optional.of(current);
     }
 
     public List<Position> getPathPositionsOf(Position departure, Side side) {
