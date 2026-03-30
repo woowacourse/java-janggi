@@ -93,14 +93,10 @@ public class BoardInitializer {
 
     private void initSangAndMa(SettingType choSettingType, SettingType hanSettingType,
                                Map<Position, Piece> defaultSetting) {
-        SettingInfo choSettingInfo = convertToSettingInfo(choSettingType, Team.CHO);
-        SettingInfo hanSettingInfo = convertToSettingInfo(hanSettingType, Team.HAN);
+        SettingInfo choSettingInfo = choSettingType.generate(Team.CHO);
+        SettingInfo hanSettingInfo = hanSettingType.generate(Team.HAN);
         putSangAndMaByTeam(defaultSetting, choSettingInfo, choPieces);
         putSangAndMaByTeam(defaultSetting, hanSettingInfo, hanPieces);
-    }
-
-    private SettingInfo convertToSettingInfo(SettingType settingType, Team team) {
-        return settingType.generate(team);
     }
 
     private void putSangAndMaByTeam(Map<Position, Piece> defaultSetting, SettingInfo settingInfo,
