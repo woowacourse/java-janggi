@@ -10,17 +10,13 @@ import java.util.Map;
 
 public class Board {
 
-    private static final int COL_SIZE = 10;
-    private static final int ROW_SIZE = 9;
-    private static final int POSITION_THRESHOLD = 0;
+    private static final BoardBounds BOUNDS = BoardBounds.JANGGI;
 
-    private final Piece[][] board = new Piece[COL_SIZE][ROW_SIZE];
+    private final Piece[][] board = new Piece[BOUNDS.colsize()][BOUNDS.rowSize()];
 
     public Board(Map<Position, Piece> initialize) {
-        for (int i = 0; i < COL_SIZE; i++) {
-            for (int j = 0; j < ROW_SIZE; j++) {
-                board[i][j] = initialize.getOrDefault(new Position(i, j), EmptyPiece.getInstance());
-            }
+        for (Position position : BOUNDS.allPositions()) {
+            board[position.col()][position.row()] = initialize.getOrDefault(position, EmptyPiece.getInstance());
         }
     }
 
@@ -45,18 +41,11 @@ public class Board {
     }
 
     public boolean isInvalidRange(Position position) {
-        return position.col() < POSITION_THRESHOLD || position.col() >= COL_SIZE
-                || position.row() < POSITION_THRESHOLD || position.row() >= ROW_SIZE;
+        return !BOUNDS.contains(position);
     }
 
     public void validateRange(Position position) {
-        if (position.col() < POSITION_THRESHOLD || position.col() >= COL_SIZE) {
-            throw new IllegalArgumentException(String.format("잘못된 열 좌표: %d (열 좌표는 0 에서 9 사이여야 합니다.)", position.col()));
-        }
-
-        if (position.row() < POSITION_THRESHOLD || position.row() >= ROW_SIZE) {
-            throw new IllegalArgumentException(String.format("잘못된 행 좌표: %d (행 좌표는 0 에서 8 사이여야 합니다.)", position.row()));
-        }
+        BOUNDS.validateContains(position);
     }
 
     public Piece[][] getBoard() {
