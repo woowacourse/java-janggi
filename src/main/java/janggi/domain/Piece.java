@@ -30,6 +30,10 @@ public class Piece {
         }
     }
 
+    public MoveStorage getMoveStorage() {
+        return moveStorage;
+    }
+
     public String getName() {
         return name;
     }
