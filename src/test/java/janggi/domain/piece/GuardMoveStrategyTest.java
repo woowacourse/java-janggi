@@ -33,6 +33,7 @@ class GuardMoveStrategyTest {
                 .containsExactlyInAnyOrder(
                         Position.from(1, 3), // 실제로는 궁성밖으로 못나가서 이 위치로는 못움직인다.
                         Position.from(1,5),
+                        Position.from(2, 3), // 실제로는 궁성밖으로 못나가서 이 위치로는 못움직인다.
                         Position.from(2, 4)
                 );
     }

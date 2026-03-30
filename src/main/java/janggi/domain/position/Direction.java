@@ -20,8 +20,12 @@ public enum Direction {
         this.column = column;
     }
 
-    public static Direction[] valuesFourDirection() {
+    public static Direction[] valuesFourDirections() {
         return new Direction[]{NORTH, EAST, SOUTH, WEST};
+    }
+
+    public static Direction[] valuesAllDirections() {
+        return values();
     }
 
     public Direction next() {

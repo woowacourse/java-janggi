@@ -21,7 +21,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirection()) {
+        for (Direction dir : Direction.valuesFourDirections()) {
             from.findOnePositionByDirection(dir).ifPresent(to -> {
                 if (isPiecePresent(board, to)) {
                     return;

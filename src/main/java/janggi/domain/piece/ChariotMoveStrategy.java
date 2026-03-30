@@ -18,10 +18,11 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return chariotMoveStrategy;
     }
 
+    // TODO: 궁성 관련 로직 추가
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirection()) {
+        for (Direction dir : Direction.valuesFourDirections()) {
             List<Position> positions = from.findAllPositionsByDirection(dir);
             movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
         }
