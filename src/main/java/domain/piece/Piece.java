@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Game;
+import domain.board.Board;
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import domain.board.Side;
@@ -43,12 +43,12 @@ public abstract class Piece {
         return side.getForward();
     }
 
-    public List<Position> getPossibleMoves(Game game, Position start) {
-        List<Position> candidates = moveStrategy.generate(game.getBoard(), start, this);
+    public List<Position> getPossibleMoves(Board board, Position start) {
+        List<Position> candidates = moveStrategy.generate(board, start, this);
 
         return candidates.stream()
                 .filter(dest -> moveRules.stream()
-                        .allMatch(rule -> rule.isValid(game.getBoard(), start, dest, this)))
+                        .allMatch(rule -> rule.isValid(board, start, dest, this)))
                 .toList();
     }
 

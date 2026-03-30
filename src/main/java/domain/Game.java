@@ -36,7 +36,7 @@ public class Game {
 
     public List<Position> getPossibleMoves(Position start) {
         Piece piece = getPiece(start);
-        return piece.getPossibleMoves(this, start);
+        return piece.getPossibleMoves(getBoard(), start);
     }
 
     public Position getEndPosition(int index, PossibleMovesDto possibleMovesDto) {
