@@ -62,14 +62,14 @@ public class Pieces {
     }
 
 
-    public BoardSpots makeSnapShot() {
+    public Map<Position, BoardSpot> makeSnapShot() {
         Map<Position, BoardSpot> snapShot = new HashMap<>();
         for (Map.Entry<Position, Piece> entry : value.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
             snapShot.put(position, new BoardSpot(position, piece.nickname(), piece.getTeamType()));
         }
-        return new BoardSpots(snapShot);
+        return snapShot;
     }
 
     public Optional<Piece> findPiece(Position position) {

@@ -29,8 +29,8 @@ public class Board {
     }
 
     public BoardSpots makeSnapShot() {
-        HashMap<Position, BoardSpot> boardSpots = new HashMap<>(chu.makeSnapShot().value());
-        boardSpots.putAll(han.makeSnapShot().value());
+        HashMap<Position, BoardSpot> boardSpots = new HashMap<>(chu.makeSnapShot());
+        boardSpots.putAll(han.makeSnapShot());
         return new BoardSpots(boardSpots);
     }
 

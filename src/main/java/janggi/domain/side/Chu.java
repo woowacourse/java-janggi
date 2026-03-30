@@ -3,7 +3,9 @@ package janggi.domain.side;
 import janggi.domain.Pieces;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.dto.BoardSpots;
+import janggi.dto.BoardSpot;
+
+import java.util.Map;
 import java.util.Optional;
 
 public class Chu implements Team {
@@ -19,7 +21,7 @@ public class Chu implements Team {
     }
 
     @Override
-    public BoardSpots makeSnapShot() {
+    public Map<Position, BoardSpot> makeSnapShot() {
         return pieces.makeSnapShot();
     }
 

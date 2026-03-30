@@ -24,7 +24,7 @@ class HanTest {
 
         // when & then
         assertAll(
-            () -> assertThat(han.makeSnapShot().value()).hasSize(16),
+            () -> assertThat(han.makeSnapShot()).hasSize(16),
             () -> assertThat(han.findPiece(new Position(1, 10))).get().isInstanceOf(Cha.class),
             () -> assertThat(han.findPiece(new Position(9, 10))).get().isInstanceOf(Cha.class),
             () -> assertThat(han.findPiece(new Position(2, 10))).get().isInstanceOf(Ma.class),
@@ -74,7 +74,7 @@ class HanTest {
         // then
         assertAll(
             () -> assertThat(removedHan.findPiece(new Position(1, 7))).isEmpty(),
-            () -> assertThat(removedHan.makeSnapShot().value()).hasSize(15),
+            () -> assertThat(removedHan.makeSnapShot()).hasSize(15),
             () -> assertThat(han.findPiece(new Position(1, 7))).get().isInstanceOf(Jol.class)
         );
     }

@@ -44,7 +44,7 @@ class PiecesTest {
         assertAll(
             () -> assertThat(pieces.findPiece(target)).get().isInstanceOf(Jol.class),
             () -> assertThat(removedPieces.findPiece(target)).isEmpty(),
-            () -> assertThat(removedPieces.makeSnapShot().value()).hasSize(15)
+            () -> assertThat(removedPieces.makeSnapShot()).hasSize(15)
         );
     }
 
@@ -56,7 +56,7 @@ class PiecesTest {
 
         // when
         var boardSpots = pieces.makeSnapShot();
-        var gungSpot = boardSpots.value().get(new Position(5, 2));
+        var gungSpot = boardSpots.get(new Position(5, 2));
 
         // then
         assertThat(gungSpot).isNotNull();
