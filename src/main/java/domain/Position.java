@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Position implements Comparable<Position> {

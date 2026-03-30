@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import strategy.move.MoveStrategy;
+
 public class Board {
 
     private final Map<Position, Piece> pieces;
@@ -46,9 +48,12 @@ public class Board {
         Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
-        return piece.makeRoutes(currentPosition).stream()
+        MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
+
+        return moveStrategy.makeRoutes(currentPosition, piece.getTeamColor()).stream()
                 .filter(route -> route.endPos().isInsideBoard())
-                .filter(route -> piece.canMove(route, getBlockingPieces(route), getDestinationPiece(route)))
+                .filter(route -> moveStrategy.canMove(route, getBlockingPieces(route), getDestinationPiece(route),
+                        piece.getTeamColor()))
                 .toList();
     }
 
@@ -56,7 +61,9 @@ public class Board {
         Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
-        Route route = piece.makeRoutes(currentPosition).stream()
+        MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
+
+        Route route = moveStrategy.makeRoutes(currentPosition, piece.getTeamColor()).stream()
                 .filter(candidate -> candidate.endPos().equals(destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 기물은 목적지로 이동할 수 없습니다."));
@@ -64,7 +71,7 @@ public class Board {
         List<Piece> blockingPieces = getBlockingPieces(route);
         Optional<Piece> destinationPiece = getDestinationPiece(route);
 
-        if (!piece.canMove(route, blockingPieces, destinationPiece)) {
+        if (!moveStrategy.canMove(route, blockingPieces, destinationPiece, piece.getTeamColor())) {
             throw new IllegalArgumentException("현재 판 상태에서는 해당 목적지로 이동할 수 없습니다.");
         }
 
