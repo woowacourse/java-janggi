@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Country;
 import domain.Direction;
+import domain.Distance;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,9 @@ public abstract class Piece {
     }
 
     public List<Direction> findDirections(Position from, Position to) {
-        List<Integer> distances = from.calculateDistance(to);
-        int x = distances.get(0);
-        int y = distances.get(1);
+        Distance distance = from.calculateDistance(to);
+        int x = distance.x();
+        int y = distance.y();
 
         List<Direction> directions = Direction.findDirections(x, y);
         validateDirections(directions);
