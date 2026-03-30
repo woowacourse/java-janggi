@@ -80,7 +80,7 @@ public class JanggiIntersectionGenerator implements IntersectionGenerator {
     }
 
     private Formation getFormationByTeam(Team team) {
-        return team == Team.HAN ? hanFormation : choFormation;
+        return team.isHan() ? hanFormation : choFormation;
     }
 
     private int getRow(Team team, int row) {
