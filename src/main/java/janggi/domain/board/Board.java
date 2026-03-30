@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-
     private final Map<Position, Piece> piecePosition;
 
     private Board(Map<Position, Piece> piecePosition) {
@@ -19,8 +18,19 @@ public class Board {
 
     public static Board initialize() {
         Map<Position, Piece> initialBoard = new HashMap<>();
-        initSide(initialBoard, Side.HAN, 0, 1, 2, 3, PieceType.HAN_SOLDIER);
-        initSide(initialBoard, Side.CHO, 9, 8, 7, 6, PieceType.CHO_SOLDIER);
+
+        // 한나라 초기화
+        initSide(initialBoard, Side.HAN,
+                BoardLayout.HAN_BASE_ROW, BoardLayout.HAN_PALACE_ROW,
+                BoardLayout.HAN_CANNON_ROW, BoardLayout.HAN_SOLDIER_ROW,
+                PieceType.HAN_SOLDIER);
+
+        // 초나라 초기화
+        initSide(initialBoard, Side.CHO,
+                BoardLayout.CHO_BASE_ROW, BoardLayout.CHO_PALACE_ROW,
+                BoardLayout.CHO_CANNON_ROW, BoardLayout.CHO_SOLDIER_ROW,
+                PieceType.CHO_SOLDIER);
+
         return new Board(initialBoard);
     }
 
@@ -31,25 +41,30 @@ public class Board {
     }
 
     private static void initMajorPieces(Map<Position, Piece> initialBoard, Side side, int r) {
-        put(initialBoard, r, 0, side, PieceType.CHARIOT, "0");
-        put(initialBoard, r, 8, side, PieceType.CHARIOT, "1");
-        put(initialBoard, r, 1, side, PieceType.ELEPHANT, "0");
-        put(initialBoard, r, 7, side, PieceType.ELEPHANT, "1");
-        put(initialBoard, r, 2, side, PieceType.HORSE, "0");
-        put(initialBoard, r, 6, side, PieceType.HORSE, "1");
-        put(initialBoard, r, 3, side, PieceType.GUARD, "0");
-        put(initialBoard, r, 5, side, PieceType.GUARD, "1");
+        put(initialBoard, r, BoardLayout.CHARIOT_LEFT, side, PieceType.CHARIOT, BoardLayout.ID_FIRST);
+        put(initialBoard, r, BoardLayout.CHARIOT_RIGHT, side, PieceType.CHARIOT, BoardLayout.ID_SECOND);
+
+        put(initialBoard, r, BoardLayout.ELEPHANT_LEFT, side, PieceType.ELEPHANT, BoardLayout.ID_FIRST);
+        put(initialBoard, r, BoardLayout.ELEPHANT_RIGHT, side, PieceType.ELEPHANT, BoardLayout.ID_SECOND);
+
+        put(initialBoard, r, BoardLayout.HORSE_LEFT, side, PieceType.HORSE, BoardLayout.ID_FIRST);
+        put(initialBoard, r, BoardLayout.HORSE_RIGHT, side, PieceType.HORSE, BoardLayout.ID_SECOND);
+
+        put(initialBoard, r, BoardLayout.GUARD_LEFT, side, PieceType.GUARD, BoardLayout.ID_FIRST);
+        put(initialBoard, r, BoardLayout.GUARD_RIGHT, side, PieceType.GUARD, BoardLayout.ID_SECOND);
     }
 
     private static void initPalaceAndCannons(Map<Position, Piece> initialBoard, Side side, int gR, int pR) {
-        put(initialBoard, gR, 4, side, PieceType.PALACE, "0");
-        put(initialBoard, pR, 1, side, PieceType.CANNON, "0");
-        put(initialBoard, pR, 7, side, PieceType.CANNON, "1");
+        put(initialBoard, gR, BoardLayout.PALACE_COL, side, PieceType.PALACE, BoardLayout.ID_FIRST);
+        put(initialBoard, pR, BoardLayout.ELEPHANT_LEFT, side, PieceType.CANNON, BoardLayout.ID_FIRST);
+        put(initialBoard, pR, BoardLayout.ELEPHANT_RIGHT, side, PieceType.CANNON, BoardLayout.ID_SECOND);
     }
 
-    private static void initSoldiers(Map<Position, Piece> initialBoard, Side side, int r, PieceType t) {
-        for (int i = 0; i < 5; i++) {
-            put(initialBoard, r, i * 2, side, t, String.valueOf(i));
+    // 5 == 졸/병 개수
+    // 2 == 한 칸씩 띄워서 배치
+    private static void initSoldiers(Map<Position, Piece> initialBoard, Side side, int r, PieceType type) {
+        for (int i = 0; i < BoardLayout.SOLDIER_TOTAL_COUNT; i++) {
+            put(initialBoard, r, i * BoardLayout.SOLDIER_INTERVAL, side, type, String.valueOf(i));
         }
     }
 
