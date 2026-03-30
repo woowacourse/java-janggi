@@ -50,7 +50,7 @@ public abstract class Piece {
     }
 
     public final List<Path> createCandidatePaths(Point from) {
-        return convertToPaths(createCandidatePattern(), from, pathStrategy);
+        return convertToPaths(createCandidateMovement(), from, pathStrategy);
     }
 
     private List<Path> convertToPaths(List<Movement> movements, Point from, PathStrategy pathStrategy) {
@@ -59,7 +59,7 @@ public abstract class Piece {
                 .toList();
     }
 
-    protected abstract List<Movement> createCandidatePattern();
+    protected abstract List<Movement> createCandidateMovement();
 
     protected abstract Path refinePath(Path path, Map<Point, Piece> piecesOnPaths);
 

@@ -82,7 +82,7 @@ class ChariotTest {
     void patterns(Side side, List<Movement> expected) {
         Piece piece = new Chariot(side);
 
-        List<Movement> movements = piece.createCandidatePattern();
+        List<Movement> movements = piece.createCandidateMovement();
 
         assertThat(expected.containsAll(movements)).isTrue();
         assertThat(movements.size()).isEqualTo(expected.size());

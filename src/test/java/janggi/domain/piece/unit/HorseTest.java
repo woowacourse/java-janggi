@@ -60,7 +60,7 @@ class HorseTest {
     void patterns(Side side, List<Movement> expected) {
         Piece horse = new Horse(side);
 
-        List<Movement> movements = horse.createCandidatePattern();
+        List<Movement> movements = horse.createCandidateMovement();
 
         assertThat(expected.containsAll(movements)).isTrue();
     }

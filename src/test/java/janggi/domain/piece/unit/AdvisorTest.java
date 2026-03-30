@@ -74,7 +74,7 @@ class AdvisorTest {
     void patterns(Side side, List<Movement> expected) {
         Piece piece = new Advisor(side);
 
-        List<Movement> movements = piece.createCandidatePattern();
+        List<Movement> movements = piece.createCandidateMovement();
 
         assertThat(expected.containsAll(movements)).isTrue();
     }

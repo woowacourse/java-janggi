@@ -21,7 +21,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected List<Movement> createCandidatePattern() {
+    protected List<Movement> createCandidateMovement() {
         List<Movement> paths = new ArrayList<>();
         paths.add(new Movement(List.of(Direction.NORTH)));
         paths.add(new Movement(List.of(Direction.SOUTH)));

@@ -21,7 +21,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected List<Movement> createCandidatePattern() {
+    protected List<Movement> createCandidateMovement() {
         List<Movement> directions = new ArrayList<>();
         if (Side.CHO.equals(side)) {
             directions.add(new Movement(List.of(Direction.NORTH)));

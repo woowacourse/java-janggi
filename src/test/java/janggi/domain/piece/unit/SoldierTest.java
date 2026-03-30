@@ -62,7 +62,7 @@ class SoldierTest {
     void patterns(Side side, List<Movement> expected) {
         Piece piece = new Soldier(side);
 
-        List<Movement> movements = piece.createCandidatePattern();
+        List<Movement> movements = piece.createCandidateMovement();
 
         assertThat(expected.containsAll(movements)).isTrue();
     }
