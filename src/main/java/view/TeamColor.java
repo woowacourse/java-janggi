@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 public enum TeamColor {
 
-    RED(Team.CHO, "\u001B[31m"),
-    GREEN(Team.HAN, "\u001B[32m"),
+    RED(Team.HAN, "\u001B[31m"),
+    GREEN(Team.CHO, "\u001B[32m"),
     WHITE(Team.NONE, "\u001B[37m"),
     ;
 
