@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.board.Intersection;
 import domain.direction.MoveAmount;
 import domain.game.Side;
-import domain.piece.CompositionPiece;
+import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.factory.CannonFactory;
 import java.util.List;
@@ -23,9 +23,9 @@ class InitialPositionTest {
     @DisplayName("진영에 따른 기물 초기 배치")
     @ParameterizedTest(name = "잔영이 {0}일 때")
     @MethodSource("sideAndExpected")
-    void 진영에_따른_기물_초기_배치(Side side, Map<Intersection, CompositionPiece> expected) {
+    void 진영에_따른_기물_초기_배치(Side side, Map<Intersection, Piece> expected) {
         InitialPosition initialPosition = new InitialPosition(side, new MoveAmount(2), 2, 8);
-        Map<Intersection, CompositionPiece> placed = initialPosition.placePiece(new CannonFactory());
+        Map<Intersection, Piece> placed = initialPosition.placePiece(new CannonFactory());
 
         assertThat(placed).isEqualTo(expected);
     }
@@ -36,8 +36,8 @@ class InitialPositionTest {
         Side side = Side.CHO;
         InitialPosition initialPosition = new InitialPosition(side, new MoveAmount(2), 2, 8);
 
-        Map<Intersection, CompositionPiece> placed = initialPosition.placePiece(new CannonFactory());
-        List<CompositionPiece> pieces = List.copyOf(placed.values());
+        Map<Intersection, Piece> placed = initialPosition.placePiece(new CannonFactory());
+        List<Piece> pieces = List.copyOf(placed.values());
 
         assertThat(pieces)
                 .extracting(System::identityHashCode)
@@ -52,15 +52,15 @@ class InitialPositionTest {
                 Arguments.of(
                         Cho,
                         Map.of(
-                                new Intersection(8, 2), new CompositionPiece(PieceType.CANNON, Cho),
-                                new Intersection(8, 8), new CompositionPiece(PieceType.CANNON, Cho)
+                                new Intersection(8, 2), new Piece(PieceType.CANNON, Cho),
+                                new Intersection(8, 8), new Piece(PieceType.CANNON, Cho)
                         )
                 ),
                 Arguments.of(
                         Han,
                         Map.of(
-                                new Intersection(3, 2), new CompositionPiece(PieceType.CANNON, Han),
-                                new Intersection(3, 8), new CompositionPiece(PieceType.CANNON, Han)
+                                new Intersection(3, 2), new Piece(PieceType.CANNON, Han),
+                                new Intersection(3, 8), new Piece(PieceType.CANNON, Han)
                         )
                 )
         );

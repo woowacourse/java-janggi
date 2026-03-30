@@ -5,10 +5,8 @@ import static java.util.Collections.EMPTY_LIST;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.game.Side;
-import domain.piece.Elephant;
-import domain.piece.Horse;
 import domain.piece.Piece;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class WingTest {
 
-    private static final Soldier DEFAULT_PIECE = new Soldier(Side.CHO);
+    private static final Piece DEFAULT_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
 
     @Nested
     class 기물_개수가_2개가_아니면_예외를_던진다 {
@@ -42,7 +40,7 @@ class WingTest {
             return Stream.of(
                     Arguments.of(EMPTY_LIST),
                     Arguments.of(List.of(
-                            new Horse(Side.CHO)
+                            new Piece(PieceType.HORSE, Side.CHO)
                     ))
             );
         }
@@ -50,21 +48,21 @@ class WingTest {
         private static Stream<Arguments> morePieces() {
             return Stream.of(
                     Arguments.of(List.of(
-                            new Horse(Side.CHO),
-                            new Elephant(Side.CHO),
-                            new Horse(Side.CHO)
+                            new Piece(PieceType.HORSE, Side.CHO),
+                            new Piece(PieceType.ELEPHANT, Side.CHO),
+                            new Piece(PieceType.HORSE, Side.CHO)
                     )),
                     Arguments.of(List.of(
-                            new Horse(Side.CHO),
-                            new Elephant(Side.CHO),
-                            new Horse(Side.CHO),
-                            new Elephant(Side.CHO)
+                            new Piece(PieceType.HORSE, Side.CHO),
+                            new Piece(PieceType.ELEPHANT, Side.CHO),
+                            new Piece(PieceType.HORSE, Side.CHO),
+                            new Piece(PieceType.ELEPHANT, Side.CHO)
                     )),
                     Arguments.of(List.of(
-                            new Horse(Side.CHO),
-                            new Elephant(Side.CHO),
-                            new Horse(Side.CHO),
-                            new Elephant(Side.CHO),
+                            new Piece(PieceType.HORSE, Side.CHO),
+                            new Piece(PieceType.ELEPHANT, Side.CHO),
+                            new Piece(PieceType.HORSE, Side.CHO),
+                            new Piece(PieceType.ELEPHANT, Side.CHO),
                             DEFAULT_PIECE
                     ))
             );
@@ -77,7 +75,10 @@ class WingTest {
         @Test
         void 상의_개수가_1개_미만이면_예외를_던진다() {
             // given
-            List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
+            List<Piece> illegalPieces = List.of(
+                    new Piece(PieceType.HORSE, Side.CHO),
+                    new Piece(PieceType.HORSE, Side.CHO)
+            );
 
             // when and then
             assertThatThrownBy(() -> new LeftWing(illegalPieces))
@@ -87,7 +88,10 @@ class WingTest {
         @Test
         void 상의_개수가_1개_초과면_예외를_던진다() {
             // given
-            List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), new Elephant(Side.CHO));
+            List<Piece> illegalPieces = List.of(
+                    new Piece(PieceType.ELEPHANT, Side.CHO),
+                    new Piece(PieceType.ELEPHANT, Side.CHO)
+            );
 
             // when and then
             assertThatThrownBy(() -> new LeftWing(illegalPieces))
@@ -101,7 +105,9 @@ class WingTest {
         @Test
         void 마의_개수가_1개_미만이면_예외를_던진다() {
             // given
-            List<Piece> illegalPieces = List.of(new Elephant(Side.CHO), DEFAULT_PIECE);
+            List<Piece> illegalPieces = List.of(
+                    new Piece(PieceType.ELEPHANT, Side.CHO),
+                    DEFAULT_PIECE);
 
             // when and then
             assertThatThrownBy(() -> new LeftWing(illegalPieces))
@@ -111,7 +117,10 @@ class WingTest {
         @Test
         void 마의_개수가_1개_초과면_예외를_던진다() {
             // given
-            List<Piece> illegalPieces = List.of(new Horse(Side.CHO), new Horse(Side.CHO));
+            List<Piece> illegalPieces = List.of(
+                    new Piece(PieceType.HORSE, Side.CHO),
+                    new Piece(PieceType.HORSE, Side.CHO)
+            );
 
             // when and then
             assertThatThrownBy(() -> new LeftWing(illegalPieces))
@@ -121,7 +130,10 @@ class WingTest {
 
     @Test
     void 상과_마가_1개씩_있다면_정상적으로_생성된다() {
-        List<Piece> pieces = List.of(new Horse(Side.CHO), new Elephant(Side.CHO));
+        List<Piece> pieces = List.of(
+                new Piece(PieceType.HORSE, Side.CHO),
+                new Piece(PieceType.ELEPHANT, Side.CHO)
+        );
 
         assertThatNoException(() -> new LeftWing(pieces));
     }

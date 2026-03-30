@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.AlivePieces;
-import domain.piece.Cannon;
 import domain.piece.Piece;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
 import domain.move.Path;
 import java.util.List;
 import java.util.Map;
@@ -250,10 +249,10 @@ class JumpingRuleTest {
     }
 
     private static Piece createCannon(Side side) {
-        return new Cannon(side);
+        return new Piece(PieceType.CANNON, side);
     }
 
     private static Piece createDefaultPiece(Side side) {
-        return new Soldier(side);
+        return new Piece(PieceType.SOLDIER, side);
     }
 }

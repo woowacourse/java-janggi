@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.game.Side;
-import domain.piece.Elephant;
-import domain.piece.Horse;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
@@ -18,8 +17,14 @@ class HanWingsTest {
     @Nested
     class 생성할_때_기물의_진영을_검증한다 {
 
-        private final List<Piece> illegalSideWing = List.of(new Horse(Side.HAN), new Elephant(Side.CHO));
-        private final List<Piece> legalSideWing = List.of(new Horse(Side.HAN), new Elephant(Side.HAN));
+        private final List<Piece> illegalSideWing = List.of(
+                new Piece(PieceType.HORSE, Side.HAN),
+                new Piece(PieceType.ELEPHANT, Side.CHO)
+        );
+        private final List<Piece> legalSideWing = List.of(
+                new Piece(PieceType.HORSE, Side.HAN),
+                new Piece(PieceType.ELEPHANT, Side.HAN)
+        );
 
         @Test
         void 좌진에_한이_아닌_기물이_있다면_예외를_던진다() {
@@ -42,10 +47,10 @@ class HanWingsTest {
     @Test
     void 한의_좌진과_우진_기물의_초기_위치를_반환한다() {
         // given
-        Piece first = new Horse(Side.HAN);
-        Piece second = new Elephant(Side.HAN);
-        Piece third = new Horse(Side.HAN);
-        Piece fourth = new Elephant(Side.HAN);
+        Piece first = new Piece(PieceType.HORSE, Side.HAN);
+        Piece second = new Piece(PieceType.ELEPHANT, Side.HAN);
+        Piece third = new Piece(PieceType.HORSE, Side.HAN);
+        Piece fourth = new Piece(PieceType.ELEPHANT, Side.HAN);
 
         HanWings hanWings = new HanWings(
                 List.of(first, second),

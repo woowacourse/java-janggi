@@ -3,7 +3,7 @@ package domain;
 import domain.board.Intersection;
 import domain.direction.MoveAmount;
 import domain.game.Side;
-import domain.piece.CompositionPiece;
+import domain.piece.Piece;
 import domain.piece.factory.CompositionPieceFactory;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,8 +16,8 @@ public record InitialPosition(
         Integer... initialFiles
 ) {
 
-    public Map<Intersection, CompositionPiece> placePiece(CompositionPieceFactory factory) {
-        Map<Intersection, CompositionPiece> result = new HashMap<>();
+    public Map<Intersection, Piece> placePiece(CompositionPieceFactory factory) {
+        Map<Intersection, Piece> result = new HashMap<>();
 
         List<Intersection> intersections = intersections();
         for (Intersection intersection : intersections) {

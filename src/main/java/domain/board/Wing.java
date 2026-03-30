@@ -1,9 +1,8 @@
 package domain.board;
 
 import domain.game.Side;
-import domain.piece.Elephant;
-import domain.piece.Horse;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public abstract class Wing {
 
     private static void validateElephantCount(List<Piece> pieces) {
         long count = pieces.stream()
-                .filter(piece -> piece instanceof Elephant)
+                .filter(piece -> piece.isSameType(PieceType.HORSE))
                 .count();
 
         if (count != ELEPHANT_COUNT) {
@@ -47,7 +46,7 @@ public abstract class Wing {
 
     private static void validateHorseCount(List<Piece> pieces) {
         long count = pieces.stream()
-                .filter(piece -> piece instanceof Horse)
+                .filter(piece -> piece.isSameType(PieceType.HORSE))
                 .count();
 
         if (count != HORSE_COUNT) {

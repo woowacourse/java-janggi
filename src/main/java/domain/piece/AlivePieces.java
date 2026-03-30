@@ -13,10 +13,7 @@ public class AlivePieces {
         this.alivePieces = new HashMap<>(alivePieces);
     }
 
-    public void replace(
-            Intersection from,
-            Intersection to
-    ) {
+    public void replace(Intersection from, Intersection to) {
         if (isEmpty(from)) {
             return;
         }
@@ -44,7 +41,7 @@ public class AlivePieces {
 
         Piece piece = placedAt(intersection);
 
-        return piece.side == side;
+        return piece.isSameSide(side);
     }
 
     public boolean placedNotSameSide(Intersection intersection, Side side) {
@@ -58,6 +55,6 @@ public class AlivePieces {
 
         Piece piece = placedAt(intersection);
 
-        return piece.side != side;
+        return !piece.isSameSide(side);
     }
 }

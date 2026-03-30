@@ -25,6 +25,7 @@ public final class JanggiGame {
         }
         currentTurn = currentTurn.nextTurn();
 
+        // FIXME 여기서 예외가 터지면 턴만 넘어간다.
         board.movePiece(startIntersection, destination, requestingSide);
     }
 }

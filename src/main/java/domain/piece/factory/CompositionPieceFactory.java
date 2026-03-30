@@ -1,8 +1,8 @@
 package domain.piece.factory;
 
 import domain.game.Side;
-import domain.piece.CompositionPiece;
+import domain.piece.Piece;
 
 public interface CompositionPieceFactory {
-    CompositionPiece create(Side side);
+    Piece create(Side side);
 }

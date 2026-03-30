@@ -2,53 +2,60 @@ package domain.piece;
 
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.move.Path;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Piece {
+public final class Piece {
 
-    protected final Side side;
+    private final PieceType type;
+    private final Side side;
 
-    public Piece(Side side) {
+    public Piece(PieceType type, Side side) {
+        this.type = type;
         this.side = side;
+    }
+
+    public List<Intersection> movablePaths(Intersection from, AlivePieces alivePieces) {
+        List<Path> movablePaths = type.movablePaths(from, side);
+
+        return type.movableDestinations(side, movablePaths, alivePieces);
+    }
+
+    public boolean isSameSide(Side side) {
+        return this.side == side;
     }
 
     public boolean hasDifferentSide(Side side) {
         return this.side != side;
     }
 
-    public abstract boolean canMove(
-            Intersection from,
-            Intersection to,
-            AlivePieces alivePieces
-    );
+    public boolean isSameType(PieceType pieceType) {
+        return this.type == pieceType;
+    }
 
-    public abstract List<Intersection> movableIntersections(
-            Intersection from,
-            AlivePieces alivePieces
-    );
+    public boolean isNotSameType(PieceType pieceType) {
+        return !isSameType(pieceType);
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Piece piece)) {
+        if (!(o instanceof Piece that)) {
             return false;
         }
-        if (side != piece.side) {
-            return false;
-        }
-
-        return this.getClass().equals(piece.getClass());
+        return type == that.type && side == that.side;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(side, this.getClass());
+        return Objects.hash(type, side);
     }
 
     @Override
-    public final String toString() {
-        return getClass().getSimpleName() + "{" +
-                "side=" + side +
+    public String toString() {
+        return "Piece{" +
+                "type=" + type +
+                ", side=" + side +
                 '}';
     }
 }

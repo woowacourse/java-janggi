@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,8 @@ class BoardTest {
     private static final Side DEFAULT_SIDE = Side.HAN;
     private static final Side SAME_SIDE = Side.HAN;
     private static final Side OPPOSITE_SIDE = Side.CHO;
-    private static final Piece SAME_SIDE_PIECE = new Soldier(SAME_SIDE);
-    private static final Piece OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
+    private static final Piece SAME_SIDE_PIECE = new Piece(PieceType.SOLDIER, SAME_SIDE);
+    private static final Piece OPPOSITE_SIDE_PIECE = new Piece(PieceType.SOLDIER, OPPOSITE_SIDE);
 
     @Nested
     class 기물이_이동_가능한_지점들을_반환한다 {

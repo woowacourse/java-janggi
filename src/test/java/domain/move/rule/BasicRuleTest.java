@@ -6,7 +6,7 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
 import domain.move.Path;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +109,6 @@ class BasicRuleTest {
     }
 
     private static Piece createDefaultPiece(Side side) {
-        return new Soldier(side);
+        return new Piece(PieceType.SOLDIER, side);
     }
 }

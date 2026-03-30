@@ -7,7 +7,7 @@ import domain.board.Board;
 import domain.board.Intersection;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
 
-    private static final Piece CHO_PIECE = new Soldier(Side.CHO);
+    private static final Piece CHO_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
     private static final Intersection CHO_START_INTERSECTION = new Intersection(5, 5);
     private static final Intersection CHO_FIRST_DESTINATION = new Intersection(4, 5);
     private static final Intersection CHO_SECOND_DESTINATION = new Intersection(3, 5);
 
-    private static final Piece HAN_PIECE = new Soldier(Side.HAN);
+    private static final Piece HAN_PIECE = new Piece(PieceType.SOLDIER, Side.HAN);
     private static final Intersection HAN_START_INTERSECTION = new Intersection(3, 3);
     private static final Intersection HAN_FIRST_DESTINATION = new Intersection(4, 3);
 

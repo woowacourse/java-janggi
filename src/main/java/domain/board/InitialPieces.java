@@ -1,49 +1,43 @@
 package domain.board;
 
+import domain.InitialPosition;
+import domain.direction.MoveAmount;
 import domain.game.Side;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.General;
-import domain.piece.Guard;
 import domain.piece.Piece;
-import domain.piece.Soldier;
-import domain.piece.StaticPositionedPiece;
+import domain.piece.factory.CannonFactory;
+import domain.piece.factory.ChariotFactory;
+import domain.piece.factory.GeneralFactory;
+import domain.piece.factory.GuardFactory;
+import domain.piece.factory.SoldierFactory;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class InitialPieces {
 
-    private static final List<StaticPositionedPiece> HAN_PIECES = List.of(
-            new Cannon(Side.HAN),
-            new Chariot(Side.HAN),
-            new General(Side.HAN),
-            new Guard(Side.HAN),
-            new Soldier(Side.HAN)
-    );
-    private static final List<StaticPositionedPiece> CHO_PIECES = List.of(
-            new Cannon(Side.CHO),
-            new Chariot(Side.CHO),
-            new General(Side.CHO),
-            new Guard(Side.CHO),
-            new Soldier(Side.CHO)
-    );
-
     private final Map<Intersection, Piece> initialPieces = new HashMap<>();
 
     public InitialPieces(HanWings hanWings, ChoWings choWings) {
+        // 1. 좌진/우진 (마, 상) 배치
         initialPieces.putAll(hanWings.setUpPieces());
         initialPieces.putAll(choWings.setUpPieces());
 
-        putFixedPieces(HAN_PIECES);
-        putFixedPieces(CHO_PIECES);
+        // 2. 고정 위치 기물 (졸/병, 포, 차, 사, 궁) 배치
+        putFixedPieces(Side.HAN);
+        putFixedPieces(Side.CHO);
     }
 
-    private void putFixedPieces(List<StaticPositionedPiece> pieces) {
-        for (StaticPositionedPiece piece : pieces) {
-            piece.initAt()
-                    .forEach(intersection -> initialPieces.put(intersection, piece));
-        }
+    private void putFixedPieces(Side side) {
+        initialPieces.putAll(
+
+                new InitialPosition(side, new MoveAmount(3), 1, 3, 5, 7, 9).placePiece(new SoldierFactory()));
+        initialPieces.putAll(
+                new InitialPosition(side, new MoveAmount(2), 2, 8).placePiece(new CannonFactory()));
+        initialPieces.putAll(
+                new InitialPosition(side, new MoveAmount(0), 1, 9).placePiece(new ChariotFactory()));
+        initialPieces.putAll(
+                new InitialPosition(side, new MoveAmount(0), 4, 6).placePiece(new GuardFactory()));
+        initialPieces.putAll(
+                new InitialPosition(side, new MoveAmount(1), 5).placePiece(new GeneralFactory()));
     }
 
     public Map<Intersection, Piece> get() {

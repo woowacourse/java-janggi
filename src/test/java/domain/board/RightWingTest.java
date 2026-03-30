@@ -3,9 +3,8 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Side;
-import domain.piece.Elephant;
-import domain.piece.Horse;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
@@ -21,13 +20,13 @@ class RightWingTest {
             // given
             Side side = Side.HAN;
             RightWing rightWing = new RightWing(List.of(
-                    new Horse(side),
-                    new Elephant(side)
+                    new Piece(PieceType.HORSE, side),
+                    new Piece(PieceType.ELEPHANT, side)
             ));
 
             Map<Intersection, Piece> expected = Map.of(
-                    new Intersection(1, 3), new Horse(side),
-                    new Intersection(1, 2), new Elephant(side)
+                    new Intersection(1, 3), new Piece(PieceType.HORSE, side),
+                    new Intersection(1, 2), new Piece(PieceType.ELEPHANT, side)
             );
 
             // when
@@ -42,13 +41,13 @@ class RightWingTest {
             // given
             Side side = Side.CHO;
             RightWing rightWing = new RightWing(List.of(
-                    new Horse(side),
-                    new Elephant(side)
+                    new Piece(PieceType.HORSE, side),
+                    new Piece(PieceType.ELEPHANT, side)
             ));
 
             Map<Intersection, Piece> expected = Map.of(
-                    new Intersection(10, 7), new Horse(side),
-                    new Intersection(10, 8), new Elephant(side)
+                    new Intersection(10, 7), new Piece(PieceType.HORSE, side),
+                    new Intersection(10, 8), new Piece(PieceType.ELEPHANT, side)
             );
 
             // when
