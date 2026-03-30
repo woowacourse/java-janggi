@@ -11,10 +11,6 @@ public class BoardFactory {
 
     private BoardFactory() {}
 
-    public static Board of(final Map<Position, Piece> board) {
-        return Board.of(board);
-    }
-
     public static Board setUp() {
         Map<Position, Piece> board = new TreeMap<>(Comparator
                 .comparingInt(Position::getRow).reversed()

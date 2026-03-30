@@ -20,7 +20,7 @@ class CannonMoveStrategyTest {
         boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
         boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position from = Position.of(2, 1);
@@ -38,7 +38,7 @@ class CannonMoveStrategyTest {
         Map<Position, Piece> boardMapper = new HashMap<>();
         boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position from = Position.of(2, 1);
@@ -58,7 +58,7 @@ class CannonMoveStrategyTest {
         boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
         boardMapper.put(Position.of(4, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position from = Position.of(2, 1);
@@ -78,7 +78,7 @@ class CannonMoveStrategyTest {
         boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
         boardMapper.put(Position.of(5, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position from = Position.of(2, 1);
@@ -98,7 +98,7 @@ class CannonMoveStrategyTest {
         boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
         boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.CANNON, strategy));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position from = Position.of(2, 1);
@@ -118,7 +118,7 @@ class CannonMoveStrategyTest {
         boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
         boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.SOLDIER, new FixedMoveStrategy()));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position from = Position.of(2, 1);
@@ -138,7 +138,7 @@ class CannonMoveStrategyTest {
         boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
         boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.SOLDIER, new FixedMoveStrategy()));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position from = Position.of(2, 1);

@@ -1,5 +1,6 @@
 package domain;
 
+import domain.strategy.SoldierMoveStrategy;
 import domain.vo.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,14 +34,13 @@ class BoardTest {
     void 기물_이동() {
         // given
         Map<Position, Piece> tempBoard = new HashMap<>();
-        tempBoard.put(Position.of(0, 0), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
-        tempBoard.put(Position.of(0, 3), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
+        tempBoard.put(Position.of(0, 0), Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
 
         Board board = Board.of(tempBoard);
 
         // when
         Position from = Position.of(0, 0);
-        Position to = Position.of(3, 0);
+        Position to = Position.of(1, 0);
         board.move(from, to);
 
         // then

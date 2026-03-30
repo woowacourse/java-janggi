@@ -19,7 +19,7 @@ class SoldierMoveStrategyTest {
         Map<Position, Piece> boardMapper = new HashMap<>();
         boardMapper.put(Position.of(3, 4), Piece.of(Team.CHU, Type.SOLDIER, strategy));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position position = Position.of(3, 4);
@@ -38,7 +38,7 @@ class SoldierMoveStrategyTest {
         boardMapper.put(Position.of(3, 4), Piece.of(Team.CHU, Type.SOLDIER, strategy));
         boardMapper.put(Position.of(4, 4), Piece.of(Team.CHU, Type.SOLDIER, strategy));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position position = Position.of(3, 4);
@@ -58,7 +58,7 @@ class SoldierMoveStrategyTest {
         boardMapper.put(Position.of(3, 4), Piece.of(Team.CHU, Type.SOLDIER, strategy));
         boardMapper.put(Position.of(4, 4), Piece.of(Team.HAN, Type.SOLDIER, strategy));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position position = Position.of(3, 4);
@@ -76,7 +76,7 @@ class SoldierMoveStrategyTest {
         Map<Position, Piece> boardMapper = new HashMap<>();
         boardMapper.put(Position.of(3, 4), Piece.of(Team.CHU, Type.SOLDIER, strategy));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position position = Position.of(3, 4);
@@ -94,7 +94,7 @@ class SoldierMoveStrategyTest {
         Map<Position, Piece> boardMapper = new HashMap<>();
         boardMapper.put(Position.of(6, 4), Piece.of(Team.HAN, Type.SOLDIER, strategy));
 
-        Board board = BoardFactory.of(boardMapper);
+        Board board = Board.of(boardMapper);
 
         // when
         Position position = Position.of(6, 4);
