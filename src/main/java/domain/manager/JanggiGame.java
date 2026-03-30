@@ -39,7 +39,7 @@ public class JanggiGame {
 
     private void playTurn() {
         Player currentPlayer = turnManager.getCurrentPlayer();
-        outputView.printPlayerTurnMessage(currentPlayer.getName(), currentPlayer.getTeam().toString());
+        outputView.printPlayerTurnMessage(currentPlayer.getProfile());
 
         retryOnInvalidInput(this::executeMove);
 
