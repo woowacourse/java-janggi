@@ -36,11 +36,12 @@ class BoardTest {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
         Board board = new Board(policy);
+        Position from = Position.from(4, 5);
 
         // when & then
-        assertThatThrownBy(() -> board.canMovePosition(Position.from(4, 5), HAN))
+        assertThatThrownBy(() -> board.canMovePosition(from, HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_PIECE_OWNER_MESSAGE);
+                .hasMessageContaining(String.format(INVALID_PIECE_OWNER_MESSAGE, from.row().row(), from.column().column()));
     }
 
     @Test
@@ -49,11 +50,11 @@ class BoardTest {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
         Board board = new Board(policy);
-
+        Position from = Position.from(5, 5);
         // when & then
-        assertThatThrownBy(() -> board.canMovePosition(Position.from(5, 5), CHO))
+        assertThatThrownBy(() -> board.canMovePosition(from, CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(PIECE_NOT_FOUND_MESSAGE);
+                .hasMessageContaining(String.format(PIECE_NOT_FOUND_MESSAGE, from.row().row(), from.column().column()));
     }
 
 
@@ -98,6 +99,8 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.movePiece(from, to, HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_PIECE_MOVE_MESSAGE);
+                .hasMessageContaining(String.format(INVALID_PIECE_MOVE_MESSAGE,
+                        from.row().row(), from.column().column(),
+                        to.row().row(), to.column().column()));
     }
 }

@@ -10,13 +10,9 @@ import java.util.Scanner;
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final String INVALID_HORSE_ELEPHANT_POSITION_INPUT_FORMAT_MESSAGE = "상차림 법을 숫자로 입력해주세요.";
-    private static final String INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE__MESSAGE = "1, 2, 3, 4 중 하나의 숫자를 입력해주세요.";
-    private static final String INVALID_POSITION_FORMAT__MESSAGE = "위치를 콤마로 구분된 두 개의 숫자로 올바르게 입력해주세요.";
-
-
-    public InputView() {
-    }
+    private static final String INVALID_HORSE_ELEPHANT_POSITION_INPUT_FORMAT_MESSAGE = "상차림 법을 숫자로 입력해주세요. 입력값: %s";
+    private static final String INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE_MESSAGE = "1, 2, 3, 4 중 하나의 숫자를 입력해주세요. 입력값: %s";
+    private static final String INVALID_POSITION_FORMAT_MESSAGE = "위치를 콤마로 구분된 두 개의 숫자로 올바르게 입력해주세요. 입력값: %s";
 
     public int readHorseElephantPosition(DynastyDto dynastyDto) {
         System.out.println(dynastyDto.dynastyName() + "나라의 상차림 법을 숫자로 입력해주세요.");
@@ -25,11 +21,13 @@ public class InputView {
         try {
             int ordinal = Integer.parseInt(position);
             if (ordinal < 1 || ordinal > 4) {
-                throw new IllegalArgumentException(INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE__MESSAGE);
+                throw new IllegalArgumentException(
+                        String.format(INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE_MESSAGE, ordinal));
             }
             return ordinal;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_HORSE_ELEPHANT_POSITION_INPUT_FORMAT_MESSAGE);
+            throw new IllegalArgumentException(
+                    String.format(INVALID_HORSE_ELEPHANT_POSITION_INPUT_FORMAT_MESSAGE, position));
         }
     }
 
@@ -48,14 +46,14 @@ public class InputView {
         String input = scanner.nextLine();
         String[] split = input.split(",");
         if (split.length != 2) {
-            throw new IllegalArgumentException(INVALID_POSITION_FORMAT__MESSAGE);
+            throw new IllegalArgumentException(String.format(INVALID_POSITION_FORMAT_MESSAGE, input));
         }
         List<Integer> position = Arrays.stream(split)
                 .map(str -> {
                     try {
                         return Integer.parseInt(str.strip());
                     } catch (NumberFormatException e) {
-                        throw new IllegalArgumentException(INVALID_POSITION_FORMAT__MESSAGE);
+                        throw new IllegalArgumentException(String.format(INVALID_POSITION_FORMAT_MESSAGE, input));
                     }
                 }).toList();
 

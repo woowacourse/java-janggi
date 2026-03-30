@@ -7,13 +7,15 @@ public record Row(
     public static final int MIN_ROW = 1;
     public static final int MAX_ROW = 10;
 
+    private static final String ROW_OUT_OF_BOUNDS_MESSAGE = "행은 %d부터 %d사이의 숫자입니다. 입력 값 : %d";
+
     public Row {
         validate(row);
     }
 
     private void validate(int row) {
         if (row < MIN_ROW || row > MAX_ROW) {
-            throw new IllegalArgumentException(String.format("행은 %d부터 %d사이의 숫자입니다.", MIN_ROW, MAX_ROW));
+            throw new IllegalArgumentException(String.format(ROW_OUT_OF_BOUNDS_MESSAGE, MIN_ROW, MAX_ROW, row));
         }
     }
 

@@ -7,13 +7,16 @@ public record Column(
     public static final int MIN_COLUMN = 1;
     public static final int MAX_COLUMN = 9;
 
+    public static final String COLUMN_OUT_OF_BOUNDS_MESSAGE = "열은 %d부터 %d사이의 숫자입니다. 입력 값 : %d";
+
     public Column {
         validate(column);
     }
 
     private void validate(int column) {
         if (column < MIN_COLUMN || column > MAX_COLUMN) {
-            throw new IllegalArgumentException(String.format("열은 %d부터 %d사이의 숫자입니다.", MIN_COLUMN, MAX_COLUMN));
+            throw new IllegalArgumentException(
+                    String.format(COLUMN_OUT_OF_BOUNDS_MESSAGE, column, MIN_COLUMN, MAX_COLUMN));
         }
     }
 

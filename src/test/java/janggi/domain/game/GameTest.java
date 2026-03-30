@@ -34,7 +34,7 @@ class GameTest {
         // when & then
         assertThatThrownBy(() -> game.canMovePosition(from))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining(NO_AVAILABLE_MOVES_MESSAGE);
+                .hasMessage(String.format(NO_AVAILABLE_MOVES_MESSAGE, from.row().row(), from.column().column()));
     }
 
     @Test

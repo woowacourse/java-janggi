@@ -15,7 +15,7 @@ public class Game {
     private final Board board;
     private final CurrentTurn currentTurn;
 
-    public static final String NO_AVAILABLE_MOVES_MESSAGE = "선택된 기물이 이동할 수 있는 위치가 없습니다.";
+    public static final String NO_AVAILABLE_MOVES_MESSAGE = "해당 위치(%d, %d)의 기물이 이동할 수 있는 위치가 없습니다.";
 
 
     private Game(Board board, CurrentTurn currentTurn) {
@@ -30,7 +30,7 @@ public class Game {
     public List<Position> canMovePosition(Position from) {
         List<Position> positions = board.canMovePosition(from, currentTurn.currentDynasty());
         if (positions.isEmpty()) {
-            throw new IllegalStateException(NO_AVAILABLE_MOVES_MESSAGE);
+            throw new IllegalStateException(String.format(NO_AVAILABLE_MOVES_MESSAGE, from.row().row(), from.column().column()));
         }
         return positions;
     }
