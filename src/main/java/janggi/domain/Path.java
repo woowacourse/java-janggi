@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.position.Position;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Path {
     private final WayPoints wayPoints;
@@ -31,5 +32,19 @@ public class Path {
 
     public boolean isOnWayPoints(Position position) {
         return wayPoints.isBlocked(position);
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Path path)) return false;
+
+        return Objects.equals(wayPoints, path.wayPoints) && Objects.equals(destination, path.destination);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(wayPoints);
+        result = 31 * result + Objects.hashCode(destination);
+        return result;
     }
 }
