@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.piece.strategy.SoldierStrategy;
+import janggi.domain.position.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,14 +16,14 @@ public class SoldierTest {
     @DisplayName("병이 포에 의해 잡힐 수 있다.")
     @Test
     void canBeCaughtByCannon() {
-        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.direction()));
+        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Direction.UP));
         assertThat(piece.canBeCaughtByCannon()).isTrue();
     }
 
     @DisplayName("병은 넘을 수 있다.")
     @Test
     void canBeJumpedOver() {
-        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.direction()));
+        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Direction.UP));
         assertThat(piece.canBeJumpedOver()).isTrue();
     }
 
@@ -30,7 +31,7 @@ public class SoldierTest {
     @Test
     void canPassRoute_Always_ReturnTrue() {
         Camp camp = Camp.CHO;
-        Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.direction()));
+        Soldier soldier = new Soldier(camp, new SoldierStrategy(Direction.UP));
         assertThat(soldier.canPassRoute(new HashMap<>())).isTrue();
     }
 
@@ -42,8 +43,8 @@ public class SoldierTest {
     })
     void canCatchPiece_ReturnBoolean(Camp destinationPieceCamp, boolean expected) {
         Camp camp = Camp.CHO;
-        Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.direction()));
-        Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(destinationPieceCamp.direction()));
+        Soldier soldier = new Soldier(camp, new SoldierStrategy(Direction.UP));
+        Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(Direction.UP));
         assertThat(soldier.canCatch(destinationSoldier)).isEqualTo(expected);
     }
 }

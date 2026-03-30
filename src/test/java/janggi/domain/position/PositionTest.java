@@ -27,16 +27,16 @@ public class PositionTest {
     @Test
     void 정해진_범위_내로_움직이면_올바른_Position_객체를_반환한다() {
         Position current = Position.of(4, 4);
-        Optional<Position> move = current.move(3, 3);
+        Optional<Position> move = current.move(Direction.UP);
         Position position = move.get();
 
-        assertThat(position).isEqualTo(Position.of(7, 7));
+        assertThat(position).isEqualTo(Position.of(5, 4));
     }
 
     @Test
     void 정해진_범위_내로_움직이지_않으면_Optinal_null_객체를_반환한다() {
-        Position current = Position.of(4, 4);
-        Optional<Position> move = current.move(5, 5);
+        Position current = Position.of(9, 8);
+        Optional<Position> move = current.move(Direction.UP);
 
         assertThat(move).isEmpty();
     }

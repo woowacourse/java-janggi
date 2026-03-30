@@ -1,17 +1,14 @@
 package janggi.domain.piece.strategy;
 
-import janggi.domain.Camp;
 import janggi.domain.Path;
+import janggi.domain.Paths;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
-
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class MoveStrategyTest {
     private static final int MIN_INDEX = 0;
@@ -20,14 +17,22 @@ class MoveStrategyTest {
 
     @Nested
     class 병_이동_테스트 {
-        @ParameterizedTest
-        @EnumSource(Camp.class)
-        void 각_진형_병은_앞과_양_옆으로_움직인다(Camp camp) {
-            MoveStrategy strategy = new SoldierStrategy(camp.direction());
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
-            assertThat(paths.get(0).destination()).isEqualTo(Position.of(4 + camp.direction(), 4));
-            assertThat(paths.get(1).destination()).isEqualTo(Position.of(4, 5));
-            assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 3));
+        @Test
+        void 초나라_병은_앞과_양_옆으로_움직인다() {
+            MoveStrategy strategy = new SoldierStrategy(Direction.UP);
+            Paths paths = strategy.findMovablePaths(Position.of(4,4));
+            assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
+            assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
+            assertThat(paths.findPathByDestination(Position.of(4, 3))).isEqualTo(Path.of(Position.of(4, 3)));
+        }
+
+        @Test
+        void 한나라_병은_앞과_양_옆으로_움직인다() {
+            MoveStrategy strategy = new SoldierStrategy(Direction.DOWN);
+            Paths paths = strategy.findMovablePaths(Position.of(4,4));
+            assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
+            assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
+            assertThat(paths.findPathByDestination(Position.of(4, 3))).isEqualTo(Path.of(Position.of(4, 3)));
         }
     }
 
@@ -38,11 +43,11 @@ class MoveStrategyTest {
         @Test
         void 사는_앞뒤_양옆으로_움직인다() {
             MoveStrategy strategy = new AdvisorStrategy();
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
-            assertThat(paths.get(0).destination()).isEqualTo(Position.of(5, 4));
-            assertThat(paths.get(1).destination()).isEqualTo(Position.of(3, 4));
-            assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 5));
-            assertThat(paths.get(3).destination()).isEqualTo(Position.of(4, 3));
+            Paths paths = strategy.findMovablePaths(Position.of(4,4));
+            assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
+            assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
+            assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
+            assertThat(paths.findPathByDestination(Position.of(4, 3))).isEqualTo(Path.of(Position.of(4, 3)));
         }
     }
 
@@ -53,11 +58,11 @@ class MoveStrategyTest {
         @Test
         void 장는_앞뒤_양옆으로_움직인다() {
             MoveStrategy strategy = new GeneralStrategy();
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
-            assertThat(paths.get(0).destination()).isEqualTo(Position.of(5, 4));
-            assertThat(paths.get(1).destination()).isEqualTo(Position.of(3, 4));
-            assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 5));
-            assertThat(paths.get(3).destination()).isEqualTo(Position.of(4, 3));
+            Paths paths = strategy.findMovablePaths(Position.of(4,4));
+            assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
+            assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
+            assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
+            assertThat(paths.findPathByDestination(Position.of(4, 3))).isEqualTo(Path.of(Position.of(4, 3)));
         }
     }
 
@@ -65,25 +70,18 @@ class MoveStrategyTest {
     class 마_이동_테스트 {
 
         @Test
-        void 마는_8방향으로_이동할_수_있다() {
-            MoveStrategy strategy = new HorseStrategy();
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
-            assertThat(paths).hasSize(8);
-        }
-
-        @Test
         void 마는_직선_한칸_후_대각선_한칸으로_이동한다() {
             MoveStrategy strategy = new HorseStrategy();
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
+            Paths paths = strategy.findMovablePaths(Position.of(4,4));
 
-            assertThat(paths.get(0).destination()).isEqualTo(Position.of(6, 5));
-            assertThat(paths.get(1).destination()).isEqualTo(Position.of(5, 6));
-            assertThat(paths.get(2).destination()).isEqualTo(Position.of(3, 6));
-            assertThat(paths.get(3).destination()).isEqualTo(Position.of(2, 5));
-            assertThat(paths.get(4).destination()).isEqualTo(Position.of(6, 3));
-            assertThat(paths.get(5).destination()).isEqualTo(Position.of(5, 2));
-            assertThat(paths.get(6).destination()).isEqualTo(Position.of(3, 2));
-            assertThat(paths.get(7).destination()).isEqualTo(Position.of(2, 3));
+            assertThat(paths.findPathByDestination(Position.of(6, 5)).isDestination(Position.of(6, 5))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(5, 6)).isDestination(Position.of(5, 6))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(3, 6)).isDestination(Position.of(3, 6))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(2, 5)).isDestination(Position.of(2, 5))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(6, 3)).isDestination(Position.of(6, 3))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(5, 2)).isDestination(Position.of(5, 2))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(3, 2)).isDestination(Position.of(3, 2))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(2, 3)).isDestination(Position.of(2, 3))).isTrue();
         }
     }
 
@@ -91,25 +89,18 @@ class MoveStrategyTest {
     class 상_이동_테스트 {
 
         @Test
-        void 상은_8방향으로_이동할_수_있다() {
-            MoveStrategy strategy = new ElephantStrategy();
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
-            assertThat(paths).hasSize(8);
-        }
-
-        @Test
         void 상은_직선_한칸_후_대각선_두칸으로_이동한다() {
             MoveStrategy strategy = new ElephantStrategy();
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
+            Paths paths = strategy.findMovablePaths(Position.of(4,4));
 
-            assertThat(paths.get(0).destination()).isEqualTo(Position.of(7, 6));
-            assertThat(paths.get(1).destination()).isEqualTo(Position.of(6, 7));
-            assertThat(paths.get(2).destination()).isEqualTo(Position.of(2, 7));
-            assertThat(paths.get(3).destination()).isEqualTo(Position.of(1, 6));
-            assertThat(paths.get(4).destination()).isEqualTo(Position.of(7, 2));
-            assertThat(paths.get(5).destination()).isEqualTo(Position.of(6, 1));
-            assertThat(paths.get(6).destination()).isEqualTo(Position.of(2, 1));
-            assertThat(paths.get(7).destination()).isEqualTo(Position.of(1, 2));
+            assertThat(paths.findPathByDestination(Position.of(7, 6)).isDestination(Position.of(7, 6))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(6, 7)).isDestination(Position.of(6, 7))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(2, 7)).isDestination(Position.of(2, 7))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(1, 6)).isDestination(Position.of(1, 6))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(7, 2)).isDestination(Position.of(7, 2))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(6, 1)).isDestination(Position.of(6, 1))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(2, 1)).isDestination(Position.of(2, 1))).isTrue();
+            assertThat(paths.findPathByDestination(Position.of(1, 2)).isDestination(Position.of(1, 2))).isTrue();
         }
     }
 
@@ -118,7 +109,25 @@ class MoveStrategyTest {
         @Test
         @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
         void findMovablePaths_ReturnAllLinearCandidates() {
-            assertLinearStrategy(new CannonStrategy());
+            MoveStrategy strategy = new CannonStrategy();
+            Paths paths = strategy.findMovablePaths(Position.of(4, 4));
+
+            for (int c = 0; c <= 8; c++) {
+                if (c == 4) {
+                    continue;
+                }
+                assertThat(paths.findPathByDestination(Position.of(4, c)).isDestination(Position.of(4, c))).isTrue();
+            }
+            for (int r = 0; r <= 9; r++) {
+                if (r == 4) {
+                    continue;
+                }
+                assertThat(paths.findPathByDestination(Position.of(r, 4)).isDestination(Position.of(r, 4))).isTrue();
+            }
+
+            assertThatThrownBy(() -> paths.findPathByDestination(Position.of(4, 4)))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("이동할 수 없는 좌표입니다.");
         }
     }
 
@@ -127,49 +136,25 @@ class MoveStrategyTest {
         @Test
         @DisplayName("차는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
         void findMovablePaths_ReturnAllLinearCandidates() {
-            assertLinearStrategy(new ChariotStrategy());
+            MoveStrategy strategy = new ChariotStrategy();
+            Paths paths = strategy.findMovablePaths(Position.of(4, 4));
+
+            for (int c = 0; c <= 8; c++) {
+                if (c == 4) {
+                    continue;
+                }
+                assertThat(paths.findPathByDestination(Position.of(4, c)).isDestination(Position.of(4, c))).isTrue();
+            }
+            for (int r = 0; r <= 9; r++) {
+                if (r == 4) {
+                    continue;
+                }
+                assertThat(paths.findPathByDestination(Position.of(r, 4)).isDestination(Position.of(r, 4))).isTrue();
+            }
+
+            assertThatThrownBy(() -> paths.findPathByDestination(Position.of(4, 4)))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("이동할 수 없는 좌표입니다.");
         }
-    }
-
-    private void assertLinearStrategy(MoveStrategy strategy) {
-        int row = 4;
-        int column = 4;
-        List<Path> paths = strategy.findMovablePaths(Position.of(row, column));
-        List<Position> destinations = paths.stream()
-                .map(Path::destination)
-                .toList();
-
-        verifyHorizontalPaths(destinations, row, column);
-        verifyVerticalPaths(destinations, row, column);
-    }
-
-    private void verifyHorizontalPaths(List<Position> destinations, int row, int column) {
-        for (int i = MIN_INDEX; i <= MAX_COL_INDEX; i++) {
-            checkHorizontalPresence(destinations, row, column, i);
-        }
-    }
-
-    private void verifyVerticalPaths(List<Position> destinations, int row, int column) {
-        for (int i = MIN_INDEX; i <= MAX_ROW_INDEX; i++) {
-            checkVerticalPresence(destinations, row, column, i);
-        }
-    }
-
-    private void checkHorizontalPresence(List<Position> destinations, int row, int column, int colIndex) {
-        Position target = Position.of(row, colIndex);
-        if (colIndex == column) {
-            assertThat(destinations).doesNotContain(target);
-            return;
-        }
-        assertThat(destinations).contains(target);
-    }
-
-    private void checkVerticalPresence(List<Position> destinations, int row, int column, int rowIndex) {
-        Position target = Position.of(rowIndex, column);
-        if (rowIndex == row) {
-            assertThat(destinations).doesNotContain(target);
-            return;
-        }
-        assertThat(destinations).contains(target);
     }
 }
