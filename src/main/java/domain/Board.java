@@ -1,8 +1,6 @@
 package domain;
 
-import domain.piece.Piece;
-import domain.strategy.NoneMoveableStrategy;
-import java.util.ArrayList;
+import exception.JanggiGameException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,55 +18,43 @@ public class Board {
 
     public void movePiece(Position piecePosition, Position targetPosition) {
         Piece piece = findPieceAt(piecePosition);
+        validateMoveable(piece, targetPosition);
 
-        piece.moved(targetPosition);
-        board.replace(targetPosition, piece);
-        board.replace(piecePosition,
-                new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), NoneMoveableStrategy.of(piecePosition)));
+        board.replace(targetPosition, piece.moved(targetPosition));
+        board.replace(piecePosition, Piece.None(piecePosition));
     }
 
-    public boolean isMoveable(Position piecePosition, Position targetPosition) {
-        Piece piece = findPieceAt(piecePosition);
-
-        if (isTargetPositionPieceSameTeam(piece, targetPosition)) {
-            return false;
-        }
-
-        if (!piece.isMoveAble(targetPosition)) {
-            return false;
-        }
-
-        if (piece.isCannon()) {
-            List<Position> cannonPositions = findCannonPositions();
-            if (findPieceAt(targetPosition).isCannon() || !piece.hasPieceOnPath(targetPosition, cannonPositions)) {
-                return false;
-            }
-        }
-
-        List<Position> allPiecePositions = findAllPiecePositions();
-
-        return !piece.hasPieceOnPath(targetPosition, allPiecePositions);
+    public void validateMoveable(Piece piece, Position targetPosition) {
+        validatePieceMoveable(piece, targetPosition);
+        validateDestinationHasOwnPiece(piece, targetPosition);
+        validateCannon(piece, targetPosition);
+        validatePath(piece, targetPosition);
     }
 
     private List<Position> findAllPiecePositions() {
-        return board.values().stream().filter(piece -> !piece.isNoneTeam()).map(Piece::position).toList();
-    }
-
-    private List<Position> findCannonPositions() {
         return board.values().stream()
-                .filter(Piece::isCannon)
+                .filter(piece -> !piece.isNone())
                 .map(Piece::position)
                 .toList();
     }
 
-    private boolean isTargetPositionPieceSameTeam(Piece piece, Position targetPosition) {
-        if (piece.isRedTeam()) {
-            return findPieceAt(targetPosition).isRedTeam();
-        }
-        if (piece.isGreenTeam()) {
-            return findPieceAt(targetPosition).isGreenTeam();
-        }
-        return false;
+    private List<Position> findNonCannonPositions() {
+        return board.values().stream()
+                .filter(piece -> !piece.isCannon() && !piece.isNone())
+                .map(Piece::position)
+                .toList();
+    }
+
+    public boolean isPieceGreenTeamAt(Position Position) {
+        return findPieceAt(Position).isGreenTeam();
+    }
+
+    public boolean isPieceRedTeamAt(Position Position) {
+        return findPieceAt(Position).isRedTeam();
+    }
+
+    public boolean isNone(Position Position) {
+        return findPieceAt(Position).isNone();
     }
 
     Piece findPieceAt(Position targetPosition) {
@@ -85,30 +71,73 @@ public class Board {
                 .anyMatch(Piece::isGeneral);
     }
 
+    public List<Piece> allFactors() {
+        return board.values().stream()
+                .toList();
+    }
 
-    public List<Piece> greenPieces() {
+    private boolean isSameTeam(Piece piece, Piece target) {
+        if (piece.isRedTeam()) {
+            return target.isRedTeam();
+        }
+
+        if (piece.isGreenTeam()) {
+            return target.isGreenTeam();
+        }
+
+        return false;
+    }
+
+    private List<Piece> greenPieces() {
         return board.values().stream()
                 .filter(Piece::isGreenTeam)
                 .toList();
     }
 
-    public List<Piece> redPieces() {
+    private List<Piece> redPieces() {
         return board.values().stream()
                 .filter(Piece::isRedTeam)
                 .toList();
     }
 
-    public List<Piece> nonePieces() {
-        return board.values().stream()
-                .filter(Piece::isNoneTeam)
-                .toList();
+    private void validateCannon(Piece piece, Position targetPosition) {
+        if (piece.isCannon()) {
+            validateCannonPath(piece, targetPosition);
+            validateCannonDestination(targetPosition);
+        }
     }
 
-    public List<Piece> allPieces() {
-        List<Piece> allPieces = new ArrayList<>();
-        allPieces.addAll(greenPieces());
-        allPieces.addAll(redPieces());
-        allPieces.addAll(nonePieces());
-        return allPieces;
+    private void validateCannonPath(Piece cannon, Position targetPosition) {
+        if (cannon.isPathRestricted(targetPosition, findNonCannonPositions())) {
+            throw new JanggiGameException("[ERROR] 포가 이동하기 위해선 포와 목적지 사이에 포가 아닌 기물이 정확히 하나 존재해야 합니다.");
+        }
+    }
+
+    private void validateCannonDestination(Position targetPosition) {
+        if (findPieceAt(targetPosition).isCannon()) {
+            throw new JanggiGameException("[ERROR] 포는 포를 잡을 수 없습니다.");
+        }
+    }
+
+    private void validatePath(Piece piece, Position targetPosition) {
+        if (piece.isPathRestricted(targetPosition, findAllPiecePositions())) {
+            throw new JanggiGameException("[ERROR] 경로에 기물이 있습니다.");
+        }
+    }
+
+    private void validatePieceMoveable(Piece piece, Position targetPosition) {
+        if (!piece.isMoveable(targetPosition)) {
+            throw new JanggiGameException(
+                    String.format("[ERROR] %s는 해당 위치(%d, %d)로 이동할 수 없습니다.",
+                            piece.name(), targetPosition.row(), targetPosition.col())
+            );
+        }
+    }
+
+    private void validateDestinationHasOwnPiece(Piece piece, Position targetPosition) {
+        Piece target = findPieceAt(targetPosition);
+        if (isSameTeam(piece, target)) {
+            throw new JanggiGameException("[ERROR] 이동하려는 위치에 아군 기물이 있습니다.");
+        }
     }
 }

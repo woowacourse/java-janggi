@@ -1,8 +1,6 @@
-package domain.piece;
+package domain;
 
 import domain.strategy.MoveStrategy;
-import domain.PieceProperty;
-import domain.Position;
 import java.util.List;
 
 public class Piece {
@@ -10,22 +8,25 @@ public class Piece {
     private final PieceProperty pieceProperty;
     private final MoveStrategy moveStrategy;
 
-    public Piece(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
+    public Piece(PieceProperty pieceProperty, Position position) {
         this.pieceProperty = pieceProperty;
-        this.moveStrategy = moveStrategy;
+        this.moveStrategy = pieceProperty.moveStrategy(position);
     }
 
-    public void moved(Position movedPosition) {
-        this.moveStrategy.changePosition(movedPosition);
-        moveStrategy.updateRoute();
+    public Piece moved(Position position) {
+        return new Piece(this.pieceProperty, position);
     }
 
-    public boolean isMoveAble(Position destination) {
+    public static Piece None(Position position) {
+        return new Piece(PieceProperty.none(), position);
+    }
+
+    public boolean isMoveable(Position destination) {
         return moveStrategy.isMoveAble(destination);
-    };
+    }
 
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
-        return moveStrategy.hasPieceOnPath(destination, piecePositions);
+    public boolean isPathRestricted(Position destination, List<Position> piecePositions) {
+        return moveStrategy.isPathRestricted(destination, piecePositions);
     }
 
     public boolean isGeneral() {
@@ -48,7 +49,7 @@ public class Piece {
         return pieceProperty.isRedTeam();
     }
 
-    public boolean isNoneTeam() {
+    public boolean isNone() {
         return pieceProperty.isNoneTeam();
     }
 

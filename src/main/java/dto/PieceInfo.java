@@ -1,7 +1,7 @@
 package dto;
 
 import domain.Position;
-import domain.piece.Piece;
+import domain.Piece;
 
 public record PieceInfo(PiecePosition position, PieceIdentity identity) {
 

@@ -14,16 +14,12 @@ public class NoneMoveableStrategy extends MoveStrategy {
     }
 
     @Override
-    public void updateRoute() {
-    }
-
-    @Override
     public boolean isMoveAble(Position position) {
         return false;
     }
 
     @Override
-    public boolean hasPieceOnPath(Position destination, List<Position> piecePositions) {
+    public boolean isPathRestricted(Position destination, List<Position> piecePositions) {
         return false;
     }
 }
