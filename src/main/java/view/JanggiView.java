@@ -1,48 +1,46 @@
 package view;
 
 import board.SangSetup;
+import pieces.Side;
+import position.Position;
+import util.Retry;
 
 public class JanggiView {
 
-    private final InputView inputView;
-    private final OutputView outputView;
+    private final InputView in;
+    private final OutputView out;
 
-    public JanggiView(InputView inputView, OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+    public JanggiView(InputView in, OutputView out) {
+        this.in = in;
+        this.out = out;
     }
 
-    public SangSetup askChoSangSetup() {
-        return askSangSetup("초");
-    }
-
-    public SangSetup askHanSangSetup() {
-        return askSangSetup("한");
-    }
-
-    private SangSetup askSangSetup(String sideName) {
-        return untilSuccess(() -> {
-            outputView.askSangSetup(sideName);
-            return inputView.readSangSetup();
+    public SangSetup askSangSetupUntilSuccess(Side side) {
+        return Retry.untilSuccess(() -> {
+            out.askSangSetup(side);
+            return in.readSangSetup();
         });
     }
 
     public void printBoard(String board) {
-        outputView.printBoard(board);
+        out.printBoard(board);
     }
 
-    public <T> T untilSuccess(SupplierWithEx<T> supplier) {
-        while (true) {
-            try {
-                return supplier.get();
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
+    public void printTurnSide(Side side) {
+        out.printTurnSide(side);
     }
 
-    @FunctionalInterface
-    public interface SupplierWithEx<T> {
-        T get();
+    public Position askDeparture() {
+        out.askDeparture();
+        return readPositionUntilSuccess();
+    }
+
+    public Position askDestination() {
+        out.askDestination();
+        return readPositionUntilSuccess();
+    }
+
+    private Position readPositionUntilSuccess() {
+        return Retry.untilSuccess(in::readPosition);
     }
 }

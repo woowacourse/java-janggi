@@ -11,6 +11,7 @@ public class JanggiGame {
 
     private Board board;
     private Turn turn;
+    private boolean isOver;
 
     public JanggiGame(Board board, Turn turn) {
         this.board = board;
@@ -25,15 +26,25 @@ public class JanggiGame {
         return new Board(board.pieces());
     }
 
+    public boolean isOver() {
+        return false;
+    }
+
+    public Side turnSide() {
+        return turn.side();
+    }
+
     public static JanggiGame of(SangSetup choSangSetup, SangSetup hanSangSetup) {
         Board choBoard = choSangSetup.initialize(Side.CHO);
         Board hanBoard = hanSangSetup.initialize(Side.HAN);
         return new JanggiGame(choBoard.merge(hanBoard));
     }
 
-    public void move(Position departure, Position destination) {
+    public JanggiGame move(Position departure, Position destination) {
         board.validateDeparturePieceSide(departure, turn);
         board = board.move(departure, destination);
         turn = turn.move();
+        // TODO: 장군이 잡히면 isOver = true 초기화 (사이클2)
+        return new JanggiGame(board, turn);
     }
 }
