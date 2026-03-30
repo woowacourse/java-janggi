@@ -22,7 +22,7 @@ class ElephantMoveRuleTest {
         assertThat(moveRule.canMove(from, to, board)).isTrue();
     }
 
-    @ParameterizedTest(name = "마 이동 실패: {0}")
+    @ParameterizedTest(name = "상 이동 실패: {0}")
     @MethodSource("provideInvalidMove")
     void 상_이동_실패_테스트(String description, Position from, Position to, BoardView board) {
         assertThat(moveRule.canMove(from, to, board)).isFalse();
@@ -56,6 +56,7 @@ class ElephantMoveRuleTest {
                         new Position(5, 5), new Position(3, 2), new FakeBoard())
         );
     }
+
     private static Stream<Arguments> provideInvalidMove() {
         return Stream.of(
                 Arguments.of("첫 번째 멱(직선 칸)이 막힌 경우",
