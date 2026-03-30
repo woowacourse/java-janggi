@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ class CannonMoveStrategyTest {
         board.put(Position.from(9, 5), new Piece(Dynasty.HAN, PieceType.CHARIOT));
 
         // when
-        List<Position> positions = pieceType.moveStrategy().canMovePositions(board, from, dynasty);
+        List<Position> positions = pieceType.moveStrategy().canMovePositions(BoardSnapshot.of(board), from, dynasty);
 
         // then
         Assertions.assertThat(positions)
@@ -59,7 +60,7 @@ class CannonMoveStrategyTest {
         board.put(Position.from(9, 5), new Piece(Dynasty.HAN, pieceType));
 
         // when
-        List<Position> positions = pieceType.moveStrategy().canMovePositions(board, from, dynasty);
+        List<Position> positions = pieceType.moveStrategy().canMovePositions(BoardSnapshot.of(board), from, dynasty);
 
         // then
         Assertions.assertThat(positions)

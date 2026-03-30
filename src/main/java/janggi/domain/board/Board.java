@@ -23,7 +23,7 @@ public class Board {
         if (!piece.isSameDynasty(currentTurn)) {
             throw new IllegalArgumentException("해당 위치의 기물은 상대 팀의 기물입니다.");
         }
-        return piece.canMovePosition(board, from);
+        return piece.canMovePosition(BoardSnapshot.of(board), from);
     }
 
     public void movePiece(Position from, Position to, Dynasty currentTurn) {

@@ -1,11 +1,13 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.PieceType.CANNON;
+
+import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -16,37 +18,24 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+    public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            List<Position> positions = from.findPositionsByDirection(dir);
-            boolean isFirst = false;
-            for (Position to : positions) {
-                // 어떤 기물을 넘었을 때
-                if (isFirst) {
-                    if (board.containsKey(to)) {
-                        if (!board.get(to).isSameDynasty(dynasty) && !isCannon(board.get(to))) {
-                            canMovePositions.add(to);
-                        }
-                        break;
-                    }
-                    canMovePositions.add(to);
+            List<Position> allPositions = from.findPositionsByDirection(dir);
+            List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
+
+            if (!positions.isEmpty() && !board.isSamePieceType(positions.getLast(), CANNON)) {
+                List<Position> allPositions2 = positions.getLast().findPositionsByDirection(dir);
+                List<Position> positions2 = board.selectUntilNearestPiecePosition(allPositions2);
+                if (!positions2.isEmpty() && (board.isSamePieceType(positions2.getLast(), CANNON)
+                        || board.isSameDynasty(positions2.getLast(), dynasty))) {
+                    positions2.removeLast();
                 }
-                // 다른 기물을 만났을때
-                if (!isFirst && board.containsKey(to)) {
-                    if (isCannon(board.get(to))) {
-                        break;
-                    }
-                    isFirst = true;
-                }
+                canMovePositions.addAll(positions2);
             }
         }
 
         return canMovePositions;
-    }
-
-    private boolean isCannon(Piece piece) {
-        return PieceType.CANNON.equals(piece.pieceType());
     }
 
 }

@@ -29,6 +29,7 @@ public record Position(
         return row + "," + column;
     }
 
+    // TODO: find all position 과 같이 방향 전체를 담는다는 의미를 강조
     public List<Position> findPositionsByDirection(Direction dir) {
         List<Position> positions = new ArrayList<>();
         Position cur = this;
@@ -43,6 +44,7 @@ public record Position(
         return positions;
     }
 
+    // TODO: find -> next 메서드 명 변경 nextPositionByDirection?
     public Optional<Position> findPositionByDirection(Direction dir) {
         try {
             return Optional.of(this.add(dir.row(), dir.column()));

@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
 
+import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ class SoldierMoveStrategyTest {
         board.put(Position.from(5, 4), new Piece(ally, pieceType));
 
         // when
-        List<Position> positions = pieceType.moveStrategy().canMovePositions(board, from, ally);
+        List<Position> positions = pieceType.moveStrategy().canMovePositions(BoardSnapshot.of(board), from, ally);
 
         // then
         Assertions.assertThat(positions)

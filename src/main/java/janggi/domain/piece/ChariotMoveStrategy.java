@@ -1,11 +1,11 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
@@ -16,20 +16,15 @@ public class ChariotMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> canMovePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+    public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> canMovePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            List<Position> positions = from.findPositionsByDirection(dir);
-            for (Position to : positions) {
-                if (board.containsKey(to)) {
-                    // 다른 팀을 만났을 때
-                    if (!board.get(to).isSameDynasty(dynasty)) {
-                        canMovePositions.add(to);
-                    }
-                    break;
-                }
-                canMovePositions.add(to);
+            List<Position> allPositions = from.findPositionsByDirection(dir);
+            List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
+            if (!positions.isEmpty() && board.isSameDynasty(positions.getLast(), dynasty)) {
+                positions.removeLast();
             }
+            canMovePositions.addAll(positions);
         }
 
         return canMovePositions;
