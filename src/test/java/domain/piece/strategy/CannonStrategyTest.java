@@ -1,20 +1,19 @@
 package domain.piece.strategy;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 import domain.board.Board;
 import domain.board.PathChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class CannonStrategyTest {
 
@@ -27,8 +26,26 @@ public class CannonStrategyTest {
     }
 
     @Test
-    @DisplayName("경로상에 기물이 정확히 한 개가 아닐 경우 예외를 발생한다.")
-    void throwException_When_PiecesAreNotExactlyOne() {
+    @DisplayName("경로상에 넘을 기물이 없을 경우 예외를 발생한다.")
+    void throwException_When_NoPieceExistsInPath() {
+        dummyBoard.put(
+                new Position(1, 1),
+                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
+        );
+        pathChecker = new Board(dummyBoard);
+
+        Position from = new Position(1, 1);
+        Position to = new Position(1, 5);
+
+        Piece cannon = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> cannon.move(from, to, pathChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("경로상에 넘을 기물이 두 개 이상일 경우 예외를 발생한다.")
+    void throwException_When_MultiplePiecesExistInPath() {
         dummyBoard.put(
                 new Position(1, 1),
                 new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
