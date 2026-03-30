@@ -9,6 +9,7 @@ import janggi.dto.PlayerDTO;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class Runner {
@@ -110,11 +111,19 @@ public class Runner {
     }
 
     private <T> T retry(Supplier<T> supplier) {
+        T result = null;
+        while (result == null) {
+            result = tryOnce(supplier);
+        }
+        return result;
+    }
+
+    private <T> T tryOnce(Supplier<T> supplier) {
         try {
             return supplier.get();
         } catch (IllegalArgumentException e) {
             outputView.printLine(e.getMessage());
-            return retry(supplier);
+            return null;
         }
     }
 }
