@@ -4,51 +4,145 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
+import domain.Path;
 import domain.Position;
 import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class ElephantTest {
-    @ParameterizedTest
-    @DisplayName("상의 목적지까지의 경로를 정확히 계산한다.")
-    @MethodSource("expectedElephantPaths")
-    void elephantPathTest(Position from, Position to, List<Position> paths) {
-        Piece choElephant = new Elephant(Country.CHO);
-        Piece hanElephant = new Elephant(Country.HAN);
+    private final Path path = new Path();
 
-        assertThat(choElephant.path(from, to)).isEqualTo(paths);
-        assertThat(hanElephant.path(from, to)).isEqualTo(paths);
+    @Test
+    @DisplayName("상의 위쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantUpAndLeftUpPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(2, 7);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 5));
+        path.add(new Position(3, 6));
+        path.add(new Position(2, 7));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
     }
 
-    static Stream<Arguments> expectedElephantPaths() {
-        return Stream.of(
-                Arguments.arguments(new Position(4, 4), new Position(6, 7),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(5, 6), new Position(6, 7))),
-                Arguments.arguments(new Position(4, 4), new Position(2, 7),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(3, 6), new Position(2, 7))),
-                Arguments.arguments(new Position(4, 4), new Position(7, 6),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 5), new Position(7, 6))),
-                Arguments.arguments(new Position(4, 4), new Position(7, 2),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 3), new Position(7, 2))),
-                Arguments.arguments(new Position(4, 4), new Position(6, 1),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(5, 2), new Position(6, 1))),
-                Arguments.arguments(new Position(4, 4), new Position(2, 1),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(3, 2), new Position(2, 1))),
-                Arguments.arguments(new Position(4, 4), new Position(1, 2),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 3), new Position(1, 2))),
-                Arguments.arguments(new Position(4, 4), new Position(1, 6),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 5), new Position(1, 6)))
-        );
+    @Test
+    @DisplayName("상의 위쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantUpAndRightUpPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(6, 7);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 5));
+        path.add(new Position(5, 6));
+        path.add(new Position(6, 7));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("상의 오른쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantRightAndRightUpPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(7, 6);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(5, 4));
+        path.add(new Position(6, 5));
+        path.add(new Position(7, 6));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("상의 오른쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantRightAndRightDownPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(7, 2);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(5, 4));
+        path.add(new Position(6, 3));
+        path.add(new Position(7, 2));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("상의 아래쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantDownAndRightDownPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(6, 1);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 3));
+        path.add(new Position(5, 2));
+        path.add(new Position(6, 1));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("상의 아래쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantDownAndLeftDownPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(2, 1);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 3));
+        path.add(new Position(3, 2));
+        path.add(new Position(2, 1));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("상의 왼쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantLeftAndLeftDownPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(1, 2);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(3, 4));
+        path.add(new Position(2, 3));
+        path.add(new Position(1, 2));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("상의 왼쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void elephantLeftAndLeftUpPathTest() {
+        Piece elephant = new Elephant(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(1, 6);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(3, 4));
+        path.add(new Position(2, 5));
+        path.add(new Position(1, 6));
+
+        assertThat(elephant.path(from, to)).isEqualTo(path);
     }
 
     @Test
@@ -97,15 +191,15 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 직선 경로에 다른 기물이 존재하면 예외가 발생한다.")
     void elephantOtherPieceExistStraightPathExceptionTest() {
-        Piece chariot = new Chariot(Country.CHO);
+        Piece elephant = new Elephant(Country.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(chariot));
+        pathStates.put(new Position(1, 1), new FullState(elephant));
         pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
         pathStates.put(new Position(2, 3), new EmptyState());
         pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.HAN)));
 
-        assertThatThrownBy(() -> chariot.canMove(pathStates))
+        assertThatThrownBy(() -> elephant.canMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
     }
@@ -113,15 +207,15 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 대각선 경로에 다른 기물이 존재하면 예외가 발생한다.")
     void elephantOtherPieceExistDiagonalPathExceptionTest() {
-        Piece chariot = new Chariot(Country.CHO);
+        Piece elephant = new Elephant(Country.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(chariot));
+        pathStates.put(new Position(1, 1), new FullState(elephant));
         pathStates.put(new Position(1, 2), new EmptyState());
         pathStates.put(new Position(2, 3), new FullState(new Soldier(Country.HAN)));
         pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.HAN)));
 
-        assertThatThrownBy(() -> chariot.canMove(pathStates))
+        assertThatThrownBy(() -> elephant.canMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
     }
@@ -129,15 +223,15 @@ public class ElephantTest {
     @Test
     @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
     void elephantMoveSameCountryPieceExceptionTest() {
-        Piece chariot = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(Country.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(chariot));
+        pathStates.put(new Position(1, 1), new FullState(elephant));
         pathStates.put(new Position(1, 2), new EmptyState());
         pathStates.put(new Position(2, 3), new EmptyState());
         pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.CHO)));
 
-        assertThatThrownBy(() -> chariot.canMove(pathStates))
+        assertThatThrownBy(() -> elephant.canMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

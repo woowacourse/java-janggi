@@ -4,53 +4,138 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
+import domain.Path;
 import domain.Position;
 import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class HorseTest {
-    @ParameterizedTest
-    @DisplayName("마의 목적지까지의 경로를 정확히 계산한다.")
-    @MethodSource("expectedHorsePaths")
-    void horsePathTest(Position from, Position to, List<Position> paths) {
-        Piece choHorse = new Horse(Country.CHO);
-        Piece hanHorse = new Horse(Country.HAN);
+    private final Path path = new Path();
 
-        assertThat(choHorse.path(from, to)).isEqualTo(paths);
-        assertThat(hanHorse.path(from, to)).isEqualTo(paths);
+    @Test
+    @DisplayName("마의 위쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseUpAndLeftUpPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(3, 6);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 5));
+        path.add(new Position(3, 6));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
     }
 
-    static Stream<Arguments> expectedHorsePaths() {
-        return Stream.of(
-                Arguments.arguments(new Position(4, 4), new Position(5, 6),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(5, 6))),
-                Arguments.arguments(new Position(4, 4), new Position(3, 6),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(3, 6))),
-                Arguments.arguments(new Position(4, 4), new Position(6, 5),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 5))),
-                Arguments.arguments(new Position(4, 4), new Position(6, 3),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 3))),
-                Arguments.arguments(new Position(4, 4), new Position(5, 2),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(5, 2))),
-                Arguments.arguments(new Position(4, 4), new Position(3, 2),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(3, 2))),
-                Arguments.arguments(new Position(4, 4), new Position(2, 3),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 3))),
-                Arguments.arguments(new Position(4, 4), new Position(2, 5),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 5)))
-        );
+    @Test
+    @DisplayName("마의 위쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseUpAndRightUpPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(5, 6);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 5));
+        path.add(new Position(5, 6));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
     }
 
+    @Test
+    @DisplayName("마의 오른쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseRightAndRightUpPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(6, 5);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(5, 4));
+        path.add(new Position(6, 5));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("마의 오른쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseRightAndRightDownPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(6, 3);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(5, 4));
+        path.add(new Position(6, 3));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("마의 아래쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseDownAndRightDownPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(5, 2);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 3));
+        path.add(new Position(5, 2));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("마의 아래쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseDownAndLeftDownPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(3, 2);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 3));
+        path.add(new Position(3, 2));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("마의 왼쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseLeftAndLeftDownPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(2, 3);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(3, 4));
+        path.add(new Position(2, 3));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("마의 왼쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
+    void horseLeftAndLeftUpPathTest() {
+        Piece horse = new Horse(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(2, 5);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(3, 4));
+        path.add(new Position(2, 5));
+
+        assertThat(horse.path(from, to)).isEqualTo(path);
+    }
 
     @Test
     @DisplayName("마의 방향의 크기가 2가 아닌 경우 예외가 발생한다.")

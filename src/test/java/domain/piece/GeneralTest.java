@@ -4,42 +4,72 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
+import domain.Path;
 import domain.Position;
 import domain.state.FullState;
 import domain.state.State;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class GeneralTest {
-    @ParameterizedTest
-    @DisplayName("궁의 목적지까지의 경로를 정확히 계산한다.")
-    @MethodSource("expectedGeneralPaths")
-    void generalPathTest(Position from, Position to, List<Position> paths) {
-        Piece choGeneral = new General(Country.CHO);
-        Piece hanGeneral = new General(Country.HAN);
+    private final Path path = new Path();
 
-        assertThat(choGeneral.path(from, to)).isEqualTo(paths);
-        assertThat(hanGeneral.path(from, to)).isEqualTo(paths);
+    @Test
+    @DisplayName("궁의 아래 목적지까지의 경로를 정확히 계산한다.")
+    void generalDownPathTest() {
+        Piece general = new General(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(4, 0);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(4, 0));
+
+        assertThat(general.path(from, to)).isEqualTo(path);
     }
 
-    static Stream<Arguments> expectedGeneralPaths() {
-        return Stream.of(
-                Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 1), new Position(1, 2))),
-                Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(1, 1), new Position(0, 1))),
-                Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(1, 1), new Position(2, 1))),
-                Arguments.arguments(new Position(1, 1), new Position(1, 0),
-                        List.of(new Position(1, 1), new Position(1, 0)))
-        );
+    @Test
+    @DisplayName("궁의 위 목적지까지의 경로를 정확히 계산한다.")
+    void generalUpPathTest() {
+        Piece general = new General(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(4, 2);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(4, 2));
+
+        assertThat(general.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("궁의 왼쪽 목적지까지의 경로를 정확히 계산한다.")
+    void generalLeftPathTest() {
+        Piece general = new General(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(3, 1);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(3, 1));
+
+        assertThat(general.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("궁의 오른쪽 목적지까지의 경로를 정확히 계산한다.")
+    void generalRightPathTest() {
+        Piece general = new General(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 1);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(5, 1));
+
+        assertThat(general.path(from, to)).isEqualTo(path);
     }
 
     @Test

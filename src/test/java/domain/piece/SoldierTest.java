@@ -4,58 +4,72 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
+import domain.Path;
 import domain.Position;
 import domain.state.FullState;
 import domain.state.State;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class SoldierTest {
-    @ParameterizedTest
-    @DisplayName("초나라 졸병의 목적지까지의 경로를 정확히 계산한다.")
-    @MethodSource("expectedSoldierPaths")
-    void soldierPathTest(Position from, Position to, List<Position> paths) {
+    private final Path path = new Path();
+
+    @Test
+    @DisplayName("초나라 졸병의 위 목적지까지의 경로를 정확히 계산한다.")
+    void choSoldierDownPathTest() {
         Piece choSoldier = new Soldier(Country.CHO);
 
-        assertThat(choSoldier.path(from, to)).isEqualTo(paths);
+        Position from = new Position(2, 3);
+        Position to = new Position(2, 4);
+
+        path.add(new Position(2, 3));
+        path.add(new Position(2, 4));
+
+        assertThat(choSoldier.path(from, to)).isEqualTo(path);
     }
 
-    static Stream<Arguments> expectedSoldierPaths() {
-        return Stream.of(
-                Arguments.arguments(new Position(1, 1), new Position(1, 2),
-                        List.of(new Position(1, 1), new Position(1, 2))),
-                Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(1, 1), new Position(0, 1))),
-                Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(1, 1), new Position(2, 1)))
-        );
-    }
-
-    @ParameterizedTest
-    @DisplayName("한나라 졸병의 목적지까지의 경로를 정확히 계산한다.")
-    @MethodSource("expectedHanSoldierPaths")
-    void hanSoldierPathTest(Position from, Position to, List<Position> paths) {
+    @Test
+    @DisplayName("한나라 졸병의 아래 목적지까지의 경로를 정확히 계산한다.")
+    void soldierUpPathTest() {
         Piece hanSoldier = new Soldier(Country.HAN);
 
-        assertThat(hanSoldier.path(from, to)).isEqualTo(paths);
+        Position from = new Position(2, 6);
+        Position to = new Position(2, 5);
+
+        path.add(new Position(2, 6));
+        path.add(new Position(2, 5));
+
+        assertThat(hanSoldier.path(from, to)).isEqualTo(path);
     }
 
-    static Stream<Arguments> expectedHanSoldierPaths() {
-        return Stream.of(
-                Arguments.arguments(new Position(1, 1), new Position(1, 0),
-                        List.of(new Position(1, 1), new Position(1, 0))),
-                Arguments.arguments(new Position(1, 1), new Position(0, 1),
-                        List.of(new Position(1, 1), new Position(0, 1))),
-                Arguments.arguments(new Position(1, 1), new Position(2, 1),
-                        List.of(new Position(1, 1), new Position(2, 1)))
-        );
+    @Test
+    @DisplayName("졸병의 왼쪽 목적지까지의 경로를 정확히 계산한다.")
+    void soldierLeftPathTest() {
+        Piece soldier = new Soldier(Country.CHO);
+
+        Position from = new Position(2, 3);
+        Position to = new Position(1, 3);
+
+        path.add(new Position(2, 3));
+        path.add(new Position(1, 3));
+
+        assertThat(soldier.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("졸병의 오른쪽 목적지까지의 경로를 정확히 계산한다.")
+    void soldierRightPathTest() {
+        Piece soldier = new Soldier(Country.CHO);
+
+        Position from = new Position(2, 3);
+        Position to = new Position(3, 3);
+
+        path.add(new Position(2, 3));
+        path.add(new Position(3, 3));
+
+        assertThat(soldier.path(from, to)).isEqualTo(path);
     }
 
     @Test

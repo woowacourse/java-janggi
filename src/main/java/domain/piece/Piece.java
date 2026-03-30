@@ -2,9 +2,9 @@ package domain.piece;
 
 import domain.Country;
 import domain.Direction;
+import domain.Path;
 import domain.Position;
 import domain.state.State;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +18,8 @@ public abstract class Piece {
         this.pieceInfo = pieceInfo;
     }
 
-    public List<Position> path(Position from, Position to) {
-        List<Position> path = new ArrayList<>();
+    public Path path(Position from, Position to) {
+        Path path = new Path();
         Position position = from;
         path.add(position);
         for (Direction direction : findDirections(from, to)) {

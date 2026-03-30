@@ -1,12 +1,12 @@
 package domain.board;
 
 import domain.Country;
+import domain.Path;
 import domain.Position;
 import domain.TableSetting;
 import domain.piece.PieceInfo;
 import domain.state.State;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -28,20 +28,20 @@ public class BoardStates {
         return boardStates.get(position).isEmpty();
     }
 
-    public boolean canMovePiece(Position from, List<Position> path) {
+    public boolean canMovePiece(Position from, Path path) {
         Map<Position, State> wayPointStates = getPathStates(path);
         return boardStates.get(from).getPiece().canMove(wayPointStates);
     }
 
-    private Map<Position, State> getPathStates(List<Position> path) {
+    private Map<Position, State> getPathStates(Path path) {
         Map<Position, State> pathStates = new LinkedHashMap<>();
-        for (Position position : path) {
+        for (Position position : path.getPath()) {
             pathStates.put(position, boardStates.get(position).copy());
         }
         return pathStates;
     }
 
-    public List<Position> getPiecePath(Position from, Position to) {
+    public Path getPiecePath(Position from, Position to) {
         return boardStates.get(from).getPiece().path(from, to);
     }
 

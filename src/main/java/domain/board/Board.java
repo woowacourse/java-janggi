@@ -1,10 +1,10 @@
 package domain.board;
 
 import domain.Country;
+import domain.Path;
 import domain.Position;
 import domain.TableSetting;
 import domain.piece.PieceInfo;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -23,9 +23,9 @@ public class Board {
     }
 
     public void move(Position from, Position to) {
-        List<Position> paths = boardStates.getPiecePath(from, to);
+        Path path = boardStates.getPiecePath(from, to);
 
-        boolean canMove = boardStates.canMovePiece(from, paths);
+        boolean canMove = boardStates.canMovePiece(from, path);
         if (canMove) {
             boardStates.changeState(from, to);
         }

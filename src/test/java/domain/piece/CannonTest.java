@@ -4,47 +4,85 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
+import domain.Path;
 import domain.Position;
 import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class CannonTest {
-    @ParameterizedTest
-    @DisplayName("포의 목적지까지의 경로를 정확히 계산한다.")
-    @MethodSource("expectedCannonPaths")
-    void cannonPathTest(Position from, Position to, List<Position> paths) {
-        Piece choCannon = new Cannon(Country.CHO);
-        Piece hanCannon = new Cannon(Country.HAN);
+    private final Path path = new Path();
 
-        assertThat(choCannon.path(from, to)).isEqualTo(paths);
-        assertThat(hanCannon.path(from, to)).isEqualTo(paths);
+    @Test
+    @DisplayName("포의 아래 목적지까지의 경로를 정확히 계산한다.")
+    void cannonDownPathTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(4, 0);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 3));
+        path.add(new Position(4, 2));
+        path.add(new Position(4, 1));
+        path.add(new Position(4, 0));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
     }
 
-    static Stream<Arguments> expectedCannonPaths() {
-        return Stream.of(
-                Arguments.arguments(new Position(4, 4), new Position(4, 0),
-                        List.of(new Position(4, 4), new Position(4, 3), new Position(4, 2), new Position(4, 1),
-                                new Position(4, 0))),
-                Arguments.arguments(new Position(4, 4), new Position(0, 4),
-                        List.of(new Position(4, 4), new Position(3, 4), new Position(2, 4), new Position(1, 4),
-                                new Position(0, 4))),
-                Arguments.arguments(new Position(4, 4), new Position(8, 4),
-                        List.of(new Position(4, 4), new Position(5, 4), new Position(6, 4), new Position(7, 4),
-                                new Position(8, 4))),
-                Arguments.arguments(new Position(4, 4), new Position(4, 8),
-                        List.of(new Position(4, 4), new Position(4, 5), new Position(4, 6), new Position(4, 7),
-                                new Position(4, 8)))
-        );
+    @Test
+    @DisplayName("포의 위 목적지까지의 경로를 정확히 계산한다.")
+    void cannonUpPathTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(4, 8);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(4, 5));
+        path.add(new Position(4, 6));
+        path.add(new Position(4, 7));
+        path.add(new Position(4, 8));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("포의 왼쪽 목적지까지의 경로를 정확히 계산한다.")
+    void cannonLeftPathTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(0, 4);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(3, 4));
+        path.add(new Position(2, 4));
+        path.add(new Position(1, 4));
+        path.add(new Position(0, 4));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("포의 오른쪽 목적지까지의 경로를 정확히 계산한다.")
+    void cannonRightPathTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(4, 4);
+        Position to = new Position(8, 4);
+
+        path.add(new Position(4, 4));
+        path.add(new Position(5, 4));
+        path.add(new Position(6, 4));
+        path.add(new Position(7, 4));
+        path.add(new Position(8, 4));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
     }
 
     @Test
