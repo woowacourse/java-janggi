@@ -44,6 +44,7 @@ public class SetUpParseTest {
     @DisplayName("상차림 번호가 1에서 4 사이가 아니면 예외가 발생한다.")
     void invalidSetUpNumber() {
         assertThatThrownBy(() -> Application.toSetUp(5))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 상차림 번호는 1, 2, 3, 4 중 하나여야 합니다.");
     }
 }

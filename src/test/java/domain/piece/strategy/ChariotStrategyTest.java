@@ -50,7 +50,8 @@ public class ChariotStrategyTest {
         Piece chariot = dummyBoard.get(from);
 
         assertThatThrownBy(() -> chariot.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차 이동 경로 상에 기물이 존재하여 움직일 수 없습니다.");
     }
 
     @Test

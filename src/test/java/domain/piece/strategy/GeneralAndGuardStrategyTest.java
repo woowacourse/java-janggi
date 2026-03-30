@@ -42,7 +42,8 @@ public class GeneralAndGuardStrategyTest {
         Piece generalAndGuard = dummyBoard.get(from);
 
         assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 한 칸만 움직일 수 있습니다.");
     }
 
     @Test
@@ -54,7 +55,8 @@ public class GeneralAndGuardStrategyTest {
         Piece generalAndGuard = dummyBoard.get(from);
 
         assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 한 칸만 움직일 수 있습니다.");
     }
 
     @Test
@@ -66,7 +68,8 @@ public class GeneralAndGuardStrategyTest {
         Piece generalAndGuard = dummyBoard.get(from);
 
         assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 한 칸만 움직일 수 있습니다.");
     }
 
     @Test

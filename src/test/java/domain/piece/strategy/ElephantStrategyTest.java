@@ -57,12 +57,13 @@ public class ElephantStrategyTest {
     @DisplayName("상은 상의 행마법에 따른 이동이 아니면 이동 시 예외가 발생한다.")
     void throwException_When_ElephantDoesNotMoveInThreeByTwoShape() {
         Position from = new Position(4, 4);
-        Position to = new Position(3, 3);
+        Position to = new Position(5, 5);
 
         Piece elephant = dummyBoard.get(from);
 
         assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 상의 이동 방향이 올바르지 않습니다.");
     }
 
     @Test
@@ -91,7 +92,8 @@ public class ElephantStrategyTest {
         Piece elephant = dummyBoard.get(from);
 
         assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 멱이 있어 이동할 수 없습니다.");
     }
 
     @Test
@@ -108,6 +110,7 @@ public class ElephantStrategyTest {
         Piece elephant = dummyBoard.get(from);
 
         assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 멱이 있어 이동할 수 없습니다.");
     }
 }

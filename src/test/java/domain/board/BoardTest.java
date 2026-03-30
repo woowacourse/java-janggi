@@ -50,7 +50,8 @@ public class BoardTest {
     @DisplayName("좌표에 기물이 존재하지 않는 경우 예외를 발생한다.")
     void throwException_When_PieceNotExist_AtThePosition() {
         assertThatThrownBy(() -> board.findBy(new Position(4, 4)))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("[ERROR] 해당 좌표에 기물이 없습니다.");
     }
 
     @Nested

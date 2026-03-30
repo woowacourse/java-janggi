@@ -45,7 +45,8 @@ public class SoldierStrategyTest {
         Piece soldier = dummyBoard.get(from);
 
         assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
     }
 
     @Test
@@ -57,7 +58,8 @@ public class SoldierStrategyTest {
         Piece soldier = dummyBoard.get(from);
 
         assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
     }
 
     @Test

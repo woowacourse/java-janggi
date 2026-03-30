@@ -40,7 +40,8 @@ public class CannonStrategyTest {
         Piece cannon = dummyBoard.get(from);
 
         assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 이동 경로 상의 기물을 하나 넘어야만 움직일 수 있습니다.");
     }
 
     @Test
@@ -66,7 +67,8 @@ public class CannonStrategyTest {
         Piece cannon = dummyBoard.get(from);
 
         assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포 이동 경로 상에 기물이 두 개 이상 있어 움직일 수 없습니다.");
     }
 
     @Test
@@ -88,7 +90,8 @@ public class CannonStrategyTest {
         Piece cannon = dummyBoard.get(from);
 
         assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포 이동 경로 상에 포가 존재하여 움직일 수 없습니다.");
     }
 
     @Test
@@ -136,6 +139,7 @@ public class CannonStrategyTest {
         Piece cannon = dummyBoard.get(from);
 
         assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
 }
