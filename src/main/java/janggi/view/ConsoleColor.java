@@ -1,0 +1,25 @@
+package janggi.view;
+
+public final class ConsoleColor {
+
+    private static final String RED = "\u001B[31m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String CYAN = "\u001B[36m";
+    private static final String EXIT = "\u001B[0m";
+
+    private ConsoleColor() {
+    }
+
+    public static String red(final String string) {
+        return RED + string + EXIT;
+    }
+
+    public static String blue(final String string) {
+        return BLUE + string + EXIT;
+    }
+
+    public static String cyan(final String string) {
+        return CYAN + string + EXIT;
+    }
+
+}

@@ -1,0 +1,53 @@
+package janggi.domain.piece;
+
+import janggi.domain.Position;
+import janggi.domain.board.BoardMediator;
+import janggi.domain.pieceaction.CannonAction;
+import janggi.domain.pieceaction.PieceAction;
+import janggi.domain.team.TeamType;
+import java.util.List;
+
+public class Cannon implements Piece {
+
+    private static final PieceType PIECE_TYPE = PieceType.CANNON;
+    private static final PieceAction PIECE_ACTION = new CannonAction();
+    private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of(PieceType.CANNON);
+
+    private final TeamType teamType;
+
+    public Cannon(final TeamType teamType) {
+        this.teamType = teamType;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PIECE_TYPE;
+    }
+
+    @Override
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
+    @Override
+    public boolean isOnSameTeamAs(final Piece other) {
+        return this.teamType == other.getTeamType();
+    }
+
+    @Override
+    public boolean isSameTypeAs(final Piece other) {
+        return PIECE_TYPE == other.getPieceType();
+    }
+
+    @Override
+    public List<Position> calculateMovablePositions(final Position from,
+        final BoardMediator boardMediator) {
+        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+    }
+
+    @Override
+    public boolean canCatch(final Piece target) {
+        return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.isOnSameTeamAs(
+            this);
+    }
+}
