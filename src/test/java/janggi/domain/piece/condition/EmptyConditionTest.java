@@ -5,11 +5,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
-import janggi.domain.board.EmptyConditionTestBoardInitializer;
 import janggi.domain.piece.Camp;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 public class EmptyConditionTest {
@@ -27,12 +28,13 @@ public class EmptyConditionTest {
                 new Position(0, 4),
                 new Position(0, 5)
         );
-        Camp camp = Camp.HAN;
-
-        BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
+        Position blockingPosition = new Position(0, 4);
+        BoardInitializer boardInitializer = () -> Map.of(
+                blockingPosition, new Piece(PieceRule.CHARIOT, Camp.HAN)
+        );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> condition.checkPath(path, Camp.HAN, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }
@@ -47,12 +49,13 @@ public class EmptyConditionTest {
                 new Position(0, 3),
                 new Position(0, 4)
         );
-        Camp camp = Camp.HAN;
-
-        BoardInitializer boardInitializer = new EmptyConditionTestBoardInitializer();
+        Position sameCampPiecePosition = new Position(0, 4);
+        BoardInitializer boardInitializer = () -> Map.of(
+                sameCampPiecePosition, new Piece(PieceRule.CHARIOT, Camp.HAN)
+        );
         Board board = new Board(boardInitializer);
         //when & then
-        assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> condition.checkPath(path, Camp.HAN, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
     }
