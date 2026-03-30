@@ -15,11 +15,11 @@ import view.InputView;
 import view.PositionDto;
 import view.ResultView;
 
-public class Controller {
+public class JanggiGameController {
     private final InputView inputView;
     private final ResultView resultView;
 
-    public Controller(InputView inputView, ResultView resultView) {
+    public JanggiGameController(InputView inputView, ResultView resultView) {
         this.inputView = inputView;
         this.resultView = resultView;
     }
