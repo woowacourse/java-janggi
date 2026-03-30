@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -33,24 +33,24 @@ class CannonTest {
         return Stream.of(
                 Arguments.of(Side.CHO,
                         List.of(
-                                new Path(List.of(
+                                new CandidatePath(List.of(
                                         Point.of(6, 5),
                                         Point.of(7, 5),
                                         Point.of(8, 5),
                                         Point.of(9, 5)
                                 )),
-                                new Path(List.of(
+                                new CandidatePath(List.of(
                                         Point.of(5, 6),
                                         Point.of(5, 7),
                                         Point.of(5, 8)
 
                                 )),
-                                new Path(List.of(
+                                new CandidatePath(List.of(
                                         Point.of(4, 5),
                                         Point.of(3, 5), Point.of(2, 5),
                                         Point.of(1, 5), Point.of(0, 5)
                                 )),
-                                new Path(List.of(
+                                new CandidatePath(List.of(
                                         Point.of(5, 4), Point.of(5, 3),
                                         Point.of(5, 2), Point.of(5, 1),
                                         Point.of(5, 0)
@@ -75,11 +75,11 @@ class CannonTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths,
+    void availablePoints(Side side, List<CandidatePath> candidatePaths, Map<Point, Piece> piecesOnPaths,
                          List<Point> expected) {
         Piece piece = new Cannon(side);
 
-        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
+        List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
 
         assertThat(points.size()).isEqualTo(expected.size());
         assertThat(expected.containsAll(points)).isTrue();

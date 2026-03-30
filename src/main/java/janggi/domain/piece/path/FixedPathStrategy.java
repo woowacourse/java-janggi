@@ -10,15 +10,15 @@ import java.util.List;
 public class FixedPathStrategy implements PathStrategy {
     @Override
     public List<Point> calculate(Movement movement, Point from) {
-        List<Point> path = new ArrayList<>();
+        List<Point> points = new ArrayList<>();
         Point point = from;
         for (Direction direction : movement.pattern()) {
             if (!Point.isInRange(point.getX() + direction.getDx(), point.getY() + direction.getDy())) {
                 return Collections.emptyList();
             }
             point = point.add(direction.getDx(), direction.getDy());
-            path.add(point);
+            points.add(point);
         }
-        return path;
+        return points;
     }
 }

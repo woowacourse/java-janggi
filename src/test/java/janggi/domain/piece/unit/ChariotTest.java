@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -33,14 +33,14 @@ class ChariotTest {
         return Stream.of(
                 Arguments.of(Side.CHO,
                         List.of(
-                                new Path(List.of(
+                                new CandidatePath(List.of(
                                         Point.of(1, 0), Point.of(2, 0),
                                         Point.of(3, 0), Point.of(4, 0),
                                         Point.of(5, 0), Point.of(6, 0),
                                         Point.of(7, 0), Point.of(8, 0),
                                         Point.of(9, 0)
                                 )),
-                                new Path(List.of(
+                                new CandidatePath(List.of(
                                         Point.of(0, 1), Point.of(0, 2),
                                         Point.of(0, 3), Point.of(0, 4),
                                         Point.of(0, 5), Point.of(0, 6),
@@ -66,11 +66,11 @@ class ChariotTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths,
+    void availablePoints(Side side, List<CandidatePath> candidatePaths, Map<Point, Piece> piecesOnPaths,
                          List<Point> expected) {
         Piece piece = new Chariot(side);
 
-        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
+        List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
 
         assertThat(expected.containsAll(points)).isTrue();
         assertThat(points.size()).isEqualTo(expected.size());

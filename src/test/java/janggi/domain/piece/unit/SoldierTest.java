@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.List;
@@ -34,11 +34,11 @@ class SoldierTest {
     public static Stream<Arguments> availablePoints() {
         return Stream.of(
                 Arguments.of(Side.CHO,
-                        List.of(new Path(List.of(Point.of(4, 0))), new Path(List.of(Point.of(3, 1)))),
+                        List.of(new CandidatePath(List.of(Point.of(4, 0))), new CandidatePath(List.of(Point.of(3, 1)))),
                         Collections.EMPTY_MAP,
                         List.of(Point.of(4, 0), Point.of(3, 1))),
                 Arguments.of(Side.HAN,
-                        List.of(new Path(List.of(Point.of(5, 8))), new Path(List.of(Point.of(6, 7)))),
+                        List.of(new CandidatePath(List.of(Point.of(5, 8))), new CandidatePath(List.of(Point.of(6, 7)))),
                         Collections.EMPTY_MAP,
                         List.of(Point.of(5, 8), Point.of(6, 7)))
         );
@@ -47,11 +47,11 @@ class SoldierTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths,
+    void availablePoints(Side side, List<CandidatePath> candidatePaths, Map<Point, Piece> piecesOnPaths,
                          List<Point> expected) {
         Piece piece = new Soldier(side);
 
-        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
+        List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
 
         assertThat(expected.containsAll(points)).isTrue();
     }

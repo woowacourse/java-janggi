@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.List;
@@ -38,10 +38,10 @@ class GeneralTest {
         return Stream.of(
                 Arguments.of(Side.CHO,
                         List.of(
-                                new Path(List.of(Point.of(0, 3))), new Path(List.of(Point.of(0, 4))),
-                                new Path(List.of(Point.of(0, 5))), new Path(List.of(Point.of(1, 3))),
-                                new Path(List.of(Point.of(1, 5))), new Path(List.of(Point.of(2, 3))),
-                                new Path(List.of(Point.of(2, 4))), new Path(List.of(Point.of(2, 5)))
+                                new CandidatePath(List.of(Point.of(0, 3))), new CandidatePath(List.of(Point.of(0, 4))),
+                                new CandidatePath(List.of(Point.of(0, 5))), new CandidatePath(List.of(Point.of(1, 3))),
+                                new CandidatePath(List.of(Point.of(1, 5))), new CandidatePath(List.of(Point.of(2, 3))),
+                                new CandidatePath(List.of(Point.of(2, 4))), new CandidatePath(List.of(Point.of(2, 5)))
                         ),
                         Collections.EMPTY_MAP,
                         List.of(
@@ -62,11 +62,11 @@ class GeneralTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths,
+    void availablePoints(Side side, List<CandidatePath> candidatePaths, Map<Point, Piece> piecesOnPaths,
                          List<Point> expected) {
         Piece piece = new General(side);
 
-        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
+        List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
 
         assertThat(expected.containsAll(points)).isTrue();
     }

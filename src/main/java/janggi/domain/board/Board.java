@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.HashMap;
@@ -33,10 +33,10 @@ public class Board {
 
     public Set<Point> destinations(Point from) {
         Piece piece = getPieceAtPoint(from);
-        List<Path> paths = piece.createCandidatePaths(from);
-        Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
+        List<CandidatePath> candidatePaths = piece.createCandidatePaths(from);
+        Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(candidatePaths);
 
-        return piece.availablePoints(paths, piecesOnPaths)
+        return piece.availablePoints(candidatePaths, piecesOnPaths)
                 .stream()
                 .filter(point -> isDestinationOtherSide(piece, point))
                 .collect(Collectors.toSet());
@@ -67,19 +67,20 @@ public class Board {
                 .isOtherSide(piece.getSide());
     }
 
-    private Map<Point, Piece> findPiecesOnPaths(List<Path> paths) {
+    private Map<Point, Piece> findPiecesOnPaths(List<CandidatePath> candidateCandidatePaths) {
         Map<Point, Piece> piecesOnPaths = new HashMap<>();
 
-        for (Path path : paths) {
-            Map<Point, Piece> piecesOnPath = findPiecesOnPath(path);
+        for (CandidatePath candidatePath : candidateCandidatePaths) {
+            Map<Point, Piece> piecesOnPath = findPiecesOnCandidatePath(candidatePath);
             piecesOnPaths.putAll(piecesOnPath);
         }
         return piecesOnPaths;
     }
 
-    private Map<Point, Piece> findPiecesOnPath(Path path) {
+    private Map<Point, Piece> findPiecesOnCandidatePath(CandidatePath candidatePath) {
         Map<Point, Piece> pieces = new HashMap<>();
-        for (Point point : path.getPath()) {
+
+        for (Point point : candidatePath.getPath()) {
             if (isNotTherePiece(point)) {
                 continue;
             }

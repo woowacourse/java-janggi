@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Path {
+public class CandidatePath {
     private final List<Point> path;
 
-    public Path(List<Point> path) {
+    public CandidatePath(List<Point> path) {
         this.path = path;
     }
 
-    public Path(Movement movement, Point from, PathStrategy pathStrategy) {
+    public CandidatePath(Movement movement, Point from, PathStrategy pathStrategy) {
         this(pathStrategy.calculate(movement, from));
     }
 
@@ -25,15 +25,15 @@ public class Path {
         return path.isEmpty();
     }
 
-    public Path takeLast() {
-        return new Path(List.of(path.getLast()));
+    public CandidatePath takeLast() {
+        return new CandidatePath(List.of(path.getLast()));
     }
 
-    public Path takeUntil(Point to) {
+    public CandidatePath takeUntil(Point to) {
         return subPath(path.getFirst(), to);
     }
 
-    private Path subPath(Point from, Point to) {
+    private CandidatePath subPath(Point from, Point to) {
         if (to == null || from == null) {
             throw new IllegalStateException("Point 값은 null이 될 수 없습니다.");
         }
@@ -44,7 +44,7 @@ public class Path {
                 break;
             }
         }
-        return new Path(curPath);
+        return new CandidatePath(curPath);
 
     }
 
@@ -58,10 +58,10 @@ public class Path {
         if (this == object) {
             return true;
         }
-        if (!(object instanceof Path path1)) {
+        if (!(object instanceof CandidatePath candidatePath1)) {
             return false;
         }
 
-        return Objects.equals(path, path1.path);
+        return Objects.equals(path, candidatePath1.path);
     }
 }

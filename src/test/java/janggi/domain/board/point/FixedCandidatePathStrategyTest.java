@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class FixedPathStrategyTest {
+class FixedCandidatePathStrategyTest {
     private static final PathStrategy FIXED_PATH_STRATEGY = new FixedPathStrategy();
 
     public static Stream<Arguments> calculate() {

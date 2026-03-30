@@ -4,8 +4,8 @@ import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.piece.path.FixedPathStrategy;
-import janggi.domain.piece.path.Path;
 import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
@@ -24,15 +24,15 @@ public class Advisor extends Piece {
     protected List<Movement> createCandidateMovement() {
         List<Movement> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
-            Movement path = new Movement(List.of(value));
-            paths.add(path);
+            Movement movement = new Movement(List.of(value));
+            paths.add(movement);
         }
 
         return paths;
     }
 
     @Override
-    protected Path refinePath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return path;
+    protected CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
+        return candidatePath;
     }
 }

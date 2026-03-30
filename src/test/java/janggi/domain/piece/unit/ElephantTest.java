@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.Path;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +34,9 @@ class ElephantTest {
     public static Stream<Arguments> availablePoints() {
         return Stream.of(
                 Arguments.of(Side.CHO,
-                        List.of(new Path(List.of(Point.of(1, 2), Point.of(2, 1), Point.of(3, 0))), // 경로에 기물 존재
-                                new Path(List.of(Point.of(1, 2), Point.of(2, 3), Point.of(3, 4))),
-                                new Path(List.of(Point.of(0, 3), Point.of(1, 4), Point.of(2, 5)))),
+                        List.of(new CandidatePath(List.of(Point.of(1, 2), Point.of(2, 1), Point.of(3, 0))), // 경로에 기물 존재
+                                new CandidatePath(List.of(Point.of(1, 2), Point.of(2, 3), Point.of(3, 4))),
+                                new CandidatePath(List.of(Point.of(0, 3), Point.of(1, 4), Point.of(2, 5)))),
                         // 경로에 기물 존재
                         Map.of(Point.of(2, 1), new Elephant(Side.CHO), Point.of(0, 3), new Elephant(Side.CHO)),
                         List.of(
@@ -49,11 +49,11 @@ class ElephantTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<Path> paths, Map<Point, Piece> piecesOnPaths,
+    void availablePoints(Side side, List<CandidatePath> candidatePaths, Map<Point, Piece> piecesOnPaths,
                          List<Point> expected) {
         Piece piece = new Elephant(side);
 
-        List<Point> points = piece.availablePoints(paths, piecesOnPaths);
+        List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
 
         assertThat(expected.containsAll(points)).isTrue();
     }

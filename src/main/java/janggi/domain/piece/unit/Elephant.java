@@ -4,8 +4,8 @@ import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.piece.path.FixedPathStrategy;
-import janggi.domain.piece.path.Path;
 import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        if (path.isEmpty()) {
+    protected boolean isValidPath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
+        if (candidatePath.isEmpty()) {
             return false;
         }
-        List<Point> points = path.getPath();
+        List<Point> points = candidatePath.getPath();
 
         return points.stream()
                 .limit(points.size() - 1)
@@ -34,22 +34,22 @@ public class Elephant extends Piece {
 
     @Override
     protected List<Movement> createCandidateMovement() {
-        List<Movement> directions = new ArrayList<>();
+        List<Movement> movements = new ArrayList<>();
 
-        directions.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)));
-        directions.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)));
-        directions.add(new Movement(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)));
-        directions.add(new Movement(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
-        directions.add(new Movement(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
-        directions.add(new Movement(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
-        directions.add(new Movement(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)));
-        directions.add(new Movement(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
+        movements.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)));
+        movements.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)));
+        movements.add(new Movement(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)));
+        movements.add(new Movement(List.of(Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
+        movements.add(new Movement(List.of(Direction.SOUTH, Direction.SOUTH_EAST, Direction.SOUTH_EAST)));
+        movements.add(new Movement(List.of(Direction.SOUTH, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
+        movements.add(new Movement(List.of(Direction.WEST, Direction.NORTH_WEST, Direction.NORTH_WEST)));
+        movements.add(new Movement(List.of(Direction.WEST, Direction.SOUTH_WEST, Direction.SOUTH_WEST)));
 
-        return directions;
+        return movements;
     }
 
     @Override
-    protected Path refinePath(Path path, Map<Point, Piece> piecesOnPaths) {
-        return path.takeLast();
+    protected CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
+        return candidatePath.takeLast();
     }
 }

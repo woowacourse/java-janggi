@@ -16,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class LinearPathStrategyTest {
+class LinearCandidatePathStrategyTest {
     private static final PathStrategy LINEAR_PATH_STRATEGY = new LinearPathStrategy();
 
     @Nested
