@@ -9,6 +9,7 @@ import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,11 @@ public class Board {
         return !findPiece(source).isNotNone();
     }
 
-    public Piece findPiece(Position position) {
+    public Map<Position, Piece> getBoardMap() {
+        return Collections.unmodifiableMap(board);
+    }
+
+    private Piece findPiece(Position position) {
         return board.get(position);
     }
 

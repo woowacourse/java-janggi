@@ -32,7 +32,7 @@ class BoardFactoryTest {
     }
 
     private void assertPiece(Board board, int row, int column, Team expectedTeam, String expectedPieceString) {
-        Piece piece = board.findPiece(new Position(row, column));
+        Piece piece = board.getBoardMap().get(new Position(row, column));
         assertEquals(expectedTeam, piece.getTeam());
         assertEquals(expectedPieceString, piece.getPieceString());
     }

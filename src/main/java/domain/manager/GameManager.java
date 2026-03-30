@@ -27,7 +27,7 @@ public class GameManager {
 
     public void run() {
         board = initialize();
-        outputView.printBoard(board);
+        outputView.printBoard(board.getBoardMap());
 
         while (turnManager.isGameRunning()) {
             playTurn();
@@ -40,7 +40,7 @@ public class GameManager {
 
         retryOnInvalidInput(this::executeMove);
 
-        outputView.printBoard(board);
+        outputView.printBoard(board.getBoardMap());
         turnManager.switchTurn();
     }
 
