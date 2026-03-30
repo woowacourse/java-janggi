@@ -62,7 +62,7 @@ public class OutputView {
 
     private String displayPiece(Piece piece) {
         String text = pieceText(piece);
-        String padded = String.format(" %-3s", text);
+        String padded = String.format(" %-2s", text);
 
         if (piece.isCho()) {
             return GREEN + padded + RESET;
@@ -75,28 +75,28 @@ public class OutputView {
 
     private String pieceText(Piece piece) {
         if (piece.isEmpty()) {
-            return ".";
+            return "・";
         }
         if (piece instanceof Cha) {
-            return "차";
+            return "車";
         }
         if (piece instanceof Ma) {
-            return "마";
+            return "馬";
         }
         if (piece instanceof Sang) {
-            return "상";
+            return "象";
         }
         if (piece instanceof Sa) {
-            return "사";
+            return "士";
         }
         if (piece instanceof Gung) {
-            return "궁";
+            return "宮";
         }
         if (piece instanceof Po) {
-            return "포";
+            return "包";
         }
         if (piece instanceof JolByeong) {
-            return "졸";
+            return "卒";
         }
         throw new IllegalArgumentException("알 수 없는 기물입니다.");
     }
