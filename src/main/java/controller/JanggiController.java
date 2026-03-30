@@ -44,7 +44,7 @@ public class JanggiController {
     private void playTurn(List<PositionDto> positionDtos, JanggiGame janggiGame, Board board) {
         Position start = requestStartPiecePosition(positionDtos);
         requestEndPosition(start, janggiGame);
-        outputView.printBoard(janggiService.getBoard(board),janggiService.getColor(board));
+        outputView.printBoard(janggiService.buildBoardDto(board),janggiService.buildColorDto(board));
     }
 
     private void requestEndPosition(Position start, JanggiGame janggiGame) {
@@ -77,8 +77,8 @@ public class JanggiController {
     private JanggiGame initJanggiGame(Board board) {
         outputView.printTurnStartMessage();
 
-        BoardDto boardDto = janggiService.getBoard(board);
-        ColorDto colorDto = janggiService.getColor(board);
+        BoardDto boardDto = janggiService.buildBoardDto(board);
+        ColorDto colorDto = janggiService.buildColorDto(board);
         outputView.printBoard(boardDto, colorDto);
 
         return janggiService.createJanggiGame(board);

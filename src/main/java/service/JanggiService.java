@@ -25,7 +25,7 @@ public class JanggiService {
         return new JanggiGame(board);
     }
 
-    public BoardDto getBoard(Board board) {
+    public BoardDto buildBoardDto(Board board) {
         List<BoardDto.Row> boardAll = new ArrayList<>();
         for (int x = 1; x <= Position.MAX_ROW; x++) {
             List<String> values = new ArrayList<>();
@@ -38,7 +38,7 @@ public class JanggiService {
         return new BoardDto(boardAll);
     }
 
-    public ColorDto getColor(Board board) {
+    public ColorDto buildColorDto(Board board) {
         List<ColorDto.Row> boardAll = new ArrayList<>();
         for (int x = 1; x <= Position.MAX_ROW; x++) {
             List<String> values = new ArrayList<>();
