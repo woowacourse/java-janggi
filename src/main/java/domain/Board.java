@@ -14,7 +14,7 @@ public class Board {
     }
 
     public List<Piece> getBlockingPieces(Route route) {
-        return route.intermeidateNodes().stream()
+        return route.intermediateNodes().stream()
                 .map(pieces::get)
                 .filter(piece -> piece != null)
                 .toList();
