@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece;
 
+import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
 

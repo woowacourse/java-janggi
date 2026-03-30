@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Piece;
 import janggi.domain.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;

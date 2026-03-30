@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.Piece;
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

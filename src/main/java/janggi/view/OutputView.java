@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.Piece;
+import janggi.domain.piece.Piece;
 import janggi.domain.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
