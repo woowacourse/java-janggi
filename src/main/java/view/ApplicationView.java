@@ -27,7 +27,7 @@ public class ApplicationView {
         return inputView.readHanWings();
     }
 
-    public Intersection readSelectPiece(
+    public Intersection readSelectPieceToMove(
             Map<Intersection, Piece> board,
             Side side
     ) {

@@ -20,7 +20,7 @@ public class JanggiController {
     private final ApplicationView view = new ApplicationView();
 
     public void run() {
-        Board board = retryOnIllegalArgument(this::initBoard);
+        Board board = initBoard();
         JanggiGame game = new JanggiGame(board);
 
         while (true) {
@@ -39,17 +39,14 @@ public class JanggiController {
     }
 
     private void progressTurn(JanggiGame game) {
-        Side currentTurn = game.getCurrentTurn();
         Map<Intersection, Piece> board = game.getBoard();
+        Side currentTurn = game.getCurrentTurn();
 
-        Intersection selectedIntersection = retryOnIllegalArgument(() -> view.readSelectPiece(board, currentTurn));
-        List<Intersection> movableIntersections = game.getMovableIntersections(
-                selectedIntersection,
-                currentTurn
-        );
-
+        Intersection startIntersection = view.readSelectPieceToMove(board, currentTurn);
+        List<Intersection> movableIntersections = game.getMovableIntersections(startIntersection, currentTurn);
         Intersection destination = view.readMovePiece(board, movableIntersections);
-        game.movePiece(selectedIntersection, destination, currentTurn);
+
+        game.movePiece(startIntersection, destination, currentTurn);
     }
 
     private <T> T retryOnIllegalArgument(Supplier<T> retryableAction) {
