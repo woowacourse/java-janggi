@@ -25,7 +25,7 @@ public class JanggiController {
 
     public void run() {
         Game game = initializeGame();
-        playGame(game);
+        play(game);
     }
 
     private Game initializeGame() {
@@ -39,7 +39,7 @@ public class JanggiController {
         );
     }
 
-    private void playGame(Game game) {
+    private void play(Game game) {
         while (true) {
             outputView.printBoard(BoardMapper.toDto(game.getBoard().getBoard()));
             Position startPosition = readUntilValid(() ->
