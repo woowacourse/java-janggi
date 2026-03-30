@@ -2,6 +2,7 @@ package domain.place.moveStrategy;
 
 import domain.place.Empty;
 import domain.place.Place;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,11 @@ public class ChariotMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canMove(Map<Position, Place> board, Position from, Position to) {
-
+    public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
+        Place toPlace = board.getOrDefault(to, new Empty());
+        if(toPlace.hasSide(fromSide)){
+            return false;
+        }
         return ORTHOGONAL_DIRECTIONS.stream()
                 .anyMatch(direction -> isPathClear(board, from, to, direction));
     }

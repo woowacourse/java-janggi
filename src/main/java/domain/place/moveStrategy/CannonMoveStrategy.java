@@ -3,6 +3,7 @@ package domain.place.moveStrategy;
 import domain.place.Empty;
 import domain.place.Place;
 import domain.place.piece.PieceSymbol;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,13 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canMove(Map<Position, Place> board, Position from, Position to) {
+    public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
         if (isTargetCannon(board, to)) {
+            return false;
+        }
+
+        Place toPlace = board.getOrDefault(to, new Empty());
+        if(toPlace.hasSide(fromSide)){
             return false;
         }
 
@@ -54,7 +60,6 @@ public class CannonMoveStrategy implements MoveStrategy {
         while (canContinue(current, to, obstacleCount)) {
             Position pos = current.get();
             Place place = board.getOrDefault(pos, new Empty());
-
             if (place.isSameSymbol(PieceSymbol.CANNON)) {
                 return false;
             }
@@ -79,7 +84,8 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean isTargetCannon(Map<Position, Place> board, Position to) {
-        return board.get(to).isSameSymbol(PieceSymbol.CANNON);
+        Place place = board.getOrDefault(to, new Empty());
+        return place.isSameSymbol(PieceSymbol.CANNON);
     }
 
 }

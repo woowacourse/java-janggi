@@ -3,6 +3,7 @@ package domain.place.piece;
 import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.position.Position;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,7 +53,12 @@ public abstract class Piece implements Place {
     }
 
     @Override
+    public List<Position> getPath(Position from){
+        return moveStrategy.getPath(from);
+    }
+
+    @Override
     public boolean canMove(Map<Position, Place> obstacles, Position from, Position to) {
-        return moveStrategy.canMove(obstacles, from, to);
+        return moveStrategy.canMove(obstacles, from, to, side);
     }
 }

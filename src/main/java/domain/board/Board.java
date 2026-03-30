@@ -31,10 +31,11 @@ public class Board {
         validateMove(from, to, side);
 
         Place sourcePlace = board.get(from);
+
         Map<Position, Place> obstacles = getObstacles(sourcePlace.getPath(from));
 
         if (!sourcePlace.canMove(obstacles, from, to)) {
-            throw new IllegalArgumentException("[ERROR] 기물이 갈 수 없는 곳입니다.");
+            throw new IllegalArgumentException("[ERROR] 기물이 가지 못하는 자리입니다.");
         }
 
         movePiece(from, to);
@@ -52,16 +53,12 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 같은 위치로 이동 불가합니다.");
         }
 
-        Place sourcePlace = board.get(from);
-        Place targetPlace = board.get(to);
+        Place fromPlace = board.get(from);
 
-        if (sourcePlace.isEmpty() || !sourcePlace.hasSide(side)) {
+        if (fromPlace.isEmpty() || !fromPlace.hasSide(side)) {
             throw new IllegalArgumentException("[ERROR] 잘못된 기물 선택입니다.");
         }
 
-        if (sourcePlace.isSameSide(targetPlace)) {
-            throw new IllegalArgumentException("[ERROR] 아군 위치로 이동 불가합니다");
-        }
     }
 
     private void movePiece(Position from, Position to) {

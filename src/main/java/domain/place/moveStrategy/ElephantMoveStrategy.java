@@ -1,6 +1,8 @@
 package domain.place.moveStrategy;
 
+import domain.place.Empty;
 import domain.place.Place;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +30,13 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canMove(Map<Position, Place> path, Position from, Position to) {
+    public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
+        Place toPlace = board.getOrDefault(to, new Empty());
+        if(toPlace.hasSide(fromSide)){
+            return false;
+        }
         return ELEPHANT_MOVE_SEQUENCES.stream()
-                .anyMatch(sequence -> canFollowSequence(path, from, to, sequence));
+                .anyMatch(sequence -> canFollowSequence(board, from, to, sequence));
     }
 
     private Optional<Position> getTargetPositionIfPathClear(Position from, List<Direction> sequence) {

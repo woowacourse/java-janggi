@@ -21,6 +21,9 @@ class BoardTest {
         StubBoard stubBoard = new StubBoard();
         Position position = new Position(3, 1);
         stubBoard.put(position, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
+
+        Position position2 = new Position(4, 1);
+        stubBoard.put(position2, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
         board = stubBoard.create();
     }
 
@@ -60,13 +63,13 @@ class BoardTest {
     @DisplayName("기물 선택에서 없는 부분 예외")
     void throw_exception_when_selecting_empty_position() {
         //given
-        Position from = new Position(4, 1);
+        Position from = new Position(5, 1);
         Position to = new Position(7, 1);
 
         //when & then
         assertThatThrownBy(() -> board.move(from, to, Side.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 선택한 위치에 기물이 없습니다.");
+                .hasMessageContaining("[ERROR] 잘못된 기물 선택입니다.");
     }
 
     @Test
@@ -79,6 +82,19 @@ class BoardTest {
         //when & then
         assertThatThrownBy(() -> board.move(from, to, Side.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 본인의 기물을 선택해야 합니다.");
+                .hasMessageContaining("[ERROR] 잘못된 기물 선택입니다.");
+    }
+
+    @Test
+    @DisplayName("아군 위치로 이동")
+    void throws_exception_when_moving_to_same_team_position() {
+        //given
+        Position from = new Position(3, 1);
+        Position to = new Position(4, 1);
+
+        //when & then
+        assertThatThrownBy(() -> board.move(from, to, Side.CHO))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 기물이 가지 못하는 자리입니다.");
     }
 }

@@ -23,5 +23,6 @@ public interface Place {
 
     Optional<Side> getSide();
 
+
     boolean canMove(Map<Position, Place> obstacles, Position from, Position to);
 }
