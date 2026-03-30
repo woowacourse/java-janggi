@@ -27,7 +27,7 @@ public class Board {
         this.board = board;
     }
 
-    public void validateStartPosition(Position start, Side turn) {
+    protected void validateStartPosition(Position start, Side turn) {
         validateRange(start);
         validateEnsureSameSidePiece(start, turn);
     }
