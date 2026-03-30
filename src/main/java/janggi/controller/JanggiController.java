@@ -28,33 +28,14 @@ public class JanggiController {
             try {
                 outputView.printBoardMap(BoardDto.from(board));
                 outputView.printCurrentTurn(TurnDto.from(board.getTurn()));
+
                 Position startPiecePosition = retryOnException(this::getStartPiecePosition);
-
-                if (!board.isPresentAt(startPiecePosition)) {
-                    throw new IllegalArgumentException("해당 좌표에는 기물이 존재하지 않습니다.");
-                }
-
                 Position endPiecePosition = retryOnException(this::getEndPiecePosition);
-                if (!board.canMove(startPiecePosition, endPiecePosition)) {
-                    continue;
-                }
-                playTurn(board, startPiecePosition, endPiecePosition);
-
+                board.move(startPiecePosition, endPiecePosition);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
-    }
-
-    private static void playTurn(Board board, Position startPiecePosition, Position endPiecePosition) {
-        if (board.determineMoving(startPiecePosition, endPiecePosition)) {
-            board.changePiecePosition(startPiecePosition, endPiecePosition);
-            changeTurn(board);
-        }
-    }
-
-    private static void changeTurn(Board board) {
-        board.changeTurn();
     }
 
     private Position getEndPiecePosition() {

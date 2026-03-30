@@ -15,30 +15,37 @@ public class Board {
         this.board = board;
     }
 
+    public void move(Position from, Position to) {
+        Piece piece = findCurrentTeamPiece(from);
+
+        Map<Position, Piece> paths = getPositionPiecesFromPath(piece, from, to);
+        if (!piece.determineMovingRule(paths, to)) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
+        changePiecePosition(piece, from, to);
+        changeTurn();
+    }
+
     public Map<Position, Piece> getBoard() {
         return Collections.unmodifiableMap(board);
     }
 
-    public boolean isPresentAt(Position position) {
-        return board.containsKey(position);
+    public Turn getTurn() {
+        return turn;
     }
 
-    public boolean canMove(Position from, Position to) {
+    private Piece findCurrentTeamPiece(Position from) {
+        if (!board.containsKey(from)) {
+            throw new IllegalArgumentException("해당 좌표에는 기물이 존재하지 않습니다.");
+        }
         Piece piece = board.get(from);
         if (!turn.isCurrentTeam(piece.getTeam())) {
-            return false;
+            throw new IllegalArgumentException("현재 턴의 기물이 아닙니다.");
         }
-        return piece.canMove(from, to);
+        return piece;
     }
 
-    public boolean determineMoving(Position from, Position to) {
-        Map<Position, Piece> paths =  getPositionPiecesFromPath(from, to);
-        Piece piece = board.get(from);
-        return piece.determineMovingRule(paths, to);
-    }
-
-    private Map<Position, Piece> getPositionPiecesFromPath(Position from, Position to) {
-        Piece piece = board.get(from);
+    private Map<Position, Piece> getPositionPiecesFromPath(Piece piece, Position from, Position to) {
         List<Position> paths = piece.findPath(from, to);
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
@@ -51,16 +58,12 @@ public class Board {
         return positionPieces;
     }
 
-    public void changePiecePosition(Position from, Position to) {
-        board.put(to, board.get(from));
+    private void changePiecePosition(Piece piece, Position from, Position to) {
+        board.put(to, piece);
         board.remove(from);
     }
 
-    public void changeTurn() {
+    private void changeTurn() {
         this.turn = turn.changeTurn();
-    }
-
-    public Turn getTurn() {
-        return turn;
     }
 }
