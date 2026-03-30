@@ -78,7 +78,6 @@ public class Board {
     }
 
     public void validateCrashWithAlly(Position start, Position destination) {
-        // TODO: 아군과 충돌하는가?
         Piece startPiece = getPiece(start);
         Piece destinationPiece = pieces.get(destination);
 

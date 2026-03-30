@@ -5,7 +5,7 @@ import domain.PieceExceptionMessage;
 
 public class NormalMovementPolicy implements MovementPolicy {
     @Override
-    public void check(PathContext pathContext) {
+    public void validate(PathContext pathContext) {
         if (pathContext.getPieceCount() > 0) {
             throw new IllegalArgumentException(PieceExceptionMessage.BLOCKED_BY_PIECE.getMessage());
         }

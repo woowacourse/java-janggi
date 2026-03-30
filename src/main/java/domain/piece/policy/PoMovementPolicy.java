@@ -8,7 +8,7 @@ public class PoMovementPolicy implements MovementPolicy {
     public static final int REQUIRED_JUMP_COUNT = 1;
 
     @Override
-    public void check(PathContext pathContext) {
+    public void validate(PathContext pathContext) {
         if (pathContext.hasPo()) {
             throw new IllegalArgumentException(PieceExceptionMessage.CANT_JUMP_OVER_PO.getMessage());
         }

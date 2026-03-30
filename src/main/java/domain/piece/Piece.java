@@ -22,7 +22,7 @@ public abstract class Piece {
     }
 
     public void movePolicy(PathContext pathContext) {
-        movementPolicy.check(pathContext);
+        movementPolicy.validate(pathContext);
     }
 
     public List<Position> findMovablePath(Position start, Position destination) {
