@@ -18,28 +18,48 @@ public class MovePattern {
     }
 
     public boolean matches(Move move, Board board) {
-        return execute(move, board).isSamePosition(move.to())
-                && destinationPolicy.validate(move, board, pathPolicy);
-    }
-
-    private Position execute(Move move, Board board) {
-        Position current = move.from();
-
-        int i = 0;
-        while (i < steps.size()) {
-            Step step = steps.get(i);
-            current = step.move(current);
-
-            if (!board.isInside(current)) {
-                return move.from();
-            }
-
-            if (i < steps.size() - 1 && !pathPolicy.check(current, board)) {
-                return move.from();
-            }
-            i++;
+        Position current = checkPath(move, board);
+        if (current.isInValid()) {
+            return false;
+        }
+        current = steps.getLast().move(current);
+        if (!current.isSamePosition(move.to())) {
+            return false;
         }
 
+        return checkDestination(move, board, current);
+    }
+
+    private boolean checkDestination(Move move, Board board, Position current) {
+        if (!checkBoardRange(board, current)) {
+            return false;
+        }
+
+        return destinationPolicy.validate(move, board, pathPolicy);
+    }
+
+    private Position checkPath(Move move, Board board) {
+        Position current = move.from();
+        for (int i = 0; i < steps.size() - 1; i++) {
+            Step step = steps.get(i);
+            current = checkStep(step, board, current);
+        }
         return current;
+    }
+
+    private Position checkStep(Step step, Board board, Position current) {
+        current = step.move(current);
+        if (!checkBoardRange(board, current) || !checkPathPolicy(board, current)) {
+            return Position.inValid();
+        }
+        return current;
+    }
+
+    private boolean checkBoardRange(Board board, Position current) {
+        return board.isInside(current);
+    }
+
+    private boolean checkPathPolicy(Board board, Position current) {
+        return pathPolicy.check(current, board);
     }
 }

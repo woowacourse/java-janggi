@@ -11,9 +11,18 @@ public record Row(int value) {
     private static final int CHO_GENERAL = 9;
     private static final int HAN_CANNON = 3;
     private static final int CHO_CANNON = 8;
+    private static final Row INVALID = new Row(-1);
 
     public static Row from(int value) {
         return new Row(value);
+    }
+
+    public static Row inValid() {
+        return INVALID;
+    }
+
+    public int value() {
+        return value;
     }
 
     public static int soldier(Country country) {

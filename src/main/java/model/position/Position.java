@@ -3,8 +3,19 @@ package model.position;
 import model.move.Direction;
 
 public record Position(Row row, Column column) {
+    private static final Position INVALID =
+            new Position(Row.inValid(), Column.inValid());
+
     public static Position of(int x, int y) {
         return new Position(Row.from(x), Column.from(y));
+    }
+
+    public static Position inValid() {
+        return INVALID;
+    }
+
+    public boolean isInValid() {
+        return this == INVALID;
     }
 
     public Position move(Direction direction) {

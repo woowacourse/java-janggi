@@ -66,7 +66,4 @@ public class Board {
         return findPiece(position) == null;
     }
 
-    public Map<Position, Piece> board() {
-        return board;
-    }
 }
