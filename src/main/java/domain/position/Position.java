@@ -25,12 +25,12 @@ public class Position {
         return new Position(this.row.add(row), this.column.add(column));
     }
 
-    public boolean isSameRow(Row destination) {
-        return row.equals(destination);
+    public boolean isSameRow(Position destination) {
+        return row.equals(destination.row);
     }
 
-    public boolean isSameColumn(Column destination) {
-        return column.equals(destination);
+    public boolean isSameColumn(Position destination) {
+        return column.equals(destination.column);
     }
 
     public List<Position> getVerticalPathExcludeDestination(Position destination) {
