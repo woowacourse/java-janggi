@@ -21,4 +21,16 @@ public class JangTest {
         assertThatThrownBy(() -> jang.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("장은 궁성 밖으로 나갈 수 없습니다.")
+    void can_not_move_outside_castle() {
+        Piece jang = new Jang(Team.CHO);
+        Point from = Point.of(3, 0);
+        Point to = Point.of(2, 0);
+
+        assertThatThrownBy(() -> jang.getRoutePoints(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 장은 궁성 밖으로 나갈 수 없습니다.");
+    }
 }
