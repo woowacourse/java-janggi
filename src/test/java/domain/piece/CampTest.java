@@ -12,6 +12,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CampTest {
 
     @Test
+    @DisplayName("초나라의 상대 진영은 한나라다.")
+    void choOpponent() {
+        Camp opponent = Camp.CHO.opponent();
+
+        assertThat(opponent).isEqualTo(Camp.HAN);
+    }
+
+    @Test
+    @DisplayName("한나라의 상대 진영은 초나라다.")
+    void hanOpponent() {
+        Camp opponent = Camp.HAN.opponent();
+
+        assertThat(opponent).isEqualTo(Camp.CHO);
+    }
+
+    @Test
     @DisplayName("초나라 기준 y 좌표는 한나라 기준 좌표를 반전해서 계산한다.")
     void choResolveY() {
         int y = Camp.CHO.resolveY(1);

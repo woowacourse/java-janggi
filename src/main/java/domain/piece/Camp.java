@@ -5,6 +5,11 @@ import java.util.List;
 public enum Camp {
     CHO(-1) {
         @Override
+        public Camp opponent() {
+            return HAN;
+        }
+
+        @Override
         public List<PieceType> arrange(List<PieceType> pieceTypes) {
             return pieceTypes;
         }
@@ -15,6 +20,11 @@ public enum Camp {
         }
     },
     HAN(1) {
+        @Override
+        public Camp opponent() {
+            return CHO;
+        }
+
         @Override
         public List<PieceType> arrange(List<PieceType> pieceTypes) {
             return pieceTypes.reversed();
@@ -36,6 +46,8 @@ public enum Camp {
     public int forward() {
         return this.forward;
     }
+
+    public abstract Camp opponent();
 
     public abstract List<PieceType> arrange(List<PieceType> pieceTypes);
 
