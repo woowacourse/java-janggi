@@ -14,7 +14,7 @@ public enum Formation {
                     new Elephant(side),
                     new Horse(side)
             );
-            extracted(pieces, side, orders);
+            place(pieces, side, orders);
         }
     },
     RIGHT_ELEPHANT(Selection.SECOND) {
@@ -26,7 +26,7 @@ public enum Formation {
                     new Horse(side),
                     new Elephant(side)
             );
-            extracted(pieces, side, orders);
+            place(pieces, side, orders);
         }
     },
     OUTER_ELEPHANT(Selection.THIRD) {
@@ -38,7 +38,7 @@ public enum Formation {
                     new Horse(side),
                     new Elephant(side)
             );
-            extracted(pieces, side, orders);
+            place(pieces, side, orders);
         }
     },
     INNER_ELEPHANT(Selection.FOURTH) {
@@ -50,7 +50,7 @@ public enum Formation {
                     new Elephant(side),
                     new Horse(side)
             );
-            extracted(pieces, side, orders);
+            place(pieces, side, orders);
         }
     },
     ;
@@ -70,10 +70,10 @@ public enum Formation {
 
     public abstract void placeElephant(Map<Position, Piece> pieces, Side side);
 
-    private static void extracted(Map<Position, Piece> pieces, Side side, List<Piece> leftElephant) {
+    private static void place(Map<Position, Piece> pieces, Side side, List<Piece> orders) {
         List<Integer> a = side.formationX();
-        for (int i = 0; i < leftElephant.size(); i++) {
-            pieces.put(new Position(a.get(i), side.baseY()), leftElephant.get(i));
+        for (int i = 0; i < orders.size(); i++) {
+            pieces.put(new Position(a.get(i), side.baseY()), orders.get(i));
         }
     }
 }
