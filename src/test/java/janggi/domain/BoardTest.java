@@ -76,4 +76,17 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 이 기물은 해당 타겟을 잡을 수 없습니다.");
     }
+
+    @Test
+    @DisplayName("궁성 안에서 차를 움직일 때, (4, 0)에서는 대각선으로 움직일 수 없다.")
+    void can_move_pho_diagonal() {
+        Map<Point, Piece> pieces = new LinkedHashMap<>();
+        pieces.put(Point.of(4, 0), new Cha(Team.HAN));
+        board.init(pieces);
+        Assertions.assertThatThrownBy(() -> board.move(Point.of(4, 0), Point.of(5, 1), Team.HAN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 이동할 수 없는 방향입니다.");
+    }
+
+
 }
