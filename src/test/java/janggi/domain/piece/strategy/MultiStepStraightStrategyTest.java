@@ -19,7 +19,7 @@ public class MultiStepStraightStrategyTest {
 
     private static Stream<Arguments> createPositionsAndPath() {
         return Stream.of(
-                Arguments.of(new Position(0, 0), new Position(9, 0), 9,
+                Arguments.of(new Position(0, 0),
                         List.of(
                                 new Position(1, 0),
                                 new Position(2, 0),
@@ -31,7 +31,7 @@ public class MultiStepStraightStrategyTest {
                                 new Position(8, 0),
                                 new Position(9, 0)
                         )),
-                Arguments.of(new Position(0, 0), new Position(0, 8), 8,
+                Arguments.of(new Position(0, 0),
                         List.of(
                                 new Position(0, 1),
                                 new Position(0, 2),
@@ -43,7 +43,7 @@ public class MultiStepStraightStrategyTest {
                                 new Position(0, 8)
                         )
                 ),
-                Arguments.of(new Position(0, 8), new Position(0, 0), 8,
+                Arguments.of(new Position(0, 8),
                         List.of(
                                 new Position(0, 7),
                                 new Position(0, 6),
@@ -55,7 +55,7 @@ public class MultiStepStraightStrategyTest {
                                 new Position(0, 0)
                         )
                 ),
-                Arguments.of(new Position(9, 0), new Position(0, 0), 9,
+                Arguments.of(new Position(9, 0),
                         List.of(
                                 new Position(8, 0),
                                 new Position(7, 0),
@@ -73,24 +73,25 @@ public class MultiStepStraightStrategyTest {
 
     @ParameterizedTest
     @MethodSource("createPositionsAndPath")
-    void 차와_포는_한_방향으로만_1칸_이상_이동_할_수_있다(Position source, Position destination, int size, List<Position> expectedPath) {
-        List<Position> path = strategy.findPath(source, destination, Camp.HAN);
-
+    void 직선으로_1칸_이상_이동하는_경로를_계산한다(Position source, List<Position> expectedPath) {
+        // when
+        List<Position> path = strategy.findPath(source, expectedPath.getLast(), Camp.HAN);
+        // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(path).hasSize(size);
+            assertSoftly.assertThat(path).hasSize(expectedPath.size());
             assertSoftly.assertThat(path).containsExactlyElementsOf(expectedPath);
         });
     }
 
     @Test
-    void 차와_포는_한_방향으로_이동하지_않으면_예외가_발생한다() {
+    void 직선_이동이_아닌_경우_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(0, 0), new Position(5, 5), Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
 
     @Test
-    void 차와_포는_제자리_이동_시_예외가_발생한다1() {
+    void 제자리_이동이면_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(0, 0), new Position(0, 0), Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PIECE_MUST_MOVE.getMessage());

@@ -28,7 +28,7 @@ class SingleStepStraightStrategyTest {
 
     @ParameterizedTest
     @MethodSource("successMovePositions")
-    void 궁과_사는_상하좌우_1칸_이동한다(Position source, Position destination) {
+    void 직선_방향으로_1칸만_이동한다(Position source, Position destination) {
         //when
         List<Position> path = strategy.findPath(source, destination, Camp.HAN);
         //then
@@ -39,7 +39,7 @@ class SingleStepStraightStrategyTest {
     }
 
     @Test
-    void 궁과_사는_1칸_이동이_아니면_예외가_발생한다() {
+    void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(5, 0), Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
