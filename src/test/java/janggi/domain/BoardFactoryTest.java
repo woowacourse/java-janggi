@@ -1,12 +1,12 @@
 package janggi.domain;
 
 
-import janggi.domain.movestorage.ChaMoveStorage;
+import janggi.domain.movestorage.ChaMoveStrategy;
 import janggi.domain.movestorage.GungseongBoundMoveStrategy;
-import janggi.domain.movestorage.JolMoveStorage;
-import janggi.domain.movestorage.MaMoveStorage;
-import janggi.domain.movestorage.PoMoveStorage;
-import janggi.domain.movestorage.SangMoveStorage;
+import janggi.domain.movestorage.JolMoveStrategy;
+import janggi.domain.movestorage.MaMoveStrategy;
+import janggi.domain.movestorage.PoMoveStrategy;
+import janggi.domain.movestorage.SangMoveStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +22,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(PoMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(PoMoveStrategy.class);
     }
 
     @Test
@@ -34,7 +34,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(SangMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(SangMoveStrategy.class);
     }
 
     @Test
@@ -70,7 +70,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(MaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(MaMoveStrategy.class);
     }
 
     @Test
@@ -82,7 +82,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(JolMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(JolMoveStrategy.class);
     }
 
     @Test
@@ -94,7 +94,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(ChaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(ChaMoveStrategy.class);
     }
 
     @Test
@@ -106,7 +106,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(ChaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(ChaMoveStrategy.class);
     }
 
     @Test
@@ -118,7 +118,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(SangMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(SangMoveStrategy.class);
     }
 
     @Test
@@ -130,7 +130,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(MaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(MaMoveStrategy.class);
     }
 
     @Test
@@ -166,7 +166,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(PoMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(PoMoveStrategy.class);
     }
 
     @Test
@@ -178,6 +178,6 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(JolMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(JolMoveStrategy.class);
     }
 }

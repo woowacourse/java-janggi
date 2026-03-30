@@ -1,7 +1,7 @@
 package janggi.domain;
 
-import janggi.domain.movestorage.JolMoveStorage;
-import janggi.domain.movestorage.MoveStorage;
+import janggi.domain.movestorage.JolMoveStrategy;
+import janggi.domain.movestorage.MoveStrategy;
 import janggi.exception.InvalidMoveException;
 import org.junit.jupiter.api.Test;
 
@@ -33,12 +33,12 @@ class PieceTest {
     @Test
     void 다른_진영의_기물을_잡았을_경우_예외가_발생하지_않는다() {
         // given
-        MoveStorage moveStorage = new JolMoveStorage();
+        MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(4), Column.of(4));
 
-        Piece pieceHan = new Piece(new JolMoveStorage(), Team.HAN, 9, "兵");
-        Piece pieceCho = new Piece(new JolMoveStorage(), Team.CHO, 9, "卒");
+        Piece pieceHan = new Piece(new JolMoveStrategy(), Team.HAN, 9, "兵");
+        Piece pieceCho = new Piece(new JolMoveStrategy(), Team.CHO, 9, "卒");
 
         Map<Position, Piece> fakeBoard = new HashMap<>();
         fakeBoard.put(from, pieceHan);
@@ -57,8 +57,8 @@ class PieceTest {
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(4), Column.of(4));
 
-        Piece pieceHan1 = new Piece(new JolMoveStorage(), Team.HAN, 2, "兵");
-        Piece pieceHan2 = new Piece(new JolMoveStorage(), Team.HAN, 2, "兵");
+        Piece pieceHan1 = new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵");
+        Piece pieceHan2 = new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵");
 
         Map<Position, Piece> fakeBoard = new HashMap<>();
         fakeBoard.put(from, pieceHan1);

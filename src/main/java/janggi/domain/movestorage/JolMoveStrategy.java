@@ -6,7 +6,7 @@ import janggi.domain.Team;
 
 import java.util.List;
 
-public class JolMoveStorage implements MoveStorage{
+public class JolMoveStrategy implements MoveStrategy {
     private static final int HAN_FORWARD = 1;
     private static final int CHO_FORWARD = -1;
     public static final int NEXT_TO = 1;

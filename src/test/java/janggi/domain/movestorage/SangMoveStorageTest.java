@@ -47,7 +47,7 @@ class SangMoveStorageTest {
     @Test
     void 행마_성공_테스트() {
         // given
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(7), Column.of(2));
         BoardState boardState = new FakeBoard();
@@ -58,7 +58,7 @@ class SangMoveStorageTest {
     @Test
     void 상이_갈_수_없는_좌표가_들어오면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(7), Column.of(3));
         BoardState boardState = new FakeBoard();
@@ -69,7 +69,7 @@ class SangMoveStorageTest {
 
     @Test
     void 상이_위로_3칸_왼쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(2), Column.of(1));
 
@@ -82,7 +82,7 @@ class SangMoveStorageTest {
     @Test
     void 상이_위로_3칸_오른쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(6), Column.of(1));
 
@@ -95,7 +95,7 @@ class SangMoveStorageTest {
     @Test
     void 상이_오른쪽으로_3칸_위로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(7), Column.of(2));
 
@@ -108,7 +108,7 @@ class SangMoveStorageTest {
     @Test
     void 상이_오른쪽으로_3칸_아래로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(7), Column.of(6));
 
@@ -121,7 +121,7 @@ class SangMoveStorageTest {
     @Test
     void 상이_아래로_3칸_오른쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(6), Column.of(7));
 
@@ -134,7 +134,7 @@ class SangMoveStorageTest {
     @Test
     void 상이_아래로_3칸_왼쪽으로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(2), Column.of(7));
 
@@ -146,7 +146,7 @@ class SangMoveStorageTest {
 
     @Test
     void 상이_왼쪽으로_3칸_아래로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(1), Column.of(6));
 
@@ -158,7 +158,7 @@ class SangMoveStorageTest {
 
     @Test
     void 상이_왼쪽으로_3칸_위로_2칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
-        MoveStorage moveStorage = new SangMoveStorage();
+        MoveStrategy moveStorage = new SangMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(1), Column.of(2));
 

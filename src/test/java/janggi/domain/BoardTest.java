@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.movestorage.JolMoveStorage;
+import janggi.domain.movestorage.JolMoveStrategy;
 import janggi.exception.EmptyPositionException;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ class BoardTest {
     void 보드는_특정_위치에_기물이_존재하는지_확인할_수_있다() {
         // give
         Position position = Position.of(Row.of(0), Column.of(7));
-        Piece piece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
         Board board = new Board(Map.of(position, piece));
 
         // when & then
@@ -25,7 +25,7 @@ class BoardTest {
     void 보드는_지정된_좌표의_기물_정보를_알려준다() {
         // give
         Position position = Position.of(Row.of(0), Column.of(7));
-        Piece piece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
         Board board = new Board(Map.of(position, piece));
 
         // when & then
@@ -39,7 +39,7 @@ class BoardTest {
         Position to = Position.of(Row.of(0), Column.of(1));
 
         Position position = Position.of(Row.of(0), Column.of(0));
-        Piece piece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
 
         Board board = new Board(Map.of(position, piece));
 
@@ -58,7 +58,7 @@ class BoardTest {
         Position to = Position.of(Row.of(0), Column.of(1));
 
         Position position = Position.of(Row.of(0), Column.of(7));
-        Piece piece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
+        Piece piece = new Piece(new JolMoveStrategy(), Team.HAN, 2,  "卒");
 
         Board board = new Board(Map.of(position, piece));
 

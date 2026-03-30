@@ -6,7 +6,7 @@ import janggi.domain.Team;
 
 import java.util.List;
 
-public class GungseongBoundMoveStrategy implements MoveStorage{
+public class GungseongBoundMoveStrategy implements MoveStrategy {
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
         List<Integer> fromPosition = from.getPosition();

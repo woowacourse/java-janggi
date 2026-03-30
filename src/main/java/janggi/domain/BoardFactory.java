@@ -1,11 +1,11 @@
 package janggi.domain;
 
-import janggi.domain.movestorage.ChaMoveStorage;
+import janggi.domain.movestorage.ChaMoveStrategy;
 import janggi.domain.movestorage.GungseongBoundMoveStrategy;
-import janggi.domain.movestorage.JolMoveStorage;
-import janggi.domain.movestorage.MaMoveStorage;
-import janggi.domain.movestorage.PoMoveStorage;
-import janggi.domain.movestorage.SangMoveStorage;
+import janggi.domain.movestorage.JolMoveStrategy;
+import janggi.domain.movestorage.MaMoveStrategy;
+import janggi.domain.movestorage.PoMoveStrategy;
+import janggi.domain.movestorage.SangMoveStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,19 +23,19 @@ public class BoardFactory {
     private static void SetHanPieces(Map<Position, Piece> board) {
         // 차
         board.put(Position.of(Row.of(0), Column.of(0)),
-                new Piece(new ChaMoveStorage(), Team.HAN, 13, "車"));
+                new Piece(new ChaMoveStrategy(), Team.HAN, 13, "車"));
         board.put(Position.of(Row.of(8), Column.of(0)),
-                new Piece(new ChaMoveStorage(), Team.HAN, 13, "車"));
+                new Piece(new ChaMoveStrategy(), Team.HAN, 13, "車"));
         // 상
         board.put(Position.of(Row.of(1), Column.of(0)),
-                new Piece(new SangMoveStorage(), Team.HAN, 3, "象"));
+                new Piece(new SangMoveStrategy(), Team.HAN, 3, "象"));
         board.put(Position.of(Row.of(6), Column.of(0)),
-                new Piece(new SangMoveStorage(), Team.HAN, 3, "象"));
+                new Piece(new SangMoveStrategy(), Team.HAN, 3, "象"));
         // 마
         board.put(Position.of(Row.of(2), Column.of(0)),
-                new Piece(new MaMoveStorage(), Team.HAN, 5, "馬"));
+                new Piece(new MaMoveStrategy(), Team.HAN, 5, "馬"));
         board.put(Position.of(Row.of(7), Column.of(0)),
-                new Piece(new MaMoveStorage(), Team.HAN, 5, "馬"));
+                new Piece(new MaMoveStrategy(), Team.HAN, 5, "馬"));
         // 사
         board.put(Position.of(Row.of(3), Column.of(0)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 3, "士"));
@@ -46,38 +46,38 @@ public class BoardFactory {
                 new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 0, "漢"));
         // 포
         board.put(Position.of(Row.of(1), Column.of(2)),
-                new Piece(new PoMoveStorage(), Team.HAN, 7, "包"));
+                new Piece(new PoMoveStrategy(), Team.HAN, 7, "包"));
         board.put(Position.of(Row.of(7), Column.of(2)),
-                new Piece(new PoMoveStorage(), Team.HAN, 7, "包"));
+                new Piece(new PoMoveStrategy(), Team.HAN, 7, "包"));
         // 졸
         board.put(Position.of(Row.of(0), Column.of(3)),
-                new Piece(new JolMoveStorage(), Team.HAN, 2, "兵"));
+                new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵"));
         board.put(Position.of(Row.of(2), Column.of(3)),
-                new Piece(new JolMoveStorage(), Team.HAN, 2, "兵"));
+                new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵"));
         board.put(Position.of(Row.of(4), Column.of(3)),
-                new Piece(new JolMoveStorage(), Team.HAN, 2, "兵"));
+                new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵"));
         board.put(Position.of(Row.of(6), Column.of(3)),
-                new Piece(new JolMoveStorage(), Team.HAN, 2, "兵"));
+                new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵"));
         board.put(Position.of(Row.of(8), Column.of(3)),
-                new Piece(new JolMoveStorage(), Team.HAN, 2, "兵"));
+                new Piece(new JolMoveStrategy(), Team.HAN, 2, "兵"));
     }
 
     private static void SetChoPieces(Map<Position, Piece> board) {
         // 차
         board.put(Position.of(Row.of(0), Column.of(9)),
-                new Piece(new ChaMoveStorage(), Team.CHO, 13, "車"));
+                new Piece(new ChaMoveStrategy(), Team.CHO, 13, "車"));
         board.put(Position.of(Row.of(8), Column.of(9)),
-                new Piece(new ChaMoveStorage(), Team.CHO, 13, "車"));
+                new Piece(new ChaMoveStrategy(), Team.CHO, 13, "車"));
         // 상
         board.put(Position.of(Row.of(1), Column.of(9)),
-                new Piece(new SangMoveStorage(), Team.CHO, 3, "象"));
+                new Piece(new SangMoveStrategy(), Team.CHO, 3, "象"));
         board.put(Position.of(Row.of(6), Column.of(9)),
-                new Piece(new SangMoveStorage(), Team.CHO, 3, "象"));
+                new Piece(new SangMoveStrategy(), Team.CHO, 3, "象"));
         // 마
         board.put(Position.of(Row.of(2), Column.of(9)),
-                new Piece(new MaMoveStorage(), Team.CHO, 5, "馬"));
+                new Piece(new MaMoveStrategy(), Team.CHO, 5, "馬"));
         board.put(Position.of(Row.of(7), Column.of(9)),
-                new Piece(new MaMoveStorage(), Team.CHO, 5, "馬"));
+                new Piece(new MaMoveStrategy(), Team.CHO, 5, "馬"));
         // 사
         board.put(Position.of(Row.of(3), Column.of(9)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 3, "士"));
@@ -88,19 +88,19 @@ public class BoardFactory {
                 new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 0, "楚"));
         // 포
         board.put(Position.of(Row.of(1), Column.of(7)),
-                new Piece(new PoMoveStorage(), Team.CHO, 7, "包"));
+                new Piece(new PoMoveStrategy(), Team.CHO, 7, "包"));
         board.put(Position.of(Row.of(7), Column.of(7)),
-                new Piece(new PoMoveStorage(), Team.CHO, 7, "包"));
+                new Piece(new PoMoveStrategy(), Team.CHO, 7, "包"));
         // 졸
         board.put(Position.of(Row.of(0), Column.of(6)),
-                new Piece(new JolMoveStorage(), Team.CHO, 2, "卒"));
+                new Piece(new JolMoveStrategy(), Team.CHO, 2, "卒"));
         board.put(Position.of(Row.of(2), Column.of(6)),
-                new Piece(new JolMoveStorage(), Team.CHO, 2, "卒"));
+                new Piece(new JolMoveStrategy(), Team.CHO, 2, "卒"));
         board.put(Position.of(Row.of(4), Column.of(6)),
-                new Piece(new JolMoveStorage(), Team.CHO, 2,  "卒"));
+                new Piece(new JolMoveStrategy(), Team.CHO, 2,  "卒"));
         board.put(Position.of(Row.of(6), Column.of(6)),
-                new Piece(new JolMoveStorage(), Team.CHO, 2,  "卒"));
+                new Piece(new JolMoveStrategy(), Team.CHO, 2,  "卒"));
         board.put(Position.of(Row.of(8), Column.of(6)),
-                new Piece(new JolMoveStorage(), Team.CHO, 2,  "卒"));
+                new Piece(new JolMoveStrategy(), Team.CHO, 2,  "卒"));
     }
 }

@@ -8,7 +8,7 @@ import janggi.domain.Row;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SangMoveStorage implements MoveStorage{
+public class SangMoveStrategy implements MoveStrategy {
     private static final int FORWARD = 3;
     private static final int DIAGONAL = 2;
 

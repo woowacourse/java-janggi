@@ -1,17 +1,17 @@
 package janggi.domain;
 
-import janggi.domain.movestorage.MoveStorage;
+import janggi.domain.movestorage.MoveStrategy;
 import janggi.exception.InvalidMoveException;
 
 import java.util.Objects;
 
 public class Piece {
-    private final MoveStorage moveStorage;
+    private final MoveStrategy moveStorage;
     private final Team team;
     private final int score;
     private final String name;
 
-    public Piece(MoveStorage moveStorage, Team team, int score, String name) {
+    public Piece(MoveStrategy moveStorage, Team team, int score, String name) {
         this.moveStorage = moveStorage;
         this.team = team;
         this.score = score;
@@ -30,7 +30,7 @@ public class Piece {
         }
     }
 
-    public MoveStorage getMoveStorage() {
+    public MoveStrategy getMoveStorage() {
         return moveStorage;
     }
 

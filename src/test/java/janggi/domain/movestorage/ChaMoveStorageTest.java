@@ -46,7 +46,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높고_멱이_없다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(3));
         BoardState boardState = new FakeBoard();
@@ -58,7 +58,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮고_멱이_없다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(0), Column.of(3));
         Position to = Position.of(Row.of(0), Column.of(0));
         BoardState boardState = new FakeBoard();
@@ -69,7 +69,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높고_멱이_없다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(3), Column.of(0));
         BoardState boardState = new FakeBoard();
@@ -80,7 +80,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮고_멱이_없다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(0));
         BoardState boardState = new FakeBoard();
@@ -91,7 +91,7 @@ class ChaMoveStorageTest {
     @Test
     void 차가_아예_갈_수_없는_행마면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(1), Column.of(3));
         BoardState boardState = new FakeBoard();
@@ -102,7 +102,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_높으면서_멱이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(3));
         Position obstacl = Position.of(Row.of(0), Column.of(2));
@@ -114,7 +114,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_X축은_같고_Y축은_도착지점이_더_낮으면서_멱이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(0), Column.of(3));
         Position to = Position.of(Row.of(0), Column.of(0));
         Position obstacl = Position.of(Row.of(0), Column.of(1));
@@ -126,7 +126,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_높으면서_멱이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(3), Column.of(0));
         Position obstacl = Position.of(Row.of(2), Column.of(0));
@@ -138,7 +138,7 @@ class ChaMoveStorageTest {
     @Test
     void 출발지점과_도착지점이_Y축은_같고_X축은_도착지점이_더_낮으면서_멱이_있으면_실패를_반환한다() {
         // given
-        MoveStorage moveStorage = new ChaMoveStorage();
+        MoveStrategy moveStorage = new ChaMoveStrategy();
         Position from = Position.of(Row.of(3), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(0));
         Position obstacl = Position.of(Row.of(1), Column.of(0));

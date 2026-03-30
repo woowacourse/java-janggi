@@ -8,7 +8,7 @@ import janggi.domain.Row;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaMoveStorage implements MoveStorage{
+public class MaMoveStrategy implements MoveStrategy {
     private static final int FORWARD = 2;
     private static final int DIAGONAL = 1;
 
