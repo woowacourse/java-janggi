@@ -3,7 +3,7 @@ package janggi.util;
 import janggi.view.OutputView;
 import java.util.function.Supplier;
 
-public class ExceptionHandler {
+public class ActionExecutor {
 
     public static <T> T retryUntilSuccess(Supplier<T> supplier) {
         while (true) {

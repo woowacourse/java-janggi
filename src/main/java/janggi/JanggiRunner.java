@@ -3,7 +3,7 @@ package janggi;
 import janggi.domain.JanggiGame;
 import janggi.domain.Position;
 import janggi.util.DelimiterParser;
-import janggi.util.ExceptionHandler;
+import janggi.util.ActionExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -16,10 +16,10 @@ public class JanggiRunner {
         JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
         while (true) {
             OutputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
-            Position startPosition = ExceptionHandler.retryUntilSuccess(
+            Position startPosition = ActionExecutor.retryUntilSuccess(
                 () -> readValidStartPosition(janggiGame)
             );
-            Position endPosition = ExceptionHandler.retryUntilSuccess(
+            Position endPosition = ActionExecutor.retryUntilSuccess(
                 () -> readValidEndPosition(janggiGame, startPosition)
             );
             janggiGame.doGame(startPosition, endPosition);
