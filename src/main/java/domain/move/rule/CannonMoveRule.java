@@ -1,16 +1,15 @@
 package domain.move.rule;
 
+import static domain.move.directions.Vector.*;
+import static domain.move.directions.Vector.LEFT;
+import static domain.move.directions.Vector.RIGHT;
+
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.path.Path;
 import domain.point.Point;
-
 import java.util.List;
-
-import static domain.move.directions.Vector.*;
-import static domain.move.directions.Vector.LEFT;
-import static domain.move.directions.Vector.RIGHT;
 
 public class CannonMoveRule extends MoveRule {
 
