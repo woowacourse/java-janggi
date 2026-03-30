@@ -25,8 +25,8 @@ public class JanggiController {
     }
 
     public void start() {
-        this.gameManager = new GameManager(readHorseElephantFormation());
-        printCurrentBoardStatus();
+        Map<Team, String> horseElephantFormations = readHorseElephantFormation();
+        startJanggiGame(horseElephantFormations);
         playJanggiGame();
     }
 
@@ -36,6 +36,11 @@ public class JanggiController {
         horseElephantInputs.put(Team.HAN, inputView.readHorseElephantFormation(Team.HAN.getKoreanName()));
 
         return horseElephantInputs;
+    }
+
+    private void startJanggiGame(Map<Team, String> horseElephantFormations) {
+        this.gameManager = new GameManager(horseElephantFormations);
+        printCurrentBoardStatus();
     }
 
     private void printCurrentBoardStatus() {
