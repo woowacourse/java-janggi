@@ -28,14 +28,14 @@ public class Position {
     }
 
     private void validatePosX(int x) {
-        if (x < 0 || x > 8) {
-            throw new IllegalArgumentException("[ERROR] x 좌표는 0~8 사이어야합니다.");
+        if (x < MIN_X_VALUE || x > MAX_X_VALUE) {
+            throw new IllegalArgumentException("[ERROR] x 좌표는 " + MIN_X_VALUE + "~" + MAX_X_VALUE + "사이어야합니다.");
         }
     }
 
     private void validatePosY(int y) {
-        if (y < 0 || y > 9) {
-            throw new IllegalArgumentException("[ERROR] y 좌표는 0~9 사이어야합니다.");
+        if (y < MIN_Y_VALUE || y > MAX_Y_VALUE) {
+            throw new IllegalArgumentException("[ERROR] y 좌표는" + MIN_Y_VALUE + "~" + MAX_Y_VALUE + "사이어야합니다.");
         }
     }
 
