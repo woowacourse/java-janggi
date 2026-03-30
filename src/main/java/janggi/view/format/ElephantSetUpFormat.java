@@ -1,29 +1,29 @@
 package janggi.view.format;
 
-import janggi.domain.board.ElephantSetting;
+import janggi.domain.board.ElephantSetUp;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public enum ElephantSettingFormat {
+public enum ElephantSetUpFormat {
 
-    LEFT_ELEPHANT("1", "상마상마", ElephantSetting.LEFT_ELEPHANT),
-    RIGHT_ELEPHANT("2", "마상마상", ElephantSetting.RIGHT_ELEPHANT),
-    INNER_ELEPHANT("3", "마상상마", ElephantSetting.INNER_ELEPHANT),
-    OUTER_ELEPHANT("4", "상마마상", ElephantSetting.OUTER_ELEPHANT);
+    LEFT_ELEPHANT("1", "상마상마", ElephantSetUp.LEFT_ELEPHANT),
+    RIGHT_ELEPHANT("2", "마상마상", ElephantSetUp.RIGHT_ELEPHANT),
+    INNER_ELEPHANT("3", "마상상마", ElephantSetUp.INNER_ELEPHANT),
+    OUTER_ELEPHANT("4", "상마마상", ElephantSetUp.OUTER_ELEPHANT);
 
     private static final String INVALID_ELEPHANT_SETTING = "[ERROR] 존재하지 않는 상차림 입니다.";
 
     private final String command;
     private final String description;
-    private final ElephantSetting elephantSetting;
+    private final ElephantSetUp elephantSetUp;
 
-    ElephantSettingFormat(String command, String description, ElephantSetting elephantSetting) {
+    ElephantSetUpFormat(String command, String description, ElephantSetUp elephantSetUp) {
         this.command = command;
         this.description = description;
-        this.elephantSetting = elephantSetting;
+        this.elephantSetUp = elephantSetUp;
     }
 
-    public static ElephantSettingFormat from(String command) {
+    public static ElephantSetUpFormat from(String command) {
         return Arrays.stream(values())
                 .filter(format -> format.command.equals(command))
                 .findFirst()
@@ -36,7 +36,7 @@ public enum ElephantSettingFormat {
                 .collect(Collectors.joining(System.lineSeparator()));
     }
 
-    public ElephantSetting toElephantSetting() {
-        return elephantSetting;
+    public ElephantSetUp toElephantSetting() {
+        return elephantSetUp;
     }
 }

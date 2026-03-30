@@ -44,15 +44,15 @@ public enum InitialPiecePlacement {
     }
 
     // TODO : 둘 다 같은 나라의 ElephantSetting 들어와도 컴파일 에러 X -> 타입 강제 고려하기
-    public static Map<Position, Piece> init(ElephantSetting hanChoice, ElephantSetting choChoice) {
+    public static Map<Position, Piece> init(ElephantSetUp hanChoice, ElephantSetUp choChoice) {
         Map<Position, Piece> board = new HashMap<>();
 
         for (InitialPiecePlacement placement : values()) {
             board.put(placement.position, placement.piece);
         }
 
-        board.putAll(hanChoice.createElephantOrder(Camp.HAN));
-        board.putAll(choChoice.createElephantOrder(Camp.CHO));
+        board.putAll(hanChoice.settingUp(Camp.HAN));
+        board.putAll(choChoice.settingUp(Camp.CHO));
         return board;
     }
 }

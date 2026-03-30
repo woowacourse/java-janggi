@@ -15,7 +15,7 @@ public class StandardBoardInitializerTest {
     void 한_상마상마_초_마상마상_으로_보드를_초기화한다() {
         // given
         BoardInitializer initializer = new StandardBoardInitializer(
-                ElephantSetting.LEFT_ELEPHANT, ElephantSetting.RIGHT_ELEPHANT);
+                ElephantSetUp.LEFT_ELEPHANT, ElephantSetUp.RIGHT_ELEPHANT);
         Map<Position, Piece> expectedBoard = createExpectedBoard();
         expectedBoard.putAll(createChoLeftHanRightBoard());
         // when
@@ -31,7 +31,7 @@ public class StandardBoardInitializerTest {
     void 한_상마마상_초_마상상마_으로_보드를_초기화한다() {
         // given
         BoardInitializer initializer = new StandardBoardInitializer(
-                ElephantSetting.OUTER_ELEPHANT, ElephantSetting.INNER_ELEPHANT);
+                ElephantSetUp.OUTER_ELEPHANT, ElephantSetUp.INNER_ELEPHANT);
         Map<Position, Piece> expectedBoard = createExpectedBoard();
         expectedBoard.putAll(createChoInnerHanOuterBoard());
         // when

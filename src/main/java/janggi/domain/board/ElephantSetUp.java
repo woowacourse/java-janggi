@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public enum ElephantSetting {
+public enum ElephantSetUp {
 
     LEFT_ELEPHANT(List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE)),
     RIGHT_ELEPHANT(List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT)),
@@ -19,11 +19,11 @@ public enum ElephantSetting {
 
     private final List<PieceType> elephantOrder;
 
-    ElephantSetting(List<PieceType> elephantOrder) {
+    ElephantSetUp(List<PieceType> elephantOrder) {
         this.elephantOrder = elephantOrder;
     }
 
-    public Map<Position, Piece> createElephantOrder(Camp camp) {
+    public Map<Position, Piece> settingUp(Camp camp) {
         List<Integer> settingColumns = camp.convertElephantColumns(SETTING_COLUMNS);
 
         Map<Position, Piece> map = new HashMap<>();

@@ -1,10 +1,10 @@
 package janggi.view;
 
 import janggi.domain.Position;
-import janggi.domain.board.ElephantSetting;
+import janggi.domain.board.ElephantSetUp;
 import janggi.util.Parser;
 import janggi.view.dto.CampDto;
-import janggi.view.format.ElephantSettingFormat;
+import janggi.view.format.ElephantSetUpFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,13 +29,13 @@ public final class InputView {
         this.scanner = scanner;
     }
 
-    public ElephantSetting readElephantSetting(CampDto campDto) {
+    public ElephantSetUp readElephantSetting(CampDto campDto) {
         System.out.println(String.format(
                 ELEPHANT_SETTING,
                 campDto.name(),
-                ElephantSettingFormat.outputMessage())
+                ElephantSetUpFormat.outputMessage())
         );
-        return ElephantSettingFormat.from(readLine()).toElephantSetting();
+        return ElephantSetUpFormat.from(readLine()).toElephantSetting();
     }
 
     private String readLine() {
