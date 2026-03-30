@@ -2,11 +2,11 @@ package controller;
 
 import domain.board.Board;
 import domain.board.InitialPieces;
+import domain.board.Intersection;
 import domain.board.wing.ChoWings;
 import domain.board.wing.HanWings;
 import domain.game.JanggiGame;
 import domain.piece.AlivePieces;
-import dto.BoardDto;
 import view.InputView;
 import view.OutputView;
 
@@ -32,5 +32,10 @@ public final class JanggiController {
         JanggiGame janggiGame = new JanggiGame(board);
 
         outputView.printBoard(board);
+
+        Intersection startPosition = inputView.readStartPosition(janggiGame.currentTurn());
+        outputView.printBoardWithMovable(
+                board,
+                board.getMovableIntersections(startPosition, janggiGame.currentTurn()));
     }
 }

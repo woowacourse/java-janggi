@@ -1,5 +1,6 @@
 package view;
 
+import domain.board.Intersection;
 import domain.board.wing.ChoWings;
 import domain.board.wing.HanWings;
 import domain.game.Side;
@@ -16,11 +17,16 @@ public final class InputView {
             '상', PieceType.ELEPHANT
     );
 
+    private static final Map<Side, String> SIDE_NAMES = Map.of(
+            Side.CHO, "초(초록색)",
+            Side.HAN, "한(빨간색)"
+    );
+
     private final Scanner scanner = new Scanner(System.in);
 
     public ChoWings readChoWings() {
         System.out.println("초(楚)의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
-        String input = scanner.nextLine().trim();
+        String input = readLine();
         System.out.println();
 
         return new ChoWings(
@@ -31,7 +37,7 @@ public final class InputView {
 
     public HanWings readHanWings() {
         System.out.println("한(漢)의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
-        String input = scanner.nextLine().trim();
+        String input = readLine();
         System.out.println();
 
         return new HanWings(
@@ -40,11 +46,31 @@ public final class InputView {
         );
     }
 
+    public Intersection readStartPosition(Side currentTurn) {
+        String sideName = SIDE_NAMES.get(currentTurn);
+        System.out.printf("%s 차례입니다. 이동할 기물의 좌표를 입력하세요 (예: 7,2):%n", sideName);
+
+        return parseIntersection(readLine());
+    }
+
+    private String readLine() {
+        return scanner.nextLine()
+                .trim();
+    }
+
+    private Intersection parseIntersection(String input) {
+        String[] split = input.split(",");
+        int row = Integer.parseInt(split[0]);
+        int file = Integer.parseInt(split[1]);
+
+        return new Intersection(row, file);
+    }
+
     private List<Piece> createWingPieces(String wingInput, Side side) {
         return wingInput.chars()
                 .mapToObj(c -> (char) c)
-                .filter(WING_TYPES::containsKey) // '마'나 '상'이 아닌 문자는 걸러냄
+                .filter(WING_TYPES::containsKey)
                 .map(symbol -> new Piece(WING_TYPES.get(symbol), side))
-                .toList(); // Java 16 미만이라면 .collect(Collectors.toList())
+                .toList();
     }
 }

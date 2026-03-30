@@ -28,4 +28,8 @@ public final class JanggiGame {
         // FIXME 여기서 예외가 터지면 턴만 넘어간다.
         board.movePiece(startIntersection, destination, requestingSide);
     }
+
+    public Side currentTurn() {
+        return currentTurn;
+    }
 }
