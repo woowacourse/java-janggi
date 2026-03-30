@@ -25,13 +25,13 @@ public class OnePieceExistsCondition implements MoveCondition {
 
     private int countPieceAt(BoardChecker board, PieceRule pieceRule, Position position) {
         if (board.hasPieceAt(position)) {
-            validateSamePieceRule(board, pieceRule, position);
+            validateDifferentPieceRule(board, pieceRule, position);
             return 1;
         }
         return 0;
     }
 
-    private void validateSamePieceRule(BoardChecker board, PieceRule pieceRule, Position position) {
+    private void validateDifferentPieceRule(BoardChecker board, PieceRule pieceRule, Position position) {
         if (board.hasSamePieceRuleAt(position, pieceRule)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
         }

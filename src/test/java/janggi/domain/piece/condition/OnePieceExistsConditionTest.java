@@ -63,7 +63,7 @@ public class OnePieceExistsConditionTest {
     }
 
     @Test
-    void 이동하려는_경로에_있는_기물이_포이면_예외가_발생한다() {
+    void 이동하려는_경로에_있는_기물이_같은_타입이면_예외가_발생한다() {
         //given
         List<Position> path = List.of(
                 new Position(0, 0),
@@ -110,7 +110,7 @@ public class OnePieceExistsConditionTest {
     }
 
     @Test
-    void 목적지에_있는_기물이_상대_포면_예외가_발생한다() {
+    void 목적지에_있는_기물이_같은_타입이면_예외가_발생한다() {
         //given
         List<Position> path = List.of(
                 new Position(0, 0),
