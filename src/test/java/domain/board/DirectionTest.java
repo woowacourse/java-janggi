@@ -1,102 +1,42 @@
 package domain.board;
 
 import domain.position.Position;
+import net.bytebuddy.asm.MemberSubstitution;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DirectionTest {
 
-    @Test
-    @DisplayName("(1, 0)을 넣으면 UP을 반환한다.")
-    void 좌표에_맞는_올바른_방향을_리턴한다_1() {
-        int row = 1;
-        int column = 0;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.UP);
+    @ParameterizedTest
+    @MethodSource("directionCases")
+    @DisplayName("단위 방향 좌표에 맞는 방향을 반환한다.")
+    void 단위_방향_테스트(int drow, int dcolumn, Direction expected) {
+        Direction direction = Direction.from(drow, dcolumn);
+        assertThat(direction).isEqualTo(expected);
     }
 
-    @Test
-    @DisplayName("(1, 1)을 넣으면 UP_RIGTH을 반환한다.")
-    void 좌표에_맞는_올바른_방향을_리턴한다_2() {
-        int row = 1;
-        int column = 1;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.UP_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(0, 1)을 넣으면 RIGHT를 반환한다.")
-    void from_좌표에_맞는_올바른_방향을_리턴한다_3() {
-        int row = 0;
-        int column = 1;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.RIGHT);
-    }
-
-    @Test
-    @DisplayName("(-1, 1)을 넣으면 DOWN_RIGHT를 반환한다.")
-    void 좌표에_맞는_올바른_방향을_리턴한다_4() {
-        int row = -1;
-        int column = 1;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.DOWN_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(-1, 0)을 넣으면 DOWN을 반환한다.")
-    void 좌표에_맞는_올바른_방향을_리턴한다_5() {
-        int row = -1;
-        int column = 0;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.DOWN);
-    }
-
-    @Test
-    @DisplayName("(-1, -1)을 넣으면 DOWN_LEFT를 반환한다.")
-    void 좌표에_맞는_올바른_방향을_리턴한다_6() {
-        int row = -1;
-        int column = -1;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.DOWN_LEFT);
-    }
-
-    @Test
-    @DisplayName("(0, -1)을 넣으면 LEFT를 반환한다.")
-    void from_좌표에_맞는_올바른_방향을_리턴한다_7() {
-        int row = 0;
-        int column = -1;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.LEFT);
-    }
-
-    @Test
-    @DisplayName("(1, -1)을 넣으면 UP_LEFT를 반환한다.")
-    void 좌표에_맞는_올바른_방향을_리턴한다_8() {
-        int row = 1;
-        int column = -1;
-
-        Direction direction = Direction.from(row, column);
-
-        assertThat(direction).isEqualTo(Direction.UP_LEFT);
+    // 단위 방향 MethodSource
+    static Stream<Arguments> directionCases() {
+        return Stream.of(
+                Arguments.of(1, 0, Direction.UP),
+                Arguments.of(1, 1, Direction.UP_RIGHT),
+                Arguments.of(0, 1, Direction.RIGHT),
+                Arguments.of(-1, 1, Direction.DOWN_RIGHT),
+                Arguments.of(-1, 0, Direction.DOWN),
+                Arguments.of(-1, -1, Direction.DOWN_LEFT),
+                Arguments.of(0, -1, Direction.LEFT),
+                Arguments.of(1, -1, Direction.UP_LEFT)
+        );
     }
 
     @Test
@@ -109,274 +49,78 @@ class DirectionTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    @DisplayName("(5,5), (7,5)를 넣으면 UP, UP을 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_1() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(7, 5);
-
+    @ParameterizedTest
+    @MethodSource("pathCases")
+    @DisplayName("시작-도착-좌표에 따른 방향 경로를 반환한다.")
+    void 시작_도착_좌표의_방향_경로_테스트(Position startPosition, Position endPosition, List<Direction> expected) {
         Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
+        assertThat(directions).containsExactlyElementsOf(expected);
     }
 
-    @Test
-    @DisplayName("(5,5), (3,5)를 넣으면 DOWN, DOWN을 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_2() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(3, 5);
+    static Stream<Arguments> pathCases() {
+        return Stream.of(
+                // 직선 2개
+                Arguments.of(Position.of(5, 5), Position.of(7, 5),
+                        List.of(Direction.UP, Direction.UP)),
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+                Arguments.of(Position.of(5, 5), Position.of(3, 5),
+                        List.of(Direction.DOWN, Direction.DOWN)),
 
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-    }
+                Arguments.of(Position.of(5, 5), Position.of(5, 3),
+                        List.of(Direction.LEFT, Direction.LEFT)),
 
-    @Test
-    @DisplayName("(5,5), (5,3)를 넣으면 LEFT, LEFT을 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_3() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(5, 3);
+                Arguments.of(Position.of(5, 5), Position.of(5, 7),
+                        List.of(Direction.RIGHT, Direction.RIGHT)),
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+                // 직선 1개, 대각선 1개
+                Arguments.of(Position.of(5, 5), Position.of(7, 6),
+                        List.of(Direction.UP, Direction.UP_RIGHT)),
 
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-    }
+                Arguments.of(Position.of(5, 5), Position.of(7, 4),
+                        List.of(Direction.UP, Direction.UP_LEFT)),
 
-    @Test
-    @DisplayName("(5,5), (5,7)를 넣으면 RIGHT, RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_4() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(5, 7);
+                Arguments.of(Position.of(5, 5), Position.of(6, 7),
+                        List.of(Direction.RIGHT, Direction.UP_RIGHT)),
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+                Arguments.of(Position.of(5, 5), Position.of(4, 7),
+                        List.of(Direction.RIGHT, Direction.DOWN_RIGHT)),
 
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-    }
+                Arguments.of(Position.of(5, 5), Position.of(3, 6),
+                        List.of(Direction.DOWN, Direction.DOWN_RIGHT)),
 
+                Arguments.of(Position.of(5, 5), Position.of(3, 4),
+                        List.of(Direction.DOWN, Direction.DOWN_LEFT)),
 
-    @Test
-    @DisplayName("(5,5), (7,6)를 넣으면 UP, UP_RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_5() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(7, 6);
+                Arguments.of(Position.of(5, 5), Position.of(6, 3),
+                        List.of(Direction.LEFT, Direction.UP_LEFT)),
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+                Arguments.of(Position.of(5, 5), Position.of(4, 3),
+                        List.of(Direction.LEFT, Direction.DOWN_LEFT)),
 
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-    }
+                // 직선 1개, 대각선 2개
+                Arguments.of(Position.of(5, 5), Position.of(8, 7),
+                        List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT)),
 
-    @Test
-    @DisplayName("(5,5), (7,4)를 넣으면 UP, UP_LEFT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_6() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(7, 4);
+                Arguments.of(Position.of(5, 5), Position.of(8, 3),
+                        List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT)),
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+                Arguments.of(Position.of(5, 5), Position.of(7, 8),
+                        List.of(Direction.RIGHT, Direction.UP_RIGHT, Direction.UP_RIGHT)),
 
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-    }
+                Arguments.of(Position.of(5, 5), Position.of(3, 8),
+                        List.of(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)),
 
+                Arguments.of(Position.of(5, 5), Position.of(2, 7),
+                        List.of(Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)),
 
-    @Test
-    @DisplayName("(5,5), (6,7)를 넣으면 RIGHT, UP_RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_7() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(6, 7);
+                Arguments.of(Position.of(5, 5), Position.of(2, 3),
+                        List.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT)),
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+                Arguments.of(Position.of(5, 5), Position.of(7, 2),
+                        List.of(Direction.LEFT, Direction.UP_LEFT, Direction.UP_LEFT)),
 
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-    }
-
-
-    @Test
-    @DisplayName("(5,5), (4,7)를 넣으면 RIGHT, DOWN_RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_8() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(4, 7);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (3,6)를 넣으면 DOWN, DOWN_RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_9() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(3, 6);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (3,4)를 넣으면 DOWN, DOWN_LEFT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_10() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(3, 4);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (6,3)를 넣으면 LEFT, UP_LEFT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_11() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(6, 3);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (4,3)를 넣으면 LEFT, DOWN_LEFT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_12() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(4, 3);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (8,7)를 넣으면 UP, UP_RIGHT, UP_RIGHT  반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_13() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(8, 7);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (8,3)를 넣으면 UP, UP_LEFT, UP_LEFT  반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_14() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(8, 3);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (7,8)를 넣으면 RIGHT, UP_RIGHT, UP_RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_15() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(7, 8);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (3,8)를 넣으면 RIGHT, DOWN_RIGHT, DOWN_RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_16() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(3, 8);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (2,7)를 넣으면 DOWN, DOWN_RIGHT, DOWN_RIGHT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_17() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(2, 7);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (2,3)를 넣으면 DOWN, DOWN_LEFT, DOWN_LEFT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_18() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(2, 3);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (7,2)를 넣으면 LEFT, UP_LEFT, UP_LEFT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_19() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(7, 2);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-    }
-
-    @Test
-    @DisplayName("(5,5), (3,2)를 넣으면 LEFT, DOWN_LEFT, DOWN_LEFT 반환한다")
-    void 시작_도착_좌표에_맞는_올바른_방향을_리턴한다_20() {
-        Position startPosition = Position.of(5, 5);
-        Position endPosition = Position.of(3, 2);
-
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
-
-        assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
+                Arguments.of(Position.of(5, 5), Position.of(3, 2),
+                        List.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT))
+        );
     }
 }
