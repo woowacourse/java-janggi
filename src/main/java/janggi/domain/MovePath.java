@@ -31,18 +31,6 @@ public class MovePath {
             && Integer.signum(dy) == Integer.signum(delta.dy());
     }
 
-    private int totalDx() {
-        return path.stream()
-            .mapToInt(Delta::dx)
-            .sum();
-    }
-
-    private int totalDy() {
-        return path.stream()
-            .mapToInt(Delta::dy)
-            .sum();
-    }
-
     public List<Position> createRoute(Position start, Position end) {
         List<Position> route = new ArrayList<>();
         Position current = start;
@@ -63,6 +51,18 @@ public class MovePath {
         }
         route.removeLast();
         return route;
+    }
+
+    private int totalDx() {
+        return path.stream()
+            .mapToInt(Delta::dx)
+            .sum();
+    }
+
+    private int totalDy() {
+        return path.stream()
+            .mapToInt(Delta::dy)
+            .sum();
     }
 
     private List<Position> createStraightRoute(Position end, List<Position> route, Position current) {

@@ -47,11 +47,6 @@ public class Board {
         return findTeamPiece(position, nowTeam);
     }
 
-    private Piece findTeamPiece(Position position, Team nowTeam) {
-        return nowTeam.findPiece(position)
-            .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
-    }
-
     public Optional<Piece> findPiece(Position position) {
         Optional<Piece> chuPiece = chu.findPiece(position);
         if (chuPiece.isPresent()) {
@@ -62,6 +57,33 @@ public class Board {
 
     public boolean hasPiece(Position position) {
         return findPiece(position).isPresent();
+    }
+
+    public void canMove(Position startPosition, Position endPosition, TeamType nowTeam) {
+        validateRange(endPosition);
+        Piece piece = findTeamPiece(startPosition, currentTeam(nowTeam));
+        validateTargetPosition(currentTeam(nowTeam), endPosition);
+        validateCanMove(piece, startPosition, endPosition);
+    }
+
+    public Board move(
+            Position startPosition,
+            Position endPosition,
+            TeamType nowTurn
+    ) {
+        validateRange(startPosition);
+        validateRange(endPosition);
+        Piece piece = findTeamPiece(startPosition, currentTeam(nowTurn));
+        validateTargetPosition(currentTeam(nowTurn), endPosition);
+        validateCanMove(piece, startPosition, endPosition);
+        Team movedCurrentTeam = currentTeam(nowTurn).move(startPosition, endPosition);
+        Team remainedOpponentTeam = removeOpponentPiece(nowTurn, endPosition);
+        return createMovedBoard(nowTurn, movedCurrentTeam, remainedOpponentTeam);
+    }
+
+    private Piece findTeamPiece(Position position, Team nowTeam) { // public 메서드 아래로 두는지 질문
+        return nowTeam.findPiece(position)
+                .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
     }
 
     private Team currentTeam(TeamType nowTurn) {
@@ -76,28 +98,6 @@ public class Board {
             return han;
         }
         return chu;
-    }
-
-    public Board move(
-        Position startPosition,
-        Position endPosition,
-        TeamType nowTurn
-    ) {
-        validateRange(startPosition);
-        validateRange(endPosition);
-        Piece piece = findTeamPiece(startPosition, currentTeam(nowTurn));
-        validateTargetPosition(currentTeam(nowTurn), endPosition);
-        validateCanMove(piece, startPosition, endPosition);
-        Team movedCurrentTeam = currentTeam(nowTurn).move(startPosition, endPosition);
-        Team remainedOpponentTeam = removeOpponentPiece(nowTurn, endPosition);
-        return createMovedBoard(nowTurn, movedCurrentTeam, remainedOpponentTeam);
-    }
-
-    public void canMove(Position startPosition, Position endPosition, TeamType nowTeam) {
-        validateRange(endPosition);
-        Piece piece = findTeamPiece(startPosition, currentTeam(nowTeam));
-        validateTargetPosition(currentTeam(nowTeam), endPosition);
-        validateCanMove(piece, startPosition, endPosition);
     }
 
     private void validateCanMove(Piece piece, Position piecePosition, Position targetPosition) {

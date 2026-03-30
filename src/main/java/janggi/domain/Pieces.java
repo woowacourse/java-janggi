@@ -63,6 +63,21 @@ public class Pieces {
     }
 
 
+    public List<BoardSpot> makeSpots() {
+        List<BoardSpot> boardSpots = new ArrayList<>();
+        for (Map.Entry<Position, Piece> entry : value.entrySet()) {
+            boardSpots.add(new BoardSpot(
+                    entry.getKey().makePositionKey(),
+                    entry.getValue().nickname()
+            ));
+        }
+        return boardSpots;
+    }
+
+    public Optional<Piece> findPiece(Position position) {
+        return Optional.ofNullable(value.get(position));
+    }
+
     private static void createChas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
         pieces.put(new Position(1, indexY), new Cha(teamType));
         pieces.put(new Position(9, indexY), new Cha(teamType));
@@ -96,20 +111,5 @@ public class Pieces {
         for (int i = 1; i < 10; i += 2) {
             pieces.put(new Position(i, indexY), new Jol(teamType));
         }
-    }
-
-    public List<BoardSpot> makeSpots() {
-        List<BoardSpot> boardSpots = new ArrayList<>();
-        for (Map.Entry<Position, Piece> entry : value.entrySet()) {
-            boardSpots.add(new BoardSpot(
-                entry.getKey().makePositionKey(),
-                entry.getValue().nickname()
-            ));
-        }
-        return boardSpots;
-    }
-
-    public Optional<Piece> findPiece(Position position) {
-        return Optional.ofNullable(value.get(position));
     }
 }
