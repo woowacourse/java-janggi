@@ -26,7 +26,6 @@ public class JanggiController {
         Player hanPlayer = Player.han(hanPlayerName);
 
         outputView.printChoiceChoElephantSetupPrompt();
-        ;
         ElephantSetup choElephantSetup = inputView.readElephantSetup();
 
         outputView.printChoiceHanElephantSetupPrompt();
