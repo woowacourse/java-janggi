@@ -23,8 +23,8 @@ public final class JanggiController {
     public void run() {
         outputView.printGameStart();
 
-        Wings choWings = inputView.readChoWings();
-        Wings hanWings = inputView.readHanWings();
+        Wings choWings = inputView.readWings(Side.CHO);
+        Wings hanWings = inputView.readWings(Side.HAN);
 
         InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
         AlivePieces alivePieces = new AlivePieces(initialPieces.get());

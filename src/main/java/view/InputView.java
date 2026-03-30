@@ -17,33 +17,21 @@ public final class InputView {
     );
 
     private static final Map<Side, String> SIDE_NAMES = Map.of(
-            Side.CHO, "초(초록색)",
-            Side.HAN, "한(빨간색)"
+            Side.CHO, "초(楚)",
+            Side.HAN, "한(漢)"
     );
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public Wings readChoWings() {
-        System.out.println("초(楚)의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
-        String input = readLine();
+    public Wings readWings(Side side) {
+        System.out.println(SIDE_NAMES.get(side) + "의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
+        String rowWings = readLine();
         System.out.println();
 
         return new Wings(
                 Side.CHO,
-                createWingPieces(input.substring(0, 2), Side.CHO),
-                createWingPieces(input.substring(2, 4), Side.CHO)
-        );
-    }
-
-    public Wings readHanWings() {
-        System.out.println("한(漢)의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
-        String input = readLine();
-        System.out.println();
-
-        return new Wings(
-                Side.HAN,
-                createWingPieces(input.substring(0, 2), Side.HAN),
-                createWingPieces(input.substring(2, 4), Side.HAN)
+                createWingPieces(rowWings.substring(0, 2), side),
+                createWingPieces(rowWings.substring(2, 4), side)
         );
     }
 
