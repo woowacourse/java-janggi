@@ -4,19 +4,13 @@ import controller.dto.MovedPieceRequest;
 import java.util.Scanner;
 
 public class InputView {
-    private static final String CHO_HORSE_ELEPHANT_INPUT_GUIDE = "초나라의 상마상마 상차림을 입력하세요: ";
-    private static final String HAN_HORSE_ELEPHANT_INPUT_GUIDE = "한나라의 상마상마 상차림을 입력하세요: ";
+    private static final String HORSE_ELEPHANT_INPUT_GUIDE = "%s나라의 상마상마 상차림을 입력하세요: ";
     private static final String MOVED_PIECE_INPUT_GUIDE= "이동시킬 말의 이름과 현재 위치(행,열), 옮기고 싶은 위치(행,열)를 함께 입력하세요.(예: \"(7,1), (6,1), 졸\"): ";
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public String readChoHorseElephantFormation(){
-        printMessage(CHO_HORSE_ELEPHANT_INPUT_GUIDE);
-        return readInput();
-    }
-
-    public String readHanHorseElephantFormation(){
-        printMessage(HAN_HORSE_ELEPHANT_INPUT_GUIDE);
+    public String readHorseElephantFormation(String teamName){
+        printMessage(String.format(HORSE_ELEPHANT_INPUT_GUIDE, teamName));
         return readInput();
     }
 

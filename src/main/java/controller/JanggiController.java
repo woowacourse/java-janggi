@@ -32,8 +32,8 @@ public class JanggiController {
 
     private Map<Team, String> readHorseElephantFormation() {
         Map<Team, String> horseElephantInputs = new HashMap<>();
-        horseElephantInputs.put(Team.CHO, inputView.readChoHorseElephantFormation());
-        horseElephantInputs.put(Team.HAN, inputView.readHanHorseElephantFormation());
+        horseElephantInputs.put(Team.CHO, inputView.readHorseElephantFormation(Team.CHO.getKoreanName()));
+        horseElephantInputs.put(Team.HAN, inputView.readHorseElephantFormation(Team.HAN.getKoreanName()));
 
         return horseElephantInputs;
     }
