@@ -12,8 +12,8 @@ class ChariotMoveStrategyTest {
     @Test
     @DisplayName("차 기물은 현재 위치 기준 모든 상하좌우 범위 내에 위치로 이동할 수 있어야 한다.")
     void chariot_move_test() {
-        Position current = Position.of(4, 4);
-        Position target = Position.of(9,4);
+        Position current = new Position(4, 4);
+        Position target = new Position(9, 4);
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
         assertThat(moveStrategy.canMoveTo(target)).isTrue();
@@ -22,8 +22,8 @@ class ChariotMoveStrategyTest {
     @Test
     @DisplayName("차 기물은 현재 위치 기준 모든 상하좌우 범위 이동 이외에 이동할 수 없어야 한다.")
     void chariot_move_test_negative() {
-        Position current = Position.of(4, 4);
-        Position target = Position.of(9,5);
+        Position current = new Position(4, 4);
+        Position target = new Position(9, 5);
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
         assertThat(moveStrategy.canMoveTo(target)).isFalse();
@@ -32,9 +32,9 @@ class ChariotMoveStrategyTest {
     @Test
     @DisplayName("차 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
     void chariot_blocked_route_test() {
-        Position current = Position.of(4, 4);
-        Position target = Position.of(4,9);
-        List<Position> piecePositions = List.of(Position.of(4, 8));
+        Position current = new Position(4, 4);
+        Position target = new Position(4, 9);
+        List<Position> piecePositions = List.of(new Position(4, 8));
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
         assertThat(moveStrategy.hasValidPathTo(target, piecePositions)).isFalse();
@@ -43,9 +43,9 @@ class ChariotMoveStrategyTest {
     @Test
     @DisplayName("차 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
     void chariot_non_blocked_route_test() {
-        Position current = Position.of(4, 4);
-        Position target = Position.of(4,9);
-        List<Position> piecePositions = List.of(Position.of(4, 3));
+        Position current = new Position(4, 4);
+        Position target = new Position(4, 9);
+        List<Position> piecePositions = List.of(new Position(4, 3));
         ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
 
         assertThat(moveStrategy.hasValidPathTo(target, piecePositions)).isTrue();

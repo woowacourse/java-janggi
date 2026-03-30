@@ -17,15 +17,15 @@ class JanggiGameTest {
     void player_select_piece_exist() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                HorseMoveStrategy.of(new Position(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(5, 2)));
+                HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = new JanggiGame(board);
-        Position selectPosition = Position.of(3, 3);
+        Position selectPosition = new Position(3, 3);
 
         assertDoesNotThrow(() -> janggiGame.validatePieceSelection(selectPosition));
 
@@ -36,15 +36,15 @@ class JanggiGameTest {
     void player_select_position_out_of_range_throw_exception() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                HorseMoveStrategy.of(new Position(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(5, 2)));
+                HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = new JanggiGame(board);
-        Position selectPosition = Position.of(10, 3);
+        Position selectPosition = new Position(10, 3);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> janggiGame.validatePieceSelection(selectPosition));
@@ -55,15 +55,15 @@ class JanggiGameTest {
     void player_select_position_piece_not_exist_throw_exception() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.RED),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                HorseMoveStrategy.of(new Position(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(5, 2)));
+                HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = new JanggiGame(board);
-        Position selectPosition = Position.of(3, 3);
+        Position selectPosition = new Position(3, 3);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> janggiGame.validatePieceSelection(selectPosition));
@@ -74,9 +74,9 @@ class JanggiGameTest {
     void game_finished() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.RED),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                HorseMoveStrategy.of(new Position(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(5, 2)));
+                HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);

@@ -66,7 +66,7 @@ public class CannonMoveStrategy extends MoveStrategy {
         int endCol = Math.max(position().col(), destination.col());
 
         for (int col = startCol; col < endCol; col++) {
-            routePositons.add(Position.of(position().row(), col));
+            routePositons.add(new Position(position().row(), col));
         }
         return routePositons;
     }
@@ -78,7 +78,7 @@ public class CannonMoveStrategy extends MoveStrategy {
         int endRow = Math.max(position().row(), destination.row());
 
         for (int row = startRow; row < endRow; row++) {
-            routePositions.add(Position.of(row, position().col()));
+            routePositions.add(new Position(row, position().col()));
         }
         return routePositions;
     }

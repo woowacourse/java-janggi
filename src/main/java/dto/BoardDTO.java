@@ -14,7 +14,7 @@ public record BoardDTO(Map<Position, Piece> board) {
         for (int row = 0; row < 10; row++) {
             List<String> line = new ArrayList<>();
             for (int col = 0; col < 9; col++) {
-                Position position = Position.of(row, col);
+                Position position = new Position(row, col);
                 Piece piece = board.get(position);
                 line.add(toSymbol(piece));
             }

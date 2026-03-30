@@ -51,7 +51,7 @@ public class ChariotMoveStrategy extends MoveStrategy {
         int endCol = Math.max(position().col(), destination.col());
 
         for (int col = startCol; col < endCol; col++) {
-            routePositions.add(Position.of(position().row(), col));
+            routePositions.add(new Position(position().row(), col));
         }
         return routePositions;
     }
@@ -63,7 +63,7 @@ public class ChariotMoveStrategy extends MoveStrategy {
         int endRow = Math.max(position().row(), destination.row());
 
         for (int row = startRow; row < endRow; row++) {
-            routePositions.add(Position.of(row, position().col()));
+            routePositions.add(new Position(row, position().col()));
         }
         return routePositions;
     }

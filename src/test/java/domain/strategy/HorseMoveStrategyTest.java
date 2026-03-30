@@ -50,7 +50,7 @@ class HorseMoveStrategyTest {
 
 
     private static Stream<Arguments> moveablePositions() {
-        Position midPosition = Position.of(4, 4);
+        Position midPosition = new Position(4, 4);
         return Stream.of(
                 Arguments.arguments(midPosition, midPosition.up().upCrossLeft()),
                 Arguments.arguments(midPosition, midPosition.up().upCrossRight()),
@@ -65,7 +65,7 @@ class HorseMoveStrategyTest {
     }
 
     private static Stream<Arguments> nonMovablePositions() {
-        Position midPosition = Position.of(4, 4);
+        Position midPosition = new Position(4, 4);
         return Stream.of(
                 Arguments.arguments(midPosition, midPosition.up().upCrossLeft().up()),
                 Arguments.arguments(midPosition, midPosition.up().upCrossRight().up()),
@@ -87,7 +87,7 @@ class HorseMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveablePositionsAndBlockedPositions() {
-        Position midPosition = Position.of(4, 4);
+        Position midPosition = new Position(4, 4);
 
         return Stream.of(
                 Arguments.arguments(midPosition, midPosition.up().upCrossLeft(), List.of(midPosition.up())),

@@ -7,35 +7,35 @@ public record Position(int row, int col) {
     }
 
     public Position up() {
-        return Position.of(this.row - 1, this.col);
+        return new Position(this.row - 1, this.col);
     }
 
     public Position down() {
-        return Position.of(this.row + 1, this.col);
+        return new Position(this.row + 1, this.col);
     }
 
     public Position left() {
-        return Position.of(this.row, this.col - 1);
+        return new Position(this.row, this.col - 1);
     }
 
     public Position right() {
-        return Position.of(this.row, this.col + 1);
+        return new Position(this.row, this.col + 1);
     }
 
     public Position upCrossRight() {
-        return Position.of(this.row - 1, this.col + 1);
+        return new Position(this.row - 1, this.col + 1);
     }
 
     public Position upCrossLeft() {
-        return Position.of(this.row - 1, this.col - 1);
+        return new Position(this.row - 1, this.col - 1);
     }
 
     public Position downCrossRight() {
-        return Position.of(this.row + 1, this.col + 1);
+        return new Position(this.row + 1, this.col + 1);
     }
 
     public Position downCrossLeft() {
-        return Position.of(this.row + 1, this.col - 1);
+        return new Position(this.row + 1, this.col - 1);
     }
 
 }

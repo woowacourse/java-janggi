@@ -40,18 +40,18 @@ class UpwardSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveablePositions() {
-        return Stream.of(Arguments.arguments(Position.of(3, 2), Position.of(3, 1)),
-                Arguments.arguments(Position.of(3, 2), Position.of(3, 3)),
-                Arguments.arguments(Position.of(3, 2), Position.of(4, 2)));
+        return Stream.of(Arguments.arguments(new Position(3, 2), new Position(3, 1)),
+                Arguments.arguments(new Position(3, 2), new Position(3, 3)),
+                Arguments.arguments(new Position(3, 2), new Position(4, 2)));
     }
 
     private static Stream<Arguments> nonMovablePositions() {
-        return Stream.of(Arguments.arguments(Position.of(3, 2), Position.of(5, 6)),
-                Arguments.arguments(Position.of(3, 2), Position.of(5, 7)),
-                Arguments.arguments(Position.of(3, 2), Position.of(5, 8)),
+        return Stream.of(Arguments.arguments(new Position(3, 2), new Position(5, 6)),
+                Arguments.arguments(new Position(3, 2), new Position(5, 7)),
+                Arguments.arguments(new Position(3, 2), new Position(5, 8)),
 
-                Arguments.arguments(Position.of(3, 2), Position.of(2, 2)),
-                Arguments.arguments(Position.of(3, 2), Position.of(1, 2)));
+                Arguments.arguments(new Position(3, 2), new Position(2, 2)),
+                Arguments.arguments(new Position(3, 2), new Position(1, 2)));
     }
 
 }

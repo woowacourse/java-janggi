@@ -41,19 +41,19 @@ class GuardMoveStrategyTest {
 
     private static Stream<Arguments> moveablePositions() {
         return Stream.of(
-                Arguments.arguments(Position.of(1, 4), Position.of(1, 5)),
-                Arguments.arguments(Position.of(1, 4), Position.of(1, 3)),
-                Arguments.arguments(Position.of(1, 4), Position.of(2, 4)),
-                Arguments.arguments(Position.of(1, 4), Position.of(0, 4))
+                Arguments.arguments(new Position(1, 4), new Position(1, 5)),
+                Arguments.arguments(new Position(1, 4), new Position(1, 3)),
+                Arguments.arguments(new Position(1, 4), new Position(2, 4)),
+                Arguments.arguments(new Position(1, 4), new Position(0, 4))
         );
     }
 
     private static Stream<Arguments> nonMovablePositions() {
         return Stream.of(
-                Arguments.arguments(Position.of(1, 4), Position.of(1, 2)),
-                Arguments.arguments(Position.of(1, 4), Position.of(3, 3)),
-                Arguments.arguments(Position.of(1, 4), Position.of(5, 5)),
-                Arguments.arguments(Position.of(1, 4), Position.of(7, 7))
+                Arguments.arguments(new Position(1, 4), new Position(1, 2)),
+                Arguments.arguments(new Position(1, 4), new Position(3, 3)),
+                Arguments.arguments(new Position(1, 4), new Position(5, 5)),
+                Arguments.arguments(new Position(1, 4), new Position(7, 7))
         );
     }
 }

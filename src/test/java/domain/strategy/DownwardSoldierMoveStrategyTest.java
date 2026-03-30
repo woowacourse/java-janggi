@@ -42,20 +42,20 @@ class DownwardSoldierMoveStrategyTest {
 
     private static Stream<Arguments> moveablePositions() {
         return Stream.of(
-                Arguments.arguments(Position.of(6, 2), Position.of(6, 1)),
-                Arguments.arguments(Position.of(6, 2), Position.of(6, 3)),
-                Arguments.arguments(Position.of(6, 2), Position.of(5, 2))
+                Arguments.arguments(new Position(6, 2), new Position(6, 1)),
+                Arguments.arguments(new Position(6, 2), new Position(6, 3)),
+                Arguments.arguments(new Position(6, 2), new Position(5, 2))
         );
     }
 
     private static Stream<Arguments> nonMovablePositions() {
         return Stream.of(
-                Arguments.arguments(Position.of(6, 2), Position.of(6, 4)),
-                Arguments.arguments(Position.of(6, 2), Position.of(1, 2)),
-                Arguments.arguments(Position.of(6, 2), Position.of(5, 3)),
+                Arguments.arguments(new Position(6, 2), new Position(6, 4)),
+                Arguments.arguments(new Position(6, 2), new Position(1, 2)),
+                Arguments.arguments(new Position(6, 2), new Position(5, 3)),
 
-                Arguments.arguments(Position.of(6, 2), Position.of(7, 2)),
-                Arguments.arguments(Position.of(6, 2), Position.of(8, 3))
+                Arguments.arguments(new Position(6, 2), new Position(7, 2)),
+                Arguments.arguments(new Position(6, 2), new Position(8, 3))
         );
     }
 

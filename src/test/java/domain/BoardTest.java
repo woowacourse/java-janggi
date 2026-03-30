@@ -16,9 +16,9 @@ class BoardTest {
     void input_board_out_of_range_test() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                HorseMoveStrategy.of(new Position(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(5, 2)));
+                HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
@@ -34,8 +34,8 @@ class BoardTest {
     void board_move_piece_test() {
         Map<Position, Piece> testBoard = new HashMap<>();
 
-        Position selectPosition = Position.of(3, 3);
-        Position targetPosition = Position.of(5, 2);
+        Position selectPosition = new Position(3, 3);
+        Position targetPosition = new Position(5, 2);
 
         Piece select = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN), HorseMoveStrategy.of(selectPosition));
         Piece target = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.RED), HorseMoveStrategy.of(targetPosition));
@@ -57,9 +57,9 @@ class BoardTest {
     void canMoveTo_test() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(3, 3)));
+                HorseMoveStrategy.of(new Position(3, 3)));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.RED),
-                HorseMoveStrategy.of(Position.of(5, 2)));
+                HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
         Board board = Board.of(testBoard);
@@ -75,13 +75,13 @@ class BoardTest {
     void cannon_can_not_jump_cannon() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece selected = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
-                CannonMoveStrategy.of(Position.of(3, 3)));
+                CannonMoveStrategy.of(new Position(3, 3)));
 
         Piece fixed = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
-                CannonMoveStrategy.of(Position.of(5, 3)));
+                CannonMoveStrategy.of(new Position(5, 3)));
 
         Piece destination = new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
-                NonMoveableStrategy.of(Position.of(7, 3)));
+                NonMoveableStrategy.of(new Position(7, 3)));
 
         testBoard.put(selected.currentPosition(), selected);
         testBoard.put(fixed.currentPosition(), fixed);
@@ -99,13 +99,13 @@ class BoardTest {
     void cannon_can_not_catch_cannon() {
         Map<Position, Piece> testBoard = new HashMap<>();
         Piece selected = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
-                CannonMoveStrategy.of(Position.of(3, 3)));
+                CannonMoveStrategy.of(new Position(3, 3)));
 
         Piece fixed = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
-                HorseMoveStrategy.of(Position.of(5, 3)));
+                HorseMoveStrategy.of(new Position(5, 3)));
 
         Piece destination = new Piece(PieceProperty.of(PieceType.CANNON, Team.RED),
-                CannonMoveStrategy.of(Position.of(7, 3)));
+                CannonMoveStrategy.of(new Position(7, 3)));
 
         testBoard.put(selected.currentPosition(), selected);
         testBoard.put(fixed.currentPosition(), fixed);

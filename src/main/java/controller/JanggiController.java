@@ -40,7 +40,7 @@ public class JanggiController {
     private Position readSelectedPiecePosition() {
         String rawSelectPiecePosition = InputView.selectPiecePosition();
         List<Integer> selectPiecePosition = InputParser.parseDelimitedToIntegersStrict(rawSelectPiecePosition);
-        Position selectedPosition = Position.of(selectPiecePosition.getFirst(), selectPiecePosition.getLast());
+        Position selectedPosition = new Position(selectPiecePosition.getFirst(), selectPiecePosition.getLast());
         janggiGame.validatePieceSelection(selectedPosition);
         return selectedPosition;
     }
@@ -48,7 +48,7 @@ public class JanggiController {
     private static Position getTargetPosition() {
         String rawTargetPosition = InputView.selectTargetPosition();
         List<Integer> target = InputParser.parseDelimitedToIntegersStrict(rawTargetPosition);
-        return Position.of(target.getFirst(), target.getLast());
+        return new Position(target.getFirst(), target.getLast());
     }
 
 
