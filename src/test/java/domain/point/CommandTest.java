@@ -1,5 +1,6 @@
 package domain.point;
 
+import domain.point.dto.Command;
 import domain.point.exception.PointException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

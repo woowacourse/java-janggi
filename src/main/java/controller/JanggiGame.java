@@ -6,7 +6,7 @@ import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
 import domain.board.dto.JanggiBoardDto;
 import domain.piece.Team;
-import domain.point.Command;
+import domain.point.dto.Command;
 import view.InputReader;
 import view.OutputWriter;
 

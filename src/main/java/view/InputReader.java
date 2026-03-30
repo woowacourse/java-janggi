@@ -2,7 +2,7 @@ package view;
 
 import domain.board.Formation;
 import domain.piece.Team;
-import domain.point.Command;
+import domain.point.dto.Command;
 
 import java.util.Scanner;
 

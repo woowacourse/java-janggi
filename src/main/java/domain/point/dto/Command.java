@@ -1,5 +1,6 @@
-package domain.point;
+package domain.point.dto;
 
+import domain.point.Point;
 import domain.point.exception.PointException;
 
 import static domain.point.exception.ErrorMessage.*;
