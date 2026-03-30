@@ -10,12 +10,13 @@ public enum ErrorMessage {
     INVALID_PIECE_MOVEMENT("기물을 이동할 수 없습니다."),
     EMPTY_SOURCE_POSITION("비어있는 곳입니다."),
     DIFFERENT_TEAM("다른 팀의 기물입니다. 현재 차례: %s", true),
-    INVALID_FORMATION_INPUT("1에서 4까지 숫자만 입력해주세요. 입력값: %s", true);
+    INVALID_FORMATION_INPUT("1에서 4까지 숫자만 입력해주세요. 입력값: %s", true),
+    DUPLICATE_NAME("초나라 플레이어와 닉네임이 중복될 수 없습니다.");
 
     private final String message;
     private final boolean isFormatted;
 
-    private ErrorMessage(String message) {
+    ErrorMessage(String message) {
         this.message = message;
         this.isFormatted = false;
     }
