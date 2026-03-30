@@ -4,6 +4,7 @@ import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -29,7 +30,8 @@ class SoldierMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("졸_기물의_이동가능한_위치_목록_반환_테스트_케이스")
-    public void 졸_기물의_이동가능한_위치_목록을_반환한다(Dynasty ally, Dynasty enemy, List<Position> results) {
+    @DisplayName("졸 기물의 이동가능한 위치 목록을 반환한다")
+    public void soldier_findMovablePositions_success(Dynasty ally, Dynasty enemy, List<Position> results) {
         // given
         Position from = Position.from(5, 5);
         board.put(from, new Piece(ally, moveStrategy));

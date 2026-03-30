@@ -13,12 +13,14 @@ import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
     @Test
-    public void 특정_위치에_있는_기물이_움직일_수_있는_위치들을_올바르게_반환한다() {
+    @DisplayName("특정 위치에 있는 기물이 움직일 수 있는 위치들을 올바르게 반환한다")
+    public void canMovePosition_success() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
         Board board = new Board(policy);
@@ -29,7 +31,8 @@ class BoardTest {
     }
 
     @Test
-    public void 상대_팀의_기물을_움직이려하는_경우에는_오류를_일으킨다() {
+    @DisplayName("상대 팀의 기물을 움직이려하는 경우에는 오류를 일으킨다")
+    public void canMovePosition_error1() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
         Board board = new Board(policy);
@@ -41,7 +44,8 @@ class BoardTest {
     }
 
     @Test
-    public void 해당_위치에_기물이_없는_경우에는_오류를_일으킨다() {
+    @DisplayName("해당 위치에 기물이 없는 경우에는 오류를 일으킨다")
+    public void canMovePosition_error2() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
         Board board = new Board(policy);
@@ -54,7 +58,8 @@ class BoardTest {
 
 
     @Test
-    public void 특정_위치에_있는_기물을_다른_위치로_옮긴다() {
+    @DisplayName("특정 위치에 있는 기물을 다른 위치로 옮긴다")
+    public void movePiece_success() {
         // given
         Position from = Position.from(5, 5);
         Piece fromPiece = new Piece(HAN, new ChariotMoveStrategy());
@@ -78,7 +83,8 @@ class BoardTest {
     }
 
     @Test
-    public void 특정_기물을_해당_위치로_움직일_수_없으면_에러가_발생한다() {
+    @DisplayName("특정 기물을 해당 위치로 움직일 수 없으면 에러가 발생한다")
+    public void movePiece_fail() {
         // given
         Position from = Position.from(5, 5);
         Piece fromPiece = new Piece(HAN, new ChariotMoveStrategy());

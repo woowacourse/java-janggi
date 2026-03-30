@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class HorseMoveStrategyTest {
 
     @Test
-    public void 말_기물의_이동가능한_위치_목록을_반환한다() {
+    @DisplayName("말 기물의 이동가능한 위치 목록을 반환한다")
+    public void findMovablePositions_success() {
         // given
         Map<Position, Piece> board = new HashMap<>();
         MoveStrategy moveStrategy = new HorseMoveStrategy();

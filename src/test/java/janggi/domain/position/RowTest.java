@@ -14,7 +14,8 @@ class RowTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 10})
-    public void 행의_값은_1부터_10까지의_숫자이다(int row) {
+    @DisplayName("행의 값은 1부터 10까지의 숫자이다")
+    public void create_row_success(int row) {
         // when & then
         assertThatCode(() -> new Row(row))
                 .doesNotThrowAnyException();
@@ -22,14 +23,16 @@ class RowTest {
 
     @ParameterizedTest
     @ValueSource(ints = {-1, 0, 11})
-    public void 행의_값이_1부터_10까지_숫자가_아니면_예외가_발생한다(int row) {
+    @DisplayName("행의 값이 1부터 10까지 숫자가 아니면 예외가 발생한다")
+    public void create_row_fail(int row) {
         // when & then
         assertThatThrownBy(() -> new Row(row))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void 기존_행에_값을_더해서_새로운_행을_만든다() {
+    @DisplayName("기존 행에 값을 더해서 새로운 행을 만든다")
+    public void add_success() {
         // given
         int rowNum = 1;
         Row row = new Row(1);
@@ -49,7 +52,7 @@ class RowTest {
             "5, true",
     })
     @DisplayName("기존 행에 특정 값을 더한 결과가 경계 내에 있는지 확인한다.")
-    public void isOffsetWithinBounds(int offset, boolean result) throws Exception {
+    public void isOffsetWithinBounds(int offset, boolean result) {
         // given
         Row row = new Row(5);
 
@@ -70,7 +73,7 @@ class RowTest {
             "5, false, 5",
     })
     @DisplayName("뒤집을지 여부에 따라 적절한 행 객체를 반환한다.")
-    public void flippedIfNeeded_success(int row, boolean isFlipped, int result) throws Exception {
+    public void flippedIfNeeded_success(int row, boolean isFlipped, int result) {
 
         // when
         Row resultRow = Row.flippedIfNeeded(isFlipped, row);

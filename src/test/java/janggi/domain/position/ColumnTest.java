@@ -14,7 +14,8 @@ class ColumnTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 9})
-    public void 열의_값은_1부터_9까지의_숫자이다(int column) {
+    @DisplayName("열의 값은 1부터 9까지의 숫자이다")
+    public void create_column_success(int column) {
         // when & then
         assertThatCode(() -> new Column(column))
                 .doesNotThrowAnyException();
@@ -22,14 +23,16 @@ class ColumnTest {
 
     @ParameterizedTest
     @ValueSource(ints = {-1, 0, 10})
-    public void 열의_값이_1부터_9까지_숫자가_아니면_예외가_발생한다(int column) {
+    @DisplayName("열의 값이 1부터 9까지 숫자가 아니면 예외가 발생한다")
+    public void create_column_success_error(int column) {
         // when & then
         assertThatThrownBy(() -> new Column(column))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void 기존_열에_값을_더해서_새로운_열을_만든다() {
+    @DisplayName("기존 열에 값을 더해서 새로운 열을 만든다")
+    public void add_success() {
         // given
         int columnNum = 1;
         Column column = new Column(1);
@@ -49,7 +52,7 @@ class ColumnTest {
             "4, true",
     })
     @DisplayName("기존 열에 특정 값을 더한 결과가 경계 내에 있는지 확인한다.")
-    public void isOffsetWithinBounds(int offset, boolean result) throws Exception {
+    public void isOffsetWithinBounds(int offset, boolean result) {
         // given
         Column column = new Column(5);
 

@@ -15,7 +15,7 @@ class DynastyTest {
             "HAN, CHO",
     })
     @DisplayName("다음 Dynasty를 반환한다.")
-    public void next_success(Dynasty before, Dynasty after) throws Exception {
+    public void next_success(Dynasty before, Dynasty after) {
 
         // when
         Dynasty result = before.next();
@@ -30,7 +30,7 @@ class DynastyTest {
             "1, HAN, 10",
     })
     @DisplayName("Dynasty 타입에 맞게 row를 처리한다")
-    public void resolveRow_success(int origin, Dynasty dynasty, int result) throws Exception {
+    public void resolveRow_success(int origin, Dynasty dynasty, int result) {
         // when
         int resolved = dynasty.resolveRow(origin);
 

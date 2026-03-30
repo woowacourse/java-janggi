@@ -39,7 +39,7 @@ class GameTest {
 
     @Test
     @DisplayName("기물을 움직인 후에는 턴이 변경되어야 한다.")
-    public void movePiece_success_change_turn() throws Exception {
+    public void movePiece_success_change_turn() {
         // given
         Position from = Position.from(1, 1);
         BoardDesignPolicy boardDesignPolicy = () -> Map.of(

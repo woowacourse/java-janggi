@@ -20,7 +20,7 @@ class DirectionTest {
             "NORTHWEST,NORTH",
     })
     @DisplayName("다음 Direction을 반환한다.")
-    public void next_success(Direction current, Direction expectedNext) throws Exception {
+    public void next_success(Direction current, Direction expectedNext) {
         // when
         Direction next = current.next();
 
@@ -40,7 +40,7 @@ class DirectionTest {
             "NORTHEAST,NORTH",
     })
     @DisplayName("이전 Direction을 반환한다.")
-    public void prev_success(Direction current, Direction expectedPrev) throws Exception {
+    public void prev_success(Direction current, Direction expectedPrev) {
         // when
         Direction prev = current.prev();
 
@@ -61,7 +61,7 @@ class DirectionTest {
             "NORTHWEST,SOUTHEAST",
     })
     @DisplayName("뒷방향의 Direction을 반환한다.")
-    public void back_success(Direction current, Direction expectedBack) throws Exception {
+    public void back_success(Direction current, Direction expectedBack) {
         // when
         Direction prev = current.back();
 
