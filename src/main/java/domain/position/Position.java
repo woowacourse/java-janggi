@@ -9,7 +9,6 @@ public final class Position {
     private static final int MAX_COLUMN = 9;
     private static final int MIN_ROW = 1;
     private static final int MIN_COLUMN = 1;
-
     private final Coordinate coordinate;
 
     private Position(Coordinate coordinate) {
@@ -23,12 +22,6 @@ public final class Position {
 
     public static Position rotate180from(Position position) {
         return new Position(Coordinate.rotate180from(position.getRow(), position.getColumn()));
-    }
-
-    private static void validateRange(int row, int column) {
-        if (row < MIN_ROW || row > MAX_ROW || column < MIN_COLUMN || column > MAX_COLUMN) {
-            throw new IllegalArgumentException("장기판 범위를 벗어났습니다.");
-        }
     }
 
     public Coordinate minus(Position position) {
@@ -57,6 +50,12 @@ public final class Position {
 
     @Override
     public int hashCode() {
-        return Objects.hash(coordinate.row()) + Objects.hash(coordinate.column());
+        return Objects.hash(coordinate.row(), coordinate.column());
+    }
+
+    private static void validateRange(int row, int column) {
+        if (row < MIN_ROW || row > MAX_ROW || column < MIN_COLUMN || column > MAX_COLUMN) {
+            throw new IllegalArgumentException("장기판 범위를 벗어났습니다.");
+        }
     }
 }
