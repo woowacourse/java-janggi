@@ -12,7 +12,6 @@ public class BoardInitializer {
     private static final int HAN_CANNON_Y_COORDINATE = 3;
     private static final int HAN_GENERAL_Y_COORDINATE = 2;
     private static final int HAN_OTHER_PIECES_Y_COORDINATE = 1;
-    private static final int TOTAL_Y_COORDINATE = 11;
     private static final List<Integer> ELEPHANT_SETUP_POSITION = List.of(2, 3, 7, 8);
 
     private static final int LEFT_CANNON_X_COORDINATE = 2;
@@ -39,10 +38,10 @@ public class BoardInitializer {
     }
 
     private static void setUpCampOtherPieces(Map<Position, Piece> initialBoard, Camp camp) {
-        int otherY = resolveY(camp, HAN_OTHER_PIECES_Y_COORDINATE);
-        int cannonY = resolveY(camp, HAN_CANNON_Y_COORDINATE);
-        int generalY = resolveY(camp, HAN_GENERAL_Y_COORDINATE);
-        int soldierY = resolveY(camp, HAN_SOLDIERS_Y_COORDINATE);
+        int otherY = camp.resolveY(HAN_OTHER_PIECES_Y_COORDINATE);
+        int cannonY = camp.resolveY(HAN_CANNON_Y_COORDINATE);
+        int generalY = camp.resolveY(HAN_GENERAL_Y_COORDINATE);
+        int soldierY = camp.resolveY(HAN_SOLDIERS_Y_COORDINATE);
 
         setUpSoldier(initialBoard, camp, soldierY);
         setUpCannon(initialBoard, camp, cannonY);
@@ -116,9 +115,9 @@ public class BoardInitializer {
     }
 
     private static void setUpElephantAndHorse(Map<Position, Piece> initialBoard, Camp camp, SetUp setUp) {
-        List<PieceType> pieceTypes = arrangeByCamp(camp, setUp.placeOrder());
+        List<PieceType> pieceTypes = camp.arrange(setUp.placeOrder());
 
-        int y = resolveY(camp, HAN_OTHER_PIECES_Y_COORDINATE);
+        int y = camp.resolveY(HAN_OTHER_PIECES_Y_COORDINATE);
 
         for (int i = 0; i < ELEPHANT_SETUP_POSITION.size(); i++) {
             initialBoard.put(
@@ -126,21 +125,5 @@ public class BoardInitializer {
                     new Piece(camp, pieceTypes.get(i), pieceTypes.get(i).createStrategy())
             );
         }
-    }
-
-    private static int resolveY(Camp camp, int defaultHanY) {
-        if (camp == Camp.CHO) {
-            return TOTAL_Y_COORDINATE - defaultHanY;
-        }
-
-        return defaultHanY;
-    }
-
-    private static List<PieceType> arrangeByCamp(Camp camp, List<PieceType> pieceTypes) {
-        if (camp == Camp.HAN) {
-            return pieceTypes.reversed();
-        }
-
-        return pieceTypes;
     }
 }
