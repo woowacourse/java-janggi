@@ -46,20 +46,29 @@ public abstract class Piece {
                 .toList();
         validateToState(states.getFirst(), states.getLast());
         // from, to State 제외한 Position 검사
-        for (int index = 1; index < states.size() - 1; index++) {
-            State state = states.get(index);
-            if (!state.isEmpty()) {
-                throw new IllegalArgumentException(NOT_EMPTY_PATH);
-            }
-        }
+        validatePath(states);
         return true;
     }
 
     void validateToState(State fromState, State toState) {
-        if (!toState.isEmpty()) {
-            if (fromState.getPieceCountry() == toState.getPieceCountry()) {
-                throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
-            }
+        if (toState.isEmpty()) {
+            return;
+        }
+        if (fromState.getPieceCountry() == toState.getPieceCountry()) {
+            throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
+        }
+    }
+
+    void validatePath(List<State> states) {
+        for (int index = 1; index < states.size() - 1; index++) {
+            State state = states.get(index);
+            validatePathState(state);
+        }
+    }
+
+    void validatePathState(State state) {
+        if (!state.isEmpty()) {
+            throw new IllegalArgumentException(NOT_EMPTY_PATH);
         }
     }
 

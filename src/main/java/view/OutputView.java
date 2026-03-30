@@ -36,16 +36,19 @@ public class OutputView {
     private void printRow(Map<Position, PieceInfo> pieceInfos, int y) {
         for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
             PieceInfo pieceInfo = pieceInfos.get(new Position(x, y));
-
-            System.out.print(STATE_SEPARATOR);
-            if (pieceInfo == null) {
-                System.out.print(BLANK_STATE);
-                continue;
-            }
-            String pieceName = PieceTypeFormatter.from(pieceInfo.pieceType(), pieceInfo.country());
-            System.out.print(pieceName);
+            printState(pieceInfo);
         }
         System.out.println();
+    }
+
+    private void printState(PieceInfo pieceInfo) {
+        System.out.print(STATE_SEPARATOR);
+        if (pieceInfo == null) {
+            System.out.print(BLANK_STATE);
+            return;
+        }
+        String pieceName = PieceTypeFormatter.from(pieceInfo.pieceType(), pieceInfo.country());
+        System.out.print(pieceName);
     }
 
     private void printXPositionNumbers() {

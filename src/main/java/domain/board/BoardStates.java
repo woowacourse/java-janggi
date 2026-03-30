@@ -52,10 +52,14 @@ public class BoardStates {
     public Map<Position, PieceInfo> getPieceInfos() {
         Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
         for (Entry<Position, State> entry : boardStates.entrySet()) {
-            if (!entry.getValue().isEmpty()) {
-                pieceInfos.put(entry.getKey(), entry.getValue().getPieceInfo());
-            }
+            adjustPieceInfo(pieceInfos, entry);
         }
         return pieceInfos;
+    }
+
+    private void adjustPieceInfo(Map<Position, PieceInfo> pieceInfos, Entry<Position, State> entry) {
+        if (!entry.getValue().isEmpty()) {
+            pieceInfos.put(entry.getKey(), entry.getValue().getPieceInfo());
+        }
     }
 }
