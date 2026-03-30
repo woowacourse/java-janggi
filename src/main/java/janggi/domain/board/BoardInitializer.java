@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import janggi.domain.piece.Advisor;
 import janggi.domain.piece.Cannon;
@@ -52,7 +52,7 @@ public class BoardInitializer {
 
         for (int row = 0; row < ROW_LEN; row++) {
             for (int col = 0; col < COL_LEN; col++) {
-                board.get(row).add(new EmptyPosition(Team.OTHER));
+                board.get(row).add(new EmptyPosition(Team.NONE));
             }
         }
     }

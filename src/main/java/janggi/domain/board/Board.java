@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import janggi.domain.piece.EmptyPosition;
 import janggi.domain.piece.Piece;
@@ -33,7 +33,7 @@ public class Board implements BoardView {
         return findByPosition(position).isEmpty();
     }
 
-    public void move(Position from, Position to, Team currentTeam) {// TODO 재입력 시도 로직에 따라 반환값 변경 고려
+    public void move(Position from, Position to, Team currentTeam) {
         Piece fromPiece = findByPosition(from);
         Piece toPiece = findByPosition(to);
 
@@ -43,7 +43,7 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("해당 기물의 이동 규칙에 맞지 않습니다.");
         }
 
-        place(from, new EmptyPosition(Team.OTHER));
+        place(from, new EmptyPosition(Team.NONE));
         place(to, fromPiece);
     }
 

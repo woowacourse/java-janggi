@@ -1,12 +1,10 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.vo.Position;
 
 public interface BoardView {
-
     Piece findByPosition(Position position);
 
     boolean isEmptyPosition(Position position);
-
 }
