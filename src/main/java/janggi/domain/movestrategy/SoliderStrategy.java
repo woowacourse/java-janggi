@@ -6,6 +6,9 @@ import janggi.domain.piece.Team;
 import java.util.List;
 
 public class SoliderStrategy implements MoveStrategy {
+    public static final int HAN_DIRECTION = 1;
+    public static final int CHO_DIRECTION = -1;
+
     private final Team team;
 
     public SoliderStrategy(Team team) {
@@ -14,22 +17,14 @@ public class SoliderStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextY = to.getY();
-        int nextX = to.getX();
-
-        if (team == Team.HAN) {
-            if (nextY - preY == 1 && preX == nextX) {
-                return true;
-            }
-            return (Math.abs(nextX - preX) == 1) && (nextY == preY);
+        int yDirection = HAN_DIRECTION;
+        if (team == Team.CHO) {
+            yDirection = CHO_DIRECTION;
         }
-        if (preY - nextY == 1 && preX == nextX) {
-            return true;
-        }
-        return (Math.abs(nextX - preX) == 1) && (nextY == preY);
+        int xDistance = from.calculateX(to);
+        int yDistance = from.calculateY(to);
+        return (xDistance == 0 && yDistance == yDirection)
+                || (Math.abs(xDistance) == 1 && yDistance == 0);
     }
 
     @Override

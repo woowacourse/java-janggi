@@ -4,26 +4,11 @@ import janggi.domain.board.Position;
 
 import java.util.List;
 
-import static java.lang.Math.abs;
-
 public class GeneralStrategy implements MoveStrategy{
 
     @Override
     public boolean canMove(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextX = to.getX();
-        int nextY = to.getY();
-
-        if (abs(preX - nextX) > 1) {
-            return false;
-        }
-        if (abs(preY - nextY) > 1) {
-            return false;
-        }
-
-        return abs(preX - nextX) + abs(preY - nextY) <= 1;
+        return from.isApartFrom(to) == 1;
     }
 
     @Override

@@ -9,13 +9,7 @@ public class ChariotStrategy implements MoveStrategy{
 
     @Override
     public boolean canMove(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
-
-        int nextX = to.getX();
-        int nextY = to.getY();
-
-        return (preX == nextX && preY != nextY) || (preX != nextX && preY == nextY);
+        return from.isInSameLine(to);
     }
 
     @Override
@@ -27,6 +21,7 @@ public class ChariotStrategy implements MoveStrategy{
         int nextX = to.getX();
         int nextY = to.getY();
 
+        // 시작점이 포함되는 오류가 있다
         if (preX == nextX) {
             if (nextY > preY) {
                 for (int y = preY + 1; y <= nextY; y++) {

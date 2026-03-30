@@ -12,6 +12,31 @@ public class Position {
         this.y = y;
     }
 
+    public int calculateX(Position other) {
+        return other.x - this.x;
+    }
+
+    public int calculateY(Position other) {
+        return other.y - this.y;
+    }
+
+    public int isApartFrom(Position other) {
+        return Math.abs(calculateX(other)) + Math.abs(calculateY(other));
+    }
+
+    public boolean isInSameLine(Position other) {
+        if (other.equals(this)) {
+            return false;
+        }
+        return other.x == this.x || other.y == this.y;
+    }
+
+    public boolean isMatchDistance(Position other, int value1, int value2) {
+        int xDistance = Math.abs(calculateX(other));
+        int yDistance = Math.abs(calculateY(other));
+        return (xDistance == value1 && yDistance == value2) || (xDistance == value2 && yDistance == value1);
+    }
+
     public int getX() {
         return x;
     }
