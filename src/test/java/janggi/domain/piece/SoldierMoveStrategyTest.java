@@ -1,0 +1,57 @@
+package janggi.domain.piece;
+
+import static janggi.domain.dynasty.Dynasty.CHO;
+import static janggi.domain.dynasty.Dynasty.HAN;
+
+import janggi.domain.board.BoardSnapshot;
+import janggi.domain.dynasty.Dynasty;
+import janggi.domain.position.Position;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+class SoldierMoveStrategyTest {
+
+    private Map<Position, Piece> board;
+    private PieceType pieceType;
+
+    @BeforeEach
+    void setUp() {
+        board = new HashMap<>();
+        pieceType = PieceType.SOLDIER;
+    }
+
+    @ParameterizedTest
+    @MethodSource("졸_기물의_이동가능한_위치_목록_반환_테스트_케이스")
+    public void 졸_기물의_이동가능한_위치_목록을_반환한다(Dynasty ally, Dynasty enemy, List<Position> results) {
+        // given
+        Position from = Position.from(5, 5);
+        board.put(from, new Piece(ally, pieceType));
+
+        // 1. 오른쪽에 상대편
+        board.put(Position.from(5, 6), new Piece(enemy, pieceType));
+        // 2. 왼쪽에 우리편
+        board.put(Position.from(5, 4), new Piece(ally, pieceType));
+
+        // when
+        List<Position> positions = pieceType.moveStrategy().findPlaceablePositions(BoardSnapshot.of(board), from, ally);
+
+        // then
+        Assertions.assertThat(positions)
+                .containsExactlyInAnyOrder(results.toArray(new Position[0]));
+    }
+
+    private static Stream<Arguments> 졸_기물의_이동가능한_위치_목록_반환_테스트_케이스() {
+        return Stream.of(
+                Arguments.of(CHO, HAN, List.of(Position.from(5, 6), Position.from(6, 5))),
+                Arguments.of(HAN, CHO, List.of(Position.from(5, 6), Position.from(4, 5)))
+        );
+    }
+
+}
