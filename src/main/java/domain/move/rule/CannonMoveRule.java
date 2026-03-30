@@ -3,12 +3,14 @@ package domain.move.rule;
 import static domain.move.directions.Vector.*;
 import static domain.move.directions.Vector.LEFT;
 import static domain.move.directions.Vector.RIGHT;
+import static domain.move.path.exception.PathError.*;
 
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.directions.Vector;
 import domain.move.path.Path;
+import domain.move.path.exception.PathException;
 import domain.point.Point;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.List;
 public class CannonMoveRule implements MoveRule {
 
     private static final Directions DEFAULT_CANNON_DIRECTIONS = initializeDirections();
+    private static final int CANNON_JUMP_OBSTACLE_COUNT = 1;
 
     public CannonMoveRule() {
     }
@@ -30,9 +33,33 @@ public class CannonMoveRule implements MoveRule {
     @Override
     public boolean checkMoveRule(Path path) {
         path.validateIsSameTeam();
-        path.validateCannonObstacleCondition();
-        path.validateDestinationIsNotCannon();
+        validateCannonObstacleCondition(path);
+        validateDestinationIsNotCannon(path);
         return true;
+    }
+
+    private void validateCannonObstacleCondition(Path path) {
+        List<Intersection> obstacles = path.getObstacleIntersection();
+        validateObstacleIsOnly(obstacles);
+        validateObstacleIsNotCannon(obstacles.getFirst());
+    }
+
+    private void validateObstacleIsOnly(List<Intersection> obstacles) {
+        if (obstacles.size() != CANNON_JUMP_OBSTACLE_COUNT) {
+            throw new PathException(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
+        }
+    }
+
+    private void validateObstacleIsNotCannon(Intersection obstacle) {
+        if (obstacle.hasCannon()) {
+            throw new PathException(CANNON_CANNOT_JUMP_CANNON.getMessage());
+        }
+    }
+
+    private void validateDestinationIsNotCannon(Path path) {
+        if (path.getLastIntersection().hasCannon()) {
+            throw new PathException(CANNON_CANNOT_ATTACK_CANNON.getMessage());
+        }
     }
 
     private static Directions initializeDirections() {

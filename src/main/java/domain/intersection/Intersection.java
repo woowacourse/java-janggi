@@ -2,7 +2,6 @@ package domain.intersection;
 
 import domain.intersection.exception.IntersectionException;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
 
@@ -46,8 +45,8 @@ public class Intersection {
         return this.piece.isGeneral();
     }
 
-    public boolean isSamePiece(PieceType pieceType) {
-        return this.piece.isSamePiece(pieceType);
+    public boolean hasCannon() {
+        return this.piece.isCannon();
     }
 
     public boolean isSameTeam(Team team) {

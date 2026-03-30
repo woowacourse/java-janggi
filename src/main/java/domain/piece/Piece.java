@@ -39,6 +39,10 @@ public record Piece(
         return pieceType.isGeneral();
     }
 
+    public boolean isCannon() {
+        return pieceType.isCannon();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

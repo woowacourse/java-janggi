@@ -16,4 +16,8 @@ public enum PieceType {
         return this == GENERAL;
     }
 
+    public boolean isCannon() {
+        return this == CANNON;
+    }
+
 }
