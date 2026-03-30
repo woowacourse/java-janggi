@@ -6,6 +6,7 @@ import model.pieces.Chariot;
 import model.pieces.General;
 import model.pieces.Guard;
 import model.pieces.Soldier;
+import model.position.Column;
 import model.position.Position;
 import model.position.Row;
 
@@ -33,29 +34,29 @@ public class Army {
 
     private void deploySoldier(Board board, Country country) {
         for (int column : SOLDIER_COLUMN) {
-            board.place(Position.of(Row.soldier(country), column), new Soldier(country));
+            board.place(new Position(Row.soldier(country), Column.from(column)), new Soldier(country));
         }
     }
 
     private void deployCannon(Board board, Country country) {
         for (int column : CANNON_COLUMN) {
-            board.place(Position.of(Row.cannon(country), column), new Cannon(country));
+            board.place(new Position(Row.cannon(country), Column.from(column)), new Cannon(country));
         }
     }
 
     private void deployGeneral(Board board, Country country) {
-        board.place(Position.of(Row.general(country), GENERAL_COLUMN), new General(country));
+        board.place(new Position(Row.general(country), Column.from(GENERAL_COLUMN)), new General(country));
     }
 
     private void deployGuard(Board board, Country country) {
         for (int column : GUARD_COLUMN) {
-            board.place(Position.of(Row.edgePiece(country), column), new Guard(country));
+            board.place(new Position(Row.edgePiece(country), Column.from(column)), new Guard(country));
         }
     }
 
     private void deployChariot(Board board, Country country) {
         for (int column : CHARIOT_COLUMN) {
-            board.place(Position.of(Row.edgePiece(country), column), new Chariot(country));
+            board.place(new Position(Row.edgePiece(country), Column.from(column)), new Chariot(country));
         }
     }
 

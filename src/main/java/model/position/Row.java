@@ -25,32 +25,32 @@ public record Row(int value) {
         return value;
     }
 
-    public static int soldier(Country country) {
+    public static Row soldier(Country country) {
         if (country == Country.CHO) {
-            return CHO_SOLDIER;
+            return from(CHO_SOLDIER);
         }
-        return HAN_SOLDIER;
+        return from(HAN_SOLDIER);
     }
 
-    public static int cannon(Country country) {
+    public static Row cannon(Country country) {
         if (country == Country.CHO) {
-            return CHO_CANNON;
+            return from(CHO_CANNON);
         }
-        return HAN_CANNON;
+        return from(HAN_CANNON);
     }
 
-    public static int general(Country country) {
+    public static Row general(Country country) {
         if (country == Country.CHO) {
-            return CHO_GENERAL;
+            return from(CHO_GENERAL);
         }
-        return HAN_GENERAL;
+        return from(HAN_GENERAL);
     }
 
-    public static int edgePiece(Country country) {
+    public static Row edgePiece(Country country) {
         if (country == Country.CHO) {
-            return CHO_EDGE;
+            return from(CHO_EDGE);
         }
-        return HAN_EDGE;
+        return from(HAN_EDGE);
     }
 
     public int diff(Row to) {
