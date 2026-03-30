@@ -22,7 +22,7 @@ public final class Wings {
         this.rightWing = new RightWing(rightWingPieces);
     }
 
-    public final Map<Intersection, Piece> setUpPieces() {
+    public Map<Intersection, Piece> setUpPieces() {
         Map<Intersection, Piece> pieces = new HashMap<>();
 
         pieces.putAll(leftWing.setUpPieces(side));

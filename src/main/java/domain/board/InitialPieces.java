@@ -17,11 +17,9 @@ public class InitialPieces {
     private final Map<Intersection, Piece> initialPieces = new HashMap<>();
 
     public InitialPieces(Wings hanWings, Wings choWings) {
-        // 1. 좌진/우진 (마, 상) 배치
         initialPieces.putAll(hanWings.setUpPieces());
         initialPieces.putAll(choWings.setUpPieces());
 
-        // 2. 고정 위치 기물 (졸/병, 포, 차, 사, 궁) 배치
         putFixedPieces(Side.HAN);
         putFixedPieces(Side.CHO);
     }
