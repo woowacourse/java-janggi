@@ -10,23 +10,24 @@ import java.util.List;
 
 public class JanggiRunner {
 
+    private final JanggiGame janggiGame;
+
+    public JanggiRunner() {
+        this.janggiGame = JanggiGame.createInitialJanggiGame();
+    }
+
     public void execute() {
         OutputView.printStartMessage();
 
-        JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
         while (true) {
             OutputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
-            Position startPosition = ActionExecutor.retryUntilSuccess(
-                () -> readValidStartPosition(janggiGame)
-            );
-            Position endPosition = ActionExecutor.retryUntilSuccess(
-                () -> readValidEndPosition(janggiGame, startPosition)
-            );
+            Position startPosition = ActionExecutor.retryUntilSuccess(this::readValidStartPosition);
+            Position endPosition = ActionExecutor.retryUntilSuccess(() -> readValidEndPosition(startPosition));
             janggiGame.doGame(startPosition, endPosition);
         }
     }
 
-    private Position readValidStartPosition(JanggiGame janggiGame) {
+    private Position readValidStartPosition() {
         OutputView.printTurnNotice(janggiGame.getCurrentTurnTeamName());
         OutputView.printAskPiecePosition();
         String rawPiecePosition = InputView.readLine();
@@ -36,7 +37,7 @@ public class JanggiRunner {
         return startPosition;
     }
 
-    private Position readValidEndPosition(JanggiGame janggiGame, Position startPosition) {
+    private Position readValidEndPosition(Position startPosition) {
         OutputView.printAskMovePosition(janggiGame.findPiece(startPosition).nickname());
         String rawMovePosition = InputView.readLine();
         List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition);
