@@ -23,11 +23,8 @@ public class JanggiBoard {
     private final MoveRuleManager moveRuleManager;
 
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
-        this.intersections = fillEmptyIntersections();
+        this.intersections = createIntersections(intersectionGenerator);
         this.moveRuleManager = new MoveRuleManager();
-        for (Intersection intersection : intersectionGenerator.makeIntersection()) {
-            intersections.put(intersection.getPoint(), intersection);
-        }
     }
 
     public void tryToMove(Point start, Point end, Team currentTeam) {
@@ -80,6 +77,14 @@ public class JanggiBoard {
 
     public Map<Point, Intersection> getJanggiBoard() {
         return Collections.unmodifiableMap(intersections);
+    }
+
+    private Map<Point, Intersection> createIntersections(IntersectionGenerator intersectionGenerator) {
+        Map<Point, Intersection> intersections = fillEmptyIntersections();
+        for (Intersection intersection : intersectionGenerator.makeIntersection()) {
+            intersections.put(intersection.getPoint(), intersection);
+        }
+        return intersections;
     }
 
     private Map<Point, Intersection> fillEmptyIntersections() {
