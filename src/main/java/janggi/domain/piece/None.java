@@ -22,9 +22,4 @@ public class None extends BasePiece {
     public void validateRoute(List<Position> path, BoardInterface boardInterface) {
         throw new IllegalArgumentException(IMMOVABLE_PIECE_MESSAGE);
     }
-
-    @Override
-    public boolean isPo() {
-        return false;
-    }
 }

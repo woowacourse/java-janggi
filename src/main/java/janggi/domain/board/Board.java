@@ -31,8 +31,8 @@ public class Board implements BoardInterface {
     }
 
     @Override
-    public boolean isPo(Position position) {
-        return board.get(position).isPo();
+    public boolean isEqualPieceType(Position position, PieceType pieceType){
+        return board.get(position).isEqualPieceType(pieceType);
     }
 
     @Override

@@ -7,9 +7,4 @@ public class Po extends LinearPiece {
     public Po(Side side) {
         super(new JumpPolicy(), side, PieceType.PO);
     }
-
-    @Override
-    public boolean isPo(){
-        return true;
-    }
 }
