@@ -25,7 +25,7 @@ public class Board {
     }
 
     public boolean isEmpty(Position position) {
-        return !isInvalidRange(position) && getPiece(position).isNeutral();
+        return !isInvalidRange(position) && getPiece(position).isEmpty();
     }
 
     public boolean isCannon(Position position) {

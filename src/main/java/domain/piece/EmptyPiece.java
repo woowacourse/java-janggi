@@ -19,6 +19,11 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
+    public boolean isEmpty() {
+        return true;
+    }
+
+    @Override
     public List<Position> getPossibleMoves(Game game, Position start) {
         return List.of();
     }

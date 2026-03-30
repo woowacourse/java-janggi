@@ -33,7 +33,7 @@ public class OutputView {
     private void printPieceBySide(Piece piece) {
         Side side = piece.getSide();
 
-        if (piece.isNeutral()) {
+        if (piece.isEmpty()) {
             System.out.print(" " + PieceView.from(piece) + " ");
             return;
         }

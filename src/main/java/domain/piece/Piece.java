@@ -6,7 +6,6 @@ import domain.coordinate.Position;
 import domain.Side;
 
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Piece {
 
@@ -28,10 +27,6 @@ public abstract class Piece {
         return side.isHan();
     }
 
-    public boolean isNeutral() {
-        return side.isNeutral();
-    }
-
     public boolean isFriendly(Side side) {
         return this.side == side;
     }
@@ -39,6 +34,8 @@ public abstract class Piece {
     public Direction forward() {
         return side.getForward();
     }
+
+    public abstract boolean isEmpty();
 
     public abstract List<Position> getPossibleMoves(Game game, Position start);
 

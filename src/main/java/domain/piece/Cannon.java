@@ -15,6 +15,11 @@ public final class Cannon extends Piece {
     }
 
     @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
     public List<Position> getPossibleMoves(Game game, Position start) {
         List<Position> possiblePositions = new ArrayList<>();
 
@@ -46,7 +51,6 @@ public final class Cannon extends Piece {
                             break;
                         }
                     }
-
                     break;
                 }
             }
