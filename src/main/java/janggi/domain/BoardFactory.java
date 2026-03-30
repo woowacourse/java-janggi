@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.movestorage.ChaMoveStorage;
-import janggi.domain.movestorage.GungAndSaMoveStorage;
+import janggi.domain.movestorage.GungseongBoundMoveStrategy;
 import janggi.domain.movestorage.JolMoveStorage;
 import janggi.domain.movestorage.MaMoveStorage;
 import janggi.domain.movestorage.PoMoveStorage;
@@ -38,12 +38,12 @@ public class BoardFactory {
                 new Piece(new MaMoveStorage(), Team.HAN, 5, "馬"));
         // 사
         board.put(Position.of(Row.of(3), Column.of(0)),
-                new Piece(new GungAndSaMoveStorage(), Team.HAN, 3, "士"));
+                new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 3, "士"));
         board.put(Position.of(Row.of(5), Column.of(0)),
-                new Piece(new GungAndSaMoveStorage(), Team.HAN, 3, "士"));
+                new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 3, "士"));
         // 궁
         board.put(Position.of(Row.of(4), Column.of(1)),
-                new Piece(new GungAndSaMoveStorage(), Team.HAN, 0, "漢"));
+                new Piece(new GungseongBoundMoveStrategy(), Team.HAN, 0, "漢"));
         // 포
         board.put(Position.of(Row.of(1), Column.of(2)),
                 new Piece(new PoMoveStorage(), Team.HAN, 7, "包"));
@@ -80,12 +80,12 @@ public class BoardFactory {
                 new Piece(new MaMoveStorage(), Team.CHO, 5, "馬"));
         // 사
         board.put(Position.of(Row.of(3), Column.of(9)),
-                new Piece(new GungAndSaMoveStorage(), Team.CHO, 3, "士"));
+                new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 3, "士"));
         board.put(Position.of(Row.of(5), Column.of(9)),
-                new Piece(new GungAndSaMoveStorage(), Team.CHO, 3, "士"));
+                new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 3, "士"));
         // 궁
         board.put(Position.of(Row.of(4), Column.of(8)),
-                new Piece(new GungAndSaMoveStorage(), Team.CHO, 0, "楚"));
+                new Piece(new GungseongBoundMoveStrategy(), Team.CHO, 0, "楚"));
         // 포
         board.put(Position.of(Row.of(1), Column.of(7)),
                 new Piece(new PoMoveStorage(), Team.CHO, 7, "包"));

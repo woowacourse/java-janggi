@@ -2,7 +2,7 @@ package janggi.domain;
 
 
 import janggi.domain.movestorage.ChaMoveStorage;
-import janggi.domain.movestorage.GungAndSaMoveStorage;
+import janggi.domain.movestorage.GungseongBoundMoveStrategy;
 import janggi.domain.movestorage.JolMoveStorage;
 import janggi.domain.movestorage.MaMoveStorage;
 import janggi.domain.movestorage.PoMoveStorage;
@@ -46,7 +46,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungAndSaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
     }
 
     @Test
@@ -58,7 +58,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungAndSaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
     }
 
     @Test
@@ -142,7 +142,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungAndSaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
     }
 
     @Test
@@ -154,7 +154,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
         // then
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungAndSaMoveStorage.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
     }
 
     @Test
