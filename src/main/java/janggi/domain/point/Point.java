@@ -43,6 +43,13 @@ public class Point {
         return this.row - from.row;
     }
 
+    public boolean inSameCastle(Point other) {
+        if (this.isCastle() && other.isCastle()) {
+            return (this.row <= 2) == (other.row <= 2);
+        }
+        return false;
+    }
+
     public int getColumn() {
         return col;
     }
@@ -55,5 +62,12 @@ public class Point {
         for(int i = 0; i < COLUMN_RANGE; i++) {
             row.add(new Point(i, col));
         }
+    }
+
+    private boolean isCastle() {
+        boolean isColumnCastle = col >= 3 && col <= 5;
+        boolean isRowTopCastle = row >= 7 && row <= 9;
+        boolean isRowBottomCastle = row <= 2 && row >= 0;
+        return isColumnCastle && (isRowTopCastle || isRowBottomCastle);
     }
 }
