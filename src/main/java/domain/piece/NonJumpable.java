@@ -22,13 +22,13 @@ public abstract class NonJumpable extends Piece {
             int rowValue = movablePath.getRow().getValue();
             int columnValue = movablePath.getColumn().getValue();
 
-            if (checkIsAlreadyExists(boardStatus, rowValue, columnValue)) {
+            if (isOccupied(boardStatus, rowValue, columnValue)) {
                 throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
             }
         }
     }
 
-    private boolean checkIsAlreadyExists(BoardStatus boardStatus, int rowValue, int columnValue) {
+    private boolean isOccupied(BoardStatus boardStatus, int rowValue, int columnValue) {
         Piece piece = boardStatus.getBoardStatus()
                 .get(Position.of(rowValue, columnValue));
         return piece != null;
