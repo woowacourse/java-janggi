@@ -1,5 +1,10 @@
 package janggi.domain.vo;
 
+import janggi.domain.Direction;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -16,6 +21,46 @@ public class Position {
 
         this.row = row;
         this.col = col;
+    }
+
+    public static boolean canMakePositionOnBoard(int row, int col) {
+        return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
+    }
+
+    public List<Position> generatePath(List<Direction> directions) {
+        List<Position> path = new ArrayList<>();
+        Position current = this;
+
+        for (Direction direction : directions) {
+            if (!current.hasNext(direction)) {
+                return Collections.emptyList();
+            }
+
+            current = current.nextPosition(direction);
+            path.add(current);
+        }
+
+        return path;
+    }
+
+    public boolean isOnSameRow(Position other) {
+        return this.getRow() == other.getRow();
+    }
+
+    public boolean isOnSameCol(Position other) {
+        return this.getCol() == other.getCol();
+    }
+
+    public boolean isStraightLine(Position other) {
+        return this.isOnSameRow(other) || this.isOnSameCol(other);
+    }
+
+    public Position nextPosition(Direction direction) {
+        return new Position(this.getRow() + direction.getDx(), this.getCol() + direction.getDy());
+    }
+
+    public boolean hasNext(Direction direction) {
+        return canMakePositionOnBoard(this.getRow() + direction.getDx(), this.getCol() + direction.getDy());
     }
 
     private void validateRange(int row, int col) {
