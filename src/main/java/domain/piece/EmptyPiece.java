@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static util.ErrorMessage.NOT_EXISTS_PIECE;
 
-public class EmptyPiece extends AbstractPiece {
+public class EmptyPiece extends Piece {
 
     public EmptyPiece(Team team) {
         super(team);

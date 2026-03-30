@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static util.ErrorMessage.IMPOSSIBLE_MOVE;
 
-public class Cannon extends AbstractPiece {
+public class Cannon extends Piece {
 
     public Cannon(Team team) {
         super(team);

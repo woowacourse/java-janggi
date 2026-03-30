@@ -7,7 +7,7 @@ import util.ErrorMessage;
 import java.util.List;
 import java.util.Map;
 
-public class Guard extends AbstractPiece {
+public class Guard extends Piece {
 
     private static final List<List<Integer>> MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, -1), List.of(1, 0), List.of(0, 1));
 
