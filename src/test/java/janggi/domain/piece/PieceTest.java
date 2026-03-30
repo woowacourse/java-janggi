@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class PieceTest {
 
     @Test
-    void 같은_룰이_적용되는_기물인지_확인한다() {
+    void 같은_전략_및_이동_조건이_적용되는_기물인지_확인한다() {
         // given
         Piece piece = new Piece(PieceRule.CANNON, Camp.CHO);
         // when
