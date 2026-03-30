@@ -36,7 +36,8 @@ public class HorseMoveRuleTest {
         HorseMoveRule horseRule = new HorseMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    horseRule.checkMoveRule(from, new Path(List.of(
+                    horseRule.checkMoveRule(new Path(List.of(
+                            from,
                             intersection,
                             sameTeamIntersection))
                     );
@@ -62,7 +63,8 @@ public class HorseMoveRuleTest {
         HorseMoveRule horseRule = new HorseMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    horseRule.checkMoveRule(from, new Path(List.of(
+                    horseRule.checkMoveRule(new Path(List.of(
+                            from,
                             obstacleIntersection,
                             to))
                     );
@@ -85,7 +87,7 @@ public class HorseMoveRuleTest {
 
         HorseMoveRule horseRule = new HorseMoveRule();
 
-        Assertions.assertThat(horseRule.checkMoveRule(from, new Path(List.of(intersection, emptyIntersection))))
+        Assertions.assertThat(horseRule.checkMoveRule(new Path(List.of(from, intersection, emptyIntersection))))
                 .isTrue();
     }
 
@@ -103,12 +105,13 @@ public class HorseMoveRuleTest {
 
         Intersection from = new Intersection(start, horse);
         Intersection intersection = Intersection.empty(middlePoint);
-        Intersection opponentIntersection = new Intersection(start, opponent);
+        Intersection opponentIntersection = new Intersection(end, opponent);
 
         HorseMoveRule horseRule = new HorseMoveRule();
 
-        Assertions.assertThat(horseRule.checkMoveRule(from, new Path(List.of(intersection, opponentIntersection))))
+        Assertions.assertThat(horseRule.checkMoveRule(new Path(List.of(from, intersection, opponentIntersection))))
                 .isTrue();
+
     }
 
 

@@ -48,7 +48,9 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                    chariotMoveRule.checkMoveRule(new Path(List.of(
+                            from,
+                            intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -73,7 +75,9 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                    chariotMoveRule.checkMoveRule(new Path(List.of(
+                            from,
+                            intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -95,7 +99,9 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThat(
-                chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                chariotMoveRule.checkMoveRule(new Path(List.of(
+                        from,
+                        intersection1,
                         intersection2,
                         intersection3,
                         intersection4,
@@ -116,7 +122,9 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThat(
-                        chariotMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                        chariotMoveRule.checkMoveRule(new Path(List.of(
+                                from,
+                                intersection1,
                                 intersection2,
                                 intersection3,
                                 intersection4,

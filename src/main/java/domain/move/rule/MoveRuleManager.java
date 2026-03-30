@@ -29,7 +29,7 @@ public class MoveRuleManager {
 
     public void inspectPathByMoveRule(Intersection from, Path path) {
         MoveRule moveRule = findMoveRule(from);
-        moveRule.checkMoveRule(from, path);
+        moveRule.checkMoveRule(path);
     }
 
     public MoveRule findMoveRule(Intersection from) {

@@ -31,8 +31,8 @@ public class GeneralMoveRule extends MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Intersection from, Path path) {
-        path.validateIsSameTeam(from);
+    public boolean checkMoveRule(Path path) {
+        path.validateIsSameTeam();
         return true;
     }
 

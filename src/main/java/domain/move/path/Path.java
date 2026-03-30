@@ -4,6 +4,7 @@ import domain.intersection.Intersection;
 import domain.move.path.exception.PathException;
 import domain.piece.PieceType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static domain.move.path.exception.PathError.*;
@@ -12,30 +13,44 @@ public record Path(
         List<Intersection> intersections
 ) {
 
+    private static final int EXCEPT_ORIGIN = 1;
     private static final int EXCEPT_DESTINATION = 1;
     private static final int CANNON_JUMP_OBSTACLE_CONDITION = 1;
 
-    public List<Intersection> getPathWithoutLast() {
-        return intersections.subList(0, intersections.size() - EXCEPT_DESTINATION);
+    public Path addOrigin(Intersection origin) {
+        List<Intersection> addOriginPath = new ArrayList<>(intersections);
+        addOriginPath.addFirst(origin);
+        return new Path(addOriginPath);
+    }
+
+    public Intersection getFirstIntersection() {
+        return intersections.getFirst();
     }
 
     public Intersection getLastIntersection() {
         return intersections.getLast();
     }
 
+    public List<Intersection> getPathWithoutOriginAndLast() {
+        if (intersections.size() <= EXCEPT_ORIGIN + EXCEPT_DESTINATION) {
+            return List.of();
+        }
+        return intersections.subList(EXCEPT_ORIGIN, intersections.size() - EXCEPT_DESTINATION);
+    }
+
     public boolean hasObstacle() {
-        return getPathWithoutLast().stream()
+        return getPathWithoutOriginAndLast().stream()
                 .anyMatch(Intersection::hasPiece);
     }
 
     public List<Intersection> getObstacleIntersection() {
-        return getPathWithoutLast().stream()
+        return getPathWithoutOriginAndLast().stream()
                 .filter(Intersection::hasPiece)
                 .toList();
     }
 
-    public void validateIsSameTeam(Intersection from) {
-        if (from.isSameTeam(getLastIntersection())) {
+    public void validateIsSameTeam() {
+        if (getFirstIntersection().isSameTeam(getLastIntersection())) {
             throw new PathException(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
         }
     }
@@ -68,5 +83,4 @@ public record Path(
             throw new PathException(CANNON_CANNOT_ATTACK_CANNON.getMessage());
         }
     }
-
 }

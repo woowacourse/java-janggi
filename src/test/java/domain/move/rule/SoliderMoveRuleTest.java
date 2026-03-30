@@ -34,7 +34,8 @@ public class SoliderMoveRuleTest {
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    soliderMoveRule.checkMoveRule(from, new Path(List.of(
+                    soliderMoveRule.checkMoveRule(new Path(List.of(
+                            from,
                             sameTeamIntersection))
                     );
                 }).isInstanceOf(PathException.class)
@@ -57,7 +58,7 @@ public class SoliderMoveRuleTest {
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
-        Assertions.assertThat(soliderMoveRule.checkMoveRule(from, new Path(List.of(to))))
+        Assertions.assertThat(soliderMoveRule.checkMoveRule(new Path(List.of(from, to))))
                 .isTrue();
 
     }
@@ -78,7 +79,7 @@ public class SoliderMoveRuleTest {
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
-        Assertions.assertThat(soliderMoveRule.checkMoveRule(from, new Path(List.of(to))))
+        Assertions.assertThat(soliderMoveRule.checkMoveRule(new Path(List.of(from, to))))
                 .isTrue();
 
     }

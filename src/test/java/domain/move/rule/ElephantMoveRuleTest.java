@@ -39,7 +39,8 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    elephantRule.checkMoveRule(from, new Path(List.of(
+                    elephantRule.checkMoveRule(new Path(List.of(
+                            from,
                             middleIntersection1,
                             middleIntersection2,
                             sameTeamIntersection)));
@@ -67,7 +68,8 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    elephantMoveRule.checkMoveRule(from, new Path(List.of(
+                    elephantMoveRule.checkMoveRule(new Path(List.of(
+                            from,
                             obstacleIntersection,
                             intersection,
                             to)));
@@ -93,7 +95,8 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(from, new Path(List.of(
+                        elephantMoveRule.checkMoveRule(new Path(List.of(
+                                from,
                                 intersection1,
                                 intersection2,
                                 to))))
@@ -121,7 +124,8 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(from, new Path((List.of(
+                        elephantMoveRule.checkMoveRule(new Path((List.of(
+                                from,
                                 intersection1,
                                 intersection2,
                                 to)))))

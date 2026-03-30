@@ -3,14 +3,10 @@ package domain.board;
 import domain.intersection.Intersection;
 import domain.move.rule.MoveRuleManager;
 import domain.move.path.Path;
-import domain.piece.Piece;
 import domain.piece.Team;
 import domain.point.Point;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -35,7 +31,8 @@ public class JanggiBoard {
     }
 
     private void inspectPath(Intersection from, Intersection to) {
-        Path path = buildPath(moveRuleManager.findPathOfPoints(from, to));
+        Path path = buildPath(moveRuleManager.findPathOfPoints(from, to))
+                .addOrigin(from);
         moveRuleManager.inspectPathByMoveRule(from, path);
     }
 

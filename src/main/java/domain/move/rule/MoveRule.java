@@ -22,6 +22,6 @@ public abstract class MoveRule {
 
     public abstract List<Point> findPathOfPoints(Intersection from, Intersection to);
 
-    public abstract boolean checkMoveRule(Intersection from, Path path);
+    public abstract boolean checkMoveRule(Path path);
 
 }

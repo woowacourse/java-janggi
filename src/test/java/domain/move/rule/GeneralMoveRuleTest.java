@@ -33,7 +33,8 @@ public class GeneralMoveRuleTest {
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    generalMoveRule.checkMoveRule(from, new Path(List.of(
+                    generalMoveRule.checkMoveRule(new Path(List.of(
+                            from,
                             sameTeamIntersection))
                     );
                 }).isInstanceOf(PathException.class)
@@ -54,7 +55,7 @@ public class GeneralMoveRuleTest {
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(emptyIntersection))))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(new Path(List.of(from, emptyIntersection))))
                 .isTrue();
     }
 
@@ -74,7 +75,7 @@ public class GeneralMoveRuleTest {
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, new Path(List.of(opponentIntersection))))
+        Assertions.assertThat(generalMoveRule.checkMoveRule(new Path(List.of(from, opponentIntersection))))
                 .isTrue();
     }
 

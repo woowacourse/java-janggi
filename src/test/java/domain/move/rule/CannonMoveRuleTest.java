@@ -50,7 +50,9 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(new Path(List.of(
+                            from,
+                            intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -76,7 +78,9 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(new Path(List.of(
+                            from,
+                            intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -103,7 +107,9 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(new Path(List.of(
+                            from,
+                            intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -127,7 +133,9 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(new Path(List.of(
+                            from,
+                            intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -154,7 +162,9 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, new Path(List.of(intersection1,
+                    cannonMoveRule.checkMoveRule(new Path(List.of(
+                            from,
+                            intersection1,
                             intersection2,
                             intersection3,
                             intersection4,

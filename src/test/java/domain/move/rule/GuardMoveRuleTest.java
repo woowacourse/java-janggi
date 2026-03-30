@@ -33,7 +33,8 @@ public class GuardMoveRuleTest {
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    guardMoveRule.checkMoveRule(from, new Path(List.of(
+                    guardMoveRule.checkMoveRule(new Path(List.of(
+                            from,
                             sameTeamIntersection))
                     );
                 }).isInstanceOf(PathException.class)
@@ -54,7 +55,7 @@ public class GuardMoveRuleTest {
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(emptyIntersection))))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(new Path(List.of(from, emptyIntersection))))
                 .isTrue();
     }
 
@@ -74,7 +75,7 @@ public class GuardMoveRuleTest {
 
         GuardMoveRule guardMoveRule = new GuardMoveRule();
 
-        Assertions.assertThat(guardMoveRule.checkMoveRule(from, new Path(List.of(opponentIntersection))))
+        Assertions.assertThat(guardMoveRule.checkMoveRule(new Path(List.of(from, opponentIntersection))))
                 .isTrue();
     }
 
