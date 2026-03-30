@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,8 +34,8 @@ public class BoardTest {
         @ParameterizedTest
         @MethodSource("soldierProvider")
         void 졸을_올바른_위치에_초기화한다(Position position) {
-            Piece piece = board.getPiece(position);
-            assertThat(piece.getPieceType()).isEqualTo(PieceType.SOLDIER);
+            Optional<Piece> piece = board.getPiece(position);
+            assertThat(piece.get().getPieceType()).isEqualTo(PieceType.SOLDIER);
         }
 
         static Stream<Arguments> soldierProvider() {
@@ -50,8 +51,8 @@ public class BoardTest {
         @ParameterizedTest
         @MethodSource("chariotProvider")
         void 차를_올바른_위치에_초기화한다(Position position) {
-            Piece piece = board.getPiece(position);
-            assertThat(piece.getPieceType()).isEqualTo(PieceType.CHARIOT);
+            Optional<Piece> piece = board.getPiece(position);
+            assertThat(piece.get().getPieceType()).isEqualTo(PieceType.CHARIOT);
         }
 
         static Stream<Arguments> chariotProvider() {
@@ -64,8 +65,8 @@ public class BoardTest {
         @ParameterizedTest
         @MethodSource("guardProvider")
         void 사를_올바른_위치에_초기화한다(Position position) {
-            Piece piece = board.getPiece(position);
-            assertThat(piece.getPieceType()).isEqualTo(PieceType.GUARD);
+            Optional<Piece> piece = board.getPiece(position);
+            assertThat(piece.get().getPieceType()).isEqualTo(PieceType.GUARD);
         }
 
         static Stream<Arguments> guardProvider() {
@@ -77,15 +78,15 @@ public class BoardTest {
 
         @Test
         void 궁을_올바른_위치에_초기화한다() {
-            Piece piece = board.getPiece(new Position(4, 1));
-            assertThat(piece.getPieceType()).isEqualTo(PieceType.GENERAL);
+            Optional<Piece> piece = board.getPiece(new Position(4, 1));
+            assertThat(piece.get().getPieceType()).isEqualTo(PieceType.GENERAL);
         }
 
         @ParameterizedTest
         @MethodSource("cannonProvider")
         void 포를_올바른_위치에_초기화한다(Position position) {
-            Piece piece = board.getPiece(position);
-            assertThat(piece.getPieceType()).isEqualTo(PieceType.CANNON);
+            Optional<Piece> piece = board.getPiece(position);
+            assertThat(piece.get().getPieceType()).isEqualTo(PieceType.CANNON);
         }
 
         static Stream<Arguments> cannonProvider() {

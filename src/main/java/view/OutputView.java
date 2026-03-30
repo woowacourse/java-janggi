@@ -5,6 +5,8 @@ import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.Team;
 
+import java.util.Optional;
+
 public class OutputView {
 
     public void printBoard(Board board) {
@@ -13,8 +15,8 @@ public class OutputView {
             System.out.print(y + " ");
             for (int x = 0; x <= 8; x++) {
                 Position currentPosition = new Position(x, y);
-                Piece piece = board.getPiece(currentPosition);
-                System.out.print(getPieceSymbol(piece) + " ");
+                Optional<Piece> piece = board.getPiece(currentPosition);
+                System.out.print(getPieceSymbol(piece.orElse(null)) + " ");
             }
             System.out.println();
         }

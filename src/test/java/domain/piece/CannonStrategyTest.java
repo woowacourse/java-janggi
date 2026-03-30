@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,7 +23,7 @@ class CannonStrategyTest {
     void 포는_기물이_사이에_하나의_기물이_있으면_정상적으로_움직일_수_있다() {
         List<Piece> blockedPieces = List.of(new Horse(Team.HAN));
 
-        assertDoesNotThrow(() -> piece.validateMove(blockedPieces, new Horse(Team.HAN)));
+        assertDoesNotThrow(() -> piece.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN))));
     }
 
 
@@ -31,7 +32,7 @@ class CannonStrategyTest {
         List<Piece> blockedPieces = List.of();
 
         assertThrows(IllegalStateException.class,
-                () -> piece.validateMove(blockedPieces, new Horse(Team.HAN))
+                () -> piece.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN)))
         );
     }
 
@@ -40,7 +41,7 @@ class CannonStrategyTest {
         List<Piece> blockedPieces = List.of(new Horse(Team.HAN), new Horse(Team.HAN));
 
         assertThrows(IllegalStateException.class,
-                () -> piece.validateMove(blockedPieces, new Horse(Team.HAN))
+                () -> piece.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN)))
         );
     }
 
@@ -49,7 +50,7 @@ class CannonStrategyTest {
         List<Piece> blockedPieces = List.of(new Cannon(Team.HAN));
 
         assertThrows(IllegalStateException.class,
-                () -> piece.validateMove(blockedPieces, new Horse(Team.HAN))
+                () -> piece.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN)))
         );
     }
 
@@ -58,8 +59,7 @@ class CannonStrategyTest {
         List<Piece> blockedPieces = List.of(new Horse(Team.HAN));
 
         assertThrows(IllegalStateException.class,
-                () -> piece.validateMove(blockedPieces, new Cannon(Team.HAN))
+                () -> piece.validateMove(blockedPieces, Optional.of(new Cannon(Team.HAN)))
         );
     }
-
 }

@@ -5,6 +5,7 @@ import domain.Offset;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class Piece {
     private final PieceType pieceType;
@@ -33,7 +34,7 @@ public abstract class Piece {
 
     abstract public List<Offset> getPathOffset(Offset offset);
 
-    public void validateMove(List<Piece> blockedPieces, Piece to) {
+    public void validateMove(List<Piece> blockedPieces, Optional<Piece> to) {
         if (!blockedPieces.isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
         }
