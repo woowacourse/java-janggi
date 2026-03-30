@@ -60,8 +60,6 @@ public class Board {
         put(initialBoard, pR, BoardLayout.ELEPHANT_RIGHT, side, PieceType.CANNON, BoardLayout.ID_SECOND);
     }
 
-    // 5 == 졸/병 개수
-    // 2 == 한 칸씩 띄워서 배치
     private static void initSoldiers(Map<Position, Piece> initialBoard, Side side, int r, PieceType type) {
         for (int i = 0; i < BoardLayout.SOLDIER_TOTAL_COUNT; i++) {
             put(initialBoard, r, i * BoardLayout.SOLDIER_INTERVAL, side, type, String.valueOf(i));
