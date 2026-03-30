@@ -18,7 +18,7 @@ public class Po extends Piece {
     @Override
     public void capture(Piece target) {
         super.capture(target);
-        if (target instanceof Po) { // 기필코 바꾸겠다는 의지를 표명하는 instanceOf
+        if (!target.canBeJumpedOver()) {
             throw new IllegalArgumentException(PieceExceptionMessage.PO_CANT_CAPTURE_PO.getMessage());
         }
     }
