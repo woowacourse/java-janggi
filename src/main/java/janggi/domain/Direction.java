@@ -1,0 +1,49 @@
+package janggi.domain;
+
+import janggi.domain.piece.Team;
+import janggi.domain.vo.Position;
+
+public enum Direction {
+    NORTH(0, -1), SOUTH(0, 1), EAST(1, 0), WEST(-1, 0),
+    NORTH_EAST(1, -1), NORTH_WEST(-1, -1), SOUTH_EAST(1, 1), SOUTH_WEST(-1, 1);
+
+    private final int dx;
+    private final int dy;
+
+    Direction(int dx, int dy) {
+        this.dx = dx;
+        this.dy = dy;
+    }
+
+    public static Direction findDirection(Position from, Position to) {
+        if (from.isOnSameCol(to) && from.getRow() < to.getRow()) {
+            return EAST;
+        }
+
+        if (from.isOnSameCol(to) && from.getRow() > to.getRow()) {
+            return WEST;
+        }
+
+        if (from.isOnSameRow(to) && from.getCol() < to.getCol()) {
+            return SOUTH;
+        }
+
+        return NORTH;
+    }
+
+    public static Direction forwardDirection(Team team) {
+        if (team == Team.CHO) {
+            return NORTH;
+        }
+
+        return SOUTH;
+    }
+
+    public int getDx() {
+        return dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
+}
