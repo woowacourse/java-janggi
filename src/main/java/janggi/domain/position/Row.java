@@ -7,6 +7,7 @@ public class Row{
     private static final int MAX_SIZE = 9;
 
     private final int value;
+
     Row (int value){
         validate(value);
         this.value = value;

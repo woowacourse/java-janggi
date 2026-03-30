@@ -1,6 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
+import janggi.domain.WayPoints;
 import janggi.domain.position.Position;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class HorseStrategy implements MoveStrategy {
                          int routeRow, int routeCol, int destRow, int destCol) {
         current.move(routeRow, routeCol)
                 .flatMap(route -> current.move(destRow, destCol)
-                        .map(dest -> new Path(List.of(route), dest)))
+                        .map(dest -> Path.of(List.of(route), dest)))
                 .ifPresent(paths::add);
     }
 }

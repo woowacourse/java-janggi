@@ -1,6 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
+import janggi.domain.WayPoints;
 import janggi.domain.position.Position;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class SoldierStrategy implements MoveStrategy {
 
     private void addPath(List<Path> paths, Position current, int destRow, int destCol) {
         current.move(destRow, destCol)
-                .map(dest -> new Path(List.of(), dest))
+                .map(Path::of)
                 .ifPresent(paths::add);
     }
 }

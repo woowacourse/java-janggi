@@ -1,6 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
+import janggi.domain.WayPoints;
 import janggi.domain.position.Position;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ElephantStrategy implements MoveStrategy {
         current.move(routeRow1, routeCol1)
                 .flatMap(route1 -> current.move(routeRow2, routeCol2)
                         .flatMap(route2 -> current.move(destRow, destCol)
-                                .map(dest -> new Path(List.of(route1, route2), dest))))
+                                .map(dest -> Path.of(List.of(route1, route2), dest))))
                 .ifPresent(paths::add);
     }
 }

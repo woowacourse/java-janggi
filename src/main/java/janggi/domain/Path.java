@@ -5,24 +5,31 @@ import janggi.domain.position.Position;
 import java.util.List;
 
 public class Path {
-    private final List<Position> route;
+    private final WayPoints wayPoints;
     private final Position destination;
 
-    public Path(List<Position> route, Position destination) {
-        this.route = route;
+    private Path(WayPoints wayPoints, Position destination) {
+        this.wayPoints = wayPoints;
         this.destination = destination;
+    }
+
+    public static Path of(Position position){
+        return new Path(new WayPoints(List.of()), position);
+    }
+
+    public static Path of(List<Position> wayPoints, Position destination){
+        return new Path(new WayPoints(wayPoints), destination);
     }
 
     public Position destination() {
         return destination;
     }
 
-    public boolean hasDestination(Position position) {
-        return destination == position;
+    public boolean isDestination(Position position) {
+        return destination.equals(position);
     }
 
-    public boolean hasRoute(Position currentPosition) {
-        return route.stream()
-                .anyMatch(position -> position == currentPosition);
+    public boolean isOnWayPoints(Position position) {
+        return wayPoints.isBlocked(position);
     }
 }

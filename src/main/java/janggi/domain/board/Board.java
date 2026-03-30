@@ -83,7 +83,7 @@ public class Board {
 
     private Path findPath(Piece piece, Position from, Position to) {
         return piece.findMovablePaths(from).stream()
-                .filter(path -> path.hasDestination(to))
+                .filter(path -> path.isDestination(to))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 좌표입니다."));
     }
@@ -97,7 +97,7 @@ public class Board {
 
     private Map<Position, Piece> findPiecesOnRoute(Path path) {
         return janggiBoard.entrySet().stream()
-                .filter(entry -> path.hasRoute(entry.getKey()))
+                .filter(entry -> path.isOnWayPoints(entry.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 

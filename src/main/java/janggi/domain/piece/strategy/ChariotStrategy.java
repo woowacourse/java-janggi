@@ -1,6 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
+import janggi.domain.WayPoints;
 import janggi.domain.position.Position;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class ChariotStrategy implements MoveStrategy {
 
     private void addValidPath(List<Path> paths, List<Position> route, Position destination, int distance) {
         if (distance >= CHARIOT_MIN_DISTANCE) {
-            paths.add(new Path(List.copyOf(route), destination));
+            paths.add(Path.of(List.copyOf(route), destination));
         }
     }
 }
