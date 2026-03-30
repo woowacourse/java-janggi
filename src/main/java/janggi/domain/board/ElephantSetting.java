@@ -17,7 +17,7 @@ public enum ElephantSetting {
     INNER_ELEPHANT("3", List.of(PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT, PieceType.HORSE)),
     OUTER_ELEPHANT("4", List.of(PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT));
 
-    private static final List<Integer> SETTING_COLS = List.of(1, 2, 6, 7);
+    private static final List<Integer> SETTING_COLUMNS = List.of(1, 2, 6, 7);
 
     private final String command;
     private final List<PieceType> elephantOrder;
@@ -37,17 +37,17 @@ public enum ElephantSetting {
 
     public Map<Position, Piece> createElephantOrder(Camp camp) {
         if (camp == Camp.HAN) {
-            return createByCamp(camp, SETTING_COLS);
+            return createByCamp(camp, SETTING_COLUMNS);
         }
-        return createByCamp(camp, SETTING_COLS.reversed());
+        return createByCamp(camp, SETTING_COLUMNS.reversed());
     }
 
-    private Map<Position, Piece> createByCamp(Camp camp, List<Integer> settingCols) {
+    private Map<Position, Piece> createByCamp(Camp camp, List<Integer> settingColumns) {
         Map<Position, Piece> map = new HashMap<>();
 
-        for (int i = 0; i < settingCols.size(); i++) {
+        for (int i = 0; i < settingColumns.size(); i++) {
             map.put(
-                    new Position(camp.getStartRowPosition(), settingCols.get(i)),
+                    new Position(camp.getStartRowPosition(), settingColumns.get(i)),
                     new Piece(elephantOrder.get(i), camp)
             );
         }

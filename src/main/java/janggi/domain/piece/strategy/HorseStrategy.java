@@ -20,44 +20,44 @@ public class HorseStrategy implements MoveStrategy {
 
         validateHorseMovement(directionInformation);
 
-        if (directionInformation.isRowBiggerThanCol()) {
+        if (directionInformation.isRowBiggerThanColumn()) {
             return createRowFirstPath(source, directionInformation);
         }
-        return createColFirstPath(source, directionInformation);
+        return createColumnFirstPath(source, directionInformation);
     }
 
     private List<Position> createRowFirstPath(Position source, DirectionInformation directionInformation) {
         List<Position> path = new ArrayList<>();
 
         int rowDirection = directionInformation.calculateRowDirection();
-        int colDirection = directionInformation.calculateColDirection();
+        int columnDirection = directionInformation.calculateColumnDirection();
         source = source.moveRow(rowDirection);
         path.add(source);
 
-        source = source.moveDiagonal(rowDirection, colDirection);
+        source = source.moveDiagonal(rowDirection, columnDirection);
         path.add(source);
         return path;
     }
 
-    private List<Position> createColFirstPath(Position source, DirectionInformation directionInformation) {
+    private List<Position> createColumnFirstPath(Position source, DirectionInformation directionInformation) {
         List<Position> path = new ArrayList<>();
 
         int rowDirection = directionInformation.calculateRowDirection();
-        int colDirection = directionInformation.calculateColDirection();
-        source = source.moveCol(colDirection);
+        int columnDirection = directionInformation.calculateColumnDirection();
+        source = source.moveColumn(columnDirection);
         path.add(source);
 
-        source = source.moveDiagonal(rowDirection, colDirection);
+        source = source.moveDiagonal(rowDirection, columnDirection);
         path.add(source);
         return path;
     }
 
     private void validateHorseMovement(DirectionInformation directionInformation) {
         int absRowDifference = directionInformation.calculateAbsRowDifference();
-        int absColDifference = directionInformation.calculateAbsColDifference();
+        int absColumnDifference = directionInformation.calculateAbsColumnDifference();
 
-        if ((absRowDifference != MIN_ABS_DELTA || absColDifference != MAX_ABS_DELTA)
-                && (absRowDifference != MAX_ABS_DELTA || absColDifference != MIN_ABS_DELTA)) {
+        if ((absRowDifference != MIN_ABS_DELTA || absColumnDifference != MAX_ABS_DELTA)
+                && (absRowDifference != MAX_ABS_DELTA || absColumnDifference != MIN_ABS_DELTA)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
         }
     }

@@ -21,17 +21,17 @@ public class ElephantStrategy implements MoveStrategy {
 
         validateElephantMovement(directionInfo);
 
-        if (directionInfo.isRowBiggerThanCol()) {
+        if (directionInfo.isRowBiggerThanColumn()) {
             return createRowFirstPath(source, directionInfo);
         }
-        return createColFirstPath(source, directionInfo);
+        return createColumnFirstPath(source, directionInfo);
     }
 
     private void validateElephantMovement(DirectionInformation directionInfo) {
         if ((directionInfo.calculateAbsRowDifference() != MIN_ABS_DELTA
-                || directionInfo.calculateAbsColDifference() != MAX_ABS_DELTA)
+                || directionInfo.calculateAbsColumnDifference() != MAX_ABS_DELTA)
                 && (directionInfo.calculateAbsRowDifference() != MAX_ABS_DELTA
-                || directionInfo.calculateAbsColDifference() != MIN_ABS_DELTA)) {
+                || directionInfo.calculateAbsColumnDifference() != MIN_ABS_DELTA)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
         }
     }
@@ -46,10 +46,10 @@ public class ElephantStrategy implements MoveStrategy {
         return path;
     }
 
-    private List<Position> createColFirstPath(Position source, DirectionInformation directionInfo) {
+    private List<Position> createColumnFirstPath(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
 
-        Position current = source.moveCol(directionInfo.calculateColDirection());
+        Position current = source.moveColumn(directionInfo.calculateColumnDirection());
         path.add(current);
 
         path.addAll(moveDiagonal(current, directionInfo));
@@ -62,7 +62,7 @@ public class ElephantStrategy implements MoveStrategy {
         Position current = source;
         for (int i = 0; i < DIAGONAL_COUNT; i++) {
             current = current.moveDiagonal(directionInfo.calculateRowDirection(),
-                    directionInfo.calculateColDirection());
+                    directionInfo.calculateColumnDirection());
             path.add(current);
         }
         return path;

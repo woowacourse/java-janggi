@@ -37,11 +37,11 @@ public record Position(int row, int column) {
         return new Position(row + direction, column);
     }
 
-    public Position moveCol(int direction) {
+    public Position moveColumn(int direction) {
         return new Position(row, column + direction);
     }
 
-    public Position moveDiagonal(int rowDirection, int colDirection) {
-        return new Position(row + rowDirection, column + colDirection);
+    public Position moveDiagonal(int rowDirection, int columnDirection) {
+        return new Position(row + rowDirection, column + columnDirection);
     }
 }

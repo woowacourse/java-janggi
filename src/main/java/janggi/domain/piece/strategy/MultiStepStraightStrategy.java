@@ -14,22 +14,22 @@ public class MultiStepStraightStrategy implements MoveStrategy {
 
         validateStraightMove(directionInformation);
 
-        if (directionInformation.isRowBiggerThanCol()) {
+        if (directionInformation.isRowBiggerThanColumn()) {
             return createRowPath(source, directionInformation.rowDifference());
         }
-        return createColumnPath(source, directionInformation.colDifference());
+        return createColumnPath(source, directionInformation.columnDifference());
     }
 
     private void validateStraightMove(DirectionInformation directionInformation) {
         int sum = directionInformation.addAllDifference();
         int rowDifference = directionInformation.rowDifference();
-        int colDifference = directionInformation.colDifference();
+        int columnDifference = directionInformation.columnDifference();
 
-        if (sum != rowDifference && sum != colDifference) {
+        if (sum != rowDifference && sum != columnDifference) {
             throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
         }
 
-        if (rowDifference == 0 && colDifference == 0) {
+        if (rowDifference == 0 && columnDifference == 0) {
             throw new IllegalArgumentException(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
         }
     }
@@ -46,14 +46,14 @@ public class MultiStepStraightStrategy implements MoveStrategy {
         return path;
     }
 
-    private List<Position> createColumnPath(Position source, int colDifference) {
+    private List<Position> createColumnPath(Position source, int columnDifference) {
         List<Position> path = new ArrayList<>();
 
-        int columnDirection = colDifference / Math.abs(colDifference);
-        while (colDifference != 0) {
-            source = source.moveCol(columnDirection);
+        int columnDirection = columnDifference / Math.abs(columnDifference);
+        while (columnDifference != 0) {
+            source = source.moveColumn(columnDirection);
             path.add(source);
-            colDifference -= columnDirection;
+            columnDifference -= columnDirection;
         }
         return path;
     }

@@ -19,7 +19,7 @@ public class SingleStepStraightStrategy implements MoveStrategy {
 
     private void validateSingleStepMovement(DirectionInformation directionInformation) {
         if (directionInformation.calculateAbsRowDifference()
-                + directionInformation.calculateAbsColDifference() != SINGLE_STEP_DISTANCE) {
+                + directionInformation.calculateAbsColumnDifference() != SINGLE_STEP_DISTANCE) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
         }
     }

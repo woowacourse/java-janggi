@@ -2,7 +2,7 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 
-public record DirectionInformation(int rowDifference, int colDifference) {
+public record DirectionInformation(int rowDifference, int columnDifference) {
 
     public DirectionInformation(Position source, Position destination) {
         this(destination.calculateRowDistance(source), destination.calculateColumnDistance(source));
@@ -12,23 +12,23 @@ public record DirectionInformation(int rowDifference, int colDifference) {
         return Math.abs(rowDifference);
     }
 
-    public int calculateAbsColDifference() {
-        return Math.abs(colDifference);
+    public int calculateAbsColumnDifference() {
+        return Math.abs(columnDifference);
     }
 
     public int calculateRowDirection() {
         return Integer.signum(rowDifference);
     }
 
-    public int calculateColDirection() {
-        return Integer.signum(colDifference);
+    public int calculateColumnDirection() {
+        return Integer.signum(columnDifference);
     }
 
-    public boolean isRowBiggerThanCol() {
-        return Math.abs(rowDifference) > Math.abs(colDifference);
+    public boolean isRowBiggerThanColumn() {
+        return Math.abs(rowDifference) > Math.abs(columnDifference);
     }
 
     public int addAllDifference() {
-        return rowDifference + colDifference;
+        return rowDifference + columnDifference;
     }
 }
