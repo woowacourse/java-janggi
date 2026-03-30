@@ -13,4 +13,8 @@ public enum Team {
         return CHO;
     }
 
+    public boolean isHan() {
+        return this == HAN;
+    }
+
 }

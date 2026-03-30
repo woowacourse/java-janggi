@@ -24,13 +24,13 @@ public class BoardTest {
         Piece general = new Piece(Team.HAN, PieceType.GENERAL);
         Intersection actualIntersection = new Intersection(point, general);
         TestIntersectionGenerator testIntersectionGenerator = new TestIntersectionGenerator(
-                Arrays.asList(actualIntersection));
+                List.of(actualIntersection));
 
         JanggiBoard janggiBoard = new JanggiBoard(testIntersectionGenerator);
         Intersection expectedIntersection = janggiBoard.findIntersection(point);
 
-        Assertions.assertThat(actualIntersection.isSamePiece(expectedIntersection))
-                .isTrue();
+        Assertions.assertThat(actualIntersection)
+                .isEqualTo(expectedIntersection);
     }
 
     // TODO method 리팩토링
@@ -60,8 +60,8 @@ public class BoardTest {
             Intersection actualIntersection = actual.get(i);
             Intersection expectedIntersection = expected.get(i);
 
-            Assertions.assertThat(actualIntersection.isSamePiece(expectedIntersection))
-                    .isTrue();
+            Assertions.assertThat(actualIntersection)
+                    .isEqualTo(expectedIntersection);
         }
     }
 

@@ -35,6 +35,10 @@ public record Piece(
         return this.pieceType != PieceType.NONE;
     }
 
+    public boolean isGeneral() {
+        return pieceType.isGeneral();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

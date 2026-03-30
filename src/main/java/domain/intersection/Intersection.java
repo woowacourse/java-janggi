@@ -43,11 +43,7 @@ public class Intersection {
     }
 
     public boolean hasGeneral() {
-        return this.piece.isSamePiece(PieceType.GENERAL);
-    }
-
-    public boolean isSamePiece(Intersection intersection) {
-        return this.piece.equals(intersection.piece);
+        return this.piece.isGeneral();
     }
 
     public boolean isSamePiece(PieceType pieceType) {

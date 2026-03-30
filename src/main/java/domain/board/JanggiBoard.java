@@ -3,6 +3,7 @@ package domain.board;
 import domain.intersection.Intersection;
 import domain.move.rule.MoveRuleManager;
 import domain.move.path.Path;
+import domain.piece.Piece;
 import domain.piece.Team;
 import domain.point.Point;
 

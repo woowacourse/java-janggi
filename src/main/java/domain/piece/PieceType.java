@@ -12,4 +12,8 @@ public enum PieceType {
     NONE,    // null 포장
     ;
 
+    public boolean isGeneral() {
+        return this == GENERAL;
+    }
+
 }
