@@ -3,6 +3,8 @@ package domain.strategy;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
+
 
 public class CannonMoveStrategy extends MoveStrategy {
 
@@ -16,11 +18,11 @@ public class CannonMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean isMoveAble(Position destination) {
-        if (position.row() == destination.row()) {
+        if (isSameRow(destination)) {
             return !destination.equals(position.left()) && !destination.equals(position.right());
         }
 
-        if (position.col() == destination.col()) {
+        if (isSameCol(destination)) {
             return !destination.equals(position.up()) && !destination.equals(position.down());
         }
 
@@ -29,50 +31,51 @@ public class CannonMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean isPathRestricted(Position destination, List<Position> piecePositions) {
-        if (position.row() == destination.row()) {
-            List<Position> routePositions = getLeftOrRightRoutePositions(destination);
-            return piecePositions.stream().filter(routePositions::contains).count() != 1;
-        }
-
-        if (position.col() == destination.col()) {
-            List<Position> routePositions = getUpOrDownRoutePositions(destination);
-            return piecePositions.stream().filter(routePositions::contains).count() != 1;
-        }
-
-        return true;
+        List<Position> route = routePositions(destination);
+        return piecePositions.stream().filter(route::contains).count() != 1;
     }
 
-    private List<Position> getLeftOrRightRoutePositions(Position destination) {
-
-        List<Position> routePositons;
-        if (position.col() < destination.col()) {
-            routePositons = new ArrayList<>();
-            for (int i = position.col() + 1; i < destination.col(); i++) {
-                routePositons.add(Position.of(position.row(), i));
-            }
-            return routePositons;
+    private List<Position> routePositions(Position destination) {
+        if (isSameRow(destination)) {
+            return createRoute(destination, position -> nextHorizontal(position, destination));
         }
 
-        routePositons = new ArrayList<>();
-        for (int i = destination.col() + 1; i < position.col(); i++) {
-            routePositons.add(Position.of(position.row(), i));
+        if (isSameCol(destination)) {
+            return createRoute(destination, position -> nextVertical(position, destination));
         }
-        return routePositons;
+
+        return List.of();
     }
 
-    private List<Position> getUpOrDownRoutePositions(Position destination) {
-        if (position.row() < destination.row()) {
-            List<Position> routePositons = new ArrayList<>();
-            for (int i = position.row() + 1; i < destination.row(); i++) {
-                routePositons.add(Position.of(i, position.col()));
-            }
-            return routePositons;
+    private List<Position> createRoute(Position destination, UnaryOperator<Position> nextStep) {
+        List<Position> route = new ArrayList<>();
+        Position current = nextStep.apply(position);
+        while (!current.equals(destination)) {
+            route.add(current);
+            current = nextStep.apply(current);
         }
+        return route;
+    }
 
-        List<Position> routePositons = new ArrayList<>();
-        for (int i = destination.row() + 1; i < position.row(); i++) {
-            routePositons.add(Position.of(i, position.col()));
+    private Position nextHorizontal(Position current, Position destination) {
+        if (current.col() < destination.col()) {
+            return current.right();
         }
-        return routePositons;
+        return current.left();
+    }
+
+    private Position nextVertical(Position current, Position destination) {
+        if (current.row() < destination.row()) {
+            return current.down();
+        }
+        return current.up();
+    }
+
+    private boolean isSameRow(Position destination) {
+        return position.row() == destination.row();
+    }
+
+    private boolean isSameCol(Position destination) {
+        return position.col() == destination.col();
     }
 }
