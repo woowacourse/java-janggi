@@ -7,9 +7,10 @@ import janggi.domain.piece.Soldier;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 class CannonMoveRuleTest {
     private final MoveRule moveRule = new CannonMoveRule();
@@ -86,6 +87,23 @@ class CannonMoveRuleTest {
 
         board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
                 new Position(0, 4), new Cannon(Team.HAN));
+
+        // when, then
+        assertThat(moveRule.canMove(from, to, board)).isFalse();
+    }
+
+    @ParameterizedTest(name = "직선 이동이 아닌 경우 실패: {0}, {1} -> {2}, {3}")
+    @CsvSource({
+            "0, 0, 2, 2", // 대각선 이동
+            "0, 0, 1, 2", // 마(Horse)와 같은 이동
+            "5, 5, 7, 6", // 상(Elephant)과 같은 이동
+            "3, 3, 4, 5"  // 무작위 좌표
+    })
+    void 직선_이동이_아닌_경우_이동_불가하다(int fR, int fC, int tR, int tC) {
+        // given
+        Position from = new Position(fR, fC);
+        Position to = new Position(tR, tC);
+        board = new FakeBoard();
 
         // when, then
         assertThat(moveRule.canMove(from, to, board)).isFalse();
