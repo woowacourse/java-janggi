@@ -14,47 +14,28 @@ public abstract class StraightMovingPiece extends Piece{
 
     @Override
     public List<Offset> getPathPositions(Offset offset) {
-        int dx = offset.dx();
-        int dy = offset.dy();
+        validateMoveRule(offset);
+        Direction mainDirection = offset.getMainDirection();
 
-        if (!((dx == 0 && dy != 0) || (dx != 0 && dy == 0))) {
+        int distance = offset.calculateStraightDistance();
+
+        return generateRoute(mainDirection, distance);
+    }
+
+    private void validateMoveRule(Offset offset) {
+        if (!offset.isStraightMoving()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
+    }
 
-        Direction mainDirection;
-
-        int distance;
-        if (dx == 0) {
-            mainDirection = decideYDirection(dy);
-            distance = Math.abs(dy);
-        } else {
-            mainDirection = decideXDirection(dx);
-            distance = Math.abs(dx);
-        }
-
-        Offset step = new Offset(0,0);
-
+    private List<Offset> generateRoute(Direction mainDirection, int distance) {
+        Offset step = new Offset(0, 0);
         List<Offset> route = new ArrayList<>();
 
         for (int i = 0; i < distance - 1; i++) {
             step = step.move(mainDirection);
             route.add(step);
         }
-
         return route;
-    }
-
-    private Direction decideXDirection(int dx) {
-        if (dx > 0) {
-            return Direction.RIGHT;
-        }
-        return Direction.LEFT;
-    }
-
-    private Direction decideYDirection(int dy) {
-        if (dy > 0) {
-            return Direction.UP;
-        }
-        return Direction.DOWN;
     }
 }

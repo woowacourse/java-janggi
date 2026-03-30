@@ -14,10 +14,7 @@ public final class Horse extends JumpMovingPiece {
 
     @Override
     protected void validateMoveRule(Offset offset) {
-        int dx = Math.abs(offset.dx());
-        int dy = Math.abs(offset.dy());
-
-        if (!((dx == 2 && dy == 1) || (dx == 1 && dy == 2))) {
+        if (!offset.isHorseMove()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
     }

@@ -16,4 +16,18 @@ public enum Direction {
     public Offset getOffset() {
         return offset;
     }
+
+    public static Direction decideXDirection(int dx) {
+        if (dx > 0) {
+            return Direction.RIGHT;
+        }
+        return Direction.LEFT;
+    }
+
+    public static Direction decideYDirection(int dy) {
+        if (dy > 0) {
+            return Direction.UP;
+        }
+        return Direction.DOWN;
+    }
 }

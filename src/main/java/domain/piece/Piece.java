@@ -41,10 +41,14 @@ public abstract class Piece {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Piece piece = (Piece) o;
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) object;
         return pieceType == piece.pieceType && team == piece.team;
     }
 
