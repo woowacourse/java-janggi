@@ -14,12 +14,12 @@ public enum Direction {
     NORTH_WEST(-1, -1),
     SOUTH_WEST(1, -1);
 
-    private final int deltaRow;
-    private final int deltaCol;
+    private final int rowDelta;
+    private final int colDelta;
 
-    Direction(int deltaRow, int deltaCol) {
-        this.deltaRow = deltaRow;
-        this.deltaCol = deltaCol;
+    Direction(int rowDelta, int colDelta) {
+        this.rowDelta = rowDelta;
+        this.colDelta = colDelta;
     }
 
     public static Direction from(Position start, Position end) {
@@ -31,12 +31,12 @@ public enum Direction {
     }
 
     private static boolean hasSameDirection(Direction direction, Displacement displacement) {
-        return direction.deltaRow * displacement.col() == direction.deltaCol * displacement.row()
-                && direction.deltaRow * displacement.row() >= 0
-                && direction.deltaCol * displacement.col() >= 0;
+        return direction.rowDelta * displacement.col() == direction.colDelta * displacement.row()
+                && direction.rowDelta * displacement.row() >= 0
+                && direction.colDelta * displacement.col() >= 0;
     }
 
-    public static List<Direction> decomposeToCardinalAndDiagonal(Position start, Position end) {
+    public static List<Direction> decomposePieceRoute(Position start, Position end) {
         Displacement displacement = end.minus(start);
         Direction cardinal = resolveCardinal(displacement);
         Direction diagonal = resolveDiagonal(displacement);
@@ -63,16 +63,16 @@ public enum Direction {
 
     private static Direction findByRowCol(int row, int col) {
         return Stream.of(values())
-                .filter(d -> d.deltaRow == row && d.deltaCol == col)
+                .filter(d -> d.rowDelta == row && d.colDelta == col)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 방향입니다."));
     }
 
-    public int row() {
-        return deltaRow;
+    public int rowDelta() {
+        return rowDelta;
     }
 
-    public int col() {
-        return deltaCol;
+    public int colDelta() {
+        return colDelta;
     }
 }

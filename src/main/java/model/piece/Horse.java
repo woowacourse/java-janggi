@@ -14,7 +14,7 @@ public class Horse extends Piece {
 
     @Override
     public List<Position> extractPath(Position current, Position next) {
-        List<Direction> directions = Direction.decomposeToCardinalAndDiagonal(current, next);
+        List<Direction> directions = Direction.decomposePieceRoute(current, next);
         List<Position> path = new ArrayList<>();
         Position step = current;
         for (int i = 0; i < directions.size() - 1; i++) {
