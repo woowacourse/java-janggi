@@ -14,12 +14,12 @@ public enum Direction {
     NORTH_WEST(-1, -1),
     SOUTH_WEST(1, -1);
 
-    private final int row;
-    private final int col;
+    private final int deltaRow;
+    private final int deltaCol;
 
-    Direction(int row, int col) {
-        this.row = row;
-        this.col = col;
+    Direction(int deltaRow, int deltaCol) {
+        this.deltaRow = deltaRow;
+        this.deltaCol = deltaCol;
     }
 
     public static Direction from(Position start, Position end) {
@@ -31,9 +31,9 @@ public enum Direction {
     }
 
     private static boolean hasSameDirection(Direction direction, Displacement displacement) {
-        return direction.row * displacement.col() == direction.col * displacement.row()
-                && direction.row * displacement.row() >= 0
-                && direction.col * displacement.col() >= 0;
+        return direction.deltaRow * displacement.col() == direction.deltaCol * displacement.row()
+                && direction.deltaRow * displacement.row() >= 0
+                && direction.deltaCol * displacement.col() >= 0;
     }
 
     public static List<Direction> decomposeToCardinalAndDiagonal(Position start, Position end) {
@@ -63,16 +63,16 @@ public enum Direction {
 
     private static Direction findByRowCol(int row, int col) {
         return Stream.of(values())
-                .filter(d -> d.row == row && d.col == col)
+                .filter(d -> d.deltaRow == row && d.deltaCol == col)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 방향입니다."));
     }
 
     public int row() {
-        return row;
+        return deltaRow;
     }
 
     public int col() {
-        return col;
+        return deltaCol;
     }
 }
