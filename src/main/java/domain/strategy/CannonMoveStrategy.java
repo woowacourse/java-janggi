@@ -22,37 +22,42 @@ public class CannonMoveStrategy implements MoveStrategy {
         List<Position> result = new ArrayList<>();
 
         for (Direction direction : DIRECTIONS) {
-            Position current = start;
-            boolean jumped = false;
-
-            while (true) {
-                current = current.nextPosition(direction);
-
-                if (!board.isValidRange(current)) {
-                    break;
-                }
-
-                Piece target = board.getPiece(current);
-
-                if (target.isCannon()) {
-                    break;
-                }
-
-                if (!jumped) {
-                    if (!target.isNeutral()) {
-                        jumped = true;
-                    }
-                    continue;
-                }
-
-                result.add(current);
-
-                if (!target.isNeutral()) {
-                    break;
-                }
-            }
+            exploreDirection(board, start, direction, result);
         }
 
         return result;
+    }
+
+    private void exploreDirection(Board board, Position start, Direction direction, List<Position> result) {
+        Position current = start;
+        boolean jumped = false;
+
+        while (true) {
+            current = current.nextPosition(direction);
+
+            if (!board.isValidRange(current)) {
+                break;
+            }
+
+            Piece target = board.getPiece(current);
+
+            if (target.isCannon()) {
+                break;
+            }
+
+            if (!jumped) {
+                if (!target.isNeutral()) {
+                    jumped = true;
+                }
+
+                continue;
+            }
+
+            result.add(current);
+
+            if (!target.isNeutral()) {
+                break;
+            }
+        }
     }
 }
