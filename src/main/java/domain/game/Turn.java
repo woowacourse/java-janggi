@@ -2,19 +2,13 @@ package domain.game;
 
 public enum Turn {
 
-    CHO(true, "초"),
-    HAN(false, "한");
+    CHO("초"),
+    HAN("한");
 
-    private final boolean isCho;
     private final String name;
 
-    Turn(boolean isCho, String name) {
-        this.isCho = isCho;
+    Turn(String name) {
         this.name = name;
-    }
-
-    public boolean isCho() {
-        return isCho;
     }
 
     public String getName() {

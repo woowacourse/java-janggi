@@ -33,8 +33,16 @@ public class InputView {
               열: 1~9 (가로), 행: 1~10 (세로)""";
     private static final String DESTINATION_PROMPT = "> ";
 
-    public String inputPlacementOption(String turn) {
-        System.out.printf(PLACEMENT_OPTION_HEADER + "%n", turn);
+    public String inputPlacementChoOption() {
+        return inputPlacementOption("초");
+    }
+
+    public String inputPlacementHanOption() {
+        return inputPlacementOption("한");
+    }
+
+    private String inputPlacementOption(String team) {
+        System.out.printf(PLACEMENT_OPTION_HEADER + "%n", team);
         System.out.println(PLACEMENT_OPTION_TABLE);
         System.out.print(PLACEMENT_OPTION_PROMPT);
         return scanner.nextLine();

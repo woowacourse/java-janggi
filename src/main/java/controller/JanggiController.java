@@ -1,7 +1,6 @@
 package controller;
 
 import domain.game.JanggiGame;
-import domain.game.Turn;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
@@ -9,9 +8,6 @@ import view.OutputView;
 import java.util.List;
 
 public class JanggiController {
-
-    private static final String CHO = "초";
-    private static final String HAN = "한";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -22,25 +18,22 @@ public class JanggiController {
     }
 
     public void start() {
-        String inputCho = inputView.inputPlacementOption(CHO);
-        String inputHan = inputView.inputPlacementOption(HAN);
+        String inputCho = inputView.inputPlacementChoOption();
+        String inputHan = inputView.inputPlacementHanOption();
         JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
 
         while (!janggiGame.isGameEnd()) {
-            Turn turn = janggiGame.turn();
-
-            outputView.printTurn(turn);
-
-            List<Integer> from = choosePiece(janggiGame, turn);
+            outputView.printTurn(janggiGame.getTurnName());
+            List<Integer> from = choosePiece(janggiGame);
             chooseDestinationAndGameStart(janggiGame, from);
         }
-        outputView.printGameEnd(janggiGame.turn());
+        outputView.printGameEnd(janggiGame.getWinnerName());
     }
 
-    private List<Integer> choosePiece(JanggiGame janggiGame, Turn turn) {
+    private List<Integer> choosePiece(JanggiGame janggiGame) {
         return Retry.repeatUntilSuccess(() -> {
             List<Integer> inputTokens = inputView.inputPieceLocation();
-            janggiGame.checkSameTeam(inputTokens, turn);
+            janggiGame.checkSameTeam(inputTokens);
             return inputTokens;
         });
     }

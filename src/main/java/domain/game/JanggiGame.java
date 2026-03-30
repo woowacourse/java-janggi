@@ -20,6 +20,19 @@ public class JanggiGame {
         return new JanggiGame(BoardFactory.create(inputCho, inputHan));
     }
 
+    public String getTurnName() {
+        return turn.getName();
+    }
+
+    public String getWinnerName() {
+        return turn.getName();
+    }
+
+    public void checkSameTeam(List<Integer> inputTokens) {
+        Coordination coordination = Coordination.of(inputTokens.get(0), inputTokens.get(1));
+        board.checkSameTeam(coordination, turn);
+    }
+
     public boolean isGameEnd() {
         return !board.hasTwoGenerals();
     }
@@ -37,9 +50,5 @@ public class JanggiGame {
         BoardDto boardDto = BoardDto.from(this.board);
         turn = turn.reverse();
         return boardDto;
-    }
-
-    public void checkSameTeam(List<Integer> inputTokens, Turn turn) {
-        board.checkSameTeam(inputTokens, turn);
     }
 }

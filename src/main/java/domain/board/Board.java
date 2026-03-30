@@ -6,7 +6,6 @@ import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
 
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -38,8 +37,7 @@ public class Board {
                 .count() == 2;
     }
 
-    public void checkSameTeam(List<Integer> inputTokens, Turn turn) {
-        Coordination coordination = Coordination.of(inputTokens.get(0), inputTokens.get(1));
+    public void checkSameTeam(Coordination coordination, Turn turn) {
         Piece piece = board.get(coordination);
         piece.isSameTeam(turn);
     }

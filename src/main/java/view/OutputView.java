@@ -1,7 +1,6 @@
 package view;
 
 import dto.BoardDto;
-import domain.game.Turn;
 
 import java.util.List;
 import java.util.Map;
@@ -24,10 +23,10 @@ public class OutputView {
     private static final String GAME_END_MESSAGE = "게임이 종료되었습니다.";
     private static final String GAME_END_WINNER = "%s 진영이 승리하셨습니다!";
 
-    public void printTurn(Turn turn) {
+    public void printTurn(String turnName) {
         System.out.println();
         System.out.println(TURN_DIVIDER);
-        System.out.printf(TURN_FORMAT + "%n", turn.getName());
+        System.out.printf(TURN_FORMAT + "%n", turnName);
         System.out.println(TURN_DIVIDER);
     }
 
@@ -52,11 +51,11 @@ public class OutputView {
         }
     }
 
-    public void printGameEnd(Turn winner) {
+    public void printGameEnd(String winnerName) {
         System.out.println();
         System.out.println(GAME_END_DIVIDER);
         System.out.println(GAME_END_MESSAGE);
-        System.out.printf(GAME_END_WINNER + "%n", winner.getName());
+        System.out.printf(GAME_END_WINNER + "%n", winnerName);
         System.out.println(GAME_END_DIVIDER);
     }
 }

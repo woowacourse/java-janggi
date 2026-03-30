@@ -6,23 +6,13 @@ import static util.ErrorMessage.NOT_SAME_TEAM;
 
 public enum Team {
 
-    CHO(true),
-    HAN(false),
-    NONE(false),
+    CHO,
+    HAN,
+    NONE,
     ;
 
-    private final boolean isCho;
-
-    Team(boolean isCho) {
-        this.isCho = isCho;
-    }
-
-    public boolean isCho() {
-        return isCho;
-    }
-
     public void validateSameTeam(Turn turn) {
-        if (this.isCho != turn.isCho()) {
+        if (!this.name().equals(turn.name())) {
             throw new IllegalArgumentException(NOT_SAME_TEAM.getMessage());
         }
     }

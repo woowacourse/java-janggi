@@ -25,7 +25,7 @@ public class Soldier extends Piece {
     private void validateLocation(Coordination from, Coordination to) {
         List<Integer> different = List.of(from.differentColumn(to), from.differentRow(to));
 
-        if (team.isCho()) {
+        if (team == Team.CHO) {
             validateLocation(CHO_MOVABLE_LOCATION, different);
             return;
         }
