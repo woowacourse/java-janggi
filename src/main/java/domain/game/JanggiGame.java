@@ -20,13 +20,17 @@ public final class JanggiGame {
             Intersection destination,
             Side requestingSide
     ) {
+        validateTurn(requestingSide);
+
+        board.movePiece(startIntersection, destination, requestingSide);
+
+        currentTurn = currentTurn.nextTurn();
+    }
+
+    private void validateTurn(Side requestingSide) {
         if (requestingSide != currentTurn) {
             throw new IllegalArgumentException("지금은 " + currentTurn + "의 차례입니다.");
         }
-        currentTurn = currentTurn.nextTurn();
-
-        // FIXME 여기서 예외가 터지면 턴만 넘어간다.
-        board.movePiece(startIntersection, destination, requestingSide);
     }
 
     public Side currentTurn() {
