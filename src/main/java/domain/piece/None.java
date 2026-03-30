@@ -7,7 +7,8 @@ import domain.strategy.MovementStrategy;
 
 public class None extends Piece {
 
-    public static final String DOESNT_HAVE_TEAM = "빈 칸에는 팀이 없습니다.";
+    public static final String DOES_NOT_HAVE_TEAM = "빈 칸에는 팀이 없습니다.";
+    public static final String CAN_NOT_MOVE = "빈 칸에는 기물이 없어 이동할 수 없습니다.";
 
     public None() {
         super(null, PieceType.NONE);
@@ -15,16 +16,16 @@ public class None extends Piece {
 
     @Override
     protected MovementStrategy getMovementStrategy() {
-        return null;
+        throw new JanggiException(CAN_NOT_MOVE);
     }
 
     @Override
     protected PathGenerator getPathGenerator() {
-        return null;
+        throw new JanggiException(CAN_NOT_MOVE);
     }
 
     @Override
     public Team getTeam() {
-        throw new JanggiException(DOESNT_HAVE_TEAM);
+        throw new JanggiException(DOES_NOT_HAVE_TEAM);
     }
 }
