@@ -1,8 +1,10 @@
+package domain;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import domain.Piece;
-import domain.Side;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -33,6 +35,16 @@ class PieceTest {
 
         public SubPiece(Side side) {
             super(side);
+        }
+
+        @Override
+        public List<Position> getAllPosition(Position position) {
+            return List.of();
+        }
+
+        @Override
+        public List<Position> getPossibleDestinations(Position position, Map<Position, Piece> map) {
+            return List.of();
         }
     }
 }
