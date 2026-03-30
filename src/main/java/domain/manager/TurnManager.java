@@ -1,17 +1,16 @@
 package domain.manager;
 
 import domain.player.Player;
+import domain.player.Players;
 import domain.player.Team;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TurnManager {
 
-    private final List<Player> players;
+    private final Players players;
     private boolean isGameRunning;
 
     public TurnManager(Player choPlayer, Player hanPlayer) {
-        players = new ArrayList<>();
+        players = new Players();
         players.add(choPlayer);
         players.add(hanPlayer);
         isGameRunning = true;
