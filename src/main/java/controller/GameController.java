@@ -51,20 +51,23 @@ public class GameController {
     }
 
     private void choGamePhase(Board board) {
+        Country country = Country.CHO;
         OutputView.printPositionCountry(Country.CHO);
-        gamePhase(board);
+        gamePhase(board, country);
     }
 
     private void hanGamePhase(Board board) {
+        Country country = Country.HAN;
         OutputView.printPositionCountry(Country.HAN);
-        gamePhase(board);
+        gamePhase(board, country);
     }
 
-    private void gamePhase(Board board) {
+    private void gamePhase(Board board, Country country) {
         InputHandler.retry(() -> {
             List<Integer> startList = InputView.readStartPosition();
-            List<Integer> endList = InputView.readEndPosition();
             Position from = Position.of(startList.get(0), startList.get(1));
+            board.checkTurn(from, country);
+            List<Integer> endList = InputView.readEndPosition();
             Position to = Position.of(endList.get(0), endList.get(1));
             Move move = new Move(from, to);
             board.move(move);
