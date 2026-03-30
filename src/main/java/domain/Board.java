@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,14 +19,21 @@ public class Board {
             throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
         }
         Piece piece = board.get(position);
-        // TODO: 상대 기물인 경우 에외발생 - 현재 누구 차례인지 정보 필요
         List<Position> positions = piece.getAllPosition(position);
-        Map<Position, Piece> map = func(positions);
+        Map<Position, Piece> map = findPiecesAt(positions);
         return piece.getPossibleDestinations(position, map);
     }
 
-    private Map<Position, Piece> func(List<Position> positions) {
-        return Map.of();
+    private Map<Position, Piece> findPiecesAt(List<Position> positions) {
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        for (Position position : positions) {
+            if (board.containsKey(position)) {
+                pieces.put(position, board.get(position));
+            }
+        }
+
+        return pieces;
     }
 
     public void movePiece(Position from, Position to) {
@@ -36,5 +44,9 @@ public class Board {
         return board.values().stream()
                 .filter(piece -> piece instanceof General)
                 .count() < 2;
+    }
+
+    public Piece getPiece(Position position) {
+        return board.get(position);
     }
 }

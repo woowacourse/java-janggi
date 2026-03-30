@@ -9,6 +9,6 @@ public class Application {
                 new InputView(new Scanner(System.in)),
                 new OutputView()
         );
-        gameManager.start();
+        gameManager.play();
     }
 }

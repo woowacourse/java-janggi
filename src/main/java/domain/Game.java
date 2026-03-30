@@ -4,15 +4,42 @@ import java.util.List;
 import java.util.Map;
 
 public class Game {
-
     private final Board board;
-    private final Player choPlayer;
-    private final Player hanPlayer;
+    private final Players players;
 
-    public Game(Board board, Player choPlayer, Player hanPlayer) {
+    public Game(Board board, Players players) {
         this.board = board;
-        this.choPlayer = choPlayer;
-        this.hanPlayer = hanPlayer;
+        this.players = players;
+    }
+
+    public Side getCurrentSide() {
+        return players.getCurrentSide();
+    }
+
+    public List<Position> selectSource(Position position) {
+        Piece piece = board.getPiece(position);
+        players.getCurrentPlayer().validateAlly(piece);
+        return getPossibleDestinations(position);
+    }
+
+    public void move(Position from, Position to) {
+        validateDestinations(selectSource(from), to);
+        movePiece(from, to);
+        players.switchPlayer();
+    }
+
+    private void validateDestinations(List<Position> positions, Position target) {
+        if (!positions.contains(target)) {
+            throw new IllegalArgumentException("선택할 수 없는 위치입니다.");
+        }
+    }
+
+    private List<Position> getPossibleDestinations(Position position) {
+        return board.getPossibleDestinations(position);
+    }
+
+    private void movePiece(Position from, Position to) {
+        board.movePiece(from, to);
     }
 
     public Map<Position, Piece> getBoard() {
@@ -23,28 +50,8 @@ public class Game {
         return board.isGameOver();
     }
 
-    public List<Position> getPossibleDestinations(Position position) {
-        // TODO: Players에게 현재 턴인 플레이어의 진영을 물어보고, 사용자가 선택한 position의 진영을 비교해서 다르면 에러 발생
-        List<Position> destinations = board.getPossibleDestinations(position);
-        if (destinations.isEmpty()) {
-            throw new IllegalArgumentException("갈 수 있는 목적지가 없습니다. 다른 기물을 선택하세요.");
-        }
-        return destinations;
-    }
-
-    public void movePiece(Position from, Position to) {
-        board.movePiece(from, to);
-    }
-
-    public String nextTurn() {
-        if (choPlayer.isTurn()) {
-            choPlayer.changeTurn();
-            hanPlayer.changeTurn();
-            return Side.HAN.getName();
-        }
-
-        choPlayer.changeTurn();
-        hanPlayer.changeTurn();
-        return Side.CHO.getName();
+    public String getWinner() {
+        players.switchPlayer();
+        return players.getCurrentPlayer().getName();
     }
 }

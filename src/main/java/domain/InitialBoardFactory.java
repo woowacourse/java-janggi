@@ -5,7 +5,10 @@ import java.util.Map;
 
 public class InitialBoardFactory {
 
-    public Board create(Formation choFormation, Formation hanFormation) {
+    private InitialBoardFactory() {
+    }
+
+    public static Board create(Formation choFormation, Formation hanFormation) {
         Map<Position, Piece> pieces = new HashMap<>();
 
         placeFixedPieces(pieces, Side.CHO);
@@ -17,7 +20,7 @@ public class InitialBoardFactory {
         return new Board(pieces);
     }
 
-    private void placeFixedPieces(Map<Position, Piece> pieces, Side side) {
+    private static void placeFixedPieces(Map<Position, Piece> pieces, Side side) {
         placeGeneral(pieces, side);
         placeChariots(pieces, side);
         placeCannons(pieces, side);
@@ -25,26 +28,26 @@ public class InitialBoardFactory {
         placeSoldiers(pieces, side);
     }
 
-    private void placeGeneral(Map<Position, Piece> pieces, Side side) {
+    private static void placeGeneral(Map<Position, Piece> pieces, Side side) {
         pieces.put(new Position(4, side.generalY()), new General(side));
     }
 
-    private void placeChariots(Map<Position, Piece> pieces, Side side) {
+    private static void placeChariots(Map<Position, Piece> pieces, Side side) {
         pieces.put(new Position(0, side.baseY()), new Chariot(side));
         pieces.put(new Position(8, side.baseY()), new Chariot(side));
     }
 
-    private void placeCannons(Map<Position, Piece> pieces, Side side) {
+    private static void placeCannons(Map<Position, Piece> pieces, Side side) {
         pieces.put(new Position(1, side.cannonY()), new Cannon(side));
         pieces.put(new Position(7, side.cannonY()), new Cannon(side));
     }
 
-    private void placeGuards(Map<Position, Piece> pieces, Side side) {
+    private static void placeGuards(Map<Position, Piece> pieces, Side side) {
         pieces.put(new Position(3, side.baseY()), new Guard(side));
         pieces.put(new Position(5, side.baseY()), new Guard(side));
     }
 
-    private void placeSoldiers(Map<Position, Piece> pieces, Side side) {
+    private static void placeSoldiers(Map<Position, Piece> pieces, Side side) {
         for (int x = 0; x <= 8; x += 2) {
             pieces.put(new Position(x, side.soldierY()), new Soldier(side));
         }

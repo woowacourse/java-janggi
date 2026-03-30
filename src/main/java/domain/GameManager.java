@@ -8,48 +8,55 @@ import view.OutputView;
 public class GameManager {
     private final InputView inputView;
     private final OutputView outputView;
-    private Side side;
-    private Position from;
 
     public GameManager(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
-    public void start() {
-        Player choPlayer = retry(() -> InputParser.parsePlayer(inputView.readChoPlayerName()));
-        Player hanPlayer = retry(() -> InputParser.parsePlayer(inputView.readChoPlayerName()));
-
-        Formation choFormation = Formation.from(Selection.from(inputView.readChoFormation()));
-        Formation hanFormation = Formation.from(Selection.from(inputView.readHanFormation()));
-        Board board = new InitialBoardFactory().create(choFormation, hanFormation);
-        Game game = new Game(board, choPlayer, hanPlayer);
-
-        side = Side.CHO;
+    public void play() {
+        Game game = initializeGame();
+        outputView.printBoard(game.getBoard());
         while (!game.isOver()) {
-            outputView.printBoard(game.getBoard());
-
-            List<Position> destinations = retry(() -> {
-                from = InputParser.parsePosition(inputView.readPlayerPieceSelection(side, game.getBoard()));
-                return game.getPossibleDestinations(from);
-            });
-
-            Position to = retry(() -> {
-                Position position = InputParser.parsePosition(inputView.readDestination(destinations));
-                if (!destinations.contains(position)) {
-                    throw new IllegalArgumentException("선택할 수 없는 위치입니다.");
-                }
-                return position;
-            });
-            game.movePiece(from, to);
-
-            side = nextTurn();
+            playTurn(game);
         }
+        outputView.printWinner(game.getWinner());
     }
 
-    public Side nextTurn() {
-        if (side.isCho()) return Side.HAN;
-        return Side.CHO;
+    private Game initializeGame() {
+        Name choName = getPlayerName(Side.CHO);
+        Players players = retry(() -> {
+            Name hanName = getPlayerName(Side.HAN);
+            return Players.createInitial(choName, hanName);
+        });
+        Board board = InitialBoardFactory.create(getFormation(Side.CHO), getFormation(Side.HAN));
+        return new Game(board, players);
+    }
+
+    private Name getPlayerName(Side side) {
+        return retry(() -> InputParser.parseName(inputView.readPlayerName(side)));
+    }
+
+    private Formation getFormation(Side side) {
+        return retry(() -> Formation.from(Selection.from(inputView.readFormation(side))));
+    }
+
+    private void playTurn(Game game) {
+        Position from = selectPiecePosition(game);
+        retry(() -> {
+            Position to = InputParser.parsePosition(inputView.readDestination());
+            game.move(from, to);
+        });
+        outputView.printBoard(game.getBoard());
+    }
+
+    private Position selectPiecePosition(Game game) {
+        return retry(() -> {
+            Position position = InputParser.parsePosition(inputView.readPlayerPieceSelection(game.getCurrentSide()));
+            List<Position> destinations = game.selectSource(position);
+            outputView.printDestinations(destinations);
+            return position;
+        });
     }
 
     private <T> T retry(Supplier<T> supplier) {

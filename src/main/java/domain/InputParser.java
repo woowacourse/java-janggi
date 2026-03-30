@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 public class InputParser {
     public static final Pattern POSITION_PATTERN = Pattern.compile(" *\\( *\\d+ *, *\\d+ *\\) *");
 
-    public static Player parsePlayer(String input) {
+    public static Name parseName(String input) {
         if (input == null || input.isBlank()) {
             throw new IllegalArgumentException("빈 값은 입력할 수 없습니다.");
         }
-        return new Player(new Name(input.strip()), new CurrentTurn());
+        return new Name(input.strip());
     }
 
     public static Position parsePosition(String input) {

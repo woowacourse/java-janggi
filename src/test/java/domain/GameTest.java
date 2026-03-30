@@ -3,72 +3,60 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GameTest {
-    private Player choPlayer;
-    private Player hanPlayer;
+    private Players players;
+    private Game game;
 
     @BeforeEach
     void setUp() {
-        choPlayer = new Player(new Name("cho"), new CurrentTurn());
-        hanPlayer = new Player(new Name("han"), new NotCurrentTurn());
+        players = Players.createInitial(new Name("cho"), new Name("han"));
+        Formation choFormation = Formation.from(Selection.from("1"));
+        Formation hanFormation = Formation.from(Selection.from("1"));
+        Board board = InitialBoardFactory.create(choFormation, hanFormation);
+        game = new Game(board, players);
     }
 
     @Test
-    void nextTurn은_플레이어_턴을_교체하고_다음_진영명을_반환한다() {
-        Game game = new Game(
-                new Board(new HashMap<>()),
-                choPlayer,
-                hanPlayer
-        );
+    void 턴이_바뀌면_진영이_바뀐다() {
+        Side first = game.getCurrentSide();
+        players.switchPlayer();
+        Side second = game.getCurrentSide();
 
-        String first = game.nextTurn();
-        String second = game.nextTurn();
-
-        assertThat(first).isEqualTo("한");
-        assertThat(second).isEqualTo("초");
+        assertThat(first).isEqualTo(Side.CHO);
+        assertThat(second).isEqualTo(Side.HAN);
     }
 
     @Test
-    void movePiece는_보드의_기물을_이동시킨다() {
+    void 보드의_기물을_이동이_가능하다() {
         Position from = new Position(0, 3);
-        Position to = new Position(0, 4);
-        Soldier soldier = new Soldier(Side.CHO);
-        Game game = createGameWithPieces(Map.of(from, soldier));
-
-        game.movePiece(from, to);
+        Piece expected = game.getBoard().get(from);
+        Position to = new Position(1, 3);
+        game.move(from, to);
 
         assertThat(game.getBoard()).doesNotContainKey(from);
-        assertThat(game.getBoard().get(to)).isSameAs(soldier);
+        assertThat(game.getBoard().get(to)).isEqualTo(expected);
     }
 
     @Test
-    void 올바른_범위가_아닌_위치를_입력한_경우() {
+    void 존재하지_않는_목적지로_이동하는_경우_예외가_발생한다() {
         Position from = new Position(0, 3);
-        Position to = new Position(0, 4);
-        Soldier soldier = new Soldier(Side.CHO);
-        Game game = createGameWithPieces(Map.of(from, soldier));
+        Position to = new Position(1, 4);
 
-        assertThatThrownBy(() -> game.getPossibleDestinations(to))
+        assertThatThrownBy(() -> game.move(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 장군이_하나면_게임은_종료상태다() {
-        Game game = createGameWithPieces(Map.of(new Position(4, 1), new General(Side.CHO)));
+        Game game = new Game(
+                new Board(Map.of(new Position(4, 1), new General(Side.CHO))),
+                Players.createInitial(new Name("cho"), new Name("han"))
+        );
 
         assertThat(game.isOver()).isTrue();
-    }
-
-    private Game createGameWithPieces(Map<Position, Piece> pieces) {
-        return new Game(
-                new Board(new HashMap<>(pieces)),
-                new Player(new Name("cho"), new CurrentTurn()),
-                new Player(new Name("han"), new NotCurrentTurn())
-        );
     }
 }

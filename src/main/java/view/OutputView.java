@@ -3,6 +3,7 @@ package view;
 import domain.Piece;
 import domain.Position;
 import domain.Side;
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -44,5 +45,13 @@ public class OutputView {
 
     public void printError(String message) {
         System.out.println(message);
+    }
+
+    public void printDestinations(List<Position> destinations) {
+        System.out.println(destinations);
+    }
+
+    public void printWinner(String winner) {
+        System.out.printf("%s가 승리했습니다.%n", winner);
     }
 }
