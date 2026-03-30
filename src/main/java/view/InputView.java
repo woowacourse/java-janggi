@@ -14,15 +14,25 @@ public class InputView {
             + "① 왼상차림 (상마상마), ② 오른상차림 (마상마상), ③ 안상차림 (마상상마), ④ 바깥상차림 (상마마상)";
     private static final String MOVE_COMMAND_DESCRIPTION = "%s 이동할 기물의 위치와 이동할 위치를 입력하세요. (예: a7 a5)";
     private static final String ACTION_COMMAND_DESCRIPTION = "%s 차례입니다. 행동을 선택하세요.\n" + "1. 이동 2. 턴 넘기기";
+    private static final int IDEAL_INPUT_SIZE_AS_SETTING_TYPE = 2;
+    private static final int IDEAL_INPUT_SIZE_AS_MOVE_POSITION = 2;
 
     private final Scanner sc = new Scanner(System.in);
 
     public List<SettingType> readSettings() {
         System.out.println(SETTING_DESCRIPTION);
-        return Arrays.stream(sc.nextLine().split(DELIMITER))
+        String[] userInput = sc.nextLine().split(DELIMITER);
+        validateUSerInputLength(userInput, IDEAL_INPUT_SIZE_AS_MOVE_POSITION);
+        return Arrays.stream(userInput)
                 .map(String::strip)
                 .map(InputView::selectSettingType)
                 .toList();
+    }
+
+    private static void validateUSerInputLength(String[] userInput, int idealSize) {
+        if (userInput.length != idealSize) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ACTION_INPUT.getMessage());
+        }
     }
 
     private static SettingType selectSettingType(String info) {
@@ -42,19 +52,10 @@ public class InputView {
         throw new IllegalArgumentException(ErrorMessage.OUT_OF_INPUT_RANGE.getMessage());
     }
 
-    public PositionDto readMovePositions(Team team) {
-        String commandDescription = String.format(MOVE_COMMAND_DESCRIPTION, convertTeamTypeToKorean(team));
-        System.out.println(commandDescription);
-        String input = sc.nextLine();
-        String[] positions = input.split(" ");
-        return PositionDto.toDto(positions[0], positions[1]);
-    }
-
     public ActionType readAction(Team team) {
         String commandDescription = String.format(ACTION_COMMAND_DESCRIPTION, convertTeamTypeToKorean(team));
         System.out.println(commandDescription);
         String input = sc.nextLine();
-
         int action = 0;
         try {
             action = Integer.parseInt(input);
@@ -62,6 +63,14 @@ public class InputView {
             throw new IllegalArgumentException(ErrorMessage.INVALID_ACTION_INPUT.getMessage());
         }
         return ActionType.toValue(action);
+    }
+
+    public PositionDto readMovePositions(Team team) {
+        String commandDescription = String.format(MOVE_COMMAND_DESCRIPTION, convertTeamTypeToKorean(team));
+        System.out.println(commandDescription);
+        String[] userInput = sc.nextLine().split(" ");
+        validateUSerInputLength(userInput, IDEAL_INPUT_SIZE_AS_MOVE_POSITION);
+        return PositionDto.toDto(userInput[0], userInput[1]);
     }
 
     private String convertTeamTypeToKorean(Team team) {
