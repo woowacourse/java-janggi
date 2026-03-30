@@ -3,7 +3,6 @@ package janggi.domain;
 import janggi.domain.board.Board;
 import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.PlayerTurn;
-import janggi.dto.BoardDto;
 import janggi.initializer.BoardInitializer;
 
 public class Game {
@@ -21,8 +20,8 @@ public class Game {
         return playerTurn.isFinished();
     }
 
-    public BoardDto getCurrentBoardDto() {
-        return new BoardDto(playerTurn.getCurrentBoard());
+    public PieceInfo[][] getCurrentBoard() {
+        return playerTurn.getCurrentBoard();
     }
 
     public Side getCurrentSide() {

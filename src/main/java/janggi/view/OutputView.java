@@ -15,11 +15,10 @@ public class OutputView {
     private static final String TURN_PREFIX = "현재 턴: ";
     private static final String ERROR_PREFIX = "[ERROR] ";
 
-    public static void printBoard(BoardDto boardDto) {
-        PieceInfo[][] board = boardDto.board();
+    public static void printBoard(PieceInfo[][] currentBoard) {
         StringBuilder result = new StringBuilder();
-        result.append(buildColumnHeader(board[0].length));
-        appendBoardRows(board, result);
+        result.append(buildColumnHeader(currentBoard[0].length));
+        appendBoardRows(currentBoard, result);
         System.out.print(result);
     }
 

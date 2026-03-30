@@ -45,11 +45,11 @@ public class Runner {
 
     private void printCurrentStatus() {
         OutputView.printTurn(game.getCurrentSide());
-        OutputView.printBoard(game.getCurrentBoardDto());
+        OutputView.printBoard(game.getCurrentBoard());
     }
 
     private void printWinner() {
-        OutputView.printBoard(game.getCurrentBoardDto());
+        OutputView.printBoard(game.getCurrentBoard());
         OutputView.printWinner(game.getCurrentSide());
     }
 }
