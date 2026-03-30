@@ -1,7 +1,7 @@
 package domain.piece.strategy;
 
 import domain.board.Board;
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class ElephantStrategyTest {
 
     Map<Position, Piece> dummyBoard;
-    PathChecker pathChecker;
+    BoardChecker boardChecker;
 
     @BeforeEach
     void setUp() {
@@ -27,30 +27,30 @@ public class ElephantStrategyTest {
 
         dummyBoard.put(
                 new Position(3, 3),
-                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy())
+                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(4, 4),
-                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy())
+                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(4, 5),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(5, 6),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(6, 7),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
         dummyBoard.put(
                 new Position(7, 2),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
 
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ElephantStrategyTest {
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> elephant.move(from, to, pathChecker))
+        assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -73,7 +73,7 @@ public class ElephantStrategyTest {
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatCode(() -> elephant.move(from, to, pathChecker))
+        assertThatCode(() -> elephant.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -85,12 +85,12 @@ public class ElephantStrategyTest {
 
         dummyBoard.put(
                 new Position(4, 5),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> elephant.move(from, to, pathChecker))
+        assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -102,12 +102,12 @@ public class ElephantStrategyTest {
 
         dummyBoard.put(
                 new Position(5, 6),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> elephant.move(from, to, pathChecker))
+        assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

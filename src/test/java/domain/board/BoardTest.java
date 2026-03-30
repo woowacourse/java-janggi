@@ -60,9 +60,9 @@ public class BoardTest {
         void check_If_PiecesInPath() {
             Map<Position, Piece> map = new HashMap<>();
             map.put(new Position(1, 3), new Piece(Camp.HAN, PieceType.SOLDIER,
-                    PieceType.SOLDIER.createStrategy()));
+                    PieceType.SOLDIER.createStrategy(Camp.HAN)));
 
-            PathChecker pathChecker = new Board(map);
+            BoardChecker boardChecker = new Board(map);
 
             List<Position> path = List.of(
                     new Position(1, 2),
@@ -70,7 +70,7 @@ public class BoardTest {
                     new Position(1, 4)
             );
 
-            List<Piece> result = pathChecker.findPiecesInPath(path);
+            List<Piece> result = boardChecker.findPiecesInPath(path);
 
             assertThat(result).hasSize(1);
             assertThat(result.getFirst().type()).isEqualTo(PieceType.SOLDIER);
@@ -80,7 +80,7 @@ public class BoardTest {
         @Test
         @DisplayName("경로에 기물이 없으면 빈 리스트를 반환한다.")
         void noPiecesInPath() {
-            PathChecker pathChecker = new Board(new HashMap<>());
+            BoardChecker boardChecker = new Board(new HashMap<>());
 
             List<Position> path = List.of(
                     new Position(1, 2),
@@ -88,7 +88,7 @@ public class BoardTest {
                     new Position(1, 4)
             );
 
-            List<Piece> result = pathChecker.findPiecesInPath(path);
+            List<Piece> result = boardChecker.findPiecesInPath(path);
 
             assertThat(result).isEmpty();
         }
@@ -97,10 +97,10 @@ public class BoardTest {
         @DisplayName("경로에 여러 기물이 있으면 모두 반환한다.")
         void multiplePiecesInPath() {
             Map<Position, Piece> map = new HashMap<>();
-            map.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy()));
-            map.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy()));
+            map.put(new Position(1, 2), new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN)));
+            map.put(new Position(1, 4), new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.CHO)));
 
-            PathChecker pathChecker = new Board(map);
+            BoardChecker boardChecker = new Board(map);
 
             List<Position> path = List.of(
                     new Position(1, 2),
@@ -108,7 +108,7 @@ public class BoardTest {
                     new Position(1, 4)
             );
 
-            List<Piece> result = pathChecker.findPiecesInPath(path);
+            List<Piece> result = boardChecker.findPiecesInPath(path);
 
             assertThat(result).hasSize(2);
         }
@@ -116,10 +116,10 @@ public class BoardTest {
         @Test
         @DisplayName("빈 경로가 주어지면 빈 리스트를 반환한다.")
         void emptyPath() {
-            PathChecker pathChecker = new Board(new HashMap<>());
+            BoardChecker boardChecker = new Board(new HashMap<>());
             List<Position> path = List.of();
 
-            List<Piece> result = pathChecker.findPiecesInPath(path);
+            List<Piece> result = boardChecker.findPiecesInPath(path);
 
             assertThat(result).isEmpty();
         }
@@ -128,7 +128,7 @@ public class BoardTest {
     @Nested
     class IsSameCamp {
         Map<Position, Piece> dummyBoard;
-        PathChecker pathChecker;
+        BoardChecker boardChecker;
 
         @BeforeEach
         void setUp() {
@@ -136,18 +136,18 @@ public class BoardTest {
 
             dummyBoard.put(
                     new Position(1, 1),
-                    new Piece(Camp.HAN, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy())
+                    new Piece(Camp.HAN, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy(Camp.HAN))
             );
             dummyBoard.put(
                     new Position(1, 4),
-                    new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                    new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
             );
             dummyBoard.put(
                     new Position(1, 7),
-                    new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                    new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
             );
 
-            pathChecker = new Board(dummyBoard);
+            boardChecker = new Board(dummyBoard);
         }
 
         @Test
@@ -157,7 +157,7 @@ public class BoardTest {
             Position to = new Position(1, 4);
 
 
-            assertTrue(pathChecker.isSameCamp(from, to));
+            assertTrue(boardChecker.isSameCamp(from, to));
         }
 
         @Test
@@ -166,7 +166,7 @@ public class BoardTest {
             Position from = new Position(1, 1);
             Position to = new Position(1, 7);
 
-            assertFalse(pathChecker.isSameCamp(from, to));
+            assertFalse(boardChecker.isSameCamp(from, to));
         }
     }
 }

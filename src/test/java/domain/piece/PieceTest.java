@@ -12,8 +12,8 @@ public class PieceTest {
 
     @BeforeEach
     void setUp() {
-        choPiece = new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy());
-        hanPiece = new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy());
+        choPiece = new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.CHO));
+        hanPiece = new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN));
     }
 
     @Test

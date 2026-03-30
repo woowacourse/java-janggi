@@ -1,7 +1,7 @@
 package domain.piece.strategy;
 
 import domain.board.Board;
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 public class SoldierStrategyTest {
     Map<Position, Piece> dummyBoard;
-    PathChecker pathChecker;
+    BoardChecker boardChecker;
 
     @BeforeEach
     void setUp() {
@@ -26,14 +26,14 @@ public class SoldierStrategyTest {
 
         dummyBoard.put(
                 new Position(1, 4),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 7),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
 
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> soldier.move(from, to, pathChecker))
+        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -56,7 +56,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> soldier.move(from, to, pathChecker))
+        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -68,7 +68,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, pathChecker))
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -80,7 +80,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, pathChecker))
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -92,7 +92,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, pathChecker))
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -104,13 +104,13 @@ public class SoldierStrategyTest {
 
         dummyBoard.put(
                 from,
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, pathChecker))
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -122,7 +122,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, pathChecker))
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -134,13 +134,13 @@ public class SoldierStrategyTest {
 
         dummyBoard.put(
                 from,
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
         );
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, pathChecker))
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 }

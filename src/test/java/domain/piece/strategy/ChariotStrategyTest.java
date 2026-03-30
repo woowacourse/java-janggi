@@ -1,7 +1,7 @@
 package domain.piece.strategy;
 
 import domain.board.Board;
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 public class ChariotStrategyTest {
 
     Map<Position, Piece> dummyBoard;
-    PathChecker pathChecker;
+    BoardChecker boardChecker;
 
     @BeforeEach
     void setUp() {
@@ -27,18 +27,18 @@ public class ChariotStrategyTest {
 
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy())
+                new Piece(Camp.HAN, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 2),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 5),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
 
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ChariotStrategyTest {
 
         Piece chariot = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> chariot.move(from, to, pathChecker))
+        assertThatThrownBy(() -> chariot.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -61,7 +61,7 @@ public class ChariotStrategyTest {
 
         Piece chariot = dummyBoard.get(from);
 
-        assertThatCode(() -> chariot.move(from, to, pathChecker))
+        assertThatCode(() -> chariot.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 }

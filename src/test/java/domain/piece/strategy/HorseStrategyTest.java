@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public class HorseStrategyTest {
 
     Map<Position, Piece> dummyBoard;
-    PathChecker pathChecker;
+    BoardChecker boardChecker;
 
     @BeforeEach
     void setUp() {
@@ -28,26 +28,26 @@ public class HorseStrategyTest {
 
         dummyBoard.put(
                 new Position(3, 3),
-                new Piece(Camp.HAN, PieceType.HORSE, PieceType.HORSE.createStrategy())
+                new Piece(Camp.HAN, PieceType.HORSE, PieceType.HORSE.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(4, 3),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(4, 4),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
         dummyBoard.put(
                 new Position(5, 4),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
         dummyBoard.put(
                 new Position(2, 5),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
 
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class HorseStrategyTest {
 
         Piece horse = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> horse.move(from, to, pathChecker))
+        assertThatThrownBy(() -> horse.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -70,7 +70,7 @@ public class HorseStrategyTest {
 
         Piece horse = dummyBoard.get(from);
 
-        assertThatCode(() -> horse.move(from, to, pathChecker))
+        assertThatCode(() -> horse.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -82,12 +82,12 @@ public class HorseStrategyTest {
 
         dummyBoard.put(
                 new Position(4, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
 
         Piece horse = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> horse.move(from, to, pathChecker))
+        assertThatThrownBy(() -> horse.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

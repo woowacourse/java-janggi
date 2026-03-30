@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.strategy.MoveStrategy;
 
@@ -24,11 +24,11 @@ public class Piece {
         return this.pieceType;
     }
 
-    public void move(Position from, Position to, PathChecker pathChecker) {
-        if (pathChecker.isSameCamp(from, to)) {
+    public void move(Position from, Position to, BoardChecker boardChecker) {
+        if (boardChecker.isSameCamp(from, to)) {
             throw new IllegalArgumentException(CANNOT_MOVE_SAME_CAMP_ERROR_MESSAGE);
         }
 
-        strategy.move(from, to, pathChecker);
+        strategy.move(from, to, boardChecker);
     }
 }

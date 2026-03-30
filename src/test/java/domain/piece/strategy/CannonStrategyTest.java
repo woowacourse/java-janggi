@@ -4,7 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import domain.board.Board;
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 public class CannonStrategyTest {
 
     Map<Position, Piece> dummyBoard;
-    PathChecker pathChecker;
+    BoardChecker boardChecker;
 
     @BeforeEach
     void setUp() {
@@ -30,16 +30,16 @@ public class CannonStrategyTest {
     void throwException_When_NoPieceExistsInPath() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
+                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
         );
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 5);
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, pathChecker))
+        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -48,24 +48,24 @@ public class CannonStrategyTest {
     void throwException_When_MultiplePiecesExistInPath() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
+                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 2),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 4),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 5);
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, pathChecker))
+        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -74,20 +74,20 @@ public class CannonStrategyTest {
     void throwException_When_CannonIsExists() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
+                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy())
+                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.CHO))
         );
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 5);
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, pathChecker))
+        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -96,20 +96,20 @@ public class CannonStrategyTest {
     void moveSuccessfully_When_NoCannonInPathAndExactlyOnePiece() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
+                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 5);
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatCode(() -> cannon.move(from, to, pathChecker))
+        assertThatCode(() -> cannon.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -118,24 +118,24 @@ public class CannonStrategyTest {
     void throwException_When_CannonIsOnDestination() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy())
+                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
         );
         dummyBoard.put(
                 new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
         );
         dummyBoard.put(
                 new Position(1, 5),
-                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy())
+                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.CHO))
         );
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 5);
 
         Piece cannon = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> cannon.move(from, to, pathChecker))
+        assertThatThrownBy(() -> cannon.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

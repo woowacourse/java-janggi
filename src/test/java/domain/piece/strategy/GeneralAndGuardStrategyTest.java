@@ -1,7 +1,7 @@
 package domain.piece.strategy;
 
 import domain.board.Board;
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 public class GeneralAndGuardStrategyTest {
 
     Map<Position, Piece> dummyBoard;
-    PathChecker pathChecker;
+    BoardChecker boardChecker;
 
     @BeforeEach
     void setUp() {
@@ -27,10 +27,10 @@ public class GeneralAndGuardStrategyTest {
 
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.GENERAL, PieceType.GENERAL.createStrategy())
+                new Piece(Camp.HAN, PieceType.GENERAL, PieceType.GENERAL.createStrategy(Camp.HAN))
         );
 
-        pathChecker = new Board(dummyBoard);
+        boardChecker = new Board(dummyBoard);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece generalAndGuard = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> generalAndGuard.move(from, to, pathChecker))
+        assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -53,7 +53,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece generalAndGuard = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> generalAndGuard.move(from, to, pathChecker))
+        assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -65,7 +65,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece generalAndGuard = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> generalAndGuard.move(from, to, pathChecker))
+        assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -77,7 +77,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece generalAndGuard = dummyBoard.get(from);
 
-        assertThatCode(() -> generalAndGuard.move(from, to, pathChecker))
+        assertThatCode(() -> generalAndGuard.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 }

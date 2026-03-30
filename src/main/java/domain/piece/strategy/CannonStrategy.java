@@ -1,6 +1,6 @@
 package domain.piece.strategy;
 
-import domain.board.PathChecker;
+import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -17,10 +17,10 @@ public class CannonStrategy implements MoveStrategy {
             "[ERROR] 포는 포를 잡을 수 없습니다.";
 
     @Override
-    public void move(Position from, Position to, PathChecker pathChecker) {
+    public void move(Position from, Position to, BoardChecker boardChecker) {
         List<Position> path = from.findPath(to);
-        List<Piece> piecesInPath = pathChecker.findPiecesInPath(path);
-        boolean targetPieceType = pathChecker.isTargetType(to, PieceType.CANNON);
+        List<Piece> piecesInPath = boardChecker.findPiecesInPath(path);
+        boolean targetPieceType = boardChecker.isTargetType(to, PieceType.CANNON);
 
         validateHasNeck(piecesInPath);
         validateNoCannonInPath(piecesInPath);
