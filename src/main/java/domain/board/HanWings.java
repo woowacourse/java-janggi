@@ -27,7 +27,7 @@ public class HanWings extends Wings {
         return pieces;
     }
 
-    private static void validateSide(List<Piece> leftWingPieces, List<Piece> rightWingPieces) {
+    private void validateSide(List<Piece> leftWingPieces, List<Piece> rightWingPieces) {
         List<Piece> entirePieces = Stream.concat(leftWingPieces.stream(), rightWingPieces.stream())
                 .toList();
 

@@ -23,19 +23,19 @@ public abstract class Wing {
         this.second = pieces.get(1);
     }
 
-    private static void validatePieces(List<Piece> pieces) {
+    private void validatePieces(List<Piece> pieces) {
         validateSize(pieces);
         validateElephantCount(pieces);
         validateHorseCount(pieces);
     }
 
-    private static void validateSize(List<Piece> pieces) {
+    private void validateSize(List<Piece> pieces) {
         if (pieces.size() != WING_SIZE) {
             throw new IllegalArgumentException("진의 기물 수는 " + WING_SIZE + "개여야 합니다(현재 기물 수: " + pieces.size() + "개).");
         }
     }
 
-    private static void validateElephantCount(List<Piece> pieces) {
+    private void validateElephantCount(List<Piece> pieces) {
         long count = pieces.stream()
                 .filter(piece -> piece instanceof Elephant)
                 .count();
@@ -45,7 +45,7 @@ public abstract class Wing {
         }
     }
 
-    private static void validateHorseCount(List<Piece> pieces) {
+    private void validateHorseCount(List<Piece> pieces) {
         long count = pieces.stream()
                 .filter(piece -> piece instanceof Horse)
                 .count();
