@@ -11,7 +11,7 @@ public record Piece(
 ) {
 
     public List<Position> canMovePosition(BoardSnapshot board, Position from) {
-        return pieceType.moveStrategy().canMovePositions(board, from, dynasty);
+        return pieceType.moveStrategy().findPlaceablePositions(board, from, dynasty);
     }
 
     public boolean isSameDynasty(Dynasty dynasty) {

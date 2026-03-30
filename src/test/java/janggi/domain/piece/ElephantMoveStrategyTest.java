@@ -33,7 +33,8 @@ class ElephantMoveStrategyTest {
         board.put(Position.from(8, 7), new Piece(dynasty, pieceType));
 
         // when
-        List<Position> positions = pieceType.moveStrategy().canMovePositions(BoardSnapshot.of(board), from, dynasty);
+        List<Position> positions = pieceType.moveStrategy()
+                .findPlaceablePositions(BoardSnapshot.of(board), from, dynasty);
 
         // then
         Assertions.assertThat(positions)

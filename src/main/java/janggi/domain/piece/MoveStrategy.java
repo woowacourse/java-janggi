@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MoveStrategy {
 
-    List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty);
+    List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty);
 
 }

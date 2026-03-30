@@ -16,18 +16,25 @@ public class ChariotMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
-        List<Position> canMovePositions = new ArrayList<>();
+    public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
+        List<Position> placeablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             List<Position> allPositions = from.findAllPositionsByDirection(dir);
             List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
-            if (!positions.isEmpty() && board.isSameDynasty(positions.getLast(), dynasty)) {
-                positions.removeLast();
+
+            if (!positions.isEmpty()) {
+                placeablePositions.addAll(removeIfCannotCatch(board, positions, dynasty));
             }
-            canMovePositions.addAll(positions);
         }
 
-        return canMovePositions;
+        return placeablePositions;
+    }
+
+    private List<Position> removeIfCannotCatch(BoardSnapshot board, List<Position> positions, Dynasty dynasty) {
+        if (board.isSameDynasty(positions.getLast(), dynasty)) {
+            positions.removeLast();
+        }
+        return positions;
     }
 
 }

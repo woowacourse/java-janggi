@@ -23,7 +23,8 @@ class GuardMoveStrategyTest {
         board.put(Position.from(5, 6), new Piece(Dynasty.HAN, pieceType));
 
         // when
-        List<Position> positions = pieceType.moveStrategy().canMovePositions(BoardSnapshot.of(board), from, dynasty);
+        List<Position> positions = pieceType.moveStrategy()
+                .findPlaceablePositions(BoardSnapshot.of(board), from, dynasty);
 
         // then
         Assertions.assertThat(positions)

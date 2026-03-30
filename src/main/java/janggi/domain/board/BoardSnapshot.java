@@ -26,7 +26,7 @@ public class BoardSnapshot {
         List<Position> positions = new ArrayList<>();
         for (Position position : allPositions) {
             positions.add(position);
-            if (hasPieceAt(position)) {
+            if (!isEmpty(position)) {
                 break;
             }
         }
@@ -34,21 +34,21 @@ public class BoardSnapshot {
     }
 
     public boolean isSameDynasty(Position position, Dynasty dynasty) {
-        if (!hasPieceAt(position)) {
+        if (isEmpty(position)) {
             return false;
         }
         return board.get(position).isSameDynasty(dynasty);
     }
 
     public boolean isSamePieceType(Position position, PieceType pieceType) {
-        if (!hasPieceAt(position)) {
+        if (isEmpty(position)) {
             return false;
         }
         return board.get(position).pieceType().equals(pieceType);
     }
 
-    public boolean hasPieceAt(Position position) {
-        return board.containsKey(position);
+    public boolean isEmpty(Position position) {
+        return !board.containsKey(position);
     }
 
 }

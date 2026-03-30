@@ -16,38 +16,36 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
-        List<Position> canMovePositions = new ArrayList<>();
+    public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
+        List<Position> placeablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             from.nextPositionByDirection(dir).ifPresent(to -> {
-                if (board.hasPieceAt(to)) {
-                    return;
+                if (board.isEmpty(to)) {
+                    canPassByDirection(to, dir.next(), board, dynasty, placeablePositions);
+                    canPassByDirection(to, dir.prev(), board, dynasty, placeablePositions);
                 }
-                canPassByDirection(to, dir.next(), board, dynasty, canMovePositions);
-                canPassByDirection(to, dir.prev(), board, dynasty, canMovePositions);
             });
         }
 
-        return canMovePositions;
+        return placeablePositions;
     }
 
     private static void canPassByDirection(Position from, Direction dir,
                                            BoardSnapshot board, Dynasty dynasty,
-                                           List<Position> canMovePositions) {
+                                           List<Position> placeablePositions) {
         from.nextPositionByDirection(dir).ifPresent(to -> {
-            if (board.hasPieceAt(to)) {
-                return;
+            if (board.isEmpty(to)) {
+                canMoveByDirection(to, dir, board, dynasty, placeablePositions);
             }
-            canMoveByDirection(to, dir, board, dynasty, canMovePositions);
         });
     }
 
     private static void canMoveByDirection(Position from, Direction dir,
                                            BoardSnapshot board, Dynasty dynasty,
-                                           List<Position> canMovePositions) {
+                                           List<Position> placeablePositions) {
         from.nextPositionByDirection(dir).ifPresent(to -> {
-            if (!board.hasPieceAt(to) || !board.isSameDynasty(to, dynasty)) {
-                canMovePositions.add(to);
+            if (board.isEmpty(to) || !board.isSameDynasty(to, dynasty)) {
+                placeablePositions.add(to);
             }
         });
     }

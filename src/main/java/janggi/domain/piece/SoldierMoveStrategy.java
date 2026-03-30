@@ -16,20 +16,19 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> canMovePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
-        List<Position> canMovePositions = new ArrayList<>();
+    public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
+        List<Position> placeablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             if (dir.equals(dynasty.front().back())) {
                 continue;
             }
             from.nextPositionByDirection(dir).ifPresent(to -> {
-                if (board.hasPieceAt(to) && board.isSameDynasty(to, dynasty)) {
-                    return;
+                if (board.isEmpty(to) || !board.isSameDynasty(to, dynasty)) {
+                    placeablePositions.add(to);
                 }
-                canMovePositions.add(to);
             });
         }
-        return canMovePositions;
+        return placeablePositions;
     }
 
 }
