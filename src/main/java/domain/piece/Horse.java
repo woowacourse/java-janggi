@@ -45,9 +45,9 @@ public class Horse extends Piece {
         int row = Integer.signum(rowDistance);
         int col = Integer.signum(columnDistance);
 
-        Position duff = Position.from(row, col);
+        Position moveDirection = Position.from(row, col);
 
-        Position pathPosition = to.diff(duff);
+        Position pathPosition = to.diff(moveDirection);
         if (!board.isEmpty(pathPosition)) {
             return true;
         }
