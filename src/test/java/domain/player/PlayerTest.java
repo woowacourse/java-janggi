@@ -15,7 +15,7 @@ class PlayerTest {
     void 이름이_비어있지_않으면_플레이어가_정상_생성된다(String name) {
         Player player = new Player(new Name(name), Team.CHO);
 
-        assertEquals(name, player.getName());
+        assertEquals(name, player.getProfile().nameValue());
         assertEquals(Team.CHO, player.getTeam());
     }
 

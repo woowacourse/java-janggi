@@ -7,6 +7,7 @@ import static common.Constants.MIN_ROW;
 
 import domain.board.Board;
 import domain.piece.Piece;
+import domain.player.PlayerProfile;
 import domain.position.Position;
 
 public class OutputView {
@@ -25,8 +26,8 @@ public class OutputView {
         System.out.println(message);
     }
 
-    public void printPlayerTurnMessage(String name, String team) {
-        System.out.println(name + "(" + team + ")" + "님의 차례입니다.");
+    public void printPlayerTurnMessage(PlayerProfile profile) {
+        System.out.println(profile.nameValue() + "(" + profile.team() + ")" + "님의 차례입니다.");
     }
 
     private void printColumnHeader() {

@@ -18,15 +18,15 @@ public final class Player {
     }
 
     public boolean hasName(String name) {
-        return playerProfile.name().value().equals(name);
-    }
-
-    public String getName() {
-        return playerProfile.name().value();
+        return playerProfile.hasName(name);
     }
 
     public Team getTeam() {
         return playerProfile.team();
+    }
+
+    public PlayerProfile getProfile() {
+        return playerProfile;
     }
 
     public List<Piece> getCaughtPiece() {
