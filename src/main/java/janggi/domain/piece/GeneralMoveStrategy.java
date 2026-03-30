@@ -22,14 +22,26 @@ public class GeneralMoveStrategy implements MoveStrategy {
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            from.findOnePositionByDirection(dir).ifPresent(to -> {
-                if (board.containsKey(to) && board.get(to).isSameDynasty(dynasty)) {
-                    return;
-                }
-                movablePositions.add(to);
-            });
+            addIfMovable(board, from, dynasty, dir, movablePositions);
         }
         return movablePositions;
+    }
+
+    private static void addIfMovable(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {
+        from.findOnePositionByDirection(dir).ifPresent(to -> {
+            if (isPiecePresent(board, to) && isEnemy(board.get(to), dynasty)) {
+                return;
+            }
+            movablePositions.add(to);
+        });
+    }
+
+    private static boolean isPiecePresent(Map<Position, Piece> board, Position position) {
+        return board.containsKey(position);
+    }
+
+    private static boolean isEnemy(Piece piece, Dynasty dynasty) {
+        return !piece.isSameDynasty(dynasty);
     }
 
     @Override
