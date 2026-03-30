@@ -18,7 +18,12 @@ public class Board {
     public void move(Position from, Position to) {
         Piece piece = findCurrentTeamPiece(from);
 
+        if (!piece.canMove(from, to)) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
+
         Map<Position, Piece> paths = getPositionPiecesFromPath(piece, from, to);
+
         if (!piece.determineMovingRule(paths, to)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
