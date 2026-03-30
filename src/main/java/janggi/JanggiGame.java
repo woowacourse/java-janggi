@@ -30,12 +30,10 @@ public class JanggiGame {
 
     private Board createBoard() {
         ElephantSetting hanElephantSetting = retryOnInvalidInput(
-                () -> ElephantSetting.findElephantSettingBy(
-                        inputView.readElephantSettingCommand(CampDto.from(Camp.HAN))));
+                () -> inputView.readElephantSetting(CampDto.from(Camp.HAN)));
 
         ElephantSetting choElephantSetting = retryOnInvalidInput(
-                () -> ElephantSetting.findElephantSettingBy(
-                        inputView.readElephantSettingCommand(CampDto.from(Camp.CHO))));
+                () -> inputView.readElephantSetting(CampDto.from(Camp.CHO)));
 
         BoardInitializer initializer = new StandardBoardInitializer(hanElephantSetting, choElephantSetting);
         return new Board(initializer);

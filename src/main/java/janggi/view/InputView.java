@@ -1,8 +1,10 @@
 package janggi.view;
 
 import janggi.domain.Position;
+import janggi.domain.board.ElephantSetting;
 import janggi.util.Parser;
 import janggi.view.dto.CampDto;
+import janggi.view.format.ElephantSettingFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,10 +17,7 @@ public final class InputView {
     private static final String ELEPHANT_SETTING = """
             
             %s나라의 상차림을 선택해주세요.
-            1. 상마상마
-            2. 마상마상
-            3. 마상상마
-            4. 상마마상""";
+            %s""";
 
     private static final String TURN = LINE_SEPARATOR + "%s나라 차례 입니다.";
     private static final String SOURCE = "공격할 기물의 좌표를 행,열 순으로 입력해 주세요. (예: 9,8)";
@@ -30,9 +29,13 @@ public final class InputView {
         this.scanner = scanner;
     }
 
-    public String readElephantSettingCommand(CampDto campDto) {
-        System.out.println(String.format(ELEPHANT_SETTING, campDto.name()));
-        return readLine();
+    public ElephantSetting readElephantSetting(CampDto campDto) {
+        System.out.println(String.format(
+                ELEPHANT_SETTING,
+                campDto.name(),
+                ElephantSettingFormat.outputMessage())
+        );
+        return ElephantSettingFormat.from(readLine()).toElephantSetting();
     }
 
     private String readLine() {
