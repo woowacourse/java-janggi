@@ -1,11 +1,10 @@
-package janggi.domain.board.point;
+package janggi.domain.piece.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.FixedPathStrategy;
-import janggi.domain.piece.path.PathStrategy;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
