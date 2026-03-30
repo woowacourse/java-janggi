@@ -40,9 +40,9 @@ public class Board {
         List<Position> paths = piece.path(from, to);
 
         if (!board.get(to).isEmpty()) {
-            PieceType fromPieceType = board.get(from).getPiece().getPieceType();
-            PieceType toPieceType = board.get(to).getPiece().getPieceInfo().pieceType();
-            if (fromPieceType != toPieceType) {
+            Country fromCountry = board.get(from).getPiece().getPieceCountry();
+            Country toCountry = board.get(to).getPiece().getPieceCountry();
+            if (fromCountry == toCountry) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
