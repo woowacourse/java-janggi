@@ -45,10 +45,6 @@ public enum Side {
         this.rightDirection = leftDirection.reverse();
     }
 
-    public int getBaseRow() {
-        return baseRow;
-    }
-
     public int getRowAt(MoveAmount distance) {
         final int defaultFile = 5;
         Intersection targetIntersection =
