@@ -8,13 +8,11 @@ import static common.Constants.MIN_ROW;
 import domain.piece.Cha;
 import domain.piece.Jang;
 import domain.piece.Jol;
-import domain.piece.Ma;
 import domain.piece.None;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
-import domain.piece.Sang;
 import domain.player.Team;
 import domain.position.Position;
 
