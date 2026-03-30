@@ -1,5 +1,7 @@
 package domain;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import common.ErrorMessage;
 import domain.piece.Piece;
 import domain.piece.Team;
@@ -42,5 +44,37 @@ class BoardTest {
         Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.DESTINATION_ALLY.getMessage());
+    }
+
+    @Test
+    @DisplayName("목적지에 아군이 없으나, 목적지에 도착 불가능하면 이동 불가")
+    void move_fail_not_exist_path_to_destination() {
+        //given
+        Position start = Position.of(1, 1);
+        Position end = Position.of(8, 9);
+        Team turn = Team.CHO;
+
+        Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
+
+        //when, then
+        Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_POS_INPUT.getMessage());
+    }
+
+    @Test
+    @DisplayName("목적지에 아군이 없고, 목적지까지 경로가 존재하면 이동 가능")
+    void move_success() {
+        //given
+        Position start = Position.of(1, 1);
+        Position end = Position.of(3, 1);
+        Team turn = Team.CHO;
+
+        Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
+
+        //when, then
+        assertDoesNotThrow(
+                () -> testBoard.move(turn, start, end)
+        );
     }
 }
