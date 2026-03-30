@@ -1,10 +1,9 @@
 package domain;
 
-import java.util.List;
 import java.util.Map;
 
 public class Game {
-    private final Board board;
+    private Board board;
     private final Players players;
 
     public Game(Board board, Players players) {
@@ -16,30 +15,24 @@ public class Game {
         return players.getCurrentSide();
     }
 
-    public List<Position> selectSource(Position position) {
+    public MovablePositions selectSource(Position position) {
         Piece piece = board.getPiece(position);
         players.getCurrentPlayer().validateAlly(piece);
-        return getPossibleDestinations(position);
+        return findMovablePositions(position);
     }
 
     public void move(Position from, Position to) {
-        validateDestinations(selectSource(from), to);
+        selectSource(from).validateDestinations(to);
         movePiece(from, to);
         players.switchPlayer();
     }
 
-    private void validateDestinations(List<Position> positions, Position target) {
-        if (!positions.contains(target)) {
-            throw new IllegalArgumentException("선택할 수 없는 위치입니다.");
-        }
-    }
-
-    private List<Position> getPossibleDestinations(Position position) {
-        return board.getPossibleDestinations(position);
+    private MovablePositions findMovablePositions(Position position) {
+        return board.findMovablePositions(position);
     }
 
     private void movePiece(Position from, Position to) {
-        board.movePiece(from, to);
+        this.board = board.movePiece(from, to);
     }
 
     public Map<Position, Piece> getBoard() {

@@ -53,7 +53,7 @@ public class GameManager {
     private Position selectPiecePosition(Game game) {
         return retry(() -> {
             Position position = InputParser.parsePosition(inputView.readSourcePosition(game.getCurrentSide()));
-            List<Position> destinations = game.selectSource(position);
+            List<Position> destinations = game.selectSource(position).getPositions();
             outputView.printDestinations(destinations);
             return position;
         });

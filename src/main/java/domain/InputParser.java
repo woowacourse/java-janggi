@@ -33,6 +33,6 @@ public class InputParser {
                 .map(Integer::parseInt)
                 .toList();
 
-        return new Position(coordinate.get(0), coordinate.get(1));
+        return Position.of(coordinate.get(0), coordinate.get(1));
     }
 }

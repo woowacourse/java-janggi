@@ -19,7 +19,7 @@ public class OutputView {
         for (int y = 9; y >= 0; y--) {
             System.out.print(" " + y + "  ");
             for (int x = 0; x <= 8; x++) {
-                Position position = new Position(x, y);
+                Position position = Position.of(x, y);
                 if (board.containsKey(position)) {
                     printPiece(board.get(position));
                     System.out.print(RESET);
