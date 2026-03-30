@@ -7,8 +7,8 @@ import static util.ErrorMessage.INVALID_COORDINATION;
 
 public record Column(int index) {
 
-    private static final int MIN = 1;
-    private static final int MAX = 9;
+    public static final int MIN = 1;
+    public static final int MAX = 9;
 
     public Column {
         validateRange(index);

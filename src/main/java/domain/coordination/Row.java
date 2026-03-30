@@ -7,8 +7,8 @@ import java.util.List;
 
 public record Row(int index) {
 
-    private static final int MIN = 1;
-    private static final int MAX = 10;
+    public static final int MIN = 1;
+    public static final int MAX = 10;
 
     public Row {
         validateRange(index);

@@ -1,7 +1,9 @@
 package testDouble;
 
 import domain.board.PlacementOption;
+import domain.coordination.Column;
 import domain.coordination.Coordination;
+import domain.coordination.Row;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
@@ -22,13 +24,13 @@ public class TestBoardFactory {
     }
 
     private static void placeEmpty(Map<Coordination, Piece> map) {
-        for (int row = 1; row <= 10; row++) {
+        for (int row = Row.MIN; row <= Row.MAX; row++) {
             placeColumns(map, row);
         }
     }
 
     private static void placeColumns(Map<Coordination, Piece> map, int row) {
-        for (int col = 1; col <= 9; col++) {
+        for (int col = Column.MIN; col <= Column.MAX; col++) {
             map.put(Coordination.of(col, row), new EmptyPiece(Team.NONE));
         }
     }
