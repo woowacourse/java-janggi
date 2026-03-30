@@ -7,8 +7,12 @@ import java.util.Map;
 
 public class PieceLabelMapper {
     private static final Map<PieceType, String> NAMES = Map.of(
-            PieceType.GUARD, "사", PieceType.CHARIOT, "차", PieceType.CANNON, "포",
-            PieceType.HORSE, "마", PieceType.ELEPHANT, "상", PieceType.CHO_SOLDIER, "졸",
+            PieceType.GUARD, "사",
+            PieceType.CHARIOT, "차",
+            PieceType.CANNON, "포",
+            PieceType.HORSE, "마",
+            PieceType.ELEPHANT, "상",
+            PieceType.CHO_SOLDIER, "졸",
             PieceType.HAN_SOLDIER, "병"
     );
 
@@ -18,9 +22,17 @@ public class PieceLabelMapper {
 
     private static String getPieceName(PieceDTO vo) {
         if (vo.type() == PieceType.PALACE) {
-            return vo.side() == Side.CHO ? "초" : "한";
+            return toPalaceName(vo.side());
         }
+
         return NAMES.get(vo.type());
+    }
+
+    private static String toPalaceName(Side side) {
+        if (side == Side.CHO) {
+            return "초";
+        }
+        return "한";
     }
 
     private static String convertToFullWidthChar(String halfWidthNumber) {
