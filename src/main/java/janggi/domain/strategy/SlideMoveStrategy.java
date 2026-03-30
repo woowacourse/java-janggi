@@ -45,7 +45,9 @@ public class SlideMoveStrategy implements MoveStrategy {
 
     private void validateSlidePath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
         for (Position pos : route) {
-            if (processAndCheckBlocked(pos, state, dests, me)) break;
+            if (processAndCheckBlocked(pos, state, dests, me)) {
+                break;
+            }
         }
     }
 
