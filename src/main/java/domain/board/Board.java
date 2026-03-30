@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static common.exception.ErrorMessage.*;
-
 public class Board {
 
     private final Map<Position, Piece> board;
@@ -40,7 +38,7 @@ public class Board {
         Path path = piece.calculatePath(source, destination);
         PathPieces pathPieces = createPathPieces(path);
         if (!piece.validatePath(pathPieces)) {
-            throw new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination));
+            throw new JanggiException("기물을 이동할 수 없습니다.");
         }
     }
 
@@ -48,7 +46,7 @@ public class Board {
         Piece piece = findPiece(position);
 
         if (!piece.isNotNone()) {
-            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+            throw new JanggiException("비어있는 곳입니다.");
         }
 
         return piece.getTeam();

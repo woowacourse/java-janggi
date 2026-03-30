@@ -1,5 +1,4 @@
 package domain.manager;
-import static common.exception.ErrorMessage.DUPLICATE_NAME;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
@@ -121,7 +120,7 @@ public class JanggiGame {
             String hanName = inputView.askHanPlayerName();
 
             if (choPlayer.hasName(hanName)) {
-                throw new JanggiException(DUPLICATE_NAME.getMessage());
+                throw new JanggiException("초나라 플레이어와 닉네임이 중복될 수 없습니다.");
             }
 
             return createPlayer(hanName, HAN);

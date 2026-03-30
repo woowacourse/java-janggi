@@ -1,7 +1,5 @@
 package domain.manager;
 
-import static common.exception.ErrorMessage.DIFFERENT_TEAM;
-
 import common.exception.JanggiException;
 import domain.piece.Piece;
 import domain.player.Player;
@@ -21,7 +19,7 @@ public class TurnManager {
 
     public void validateTurn(Team team) {
         if (currentPlayer.getTeam() != team) {
-            throw new JanggiException(DIFFERENT_TEAM.getMessage(currentPlayer.getTeam()));
+            throw new JanggiException("다른 팀의 기물입니다. 현재 차례: %s".formatted(currentPlayer.getTeam()));
         }
     }
 

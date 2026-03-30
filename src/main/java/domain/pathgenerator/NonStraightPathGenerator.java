@@ -1,7 +1,5 @@
 package domain.pathgenerator;
 
-import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
-
 import common.exception.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
@@ -25,7 +23,7 @@ public class NonStraightPathGenerator implements PathGenerator {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findFirst()
-                .orElseThrow(() -> new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination)));
+                .orElseThrow(() -> new JanggiException("기물을 이동할 수 없습니다."));
     }
 
     private Optional<Path> tryBuildPath(Position source, Position destination, List<Direction> directionPath) {

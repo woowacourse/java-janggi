@@ -4,8 +4,6 @@ import static common.Constants.MAX_COLUMN;
 import static common.Constants.MAX_ROW;
 import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
-import static common.exception.ErrorMessage.INVALID_COLUMN_RANGE;
-import static common.exception.ErrorMessage.INVALID_ROW_RANGE;
 
 import common.exception.JanggiException;
 
@@ -16,10 +14,12 @@ public record Position(int row, int column) {
 
     private void validate(int row, int column) {
         if (row < MIN_ROW || row > MAX_ROW) {
-            throw new JanggiException(INVALID_ROW_RANGE.formatted(MIN_ROW, MAX_ROW, row));
+            throw new JanggiException("행값은 %s이상 %s이하여야 합니다. 입력값: %s".formatted(MIN_ROW, MAX_ROW, row));
         }
         if (column < MIN_COLUMN || column > MAX_COLUMN) {
-            throw new JanggiException(INVALID_COLUMN_RANGE.formatted(MIN_COLUMN, MAX_COLUMN, column));
+            throw new JanggiException(
+                    "열값은 %s이상 %s이하여야 합니다. 입력값: %s".formatted(MIN_COLUMN, MAX_COLUMN, column)
+            );
         }
     }
 }

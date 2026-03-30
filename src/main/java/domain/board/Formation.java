@@ -1,6 +1,5 @@
 package domain.board;
 
-import static common.exception.ErrorMessage.INVALID_FORMATION_INPUT;
 import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 
@@ -28,7 +27,7 @@ public enum Formation {
         return Arrays.stream(values())
                 .filter(formation -> formation.inputNumber == inputNumber)
                 .findFirst()
-                .orElseThrow(() -> new JanggiException(INVALID_FORMATION_INPUT.formatted(inputNumber)));
+                .orElseThrow(() -> new JanggiException("1에서 4까지 숫자만 입력해주세요. 입력값: %s".formatted(inputNumber)));
     }
 
     public List<PieceType> getFormation() {

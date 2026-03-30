@@ -1,7 +1,5 @@
 package domain.player;
 
-import static common.exception.ErrorMessage.EMPTY_NAME;
-
 import common.exception.JanggiException;
 import domain.piece.Piece;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public final class Player {
 
     private void validateNotBlank(String value) {
         if (value == null || value.trim().isEmpty()) {
-            throw new JanggiException(EMPTY_NAME.getMessage());
+            throw new JanggiException("플레이어의 이름은 빈 문자열일 수 없습니다.");
         }
     }
 }
