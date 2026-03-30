@@ -38,13 +38,7 @@ public class Board {
     public List<Map.Entry<Position, Piece>> findPiecesByTeam(TeamColor teamColor) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().getTeamColor() == teamColor)
-                .sorted((left, right) -> {
-                    int rowCompare = Integer.compare(left.getKey().row(), right.getKey().row());
-                    if (rowCompare != 0) {
-                        return rowCompare;
-                    }
-                    return Integer.compare(left.getKey().column(), right.getKey().column());
-                })
+                .sorted(Map.Entry.comparingByKey())
                 .toList();
     }
 

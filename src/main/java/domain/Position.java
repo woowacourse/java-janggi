@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-public class Position {
+public class Position implements Comparable<Position> {
     private final Row row;
     private final Column column;
 
@@ -32,6 +32,13 @@ public class Position {
 
     public boolean isInsideBoard() {
         return row() >= 0 && row() <= 9 && column() >= 0 && column() <= 8;
+    }
+
+    @Override
+    public int compareTo(Position other) {
+      return Comparator.comparingInt(Position::row)
+                       .thenComparingInt(Position::column)
+                       .compare(this, other);
     }
 
     @Override

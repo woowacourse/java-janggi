@@ -1,12 +1,14 @@
+import java.util.List;
+import java.util.Map;
+
 import domain.Board;
 import domain.Piece;
 import domain.Position;
+import domain.Route;
 import domain.TeamColor;
 import domain.TurnManager;
 import io.InputView;
 import io.OutputView;
-import java.util.List;
-import java.util.Map;
 import strategy.formation.InitialFormationStrategy;
 import strategy.formation.InnerFormationStrategy;
 import strategy.formation.LeftFormationStrategy;
@@ -82,7 +84,7 @@ public class Runner {
                 int pieceChoice = inputView.readPieceChoice(currentTurn);
                 Piece selectedPiece = getSelectedPiece(pieces, pieceChoice);
 
-                List<domain.Route> routes = board.findMovableRoutes(selectedPiece);
+                List<Route> routes = board.findMovableRoutes(selectedPiece);
                 if (routes.isEmpty()) {
                     throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
                 }
