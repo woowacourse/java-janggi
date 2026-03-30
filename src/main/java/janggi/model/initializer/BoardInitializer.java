@@ -1,8 +1,8 @@
 package janggi.model.initializer;
 
-import janggi.model.Board;
+import janggi.model.board.Board;
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.position.Position;
+import janggi.model.board.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 

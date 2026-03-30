@@ -1,8 +1,8 @@
 package janggi.model.gimul;
 
 import janggi.model.Team;
-import janggi.model.position.MoveResult;
-import janggi.model.position.Position;
+import janggi.model.board.moveResult.MoveResult;
+import janggi.model.board.position.Position;
 import java.util.List;
 
 public abstract class AbstractGimul {

@@ -2,35 +2,26 @@ package janggi.model.gimul.linearMove;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.position.MoveResult;
-import janggi.model.position.Position;
+import janggi.model.board.moveResult.MoveResult;
+import janggi.model.board.position.Position;
+import janggi.model.board.movement.Movement;
+import janggi.model.board.movement.StraightMovement;
 import java.util.List;
 
 public abstract class AbstractLinearMoveGimul extends AbstractGimul {
 
+    protected final Movement movement;
+
     protected AbstractLinearMoveGimul(Team team) {
         super(team);
+        this.movement = new StraightMovement();
     }
 
     @Override
     public MoveResult getLegalPath(Position from, Position to) {
-        if (from.equals(to)
-                || isDifferentRowAndColumn(from, to)
-        ) {
-            throw new IllegalArgumentException("해당 경로로는 이동할 수 없습니다.");
-        }
-
-        if (from.isSameRow(to)) {
-            return from.moveHorizontal(to.getColumnDistance(from));
-        }
-
-
-        return from.moveVertical(to.getRowDistance(from));
+        return new StraightMovement().move(from, to);
     }
 
-    private boolean isDifferentRowAndColumn(Position from, Position to) {
-        return !from.isSameRow(to) && !from.isSameColumn(to);
-    }
 
     @Override
     public boolean canPassThrough(List<AbstractGimul> gimulsOnPath) {
