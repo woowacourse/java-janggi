@@ -14,15 +14,28 @@ public final class PathPieces {
         this.destinationPiece = destinationPiece;
     }
 
-    public Piece getSourcePiece() {
-        return sourcePiece;
+    public boolean isDestinationEmpty() {
+        return destinationPiece.isNone();
     }
 
-    public List<Piece> getWaypointPieces() {
-        return waypointPieces;
+    public boolean isDestinationDifferentTeamFromSource() {
+        return (!destinationPiece.isNone()) && sourcePiece.isDifferentTeam(destinationPiece);
     }
 
-    public Piece getDestinationPiece() {
-        return destinationPiece;
+    public boolean hasPieceInWaypoint() {
+        return !waypointPieces.isEmpty();
+    }
+
+    public boolean hasOnePieceInWaypoint() {
+        return waypointPieces.size() == 1;
+    }
+
+    public boolean hasPoInWaypoint() {
+        return waypointPieces.stream()
+                .anyMatch(Piece::isPo);
+    }
+
+    public boolean isDestinationPiecePo() {
+        return destinationPiece.isPo();
     }
 }
