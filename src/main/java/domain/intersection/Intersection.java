@@ -66,10 +66,6 @@ public class Intersection {
         return piece.isCho();
     }
 
-    public boolean isHanIntersection() {
-        return piece.isHan();
-    }
-
     public Piece readPiece() {
         return this.piece;
     }
