@@ -15,7 +15,7 @@ public final class ResourceReader {
                 .getClassLoader()
                 .getResourceAsStream(resourcePath);
         if (inputStream == null) {
-            throw new IllegalStateException("리소스 파일을 찾을 수 없습니다: " + resourcePath);
+            throw new IllegalStateException("[ERROR] 리소스 파일을 찾을 수 없습니다: " + resourcePath);
         }
         return new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
     }

@@ -20,13 +20,13 @@ public class InputParser {
 
     private static void validateInput(String input) {
         if (input.isEmpty()) {
-            throw new IllegalArgumentException("좌표값을 입력해주세요.");
+            throw new IllegalArgumentException("[ERROR] 좌표값을 입력해주세요.");
         }
     }
 
     private static void validateInputs(List<String> inputs) {
         if (inputs.isEmpty()) {
-            throw new IllegalArgumentException("좌표는 x,y 형태로 입력해야합니다.");
+            throw new IllegalArgumentException("[ERROR] 좌표는 x,y 형태로 입력해야합니다.");
         }
     }
 

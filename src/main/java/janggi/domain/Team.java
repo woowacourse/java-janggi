@@ -17,6 +17,6 @@ public enum Team {
         return Arrays.stream(values())
             .filter(team -> team.name.equals(name))
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("적절하지 않은 진영입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절하지 않은 진영입니다."));
     }
 }

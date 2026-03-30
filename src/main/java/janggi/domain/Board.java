@@ -11,6 +11,7 @@ public class Board {
 
     private static final int HORIZONTAL_LENGTH = 10;
     private static final int VERTICAL_LENGTH = 9;
+    private static final int INITIAL_KING_COUNT = 2;
 
     private final Map<Position, Space> piecesInfo;
 
@@ -57,7 +58,7 @@ public class Board {
 
     private void validateBlankSpace(Space spaceFrom) {
         if (spaceFrom.isBlank()) {
-            throw new IllegalArgumentException("해당 좌표에 말이 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 해당 좌표에 말이 없습니다.");
         }
     }
 
@@ -78,7 +79,7 @@ public class Board {
             .filter(piece -> piece.isSameType(PieceType.KING))
             .count();
 
-        return kingCount < 2;
+        return kingCount < INITIAL_KING_COUNT;
     }
 
     public Space getSpace(Position position) {

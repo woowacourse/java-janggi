@@ -22,7 +22,7 @@ public class Pho extends Piece {
         if (isValidMovePattern(from, to)) {
             return;
         }
-        throw new IllegalArgumentException("해당 위치로 포가 이동할 수 없습니다.");
+        throw new IllegalArgumentException("[ERROR] 해당 위치로 포가 이동할 수 없습니다.");
     }
 
     @Override
@@ -31,18 +31,18 @@ public class Pho extends Piece {
 
         Piece piece = (Piece) space;
         if (piece.isSameType(PieceType.PHO)) {
-            throw new IllegalArgumentException("이동하려는 위치에 상대팀의 포가 존재합니다.");
+            throw new IllegalArgumentException("[ERROR] 이동하려는 위치에 상대팀의 포가 존재합니다.");
         }
     }
 
     @Override
     public void validateRoutes(List<Piece> pieces) {
         if (pieces.size() != BLOCKING_PIECE_COUNT) {
-            throw new IllegalArgumentException("포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
+            throw new IllegalArgumentException("[ERROR] 포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
         }
 
         if (isContainsPho(pieces)) {
-            throw new IllegalArgumentException("포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
+            throw new IllegalArgumentException("[ERROR] 포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
         }
     }
 

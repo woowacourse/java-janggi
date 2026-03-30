@@ -20,7 +20,7 @@ public class Cha extends Piece {
         if (isValidMovePattern(from, to)) {
             return;
         }
-        throw new IllegalArgumentException("해당 위치로 차가 이동할 수 없습니다.");
+        throw new IllegalArgumentException("[ERROR] 해당 위치로 차가 이동할 수 없습니다.");
     }
 
     @Override
