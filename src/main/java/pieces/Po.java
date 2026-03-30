@@ -7,13 +7,14 @@ import movepolicy.rule.MoveRule;
 import movepolicy.rule.PoMoveRule;
 import position.Position;
 
-public class Po extends FullPiece {
+public class Po extends Piece {
 
     private static final Movement MOVEMENT = new LinearRouteMovement();
-    private static final MoveRule PO_MOVE_RULE = new PoMoveRule();
+    private final MoveRule moveRule;
 
     public Po(Side side) {
         super(side);
+        this.moveRule = new PoMoveRule();
     }
 
     @Override
@@ -27,13 +28,13 @@ public class Po extends FullPiece {
     }
 
     @Override
-    public List<Position> getInterveningPositions(Position departure, Position destination) {
-        return MOVEMENT.getInterveningPositions(departure, destination, side);
+    public List<Position> findPathPositions(Position departure, Position destination) {
+        return MOVEMENT.findPathPositions(departure, destination, side);
     }
 
     @Override
     public MoveRule getMoveRule() {
-        return PO_MOVE_RULE;
+        return moveRule;
     }
 
     @Override

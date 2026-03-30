@@ -26,7 +26,7 @@ public class Route {
         return Optional.of(current);
     }
 
-    public List<Position> getInterveningPositionsOf(Position departure, Side side) {
+    public List<Position> findPathPositions(Position departure, Side side) {
         List<Position> positions = new ArrayList<>();
         Position current = departure;
 

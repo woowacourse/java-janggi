@@ -25,7 +25,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -39,7 +39,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -53,7 +53,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -67,7 +67,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -81,7 +81,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -95,7 +95,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -109,7 +109,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -123,7 +123,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_1칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -137,7 +137,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_2칸이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -156,13 +156,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 출발지와_도착지_사이에는_1칸의_이동_경로만_존재한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions).hasSize(1);
         }
@@ -171,13 +171,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_1칸이_도착지인_경우_전방_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
                 .move(side.leftForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.forwardDelta()));
@@ -187,13 +187,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_1칸이_도착지인_경우_전방_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.forwardDelta()));
@@ -203,13 +203,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_1칸이_도착지인_경우_후방_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
                 .move(side.leftBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.backDelta()));
@@ -219,13 +219,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_1칸이_도착지인_경우_후방_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
                 .move(side.rightBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.backDelta()));
@@ -235,13 +235,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_1칸이_도착지인_경우_좌_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
                 .move(side.leftForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.leftDelta()));
@@ -251,13 +251,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_1칸이_도착지인_경우_좌_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
                 .move(side.leftBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.leftDelta()));
@@ -267,13 +267,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_1칸이_도착지인_경우_우_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
                 .move(side.rightForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.rightDelta()));
@@ -283,13 +283,13 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_1칸이_도착지인_경우_우_1칸_포지션을_반환한다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
                 .move(side.rightBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             Position interveningPosition = positions.getFirst();
             assertThat(interveningPosition).isEqualTo(departure.move(side.rightDelta()));
@@ -299,7 +299,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 도착지가_유효하지_않은_경우_예외를_던진다(Side side) {
             // given
-            FullPiece piece = new Ma(side);
+            Piece piece = new Ma(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -314,7 +314,7 @@ class MaTest {
     @EnumSource(Side.class)
     void 마는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        FullPiece piece = new Ma(side);
+        Piece piece = new Ma(side);
         // when
         MoveRule moveRule = piece.getMoveRule();
         // then

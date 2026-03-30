@@ -4,14 +4,10 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import board.Board;
-import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import participant.ChoTurn;
-import participant.HanTurn;
 import participant.Turn;
 import pieces.Cha;
-import pieces.EmptyPiece;
 import pieces.Piece;
 import pieces.Side;
 import position.Position;
@@ -24,12 +20,11 @@ class JanggiGameTest {
         Position departure = new Position(0, 0);
         Position destination = new Position(1, 0);
         Piece hanPiece = new Cha(Side.HAN);
+        Map<Position, Piece> pieces = Map.of(
+            departure, hanPiece
+        );
 
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(departure, hanPiece);
-        pieces.put(destination, EmptyPiece.getInstance());
-
-        Turn choTurn = new ChoTurn();
+        Turn choTurn = Turn.CHO_TURN;
         JanggiGame janggiGame = new JanggiGame(new Board(pieces), choTurn);
         // when & then
         assertThatThrownBy(() -> janggiGame.move(departure, destination))
@@ -42,12 +37,11 @@ class JanggiGameTest {
         Position departure = new Position(9, 0);
         Position destination = new Position(8, 0);
         Piece choPiece = new Cha(Side.CHO);
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece
+        );
 
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(departure, choPiece);
-        pieces.put(destination, EmptyPiece.getInstance());
-
-        Turn hanTurn = new HanTurn();
+        Turn hanTurn = Turn.HAN_TURN;
         JanggiGame janggiGame = new JanggiGame(new Board(pieces), hanTurn);
         // when & then
         assertThatThrownBy(() -> janggiGame.move(departure, destination))
@@ -63,14 +57,12 @@ class JanggiGameTest {
         Position hanDestination = new Position(8, 0);
         Piece choPiece = new Cha(Side.CHO);
         Piece hanPiece = new Cha(Side.HAN);
+        Map<Position, Piece> pieces = Map.of(
+            choDeparture, choPiece,
+            hanDeparture, hanPiece
+        );
 
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(choDeparture, choPiece);
-        pieces.put(choDestination, EmptyPiece.getInstance());
-        pieces.put(hanDeparture, hanPiece);
-        pieces.put(hanDestination, EmptyPiece.getInstance());
-
-        Turn choTurn = new ChoTurn();
+        Turn choTurn = Turn.CHO_TURN;
         JanggiGame janggiGame = new JanggiGame(new Board(pieces), choTurn);
         // when & then
         janggiGame.move(choDeparture, choDestination);
@@ -86,10 +78,9 @@ class JanggiGameTest {
         Position departure = new Position(9, 0);
         Position destination = new Position(8, 0);
         Piece choPiece = new Cha(Side.CHO);
-
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(departure, choPiece);
-        pieces.put(destination, EmptyPiece.getInstance());
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece
+        );
         // when
         JanggiGame janggiGame = new JanggiGame(new Board(pieces));
         // then

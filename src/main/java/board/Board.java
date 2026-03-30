@@ -3,11 +3,10 @@ package board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import movepolicy.rule.MovePath;
+import java.util.Optional;
 import movepolicy.rule.MoveRule;
+import movepolicy.rule.MoveTrace;
 import participant.Turn;
-import pieces.EmptyPiece;
-import pieces.FullPiece;
 import pieces.Piece;
 import position.Position;
 
@@ -26,65 +25,56 @@ public record Board(Map<Position, Piece> pieces) {
     }
 
     private void put(Position position, Piece piece, Map<Position, Piece> merged) {
-        if (isDuplicatedFullPiece(position, piece, merged)) {
+        if (merged.containsKey(position)) {
             throw new IllegalArgumentException("이미 기물이 존재하는 위치입니다.");
         }
         merged.put(position, piece);
     }
 
-    private static boolean isDuplicatedFullPiece(Position position, Piece piece,
-                                                 Map<Position, Piece> merged) {
-        return !piece.isEmpty() && merged.containsKey(position);
-    }
-
     public void validateDeparturePiece(Position departure, Turn turn) {
-        FullPiece piece = fullPieceAt(departure);
-        if (!piece.isSameSide(turn.side())) {
+        Piece movingPiece = requirePieceAt(departure);
+        if (!movingPiece.isSameSide(turn.side())) {
             throw new IllegalArgumentException("본인 진영의 기물만 이동시킬 수 있습니다.");
         }
     }
 
     public Board move(Position departure, Position destination) {
-        FullPiece movingPiece = fullPieceAt(departure);
-        MovePath movePath = createMovePath(movingPiece, departure, destination);
+        Piece movingPiece = requirePieceAt(departure);
+        MoveTrace moveTrace = createMovePath(movingPiece, departure, destination);
 
         MoveRule moveRule = movingPiece.getMoveRule();
-        moveRule.validatePathPieces(movePath);
+        moveRule.validate(moveTrace);
 
         return replace(departure, destination, movingPiece);
     }
 
-    private MovePath createMovePath(FullPiece movingPiece, Position departure,
-                                    Position destination) {
-        List<Position> interveningPositions = movingPiece
-            .getInterveningPositions(departure, destination);
-        List<Piece> interveningPieces = findInterveningPieces(interveningPositions);
-        Piece targetPiece = pieceAt(destination);
+    private MoveTrace createMovePath(Piece movingPiece, Position departure, Position destination) {
+        List<Position> pathPositions = movingPiece.findPathPositions(departure, destination);
+        List<Piece> pathPieces = findPathPieces(pathPositions);
+        Optional<Piece> targetPiece = pieceAt(destination);
 
-        return new MovePath(movingPiece, interveningPieces, targetPiece);
+        return new MoveTrace(movingPiece, pathPieces, targetPiece);
     }
 
-    private List<Piece> findInterveningPieces(List<Position> interveningPositions) {
-        return interveningPositions.stream()
+    private Piece requirePieceAt(Position position) {
+        return pieceAt(position)
+            .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
+    }
+
+    private List<Piece> findPathPieces(List<Position> pathPieces) {
+        return pathPieces.stream()
             .map(this::pieceAt)
+            .flatMap(Optional::stream)
             .toList();
     }
 
-    private FullPiece fullPieceAt(Position position) {
-        Piece piece = pieceAt(position);
-        if (piece.isEmpty()) {
-            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
-        }
-        return piece.asFullPiece();
+    private Optional<Piece> pieceAt(Position position) {
+        return Optional.ofNullable(pieces.get(position));
     }
 
-    private Piece pieceAt(Position position) {
-        return pieces.get(position);
-    }
-
-    private Board replace(Position departure, Position destination, FullPiece movingPiece) {
+    private Board replace(Position departure, Position destination, Piece movingPiece) {
         Map<Position, Piece> moved = new HashMap<>(pieces);
-        moved.put(departure, EmptyPiece.getInstance());
+        moved.remove(departure);
         moved.put(destination, movingPiece);
         return new Board(moved);
     }

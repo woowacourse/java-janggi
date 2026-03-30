@@ -12,17 +12,19 @@ import movepolicy.rule.BasicMoveRule;
 import movepolicy.rule.MoveRule;
 import position.Position;
 
-public class JolByeong extends FullPiece {
+public class JolByeong extends Piece {
 
     private static final Movement MOVEMENT = new FixedRouteMovement(List.of(
         new Route(List.of(FORWARD)),
         new Route(List.of(RIGHT)),
         new Route(List.of(LEFT))
     ));
-    private static final MoveRule BASIC_MOVE_RULE = new BasicMoveRule();
+
+    private final MoveRule moveRule;
 
     public JolByeong(Side side) {
         super(side);
+        this.moveRule = new BasicMoveRule();
     }
 
     @Override
@@ -33,13 +35,13 @@ public class JolByeong extends FullPiece {
     }
 
     @Override
-    public List<Position> getInterveningPositions(Position departure, Position destination) {
-        return MOVEMENT.getInterveningPositions(departure, destination, side);
+    public List<Position> findPathPositions(Position departure, Position destination) {
+        return MOVEMENT.findPathPositions(departure, destination, side);
     }
 
     @Override
     public MoveRule getMoveRule() {
-        return BASIC_MOVE_RULE;
+        return moveRule;
     }
 
     @Override

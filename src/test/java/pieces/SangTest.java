@@ -25,7 +25,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -40,7 +40,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -55,7 +55,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -70,7 +70,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -85,7 +85,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -100,7 +100,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -115,7 +115,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -130,7 +130,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_2칸_이동할_수_있다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -145,7 +145,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_2칸이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -159,7 +159,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 우전방이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
@@ -176,14 +176,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 출발지와_도착지_사이에는_2칸의_이동_경로만_존재한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions).hasSize(2);
         }
@@ -192,14 +192,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.forwardDelta())
@@ -215,14 +215,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
                 .move(side.leftForwardDelta())
                 .move(side.leftForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.forwardDelta())
@@ -238,14 +238,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
                 .move(side.rightBackDelta())
                 .move(side.rightBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.backDelta())
@@ -261,14 +261,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
                 .move(side.leftBackDelta())
                 .move(side.leftBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.backDelta()))
@@ -284,14 +284,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
                 .move(side.leftForwardDelta())
                 .move(side.leftForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.leftDelta())
@@ -307,14 +307,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
                 .move(side.leftBackDelta())
                 .move(side.leftBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.leftDelta())
@@ -330,14 +330,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
                 .move(side.rightForwardDelta())
                 .move(side.rightForwardDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.rightDelta())
@@ -353,14 +353,14 @@ class SangTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_2칸_이동의_경로를_반환한다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
                 .move(side.rightBackDelta())
                 .move(side.rightBackDelta());
             // when
-            List<Position> positions = piece.getInterveningPositions(departure, destination);
+            List<Position> positions = piece.findPathPositions(departure, destination);
             // then
             assertThat(positions.get(0)).isEqualTo(
                 departure.move(side.rightDelta())
@@ -376,7 +376,7 @@ class SangTest {
         @EnumSource(Side.class)
         void 도착지가_유효하지_않은_경우_예외를_던진다(Side side) {
             // given
-            FullPiece piece = new Sang(side);
+            Piece piece = new Sang(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -391,7 +391,7 @@ class SangTest {
     @EnumSource(Side.class)
     void 상은_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
         // given
-        FullPiece piece = new Sang(side);
+        Piece piece = new Sang(side);
         Position departure = DEFAULT;
         Position destination = departure
             .move(side.forwardDelta())

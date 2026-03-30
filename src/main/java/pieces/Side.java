@@ -29,10 +29,6 @@ public enum Side {
         this.right = right;
     }
 
-    public boolean isHan() {
-        return this == HAN;
-    }
-
     public boolean isCho() {
         return this == CHO;
     }

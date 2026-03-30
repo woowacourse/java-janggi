@@ -8,5 +8,5 @@ public interface Movement {
 
     boolean canReach(Position departure, Position destination, Side side);
 
-    List<Position> getInterveningPositions(Position departure, Position destination, Side side);
+    List<Position> findPathPositions(Position departure, Position destination, Side side);
 }

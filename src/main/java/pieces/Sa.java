@@ -13,7 +13,7 @@ import movepolicy.rule.BasicMoveRule;
 import movepolicy.rule.MoveRule;
 import position.Position;
 
-public class Sa extends FullPiece {
+public class Sa extends Piece {
 
     private static final Movement MOVEMENT = new FixedRouteMovement(List.of(
         new Route(List.of(FORWARD)),
@@ -21,10 +21,11 @@ public class Sa extends FullPiece {
         new Route(List.of(RIGHT)),
         new Route(List.of(LEFT))
     ));
-    private static final MoveRule BASIC_MOVE_RULE = new BasicMoveRule();
+    private final MoveRule moveRule;
 
     public Sa(Side side) {
         super(side);
+        this.moveRule = new BasicMoveRule();
     }
 
     @Override
@@ -35,13 +36,13 @@ public class Sa extends FullPiece {
     }
 
     @Override
-    public List<Position> getInterveningPositions(Position departure, Position destination) {
-        return MOVEMENT.getInterveningPositions(departure, destination, side);
+    public List<Position> findPathPositions(Position departure, Position destination) {
+        return MOVEMENT.findPathPositions(departure, destination, side);
     }
 
     @Override
     public MoveRule getMoveRule() {
-        return BASIC_MOVE_RULE;
+        return moveRule;
     }
 
     @Override

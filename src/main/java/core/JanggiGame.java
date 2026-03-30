@@ -2,7 +2,6 @@ package core;
 
 import board.Board;
 import board.SangSetup;
-import participant.ChoTurn;
 import participant.Turn;
 import pieces.Side;
 import position.Position;
@@ -16,10 +15,11 @@ public class JanggiGame {
     public JanggiGame(Board board, Turn turn) {
         this.board = board;
         this.turn = turn;
+        this.isOver = false;
     }
 
     public JanggiGame(Board board) {
-        this(board, new ChoTurn());
+        this(board, Turn.CHO_TURN);
     }
 
     public Board getBoard() {
@@ -27,7 +27,7 @@ public class JanggiGame {
     }
 
     public boolean isOver() {
-        return false;
+        return isOver;
     }
 
     public Side turnSide() {

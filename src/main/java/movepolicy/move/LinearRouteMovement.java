@@ -13,7 +13,7 @@ public class LinearRouteMovement implements Movement {
     }
 
     @Override
-    public List<Position> getInterveningPositions(Position departure, Position destination, Side side) {
+    public List<Position> findPathPositions(Position departure, Position destination, Side side) {
         if (!canReach(departure, destination, side)) {
             throw new IllegalArgumentException("직선 이동이 아닙니다.");
         }
@@ -30,17 +30,25 @@ public class LinearRouteMovement implements Movement {
 
     private Step decideDirection(Position departure, Position destination, Side side) {
         if (departure.isSameRow(destination)) {
-            if (destination.isLeftColumn(departure, side)) {
-                return OneStep.LEFT;
-            }
-            return OneStep.RIGHT;
+            return decideRightOrLeft(departure, destination, side);
         }
         if (departure.isSameColumn(destination)) {
-            if (destination.isBackRow(departure, side)) {
-                return OneStep.BACK;
-            }
-            return OneStep.FORWARD;
+            return decideForwardOrBack(departure, destination, side);
         }
         throw new IllegalArgumentException("직선 이동이 아닙니다.");
+    }
+
+    private OneStep decideForwardOrBack(Position departure, Position destination, Side side) {
+        if (destination.isBackRow(departure, side)) {
+            return OneStep.BACK;
+        }
+        return OneStep.FORWARD;
+    }
+
+    private OneStep decideRightOrLeft(Position departure, Position destination, Side side) {
+        if (destination.isLeftColumn(departure, side)) {
+            return OneStep.LEFT;
+        }
+        return OneStep.RIGHT;
     }
 }

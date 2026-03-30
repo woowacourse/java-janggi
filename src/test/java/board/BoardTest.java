@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import pieces.Cha;
-import pieces.EmptyPiece;
-import pieces.FullPiece;
 import pieces.Piece;
 import pieces.Side;
 import position.Position;
@@ -19,13 +17,12 @@ class BoardTest {
     @Test
     void 기물의_위치를_이동시키면_기존_위치에는_기물이_존재하지_않는다() {
         // given
-        FullPiece piece = new Cha(Side.HAN);
+        Piece piece = new Cha(Side.HAN);
         Position departure = new Position(1, 1);
         Position destination = new Position(2, 1);
 
         Map<Position, Piece> beforePieces = Map.of(
-            departure, piece,
-            destination, EmptyPiece.getInstance()
+            departure, piece
         );
         Board beforeBoard = new Board(beforePieces);
 
@@ -33,19 +30,18 @@ class BoardTest {
         Board afterBoard = beforeBoard.move(departure, destination);
         // then
         Map<Position, Piece> afterPieces = afterBoard.pieces();
-        assertThat(afterPieces.get(departure).isEmpty()).isTrue();
+        assertThat(afterPieces.get(departure)).isNull();
     }
 
     @Test
     void 기물의_위치를_이동시키면_도착지에_해당_기물이_존재한다() {
         // given
-        FullPiece piece = new Cha(Side.HAN);
+        Piece piece = new Cha(Side.HAN);
         Position departure = new Position(1, 1);
         Position destination = new Position(2, 1);
 
         Map<Position, Piece> beforePieces = Map.of(
-            departure, piece,
-            destination, EmptyPiece.getInstance()
+            departure, piece
         );
         Board beforeBoard = new Board(beforePieces);
         // when
@@ -60,8 +56,8 @@ class BoardTest {
         // given
         Position departure = new Position(1, 1);
         Position destination = new Position(2, 1);
-        FullPiece departurePiece = new Cha(Side.HAN);
-        FullPiece destinationPiece = new Cha(Side.CHO);
+        Piece departurePiece = new Cha(Side.HAN);
+        Piece destinationPiece = new Cha(Side.CHO);
 
         Map<Position, Piece> beforePieces = Map.of(
             departure, departurePiece,

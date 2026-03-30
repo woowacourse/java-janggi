@@ -2,5 +2,5 @@ package movepolicy.rule;
 
 public interface MoveRule {
 
-    void validatePathPieces(MovePath movePath);
+    void validate(MoveTrace moveTrace);
 }

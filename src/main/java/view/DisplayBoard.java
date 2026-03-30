@@ -2,7 +2,6 @@ package view;
 
 import board.Board;
 import java.util.Map;
-import pieces.FullPiece;
 import pieces.Piece;
 import pieces.PieceType;
 import pieces.Side;
@@ -12,8 +11,11 @@ import position.Row;
 
 public class DisplayBoard {
 
+    private static final int MAX_ROW = 9;
+    private static final int MAX_COLUMN = 8;
+    private static final String EMPTY_SYMBOL = "..";
+
     private static final Map<PieceType, String> PIECE_SYMBOLS = Map.of(
-        PieceType.EMPTY, "..",
         PieceType.CHA, "CH",
         PieceType.MA, "MA",
         PieceType.SANG, "SG",
@@ -32,47 +34,26 @@ public class DisplayBoard {
 
     public static String of(Board board) {
         Map<Position, Piece> pieces = board.pieces();
-        if (pieces.isEmpty()) {
-            return "(empty board)";
-        }
-
-        int minRow = Integer.MAX_VALUE;
-        int maxRow = Integer.MIN_VALUE;
-        int minColumn = Integer.MAX_VALUE;
-        int maxColumn = Integer.MIN_VALUE;
-
-        for (Position position : pieces.keySet()) {
-            int row = position.row().index();
-            int column = position.column().index();
-
-            minRow = Math.min(minRow, row);
-            maxRow = Math.max(maxRow, row);
-            minColumn = Math.min(minColumn, column);
-            maxColumn = Math.max(maxColumn, column);
-        }
-
         StringBuilder sb = new StringBuilder();
 
-        for (int row = maxRow; row >= minRow; row--) {
+        for (int row = MAX_ROW; row >= 0; row--) {
             sb.append(padLeft(String.valueOf(row), 2)).append(" |");
 
-            for (int column = minColumn; column <= maxColumn; column++) {
+            for (int column = 0; column <= MAX_COLUMN; column++) {
                 Position position = new Position(new Row(row), new Column(column));
                 Piece piece = pieces.get(position);
-                if (piece == null) {
-                    throw new IllegalArgumentException("비어 있는 좌표가 존재합니다. position=" + position);
-                }
                 sb.append(cell(piece)).append("|");
             }
             sb.append(System.lineSeparator());
         }
-        appendColumnHeader(sb, minColumn, maxColumn);
+
+        appendColumnHeader(sb);
         return sb.toString();
     }
 
-    private static void appendColumnHeader(StringBuilder sb, int minColumn, int maxColumn) {
+    private static void appendColumnHeader(StringBuilder sb) {
         sb.append("   ");
-        for (int column = minColumn; column <= maxColumn; column++) {
+        for (int column = 0; column <= MAX_COLUMN; column++) {
             sb.append(" ")
                 .append(padLeft(String.valueOf(column), 2))
                 .append("  ");
@@ -81,14 +62,14 @@ public class DisplayBoard {
     }
 
     private static String cell(Piece piece) {
-        String symbol = symbolOf(piece);
-        if (piece.isEmpty()) {
-            return " " + symbol + " ";
+        if (piece == null) {
+            return " " + EMPTY_SYMBOL + " ";
         }
-        return " " + colorize(piece.asFullPiece(), symbol) + " ";
+        String symbol = symbolOf(piece);
+        return " " + colorize(piece, symbol) + " ";
     }
 
-    private static String colorize(FullPiece piece, String symbol) {
+    private static String colorize(Piece piece, String symbol) {
         if (piece.isSameSide(Side.HAN)) {
             return ANSI_RED + symbol + ANSI_RESET;
         }

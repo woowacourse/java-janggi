@@ -24,7 +24,7 @@ class GungTest {
         void 앞_1칸_이동할_수_있다() {
             // given
             Side side = Side.CHO;
-            FullPiece piece = new Gung(side);
+            Piece piece = new Gung(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when & then
@@ -36,7 +36,7 @@ class GungTest {
         void 뒤_1칸_이동할_수_있다() {
             // given
             Side side = Side.CHO;
-            FullPiece piece = new Gung(side);
+            Piece piece = new Gung(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when & then
@@ -48,7 +48,7 @@ class GungTest {
         void 좌_1칸_이동할_수_있다() {
             // given
             Side side = Side.CHO;
-            FullPiece piece = new Gung(side);
+            Piece piece = new Gung(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when & then
@@ -60,7 +60,7 @@ class GungTest {
         void 우_1칸_이동할_수_있다() {
             // given
             Side side = Side.CHO;
-            FullPiece piece = new Gung(side);
+            Piece piece = new Gung(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when & then
@@ -72,7 +72,7 @@ class GungTest {
         void 앞_2칸이_도착지인_경우_예외를_던진다() {
             // given
             Side side = Side.CHO;
-            FullPiece piece = new Gung(side);
+            Piece piece = new Gung(side);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -86,7 +86,7 @@ class GungTest {
         void 대각선이_도착지인_경우_예외를_던진다() {
             // given
             Side side = Side.CHO;
-            FullPiece piece = new Gung(side);
+            Piece piece = new Gung(side);
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
@@ -99,11 +99,11 @@ class GungTest {
     void 출발지와_도착지_사이에는_이동경로가_존재하지_않는다() {
         // given
         Side side = Side.CHO;
-        FullPiece piece = new Gung(side);
+        Piece piece = new Gung(side);
         Position departure = DEFAULT;
         Position destination = departure.move(side.forwardDelta());
         // when
-        List<Position> positions = piece.getInterveningPositions(departure, destination);
+        List<Position> positions = piece.findPathPositions(departure, destination);
         // then
         assertThat(positions).hasSize(0);
     }
@@ -111,7 +111,7 @@ class GungTest {
     @Test
     void 궁은_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다() {
         // given
-        FullPiece piece = new Gung(Side.CHO);
+        Piece piece = new Gung(Side.CHO);
         // when
         MoveRule moveRule = piece.getMoveRule();
         // then
