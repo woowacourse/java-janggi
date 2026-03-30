@@ -1,5 +1,6 @@
 package dto;
 
+import domain.board.Board;
 import domain.coordination.Coordination;
 import domain.piece.Piece;
 import util.PieceName;
@@ -10,8 +11,9 @@ import java.util.stream.Collectors;
 
 public record BoardDto(Map<List<Integer>, String> board) {
 
-    public static BoardDto from(Map<Coordination, Piece> board) {
-        Map<List<Integer>, String> result = board.entrySet().stream()
+    public static BoardDto from(Board board) {
+        Map<Coordination, Piece> boardMap = board.getBoard();
+        Map<List<Integer>, String> result = boardMap.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> entry.getKey().coordination(),
                         entry -> PieceName.from(entry.getValue().getClass().getSimpleName(), entry.getValue().team())

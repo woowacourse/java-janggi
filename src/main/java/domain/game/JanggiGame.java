@@ -33,7 +33,8 @@ public class JanggiGame {
                 Coordination.of(from.get(0), from.get(1)),
                 Coordination.of(to.get(0), to.get(1))
         );
-        BoardDto boardDto = board.getBoardDto();
+
+        BoardDto boardDto = BoardDto.from(this.board);
         turn = turn.reverse();
         return boardDto;
     }

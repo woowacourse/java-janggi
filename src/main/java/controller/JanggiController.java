@@ -2,7 +2,6 @@ package controller;
 
 import domain.game.JanggiGame;
 import domain.game.Turn;
-import dto.BoardDto;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
@@ -49,8 +48,7 @@ public class JanggiController {
     private void chooseDestinationAndGameStart(JanggiGame janggiGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
-            BoardDto boardDto = janggiGame.start(from, to);
-            outputView.printBoard(boardDto);
+            outputView.printBoard(janggiGame.start(from, to));
         });
     }
 }

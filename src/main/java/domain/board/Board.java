@@ -5,7 +5,6 @@ import domain.game.Turn;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
-import dto.BoardDto;
 
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,8 @@ public class Board {
         this.board = board;
     }
 
-    public BoardDto getBoardDto() {
-        return BoardDto.from(this.board);
+    public Map<Coordination, Piece> getBoard() {
+        return Map.copyOf(board);
     }
 
     public void move(Coordination from, Coordination to) {
