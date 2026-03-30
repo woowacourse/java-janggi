@@ -13,4 +13,11 @@ public enum Camp {
     public int forward() {
         return this.forward;
     }
+
+    public Camp nextTurn() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
+    }
 }

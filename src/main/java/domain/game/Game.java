@@ -44,11 +44,6 @@ public class Game {
     }
 
     private void changeTurn() {
-        if (currentTurn == Camp.CHO) {
-            currentTurn = Camp.HAN;
-            return;
-        }
-
-        currentTurn = Camp.CHO;
+        this.currentTurn = this.currentTurn.nextTurn();
     }
 }
