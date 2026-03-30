@@ -10,7 +10,11 @@ public class InputView {
     private static final String GREEN = "\u001B[32m";
     private static final String RED = "\u001B[31m";
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+
+    private InputView() {
+
+    }
 
     public static SelectPositionRequest selectPiecePosition() {
         System.out.println("이동시킬 기물을 선택해주세요.");

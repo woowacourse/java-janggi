@@ -4,7 +4,6 @@ import domain.JanggiGame;
 import domain.Position;
 import dto.SelectPositionRequest;
 import exception.JanggiGameException;
-import java.util.StringTokenizer;
 import view.InputView;
 import view.OutputView;
 
@@ -18,21 +17,22 @@ public class JanggiController {
 
     public void run() {
         while (!janggiGame.isGameFinished()) {
-            playGame();
+            runPlayingPhase();
         }
-
-        System.out.println();
-        OutputView.printBoard(janggiGame.allFactors());
-        System.out.println(janggiGame.gameStatus());
+        runResultPhase();
     }
 
-    private void playGame() {
+    private void runPlayingPhase() {
+        displayCurrentGameState();
+        execute(this::movePiece);
+    }
+
+    private void displayCurrentGameState() {
         OutputView.printBoard(janggiGame.allFactors());
         OutputView.printCurrentPlayerTurn(janggiGame.currentPlayerTurn());
-        execute(this::playerPhase);
     }
 
-    private void playerPhase() {
+    private void movePiece() {
         SelectPositionRequest selectRequest = InputView.selectPiecePosition();
         Position selected = Position.of(selectRequest.row(), selectRequest.col());
 
@@ -42,14 +42,20 @@ public class JanggiController {
         janggiGame.move(selected, target);
     }
 
+    private void runResultPhase() {
+        OutputView.printBoard(janggiGame.allFactors());
+        OutputView.printResult(janggiGame.gameStatus());
+    }
+
     private void execute(ExecutableTask task) {
         while (true) {
             try {
                 task.execute();
+                OutputView.printTaskDivider();
                 return;
             } catch (JanggiGameException e) {
-                System.out.println(e.getMessage());
-                System.out.println();
+                OutputView.printError(e.getMessage());
+                OutputView.printTaskDivider();
             }
         }
     }
