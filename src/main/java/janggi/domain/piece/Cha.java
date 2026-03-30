@@ -14,7 +14,7 @@ public class Cha extends Piece {
 
     @Override
     public void validateMove(Position from, Position to) {
-        if (moveStrategy(from, to)) {
+        if (isMovable(from, to)) {
             return;
         }
         throw new IllegalArgumentException("해당 위치로 차가 이동할 수 없습니다.");
@@ -50,7 +50,7 @@ public class Cha extends Piece {
         return positions;
     }
 
-    private boolean moveStrategy(Position from, Position to) {
+    private boolean isMovable(Position from, Position to) {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
