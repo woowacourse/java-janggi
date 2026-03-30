@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class InputView {
 
     private static final String POSITION_PATTERN = "^\\d+\\s+\\d+$";
-    final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     
     public Position readPosition() {
         System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0)");
