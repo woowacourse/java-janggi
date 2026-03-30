@@ -18,6 +18,7 @@ public class GuardMoveStrategy implements MoveStrategy {
         return guardMoveStrategy;
     }
 
+    // TODO: 궁성 관련 로직 추가
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
@@ -29,7 +30,7 @@ public class GuardMoveStrategy implements MoveStrategy {
 
     private static void addIfMovable(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {
         from.findOnePositionByDirection(dir).ifPresent(to -> {
-            if (isPiecePresent(board, to) && isEnemy(board.get(to), dynasty)) {
+            if (isPiecePresent(board, to) && board.get(to).isSameDynasty(dynasty)) {
                 return;
             }
             movablePositions.add(to);
@@ -38,10 +39,6 @@ public class GuardMoveStrategy implements MoveStrategy {
 
     private static boolean isPiecePresent(Map<Position, Piece> board, Position to) {
         return board.containsKey(to);
-    }
-
-    private static boolean isEnemy(Piece piece, Dynasty dynasty) {
-        return !piece.isSameDynasty(dynasty);
     }
 
     @Override
