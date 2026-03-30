@@ -80,7 +80,7 @@ public class Board {
 
     public void move(Position from, Position to, Team currentTeam) {
         Piece piece = pieces.get(from);
-        if (piece == null || piece.getTeam() != currentTeam) {
+        if (piece == null || piece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("해당 위치에 움직일 수 있는 기물이 없습니다.");
         }
 
