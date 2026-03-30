@@ -1,16 +1,17 @@
 package domain.board;
 
 import domain.piece.Piece;
+import java.util.Collections;
 import java.util.List;
 
-public class PathPieces {
-    Piece sourcePiece;
-    List<Piece> waypointPieces;
-    Piece destinationPiece;
+public final class PathPieces {
+    private final Piece sourcePiece;
+    private final List<Piece> waypointPieces;
+    private final Piece destinationPiece;
 
     public PathPieces(Piece sourcePiece, List<Piece> waypointPieces, Piece destinationPiece) {
         this.sourcePiece = sourcePiece;
-        this.waypointPieces = waypointPieces;
+        this.waypointPieces = List.copyOf(waypointPieces);
         this.destinationPiece = destinationPiece;
     }
 
@@ -19,7 +20,7 @@ public class PathPieces {
     }
 
     public List<Piece> getWaypointPieces() {
-        return waypointPieces;
+        return Collections.unmodifiableList(waypointPieces);
     }
 
     public Piece getDestinationPiece() {
