@@ -20,24 +20,22 @@ public class ChariotStrategy implements MoveStrategy {
         return candidates;
     }
 
-    private void addPathCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidatePositions) {
-        Position next = getNext(currentPosition, direction);
+    private void addPathCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidates) {
+        int nextRows = currentPosition.getRows() + direction.getRowOffset();
+        int nextColumns = currentPosition.getColumns() + direction.getColOffset();
 
-        while (isWithinBoard(next)) {
-            candidatePositions.add(next);
-            if (!board.isBlank(next)) {
+        while (isWithinBoard(nextRows, nextColumns)) {
+            Position nextPosition = new Position(nextRows, nextColumns);
+            candidates.add(nextPosition);
+            if (!board.isBlank(nextPosition)) {
                 break;
             }
-            next = getNext(next, direction); // 다음 칸으로 갱신
+            nextRows += direction.getRowOffset();
+            nextColumns += direction.getColOffset();
         }
     }
 
-    private Position getNext(Position position, Direction direction) {
-        return new Position(position.getRows() + direction.getRowOffset(), position.getColumns() + direction.getColOffset());
-    }
-
-    private boolean isWithinBoard(Position position) {
-        return position.getRows() >= 0 && position.getRows() < 10 &&
-                position.getColumns() >= 0 && position.getColumns() < 9;
+    private boolean isWithinBoard(int row, int column) {
+        return row >= 0 && row < 10 && column >= 0 && column < 9;
     }
 }
