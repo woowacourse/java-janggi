@@ -12,7 +12,7 @@ public class PlayerTest {
 
     @Test
     @DisplayName("선택한 진영을 가진 플레이어가 생성된다.")
-    void of_ReturnPlayer_WhenCreateWithSide() {
+    void 진영에_맞는_플레이어_테스트() {
         // given, when
         Player player = new Player(Side.CHO, new Board());
 

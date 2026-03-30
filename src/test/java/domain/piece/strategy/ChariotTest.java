@@ -16,7 +16,7 @@ public class ChariotTest {
 
     @Test
     @DisplayName("차 기물이 움직임의 여부를 판단할 수 있다.")
-    void canMove_이동성공_차_기물_움직임_여부_판단() {
+    void 이동성공_차_기물_움직임_여부_판단() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
@@ -31,7 +31,7 @@ public class ChariotTest {
 
     @Test
     @DisplayName("초 진영의 차 기물은 뒤로 움직일 수 있다.")
-    void canMove_이동성공_차_기물_움직임_여부_판단_2() {
+    void 이동성공_차_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
@@ -46,7 +46,7 @@ public class ChariotTest {
 
     @Test
     @DisplayName("차 기물은 도착 지점으로 가는 경로 내에 기물이 있다면 움직일 수 없다.")
-    void canMove_이동실패_차_기물_움직임_여부_판단() {
+    void 이동실패_차_기물_움직임_여부_판단() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
@@ -63,7 +63,7 @@ public class ChariotTest {
 
     @Test
     @DisplayName("차 기물은 대각선으로 이동할 수 없다.")
-    void canMove_이동실패_차_기물_움직임_여부_판단_2() {
+    void 이동실패_차_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);

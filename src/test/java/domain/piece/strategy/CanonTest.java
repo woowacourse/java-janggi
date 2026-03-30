@@ -16,7 +16,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("본인 진영의 기물을 띄어넘어 빈칸으로 이동")
-    void canMove_이동성공_포_기물_움직임_여부_판단_1() {
+    void 이동성공_포_기물_움직임_여부_판단_1() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -33,7 +33,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("본인 진영의 기물을 띄어넘어 상대방 말로 이동")
-    void canMove_이동성공_포_기물_움직임_여부_판단_2() {
+    void 이동성공_포_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -52,7 +52,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("상대방 진영 기물을 띄어넘어 빈칸으로 이동")
-    void canMove_이동성공_포_기물_움직임_여부_판단_3() {
+    void 이동성공_포_기물_움직임_여부_판단_3() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -69,7 +69,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("상대방 진영의 기물을 띄어넘어 상대방 말로 이동")
-    void canMove_이동성공_포_기물_움직임_여부_판단_4() {
+    void 이동성공_포_기물_움직임_여부_판단_4() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -88,7 +88,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("직선의 경로가 아닌 경우")
-    void canMove_이동실패_포_기물_움직임_여부_판단_1() {
+    void 이동실패_포_기물_움직임_여부_판단_1() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -103,7 +103,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("가는 경로에 기물이 1개 초과일 경우")
-    void canMove_이동실패_포_기물_움직임_여부_판단_2() {
+    void 이동실패_포_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -122,7 +122,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("가는 경로의 기물이 1개 있는데 해당 기물이 포일 경우")
-    void canMove_이동실패_포_기물_움직임_여부_판단_3() {
+    void 이동실패_포_기물_움직임_여부_판단_3() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -139,7 +139,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("도착 지점이 상대방 포일 경우")
-    void canMove_이동실패_포_기물_움직임_여부_판단_4() {
+    void 이동실패_포_기물_움직임_여부_판단_4() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
@@ -158,7 +158,7 @@ public class CanonTest {
 
     @Test
     @DisplayName("가는 경로에 기물이 1개도 없는 경우")
-    void canMove_이동실패_포_기물_움직임_여부_판단_5() {
+    void 이동실패_포_기물_움직임_여부_판단_5() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);

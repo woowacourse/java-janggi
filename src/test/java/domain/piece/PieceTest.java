@@ -16,7 +16,7 @@ public class PieceTest {
 
     @Test
     @DisplayName("장기에서 진영과 기물 종류에 맞는 기물을 생성한다.")
-    void of_ReturnPiece_WhenCreateWithSideAndPieceType() {
+    void 장기_진영_기물_종류에_맞는_기물_생성_테스트() {
         // given, when
         Piece piece = Piece.of(Side.CHO, PieceType.CANON);
 

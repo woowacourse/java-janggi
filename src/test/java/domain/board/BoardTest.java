@@ -14,7 +14,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("한 진영이 외부 코끼리 상차림을 배치할 수 있다.")
-    void placePieces_상차림_테스트_1() {
+    void 한진영_코끼리_상차림_테스트_1() {
         // given
         Board board = new Board();
 
@@ -30,7 +30,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("한 진영이 내부 코끼리 상차림을 배치할 수 있다.")
-    void placePieces_상차림_테스트_2() {
+    void 한진영_코끼리_상차림_테스트_2() {
         // given
         Board board = new Board();
 
@@ -46,7 +46,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("한 진영이 오른쪽 코끼리 상차림을 배치할 수 있다.")
-    void placePieces_상차림_테스트_3() {
+    void 한진영_코끼리_상차림_테스트_3() {
         // given
         Board board = new Board();
 
@@ -62,7 +62,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("한 진영이 왼쪽 코끼리 상차림을 배치할 수 있다.")
-    void placePieces_상차림_테스트_4() {
+    void 한진영_코끼리_상차림_테스트_4() {
         // given
         Board board = new Board();
 
@@ -78,7 +78,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("장기판에서 해당 포지션의 기물을 찾을 수 있다.")
-    void findBy_ReturnsPiece_WhenPositionExistsOnBoard() {
+    void 장기판_포지션의_기물_조회_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.HAN, Placement.OUTER_ELEPHANT);
@@ -179,7 +179,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("상 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_상_포획_성공_테스트() {
+    void 상_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
@@ -197,7 +197,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("사 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_사_포획_성공_테스트() {
+    void 사_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
@@ -219,7 +219,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("장 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_장_포획_성공_테스트() {
+    void 장_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
@@ -240,7 +240,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("포 기물을 움직여서 상대 기물 위치에 도착할 시 상대 기물을 포획할 수 있다.")
-    void move_포_포획_성공_테스트() {
+    void 포_포획_성공_테스트() {
         // given
         Board board = new Board();
         board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);

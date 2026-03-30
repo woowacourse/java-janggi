@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class HorseTest {
     @Test
     @DisplayName("마 기물의 움직임의 여부를 판단할 수 있다.")
-    void canMove_이동성공_마_기물_움직임_여부_판단_1() {
+    void 이동성공_마_기물_움직임_여부_판단_1() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);
@@ -31,7 +31,7 @@ public class HorseTest {
 
     @Test
     @DisplayName("마 기물의 움직임의 여부를 판단할 수 있다.")
-    void canMove_이동성공_마_기물_움직임_여부_판단_2() {
+    void 이동성공_마_기물_움직임_여부_판단_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);

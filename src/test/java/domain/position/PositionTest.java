@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class PositionTest {
     @Test
     @DisplayName("장기판안에 맞는 좌표를 생성할 수 있다.")
-    void of_ReturnsPosition_WhenCoordinateIsWithinBoard() {
+    void 장기판에_좌표_생성_테스트() {
         Position position = Position.of(1, 2);
 
         assertThat(position.getRow()).isEqualTo(1);
@@ -19,14 +19,14 @@ public class PositionTest {
 
     @Test
     @DisplayName("장기판안에 맞지 않는 좌표를 생성할 시 예외가 발생한다")
-    void of_ThrowException_WhenCoordinateIsOutsideBoard() {
+    void 장기판_좌표_생성_실패_테스트() {
         assertThatThrownBy(() -> Position.of(10, 11))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(UP)이 들어오면 (6,5)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_1(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_1(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP;
 
@@ -38,7 +38,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(UP_RIGHT)이 들어오면 (6,6)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_2(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_2(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP_RIGHT;
 
@@ -50,7 +50,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(RIGHT)이 들어오면 (5,6)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_3(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_3(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.RIGHT;
 
@@ -62,7 +62,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(DOWN_RIGHT)이 들어오면 (4,6)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_4(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_4(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN_RIGHT;
 
@@ -74,7 +74,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(DOWN)이 들어오면 (4,5)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_5(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_5(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN;
 
@@ -86,7 +86,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(DOWN_LEFT)이 들어오면 (4,4)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_6(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_6(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN_LEFT;
 
@@ -98,7 +98,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(LEFT)이 들어오면 (5,4)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_7(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_7(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.LEFT;
 
@@ -110,7 +110,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(UP_LEFT)이 들어오면 (6,4)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_8(){
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_8(){
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP_LEFT;
 
@@ -122,7 +122,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(4,4)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_1(){
+    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_1(){
         Position startPosition = Position.of(4, 4);
         Position endPosition = Position.of(5, 5);
 
@@ -134,7 +134,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(4,6)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_2(){
+    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_2(){
         Position startPosition = Position.of(4, 6);
         Position endPosition = Position.of(5, 5);
 
@@ -146,7 +146,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(6,4)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_3(){
+    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_3(){
         Position startPosition = Position.of(6, 4);
         Position endPosition = Position.of(5, 5);
 
@@ -158,7 +158,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("(6,6)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_4(){
+    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_4(){
         Position startPosition = Position.of(6, 6);
         Position endPosition = Position.of(5, 5);
 

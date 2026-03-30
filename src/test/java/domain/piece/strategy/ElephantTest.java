@@ -16,7 +16,7 @@ public class ElephantTest {
 
     @Test
     @DisplayName("초 진영 상 기물의 움직임의 여부(UP, UP_LEFT, UP_LEFT)를 판단할 수 있다.")
-    void canMove_이동성공_초_진영_상_기물_움직임_여부_판단() {
+    void 이동성공_초_진영_상_기물_움직임_여부_판단() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choElephant = Piece.of(Side.CHO, PieceType.ELEPHANT);
@@ -31,7 +31,7 @@ public class ElephantTest {
 
     @Test
     @DisplayName("한 진영 상 기물의 움직임의 여부(UP, UP_RIGHT, UP_RIGHT)를 판단할 수 있다.")
-    void canMove_이동성공_한_진영_상_기물_움직임_여부_판단() {
+    void 이동성공_한_진영_상_기물_움직임_여부_판단() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choElephant = Piece.of(Side.CHO, PieceType.ELEPHANT);
@@ -46,7 +46,7 @@ public class ElephantTest {
 
     @Test
     @DisplayName("상 기물의 움직임의 여부(UP, UP_RIGHT, UP_RIGHT)를 판단할 수 있다.")
-    void canMove_이동성공_상_기물_움직임_여부_판단_() {
+    void 이동성공_상_기물_움직임_여부_판단_() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choElephant = Piece.of(Side.CHO, PieceType.ELEPHANT);
