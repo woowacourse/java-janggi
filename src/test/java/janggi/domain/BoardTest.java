@@ -36,6 +36,7 @@ public class BoardTest {
     void 초기_위치에_각나라_졸_세팅(Team team, PieceType pieceType, int x, int y){
         //given
         Board board = new Board();
+        board.initialize();
         Position position = new Position(x,y);
         Piece zol = new Piece(team,pieceType);
 
@@ -156,6 +157,249 @@ public class BoardTest {
 
         //then
         assertThat(maRoutesPositions).hasSize(7)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 상_이동가능_좌표_확인_다_가능() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,7);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
+        Position maPos1 = new Position(3, 4);
+        Position maPos2 = new Position(7, 4);
+        Position maPos3 = new Position(8, 5);
+        Position maPos4 = new Position(8, 9);
+        Position maPos5 = new Position(3, 10);
+        Position maPos6 = new Position(7, 10);
+        Position maPos7 = new Position(2,5);
+        Position maPos8 = new Position(2,9);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+
+        //when
+        List<Position> sangRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(sangRoutesPositions).hasSize(8)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 상_이동가능_좌표_확인_경로에_다른_기물_대각선() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,7);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
+        board.getBoard().put(new Position(6,5), new Piece(Team.CHO, PieceType.ZOL));
+        Position maPos1 = new Position(3, 4);
+        Position maPos2 = new Position(8, 5);
+        Position maPos3 = new Position(8, 9);
+        Position maPos4 = new Position(3, 10);
+        Position maPos5 = new Position(7, 10);
+        Position maPos6 = new Position(2,5);
+        Position maPos7 = new Position(2,9);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
+
+        //when
+        List<Position> sangRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(sangRoutesPositions).hasSize(7)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 상_이동가능_좌표_확인_경로에_다른_기물_직선() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,7);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
+        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.ZOL));
+        Position maPos1 = new Position(8, 5);
+        Position maPos2 = new Position(8, 9);
+        Position maPos3 = new Position(3, 10);
+        Position maPos4 = new Position(7, 10);
+        Position maPos5 = new Position(2,5);
+        Position maPos6 = new Position(2,9);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
+
+        //when
+        List<Position> sangRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(sangRoutesPositions).hasSize(6)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("상의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다")
+    void 상_이동가능_좌표_확인_목적지에_같은팀_기물() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,7);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
+        board.getBoard().put(new Position(2,9), new Piece(Team.CHO, PieceType.ZOL));
+        Position maPos1 = new Position(3, 4);
+        Position maPos2 = new Position(7, 4);
+        Position maPos3 = new Position(8, 5);
+        Position maPos4 = new Position(8, 9);
+        Position maPos5 = new Position(3, 10);
+        Position maPos6 = new Position(7, 10);
+        Position maPos7 = new Position(2,5);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
+
+        //when
+        List<Position> sangRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(sangRoutesPositions).hasSize(7)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("사의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
+    void 사_이동가능_좌표_확인_초기_위치에서_모든_방향_가능() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4,10);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
+        Position maPos1 = new Position(4, 9);
+        Position maPos2 = new Position(5, 9);
+        Position maPos3 = new Position(5, 10);
+        Position maPos4 = new Position(3, 9);
+        Position maPos5 = new Position(3, 10);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(5)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("사의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
+    void 사_이동가능_좌표_확인_초기_위치에서_목적지에_같은_팀() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4,10);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
+        board.getBoard().put(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
+        Position maPos1 = new Position(4, 9);
+        Position maPos2 = new Position(5, 10);
+        Position maPos3 = new Position(3, 9);
+        Position maPos4 = new Position(3, 10);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(4)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("사의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
+    void 사_이동가능_좌표_확인_초기_위치에서_목적지에_다른_팀() {
+        //given
+        Board board = new Board();
+        Position position = new Position(4,10);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
+        board.getBoard().put(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
+        Position maPos1 = new Position(4, 9);
+        Position maPos2 = new Position(5, 10);
+        Position maPos3 = new Position(3, 9);
+        Position maPos4 = new Position(3, 10);
+        Position maPos5 = new Position(5, 9);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(5)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("왕의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
+    void 왕_이동가능_좌표_확인_초기_위치에서_모든_방향_가능() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,9);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
+        Position maPos1 = new Position(4, 8);
+        Position maPos2 = new Position(5, 8);
+        Position maPos3 = new Position(6, 8);
+        Position maPos4 = new Position(6, 9);
+        Position maPos5 = new Position(6, 10);
+        Position maPos6 = new Position(5, 10);
+        Position maPos7 = new Position(4, 10);
+        Position maPos8 = new Position(4, 9);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(8)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("왕의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
+    void 왕_이동가능_좌표_확인_초기_위치에서_목적지에_같은_팀() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,9);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
+        board.getBoard().put(new Position(4, 9), new Piece(Team.CHO, PieceType.SA));
+        board.getBoard().put(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
+        Position maPos1 = new Position(4, 8);
+        Position maPos2 = new Position(5, 8);
+        Position maPos3 = new Position(6, 8);
+        Position maPos4 = new Position(6, 9);
+        Position maPos5 = new Position(6, 10);
+        Position maPos6 = new Position(5, 10);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(6)
+                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+    }
+
+    @Test
+    @DisplayName("왕의 이동규칙을 통해 갈 수 있는 경로의 위치를 알아낼 수 있다(사이클1에서는 아직 궁성 영역 구현X)")
+    void 왕_이동가능_좌표_확인_초기_위치에서_목적지에_다른_팀() {
+        //given
+        Board board = new Board();
+        Position position = new Position(5,9);
+        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
+        board.getBoard().put(new Position(4, 9), new Piece(Team.HAN, PieceType.ZOL));
+        board.getBoard().put(new Position(4, 10), new Piece(Team.HAN, PieceType.CHA));
+        Position maPos1 = new Position(4, 8);
+        Position maPos2 = new Position(5, 8);
+        Position maPos3 = new Position(6, 8);
+        Position maPos4 = new Position(6, 9);
+        Position maPos5 = new Position(6, 10);
+        Position maPos6 = new Position(5, 10);
+        Position maPos7 = new Position(4, 10);
+        Position maPos8 = new Position(4, 9);
+        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+
+        //when
+        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+
+        //then
+        assertThat(maRoutesPositions).hasSize(8)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 }
