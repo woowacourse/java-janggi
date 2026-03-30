@@ -33,5 +33,7 @@ public abstract class Piece {
 
     abstract public boolean canCatch(Piece piece);
 
-    abstract public boolean isCannon();
+    public abstract boolean canBeJumpedOver();
+
+    public abstract boolean canBeCaughtByCannon();
 }

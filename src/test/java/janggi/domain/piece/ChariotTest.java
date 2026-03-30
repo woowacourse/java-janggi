@@ -13,12 +13,18 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChariotTest {
-
-    @DisplayName("차가 포인지 확인하는 테스트 (항상 false)")
+    @DisplayName("차가 포에 의해 잡힐 수 있다.")
     @Test
-    void isCannon_Always_ReturnFalse() {
+    void canBeCaughtByCannon() {
         Piece piece = new Chariot(Camp.CHO, new ChariotStrategy());
-        assertThat(piece.isCannon()).isFalse();
+        assertThat(piece.canBeCaughtByCannon()).isTrue();
+    }
+
+    @DisplayName("차는 넘을 수 있다.")
+    @Test
+    void canBeJumpedOver() {
+        Piece piece = new Chariot(Camp.CHO, new ChariotStrategy());
+        assertThat(piece.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("경로에 기물이 있으면 False를 반환한다")

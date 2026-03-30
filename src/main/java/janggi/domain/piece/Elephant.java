@@ -22,7 +22,12 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
+    public boolean canBeJumpedOver() {
+        return true;
+    }
+
+    @Override
+    public boolean canBeCaughtByCannon() {
+        return true;
     }
 }

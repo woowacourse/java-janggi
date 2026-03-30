@@ -11,12 +11,18 @@ import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GeneralTest {
-
-    @DisplayName("장이 포인지 확인하는 테스트 (항상 false)")
+    @DisplayName("장은 포에 의해 잡힐 수 있다.")
     @Test
-    void isCannon_Always_ReturnFalse() {
+    void canBeCaughtByCannon() {
         Piece piece = new General(Camp.CHO, new GeneralStrategy());
-        assertThat(piece.isCannon()).isFalse();
+        assertThat(piece.canBeCaughtByCannon()).isTrue();
+    }
+
+    @DisplayName("장은 넘을 수 있다.")
+    @Test
+    void canBeJumpedOver() {
+        Piece piece = new General(Camp.CHO, new GeneralStrategy());
+        assertThat(piece.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("장의 경로 확인은 항상 True를 반환한다")

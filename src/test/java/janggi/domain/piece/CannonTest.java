@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-
 import janggi.domain.Camp;
 import janggi.domain.position.Position;
 import janggi.domain.piece.strategy.CannonStrategy;
@@ -14,12 +13,18 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CannonTest {
-
-    @DisplayName("포가 포인지 확인하는 테스트 (항상 true)")
+    @DisplayName("포는 포에 의해 잡힐 수 없다.")
     @Test
-    void isCannon_Always_ReturnTrue() {
+    void canNotBeCaughtByCannon() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
-        assertThat(piece.isCannon()).isTrue();
+        assertThat(piece.canBeCaughtByCannon()).isFalse();
+    }
+
+    @DisplayName("포는 넘을 수 없다.")
+    @Test
+    void canNotBeJumpedOver() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        assertThat(piece.canBeJumpedOver()).isFalse();
     }
 
     @DisplayName("이동 경로에 기물이 없으면 False를 반환한다")
