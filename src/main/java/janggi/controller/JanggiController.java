@@ -1,6 +1,5 @@
 package janggi.controller;
 
-import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
@@ -81,20 +80,29 @@ public class JanggiController {
         outputView.printBoard(BoardDto.from(game.boardMap()));
     }
 
-    private <T> T getUntilValid(Supplier<T> supplier) {
+    /**
+     * "적절한 입력이 들어올 때까지 반복해서 실행하여 그 입력값을 리턴받는 메서드"
+     * @param readOperation: 특정 입력을 받는 작업
+     * @return: 입력값
+     */
+    private <T> T getUntilValid(Supplier<T> readOperation) {
         while (true) {
             try {
-                return supplier.get();
+                return readOperation.get();
             } catch (Exception e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
     }
 
-    private void runUntilValid(Runnable runnable) {
+    /**
+     * 적절한 입력이 들어올 때까지 반복해서 실행하는 메서드(반환값 없음)"
+     * @param readOperation: 특정 입력을 받는 작업
+     */
+    private void runUntilValid(Runnable readOperation) {
         while (true) {
             try {
-                runnable.run();
+                readOperation.run();
                 break;
             } catch (Exception e) {
                 outputView.printErrorMessage(e.getMessage());
