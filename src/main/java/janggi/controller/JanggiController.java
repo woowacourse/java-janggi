@@ -7,9 +7,9 @@ import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import janggi.view.PieceCancelException;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class JanggiController {
@@ -26,7 +26,7 @@ public class JanggiController {
         BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
 
         Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
-        retry(() -> play(game));
+        play(game);
     }
 
     private void play(Game game) {
@@ -35,24 +35,31 @@ public class JanggiController {
             outputView.printBoard(board);
             outputView.printSide(game.getTurn());
 
-            Point from = retry(() -> printPath(inputView.readPoint(), game, board));
-            retry(() -> game.move(from, inputView.readDestination()));
+            PieceDto pieceDto = getResult(game);
+            outputView.printBoardWithPath(board, pieceDto.destinations());
+
+            retry(this::movePath, game, pieceDto.from());
         }
     }
 
-
-    private Point printPath(Point from, Game game, Map<Point, Piece> board) {
+    private PieceDto getResult(Game game) {
+        Point from = retry(inputView::readPoint);
         Set<Point> destinations = game.destinations(from);
-        outputView.printBoardWithPath(board, destinations);
-        return from;
+        return new PieceDto(from, destinations);
     }
 
-    private void retry(Runnable runnable) {
+    private void movePath(Game game, Point from) {
+        Point to = retry(() -> inputView.readDestination().orElse(null));
+        if (to == null) {
+            return;
+        }
+        game.move(from, to);
+    }
+
+    private <T, U> void retry(BiConsumer<T, U> consumer, T t, U u) {
         while (true) {
             try {
-                runnable.run();
-                break;
-            } catch (PieceCancelException e) {
+                consumer.accept(t, u);
                 break;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
@@ -68,5 +75,8 @@ public class JanggiController {
                 outputView.printError(e.getMessage());
             }
         }
+    }
+
+    private record PieceDto(Point from, Set<Point> destinations) {
     }
 }

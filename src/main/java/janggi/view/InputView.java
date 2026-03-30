@@ -4,6 +4,7 @@ import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.side.Side;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,13 +46,13 @@ public class InputView {
         return Point.of(x, y);
     }
 
-    public Point readDestination() {
+    public Optional<Point> readDestination() {
         System.out.println("기물 이동[초록색] - {한글}{숫자} (e.g. 가0) (취소 - Q 입력)");
         String input = sc.nextLine();
         Matcher matcher = pattern.matcher(input);
 
         if (input.equals("Q")) {
-            throw new PieceCancelException("Q가 입력되었습니다.");
+            return Optional.empty();
         }
 
         if (!matcher.matches()) {
@@ -60,7 +61,7 @@ public class InputView {
 
         int x = XPointFormat.convertToInt(matcher.group(1));
         int y = parseToInt(matcher.group(2));
-        return Point.of(x, y);
+        return Optional.of(Point.of(x, y));
     }
 
 
