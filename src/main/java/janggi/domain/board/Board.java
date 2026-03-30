@@ -85,7 +85,7 @@ public class Board {
 
     private void executeMove(Location from, Location to, Piece piece) {
         boardState.put(to, piece);
-        boardState.put(from, EmptyPiece.getInstance()); // 싱글톤 혹은 정적 상수 권장
+        boardState.put(from, EmptyPiece.getInstance());
     }
 
     public List<List<Piece>> to2DArray() {
