@@ -2,27 +2,71 @@ package janggi.domain.mouveRule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Board;
+import janggi.domain.FakeBoard;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardView;
+import janggi.domain.piece.Advisor;
+import janggi.domain.piece.King;
+import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.Map;
 
 class KingMoveRuleTest {
-
-    private Board board = Board.empty();
+    private BoardView fakeBoard;
     private final MoveRule moveRule = new KingMoveRule();
 
-    @Test
-    void 상하좌우_1칸_이동가능() {
-        assertThat(moveRule.canMove(new Position(4, 4), new Position(5, 4), board)).isTrue();
-        assertThat(moveRule.canMove(new Position(4, 4), new Position(3, 4), board)).isTrue();
-        assertThat(moveRule.canMove(new Position(4, 4), new Position(4, 5), board)).isTrue();
-        assertThat(moveRule.canMove(new Position(4, 4), new Position(4, 3), board)).isTrue();
+    @ParameterizedTest
+    @CsvSource({
+            "1, 4, 0, 4",
+            "1, 4, 2, 4",
+            "1, 4, 1, 3",
+            "1, 4, 1, 5"
+    })
+    void 정상_이동_true_반환_테스트(int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
+
+        fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
+
+        // when, then
+        assertThat(moveRule.canMove(from, to, fakeBoard)).isTrue();
     }
 
-    @Test
-    void _2칸이상_이동못함() {
-        assertThat(moveRule.canMove(new Position(4, 4), new Position(6, 4), board)).isFalse();
-        assertThat(moveRule.canMove(new Position(4, 4), new Position(4, 6), board)).isFalse();
-        assertThat(moveRule.canMove(new Position(4, 4), new Position(6, 6), board)).isFalse();
+    @ParameterizedTest
+    @CsvSource({
+            "0, 5, 0, 4"
+    })
+    void 모서리에서의_정상_이동_true_반환_테스트(int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
+
+        fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
+
+        // when, then
+        assertThat(moveRule.canMove(from, to, fakeBoard)).isTrue();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0, 4, 2, 4", // 남쪽 두 칸
+            "0, 4, 0, 7", // 동쪽 세 칸
+            "0, 4, 1, 5", // 대각선 한 칸 (사이클 1 비허용)
+            "0, 0, 2, 0"  // 경계에서 두 칸 이동
+    })
+    void 한_칸_초과_이동시_false_반환_테스트(int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
+
+        fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
+
+        // when, then
+        assertThat(moveRule.canMove(from, to, fakeBoard)).isFalse();
     }
 }

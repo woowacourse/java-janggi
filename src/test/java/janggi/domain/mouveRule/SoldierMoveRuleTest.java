@@ -1,55 +1,60 @@
 package janggi.domain.mouveRule;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import janggi.domain.Board;
+import janggi.domain.FakeBoard;
+import janggi.domain.board.Board;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SoldierMoveRuleTest {
-    private Board board = Board.empty();
+    private final FakeBoard board = new FakeBoard();
 
-    @Test
-    void 초나라에서는_위_행감소_방향으로_전진할수있다() {
-        MoveRule rule = new SoldierMoveRule(Team.CHO);
-        assertThat(rule.canMove(new Position(4, 4), new Position(3, 4), board)).isTrue();
+    @ParameterizedTest
+    @CsvSource({
+            "CHO, 6, 4, 5, 4",
+            "HAN, 3, 4, 4, 4"
+    })
+    void 각_진영_전진_테스트(Team team, int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        MoveRule rule = new SoldierMoveRule(team);
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
+
+        // when, then
+        assertThat(rule.canMove(from, to, board)).isTrue();
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "CHO, 6, 4, 7, 4",
+            "HAN, 3, 4, 2, 4"
+    })
+    void 각_진영_후진_불가_테스트(Team team, int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        MoveRule rule = new SoldierMoveRule(team);
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
 
-    @Test
-    void 초나라에서는_아래_행증가_방향으로_후진할수없다() {
-        MoveRule rule = new SoldierMoveRule(Team.CHO);
-        assertThat(rule.canMove(new Position(2, 4), new Position(3, 4), board)).isFalse();
+        // when, then
+        assertThat(rule.canMove(from, to, board)).isFalse();
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "CHO, 5, 4, 5, 3", // 초 서쪽 이동
+            "CHO, 5, 4, 5, 5", // 초 동쪽 이동
+            "HAN, 4, 4, 4, 3", // 한 서쪽 이동
+            "HAN, 4, 4, 4, 5"  // 한 동쪽 이동
+    })
+    void 각_진영_좌우_이동_테스트(Team team, int fromRow, int fromCol, int toRow, int toCol) {
+        MoveRule soldierMoveRule = new SoldierMoveRule(team);
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
 
-    @Test
-    void 한나라에서는_아래_행증가_방향으로_전진할수있다() {
-        MoveRule rule = new SoldierMoveRule(Team.HAN);
-        assertThat(rule.canMove(new Position(4, 4), new Position(5, 4), board)).isTrue();
+        assertThat(soldierMoveRule.canMove(from, to, board)).isTrue();
     }
-
-
-    @Test
-    void 한나라에서는_위_행감소_방향으로_후진할수없다() {
-        MoveRule rule = new SoldierMoveRule(Team.HAN);
-        assertThat(rule.canMove(new Position(2, 4), new Position(1, 4), board)).isFalse();
-    }
-
-
-    @Test
-        //TODO
-    void 진영상관없이_좌우로_이동할수있다() {
-        MoveRule rule = new SoldierMoveRule(Team.CHO);
-        assertThat(rule.canMove(new Position(3, 4), new Position(3, 5), board)).isTrue();
-        assertThat(rule.canMove(new Position(3, 4), new Position(3, 3), board)).isTrue();
-
-        rule = new SoldierMoveRule(Team.HAN);
-        assertThat(rule.canMove(new Position(6, 4), new Position(6, 5), board)).isTrue();
-        assertThat(rule.canMove(new Position(6, 4), new Position(6, 3), board)).isTrue();
-
-    }
-
-
 }

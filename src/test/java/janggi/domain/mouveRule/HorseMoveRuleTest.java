@@ -1,44 +1,57 @@
 package janggi.domain.mouveRule;
 
-import static janggi.domain.BoardFixture.put;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import janggi.domain.Board;
+import janggi.domain.FakeBoard;
+import janggi.domain.board.BoardView;
 import janggi.domain.piece.Soldier;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class HorseMoveRuleTest {
-    private Board board = Board.empty();
-    private Position from;
-    private Position to;
     private final MoveRule moveRule = new HorseMoveRule();
 
-    @Test
-    void 마가_직선이동_후_대각선으로_한칸_이동할수있다() {
-        from = new Position(0, 0);
-        to = new Position(2, 1);
-
+    @ParameterizedTest(name = "마 정상 이동: {0}")
+    @MethodSource("provideNormalMove")
+    void 마_정상_이동_테스트(String description, Position from, Position to, BoardView board) {
         assertThat(moveRule.canMove(from, to, board)).isTrue();
     }
 
-    @Test
-    void 마가_이동가능한_패턴이아니면_에러가_발생한다() {
-        from = new Position(0, 0);
-        to = new Position(3, 3);
-
+    @ParameterizedTest(name = "마 이동 실패: {0}")
+    @MethodSource("provideInvalidMove")
+    void 마_이동_실패_테스트(String description, Position from, Position to, BoardView board) {
         assertThat(moveRule.canMove(from, to, board)).isFalse();
     }
 
-    @Test
-    void 마의_이동경로에_기물이_있으면_에러가발생한다() {
-        from = new Position(0, 0);
-        to = new Position(2, 1);
+    private static Stream<Arguments> provideNormalMove() {
+        return Stream.of(
+                Arguments.of("빈 칸으로 정상 이동 (북->북동)",
+                        new Position(0, 0), new Position(2, 1), new FakeBoard()),
 
-        Position other = new Position(1, 0);
-        put(board, other, new Soldier(Team.HAN));
+                Arguments.of("적군을 잡으며 이동",
+                        new Position(0, 0), new Position(2, 1),
+                        FakeBoard.createBoardWith(new Position(2, 1), new Soldier(Team.HAN)))
+        );
+    }
 
-        assertThat(moveRule.canMove(from, to, board)).isFalse();
+    private static Stream<Arguments> provideInvalidMove() {
+        return Stream.of(
+                Arguments.of("길이 아군에 의해 막힌 경우",
+                        new Position(0, 0), new Position(2, 1),
+                        FakeBoard.createBoardWith(new Position(1, 0), new Soldier(Team.CHO))),
+
+                Arguments.of("길이 적군에 의해 막힌 경우",
+                        new Position(0, 0), new Position(2, 1),
+                        FakeBoard.createBoardWith(new Position(1, 0), new Soldier(Team.HAN))),
+
+                Arguments.of("마의 이동 패턴이 아닌 경우",
+                        new Position(0, 0), new Position(2, 2), new FakeBoard())
+        );
     }
 }
