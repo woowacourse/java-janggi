@@ -1,8 +1,11 @@
 package domain.strategy;
 
 import domain.Board;
+import domain.Piece;
 import domain.Type;
 import domain.vo.Position;
+
+import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -32,12 +35,7 @@ public class CannonMoveStrategy implements MoveStrategy {
                 if (isCannon(board, row, col)) {
                     return false;
                 }
-
                 pieceCount += 1;
-            }
-
-            if (pieceCount > CANNON_REQUIRED_PIECE_COUNT) {
-                return false;
             }
         }
 
@@ -45,17 +43,14 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean isCannonValidTarget(final Position from, final Position to, final Board board, final int pieceCount) {
-        if (!isCannon(board, to.getRow(), to.getCol())
+        return !isCannon(board, to.getRow(), to.getCol())
                 && board.isAnotherTeam(from, to)
-                && pieceCount == CANNON_REQUIRED_PIECE_COUNT) {
-            return true;
-        }
-        return false;
+                && pieceCount == CANNON_REQUIRED_PIECE_COUNT;
     }
 
     private boolean isCannon(Board board, int row, int col) {
-        if (board.findPieceByPosition(Position.of(row, col)).isEmpty()) return false;
-        return board.findPieceByPosition(Position.of(row, col)).get().getType() == Type.CANNON;
+        Optional<Piece> piece = board.findPieceByPosition(Position.of(row, col));
+        return piece.isPresent() && piece.get().getType() == Type.CANNON;
     }
 
     private boolean isNotCorrectPath(Position from, Position to) {
