@@ -100,7 +100,7 @@ public class SoldierTest {
 
         assertThatThrownBy(() -> soldier.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸・병은 한 칸만 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 해당 기물은 한 칸만 이동할 수 있습니다.");
     }
 
     @Test
@@ -115,10 +115,10 @@ public class SoldierTest {
 
         assertThatThrownBy(() -> choSoldier.path(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸・병은 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
         assertThatThrownBy(() -> hanSoldier.path(from, hanTo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸・병은 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
     }
 
     @Test

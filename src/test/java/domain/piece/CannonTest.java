@@ -95,7 +95,7 @@ public class CannonTest {
 
         assertThatThrownBy(() -> cannon.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 포는 하나의 방향으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 해당 기물은 하나의 방향으로만 이동 가능합니다.");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class CannonTest {
 
         assertThatThrownBy(() -> cannon.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 포는 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
     }
 
     @Test

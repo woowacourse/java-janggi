@@ -82,12 +82,12 @@ public class GuardTest {
 
         assertThatThrownBy(() -> guard.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 사는 한 칸만 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 해당 기물은 한 칸만 이동할 수 있습니다.");
     }
 
     @Test
     @DisplayName("사가 대각선으로 이동할 경우 예외가 발생한다.")
-    void soldierDiagonalExceptionTest() {
+    void guardDiagonalExceptionTest() {
         Piece guard = new Guard(Country.CHO);
 
         Position from = new Position(3, 0);
@@ -95,7 +95,7 @@ public class GuardTest {
 
         assertThatThrownBy(() -> guard.path(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 사는 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
     }
 
     @Test
