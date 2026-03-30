@@ -52,7 +52,7 @@ public class OutsideTableSetting extends BoardInitializerWithConst {
 
     @Override
     protected Map<Position, Piece> initSang() {
-        Map<Position, Piece> board = new HashMap<Position, Piece>();
+        Map<Position, Piece> board = new HashMap<>();
 
         Sang cho = new Sang(Team.CHO);
         Sang han = new Sang(Team.HAN);
