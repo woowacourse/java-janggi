@@ -46,6 +46,14 @@ public class Position {
                 .toList();
     }
 
+    public Row getRow() {
+        return row;
+    }
+
+    public Column getColumn() {
+        return column;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -61,13 +69,5 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
-    }
-
-    public Row getRow() {
-        return row;
-    }
-
-    public Column getColumn() {
-        return column;
     }
 }

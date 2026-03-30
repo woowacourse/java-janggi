@@ -19,31 +19,6 @@ public abstract class Piece {
 
     abstract public void check(BoardStatus boardStatus, Position start, Position destination);
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return pieceType == piece.pieceType && team == piece.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(pieceType, team);
-    }
-
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
     public void validateTurn(Team turn) {
         if (this.team != turn) {
             throw new IllegalArgumentException(ErrorMessage.ONLY_ALLY.getMessage());
@@ -61,5 +36,30 @@ public abstract class Piece {
             return false;
         }
         return this.team == other.team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return pieceType == piece.pieceType && team == piece.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceType, team);
     }
 }
