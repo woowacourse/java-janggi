@@ -3,7 +3,6 @@ package domain.board;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,9 +52,26 @@ public class BoardInitializer {
     }
 
     private static void setUpSoldier(Map<Position, Piece> initialBoard, Camp camp, int soldierY) {
-        for (int soldierX = 1; soldierX <= 9; soldierX += 2) {
-            initialBoard.put(new Position(soldierX, soldierY), new Piece(camp, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy()));
-        }
+        initialBoard.put(
+                new Position(1, soldierY),
+                new Piece(camp, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+        );
+        initialBoard.put(
+                new Position(3, soldierY),
+                new Piece(camp, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+        );
+        initialBoard.put(
+                new Position(5, soldierY),
+                new Piece(camp, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+        );
+        initialBoard.put(
+                new Position(7, soldierY),
+                new Piece(camp, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+        );
+        initialBoard.put(
+                new Position(9, soldierY),
+                new Piece(camp, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy())
+        );
     }
 
     private static void setUpCannon(Map<Position, Piece> initialBoard, Camp camp, int cannonY) {
