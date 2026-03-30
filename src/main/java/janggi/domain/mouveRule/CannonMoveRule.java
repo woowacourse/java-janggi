@@ -1,94 +1,50 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.BoardView;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Piece;
+import janggi.domain.Direction;
+import janggi.domain.board.BoardView;
+import janggi.domain.piece.PieceType;
 import janggi.domain.vo.Position;
 
-public class CannonMoveRule implements MoveRule {
+import java.util.ArrayList;
+import java.util.List;
 
+public class CannonMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        int fromRow = from.getRow();
-        int fromCol = from.getCol();
-        int toRow = to.getRow();
-        int toCol = to.getCol();
-
-        if (!isStraightLine(fromRow, fromCol, toRow, toCol)) {
+        if (!from.isStraightLine(to)) {
             return false;
         }
 
-        int jumpedPieceCount = countPiecesBetween(board, fromRow, fromCol, toRow, toCol);
-        if (jumpedPieceCount != 1) {
-            return false;
-        }
+        List<Position> piecePositionsBetween = findPiecePositionsBetween(from, to, board);
 
-        Piece bridgePiece = findBridgePiece(board, fromRow, fromCol, toRow, toCol);
-        Piece targetPiece = board.findByPosition(to);
-        if (isCannon(bridgePiece) || isCannon(targetPiece)) {
-            return false;
-        }
-        return true;
+        return hasOneBridgeNotCannon(piecePositionsBetween, board) && !isTargetCannon(to, board);
     }
 
-    private boolean isStraightLine(int fromRow, int fromCol, int toRow, int toCol) {
-        return fromRow == toRow || fromCol == toCol;
+    private boolean hasOneBridgeNotCannon(List<Position> positions, BoardView board) {
+        return positions.size() == 1 && board.findByPosition(positions.get(0)).pieceType() != PieceType.CANNON;
     }
 
-    private int countPiecesBetween(BoardView board, int fromRow, int fromCol, int toRow, int toCol) {
-        int count = 0;
+    private boolean isTargetCannon(Position to, BoardView board) {
+        return board.findByPosition(to).pieceType() == PieceType.CANNON;
+    }
 
-        if (fromRow == toRow) {
-            int start = Math.min(fromCol, toCol);
-            int end = Math.max(fromCol, toCol);
+    private List<Position> findPiecePositionsBetween(Position from, Position to, BoardView board) {
+        List<Position> piecePositions = new ArrayList<>();
+        Direction direction = Direction.findDirection(from, to);
+        Position pathPosition = from;
 
-            for (int col = start + 1; col < end; col++) {
-                if (!board.isEmptyPosition(new Position(fromRow, col))) {
-                    count++;
-                }
+        while(pathPosition.hasNext(direction)) {
+            pathPosition = pathPosition.nextPosition(direction);
+
+            if (pathPosition.equals(to)) {
+             break;
             }
-            return count;
-        }
 
-        int start = Math.min(fromRow, toRow);
-        int end = Math.max(fromRow, toRow);
-
-        for (int row = start + 1; row < end; row++) {
-            if (!board.isEmptyPosition(new Position(row, fromCol))) {
-                count++;
+            if (!board.isEmptyPosition(pathPosition)) {
+                piecePositions.add(pathPosition);
             }
         }
-        return count;
+
+        return piecePositions;
     }
-
-    private Piece findBridgePiece(BoardView board, int fromRow, int fromCol, int toRow, int toCol) {
-        if (fromRow == toRow) {
-            int start = Math.min(fromCol, toCol);
-            int end = Math.max(fromCol, toCol);
-
-            for (int col = start + 1; col < end; col++) {
-                Position position = new Position(fromRow, col);
-                if (!board.isEmptyPosition(position)) {
-                    return board.findByPosition(position);
-                }
-            }
-            return null;
-        }
-
-        int start = Math.min(fromRow, toRow);
-        int end = Math.max(fromRow, toRow);
-
-        for (int row = start + 1; row < end; row++) {
-            Position position = new Position(row, fromCol);
-            if (!board.isEmptyPosition(position)) {
-                return board.findByPosition(position);
-            }
-        }
-        return null;
-    }
-
-    private boolean isCannon(Piece piece) {
-        return piece instanceof Cannon;
-    }
-
 }
