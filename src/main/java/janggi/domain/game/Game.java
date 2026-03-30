@@ -2,6 +2,7 @@ package janggi.domain.game;
 
 import static janggi.domain.dynasty.Dynasty.CHO;
 
+import janggi.domain.DomainException;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
@@ -30,7 +31,7 @@ public class Game {
     public List<Position> canMovePosition(Position from) {
         List<Position> positions = board.canMovePosition(from, currentTurn.currentDynasty());
         if (positions.isEmpty()) {
-            throw new IllegalStateException(String.format(NO_AVAILABLE_MOVES_MESSAGE, from.row().row(), from.column().column()));
+            throw new DomainException(String.format(NO_AVAILABLE_MOVES_MESSAGE, from.row().row(), from.column().column()));
         }
         return positions;
     }

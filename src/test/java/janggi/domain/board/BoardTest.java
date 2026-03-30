@@ -6,6 +6,7 @@ import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
 import static org.assertj.core.api.Assertions.*;
 
+import janggi.domain.DomainException;
 import janggi.domain.piece.ChariotMoveStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -40,7 +41,7 @@ class BoardTest {
 
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(from, HAN))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainException.class)
                 .hasMessageContaining(String.format(INVALID_PIECE_OWNER_MESSAGE, from.row().row(), from.column().column()));
     }
 
@@ -53,7 +54,7 @@ class BoardTest {
         Position from = Position.from(5, 5);
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(from, CHO))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainException.class)
                 .hasMessageContaining(String.format(PIECE_NOT_FOUND_MESSAGE, from.row().row(), from.column().column()));
     }
 
@@ -98,7 +99,7 @@ class BoardTest {
 
         // when & then
         assertThatThrownBy(() -> board.movePiece(from, to, HAN))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainException.class)
                 .hasMessageContaining(String.format(INVALID_PIECE_MOVE_MESSAGE,
                         from.row().row(), from.column().column(),
                         to.row().row(), to.column().column()));

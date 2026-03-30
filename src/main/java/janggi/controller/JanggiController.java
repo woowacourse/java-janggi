@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.domain.DomainException;
 import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
@@ -11,6 +12,7 @@ import janggi.controller.dto.PositionDto;
 import janggi.controller.dto.mapper.HorseElephantPositionMapper;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,7 @@ public class JanggiController {
 
     /**
      * "적절한 입력이 들어올 때까지 반복해서 실행하여 그 입력값을 리턴받는 메서드"
+     *
      * @param readOperation: 특정 입력을 받는 작업
      * @return: 입력값
      */
@@ -89,14 +92,17 @@ public class JanggiController {
         while (true) {
             try {
                 return readOperation.get();
-            } catch (Exception e) {
+            } catch (DomainException | IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
+            } catch (Exception e) {
+                outputView.printErrorMessage("알 수 없는 에러가 발생했습니다.");
             }
         }
     }
 
     /**
      * 적절한 입력이 들어올 때까지 반복해서 실행하는 메서드(반환값 없음)"
+     *
      * @param readOperation: 특정 입력을 받는 작업
      */
     private void runUntilValid(Runnable readOperation) {
@@ -104,8 +110,10 @@ public class JanggiController {
             try {
                 readOperation.run();
                 break;
-            } catch (Exception e) {
+            } catch (DomainException | IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
+            } catch (Exception e) {
+                outputView.printErrorMessage("알 수 없는 에러가 발생했습니다.");
             }
         }
     }

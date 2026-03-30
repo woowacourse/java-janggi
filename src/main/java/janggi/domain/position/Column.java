@@ -1,5 +1,7 @@
 package janggi.domain.position;
 
+import janggi.domain.DomainException;
+
 public record Column(
         int column
 ) {
@@ -15,7 +17,7 @@ public record Column(
 
     private void validate(int column) {
         if (column < MIN_COLUMN || column > MAX_COLUMN) {
-            throw new IllegalArgumentException(
+            throw new DomainException(
                     String.format(COLUMN_OUT_OF_BOUNDS_MESSAGE, column, MIN_COLUMN, MAX_COLUMN));
         }
     }
