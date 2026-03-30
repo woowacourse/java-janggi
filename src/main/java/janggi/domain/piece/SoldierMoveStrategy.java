@@ -13,17 +13,26 @@ public class SoldierMoveStrategy implements MoveStrategy {
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
-            if (dir.equals(dynasty.front().back())) {
+            if (isBackMove(dynasty, dir)) {
                 continue;
             }
-            from.findOnePositionByDirection(dir).ifPresent(to -> {
-                if (board.containsKey(to) && board.get(to).isSameDynasty(dynasty)) {
-                    return;
-                }
-                movablePositions.add(to);
-            });
+            tryMove(board, from, dynasty, dir, movablePositions);
         }
         return movablePositions;
+    }
+
+
+    private static boolean isBackMove(Dynasty dynasty, Direction dir) {
+        return dir.equals(dynasty.front().back());
+    }
+
+    private static void tryMove(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {
+        from.findOnePositionByDirection(dir).ifPresent(to -> {
+            if (board.containsKey(to) && board.get(to).isSameDynasty(dynasty)) {
+                return;
+            }
+            movablePositions.add(to);
+        });
     }
 
     @Override

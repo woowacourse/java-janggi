@@ -14,7 +14,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         List<Position> movablePositions = new ArrayList<>();
         for (Direction dir : Direction.valuesFourDirection()) {
             from.findOnePositionByDirection(dir).ifPresent(to -> {
-                if (board.containsKey(to)) {
+                if (isPiecePresent(board, to)) {
                     return;
                 }
                 canMoveByDirection(to, dir.next(), board, dynasty, movablePositions);
@@ -29,10 +29,18 @@ public class HorseMoveStrategy implements MoveStrategy {
                                            Map<Position, Piece> board, Dynasty dynasty,
                                            List<Position> canMovePositions) {
         from.findOnePositionByDirection(dir).ifPresent(to -> {
-            if (!board.containsKey(to) || !board.get(to).isSameDynasty(dynasty)) {
+            if (!isPiecePresent(board, to) || isEnemy(board.get(to), dynasty)) {
                 canMovePositions.add(to);
             }
         });
+    }
+
+    private static boolean isPiecePresent(Map<Position, Piece> board, Position position) {
+        return board.containsKey(position);
+    }
+
+    private static boolean isEnemy(Piece piece, Dynasty dynasty) {
+        return !piece.isSameDynasty(dynasty);
     }
 
     @Override

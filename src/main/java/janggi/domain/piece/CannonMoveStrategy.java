@@ -43,13 +43,17 @@ public class CannonMoveStrategy implements MoveStrategy {
             }
 
             Piece piece = board.get(to);
-            if (!piece.isSameDynasty(dynasty) && !isCannon(piece)) {
+            if (isEnemy(dynasty, piece) && !isCannon(piece)) {
                 movablePositions.add(to);
             }
             return movablePositions;
         }
 
         return movablePositions;
+    }
+
+    private static boolean isEnemy(Dynasty dynasty, Piece piece) {
+        return !piece.isSameDynasty(dynasty);
     }
 
     private static boolean isPiecePresent(Map<Position, Piece> board, Position position) {
