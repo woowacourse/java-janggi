@@ -1,7 +1,7 @@
 package domain.board.wing;
 
-import static domain.util.AssertUtils.assertThatNoException;
 import static java.util.Collections.EMPTY_LIST;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.game.Side;
@@ -135,6 +135,6 @@ class WingTest {
                 new Piece(PieceType.ELEPHANT, Side.CHO)
         );
 
-        assertThatNoException(() -> new LeftWing(pieces));
+        assertThatNoException().isThrownBy(() -> new LeftWing(pieces));
     }
 }

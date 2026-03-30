@@ -1,6 +1,6 @@
 package domain.game;
 
-import static domain.util.AssertUtils.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
@@ -55,7 +55,8 @@ class JanggiGameTest {
             JanggiGame janggiGame = new JanggiGame(board);
 
             // when and then
-            assertThatNoException(() -> janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO));
+            assertThatNoException()
+                    .isThrownBy(() -> janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO));
         }
     }
 
@@ -91,7 +92,8 @@ class JanggiGameTest {
 
             // when and then
             janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO);
-            assertThatNoException(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN));
+            assertThatNoException()
+                    .isThrownBy(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN));
         }
     }
 }

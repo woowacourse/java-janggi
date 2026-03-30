@@ -1,7 +1,7 @@
 package domain.board.wing;
 
-import static domain.util.AssertUtils.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Intersection;
@@ -41,7 +41,7 @@ class ChoWingsTest {
 
         @Test
         void 좌진과_우진에_초_기물만_있다면_정상적으로_생성된다() {
-            assertThatNoException(() -> new ChoWings(legalSideWing, legalSideWing));
+            assertThatNoException().isThrownBy(() -> new ChoWings(legalSideWing, legalSideWing));
         }
     }
 

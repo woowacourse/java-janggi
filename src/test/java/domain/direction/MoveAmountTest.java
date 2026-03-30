@@ -1,6 +1,6 @@
 package domain.direction;
 
-import static domain.util.AssertUtils.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,6 +24,6 @@ class MoveAmountTest {
             1, 10, 100, Integer.MAX_VALUE
     })
     void 이동_거리가_음수가_아니면_정상적으로_생성된다(int amount) {
-        assertThatNoException(() -> new MoveAmount(amount));
+        assertThatNoException().isThrownBy(() -> new MoveAmount(amount));
     }
 }
