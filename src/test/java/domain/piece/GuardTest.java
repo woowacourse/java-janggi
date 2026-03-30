@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class GuardTest {
+
     static class HanSideGuardInitializer implements BoardInitializer {
 
         @Override

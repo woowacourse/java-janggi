@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class HorseTest {
+
     static class HorseTestInitializer implements BoardInitializer {
 
         @Override

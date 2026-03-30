@@ -22,9 +22,9 @@ public class OutsideMaStrategy implements InitialStrategy {
     }
 
     private void initStrategyType(Map<Position, Piece> pieceInitPlacements, Side side, int col) {
-        pieceInitPlacements.put(new Position(col,1), new Horse(side));
-        pieceInitPlacements.put(new Position(col,2), new Elephant(side));
-        pieceInitPlacements.put(new Position(col,6), new Elephant(side));
-        pieceInitPlacements.put(new Position(col,7), new Horse(side));
+        pieceInitPlacements.put(new Position(col, 1), new Horse(side));
+        pieceInitPlacements.put(new Position(col, 2), new Elephant(side));
+        pieceInitPlacements.put(new Position(col, 6), new Elephant(side));
+        pieceInitPlacements.put(new Position(col, 7), new Horse(side));
     }
 }
