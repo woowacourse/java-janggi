@@ -29,8 +29,8 @@ public abstract class Piece {
         return side;
     }
 
-    public final boolean isOtherSide(Side side) {
-        return !Side.isSameSide(this.side, side);
+    public final boolean isNotEqualSide(Side otherSide) {
+        return !this.side.equals(otherSide);
     }
 
     public final PathStrategy pathStrategy() {

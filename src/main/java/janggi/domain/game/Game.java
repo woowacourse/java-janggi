@@ -58,6 +58,7 @@ public class Game {
     }
 
     public boolean canPlay() {
+        //TODO: Cycle2에 진행
         return true;
     }
 }

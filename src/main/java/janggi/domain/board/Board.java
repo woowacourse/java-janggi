@@ -79,7 +79,7 @@ public class Board {
             return true;
         }
         return getPieceAt(destination)
-                .isOtherSide(piece.getSide());
+                .isNotEqualSide(piece.getSide());
     }
 
     private Map<Point, Piece> findPiecesOnPaths(List<CandidatePath> candidateCandidatePaths) {
