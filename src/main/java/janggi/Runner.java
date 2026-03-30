@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Runner {
-    public  static final Logger logger = Logger.getLogger(Game.class.getName());
+    private static final Logger logger = Logger.getLogger(Runner.class.getName());
     private Game game;
 
     public void run() {
