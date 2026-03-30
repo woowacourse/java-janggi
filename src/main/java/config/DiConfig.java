@@ -1,7 +1,7 @@
 package config;
 
 import domain.board.Board;
-import domain.janggigame.JanggiGame;
+import janggigame.JanggiGame;
 import domain.piece.Side;
 import domain.player.Player;
 import domain.players.Players;

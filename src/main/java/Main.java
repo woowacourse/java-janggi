@@ -1,5 +1,5 @@
 import config.DiConfig;
-import domain.janggigame.JanggiGame;
+import janggigame.JanggiGame;
 
 public class Main {
     public static void main(String[] args) {

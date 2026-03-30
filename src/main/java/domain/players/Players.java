@@ -1,8 +1,12 @@
 package domain.players;
 
+import domain.piece.Piece;
 import domain.piece.Side;
 import domain.player.Player;
+import domain.position.Position;
 import dto.BoardResponseDto;
+
+import java.util.Map;
 
 public class Players {
     private final Player choPlayer;
@@ -18,7 +22,7 @@ public class Players {
         if (side == Side.CHO) choPlayer.initBoard(placementCode);
     }
 
-    public BoardResponseDto findBoardState() {
+    public Map<Position, Piece> findBoardState() {
         return hanPlayer.findBoardState();
     }
 }

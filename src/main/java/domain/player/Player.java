@@ -2,8 +2,12 @@ package domain.player;
 
 import domain.board.Board;
 import domain.board.Placement;
+import domain.piece.Piece;
 import domain.piece.Side;
+import domain.position.Position;
 import dto.BoardResponseDto;
+
+import java.util.Map;
 
 public class Player {
     private final Side side;
@@ -22,7 +26,7 @@ public class Player {
         board.placePieces(side, Placement.from(placementCode));
     }
 
-    public BoardResponseDto findBoardState() {
+    public Map<Position, Piece> findBoardState() {
         return board.findState();
     }
 }

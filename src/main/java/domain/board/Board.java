@@ -4,8 +4,6 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
-import dto.BoardResponseDto;
-import dto.PieceDto;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,12 +21,8 @@ public class Board {
         return state.get(position);
     }
 
-    public BoardResponseDto findState() {
-        return new BoardResponseDto(state.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> PieceDto.from(entry.getValue()))
-                ));
+    public Map<Position, Piece> findState() {
+        return Map.copyOf(state);
     }
 
     public void move(Position from, Position to, Side side) {
@@ -102,32 +96,9 @@ public class Board {
         validateExistPiece(from);
     }
 
-    private static void validateSamePosition(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("출발지와 목적지가 같을 수 없습니다.");
-        }
-    }
-
     private void validateExistPiece(Position from) {
         if (!state.containsKey(from)) {
             throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
-        }
-    }
-
-    private static void validateMoveBySide(Side side, Piece fromPiece, Piece toPiece) {
-        validateCanMoveSameSidePiece(side, fromPiece);
-        validateCanCatchSameSidePiece(side, toPiece);
-    }
-
-    private static void validateCanMoveSameSidePiece(Side side, Piece fromPiece) {
-        if (!fromPiece.isSameSide(side)) {
-            throw new IllegalArgumentException("본인 진영의 말만 이동할 수 있습니다.");
-        }
-    }
-
-    private static void validateCanCatchSameSidePiece(Side side, Piece toPiece) {
-        if (toPiece != null && toPiece.isSameSide(side)) {
-            throw new IllegalArgumentException("본인 진영의 말은 포획할 수 없습니다.");
         }
     }
 
@@ -147,5 +118,28 @@ public class Board {
                     ));
         }
         return state;
+    }
+
+    private static void validateSamePosition(Position from, Position to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("출발지와 목적지가 같을 수 없습니다.");
+        }
+    }
+
+    private static void validateMoveBySide(Side side, Piece fromPiece, Piece toPiece) {
+        validateCanMoveSameSidePiece(side, fromPiece);
+        validateCanCatchSameSidePiece(side, toPiece);
+    }
+
+    private static void validateCanMoveSameSidePiece(Side side, Piece fromPiece) {
+        if (!fromPiece.isSameSide(side)) {
+            throw new IllegalArgumentException("본인 진영의 말만 이동할 수 있습니다.");
+        }
+    }
+
+    private static void validateCanCatchSameSidePiece(Side side, Piece toPiece) {
+        if (toPiece != null && toPiece.isSameSide(side)) {
+            throw new IllegalArgumentException("본인 진영의 말은 포획할 수 없습니다.");
+        }
     }
 }

@@ -1,4 +1,4 @@
-package domain.janggigame;
+package janggigame;
 
 import domain.piece.Side;
 import domain.players.Players;
@@ -42,7 +42,7 @@ public class JanggiGame {
         String input = InputView.inputHanPlacementCode();
         int code = Parser.parseToPlacementCode(input);
         players.initPlacementBySide(Side.HAN, code);
-        BoardResponseDto nowBoardState = players.findBoardState();
+        BoardResponseDto nowBoardState = BoardResponseDto.from(players.findBoardState());
         OutputView.printBoard(nowBoardState);
     }
 
@@ -50,7 +50,7 @@ public class JanggiGame {
         String input = InputView.inputChoPlacementCode();
         int code = Parser.parseToPlacementCode(input);
         players.initPlacementBySide(Side.CHO, code);
-        BoardResponseDto nowBoardState = players.findBoardState();
+        BoardResponseDto nowBoardState = BoardResponseDto.from(players.findBoardState());
         OutputView.printBoard(nowBoardState);
     }
 }
