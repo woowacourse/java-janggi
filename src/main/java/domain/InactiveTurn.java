@@ -1,6 +1,6 @@
 package domain;
 
-public class NotCurrentTurn implements TurnState {
+public class InactiveTurn implements TurnState {
 
     @Override
     public boolean isCurrent() {
@@ -9,6 +9,6 @@ public class NotCurrentTurn implements TurnState {
 
     @Override
     public TurnState next() {
-        return new CurrentTurn();
+        return new ActiveTurn();
     }
 }
