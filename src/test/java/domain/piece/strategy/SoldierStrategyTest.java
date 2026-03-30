@@ -26,11 +26,11 @@ public class SoldierStrategyTest {
 
         dummyBoard.put(
                 new Position(1, 4),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(1, 7),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
 
         boardChecker = new Board(dummyBoard);
@@ -104,7 +104,7 @@ public class SoldierStrategyTest {
 
         dummyBoard.put(
                 from,
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
         boardChecker = new Board(dummyBoard);
 
@@ -134,7 +134,7 @@ public class SoldierStrategyTest {
 
         dummyBoard.put(
                 from,
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.SOLDIER)
         );
         boardChecker = new Board(dummyBoard);
 

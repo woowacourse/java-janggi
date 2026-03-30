@@ -30,7 +30,7 @@ public class CannonStrategyTest {
     void throwException_When_NoPieceExistsInPath() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.CANNON)
         );
         boardChecker = new Board(dummyBoard);
 
@@ -48,15 +48,15 @@ public class CannonStrategyTest {
     void throwException_When_MultiplePiecesExistInPath() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.CANNON)
         );
         dummyBoard.put(
                 new Position(1, 2),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(1, 4),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
         boardChecker = new Board(dummyBoard);
 
@@ -74,11 +74,11 @@ public class CannonStrategyTest {
     void throwException_When_CannonIsExists() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.CANNON)
         );
         dummyBoard.put(
                 new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.CANNON)
         );
         boardChecker = new Board(dummyBoard);
 
@@ -96,11 +96,11 @@ public class CannonStrategyTest {
     void moveSuccessfully_When_NoCannonInPathAndExactlyOnePiece() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.CANNON)
         );
         dummyBoard.put(
                 new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
         boardChecker = new Board(dummyBoard);
 
@@ -118,15 +118,15 @@ public class CannonStrategyTest {
     void throwException_When_CannonIsOnDestination() {
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.CANNON)
         );
         dummyBoard.put(
                 new Position(1, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(1, 5),
-                new Piece(Camp.CHO, PieceType.CANNON, PieceType.CANNON.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.CANNON)
         );
         boardChecker = new Board(dummyBoard);
 

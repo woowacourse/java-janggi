@@ -9,10 +9,10 @@ public class Piece {
     private final PieceType pieceType;
     private final MoveStrategy strategy;
 
-    public Piece(Camp camp, PieceType pieceType, MoveStrategy strategy) {
+    public Piece(Camp camp, PieceType pieceType) {
         this.camp = camp;
         this.pieceType = pieceType;
-        this.strategy = strategy;
+        this.strategy = pieceType.createStrategy(camp);
     }
 
     public Camp camp() {

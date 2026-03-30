@@ -28,23 +28,23 @@ public class HorseStrategyTest {
 
         dummyBoard.put(
                 new Position(3, 3),
-                new Piece(Camp.HAN, PieceType.HORSE, PieceType.HORSE.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.HORSE)
         );
         dummyBoard.put(
                 new Position(4, 3),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(4, 4),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(5, 4),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(2, 5),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
 
         boardChecker = new Board(dummyBoard);
@@ -82,7 +82,7 @@ public class HorseStrategyTest {
 
         dummyBoard.put(
                 new Position(4, 3),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
 
         Piece horse = dummyBoard.get(from);

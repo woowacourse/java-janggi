@@ -27,15 +27,15 @@ public class ChariotStrategyTest {
 
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.CHARIOT, PieceType.CHARIOT.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.CHARIOT)
         );
         dummyBoard.put(
                 new Position(1, 2),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(1, 5),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
 
         boardChecker = new Board(dummyBoard);

@@ -27,7 +27,7 @@ public class GeneralAndGuardStrategyTest {
 
         dummyBoard.put(
                 new Position(1, 1),
-                new Piece(Camp.HAN, PieceType.GENERAL, PieceType.GENERAL.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.GENERAL)
         );
 
         boardChecker = new Board(dummyBoard);

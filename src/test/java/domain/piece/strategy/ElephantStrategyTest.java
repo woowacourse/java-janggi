@@ -27,27 +27,27 @@ public class ElephantStrategyTest {
 
         dummyBoard.put(
                 new Position(3, 3),
-                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.ELEPHANT)
         );
         dummyBoard.put(
                 new Position(4, 4),
-                new Piece(Camp.HAN, PieceType.ELEPHANT, PieceType.ELEPHANT.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.ELEPHANT)
         );
         dummyBoard.put(
                 new Position(4, 5),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(5, 6),
-                new Piece(Camp.HAN, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.HAN))
+                new Piece(Camp.HAN, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(6, 7),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
         dummyBoard.put(
                 new Position(7, 2),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
 
         boardChecker = new Board(dummyBoard);
@@ -85,7 +85,7 @@ public class ElephantStrategyTest {
 
         dummyBoard.put(
                 new Position(4, 5),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
 
         Piece elephant = dummyBoard.get(from);
@@ -102,7 +102,7 @@ public class ElephantStrategyTest {
 
         dummyBoard.put(
                 new Position(5, 6),
-                new Piece(Camp.CHO, PieceType.SOLDIER, PieceType.SOLDIER.createStrategy(Camp.CHO))
+                new Piece(Camp.CHO, PieceType.SOLDIER)
         );
 
         Piece elephant = dummyBoard.get(from);
