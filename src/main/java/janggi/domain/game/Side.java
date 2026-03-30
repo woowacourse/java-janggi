@@ -21,8 +21,4 @@ public enum Side {
         }
         return CHO;
     }
-
-    public boolean isSameSide(Side current) {
-        return this.equals(current);
-    }
 }
