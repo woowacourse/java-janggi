@@ -1,9 +1,9 @@
 package janggi.domain.piece.unit;
 
+import janggi.domain.board.path.Path;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
-import janggi.domain.piece.path.Path;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;

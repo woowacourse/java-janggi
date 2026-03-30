@@ -1,10 +1,10 @@
 package janggi.domain.board;
 
+import janggi.domain.board.path.Path;
+import janggi.domain.board.path.PathStrategy;
 import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.path.Path;
-import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.piece.unit.Empty;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
@@ -71,12 +71,8 @@ public class Board {
 
     private List<Path> convertToPaths(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
         return patterns.stream()
-                .map(pattern -> convertToPath(pattern, from, pathStrategy))
+                .map(pattern -> new Path(pattern, from, pathStrategy))
                 .toList();
-    }
-
-    private Path convertToPath(Pattern pattern, Point from, PathStrategy pathStrategy) {
-        return new Path(pattern, from, pathStrategy);
     }
 
     private boolean isDestinationOtherSide(Piece piece, Point destination) {

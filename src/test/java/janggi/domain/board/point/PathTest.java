@@ -2,7 +2,7 @@ package janggi.domain.board.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.path.Path;
+import janggi.domain.board.path.Path;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
