@@ -8,13 +8,15 @@ import java.util.Map;
 
 public class OutputView {
 
+    private static final int COLUMN_SIZE = 9;
+    private static final int ROW_SIZE = 10;
+
     private static final String TURN_DIVIDER = "──────────────────────────";
     private static final String TURN_FORMAT = "  %s 차례입니다.";
 
-    private static final String BOARD_COL_HEADER_INDENT = "    ";
+    private static final String BOARD_INDENT = "    ";
     private static final String BOARD_COL_FORMAT = " %d  ";
     private static final String BOARD_DIVIDER = "─".repeat(36);
-    private static final String BOARD_DIVIDER_INDENT = "    ";
     private static final String BOARD_ROW_FORMAT = "%2d │ ";
     private static final String BOARD_CELL_FORMAT = "%-3s ";
 
@@ -32,18 +34,18 @@ public class OutputView {
     public void printBoard(BoardDto boardDto) {
         Map<List<Integer>, String> board = boardDto.board();
 
-        System.out.print(BOARD_COL_HEADER_INDENT);
-        for (int col = 1; col <= 9; col++) {
+        System.out.print(BOARD_INDENT);
+        for (int col = 1; col <= COLUMN_SIZE; col++) {
             System.out.printf(BOARD_COL_FORMAT, col);
         }
         System.out.println();
 
-        System.out.print(BOARD_DIVIDER_INDENT);
+        System.out.print(BOARD_INDENT);
         System.out.println(BOARD_DIVIDER);
 
-        for (int row = 1; row <= 10; row++) {
+        for (int row = 1; row <= ROW_SIZE; row++) {
             System.out.printf(BOARD_ROW_FORMAT, row);
-            for (int col = 1; col <= 9; col++) {
+            for (int col = 1; col <= COLUMN_SIZE; col++) {
                 System.out.printf(BOARD_CELL_FORMAT, board.get(List.of(col, row)));
             }
             System.out.println();
