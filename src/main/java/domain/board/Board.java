@@ -2,7 +2,9 @@ package domain.board;
 
 import domain.game.Side;
 import domain.piece.AlivePieces;
+import domain.piece.Piece;
 import java.util.List;
+import java.util.Map;
 
 public final class Board {
 
@@ -40,7 +42,7 @@ public final class Board {
                 .movableIntersections(selectedIntersection, alivePieces);
     }
 
-    public AlivePieces getAlivePieces() {
-        return alivePieces;
+    public Map<Intersection, Piece> getPieces() {
+        return alivePieces.get();
     }
 }

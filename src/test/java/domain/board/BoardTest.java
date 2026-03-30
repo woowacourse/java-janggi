@@ -149,10 +149,9 @@ class BoardTest {
             );
 
             // then
-            AlivePieces resultAlivePieces = board.getAlivePieces();
-            Piece destinationPiece = resultAlivePieces.placedAt(reachableDestination);
+            Map<Intersection, Piece> pieces = board.getPieces();
 
-            assertThat(destinationPiece).isEqualTo(SAME_SIDE_PIECE);
+            assertThat(pieces.get(reachableDestination)).isEqualTo(SAME_SIDE_PIECE);
         }
     }
 }

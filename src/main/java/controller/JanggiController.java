@@ -1,0 +1,62 @@
+package controller;
+
+import domain.board.Board;
+import domain.board.ChoWings;
+import domain.board.HanWings;
+import domain.board.InitialPieces;
+import domain.board.Intersection;
+import domain.game.JanggiGame;
+import domain.game.Side;
+import domain.piece.AlivePieces;
+import domain.piece.Piece;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+import util.RetryUtil;
+import view.ApplicationView;
+
+public class JanggiController {
+
+    private final ApplicationView view = new ApplicationView();
+
+    public void run() {
+        Board board = retryOnIllegalArgument(this::initBoard);
+        JanggiGame game = new JanggiGame(board);
+
+        while (true) {
+            retryOnIllegalArgument(() -> progressTurn(game));
+        }
+    }
+
+    private Board initBoard() {
+        ChoWings choWings = retryOnIllegalArgument(view::readChowings);
+        HanWings hanWings = retryOnIllegalArgument(view::readHanWings);
+
+        InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
+        AlivePieces alivePieces = new AlivePieces(initialPieces.get());
+
+        return new Board(alivePieces);
+    }
+
+    private void progressTurn(JanggiGame game) {
+        Side currentTurn = game.getCurrentTurn();
+        Map<Intersection, Piece> board = game.getBoard();
+
+        Intersection selectedIntersection = retryOnIllegalArgument(() -> view.readSelectPiece(board, currentTurn));
+        List<Intersection> movableIntersections = game.getMovableIntersections(
+                selectedIntersection,
+                currentTurn
+        );
+
+        Intersection destination = view.readMovePiece(board, movableIntersections);
+        game.movePiece(selectedIntersection, destination, currentTurn);
+    }
+
+    private <T> T retryOnIllegalArgument(Supplier<T> retryableAction) {
+        return RetryUtil.retryOnInvalidInput(retryableAction, view::printError);
+    }
+
+    private void retryOnIllegalArgument(Runnable retryableAction) {
+        RetryUtil.retryOnInvalidInput(retryableAction, view::printError);
+    }
+}

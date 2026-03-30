@@ -25,6 +25,10 @@ public class AlivePieces {
         alivePieces.put(to, piece);
     }
 
+    public Map<Intersection, Piece> get() {
+        return Map.copyOf(alivePieces);
+    }
+
     public boolean isEmpty(Intersection intersection) {
         return !alivePieces.containsKey(intersection);
     }
