@@ -5,11 +5,10 @@ import java.util.function.BiFunction;
 
 public class Position {
 
+    public static final int BOARD_MAX_COLUMN = 8;
+    public static final int BOARD_MIN_COLUMN = 0;
     private static final int BOARD_MAX_ROW = 9;
     private static final int BOARD_MIN_ROW = 0;
-    private static final int BOARD_MAX_COLUMN = 8;
-    private static final int BOARD_MIN_COLUMN = 0;
-
     private final int row;
     private final int column;
 
@@ -24,11 +23,12 @@ public class Position {
     }
 
     public boolean canMove(int row, int column) {
-        return isValidate(this.row + row, this.column +  column);
+        return isValidate(this.row + row, this.column + column);
     }
 
     private boolean isValidate(int row, int column) {
-        return (BOARD_MIN_ROW <= row  && row <= BOARD_MAX_ROW) && (BOARD_MIN_COLUMN <= column && column <= BOARD_MAX_COLUMN);
+        return (BOARD_MIN_ROW <= row && row <= BOARD_MAX_ROW) && (BOARD_MIN_COLUMN <= column
+                && column <= BOARD_MAX_COLUMN);
     }
 
     public Position move(int row, int column) {
