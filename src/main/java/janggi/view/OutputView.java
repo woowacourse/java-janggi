@@ -14,6 +14,10 @@ public class OutputView {
     public static final String RESET = "\u001B[0m";
     private static final String[] X_VALUES = {"１", "２", "３", "４", "５", "６", "７", "８", "９"};
 
+    public static void printErrorMessage(String message) {
+        System.out.printf("%s%n", message);
+    }
+
     public void printBoard(Map<Position, Piece> board) {
         System.out.print("   ");
         for (int x = 1; x <= 9; x++) {

@@ -5,6 +5,7 @@ import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class JanggiController {
     private final InputView inputView = new InputView();
@@ -20,20 +21,39 @@ public class JanggiController {
         while(true) {
             outputView.printTurnMessage(isChoTurn);
 
-            outputView.printMoveInfo();
-            Position movePiecePosition = inputView.readPosition();
+            Position movePiecePosition = doLoop(() -> {
+                outputView.printMoveInfo();
+                Position position = inputView.readPosition();
+                board.findAvailablePositions(position);
+                return position;
+            });
 
-            List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
+            List<Position> availablePositions =  board.findAvailablePositions(movePiecePosition);
+
             outputView.printAvailablePositions(board.getBoard(), availablePositions);
 
-            outputView.printMoveChoiceInfo();
-            Position movePosition = inputView.readPosition();
+            Position movePosition = doLoop(()->{
+                outputView.printMoveChoiceInfo();
+                Position position = inputView.readPosition();
+                board.validateDestination(movePiecePosition, position);
+                return position;
+            });
 
             board.movePiece(movePiecePosition, movePosition);
 
             outputView.printBoard(board.getBoard());
 
             isChoTurn = !isChoTurn;
+        }
+    }
+
+    private <T> T doLoop(Supplier<T> inputFunction) {
+        while (true) {
+            try {
+                return inputFunction.get();
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
         }
     }
 }

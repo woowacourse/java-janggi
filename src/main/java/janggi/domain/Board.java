@@ -96,6 +96,10 @@ public class Board {
                 availablePositions.add(destination);
             }
         }
+
+        if(availablePositions.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
+        }
         return availablePositions;
     }
 
@@ -187,9 +191,24 @@ public class Board {
         return count == 1 && obstacles.getFirst().getPieceType() != PieceType.PO;
     }
 
-    public void movePiece(Position movePiecePosition, Position movePosition) {
+    public void movePiece(Position movePiecePosition, Position destination) {
         Piece piece = board.get(movePiecePosition);
         board.remove(movePiecePosition);
-        board.put(movePosition, piece);
+        board.put(destination, piece);
+    }
+
+    public void validateDestination(Position movePiecePosition, Position destination) {
+        List<Position> availablePositions = findAvailablePositions(movePiecePosition);
+        boolean hasPosition = false;
+        for(Position position:availablePositions) {
+            if (position == destination) {
+                hasPosition = true;
+                break;
+            }
+        }
+
+        if(!hasPosition) {
+            throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
+        }
     }
 }
