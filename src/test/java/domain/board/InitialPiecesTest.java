@@ -1,13 +1,13 @@
 package domain.board;
 
-import domain.board.wing.ChoWings;
-import domain.board.wing.HanWings;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import domain.board.wing.Wings;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class InitialPiecesTest {
@@ -22,8 +22,8 @@ class InitialPiecesTest {
             new Piece(PieceType.HORSE, Side.CHO),
             new Piece(PieceType.ELEPHANT, Side.CHO)
     );
-    private final HanWings hanWings = new HanWings(hanWing, hanWing);
-    private final ChoWings choWings = new ChoWings(choWing, choWing);
+    private final Wings hanWings = new Wings(Side.HAN, hanWing, hanWing);
+    private final Wings choWings = new Wings(Side.CHO, choWing, choWing);
 
     @Test
     void 초기화_해야_할_모든_기물을_반환한다() {
@@ -34,6 +34,6 @@ class InitialPiecesTest {
         Map<Intersection, Piece> initializedPieces = initialPieces.get();
 
         // then
-        Assertions.assertThat(initializedPieces).hasSize(INITIAL_PIECES_AMOUNT);
+        assertThat(initializedPieces).hasSize(INITIAL_PIECES_AMOUNT);
     }
 }

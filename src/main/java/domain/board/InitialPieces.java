@@ -1,7 +1,6 @@
 package domain.board;
 
-import domain.board.wing.ChoWings;
-import domain.board.wing.HanWings;
+import domain.board.wing.Wings;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.Piece;
@@ -17,7 +16,7 @@ public class InitialPieces {
 
     private final Map<Intersection, Piece> initialPieces = new HashMap<>();
 
-    public InitialPieces(HanWings hanWings, ChoWings choWings) {
+    public InitialPieces(Wings hanWings, Wings choWings) {
         // 1. 좌진/우진 (마, 상) 배치
         initialPieces.putAll(hanWings.setUpPieces());
         initialPieces.putAll(choWings.setUpPieces());

@@ -3,8 +3,7 @@ package controller;
 import domain.board.Board;
 import domain.board.InitialPieces;
 import domain.board.Intersection;
-import domain.board.wing.ChoWings;
-import domain.board.wing.HanWings;
+import domain.board.wing.Wings;
 import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.AlivePieces;
@@ -24,8 +23,8 @@ public final class JanggiController {
     public void run() {
         outputView.printGameStart();
 
-        ChoWings choWings = inputView.readChoWings();
-        HanWings hanWings = inputView.readHanWings();
+        Wings choWings = inputView.readChoWings();
+        Wings hanWings = inputView.readHanWings();
 
         InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
         AlivePieces alivePieces = new AlivePieces(initialPieces.get());

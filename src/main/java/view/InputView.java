@@ -1,8 +1,7 @@
 package view;
 
 import domain.board.Intersection;
-import domain.board.wing.ChoWings;
-import domain.board.wing.HanWings;
+import domain.board.wing.Wings;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -24,23 +23,25 @@ public final class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public ChoWings readChoWings() {
+    public Wings readChoWings() {
         System.out.println("초(楚)의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
         String input = readLine();
         System.out.println();
 
-        return new ChoWings(
+        return new Wings(
+                Side.CHO,
                 createWingPieces(input.substring(0, 2), Side.CHO),
                 createWingPieces(input.substring(2, 4), Side.CHO)
         );
     }
 
-    public HanWings readHanWings() {
+    public Wings readHanWings() {
         System.out.println("한(漢)의 상차림을 입력해주세요 (예: 마상마상, 마상상마, 상마마상, 상마상마):");
         String input = readLine();
         System.out.println();
 
-        return new HanWings(
+        return new Wings(
+                Side.HAN,
                 createWingPieces(input.substring(0, 2), Side.HAN),
                 createWingPieces(input.substring(2, 4), Side.HAN)
         );
