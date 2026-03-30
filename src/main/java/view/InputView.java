@@ -53,6 +53,12 @@ public final class InputView {
         return parseIntersection(readLine());
     }
 
+    public Intersection readDestination() {
+        System.out.printf("이동 가능한 경로를 표시합니다. 도착할 좌표를 입력하세요 (예: 7,2):%n");
+
+        return parseIntersection(readLine());
+    }
+
     private String readLine() {
         return scanner.nextLine()
                 .trim();

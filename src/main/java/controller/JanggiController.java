@@ -6,6 +6,7 @@ import domain.board.Intersection;
 import domain.board.wing.ChoWings;
 import domain.board.wing.HanWings;
 import domain.game.JanggiGame;
+import domain.game.Side;
 import domain.piece.AlivePieces;
 import view.InputView;
 import view.OutputView;
@@ -33,9 +34,17 @@ public final class JanggiController {
 
         outputView.printBoard(board);
 
-        Intersection startPosition = inputView.readStartPosition(janggiGame.currentTurn());
-        outputView.printBoardWithMovable(
-                board,
-                board.getMovableIntersections(startPosition, janggiGame.currentTurn()));
+        while (true) {
+            Side currentTurn = janggiGame.currentTurn();
+            Intersection startPosition = inputView.readStartPosition(currentTurn);
+            outputView.printBoardWithMovable(
+                    board,
+                    board.getMovableIntersections(startPosition, currentTurn)
+            );
+
+            Intersection destination = inputView.readDestination();
+            janggiGame.movePiece(startPosition, destination, currentTurn);
+            outputView.printBoard(board);
+        }
     }
 }
