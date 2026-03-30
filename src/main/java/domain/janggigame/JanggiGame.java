@@ -3,7 +3,8 @@ package domain.janggigame;
 import domain.board.Board;
 import domain.piece.Side;
 import domain.players.Players;
-import dto.BoardResponseDto;
+import domain.position.Move;
+import domain.position.Position;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
@@ -11,6 +12,8 @@ import view.OutputView;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static util.Retry.retry;
 
 public class JanggiGame {
     private final Players players;
@@ -25,15 +28,34 @@ public class JanggiGame {
         selectSide();
         hanPlayerPlacement();
         choPlayerPlacement();
+        playGame();
+    }
 
-        // 턴마다 번갈아가면서 기물 배치
+    private void playGame() {
+        retry(() -> {
+            while (!board.isFinished()) {
+                Move move = inputAndParseToMove();
+                players.playTurn(board, move);
+                OutputView.printBoard(board.findState());
+            }
+        });
+    }
+
+    private Move inputAndParseToMove() {
+        String inputStartPosition = InputView.inputStartPosition();
+        Position startPosition = Parser.parseToPosition(inputStartPosition);
+        String inputEndPosition = InputView.inputEndPosition();
+        Position endPosition = Parser.parseToPosition(inputEndPosition);
+        return new Move(startPosition, endPosition);
     }
 
     private void selectSide() {
-        String input = InputView.inputSideChoice();
-        int sideCode = Parser.parseToSideCode(input);
-        Side side = generateSide(sideCode);
-        OutputView.printSideChoiceResult(side);
+        retry(() -> {
+            String input = InputView.inputSideChoice();
+            int sideCode = Parser.parseToSideCode(input);
+            Side side = generateSide(sideCode);
+            OutputView.printSideChoiceResult(side);
+        });
     }
 
     private Side generateSide(int sideCode) {
@@ -44,16 +66,20 @@ public class JanggiGame {
     }
 
     private void hanPlayerPlacement() {
-        String input = InputView.inputHanPlacementCode();
-        int code = Parser.parseToPlacementCode(input);
-        players.initPlacementBySide(Side.HAN, code, board);
-        OutputView.printBoard(board.findState());
+        retry(() -> {
+            String input = InputView.inputHanPlacementCode();
+            int code = Parser.parseToPlacementCode(input);
+            players.initPlacementBySide(Side.HAN, code, board);
+            OutputView.printBoard(board.findState());
+        });
     }
 
     private void choPlayerPlacement() {
-        String input = InputView.inputChoPlacementCode();
-        int code = Parser.parseToPlacementCode(input);
-        players.initPlacementBySide(Side.CHO, code, board);
-        OutputView.printBoard(board.findState());
+        retry(() -> {
+            String input = InputView.inputChoPlacementCode();
+            int code = Parser.parseToPlacementCode(input);
+            players.initPlacementBySide(Side.CHO, code, board);
+            OutputView.printBoard(board.findState());
+        });
     }
 }

@@ -3,6 +3,7 @@ package domain.player;
 import domain.board.Board;
 import domain.board.Placement;
 import domain.piece.Side;
+import domain.position.Move;
 
 public class Player {
     private final Side side;
@@ -17,5 +18,9 @@ public class Player {
 
     public void initBoard(Board board, int placementCode) {
         board.placePieces(side, Placement.from(placementCode));
+    }
+
+    public void play(Board board, Move move) {
+        board.move(move.startPosition(), move.endPosition(), side);
     }
 }

@@ -2,8 +2,18 @@ package domain.piece;
 
 public enum Side {
 
-    CHO("초", "\\u001B[34m"),
-    HAN("한", "\\u001B[31m");
+    CHO("초", "\\u001B[34m") {
+        @Override
+        public Side next() {
+            return HAN;
+        }
+    },
+    HAN("한", "\\u001B[31m") {
+        @Override
+        public Side next() {
+            return CHO;
+        }
+    };
 
     private final String name;
     private final String color;
@@ -20,4 +30,6 @@ public enum Side {
     public String getColor() {
         return color;
     }
+
+    public abstract Side next();
 }

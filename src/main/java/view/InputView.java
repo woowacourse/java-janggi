@@ -29,6 +29,16 @@ public class InputView {
         return scanner.nextLine();
     }
 
+    public static String inputStartPosition() {
+        System.out.println("시작 위치를 입력해주세요. ex) 1,2");
+        return scanner.nextLine();
+    }
+
+    public static String inputEndPosition() {
+        System.out.println("도착 위치를 입력해주세요. ex) 1,2");
+        return scanner.nextLine();
+    }
+
     private static void printPlacementChoice() {
         System.out.println("1. 내부 코끼리 (마상상마)");
         System.out.println("2. 외부 코끼리 (상마마상)");

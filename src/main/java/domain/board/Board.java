@@ -50,6 +50,15 @@ public class Board {
         placeHorseAndElephant(side, placement);
     }
 
+    public boolean isFinished() {
+        int generalCount = (int) state.values().stream()
+                .filter(Piece::isGeneral)
+                .count();
+        return generalCount != 2;
+    }
+
+    // ============= private method ==============
+
     private void placeDefaultPieceBy(Side side) {
         if (side == Side.HAN) placeBySide(side, 10, -1);
         if (side == Side.CHO) placeBySide(side, 1, 1);
