@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.game.Side;
 import domain.piece.AlivePieces;
+import domain.piece.PieceType;
 import java.util.List;
 
 public final class Board {
@@ -42,5 +43,12 @@ public final class Board {
 
     public AlivePieces getAlivePieces() {
         return alivePieces;
+    }
+
+    public boolean isGeneralCaptured(Side side) {
+        return alivePieces.toList()
+                .stream()
+                .filter(piece -> piece.isSameSide(side))
+                .noneMatch(piece -> piece.isSameType(PieceType.GENERAL));
     }
 }

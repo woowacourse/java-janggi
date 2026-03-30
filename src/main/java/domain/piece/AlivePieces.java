@@ -3,7 +3,9 @@ package domain.piece;
 import domain.board.Intersection;
 import domain.game.Side;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class AlivePieces {
 
@@ -46,5 +48,11 @@ public class AlivePieces {
 
     public boolean placedNotSameSide(Intersection intersection, Side side) {
         return !placedSameSide(intersection, side);
+    }
+
+    public List<Piece> toList() {
+        return alivePieces.values()
+                .stream()
+                .toList();
     }
 }

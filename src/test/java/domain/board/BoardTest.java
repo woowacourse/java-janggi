@@ -8,9 +8,13 @@ import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
+@DisplayName("장기 보드 테스트")
 class BoardTest {
 
     private static final Intersection DEFAULT_INTERSECTION = new Intersection(5, 5);
@@ -144,6 +148,54 @@ class BoardTest {
             Piece destinationPiece = resultAlivePieces.placedAt(reachableDestination);
 
             assertThat(destinationPiece).isEqualTo(SAME_SIDE_PIECE);
+        }
+    }
+
+    @DisplayName("왕이 잡혔는지 검증")
+    @Nested
+    class 왕이_잡혔는지_검증 {
+
+        @DisplayName("두 진영 모두 왕이 없는 경우")
+        @ParameterizedTest(name = "{0} 진영의 왕이 잡혔음을 판단")
+        @EnumSource(Side.class)
+        void 두_진영_모두_왕이_없는_경우(Side side) {
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+            Board emptyBoard = new Board(emptyAlivePieces);
+
+            boolean generalCaptured = emptyBoard.isGeneralCaptured(side);
+
+            assertThat(generalCaptured).isTrue();
+        }
+
+        @DisplayName("한 진영만 왕이 없는 경우")
+        @Test
+        void 한_진영만_왕이_없는_경우() {
+            Side capturedSide = Side.HAN;
+            Side noCapturedSide = Side.CHO;
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    new Intersection(5, 5), new Piece(PieceType.GENERAL, noCapturedSide)
+            ));
+            Board board = new Board(alivePieces);
+
+            assertThat(board.isGeneralCaptured(capturedSide)).isTrue();
+            assertThat(board.isGeneralCaptured(noCapturedSide)).isFalse();
+        }
+
+        @DisplayName("두 진영 모두 왕이 있는 경우")
+        @Test
+        void 두_진영_모두_왕이_있는_경우() {
+            Side cho = Side.CHO;
+            Side han = Side.HAN;
+            Piece choGeneral = new Piece(PieceType.GENERAL, cho);
+            Piece hanGeneral = new Piece(PieceType.GENERAL, han);
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    new Intersection(3, 3), choGeneral,
+                    new Intersection(5, 5), hanGeneral
+            ));
+            Board board = new Board(alivePieces);
+
+            assertThat(board.isGeneralCaptured(cho)).isFalse();
+            assertThat(board.isGeneralCaptured(han)).isFalse();
         }
     }
 }
