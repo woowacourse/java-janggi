@@ -6,7 +6,6 @@ import domain.game.Team;
 import domain.game.Turn;
 import domain.piece.Piece;
 import domain.position.Position;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import view.InputView;
@@ -33,16 +32,17 @@ public class JanggiController {
     private Board createBoard() {
         int choFormationNumber = inputView.initialFormation(Team.CHO);
         int hanFormationNumber = inputView.initialFormation(Team.HAN);
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.putAll(AbstractBoardFactory.from(choFormationNumber).createFormation(Team.CHO));
-        pieces.putAll(AbstractBoardFactory.from(hanFormationNumber).createFormation(Team.HAN));
-        return new Board(pieces);
+        AbstractBoardFactory choAbstractBoardFactory = AbstractBoardFactory.from(choFormationNumber);
+        AbstractBoardFactory hanAbstractBoardFactory = AbstractBoardFactory.from(hanFormationNumber);
+        Map<Position, Piece> board = AbstractBoardFactory.createFormation(choAbstractBoardFactory,
+                hanAbstractBoardFactory);
+        return new Board(board);
     }
 
     private Turn playTurn(Board board, Turn turn) {
         while (true) {
             try {
-                List<String> movePositions = inputView.askMovePiecePoisiton(turn.current());
+                List<String> movePositions = inputView.askMovePiecePosition(turn.current());
                 Position src = Position.from(movePositions.get(0), movePositions.get(1));
                 Position dest = Position.from(movePositions.get(2), movePositions.get(3));
                 board.move(src, dest);

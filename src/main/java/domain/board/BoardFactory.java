@@ -1,8 +1,8 @@
 package domain.board;
 
-import domain.position.Position;
-import domain.piece.Piece;
 import domain.game.Team;
+import domain.piece.Piece;
+import domain.position.Position;
 import java.util.Map;
 
 public interface BoardFactory {
