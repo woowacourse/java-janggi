@@ -11,7 +11,7 @@ import java.util.Map;
 public class InSetUp implements BoardSetUp{
     @Override
     public Map<Point, Piece> generate(Side side) {
-        Map<Point, Piece> setUp = createCommonBoard(side);
+        Map<Point, Piece> setUp = new HashMap<>(createCommonBoard(side));
 
         if (side == Side.CHO){
             setUp.put(Point.of(0, 1), new Horse(side));
