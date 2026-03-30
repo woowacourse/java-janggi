@@ -6,41 +6,37 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum HorseDirection {
-    UP_RIGHT(1, 2, 0, 1),
-    UP_LEFT(-1, 2, 0, 1),
-    DOWN_RIGHT(1, -2, 0, -1),
-    DOWN_LEFT(-1, -2, 0, -1),
-    LEFT_UP(-2, 1, -1, 0),
-    LEFT_DOWN(-2, -1, -1, 0),
-    RIGHT_UP(2, 1, 1, 0),
-    RIGHT_DOWN(2, -1, 1, 0);
+    UP_RIGHT(new Delta(1, 2), new BlockedPath(List.of(new Delta(0, 1)))),
+    UP_LEFT(new Delta(-1, 2), new BlockedPath(List.of(new Delta(0, 1)))),
+    DOWN_RIGHT(new Delta(1, -2), new BlockedPath(List.of(new Delta(0, -1)))),
+    DOWN_LEFT(new Delta(-1, -2), new BlockedPath(List.of(new Delta(0, -1)))),
+    LEFT_UP(new Delta(-2, 1), new BlockedPath(List.of(new Delta(-1, 0)))),
+    LEFT_DOWN(new Delta(-2, -1), new BlockedPath(List.of(new Delta(-1, 0)))),
+    RIGHT_UP(new Delta(2, 1), new BlockedPath(List.of(new Delta(1, 0)))),
+    RIGHT_DOWN(new Delta(2, -1), new BlockedPath(List.of(new Delta(1, 0))));
 
     private static final String INVALID_HORSE_MOVE_ERROR_MESSAGE = "[ERROR] 마의 이동 방향이 올바르지 않습니다.";
 
-    private final int dx;
-    private final int dy;
-    private final int pathX;
-    private final int pathY;
+    private final Delta delta;
+    private final BlockedPath blockedPath;
 
-    HorseDirection(int dx, int dy, int pathX, int pathY) {
-        this.dx = dx;
-        this.dy = dy;
-        this.pathX = pathX;
-        this.pathY = pathY;
+    HorseDirection(Delta delta, BlockedPath blockedPath) {
+        this.delta = delta;
+        this.blockedPath = blockedPath;
     }
 
-    public static HorseDirection from(int dx, int dy) {
+    public static HorseDirection from(Delta delta) {
         return Arrays.stream(values())
-                .filter(direction -> direction.matches(dx, dy))
+                .filter(direction -> direction.matches(delta))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_HORSE_MOVE_ERROR_MESSAGE));
     }
 
-    private boolean matches(int dx, int dy) {
-        return this.dx == dx && this.dy == dy;
+    private boolean matches(Delta delta) {
+        return this.delta.dx() == delta.dx() && this.delta.dy() == delta.dy();
     }
 
     public List<Position> findPath(Position from) {
-        return List.of(new Position(from.x() + pathX, from.y() + pathY));
+        return blockedPath.findPath(from);
     }
 }

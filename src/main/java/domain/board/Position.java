@@ -1,5 +1,7 @@
 package domain.board;
 
+import domain.piece.strategy.Delta;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,14 @@ public record Position(int x, int y) {
         return to.y - this.y;
     }
 
+    public Delta calculateDelta(Position to) {
+        return new Delta(to.x - this.x, to.y - this.y);
+    }
+
+    public Position move(Delta delta) {
+        return new Position(this.x + delta.dx(), this.y + delta.dy());
+    }
+
     public List<Position> findPath(Position destination) {
         List<Position> path = new ArrayList<>();
 
@@ -54,3 +64,4 @@ public record Position(int x, int y) {
         return path;
     }
 }
+
