@@ -43,5 +43,4 @@ class RedSoldierMoveStrategyTest {
                 Arguments.arguments(Position.of(3, 2), Position.of(2, 2)),
                 Arguments.arguments(Position.of(3, 2), Position.of(1, 2)));
     }
-
 }

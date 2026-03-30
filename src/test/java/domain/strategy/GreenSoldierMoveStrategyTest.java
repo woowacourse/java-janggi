@@ -47,5 +47,4 @@ class GreenSoldierMoveStrategyTest {
                 Arguments.arguments(Position.of(6, 2), Position.of(8, 3))
         );
     }
-
 }

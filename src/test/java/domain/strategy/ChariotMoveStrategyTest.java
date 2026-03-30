@@ -50,6 +50,4 @@ class ChariotMoveStrategyTest {
 
         assertThat(moveStrategy.isPathRestricted(target, piecePositions)).isFalse();
     }
-
-
 }

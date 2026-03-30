@@ -2,7 +2,9 @@ package controller;
 
 import domain.JanggiGame;
 import domain.Position;
+import dto.SelectPositionRequest;
 import exception.JanggiGameException;
+import java.util.StringTokenizer;
 import view.InputView;
 import view.OutputView;
 
@@ -31,17 +33,14 @@ public class JanggiController {
     }
 
     private void playerPhase() {
-        String input = InputView.selectPiecePosition();
-        String[] split = input.split(",");
-        Position selected = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        SelectPositionRequest selectRequest = InputView.selectPiecePosition();
+        Position selected = Position.of(selectRequest.row(), selectRequest.col());
 
-        input = InputView.selectTargetPositionOf(janggiGame.findPieceInfoAt(selected));
-        split = input.split(",");
-        Position target = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        SelectPositionRequest targetRequest = InputView.selectTargetPositionOf(janggiGame.findPieceInfoAt(selected));
+        Position target = Position.of(targetRequest.row(), targetRequest.col());
 
         janggiGame.move(selected, target);
     }
-
 
     private void execute(ExecutableTask task) {
         while (true) {

@@ -1,6 +1,7 @@
 package domain;
 
 import dto.PieceInfo;
+import exception.JanggiBusinessException;
 import exception.JanggiGameException;
 import java.util.List;
 
@@ -69,19 +70,19 @@ public class JanggiGame {
 
     private void validateOutOfRange(Position position) {
         if (position.isOutOfBoard()) {
-            throw new JanggiGameException("[ERROR] 장기판 범위를 벗어난 위치를 입력하셨습니다.");
+            throw new JanggiBusinessException("[ERROR] 장기판 범위를 벗어난 위치를 입력하셨습니다.");
         }
     }
 
     private void requirePieceExists(Position position) {
         if(board.isNone(position)) {
-            throw new JanggiGameException("[ERROR] 해당 위치에는 기물이 없습니다.");
+            throw new JanggiBusinessException("[ERROR] 해당 위치에는 기물이 없습니다.");
         }
     }
 
     private void requireCorrectTurn(Position position) {
         if(gameStatus.equals(GameStatus.GREEN_PLAYER_TURN) && board.isPieceRedTeamAt(position)) {
-            throw new JanggiGameException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
+            throw new JanggiBusinessException("[ERROR] 선택한 위치에는 아군 기물이 존재하지 않습니다.");
         }
 
         if(gameStatus.equals(GameStatus.RED_PLAYER_TURN) && board.isPieceGreenTeamAt(position)) {

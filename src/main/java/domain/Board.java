@@ -1,5 +1,6 @@
 package domain;
 
+import exception.JanggiBusinessException;
 import exception.JanggiGameException;
 import java.util.List;
 import java.util.Map;
@@ -109,25 +110,25 @@ public class Board {
 
     private void validateCannonPath(Piece cannon, Position targetPosition) {
         if (cannon.isPathRestricted(targetPosition, findNonCannonPositions())) {
-            throw new JanggiGameException("[ERROR] 포가 이동하기 위해선 포와 목적지 사이에 포가 아닌 기물이 정확히 하나 존재해야 합니다.");
+            throw new JanggiBusinessException("[ERROR] 포가 이동하기 위해선 포와 목적지 사이에 포가 아닌 기물이 정확히 하나 존재해야 합니다.");
         }
     }
 
     private void validateCannonDestination(Position targetPosition) {
         if (findPieceAt(targetPosition).isCannon()) {
-            throw new JanggiGameException("[ERROR] 포는 포를 잡을 수 없습니다.");
+            throw new JanggiBusinessException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
 
     private void validatePath(Piece piece, Position targetPosition) {
         if (piece.isPathRestricted(targetPosition, findAllPiecePositions())) {
-            throw new JanggiGameException("[ERROR] 경로에 기물이 있습니다.");
+            throw new JanggiBusinessException("[ERROR] 경로에 기물이 있습니다.");
         }
     }
 
     private void validatePieceMoveable(Piece piece, Position targetPosition) {
         if (!piece.isMoveable(targetPosition)) {
-            throw new JanggiGameException(
+            throw new JanggiBusinessException(
                     String.format("[ERROR] %s는 해당 위치(%d, %d)로 이동할 수 없습니다.",
                             piece.name(), targetPosition.row(), targetPosition.col())
             );
@@ -137,7 +138,7 @@ public class Board {
     private void validateDestinationHasOwnPiece(Piece piece, Position targetPosition) {
         Piece target = findPieceAt(targetPosition);
         if (isSameTeam(piece, target)) {
-            throw new JanggiGameException("[ERROR] 이동하려는 위치에 아군 기물이 있습니다.");
+            throw new JanggiBusinessException("[ERROR] 이동하려는 위치에 아군 기물이 있습니다.");
         }
     }
 }
