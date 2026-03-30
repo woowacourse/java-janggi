@@ -2,7 +2,7 @@ package janggi.dto;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.formatter.PieceFormatter;
+import janggi.view.format.PieceFormat;
 
 public record PiecePositionDto(
         int row,
@@ -11,10 +11,11 @@ public record PiecePositionDto(
         CampDto camp
 ) {
     public static PiecePositionDto of(Position position, Piece piece) {
+        PieceFormat pieceFormat = PieceFormat.from(piece);
         return new PiecePositionDto(
                 position.row(),
                 position.column(),
-                PieceFormatter.format(piece),
+                pieceFormat.getFormat(),
                 CampDto.from(piece.camp())
         );
     }

@@ -1,9 +1,7 @@
 package janggi.view;
 
-import static janggi.formatter.CampFormatter.CHO_NAME;
 import static java.util.stream.Collectors.joining;
 
-import janggi.dto.CampDto;
 import janggi.dto.PiecePositionDto;
 import java.util.Arrays;
 import java.util.List;
@@ -16,12 +14,9 @@ public final class OutputView {
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
 
-    private static final String TITLE = LINE_SEPARATOR + "[장기판]";
     private static final String EMPTY_CELL = "．";
 
-    private static final String RESET = "\u001B[0m";
-    private static final String CHO_COLOR = "\u001B[32m";
-    private static final String HAN_COLOR = "\u001B[31m";
+    private static final String RESET_COLOR = "\u001B[0m";
 
     private static final String[] FULL_WIDTH_NUMBERS = {
             "０", "１", "２", "３", "４", "５", "６", "７", "８", "９"
@@ -41,7 +36,7 @@ public final class OutputView {
     private static String renderBoard(List<PiecePositionDto> piecePositions) {
         String[][] board = initializeBoard();
         applyPieces(board, piecePositions);
-        return TITLE + LINE_SEPARATOR + renderHeader() + LINE_SEPARATOR + renderRows(board);
+        return LINE_SEPARATOR + "[장기판]" + LINE_SEPARATOR + renderHeader() + LINE_SEPARATOR + renderRows(board);
     }
 
     private static String[][] initializeBoard() {
@@ -75,18 +70,7 @@ public final class OutputView {
     }
 
     private static String colorize(PiecePositionDto piecePosition) {
-        return colorOf(piecePosition.camp()) + piecePosition.type() + RESET;
-    }
-
-    private static String colorOf(CampDto campDto) {
-        if (isCho(campDto.camp())) {
-            return CHO_COLOR;
-        }
-        return HAN_COLOR;
-    }
-
-    private static boolean isCho(String camp) {
-        return camp.equals(CHO_NAME);
+        return piecePosition.camp().color() + piecePosition.type() + RESET_COLOR;
     }
 
     private static String fullWidthNumber(int number) {

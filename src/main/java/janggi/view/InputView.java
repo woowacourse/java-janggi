@@ -28,7 +28,7 @@ public final class InputView {
     }
 
     public static String readElephantSettingCommand(CampDto campDto) {
-        System.out.println(String.format(ELEPHANT_SETTING, campDto.camp()));
+        System.out.println(String.format(ELEPHANT_SETTING, campDto.name()));
         return readLine();
     }
 
@@ -45,7 +45,7 @@ public final class InputView {
     }
 
     public static List<Integer> readSource(CampDto campDto) {
-        System.out.println(String.format(TURN, campDto.camp()));
+        System.out.println(String.format(TURN, campDto.name()));
         System.out.println(SOURCE);
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }

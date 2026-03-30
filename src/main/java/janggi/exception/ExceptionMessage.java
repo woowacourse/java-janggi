@@ -41,7 +41,11 @@ public enum ExceptionMessage {
             "해당 기물은 직선 %d칸 이동 후 대각선 %d칸 이동만 가능합니다.",
             ELEPHANT_STRAIGHT_MOVE_DISTANCE,
             ELEPHANT_DIAGONAL_MOVE_DISTANCE
-    ));
+    )),
+    CAMP_FORMAT_NOT_FOUND("존재하지 않는 진영 형식입니다."),
+    PIECE_FORMAT_NOT_FOUND("존재하지 않는 기물 형식입니다."),
+    ;
+
 
     private static final String ERROR_PREFIX = "[ERROR] ";
 
