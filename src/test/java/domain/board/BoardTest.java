@@ -4,12 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Country;
-import domain.InitialPosition;
 import domain.Position;
 import domain.TableSetting;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -19,11 +17,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class BoardTest {
+    private final Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+    private final Map<Position, PieceInfo> initPieceInfos = board.getPieceInfos();
+
     @Test
     @DisplayName("from 좌표에 기물이 존재하지 않는 경우 예외가 발생한다.")
     void existPieceFromPositionExceptionTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         assertThatThrownBy(() -> board.validateFromPosition(new Position(1, 1), Country.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
@@ -32,8 +31,6 @@ public class BoardTest {
     @Test
     @DisplayName("from 좌표의 기물이 본인 진영이 아닌 경우 예외가 발생한다.")
     void notMyCountryFromPositionExceptionTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         assertThatThrownBy(() -> board.validateFromPosition(new Position(0, 9), Country.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 본인 진영의 기물이 아닙니다.");
@@ -41,64 +38,105 @@ public class BoardTest {
 
 
     @Test
-    @DisplayName("졸・병(卒·兵) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
-    void soldierPositionTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+    @DisplayName("초나라의 졸・병(卒·兵) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
+    void choSoldierPositionTest() {
+        assertThat(initPieceInfos.get(new Position(0, 3)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(0, 3)).country()).isEqualTo(Country.CHO);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        for (Position choPosition : InitialPosition.SOLDIER.getChoPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.SOLDIER);
-            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
-        }
-        for (Position hanPosition : InitialPosition.SOLDIER.getHanPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.SOLDIER);
-            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
-        }
+        assertThat(initPieceInfos.get(new Position(2, 3)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(2, 3)).country()).isEqualTo(Country.CHO);
+
+        assertThat(initPieceInfos.get(new Position(4, 3)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(4, 3)).country()).isEqualTo(Country.CHO);
+
+        assertThat(initPieceInfos.get(new Position(6, 3)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(6, 3)).country()).isEqualTo(Country.CHO);
+
+        assertThat(initPieceInfos.get(new Position(8, 3)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(8, 3)).country()).isEqualTo(Country.CHO);
+    }
+
+    @Test
+    @DisplayName("한나라의 졸・병(卒·兵) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
+    void hanSoldierPositionTest() {
+        assertThat(initPieceInfos.get(new Position(0, 6)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(0, 6)).country()).isEqualTo(Country.HAN);
+
+        assertThat(initPieceInfos.get(new Position(2, 6)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(2, 6)).country()).isEqualTo(Country.HAN);
+
+        assertThat(initPieceInfos.get(new Position(4, 6)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(4, 6)).country()).isEqualTo(Country.HAN);
+
+        assertThat(initPieceInfos.get(new Position(6, 6)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(6, 6)).country()).isEqualTo(Country.HAN);
+
+        assertThat(initPieceInfos.get(new Position(8, 6)).pieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(initPieceInfos.get(new Position(8, 6)).country()).isEqualTo(Country.HAN);
     }
 
     @Test
     @DisplayName("사(士) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     void guardPositionTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        assertThat(initPieceInfos.get(new Position(3, 0)).pieceType()).isEqualTo(PieceType.GUARD);
+        assertThat(initPieceInfos.get(new Position(3, 0)).country()).isEqualTo(Country.CHO);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        for (Position choPosition : InitialPosition.GUARD.getChoPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
-        }
-        for (Position hanPosition : InitialPosition.GUARD.getHanPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GUARD);
-            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
-        }
+        assertThat(initPieceInfos.get(new Position(5, 0)).pieceType()).isEqualTo(PieceType.GUARD);
+        assertThat(initPieceInfos.get(new Position(5, 0)).country()).isEqualTo(Country.CHO);
+
+        assertThat(initPieceInfos.get(new Position(3, 9)).pieceType()).isEqualTo(PieceType.GUARD);
+        assertThat(initPieceInfos.get(new Position(3, 9)).country()).isEqualTo(Country.HAN);
+
+        assertThat(initPieceInfos.get(new Position(5, 9)).pieceType()).isEqualTo(PieceType.GUARD);
+        assertThat(initPieceInfos.get(new Position(5, 9)).country()).isEqualTo(Country.HAN);
     }
 
     @ParameterizedTest
-    @DisplayName("상(象)과 마(馬) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
+    @DisplayName("초나라의 상(象)과 마(馬) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     @MethodSource("tableSettings")
-    void elephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
+    void choElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
         Board board = new Board(choTableSetting, hanTableSetting);
-
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        List<Position> choPositions = List.of(new Position(1, 0), new Position(2, 0), new Position(6, 0),
-                new Position(7, 0));
-        List<Position> hanPositions = List.of(new Position(1, 9), new Position(2, 9), new Position(6, 9),
-                new Position(7, 9));
 
-        for (int index = 0; index < 4; index++) {
-            PieceInfo pieceInfo = pieceInfos.get(choPositions.get(index));
-            assertThat(pieceInfo.pieceType()).isEqualTo(choTableSetting.getFormation(Country.CHO).get(index));
-            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
-        }
+        assertThat(pieceInfos.get(new Position(1, 0)).pieceType()).isEqualTo(
+                choTableSetting.getFormation(Country.CHO).getFirst());
+        assertThat(pieceInfos.get(new Position(1, 0)).country()).isEqualTo(Country.CHO);
 
-        for (int index = 0; index < 4; index++) {
-            PieceInfo pieceInfo = pieceInfos.get(hanPositions.get(index));
-            assertThat(pieceInfo.pieceType()).isEqualTo(hanTableSetting.getFormation(Country.HAN).get(index));
-            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
-        }
+        assertThat(pieceInfos.get(new Position(2, 0)).pieceType()).isEqualTo(
+                choTableSetting.getFormation(Country.CHO).get(1));
+        assertThat(pieceInfos.get(new Position(2, 0)).country()).isEqualTo(Country.CHO);
+
+        assertThat(pieceInfos.get(new Position(6, 0)).pieceType()).isEqualTo(
+                choTableSetting.getFormation(Country.CHO).get(2));
+        assertThat(pieceInfos.get(new Position(6, 0)).country()).isEqualTo(Country.CHO);
+
+        assertThat(pieceInfos.get(new Position(7, 0)).pieceType()).isEqualTo(
+                choTableSetting.getFormation(Country.CHO).getLast());
+        assertThat(pieceInfos.get(new Position(7, 0)).country()).isEqualTo(Country.CHO);
+    }
+
+    @ParameterizedTest
+    @DisplayName("한나라의 상(象)과 마(馬) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
+    @MethodSource("tableSettings")
+    void hanElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
+        Board board = new Board(choTableSetting, hanTableSetting);
+        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+
+        assertThat(pieceInfos.get(new Position(1, 9)).pieceType()).isEqualTo(
+                hanTableSetting.getFormation(Country.HAN).getFirst());
+        assertThat(pieceInfos.get(new Position(1, 9)).country()).isEqualTo(Country.HAN);
+
+        assertThat(pieceInfos.get(new Position(2, 9)).pieceType()).isEqualTo(
+                hanTableSetting.getFormation(Country.HAN).get(1));
+        assertThat(pieceInfos.get(new Position(2, 9)).country()).isEqualTo(Country.HAN);
+
+        assertThat(pieceInfos.get(new Position(6, 9)).pieceType()).isEqualTo(
+                hanTableSetting.getFormation(Country.HAN).get(2));
+        assertThat(pieceInfos.get(new Position(6, 9)).country()).isEqualTo(Country.HAN);
+
+        assertThat(pieceInfos.get(new Position(7, 9)).pieceType()).isEqualTo(
+                hanTableSetting.getFormation(Country.HAN).getLast());
+        assertThat(pieceInfos.get(new Position(7, 9)).country()).isEqualTo(Country.HAN);
     }
 
     static Stream<Arguments> tableSettings() {
@@ -113,71 +151,54 @@ public class BoardTest {
     @Test
     @DisplayName("포(包) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     void cannonPositionTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        assertThat(initPieceInfos.get(new Position(1, 2)).pieceType()).isEqualTo(PieceType.CANNON);
+        assertThat(initPieceInfos.get(new Position(1, 2)).country()).isEqualTo(Country.CHO);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        for (Position choPosition : InitialPosition.CANNON.getChoPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CANNON);
-            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
-        }
-        for (Position hanPosition : InitialPosition.CANNON.getHanPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CANNON);
-            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
-        }
+        assertThat(initPieceInfos.get(new Position(7, 2)).pieceType()).isEqualTo(PieceType.CANNON);
+        assertThat(initPieceInfos.get(new Position(7, 2)).country()).isEqualTo(Country.CHO);
+
+        assertThat(initPieceInfos.get(new Position(1, 7)).pieceType()).isEqualTo(PieceType.CANNON);
+        assertThat(initPieceInfos.get(new Position(1, 7)).country()).isEqualTo(Country.HAN);
+
+        assertThat(initPieceInfos.get(new Position(7, 7)).pieceType()).isEqualTo(PieceType.CANNON);
+        assertThat(initPieceInfos.get(new Position(7, 7)).country()).isEqualTo(Country.HAN);
     }
 
     @Test
     @DisplayName("차(車) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     void chariotPositionTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        assertThat(initPieceInfos.get(new Position(0, 0)).pieceType()).isEqualTo(PieceType.CHARIOT);
+        assertThat(initPieceInfos.get(new Position(0, 0)).country()).isEqualTo(Country.CHO);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        for (Position choPosition : InitialPosition.CHARIOT.getChoPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CHARIOT);
-            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
-        }
-        for (Position hanPosition : InitialPosition.CHARIOT.getHanPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.CHARIOT);
-            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
-        }
+        assertThat(initPieceInfos.get(new Position(8, 0)).pieceType()).isEqualTo(PieceType.CHARIOT);
+        assertThat(initPieceInfos.get(new Position(8, 0)).country()).isEqualTo(Country.CHO);
+
+        assertThat(initPieceInfos.get(new Position(0, 9)).pieceType()).isEqualTo(PieceType.CHARIOT);
+        assertThat(initPieceInfos.get(new Position(0, 9)).country()).isEqualTo(Country.HAN);
+
+        assertThat(initPieceInfos.get(new Position(8, 9)).pieceType()).isEqualTo(PieceType.CHARIOT);
+        assertThat(initPieceInfos.get(new Position(8, 9)).country()).isEqualTo(Country.HAN);
     }
 
     @Test
     @DisplayName("궁(漢·楚) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     void generalPositionTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        assertThat(initPieceInfos.get(new Position(4, 1)).pieceType()).isEqualTo(PieceType.GENERAL);
+        assertThat(initPieceInfos.get(new Position(4, 1)).country()).isEqualTo(Country.CHO);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        for (Position choPosition : InitialPosition.GENERAL.getChoPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(choPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GENERAL);
-            assertThat(pieceInfo.country()).isEqualTo(Country.CHO);
-        }
-        for (Position hanPosition : InitialPosition.GENERAL.getHanPositions()) {
-            PieceInfo pieceInfo = pieceInfos.get(hanPosition);
-            assertThat(pieceInfo.pieceType()).isEqualTo(PieceType.GENERAL);
-            assertThat(pieceInfo.country()).isEqualTo(Country.HAN);
-        }
+        assertThat(initPieceInfos.get(new Position(4, 8)).pieceType()).isEqualTo(PieceType.GENERAL);
+        assertThat(initPieceInfos.get(new Position(4, 8)).country()).isEqualTo(Country.HAN);
     }
 
     @Test
     @DisplayName("초기 기물이 모두 잘 생성되었는지 확인한다.")
     void fullStateCountTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-
-        assertThat(pieceInfos.size()).isEqualTo(32);
+        assertThat(initPieceInfos.size()).isEqualTo(32);
     }
 
     @Test
     @DisplayName("졸병 기물이 잘 이동했는지 확인한다.")
     void moveSoldierTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         Position from = new Position(0, 3);
         Position to = new Position(1, 3);
         board.move(from, to);
