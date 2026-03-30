@@ -1,9 +1,7 @@
 package model.move;
 
 import java.util.List;
-import model.policy.DefaultDestinationPolicy;
 import model.policy.DefaultPathPolicy;
-import model.policy.DestinationPolicy;
 import model.policy.PathPolicy;
 
 public class SoldierMoveRule extends MoveRule {
@@ -19,9 +17,8 @@ public class SoldierMoveRule extends MoveRule {
 
     private List<MovePattern> createPatterns(Move move) {
         PathPolicy pathPolicy = new DefaultPathPolicy();
-        DestinationPolicy destinationPolicy = new DefaultDestinationPolicy();
 
         List<Step> steps = List.of(new Step(move.direction()));
-        return List.of(new MovePattern(steps, pathPolicy, destinationPolicy));
+        return List.of(new MovePattern(steps, pathPolicy));
     }
 }

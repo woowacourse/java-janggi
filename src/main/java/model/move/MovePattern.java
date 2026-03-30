@@ -2,19 +2,16 @@ package model.move;
 
 import java.util.List;
 import model.board.Board;
-import model.policy.DestinationPolicy;
 import model.policy.PathPolicy;
 import model.position.Position;
 
 public class MovePattern {
     private final List<Step> steps;
     private final PathPolicy pathPolicy;
-    private final DestinationPolicy destinationPolicy;
 
-    public MovePattern(List<Step> step, PathPolicy pathPolicy, DestinationPolicy destinationPolicy) {
+    public MovePattern(List<Step> step, PathPolicy pathPolicy) {
         this.steps = step;
         this.pathPolicy = pathPolicy;
-        this.destinationPolicy = destinationPolicy;
     }
 
     public boolean matches(Move move, Board board) {
@@ -35,7 +32,7 @@ public class MovePattern {
             return false;
         }
 
-        return destinationPolicy.validate(move, board, pathPolicy);
+        return pathPolicy.validate(move, board);
     }
 
     private Position checkPath(Move move, Board board) {

@@ -2,9 +2,7 @@ package model.move;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.policy.DefaultDestinationPolicy;
 import model.policy.DefaultPathPolicy;
-import model.policy.DestinationPolicy;
 import model.policy.PathPolicy;
 
 public class HorseMoveRule extends MoveRule {
@@ -20,11 +18,10 @@ public class HorseMoveRule extends MoveRule {
     protected List<MovePattern> patterns(Move move) {
         List<MovePattern> patternList = new ArrayList<>();
         PathPolicy pathPolicy = new DefaultPathPolicy();
-        DestinationPolicy destinationPolicy = new DefaultDestinationPolicy();
 
         for (int i = 0; i < straightDirections.size(); i++) {
             Direction base = straightDirections.get(i);
-            diagonals.get(i).stream().map(diagonal -> createPattern(base, diagonal, pathPolicy, destinationPolicy))
+            diagonals.get(i).stream().map(diagonal -> createPattern(base, diagonal, pathPolicy))
                     .forEach(patternList::add);
         }
         return patternList;
@@ -33,16 +30,14 @@ public class HorseMoveRule extends MoveRule {
     private MovePattern createPattern(
             Direction base,
             Direction diagonal,
-            PathPolicy pathPolicy,
-            DestinationPolicy destinationPolicy
+            PathPolicy pathPolicy
     ) {
         return new MovePattern(
                 List.of(
                         new Step(base),
                         new Step(diagonal)
                 ),
-                pathPolicy,
-                destinationPolicy
+                pathPolicy
         );
     }
 }
