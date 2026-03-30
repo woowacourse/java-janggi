@@ -1,10 +1,9 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public enum Direction implements Comparator<Direction> {
+public enum Direction {
     UP(0, 1, false),
     DOWN(0, -1, false),
     LEFT(-1, 0, false),
@@ -76,16 +75,5 @@ public enum Direction implements Comparator<Direction> {
 
     public boolean isDiagonal() {
         return isDiagonal;
-    }
-
-    @Override
-    public int compare(Direction direction1, Direction direction2) {
-        if (!direction1.isDiagonal && direction2.isDiagonal) {
-            return -1;
-        }
-        if (direction1.isDiagonal && !direction2.isDiagonal) {
-            return 1;
-        }
-        return 0;
     }
 }
