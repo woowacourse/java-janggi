@@ -22,6 +22,6 @@ class JolTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        assertDoesNotThrow(() -> testJol.check(testBoard, start, destination));
+        assertDoesNotThrow(() -> testJol.movePolicy(testPieces, testJol.findMovablePath(start, destination)));
     }
 }

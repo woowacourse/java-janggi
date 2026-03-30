@@ -24,6 +24,6 @@ class ByeongTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        assertDoesNotThrow(() -> testByeong.check(testBoard, start, destination));
+        assertDoesNotThrow(() -> testByeong.movePolicy(testPieces, testByeong.findMovablePath(start, destination)));
     }
 }

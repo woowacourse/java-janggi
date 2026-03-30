@@ -2,7 +2,6 @@ package domain.piece;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import domain.BoardStatus;
 import domain.piece.policy.NormalMovementPolicy;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.position.Position;
@@ -19,9 +18,8 @@ class SaTest {
         Position destination = Position.of(2, 3);
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
-        BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        assertDoesNotThrow(() -> testPiece.check(testBoard, start, destination));
+        assertDoesNotThrow(() -> testPiece.movePolicy(testPieces, testPiece.findMovablePath(start, destination)));
     }
 }

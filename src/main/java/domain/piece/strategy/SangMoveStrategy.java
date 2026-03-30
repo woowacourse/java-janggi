@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import domain.PieceExceptionMessage;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -40,7 +41,7 @@ public class SangMoveStrategy implements MoveStrategy {
                 return getIntermediatePositions(start, rowSteps, columnSteps);
             }
         }
-        throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다. 다시 입력하세요.");
+        throw new IllegalArgumentException(PieceExceptionMessage.INVALID_POSITION.getMessage());
     }
 
     private static List<Position> getIntermediatePositions(Position start, int[] rowSteps, int[] columnSteps) {

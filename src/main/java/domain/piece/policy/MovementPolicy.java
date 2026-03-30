@@ -1,9 +1,10 @@
 package domain.piece.policy;
 
-import domain.BoardStatus;
+import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
 
 public interface MovementPolicy {
-    boolean isMovable(BoardStatus boardStatus, List<Position> movablePath);
+    void check(Map<Position, Piece> positionInfoOfBoard, List<Position> movablePath);
 }

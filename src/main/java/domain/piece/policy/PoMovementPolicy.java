@@ -1,20 +1,29 @@
 package domain.piece.policy;
 
-import domain.BoardStatus;
 import domain.PieceExceptionMessage;
+import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
 
 public class PoMovementPolicy implements MovementPolicy {
 
     public static final int REQUIRED_JUMP_COUNT = 1;
 
     @Override
-    public boolean isMovable(BoardStatus boardStatus, List<Position> movablePath) {
-        int jumpedPieces = boardStatus.getCountOfJumpablePieces(movablePath);
+    public void check(Map<Position, Piece> positionInfoOfBoard, List<Position> movablePath) {
+        int jumpedPieces = 0;
+        for (Position position : movablePath) {
+            Piece pieceToCheck = positionInfoOfBoard.get(position);
+            if (pieceToCheck == null) {
+                continue;
+            }
+            if (!pieceToCheck.jumpable()) {
+                throw new IllegalArgumentException(PieceExceptionMessage.CANT_JUMP_OVER_PO.getMessage());
+            }
+            jumpedPieces += 1;
+        }
         checkIsInvalidJumpedPieces(jumpedPieces);
-//        checkPoLocatesAtDestination(boardStatus.getBoardStatus().get(destination));
-        return true;
     }
 
     private void checkIsInvalidJumpedPieces(int jumpedPieces) {
@@ -25,10 +34,4 @@ public class PoMovementPolicy implements MovementPolicy {
             throw new IllegalArgumentException(PieceExceptionMessage.PO_SHOULD_JUMP_ONE_PIECE.getMessage());
         }
     }
-
-//    private void checkPoLocatesAtDestination(Piece destinationPiece) {
-//        if (destinationPiece != null && !destinationPiece.jumpable()) {
-//            throw new IllegalArgumentException(PieceExceptionMessage.CANT_JUMP_OVER_PO.getMessage());
-//        }
-//    }
 }

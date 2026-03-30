@@ -4,6 +4,8 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -27,7 +29,7 @@ public class Board {
         pieces.put(destination, startPiece);
     }
 
-    private Piece getPiece(Position position) {
+    public Piece getPiece(Position position) {
         Piece piece = pieces.get(position);
         if (piece == null) {
             throw new IllegalArgumentException(EMPTY_POSITION);
@@ -61,10 +63,15 @@ public class Board {
     public void validateCanMove(Position start, Position destination) {
         Piece startPiece = getPiece(start);
 
-        // TODO: 정책상 가능한가?
-        if (!startPiece.canMoveWithRule(BoardStatus.from(pieces), start, destination)) {
-            throw new IllegalArgumentException("도달불가능");
+        List<Position> movablePath = startPiece.findMovablePath(start, destination);
+
+        Map<Position, Piece> map = new HashMap<>();
+        for (Position position : movablePath) {
+            if (pieces.get(position) != null) {
+                map.put(position, pieces.get(position));
+            }
         }
+        startPiece.movePolicy(map, movablePath);
     }
 
     public void validateCrashWithAlly(Position start, Position destination) {
@@ -77,7 +84,7 @@ public class Board {
                 throw new IllegalArgumentException(DESTINATION_HAS_ALLY);
             }
 
+            startPiece.isEatable(destinationPiece);
         }
-        startPiece.isEatable(destinationPiece);
     }
 }

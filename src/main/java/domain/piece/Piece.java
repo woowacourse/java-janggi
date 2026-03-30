@@ -1,10 +1,10 @@
 package domain.piece;
 
-import domain.BoardStatus;
 import domain.piece.policy.MovementPolicy;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -20,17 +20,12 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public boolean canMoveWithRule(BoardStatus boardStatus, Position start, Position destination) {
-        return movementPolicy.isMovable(boardStatus, findMovablePath(start, destination));
+    public void movePolicy(Map<Position, Piece> positionInfoOfBoard, List<Position> movablePath) {
+        movementPolicy.check(positionInfoOfBoard, movablePath);
     }
 
     public List<Position> findMovablePath(Position start, Position destination) {
         return moveStrategy.findMovablePath(start, destination);
-    }
-
-    public boolean check(BoardStatus boardStatus, Position start, Position destination) {
-        List<Position> movablePath = moveStrategy.findMovablePath(start, destination);
-        return movementPolicy.isMovable(boardStatus, movablePath);
     }
 
     abstract public boolean jumpable();

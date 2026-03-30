@@ -24,8 +24,9 @@ class SangTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        Assertions.assertThatThrownBy(() -> testMa.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> testMa.movePolicy(testPieces, testMa.findMovablePath(start, destination)))
+                .isInstanceOf(
+                        IllegalArgumentException.class);
     }
 
 
@@ -42,7 +43,8 @@ class SangTest {
 
         //when & then
 //        Assertions.assertThatNoException().isThrownBy(() -> testMa.check(testBoard, start, destination));
-        Assertions.assertThat(testMa.check(testBoard, start, destination)).isTrue();
+        Assertions.assertThatNoException()
+                .isThrownBy(() -> testMa.movePolicy(testPieces, testMa.findMovablePath(start, destination)));
     }
 
 }

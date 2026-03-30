@@ -1,12 +1,12 @@
 package domain.piece;
 
 
-import domain.BoardStatus;
 import domain.piece.policy.NormalMovementPolicy;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,10 +22,9 @@ class ChaTest {
         HashMap<Position, Piece> testPieces = new HashMap<>();
         testPieces.put(obstacle, new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), Team.CHO));
 
-        BoardStatus testBoard = BoardStatus.from(testPieces);
-
+        List<Position> movablePath = testCha.findMovablePath(start, destination);
         // when & then
-        Assertions.assertThatThrownBy(() -> testCha.check(testBoard, start, destination)).isInstanceOf(
+        Assertions.assertThatThrownBy(() -> testCha.movePolicy(testPieces, movablePath)).isInstanceOf(
                 IllegalArgumentException.class);
     }
 
@@ -37,10 +36,11 @@ class ChaTest {
         Position destination = Position.of(2, 4);
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
-        BoardStatus testBoard = BoardStatus.from(testPieces);
+
+        List<Position> movablePath = testCha.findMovablePath(start, destination);
 
         // when & then
-        Assertions.assertThatNoException().isThrownBy(() -> testCha.check(testBoard, start, destination));
+        Assertions.assertThatNoException().isThrownBy(() -> testCha.movePolicy(testPieces, movablePath));
     }
 
 }

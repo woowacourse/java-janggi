@@ -24,11 +24,9 @@ class PoTest {
         testPieces.put(start, TEST_PO);
         testPieces.put(obstacle, new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO));
 
-        BoardStatus testBoard = BoardStatus.from(testPieces);
-
         //when & then
-        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> TEST_PO.movePolicy(testPieces, TEST_PO.findMovablePath(start, destination)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -45,8 +43,8 @@ class PoTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> TEST_PO.movePolicy(testPieces, TEST_PO.findMovablePath(start, destination)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -64,7 +62,8 @@ class PoTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        Assertions.assertThatNoException().isThrownBy(() -> TEST_PO.check(testBoard, start, destination));
+        Assertions.assertThatNoException()
+                .isThrownBy(() -> TEST_PO.movePolicy(testPieces, TEST_PO.findMovablePath(start, destination)));
     }
 
     @Test
@@ -85,8 +84,8 @@ class PoTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> TEST_PO.movePolicy(testPieces, TEST_PO.findMovablePath(start, destination)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -101,8 +100,8 @@ class PoTest {
         BoardStatus testBoard = BoardStatus.from(emptyBoard);
 
         //when, then
-        Assertions.assertThatThrownBy(() -> TEST_PO.check(testBoard, start, destination)).isInstanceOf(
-                IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> TEST_PO.movePolicy(emptyBoard, TEST_PO.findMovablePath(start, destination)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

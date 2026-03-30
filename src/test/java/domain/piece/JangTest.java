@@ -22,6 +22,6 @@ class JangTest {
         BoardStatus testBoard = BoardStatus.from(testPieces);
 
         //when & then
-        assertDoesNotThrow(() -> testPiece.check(testBoard, start, destination));
+        assertDoesNotThrow(() -> testPiece.movePolicy(testPieces, testPiece.findMovablePath(start, destination)));
     }
 }
