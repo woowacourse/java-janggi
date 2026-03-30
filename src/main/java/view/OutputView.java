@@ -21,7 +21,14 @@ public class OutputView {
 
     public void printBoard(Map<Position, Piece> board) {
         System.out.println();
+        System.out.print("  ");
+        for (int col = 0; col <= MAX_COL; col++) {
+            System.out.print(col + "  ");
+        }
+        System.out.println();
+
         for (int row = MAX_ROW; row >= 0; row--) {
+            System.out.print(row + " ");
             for (int col = 0; col <= MAX_COL; col++) {
                 Position position = Position.of(row, col);
                 if (board.containsKey(position)) {
@@ -31,16 +38,24 @@ public class OutputView {
                     String type = piece.getTypeName();
                     type = matchSoldierName(type, piece);
 
-                    System.out.print(color + type + RESET_COLOR + "  ");
+                    System.out.print(color + type + RESET_COLOR + " ");
                 } else {
-                    System.out.print("x   ");
+                    System.out.print("·  ");
                 }
             }
-            System.out.println();
             System.out.println();
         }
 
         System.out.println();
+    }
+
+    public void printCurrentTurn(int turnCount) {
+        if (turnCount % 2 == 0) {
+            System.out.println("현재는 한나라 차례입니다.");
+        }
+        if (turnCount % 2 != 0) {
+            System.out.println("현재는 초나라 차례입니다.");
+        }
     }
 
     private static String getNationColor(Piece piece) {

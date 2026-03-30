@@ -1,3 +1,4 @@
+import controller.JanggiController;
 import view.InputView;
 import view.OutputView;
 

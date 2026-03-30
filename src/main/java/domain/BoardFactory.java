@@ -9,16 +9,94 @@ import java.util.TreeMap;
 
 public class BoardFactory {
 
+    private static final Comparator<Position> POSITION_COMPARATOR = Comparator
+            .comparingInt(Position::getRow).reversed()
+            .thenComparingInt(Position::getCol);
+
     private BoardFactory() {}
 
     public static Board of(final Map<Position, Piece> board) {
         return Board.of(board);
     }
 
+    public static Board setUpLeftElephantFormation(Map<Position, Piece> initialBoard, Team team) {
+        Map<Position, Piece> board = new TreeMap<>(POSITION_COMPARATOR);
+        board.putAll(initialBoard);
+        if (team == Team.CHU) {
+            board.put(Position.of(0, 1), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 6), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 2), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(0, 7), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+        }
+        if (team == Team.HAN) {
+            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+        }
+
+        return Board.of(board);
+    }
+
+    public static Board setUpRightElephantFormation(Map<Position, Piece> initialBoard, Team team) {
+        Map<Position, Piece> board = new TreeMap<>(POSITION_COMPARATOR);
+        board.putAll(initialBoard);
+        if (team == Team.CHU) {
+            board.put(Position.of(0, 2), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 7), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 1), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(0, 6), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+        }
+        if (team == Team.HAN) {
+            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+        }
+
+        return Board.of(board);
+    }
+
+    public static Board setUpInnerElephantFormation(Map<Position, Piece> initialBoard, Team team) {
+        Map<Position, Piece> board = new TreeMap<>(POSITION_COMPARATOR);
+        board.putAll(initialBoard);
+        if (team == Team.CHU) {
+            board.put(Position.of(0, 2), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 6), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 1), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(0, 7), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+        }
+        if (team == Team.HAN) {
+            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+        }
+
+        return Board.of(board);
+    }
+
+    public static Board setUpOuterElephantFormation(Map<Position, Piece> initialBoard, Team team) {
+        Map<Position, Piece> board = new TreeMap<>(POSITION_COMPARATOR);
+        board.putAll(initialBoard);
+        if (team == Team.CHU) {
+            board.put(Position.of(0, 1), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 7), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(0, 2), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(0, 6), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
+        }
+        if (team == Team.HAN) {
+            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
+        }
+
+        return Board.of(board);
+    }
+
     public static Board setUp() {
-        Map<Position, Piece> board = new TreeMap<>(Comparator
-                .comparingInt(Position::getRow).reversed()
-                .thenComparingInt(Position::getCol));
+        Map<Position, Piece> board = new TreeMap<>(POSITION_COMPARATOR);
 
         board.put(Position.of(0, 0),Piece.of(Team.CHU, Type.CHARIOT, new ChariotMoveStrategy()));
         board.put(Position.of(0, 1),Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));

@@ -1,0 +1,71 @@
+package controller;
+
+import domain.Board;
+import domain.BoardFactory;
+import domain.Team;
+import domain.vo.Position;
+import view.InputView;
+import view.OutputView;
+
+public class JanggiController {
+
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    public JanggiController(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
+
+    public void run() {
+        Board board = BoardFactory.setUp();
+        String hanArrangement = inputView.readArrangement(Team.HAN);
+        String chuArrangement = inputView.readArrangement(Team.CHU);
+
+        board = applyArrangement(hanArrangement, board, Team.HAN);
+        board = applyArrangement(chuArrangement, board, Team.CHU);
+
+        outputView.printBoard(board.getBoard());
+
+        int turnCount = 0;
+        movePosition(board, turnCount);
+
+        while (inputView.readRetryCommand()) {
+            movePosition(board, turnCount);
+        }
+    }
+
+    private static Board applyArrangement(String arrangement, Board board, Team team) {
+        if (arrangement.equals("1")) {
+            return BoardFactory.setUpLeftElephantFormation(board.getBoard(), team);
+        }
+        if (arrangement.equals("2")) {
+            return BoardFactory.setUpRightElephantFormation(board.getBoard(), team);
+        }
+        if (arrangement.equals("3")) {
+            return BoardFactory.setUpInnerElephantFormation(board.getBoard(), team);
+        }
+        if (arrangement.equals("4")) {
+            return BoardFactory.setUpOuterElephantFormation(board.getBoard(), team);
+        }
+        return board;
+    }
+
+    private void movePosition(Board board, int turnCount) {
+        try {
+            outputView.printCurrentTurn(turnCount);
+            turnCount += 1;
+
+            Position position = inputView.readPosition();
+            Position targetPosition = inputView.readTargetPosition();
+
+            board.move(position, targetPosition);
+            outputView.printBoard(board.getBoard());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+            turnCount -= 1;
+            movePosition(board, turnCount);
+        }
+    }
+}

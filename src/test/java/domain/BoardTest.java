@@ -29,6 +29,17 @@ class BoardTest {
     }
 
     @Test
+    @DisplayName("판차림을 선택해도 예외가 발생하지 않는다.")
+    void 판차림_선택_예외_테스트() {
+        // given
+        Board board = BoardFactory.setUp();
+
+        // when & then
+        assertDoesNotThrow(() -> BoardFactory.setUpOuterElephantFormation(board.getBoard(), Team.HAN));
+        assertDoesNotThrow(() -> BoardFactory.setUpLeftElephantFormation(board.getBoard(), Team.CHU));
+    }
+
+    @Test
     @DisplayName("기물의 이동 경로에 다른 기물이 없으면 이동한다.")
     void 기물_이동() {
         // given
