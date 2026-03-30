@@ -1,42 +1,53 @@
 package domain.place.moveStrategy;
 
-import domain.board.BoardView;
+import domain.place.Place;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class HorseMoveStrategy implements MoveStrategy {
 
-    public static final List<List<Direction>> HORSE_MOVE_SEQUENCES = List.of(
+    private static final List<List<Direction>> HORSE_MOVE_SEQUENCES = List.of(
             List.of(Direction.TOP, Direction.LEFT_TOP),
             List.of(Direction.TOP, Direction.RIGHT_TOP),
-
             List.of(Direction.DOWN, Direction.LEFT_DOWN),
             List.of(Direction.DOWN, Direction.RIGHT_DOWN),
-
             List.of(Direction.LEFT, Direction.LEFT_TOP),
             List.of(Direction.LEFT, Direction.LEFT_DOWN),
-
             List.of(Direction.RIGHT, Direction.RIGHT_TOP),
             List.of(Direction.RIGHT, Direction.RIGHT_DOWN)
     );
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameSide(from, to)) {
-            return false;
-        }
-
+    public List<Position> getPath(Position from) {
         return HORSE_MOVE_SEQUENCES.stream()
-                .anyMatch(seq -> canFollowSequence(board, from, to, seq));
+                .flatMap(sequence -> getTargetPositionIfPathClear(from, sequence).stream())
+                .collect(Collectors.toList());
     }
 
-    private boolean canFollowSequence(BoardView board, Position from, Position to, List<Direction> sequence) {
-        Direction firstStep = sequence.get(0);
-        Direction secondStep = sequence.get(1);
+    @Override
+    public boolean canMove(Map<Position, Place> path, Position from, Position to) {
+        return HORSE_MOVE_SEQUENCES.stream()
+                .anyMatch(sequence -> canFollowSequence(path, from, to, sequence));
+    }
 
-        return from.moveIfInBounds(firstStep)
-                .filter(board::isEmpty)
-                .flatMap(firstPos -> firstPos.moveIfInBounds(secondStep))
+    private Optional<Position> getTargetPositionIfPathClear(Position from, List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+
+        return from.moveIfInBounds(firstStepDirection)
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection));
+    }
+
+    private boolean canFollowSequence(Map<Position, Place> path, Position from, Position to, List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+
+        return from.moveIfInBounds(firstStepDirection)
+                .filter(firstStepPosition -> !path.containsKey(firstStepPosition))
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
                 .filter(to::equals)
                 .isPresent();
     }

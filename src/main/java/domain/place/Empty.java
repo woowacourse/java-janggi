@@ -1,9 +1,10 @@
 package domain.place;
 
-import domain.board.BoardView;
 import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
 import domain.position.Position;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class Empty implements Place {
@@ -29,6 +30,11 @@ public class Empty implements Place {
     }
 
     @Override
+    public List<Position> getPath(Position from) {
+        return List.of();
+    }
+
+    @Override
     public Optional<Side> getSide() {
         return Optional.empty();
     }
@@ -39,7 +45,7 @@ public class Empty implements Place {
     }
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
+    public boolean canMove(Map<Position, Place> obstacles, Position from, Position to) {
         return false;
     }
 }

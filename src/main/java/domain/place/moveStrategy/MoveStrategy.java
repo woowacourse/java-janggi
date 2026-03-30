@@ -1,8 +1,14 @@
 package domain.place.moveStrategy;
 
-import domain.board.BoardView;
+import domain.place.Place;
 import domain.position.Position;
+import java.util.List;
+import java.util.Map;
 
 public interface MoveStrategy {
-    boolean canMove(BoardView board, Position from, Position to);
+
+    List<Position> getPath(Position from);
+
+    boolean canMove(Map<Position, Place> path, Position from, Position to);
+
 }

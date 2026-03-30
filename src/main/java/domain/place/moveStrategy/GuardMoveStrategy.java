@@ -1,8 +1,9 @@
 package domain.place.moveStrategy;
 
-import domain.board.BoardView;
+import domain.place.Place;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
 
 public class GuardMoveStrategy implements MoveStrategy {
 
@@ -11,17 +12,17 @@ public class GuardMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameSide(from, to)) {
-            return false;
-        }
-
-        return canReachAdjacentPosition(from, to);
-    }
-
-    private boolean canReachAdjacentPosition(Position from, Position to) {
+    public List<Position> getPath(Position from) {
         return ORTHOGONAL_DIRECTIONS.stream()
                 .flatMap(d -> from.moveIfInBounds(d).stream())
+                .toList();
+    }
+
+    @Override
+    public boolean canMove(Map<Position, Place> path, Position from, Position to) {
+        return ORTHOGONAL_DIRECTIONS.stream()
+                .flatMap(d -> from.moveIfInBounds(d).stream())
+                .filter(p -> !path.containsKey(p))
                 .anyMatch(to::equals);
     }
 }

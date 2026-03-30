@@ -1,9 +1,9 @@
 package domain.place.piece;
 
-import domain.board.BoardView;
 import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.position.Position;
+import java.util.Map;
 import java.util.Optional;
 
 public abstract class Piece implements Place {
@@ -52,7 +52,7 @@ public abstract class Piece implements Place {
     }
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        return moveStrategy.canMove(board, from, to);
+    public boolean canMove(Map<Position, Place> obstacles, Position from, Position to) {
+        return moveStrategy.canMove(obstacles, from, to);
     }
 }

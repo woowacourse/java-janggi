@@ -1,8 +1,11 @@
 package domain.place.moveStrategy;
 
-import domain.board.BoardView;
+import domain.place.Place;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
@@ -18,24 +21,37 @@ public class ElephantMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameSide(from, to)) {
-            return false;
-        }
-
+    public List<Position> getPath(Position from) {
         return ELEPHANT_MOVE_SEQUENCES.stream()
-                .anyMatch(sequence -> canFollowSequence(board, from, to, sequence));
+                .flatMap(sequence -> getTargetPositionIfPathClear(from, sequence).stream())
+                .collect(Collectors.toList());
     }
 
-    private boolean canFollowSequence(BoardView board, Position from, Position to, List<Direction> sequence) {
+    @Override
+    public boolean canMove(Map<Position, Place> path, Position from, Position to) {
+        return ELEPHANT_MOVE_SEQUENCES.stream()
+                .anyMatch(sequence -> canFollowSequence(path, from, to, sequence));
+    }
+
+    private Optional<Position> getTargetPositionIfPathClear(Position from, List<Direction> sequence) {
         Direction firstStepDirection = sequence.get(0);
         Direction secondStepDirection = sequence.get(1);
         Direction thirdStepDirection = sequence.get(2);
 
         return from.moveIfInBounds(firstStepDirection)
-                .filter(board::isEmpty)
                 .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
-                .filter(board::isEmpty)
+                .flatMap(secondStepPosition -> secondStepPosition.moveIfInBounds(thirdStepDirection));
+    }
+
+    private boolean canFollowSequence(Map<Position, Place> path, Position from, Position to, List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+        Direction thirdStepDirection = sequence.get(2);
+
+        return from.moveIfInBounds(firstStepDirection)
+                .filter(firstStepPosition -> !path.containsKey(firstStepPosition)) // 첫 번째 멱 확인
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
+                .filter(secondStepPosition -> !path.containsKey(secondStepPosition)) // 두 번째 멱 확인
                 .flatMap(secondStepPosition -> secondStepPosition.moveIfInBounds(thirdStepDirection))
                 .filter(to::equals)
                 .isPresent();

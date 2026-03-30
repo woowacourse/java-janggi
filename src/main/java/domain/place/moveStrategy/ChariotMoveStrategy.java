@@ -1,41 +1,60 @@
 package domain.place.moveStrategy;
 
-import domain.board.BoardView;
+import domain.place.Empty;
+import domain.place.Place;
 import domain.position.Position;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ChariotMoveStrategy implements MoveStrategy {
-
     private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
-            Direction.DOWN, Direction.LEFT, Direction.RIGHT, Direction.TOP
+            Direction.TOP, Direction.DOWN, Direction.LEFT, Direction.RIGHT
     );
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameSide(from, to)) {
-            return false;
-        }
-
-        if (from.isNotStrategyLine(to)) {
-            return false;
-        }
-
-        return ORTHOGONAL_DIRECTIONS.stream()
-                .anyMatch(d -> isPathClear(board, from, to, d));
+    public List<Position> getPath(Position from) {
+        List<Position> result = new ArrayList<>();
+        ORTHOGONAL_DIRECTIONS.forEach(direction -> collectLinePositions(result, from, direction));
+        return result;
     }
 
-    private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
-        Optional<Position> currentPosition = from.moveIfInBounds(direction);
+    private void collectLinePositions(List<Position> result, Position from, Direction direction) {
+        Optional<Position> current = from.moveIfInBounds(direction);
 
-        while (currentPosition.isPresent() && !to.equals(currentPosition.get())) {
-            if (!board.isEmpty(currentPosition.get())) {
+        while (current.isPresent()) {
+            Position pos = current.get();
+            result.add(pos);
+
+            current = pos.moveIfInBounds(direction);
+        }
+    }
+
+    @Override
+    public boolean canMove(Map<Position, Place> board, Position from, Position to) {
+
+        return ORTHOGONAL_DIRECTIONS.stream()
+                .anyMatch(direction -> isPathClear(board, from, to, direction));
+    }
+
+    private boolean isPathClear(Map<Position, Place> board,
+                                Position from,
+                                Position to,
+                                Direction direction) {
+        Optional<Position> current = from.moveIfInBounds(direction);
+
+        while (current.isPresent() && !to.equals(current.get())) {
+            Position pos = current.get();
+            Place place = board.getOrDefault(pos, new Empty());
+            if (!place.isEmpty()) {
                 return false;
             }
 
-            currentPosition = currentPosition.get().moveIfInBounds(direction);
+            current = current.get().moveIfInBounds(direction);
         }
 
-        return currentPosition.filter(to::equals).isPresent();
+        return current.filter(to::equals).isPresent();
     }
+
 }
