@@ -89,7 +89,7 @@ public class MultiStepStraightStrategyTest {
     }
 
     @Test
-    void 차와_포는_제자리_이동_시_예외가_발생한다1() {
+    void 차와_포는_제자리_이동_시_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(0, 0), new Position(0, 0), Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 기물은 반드시 이동해야 합니다.");
