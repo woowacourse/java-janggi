@@ -6,8 +6,11 @@ import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Runner {
+    public  static final Logger logger = Logger.getLogger(Game.class.getName());
     private Game game;
 
     public void run() {
@@ -38,6 +41,9 @@ public class Runner {
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
             return true;
+        } catch (Exception e) {
+            logger.log(Level.ALL, "시스템 오류", e);
+            return false;
         }
     }
 
