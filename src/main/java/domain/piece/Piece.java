@@ -1,7 +1,5 @@
 package domain.piece;
 
-import domain.board.Direction;
-import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
 
 import java.util.Map;
@@ -11,16 +9,14 @@ public final class Piece {
 
     private final PieceType pieceType;
     private final Side side;
-    private final MovingCondition movingCondition;
 
-    private Piece(PieceType pieceType, Side side, MovingCondition movingCondition) {
+    private Piece(PieceType pieceType, Side side) {
         this.pieceType = pieceType;
         this.side = side;
-        this.movingCondition = movingCondition;
     }
 
     public static Piece of(Side side, PieceType pieceType) {
-        return new Piece(pieceType, side, pieceType.getMovingCondition());
+        return new Piece(pieceType, side);
     }
 
     public PieceType getPieceType() {
@@ -36,7 +32,7 @@ public final class Piece {
     }
 
     public boolean canMove(Map<Position, Piece> pieceMap, Position startPosition, Position endPosition) {
-        return movingCondition.canMove(pieceMap, startPosition, endPosition);
+        return pieceType.canMove(pieceMap, startPosition, endPosition);
     }
 
     public boolean isSameSide(Side side) {
@@ -52,7 +48,7 @@ public final class Piece {
         if (this == obj) return true;
         if (!(obj instanceof Piece piece)) return false;
         return Objects.equals(side, piece.side) &&
-                 Objects.equals(pieceType, piece.pieceType);
+                Objects.equals(pieceType, piece.pieceType);
     }
 
     @Override

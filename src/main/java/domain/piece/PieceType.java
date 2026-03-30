@@ -8,6 +8,9 @@ import domain.piece.strategy.GeneralMovingCondition;
 import domain.piece.strategy.HorseMovingCondition;
 import domain.piece.strategy.MovingCondition;
 import domain.piece.strategy.PawnMovingCondition;
+import domain.position.Position;
+
+import java.util.Map;
 
 public enum PieceType {
     GENERAL("궁", new GeneralMovingCondition()),
@@ -30,7 +33,7 @@ public enum PieceType {
         return name;
     }
 
-    public MovingCondition getMovingCondition() {
-        return movingCondition;
+    public boolean canMove(Map<Position, Piece> pieceMap, Position startPosition, Position endPosition) {
+        return movingCondition.canMove(pieceMap, startPosition, endPosition);
     }
 }
