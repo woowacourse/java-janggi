@@ -75,7 +75,31 @@ public class JanggiController {
         printCurrentBoardStatus();
     }
 
-    private MovedPieceRequest readMovedPiece() {
-        return inputView.readMovedPieceInput();
+    private MovedPieceRequest readMovedPiece(){
+        String sourcePositionAndPieceType = readSourcePositionAndPieceType();
+        String targetPosition = readTargetPosition();
+        return MovedPieceRequest.of(sourcePositionAndPieceType, targetPosition);
+    }
+
+    private String readSourcePositionAndPieceType() {
+        while(true){
+            try {
+                String input = inputView.readSourcePositionAndPieceType();
+                return input;
+            } catch (GameException e) {
+                gameExceptionHandler.handle(e);
+            }
+        }
+    }
+
+    private String readTargetPosition() {
+        while(true){
+            try {
+                String input = inputView.readTargetPosition();
+                return input;
+            } catch (GameException e) {
+                gameExceptionHandler.handle(e);
+            }
+        }
     }
 }
