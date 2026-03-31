@@ -35,7 +35,7 @@ class CannonMoveRuleTest {
         Position to = new Position(0, 4);
 
         board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
-                new Position(0, 4), new Advisor(Team.HAN));
+                to, new Advisor(Team.HAN));
 
         // when, then
         assertThat(moveRule.canMove(from, to, board)).isTrue();
@@ -86,7 +86,7 @@ class CannonMoveRuleTest {
         Position to = new Position(0, 4);
 
         board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
-                new Position(0, 4), new Cannon(Team.HAN));
+                to, new Cannon(Team.HAN));
 
         // when, then
         assertThat(moveRule.canMove(from, to, board)).isFalse();
