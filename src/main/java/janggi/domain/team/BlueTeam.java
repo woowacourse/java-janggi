@@ -28,13 +28,13 @@ public class BlueTeam implements Team {
     }
 
     @Override
-    public String getName() {
-        return TEAM_TYPE.getName();
+    public boolean hasPiece(final Piece piece) {
+        return TEAM_TYPE == piece.getTeamType();
     }
 
     @Override
-    public boolean hasPiece(final Piece piece) {
-        return TEAM_TYPE == piece.getTeamType();
+    public String getName() {
+        return TEAM_TYPE.getName();
     }
 
 }

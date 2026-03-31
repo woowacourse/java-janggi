@@ -64,20 +64,6 @@ public final class Position {
         }
     }
 
-    @Override
-    public boolean equals(final Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        final Position position = (Position) object;
-        return row == position.row && column == position.column;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
-    }
-
     public Position flipAroundMiddleRow() {
         return Position.valueOf(ROW_FLIP_VALUE - row, column);
     }
@@ -96,5 +82,19 @@ public final class Position {
 
         return Position.valueOf(Math.clamp(nextRow, MINIMUM_ROW, MAXIMUM_ROW),
             Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        final Position position = (Position) object;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }

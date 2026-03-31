@@ -16,10 +16,6 @@ public class Board {
         this.positionPieceMap = new LinkedHashMap<>(positionPieceMap);
     }
 
-    public Map<Position, Piece> getPositionPieceMap() {
-        return positionPieceMap;
-    }
-
     public boolean isBlank(final Position position) {
         return !positionPieceMap.containsKey(position);
     }
@@ -62,5 +58,9 @@ public class Board {
             .map(Piece::getTeamType)
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("아직 게임이 끝나지 않았습니다."));
+    }
+
+    public Map<Position, Piece> getPositionPieceMap() {
+        return positionPieceMap;
     }
 }

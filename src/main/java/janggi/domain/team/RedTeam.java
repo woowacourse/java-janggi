@@ -29,14 +29,12 @@ public class RedTeam implements Team {
     }
 
     @Override
-    public String getName() {
-        return TEAM_TYPE.getName();
-    }
-
-    @Override
     public boolean hasPiece(final Piece piece) {
         return TEAM_TYPE == piece.getTeamType();
     }
 
-
+    @Override
+    public String getName() {
+        return TEAM_TYPE.getName();
+    }
 }
