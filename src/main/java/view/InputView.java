@@ -9,7 +9,7 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public InitializeSetting readInitialSetting(String teamName) {
-        System.out.println("\n===" + teamName + " 진영 상차림을 선택하세요 ===");
+        System.out.println("\n===" + teamName + " 진영 상차림에 대해 선택하세요(숫자로 입력해주세요.) ===");
         System.out.println("1. 왼상차림 (상마상마)");
         System.out.println("2. 오른상차림 (마상마상)");
         System.out.println("3. 안상차림 (마상상마)");
