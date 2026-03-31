@@ -45,11 +45,8 @@ public class OutputView {
     public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
         System.out.println();
 
-        int rowStart = 9 - currentCamp.initRowPosition();
-        int rowStep = -currentCamp.direction();
-
-        List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
-                .limit(10)
+        List<Integer> rows = IntStream.rangeClosed(0, 9)
+                .map(rowNum -> currentCamp.calculateRow(9 - rowNum))
                 .boxed()
                 .toList();
 

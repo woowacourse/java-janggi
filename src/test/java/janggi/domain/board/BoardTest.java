@@ -30,10 +30,10 @@ public class BoardTest {
         for (int i = 0; i <= 8; i += 2) {
             assertThat(janggiBoard.get(Position.of(3, i))).isInstanceOf(Soldier.class);
         }
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 1))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 2))).isInstanceOf(Horse.class);
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 6))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 7))).isInstanceOf(Horse.class);
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 1))).isInstanceOf(Elephant.class);
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 2))).isInstanceOf(Horse.class);
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 6))).isInstanceOf(Elephant.class);
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 7))).isInstanceOf(Horse.class);
 
         assertThat(janggiBoard.get(Position.of(8, 4))).isInstanceOf(General.class);
         assertThat(janggiBoard.get(Position.of(9, 0))).isInstanceOf(Chariot.class);
@@ -45,10 +45,10 @@ public class BoardTest {
         for (int i = 0; i <= 8; i += 2) {
             assertThat(janggiBoard.get(Position.of(6, i))).isInstanceOf(Soldier.class);
         }
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 1))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 2))).isInstanceOf(Horse.class);
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 6))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 7))).isInstanceOf(Horse.class);
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 1))).isInstanceOf(Elephant.class);
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 2))).isInstanceOf(Horse.class);
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 6))).isInstanceOf(Elephant.class);
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 7))).isInstanceOf(Horse.class);
     }
 
     @Test

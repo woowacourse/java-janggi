@@ -17,7 +17,7 @@ public class SoldierTest {
     @Test
     void canPassRoute_Always_ReturnTrue() {
         Camp camp = Camp.CHO;
-        Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.direction()));
+        Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.forward()));
         assertThat(soldier.canPassRoute(new HashMap<>())).isTrue();
     }
 
@@ -29,15 +29,15 @@ public class SoldierTest {
     })
     void canCatchPiece_ReturnBoolean(Camp destinationPieceCamp, boolean expected) {
         Camp camp = Camp.CHO;
-        Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.direction()));
-        Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(destinationPieceCamp.direction()));
+        Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.forward()));
+        Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(destinationPieceCamp.forward()));
         assertThat(soldier.canCatch(destinationSoldier)).isEqualTo(expected);
     }
 
     @DisplayName("병이 포인지 확인하는 테스트 (항상 false)")
     @Test
     void isCannon_Always_ReturnFalse() {
-        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.direction()));
+        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.forward()));
         assertThat(piece.isCannon()).isFalse();
     }
 }

@@ -23,11 +23,14 @@ class MoveStrategyTest {
         @ParameterizedTest
         @EnumSource(Camp.class)
         void 각_진형_병은_앞과_양_옆으로_움직인다(Camp camp) {
-            MoveStrategy strategy = new SoldierStrategy(camp.direction());
-            List<Path> paths = strategy.findMovablePaths(Position.of(4, 4));
-            assertThat(paths.get(0).destination()).isEqualTo(Position.of(4 + camp.direction(), 4));
-            assertThat(paths.get(1).destination()).isEqualTo(Position.of(4, 5));
-            assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 3));
+            MoveStrategy strategy = new SoldierStrategy(camp.forward());
+            Position current = Position.of(4, 4);
+            List<Path> paths = strategy.findMovablePaths(current);
+            Position expectedForwardPosition = camp.forward().findNextPosition(current).get();
+
+            assertThat(paths.get(0).destination()).isEqualTo(expectedForwardPosition);
+            assertThat(paths.get(1).destination()).isEqualTo(Position.of(4, 3));
+            assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 5));
         }
     }
 

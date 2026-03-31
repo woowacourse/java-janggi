@@ -25,10 +25,10 @@ class FormationStrategyTest {
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);
 
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 1))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 2))).isInstanceOf(Horse.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 6))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 7))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 1))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 2))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 6))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 7))).isInstanceOf(Horse.class);
         }
     }
 
@@ -42,10 +42,10 @@ class FormationStrategyTest {
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);
 
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 1))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 2))).isInstanceOf(Horse.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 7))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 6))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 1))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 2))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 7))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 6))).isInstanceOf(Horse.class);
         }
     }
 
@@ -58,10 +58,10 @@ class FormationStrategyTest {
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);
 
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 2))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 1))).isInstanceOf(Horse.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 6))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 7))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 2))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 1))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 6))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 7))).isInstanceOf(Horse.class);
         }
     }
 
@@ -74,10 +74,10 @@ class FormationStrategyTest {
 
             Map<Position, Piece> pieces = formationStrategy.createPieces(camp);
 
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 2))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 1))).isInstanceOf(Horse.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 7))).isInstanceOf(Elephant.class);
-            assertThat(pieces.get(Position.of(camp.initRowPosition(), 6))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 2))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 1))).isInstanceOf(Horse.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 7))).isInstanceOf(Elephant.class);
+            assertThat(pieces.get(Position.of(camp.baselineRow(), 6))).isInstanceOf(Horse.class);
         }
     }
 }

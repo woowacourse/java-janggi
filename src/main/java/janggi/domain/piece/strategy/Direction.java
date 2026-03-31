@@ -16,7 +16,23 @@ public record Direction(int directionRow, int directionColumn) {
         );
     }
 
-    public Optional<Position> next(Position current) {
+    public static Direction up() {
+        return new Direction(1, 0);
+    }
+
+    public static Direction down() {
+        return new Direction(-1, 0);
+    }
+
+    public static Direction left() {
+        return new Direction(0, -1);
+    }
+
+    public static Direction right() {
+        return new Direction(0, 1);
+    }
+
+    public Optional<Position> findNextPosition(Position current) {
         return current.move(directionRow, directionColumn);
     }
 }
