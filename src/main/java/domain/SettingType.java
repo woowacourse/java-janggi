@@ -9,10 +9,10 @@ public enum SettingType {
         public SettingInfo generate(Team team) {
             int row = selectProperRow(team);
             return new SettingInfo(
-                    Position.of(row, col(team, 2)),
-                    Position.of(row, col(team, 7)),
-                    Position.of(row, col(team, 3)),
-                    Position.of(row, col(team, 8))
+                    Position.of(row, convertToProperColumn(team, 2)),
+                    Position.of(row, convertToProperColumn(team, 7)),
+                    Position.of(row, convertToProperColumn(team, 3)),
+                    Position.of(row, convertToProperColumn(team, 8))
             );
         }
     },
@@ -21,10 +21,10 @@ public enum SettingType {
         public SettingInfo generate(Team team) {
             int row = selectProperRow(team);
             return new SettingInfo(
-                    Position.of(row, col(team, 3)),
-                    Position.of(row, col(team, 8)),
-                    Position.of(row, col(team, 2)),
-                    Position.of(row, col(team, 7))
+                    Position.of(row, convertToProperColumn(team, 3)),
+                    Position.of(row, convertToProperColumn(team, 8)),
+                    Position.of(row, convertToProperColumn(team, 2)),
+                    Position.of(row, convertToProperColumn(team, 7))
             );
         }
     },
@@ -33,10 +33,10 @@ public enum SettingType {
         public SettingInfo generate(Team team) {
             int row = selectProperRow(team);
             return new SettingInfo(
-                    Position.of(row, col(team, 3)),
-                    Position.of(row, col(team, 7)),
-                    Position.of(row, col(team, 2)),
-                    Position.of(row, col(team, 8))
+                    Position.of(row, convertToProperColumn(team, 3)),
+                    Position.of(row, convertToProperColumn(team, 7)),
+                    Position.of(row, convertToProperColumn(team, 2)),
+                    Position.of(row, convertToProperColumn(team, 8))
             );
         }
     },
@@ -45,10 +45,10 @@ public enum SettingType {
         public SettingInfo generate(Team team) {
             int row = selectProperRow(team);
             return new SettingInfo(
-                    Position.of(row, col(team, 2)),
-                    Position.of(row, col(team, 8)),
-                    Position.of(row, col(team, 3)),
-                    Position.of(row, col(team, 7))
+                    Position.of(row, convertToProperColumn(team, 2)),
+                    Position.of(row, convertToProperColumn(team, 8)),
+                    Position.of(row, convertToProperColumn(team, 3)),
+                    Position.of(row, convertToProperColumn(team, 7))
             );
         }
     };
@@ -61,7 +61,7 @@ public enum SettingType {
         return 10;
     }
 
-    protected int col(Team team, int column) {
+    protected int convertToProperColumn(Team team, int column) {
         if (team == Team.CHO) {
             return 10 - column;
         }
