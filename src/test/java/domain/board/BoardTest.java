@@ -204,7 +204,6 @@ public class BoardTest {
         board.move(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.SOLDIER);
@@ -219,7 +218,6 @@ public class BoardTest {
         board.move(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GUARD);
@@ -234,7 +232,6 @@ public class BoardTest {
         board.move(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.ELEPHANT);
@@ -249,7 +246,6 @@ public class BoardTest {
         board.move(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.HORSE);
@@ -264,7 +260,6 @@ public class BoardTest {
         board.move(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CHARIOT);
@@ -279,7 +274,6 @@ public class BoardTest {
         board.move(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GENERAL);
@@ -298,11 +292,29 @@ public class BoardTest {
         board.move(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
-        pieceInfos.get(to);
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CANNON);
         assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
+    }
+
+    @Test
+    @DisplayName("상대 기물을 정상적으로 잡는지 확인한다.")
+    void killAnotherCountryPieceTest() {
+        // 초나라 졸병 오른쪽으로 이동
+        board.move(new Position(0, 3), new Position(1, 3));
+        // 한나라 졸병 오른쪽으로 이동
+        board.move(new Position(0, 6), new Position(1, 6));
+
+        Position choChariotFrom = new Position(0, 0);
+        Position hanChariotFrom = new Position(0, 9);
+        board.move(choChariotFrom, hanChariotFrom);
+
+        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+
+        assertThat(pieceInfos.get(choChariotFrom)).isNull();
+        assertThat(pieceInfos.get(hanChariotFrom).pieceType()).isEqualTo(PieceType.CHARIOT);
+        assertThat(pieceInfos.get(hanChariotFrom).country()).isEqualTo(Country.CHO);
     }
 
     @Test
