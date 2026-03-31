@@ -18,7 +18,10 @@ public enum GameStatus {
         if (this == GameStatus.GREEN_PLAYER_TURN) {
             return RED_PLAYER_TURN;
         }
-        return GREEN_PLAYER_TURN;
+        if (this == GameStatus.RED_PLAYER_TURN) {
+            return GREEN_PLAYER_TURN;
+        }
+        return this;
     }
 
     public boolean isFinished() {
