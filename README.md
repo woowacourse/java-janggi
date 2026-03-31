@@ -100,3 +100,4 @@
 | **Destination**          | `Path` 중 목적지                                        |
 | **PassingIntersections** | `Path` 중 목적지를 제외한 나머지(= `경유지`)                      |
 | **MoveRule**             | 이동 규칙                                               |
+| **Capture**              | (어떤 기물을) 잡다, 죽이다                                    |
