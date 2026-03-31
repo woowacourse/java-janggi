@@ -14,7 +14,7 @@ public final class Wings {
     private final LeftWing leftWing;
     private final RightWing rightWing;
 
-    public Wings(Side side, List<Piece> leftWingPieces, List<Piece> rightWingPieces) {
+    public Wings(Side side, WingPieces leftWingPieces, WingPieces rightWingPieces) {
         validateSide(side, leftWingPieces, rightWingPieces);
 
         this.side = side;
@@ -36,7 +36,7 @@ public final class Wings {
                 .toList();
 
         List<Piece> illegalPieces = entirePieces.stream()
-                .filter(piece -> piece.hasDifferentSide(side))
+                .filter(piece -> piece.isDifferentSide(side))
                 .toList();
 
         if (!illegalPieces.isEmpty()) {

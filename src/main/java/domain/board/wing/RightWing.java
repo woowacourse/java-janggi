@@ -4,13 +4,12 @@ import domain.board.Intersection;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.Piece;
-import java.util.List;
 import java.util.Map;
 
 public final class RightWing extends Wing {
 
-    public RightWing(List<Piece> pieces) {
-        super(pieces);
+    public RightWing(WingPieces wingPieces) {
+        super(wingPieces);
     }
 
     @Override

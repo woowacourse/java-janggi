@@ -34,7 +34,7 @@ public final class JumpingRule implements MoveRule {
 
                     Piece placedAt = alivePieces.placedAt(destination);
 
-                    return placedAt.hasDifferentSide(side) && placedAt.isNotSameType(PieceType.CANNON);
+                    return placedAt.isDifferentSide(side) && placedAt.isNotSameType(PieceType.CANNON);
                 })
                 .toList();
     }

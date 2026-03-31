@@ -26,8 +26,16 @@ public final class Piece {
         return this.side == side;
     }
 
-    public boolean hasDifferentSide(Side side) {
+    public boolean isDifferentSide(Side side) {
         return this.side != side;
+    }
+
+    public boolean isSameSide(Piece otherPiece) {
+        return this.side == otherPiece.side;
+    }
+
+    public boolean isDifferentSide(Piece otherPiece) {
+        return this.side != otherPiece.side;
     }
 
     public boolean isSameType(PieceType pieceType) {
