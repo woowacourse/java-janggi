@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import strategy.CustomInitializeStrategy;
 import strategy.InitializeStrategy;
 
 class GuardTest {
@@ -25,7 +26,7 @@ class GuardTest {
     @MethodSource("validDirectionsProvider")
     void 도착_지점이_한칸거리이면서_양쪽_옆_혹은_앞뒤인_경우_정상_테스트(Position to) {
         // given
-        Board board = new StubBoard(strategy);
+        Board board = new Board(strategy, strategy);
         Piece guard = new Guard(Team.CHO);
 
         // when
@@ -52,7 +53,6 @@ class GuardTest {
     @MethodSource("blockedBySameTeamProvider")
     void 목적지에_같은_팀이_있으면_상하좌우_모두_이동할_수_없다(Position to) {
         // given
-        StubBoard board = new StubBoard(strategy);
         Piece guard = new Guard(Team.CHO);
 
         Position from = Position.from(7, 1);
@@ -60,7 +60,9 @@ class GuardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, guard);
         testPiece.put(to, new Pawn(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // when & then
         assertThat(guard.canMove(from, to, board)).isFalse();
@@ -77,7 +79,7 @@ class GuardTest {
 
     @Test
     void 대각선_이동은_불가능하다() {
-        Board board = new StubBoard(strategy);
+        Board board = new Board(strategy, strategy);
         Piece guard = new Guard(Team.CHO);
 
         Position from = Position.from(7, 1);

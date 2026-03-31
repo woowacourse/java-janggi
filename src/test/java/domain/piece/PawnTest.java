@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import strategy.CustomInitializeStrategy;
 import strategy.InitializeStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +32,7 @@ class PawnTest {
     @MethodSource("toProvider")
     void 도착_지점이_한칸거리이면서_양쪽_옆_혹은_앞인_경우_정상_테스트(Position to){
         // given
-        Board board = new StubBoard(strategy);
+        Board board = new Board(strategy, strategy);
         Piece pawn = new Pawn(Team.CHO);
 
         // when
@@ -59,7 +60,6 @@ class PawnTest {
     @Test
     void 목적지가_한_칸_앞인_경우이면서_목적지에_같은_팀이_있는_경우_이동할_수_없다() {
         // given
-        StubBoard board = new StubBoard(strategy);
         Piece pawn = new Pawn(Team.CHO);
 
         Position from = Position.from(7, 1);
@@ -68,7 +68,9 @@ class PawnTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Pawn(Team.CHO));
         testPiece.put(to, new Pawn(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // when & then
         assertThat(pawn.canMove(from, to, board)).isEqualTo(false);
@@ -78,7 +80,7 @@ class PawnTest {
     @MethodSource("invalidDirectionProvider")
     void 목적지가_앞_또는_좌_우_한_칸이_아닌_경우_이동할_수_없다(Position to) {
         // given
-        StubBoard board = new StubBoard(strategy);
+        Board board = new Board(strategy, strategy);
         Piece pawn = new Pawn(Team.CHO);
 
         Position from = Position.from(7, 3);

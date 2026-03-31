@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import strategy.CustomInitializeStrategy;
 import strategy.InitializeStrategy;
 
 public class HorseTest {
@@ -25,7 +26,7 @@ public class HorseTest {
     @MethodSource("invalidDirectionsPositions")
     void 말의_이동범위가_직진1칸_대각선_1칸이_아닌_경우_움직일수_없다(Position to) {
         // given
-        Board board = new StubBoard(strategy);
+        Board board = new Board(strategy, strategy);
         Piece horse = new Horse(Team.CHO);
 
         // when
@@ -49,7 +50,6 @@ public class HorseTest {
     @ParameterizedTest
     @MethodSource("blockedBySameTeamProvider")
     void 도착지에_같은_팀이_존재하는_경우_이동_불가능하다(Position to) {
-        StubBoard board = new StubBoard(strategy);
         Piece horse = new Horse(Team.CHO);
 
         Position from = Position.from(10, 2);
@@ -57,7 +57,9 @@ public class HorseTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Horse(Team.CHO));
         testPiece.put(to, new Pawn(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // when & then
         assertThat(horse.canMove(from, to, board)).isEqualTo(false);
@@ -76,7 +78,6 @@ public class HorseTest {
      */
     @Test
     void 도착지랑_출발지_사이에_말이_존재하는_경우_이동_불가능하다() {
-        StubBoard board = new StubBoard(strategy);
         Piece horse = new Horse(Team.CHO);
 
         Position from = Position.from(1, 1);
@@ -86,7 +87,9 @@ public class HorseTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Horse(Team.CHO));
         testPiece.put(pathPosition, new Pawn(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // when & then
         assertThat(horse.canMove(from, to, board)).isEqualTo(false);
@@ -99,7 +102,6 @@ public class HorseTest {
     @MethodSource("validDirectionsProvider")
     void 도착지에_같은_팀이_존재하지_않고_경로에_다른_기물이_존재하지_않을_경우(Position to) {
         // given
-        StubBoard board = new StubBoard(strategy);
         Piece horse = new Horse(Team.CHO);
 
         // when
@@ -107,7 +109,9 @@ public class HorseTest {
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Horse(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // then
         assertThat(horse.canMove(from, to, board)).isEqualTo(true);

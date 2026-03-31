@@ -9,7 +9,6 @@ import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Rook;
 import domain.strategy.NoInitializeStrategy;
-import domain.stub.StubBoard;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+import strategy.CustomInitializeStrategy;
 import strategy.InitializeStrategy;
 import strategy.InnerElephantFormationStrategy;
 import strategy.LeftElephantFormationStrategy;
@@ -277,7 +277,7 @@ class BoardTest {
     @Test
     void 출발_지점에_원하는_피스가_없는_경우_이동할_수_없다() {
         // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
+        Board board = new Board(noInitializeStrategy, noInitializeStrategy);
         PieceType targetType = PAWN;
 
         // when
@@ -293,7 +293,6 @@ class BoardTest {
     @Test
     void 출발_지점에_원하는_피스_타입이_아닌_다른_피스가_있는_경우_이동_할_수_없다() {
         // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
         PieceType targetType = PAWN;
 
         // when
@@ -303,7 +302,8 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Cannon(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
@@ -314,7 +314,6 @@ class BoardTest {
     @Test
     void 출발_지점에_다른팀_피스가_있는_경우_이동_할_수_없다() {
         // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
         PieceType targetType = PAWN;
 
         // when
@@ -324,7 +323,8 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Cannon(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatThrownBy(() -> board.move(from, to, targetType, Team.HAN))
@@ -335,7 +335,6 @@ class BoardTest {
     @Test
     void 도착_지점이_보드판의_범위를_넘어서는_경우_이동할_수_없다() {
         // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
         PieceType targetType = PAWN;
 
         // when
@@ -345,7 +344,8 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Pawn(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
@@ -358,10 +358,6 @@ class BoardTest {
      */
     @Test
     void 포가_올바른_위치에_이동된다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-
-        // when
         Position from = Position.from(5, 1);
         Position to = Position.from(5, 4);
         Position between = Position.from(5, 2);
@@ -370,7 +366,8 @@ class BoardTest {
         testPiece.put(from, new Cannon(Team.CHO));
         testPiece.put(between, new Pawn(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.CANNON, Team.CHO))
@@ -379,17 +376,14 @@ class BoardTest {
 
     @Test
     void 차가_올바른_위치에_이동된다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-
-        // when
         Position from = Position.from(10, 1);
         Position to = Position.from(10, 3);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Rook(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.ROOK, Team.CHO))
@@ -398,17 +392,14 @@ class BoardTest {
 
     @Test
     void 사가_한칸_앞으로_올바른_위치에_이동된다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-
-        // when
         Position from = Position.from(7, 4);
         Position to = Position.from(6, 4);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Guard(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.GUARD, Team.CHO))
@@ -417,17 +408,14 @@ class BoardTest {
 
     @Test
     void 궁이_한칸_앞으로_올바른_위치에_이동된다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-
-        // when
         Position from = Position.from(7, 1);
         Position to = Position.from(6, 1);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new King(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.KING, Team.CHO))
@@ -436,17 +424,14 @@ class BoardTest {
 
     @Test
     void 졸이_한칸_앞으로_올바른_위치에_이동된다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-
-        // when
         Position from = Position.from(7, 1);
         Position to = Position.from(6, 1);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Pawn(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatCode(() -> board.move(from, to, PAWN, Team.CHO))
@@ -455,17 +440,14 @@ class BoardTest {
 
     @Test
     void 말이_한칸_앞으로_올바른_위치에_이동된다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-
-        // when
         Position from = Position.from(10, 1);
         Position to = Position.from(8, 2);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Horse(Team.CHO));
 
-        board.putPieces(testPiece);
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.HORSE, Team.CHO))
@@ -474,16 +456,14 @@ class BoardTest {
 
     @Test
     void 상이_한칸_앞으로_올바른_위치에_이동된다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-
-        // when
         Position from = Position.from(10, 3);
         Position to = Position.from(7, 5);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Elephant(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, noInitializeStrategy);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT, Team.CHO))

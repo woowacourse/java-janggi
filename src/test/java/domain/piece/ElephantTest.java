@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import strategy.CustomInitializeStrategy;
 import strategy.InitializeStrategy;
 
 class ElephantTest {
@@ -26,7 +27,7 @@ class ElephantTest {
     @MethodSource("invalidDirectionsProvider")
     void 코끼리의_이동범위가_직진1칸_대각선_2칸이_아닌_경우_움직일수_없다(Position to) {
         // given
-        Board board = new StubBoard(strategy);
+        Board board = new Board(strategy, strategy);
         Piece elephant = new Elephant(Team.CHO);
 
         // when
@@ -50,7 +51,6 @@ class ElephantTest {
      */
     @Test
     void 도착지에_같은_팀이_존재하는_경우_이동_불가능하다() {
-        StubBoard board = new StubBoard(strategy);
         Piece elephant = new Elephant(Team.CHO);
 
         Position from = Position.from(1, 1);
@@ -59,7 +59,9 @@ class ElephantTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Elephant(Team.CHO));
         testPiece.put(to, new Pawn(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // when & then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(false);
@@ -70,7 +72,6 @@ class ElephantTest {
      */
     @Test
     void 도착지랑_출발지_사이에_말이_존재하는_경우_이동_불가능하다() {
-        StubBoard board = new StubBoard(strategy);
         Piece elephant = new Elephant(Team.CHO);
 
         Position from = Position.from(1, 1);
@@ -80,7 +81,9 @@ class ElephantTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Elephant(Team.CHO));
         testPiece.put(pathPosition, new Pawn(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // when & then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(false);
@@ -93,13 +96,14 @@ class ElephantTest {
     @MethodSource("validDirectionsProvider")
     void 도착지에_같은_팀이_존재하지_않고_경로에_다른_기물이_존재하지_않을_경우(Position to, Position from) {
         // given
-        StubBoard board = new StubBoard(strategy);
         Piece elephant = new Elephant(Team.CHO);
 
         // when
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Elephant(Team.CHO));
-        board.putPieces(testPiece);
+
+        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
+        Board board = new Board(customStrategy, strategy);
 
         // then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(true);
