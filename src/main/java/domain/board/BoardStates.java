@@ -28,9 +28,9 @@ public class BoardStates {
         return boardStates.get(position).isEmpty();
     }
 
-    public boolean canMovePiece(Position from, Path path) {
+    public void validatePieceMove(Position from, Path path) {
         Map<Position, State> wayPointStates = getPathStates(path);
-        return boardStates.get(from).getPiece().canMove(wayPointStates);
+        boardStates.get(from).getPiece().validateMove(wayPointStates);
     }
 
     private Map<Position, State> getPathStates(Path path) {

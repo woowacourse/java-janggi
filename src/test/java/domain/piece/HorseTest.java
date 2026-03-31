@@ -177,7 +177,7 @@ public class HorseTest {
         pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
         pathStates.put(new Position(2, 3), new EmptyState());
 
-        assertThatThrownBy(() -> horse.canMove(pathStates))
+        assertThatThrownBy(() -> horse.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
     }
@@ -192,7 +192,7 @@ public class HorseTest {
         pathStates.put(new Position(1, 2), new EmptyState());
         pathStates.put(new Position(2, 3), new FullState(new Soldier(Country.CHO)));
 
-        assertThatThrownBy(() -> horse.canMove(pathStates))
+        assertThatThrownBy(() -> horse.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

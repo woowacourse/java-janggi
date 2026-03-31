@@ -130,7 +130,7 @@ public class SoldierTest {
         pathStates.put(new Position(1, 1), new FullState(soldier));
         pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.CHO)));
 
-        assertThatThrownBy(() -> soldier.canMove(pathStates))
+        assertThatThrownBy(() -> soldier.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

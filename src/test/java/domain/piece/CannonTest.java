@@ -122,7 +122,7 @@ public class CannonTest {
         pathStates.put(new Position(1, 3), new FullState(new Soldier(Country.HAN)));
         pathStates.put(new Position(1, 4), new EmptyState());
 
-        assertThatThrownBy(() -> cannon.canMove(pathStates))
+        assertThatThrownBy(() -> cannon.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 하나의 기물만 뛰어 넘을 수 있습니다.");
     }
@@ -137,7 +137,7 @@ public class CannonTest {
         pathStates.put(new Position(1, 2), new FullState(new Cannon(Country.HAN)));
         pathStates.put(new Position(1, 3), new EmptyState());
 
-        assertThatThrownBy(() -> cannon.canMove(pathStates))
+        assertThatThrownBy(() -> cannon.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 뛰어 넘을 수 없습니다.");
     }
@@ -152,7 +152,7 @@ public class CannonTest {
         pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
         pathStates.put(new Position(1, 3), new FullState(new Cannon(Country.HAN)));
 
-        assertThatThrownBy(() -> cannon.canMove(pathStates))
+        assertThatThrownBy(() -> cannon.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
@@ -167,7 +167,7 @@ public class CannonTest {
         pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
         pathStates.put(new Position(1, 3), new FullState(new Soldier(Country.CHO)));
 
-        assertThatThrownBy(() -> cannon.canMove(pathStates))
+        assertThatThrownBy(() -> cannon.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

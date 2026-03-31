@@ -107,7 +107,7 @@ public class GeneralTest {
         pathStates.put(new Position(1, 1), new FullState(general));
         pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.CHO)));
 
-        assertThatThrownBy(() -> general.canMove(pathStates))
+        assertThatThrownBy(() -> general.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

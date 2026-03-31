@@ -27,10 +27,8 @@ public class Board {
         validateMoveSamePosition(from, to);
         Path path = boardStates.getPiecePath(from, to);
 
-        boolean canMove = boardStates.canMovePiece(from, path);
-        if (canMove) {
-            boardStates.changeState(from, to);
-        }
+        boardStates.validatePieceMove(from, path);
+        boardStates.changeState(from, to);
     }
 
     public void validateMoveSamePosition(Position from, Position to) {

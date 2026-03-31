@@ -41,13 +41,12 @@ public abstract class Piece {
 
     abstract void validateDirections(List<Direction> directions);
 
-    public boolean canMove(Map<Position, State> pathStates) {
+    public void validateMove(Map<Position, State> pathStates) {
         List<State> states = pathStates.values().stream()
                 .toList();
         validateToState(states.getFirst(), states.getLast());
         // from, to State 제외한 Position 검사
         validatePath(states);
-        return true;
     }
 
     void validateToState(State fromState, State toState) {
