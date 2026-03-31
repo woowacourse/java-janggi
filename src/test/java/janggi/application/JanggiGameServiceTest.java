@@ -3,7 +3,6 @@ package janggi.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.application.dto.GameSummary;
-import janggi.persistence.JdbcGameRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
