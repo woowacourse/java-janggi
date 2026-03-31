@@ -96,7 +96,7 @@ public class Board {
 
     private void validateEndPosition(Team team, Position end) {
         if (team.isPieceExist(end)) {
-            throw new IllegalArgumentException("같은 팀의 기물이 있는 위치로는 이동할 수 없습니다.");
+            throw new IllegalArgumentException("아군이 존재하는 좌표로는 이동할 수 없습니다.");
         }
     }
 

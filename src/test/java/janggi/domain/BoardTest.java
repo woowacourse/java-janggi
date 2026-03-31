@@ -75,7 +75,7 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.validateCanMove(new Position(1, 1), currentTeamPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("같은 팀의 기물이 있는 위치로는 이동할 수 없습니다.");
+            .hasMessage("아군이 존재하는 좌표로는 이동할 수 없습니다.");
     }
 
     @Test
