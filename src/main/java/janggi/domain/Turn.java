@@ -30,14 +30,14 @@ public class Turn {
         return board.getPieceName(position, opponentTeamType());
     }
 
-    public Turn move(Position startPosition, Position endPosition) {
-        TeamType nowTurn = opponentTeamType();
-        Board movedBoard = board.move(startPosition, endPosition, nowTurn);
-        return new Turn(nowTurn, movedBoard);
+    public Turn move(Position start, Position end) {
+        TeamType currentTeamType = opponentTeamType();
+        Board movedBoard = board.move(start, end, currentTeamType);
+        return new Turn(currentTeamType, movedBoard);
     }
 
-    public void canMove(Position startPosition, Position endPosition) {
-        board.canMove(startPosition, endPosition, opponentTeamType());
+    public void validateCanMove(Position start, Position end) {
+        board.validateCanMove(start, end, opponentTeamType());
     }
 
     public String nextTurnTeam() {

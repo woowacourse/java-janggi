@@ -35,16 +35,16 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(Position startPosition, Position endPosition) {
-        return findMovePath(startPosition, endPosition).isPresent();
+    public boolean isValidMovePattern(Position start, Position end) {
+        return findMovePath(start, end).isPresent();
     }
 
     @Override
-    public Optional<MovePath> findMovePath(Position startPosition, Position endPosition) {
-        int startX = startPosition.getX();
-        int startY = startPosition.getY();
-        int endX = endPosition.getX();
-        int endY = endPosition.getY();
+    public Optional<MovePath> findMovePath(Position start, Position end) {
+        int startX = start.getX();
+        int startY = start.getY();
+        int endX = end.getX();
+        int endY = end.getY();
 
         if (startX == endX && startY == endY) {
             return Optional.empty();
@@ -56,12 +56,12 @@ public class Po implements Piece {
             .findFirst();
     }
 
-    public boolean isObstaclesNotExist(Position startPosition, Position endPosition, Board board) {
-        Optional<MovePath> movePath = findMovePath(startPosition, endPosition);
+    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
+        Optional<MovePath> movePath = findMovePath(start, end);
         if (movePath.isEmpty()) {
             return false;
         }
-        List<Position> intermediatePositions = movePath.get().intermediatePositions(startPosition, endPosition);
+        List<Position> intermediatePositions = movePath.get().intermediatePositions(start, end);
         List<Piece> obstacles = intermediatePositions.stream()
             .map(board::findPiece)
             .filter(Optional::isPresent)
@@ -73,7 +73,7 @@ public class Po implements Piece {
         if (obstacles.getFirst().getPieceType() == PieceType.PO) {
             return false;
         }
-        Optional<Piece> targetPiece = board.findPiece(endPosition);
+        Optional<Piece> targetPiece = board.findPiece(end);
         return targetPiece.isEmpty() || !(targetPiece.get().getPieceType() == PieceType.PO);
     }
 

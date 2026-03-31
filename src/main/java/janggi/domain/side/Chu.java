@@ -41,7 +41,7 @@ public class Chu implements Team {
     }
 
     @Override
-    public Team move(Position piecePosition, Position targetPosition) {
-        return new Chu(pieces.move(piecePosition, targetPosition));
+    public Team move(Position start, Position end) {
+        return new Chu(pieces.move(start, end));
     }
 }

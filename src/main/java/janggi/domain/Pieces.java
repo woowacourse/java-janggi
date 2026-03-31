@@ -16,11 +16,11 @@ public class Pieces {
         this.value = value;
     }
 
-    public Pieces move(Position piecePosition, Position targetPosition) {
-        Piece piece = value.get(piecePosition);
+    public Pieces move(Position start, Position end) {
+        Piece piece = value.get(start);
         Map<Position, Piece> updatedValue = new HashMap<>(value);
-        updatedValue.remove(piecePosition);
-        updatedValue.put(targetPosition, piece);
+        updatedValue.remove(start);
+        updatedValue.put(end, piece);
         return new Pieces(updatedValue);
     }
 

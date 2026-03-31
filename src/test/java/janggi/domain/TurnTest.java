@@ -57,14 +57,14 @@ class TurnTest {
 
     @Test
     @DisplayName("현재 차례 팀의 올바른 이동은 허용한다.")
-    void canMove() {
+    void validateCanMove() {
         // given
         Turn turn = Turn.createInitialTurn();
         Position chuJolStartPosition = new Position(1, 4);
         Position chuJolEndPosition = new Position(1, 5);
 
         // when & then
-        assertThatCode(() -> turn.canMove(chuJolStartPosition, chuJolEndPosition))
+        assertThatCode(() -> turn.validateCanMove(chuJolStartPosition, chuJolEndPosition))
             .doesNotThrowAnyException();
     }
 
@@ -77,7 +77,7 @@ class TurnTest {
         Position chuJolEndPosition = new Position(1, 6);
 
         // when & then
-        assertThatThrownBy(() -> turn.canMove(chuJolStartPosition, chuJolEndPosition))
+        assertThatThrownBy(() -> turn.validateCanMove(chuJolStartPosition, chuJolEndPosition))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이동할 수 없는 위치입니다.");
     }

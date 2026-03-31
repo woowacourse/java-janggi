@@ -34,7 +34,7 @@ class BoardTest {
         Position outOfBound = new Position(1, 11);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(new Position(1, 4), outOfBound, TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(new Position(1, 4), outOfBound, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("입력한 좌표가 장기판 범위 밖입니다.");
     }
@@ -47,7 +47,7 @@ class BoardTest {
         Position notExistPosition = new Position(2, 2);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(notExistPosition, new Position(1, 1), TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(notExistPosition, new Position(1, 1), TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("입력한 위치에 기물이 없습니다.");
     }
@@ -60,7 +60,7 @@ class BoardTest {
         Position opponentTeamPosition = new Position(1, 7);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(opponentTeamPosition, new Position(1, 6), TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(opponentTeamPosition, new Position(1, 6), TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("입력한 위치에 기물이 없습니다.");
     }
@@ -73,7 +73,7 @@ class BoardTest {
         Position currentTeamPosition = new Position(2, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(new Position(1, 1), currentTeamPosition, TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(new Position(1, 1), currentTeamPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("같은 팀의 기물이 있는 위치로는 이동할 수 없습니다.");
     }
@@ -87,7 +87,7 @@ class BoardTest {
         Position saEndPosition = new Position(4, 3);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(saStartPosition, saEndPosition, TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(saStartPosition, saEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이동할 수 없는 위치입니다.");
     }
@@ -101,7 +101,7 @@ class BoardTest {
         Position chaEndPosition = new Position(1, 5);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(chaStartPosition, chaEndPosition, TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(chaStartPosition, chaEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
     }
@@ -115,7 +115,7 @@ class BoardTest {
         Position maEndPosition = new Position(4, 2);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(maStartPosition, maEndPosition, TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(maStartPosition, maEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
     }
@@ -129,14 +129,14 @@ class BoardTest {
         Position poEndPosition = new Position(2, 6);
 
         // when & then
-        assertThatThrownBy(() -> board.canMove(poStartPosition, poEndPosition, TeamType.CHU))
+        assertThatThrownBy(() -> board.validateCanMove(poStartPosition, poEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이동 경로에 기물이 존재하지 않아 이동할 수 없습니다.");
     }
 
     @Test
     @DisplayName("이동 패턴과 장애물 조건을 모두 만족하면 이동할 수 있다.")
-    void canMoveWhenPatternAndObstacleRulesAreSatisfied() {
+    void validateCanMoveWhenPatternAndObstacleRulesAreSatisfied() {
         // given
         Board board = Board.createInitialBoard();
         Position jolStartPosition = new Position(1, 4);
@@ -149,9 +149,9 @@ class BoardTest {
 
         // when & then
         assertAll(
-            () -> assertThatCode(() -> movedBoard.canMove(chaStartPosition, chaEndPosition, TeamType.CHU))
+            () -> assertThatCode(() -> movedBoard.validateCanMove(chaStartPosition, chaEndPosition, TeamType.CHU))
                 .doesNotThrowAnyException(),
-            () -> assertThatCode(() -> movedBoard.canMove(poStartPosition, poEndPosition, TeamType.CHU))
+            () -> assertThatCode(() -> movedBoard.validateCanMove(poStartPosition, poEndPosition, TeamType.CHU))
                 .doesNotThrowAnyException()
         );
     }

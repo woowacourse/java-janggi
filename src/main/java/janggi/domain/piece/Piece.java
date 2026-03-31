@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface Piece {
 
-    boolean isValidMovePattern(Position startPosition, Position endPosition);
+    boolean isValidMovePattern(Position start, Position end);
 
-    Optional<MovePath> findMovePath(Position startPosition, Position endPosition);
+    Optional<MovePath> findMovePath(Position start, Position end);
 
     String name();
 

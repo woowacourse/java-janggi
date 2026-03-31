@@ -29,12 +29,12 @@ public class JanggiGame {
         }
     }
 
-    public void validateValidEndPosition(Position startPosition, Position endPosition) {
+    public void validateValidEndPosition(Position start, Position end) {
         Turn lastTurn = getLastTurn();
-        if (lastTurn.isCurrentTeamPieceExist(endPosition)) {
+        if (lastTurn.isCurrentTeamPieceExist(end)) {
             throw new IllegalArgumentException("아군이 존재하는 좌표로 이동할 수 없습니다.");
         }
-        lastTurn.canMove(startPosition, endPosition);
+        lastTurn.validateCanMove(start, end);
     }
 
     public Piece findPiece(Position position) {
@@ -45,9 +45,9 @@ public class JanggiGame {
         return getLastTurn().getPieceName(position);
     }
 
-    public void doGame(Position startPosition, Position endPosition) {
+    public void doGame(Position start, Position end) {
         Turn lastTurn = getLastTurn();
-        Turn newTurn = lastTurn.move(startPosition, endPosition);
+        Turn newTurn = lastTurn.move(start, end);
         turns.add(newTurn);
     }
 

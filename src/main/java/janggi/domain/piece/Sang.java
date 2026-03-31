@@ -41,25 +41,25 @@ public class Sang implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(Position startPosition, Position endPosition) {
-        return findMovePath(startPosition, endPosition).isPresent();
+    public boolean isValidMovePattern(Position start, Position end) {
+        return findMovePath(start, end).isPresent();
     }
 
     @Override
-    public Optional<MovePath> findMovePath(Position startPosition, Position endPosition) {
-        int dx = endPosition.getX() - startPosition.getX();
-        int dy = endPosition.getY() - startPosition.getY();
+    public Optional<MovePath> findMovePath(Position start, Position end) {
+        int dx = end.getX() - start.getX();
+        int dy = end.getY() - start.getY();
         return paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
     }
 
-    public boolean isObstaclesNotExist(Position startPosition, Position endPosition, Board board) {
-        Optional<MovePath> movePath = findMovePath(startPosition, endPosition);
+    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
+        Optional<MovePath> movePath = findMovePath(start, end);
         if (movePath.isEmpty()) {
             return false;
         }
-        return movePath.get().intermediatePositions(startPosition, endPosition).stream()
+        return movePath.get().intermediatePositions(start, end).stream()
             .noneMatch(board::hasPiece);
     }
 

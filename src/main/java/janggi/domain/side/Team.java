@@ -18,5 +18,5 @@ public interface Team {
 
     Team remove(Position position);
 
-    Team move(Position piecePosition, Position targetPosition);
+    Team move(Position start, Position end);
 }

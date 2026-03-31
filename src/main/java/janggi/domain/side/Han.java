@@ -42,7 +42,7 @@ public class Han implements Team {
     }
 
     @Override
-    public Team move(Position piecePosition, Position targetPosition) {
-        return new Han(pieces.move(piecePosition, targetPosition));
+    public Team move(Position start, Position end) {
+        return new Han(pieces.move(start, end));
     }
 }
