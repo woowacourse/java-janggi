@@ -1,14 +1,16 @@
 package view;
 
-import java.util.List;
-
 import domain.Country;
 import domain.PieceType;
+import java.util.List;
+import java.util.Map;
 import service.dto.BoardDto;
+import service.dto.PieceDto;
 import service.dto.PositionDto;
 
 public class OutputView {
-    public static final String PREFEIX_ERROR_MESSAGE = "[ERROR]";
+    public static final String PREFIX_ERROR_MESSAGE = "[ERROR]";
+    public static final String EMPTY_PIECE = "＋";
 
     private final OutputViewFormatter formatter;
 
@@ -21,7 +23,7 @@ public class OutputView {
     }
 
     public void printErrorMessage(String message) {
-        System.out.println(PREFEIX_ERROR_MESSAGE + message);
+        System.out.println(PREFIX_ERROR_MESSAGE + message);
     }
 
     public void printCountry(Country country) {
@@ -37,12 +39,27 @@ public class OutputView {
     }
 
     public void printBoard(BoardDto boardDto) {
-        for (BoardDto.Row dto : boardDto.rows()) {
-            for (String r : dto.pieces()) {
-                System.out.printf("%-3s", r);
+        StringBuilder boardResult = new StringBuilder();
+        Map<PositionDto, PieceDto> pieces = boardDto.pieces();
+
+        for (int x = 1; x <= 10; x++) {
+            for (int y = 1; y <= 9; y++) {
+                PositionDto nowPosition = new PositionDto(x, y);
+                if (!pieces.containsKey(nowPosition)) {
+                    boardResult.append(String.format("%-3s", EMPTY_PIECE));
+                    continue;
+                }
+
+                PieceDto pieceDto = pieces.get(nowPosition);
+                boardResult.append(
+                        String.format("%s%-3s%s", PieceColor.getColorCode(pieceDto.countryName()),
+                                pieceDto.pieceName()
+                                , PieceColor.getColorCode(PieceColor.NONE.name())));
             }
-            System.out.println();
+            boardResult.append('\n');
         }
+
+        System.out.print(boardResult);
     }
 
     public void printPiecePossiblePosition(PieceType pieceType,List<PositionDto> positionDtos) {

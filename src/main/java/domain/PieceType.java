@@ -40,7 +40,7 @@ public enum PieceType {
                     Position.create(7, 1), Position.create(7, 3), Position.create(7, 5),
                     Position.create(7, 7), Position.create(7, 9)
             )),
-    NONE("＋", (start, end, piece) -> false,
+    NONE("", (start, end, piece) -> false,
             List.of(), List.of());
 
     private final String name;
