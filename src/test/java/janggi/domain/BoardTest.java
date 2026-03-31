@@ -528,12 +528,10 @@ public class BoardTest {
 
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
 
-        //when
-        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
-
-        //then
-        assertThat(chaRoutesPositions).hasSize(0)
-                .containsExactlyInAnyOrderElementsOf(rightAnswer);
+        //when & then
+        assertThatThrownBy(() -> board.findAvailablePositions(position))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동할 수 없는 좌표입니다.");
     }
 
     @Test
