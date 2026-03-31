@@ -55,7 +55,7 @@ public abstract class Piece {
 
     private List<CandidatePath> convertToPaths(List<Movement> movements, Point from, PathStrategy pathStrategy) {
         return movements.stream()
-                .map(pattern -> new CandidatePath(pattern, from, pathStrategy))
+                .map(movement -> new CandidatePath(movement, from, pathStrategy))
                 .toList();
     }
 

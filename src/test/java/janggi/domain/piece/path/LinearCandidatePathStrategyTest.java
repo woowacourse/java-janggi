@@ -46,7 +46,7 @@ class LinearCandidatePathStrategyTest {
 
         @ParameterizedTest
         @MethodSource
-        @DisplayName("pattern에 따른 경로 계산")
+        @DisplayName("movement에 따른 경로 계산")
         void calculate(Movement movement, Point from, List<Point> expected) {
             assertThat(LINEAR_PATH_STRATEGY.calculate(movement, from))
                     .containsAll(expected);

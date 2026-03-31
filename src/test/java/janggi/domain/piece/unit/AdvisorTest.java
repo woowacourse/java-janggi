@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class AdvisorTest {
-    public static Stream<Arguments> patterns() {
+    public static Stream<Arguments> movements() {
         return Stream.of(
                 Arguments.of(
                         Side.CHO,
@@ -72,8 +72,8 @@ class AdvisorTest {
 
     @ParameterizedTest
     @MethodSource
-    @DisplayName("patterns(): 이동 경로의 방향을 전달한다.")
-    void patterns(Side side, List<Movement> expected) {
+    @DisplayName("movements(): 이동 경로의 방향을 전달한다.")
+    void movements(Side side, List<Movement> expected) {
         Piece piece = new Advisor(side);
 
         List<Movement> movements = piece.createCandidateMovement();
