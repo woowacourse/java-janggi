@@ -10,8 +10,4 @@ public record BoardStatus(
     public static BoardStatus from(Map<Position, Piece> boardStatus) {
         return new BoardStatus(boardStatus);
     }
-
-    public Map<Position, Piece> getBoardStatus() {
-        return boardStatus;
-    }
 }

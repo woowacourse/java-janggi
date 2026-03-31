@@ -30,6 +30,6 @@ public abstract class NonJumpable extends Piece {
     }
 
     private boolean isOccupied(BoardStatus boardStatus, Position movablePath) {
-        return boardStatus.getBoardStatus().containsKey(movablePath);
+        return boardStatus.boardStatus().containsKey(movablePath);
     }
 }

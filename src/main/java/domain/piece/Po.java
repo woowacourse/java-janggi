@@ -12,8 +12,8 @@ public class Po extends Piece {
 
     @Override
     public void check(BoardStatus boardStatus, Position start, Position destination) {
-        Piece movePiece = boardStatus.getBoardStatus().get(start);
-        Piece targetPiece = boardStatus.getBoardStatus().get(destination);
+        Piece movePiece = boardStatus.boardStatus().get(start);
+        Piece targetPiece = boardStatus.boardStatus().get(destination);
 
         //0. 목적지에 존재하는 기물이 상대방 포인지 확인해야함.
         if (targetPiece != null && targetPiece.getPieceType() == PieceType.PO) {
@@ -24,7 +24,7 @@ public class Po extends Piece {
         List<Position> movablePath = movePiece.moveStrategy.findMovablePath(start, destination);
         int pieceCount = 0;
         for (Position position : movablePath) {
-            Piece pieceOnPath = boardStatus.getBoardStatus().get(position);
+            Piece pieceOnPath = boardStatus.boardStatus().get(position);
             if (pieceOnPath != null && pieceOnPath.getPieceType() == PieceType.PO) {
                 throw new IllegalArgumentException(PieceErrorMessage.PO_CANNOT_JUMP_PO.getMessage());
             }

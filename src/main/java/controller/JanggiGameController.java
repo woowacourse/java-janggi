@@ -65,7 +65,7 @@ public class JanggiGameController {
     }
 
     private void printBoardStatus(BoardStatus status) {
-        Map<Position, Piece> boardStatus = status.getBoardStatus();
+        Map<Position, Piece> boardStatus = status.boardStatus();
         BoardStatusDto statusDto = BoardStatusDto.from(boardStatus);
 
         resultView.printBoard(statusDto);
