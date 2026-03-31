@@ -17,11 +17,12 @@ public class InputView {
     }
 
     public OpeningFormationChoices readOpeningFormationChoice() {
-        System.out.println("한과 초의 차림을 선택하세요.(쉼표로 구분)\n" +
-                "1. 왼상차림 (상마상마)\n" +
-                "2. 오른상 차림 (마상마상)\n" +
-                "3. 안상 차림 (마상상마)\n" +
-                "4. 바깥상 차림 (상마마상)");
+        System.out.println("""
+                한과 초의 차림을 선택하세요.(쉼표로 구분)
+                1. 왼상차림 (상마상마)
+                2. 오른상 차림 (마상마상)
+                3. 안상 차림 (마상상마)
+                4. 바깥상 차림 (상마마상)""");
         List<Integer> choices = Arrays.stream(sc.nextLine().split(","))
                 .map(String::trim)
                 .peek(this::validateChoiceNumber)

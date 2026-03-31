@@ -44,12 +44,12 @@ public class BoardInitializer {
 
     private static void initializeHan(Map<Position, Piece> board, int openingFormationChoice) {
         initializeCommonPieces(board, Team.HAN, HAN_BASE_ROW, HAN_GENERAL_ROW, HAN_CANNON_ROW, HAN_SOLDIER_ROW);
-        OpeningFormation.from(openingFormationChoice).initialize(board, Team.HAN, HAN_BASE_ROW);
+        OpeningFormation.from(openingFormationChoice).initializeHan(board);
     }
 
     private static void initializeCho(Map<Position, Piece> board, int openingFormationChoice) {
         initializeCommonPieces(board, Team.CHO, CHO_BASE_ROW, CHO_GENERAL_ROW, CHO_CANNON_ROW, CHO_SOLDIER_ROW);
-        OpeningFormation.from(openingFormationChoice).initialize(board, Team.CHO, CHO_BASE_ROW);
+        OpeningFormation.from(openingFormationChoice).initializeCho(board);
     }
 
     private static void initializeCommonPieces(Map<Position, Piece> board, Team team, int baseRow,
