@@ -1,46 +1,52 @@
 package movepolicy.rule;
 
 import java.util.List;
-import java.util.Optional;
 import pieces.Piece;
 
 public class MoveTrace {
 
     private final Piece movingPiece;
     private final List<Piece> pathPieces;
-    private final Optional<Piece> targetPiece;
+    private final Piece targetPiece;
 
-    public MoveTrace(Piece movingPiece, List<Piece> pathPieces, Optional<Piece> targetPiece) {
+    public MoveTrace(Piece movingPiece, List<Piece> pathPieces, Piece targetPiece) {
         this.movingPiece = movingPiece;
         this.pathPieces = pathPieces;
         this.targetPiece = targetPiece;
     }
 
-    public boolean hasPathPiece() {
+    public boolean hasPathPieces() {
         return !pathPieces.isEmpty();
     }
 
-    public List<Piece> getPathPieces() {
-        return pathPieces;
-    }
-
-    public boolean isMovingPieceIsPo() {
+    public boolean isMovingPiecePo() {
         return movingPiece.isPo();
     }
 
+    public boolean hasPathPieceCount(final int pathPiecesCount) {
+        return pathPieces.size() == pathPiecesCount;
+    }
+
+    public boolean hasPoInPath() {
+        return pathPieces.stream()
+            .anyMatch(Piece::isPo);
+    }
+
     public boolean isTargetEmpty() {
-        return targetPiece.isEmpty();
+        return targetPiece == null;
     }
 
     public boolean isTargetSameSide() {
-        return targetPiece
-            .map(movingPiece::isSameSide)
-            .orElse(false);
+        if (isTargetEmpty()) {
+            return false;
+        }
+        return targetPiece.isSameSide(movingPiece);
     }
 
     public boolean isTargetPiecePo() {
-        return targetPiece
-            .map(Piece::isPo)
-            .orElse(false);
+        if (isTargetEmpty()) {
+            return false;
+        }
+        return targetPiece.isPo();
     }
 }

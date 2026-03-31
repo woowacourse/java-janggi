@@ -15,20 +15,21 @@ import movepolicy.move.LinearRouteMovement;
 import movepolicy.move.Movement;
 import movepolicy.move.PoRouteMovement;
 import movepolicy.move.Route;
-import movepolicy.rule.BasicMoveRule;
+import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
+import movepolicy.rule.OtherSideTargetMoveRule;
 import movepolicy.rule.PoMoveRule;
 
 public enum PieceType {
 
     CHA(
         new LinearRouteMovement(),
-        new BasicMoveRule()
+        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
     ),
 
     PO(
         new PoRouteMovement(new LinearRouteMovement()),
-        new PoMoveRule()
+        new PoMoveRule(new OtherSideTargetMoveRule())
     ),
 
     MA(
@@ -42,7 +43,7 @@ public enum PieceType {
             new Route(List.of(RIGHT, RIGHT_FORWARD)),
             new Route(List.of(RIGHT, RIGHT_BACK))
         )),
-        new BasicMoveRule()
+        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
     ),
 
     SANG(
@@ -56,7 +57,7 @@ public enum PieceType {
             new Route(List.of(RIGHT, RIGHT_FORWARD, RIGHT_FORWARD)),
             new Route(List.of(RIGHT, RIGHT_BACK, RIGHT_BACK))
         )),
-        new BasicMoveRule()
+        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
     ),
 
     SA(
@@ -66,7 +67,7 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        new BasicMoveRule()
+        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
     ),
 
     GUNG(
@@ -76,7 +77,7 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        new BasicMoveRule()
+        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
     ),
 
     JOL_BYEONG(
@@ -85,7 +86,7 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        new BasicMoveRule()
+        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
     );
 
     public final Movement movement;
