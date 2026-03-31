@@ -9,6 +9,6 @@
   - [ ] 1안 : `PositionLayout`의 `placeHanPieces`와 `placeHanInnerPieces`를 B/C/G/H를 포항해서 전체 배치를 한번에 구성하도록 수정
   - [ ] 2안 : `result.put()` 대신 이미 키가 존재하면 예외를 던지도록 수정
 - [x] **3. `PositionLayout`의 `placeCHoInnerPieces` 네이밍 수정**
-- [ ] **4. `Arrangements`의 `assignArrangement`의 `Map` 원본 복사 후 put 하도록 수정**
+- [x] **4. `Arrangements`의 `assignArrangement`의 `Map` 원본 복사 후 put 하도록 수정**
 - [ ] **5. 사용되지 않는 import 삭제**
 - [ ] **6. 축약형 네이밍 수정**
