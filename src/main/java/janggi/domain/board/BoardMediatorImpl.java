@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
+import janggi.domain.movement.Direction;
 import janggi.domain.piece.Piece;
 
 public class BoardMediatorImpl implements BoardMediator {
@@ -9,6 +10,11 @@ public class BoardMediatorImpl implements BoardMediator {
 
     public BoardMediatorImpl(final Board board) {
         this.board = board;
+    }
+
+    @Override
+    public boolean canMove(final Position position, final Direction direction) {
+        return board.canMove(position, direction);
     }
 
     @Override
