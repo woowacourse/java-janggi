@@ -29,17 +29,23 @@ public class Cannon extends ActivePiece implements CannonRule {
     }
 
     @Override
-    public boolean canJumpOver(Piece other) {
-        return !other.isCannon();
+    public void validateJumpOver(Piece other) {
+        if (other.isCannon()) {
+            throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
+        }
     }
 
     @Override
-    public boolean canCaptureDest(Piece dest) {
-        return !dest.isCannon();
+    public void validateCaptureDest(Piece dest) {
+        if (dest.isCannon()) {
+            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
+        }
     }
 
     @Override
-    public int requiredJumpCount() {
-        return 1;
+    public void validateJumpCount(int count) {
+        if (count != 1) {
+            throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
+        }
     }
 }

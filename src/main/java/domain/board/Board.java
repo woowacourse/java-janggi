@@ -34,18 +34,12 @@ public class Board {
         for (Position position : route) {
             Piece piece = findPiece(position);
             if (piece.isNotEmpty()) {
-                if (!cannonRule.canJumpOver(piece)) {
-                    throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
-                }
+                cannonRule.validateJumpOver(piece);
                 count++;
             }
         }
-        if (count != cannonRule.requiredJumpCount()) {
-            throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
-        }
-        if (!cannonRule.canCaptureDest(findPiece(dest))) {
-            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
-        }
+        cannonRule.validateJumpCount(count);
+        cannonRule.validateCaptureDest(findPiece(dest));
     }
 
     private void validateCanMove(Piece piece, Position src, Position dest) {

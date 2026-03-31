@@ -1,9 +1,9 @@
 package domain.piece;
 
 public interface CannonRule {
-    boolean canJumpOver(Piece other);
+    void validateJumpOver(Piece other);
 
-    boolean canCaptureDest(Piece dest);
+    void validateCaptureDest(Piece dest);
 
-    int requiredJumpCount();
+    void validateJumpCount(int count);
 }
