@@ -9,6 +9,9 @@ import java.util.Map;
 
 public class BasicBoardInitializer implements BoardInitializer {
 
+    private static final int COL_SIZE = 10;
+    private static final int ROW_SIZE = 9;
+
     private final InitialStrategy hanSideInitialType;
     private final InitialStrategy chuSideInitialType;
 
@@ -24,8 +27,17 @@ public class BasicBoardInitializer implements BoardInitializer {
         hanSideInitialType.apply(pieceInitPlacements);
         initializeChuPieces(pieceInitPlacements);
         chuSideInitialType.apply(pieceInitPlacements);
+        initializeEmptyPiece(pieceInitPlacements);
 
         return pieceInitPlacements;
+    }
+
+    private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
+        for (int i = 0; i < COL_SIZE; i++) {
+            for (int j = 0; j < ROW_SIZE; j++) {
+                pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
+            }
+        }
     }
 
     private void initializeHanPieces(Map<Position, Piece> pieceInitPlacements) {
