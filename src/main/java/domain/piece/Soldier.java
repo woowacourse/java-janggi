@@ -11,14 +11,7 @@ public final class Soldier extends SingleStepPiece {
 
     public Soldier(Team team) {
         super(PieceType.SOLDIER, team);
-        this.backwardDirection = determineBackwardDirection(team);
-    }
-
-    private Direction determineBackwardDirection(Team team) {
-        if (team == Team.HAN) {
-            return Direction.UP;
-        }
-        return Direction.DOWN;
+        this.backwardDirection = team.getBackwardDirection();
     }
 
     @Override

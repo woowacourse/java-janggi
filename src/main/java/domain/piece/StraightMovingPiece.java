@@ -56,5 +56,4 @@ public abstract class StraightMovingPiece extends Piece {
         }
         return Direction.decideYDirection(offset.dy());
     }
-
 }
