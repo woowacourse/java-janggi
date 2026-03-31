@@ -31,7 +31,7 @@ public class MoveRuleManager {
 
     public void inspectPathByMoveRule(Path path) {
         MoveRule moveRule = findMoveRule(path.getOrigin());
-        moveRule.checkMoveRule(path);
+        moveRule.validateMoveRule(path);
     }
 
     public MoveRule findMoveRule(Intersection origin) {

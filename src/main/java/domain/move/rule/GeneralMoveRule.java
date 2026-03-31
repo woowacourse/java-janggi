@@ -25,9 +25,8 @@ public class GeneralMoveRule implements MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Path path) {
+    public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
-        return true;
     }
 
     // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정

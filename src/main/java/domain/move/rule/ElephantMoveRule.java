@@ -29,10 +29,9 @@ public class ElephantMoveRule implements MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Path path) {
+    public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
         path.validateHasObstacle();
-        return true;
     }
 
     public static Directions initializeDirections() {

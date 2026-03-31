@@ -1,5 +1,6 @@
 package domain.move.rule;
 
+import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
@@ -8,6 +9,7 @@ import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
 import java.util.List;
+import fixture.TestIntersectionGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_PATH_HAS_OBSTACLE;
 
-public class ChariotMoveRuleTest {
+class ChariotMoveRuleTest {
 
     final Point start = new Point(0, 0);
     final Point middlePoint1 = new Point(1, 0);
@@ -40,100 +42,124 @@ public class ChariotMoveRuleTest {
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
     void shouldThrowExceptionWhenDestinationIsSameTeam() {
+        // given
         Team sameTeam = Team.CHO;
 
         Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
         Intersection sameTeamIntersection = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
+        // when
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
+        Path sameTeamPath = new Path(List.of(
+                origin,
+                intersection1,
+                intersection2,
+                intersection3,
+                intersection4,
+                intersection5,
+                intersection6,
+                intersection7,
+                intersection8,
+                sameTeamIntersection)
+        );
 
-        Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(new Path(List.of(
-                            origin,
-                            intersection1,
-                            intersection2,
-                            intersection3,
-                            intersection4,
-                            intersection5,
-                            intersection6,
-                            intersection7,
-                            intersection8,
-                            sameTeamIntersection)));
-                }).isInstanceOf(PathException.class)
+        // then
+        Assertions.assertThatThrownBy(() -> chariotMoveRule.validateMoveRule(sameTeamPath))
+                .isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
     }
 
     @Test
     @DisplayName("차의 이동 경로에 장애물이 있으면 예외가 발생한다.")
     void shouldThrowExceptionWhenPathHasObstacle() {
+        // given
         Team sameTeam = Team.CHO;
 
         Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
         Intersection obstacle = new Intersection(middlePoint7, new Piece(sameTeam, PieceType.CHARIOT));
         Intersection destination = Intersection.empty(end);
 
+        // when
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
+        Path obstaclePath = new Path(List.of(
+                origin,
+                intersection1,
+                intersection2,
+                intersection3,
+                intersection4,
+                intersection5,
+                intersection6,
+                obstacle,
+                intersection8,
+                destination)
+        );
 
-        Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(new Path(List.of(
-                            origin,
-                            intersection1,
-                            intersection2,
-                            intersection3,
-                            intersection4,
-                            intersection5,
-                            intersection6,
-                            obstacle,
-                            intersection8,
-                            destination)));
-                }).isInstanceOf(PathException.class)
+        // then
+        Assertions.assertThatThrownBy(() -> chariotMoveRule.validateMoveRule(obstaclePath))
+                .isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_PATH_HAS_OBSTACLE.getMessage());
     }
 
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
     void chariotCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
-        Intersection origin = new Intersection(start, new Piece(Team.CHO, PieceType.CHARIOT));
-        Intersection emptyIntersection = Intersection.empty(end);
+        // given
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
 
-        ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
+        Intersection origin = new Intersection(start, chariot);
+        Intersection emptyDestination = Intersection.empty(end);
+        Intersection expected = new Intersection(end, chariot);
 
-        Assertions.assertThat(
-                chariotMoveRule.checkMoveRule(new Path(List.of(
-                        origin,
-                        intersection1,
-                        intersection2,
-                        intersection3,
-                        intersection4,
-                        intersection5,
-                        intersection6,
-                        intersection7,
-                        intersection8,
-                        emptyIntersection))))
-                .isTrue();
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                origin,
+                intersection1,
+                intersection2,
+                intersection3,
+                intersection4,
+                intersection5,
+                intersection6,
+                intersection7,
+                intersection8,
+                emptyDestination)));
+
+        // when
+        janggiBoard.tryToMove(start, end, Team.CHO);
+        Intersection actual = janggiBoard.findIntersection(end);
+
+        // then
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
     }
 
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void chariotCanMoveWhenNoObstacleAndDestinationIsOpponent() {
-        Intersection origin = new Intersection(start, new Piece(Team.CHO, PieceType.CHARIOT));
-        Intersection opponentIntersection = new Intersection(end, new Piece(Team.HAN, PieceType.CHARIOT));
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+        Piece opponentChariot = new Piece(Team.HAN, PieceType.CHARIOT);
 
-        ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
+        Intersection origin = new Intersection(start, chariot);
+        Intersection opponentDestination = new Intersection(end, opponentChariot);
+        Intersection expected = new Intersection(end, chariot);
 
-        Assertions.assertThat(
-                        chariotMoveRule.checkMoveRule(new Path(List.of(
-                                origin,
-                                intersection1,
-                                intersection2,
-                                intersection3,
-                                intersection4,
-                                intersection5,
-                                intersection6,
-                                intersection7,
-                                intersection8,
-                                opponentIntersection))))
-                .isTrue();
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                origin,
+                intersection1,
+                intersection2,
+                intersection3,
+                intersection4,
+                intersection5,
+                intersection6,
+                intersection7,
+                intersection8,
+                opponentDestination)));
+
+        // when
+        janggiBoard.tryToMove(start, end, Team.CHO);
+        Intersection actual = janggiBoard.findIntersection(end);
+
+        // then
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
     }
 
 }

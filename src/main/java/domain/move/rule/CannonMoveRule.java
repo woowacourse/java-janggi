@@ -31,11 +31,10 @@ public class CannonMoveRule implements MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Path path) {
+    public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
         validateCannonObstacleCondition(path);
         validateDestinationIsNotCannon(path);
-        return true;
     }
 
     private void validateCannonObstacleCondition(Path path) {

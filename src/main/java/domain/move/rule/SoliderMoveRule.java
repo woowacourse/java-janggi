@@ -35,9 +35,8 @@ public class SoliderMoveRule implements MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Path path) {
+    public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
-        return true;
     }
 
 

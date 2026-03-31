@@ -42,8 +42,8 @@ class SoliderMoveRuleTest {
                 sameTeamIntersection)
         );
 
-        // tehn
-        Assertions.assertThatThrownBy(() -> soliderMoveRule.checkMoveRule(path))
+        // tthen
+        Assertions.assertThatThrownBy(() -> soliderMoveRule.validateMoveRule(path))
                 .isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
     }

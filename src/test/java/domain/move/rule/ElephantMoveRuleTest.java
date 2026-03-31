@@ -1,5 +1,6 @@
 package domain.move.rule;
 
+import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
@@ -10,6 +11,7 @@ import domain.point.Point;
 
 import java.util.List;
 
+import fixture.TestIntersectionGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,11 +19,12 @@ import org.junit.jupiter.api.Test;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_PATH_HAS_OBSTACLE;
 
-public class ElephantMoveRuleTest {
+class ElephantMoveRuleTest {
 
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
     void shouldThrowExceptionWhenDestinationIsSameTeam() {
+        // given
         Point start = new Point(0, 0);
         Point middlePoint1 = new Point(1, 0);
         Point middlePoint2 = new Point(2, 1);
@@ -36,21 +39,25 @@ public class ElephantMoveRuleTest {
         Intersection middleIntersection2 = Intersection.empty(middlePoint2);
         Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
 
+        // when
         ElephantMoveRule elephantRule = new ElephantMoveRule();
+        Path sameTeamPath = new Path(List.of(
+                origin,
+                middleIntersection1,
+                middleIntersection2,
+                sameTeamIntersection)
+        );
 
-        Assertions.assertThatThrownBy(() -> {
-                    elephantRule.checkMoveRule(new Path(List.of(
-                            origin,
-                            middleIntersection1,
-                            middleIntersection2,
-                            sameTeamIntersection)));
-                }).isInstanceOf(PathException.class)
+        // then
+        Assertions.assertThatThrownBy(() -> elephantRule.validateMoveRule(sameTeamPath))
+                .isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_DESTINATION_IS_SAME_TEAM.getMessage());
     }
 
     @Test
     @DisplayName("상의 이동 경로에 장애물이 있으면 예외가 발생한다.")
     void shouldThrowExceptionWhenPathHasObstacle() {
+        // given
         Point start = new Point(0, 0);
         Point middlePoint1 = new Point(1, 0);
         Point middlePoint2 = new Point(2, 1);
@@ -65,21 +72,24 @@ public class ElephantMoveRuleTest {
         Intersection intersection = Intersection.empty(middlePoint2);
         Intersection destination = Intersection.empty(end);
 
+        // when
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
+        Path obstaclePath = new Path(List.of(
+                origin,
+                obstacleIntersection,
+                intersection,
+                destination));
 
-        Assertions.assertThatThrownBy(() -> {
-                    elephantMoveRule.checkMoveRule(new Path(List.of(
-                            origin,
-                            obstacleIntersection,
-                            intersection,
-                            destination)));
-                }).isInstanceOf(PathException.class)
+        // then
+        Assertions.assertThatThrownBy(() -> elephantMoveRule.validateMoveRule(obstaclePath))
+                .isInstanceOf(PathException.class)
                 .hasMessage(CANNOT_MOVE_PATH_HAS_OBSTACLE.getMessage());
     }
 
     @Test
     @DisplayName("상은 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
     void horseCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
+        //given
         Point start = new Point(0, 0);
         Point middlePoint1 = new Point(1, 0);
         Point middlePoint2 = new Point(2, 1);
@@ -91,21 +101,28 @@ public class ElephantMoveRuleTest {
         Intersection intersection1 = Intersection.empty(middlePoint1);
         Intersection intersection2 = Intersection.empty(middlePoint2);
         Intersection destination = Intersection.empty(end);
+        Intersection expected = new Intersection(end, elephant);
 
-        ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                origin,
+                intersection1,
+                intersection2,
+                destination
+        )));
 
-        Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(new Path(List.of(
-                                origin,
-                                intersection1,
-                                intersection2,
-                                destination))))
-                .isTrue();
+        // when
+        janggiBoard.tryToMove(start, end, Team.CHO);
+        Intersection actual = janggiBoard.findIntersection(end);
+
+        // then
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
     }
 
     @Test
     @DisplayName("상은 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void elephantCanMoveWhenNoObstacleAndDestinationIsOpponent() {
+        // given
         Point start = new Point(0, 0);
         Point middlePoint1 = new Point(1, 0);
         Point middlePoint2 = new Point(2, 1);
@@ -120,16 +137,22 @@ public class ElephantMoveRuleTest {
         Intersection intersection1 = Intersection.empty(middlePoint1);
         Intersection intersection2 = Intersection.empty(middlePoint2);
         Intersection destination = new Intersection(end, opponent);
+        Intersection expected = new Intersection(end, elephant);
 
-        ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                origin,
+                intersection1,
+                intersection2,
+                destination
+        )));
 
-        Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(new Path((List.of(
-                                origin,
-                                intersection1,
-                                intersection2,
-                                destination)))))
-                .isTrue();
+        // when
+        janggiBoard.tryToMove(start, end, Team.CHO);
+        Intersection actual = janggiBoard.findIntersection(end);
+
+        // then
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
     }
 
 }

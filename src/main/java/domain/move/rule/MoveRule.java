@@ -9,6 +9,6 @@ public interface MoveRule {
 
     List<Point> findPathOfPoints(Intersection origin, Intersection destination);
 
-    boolean checkMoveRule(Path path);
+    void validateMoveRule(Path path);
 
 }

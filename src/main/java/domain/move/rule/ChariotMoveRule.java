@@ -29,10 +29,9 @@ public class ChariotMoveRule implements MoveRule {
     }
 
     @Override
-    public boolean checkMoveRule(Path path) {
+    public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
         path.validateHasObstacle();
-        return true;
     }
 
     private static Directions initializeDirections() {
