@@ -1,6 +1,6 @@
 package view;
 
-import domain.Piece;
+import domain.piece.Piece;
 import domain.Position;
 import domain.Side;
 import java.util.List;

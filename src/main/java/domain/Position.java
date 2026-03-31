@@ -1,5 +1,6 @@
 package domain;
 
+import domain.strategy.Direction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

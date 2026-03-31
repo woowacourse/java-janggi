@@ -1,6 +1,7 @@
 package domain;
 
 
+import domain.player.Name;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;

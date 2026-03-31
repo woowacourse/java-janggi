@@ -3,6 +3,14 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Formation;
+import domain.board.FormationCommand;
+import domain.piece.Piece;
+import domain.piece.PieceFactory;
+import domain.player.Name;
+import domain.player.Players;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

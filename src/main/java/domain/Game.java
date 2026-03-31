@@ -1,5 +1,8 @@
 package domain;
 
+import domain.board.Board;
+import domain.piece.Piece;
+import domain.player.Players;
 import java.util.Map;
 
 public class Game {
