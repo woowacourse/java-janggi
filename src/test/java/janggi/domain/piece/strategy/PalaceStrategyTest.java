@@ -116,7 +116,7 @@ class PalaceStrategyTest {
         }
 
         @ParameterizedTest
-        @MethodSource("exceptionPalaceMovePositions")
+        @MethodSource("exceptionPalaceCampPositions")
         void 궁과_사는_상대_궁성_영역에서_이동하면_예외가_발생한다(Position source, Position destination, Camp camp) {
             assertThatThrownBy(() -> strategy.findPath(source, destination, camp))
                     .isInstanceOf(IllegalArgumentException.class)
