@@ -9,6 +9,7 @@ public record Position(
     public static final int Y_MAXIMUM_POSITION = 9;
 
     private static final String INVALID_POSITION_RANGE = "[ERROR] x좌표와 y좌표의 범위가 올바르지 않습니다.";
+    private static final String INVALID_POSITIONS = "[ERROR] 움직일 기물의 좌표와 움직이고 싶은 좌표는 달라야 합니다.";
 
     public Position {
         validateRange(x, y);
@@ -26,6 +27,12 @@ public record Position(
 
     private boolean isYInvalidRange(int y) {
         return y < INITIAL_POSITION || y > Y_MAXIMUM_POSITION;
+    }
+
+    public void validatePositions(Position to) {
+        if (this.equals(to)) {
+            throw new IllegalArgumentException(INVALID_POSITIONS);
+        }
     }
 
     public Distance calculateDistance(Position to) {

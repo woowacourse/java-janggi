@@ -68,6 +68,7 @@ public class JanggiController {
                 Position from = makeFromPosition();
                 board.validateFromPosition(from, country);
                 Position to = makeToPosition();
+                from.validatePositions(to);
 
                 board.move(from, to);
                 return;

@@ -26,4 +26,22 @@ public class PositionTest {
                 Arguments.arguments(10, 10)
         );
     }
+
+    @ParameterizedTest
+    @DisplayName("움직일 기물의 좌표와 움직이고 싶은 좌표가 같은 경우 예외가 발생한다.")
+    @MethodSource("invalidPositions")
+    void invalidPositionsExceptionTest(Position from, Position to) {
+        assertThatThrownBy(() -> from.validatePositions(to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 움직일 기물의 좌표와 움직이고 싶은 좌표는 달라야 합니다.");
+    }
+
+    static Stream<Arguments> invalidPositions() {
+        return Stream.of(
+                Arguments.arguments(new Position(1, 2), new Position(1, 2)),
+                Arguments.arguments(new Position(2, 0), new Position(2, 0)),
+                Arguments.arguments(new Position(3, 0), new Position(3, 0)),
+                Arguments.arguments(new Position(4, 1), new Position(4, 1))
+        );
+    }
 }
