@@ -1,20 +1,20 @@
 import domain.board.Board;
-import repository.BoardRepository;
-import factory.BoardFactory;
 import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
 import domain.position.Position;
+import factory.BoardFactory;
 import parser.PositionParser;
+import service.BoardService;
 import view.InputView;
 import view.OutputView;
 
 public class Janggi {
 
-    private final BoardRepository boardRepository;
+    private final BoardService boardService;
     private Side turn = Side.CHO;
 
-    public Janggi(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
+    public Janggi(BoardService boardService){
+        this.boardService = boardService;
     }
 
     public void run() {
@@ -31,7 +31,7 @@ public class Janggi {
         return BoardFactory.create(cho, han);
     }
 
-    private void turn(Board board){
+    private void turn(Board board) {
         while (board.isAliveGeneral(turn)) {
             processTurn(board);
             turn = turn.opposite();

@@ -1,6 +1,5 @@
 import config.AppConfig;
 import config.DatabaseConfig;
-import init.DatabaseInitializer;
 
 public class Application {
     public static void main(String[] args) {
@@ -8,7 +7,7 @@ public class Application {
         DatabaseConfig databaseConfig = new DatabaseConfig(appConfig.connectionManager());
         databaseConfig.init();
         try {
-            Janggi janggi = new Janggi(appConfig.boardRepository());
+            Janggi janggi = new Janggi(appConfig.boardService());
             janggi.run();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
