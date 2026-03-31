@@ -17,22 +17,22 @@ public class Soldier extends Piece {
     protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
         List<Position> valid = new ArrayList<>();
         for (Path path : paths) {
-            Position dest = path.getDestination();
-            if (isBackward(current, dest)) {
+            Position destination = path.getDestination();
+            if (isBackward(current, destination)) {
                 continue;
             }
-            if (isValidDestination(dest, board)) {
-                valid.add(dest);
+            if (isValidDestination(destination, board)) {
+                valid.add(destination);
             }
         }
         return valid;
     }
 
-    private boolean isBackward(Position current, Position dest) {
+    private boolean isBackward(Position current, Position destination) {
         if (getSide().isCho()) {
-            return dest.getY() < current.getY();
+            return destination.getY() < current.getY();
         }
-        return dest.getY() > current.getY();
+        return destination.getY() > current.getY();
     }
 
     @Override

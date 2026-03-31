@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.MovablePositions;
+import domain.Destinations;
 import domain.strategy.Path;
 import domain.Position;
 import domain.Side;
@@ -18,10 +18,10 @@ public abstract class Piece {
         this.movementStrategy = movementStrategy;
     }
 
-    public MovablePositions findMovablePositions(Position current, BoardReader board) {
-        List<Path> paths = movementStrategy.generatePaths(current, board);
+    public Destinations findMovablePositions(Position current, BoardReader board) {
+        List<Path> paths = movementStrategy.generatePaths(current);
         List<Position> validDestinations = filterValidPositions(current, paths, board);
-        return new MovablePositions(validDestinations);
+        return new Destinations(validDestinations);
     }
 
     protected abstract List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board);
@@ -45,12 +45,12 @@ public abstract class Piece {
         return true;
     }
 
-    protected boolean isValidDestination(Position dest, BoardReader board) {
-        return board.isEmpty(dest) || !board.getPiece(dest).isAlly(side);
+    protected boolean isValidDestination(Position destination, BoardReader board) {
+        return board.isEmpty(destination) || !board.getPiece(destination).isAlly(side);
     }
 
     public boolean isAlly(Side other) {
-        return this.side == other;
+        return this.side.isAlly(other);
     }
 
     public Side getSide() {
