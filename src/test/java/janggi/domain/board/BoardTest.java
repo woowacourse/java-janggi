@@ -6,6 +6,7 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import janggi.exception.JanggiException;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
 import janggi.support.TestArrangementStrategy;
@@ -253,7 +254,7 @@ class BoardTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> board.validateLocationToMove(currentSide, location))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(JanggiException.class);
         }
     }
 }

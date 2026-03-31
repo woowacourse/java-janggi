@@ -4,6 +4,8 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import janggi.exception.ErrorCode;
+import janggi.exception.JanggiException;
 import janggi.strategy.BoardAssembler;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,8 +68,8 @@ public class Board {
     public void validateLocationToMove(Side currentSide, Location locationToMove) {
         validateLocation(locationToMove);
         Piece target = boardState.get(locationToMove);
-        if (isOccupiedBySameSide(target, currentSide)) {
-            throw new IllegalArgumentException("같은 편의 기물이 있는 위치로 이동할 수 없습니다.");
+        if (target.isSameSide(currentSide)) {
+            throw new JanggiException(ErrorCode.DESTINATION_OCCUPIED_SAME_TEAM_ERROR);
         }
     }
 
@@ -115,9 +117,5 @@ public class Board {
 
     private boolean isNotSameSide(Piece piece, Side side) {
         return !piece.isSameSide(side);
-    }
-
-    private boolean isOccupiedBySameSide(Piece piece, Side side) {
-        return !piece.isEmpty() && piece.isSameSide(side);
     }
 }
