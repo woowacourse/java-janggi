@@ -2,6 +2,7 @@ package janggi.domain.board.coordinate;
 
 import janggi.domain.piece.Pattern;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,10 +18,10 @@ public class Path {
     }
 
     public List<Point> getPath() {
-        return new ArrayList<>(path);
+        return Collections.unmodifiableList(path);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return path.isEmpty();
     }
 
