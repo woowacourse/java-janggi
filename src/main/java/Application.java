@@ -14,7 +14,7 @@ public class Application {
             JanggiController janggiController = new JanggiController (inputView, outputView);
             janggiController.run();
         } catch (IllegalStateException e){
-            outputView.printErrorMessage("입력 횟수를 초과했습니다.");
+            outputView.printErrorMessage("입력 횟수를 초과했습니다. 게임을 종료합니다.");
         }
     }
 }

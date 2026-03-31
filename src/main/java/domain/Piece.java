@@ -34,6 +34,10 @@ public class Piece {
         return country;
     }
 
+    public boolean isEmpty() {
+        return this.pieceType == PieceType.NONE;
+    }
+
     public static Piece getEmptyPiece() {
         return EMPTY;
     }
