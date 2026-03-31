@@ -27,23 +27,32 @@ public class Position {
     }
 
     public static Position of(int row, int column) {
-        return ALL_POSITION.stream()
-                .filter(p -> p.isSameLocation(row, column))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 좌표입니다."));
+        validateRange(row, column);
+        return ALL_POSITION.get(calculateIndex(row, column));
     }
 
-    public static Optional<Position> findPosition(int row, int column) {
-        return ALL_POSITION.stream()
-                .filter(p -> p.isSameLocation(row, column))
-                .findFirst();
+    private static Optional<Position> findPosition(int row, int column) {
+        if (isOutOfBounds(row, column)) {
+            return Optional.empty();
+        }
+        return Optional.of(ALL_POSITION.get(calculateIndex(row, column)));
     }
 
     public Optional<Position> move(int deltaRow, int deltaColumn) {
         return findPosition(this.row + deltaRow, this.column + deltaColumn);
     }
 
-    private boolean isSameLocation(int row, int column) {
-        return this.row == row && this.column == column;
+    private static void validateRange(int row, int column) {
+        if (isOutOfBounds(row, column)) {
+            throw new IllegalArgumentException("잘못된 좌표입니다.");
+        }
+    }
+
+    private static boolean isOutOfBounds(int row, int column) {
+        return row < 0 || row >= ROW_SIZE || column < 0 || column >= COLUMN_SIZE;
+    }
+
+    private static int calculateIndex(int row, int column) {
+        return (row * COLUMN_SIZE) + column;
     }
 }
