@@ -36,6 +36,14 @@ public class Board {
         return findPiece(source).isDifferentTeam(team);
     }
 
+    public boolean isCho(Position position) {
+        return findPiece(position).isCho();
+    }
+
+    public boolean isHan(Position position) {
+        return findPiece(position).isHan();
+    }
+
     public boolean isNonePiece(Position source) {
         return findPiece(source).isNone();
     }

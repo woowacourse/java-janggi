@@ -22,7 +22,6 @@ public class Players {
     private void validateSize(List<Player> players) {
         if (players.size() > 2) {
             throw new JanggiException(PLAYER_LIMIT_EXCEEDED);
-
         }
     }
 

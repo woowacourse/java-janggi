@@ -50,6 +50,18 @@ public abstract class Piece {
         return this instanceof Po;
     }
 
+    public boolean isJang() {
+        return this instanceof Jang;
+    }
+
+    public boolean isCho() {
+        return team == Team.CHO;
+    }
+
+    public boolean isHan() {
+        return team == Team.HAN;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
