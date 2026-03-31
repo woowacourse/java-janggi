@@ -7,7 +7,7 @@ public class Application {
 
     public static void main(String[] args) {
         JanggiBoardFactory janggiBoardFactory = new JanggiBoardFactory();
-        JanggiGame janggiGame = JanggiGame.of(Board.of(janggiBoardFactory.initialBoard()));
+        JanggiGame janggiGame = JanggiGame.of(janggiBoardFactory.initialBoard());
         JanggiController janggiController = new JanggiController(janggiGame);
 
         janggiController.run();

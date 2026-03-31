@@ -1,5 +1,6 @@
 package factory;
 
+import domain.Board;
 import domain.Piece;
 import domain.PieceProperty;
 import domain.PieceType;
@@ -23,12 +24,12 @@ public class JanggiBoardFactory {
 
     private final Map<Position, Piece> board = new HashMap<>();
 
-    public Map<Position, Piece> initialBoard() {
+    public Board initialBoard() {
         setupUpTeamPieces();
         setupDownTeamPieces();
         setupEmptySpaces();
 
-        return Map.copyOf(board);
+        return Board.of(Map.copyOf(board));
     }
 
     private void setupEmptySpaces() {

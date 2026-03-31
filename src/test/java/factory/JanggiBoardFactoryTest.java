@@ -11,7 +11,7 @@ class JanggiBoardFactoryTest {
     void initial_janggi_board_test() {
         JanggiBoardFactory janggiBoardFactory = new JanggiBoardFactory();
 
-        Assertions.assertThat(janggiBoardFactory.initialBoard()).hasSize(90);
+        Assertions.assertThat(janggiBoardFactory.initialBoard().board()).hasSize(90);
     }
 
 }
