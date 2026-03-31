@@ -9,7 +9,7 @@ import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.List;
 
-public class Sa extends AbstractPiece {
+public class Sa extends Piece {
 
     private static final int SCORE = 3;
     private static final int MAX_DISTANCE = 1;
