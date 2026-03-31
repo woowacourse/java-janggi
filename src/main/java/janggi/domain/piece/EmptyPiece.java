@@ -19,12 +19,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public boolean isSameTeam(Piece other) {
-        return false;
-    }
-
-    @Override
-    public boolean isSame(Team team) {
+    public boolean isSameTeam(Team team) {
         return false;
     }
 

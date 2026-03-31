@@ -12,23 +12,16 @@ import org.junit.jupiter.api.Test;
 public class ElephantTest {
 
     @Test
-    void 같은_팀의_상이면_참을_반환한다() {
-        Elephant hanElephant1 = new Elephant(Team.HAN);
-        Elephant hanElephant2 = new Elephant(Team.HAN);
+    void 팀_확인_테스트() {
+        Elephant elephant = new Elephant(Team.HAN);
 
-        boolean result = hanElephant1.isSameTeam(hanElephant2);
+        boolean hanResult = elephant.isSameTeam(Team.HAN);
+        boolean choResult = elephant.isSameTeam(Team.CHO);
 
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void 서로_다른_팀의_상이면_참을_반환한다() {
-        Elephant hanElephant = new Elephant(Team.HAN);
-        Elephant choElephant = new Elephant(Team.CHO);
-
-        boolean result = hanElephant.isSameTeam(choElephant);
-
-        assertThat(result).isFalse();
+        assertAll(
+                () -> assertThat(hanResult).isTrue(),
+                () -> assertThat(choResult).isFalse()
+        );
     }
 
     @Test

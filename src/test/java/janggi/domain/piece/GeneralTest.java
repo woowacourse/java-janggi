@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
 import janggi.domain.position.Column;
@@ -15,40 +16,17 @@ import org.junit.jupiter.api.Test;
 
 public class GeneralTest {
 
-    private Map<Position, Piece> base;
-
-    @BeforeEach
-    void setup() {
-        base = new LinkedHashMap<>();
-        for (int row = Row.ROW_LOWER_THRESH_HOLD; row <= Row.ROW_UPPER_THRESH_HOLD; row++) {
-            for (int col = Column.COLUMN_LOWER_THRESH_HOLD; col <= Column.COLUMN_UPPER_THRESH_HOLD; col++) {
-                int rowInput = row;
-                if (row == 10) {
-                    rowInput = 0;
-                }
-                base.put(Position.from("" + rowInput + col), new EmptyPiece());
-            }
-        }
-    }
-
     @Test
-    void 같은_팀의_장이면_참을_반환한다() {
-        General hanGeneral1 = new General(Team.HAN);
-        General hanGeneral2 = new General(Team.HAN);
+    void 팀_확인_테스트() {
+        General general = new General(Team.HAN);
 
-        boolean result = hanGeneral1.isSameTeam(hanGeneral2);
+        boolean hanResult = general.isSameTeam(Team.HAN);
+        boolean choResult = general.isSameTeam(Team.CHO);
 
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void 서로_다른_팀의_장이면_참을_반환한다() {
-        General hanGeneral = new General(Team.HAN);
-        General choGeneral = new General(Team.CHO);
-
-        boolean result = hanGeneral.isSameTeam(choGeneral);
-
-        assertThat(result).isFalse();
+        assertAll(
+                () -> assertThat(hanResult).isTrue(),
+                () -> assertThat(choResult).isFalse()
+        );
     }
 
     @Test

@@ -16,17 +16,12 @@ public abstract class MoveablePiece implements Piece {
     }
 
     @Override
-    public boolean isSameTeam(Piece other) {
-        return other.isSame(team);
-    }
-
-    @Override
-    public boolean isSame(Team team) {
+    public boolean isSameTeam(Team team) {
         return this.team == team;
     }
 
     protected void validateSameTeam(Piece endPiece) {
-        if (isSameTeam(endPiece)) {
+        if (endPiece.isSameTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
         }
     }

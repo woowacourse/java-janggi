@@ -6,29 +6,24 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
 import janggi.domain.position.Position;
+
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 public class HorseTest {
 
     @Test
-    void 같은_팀의_마이면_참을_반환한다() {
-        Horse hanHorse1 = new Horse(Team.HAN);
-        Horse hanHorse2 = new Horse(Team.HAN);
+    void 팀_확인_테스트() {
+        Horse horse = new Horse(Team.HAN);
 
-        boolean result = hanHorse1.isSameTeam(hanHorse2);
+        boolean hanResult = horse.isSameTeam(Team.HAN);
+        boolean choResult = horse.isSameTeam(Team.CHO);
 
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void 서로_다른_팀의_마이면_참을_반환한다() {
-        Horse hanHorse = new Horse(Team.HAN);
-        Horse choHorse = new Horse(Team.CHO);
-
-        boolean result = hanHorse.isSameTeam(choHorse);
-
-        assertThat(result).isFalse();
+        assertAll(
+                () -> assertThat(hanResult).isTrue(),
+                () -> assertThat(choResult).isFalse()
+        );
     }
 
     @Test
@@ -59,7 +54,7 @@ public class HorseTest {
                 () -> assertThatThrownBy(() -> horse.getPath(Position.from("11"), Position.from("22")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다.")
-                );
+        );
     }
 
     @Test

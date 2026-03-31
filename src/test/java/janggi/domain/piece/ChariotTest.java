@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
 import janggi.domain.position.Position;
@@ -11,23 +12,16 @@ import org.junit.jupiter.api.Test;
 public class ChariotTest {
 
     @Test
-    void 같은_팀의_차이면_참을_반환한다() {
-        Chariot hanChariot1 = new Chariot(Team.HAN);
-        Chariot hanChariot2 = new Chariot(Team.HAN);
+    void 팀_확인_테스트() {
+        Chariot chariot = new Chariot(Team.HAN);
 
-        boolean result = hanChariot1.isSameTeam(hanChariot2);
+        boolean hanResult = chariot.isSameTeam(Team.HAN);
+        boolean choResult = chariot.isSameTeam(Team.CHO);
 
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void 서로_다른_팀의_차이면_참을_반환한다() {
-        Chariot hanChariot = new Chariot(Team.HAN);
-        Chariot choChariot = new Chariot(Team.CHO);
-
-        boolean result = hanChariot.isSameTeam(choChariot);
-
-        assertThat(result).isFalse();
+        assertAll(
+                () -> assertThat(hanResult).isTrue(),
+                () -> assertThat(choResult).isFalse()
+        );
     }
 
     @Test

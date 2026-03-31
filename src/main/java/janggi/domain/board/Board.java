@@ -31,7 +31,7 @@ public class Board {
 
     public boolean isGeneralCaptured(Team team) {
         return piecesByPosition.values().stream()
-                .noneMatch(piece -> piece.isSamePiece(new General(team)) && piece.isSame(team));
+                .noneMatch(piece -> piece.isSamePiece(new General(team)) && piece.isSameTeam(team));
     }
 
     public Map<Position, Piece> showBoard() {
@@ -66,7 +66,7 @@ public class Board {
     }
 
     private void validateCurrentTeamPiece(Piece fromPiece, Team currentTeam) {
-        if (!fromPiece.isSame(currentTeam)) {
+        if (!fromPiece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("[ERROR] 자신의 기물만 이동시킬 수 있습니다.");
         }
     }

@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
 import janggi.domain.position.Position;
@@ -11,23 +12,16 @@ import org.junit.jupiter.api.Test;
 public class SoldierTest {
 
     @Test
-    void 같은_팀의_졸이면_참을_반환한다() {
-        Soldier hanSoldier1 = new Soldier(Team.HAN);
-        Soldier hanSoldier2 = new Soldier(Team.HAN);
+    void 팀_확인_테스트() {
+        Soldier soldier = new Soldier(Team.HAN);
 
-        boolean result = hanSoldier1.isSameTeam(hanSoldier2);
+        boolean hanResult = soldier.isSameTeam(Team.HAN);
+        boolean choResult = soldier.isSameTeam(Team.CHO);
 
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void 서로_다른_팀의_졸이면_참을_반환한다() {
-        Soldier hanSoldier = new Soldier(Team.HAN);
-        Soldier choSoldier = new Soldier(Team.CHO);
-
-        boolean result = hanSoldier.isSameTeam(choSoldier);
-
-        assertThat(result).isFalse();
+        assertAll(
+                () -> assertThat(hanResult).isTrue(),
+                () -> assertThat(choResult).isFalse()
+        );
     }
 
     @Test
