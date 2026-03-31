@@ -39,9 +39,9 @@ public class GameConsole {
     private Game createGame() {
         Players players = createPlayers();
 
-        int choPositionInput = inputView.askChoPositionInput();
-        int hanPositionInput = inputView.askHanPositionInput();
-        return GameInitializer.initialize(players, choPositionInput, hanPositionInput);
+        Formation choFormation = createChoFormation();
+        Formation hanFormation = createHanFormation();
+        return GameInitializer.initialize(players, choFormation, hanFormation);
     }
 
     private void playTurn() {
@@ -120,18 +120,14 @@ public class GameConsole {
     private Formation createChoFormation() {
         return retryOnInvalidInput(() -> {
             int choPositionInput = inputView.askChoPositionInput();
-            return createFormation(choPositionInput);
+            return Formation.from(choPositionInput);
         });
     }
 
     private Formation createHanFormation() {
         return retryOnInvalidInput(() -> {
             int hanPositionInput = inputView.askHanPositionInput();
-            return createFormation(hanPositionInput);
+            return Formation.from(hanPositionInput);
         });
-    }
-
-    private Formation createFormation(int positionInput) {
-        return Formation.from(positionInput);
     }
 }
