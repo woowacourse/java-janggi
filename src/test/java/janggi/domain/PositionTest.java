@@ -94,7 +94,7 @@ class PositionTest {
     }
 
     @ParameterizedTest
-    @DisplayName("두 위치 사이의 거리가 1인지 계산한다.")
+    @DisplayName("두 위치 사이의 맨해튼 거리를 계산한다.")
     @CsvSource({
             "5, 5, 5, 6, 1",
             "5, 5, 6, 5, 1",
@@ -107,7 +107,7 @@ class PositionTest {
         Position to = new Position(x2, y2);
 
         // when & then
-        assertThat(from.isApartFrom(to)).isEqualTo(result);
+        assertThat(from.calculateManhattanDistance(to)).isEqualTo(result);
     }
 
     @ParameterizedTest

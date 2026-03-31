@@ -20,7 +20,7 @@ public class Position {
         return other.y - this.y;
     }
 
-    public int isApartFrom(Position other) {
+    public int calculateManhattanDistance(Position other) {
         return Math.abs(calculateX(other)) + Math.abs(calculateY(other));
     }
 

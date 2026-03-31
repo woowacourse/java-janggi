@@ -11,7 +11,7 @@ public class GuardStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to) {
-        return from.isApartFrom(to) == 1;
+        return from.calculateManhattanDistance(to) == 1;
     }
 
     @Override
