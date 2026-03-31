@@ -14,7 +14,6 @@ import view.InputView;
 import view.OutputView;
 
 public class Runner {
-
     private final InputView inputView;
     private final OutputView outputView;
     private GameManager gameManager;
