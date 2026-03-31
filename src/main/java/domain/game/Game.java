@@ -70,4 +70,8 @@ public class Game {
     public Team getCurrentTeam() {
         return gameState.getCurrentTeam();
     }
+
+    public Team getWinner() {
+        return gameState.getWinner();
+    }
 }

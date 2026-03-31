@@ -28,4 +28,9 @@ public class Finished extends GameState {
     public Team getCurrentTeam() {
         throw new JanggiException("게임이 이미 종료되었습니다.");
     }
+
+    @Override
+    public Team getWinner() {
+        return winner;
+    }
 }

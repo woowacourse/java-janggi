@@ -17,4 +17,6 @@ public abstract class GameState {
     public abstract boolean isRunning();
 
     public abstract Team getCurrentTeam();
+
+    public abstract Team getWinner();
 }
