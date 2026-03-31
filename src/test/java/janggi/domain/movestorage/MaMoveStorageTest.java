@@ -48,7 +48,7 @@ class MaMoveStorageTest {
         // given
         MoveStrategy moveStorage = new MaMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(6), Column.of(3));
+        Position to = Position.of(Row.of(2), Column.of(5));
         BoardState boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -59,7 +59,7 @@ class MaMoveStorageTest {
         // given
         MoveStrategy moveStorage = new MaMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(6), Column.of(4));
+        Position to = Position.of(Row.of(4), Column.of(6));
         BoardState boardState = new FakeBoard();
 
         // when & then
@@ -70,9 +70,9 @@ class MaMoveStorageTest {
     void 마가_위로_2칸_왼쪽으로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         MoveStrategy moveStorage = new MaMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(3), Column.of(2));
+        Position to = Position.of(Row.of(2), Column.of(3));
 
-        Position obstaclPosition = Position.of(Row.of(4), Column.of(3));
+        Position obstaclPosition = Position.of(Row.of(3), Column.of(4));
         BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -83,9 +83,9 @@ class MaMoveStorageTest {
         // given
         MoveStrategy moveStorage = new MaMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(5), Column.of(2));
+        Position to = Position.of(Row.of(2), Column.of(5));
 
-        Position obstaclPosition = Position.of(Row.of(4), Column.of(3));
+        Position obstaclPosition = Position.of(Row.of(3), Column.of(4));
         BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -93,45 +93,6 @@ class MaMoveStorageTest {
 
     @Test
     void 마가_오른쪽으로_2칸_위로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
-        // given
-        MoveStrategy moveStorage = new MaMoveStrategy();
-        Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(6), Column.of(3));
-
-        Position obstaclPosition = Position.of(Row.of(5), Column.of(4));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
-        // when & then
-        assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
-    }
-
-    @Test
-    void 마가_오른쪽으로_2칸_아래로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
-        // given
-        MoveStrategy moveStorage = new MaMoveStrategy();
-        Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(6), Column.of(5));
-
-        Position obstaclPosition = Position.of(Row.of(5), Column.of(4));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
-        // when & then
-        assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
-    }
-
-    @Test
-    void 마가_아래로_2칸_오른쪽으로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
-        // given
-        MoveStrategy moveStorage = new MaMoveStrategy();
-        Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(5), Column.of(6));
-
-        Position obstaclPosition = Position.of(Row.of(4), Column.of(5));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
-        // when & then
-        assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
-    }
-
-    @Test
-    void 마가_아래로_2칸_왼쪽으로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         // given
         MoveStrategy moveStorage = new MaMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
@@ -144,12 +105,51 @@ class MaMoveStorageTest {
     }
 
     @Test
+    void 마가_오른쪽으로_2칸_아래로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
+        // given
+        MoveStrategy moveStorage = new MaMoveStrategy();
+        Position from = Position.of(Row.of(4), Column.of(4));
+        Position to = Position.of(Row.of(5), Column.of(6));
+
+        Position obstaclPosition = Position.of(Row.of(4), Column.of(5));
+        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        // when & then
+        assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
+    }
+
+    @Test
+    void 마가_아래로_2칸_오른쪽으로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
+        // given
+        MoveStrategy moveStorage = new MaMoveStrategy();
+        Position from = Position.of(Row.of(4), Column.of(4));
+        Position to = Position.of(Row.of(6), Column.of(5));
+
+        Position obstaclPosition = Position.of(Row.of(5), Column.of(4));
+        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        // when & then
+        assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
+    }
+
+    @Test
+    void 마가_아래로_2칸_왼쪽으로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
+        // given
+        MoveStrategy moveStorage = new MaMoveStrategy();
+        Position from = Position.of(Row.of(4), Column.of(4));
+        Position to = Position.of(Row.of(6), Column.of(3));
+
+        Position obstaclPosition = Position.of(Row.of(5), Column.of(4));
+        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        // when & then
+        assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
+    }
+
+    @Test
     void 마가_왼쪽으로_2칸_아래로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         MoveStrategy moveStorage = new MaMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(2), Column.of(5));
+        Position to = Position.of(Row.of(5), Column.of(2));
 
-        Position obstaclPosition = Position.of(Row.of(3), Column.of(4));
+        Position obstaclPosition = Position.of(Row.of(4), Column.of(3));
         BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -159,9 +159,9 @@ class MaMoveStorageTest {
     void 마가_왼쪽으로_2칸_위로_1칸_이동하려_할_때_경로에_기물이_있으면_실패를_반환한다() {
         MoveStrategy moveStorage = new MaMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(4));
-        Position to = Position.of(Row.of(2), Column.of(3));
+        Position to = Position.of(Row.of(3), Column.of(2));
 
-        Position obstaclPosition = Position.of(Row.of(3), Column.of(4));
+        Position obstaclPosition = Position.of(Row.of(4), Column.of(3));
         BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
