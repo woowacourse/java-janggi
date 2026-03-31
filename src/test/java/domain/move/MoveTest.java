@@ -1,6 +1,7 @@
 package domain.move;
 
 import domain.board.JanggiBoard;
+import domain.intersection.exception.IntersectionException;
 import fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.Piece;
@@ -12,6 +13,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_EMPTY;
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
 
 public class MoveTest {
 
@@ -36,6 +40,50 @@ public class MoveTest {
 
         Assertions.assertThat(origin).isEqualTo(expectedEmpty);
         Assertions.assertThat(destination).isEqualTo(expectedChariot);
+    }
+
+    @Test
+    @DisplayName("상대 칸을 출발 좌표로 지정하면, 예외가 발생한다.")
+    void shouldThrowExceptionWhenOriginIsOpponent() {
+        Point start = new Point(0, 0);
+        Point end = new Point(1, 0);
+
+        Team team = Team.CHO;
+        Team opponentTeam = Team.HAN;
+        Piece choPiece = new Piece(team, PieceType.SOLDIER);
+
+        Intersection opponentIntersection = new Intersection(start, choPiece);
+        Intersection destination = Intersection.empty(end);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                opponentIntersection,
+                destination)
+        ));
+
+        Assertions.assertThatThrownBy(() -> {
+                    janggiBoard.tryToMove(start, end, opponentTeam);
+                }).isInstanceOf(IntersectionException.class)
+                .hasMessage(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getMessage());
+    }
+
+    @Test
+    @DisplayName("빈 칸을 출발 좌표로 지정하면, 예외가 발생한다.")
+    void shouldThrowExceptionWhenOriginIsEmpty() {
+        Point start = new Point(0, 0);
+        Point end = new Point(1, 0);
+
+        Intersection emptyIntersection = Intersection.empty(start);
+        Intersection destination = Intersection.empty(end);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                emptyIntersection,
+                destination)
+        ));
+
+        Assertions.assertThatThrownBy(() -> {
+                    janggiBoard.tryToMove(start, end, Team.CHO);
+                }).isInstanceOf(IntersectionException.class)
+                .hasMessage(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
     }
 
 }
