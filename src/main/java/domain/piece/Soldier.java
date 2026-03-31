@@ -7,7 +7,7 @@ import util.ErrorMessage;
 import java.util.List;
 import java.util.Map;
 
-public class Soldier extends AbstractPiece {
+public class Soldier extends Piece {
 
     private static final List<List<Integer>> CHO_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, -1), List.of(1, 0));
     private static final List<List<Integer>> HAN_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, 1), List.of(1, 0));

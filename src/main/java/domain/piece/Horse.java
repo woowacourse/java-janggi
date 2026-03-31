@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static util.ErrorMessage.IMPOSSIBLE_MOVE;
 
-public class Horse extends AbstractPiece {
+public class Horse extends Piece {
 
     private static final List<List<Integer>> MOVABLE_ABSOLUTE_LOCATION = List.of(List.of(1, 2), List.of(2, 1));
 

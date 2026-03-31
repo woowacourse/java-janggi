@@ -5,7 +5,6 @@ import domain.game.Turn;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
-import domain.game.dto.BoardDto;
 import java.util.List;
 import java.util.Map;
 

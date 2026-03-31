@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static util.ErrorMessage.IMPOSSIBLE_MOVE;
 
-public class Elephant extends AbstractPiece {
+public class Elephant extends Piece {
 
     private static final List<List<Integer>> MOVABLE_ABSOLUTE_LOCATION = List.of(List.of(2, 3), List.of(3, 2));
 

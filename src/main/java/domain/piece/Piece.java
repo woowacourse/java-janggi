@@ -2,24 +2,63 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.game.Turn;
-
+import domain.piece.error.PieceException;
 import java.util.Map;
+import util.ErrorMessage;
 
-public interface Piece {
+public abstract class Piece {
 
-    boolean isEmpty();
+    protected final Team team;
 
-    Team team();
+    protected Piece(Team team) {
+        this.team = team;
+    }
 
-    void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board);
+    public Team team() {
+        return team;
+    }
 
-    void isSameTeam(Piece piece);
+    public boolean isEmpty() {
+        return false;
+    }
 
-    boolean isSameTeam(Team team);
+    public void isSameTeam(Piece piece) {
+        if (!isEmptyPiece(piece)) {
+            validateSameTeam(piece);
+        }
+    }
 
-    boolean isCannon();
+    public boolean isSameTeam(Team team) {
+        return this.team.equals(team);
+    }
 
-    boolean isGeneral();
+    public void isSameTeam(Turn turn) {
+        team.validateSameTeam(turn);
+    }
 
-    void isSameTeam(Turn turn);
+    protected void validateSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+        Piece fromPiece = board.get(from);
+        Piece toPiece = board.get(to);
+        fromPiece.isSameTeam(toPiece);
+    }
+
+    private boolean isEmptyPiece(Piece piece) {
+        return piece.isEmpty();
+    }
+
+    private void validateSameTeam(Piece piece) {
+        if (piece.isSameTeam(this.team)) {
+            throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
+        }
+    }
+
+    public boolean isCannon() {
+        return false;
+    }
+
+    public boolean isGeneral() {
+        return false;
+    }
+
+    public abstract void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board);
 }

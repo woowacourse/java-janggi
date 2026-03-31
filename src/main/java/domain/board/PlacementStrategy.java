@@ -1,8 +1,8 @@
 package domain.board;
 
 import domain.coordination.Coordination;
-import domain.piece.Piece;
 
+import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
