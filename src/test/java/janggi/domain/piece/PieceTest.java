@@ -204,6 +204,19 @@ class PieceTest {
                     piece.validateMove(new Position(2, 1), new Position(8, 1), board)
             );
         }
+
+        @Test
+        void 포는_궁성_내에서_대각선으로_이동할_수_있다() {
+            // given
+            Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
+            BoardChecker board = new Board(() -> Map.of(
+                    new Position(1, 4), new Piece(PieceType.CHARIOT, Camp.HAN)
+            ));
+            // when & then
+            assertDoesNotThrow(() ->
+                    piece.validateMove(new Position(0, 3), new Position(2, 5), board)
+            );
+        }
     }
 
     @DisplayName("차 행마법 테스트")
@@ -246,6 +259,17 @@ class PieceTest {
                             () -> piece.validateMove(new Position(0, 0), new Position(3, 3), board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 기물은 직선 이동만 가능합니다.");
+        }
+
+        @Test
+        void 차는_궁성_내에서_대각선으로_이동할_수_있다() {
+            // given
+            Piece piece = new Piece(PieceType.CHARIOT, Camp.CHO);
+            BoardChecker board = new Board(Map::of);
+            // when & then
+            assertDoesNotThrow(() ->
+                    piece.validateMove(new Position(0, 3), new Position(2, 5), board)
+            );
         }
     }
 
