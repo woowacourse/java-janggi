@@ -45,4 +45,19 @@ public enum PieceType {
     public MoveRule getMoveRule() {
         return moveRule;
     }
+
+    public void placeOnBoard(Board board, Team team) {
+        for(int xPosition:xPositions) {
+            Position position = new Position(xPosition, calculateYPositionByTeam(team));
+            Piece piece = new Piece(team, this);
+            board.place(position, piece);
+        }
+    }
+
+    private int calculateYPositionByTeam(Team team) {
+        if(team == Team.HAN) {
+            return 11 - yPosition;
+        }
+        return yPosition;
+    }
 }

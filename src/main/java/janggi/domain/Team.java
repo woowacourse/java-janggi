@@ -13,11 +13,4 @@ public enum Team {
     public String getName() {
         return name;
     }
-
-    public int calculateYPosition(Team team, int yPosition) {
-        if(team == HAN) {
-            return 11 - yPosition;
-        }
-        return yPosition;
-    }
 }

@@ -12,19 +12,13 @@ public class Board {
     public void initialize() {
         for(Team team:Team.values()) {
             for(PieceType pieceType:PieceType.values()) {
-                List<Integer> xPositions = pieceType.getXPositions();
-                int yPosition = pieceType.getYPosition();
-                setPieces(team, pieceType, xPositions, yPosition);
+                pieceType.placeOnBoard(this, team);
             }
         }
     }
 
-    private void setPieces(Team team, PieceType pieceType, List<Integer> xPositions, int yPosition) {
-        for(int xPosition: xPositions) {
-            Position position = new Position(xPosition, team.calculateYPosition(team, yPosition));
-            Piece piece = new Piece(team, pieceType);
-            board.put(position, piece);
-        }
+    public void place(Position positoin, Piece piece) {
+        board.put(positoin, piece);
     }
 
     public Map<Position, Piece> getBoard() {
@@ -181,7 +175,7 @@ public class Board {
             }
         }
 
-        if(!hasPosition) {
+        if(hasPosition == false) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
         }
     }
