@@ -3,7 +3,7 @@ package board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import movepolicy.rule.MoveTrace;
 import participant.Turn;
 import pieces.Piece;
@@ -32,7 +32,7 @@ public record Board(Map<Position, Piece> pieces) {
 
     public void validateDeparturePiece(Position departure, Turn turn) {
         Piece movingPiece = requirePieceAt(departure);
-        if (!movingPiece.isSameSide(turn.side())) {
+        if (!movingPiece.isSameSide(turn.getSide())) {
             throw new IllegalArgumentException("본인 진영의 기물만 이동시킬 수 있습니다.");
         }
     }
@@ -41,7 +41,7 @@ public record Board(Map<Position, Piece> pieces) {
         Piece movingPiece = requirePieceAt(departure);
         MoveTrace moveTrace = createMovePath(movingPiece, departure, destination);
 
-        movingPiece.validateMoveTrace(moveTrace);
+        movingPiece.validate(moveTrace);
 
         return replace(departure, destination, movingPiece);
     }
@@ -49,25 +49,28 @@ public record Board(Map<Position, Piece> pieces) {
     private MoveTrace createMovePath(Piece movingPiece, Position departure, Position destination) {
         List<Position> pathPositions = movingPiece.findPathPositions(departure, destination);
         List<Piece> pathPieces = findPathPieces(pathPositions);
-        Optional<Piece> targetPiece = pieceAt(destination);
+        Piece targetPiece = pieceAt(destination);
 
         return new MoveTrace(movingPiece, pathPieces, targetPiece);
     }
 
+    private Piece pieceAt(Position position) {
+        return pieces.get(position);
+    }
+
     private Piece requirePieceAt(Position position) {
-        return pieceAt(position)
-            .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
+        Piece piece = pieceAt(position);
+        if (piece == null) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
+        return piece;
     }
 
     private List<Piece> findPathPieces(List<Position> pathPieces) {
         return pathPieces.stream()
             .map(this::pieceAt)
-            .flatMap(Optional::stream)
+            .filter(Objects::nonNull)
             .toList();
-    }
-
-    private Optional<Piece> pieceAt(Position position) {
-        return Optional.ofNullable(pieces.get(position));
     }
 
     private Board replace(Position departure, Position destination, Piece movingPiece) {

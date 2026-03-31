@@ -29,11 +29,16 @@ public class Route {
     public List<Position> findPathPositions(Position departure, Side side) {
         List<Position> positions = new ArrayList<>();
         Position current = departure;
-
-        for (int i = 0; i < steps.size() - 1; i++) {
-            current = steps.get(i).move(current, side);
+        for (Step step : steps) {
+            current = step.move(current, side);
             positions.add(current);
         }
+
+        removeDestination(positions);
         return List.copyOf(positions);
+    }
+
+    private void removeDestination(List<Position> positions) {
+        positions.removeLast();
     }
 }

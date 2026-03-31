@@ -14,7 +14,7 @@ class TurnTest {
         // when
         Turn movedTurn = turn.move();
         // then
-        assertThat(movedTurn.side()).isEqualTo(Side.HAN);
+        assertThat(movedTurn.getSide()).isEqualTo(Side.HAN);
     }
 
     @Test
@@ -24,6 +24,6 @@ class TurnTest {
         // when
         Turn movedTurn = turn.move();
         // then
-        assertThat(movedTurn.side()).isEqualTo(Side.CHO);
+        assertThat(movedTurn.getSide()).isEqualTo(Side.CHO);
     }
 }

@@ -36,7 +36,7 @@ public class Application {
         game = Retry.untilSuccess(() -> {
             view.printBoard(DisplayBoard.of(game.getBoard()));
 
-            view.printTurnSide(game.turnSide());
+            view.printTurnSide(game.getTurnSide());
             Position departure = view.askDeparture();
             Position destination = view.askDestination();
             return game.move(departure, destination);

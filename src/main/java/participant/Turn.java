@@ -20,7 +20,7 @@ public enum Turn {
         return CHO_TURN;
     }
 
-    public Side side() {
+    public Side getSide() {
         return this.side;
     }
 }

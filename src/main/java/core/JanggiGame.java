@@ -31,8 +31,8 @@ public class JanggiGame {
         return isOver;
     }
 
-    public Side turnSide() {
-        return turn.side();
+    public Side getTurnSide() {
+        return turn.getSide();
     }
 
     public static JanggiGame of(SangSetupType choSangSetup, SangSetupType hanSangSetup) {

@@ -20,19 +20,22 @@ public class FixedRouteMovement implements Movement {
 
     @Override
     public List<Position> findPathPositions(Position departure, Position destination, Side side) {
-        return routeOf(departure, destination, side)
-            .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 이동입니다."))
-            .findPathPositions(departure, side);
+        Route route = routeOf(departure, destination, side)
+            .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 이동입니다."));
+        return route.findPathPositions(departure, side);
     }
 
     private Optional<Route> routeOf(Position departure, Position destination, Side side) {
         return routes.stream()
-            .filter(route -> isPresent(departure, destination, side, route))
+            .filter(route -> canReachDestination(departure, destination, side, route))
             .findFirst();
     }
 
-    private boolean isPresent(Position departure, Position destination, Side side, Route route) {
-        return route.destinationOf(departure, side)
+    private boolean canReachDestination(
+        Position departure, Position destination, Side side, Route route
+    ) {
+        Optional<Position> position = route.destinationOf(departure, side);
+        return position
             .filter(destination::equals)
             .isPresent();
     }

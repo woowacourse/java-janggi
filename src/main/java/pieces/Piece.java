@@ -43,7 +43,7 @@ public class Piece {
         return movement.findPathPositions(departure, destination, side);
     }
 
-    public final void validateMoveTrace(MoveTrace moveTrace) {
+    public final void validate(MoveTrace moveTrace) {
         moveRule.validate(moveTrace);
     }
 
@@ -51,7 +51,7 @@ public class Piece {
         return type.isPo();
     }
 
-    public final PieceType type() {
+    public final PieceType getType() {
         return type;
     }
 

@@ -80,9 +80,9 @@ public class DisplayBoard {
     }
 
     private static String symbolOf(Piece piece) {
-        String symbol = PIECE_SYMBOLS.get(piece.type());
+        String symbol = PIECE_SYMBOLS.get(piece.getType());
         if (symbol == null) {
-            throw new IllegalArgumentException("출력할 수 없는 기물 타입입니다. type=" + piece.type());
+            throw new IllegalArgumentException("출력할 수 없는 기물 타입입니다. type=" + piece.getType());
         }
         return symbol;
     }
