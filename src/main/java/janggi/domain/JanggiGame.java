@@ -4,6 +4,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.Team;
+import janggi.dto.PositionInfo;
 import java.util.List;
 
 public class JanggiGame {
@@ -14,6 +15,11 @@ public class JanggiGame {
     public JanggiGame(Board board) {
         this.board = board;
         this.gameStatus = new ChoTurn();
+    }
+
+    public JanggiGame(Board board, GameStatus gameStatus) {
+        this.board = board;
+        this.gameStatus = gameStatus;
     }
 
     public boolean isFinished() {
@@ -33,5 +39,12 @@ public class JanggiGame {
 
     public void play(Point from, Point to) {
         this.gameStatus = gameStatus.move(from, to, board);
+    }
+
+    public Team currentTurn() {
+        return gameStatus.getTeam();
+    }
+    public List<PositionInfo> boardStatus() {
+        return board.getBoardStatus();
     }
 }
