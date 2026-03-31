@@ -13,6 +13,10 @@ import domain.place.moveStrategy.GeneralMoveStrategy;
 import domain.place.moveStrategy.GuardMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceJumpMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceOneStepMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceStraightMoveStrategy;
 import domain.place.piece.Cannon;
 import domain.place.piece.Chariot;
 import domain.place.piece.General;
@@ -75,7 +79,7 @@ public class BoardFactory {
         firstSetUpFormation(board, side, startLine);
 
         startLine += setupDirection;
-        board.put(new Position(startLine, GENERAL_COLS), new General(side, new GeneralMoveStrategy()));
+        board.put(new Position(startLine, GENERAL_COLS), new General(side, new GeneralMoveStrategy(), new PalaceOneStepMoveStrategy()));
 
         startLine += setupDirection;
         cannonSetUpFormation(board, side, startLine);
@@ -85,17 +89,17 @@ public class BoardFactory {
     }
 
     private static void firstSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        CHARIOT_COLS.forEach(c -> board.put(new Position(startLine, c), new Chariot(side, new ChariotMoveStrategy())));
-        GUARD_COLS.forEach(c -> board.put(new Position(startLine, c), new Guard(side, new GuardMoveStrategy())));
+        CHARIOT_COLS.forEach(c -> board.put(new Position(startLine, c), new Chariot(side, new ChariotMoveStrategy(), new PalaceStraightMoveStrategy())));
+        GUARD_COLS.forEach(c -> board.put(new Position(startLine, c), new Guard(side, new GuardMoveStrategy(), new PalaceOneStepMoveStrategy())));
     }
 
     private static void cannonSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        CANNON_COLS.forEach(c -> board.put(new Position(startLine, c), new Cannon(side, new CannonMoveStrategy())));
+        CANNON_COLS.forEach(c -> board.put(new Position(startLine, c), new Cannon(side, new CannonMoveStrategy(), new PalaceJumpMoveStrategy())));
     }
 
     private static void soldierSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
         MoveStrategy soldierMoveStrategy = new SoldierMoveStrategy(side);
 
-        SOLDIER_COLS.forEach(c -> board.put(new Position(startLine, c), new Soldier(side, soldierMoveStrategy)));
+        SOLDIER_COLS.forEach(c -> board.put(new Position(startLine, c), new Soldier(side, soldierMoveStrategy, new PalaceSoldierMoveStrategy(side))));
     }
 }

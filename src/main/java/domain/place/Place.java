@@ -17,12 +17,15 @@ public interface Place {
 
     boolean isSameSymbol(PieceSymbol pieceSymbol);
 
-    List<Position> getPath(Position from);
-
     String getFormat();
 
     Optional<Side> getSide();
 
+    List<Position> getNormalPath(Position from);
 
-    boolean canMove(Map<Position, Place> obstacles, Position from, Position to);
+    List<Position> getPalacePath(Position from);
+
+    boolean canNormalMove(Map<Position, Place> obstacles, Position from, Position to);
+
+    boolean canPalaceMove(Map<Position, Place> obstacles, Position from, Position to);
 }

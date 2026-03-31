@@ -30,11 +30,6 @@ public class Empty implements Place {
     }
 
     @Override
-    public List<Position> getPath(Position from) {
-        return List.of();
-    }
-
-    @Override
     public Optional<Side> getSide() {
         return Optional.empty();
     }
@@ -45,7 +40,22 @@ public class Empty implements Place {
     }
 
     @Override
-    public boolean canMove(Map<Position, Place> obstacles, Position from, Position to) {
+    public List<Position> getNormalPath(Position from) {
+        return List.of();
+    }
+
+    @Override
+    public List<Position> getPalacePath(Position from) {
+        return List.of();
+    }
+
+    @Override
+    public boolean canNormalMove(Map<Position, Place> obstacles, Position from, Position to) {
+        return false;
+    }
+
+    @Override
+    public boolean canPalaceMove(Map<Position, Place> obstacles, Position from, Position to) {
         return false;
     }
 }

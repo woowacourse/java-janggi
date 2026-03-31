@@ -7,6 +7,7 @@ import static domain.common.Constant.MIN_ROW;
 
 import domain.place.Empty;
 import domain.place.Place;
+import domain.place.palaceMoveStrategy.PalaceMovementRule;
 import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
 import domain.position.Position;
@@ -27,18 +28,27 @@ public class Board {
         this.board = new HashMap<>(board);
     }
 
-    public void move(Position from, Position to, Side side) {
+    public void move(Position from, Position to, Side side){
         validateMove(from, to, side);
 
-        Place sourcePlace = board.get(from);
+        Place fromPlace = board.get(from);
 
-        Map<Position, Place> obstacles = getObstacles(sourcePlace.getPath(from));
-
-        if (!sourcePlace.canMove(obstacles, from, to)) {
+        boolean normalMoveFlag = normalMoveValid(from, to, fromPlace);
+        boolean palaceMoveFlag = palaceMoveValid(from, to ,fromPlace);
+        if(!(normalMoveFlag || palaceMoveFlag)) {
             throw new IllegalArgumentException("[ERROR] 기물이 가지 못하는 자리입니다.");
         }
-
         movePiece(from, to);
+    }
+
+    private boolean normalMoveValid(Position from, Position to, Place fromPlace) {
+        Map<Position, Place> obstacles = getObstacles(fromPlace.getNormalPath(from));
+        return fromPlace.canNormalMove(obstacles, from, to);
+    }
+
+    private boolean palaceMoveValid(Position from, Position to, Place fromPlace){
+        Map<Position, Place> obstacles = getObstacles(fromPlace.getPalacePath(from));
+        return fromPlace.canPalaceMove(obstacles, from, to);
     }
 
     private Map<Position, Place> getObstacles(List<Position> path) {

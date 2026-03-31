@@ -1,11 +1,12 @@
 package domain.place.piece;
 
 import domain.place.moveStrategy.MoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
 
 public class Chariot extends Piece {
 
-    public Chariot(Side side, MoveStrategy moveStrategy) {
-        super(side, moveStrategy);
+    public Chariot(Side side, MoveStrategy moveStrategy, PalaceMoveStrategy palaceMoveStrategy) {
+        super(side, moveStrategy, palaceMoveStrategy);
     }
 
     @Override
