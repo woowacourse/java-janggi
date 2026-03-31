@@ -1,12 +1,12 @@
 package view;
 
-import dto.BoardDTO;
+import dto.BoardDto;
 import java.util.List;
 import message.OutputMessage;
 
 public class OutputView {
 
-    public static void printBoard(BoardDTO boardDTO) {
+    public static void printBoard(BoardDto boardDTO) {
         List<List<String>> rows = boardDTO.convertRows();
 
         for (int row = 0; row < rows.size(); row++) {

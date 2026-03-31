@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public record BoardDTO(Map<Position, Piece> board) {
+public record BoardDto(Map<Position, Piece> board) {
 
     public List<List<String>> convertRows() {
         List<List<String>> result = new ArrayList<>();

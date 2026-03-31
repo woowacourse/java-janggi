@@ -1,7 +1,6 @@
 package domain;
 
-import dto.BoardDTO;
-import java.util.List;
+import dto.BoardDto;
 import java.util.Map;
 import message.ErrorMessage;
 
@@ -53,8 +52,8 @@ public class JanggiGame {
         return this.gameStatus.description();
     }
 
-    public BoardDTO allFactors() {
-        return new BoardDTO(board.board());
+    public BoardDto allFactors() {
+        return new BoardDto(board.board());
     }
 
     private void validateMove(Position selectedPosition, Position destination) {
