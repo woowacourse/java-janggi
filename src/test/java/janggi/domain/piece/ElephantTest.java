@@ -45,7 +45,7 @@ public class ElephantTest {
             List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(6, 4),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -66,7 +66,7 @@ public class ElephantTest {
             List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(6, 4),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -83,7 +83,7 @@ public class ElephantTest {
             List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(1, 1),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
     }
 }

@@ -32,7 +32,7 @@ public class RuleWithNoTracesTest {
 
         List<Position> actual = ruleWithNoTraces.execute(Position.valueOf(5, 3), boardMediator);
 
-        assertThat(actual).hasSameElementsAs(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
 }

@@ -46,7 +46,7 @@ public class BlueSoldierTest {
                 Position.valueOf(6, 4), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -66,7 +66,7 @@ public class BlueSoldierTest {
                 Position.valueOf(6, 4), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -82,7 +82,7 @@ public class BlueSoldierTest {
             List<Position> actual = blueSoldier.calculateMovablePositions(
                 Position.valueOf(1, 1), boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
     }
 }

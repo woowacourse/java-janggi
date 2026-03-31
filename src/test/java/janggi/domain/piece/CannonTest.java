@@ -48,7 +48,7 @@ class CannonTest {
             List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -69,7 +69,7 @@ class CannonTest {
             List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -86,7 +86,7 @@ class CannonTest {
             List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
     }
 }

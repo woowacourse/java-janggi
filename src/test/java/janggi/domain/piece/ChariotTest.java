@@ -47,7 +47,7 @@ public class ChariotTest {
             List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -68,7 +68,7 @@ public class ChariotTest {
             List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(5, 3),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
     }
 }

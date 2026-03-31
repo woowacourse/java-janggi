@@ -214,7 +214,7 @@ class MovementTest {
             List<Position> actual = Movement.calculateTraces(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -232,7 +232,7 @@ class MovementTest {
             List<Position> actual = Movement.calculateTraces(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -249,7 +249,7 @@ class MovementTest {
             List<Position> actual = Movement.calculateTraces(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
     }

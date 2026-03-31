@@ -46,7 +46,7 @@ public class RedSoldierTest {
                 Position.valueOf(6, 4), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -66,7 +66,7 @@ public class RedSoldierTest {
                 Position.valueOf(6, 4), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -83,7 +83,7 @@ public class RedSoldierTest {
                 Position.valueOf(10, 1), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
     }
 }

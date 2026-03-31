@@ -34,6 +34,6 @@ public class RuleWithTracesTest {
 
         List<Position> actual = ruleWithTraces.execute(Position.valueOf(5, 3), boardMediator);
 
-        assertThat(actual).hasSameElementsAs(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 }

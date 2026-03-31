@@ -31,7 +31,9 @@ public class RuleOfCannon implements Rule {
         if (!canJump(piece, from, boardMediator)) {
             return List.of();
         }
-        return secondMovement.calculateTraces(from, piece, boardMediator);
+        return secondMovement.calculateTraces(from, piece, boardMediator)
+            .stream()
+            .distinct().toList();
     }
 
     private boolean canJump(final Piece me, final Position position,
