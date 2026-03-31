@@ -46,4 +46,8 @@ public final class OutputView {
     public static void printInputToPosition() {
         System.out.println("이동하고 싶은 위치를 n,n 형태로 입력해주세요.");
     }
+
+    public static void printGameOverMessage(String teamType) {
+        System.out.println(teamType + "의 승리로 게임이 종료되었습니다.");
+    }
 }

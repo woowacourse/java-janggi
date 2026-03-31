@@ -36,6 +36,7 @@ public class JanggiController {
             board.changeBoard(from, to);
             turnManager.changeTurn();
         }
+        OutputView.printGameOverMessage(turnManager.currentTeamType());
     }
 
     private Team setupRedTeam() {
