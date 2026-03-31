@@ -1,21 +1,20 @@
 package janggi.domain.mouveRule;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.FakeBoard;
 import janggi.domain.board.BoardView;
 import janggi.domain.piece.Advisor;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class AdvisorMoveRuleTest {
-    private BoardView fakeBoard;
     private final MoveRule moveRule = new AdvisorMoveRule();
+    private BoardView fakeBoard;
 
     @ParameterizedTest
     @CsvSource({
