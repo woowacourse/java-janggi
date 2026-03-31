@@ -1,14 +1,16 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.piece.strategy.PalaceStrategy;
 import janggi.domain.position.Position;
-import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.Map;
 
 public class Advisor extends Piece {
-    public Advisor(Camp camp, MoveStrategy moveStrategy) {
-        super(camp, moveStrategy);
+    private static final PalaceStrategy PALACE_STRATEGY = new PalaceStrategy();
+
+    public Advisor(Camp camp) {
+        super(camp, PALACE_STRATEGY);
     }
 
     @Override

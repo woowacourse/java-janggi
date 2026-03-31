@@ -1,14 +1,17 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.piece.strategy.ElephantStrategy;
 import janggi.domain.position.Position;
 import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.Map;
 
 public class Elephant extends Piece {
-    public Elephant(Camp camp, MoveStrategy moveStrategy) {
-        super(camp, moveStrategy);
+    private static final ElephantStrategy ELEPHANT_STRATEGY = new ElephantStrategy();
+
+    public Elephant(Camp camp) {
+        super(camp, ELEPHANT_STRATEGY);
     }
 
     @Override

@@ -1,14 +1,16 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.piece.strategy.LinearStrategy;
 import janggi.domain.position.Position;
-import janggi.domain.piece.strategy.MoveStrategy;
 
 import java.util.Map;
 
 public class Chariot extends Piece {
-    public Chariot(Camp camp, MoveStrategy moveStrategy) {
-        super(camp, moveStrategy);
+    private static final LinearStrategy LINEAR_STRATEGY = new LinearStrategy();
+
+    public Chariot(Camp camp) {
+        super(camp, LINEAR_STRATEGY);
     }
 
     @Override
