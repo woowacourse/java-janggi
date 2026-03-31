@@ -11,3 +11,4 @@
 - [ ] **3. `PositionLayout`의 `placeCHoInnerPieces` 네이밍 수정**
 - [ ] **4. `Arrangements`의 `assignArrangement`의 `Map` 원본 복사 후 put 하도록 수정**
 - [ ] **5. 사용되지 않는 import 삭제**
+- [ ] **6. 축약형 네이밍 수정**
