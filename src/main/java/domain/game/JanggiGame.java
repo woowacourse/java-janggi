@@ -37,6 +37,10 @@ public final class JanggiGame {
         return currentTurn;
     }
 
+    public Side previousTurn() {
+        return currentTurn.nextTurn();
+    }
+
     public boolean isFinished() {
         return board.isGeneralCaptured(currentTurn) || board.isGeneralCaptured(currentTurn.nextTurn());
     }

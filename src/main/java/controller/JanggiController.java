@@ -12,9 +12,6 @@ import view.OutputView;
 
 public final class JanggiController {
 
-    private static final String INVALID_POSITION_ERROR_MESSAGE =
-            "(1,1)에서 (10,9) 사이의 유효한 좌표를 입력해주세요.(이전 입력: %d,%d)";
-
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -33,13 +30,16 @@ public final class JanggiController {
 
         outputView.printBoard(board);
 
-        while (true) {
+        while (!janggiGame.isFinished()) {
             Side currentTurn = janggiGame.currentTurn();
 
             Intersection startPosition = readValidStartPositionAndPrintBoard(currentTurn, board);
 
             readValidDestinationAndPrintBoard(janggiGame, board, startPosition, currentTurn);
         }
+
+        Side winnerSide = janggiGame.previousTurn();
+        outputView.printWinner(winnerSide);
     }
 
     private InitialPieces setUpInitialPieces() {
@@ -76,7 +76,8 @@ public final class JanggiController {
             JanggiGame janggiGame,
             Board board,
             Intersection startPosition,
-            Side currentTurn) {
+            Side currentTurn
+    ) {
         while (true) {
             try {
                 Intersection destination = inputView.readDestination();

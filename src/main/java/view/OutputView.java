@@ -49,6 +49,11 @@ public final class OutputView {
         System.out.println();
     }
 
+    public void printWinner(Side side) {
+        System.out.println("--- 게임이 종료되었습니다 ---");
+        System.out.printf("%s의 승리!", side.name());
+    }
+
     private void printRow(Board board, int row, List<Intersection> movableIntersections) {
         printRowHeader(row);
         for (int file = 1; file <= 9; file++) {
