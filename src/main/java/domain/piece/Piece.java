@@ -20,14 +20,6 @@ public abstract class Piece {
 
     public abstract boolean validatePath(PathPieces pathPieces);
 
-    public Path calculatePath(Position source, Position destination) {
-        return this.getPathGenerator().calculatePath(source, destination);
-    }
-
-    public boolean validatePath(PathPieces pathPieces) {
-        return this.getMovementStrategy().validatePath(pathPieces);
-    }
-
     public boolean isDifferentTeam(Piece piece) {
         return this.team != piece.team;
     }
