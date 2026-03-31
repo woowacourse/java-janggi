@@ -164,7 +164,7 @@ public class CannonTest {
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
         pathStates.put(new Position(1, 1), new FullState(cannon));
-        pathStates.put(new Position(1, 2), new EmptyState());
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
         pathStates.put(new Position(1, 3), new FullState(new Soldier(Country.CHO)));
 
         assertThatThrownBy(() -> cannon.canMove(pathStates))
