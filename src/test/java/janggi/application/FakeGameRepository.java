@@ -9,6 +9,7 @@ public class FakeGameRepository implements GameRepository {
 
     private final List<GameSummary> gameSummaries;
     private final GameSnapshot gameSnapshot;
+    private GameSnapshot updatedGameSnapshot;
 
     public FakeGameRepository(List<GameSummary> gameSummaries, GameSnapshot gameSnapshot) {
         this.gameSummaries = gameSummaries;
@@ -38,6 +39,10 @@ public class FakeGameRepository implements GameRepository {
 
     @Override
     public void update(GameSnapshot gameSnapshot) {
-
+        this.updatedGameSnapshot = gameSnapshot;
     }
+
+    public GameSnapshot updatedGameSnapshot() {
+        return updatedGameSnapshot;
+    };
 }

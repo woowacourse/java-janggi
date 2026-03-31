@@ -4,6 +4,7 @@ import janggi.application.dto.GameSnapshot;
 import janggi.application.dto.GameSummary;
 import janggi.domain.Board;
 import janggi.domain.JanggiGame;
+import janggi.domain.Point;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.FinishedGame;
 import janggi.domain.status.GameStatus;
@@ -39,6 +40,12 @@ public class JanggiGameService {
         return new JanggiGame(board, gameStatus(gameSnapshot));
     }
 
+    public void play(Long gameId, Point from, Point to) {
+        JanggiGame janggiGame = loadGame(gameId);
+        janggiGame.play(from, to);
+        gameRepository.update(toSnapshot(gameId, janggiGame));
+    }
+
     private GameStatus gameStatus(GameSnapshot gameSnapshot) {
         if (gameSnapshot.finished()) {
             return new FinishedGame(gameSnapshot.winner());
@@ -47,5 +54,22 @@ public class JanggiGameService {
             return new HanTurn();
         }
         return new ChoTurn();
+    }
+
+    private GameSnapshot toSnapshot(Long gameId, JanggiGame janggiGame) {
+        return new GameSnapshot(
+                gameId,
+                janggiGame.currentTurn(),
+                janggiGame.isFinished(),
+                winner(janggiGame),
+                janggiGame.boardStatus()
+        );
+    }
+
+    private Team winner(JanggiGame janggiGame) {
+        if (!janggiGame.isFinished()) {
+            return null;
+        }
+        return janggiGame.getWinner();
     }
 }
