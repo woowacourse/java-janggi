@@ -37,10 +37,6 @@ public class JanggiGame {
         return !board.hasTwoGenerals();
     }
 
-    public Turn turn() {
-        return turn;
-    }
-
     public BoardDto start(List<Integer> from, List<Integer> to) {
         board.move(
                 Coordination.of(from.get(0), from.get(1)),
