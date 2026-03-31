@@ -11,6 +11,7 @@ import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.Direction;
 import janggi.domain.rule.route.Route;
+import janggi.exception.RouteResolveException;
 import java.util.List;
 
 public class Jolbyeong extends ActivePiece {
@@ -36,7 +37,7 @@ public class Jolbyeong extends ActivePiece {
                 return locations;
             }
         }
-        throw new IllegalArgumentException("병은 해당 위치에 도달할 수 없습니다.");
+        throw new RouteResolveException(pieceType, from, to);
     }
 
     @Override

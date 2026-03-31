@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.exception.RouteResolveException;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -61,7 +62,7 @@ public class SangTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(from, to))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(RouteResolveException.class);
         }
     }
 }

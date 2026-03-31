@@ -1,6 +1,7 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
+import janggi.exception.RouteResolveException;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -64,6 +65,6 @@ class StraightRouteProviderTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(RouteResolveException.class);
     }
 }

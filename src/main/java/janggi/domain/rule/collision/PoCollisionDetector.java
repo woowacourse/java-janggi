@@ -1,7 +1,12 @@
 package janggi.domain.rule.collision;
 
+import static janggi.exception.ErrorCode.DESTINATION_OCCUPIED_SAME_TEAM_ERROR;
+import static janggi.exception.ErrorCode.PO_EXISTENCE_IN_PATH_ERROR;
+import static janggi.exception.ErrorCode.PO_REQUIRED_SCREEN_COUNT_ERROR;
+
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.exception.PieceOnPathException;
 import java.util.List;
 
 public class PoCollisionDetector implements CollisionDetector {
@@ -31,7 +36,7 @@ public class PoCollisionDetector implements CollisionDetector {
                 .count();
 
         if (obstacleCount != REQUIRED_SCREEN_COUNT) {
-            throw new IllegalArgumentException("포는 반드시 하나의 기물을 넘어야 합니다.");
+            throw new PieceOnPathException(PO_REQUIRED_SCREEN_COUNT_ERROR, obstacleCount);
         }
     }
 
@@ -40,14 +45,14 @@ public class PoCollisionDetector implements CollisionDetector {
                 .anyMatch(piece -> piece.getType() == PieceType.PO);
 
         if (hasPo) {
-            throw new IllegalArgumentException("이동 경로 또는 도착지에 포가 존재할 수 없습니다.");
+            throw new PieceOnPathException(PO_EXISTENCE_IN_PATH_ERROR);
         }
     }
 
     private void validateDestination(Piece piece, List<Piece> piecesOnPath) {
         Piece destinationPiece = piecesOnPath.getLast();
         if (destinationPiece.isSameSide(piece)) {
-            throw new IllegalArgumentException("도착 위치에 같은 팀이 존재합니다");
+            throw new PieceOnPathException(DESTINATION_OCCUPIED_SAME_TEAM_ERROR, destinationPiece);
         }
     }
 }

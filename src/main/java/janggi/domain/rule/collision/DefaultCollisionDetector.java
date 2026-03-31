@@ -1,6 +1,8 @@
 package janggi.domain.rule.collision;
 
 import janggi.domain.piece.Piece;
+import janggi.exception.ErrorCode;
+import janggi.exception.PieceOnPathException;
 import java.util.List;
 
 public class DefaultCollisionDetector implements CollisionDetector {
@@ -24,7 +26,7 @@ public class DefaultCollisionDetector implements CollisionDetector {
         List<Piece> middlePath = piecesOnPath.subList(0, piecesOnPath.size() - 1);
         for (Piece pathPiece : middlePath) {
             if (!pathPiece.isEmpty()) {
-                throw new IllegalArgumentException("이동 경로에 기물이 존재합니다");
+                throw new PieceOnPathException(ErrorCode.COLLISION_DETECT_ERROR, pathPiece);
             }
         }
     }
@@ -32,7 +34,7 @@ public class DefaultCollisionDetector implements CollisionDetector {
     private void validateDestination(Piece piece, List<Piece> piecesOnPath) {
         Piece destinationPiece = piecesOnPath.getLast();
         if (destinationPiece.isSameSide(piece)) {
-            throw new IllegalArgumentException("도착 위치에 같은 팀이 존재합니다");
+            throw new PieceOnPathException(ErrorCode.DESTINATION_OCCUPIED_SAME_TEAM_ERROR, destinationPiece);
         }
     }
 }

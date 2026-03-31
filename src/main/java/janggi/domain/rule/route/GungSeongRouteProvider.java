@@ -10,6 +10,7 @@ import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
+import janggi.exception.RouteResolveException;
 import java.util.List;
 
 public class GungSeongRouteProvider implements RouteProvider {
@@ -43,6 +44,6 @@ public class GungSeongRouteProvider implements RouteProvider {
             }
         }
 
-        throw new IllegalArgumentException("해당 위치에 도달할 수 없습니다.");
+        throw new RouteResolveException(from, to);
     }
 }

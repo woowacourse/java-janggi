@@ -3,6 +3,7 @@ package janggi.controller;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
+import janggi.exception.JanggiException;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
 import janggi.strategy.MaSangMaSang;
@@ -78,7 +79,7 @@ public class JanggiFlow {
             try {
                 runnable.run();
                 return;
-            } catch (IllegalArgumentException e) {
+            } catch (JanggiException | IllegalArgumentException e) {
                 view.respondErrorMessage(e);
             }
         }

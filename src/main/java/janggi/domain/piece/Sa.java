@@ -6,6 +6,7 @@ import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.GungSeongRouteProvider;
 import janggi.domain.rule.route.RouteProvider;
+import janggi.exception.RouteResolveException;
 import java.util.List;
 
 public class Sa extends ActivePiece {
@@ -22,8 +23,8 @@ public class Sa extends ActivePiece {
     public List<Location> calculateRoute(Location from, Location to) {
         try {
             return ROUTE_PROVIDER.calculateRoute(from, to);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("사는 해당 위치에 도달할 수 없습니다.");
+        } catch (RouteResolveException e) {
+            throw new RouteResolveException(pieceType, from, to);
         }
     }
 

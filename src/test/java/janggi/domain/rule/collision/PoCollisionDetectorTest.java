@@ -4,6 +4,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Po;
+import janggi.exception.PieceOnPathException;
 import janggi.support.TestPiece;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -48,7 +49,7 @@ class PoCollisionDetectorTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> collisionDetector.check(piece, piecesOnPath))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(PieceOnPathException.class);
     }
 
     @Test
@@ -61,7 +62,7 @@ class PoCollisionDetectorTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> collisionDetector.check(piece, piecesOnPath))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(PieceOnPathException.class);
     }
 
     @Test
@@ -74,7 +75,7 @@ class PoCollisionDetectorTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> collisionDetector.check(piece, piecesOnPath))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(PieceOnPathException.class);
     }
 
     @Test
@@ -87,7 +88,7 @@ class PoCollisionDetectorTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> collisionDetector.check(piece, piecesOnPath))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(PieceOnPathException.class);
     }
 
     @Test
@@ -100,6 +101,6 @@ class PoCollisionDetectorTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> collisionDetector.check(piece, piecesOnPath))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(PieceOnPathException.class);
     }
 }

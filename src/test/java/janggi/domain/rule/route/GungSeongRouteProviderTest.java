@@ -1,6 +1,7 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
+import janggi.exception.RouteResolveException;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +54,6 @@ class GungSeongRouteProviderTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(RouteResolveException.class);
     }
 }

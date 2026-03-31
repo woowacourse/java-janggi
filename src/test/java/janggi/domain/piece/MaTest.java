@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.exception.RouteResolveException;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +53,7 @@ public class MaTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(from, to))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(RouteResolveException.class);
         }
     }
 }

@@ -28,4 +28,9 @@ public record Location(int row, int col) {
     public int calculateVerticalDiff(Location to) {
         return to.row - this.row;
     }
+
+    @Override
+    public String toString() {
+        return "(" + row + ", " + col + ")";
+    }
 }
