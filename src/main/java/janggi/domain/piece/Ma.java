@@ -17,7 +17,7 @@ public class Ma extends Piece {
 
     @Override
     public void validateMove(Position from, Position to) {
-        if (isValidMovePattern(from, to)) {
+        if (!isValidMovePattern(from, to)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 마가 이동할 수 없습니다.");
         }
     }
