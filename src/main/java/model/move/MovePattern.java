@@ -32,7 +32,7 @@ public class MovePattern {
             return false;
         }
 
-        return pathPolicy.validate(move, board);
+        return pathPolicy.validateDestination(move, board);
     }
 
     private Position checkPath(Move move, Board board) {
@@ -57,6 +57,6 @@ public class MovePattern {
     }
 
     private boolean checkPathPolicy(Board board, Position current) {
-        return pathPolicy.check(current, board);
+        return pathPolicy.validatePath(current, board);
     }
 }

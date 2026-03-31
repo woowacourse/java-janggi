@@ -7,12 +7,12 @@ import model.position.Position;
 
 public class DefaultPathPolicy extends PathPolicy {
     @Override
-    public boolean check(Position pos, Board board) {
+    public boolean validatePath(Position pos, Board board) {
         return board.isPathEmpty(pos);
     }
 
     @Override
-    public boolean validate(Move move, Board board) {
+    public boolean validateDestination(Move move, Board board) {
         Piece fromPiece = board.findPiece(move.from());
         Piece toPiece = board.findPiece(move.to());
 

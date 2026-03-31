@@ -11,7 +11,7 @@ public class CannonPathPolicy extends PathPolicy {
     private int count = 0;
 
     @Override
-    public boolean check(Position pos, Board board) {
+    public boolean validatePath(Position pos, Board board) {
         if (!board.isPathEmpty(pos)) {
             count++;
         }
@@ -24,7 +24,7 @@ public class CannonPathPolicy extends PathPolicy {
     }
 
     @Override
-    public boolean validate(Move move, Board board) {
+    public boolean validateDestination(Move move, Board board) {
         Piece fromPiece = board.findPiece(move.from());
         Piece toPiece = board.findPiece(move.to());
 
