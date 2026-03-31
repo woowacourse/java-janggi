@@ -20,7 +20,7 @@ public class SoliderMoveRule implements MoveRule {
     );
 
     private static final Directions DEFAULT_CHO_DIRECTIONS = new Directions(List.of(
-            new Direction(List.of(DOWN)),
+            new Direction(List.of(UP)),
             new Direction(List.of(RIGHT)),
             new Direction(List.of(LEFT)))
     );
