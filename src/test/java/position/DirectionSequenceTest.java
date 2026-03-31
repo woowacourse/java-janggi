@@ -40,6 +40,13 @@ class DirectionSequenceTest {
     }
 
     @Test
+    void 방향_조합이_비어있으면_예외가_발생한다() {
+        // given & when & then
+        assertThatThrownBy(() -> new DirectionSequence(List.of()))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     void 방향_조합에_null_방향이_포함되면_예외가_발생한다() {
         // given
         List<Direction> directions = new ArrayList<>();

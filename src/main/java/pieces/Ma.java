@@ -5,9 +5,23 @@ import movepolicy.destination.BasicDestinationRule;
 import movepolicy.destination.DestinationRule;
 import movepolicy.path.EmptyPathRule;
 import movepolicy.path.PathRule;
+import position.Direction;
+import position.DirectionSequence;
+import position.DirectionSequenceResult;
 import position.Position;
 
 public class Ma extends FullPiece {
+
+    private static final List<DirectionSequence> DIRECTION_SEQUENCES = List.of(
+            DirectionSequence.of(Direction.UP, Direction.RIGHT_UP),
+            DirectionSequence.of(Direction.UP, Direction.LEFT_UP),
+            DirectionSequence.of(Direction.DOWN, Direction.RIGHT_DOWN),
+            DirectionSequence.of(Direction.DOWN, Direction.LEFT_DOWN),
+            DirectionSequence.of(Direction.LEFT, Direction.LEFT_UP),
+            DirectionSequence.of(Direction.LEFT, Direction.LEFT_DOWN),
+            DirectionSequence.of(Direction.RIGHT, Direction.RIGHT_UP),
+            DirectionSequence.of(Direction.RIGHT, Direction.RIGHT_DOWN)
+    );
 
     public Ma(Side side) {
         super(side);
@@ -15,35 +29,16 @@ public class Ma extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        List<Position> movableDestinations = List.of(
-                departure.moveUp().moveRightUp(),
-                departure.moveUp().moveLeftUp(),
-                departure.moveDown().moveRightDown(),
-                departure.moveDown().moveLeftDown(),
-                departure.moveLeft().moveLeftUp(),
-                departure.moveLeft().moveLeftDown(),
-                departure.moveRight().moveRightUp(),
-                departure.moveRight().moveRightDown());
-        if (!movableDestinations.contains(destination)) {
+        if (findDirectionSequenceResult(departure, destination).isEmpty()) {
             throw new IllegalArgumentException("마의 행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
     }
 
     @Override
     protected List<Position> getPathPositions(Position departure, Position destination) {
-        if (departure.moveUp().moveUp().isSameRow(destination)) {
-            return List.of(departure.moveUp());
-        }
-        if (departure.moveDown().moveDown().isSameRow(destination)) {
-            return List.of(departure.moveDown());
-        }
-        if (departure.moveLeft().moveLeft().isSameColumn(destination)) {
-            return List.of(departure.moveLeft());
-        }
-        if (departure.moveRight().moveRight().isSameColumn(destination)) {
-            return List.of(departure.moveRight());
-        }
-        throw new IllegalArgumentException("출발지와 도착지의 좌표가 유효하지 않습니다.");
+        return findDirectionSequenceResult(departure, destination)
+                .map(DirectionSequenceResult::pathPositions)
+                .orElseThrow(() -> new IllegalArgumentException("출발지와 도착지의 좌표가 유효하지 않습니다."));
     }
 
     @Override
@@ -64,5 +59,13 @@ public class Ma extends FullPiece {
     @Override
     public PieceType getType() {
         return PieceType.MA;
+    }
+
+    private java.util.Optional<DirectionSequenceResult> findDirectionSequenceResult(Position departure,
+                                                                                    Position destination) {
+        return DIRECTION_SEQUENCES.stream()
+                .map(sequence -> sequence.positionsFrom(departure))
+                .filter(result -> result.lastPosition().equals(destination))
+                .findFirst();
     }
 }

@@ -32,6 +32,9 @@ public class DirectionSequence {
         if (directions == null) {
             throw new IllegalArgumentException("방향 조합은 null일 수 없습니다.");
         }
+        if (directions.isEmpty()) {
+            throw new IllegalArgumentException("방향 조합은 비어 있을 수 없습니다.");
+        }
         if (directions.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("방향 조합에는 null 방향이 포함될 수 없습니다.");
         }
