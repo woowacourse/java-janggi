@@ -1,7 +1,7 @@
 package domain.pieces;
 
-import domain.Country;
-import domain.PieceType;
+import domain.enums.Country;
+import domain.enums.PieceType;
 import domain.Position;
 import java.util.List;
 

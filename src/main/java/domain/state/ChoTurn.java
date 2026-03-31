@@ -1,4 +1,6 @@
-package domain;
+package domain.state;
+
+import domain.enums.Country;
 
 public class ChoTurn implements State {
     @Override

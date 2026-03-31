@@ -1,7 +1,8 @@
-package domain;
+package domain.enums;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import domain.Position;
 
 public enum PieceType {
     CHA("차",

@@ -1,8 +1,9 @@
 package domain.pieces;
 
-import domain.Country;
-import domain.PieceType;
+import domain.enums.Country;
+import domain.enums.PieceType;
 import domain.Position;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,7 @@ public abstract class Piece {
 
     public abstract boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType);
 
+//    public abstract List<Position> getAvailableRoute();
     public boolean isDifferentCountry(Country endCountry) {
         return !country.equals(endCountry);
     }

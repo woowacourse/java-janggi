@@ -1,8 +1,11 @@
 package domain;
 
-import domain.pieces.Piece;
+import domain.enums.Country;
+import domain.enums.PieceType;
+import domain.state.ChoTurn;
+import domain.state.State;
+
 import java.util.List;
-import java.util.Map;
 
 public class JanggiGame {
     private final Board board;

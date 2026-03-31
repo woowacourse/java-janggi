@@ -1,4 +1,4 @@
-package domain;
+package domain.enums;
 
 public enum Country {
     CHO("초나라", "\u001B[32m"),

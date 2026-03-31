@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+import domain.enums.Country;
+import domain.enums.MaSangPosition;
+import domain.enums.PieceType;
 import domain.pieces.Cha;
 import domain.pieces.Jang;
 import domain.pieces.Jol;
@@ -36,9 +38,9 @@ public class Board {
             }
         }
 
-        for (MaSang maSang : MaSang.values()) {
-            PieceType pieceType = choHan.get(maSang.getIndex());
-            pieces.put(maSang.getPosition(), createPiece(pieceType, maSang.getCountry()));
+        for (MaSangPosition maSangPosition : MaSangPosition.values()) {
+            PieceType pieceType = choHan.get(maSangPosition.getIndex());
+            pieces.put(maSangPosition.getPosition(), createPiece(pieceType, maSangPosition.getCountry()));
         }
 
         this.board = pieces;

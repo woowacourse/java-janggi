@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import domain.enums.PieceType;
 import testUtil.BoardTestUtil;
 
 class BoardTest {
@@ -88,6 +89,16 @@ class BoardTest {
         Board board = new Board(pieces);
 
         assertThatThrownBy(() -> board.move(Position.create(4,1), Position.create(3,1)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 차 이동 시 중간에 장애물 있음 (초나라)")
+    @Test
+    void 차_이동_중간_장애물_초나라_예외_테스트(){
+        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
+        Board board = new Board(pieces);
+
+        assertThatThrownBy(() -> board.move(Position.create(1,1), Position.create(5,1)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

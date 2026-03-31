@@ -2,8 +2,8 @@ package view;
 
 import java.util.List;
 
-import domain.Country;
-import domain.PieceType;
+import domain.enums.Country;
+import domain.enums.PieceType;
 import domain.Position;
 import service.dto.BoardDto;
 import service.dto.ColorDto;

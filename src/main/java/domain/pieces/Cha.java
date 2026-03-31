@@ -2,8 +2,8 @@ package domain.pieces;
 
 import java.util.List;
 
-import domain.Country;
-import domain.PieceType;
+import domain.enums.Country;
+import domain.enums.PieceType;
 import domain.Position;
 
 public class Cha extends Piece {
@@ -19,6 +19,9 @@ public class Cha extends Piece {
 
     @Override
     public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+        if (pieces.size() > 2){
+            return false;
+        }
         return true;
     }
 }

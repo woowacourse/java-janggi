@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import domain.enums.Country;
+import domain.enums.PieceType;
 import testUtil.BoardTestUtil;
 
 class JanggiGameTest {

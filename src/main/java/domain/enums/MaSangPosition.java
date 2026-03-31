@@ -1,6 +1,8 @@
-package domain;
+package domain.enums;
 
-public enum MaSang {
+import domain.Position;
+
+public enum MaSangPosition {
     HAN_P1(1, 2, Country.CHO),
     HAN_P2(1, 3, Country.CHO),
     HAN_P3(1, 7, Country.CHO),
@@ -15,7 +17,7 @@ public enum MaSang {
     private final int y;
     private final Country country;
 
-    MaSang(int x, int y, Country country) {
+    MaSangPosition(int x, int y, Country country) {
         this.x = x;
         this.y = y;
         this.country = country;

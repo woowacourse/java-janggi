@@ -2,7 +2,7 @@ package domain.pieces;
 
 import java.util.List;
 
-import domain.PieceType;
+import domain.enums.PieceType;
 import domain.Position;
 
 public class None extends Piece {

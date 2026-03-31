@@ -3,7 +3,7 @@ package testUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.PieceType;
+import domain.enums.PieceType;
 
 public final class BoardTestUtil {
 

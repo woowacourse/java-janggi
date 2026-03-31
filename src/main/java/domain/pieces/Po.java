@@ -2,8 +2,8 @@ package domain.pieces;
 
 import java.util.List;
 
-import domain.Country;
-import domain.PieceType;
+import domain.enums.Country;
+import domain.enums.PieceType;
 import domain.Position;
 
 public class Po extends Piece {

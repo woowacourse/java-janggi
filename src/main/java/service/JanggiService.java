@@ -2,12 +2,11 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import domain.Board;
-import domain.Country;
+import domain.enums.Country;
 import domain.JanggiGame;
-import domain.PieceType;
+import domain.enums.PieceType;
 import domain.Position;
 import service.dto.BoardDto;
 import service.dto.ColorDto;
