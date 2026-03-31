@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.application.dto.GameSnapshot;
 import janggi.application.dto.GameSummary;
 import janggi.domain.JanggiGame;
+import janggi.domain.Point;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.List;
@@ -111,5 +112,36 @@ public class JanggiGameServiceTest {
         assertThatThrownBy(() -> janggiGameService.loadGame(2L))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("존재하지");
+    }
+
+    @Test
+    @DisplayName("턴이 넘어가면 게임 상태 저장")
+    void play_turn_and_save() {
+        // given
+        GameSnapshot gameSnapshot = new GameSnapshot(
+                1L,
+                Team.CHO,
+                false,
+                null,
+                List.of(
+                        PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                        PositionInfo.from(Team.HAN, "JANG", 4, 8)
+                )
+        );
+        FakeGameRepository gameRepository = new FakeGameRepository(
+                List.of(new GameSummary(1L, false)),
+                gameSnapshot
+        );
+        InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(List.of());
+        JanggiGameService janggiGameService =
+                new JanggiGameService(gameRepository, initialBoardProvider);
+
+        // when
+        janggiGameService.play(1L, Point.of(4, 1), Point.of(4, 2));
+
+        // then
+        assertThat(gameRepository.updatedGameSnapshot()).isNotNull();
+        assertThat(gameRepository.updatedGameSnapshot().id()).isEqualTo(1L);
+        assertThat(gameRepository.updatedGameSnapshot().currentTurn()).isEqualTo(Team.HAN);
     }
 }
