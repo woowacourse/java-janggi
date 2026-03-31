@@ -65,6 +65,10 @@ public class Board {
                 .toList();
     }
 
+    public List<PositionInfo> getBoardStatus() {
+        return PositionInfo.from(piecesByPoint);
+    }
+
     public Map<Point, Piece> getPiecesByPoint() {
         return piecesByPoint;
     }
