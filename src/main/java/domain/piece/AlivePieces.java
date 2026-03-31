@@ -56,6 +56,17 @@ public class AlivePieces {
                 .allMatch(this::isEmpty);
     }
 
+    public boolean hasScreenExcept(Path path, PieceType excludedType) {
+        System.out.println("excludedType = " + excludedType);
+        List<Piece> screens = path.passingIntersections()
+                .stream()
+                .filter(this::isNotEmpty)
+                .map(this::placedAt)
+                .toList();
+
+        return screens.size() == 1 && screens.getFirst().isNotSameType(excludedType);
+    }
+
     public List<Piece> toList() {
         return alivePieces.values()
                 .stream()

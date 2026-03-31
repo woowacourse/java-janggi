@@ -15,7 +15,6 @@ import domain.move.strategy.StraightLineMovement;
 import java.util.List;
 
 public enum PieceType {
-    // TODO 무상태니까 싱글턴 고민. 매번 new 하기가 싫어서
     CANNON(new StraightLineMovement(), new JumpingRule()),
     CHARIOT(new StraightLineMovement(), new BasicRule()),
     ELEPHANT(new OrthogonalThenTwoDiagonalMovement(), new BasicRule()),
