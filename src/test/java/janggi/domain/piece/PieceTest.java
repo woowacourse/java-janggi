@@ -48,6 +48,9 @@ class PieceTest {
             );
         }
 
+        // TODO: 한나라 예외 추가
+        // TODO: 대각선 이동도 가능하므로 예외 메시지 수정 고려
+        // TODO: 궁성 외부 이동 예외 테스트 추가
         @Test
         void 궁은_행마법을_따르지_않으면_예외가_발생한다() {
             // given
@@ -55,7 +58,7 @@ class PieceTest {
             BoardChecker board = new Board(Map::of);
             // when & then
             Assertions.assertThatThrownBy(
-                            () -> piece.validateMove(new Position(1, 4), new Position(3, 4), board))
+                            () -> piece.validateMove(new Position(0, 4), new Position(2, 4), board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
         }
@@ -75,6 +78,9 @@ class PieceTest {
             );
         }
 
+        // TODO: 한나라 예외 추가
+        // TODO: 대각선 이동도 가능하므로 예외 메시지 수정 고려
+        // TODO: 궁성 외부 이동 예외 테스트 추가
         @Test
         void 사는_행마법을_따르지_않으면_예외가_발생한다() {
             // given
@@ -318,6 +324,6 @@ class PieceTest {
                             () -> piece.validateMove(new Position(6, 0), new Position(1, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
+        }
     }
-}
 }

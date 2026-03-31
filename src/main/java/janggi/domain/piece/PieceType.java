@@ -9,17 +9,17 @@ import janggi.domain.piece.strategy.ElephantStrategy;
 import janggi.domain.piece.strategy.HorseStrategy;
 import janggi.domain.piece.strategy.MoveStrategy;
 import janggi.domain.piece.strategy.MultiStepStraightStrategy;
-import janggi.domain.piece.strategy.SingleStepStraightStrategy;
+import janggi.domain.piece.strategy.PalaceStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 import java.util.List;
 
 public enum PieceType {
 
-    GENERAL(new SingleStepStraightStrategy(), new EmptyCondition()),
+    GENERAL(new PalaceStrategy(), new EmptyCondition()),
     CHARIOT(new MultiStepStraightStrategy(), new EmptyCondition()),
     HORSE(new HorseStrategy(), new EmptyCondition()),
     CANNON(new MultiStepStraightStrategy(), new OnePieceExistsCondition()),
-    GUARD(new SingleStepStraightStrategy(), new EmptyCondition()),
+    GUARD(new PalaceStrategy(), new EmptyCondition()),
     ELEPHANT(new ElephantStrategy(), new EmptyCondition()),
     SOLDIER(new SoldierStrategy(), new EmptyCondition());
 
