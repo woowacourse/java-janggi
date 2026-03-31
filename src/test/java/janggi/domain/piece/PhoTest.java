@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.Board;
+import janggi.domain.board.Board;
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
 import janggi.domain.point.Route;

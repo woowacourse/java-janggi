@@ -1,6 +1,6 @@
 package janggi.domain.status;
 
-import janggi.domain.Board;
+import janggi.domain.board.Board;
 import janggi.domain.point.Point;
 
 public class FinishedGame implements GameStatus {

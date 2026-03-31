@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.board.Board;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.Ma;

@@ -3,7 +3,7 @@ package janggi.domain.status;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
-import janggi.domain.Board;
+import janggi.domain.board.Board;
 import janggi.domain.point.Point;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.Jang;
