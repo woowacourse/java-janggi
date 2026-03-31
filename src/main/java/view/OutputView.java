@@ -25,6 +25,10 @@ public class OutputView {
         System.out.println(sb);
     }
 
+    public void printError(String message) {
+        System.out.println(message);
+    }
+
     private void appendColumnHeader(StringBuilder sb) {
         sb.append(" \t");
         for (int col = 1; col <= MAX_COLUMN; col++) {

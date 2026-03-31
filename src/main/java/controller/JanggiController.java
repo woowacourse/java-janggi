@@ -42,14 +42,14 @@ public class JanggiController {
     private Turn playTurn(Board board, Turn turn) {
         while (true) {
             try {
-                List<String> movePositions = inputView.askMovePiecePoisiton(turn.current());
+                List<String> movePositions = inputView.askMovePiecePosition(turn.current());
                 Position src = Position.from(movePositions.get(0), movePositions.get(1));
                 Position dest = Position.from(movePositions.get(2), movePositions.get(3));
                 board.move(src, dest);
                 outputView.printBoard(board);
                 return turn.next();
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
