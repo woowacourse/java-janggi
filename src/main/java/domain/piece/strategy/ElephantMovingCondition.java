@@ -5,60 +5,33 @@ import domain.piece.Piece;
 import domain.position.Position;
 
 import java.util.Map;
-import java.util.Queue;
 
 public class ElephantMovingCondition implements MovingCondition {
     private static final int MAX_DIRECTION = 3;
 
     @Override
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.between(startPosition, endPosition);
 
         if (directions.size() != MAX_DIRECTION) {
             return false;
         }
-        return hasValidDirectionAndPath(state, startPosition, directions);
+        return hasValidElephantPath(state, startPosition, directions);
     }
 
-    private boolean hasValidDirectionAndPath(
-            Map<Position, Piece> state,
-            Position startPosition,
-            Queue<Direction> directions
-    ) {
-        Direction firstDirection = directions.poll();
-        if (!canFirstStep(state, startPosition, firstDirection)) {
-            return false;
-        }
+    private boolean hasValidElephantPath(Map<Position, Piece> state, Position startPosition, Directions directions) {
+        Direction firstDirection = directions.next();
+        Direction secondDirection = directions.next();
+        Direction thirdDirection = directions.next();
 
-        Position firstPosition = startPosition.append(firstDirection);
-        Direction secondDirection = directions.poll();
-        if (!canSecondStep(state, firstPosition, firstDirection, secondDirection)) {
-            return false;
-        }
-        return canLastStep(directions, secondDirection);
+        return firstDirection.isStraight()
+                && isNotBlocked(state, startPosition, firstDirection)
+                && secondDirection.isSameAtLeastOne(firstDirection)
+                && isNotBlocked(state, startPosition.append(firstDirection), secondDirection)
+                && secondDirection.isSameDirection(thirdDirection);
     }
 
-    private boolean canFirstStep(Map<Position, Piece> state, Position startPosition, Direction nextDirection) {
-        if (!nextDirection.isStraight()) {
-            return false;
-        }
-        Position nextPosition = startPosition.append(nextDirection);
-        return !isBlocked(state, nextPosition);
-    }
-
-    private boolean canSecondStep(Map<Position, Piece> state, Position firstPosition, Direction firstDirection, Direction secondDirection) {
-        if (!firstDirection.isSameAtLeastOne(secondDirection)) {
-            return false;
-        }
-        Position secondPosition = firstPosition.append(secondDirection);
-        return !isBlocked(state, secondPosition);
-    }
-
-    private boolean canLastStep(Queue<Direction> directions, Direction secondDirection) {
-        return directions.poll() == secondDirection;
-    }
-
-    private boolean isBlocked(Map<Position, Piece> state, Position position) {
-        return state.containsKey(position);
+    private boolean isNotBlocked(Map<Position, Piece> state, Position position, Direction direction) {
+        return !state.containsKey(position.append(direction));
     }
 }

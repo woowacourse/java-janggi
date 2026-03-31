@@ -4,9 +4,7 @@ import domain.board.Direction;
 import domain.piece.Piece;
 import domain.position.Position;
 
-import java.util.ArrayDeque;
 import java.util.Map;
-import java.util.Queue;
 
 public class HorseMovingCondition implements MovingCondition {
 
@@ -14,27 +12,24 @@ public class HorseMovingCondition implements MovingCondition {
 
     @Override
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.between(startPosition, endPosition);
 
         if (directions.size() != MAX_DIRECTION) {
             return false;
         }
+        return hasValidHorsePath(state, startPosition, directions);
+    }
 
-        Direction firstDirection = directions.poll();
-        if (!firstDirection.isStraight()) {
-            return false;
-        }
+    private boolean hasValidHorsePath(Map<Position, Piece> state, Position startPosition, Directions directions) {
+        Direction firstDirection = directions.next();
+        Direction secondDirection = directions.next();
 
-        Position nextPosition = startPosition.append(firstDirection);
-        if (state.containsKey(nextPosition)) {
-            return false;
-        }
+        return firstDirection.isStraight()
+                && isNotBlocked(state, startPosition, firstDirection)
+                && secondDirection.isSameAtLeastOne(firstDirection);
+    }
 
-        Direction secondDirection = directions.poll();
-        if (!secondDirection.isSameAtLeastOne(firstDirection) || secondDirection.isStraight()) {
-            return false;
-        }
-
-        return true;
+    private boolean isNotBlocked(Map<Position, Piece> state, Position position, Direction direction) {
+        return !state.containsKey(position.append(direction));
     }
 }

@@ -44,6 +44,10 @@ public enum Direction {
         return isStraight;
     }
 
+    public boolean isDiagonal() {
+        return !isStraight;
+    }
+
     public int getdRow() {
         return dRow;
     }
@@ -53,7 +57,11 @@ public enum Direction {
     }
 
     public boolean isSameAtLeastOne(Direction direction) {
-        return (dRow == direction.dRow || dColumn == direction.dColumn);
+        return isDiagonal() && (dRow == direction.dRow || dColumn == direction.dColumn);
+    }
+
+    public boolean isSameDirection(Direction direction) {
+        return this == direction;
     }
 
     private static Queue<Direction> calculateDirections(int row, int column) {
