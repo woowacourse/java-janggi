@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.domain.Board;
+import janggi.domain.BoardFactory;
 import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -9,46 +10,55 @@ import java.util.function.Supplier;
 
 public class JanggiGame {
 
+    private boolean isChoTurn = true;
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
     public void run() {
-        Board board = new Board();
-        board.initialize();
-        boolean isChoTurn = true;
-
+        Board board = initializeBoard();
         outputView.printBoard(board.getBoard());
-
         while (true) {
-            outputView.printTurnMessage(isChoTurn);
-
-            Position movePiecePosition = doLoop(() -> {
-                outputView.printMoveInfo();
-                Position position = inputView.readPosition();
-                board.findAvailablePositions(position);
-                return position;
-            });
-
-            List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
-
-            outputView.printAvailablePositions(board.getBoard(), availablePositions);
-
-            Position movePosition = doLoop(() -> {
-                outputView.printMoveChoiceInfo();
-                Position position = inputView.readPosition();
-                board.validateDestination(movePiecePosition, position);
-                return position;
-            });
-
-            board.movePiece(movePiecePosition, movePosition);
-
-            outputView.printBoard(board.getBoard());
-
-            isChoTurn = !isChoTurn;
+            isChoTurn = playTurn(board);
         }
     }
 
-    private <T> T doLoop(Supplier<T> inputFunction) {
+    private boolean playTurn(Board board) {
+        outputView.printTurnMessage(isChoTurn);
+        Position movePiecePosition = choosePieceToMove(board);
+        List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
+        outputView.printAvailablePositions(board.getBoard(), availablePositions);
+        Position targetPosition = chooseTargetPosition(board, movePiecePosition);
+        board.movePiece(movePiecePosition, targetPosition);
+        outputView.printBoard(board.getBoard());
+        isChoTurn = !isChoTurn;
+        return isChoTurn;
+    }
+
+    private Board initializeBoard() {
+        Board board = new Board();
+        BoardFactory.settingUpBoard();
+        return board;
+    }
+
+    private Position chooseTargetPosition(Board board, Position movePiecePosition) {
+        return retry(() -> {
+            outputView.printMoveChoiceInfo();
+            Position position = inputView.readPosition();
+            board.validateDestination(movePiecePosition, position);
+            return position;
+        });
+    }
+
+    private Position choosePieceToMove(Board board) {
+        return retry(() -> {
+            outputView.printMoveInfo();
+            Position position = inputView.readPosition();
+            board.findAvailablePositions(position);
+            return position;
+        });
+    }
+
+    private <T> T retry(Supplier<T> inputFunction) {
         while (true) {
             try {
                 return inputFunction.get();
