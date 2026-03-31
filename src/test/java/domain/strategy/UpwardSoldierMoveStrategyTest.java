@@ -15,10 +15,10 @@ class UpwardSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("한나라 졸은 현재 위치 기준 하, 좌우 한 칸 이동할 수 있다.")
-    void general_move_test(Position guardPosition, Position expectedTarget) {
+    void general_move_test(Position guardPosition, Position destination) {
         UpwardSoldierMoveStrategy moveStrategy = new UpwardSoldierMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(guardPosition, expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
     }
 
     @ParameterizedTest
@@ -33,10 +33,10 @@ class UpwardSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("졸은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
-    void hasValidPathTo_always_true_test(Position guardPosition, Position wrongTarget) {
+    void hasValidPathTo_always_true_test(Position guardPosition, Position destination) {
         UpwardSoldierMoveStrategy moveStrategy = new UpwardSoldierMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(guardPosition, wrongTarget, List.of())).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(guardPosition, destination, List.of())).isTrue();
     }
 
     private static Stream<Arguments> moveablePositions() {

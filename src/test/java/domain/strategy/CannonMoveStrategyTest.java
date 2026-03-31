@@ -14,41 +14,41 @@ class CannonMoveStrategyTest {
     @DisplayName("포 기물은 현재 위치 기준 상하좌우 방향으로 바로 1칸을 제외한 나머지 위치로 이동할 수 있어야 한다.")
     void cannon_move_test() {
         Position current = new Position(4, 4);
-        Position target = new Position(9, 4);
+        Position destination = new Position(9, 4);
         CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(current, target)).isTrue();
+        assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
     }
 
     @Test
     @DisplayName("포 기물의 현재 위치 기준 상하좌우 방향으로 바로 1칸은 이동할 수 없다.")
     void cannon_move_test_negative() {
         Position current = new Position(4, 4);
-        Position target = new Position(4, 5);
+        Position destination = new Position(4, 5);
         CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(current, target)).isFalse();
+        assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
     }
 
     @Test
     @DisplayName("포 기물은 이동 경로에 기물이 단 하나만 포함되는지 여부를 판단할 수 있어야 한다.(경로에 기물 1개)")
     void cannon_valid_path_test() {
         Position current = new Position(9, 4);
-        Position target = new Position(4, 4);
-        List<Position> piecePositions = List.of(new Position(5, 4));
+        Position destination = new Position(4, 4);
+        List<Position> obstacles = List.of(new Position(5, 4));
         CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(current, target, piecePositions)).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isTrue();
     }
 
     @Test
     @DisplayName("포 기물은 이동 경로에 기물이 단 하나만 포함되는지 여부를 판단할 수 있어야 한다.(경로에 기물 1개 x)")
     void cannon_invalid_path_test() {
         Position current = new Position(4, 4);
-        Position target = new Position(4, 9);
-        List<Position> piecePositions = List.of(new Position(4, 8), new Position(4, 7));
+        Position destination = new Position(4, 9);
+        List<Position> obstacles = List.of(new Position(4, 8), new Position(4, 7));
         CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(current, target, piecePositions)).isFalse();
+        assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isFalse();
     }
 }

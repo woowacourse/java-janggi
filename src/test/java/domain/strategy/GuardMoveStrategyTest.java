@@ -15,10 +15,10 @@ class GuardMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("사는 현재 위치 기준 상하좌우 한 칸 이동할 수 있다.")
-    void guard_move_test(Position guardPosition, Position expectedTarget) {
+    void guard_move_test(Position guardPosition, Position destination) {
         GuardMoveStrategy moveStrategy = new GuardMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(guardPosition, expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
     }
 
     @ParameterizedTest
