@@ -4,12 +4,12 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 
-public class Finish extends ActionTurn {
+public class FinishTurn extends BaseTurn {
     private static final String INVALID_MOVE = "게임 종료 상태에서는 이동할 수 없습니다.";
 
     private final Side winnerSide;
 
-    public Finish(Board board, Side winnerSide) {
+    public FinishTurn(Board board, Side winnerSide) {
         super(board, Side.EMPTY);
         this.winnerSide = winnerSide;
     }

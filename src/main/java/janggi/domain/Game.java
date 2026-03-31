@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
-import janggi.domain.turn.ChoActionTurn;
+import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.PlayerTurn;
 import janggi.dto.BoardDto;
 import janggi.initializer.BoardInitializer;
@@ -12,7 +12,7 @@ public class Game {
     private PlayerTurn playerTurn;
 
     public Game(Arrangement choArrangement, Arrangement hanArrangement) {
-        this.playerTurn = new ChoActionTurn(new Board(BoardInitializer.createBoard(choArrangement, hanArrangement)));
+        this.playerTurn = new ChoTurn(new Board(BoardInitializer.createBoard(choArrangement, hanArrangement)));
     }
 
     public void move(Position start, Position end) {
