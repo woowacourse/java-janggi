@@ -24,14 +24,14 @@ public class JanggiGame {
 
     public void validatePieceExist(Position position) {
         Turn lastTurn = getLastTurn();
-        if (!lastTurn.isMyTeamPieceExist(position)) {
+        if (!lastTurn.isCurrentTeamPieceExist(position)) {
             throw new IllegalArgumentException("기물이 존재하는 좌표가 아닙니다.");
         }
     }
 
     public void validateValidEndPosition(Position startPosition, Position endPosition) {
         Turn lastTurn = getLastTurn();
-        if (lastTurn.isMyTeamPieceExist(endPosition)) {
+        if (lastTurn.isCurrentTeamPieceExist(endPosition)) {
             throw new IllegalArgumentException("아군이 존재하는 좌표로 이동할 수 없습니다.");
         }
         lastTurn.canMove(startPosition, endPosition);

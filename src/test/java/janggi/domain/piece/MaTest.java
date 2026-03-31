@@ -19,14 +19,14 @@ class MaTest {
 
         // when & then
         assertAll(
-            () -> assertThat(ma.isValidMovePattern(4, 4, 5, 6)).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 3, 6)).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 5, 2)).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 3, 2)).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 2, 5)).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 2, 3)).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 6, 5)).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 6, 3)).isTrue()
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(5, 6))).isTrue(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(3, 6))).isTrue(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(5, 2))).isTrue(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(3, 2))).isTrue(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(2, 5))).isTrue(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(2, 3))).isTrue(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(6, 5))).isTrue(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(6, 3))).isTrue()
         );
     }
 
@@ -38,9 +38,9 @@ class MaTest {
 
         // when & then
         assertAll(
-            () -> assertThat(ma.isValidMovePattern(4, 4, 4, 5)).isFalse(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 5, 5)).isFalse(),
-            () -> assertThat(ma.isValidMovePattern(4, 4, 4, 4)).isFalse()
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(4, 5))).isFalse(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isFalse(),
+            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse()
         );
     }
 
@@ -70,5 +70,9 @@ class MaTest {
 
         // then
         assertThat(result).isFalse();
+    }
+
+    private Position createPosition(int x, int y) {
+        return new Position(x, y);
     }
 }

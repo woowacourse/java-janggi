@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class JolTest {
         Jol jol = new Jol(TeamType.CHU);
 
         // when & then
-        assertThat(jol.isValidMovePattern(4, 4, 4, 5)).isTrue();
+        assertThat(jol.isValidMovePattern(createPosition(4, 4), createPosition(4, 5))).isTrue();
     }
 
     @Test
@@ -26,7 +27,7 @@ class JolTest {
         Jol jol = new Jol(TeamType.HAN);
 
         // when & then
-        assertThat(jol.isValidMovePattern(4, 4, 4, 3)).isTrue();
+        assertThat(jol.isValidMovePattern(createPosition(4, 4), createPosition(4, 3))).isTrue();
     }
 
     @Test
@@ -38,10 +39,10 @@ class JolTest {
 
         // when & then
         assertAll(
-            () -> assertThat(jolOfChu.isValidMovePattern(4, 4, 5, 4)).isTrue(),
-            () -> assertThat(jolOfChu.isValidMovePattern(4, 4, 3, 4)).isTrue(),
-            () -> assertThat(jolOfHan.isValidMovePattern(4, 4, 5, 4)).isTrue(),
-            () -> assertThat(jolOfHan.isValidMovePattern(4, 4, 3, 4)).isTrue()
+            () -> assertThat(jolOfChu.isValidMovePattern(createPosition(4, 4), createPosition(5, 4))).isTrue(),
+            () -> assertThat(jolOfChu.isValidMovePattern(createPosition(4, 4), createPosition(3, 4))).isTrue(),
+            () -> assertThat(jolOfHan.isValidMovePattern(createPosition(4, 4), createPosition(5, 4))).isTrue(),
+            () -> assertThat(jolOfHan.isValidMovePattern(createPosition(4, 4), createPosition(3, 4))).isTrue()
         );
     }
 
@@ -54,8 +55,8 @@ class JolTest {
 
         // when & then
         assertAll(
-            () -> assertThat(jolOfChu.isValidMovePattern(4, 4, 4, 3)).isFalse(),
-            () -> assertThat(hanJol.isValidMovePattern(4, 4, 4, 5)).isFalse()
+            () -> assertThat(jolOfChu.isValidMovePattern(createPosition(4, 4), createPosition(4, 3))).isFalse(),
+            () -> assertThat(hanJol.isValidMovePattern(createPosition(4, 4), createPosition(4, 5))).isFalse()
         );
     }
 
@@ -67,10 +68,10 @@ class JolTest {
 
         // when & then
         assertAll(
-            () -> assertThat(jol.isValidMovePattern(4, 4, 4, 6)).isFalse(),
-            () -> assertThat(jol.isValidMovePattern(4, 4, 2, 4)).isFalse(),
-            () -> assertThat(jol.isValidMovePattern(4, 4, 5, 5)).isFalse(),
-            () -> assertThat(jol.isValidMovePattern(4, 4, 3, 3)).isFalse()
+            () -> assertThat(jol.isValidMovePattern(createPosition(4, 4), createPosition(4, 6))).isFalse(),
+            () -> assertThat(jol.isValidMovePattern(createPosition(4, 4), createPosition(2, 4))).isFalse(),
+            () -> assertThat(jol.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isFalse(),
+            () -> assertThat(jol.isValidMovePattern(createPosition(4, 4), createPosition(3, 3))).isFalse()
         );
     }
 
@@ -81,6 +82,10 @@ class JolTest {
         Jol jol = new Jol(TeamType.CHU);
 
         // when & then
-        assertThat(jol.isValidMovePattern(4, 4, 4, 4)).isFalse();
+        assertThat(jol.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse();
+    }
+
+    private Position createPosition(int x, int y) {
+        return new Position(x, y);
     }
 }

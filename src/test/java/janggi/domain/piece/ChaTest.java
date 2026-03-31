@@ -19,10 +19,10 @@ class ChaTest {
 
         // when & then
         assertAll(
-            () -> assertThat(cha.isValidMovePattern(4, 4, 7, 4)).isTrue(),
-            () -> assertThat(cha.isValidMovePattern(4, 4, 1, 4)).isTrue(),
-            () -> assertThat(cha.isValidMovePattern(4, 4, 4, 8)).isTrue(),
-            () -> assertThat(cha.isValidMovePattern(4, 4, 4, 1)).isTrue()
+            () -> assertThat(cha.isValidMovePattern(createPosition(4, 4), createPosition(7, 4))).isTrue(),
+            () -> assertThat(cha.isValidMovePattern(createPosition(4, 4), createPosition(1, 4))).isTrue(),
+            () -> assertThat(cha.isValidMovePattern(createPosition(4, 4), createPosition(4, 8))).isTrue(),
+            () -> assertThat(cha.isValidMovePattern(createPosition(4, 4), createPosition(4, 1))).isTrue()
         );
     }
 
@@ -34,8 +34,8 @@ class ChaTest {
 
         // when & then
         assertAll(
-            () -> assertThat(cha.isValidMovePattern(4, 4, 5, 5)).isFalse(),
-            () -> assertThat(cha.isValidMovePattern(4, 4, 2, 2)).isFalse()
+            () -> assertThat(cha.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isFalse(),
+            () -> assertThat(cha.isValidMovePattern(createPosition(4, 4), createPosition(2, 2))).isFalse()
         );
     }
 
@@ -46,7 +46,7 @@ class ChaTest {
         Cha cha = new Cha(TeamType.CHU);
 
         // when & then
-        assertThat(cha.isValidMovePattern(4, 4, 4, 4)).isFalse();
+        assertThat(cha.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse();
     }
 
     @Test
@@ -75,5 +75,9 @@ class ChaTest {
 
         // then
         assertThat(result).isFalse();
+    }
+
+    private Position createPosition(int x, int y) {
+        return new Position(x, y);
     }
 }

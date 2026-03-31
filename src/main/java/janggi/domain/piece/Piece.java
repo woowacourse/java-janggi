@@ -8,15 +8,17 @@ import java.util.Optional;
 
 public interface Piece {
 
-    boolean isValidMovePattern(int startX, int startY, int endX, int endY);
+    boolean isValidMovePattern(Position startPosition, Position endPosition);
 
-    Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY);
+    Optional<MovePath> findMovePath(Position startPosition, Position endPosition);
 
-    boolean isObstaclesNotExist(Position start, Position end, Board board);
+//    boolean isObstaclesNotExist(Position start, Position end, Board board);
 
     String name();
 
     PieceType getPieceType();
 
     TeamType getTeamType();
+
+    void validateCanMove(Position start, Position end, Board board);
 }

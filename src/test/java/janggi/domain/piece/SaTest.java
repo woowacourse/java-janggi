@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +18,10 @@ class SaTest {
 
         // when & then
         assertAll(
-            () -> assertThat(sa.isValidMovePattern(4, 4, 4, 5)).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 4, 3)).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 5, 4)).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 3, 4)).isTrue()
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 5))).isTrue(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 3))).isTrue(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(5, 4))).isTrue(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(3, 4))).isTrue()
         );
     }
 
@@ -32,10 +33,10 @@ class SaTest {
 
         // when & then
         assertAll(
-            () -> assertThat(sa.isValidMovePattern(4, 4, 5, 5)).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 5, 3)).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 3, 5)).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 3, 3)).isTrue()
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isTrue(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(5, 3))).isTrue(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(3, 5))).isTrue(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(3, 3))).isTrue()
         );
     }
 
@@ -47,10 +48,14 @@ class SaTest {
 
         // when & then
         assertAll(
-            () -> assertThat(sa.isValidMovePattern(4, 4, 6, 4)).isFalse(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 6, 6)).isFalse(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 4, 6)).isFalse(),
-            () -> assertThat(sa.isValidMovePattern(4, 4, 4, 4)).isFalse()
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(6, 4))).isFalse(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(6, 6))).isFalse(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 6))).isFalse(),
+            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse()
         );
+    }
+
+    private Position createPosition(int x, int y) {
+        return new Position(x, y);
     }
 }

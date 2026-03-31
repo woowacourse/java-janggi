@@ -19,10 +19,10 @@ class PoTest {
 
         // when & then
         assertAll(
-            () -> assertThat(po.isValidMovePattern(4, 4, 4, 8)).isTrue(),
-            () -> assertThat(po.isValidMovePattern(4, 4, 4, 1)).isTrue(),
-            () -> assertThat(po.isValidMovePattern(4, 4, 7, 4)).isTrue(),
-            () -> assertThat(po.isValidMovePattern(4, 4, 1, 4)).isTrue()
+            () -> assertThat(po.isValidMovePattern(createPosition(4, 4), createPosition(4, 8))).isTrue(),
+            () -> assertThat(po.isValidMovePattern(createPosition(4, 4), createPosition(4, 1))).isTrue(),
+            () -> assertThat(po.isValidMovePattern(createPosition(4, 4), createPosition(7, 4))).isTrue(),
+            () -> assertThat(po.isValidMovePattern(createPosition(4, 4), createPosition(1, 4))).isTrue()
         );
     }
 
@@ -34,8 +34,8 @@ class PoTest {
 
         // when & then
         assertAll(
-            () -> assertThat(po.isValidMovePattern(4, 4, 5, 5)).isFalse(),
-            () -> assertThat(po.isValidMovePattern(4, 4, 4, 4)).isFalse()
+            () -> assertThat(po.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isFalse(),
+            () -> assertThat(po.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse()
         );
     }
 
@@ -81,5 +81,9 @@ class PoTest {
             () -> assertThat(po.isObstaclesNotExist(new Position(2, 3), new Position(2, 10), board)).isFalse(),
             () -> assertThat(po.isObstaclesNotExist(new Position(2, 3), new Position(2, 8), movedBoard)).isFalse()
         );
+    }
+
+    private Position createPosition(int x, int y) {
+        return new Position(x, y);
     }
 }

@@ -21,25 +21,27 @@ public class Jol implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
-        return findMovePath(startX, startY, endX, endY).isPresent();
+    public void validateCanMove(Position start, Position end, Board board) {
+        if (!isValidMovePattern(start, end)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
     }
 
     @Override
-    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
-        int dx = endX - startX;
-        int dy = endY - startY;
+    public boolean isValidMovePattern(Position startPosition, Position endPosition) {
+        return findMovePath(startPosition, endPosition).isPresent();
+    }
+
+    @Override
+    public Optional<MovePath> findMovePath(Position startPosition, Position endPosition) {
+        int dx = endPosition.getX() - startPosition.getX();
+        int dy = endPosition.getY() - startPosition.getY();
         if (isSamePosition(dx, dy)) {
             return Optional.empty();
         }
         return paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
-    }
-
-    @Override
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        return true;
     }
 
     private boolean isSamePosition(int distanceX, int distanceY) {

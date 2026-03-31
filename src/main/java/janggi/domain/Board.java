@@ -57,11 +57,10 @@ public class Board {
         return findPiece(position).isPresent();
     }
 
-    public void canMove(Position startPosition, Position endPosition, TeamType nowTeam) {
-        validateRange(startPosition);
+    public void canMove(Position startPosition, Position endPosition, TeamType currentTeamType) {
         validateRange(endPosition);
-        Piece piece = findTeamPiece(startPosition, currentTeam(nowTeam));
-        validateTargetPosition(currentTeam(nowTeam), endPosition);
+        Piece piece = findTeamPiece(startPosition, currentTeam(currentTeamType));
+        validateEndPosition(currentTeam(currentTeamType), endPosition);
         validateCanMove(piece, startPosition, endPosition);
     }
 
@@ -99,20 +98,14 @@ public class Board {
         return chu;
     }
 
-    private void validateCanMove(Piece piece, Position piecePosition, Position targetPosition) {
-        if (!piece.isValidMovePattern(piecePosition.getX(), piecePosition.getY(), targetPosition.getX(),
-            targetPosition.getY())) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-        if (!piece.isObstaclesNotExist(piecePosition, targetPosition, this)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+    private void validateEndPosition(Team team, Position endPosition) {
+        if (team.findPiece(endPosition).isPresent()) {
+            throw new IllegalArgumentException("같은 팀의 기물이 있는 위치로는 이동할 수 없습니다.");
         }
     }
 
-    private void validateTargetPosition(Team team, Position targetPosition) {
-        if (team.findPiece(targetPosition).isPresent()) {
-            throw new IllegalArgumentException("같은 팀의 기물이 있는 위치로는 이동할 수 없습니다.");
-        }
+    private void validateCanMove(Piece piece, Position startPosition, Position endPosition) {
+        piece.validateCanMove(startPosition, endPosition, this);
     }
 
     private Team removeOpponentPiece(TeamType nowTurn, Position targetPosition) {
@@ -138,11 +131,11 @@ public class Board {
         }
     }
 
-    private boolean isInRange(int start, int last, int index) {
-        return index >= start && index <= last;
-    }
-
     private boolean isNotInRange(int start, int last, int index) {
         return !isInRange(start, last, index);
+    }
+
+    private boolean isInRange(int start, int last, int index) {
+        return index >= start && index <= last;
     }
 }

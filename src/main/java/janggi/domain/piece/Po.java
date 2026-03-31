@@ -26,12 +26,26 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
-        return findMovePath(startX, startY, endX, endY).isPresent();
+    public void validateCanMove(Position start, Position end, Board board) {
+        if (!isValidMovePattern(start, end)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+
+        validateObstacles(start, end, board);
     }
 
     @Override
-    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
+    public boolean isValidMovePattern(Position startPosition, Position endPosition) {
+        return findMovePath(startPosition, endPosition).isPresent();
+    }
+
+    @Override
+    public Optional<MovePath> findMovePath(Position startPosition, Position endPosition) {
+        int startX = startPosition.getX();
+        int startY = startPosition.getY();
+        int endX = endPosition.getX();
+        int endY = endPosition.getY();
+
         if (startX == endX && startY == endY) {
             return Optional.empty();
         }
@@ -42,13 +56,12 @@ public class Po implements Piece {
             .findFirst();
     }
 
-    @Override
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePath> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
+    public boolean isObstaclesNotExist(Position startPosition, Position endPosition, Board board) {
+        Optional<MovePath> movePath = findMovePath(startPosition, endPosition);
         if (movePath.isEmpty()) {
             return false;
         }
-        List<Position> intermediatePositions = movePath.get().intermediatePositions(start, end);
+        List<Position> intermediatePositions = movePath.get().intermediatePositions(startPosition, endPosition);
         List<Piece> obstacles = intermediatePositions.stream()
             .map(board::findPiece)
             .filter(Optional::isPresent)
@@ -60,7 +73,7 @@ public class Po implements Piece {
         if (obstacles.getFirst().getPieceType() == PieceType.PO) {
             return false;
         }
-        Optional<Piece> targetPiece = board.findPiece(end);
+        Optional<Piece> targetPiece = board.findPiece(endPosition);
         return targetPiece.isEmpty() || !(targetPiece.get().getPieceType() == PieceType.PO);
     }
 
@@ -77,5 +90,27 @@ public class Po implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    private void validateObstacles(Position start, Position end, Board board) {
+        Optional<MovePath> movePath = findMovePath(start, end);
+        if (movePath.isEmpty()) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+        List<Position> intermediatePositions = movePath.get().intermediatePositions(start, end);
+        List<Piece> obstacles = intermediatePositions.stream()
+                .map(board::findPiece)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+        if (obstacles.isEmpty()) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재하지 않아 이동할 수 없습니다.");
+        }
+        if (obstacles.size() > 1) {
+            throw new IllegalArgumentException("이동 경로에 기물이 1개 이상 존재합니다.");
+        }
+        if (obstacles.getFirst().getPieceType() == PieceType.PO) {
+            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
+        }
     }
 }

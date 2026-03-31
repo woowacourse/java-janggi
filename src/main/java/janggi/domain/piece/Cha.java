@@ -26,12 +26,28 @@ public class Cha implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(int startX, int startY, int endX, int endY) {
-        return findMovePath(startX, startY, endX, endY).isPresent();
+    public void validateCanMove(Position start, Position end, Board board) {
+        if (!isValidMovePattern(start, end)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+
+        if (!isObstaclesNotExist(start, end, board)) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
+        }
     }
 
     @Override
-    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
+    public boolean isValidMovePattern(Position start, Position end) {
+        return findMovePath(start, end).isPresent();
+    }
+
+    @Override
+    public Optional<MovePath> findMovePath(Position start, Position end) {
+        int startX = start.getX();
+        int startY = start.getY();
+        int endX = end.getX();
+        int endY = end.getY();
+
         if (isSamePosition(startX, startY, endX, endY)) {
             return Optional.empty();
         }
@@ -45,9 +61,8 @@ public class Cha implements Piece {
             .findFirst();
     }
 
-    @Override
     public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePath> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
+        Optional<MovePath> movePath = findMovePath(start, end);
         if (movePath.isEmpty()) {
             return false;
         }

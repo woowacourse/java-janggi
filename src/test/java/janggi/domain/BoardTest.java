@@ -12,18 +12,19 @@ import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    @Test
-    @DisplayName("시작 위치가 장기판 범위를 벗어나면 이동할 수 없다.")
-    void cannotMoveWhenStartPositionIsOutOfRange() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position outOfBound = new Position(0, 0);
-
-        // when & then
-        assertThatThrownBy(() -> board.canMove(outOfBound, new Position(1, 4), TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("입력한 좌표가 장기판 범위 밖입니다.");
-    }
+    // canMove에서 시작위치 검증 안 하기 때문에 없어도 되는 테스트
+//    @Test
+//    @DisplayName("시작 위치가 장기판 범위를 벗어나면 이동할 수 없다.")
+//    void cannotMoveWhenStartPositionIsOutOfRange() {
+//        // given
+//        Board board = Board.createInitialBoard();
+//        Position outOfBound = new Position(0, 0);
+//
+//        // when & then
+//        assertThatThrownBy(() -> board.canMove(outOfBound, new Position(1, 4), TeamType.CHU))
+//            .isInstanceOf(IllegalArgumentException.class)
+//            .hasMessage("입력한 좌표가 장기판 범위 밖입니다.");
+//    }
 
     @Test
     @DisplayName("도착 위치가 장기판 범위를 벗어나면 이동할 수 없다.")
@@ -92,7 +93,7 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("장애물이 있는 차의 이동은 막는다.")
+    @DisplayName("차의 경로 중간에 장애물이 있으면 이동할 수 없다.")
     void cannotMoveChaWhenPathIsBlocked() {
         // given
         Board board = Board.createInitialBoard();
@@ -102,7 +103,7 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.canMove(chaStartPosition, chaEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이동할 수 없는 위치입니다.");
+            .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
     }
 
     @Test
@@ -116,7 +117,7 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.canMove(maStartPosition, maEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이동할 수 없는 위치입니다.");
+            .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
     }
 
     @Test
@@ -130,7 +131,7 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.canMove(poStartPosition, poEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이동할 수 없는 위치입니다.");
+            .hasMessage("이동 경로에 기물이 존재하지 않아 이동할 수 없습니다.");
     }
 
     @Test
