@@ -40,7 +40,6 @@ public class Cha extends AbstractPiece {
             CastleDirection.find(from, signCol, signRow);
             return;
         }
-
         if (pathCol != 0 && pathRow !=0) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
