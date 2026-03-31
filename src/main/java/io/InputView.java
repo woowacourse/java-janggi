@@ -1,7 +1,6 @@
 package io;
 
 import domain.setup.Command;
-import domain.game.Turn;
 import java.util.Scanner;
 
 public class InputView {

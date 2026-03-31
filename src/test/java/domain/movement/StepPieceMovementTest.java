@@ -1,14 +1,13 @@
 package domain.movement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("StepPieceMovement 클래스 테스트")
 class StepPieceMovementTest {

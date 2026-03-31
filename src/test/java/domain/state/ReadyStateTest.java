@@ -1,15 +1,13 @@
 package domain.state;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.game.JanggiGame;
 import domain.piece.Team;
-import domain.setup.Arrangement;
 import domain.setup.Arrangements;
 import domain.setup.Command;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("ReadyState 클래스 테스트")
 class ReadyStateTest {
