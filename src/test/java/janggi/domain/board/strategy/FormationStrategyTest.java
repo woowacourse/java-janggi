@@ -1,17 +1,14 @@
 package janggi.domain.board.strategy;
 
 import janggi.domain.Camp;
-import janggi.domain.position.Position;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,19 +1,11 @@
 package janggi.domain.board;
 
-import janggi.domain.Camp;
 import janggi.domain.Path;
 import janggi.domain.Paths;
-import janggi.domain.board.strategy.FormationStrategy;
-import janggi.domain.piece.Advisor;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Soldier;
 import janggi.domain.position.Position;
 
 import java.util.Collections;
-
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;

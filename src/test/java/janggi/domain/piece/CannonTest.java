@@ -2,8 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.position.Position;
-import janggi.domain.piece.strategy.LinearStrategy;
-import janggi.domain.piece.strategy.ElephantStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.piece.strategy.LinearStrategy;
-import janggi.domain.piece.strategy.PalaceStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -4,10 +4,8 @@ import janggi.domain.Camp;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.position.Position;
 
 import java.util.List;
-import java.util.Map;
 
 public class ElephantHorseHorseElephant implements FormationStrategy {
     @Override

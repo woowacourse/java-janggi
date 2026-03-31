@@ -65,7 +65,7 @@ public class Janggi {
         running = false;
     }
 
-    public Camp currentCamp(){
+    public Camp currentCamp() {
         return currentCamp;
     }
 

@@ -49,7 +49,7 @@ public class BoardFactory {
     }
 
     public static Map<Position, Piece> placeFormation(
-            FormationStrategy formationStrategy, Camp camp, int baseRow){
+            FormationStrategy formationStrategy, Camp camp, int baseRow) {
         List<Piece> pieces = formationStrategy.createPieces(camp);
         Map<Position, Piece> result = new HashMap<>();
         for (int i = 0; i < 4; i++) {

@@ -1,9 +1,16 @@
 package janggi.domain.board;
 
 import janggi.domain.Camp;
-import janggi.domain.position.Position;
 import janggi.domain.board.strategy.ElephantHorseElephantHorse;
-import janggi.domain.piece.*;
+import janggi.domain.piece.Advisor;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
+import janggi.domain.position.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,7 +93,7 @@ public class BoardTest {
     void 이동_규칙에_맞지_않는_위치로_이동하면_예외가_발생한다() {
         Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
 
-        assertThatThrownBy(() -> board.movePiece(Position.of(1, 1), Position.of(0, 0)))
+        assertThatThrownBy(() -> board.movePiece(Position.of(0, 0), Position.of(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동할 수 없는 좌표입니다.");
     }
@@ -95,7 +102,7 @@ public class BoardTest {
     void 경로에_기물이_있으면_예외가_발생한다() {
         Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
 
-        assertThatThrownBy(() -> board.movePiece(Position.of(0, 4), Position.of(0, 0)))
+        assertThatThrownBy(() -> board.movePiece(Position.of(0, 0), Position.of(0, 4)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("경로가 막혀있습니다.");
     }
@@ -104,7 +111,7 @@ public class BoardTest {
     void 도착지에_아군_기물이_있으면_예외가_발생한다() {
         Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
 
-        assertThatThrownBy(() -> board.movePiece(Position.of(0, 1), Position.of(0, 0)))
+        assertThatThrownBy(() -> board.movePiece(Position.of(0, 0), Position.of(0, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("목적지의 기물을 잡을 수 없습니다.");
     }
@@ -113,7 +120,7 @@ public class BoardTest {
     void 빈_위치로_이동하면_기물이_옮겨진다() {
         Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
 
-        board.movePiece(Position.of(4, 0), Position.of(3, 0));
+        board.movePiece(Position.of(3, 0), Position.of(4, 0));
 
         assertThat(board.janggiBoard().get(Position.of(4, 0))).isNotNull();
         assertThat(board.janggiBoard().get(Position.of(3, 0))).isNull();
@@ -124,12 +131,12 @@ public class BoardTest {
         Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
 
 
-        board.movePiece(Position.of(4, 4), Position.of(3, 4));
-        board.movePiece(Position.of(5, 4), Position.of(4, 4));
-        board.movePiece(Position.of(6, 4), Position.of(5, 4)); // 한나라 졸(6,4)을 잡음
+        board.movePiece(Position.of(3, 4), Position.of(4, 4));
+        board.movePiece(Position.of(4, 4), Position.of(5, 4));
+        board.movePiece(Position.of(5, 4), Position.of(6, 4));
 
         Piece movedPiece = board.janggiBoard().get(Position.of(6, 4));
         assertThat(movedPiece.isSameCamp(Camp.CHO)).isTrue();
-        assertThat(board.janggiBoard()).hasSize(31); // 32 - 1
+        assertThat(board.janggiBoard()).hasSize(31);
     }
 }
