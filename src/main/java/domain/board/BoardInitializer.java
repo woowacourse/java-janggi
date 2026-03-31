@@ -1,5 +1,13 @@
 package domain.board;
 
+import static domain.piece.Camp.CHO;
+import static domain.piece.Camp.HAN;
+import static domain.piece.PieceType.CANNON;
+import static domain.piece.PieceType.CHARIOT;
+import static domain.piece.PieceType.GENERAL;
+import static domain.piece.PieceType.GUARD;
+import static domain.piece.PieceType.SOLDIER;
+
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -25,16 +33,16 @@ public class BoardInitializer {
     public static Map<Position, Piece> init(SetUp choSetUp, SetUp hanSetUp) {
         Map<Position, Piece> initialBoard = new HashMap<>();
 
-        setUpElephantAndHorse(initialBoard, Camp.CHO, choSetUp);
-        setUpElephantAndHorse(initialBoard, Camp.HAN, hanSetUp);
+        setUpElephantAndHorse(initialBoard, CHO, choSetUp);
+        setUpElephantAndHorse(initialBoard, HAN, hanSetUp);
         setUpOtherPieces(initialBoard);
 
         return initialBoard;
     }
 
     private static void setUpOtherPieces(Map<Position, Piece> initialBoard) {
-        setUpCampOtherPieces(initialBoard, Camp.HAN);
-        setUpCampOtherPieces(initialBoard, Camp.CHO);
+        setUpCampOtherPieces(initialBoard, HAN);
+        setUpCampOtherPieces(initialBoard, CHO);
     }
 
     private static void setUpCampOtherPieces(Map<Position, Piece> initialBoard, Camp camp) {
@@ -53,65 +61,65 @@ public class BoardInitializer {
     private static void setUpSoldier(Map<Position, Piece> initialBoard, Camp camp, int soldierY) {
         initialBoard.put(
                 new Position(1, soldierY),
-                new Piece(camp, PieceType.SOLDIER)
+                new Piece(camp, SOLDIER)
         );
         initialBoard.put(
                 new Position(3, soldierY),
-                new Piece(camp, PieceType.SOLDIER)
+                new Piece(camp, SOLDIER)
         );
         initialBoard.put(
                 new Position(5, soldierY),
-                new Piece(camp, PieceType.SOLDIER)
+                new Piece(camp, SOLDIER)
         );
         initialBoard.put(
                 new Position(7, soldierY),
-                new Piece(camp, PieceType.SOLDIER)
+                new Piece(camp, SOLDIER)
         );
         initialBoard.put(
                 new Position(9, soldierY),
-                new Piece(camp, PieceType.SOLDIER)
+                new Piece(camp, SOLDIER)
         );
     }
 
     private static void setUpCannon(Map<Position, Piece> initialBoard, Camp camp, int cannonY) {
         initialBoard.put(
                 new Position(LEFT_CANNON_X_COORDINATE, cannonY),
-                new Piece(camp, PieceType.CANNON)
+                new Piece(camp, CANNON)
         );
 
         initialBoard.put(
                 new Position(RIGHT_CANNON_X_COORDINATE, cannonY),
-                new Piece(camp, PieceType.CANNON)
+                new Piece(camp, CANNON)
         );
     }
 
     private static void setUpChariot(Map<Position, Piece> initialBoard, Camp camp, int otherY) {
         initialBoard.put(
                 new Position(LEFT_CHARIOT_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.CHARIOT)
+                new Piece(camp, CHARIOT)
         );
 
         initialBoard.put(
                 new Position(RIGHT_CHARIOT_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.CHARIOT)
+                new Piece(camp, CHARIOT)
         );
     }
 
     private static void setUpGuard(Map<Position, Piece> initialBoard, Camp camp, int otherY) {
         initialBoard.put(
                 new Position(LEFT_GUARD_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.GUARD)
+                new Piece(camp, GUARD)
         );
 
         initialBoard.put(
                 new Position(RIGHT_GUARD_X_COORDINATE, otherY),
-                new Piece(camp, PieceType.GUARD)
+                new Piece(camp, GUARD)
         );
     }
 
     private static void setUpGeneral(Map<Position, Piece> initialBoard, Camp camp, int generalY) {
         initialBoard.put(new Position(GENERAL_X_COORDINATE, generalY),
-                new Piece(camp, PieceType.GENERAL));
+                new Piece(camp, GENERAL));
     }
 
     private static void setUpElephantAndHorse(Map<Position, Piece> initialBoard, Camp camp, SetUp setUp) {

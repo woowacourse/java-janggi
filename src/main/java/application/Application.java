@@ -1,5 +1,8 @@
 package application;
 
+import static domain.piece.Camp.CHO;
+import static domain.piece.Camp.HAN;
+
 import domain.board.SetUp;
 import domain.game.Game;
 import domain.piece.Camp;
@@ -25,8 +28,8 @@ public class Application {
 
     public void run() {
         outputView.printSetUpOptions();
-        SetUp hanSetUp = readSetUp(Camp.HAN);
-        SetUp choSetUp = readSetUp(Camp.CHO);
+        SetUp hanSetUp = readSetUp(HAN);
+        SetUp choSetUp = readSetUp(CHO);
 
         Game game = new Game(choSetUp, hanSetUp);
         outputView.printBoard(game.board());
