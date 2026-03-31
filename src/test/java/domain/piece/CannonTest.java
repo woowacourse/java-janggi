@@ -132,7 +132,7 @@ class CannonTest {
                 );
 
                 // then
-                assertThat(actual).containsAll(expected);
+                assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
             }
 
             @Test
@@ -161,7 +161,7 @@ class CannonTest {
                 );
 
                 // then
-                assertThat(actual).containsAll(expected);
+                assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
             }
 
             @Test
@@ -191,7 +191,7 @@ class CannonTest {
                 );
 
                 // then
-                assertThat(actual).containsAll(expected);
+                assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
             }
 
             @Test
@@ -220,7 +220,7 @@ class CannonTest {
                 );
 
                 // then
-                assertThat(actual).containsAll(expected);
+                assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
             }
         }
     }
