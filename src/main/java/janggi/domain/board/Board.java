@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.Map;
 
 public class Board implements BoardMediator {
@@ -29,6 +30,14 @@ public class Board implements BoardMediator {
     public Map<Position, Piece> getPositionPieceMapForDTO() {
         return Map.copyOf(positionPieceMap);
     }
+
+    public boolean hasTwoGeneral() {
+        long generalCount = positionPieceMap.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
+                .count();
+        return generalCount == 2;
+    }
+
 
     private boolean isNotBlank(final Position position) {
         return positionPieceMap.containsKey(position);

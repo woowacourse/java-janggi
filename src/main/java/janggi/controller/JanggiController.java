@@ -26,7 +26,7 @@ public class JanggiController {
         Team blueTeam = setupBlueTeam();
         Board board = BoardGenerator.generate(redTeam, blueTeam);
         TurnManager turnManager = new TurnManager();
-        while (true) {
+        while (board.hasTwoGeneral()) {
             OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamType());
             Position from = inputFromPosition(board, turnManager);
             Piece piece = board.getPieceInPosition(from);
