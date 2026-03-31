@@ -6,7 +6,6 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -72,8 +71,7 @@ class HorseTest {
         Assertions.assertThat(movableIntersections).doesNotContain(LEFT_DESTINATION, RIGHT_DESTINATION);
     }
 
-    @ParameterizedTest
-    @MethodSource("allFiles")
+    @Test
     void 종착지가_보드_범위_밖이라면_이동할_수_없다() {
         // given
         Horse horse = new Horse(SIDE);
@@ -144,10 +142,5 @@ class HorseTest {
                 Arguments.of(SAME_SIDE_PIECE),
                 Arguments.of(OPPOSITE_SIDE_PIECE)
         );
-    }
-
-    private static Stream<Arguments> allFiles() {
-        return IntStream.range(1, 10)
-                .mapToObj(Arguments::of);
     }
 }
