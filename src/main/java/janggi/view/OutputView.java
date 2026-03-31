@@ -27,10 +27,23 @@ public final class OutputView {
         System.out.println(ERROR_PREFIX + message);
     }
 
-    public static void printBoard(final BoardDto boardDto) {
+    public static void printBoard(final BoardDto boardDto, String currentTeamType) {
+        System.out.println(currentTeamType + "의 차례입니다.");
+        printBoardWithMovable(boardDto);
+    }
+
+    public static void printBoardWithMovable(BoardDto boardDto) {
         final List<String> rowStatuses = boardDto.rowStatuses();
         for (String rowStatus : rowStatuses) {
             System.out.println(rowStatus);
         }
+    }
+
+    public static void printInputFromPosition() {
+        System.out.println("움직이고 싶은 기물의 위치를 n,n 형태로 입력해주세요.");
+    }
+
+    public static void printInputToPosition() {
+        System.out.println("이동하고 싶은 위치를 n,n 형태로 입력해주세요.");
     }
 }

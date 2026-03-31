@@ -56,6 +56,16 @@ public record BoardDto(
         return new BoardDto(rowStatuses);
     }
 
+    public static BoardDto from(final Board board, List<Position> movable) {
+        final List<String> rowStatuses = new ArrayList<>();
+        final Map<Position, Piece> positionPieceMap = board.getPositionPieceMapForDTO();
+        rowStatuses.add(generateColumnIndex());
+        for (int row = MINIMUM_ROW; row <= MAXIMUM_ROW; row++) {
+            rowStatuses.add(composeRowStatusWithMovable(row, positionPieceMap, movable));
+        }
+        return new BoardDto(rowStatuses);
+    }
+
     private static String generateColumnIndex() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(DELIMITER);
@@ -81,6 +91,25 @@ public record BoardDto(
         return stringBuilder.toString();
     }
 
+    private static String composeRowStatusWithMovable(final int row, final Map<Position, Piece> positionPieceMap,
+                                                      List<Position> movable) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        Position current;
+        stringBuilder.append(DELIMITER);
+        stringBuilder.append(INDEX_LABELS[row - 1]);
+        for (int column = MINIMUM_COLUMN; column <= MAXIMUM_COLUMN; column++) {
+            current = Position.valueOf(row, column);
+            stringBuilder.append(DELIMITER);
+            if (movable.contains(current)) {
+                stringBuilder.append(getSpaceWithBackGround(current, positionPieceMap));
+                continue;
+            }
+            stringBuilder.append(getSpace(current, positionPieceMap));
+        }
+
+        return stringBuilder.toString();
+    }
+
     private static String getSpace(final Position position, final Map<Position, Piece> positionPieceMap) {
         if (positionPieceMap.containsKey(position)) {
             final Piece piece = positionPieceMap.get(position);
@@ -89,9 +118,16 @@ public record BoardDto(
         return EMPTY_SPACE;
     }
 
+    private static String getSpaceWithBackGround(final Position position, final Map<Position, Piece> positionPieceMap) {
+        if (positionPieceMap.containsKey(position)) {
+            final Piece piece = positionPieceMap.get(position);
+            return ConsoleColor.getGreenBackground(getChineseOf(piece));
+        }
+        return ConsoleColor.getGreenBackground(EMPTY_SPACE);
+    }
+
     private static String getChineseOf(final Piece piece) {
         final Map<PieceType, String> secondaryMap = CHINESE_MAP.get(piece.getTeamType());
         return secondaryMap.get(piece.getPieceType());
     }
-
 }
