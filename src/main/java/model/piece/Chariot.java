@@ -25,7 +25,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected boolean comparePosition(int rowDiff, int colDiff) {
+    protected boolean isReachable(int rowDiff, int colDiff) {
         return (colDiff >= 1 && rowDiff == 0) || (colDiff == 0 && rowDiff >= 1);
     }
 }

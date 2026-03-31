@@ -25,7 +25,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected boolean comparePosition(int rowDiff, int colDiff) {
+    protected boolean isReachable(int rowDiff, int colDiff) {
         return (colDiff == 1 && rowDiff == 2) || (colDiff == 2 && rowDiff == 1);
     }
 }

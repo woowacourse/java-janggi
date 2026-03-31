@@ -16,7 +16,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected boolean comparePosition(int rowDiff, int colDiff) {
+    protected boolean isReachable(int rowDiff, int colDiff) {
         throw new IllegalArgumentException("1단계 궁성 영역 미구현");
     }
 }

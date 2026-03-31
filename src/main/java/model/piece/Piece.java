@@ -16,7 +16,7 @@ public abstract class Piece {
 
     public abstract List<Position> extractPath(Position current, Position next);
 
-    protected abstract boolean comparePosition(int rowDiff, int colDiff);
+    protected abstract boolean isReachable(int rowDiff, int colDiff);
 
     public boolean isSameTeam(Piece other) {
         return !isEnemy(other.team);
@@ -29,7 +29,7 @@ public abstract class Piece {
     public boolean canMove(Position current, Position next) {
         int rowDiff = next.calculateRowDiff(current);
         int colDiff = next.calculateColDiff(current);
-        return comparePosition(Math.abs(rowDiff), Math.abs(colDiff));
+        return isReachable(Math.abs(rowDiff), Math.abs(colDiff));
     }
 
     public boolean isCho() {

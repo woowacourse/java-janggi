@@ -19,11 +19,11 @@ public class Soldier extends Piece {
     public boolean canMove(Position current, Position next) {
         int rowDiff = next.calculateRowDiff(current);
         int colDiff = Math.abs(next.calculateColDiff(current));
-        return comparePosition(rowDiff, colDiff);
+        return isReachable(rowDiff, colDiff);
     }
 
     @Override
-    protected boolean comparePosition(int rowDiff, int colDiff) {
+    protected boolean isReachable(int rowDiff, int colDiff) {
         if (isCho()) {
             return (rowDiff == -1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
         }
