@@ -6,8 +6,12 @@ import domain.board.Intersection;
 import domain.game.Side;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class ElephantTest {
 
@@ -44,27 +48,19 @@ class ElephantTest {
     @Nested
     class 이동할_경로에_기물이_있으면_이동할_수_없다 {
 
-        @Test
-        void 왼쪽_경로에_기물이_있으면_왼쪽_목적지로_이동할_수_없다() {
+        @ParameterizedTest
+        @MethodSource("singleSidePathBlockedCases")
+        void 한쪽_경로에_기물이_있으면_해당_목적지로_이동할_수_없다(
+                Intersection pathNode,
+                Intersection destination,
+                Piece blockingPiece
+        ) {
             // given
             Elephant elephant = new Elephant(SIDE);
-            AlivePieces alivePieces = new AlivePieces(Map.of(LEFT_PATH_NODE, OPPOSITE_SIDE_PIECE));
+            AlivePieces alivePieces = new AlivePieces(Map.of(pathNode, blockingPiece));
 
             // when
-            boolean canMove = elephant.canMove(CURRENT_INTERSECTION, LEFT_DESTINATION, alivePieces);
-
-            // then
-            assertThat(canMove).isFalse();
-        }
-
-        @Test
-        void 오른쪽_경로에_기물이_있으면_오른쪽_목적지로_이동할_수_없다() {
-            // given
-            Elephant elephant = new Elephant(SIDE);
-            AlivePieces alivePieces = new AlivePieces(Map.of(RIGHT_PATH_NODE, OPPOSITE_SIDE_PIECE));
-
-            // when
-            boolean canMove = elephant.canMove(CURRENT_INTERSECTION, RIGHT_DESTINATION, alivePieces);
+            boolean canMove = elephant.canMove(CURRENT_INTERSECTION, destination, alivePieces);
 
             // then
             assertThat(canMove).isFalse();
@@ -81,6 +77,15 @@ class ElephantTest {
 
             // then
             assertThat(movableIntersections).doesNotContain(LEFT_DESTINATION, RIGHT_DESTINATION);
+        }
+
+        private static Stream<Arguments> singleSidePathBlockedCases() {
+            return Stream.of(
+                    Arguments.of(LEFT_PATH_NODE, LEFT_DESTINATION, SAME_SIDE_PIECE),
+                    Arguments.of(LEFT_PATH_NODE, LEFT_DESTINATION, OPPOSITE_SIDE_PIECE),
+                    Arguments.of(RIGHT_PATH_NODE, RIGHT_DESTINATION, SAME_SIDE_PIECE),
+                    Arguments.of(RIGHT_PATH_NODE, RIGHT_DESTINATION, OPPOSITE_SIDE_PIECE)
+            );
         }
     }
 

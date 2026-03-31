@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -52,50 +51,25 @@ class HorseTest {
         assertThat(movableOutOfBoard).isFalse();
     }
 
-    @Nested
-    class 전진할_칸에_기물이_있으면_이동할_수_없다 {
+    @ParameterizedTest
+    @MethodSource("eachSidePieces")
+    void 전진할_칸에_기물이_있으면_이동할_수_없다(Piece piece) {
+        // given
+        Horse horse = new Horse(SIDE);
 
-        @Test
-        void 아군_기물이_있으면_이동할_수_없다() {
-            // given
-            Horse horse = new Horse(SIDE);
+        Intersection forwardIntersection = new Intersection(
+                CURRENT_INTERSECTION.getRow() - 1,
+                CURRENT_INTERSECTION.getFile()
+        );
+        AlivePieces alivePieces = new AlivePieces(Map.of(
+                forwardIntersection, piece
+        ));
 
-            Intersection forwardIntersection = new Intersection(
-                    CURRENT_INTERSECTION.getRow() - 1,
-                    CURRENT_INTERSECTION.getFile()
-            );
-            AlivePieces alivePieces = new AlivePieces(Map.of(
-                    forwardIntersection, SAME_SIDE_PIECE
-            ));
+        // when
+        List<Intersection> movableIntersections = horse.movableIntersections(CURRENT_INTERSECTION, alivePieces);
 
-            // when
-            List<Intersection> movableIntersections = horse.movableIntersections(CURRENT_INTERSECTION, alivePieces);
-
-            // then
-
-            Assertions.assertThat(movableIntersections).doesNotContain(LEFT_DESTINATION, RIGHT_DESTINATION);
-        }
-
-        @Test
-        void 적군_기물이_있으면_이동할_수_없다() {
-            // given
-            Horse horse = new Horse(SIDE);
-
-            Intersection forwardIntersection = new Intersection(
-                    CURRENT_INTERSECTION.getRow() - 1,
-                    CURRENT_INTERSECTION.getFile()
-            );
-            AlivePieces alivePieces = new AlivePieces(Map.of(
-                    forwardIntersection, OPPOSITE_SIDE_PIECE
-            ));
-
-            // when
-            List<Intersection> movableIntersections = horse.movableIntersections(CURRENT_INTERSECTION, alivePieces);
-
-            // then
-
-            assertThat(movableIntersections).doesNotContain(LEFT_DESTINATION, RIGHT_DESTINATION);
-        }
+        // then
+        Assertions.assertThat(movableIntersections).doesNotContain(LEFT_DESTINATION, RIGHT_DESTINATION);
     }
 
     @ParameterizedTest
@@ -163,6 +137,13 @@ class HorseTest {
 
         // then
         assertThat(movableIntersections).contains(LEFT_DESTINATION, RIGHT_DESTINATION);
+    }
+
+    private static Stream<Arguments> eachSidePieces() {
+        return Stream.of(
+                Arguments.of(SAME_SIDE_PIECE),
+                Arguments.of(OPPOSITE_SIDE_PIECE)
+        );
     }
 
     private static Stream<Arguments> allFiles() {

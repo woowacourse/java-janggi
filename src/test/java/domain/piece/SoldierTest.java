@@ -3,12 +3,17 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
+import domain.direction.Direction;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierTest {
 
@@ -66,172 +71,56 @@ class SoldierTest {
         private static final Soldier OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
         private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
 
-        @Nested
-        class 아군_기물이_있는_위치로는_이동할_수_없다 {
+        @ParameterizedTest
+        @MethodSource("soliderDirections")
+        void 아군_기물이_있는_위치로는_이동할_수_없다(Direction direction) {
+            // given
+            Soldier soldier = new Soldier(SIDE);
 
-            @Test
-            void 전진할_곳에_아군_기물이_있다면_이동할_수_없다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
+            Intersection forwardIntersection = direction.moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    forwardIntersection, SAME_SIDE_PIECE
+            ));
 
-                Intersection forwardIntersection = SIDE.getForwardDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces alivePieces = new AlivePieces(Map.of(
-                        forwardIntersection, SAME_SIDE_PIECE
-                ));
+            // when
+            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
 
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
-
-                // then
-                assertThat(canMove).isFalse();
-            }
-
-            @Test
-            void 왼쪽에_아군_기물이_있다면_이동할_수_없다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
-
-                Intersection leftIntersection = SIDE.getLeftDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces alivePieces = new AlivePieces(Map.of(
-                        leftIntersection, SAME_SIDE_PIECE
-                ));
-
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, alivePieces);
-
-                // then
-                assertThat(canMove).isFalse();
-            }
-
-            @Test
-            void 오른쪽에_아군_기물이_있다면_이동할_수_없다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
-
-                Intersection rightIntersection = SIDE.getRightDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces alivePieces = new AlivePieces(Map.of(
-                        rightIntersection, SAME_SIDE_PIECE
-                ));
-
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, alivePieces);
-
-                // then
-                assertThat(canMove).isFalse();
-            }
+            // then
+            assertThat(canMove).isFalse();
         }
 
-        @Nested
-        class 상대_기물이_있는_위치로는_이동할_수_있다 {
+        @ParameterizedTest
+        @MethodSource("soliderDirections")
+        void 상대_기물이_있는_위치로는_이동할_수_있다(Direction direction) {
+            // given
+            Soldier soldier = new Soldier(SIDE);
 
-            @Test
-            void 전진할_곳에_상대_기물이_있다면_이동할_수_있다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
+            Intersection forwardIntersection = direction.moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    forwardIntersection, OPPOSITE_SIDE_PIECE
+            ));
 
-                Intersection forwardIntersection = SIDE.getForwardDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces alivePieces = new AlivePieces(Map.of(
-                        forwardIntersection, OPPOSITE_SIDE_PIECE
-                ));
+            // when
+            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
 
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
-
-                // then
-                assertThat(canMove).isTrue();
-            }
-
-            @Test
-            void 왼쪽에_상대_기물이_있다면_이동할_수_있다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
-
-                Intersection leftIntersection = SIDE.getLeftDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces alivePieces = new AlivePieces(Map.of(
-                        leftIntersection, OPPOSITE_SIDE_PIECE
-                ));
-
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, alivePieces);
-
-                // then
-                assertThat(canMove).isTrue();
-            }
-
-            @Test
-            void 오른쪽에_상대_기물이_있다면_이동할_수_있다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
-
-                Intersection rightIntersection = SIDE.getRightDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces alivePieces = new AlivePieces(Map.of(
-                        rightIntersection, OPPOSITE_SIDE_PIECE
-                ));
-
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, alivePieces);
-
-                // then
-                assertThat(canMove).isTrue();
-            }
+            // then
+            assertThat(canMove).isTrue();
         }
 
-        @Nested
-        class 비어_있는_위치로는_이동할_수_있다 {
+        @ParameterizedTest
+        @MethodSource("soliderDirections")
+        void 비어_있는_위치로는_이동할_수_있다(Direction direction) {
+            // given
+            Soldier soldier = new Soldier(SIDE);
 
-            @Test
-            void 전진할_곳이_비어_있다면_이동할_수_있다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
+            Intersection forwardIntersection = direction.moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
-                Intersection forwardIntersection = SIDE.getForwardDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+            // when
+            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, emptyAlivePieces);
 
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, emptyAlivePieces);
-
-                // then
-                assertThat(canMove).isTrue();
-            }
-
-            @Test
-            void 왼쪽이_비어_있다면_이동할_수_있다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
-
-                Intersection leftIntersection = SIDE.getLeftDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
-
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, leftIntersection, emptyAlivePieces);
-
-                // then
-                assertThat(canMove).isTrue();
-            }
-
-            @Test
-            void 오른쪽이_비어_있다면_이동할_수_있다() {
-                // given
-                Soldier soldier = new Soldier(SIDE);
-
-                Intersection rightIntersection = SIDE.getRightDirection()
-                        .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
-                AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
-
-                // when
-                boolean canMove = soldier.canMove(CURRENT_INTERSECTION, rightIntersection, emptyAlivePieces);
-
-                // then
-                assertThat(canMove).isTrue();
-            }
+            // then
+            assertThat(canMove).isTrue();
         }
 
         @Test
@@ -248,6 +137,14 @@ class SoldierTest {
 
             // then
             assertThat(canMove).isFalse();
+        }
+
+        private static Stream<Arguments> soliderDirections() {
+            return Stream.of(
+                    Arguments.of(SIDE.getForwardDirection()),
+                    Arguments.of(SIDE.getRightDirection()),
+                    Arguments.of(SIDE.getLeftDirection())
+            );
         }
     }
 }
