@@ -18,11 +18,6 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public Team team() {
-        return null;
-    }
-
-    @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         throw new PieceException(NOT_EXISTS_PIECE);
     }
