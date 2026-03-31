@@ -17,12 +17,12 @@ public class Position {
         }
     }
 
-    private final Row x;
-    private final Column y;
+    private final Row row;
+    private final Column column;
 
     private Position(Row x, Column y) {
-        this.x = x;
-        this.y = y;
+        this.row = x;
+        this.column = y;
     }
 
     public static Position of(Row x, Column y) {
@@ -36,8 +36,8 @@ public class Position {
 
     public List<Integer> getPosition() {
         List<Integer> position = new ArrayList<>();
-        position.add(x.getRow());
-        position.add(y.getColumn());
+        position.add(row.getRow());
+        position.add(column.getColumn());
         return position;
     }
 
@@ -45,11 +45,11 @@ public class Position {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return Objects.equals(x, position.x) && Objects.equals(y, position.y);
+        return Objects.equals(row, position.row) && Objects.equals(column, position.column);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(row, column);
     }
 }
