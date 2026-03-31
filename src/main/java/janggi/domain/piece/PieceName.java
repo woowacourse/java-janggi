@@ -12,12 +12,13 @@ public enum PieceName {
     GENERAL("楚", "漢"),
     NONE("  ", "  ");
 
-    private final String hanName;
     private final String choName;
+    private final String hanName;
 
-    PieceName(String hanName, String choName) {
-        this.hanName = hanName;
+    PieceName(String choName, String hanName) {
         this.choName = choName;
+        this.hanName = hanName;
+
     }
 
     public String getNameFormat(Side side) {
@@ -29,5 +30,4 @@ public enum PieceName {
         }
         return choName;
     }
-
 }

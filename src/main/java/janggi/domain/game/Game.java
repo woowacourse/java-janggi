@@ -10,8 +10,8 @@ import java.util.Set;
 
 public class Game {
     private static final Side INIT_TURN = Side.CHO;
-    private final Board board;
 
+    private final Board board;
     private Side turn;
 
     private Game(Board board) {
