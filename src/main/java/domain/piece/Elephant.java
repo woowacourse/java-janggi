@@ -1,16 +1,21 @@
 package domain.piece;
 
-import domain.coordination.Coordination;
-import domain.piece.error.PieceException;
+import static domain.piece.error.ErrorMessage.IMPOSSIBLE_MOVE;
 
+import domain.coordination.Coordination;
+import domain.coordination.MoveDelta;
+import domain.coordination.MoveDeltas;
+import domain.piece.error.PieceException;
 import java.util.List;
 import java.util.Map;
-
-import static domain.piece.error.ErrorMessage.IMPOSSIBLE_MOVE;
+import java.util.Set;
 
 public class Elephant extends Piece {
 
-    private static final List<List<Integer>> MOVABLE_ABSOLUTE_LOCATION = List.of(List.of(2, 3), List.of(3, 2));
+    private static final MoveDeltas MOVABLE_ABSOLUTE_LOCATION = MoveDeltas.of(Set.of(
+            new MoveDelta(2, 3),
+            new MoveDelta(3, 2)
+    ));
 
     public Elephant(Team team) {
         super(team);
@@ -18,26 +23,24 @@ public class Elephant extends Piece {
 
     @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        int columnDifferent = from.differentColumn(to);
-        int rowDifferent = from.differentRow(to);
-        int absColumnDifferent = Math.abs(columnDifferent);
-        int absRowDifferent = Math.abs(rowDifferent);
+        MoveDelta different = MoveDelta.between(from, to);
+        MoveDelta absDifferent = different.absolute();
 
-        validateLocation(absColumnDifferent, absRowDifferent);
+        validateLocation(absDifferent);
 
         List<Coordination> intermediateCoordinations = createIntermediateCoordinations(
                 from,
-                columnDifferent,
-                rowDifferent,
-                absColumnDifferent
+                different.deltaColumn(),
+                different.deltaRow(),
+                absDifferent.deltaColumn()
         );
 
         validatePathClear(board, intermediateCoordinations);
         validateSameTeam(from, to, board);
     }
 
-    private void validateLocation(int absColumnDifferent, int absRowDifferent) {
-        if (!MOVABLE_ABSOLUTE_LOCATION.contains(List.of(absColumnDifferent, absRowDifferent))) {
+    private void validateLocation(MoveDelta absDifferent) {
+        if (!MOVABLE_ABSOLUTE_LOCATION.contains(absDifferent)) {
             throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
         }
     }

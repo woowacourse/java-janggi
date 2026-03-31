@@ -1,16 +1,27 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
+import domain.coordination.MoveDelta;
+import domain.coordination.MoveDeltas;
 import domain.piece.error.ErrorMessage;
 import domain.piece.error.PieceException;
-
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Soldier extends Piece {
 
-    private static final List<List<Integer>> CHO_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, -1), List.of(1, 0));
-    private static final List<List<Integer>> HAN_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, 1), List.of(1, 0));
+    private static final MoveDeltas CHO_MOVABLE_LOCATION = MoveDeltas.of(Set.of(
+            new MoveDelta(-1, 0),
+            new MoveDelta(0, -1),
+            new MoveDelta(1, 0)
+    ));
+    private static final MoveDeltas HAN_MOVABLE_LOCATION = MoveDeltas.of(Set.of(
+            new MoveDelta(-1, 0),
+            new MoveDelta(0, 1),
+            new MoveDelta(1, 0)
+    ));
+
+
 
     public Soldier(Team team) {
         super(team);
@@ -23,7 +34,7 @@ public class Soldier extends Piece {
     }
 
     private void validateLocation(Coordination from, Coordination to) {
-        List<Integer> different = List.of(from.differentColumn(to), from.differentRow(to));
+        MoveDelta different = MoveDelta.between(from, to);
 
         if (team.isCho()) {
             validateLocation(CHO_MOVABLE_LOCATION, different);
@@ -32,7 +43,7 @@ public class Soldier extends Piece {
         validateLocation(HAN_MOVABLE_LOCATION, different);
     }
 
-    private void validateLocation(List<List<Integer>> movableLocation, List<Integer> different) {
+    private void validateLocation(MoveDeltas movableLocation, MoveDelta different) {
         boolean isMovable = movableLocation.contains(different);
 
         if (!isMovable) {
