@@ -1,14 +1,15 @@
 package strategy.move;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public abstract class MoveStrategy {
 
@@ -19,30 +20,28 @@ public abstract class MoveStrategy {
         List<MovePath> paths = getPaths(teamColor);
 
         for (MovePath path : paths) {
-            List<Direction> steps = path.steps();
-            Position currentPos = curPos;
-            List<Position> intermediates = new ArrayList<>();
-
-
-            for (int i = 0; i < steps.size(); i++) {
-                try {
-                    currentPos = currentPos.next(steps.get(i));
-                } catch (IllegalArgumentException exception) {
-                    currentPos = null;
-                    break;
-                }
-
-                if (i < steps.size() - 1) {
-                    intermediates.add(currentPos);
-                }
-            }
-            if (currentPos == null) {
-                continue;
-            }
-            validRoutes.add(new Route(curPos, currentPos, intermediates));
+            routeIfWithinBoard(curPos, path).ifPresent(validRoutes::add);
         }
 
         return validRoutes;
+    }
+
+    private Optional<Route> routeIfWithinBoard(Position start, MovePath path) {
+        List<Direction> steps = path.steps();
+        List<Position> intermediates = new ArrayList<>();
+        Position currentPos = start;
+
+        for (int i = 0; i < steps.size(); i++) {
+            currentPos = currentPos.next(steps.get(i));
+            if (!currentPos.isInsideBoard()) {
+                return Optional.empty();
+            }
+            if (i < steps.size() - 1) {
+                intermediates.add(currentPos);
+            }
+        }
+
+        return Optional.of(new Route(start, currentPos, intermediates));
     }
 
     public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {

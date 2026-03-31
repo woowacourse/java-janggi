@@ -1,7 +1,6 @@
 package domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -17,17 +16,29 @@ class RowTest {
 
             assertThat(row.value()).isEqualTo(3);
         }
+
+        @Test
+        void 보드_밖_값으로도_행_객체를_만들_수_있다() {
+            Row row = new Row(19);
+
+            assertThat(row.value()).isEqualTo(19);
+            assertThat(row.isInsideBoard()).isFalse();
+        }
     }
 
     @Nested
-    class 예외 {
+    class 보드_안쪽_판정 {
         @Test
-        void 값이_최댓값을_초과하면_예외를_발행한다() {
-            int input = 19;
+        void 범위_안이면_true() {
+            assertThat(new Row(0).isInsideBoard()).isTrue();
+            assertThat(new Row(9).isInsideBoard()).isTrue();
+            assertThat(new Row(5).isInsideBoard()).isTrue();
+        }
 
-            assertThatThrownBy(() -> new Row(input))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("행의 최대 값은 9입니다.");
+        @Test
+        void 범위_밖이면_false() {
+            assertThat(new Row(-1).isInsideBoard()).isFalse();
+            assertThat(new Row(10).isInsideBoard()).isFalse();
         }
     }
 }

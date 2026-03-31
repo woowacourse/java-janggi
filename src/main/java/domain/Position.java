@@ -32,7 +32,7 @@ public class Position implements Comparable<Position> {
     }
 
     public boolean isInsideBoard() {
-        return row() >= 0 && row() <= 9 && column() >= 0 && column() <= 8;
+        return row.isInsideBoard() && column.isInsideBoard();
     }
 
     @Override
