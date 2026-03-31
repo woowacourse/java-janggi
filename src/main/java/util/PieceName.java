@@ -7,7 +7,6 @@ import java.util.Arrays;
 public enum PieceName {
 
     CHARIOT("Chariot", "차"),
-
     HORSE("Horse", "마"),
     ELEPHANT("Elephant", "상"),
     GUARD("Guard", "사"),

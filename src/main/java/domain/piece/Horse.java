@@ -15,6 +15,7 @@ public class Horse extends Piece {
             new MoveDelta(1, 2),
             new MoveDelta(2, 1)
     ));
+    private static final int MAX_STEP = 2;
 
 
     public Horse(Team team) {
@@ -33,8 +34,8 @@ public class Horse extends Piece {
         int absColumnDifferent = absDifferent.deltaColumn();
         int absRowDifferent = absDifferent.deltaRow();
 
-        Coordination intermediateColumn = from.plus(colDifferent / 2, 0);
-        Coordination intermediateRow = from.plus(0, rowDifferent / 2);
+        Coordination intermediateColumn = from.plus(colDifferent / MAX_STEP, 0);
+        Coordination intermediateRow = from.plus(0, rowDifferent / MAX_STEP);
 
         validateDirection(board, absColumnDifferent, intermediateColumn, absRowDifferent, intermediateRow);
         validateSameTeam(from, to, board);

@@ -16,6 +16,9 @@ public class Elephant extends Piece {
             new MoveDelta(2, 3),
             new MoveDelta(3, 2)
     ));
+    private static final int MAX_STEP = 3;
+    private static final int HALF_STEP = 2;
+
 
     public Elephant(Team team) {
         super(team);
@@ -62,8 +65,8 @@ public class Elephant extends Piece {
             int columnDifferent,
             int rowDifferent
     ) {
-        Coordination firstIntermediate = from.plus(columnDifferent / 3, 0);
-        Coordination secondIntermediate = from.plus(columnDifferent * 2 / 3, rowDifferent / 2);
+        Coordination firstIntermediate = from.plus(columnDifferent / MAX_STEP, 0);
+        Coordination secondIntermediate = from.plus(columnDifferent * HALF_STEP / MAX_STEP, rowDifferent / HALF_STEP);
         return List.of(firstIntermediate, secondIntermediate);
     }
 
@@ -72,8 +75,8 @@ public class Elephant extends Piece {
             int columnDifferent,
             int rowDifferent
     ) {
-        Coordination firstIntermediate = from.plus(0, rowDifferent / 3);
-        Coordination secondIntermediate = from.plus(columnDifferent / 2, rowDifferent * 2 / 3);
+        Coordination firstIntermediate = from.plus(0, rowDifferent / MAX_STEP);
+        Coordination secondIntermediate = from.plus(columnDifferent / HALF_STEP, rowDifferent * HALF_STEP / MAX_STEP);
         return List.of(firstIntermediate, secondIntermediate);
     }
 
