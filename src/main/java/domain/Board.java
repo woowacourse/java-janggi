@@ -23,7 +23,7 @@ public class Board {
         Piece fromPiece = findPieceByPosition(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
 
-        if (!fromPiece.canMovePiece(from, to, this)) {
+        if (!fromPiece.canMovePiece(from, to, Board.of(this.board))) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");
         }
 
