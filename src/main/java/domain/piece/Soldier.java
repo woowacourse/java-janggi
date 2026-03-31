@@ -1,11 +1,10 @@
 package domain.piece;
 
+import domain.Position;
+import domain.Side;
 import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
 import domain.strategy.Path;
-import domain.Position;
-import domain.Side;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Soldier extends Piece {
@@ -15,24 +14,19 @@ public class Soldier extends Piece {
 
     @Override
     protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
-        List<Position> valid = new ArrayList<>();
-        for (Path path : paths) {
-            Position destination = path.getDestination();
-            if (isBackward(current, destination)) {
-                continue;
-            }
-            if (isValidDestination(destination, board)) {
-                valid.add(destination);
-            }
-        }
-        return valid;
+        return paths.stream()
+                .map(Path::getDestination)
+                .filter(destination -> isForwardOrSideways(current, destination))
+                .filter(destination -> isValidDestination(destination, board))
+                .toList();
     }
 
-    private boolean isBackward(Position current, Position destination) {
+    private boolean isForwardOrSideways(Position current, Position destination) {
+        int deltaY = destination.getY() - current.getY();
         if (getSide().isCho()) {
-            return destination.getY() < current.getY();
+            return deltaY >= 0;
         }
-        return destination.getY() > current.getY();
+        return deltaY <= 0;
     }
 
     @Override
