@@ -12,22 +12,17 @@ public class Pawn extends SingleLinearPiece {
 
     @Override
     public Route findRoute(Position start, Position end) {
-        if(!start.isHorizontal(start) && !start.isVertical(end)) {
-            throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
-        }
-
-        Integer validDistance = calculateForwardMovement(side);
-        if(start.isVertical(end) && start.calculateDistance(end) == validDistance) {
+        if(isBackward(start, end, side)) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
         return super.findRoute(start, end);
 
     }
 
-    private static Integer calculateForwardMovement(Side side) {
+    private boolean isBackward(Position start, Position end, Side side) {
         if (side.equals(Side.CHO)) {
-            return 1;
+            return start.calculateRowDistance(end) > 0;
         }
-        return -1;
+        return start.calculateRowDistance(end) < 0;
     }
 }

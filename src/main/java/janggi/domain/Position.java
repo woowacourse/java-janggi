@@ -77,15 +77,12 @@ public class Position {
         return new Position(x + movement.getDx(), y + movement.getDy());
     }
 
-    public int calculateDistance(Position position) {
-        if(isHorizontal(position)) {
-            return position.y - this.y;
-        }
+    public int calculateRowDistance(Position position) {
+        return position.x - x;
+    }
 
-        if (isVertical(position)) {
-            return position.x - this.x;
-        }
-        throw new IllegalStateException(INVALID_HORIZON);
+    public int calculateColumnDistance(Position position) {
+        return position.y - y;
     }
 
     public boolean isHorizontal(Position position) {
