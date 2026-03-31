@@ -25,6 +25,10 @@ public enum Country {
         return title;
     }
 
+    public Direction forbidden() {
+        return forbidden;
+    }
+
     public String color() {
         return color;
     }
