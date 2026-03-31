@@ -34,14 +34,14 @@ class HorseMoveRuleTest {
 
         Intersection origin = new Intersection(start, horse);
         Intersection intersection = Intersection.empty(middlePoint);
-        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
 
         // when
         HorseMoveRule horseRule = new HorseMoveRule();
         Path sameTeamPath = new Path(List.of(
                 origin,
                 intersection,
-                sameTeamIntersection)
+                sameTeamDestination)
         );
 
         // then
@@ -93,13 +93,13 @@ class HorseMoveRuleTest {
 
         Intersection origin = new Intersection(start, horse);
         Intersection intersection = Intersection.empty(middlePoint);
-        Intersection emptyIntersection = Intersection.empty(end);
+        Intersection emptyDestination = Intersection.empty(end);
         Intersection expected = new Intersection(end, horse);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
                 intersection,
-                emptyIntersection
+                emptyDestination
         )));
 
         // when
@@ -126,13 +126,13 @@ class HorseMoveRuleTest {
 
         Intersection origin = new Intersection(start, horse);
         Intersection intersection = Intersection.empty(middlePoint);
-        Intersection opponentIntersection = new Intersection(end, opponent);
+        Intersection opponentDestination = new Intersection(end, opponent);
         Intersection expected = new Intersection(end, horse);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
                 intersection,
-                opponentIntersection
+                opponentDestination
         )));
 
         // when

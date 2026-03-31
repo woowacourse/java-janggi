@@ -31,13 +31,13 @@ class GuardMoveRuleTest {
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection origin = new Intersection(start, guard);
-        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
 
         // when
         GuardMoveRule guardMoveRule = new GuardMoveRule();
         Path sameTeamPath = new Path(List.of(
                 origin,
-                sameTeamIntersection)
+                sameTeamDestination)
         );
 
         // then
@@ -57,12 +57,12 @@ class GuardMoveRuleTest {
         Piece guard = new Piece(sameTeam, PieceType.GUARD);
 
         Intersection origin = new Intersection(start, guard);
-        Intersection emptyIntersection = Intersection.empty(end);
+        Intersection emptyDestination = Intersection.empty(end);
         Intersection expected = new Intersection(end, guard);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
-                emptyIntersection
+                emptyDestination
         )));
 
         // when
@@ -88,12 +88,12 @@ class GuardMoveRuleTest {
         Piece opponent = new Piece(anotherTeam, PieceType.GUARD);
 
         Intersection origin = new Intersection(start, guard);
-        Intersection opponentIntersection = new Intersection(end, opponent);
+        Intersection opponentDestination = new Intersection(end, opponent);
         Intersection expected = new Intersection(end, guard);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
-                opponentIntersection
+                opponentDestination
         )));
 
         // when

@@ -46,7 +46,7 @@ class ChariotMoveRuleTest {
         Team sameTeam = Team.CHO;
 
         Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
-        Intersection sameTeamIntersection = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection sameTeamDestination = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
         // when
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
@@ -60,7 +60,7 @@ class ChariotMoveRuleTest {
                 intersection6,
                 intersection7,
                 intersection8,
-                sameTeamIntersection)
+                sameTeamDestination)
         );
 
         // then

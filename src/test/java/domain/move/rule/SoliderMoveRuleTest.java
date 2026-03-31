@@ -32,14 +32,14 @@ class SoliderMoveRuleTest {
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection origin = new Intersection(start, soldier);
-        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
         // when
         Path path = new Path(List.of(
                 origin,
-                sameTeamIntersection)
+                sameTeamDestination)
         );
 
         // tthen

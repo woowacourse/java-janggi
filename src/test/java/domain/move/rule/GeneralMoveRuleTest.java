@@ -31,13 +31,13 @@ class GeneralMoveRuleTest {
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection origin = new Intersection(start, general);
-        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
 
         // when
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
         Path sameTeamPath = new Path(List.of(
                 origin,
-                sameTeamIntersection)
+                sameTeamDestination)
         );
 
         // then
@@ -56,12 +56,12 @@ class GeneralMoveRuleTest {
         Piece general = new Piece(sameTeam, PieceType.GENERAL);
 
         Intersection origin = new Intersection(start, general);
-        Intersection emptyIntersection = Intersection.empty(end);
+        Intersection emptyDestination = Intersection.empty(end);
         Intersection expected = new Intersection(end, general);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
-                emptyIntersection
+                emptyDestination
         )));
 
         // when
@@ -86,12 +86,12 @@ class GeneralMoveRuleTest {
         Piece opponent = new Piece(anotherTeam, PieceType.SOLDIER);
 
         Intersection origin = new Intersection(start, general);
-        Intersection opponentIntersection = new Intersection(end, opponent);
+        Intersection opponentDestination = new Intersection(end, opponent);
         Intersection expected = new Intersection(end, general);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
-                opponentIntersection
+                opponentDestination
         )));
 
         // when

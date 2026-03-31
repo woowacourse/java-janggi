@@ -37,7 +37,7 @@ class ElephantMoveRuleTest {
         Intersection origin = new Intersection(start, elephant);
         Intersection middleIntersection1 = Intersection.empty(middlePoint1);
         Intersection middleIntersection2 = Intersection.empty(middlePoint2);
-        Intersection sameTeamIntersection = new Intersection(end, sameTeamPiece);
+        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
 
         // when
         ElephantMoveRule elephantRule = new ElephantMoveRule();
@@ -45,7 +45,7 @@ class ElephantMoveRuleTest {
                 origin,
                 middleIntersection1,
                 middleIntersection2,
-                sameTeamIntersection)
+                sameTeamDestination)
         );
 
         // then
@@ -100,14 +100,14 @@ class ElephantMoveRuleTest {
         Intersection origin = new Intersection(start, elephant);
         Intersection intersection1 = Intersection.empty(middlePoint1);
         Intersection intersection2 = Intersection.empty(middlePoint2);
-        Intersection destination = Intersection.empty(end);
+        Intersection emptyDestination = Intersection.empty(end);
         Intersection expected = new Intersection(end, elephant);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
                 intersection1,
                 intersection2,
-                destination
+                emptyDestination
         )));
 
         // when
@@ -136,14 +136,14 @@ class ElephantMoveRuleTest {
         Intersection origin = new Intersection(start, elephant);
         Intersection intersection1 = Intersection.empty(middlePoint1);
         Intersection intersection2 = Intersection.empty(middlePoint2);
-        Intersection destination = new Intersection(end, opponent);
+        Intersection opponentDestination = new Intersection(end, opponent);
         Intersection expected = new Intersection(end, elephant);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
                 intersection1,
                 intersection2,
-                destination
+                opponentDestination
         )));
 
         // when
