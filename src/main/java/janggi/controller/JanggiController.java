@@ -4,6 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.Position;
 import janggi.dto.BoardDto;
+import janggi.dto.OpeningFormationChoices;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -18,9 +19,9 @@ public class JanggiController {
     }
 
     public void start() {
-        List<Integer> openingFormationChoices = readOpeningFormationChoiceUntilValid();
-        Board board = BoardInitializer.initializeBoard(openingFormationChoices.getFirst(),
-                openingFormationChoices.getLast());
+        OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
+        Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
+                openingFormationChoices.choChoice());
 
         while (true) {
             outputView.printBoardMap(BoardDto.from(board));
@@ -38,7 +39,7 @@ public class JanggiController {
         }
     }
 
-    private List<Integer> readOpeningFormationChoiceUntilValid() {
+    private OpeningFormationChoices readOpeningFormationChoiceUntilValid() {
         while (true) {
             try {
                 return inputView.readOpeningFormationChoice();

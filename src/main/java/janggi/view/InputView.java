@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.dto.OpeningFormationChoices;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ public class InputView {
         sc = new Scanner(System.in);
     }
 
-    public List<Integer> readOpeningFormationChoice() {
+    public OpeningFormationChoices readOpeningFormationChoice() {
         System.out.println("한과 초의 차림을 선택하세요.(쉼표로 구분)\n" +
                 "1. 왼상차림 (상마상마)\n" +
                 "2. 오른상 차림 (마상마상)\n" +
@@ -28,7 +29,7 @@ public class InputView {
                 .toList();
 
         validateChoicesSize(choices);
-        return choices;
+        return new OpeningFormationChoices(choices.getFirst(), choices.getLast());
     }
 
     public List<Integer> readEndPiecePosition() {
