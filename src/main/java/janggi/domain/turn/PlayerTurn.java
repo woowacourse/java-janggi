@@ -2,7 +2,7 @@ package janggi.domain.turn;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.piece.PieceManifest;
+import janggi.domain.piece.PieceAttribute;
 import java.util.List;
 
 public interface PlayerTurn {
@@ -10,7 +10,7 @@ public interface PlayerTurn {
 
     boolean isFinished();
 
-    List<List<PieceManifest>> getCurrentBoard();
+    List<List<PieceAttribute>> getCurrentBoard();
 
     Side getCurrentSide();
 

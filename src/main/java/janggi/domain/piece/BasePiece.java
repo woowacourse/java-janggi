@@ -22,7 +22,7 @@ public abstract class BasePiece implements Piece {
     }
 
     @Override
-    public PieceManifest getPieceInfo() {
-        return new PieceManifest(side, pieceType);
+    public PieceAttribute getPieceInfo() {
+        return new PieceAttribute(side, pieceType);
     }
 }

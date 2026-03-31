@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Empty;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceManifest;
+import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.domain.Route;
 import java.util.Collections;
@@ -40,7 +40,7 @@ public class Board implements BaseBoard {
         return board.get(position).isEqualSide(side);
     }
 
-    public List<List<PieceManifest>> getCurrentBoard() {
+    public List<List<PieceAttribute>> getCurrentBoard() {
         CurrentBoard currentBoard = CurrentBoard.from(Collections.unmodifiableMap(board));
         return currentBoard.getValues();
     }

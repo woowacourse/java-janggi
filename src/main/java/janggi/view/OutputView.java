@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.domain.Side;
-import janggi.domain.piece.PieceManifest;
+import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
 import java.util.List;
@@ -17,7 +17,7 @@ public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
 
     public static void printBoard(BoardDto boardDto) {
-        List<List<PieceManifest>> board = boardDto.board();
+        List<List<PieceAttribute>> board = boardDto.board();
         StringBuilder result = new StringBuilder();
         result.append(buildColumnHeader(board.getFirst().size()));
         appendBoardRows(board, result);
@@ -45,7 +45,7 @@ public class OutputView {
         return header.toString();
     }
 
-    private static void appendBoardRows(List<List<PieceManifest>> board, StringBuilder result) {
+    private static void appendBoardRows(List<List<PieceAttribute>> board, StringBuilder result) {
         result.append(buildTopBorder(board.getFirst().size()));
         for (int row = 0; row < board.size(); row++) {
             appendBoardRow(board.get(row), row, result);
@@ -53,10 +53,10 @@ public class OutputView {
         }
     }
 
-    private static void appendBoardRow(List<PieceManifest> row, int rowIndex, StringBuilder result) {
+    private static void appendBoardRow(List<PieceAttribute> row, int rowIndex, StringBuilder result) {
         result.append(String.format(" %2d ┃", rowIndex + 1));
-        for (PieceManifest pieceManifest : row) {
-            result.append(formatCell(pieceManifest));
+        for (PieceAttribute pieceAttribute : row) {
+            result.append(formatCell(pieceAttribute));
             result.append("┃");
         }
         result.append(System.lineSeparator());
@@ -86,11 +86,11 @@ public class OutputView {
         return border.toString();
     }
 
-    private static String formatCell(PieceManifest pieceManifest) {
-        if (isEmpty(pieceManifest)) {
+    private static String formatCell(PieceAttribute pieceAttribute) {
+        if (isEmpty(pieceAttribute)) {
             return "  " + EMPTY_CELL + "  ";
         }
-        return " " + colorize(pieceManifest.pieceType().getName(), pieceManifest.side()) + "  ";
+        return " " + colorize(pieceAttribute.pieceType().getName(), pieceAttribute.side()) + "  ";
     }
 
     private static String colorize(String pieceName, Side side) {
@@ -103,10 +103,10 @@ public class OutputView {
         return pieceName;
     }
 
-    private static boolean isEmpty(PieceManifest pieceManifest) {
-        if (pieceManifest == null) {
+    private static boolean isEmpty(PieceAttribute pieceAttribute) {
+        if (pieceAttribute == null) {
             return true;
         }
-        return pieceManifest.pieceType() == PieceType.NONE || pieceManifest.side() == Side.EMPTY;
+        return pieceAttribute.pieceType() == PieceType.NONE || pieceAttribute.side() == Side.EMPTY;
     }
 }
