@@ -44,7 +44,7 @@ public class BoardSnapshot {
         if (isEmpty(position)) {
             return false;
         }
-        return board.get(position).pieceType().equals(pieceType);
+        return board.get(position).isSamePieceType(pieceType);
     }
 
     public boolean isEmpty(Position position) {

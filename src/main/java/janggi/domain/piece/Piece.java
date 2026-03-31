@@ -18,4 +18,8 @@ public record Piece(
         return this.dynasty.equals(dynasty);
     }
 
+    public boolean isSamePieceType(PieceType pieceType) {
+        return this.pieceType.equals(pieceType);
+    }
+
 }
