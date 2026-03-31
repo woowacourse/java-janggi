@@ -1,15 +1,12 @@
 package domain.manager;
 
-import static common.exception.ErrorMessage.DIFFERENT_TEAM;
-import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
 import common.exception.JanggiException;
-import domain.board.Board;
-import domain.board.BoardFactory;
 import domain.board.Formation;
-import domain.piece.Piece;
+import domain.game.Game;
+import domain.game.GameInitializer;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
@@ -22,36 +19,36 @@ import view.OutputView;
 public class GameManager {
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
-    private Board board;
-    private TurnManager turnManager;
+
+    private Game game;
 
     public void run() {
-        board = initialize();
-        outputView.printBoard(board.getBoardMap());
+        game = createGame();
+        outputView.printBoard(game.getBoardMap());
 
-        while (turnManager.isGameRunning()) {
+        while (game.isRunning()) {
             playTurn();
         }
     }
 
+    private Game createGame() {
+        String choPlayerName = inputView.askChoPlayerName();
+        String hanPlayerName = inputView.askHanPlayerName();
+        int choPositionInput = inputView.askChoPositionInput();
+        int hanPositionInput = inputView.askHanPositionInput();
+        return GameInitializer.initialize(choPlayerName, hanPlayerName, choPositionInput, hanPositionInput);
+    }
+
     private void playTurn() {
-        outputView.printPlayerTurnMessage(turnManager.getCurrentPlayer().getName(),
-                turnManager.getCurrentTeam().name());
-
+        outputView.printPlayerTurnMessage(game.getCurrentPlayerName(), game.getCurrentTeam().name());
         retryOnInvalidInput(this::executeMove);
-
-        outputView.printBoard(board.getBoardMap());
-        turnManager.switchTurn();
+        outputView.printBoard(game.getBoardMap());
     }
 
     private void executeMove() {
         Position source = createSource();
         Position destination = createDestination();
-
-        Piece caughtPiece = board.move(source, destination);
-        if (!caughtPiece.isNone()) {
-            turnManager.getCurrentPlayer().addCaughtPiece(caughtPiece);
-        }
+        game.move(source, destination);
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {
@@ -78,14 +75,7 @@ public class GameManager {
     private Position createSource() {
         return retryOnInvalidInput(() -> {
             List<Integer> numbers = inputView.askSourcePosition();
-            Position source = new Position(numbers.getFirst(), numbers.getLast());
-            if (board.isNonePiece(source)) {
-                throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
-            }
-            if (board.isPieceDifferentTeam(source, turnManager.getCurrentTeam())) {
-                throw new JanggiException(DIFFERENT_TEAM.formatted(turnManager.getCurrentTeam()));
-            }
-            return source;
+            return new Position(numbers.getFirst(), numbers.getLast());
         });
     }
 
@@ -96,17 +86,6 @@ public class GameManager {
         });
     }
 
-    private Board initialize() {
-        Player choPlayer = createChoPlayer();
-        Player hanPlayer = createHanPlayer();
-
-        turnManager = new TurnManager(choPlayer, hanPlayer);
-
-        Formation choFormation = createChoFormation();
-        Formation hanFormation = createHanFormation();
-
-        return BoardFactory.createWithFormation(choFormation, hanFormation);
-    }
 
     private Player createChoPlayer() {
         String choName = inputView.askChoPlayerName();
