@@ -2,12 +2,12 @@ package view;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import board.Board;
-import board.LeftSangSetup;
+import domain.board.Board;
+import domain.board.LeftSangSetup;
 import org.junit.jupiter.api.Test;
-import pieces.PieceType;
-import pieces.Side;
-import view.dto.PieceDto;
+import domain.pieces.PieceType;
+import domain.pieces.Side;
+import dto.PieceDto;
 
 class BoardViewMapperTest {
 

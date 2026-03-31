@@ -3,12 +3,14 @@ package movepolicy.destination;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.movepolicy.destination.DestinationRule;
+import domain.movepolicy.destination.PoDestinationRule;
 import org.junit.jupiter.api.Test;
-import pieces.EmptyPiece;
-import pieces.Gung;
-import pieces.Piece;
-import pieces.Po;
-import pieces.Side;
+import domain.pieces.EmptyPiece;
+import domain.pieces.Gung;
+import domain.pieces.Piece;
+import domain.pieces.Po;
+import domain.pieces.Side;
 
 class PoDestinationRuleTest {
 

@@ -3,8 +3,11 @@ package pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.pieces.EmptyPiece;
+import domain.pieces.Piece;
+import domain.pieces.PieceType;
 import org.junit.jupiter.api.Test;
-import position.Position;
+import domain.position.Position;
 
 class EmptyPieceTest {
 

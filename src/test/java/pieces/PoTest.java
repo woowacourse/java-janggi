@@ -4,14 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.pieces.Piece;
+import domain.pieces.PieceType;
+import domain.pieces.Po;
+import domain.pieces.Side;
 import java.util.List;
-import movepolicy.MoveContext;
-import movepolicy.destination.PoDestinationRule;
-import movepolicy.path.PoPathRule;
+import domain.movepolicy.MoveContext;
+import domain.movepolicy.destination.PoDestinationRule;
+import domain.movepolicy.path.PoPathRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import position.Position;
+import domain.position.Position;
 
 class PoTest {
 

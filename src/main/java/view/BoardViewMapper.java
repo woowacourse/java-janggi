@@ -1,10 +1,11 @@
 package view;
 
-import board.Board;
+import domain.board.Board;
+import domain.pieces.Side;
 import java.util.Map;
-import pieces.Piece;
-import position.Position;
-import view.dto.PieceDto;
+import domain.pieces.Piece;
+import domain.position.Position;
+import dto.PieceDto;
 
 public class BoardViewMapper {
     public PieceDto[][] map(Board board) {
@@ -25,8 +26,8 @@ public class BoardViewMapper {
             return new PieceDto(piece.getType(), null);
         }
         if (piece.isCho()) {
-            return new PieceDto(piece.getType(), pieces.Side.CHO);
+            return new PieceDto(piece.getType(), Side.CHO);
         }
-        return new PieceDto(piece.getType(), pieces.Side.HAN);
+        return new PieceDto(piece.getType(), Side.HAN);
     }
 }

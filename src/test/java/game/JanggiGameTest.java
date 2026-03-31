@@ -2,15 +2,16 @@ package game;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import board.Board;
+import domain.board.Board;
+import domain.game.JanggiGame;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import pieces.Cha;
-import pieces.EmptyPiece;
-import pieces.Piece;
-import pieces.Side;
-import position.Position;
+import domain.pieces.Cha;
+import domain.pieces.EmptyPiece;
+import domain.pieces.Piece;
+import domain.pieces.Side;
+import domain.position.Position;
 
 class JanggiGameTest {
 

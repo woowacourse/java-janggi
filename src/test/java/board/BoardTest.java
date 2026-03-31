@@ -2,16 +2,17 @@ package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import pieces.Cha;
-import pieces.EmptyPiece;
-import pieces.FullPiece;
-import pieces.Piece;
-import pieces.Side;
-import position.Position;
+import domain.pieces.Cha;
+import domain.pieces.EmptyPiece;
+import domain.pieces.FullPiece;
+import domain.pieces.Piece;
+import domain.pieces.Side;
+import domain.position.Position;
 
 class BoardTest {
 

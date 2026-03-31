@@ -4,13 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import movepolicy.MoveContext;
-import movepolicy.destination.BasicDestinationRule;
-import movepolicy.path.EmptyPathRule;
+import domain.movepolicy.MoveContext;
+import domain.movepolicy.destination.BasicDestinationRule;
+import domain.movepolicy.path.EmptyPathRule;
+import domain.pieces.JolByeong;
+import domain.pieces.Piece;
+import domain.pieces.PieceType;
+import domain.pieces.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import position.Position;
+import domain.position.Position;
 
 class JolByeongTest {
 

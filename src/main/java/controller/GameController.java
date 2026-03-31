@@ -1,10 +1,10 @@
 package controller;
 
-import board.SangSetup;
-import board.SangSetupType;
-import game.JanggiGame;
-import pieces.Side;
-import position.Position;
+import domain.board.SangSetup;
+import domain.board.SangSetupType;
+import domain.game.JanggiGame;
+import domain.pieces.Side;
+import domain.position.Position;
 import view.BoardViewMapper;
 import view.InputView;
 import view.OutputView;

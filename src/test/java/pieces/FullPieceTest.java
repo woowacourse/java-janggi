@@ -2,6 +2,10 @@ package pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.pieces.Gung;
+import domain.pieces.Piece;
+import domain.pieces.Po;
+import domain.pieces.Side;
 import org.junit.jupiter.api.Test;
 
 class FullPieceTest {

@@ -2,20 +2,23 @@ package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
+import domain.board.OuterSangSetup;
+import domain.board.SangSetup;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import pieces.Cha;
-import pieces.EmptyPiece;
-import pieces.Gung;
-import pieces.JolByeong;
-import pieces.Ma;
-import pieces.Piece;
-import pieces.Po;
-import pieces.Sa;
-import pieces.Sang;
-import pieces.Side;
-import position.Position;
+import domain.pieces.Cha;
+import domain.pieces.EmptyPiece;
+import domain.pieces.Gung;
+import domain.pieces.JolByeong;
+import domain.pieces.Ma;
+import domain.pieces.Piece;
+import domain.pieces.Po;
+import domain.pieces.Sa;
+import domain.pieces.Sang;
+import domain.pieces.Side;
+import domain.position.Position;
 
 class OuterSangSetupTest {
 

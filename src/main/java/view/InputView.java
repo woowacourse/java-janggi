@@ -1,8 +1,8 @@
 package view;
 
-import board.SangSetupType;
+import domain.board.SangSetupType;
 import java.util.Scanner;
-import position.Position;
+import domain.position.Position;
 
 public class InputView {
 

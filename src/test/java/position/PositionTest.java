@@ -2,6 +2,7 @@ package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.position.Position;
 import org.junit.jupiter.api.Test;
 
 class PositionTest {

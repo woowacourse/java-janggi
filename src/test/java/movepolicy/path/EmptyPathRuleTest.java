@@ -3,11 +3,13 @@ package movepolicy.path;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.movepolicy.path.EmptyPathRule;
+import domain.movepolicy.path.PathRule;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import pieces.Gung;
-import pieces.Piece;
-import pieces.Side;
+import domain.pieces.Gung;
+import domain.pieces.Piece;
+import domain.pieces.Side;
 
 class EmptyPathRuleTest {
 
