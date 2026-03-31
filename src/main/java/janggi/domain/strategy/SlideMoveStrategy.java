@@ -15,23 +15,22 @@ public class SlideMoveStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
         Paths paths = new Paths();
-        for (Direction baseDir : baseDirections) {
-            addSlidePath(current, baseDir, paths);
+        for (Direction baseDirection : baseDirections) {
+            addSlidePath(current, baseDirection, paths);
         }
         return paths;
     }
 
-    private void addSlidePath(Position current, Direction baseDir, Paths paths) {
+    private void addSlidePath(Position current, Direction baseDirection, Paths paths) {
         Path path = new Path();
-        Position next = current;
-        try {
-            while (true) {
-                next = baseDir.move(next);
-                path.makePath(next);
-            }
-        } catch (IllegalArgumentException e) {
-            paths.addPath(path);
+        Position pointer = current;
+
+        while (pointer.canMove(baseDirection)) {
+            pointer = baseDirection.move(pointer);
+            path.makePath(pointer);
         }
+
+        paths.addPath(path);
     }
 
     @Override
@@ -43,18 +42,19 @@ public class SlideMoveStrategy implements MoveStrategy {
         return destinations;
     }
 
-    private void validateSlidePath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private void validateSlidePath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
         for (Position pos : route) {
-            if (processAndCheckBlocked(pos, state, dests, me)) {
+            if (processAndCheckBlocked(pos, state, destinations, me)) {
                 break;
             }
         }
     }
 
-    private boolean processAndCheckBlocked(Position pos, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private boolean processAndCheckBlocked(Position pos, Map<Position, Piece> state, List<Position> destinations,
+                                           Piece me) {
         Piece target = state.get(pos);
         if (target == null || !target.isSameSide(me)) {
-            dests.add(pos);
+            destinations.add(pos);
         }
         return target != null;
     }

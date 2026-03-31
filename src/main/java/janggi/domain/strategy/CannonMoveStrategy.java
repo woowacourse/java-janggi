@@ -22,17 +22,16 @@ public class CannonMoveStrategy implements MoveStrategy {
         return paths;
     }
 
-    private void addCannonPath(Position current, Direction baseDir, Paths paths) {
+    private void addCannonPath(Position current, Direction baseDirection, Paths paths) {
         Path path = new Path();
         Position next = current;
-        try {
-            while (true) {
-                next = baseDir.move(next);
-                path.makePath(next);
-            }
-        } catch (IllegalArgumentException e) {
-            paths.addPath(path);
+
+        while (next.canMove(baseDirection)) {
+            next = baseDirection.move(next);
+            path.makePath(next);
         }
+
+        paths.addPath(path);
     }
 
     @Override
@@ -44,10 +43,10 @@ public class CannonMoveStrategy implements MoveStrategy {
         return destinations;
     }
 
-    private void validateCannonPath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private void validateCannonPath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
         Iterator<Position> it = route.iterator();
         if (findBridge(it, state)) {
-            findDestinationsAfterJump(it, state, dests, me);
+            findDestinationsAfterJump(it, state, destinations, me);
         }
     }
 
@@ -85,9 +84,9 @@ public class CannonMoveStrategy implements MoveStrategy {
         }
     }
 
-    private void addTargetIfCapturable(Position position, Piece target, List<Position> dests, Piece me) {
+    private void addTargetIfCapturable(Position position, Piece target, List<Position> destinations, Piece me) {
         if (!target.isCannon() && !target.isSameSide(me)) {
-            dests.add(position);
+            destinations.add(position);
         }
     }
 }

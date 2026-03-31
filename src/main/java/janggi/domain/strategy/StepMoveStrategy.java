@@ -39,11 +39,11 @@ public class StepMoveStrategy implements MoveStrategy {
     }
 
     private void validateStepPath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
-        Position dest = route.iterator().next();
-        Piece target = state.get(dest);
+        Position destination = route.iterator().next();
+        Piece target = state.get(destination);
 
         if (target == null || !target.isSameSide(me)) {
-            destinations.add(dest);
+            destinations.add(destination);
         }
     }
 }
