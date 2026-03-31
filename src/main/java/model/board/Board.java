@@ -2,6 +2,7 @@ package model.board;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import model.move.Move;
 import model.pieces.Piece;
 import model.position.Position;
@@ -55,7 +56,8 @@ public class Board {
     }
 
     public Piece findPiece(Position position) {
-        return board.get(position);
+        Optional<Piece> piece = Optional.ofNullable(board.get(position));
+        return piece.orElse(null);
     }
 
     public boolean isPathEmpty(Position position) {
