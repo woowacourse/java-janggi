@@ -1,6 +1,8 @@
 package domain.player;
 
 
+import common.exception.JanggiException;
+
 public record Name(String value) {
     private static final int MIN_NAME_LENGTH = 2;
     private static final int MAX_NAME_LENGTH = 8;
@@ -15,7 +17,7 @@ public record Name(String value) {
 
     private void validateName(String value) {
         if (isInvalidLength(value) || hasInvalidCharacter(value)) {
-            throw new IllegalArgumentException(INVALID_NAME_MESSAGE);
+            throw new JanggiException(INVALID_NAME_MESSAGE);
         }
     }
 

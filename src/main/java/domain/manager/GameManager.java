@@ -9,6 +9,7 @@ import domain.game.Game;
 import domain.game.GameInitializer;
 import domain.player.Name;
 import domain.player.Player;
+import domain.player.Players;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.List;
@@ -32,11 +33,11 @@ public class GameManager {
     }
 
     private Game createGame() {
-        String choPlayerName = inputView.askChoPlayerName();
-        String hanPlayerName = inputView.askHanPlayerName();
+        Players players = createPlayers();
+
         int choPositionInput = inputView.askChoPositionInput();
         int hanPositionInput = inputView.askHanPositionInput();
-        return GameInitializer.initialize(choPlayerName, hanPlayerName, choPositionInput, hanPositionInput);
+        return GameInitializer.initialize(players, choPositionInput, hanPositionInput);
     }
 
     private void playTurn() {
@@ -86,15 +87,26 @@ public class GameManager {
         });
     }
 
-
     private Player createChoPlayer() {
-        String choName = inputView.askChoPlayerName();
-        return createPlayer(choName, CHO);
+        return retryOnInvalidInput(() -> {
+            String choName = inputView.askChoPlayerName();
+            return createPlayer(choName, CHO);
+        });
     }
 
     private Player createHanPlayer() {
-        String hanName = inputView.askHanPlayerName();
-        return createPlayer(hanName, HAN);
+        return retryOnInvalidInput(() -> {
+            String hanName = inputView.askHanPlayerName();
+            return createPlayer(hanName, HAN);
+        });
+    }
+
+    private Players createPlayers() {
+        Player choPlayer = createChoPlayer();
+        return retryOnInvalidInput(() -> {
+            Player hanPlayer = createHanPlayer();
+            return new Players(List.of(choPlayer, hanPlayer));
+        });
     }
 
     private Player createPlayer(String name, Team team) {
