@@ -4,7 +4,7 @@ import domain.board.Board;
 import domain.board.ElephantSetup;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
-import dto.PieceName;
+import dto.PieceNameDto;
 import dto.PositionDto;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class OutputView {
 
     public void printBoardWithPieces(final PieceInfosDto pieceInfos) {
         StringBuilder builder = new StringBuilder();
-        Map<PositionDto, PieceName> pieceByPosition = pieceInfos.pieceInfos();
+        Map<PositionDto, PieceNameDto> pieceByPosition = pieceInfos.pieceInfos();
 
         appendRowHeader(builder);
         appendBoardRows(builder, pieceByPosition);
@@ -74,14 +74,14 @@ public class OutputView {
         builder.append(LINE_SEPARATOR);
     }
 
-    private void appendBoardRows(final StringBuilder builder, final Map<PositionDto, PieceName> pieceByPosition) {
+    private void appendBoardRows(final StringBuilder builder, final Map<PositionDto, PieceNameDto> pieceByPosition) {
         for (int column = Board.MIN_COLUMN_RANGE; column <= Board.MAX_COLUMN_RANGE; column++) {
             appendBoardRow(builder, column, pieceByPosition);
         }
     }
 
     private void appendBoardRow(final StringBuilder builder, final int column,
-                                final Map<PositionDto, PieceName> pieceByPosition
+                                final Map<PositionDto, PieceNameDto> pieceByPosition
     ) {
         builder.append(String.format("%2d ", column));
 
@@ -96,7 +96,7 @@ public class OutputView {
             final StringBuilder builder,
             final int column,
             final int row,
-            final Map<PositionDto, PieceName> pieceByPosition
+            final Map<PositionDto, PieceNameDto> pieceByPosition
     ) {
         PositionDto position = new PositionDto(column, row);
         builder.append(CELL_PADDING)
@@ -106,9 +106,9 @@ public class OutputView {
 
     private String renderCell(
             final PositionDto position,
-            final Map<PositionDto, PieceName> pieceByPosition
+            final Map<PositionDto, PieceNameDto> pieceByPosition
     ) {
-        PieceName pieceInfo = pieceByPosition.get(position);
+        PieceNameDto pieceInfo = pieceByPosition.get(position);
 
         if (pieceInfo == null) {
             return EMPTY_CELL_SYMBOL;
@@ -117,7 +117,7 @@ public class OutputView {
         return colorize(pieceInfo);
     }
 
-    private String colorize(final PieceName pieceInfo) {
+    private String colorize(final PieceNameDto pieceInfo) {
         if (pieceInfo.isCho()) {
             return BLUE_CODE + pieceInfo.displayName() + COLOR_RESET_CODE;
         }
