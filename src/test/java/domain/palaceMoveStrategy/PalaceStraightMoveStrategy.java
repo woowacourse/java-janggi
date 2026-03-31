@@ -23,6 +23,15 @@ public class PalaceStraightMoveStrategy {
     private final MoveStrategy chariotMoveStrategy = new ChariotMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new domain.place.palaceMoveStrategy.PalaceStraightMoveStrategy();
 
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                Arguments.of(new Position(1, 4), new Position(3, 6)),
+                Arguments.of(new Position(1, 6), new Position(3, 4)),
+                Arguments.of(new Position(8, 4), new Position(10, 6)),
+                Arguments.of(new Position(8, 6), new Position(10, 4))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("차는 궁성에서 대각선 방향으로 이동 가능하다")
     @MethodSource("validMoves")
@@ -36,15 +45,6 @@ public class PalaceStraightMoveStrategy {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validMoves() {
-        return Stream.of(
-                Arguments.of(new Position(1, 4), new Position(3, 6)),
-                Arguments.of(new Position(1, 6), new Position(3, 4)),
-                Arguments.of(new Position(8, 4), new Position(10, 6)),
-                Arguments.of(new Position(8, 6), new Position(10, 4))
-        );
     }
 
     @Test
@@ -100,4 +100,5 @@ public class PalaceStraightMoveStrategy {
         // then
         assertThat(result).isFalse();
     }
+
 }

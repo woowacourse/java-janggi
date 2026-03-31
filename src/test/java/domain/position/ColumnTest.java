@@ -30,4 +30,5 @@ class ColumnTest {
         Assertions.assertThatCode(() -> new Column(9))
                 .doesNotThrowAnyException();
     }
+
 }

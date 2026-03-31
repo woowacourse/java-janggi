@@ -102,4 +102,5 @@ public class OutputView {
                 .map(s -> ColorMapper.colorize(format, s))
                 .orElse(format);
     }
+
 }

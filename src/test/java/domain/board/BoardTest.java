@@ -100,4 +100,5 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 기물이 가지 못하는 자리입니다.");
     }
+
 }

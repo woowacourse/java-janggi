@@ -13,4 +13,5 @@ public class General extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.GENERAL;
     }
+
 }

@@ -106,4 +106,5 @@ public class Janggi {
         OutputView.printPositionMove(player.getName(), player.getSide());
         return PositionParser.parsePosition(InputView.readLine());
     }
+
 }

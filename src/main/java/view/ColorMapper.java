@@ -17,4 +17,5 @@ public class ColorMapper {
         String code = COLOR_CODES.getOrDefault(side, "");
         return code + text + RESET;
     }
+
 }

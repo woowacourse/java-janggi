@@ -2,8 +2,6 @@ package domain.moveStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.board.Board;
-import domain.board.StubBoard;
 import domain.place.Place;
 import domain.place.moveStrategy.ChariotMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
@@ -26,6 +24,15 @@ class ChariotMoveStrategyTest {
     private final MoveStrategy moveStrategy = new ChariotMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceStraightMoveStrategy();
 
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                Arguments.of(new Position(3, 5), new Position(3, 7)),
+                Arguments.of(new Position(3, 5), new Position(3, 2)),
+                Arguments.of(new Position(3, 5), new Position(5, 5)),
+                Arguments.of(new Position(3, 5), new Position(1, 5))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("차는 직선 방향으로 이동 가능하다")
     @MethodSource("validMoves")
@@ -39,15 +46,6 @@ class ChariotMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validMoves() {
-        return Stream.of(
-                Arguments.of(new Position(3, 5), new Position(3, 7)),
-                Arguments.of(new Position(3, 5), new Position(3, 2)),
-                Arguments.of(new Position(3, 5), new Position(5, 5)),
-                Arguments.of(new Position(3, 5), new Position(1, 5))
-        );
     }
 
     @Test
@@ -103,4 +101,5 @@ class ChariotMoveStrategyTest {
         // then
         assertThat(result).isFalse();
     }
+
 }

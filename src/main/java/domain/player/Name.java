@@ -28,4 +28,5 @@ public record Name(String name) {
             throw new IllegalArgumentException("[ERROR] 이름은 2글자에서 10글자 사이여야 합니다.");
         }
     }
+
 }

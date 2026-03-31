@@ -26,6 +26,15 @@ class GuardMoveStrategyTest {
     private final GuardMoveStrategy guardMoveStrategy = new GuardMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceOneStepMoveStrategy();
 
+    static Stream<Arguments> validMoveCases() {
+        return Stream.of(
+                Arguments.of(new Position(2, 5), new Position(3, 5)),
+                Arguments.of(new Position(2, 5), new Position(1, 5)),
+                Arguments.of(new Position(2, 5), new Position(2, 4)),
+                Arguments.of(new Position(2, 5), new Position(2, 6))
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("validMoveCases")
     @DisplayName("사는 한 칸 이동 가능")
@@ -39,15 +48,6 @@ class GuardMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validMoveCases() {
-        return Stream.of(
-                Arguments.of(new Position(2, 5), new Position(3, 5)),
-                Arguments.of(new Position(2, 5), new Position(1, 5)),
-                Arguments.of(new Position(2, 5), new Position(2, 4)),
-                Arguments.of(new Position(2, 5), new Position(2, 6))
-        );
     }
 
     @Test
@@ -103,4 +103,5 @@ class GuardMoveStrategyTest {
         // then
         assertThat(result).isTrue();
     }
+
 }

@@ -16,4 +16,5 @@ public class PlayerNameParser {
                 names.replace(WHITESPACE, "").split(NAME_SEPARATOR)
         );
     }
+
 }

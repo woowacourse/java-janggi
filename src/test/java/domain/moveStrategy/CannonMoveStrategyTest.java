@@ -2,8 +2,6 @@ package domain.moveStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.board.Board;
-import domain.board.StubBoard;
 import domain.place.Place;
 import domain.place.moveStrategy.CannonMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
@@ -29,6 +27,15 @@ class CannonMoveStrategyTest {
     private final MoveStrategy moveStrategy = new CannonMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceJumpMoveStrategy();
 
+    static Stream<Arguments> validJumpMoves() {
+        return Stream.of(
+                Arguments.of(new Position(1, 1), new Position(1, 5), new Position(1, 7)),
+                Arguments.of(new Position(1, 7), new Position(1, 5), new Position(1, 1)),
+                Arguments.of(new Position(1, 1), new Position(5, 1), new Position(7, 1)),
+                Arguments.of(new Position(7, 1), new Position(5, 1), new Position(1, 1))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("포는 기물을 하나 넘어서 이동할 수 있다")
     @MethodSource("validJumpMoves")
@@ -44,15 +51,6 @@ class CannonMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validJumpMoves() {
-        return Stream.of(
-                Arguments.of(new Position(1,1), new Position(1,5), new Position(1,7)),
-                Arguments.of(new Position(1,7), new Position(1,5), new Position(1,1)),
-                Arguments.of(new Position(1,1), new Position(5,1), new Position(7,1)),
-                Arguments.of(new Position(7,1), new Position(5,1), new Position(1,1))
-        );
     }
 
     @Test
@@ -152,4 +150,5 @@ class CannonMoveStrategyTest {
         // then
         assertThat(result).isFalse();
     }
+
 }

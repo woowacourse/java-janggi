@@ -17,4 +17,5 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 잘못된 입력을 하셨습니다.");
         }
     }
+
 }

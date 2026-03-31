@@ -37,4 +37,5 @@ public class StubBoard {
     public Board create() {
         return new Board(new HashMap<>(board));
     }
+
 }

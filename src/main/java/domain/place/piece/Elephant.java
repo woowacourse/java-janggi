@@ -13,4 +13,5 @@ public class Elephant extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.ELEPHANT;
     }
+
 }

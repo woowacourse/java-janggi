@@ -28,4 +28,5 @@ public interface Place {
     boolean canNormalMove(Map<Position, Place> obstacles, Position from, Position to);
 
     boolean canPalaceMove(Map<Position, Place> obstacles, Position from, Position to);
+
 }

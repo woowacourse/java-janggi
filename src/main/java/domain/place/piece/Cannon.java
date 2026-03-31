@@ -13,4 +13,5 @@ public class Cannon extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.CANNON;
     }
+
 }

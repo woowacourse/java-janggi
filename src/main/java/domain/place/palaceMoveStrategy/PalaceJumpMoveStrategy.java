@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class PalaceJumpMoveStrategy implements  PalaceMoveStrategy{
+public class PalaceJumpMoveStrategy implements PalaceMoveStrategy {
 
     private static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
             Direction.RIGHT_TOP,
@@ -30,7 +30,7 @@ public class PalaceJumpMoveStrategy implements  PalaceMoveStrategy{
     private void collectLinePositions(List<Position> result, Position from, Direction direction) {
         Optional<Position> current = from.moveIfInBounds(direction);
 
-        while (current.isPresent()&& PalaceMovementRule.isInsidePalace(current.get())) {
+        while (current.isPresent() && PalaceMovementRule.isInsidePalace(current.get())) {
             Position pos = current.get();
             result.add(pos);
 
@@ -45,11 +45,11 @@ public class PalaceJumpMoveStrategy implements  PalaceMoveStrategy{
         }
 
         Place toPlace = getPlace(board, to);
-        if(toPlace.hasSide(fromSide)){
+        if (toPlace.hasSide(fromSide)) {
             return false;
         }
         return DIAGONAL_DIRECTIONS.stream()
-                .anyMatch(direction -> isValidJump(board,from,to,direction));
+                .anyMatch(direction -> isValidJump(board, from, to, direction));
     }
 
     private boolean isValidJump(Map<Position, Place> board,
@@ -57,7 +57,7 @@ public class PalaceJumpMoveStrategy implements  PalaceMoveStrategy{
                                 Position to,
                                 Direction direction) {
         Optional<Position> current = from.moveIfInBounds(direction);
-        if(current.isEmpty() || !PalaceMovementRule.isInsideSpecialPalace(current.get())){
+        if (current.isEmpty() || !PalaceMovementRule.isInsideSpecialPalace(current.get())) {
             return false;
         }
         Place middlePlace = getPlace(board, current.get());
@@ -74,4 +74,5 @@ public class PalaceJumpMoveStrategy implements  PalaceMoveStrategy{
     private boolean isTargetCannon(Place place) {
         return place.isSameSymbol(PieceSymbol.CANNON);
     }
+
 }

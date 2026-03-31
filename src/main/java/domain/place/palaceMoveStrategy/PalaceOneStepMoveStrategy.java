@@ -8,7 +8,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
-public class PalaceOneStepMoveStrategy implements PalaceMoveStrategy{
+public class PalaceOneStepMoveStrategy implements PalaceMoveStrategy {
 
     private static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
             Direction.RIGHT_TOP,
@@ -28,7 +28,7 @@ public class PalaceOneStepMoveStrategy implements PalaceMoveStrategy{
     @Override
     public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
         Place toPlace = board.getOrDefault(to, new Empty());
-        if(toPlace.hasSide(fromSide)){
+        if (toPlace.hasSide(fromSide)) {
             return false;
         }
         return DIAGONAL_DIRECTIONS.stream()
@@ -36,4 +36,5 @@ public class PalaceOneStepMoveStrategy implements PalaceMoveStrategy{
                 .filter(PalaceMovementRule::isInsidePalace)
                 .anyMatch(to::equals);
     }
+
 }

@@ -42,7 +42,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         }
 
         Place toPlace = board.getOrDefault(to, new Empty());
-        if(toPlace.hasSide(fromSide)){
+        if (toPlace.hasSide(fromSide)) {
             return false;
         }
 
@@ -61,8 +61,12 @@ public class CannonMoveStrategy implements MoveStrategy {
         while (current.isPresent() && !current.get().equals(to) && count <= REQUIRED_OBSTACLE_COUNT) {
             Place place = getPlace(board, current.get());
 
-            if (isTargetCannon(place)) return false;
-            if (!place.isEmpty()) count++;
+            if (isTargetCannon(place)) {
+                return false;
+            }
+            if (!place.isEmpty()) {
+                count++;
+            }
 
             current = current.get().moveIfInBounds(direction);
         }

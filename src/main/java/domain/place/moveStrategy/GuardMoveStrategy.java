@@ -25,7 +25,7 @@ public class GuardMoveStrategy implements MoveStrategy {
     @Override
     public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
         Place toPlace = board.getOrDefault(to, new Empty());
-        if(toPlace.hasSide(fromSide)){
+        if (toPlace.hasSide(fromSide)) {
             return false;
         }
         return ORTHOGONAL_DIRECTIONS.stream()

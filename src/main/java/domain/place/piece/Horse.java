@@ -13,4 +13,5 @@ public class Horse extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.HORSE;
     }
+
 }

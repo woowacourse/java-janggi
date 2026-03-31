@@ -30,4 +30,5 @@ class RowTest {
         assertThatCode(() -> new Row(10))
                 .doesNotThrowAnyException();
     }
+
 }

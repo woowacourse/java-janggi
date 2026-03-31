@@ -13,4 +13,5 @@ public class Guard extends Piece {
     public PieceSymbol getSymbol() {
         return PieceSymbol.GUARD;
     }
+
 }

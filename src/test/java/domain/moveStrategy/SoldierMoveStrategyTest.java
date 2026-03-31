@@ -2,12 +2,9 @@ package domain.moveStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.board.Board;
-import domain.board.StubBoard;
 import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
-import domain.place.palaceMoveStrategy.PalaceEmptyMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
 import domain.place.piece.Side;
@@ -23,6 +20,19 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierMoveStrategyTest {
+
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                // CHO
+                Arguments.of(Side.CHO, new Position(2, 1), new Position(1, 1)), // 앞으로
+                Arguments.of(Side.CHO, new Position(2, 2), new Position(2, 1)), // 좌
+                Arguments.of(Side.CHO, new Position(2, 2), new Position(2, 3)), // 우
+
+                // HAN
+                Arguments.of(Side.HAN, new Position(9, 2), new Position(10, 2)), // 앞으로
+                Arguments.of(Side.HAN, new Position(9, 5), new Position(9, 6))  // 좌/우
+        );
+    }
 
     @ParameterizedTest
     @MethodSource("validMoves")
@@ -40,19 +50,6 @@ class SoldierMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validMoves() {
-        return Stream.of(
-                // CHO
-                Arguments.of(Side.CHO, new Position(2, 1), new Position(1, 1)), // 앞으로
-                Arguments.of(Side.CHO, new Position(2, 2), new Position(2, 1)), // 좌
-                Arguments.of(Side.CHO, new Position(2, 2), new Position(2, 3)), // 우
-
-                // HAN
-                Arguments.of(Side.HAN, new Position(9, 2), new Position(10, 2)), // 앞으로
-                Arguments.of(Side.HAN, new Position(9, 5), new Position(9, 6))  // 좌/우
-        );
     }
 
     @Test
@@ -98,4 +95,5 @@ class SoldierMoveStrategyTest {
         // then
         assertThat(result).isTrue();
     }
+
 }

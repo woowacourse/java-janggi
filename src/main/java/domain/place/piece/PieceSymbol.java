@@ -24,4 +24,5 @@ public enum PieceSymbol {
     public int getScore() {
         return score;
     }
+
 }

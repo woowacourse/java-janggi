@@ -71,4 +71,5 @@ public abstract class Piece implements Place {
     public boolean canPalaceMove(Map<Position, Place> obstacles, Position from, Position to) {
         return palaceMoveStrategy.canMove(obstacles, from, to, side);
     }
+
 }

@@ -14,4 +14,5 @@ public record Row(int row) {
             throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
         }
     }
+
 }

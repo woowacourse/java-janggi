@@ -24,6 +24,19 @@ class ElephantMoveStrategyTest {
     private final MoveStrategy moveStrategy = new ElephantMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceEmptyMoveStrategy();
 
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                Arguments.of(new Position(5, 5), new Position(7, 8)),
+                Arguments.of(new Position(5, 5), new Position(3, 8)),
+                Arguments.of(new Position(5, 5), new Position(7, 2)),
+                Arguments.of(new Position(5, 5), new Position(3, 2)),
+                Arguments.of(new Position(5, 5), new Position(8, 7)),
+                Arguments.of(new Position(5, 5), new Position(8, 3)),
+                Arguments.of(new Position(5, 5), new Position(2, 7)),
+                Arguments.of(new Position(5, 5), new Position(2, 3))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("상은 다양한 방향으로 정상 이동할 수 있다")
     @MethodSource("validMoves")
@@ -37,19 +50,6 @@ class ElephantMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validMoves() {
-        return Stream.of(
-                Arguments.of(new Position(5, 5), new Position(7, 8)),
-                Arguments.of(new Position(5, 5), new Position(3, 8)),
-                Arguments.of(new Position(5, 5), new Position(7, 2)),
-                Arguments.of(new Position(5, 5), new Position(3, 2)),
-                Arguments.of(new Position(5, 5), new Position(8, 7)),
-                Arguments.of(new Position(5, 5), new Position(8, 3)),
-                Arguments.of(new Position(5, 5), new Position(2, 7)),
-                Arguments.of(new Position(5, 5), new Position(2, 3))
-        );
     }
 
     @Test
@@ -105,4 +105,5 @@ class ElephantMoveStrategyTest {
         // then
         assertThat(result).isFalse();
     }
+
 }

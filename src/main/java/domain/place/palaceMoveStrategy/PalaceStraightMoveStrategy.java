@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class PalaceStraightMoveStrategy implements PalaceMoveStrategy{
+public class PalaceStraightMoveStrategy implements PalaceMoveStrategy {
     private static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
             Direction.RIGHT_TOP,
             Direction.LEFT_TOP,
@@ -39,17 +39,17 @@ public class PalaceStraightMoveStrategy implements PalaceMoveStrategy{
     @Override
     public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
         Place toPlace = board.getOrDefault(to, new Empty());
-        if(toPlace.hasSide(fromSide)){
+        if (toPlace.hasSide(fromSide)) {
             return false;
         }
         return DIAGONAL_DIRECTIONS.stream()
-                .anyMatch(direction -> isValidStraight(board,from,to,direction));
+                .anyMatch(direction -> isValidStraight(board, from, to, direction));
     }
 
     private boolean isValidStraight(Map<Position, Place> board,
-                                Position from,
-                                Position to,
-                                Direction direction) {
+                                    Position from,
+                                    Position to,
+                                    Direction direction) {
         Optional<Position> current = from.moveIfInBounds(direction);
         while (current.isPresent() && !to.equals(current.get())) {
             Position pos = current.get();
@@ -63,4 +63,5 @@ public class PalaceStraightMoveStrategy implements PalaceMoveStrategy{
 
         return current.filter(to::equals).isPresent();
     }
+
 }

@@ -26,6 +26,15 @@ public class PalaceJumpMoveStrategyTest {
     private final MoveStrategy moveStrategy = new CannonMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceJumpMoveStrategy();
 
+    static Stream<Arguments> validJumpMoves() {
+        return Stream.of(
+                Arguments.of(new Position(1, 4), new Position(2, 5), new Position(3, 6)),
+                Arguments.of(new Position(1, 6), new Position(2, 5), new Position(3, 4)),
+                Arguments.of(new Position(8, 4), new Position(9, 5), new Position(10, 6)),
+                Arguments.of(new Position(8, 6), new Position(9, 5), new Position(10, 4))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("포는 궁성에서 대각선으로 기물을 하나 넘어서 이동할 수 있다")
     @MethodSource("validJumpMoves")
@@ -41,15 +50,6 @@ public class PalaceJumpMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validJumpMoves() {
-        return Stream.of(
-                Arguments.of(new Position(1,4), new Position(2,5), new Position(3,6)),
-                Arguments.of(new Position(1,6), new Position(2,5), new Position(3,4)),
-                Arguments.of(new Position(8,4), new Position(9,5), new Position(10,6)),
-                Arguments.of(new Position(8,6), new Position(9,5), new Position(10,4))
-        );
     }
 
     @Test
@@ -128,4 +128,5 @@ public class PalaceJumpMoveStrategyTest {
         // then
         assertThat(result).isFalse();
     }
+
 }

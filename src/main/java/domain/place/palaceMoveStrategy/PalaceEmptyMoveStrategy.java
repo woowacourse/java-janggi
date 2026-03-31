@@ -6,7 +6,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
-public class PalaceEmptyMoveStrategy implements PalaceMoveStrategy{
+public class PalaceEmptyMoveStrategy implements PalaceMoveStrategy {
     @Override
     public List<Position> getPath(Position from) {
         return List.of();
@@ -16,4 +16,5 @@ public class PalaceEmptyMoveStrategy implements PalaceMoveStrategy{
     public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
         return false;
     }
+
 }

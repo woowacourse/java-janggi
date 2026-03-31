@@ -10,4 +10,5 @@ public interface PalaceMoveStrategy {
     List<Position> getPath(Position from);
 
     boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide);
+
 }

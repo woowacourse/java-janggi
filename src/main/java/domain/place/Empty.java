@@ -58,4 +58,5 @@ public class Empty implements Place {
     public boolean canPalaceMove(Map<Position, Place> obstacles, Position from, Position to) {
         return false;
     }
+
 }

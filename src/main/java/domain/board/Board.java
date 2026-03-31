@@ -72,7 +72,6 @@ public class Board {
         if (fromPlace.isEmpty() || !fromPlace.hasSide(side)) {
             throw new IllegalArgumentException("[ERROR] 잘못된 기물 선택입니다.");
         }
-
     }
 
     private void movePiece(Position from, Position to) {
@@ -137,4 +136,5 @@ public class Board {
         }
         return rowResult;
     }
+
 }

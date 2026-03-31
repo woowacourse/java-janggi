@@ -1,17 +1,13 @@
 package domain.moveStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.offset;
 
-import domain.board.Board;
-import domain.board.StubBoard;
 import domain.place.Place;
 import domain.place.moveStrategy.ElephantMoveStrategy;
 import domain.place.moveStrategy.HorseMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceEmptyMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
-import domain.place.palaceMoveStrategy.PalaceOneStepMoveStrategy;
 import domain.place.piece.Elephant;
 import domain.place.piece.Horse;
 import domain.place.piece.Side;
@@ -30,6 +26,19 @@ class HorseMoveStrategyTest {
     private final MoveStrategy moveStrategy = new HorseMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceEmptyMoveStrategy();
 
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                Arguments.of(new Position(5, 5), new Position(6, 7)),
+                Arguments.of(new Position(5, 5), new Position(4, 7)),
+                Arguments.of(new Position(5, 5), new Position(6, 3)),
+                Arguments.of(new Position(5, 5), new Position(4, 3)),
+                Arguments.of(new Position(5, 5), new Position(7, 6)),
+                Arguments.of(new Position(5, 5), new Position(7, 4)),
+                Arguments.of(new Position(5, 5), new Position(3, 6)),
+                Arguments.of(new Position(5, 5), new Position(3, 4))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("마는 모든 정상 이동을 할 수 있다")
     @MethodSource("validMoves")
@@ -43,19 +52,6 @@ class HorseMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validMoves() {
-        return Stream.of(
-                Arguments.of(new Position(5, 5), new Position(6, 7)),
-                Arguments.of(new Position(5, 5), new Position(4, 7)),
-                Arguments.of(new Position(5, 5), new Position(6, 3)),
-                Arguments.of(new Position(5, 5), new Position(4, 3)),
-                Arguments.of(new Position(5, 5), new Position(7, 6)),
-                Arguments.of(new Position(5, 5), new Position(7, 4)),
-                Arguments.of(new Position(5, 5), new Position(3, 6)),
-                Arguments.of(new Position(5, 5), new Position(3, 4))
-        );
     }
 
     @Test
@@ -112,4 +108,5 @@ class HorseMoveStrategyTest {
         // then
         assertThat(result).isFalse();
     }
+
 }

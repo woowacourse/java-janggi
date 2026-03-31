@@ -55,4 +55,5 @@ public enum HorseElephantFormation {
     public List<Function<Side, Place>> getFormationMethod() {
         return formationMethod;
     }
+
 }

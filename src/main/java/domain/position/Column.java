@@ -15,4 +15,5 @@ public record Column(int column) {
             throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
         }
     }
+
 }

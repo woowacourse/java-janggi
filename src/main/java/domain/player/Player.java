@@ -18,4 +18,5 @@ public class Player {
     public Side getSide() {
         return side;
     }
+
 }
