@@ -22,7 +22,7 @@ class MovementTest {
 
     @Nested
     @DisplayName("잡기 여부 판정 테스트")
-    class CanKill {
+    class CanCatch {
 
         Position from;
         Piece me;
@@ -76,6 +76,35 @@ class MovementTest {
             boolean expected = true;
 
             boolean actual = Movement.canCatch(me, from, boardMediator);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("이동 유효성 판정 테스트")
+    class IsValid {
+
+        @Test
+        @DisplayName("최대 거리까지 이동할 경로가 존재하는 경우")
+        void success_1() {
+            Position from = Position.valueOf(10, 4);
+            Movement movement = new Movement(2, Direction.NORTH_EAST);
+            boolean expected = true;
+
+            boolean actual = movement.isValid(from);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("최대 거리까지 이동할 경로가 존재하지 않는 경우")
+        void success_2() {
+            Position from = Position.valueOf(9, 5);
+            Movement movement = new Movement(2, Direction.NORTH_EAST);
+            boolean expected = false;
+
+            boolean actual = movement.isValid(from);
 
             assertThat(actual).isEqualTo(expected);
         }
