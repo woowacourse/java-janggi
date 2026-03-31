@@ -47,4 +47,11 @@ public class Players {
     public Player removeFirst() {
         return players.removeFirst();
     }
+
+    public Player getByTeam(Team team) {
+        return players.stream()
+                .filter(player -> player.getTeam() == team)
+                .findAny()
+                .orElseThrow(() -> new JanggiException("해당 팀의 플레이어가 없습니다."));
+    }
 }

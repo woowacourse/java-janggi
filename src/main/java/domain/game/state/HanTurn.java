@@ -23,4 +23,9 @@ public class HanTurn extends Running {
         }
         game.changeState(new ChoTurn(game));
     }
+
+    @Override
+    public Team getCurrentTeam() {
+        return Team.HAN;
+    }
 }

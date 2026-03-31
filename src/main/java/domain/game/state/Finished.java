@@ -16,6 +16,16 @@ public class Finished extends GameState {
 
     @Override
     public void move(Position source, Position destination) {
-        throw new JanggiException("게임이 종료되어 이동이 불가합니다.");
+        throw new JanggiException("게임이 이미 종료되었습니다.");
+    }
+
+    @Override
+    public boolean isRunning() {
+        return false;
+    }
+
+    @Override
+    public Team getCurrentTeam() {
+        throw new JanggiException("게임이 이미 종료되었습니다.");
     }
 }
