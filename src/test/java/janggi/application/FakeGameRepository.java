@@ -10,6 +10,7 @@ public class FakeGameRepository implements GameRepository {
     private final List<GameSummary> gameSummaries;
     private final GameSnapshot gameSnapshot;
     private GameSnapshot updatedGameSnapshot;
+    private GameSnapshot savedGameSnapshot;
 
     public FakeGameRepository(List<GameSummary> gameSummaries, GameSnapshot gameSnapshot) {
         this.gameSummaries = gameSummaries;
@@ -34,7 +35,8 @@ public class FakeGameRepository implements GameRepository {
 
     @Override
     public Long save(GameSnapshot gameSnapshot) {
-        return gameSnapshot.id();
+        this.savedGameSnapshot = gameSnapshot;
+        return 1L;
     }
 
     @Override
@@ -44,5 +46,9 @@ public class FakeGameRepository implements GameRepository {
 
     public GameSnapshot updatedGameSnapshot() {
         return updatedGameSnapshot;
-    };
+    }
+
+    public GameSnapshot savedGameSnapshot() {
+        return savedGameSnapshot;
+    }
 }

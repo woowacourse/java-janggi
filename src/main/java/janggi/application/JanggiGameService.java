@@ -46,6 +46,11 @@ public class JanggiGameService {
         gameRepository.update(toSnapshot(gameId, janggiGame));
     }
 
+    public Long createGame() {
+        JanggiGame janggiGame = startNewGame();
+        return gameRepository.save(toSnapshot(null, janggiGame));
+    }
+
     private GameStatus gameStatus(GameSnapshot gameSnapshot) {
         if (gameSnapshot.finished()) {
             return new FinishedGame(gameSnapshot.winner());
