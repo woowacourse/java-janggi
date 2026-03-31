@@ -34,6 +34,10 @@ public abstract class Piece {
         return pieceType.getSymbol();
     }
 
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
     public boolean isDifferentTeam(Team team) {
         return this.team != team;
     }

@@ -15,75 +15,63 @@ public class OutputView {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
 
+    private static final String[] numberLabels = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"};
+
     public void printBoard(Map<Position, Piece> board) {
-        printColumnHeader();
-        for (int row = MIN_ROW; row < MAX_ROW; row++) {
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             printPieceRow(row, board);
-            printVerticalRow();
         }
-        printPieceRow(MAX_ROW, board);
+        printColumnHeader();
         System.out.println();
     }
 
     public void printErrorMessage(String message) {
-        System.out.println(message);
+        System.out.println("[ERROR] " + message);
     }
 
     public void printPlayerTurnMessage(String name, String team) {
         System.out.println(name + "(" + team + ")" + "님의 차례입니다.");
     }
 
-    private void printColumnHeader() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("       ");
-        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            sb.append(column);
-            if (column != MAX_COLUMN) {
-                sb.append(" ---- ");
-            }
-        }
-        System.out.println(sb);
-    }
-
     private void printPieceRow(int row, Map<Position, Piece> board) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%3d   ", row));
+        sb.append(numberLabels[row]).append(' ');
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             Piece piece = board.get(new Position(row, column));
-            sb.append(formatCell(piece));
+            sb.append(formatPiece(piece));
             if (column != MAX_COLUMN) {
-                sb.append("---");
+                sb.append(' ');
             }
         }
         System.out.println(sb);
     }
 
-    private void printVerticalRow() {
+    private void printColumnHeader() {
         StringBuilder sb = new StringBuilder();
-        sb.append("       ");
+        sb.append("　 ");
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            sb.append("|");
+            sb.append(numberLabels[column]);
             if (column != MAX_COLUMN) {
-                sb.append("      ");
+                sb.append(' ');
             }
         }
         System.out.println(sb);
     }
 
-    private String formatCell(Piece piece) {
+    private String formatPiece(Piece piece) {
         if (piece.isNone()) {
-            return String.format("[%2s]", piece.getPieceString());
+            return "＋";
         }
 
-        String pieceString = piece.getPieceString();
+        String displayName = piece.getPieceType().getDisplayName(piece.getTeam());
         Team team = piece.getTeam();
 
         if (team.isCho()) {
-            return String.format("[%s%2s%s]", ANSI_BLUE, pieceString, ANSI_RESET);
+            return ANSI_BLUE + displayName + ANSI_RESET;
         }
         if (team.isHan()) {
-            return String.format("[%s%2s%s]", ANSI_RED, pieceString, ANSI_RESET);
+            return ANSI_RED + displayName + ANSI_RESET;
         }
-        return String.format("[%2s]", pieceString);
+        return displayName;
     }
 }
