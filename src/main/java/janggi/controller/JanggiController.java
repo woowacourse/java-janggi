@@ -19,48 +19,38 @@ public class JanggiController {
     }
 
     public void run() {
+        Janggi janggi = createGame();
+
+        while (janggi.isRunning()) {
+            outputView.printBoard(janggi.getBoard(), janggi.currentCamp());
+            playTurn(janggi);
+        }
+    }
+
+    private Janggi createGame() {
         int choFormation = inputView.readFormationChoice(1);
         int hanFormation = inputView.readFormationChoice(2);
-        Janggi janggi = Janggi.start(choFormation, hanFormation);
-
-        Camp currentCamp = Camp.CHO;
-        while (true) {
-            outputView.printBoard(janggi.getBoard(), currentCamp);
-
-            PositionRequest from = selectPiece(janggi, currentCamp);
-            boolean moved = tryMove(janggi, from);
-            if (moved) {
-                currentCamp = currentCamp.next();
-            }
-        }
+        return Janggi.start(choFormation, hanFormation);
     }
 
-    private PositionRequest selectPiece(Janggi janggi, Camp currentCamp) {
+    private void playTurn(Janggi janggi) {
         while (true) {
-            Optional<PositionRequest> request = inputView.readPieceSelection();
-            if (request.isEmpty()) {
-                continue;
-            }
-            PositionRequest positionRequest = request.get();
             try {
-                janggi.validateCamp(positionRequest.row(), positionRequest.column(), currentCamp);
-                return positionRequest;
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
-    }
+                Optional<PositionRequest> selection = inputView.readPieceSelection();
+                if (selection.isEmpty()) {
+                    continue;
+                }
 
-    private boolean tryMove(Janggi janggi, PositionRequest from) {
-        while (true) {
-            Optional<PositionRequest> request = inputView.readMoveDestination();
-            if (request.isEmpty()) {
-                return false;
-            }
-            PositionRequest to = request.get();
-            try {
-                janggi.movePiece(to.row(), to.column(), Position.of(from.row(), from.column()));
-                return true;
+                Optional<PositionRequest> destination = inputView.readMoveDestination();
+                if (destination.isEmpty()) {
+                    continue;
+                }
+
+                Position from = Position.of(selection.get().row(), selection.get().column());
+                Position to = Position.of(destination.get().row(), destination.get().column());
+
+                janggi.play(from, to);
+                break;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }

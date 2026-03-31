@@ -22,9 +22,13 @@ public class Janggi {
     );
 
     private final Board board;
+    private Camp currentCamp;
+    private boolean running;
 
     private Janggi(Board board) {
         this.board = board;
+        this.currentCamp = Camp.CHO;
+        this.running = true;
     }
 
     public static Janggi start(int choFormationNumber, int hanFormationNumber) {
@@ -40,15 +44,29 @@ public class Janggi {
         return FORMATIONS.get(choice - 1);
     }
 
-    public void movePiece(int row, int col, Position position) {
-        board.movePiece(row, col, position);
+    public void play(Position from, Position to) {
+        validateTurn(from);
+        board.movePiece(from, to);
+        currentCamp = currentCamp.next();
     }
 
-    public void validateCamp(int row, int col, Camp camp) {
-        Piece piece = board.selectPiece(row, col);
-        if (!piece.isSameCamp(camp)) {
+    private void validateTurn(Position from) {
+        Piece piece = board.selectPiece(from);
+        if (!piece.isSameCamp(currentCamp)) {
             throw new IllegalArgumentException("자신의 기물만 선택할 수 있습니다.");
         }
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void finish() {
+        running = false;
+    }
+
+    public Camp currentCamp(){
+        return currentCamp;
     }
 
     public Map<Position, Piece> getBoard() {
