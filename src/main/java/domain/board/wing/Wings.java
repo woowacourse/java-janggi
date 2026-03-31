@@ -4,9 +4,7 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.Piece;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public final class Wings {
 
@@ -31,17 +29,9 @@ public final class Wings {
         return pieces;
     }
 
-    private void validateSide(Side side, List<Piece> leftWingPieces, List<Piece> rightWingPieces) {
-        List<Piece> entirePieces = Stream.concat(leftWingPieces.stream(), rightWingPieces.stream())
-                .toList();
-
-        List<Piece> illegalPieces = entirePieces.stream()
-                .filter(piece -> piece.isDifferentSide(side))
-                .toList();
-
-        if (!illegalPieces.isEmpty()) {
-            throw new IllegalArgumentException(
-                    side + " 진영의 진에는 " + side + "진영의 기물만 배치할 수 있습니다. (현재 기물: " + entirePieces + ")");
+    private void validateSide(Side side, WingPieces leftWingPieces, WingPieces rightWingPieces) {
+        if (leftWingPieces.isDifferentSide(side) || rightWingPieces.isDifferentSide(side)) {
+            throw new IllegalArgumentException(side + " 진영의 진에는 " + side + "진영의 기물만 배치할 수 있습니다.");
         }
     }
 }

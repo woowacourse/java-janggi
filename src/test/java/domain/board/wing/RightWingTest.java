@@ -6,7 +6,6 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ class RightWingTest {
         void 한_진영의_초기_위치를_반환한다() {
             // given
             Side side = Side.HAN;
-            RightWing rightWing = new RightWing(List.of(
+            RightWing rightWing = new RightWing(new WingPieces(
                     new Piece(PieceType.HORSE, side),
                     new Piece(PieceType.ELEPHANT, side)
             ));
@@ -41,7 +40,7 @@ class RightWingTest {
         void 초_진영의_초기_위치를_반환한다() {
             // given
             Side side = Side.CHO;
-            RightWing rightWing = new RightWing(List.of(
+            RightWing rightWing = new RightWing(new WingPieces(
                     new Piece(PieceType.HORSE, side),
                     new Piece(PieceType.ELEPHANT, side)
             ));

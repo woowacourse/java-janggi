@@ -2,11 +2,11 @@ package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.wing.WingPieces;
 import domain.board.wing.Wings;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +14,11 @@ class InitialPiecesTest {
 
     private static final int INITIAL_PIECES_AMOUNT = 32;
 
-    private final List<Piece> hanWing = List.of(
+    private final WingPieces hanWing = new WingPieces(
             new Piece(PieceType.HORSE, Side.HAN),
             new Piece(PieceType.ELEPHANT, Side.HAN)
     );
-    private final List<Piece> choWing = List.of(
+    private final WingPieces choWing = new WingPieces(
             new Piece(PieceType.HORSE, Side.CHO),
             new Piece(PieceType.ELEPHANT, Side.CHO)
     );

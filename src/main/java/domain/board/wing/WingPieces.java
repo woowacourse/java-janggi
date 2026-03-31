@@ -1,5 +1,6 @@
 package domain.board.wing;
 
+import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.List;
@@ -11,8 +12,14 @@ public record WingPieces(Piece first, Piece second) {
 
     public WingPieces {
         mustSameSide(first, second);
-        List<Piece> pieces = List.of(first, second);
-        mustHaveOneHorseAndOneElephant(pieces);
+        mustHaveOneHorseAndOneElephant(List.of(first, second));
+    }
+
+    public static WingPieces of(List<Piece> pieces) {
+        if (pieces.size() != 2) {
+            throw new IllegalArgumentException("진에 놓일 기물은 2개여야 합니다(현재 " + pieces.size() + "개).");
+        }
+        return new WingPieces(pieces.get(0), pieces.get(1));
     }
 
     private static void mustSameSide(Piece first, Piece second) {
@@ -44,5 +51,9 @@ public record WingPieces(Piece first, Piece second) {
         if (count != HORSE_COUNT) {
             throw new IllegalArgumentException("마의 기물 수는 " + HORSE_COUNT + "개여야 합니다(현재 기물 수: " + count + "개).");
         }
+    }
+
+    public boolean isDifferentSide(Side side) {
+        return first.isDifferentSide(side);
     }
 }

@@ -1,6 +1,7 @@
 package view;
 
 import domain.board.Intersection;
+import domain.board.wing.WingPieces;
 import domain.board.wing.Wings;
 import domain.game.Side;
 import domain.piece.Piece;
@@ -48,12 +49,14 @@ public final class InputView {
         );
     }
 
-    private List<Piece> createWingPieces(String wingInput, Side side) {
-        return wingInput.chars()
+    private WingPieces createWingPieces(String wingInput, Side side) {
+        List<Piece> pieces = wingInput.chars()
                 .mapToObj(c -> (char) c)
                 .filter(WING_TYPES::containsKey)
                 .map(symbol -> new Piece(WING_TYPES.get(symbol), side))
                 .toList();
+
+        return WingPieces.of(pieces);
     }
 
     public Intersection readStartPosition(Side currentTurn) {
