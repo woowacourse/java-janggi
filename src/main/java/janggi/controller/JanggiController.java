@@ -23,12 +23,16 @@ public class JanggiController {
         Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
                 openingFormationChoices.choChoice());
 
-        while (true) {
+        while (isPlaying()) {
             outputView.printBoardMap(BoardDto.from(board));
             Position startPiecePosition = readStartPositionUntilValid();
             Position endPiecePosition = readEndPositionUntilValid();
             tryMove(board, startPiecePosition, endPiecePosition);
         }
+    }
+
+    private boolean isPlaying() {
+        return true;
     }
 
     private void tryMove(Board board, Position from, Position to) {
