@@ -116,4 +116,44 @@ public class JdbcGameRepositoryTest {
         assertThat(foundGame.winner()).isNull();
         assertThat(foundGame.positions()).hasSize(2);
     }
+
+    @Test
+    @DisplayName("게임 상태 수정")
+    void update() {
+        // given
+        GameSnapshot savedGame = new GameSnapshot(
+                1L,
+                Team.CHO,
+                false,
+                null,
+                List.of(
+                        PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                        PositionInfo.from(Team.HAN, "JANG", 4, 8)
+                )
+        );
+        repository.save(savedGame);
+        Long gameId = repository.findAll().get(0).id();
+
+        // when
+        GameSnapshot updatedGame = new GameSnapshot(
+                gameId,
+                Team.HAN,
+                true,
+                Team.HAN,
+                List.of(
+                        PositionInfo.from(Team.HAN, "JANG", 4, 8)
+                )
+        );
+        repository.update(updatedGame);
+
+        // then
+        GameSnapshot foundGame = repository.findById(gameId).orElseThrow();
+
+        assertThat(foundGame.id()).isEqualTo(gameId);
+        assertThat(foundGame.currentTurn()).isEqualTo(Team.HAN);
+        assertThat(foundGame.finished()).isTrue();
+        assertThat(foundGame.winner()).isEqualTo(Team.HAN);
+        assertThat(foundGame.positions()).hasSize(1);
+
+    }
 }
