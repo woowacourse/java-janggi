@@ -38,7 +38,7 @@ public class HorseTest {
     void 위로_오른대각선_경로_막힘() {
         Board board = new Board();
         Horse horse = new Horse(Camp.HAN);
-        Piece piece = new Piece(Camp.HAN);
+        Piece piece = new Soldier(Camp.HAN);
         Position fromPosition = new Position(2, 9);
         Position toPosition = new Position(3, 7);
 

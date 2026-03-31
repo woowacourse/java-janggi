@@ -44,7 +44,7 @@ public class SoldierTest {
     void 같은_팀_기물_막힘으로_앞으로_한_칸_전진_불가() {
         Board board = new Board();
         Soldier soldier = new Soldier(Camp.HAN);
-        Piece piece = new Piece(Camp.HAN);
+        Soldier piece = new Soldier(Camp.HAN);
 
         Position fromPosition = new Position(0, 3);
         Position toPosition = new Position(0, 4);
@@ -60,7 +60,7 @@ public class SoldierTest {
     void 상대_팀_기물_잡고_앞으로_한_칸_전진_가능() {
         Board board = new Board();
         Soldier soldier = new Soldier(Camp.HAN);
-        Piece piece = new Piece(Camp.CHO);
+        Soldier piece = new Soldier(Camp.CHO);
 
         Position fromPosition = new Position(0, 3);
         Position toPosition = new Position(0, 4);

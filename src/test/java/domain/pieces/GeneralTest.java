@@ -38,7 +38,7 @@ class GeneralTest {
     void 아래로_오른대각선_경로_막힘() {
         Board board = new Board();
         General general = new General(Camp.HAN);
-        Piece piece = new Piece(Camp.HAN);
+        Soldier piece = new Soldier(Camp.HAN);
         Position fromPosition = new Position(4, 1);
         Position toPosition = new Position(5, 2);
 

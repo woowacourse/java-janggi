@@ -12,7 +12,7 @@ public class ChariotTest {
     void 다른_기물_뒤로는_이동할_수_없다() {
         Board board = new Board();
         Chariot chariot = new Chariot(Camp.HAN);
-        Piece piece = new Piece(Camp.HAN);
+        Soldier piece = new Soldier(Camp.HAN);
 
         Position fromPosition = new Position(3, 5);
         Position anotherPiecePosition = new Position(6, 5);
