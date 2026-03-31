@@ -3,7 +3,6 @@ package strategy;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CustomInitializeStrategy extends InitializeStrategy{
@@ -15,14 +14,12 @@ public class CustomInitializeStrategy extends InitializeStrategy{
     }
 
     @Override
-    public Map<Position, Piece> initialize(Team team) {
-        return customPieces;
-    }
-
-
-    @Override
-    protected Map<Position, Piece> initializeElephantHorseFormation(Team team) {
+    public Map<Position, Piece> initializeDefaultFormation(Team team) {
         return Map.of();
     }
 
+    @Override
+    protected Map<Position, Piece> initializeElephantHorseFormation(Team team) {
+        return customPieces;
+    }
 }

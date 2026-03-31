@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class InitializeStrategy {
-    public Map<Position, Piece> initialize(Team team) {
+    public final Map<Position, Piece> initialize(Team team) {
         Map<Position, Piece> pieces = new HashMap<>();
 
         pieces.putAll(initializeDefaultFormation(team));
@@ -21,7 +21,7 @@ public abstract class InitializeStrategy {
         return pieces;
     }
 
-    private Map<Position, Piece> initializeDefaultFormation(Team team) {
+    protected Map<Position, Piece> initializeDefaultFormation(Team team) {
         if (team == Team.CHO) {
             return initializeChoDefaultFormation();
         }

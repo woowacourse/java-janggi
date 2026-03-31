@@ -9,12 +9,11 @@ import strategy.InitializeStrategy;
 
 public class NoInitializeStrategy extends InitializeStrategy {
     @Override
-    public Map<Position, Piece> initialize(Team team) {
-        return new HashMap<>();
+    protected Map<Position, Piece> initializeDefaultFormation(Team team) {
+        return Map.of();
     }
-
     @Override
-    public Map<Position, Piece> initializeElephantHorseFormation(Team team) {
-        return new HashMap<>();
+    protected Map<Position, Piece> initializeElephantHorseFormation(Team team) {
+        return Map.of();
     }
 }
