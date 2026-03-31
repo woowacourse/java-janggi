@@ -45,4 +45,8 @@ public record Position(int x, int y) {
     public int deltaY(Position other) {
         return other.y - y;
     }
+
+    public Position moveBy(int deltaX, int deltaY) {
+        return new Position(x + deltaX, y + deltaY);
+    }
 }
