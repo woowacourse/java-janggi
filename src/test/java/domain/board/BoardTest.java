@@ -81,8 +81,8 @@ class BoardTest {
     @DisplayName("기물 이동 테스트")
     public void moveTest() {
         Board board = Board.init(ElephantSetup.INNER_ELEPHANT_SETUP, ElephantSetup.INNER_ELEPHANT_SETUP);
-        Position from = Position.of(7, 1);
-        Position to = Position.of(8, 1);
+        Position from = Position.of(7, 1); // 초나라 병
+        Position to = Position.of(6, 1); // 한 칸 전진
 
         board.move(from, to, Team.CHO);
 

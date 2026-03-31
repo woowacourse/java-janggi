@@ -10,11 +10,11 @@ import java.util.Map;
 public class SoldierMoveStrategy extends BasicMoveStrategy {
 
     private static final List<Delta> CHO_PATHS = List.of(
-            Delta.RIGHT, Delta.DOWN, Delta.LEFT
+            Delta.RIGHT, Delta.UP, Delta.LEFT
     );
 
     private static final List<Delta> HAN_PATHS = List.of(
-            Delta.RIGHT, Delta.UP, Delta.LEFT
+            Delta.RIGHT, Delta.DOWN, Delta.LEFT
     );
 
     @Override
