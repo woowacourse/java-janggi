@@ -5,22 +5,19 @@ import domain.piece.Piece;
 import domain.position.Position;
 
 import java.util.Map;
-import java.util.Queue;
 
-public class GeneralMovingCondition implements MovingCondition {
+public class PalacePieceMovingCondition implements MovingCondition {
+
     private static final int MAX_DIRECTION = 1;
 
     @Override
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.between(startPosition, endPosition);
         if (directions.size() != MAX_DIRECTION) {
             return false;
         }
 
-        Direction direction = directions.poll();
-        if (!direction.isStraight()) {
-            return false;
-        }
-        return true;
+        Direction direction = directions.next();
+        return direction.isStraight();
     }
 }

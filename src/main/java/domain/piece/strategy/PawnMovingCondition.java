@@ -2,11 +2,9 @@ package domain.piece.strategy;
 
 import domain.board.Direction;
 import domain.piece.Piece;
-import domain.piece.Side;
 import domain.position.Position;
 
 import java.util.Map;
-import java.util.Queue;
 
 public class PawnMovingCondition implements MovingCondition {
 
@@ -14,15 +12,12 @@ public class PawnMovingCondition implements MovingCondition {
 
     @Override
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.between(startPosition, endPosition);
         if (directions.size() != MAX_DIRECTION) {
             return false;
         }
 
-        Direction direction = directions.poll();
-        if (!(direction == Direction.UP || direction == Direction.LEFT || direction == Direction.RIGHT)) {
-            return false;
-        }
-        return true;
+        Direction currentDirection = directions.next();
+        return currentDirection != Direction.DOWN;
     }
 }
