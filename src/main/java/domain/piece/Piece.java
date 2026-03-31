@@ -27,7 +27,7 @@ public abstract class Piece {
     }
 
     public void validateNotAlly(Piece destinationPiece) {
-        if (destinationPiece != null && destinationPiece.isSameTeam(this)) {
+        if (destinationPiece.isEmpty() && destinationPiece.isSameTeam(this)) {
             throw new IllegalArgumentException(PieceErrorMessage.ALREADY_OCCUPIED_BY_ALLY.getMessage());
         }
     }
