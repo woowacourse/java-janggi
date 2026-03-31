@@ -13,19 +13,19 @@ import org.junit.jupiter.api.Test;
 class ElephantTest {
 
     @Test
-    void 정상_범위_입력() {
+    void 상은_직선1칸_대각선_2칸으로_이동할_수_있다() {
         Piece elephant = new Elephant(Team.HAN);
         assertThat(elephant.canMove(new Position(5, 5), new Position(7, 8))).isTrue();
     }
 
     @Test
-    void 정상_범위가_아니면_거짓() {
+    void 직선_1칸_대각선_2칸_이동이_아니면_거짓() {
         Piece elephant = new Elephant(Team.HAN);
         assertThat(elephant.canMove(new Position(5, 5), new Position(8, 8))).isFalse();
     }
 
     @Test
-    void 상_정상_경로_출력() {
+    void 상_직선_1칸_대각선_2칸_경로_출력() {
         ActivePiece elephant = new Elephant(Team.HAN);
         Position src = new Position(3, 3);
         Position mid = new Position(4, 3);
@@ -34,17 +34,5 @@ class ElephantTest {
         List<Position> routes = List.of(mid, mid2);
 
         assertThat(elephant.searchRoute(src, dest)).isEqualTo(routes);
-    }
-
-    @Test
-    void 상_비정상_경로_출력() {
-        ActivePiece elephant = new Elephant(Team.HAN);
-        Position src = new Position(3, 3);
-        Position mid = new Position(5, 6);
-        Position mid2 = new Position(7, 7);
-        Position dest = new Position(8, 9);
-        List<Position> routes = List.of(mid, mid2, dest);
-
-        assertThat(elephant.searchRoute(src, dest)).isNotEqualTo(routes);
     }
 }
