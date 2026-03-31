@@ -8,9 +8,11 @@ public record PositionDto(
         int column
 ) {
 
-    public static PositionDto from(List<Integer> position) {
-        return new PositionDto(position.getFirst(), position.getLast());
+    public static PositionDto from(int row, int column) {
+        return new PositionDto(row, column);
     }
+
+
 
     public static List<PositionDto> fromPositions(List<Position> positions) {
         return positions.stream()

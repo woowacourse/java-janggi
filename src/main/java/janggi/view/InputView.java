@@ -61,7 +61,7 @@ public class InputView {
                     }
                 }).toList();
 
-        return PositionDto.from(position);
+        return PositionDto.from(position.getFirst(), position.getLast());
     }
     
 }
