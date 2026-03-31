@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Position {
     public static final int POSITION_COMPONENTS_SIZE = 2;
@@ -22,6 +23,23 @@ public class Position {
         validate(x, y);
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Position position = (Position) o;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     public static Position from(List<Integer> inputs) {
