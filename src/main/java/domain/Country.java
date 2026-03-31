@@ -1,16 +1,14 @@
 package domain;
 
 public enum Country {
-    CHO("초나라", "\u001B[32m"),
-    HAN("한나라", "\u001B[31m"),
-    NONE("", "\u001B[0m");
+    CHO("초나라"),
+    HAN("한나라"),
+    NONE("");
 
     private final String name;
-    private final String color;
 
-    Country(String name, String color) {
+    Country(String name) {
         this.name = name;
-        this.color = color;
     }
 
     public String getName() {
