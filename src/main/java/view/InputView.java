@@ -30,7 +30,7 @@ public class InputView {
 
     private static void validateUSerInputLength(String[] userInput, int idealSize) {
         if (userInput.length != idealSize) {
-            throw new IllegalArgumentException(ViewErrorMessage.INVALID_ACTION_INPUT.getMessage());
+            throw new IllegalArgumentException(ViewErrorMessage.FORMAT_ERROR.getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ public class InputView {
         try {
             action = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(ViewErrorMessage.INVALID_ACTION_INPUT.getMessage());
+            throw new IllegalArgumentException(ViewErrorMessage.OLY_NUMBER.getMessage());
         }
         return ActionType.toValue(action);
     }
