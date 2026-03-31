@@ -6,10 +6,11 @@ import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 
 public interface Piece {
-    Points getRoutePoints(Point from, Point to);
-    PieceType getType();
     boolean canMove(Route route);
     boolean isSameTeam(Team team);
     boolean isSameType(PieceType type);
     boolean canCapture(Piece target);
+    Points getRoutePoints(Point from, Point to);
+    PieceType getType();
+    int getScore();
 }
