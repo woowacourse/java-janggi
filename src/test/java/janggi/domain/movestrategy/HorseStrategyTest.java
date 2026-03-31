@@ -3,18 +3,30 @@ package janggi.domain.movestrategy;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HorseStrategyTest {
+
+    private MoveStrategy horseStrategy;
+    private Piece horse;
+    private Piece otherTeamPiece;
+    private Piece sameTeamPiece;
+
+    @BeforeEach
+    void setUp() {
+        horseStrategy = new HorseStrategy();
+        horse = new Piece(Team.HAN, horseStrategy);
+        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
+        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+    }
 
     @ParameterizedTest
     @DisplayName("마는 직선 한 칸 대각선으로 한 칸 이동 가능하다.")
@@ -59,39 +71,44 @@ class HorseStrategyTest {
                                  int pathX1, int pathY1) {
         Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
         List<Position> path = horsePiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
-        assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(nextX, nextY));
+        assertThat(path).containsExactly(new Position(pathX1, pathY1));
     }
 
     @Test
-    @DisplayName("마 이동 경로에 기물이 1개 있다면 이동할 수 없다.")
-    void testMoveOtherPiecesInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
-
-        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+    @DisplayName("이동 경로 상에 기물이 아무것도 없으면 통과할 수 있다.")
+    void testCheckPathRuleWhenNoPieceInPath() {
+        // given
+        List<Piece> emptyPieces = List.of();
+        // when & then
+        assertThat(horseStrategy.checkPathRule(emptyPieces)).isTrue();
     }
 
     @Test
-    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 같은 진영 기물이 있다면 이동할 수 없다.")
-    void testNotMoveIfSameTeamPieceInDestination() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 6), new Piece(Team.HAN, new ElephantStrategy()));
-
-        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    @DisplayName("이동 경로 상에 기물이 1개라도 있으면 막혀서 통과할 수 없다.")
+    void testNotCheckPathRuleWhenAnyPieceInPath() {
+        List<Piece> pathPieces = List.of(otherTeamPiece);
+        List<Piece> pathPieces2 = List.of(otherTeamPiece, sameTeamPiece);
+        // when & then
+        assertThat(horseStrategy.checkPathRule(pathPieces)).isFalse();
+        assertThat(horseStrategy.checkPathRule(pathPieces2)).isFalse();
     }
 
     @Test
-    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 상대 진영 기물이 있다면 이동할 수 있다.")
-    void testNotMoveIfOtherTeamPieceInDestination() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 6), new Piece(Team.CHO, new ElephantStrategy()));
-
-        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
-        assertThat(horsePiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+    @DisplayName("도착 경로가 null이면 이동할 수 있다.")
+    void testCanCaptureWhenDestinationIsEmpty() {
+        // when & then
+        assertThat(horseStrategy.canCapture(horse, null)).isTrue();
+    }
+    @Test
+    @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
+    void testCanCaptureWhenDestinationIsEnemy() {
+        // when & then
+        assertThat(horseStrategy.canCapture(horse, otherTeamPiece)).isTrue();
+    }
+    @Test
+    @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
+    void testNotCanCaptureWhenDestinationIsAlly() {
+        // when & then
+        assertThat(horseStrategy.canCapture(horse, sameTeamPiece)).isFalse();
     }
 }

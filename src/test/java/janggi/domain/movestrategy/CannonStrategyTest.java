@@ -3,18 +3,32 @@ package janggi.domain.movestrategy;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonStrategyTest {
+
+    private MoveStrategy cannonMoveStrategy;
+    private Piece cannon;
+    private Piece otherSideCannon;
+    private Piece notCannon;
+    private Piece otherSideNotCannon;
+
+    @BeforeEach
+    void setUp() {
+        cannonMoveStrategy = new CannonStrategy();
+        cannon = new Piece(Team.HAN, cannonMoveStrategy);
+        otherSideCannon = new Piece(Team.CHO, cannonMoveStrategy);
+        notCannon = new Piece(Team.HAN, new ChariotStrategy());
+        otherSideNotCannon = new Piece(Team.CHO, new ChariotStrategy());
+    }
 
     @ParameterizedTest
     @DisplayName("포는 상하좌우 직전으로 칸 수 상관없이 이동 가능하다.")
@@ -25,9 +39,8 @@ class CannonStrategyTest {
             "8, 3, 8, 1",
     })
     void testMoveCannon(int preX, int preY, int nextX, int nextY) {
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-
-        assertThat(cannonPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+        // when & then
+        assertThat(cannonMoveStrategy.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
     }
 
@@ -40,103 +53,95 @@ class CannonStrategyTest {
             "8, 3, 2, 4",
     })
     void testNotMovableCannon(int preX, int preY, int nextX, int nextY) {
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-
-        assertThat(cannonPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
+        // when & then
+        assertThat(cannonMoveStrategy.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
     }
 
     @Test
     @DisplayName("포는 상하좌우 직전이면 칸 수에 상관없이 이동 가능하다.")
     void testFindDestinationPath() {
+        // given
         Position from = new Position(2, 3);
         Position to = new Position(5, 3);
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
 
-        List<Position> result = cannonPiece.findPath(from, to);
-        assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3), new Position(5, 3));
+        // when
+        List<Position> result = cannonMoveStrategy.findPath(from, to);
+
+        // then
+        assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3));
     }
 
     @Test
-    @DisplayName("포 이동 경로에 기물이 3개 있으면 이동 불가능하다.")
-    void testNotMoveIfOtherPiecesInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+    @DisplayName("경로에 포가 존재하면 통과할 수 없다.")
+    void testNotCheckPathRuleWhenOnePieceInPath() {
+        // given
+        List<Piece> pathPieces1 = List.of(otherSideCannon);
+        List<Piece> pathPieces2 = List.of(cannon);
 
-        positionPieces.put(new Position(4, 6), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        positionPieces.put(new Position(5, 6), new Piece(Team.CHO, new GeneralStrategy()));
-        positionPieces.put(new Position(6, 6), new Piece(Team.CHO, new ElephantStrategy()));
-
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+        // when & then
+        assertThat(cannonMoveStrategy.checkPathRule(pathPieces1)).isFalse();
+        assertThat(cannonMoveStrategy.checkPathRule(pathPieces2)).isFalse();
     }
 
     @Test
-    @DisplayName("포 이동 경로에 기물이 2개 있으면 이동 불가능하다.")
-    void testNotMoveIfTwoPiecesInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+    @DisplayName("경로에 아무 기물이 없으면 통과할 수 없다.")
+    void testCheckPathRuleWhenNoPieceInPath() {
+        // given
+        List<Piece> emptyPieces = List.of();
 
-        positionPieces.put(new Position(4, 6), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        positionPieces.put(new Position(5, 6), new Piece(Team.CHO, new GeneralStrategy()));
-
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(6, 6))).isFalse();
+        // when & then
+        assertThat(cannonMoveStrategy.checkPathRule(emptyPieces)).isFalse();
     }
 
     @Test
-    @DisplayName("포 이동 경로에 포가 아닌 기물이 한 개 있고, 도착 경로에 포가 아닌 상대 기물이 한 개 있으면 이동 가능하다.")
-    void testMoveIfNoCannonInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+    @DisplayName("경로에 기물이 2개 이상 있으면 통과할 수 없다.")
+    void testCheckPathRuleWhenTwoMorePiecesInPath() {
+        // given
+        List<Piece> pieces = List.of(notCannon, notCannon, notCannon);
+        List<Piece> pieces2 = List.of(notCannon, notCannon, notCannon, notCannon);
 
-        positionPieces.put(new Position(4, 6), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        positionPieces.put(new Position(7, 6), new Piece(Team.CHO, new GeneralStrategy()));
-
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isTrue();
+        // when & then
+        assertThat(cannonMoveStrategy.checkPathRule(pieces)).isFalse();
+        assertThat(cannonMoveStrategy.checkPathRule(pieces2)).isFalse();
     }
 
     @Test
-    @DisplayName("포 이동 경로에 포가 아닌 기물이 한 개 있고, 도착 경로에 같은 진영 기물이 한 개 있으면 이동 불가능하다.")
-    void testNotMoveIfNoCannonInPathAndSameTeamInDestination() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+    @DisplayName("경로에 포가 아닌 기물이 한 개 있다면 통과할 수 있다.")
+    void testCheckPathRuleWhenOnePieceInPath() {
+        // given
+        List<Piece> pieces = List.of(notCannon);
 
-        positionPieces.put(new Position(4, 6), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-        positionPieces.put(new Position(7, 6), new Piece(Team.HAN, new GeneralStrategy()));
-
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isFalse();
+        // when & then
+        assertThat(cannonMoveStrategy.checkPathRule(pieces)).isTrue();
     }
 
     @Test
-    @DisplayName("포 이동 경로에 포가 아닌 기물이 1개만 존재하고, 도착 경로에 기물이 없다면 이동 가능하다.")
-    void testMoveIfOnePieceInPathExceptCannon() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(4, 6), new Piece(Team.HAN, new SoliderStrategy(Team.HAN)));
-
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isTrue();
+    @DisplayName("도착 경로에 포가 있으면 이동할 수 없다.")
+    void testNotCaptureWhenCannonOnDestination() {
+        // when & then
+        assertThat(cannonMoveStrategy.canCapture(cannon, otherSideCannon)).isFalse();
+        assertThat(cannonMoveStrategy.canCapture(otherSideCannon, cannon)).isFalse();
     }
 
     @Test
-    @DisplayName("포 이동 경로에 포가 있다면 이동 불가능하다.")
-    void testNotMoveIfCannonInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(4, 6), new Piece(Team.HAN, new CannonStrategy()));
-
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isFalse();
+    @DisplayName("도착 경로에 포가 아닌 상대 기물이 있다면 이동할 수 있다.")
+    void testCanCaptureWhenOtherSidePieceOnDestination() {
+        // when & then
+        assertThat(cannonMoveStrategy.canCapture(cannon, otherSideNotCannon)).isTrue();
     }
 
     @Test
-    @DisplayName("포 이동 경로에 포가 아닌 기물이 있고, 도착 지점에 포가 존재한다면 이동 불가능하다.")
-    void testNotMoveIfCannonInDestination() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+    @DisplayName("도착 경로가 null이면 이동할 수 있다.")
+    void testCanCaptureWhenDestinationIsEmpty() {
+        // when & then
+        assertThat(cannonMoveStrategy.canCapture(cannon, null)).isTrue();
+    }
 
-        positionPieces.put(new Position(7, 6), new Piece(Team.CHO, new CannonStrategy()));
-        positionPieces.put(new Position(5, 6), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
-
-        Piece cannonPiece = new Piece(Team.HAN, new CannonStrategy());
-        assertThat(cannonPiece.determineMovingRule(positionPieces, new Position(7, 6))).isFalse();
+    @Test
+    @DisplayName("도착 경로에 같은 진영 기물이 있다면 이동할 수 없다.")
+    void testNotCaptureWhenAllyPieceOnDestination() {
+        // when & then
+        assertThat(cannonMoveStrategy.canCapture(cannon, notCannon)).isFalse();
     }
 }

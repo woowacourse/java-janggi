@@ -86,6 +86,7 @@ class BoardTest {
         assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
     @Test
     @DisplayName("도착지에 상대 팀 기물이 있으면 잡고 이동한다.")
     void testChangePositionWhenOtherSidePieceAtDestination() {

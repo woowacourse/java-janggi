@@ -3,18 +3,30 @@ package janggi.domain.movestrategy;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GuardStrategyTest {
+
+    private MoveStrategy guardStrategy;
+    private Piece guard;
+    private Piece otherTeamPiece;
+    private Piece sameTeamPiece;
+
+    @BeforeEach
+    void setUp() {
+        guardStrategy = new GuardStrategy();
+        guard = new Piece(Team.HAN, guardStrategy);
+        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
+        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+    }
 
     @ParameterizedTest
     @DisplayName("사는 상하좌우 한 칸씩 이동 가능하다.")
@@ -53,35 +65,45 @@ class GuardStrategyTest {
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY) {
         Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
         List<Position> path = generalPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
-        assertThat(path).containsExactly(new Position(nextX, nextY));
+
+        assertThat(path).isEmpty();
     }
 
     @Test
-    @DisplayName("사는 이동 경로에 같은 진영의 기물이 존재하면 움직일 수 없다.")
-    void testNotMoveIfSameTeamPieceInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
-        Piece generalPiece = new Piece(Team.HAN, new GuardStrategy());
-        assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    @DisplayName("이동 경로 상에 기물이 아무것도 없으면 통과할 수 있다.")
+    void testCheckPathRuleWhenNoPieceInPath() {
+        // given
+        List<Piece> emptyPieces = List.of();
+        // when & then
+        assertThat(guardStrategy.checkPathRule(emptyPieces)).isTrue();
     }
 
     @Test
-    @DisplayName("사는 이동 경로에 기물이 존재하지 않으면 움직일 수 있다.")
-    void testMoveNoPieceInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        Piece generalPiece = new Piece(Team.HAN, new GuardStrategy());
-        assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+    @DisplayName("이동 경로 상에 기물이 1개라도 있으면 막혀서 통과할 수 없다.")
+    void testNotCheckPathRuleWhenAnyPieceInPath() {
+        List<Piece> pathPieces = List.of(otherTeamPiece);
+        List<Piece> pathPieces2 = List.of(otherTeamPiece, sameTeamPiece);
+        // when & then
+        assertThat(guardStrategy.checkPathRule(pathPieces)).isFalse();
+        assertThat(guardStrategy.checkPathRule(pathPieces2)).isFalse();
     }
 
     @Test
-    @DisplayName("사는 이동 경로에 다른 진영의 기물이 존재하면 움직일 수 있다.")
-    void testMoveOtherTeamPieceInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
-        Piece generalPiece = new Piece(Team.HAN, new GuardStrategy());
-        assertThat(generalPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    @DisplayName("도착 경로가 null이면 이동할 수 있다.")
+    void testCanCaptureWhenDestinationIsEmpty() {
+        // when & then
+        assertThat(guardStrategy.canCapture(guard, null)).isTrue();
+    }
+    @Test
+    @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
+    void testCanCaptureWhenDestinationIsEnemy() {
+        // when & then
+        assertThat(guardStrategy.canCapture(guard, otherTeamPiece)).isTrue();
+    }
+    @Test
+    @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
+    void testNotCanCaptureWhenDestinationIsAlly() {
+        // when & then
+        assertThat(guardStrategy.canCapture(guard, sameTeamPiece)).isFalse();
     }
 }

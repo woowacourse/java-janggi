@@ -4,18 +4,31 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ChariotStrategyTest {
+
+    private MoveStrategy chariotMoveStrategy;
+    private Piece chariot;
+    private Piece otherTeamPiece;
+    private Piece sameTeamPiece;
+
+    @BeforeEach
+    void setUp() {
+        chariotMoveStrategy = new ChariotStrategy();
+        chariot = new Piece(Team.HAN, chariotMoveStrategy);
+        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
+        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+    }
+
     @ParameterizedTest
     @DisplayName("차는 상하좌우 직전이면 칸 수에 상관없이 이동 가능하다.")
     @CsvSource({
@@ -54,51 +67,44 @@ class ChariotStrategyTest {
         Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
 
         List<Position> result = chariotPiece.findPath(from, to);
-        assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3), new Position(5, 3));
+        assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3));
     }
 
     @Test
-    @DisplayName("차 이동 경로에 기물 2개 존재하면 이동할 수 없다.")
-    void testMoveOtherPiecesInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 5), new Piece(Team.HAN, new ElephantStrategy()));
-        positionPieces.put(new Position(5, 6), new Piece(Team.HAN, new ElephantStrategy()));
-
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    @DisplayName("이동 경로 상에 기물이 아무것도 없으면 통과할 수 있다.")
+    void testCheckPathRuleWhenNoPieceInPath() {
+        // given
+        List<Piece> emptyPieces = List.of();
+        // when & then
+        assertThat(chariotMoveStrategy.checkPathRule(emptyPieces)).isTrue();
     }
 
     @Test
-    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 같은 진영 기물이 존재한다면 이동할 수 없다.")
-    void testNotMoveIfSameTeamPieceInDestination() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 6), new Piece(Team.HAN, new ElephantStrategy()));
-
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isFalse();
+    @DisplayName("이동 경로 상에 기물이 1개라도 있으면 막혀서 통과할 수 없다.")
+    void testNotCheckPathRuleWhenAnyPieceInPath() {
+        List<Piece> pathPieces = List.of(otherTeamPiece);
+        List<Piece> pathPieces2 = List.of(otherTeamPiece, sameTeamPiece);
+        // when & then
+        assertThat(chariotMoveStrategy.checkPathRule(pathPieces)).isFalse();
+        assertThat(chariotMoveStrategy.checkPathRule(pathPieces2)).isFalse();
     }
 
     @Test
-    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 상대 진영 기물이 존재한다면 이동할 수 없다.")
-    void testNotMoveIfOtherTeamPieceInDestination() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        positionPieces.put(new Position(5, 6), new Piece(Team.CHO, new ElephantStrategy()));
-
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+    @DisplayName("도착 경로가 null이면 이동할 수 있다.")
+    void testCanCaptureWhenDestinationIsEmpty() {
+        // when & then
+        assertThat(chariotMoveStrategy.canCapture(chariot, null)).isTrue();
     }
-
     @Test
-    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 아무 기물이 없다면 이동 가능하다.")
-    void testMoveNoPieceInPath() {
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
-        assertThat(chariotPiece.determineMovingRule(positionPieces, new Position(5, 6))).isTrue();
+    @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
+    void testCanCaptureWhenDestinationIsEnemy() {
+        // when & then
+        assertThat(chariotMoveStrategy.canCapture(chariot, otherTeamPiece)).isTrue();
     }
-
-
+    @Test
+    @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
+    void testNotCanCaptureWhenDestinationIsAlly() {
+        // when & then
+        assertThat(chariotMoveStrategy.canCapture(chariot, sameTeamPiece)).isFalse();
+    }
 }
