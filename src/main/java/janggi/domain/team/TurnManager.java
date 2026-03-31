@@ -1,17 +1,23 @@
 package janggi.domain.team;
 
+import janggi.domain.piece.Piece;
+
 public class TurnManager {
-    private final Team redTeam;
-    private final Team blueTeam;
     private TeamType currentTurnTeamType;
 
-    public TurnManager(Team redTeam, Team blueTeam) {
-        this.redTeam = redTeam;
-        this.blueTeam = blueTeam;
+    public TurnManager() {
         currentTurnTeamType = TeamType.RED;
     }
 
     public void changeTurn() {
         this.currentTurnTeamType = currentTurnTeamType.nextTeamType();
+    }
+
+    public boolean checkFromTurn(Piece piece) {
+        return piece.getTeamType() == currentTurnTeamType;
+    }
+
+    public String currentTeamType() {
+        return currentTurnTeamType.getName();
     }
 }

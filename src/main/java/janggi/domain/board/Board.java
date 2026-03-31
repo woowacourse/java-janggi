@@ -12,6 +12,10 @@ public class Board implements BoardMediator {
         this.positionPieceMap = positionPieceMap;
     }
 
+    public void changeBoard(final Position from, final Position to) {
+        positionPieceMap.put(to, positionPieceMap.remove(from));
+    }
+
     @Override
     public boolean hasPieceAt(final Position position) {
         return isNotBlank(position);
