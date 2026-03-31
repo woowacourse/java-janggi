@@ -28,7 +28,7 @@ public class RuleWithTracesTest {
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         Direction direction = Direction.SOUTH;
         Rule ruleWithTraces = new RuleWithTraces(
-            List.of(new Movement(MAXIMUM_ROW, direction)));
+            List.of(new ConstrainedMovement(MAXIMUM_ROW, direction)));
         List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),
             Position.valueOf(8, 3));
 

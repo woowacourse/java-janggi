@@ -23,10 +23,10 @@ public class RuleWithNoTracesTest {
             Position.valueOf(5, 3), new Elephant(TeamType.RED));
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
-        List<Movement> movementOrder = List.of(
-            new Movement(1, Direction.EAST),
-            new Movement(1, Direction.NORTH_EAST),
-            new Movement(1, Direction.NORTH_EAST));
+        List<UnconstrainedMovement> movementOrder = List.of(
+            new UnconstrainedMovement(1, Direction.EAST),
+            new UnconstrainedMovement(1, Direction.NORTH_EAST),
+            new UnconstrainedMovement(1, Direction.NORTH_EAST));
         Rule ruleWithNoTraces = new RuleWithNoTraces(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 

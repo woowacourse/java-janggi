@@ -8,13 +8,13 @@ import java.util.List;
 
 public class RuleWithNoTraces implements Rule {
 
-    private final List<Movement> movementOrder;
+    private final List<UnconstrainedMovement> movementOrder;
 
-    public RuleWithNoTraces(final List<Movement> movementOrder) {
+    public RuleWithNoTraces(final List<UnconstrainedMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static RuleWithNoTraces of(final Movement movement) {
+    public static RuleWithNoTraces of(final UnconstrainedMovement movement) {
         return new RuleWithNoTraces(List.of(movement));
     }
 
@@ -22,9 +22,9 @@ public class RuleWithNoTraces implements Rule {
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
-        final List<Movement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
-        final Movement lastMovement = movementOrder.getLast();
-        for (final Movement movement : movementOrderExceptLast) {
+        final List<UnconstrainedMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
+        final UnconstrainedMovement lastMovement = movementOrder.getLast();
+        for (final UnconstrainedMovement movement : movementOrderExceptLast) {
             if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
                 return List.of();
             }

@@ -2,8 +2,9 @@ package janggi.domain.pieceaction;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
+import janggi.domain.movement.ConstrainedMovement;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.Movement;
+import janggi.domain.movement.UnconstrainedMovement;
 import janggi.domain.movement.Rule;
 import janggi.domain.movement.RuleWithTraces;
 import java.util.Collection;
@@ -15,14 +16,14 @@ public class GuardAction implements PieceAction {
 
     static {
         RULES = List.of(
-            RuleWithTraces.of(new Movement(1, Direction.NORTH_WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.NORTH)),
-            RuleWithTraces.of(new Movement(1, Direction.NORTH_EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH_WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH_EAST)));
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH_WEST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH_EAST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.WEST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.EAST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH_WEST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH_EAST)));
     }
 
     @Override
