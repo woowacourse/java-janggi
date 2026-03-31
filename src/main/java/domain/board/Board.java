@@ -2,7 +2,7 @@ package domain.board;
 
 import common.exception.JanggiException;
 import domain.piece.Piece;
-import domain.player.Team;
+import domain.player.Player;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.List;
@@ -15,8 +15,8 @@ public class Board {
         this.board = board;
     }
 
-    public void move(Position source, Position destination, Team currentTurnTeam) {
-        validateSource(source, currentTurnTeam);
+    public void move(Position source, Position destination, Player player) {
+        validateSource(source, player);
         Piece movePiece = findPiece(source);
 
         validateMovement(movePiece, source, destination);
@@ -36,12 +36,13 @@ public class Board {
         return board.get(position);
     }
 
-    public void validateSource(Position source, Team currentTurnTeam) {
+    public void validateSource(Position source, Player player) {
         if (!hasPiece(source)) {
             throw new JanggiException("비어있는 곳입니다.");
         }
         Piece piece = findPiece(source);
-        if (piece.isDifferentTeam(currentTurnTeam)) {
+
+        if (player.isDifferentTeam(piece)) {
             throw new JanggiException("자신의 기물이 아닙니다.");
         }
     }

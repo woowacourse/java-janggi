@@ -21,12 +21,12 @@ public class GameManager {
     }
 
     public void move(Position source, Position destination) {
-        board.move(source, destination, currentPlayer.getTeam());
+        board.move(source, destination, currentPlayer);
         switchTurn();
     }
 
     public void validateSource(Position source) {
-        board.validateSource(source, currentPlayer.getTeam());
+        board.validateSource(source, currentPlayer);
     }
 
     public void switchTurn() {
