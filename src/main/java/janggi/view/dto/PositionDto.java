@@ -1,4 +1,4 @@
-package janggi.controller.dto;
+package janggi.view.dto;
 
 import janggi.domain.position.Position;
 import java.util.List;

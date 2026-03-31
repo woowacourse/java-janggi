@@ -6,10 +6,9 @@ import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.Game;
 import janggi.domain.position.Position;
-import janggi.controller.dto.BoardDto;
-import janggi.controller.dto.DynastyDto;
-import janggi.controller.dto.PositionDto;
-import janggi.controller.dto.mapper.HorseElephantPositionMapper;
+import janggi.view.dto.BoardDto;
+import janggi.view.dto.PositionDto;
+import janggi.view.mapper.HorseElephantPositionMapper;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -41,7 +40,7 @@ public class JanggiController {
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = new EnumMap<>(Dynasty.class);
         for (Dynasty dynasty : Dynasty.values()) {
-            int ordinal = getUntilValid(() -> inputView.readHorseElephantPosition(DynastyDto.from(dynasty)));
+            int ordinal = getUntilValid(() -> inputView.readHorseElephantPosition(dynasty));
             HorseElephantPosition position = HorseElephantPositionMapper.from(ordinal);
             horseElephantPositions.put(dynasty, position);
         }
@@ -63,7 +62,7 @@ public class JanggiController {
 
     private Position readPieceWantToMove(Game game) {
         PositionDto fromDto = getUntilValid(
-                () -> inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn())));
+                () -> inputView.readPieceWantToMove(game.currentTurn()));
         return Position.from(fromDto.row(), fromDto.column());
     }
 

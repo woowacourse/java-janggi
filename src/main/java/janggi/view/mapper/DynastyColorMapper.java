@@ -1,6 +1,5 @@
-package janggi.controller.dto.mapper;
+package janggi.view.mapper;
 
-import janggi.controller.dto.DynastyDto;
 import janggi.domain.dynasty.Dynasty;
 import java.util.EnumMap;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class DynastyColorMapper {
 
     public static String getColorInfoByDynasty(Dynasty dynasty) {
         return dynastyColorMap.get(dynasty) +
-                DynastyDto.from(dynasty).dynastyName() +
+                DynastyMapper.toKorean(dynasty) +
                 " " + ANSI_RESET;
     }
 

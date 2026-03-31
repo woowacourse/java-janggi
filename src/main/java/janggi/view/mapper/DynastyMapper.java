@@ -1,12 +1,11 @@
-package janggi.controller.dto;
+package janggi.view.mapper;
 
 import janggi.domain.dynasty.Dynasty;
+
 import java.util.EnumMap;
 import java.util.Map;
 
-public record DynastyDto(
-        String dynastyName
-) {
+public class DynastyMapper {
 
     private static final Map<Dynasty, String> dynastyMap = new EnumMap<>(Dynasty.class);
 
@@ -15,8 +14,7 @@ public record DynastyDto(
         dynastyMap.put(Dynasty.CHO, "초");
     }
 
-    public static DynastyDto from(Dynasty dynasty) {
-        return new DynastyDto(dynastyMap.get(dynasty));
+    public static String toKorean(Dynasty dynasty) {
+        return dynastyMap.get(dynasty);
     }
-
 }

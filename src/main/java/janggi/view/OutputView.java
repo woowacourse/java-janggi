@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.controller.dto.BoardDto;
-import janggi.controller.dto.PieceDto;
-import janggi.controller.dto.PositionDto;
-import janggi.controller.dto.mapper.DynastyColorMapper;
+import janggi.view.dto.BoardDto;
+import janggi.view.dto.PieceDto;
+import janggi.view.dto.PositionDto;
+import janggi.view.mapper.DynastyColorMapper;
 import janggi.domain.dynasty.Dynasty;
 
 import java.util.Arrays;

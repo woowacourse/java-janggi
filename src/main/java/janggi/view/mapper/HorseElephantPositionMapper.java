@@ -1,4 +1,4 @@
-package janggi.controller.dto.mapper;
+package janggi.view.mapper;
 
 import janggi.domain.board.HorseElephantPosition;
 import java.util.HashMap;

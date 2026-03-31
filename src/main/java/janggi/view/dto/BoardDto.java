@@ -1,11 +1,11 @@
-package janggi.controller.dto;
+package janggi.view.dto;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
-import janggi.controller.dto.mapper.DynastyColorMapper;
-import janggi.controller.dto.mapper.PieceMapper;
+import janggi.view.mapper.DynastyColorMapper;
+import janggi.view.mapper.PieceMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

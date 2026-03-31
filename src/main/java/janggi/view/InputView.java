@@ -1,7 +1,9 @@
 package janggi.view;
 
-import janggi.controller.dto.DynastyDto;
-import janggi.controller.dto.PositionDto;
+import janggi.domain.dynasty.Dynasty;
+import janggi.view.dto.PositionDto;
+import janggi.view.mapper.DynastyMapper;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -14,8 +16,9 @@ public class InputView {
     private static final String INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE_MESSAGE = "1, 2, 3, 4 중 하나의 숫자를 입력해주세요. 입력값: %s";
     private static final String INVALID_POSITION_FORMAT_MESSAGE = "위치를 콤마로 구분된 두 개의 숫자로 올바르게 입력해주세요. 입력값: %s";
 
-    public int readHorseElephantPosition(DynastyDto dynastyDto) {
-        System.out.println(dynastyDto.dynastyName() + "나라의 상차림 법을 숫자로 입력해주세요.");
+    public int readHorseElephantPosition(Dynasty dynasty) {
+        String dynastyKorean = DynastyMapper.toKorean(dynasty);
+        System.out.println(dynastyKorean + "나라의 상차림 법을 숫자로 입력해주세요.");
         System.out.println("1: 마상마상, 2: 마상상마, 3: 상마상마, 4: 상마마상");
         String position = scanner.nextLine();
         try {
@@ -31,8 +34,9 @@ public class InputView {
         }
     }
 
-    public PositionDto readPieceWantToMove(DynastyDto dynastyDto) {
-        System.out.printf("현재 턴은 %s입니다.\n", dynastyDto.dynastyName());
+    public PositionDto readPieceWantToMove(Dynasty dynasty) {
+        String dynastyKorean = DynastyMapper.toKorean(dynasty);
+        System.out.printf("현재 턴은 %s입니다.\n", dynastyKorean);
         System.out.println("움직이고 싶은 기물을 선택해주세요.(좌표로 입력해주세요. 예시: 1, 3)");
         return readPosition();
     }
