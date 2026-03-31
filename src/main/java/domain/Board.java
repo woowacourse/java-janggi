@@ -39,7 +39,7 @@ public class Board {
             return (canCannonMove(piece, destination));
         }
 
-        return !piece.hasPieceInPath(destination, occupiedPositions());
+        return piece.hasValidPathTo(destination, occupiedPositions());
     }
 
     public boolean hasGreenTeamGeneral() {
@@ -80,7 +80,7 @@ public class Board {
     }
 
     private static Piece emptyPieceAt(Position source) {
-        return new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), NonMoveableStrategy.of(source));
+        return Piece.of(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE), NonMoveableStrategy.of(source));
     }
 
     private boolean hasSameTeamPieceAt(Piece piece, Position targetPosition) {
@@ -97,7 +97,10 @@ public class Board {
         if (pieceAt(destination).isCannon()) {
             return false;
         }
-        return !piece.hasPieceInPath(destination, cannonPositions());
+        if (piece.hasValidPathTo(destination, cannonPositions())) {
+            return false;
+        }
+        return piece.hasValidPathTo(destination, occupiedPositions());
     }
 
     private List<Position> cannonPositions() {
