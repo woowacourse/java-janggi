@@ -98,6 +98,7 @@ public class ConstrainedMovement implements Movement {
         final BoardMediator boardMediator) {
         return IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
+            .takeWhile(position -> boardMediator.canMove(position, direction.flip()))
             .filter(boardMediator::existsInPosition)
             .findFirst();
     }

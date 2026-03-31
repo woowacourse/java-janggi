@@ -15,9 +15,13 @@ public class CannonAction implements PieceAction {
     static {
         RULES = List.of(
             new RuleOfCannon(Direction.SOUTH),
-            new RuleOfCannon(Direction.NORTH),
+            new RuleOfCannon(Direction.SOUTH_EAST),
             new RuleOfCannon(Direction.EAST),
-            new RuleOfCannon(Direction.WEST));
+            new RuleOfCannon(Direction.NORTH_EAST),
+            new RuleOfCannon(Direction.NORTH),
+            new RuleOfCannon(Direction.NORTH_WEST),
+            new RuleOfCannon(Direction.WEST),
+            new RuleOfCannon(Direction.SOUTH_WEST));
     }
 
     @Override
