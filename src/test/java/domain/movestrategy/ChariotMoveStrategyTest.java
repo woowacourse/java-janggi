@@ -2,6 +2,7 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -23,8 +24,10 @@ class ChariotMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).contains(
@@ -45,8 +48,10 @@ class ChariotMoveStrategyTest {
         pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
         pieces.put(Position.of(7, 5), Piece.hanPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).contains(
@@ -67,8 +72,10 @@ class ChariotMoveStrategyTest {
         // 아군
         pieces.put(Position.of(7, 5), Piece.choPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).contains(Position.of(6, 5));

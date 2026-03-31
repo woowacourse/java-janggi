@@ -2,6 +2,7 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -25,18 +26,20 @@ class GuardMoveStrategyTest {
 
         pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
+                Position.of(4, 4),
                 Position.of(4, 5),
-                Position.of(6, 5),
+                Position.of(4, 6),
                 Position.of(5, 4),
                 Position.of(5, 6),
-                Position.of(4, 4),
-                Position.of(4, 6),
                 Position.of(6, 4),
+                Position.of(6, 5),
                 Position.of(6, 6)
         );
     }
@@ -53,8 +56,10 @@ class GuardMoveStrategyTest {
         // 아군 기물 배치
         pieces.put(Position.of(5, 6), Piece.choPieceOf(PieceType.GUARD));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(

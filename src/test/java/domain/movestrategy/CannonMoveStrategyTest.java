@@ -2,6 +2,7 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -24,8 +25,10 @@ class CannonMoveStrategyTest {
 
         pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).isEmpty();
@@ -43,8 +46,10 @@ class CannonMoveStrategyTest {
         // 장애물 (screen)
         pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).contains(
@@ -70,8 +75,10 @@ class CannonMoveStrategyTest {
         // 두 번째 기물
         pieces.put(Position.of(8, 5), Piece.hanPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).contains(
@@ -94,8 +101,10 @@ class CannonMoveStrategyTest {
         // 첫 번째 기물이 포
         pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.CANNON));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).isEmpty();
@@ -117,8 +126,10 @@ class CannonMoveStrategyTest {
         Position ally = Position.of(5, 7);
         pieces.put(ally, Piece.choPieceOf(PieceType.GUARD));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(ally);

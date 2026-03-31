@@ -1,10 +1,9 @@
 package domain.movestrategy;
 
+import domain.board.Board;
 import domain.piece.Delta;
-import domain.piece.Piece;
 import domain.piece.Position;
 import java.util.List;
-import java.util.Map;
 
 public class GuardMoveStrategy implements MoveStrategy {
 
@@ -14,18 +13,11 @@ public class GuardMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> calculateMovablePositions(final Position from, final Board board) {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
-                .filter(position -> isNotAlly(position, pieces, from))
+                .filter(board::inBoard)
+                .filter(to -> !isAlly(from, to, board))
                 .toList();
-    }
-
-    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
-        if (!pieces.containsKey(next)) {
-            return true;
-        }
-
-        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

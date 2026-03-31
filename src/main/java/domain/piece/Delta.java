@@ -1,6 +1,6 @@
 package domain.piece;
 
-public record Delta(int column, int row) {
+public record Delta(int row, int column) {
 
     public static final Delta UP = new Delta(-1, 0);
     public static final Delta RIGHT_UP = new Delta(-1, 1);

@@ -2,6 +2,7 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -22,8 +23,11 @@ class HorseMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
+        
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
@@ -50,8 +54,10 @@ class HorseMoveStrategyTest {
         // UP 경유지 막기
         pieces.put(Position.of(4, 5), Piece.choPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         // (-2,-1), (-2,1) 둘 다 막힘
@@ -84,8 +90,10 @@ class HorseMoveStrategyTest {
         pieces.put(Position.of(4, 5), Piece.choPieceOf(PieceType.SOLDIER)); // UP
         pieces.put(Position.of(5, 6), Piece.choPieceOf(PieceType.SOLDIER)); // RIGHT
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(
@@ -107,8 +115,10 @@ class HorseMoveStrategyTest {
 
         pieces.put(Position.of(3, 4), Piece.choPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(Position.of(3, 4));

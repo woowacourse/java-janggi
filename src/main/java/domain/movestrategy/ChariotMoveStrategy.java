@@ -6,7 +6,6 @@ import domain.piece.Piece;
 import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
@@ -18,11 +17,11 @@ public class ChariotMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> calculateMovablePositions(final Position from, final Board board) {
         List<Position> movable = new ArrayList<>();
 
         for (final Delta delta : ORTHOGONAL) {
-            movable.addAll(calculateByDirection(from, pieces, delta));
+            movable.addAll(calculateByDirection(from, board, delta));
         }
 
         return movable;
@@ -31,20 +30,19 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     private List<Position> calculateByDirection(
             final Position from,
-            final Map<Position, Piece> pieces,
+            final Board board,
             final Delta delta
     ) {
         List<Position> movable = new ArrayList<>();
-        Piece fromPiece = pieces.get(from);
+        Piece fromPiece = board.getPiece(from);
 
-        for (Position current = from.move(delta); inBoard(current); current = current.move(delta)) {
-            if (!pieces.containsKey(current)) {
+        for (Position current = from.move(delta); board.inBoard(current); current = current.move(delta)) {
+            if (!board.hasPiece(current)) {
                 movable.add(current);
                 continue;
             }
-
-            Piece target = pieces.get(current);
-            if (fromPiece.getTeam() != target.getTeam()) {
+            
+            if (!fromPiece.isSameTeam(board.getPiece(current))) {
                 movable.add(current);
             }
 
@@ -52,10 +50,5 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
 
         return movable;
-    }
-
-    private boolean inBoard(final Position current) {
-        return current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE
-                && current.row() >= Board.MIN_ROW_RANGE && current.row() <= Board.MAX_ROW_RANGE;
     }
 }

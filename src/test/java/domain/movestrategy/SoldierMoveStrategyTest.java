@@ -2,6 +2,7 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -24,8 +25,10 @@ class SoldierMoveStrategyTest {
 
         pieces.put(from, Piece.hanPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
@@ -44,8 +47,10 @@ class SoldierMoveStrategyTest {
 
         pieces.put(from, Piece.choPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(

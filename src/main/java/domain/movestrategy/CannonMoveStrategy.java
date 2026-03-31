@@ -6,7 +6,7 @@ import domain.piece.Piece;
 import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -18,62 +18,57 @@ public class CannonMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from,
-                                                    final Map<Position, Piece> pieces) {
+    public List<Position> calculateMovablePositions(Position from, Board board) {
         List<Position> movable = new ArrayList<>();
 
         for (final Delta delta : ORTHOGONAL_DELTAS) {
-            movable.addAll(calculateMovableByDirection(from, pieces, delta));
+            movable.addAll(calculateMovableByDirection(from, board, delta));
         }
 
         return movable;
     }
 
 
-    private List<Position> calculateMovableByDirection(
-            final Position from,
-            final Map<Position, Piece> pieces,
-            final Delta delta
-    ) {
+    private List<Position> calculateMovableByDirection(final Position from, final Board board, final Delta delta) {
+        return findJumpPosition(from, board, delta)
+                .map(jump -> movablePositionsAfterJump(from, jump, board, delta))
+                .orElseGet(List::of);
+    }
+
+    private Optional<Position> findJumpPosition(Position from, Board board, Delta delta) {
+        Position current = from.move(delta);
+
+        while (board.inBoard(current) && !board.hasPiece(current)) {
+            current = current.move(delta);
+        }
+
+        if (!board.inBoard(current) || board.getPiece(current).isCannon()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(current);
+    }
+
+    private List<Position> movablePositionsAfterJump(Position from, Position jump, Board board, Delta delta) {
         List<Position> movable = new ArrayList<>();
 
-        boolean metPiece = false;
+        Position current = jump.move(delta);
+        Piece fromPiece = board.getPiece(from);
 
-        for (Position current = from.move(delta);
-             inBoard(current);
-             current = current.move(delta)) {
-
-            // 빈 칸
-            if (!pieces.containsKey(current)) {
-                if (metPiece) {
-                    movable.add(current);
-                }
+        while (board.inBoard(current)) {
+            if (!board.hasPiece(current)) {
+                movable.add(current);
+                current = current.move(delta);
                 continue;
             }
 
-            Piece piece = pieces.get(current);
-
-            // 두 번째 기물
-            if (metPiece) {
-                if (!piece.isCannon() && pieces.get(from).getTeam() != piece.getTeam()) {
-                    movable.add(current);
-                }
-                break;
+            Piece piece = board.getPiece(current);
+            if (!fromPiece.isSameTeam(piece) && !piece.isCannon()) {
+                movable.add(current);
             }
-
-            // 첫 번째 기물
-            if (piece.isCannon()) {
-                break;
-            }
-
-            metPiece = true;
+            break;
         }
 
         return movable;
-    }
-
-    private boolean inBoard(final Position current) {
-        return (current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE)
-                && (current.row() >= Board.MIN_ROW_RANGE && current.row() <= Board.MAX_ROW_RANGE);
     }
 }

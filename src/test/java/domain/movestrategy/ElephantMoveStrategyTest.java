@@ -2,6 +2,7 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -22,8 +23,10 @@ class ElephantMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = Map.of();
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
@@ -47,8 +50,10 @@ class ElephantMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(Position.of(4, 5), Piece.hanPieceOf(PieceType.SOLDIER)); // UP 막힘
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(
@@ -66,8 +71,10 @@ class ElephantMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(Position.of(3, 4), Piece.hanPieceOf(PieceType.SOLDIER)); // UP → LEFT_UP
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(
@@ -84,8 +91,10 @@ class ElephantMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(Position.of(4, 5), Piece.hanPieceOf(PieceType.SOLDIER)); // UP 막힘
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(
@@ -111,8 +120,10 @@ class ElephantMoveStrategyTest {
         // 도착지
         pieces.put(Position.of(2, 3), Piece.choPieceOf(PieceType.SOLDIER));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(Position.of(2, 3));

@@ -6,7 +6,6 @@ import domain.piece.Piece;
 import domain.piece.Position;
 import domain.player.Team;
 import java.util.List;
-import java.util.Map;
 
 public class SoldierMoveStrategy implements MoveStrategy {
 
@@ -19,34 +18,23 @@ public class SoldierMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
-        List<Delta> paths = getPathsByTeam(from, pieces);
+    public List<Position> calculateMovablePositions(final Position from, final Board board) {
+        List<Delta> paths = getPathsByTeam(from, board);
 
         return paths.stream()
                 .map(from::move)
-                .filter(this::inBoard)
-                .filter(position -> isNotAlly(position, pieces, from))
+                .filter(board::inBoard)
+                .filter(to -> !isAlly(from, to, board))
                 .toList();
     }
 
 
-    private static List<Delta> getPathsByTeam(final Position from, final Map<Position, Piece> pieces) {
-        if (pieces.get(from).getTeam() == Team.HAN) {
+    private static List<Delta> getPathsByTeam(final Position from, final Board board) {
+        Piece fromPiece = board.getPiece(from);
+
+        if (fromPiece.isSameTeam(Team.HAN)) {
             return HAN_PATHS;
         }
         return CHO_PATHS;
-    }
-
-    private boolean inBoard(final Position current) {
-        return current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE
-                && current.row() >= Board.MIN_ROW_RANGE && current.row() <= Board.MAX_ROW_RANGE;
-    }
-
-    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
-        if (!pieces.containsKey(next)) {
-            return true;
-        }
-
-        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

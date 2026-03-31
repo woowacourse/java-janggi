@@ -1,7 +1,7 @@
 package domain.movestrategy;
 
+import domain.board.Board;
 import domain.piece.Delta;
-import domain.piece.Piece;
 import domain.piece.Position;
 import java.util.List;
 import java.util.Map;
@@ -23,32 +23,30 @@ public class ElephantMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> calculateMovablePositions(final Position from, final Board board) {
         return PATHS_BY_DESTINATION.entrySet().stream()
-                .filter(entry -> !isBlocked(from, entry.getValue(), pieces))
+                .filter(entry -> !isBlocked(from, entry.getValue(), board))
                 .map(entry -> from.move(entry.getKey()))
-                .filter(destination -> isNotAlly(destination, pieces, from))
+                .filter(board::inBoard)
+                .filter(destination -> !isAlly(from, destination, board))
                 .toList();
     }
 
 
-    private boolean isBlocked(final Position from, final List<Delta> paths, final Map<Position, Piece> pieces) {
+    private boolean isBlocked(final Position from, final List<Delta> paths, final Board board) {
         Position current = from;
 
         for (Delta delta : paths) {
             current = current.move(delta);
-            if (pieces.containsKey(current)) {
+
+            if (!board.inBoard(current)) {
+                return true;
+            }
+
+            if (board.hasPiece(current)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
-        if (!pieces.containsKey(next)) {
-            return true;
-        }
-
-        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

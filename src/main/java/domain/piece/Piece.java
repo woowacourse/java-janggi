@@ -10,6 +10,11 @@ public class Piece {
     private final Team team;
     private final PieceType pieceType;
 
+    // FIXME : 진영별 공통 처리
+    public static Piece of(final PieceType pieceType, final Team team) {
+        return new Piece(team, pieceType);
+    }
+
     public static Piece choPieceOf(final PieceType pieceType) {
         return new Piece(CHO, pieceType);
     }
@@ -23,19 +28,28 @@ public class Piece {
         this.pieceType = pieceType;
     }
 
-    public Team getTeam() {
-        return team;
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
     }
 
-    public PieceType getPieceType() {
-        return pieceType;
+    public boolean isSameTeam(Piece other) {
+        return this.team == other.team;
     }
 
     public boolean isCannon() {
         return pieceType == PieceType.CANNON;
     }
 
-    public boolean isOpposite(Piece other) {
-        return this.team != other.team;
+
+    public Team opponentTeam() {
+        return this.team.opponent();
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

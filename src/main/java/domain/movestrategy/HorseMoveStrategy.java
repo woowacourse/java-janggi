@@ -1,7 +1,7 @@
 package domain.movestrategy;
 
+import domain.board.Board;
 import domain.piece.Delta;
-import domain.piece.Piece;
 import domain.piece.Position;
 import java.util.List;
 import java.util.Map;
@@ -20,20 +20,11 @@ public class HorseMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> calculateMovablePositions(final Position from, final Board board) {
         return PATH_BY_DESTINATION.entrySet().stream()
-                .filter(entry -> !pieces.containsKey(from.move(entry.getValue())))
+                .filter(entry -> !board.hasPiece(from.move(entry.getValue())))
                 .map(entry -> from.move(entry.getKey()))
-                .filter(destination -> isNotAlly(destination, pieces, from))
+                .filter(destination -> !isAlly(from, destination, board))
                 .toList();
-    }
-
-
-    private boolean isNotAlly(Position next, Map<Position, Piece> pieces, Position from) {
-        if (!pieces.containsKey(next)) {
-            return true;
-        }
-
-        return pieces.get(from).getTeam() != pieces.get(next).getTeam();
     }
 }

@@ -2,6 +2,7 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -25,8 +26,10 @@ class GeneralMoveStrategyTest {
         pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(1, 1), Piece.hanPieceOf(PieceType.GENERAL));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
@@ -45,23 +48,24 @@ class GeneralMoveStrategyTest {
     @DisplayName("장군은 상대 장군과 마주보게 되는 위치로 이동할 수 없다")
     void general_cannot_face_opposite() {
         // given
-        Position from = Position.of(2, 5);
+        Position from = Position.of(2, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
         pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
         pieces.put(Position.of(7, 5), Piece.hanPieceOf(PieceType.GENERAL));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
+                Position.of(1, 3),
                 Position.of(1, 4),
-                Position.of(2, 4),
-                Position.of(3, 4),
-                Position.of(1, 6),
-                Position.of(2, 6),
-                Position.of(3, 6)
+                Position.of(2, 3),
+                Position.of(3, 3),
+                Position.of(3, 4)
         );
     }
 
@@ -80,8 +84,10 @@ class GeneralMoveStrategyTest {
 
         pieces.put(Position.of(1, 1), Piece.hanPieceOf(PieceType.GENERAL));
 
+        Board board = Board.of(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(
