@@ -17,7 +17,7 @@ public class HorseStrategy implements MoveStrategy{
     @Override
     public List<Position> findPath(Position from, Position to) {
         Position mid = from.moveStraight(to);
-        return List.of(mid, to);
+        return List.of(mid);
     }
 
     @Override
@@ -37,5 +37,10 @@ public class HorseStrategy implements MoveStrategy{
     @Override
     public PieceType getIdentity() {
         return PieceType.HORSE;
+    }
+
+    @Override
+    public boolean checkPathRule(List<Piece> pathPieces) {
+        return pathPieces.isEmpty();
     }
 }

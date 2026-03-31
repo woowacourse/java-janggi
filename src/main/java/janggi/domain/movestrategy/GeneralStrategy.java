@@ -16,7 +16,7 @@ public class GeneralStrategy implements MoveStrategy{
 
     @Override
     public List<Position> findPath(Position from, Position to) {
-        return List.of(to);
+        return List.of();
     }
 
     @Override
@@ -32,5 +32,10 @@ public class GeneralStrategy implements MoveStrategy{
     @Override
     public PieceType getIdentity() {
         return PieceType.GENERAL;
+    }
+
+    @Override
+    public boolean checkPathRule(List<Piece> pathPieces) {
+        return pathPieces.isEmpty();
     }
 }

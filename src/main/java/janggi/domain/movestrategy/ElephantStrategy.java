@@ -18,7 +18,7 @@ public class ElephantStrategy implements MoveStrategy {
     public List<Position> findPath(Position from, Position to) {
         Position first = from.moveStraight(to);
         Position second = first.moveDiagonal(to);
-        return List.of(first, second, to);
+        return List.of(first, second);
     }
 
     @Override
@@ -38,5 +38,10 @@ public class ElephantStrategy implements MoveStrategy {
     @Override
     public PieceType getIdentity() {
         return PieceType.ELEPHANT;
+    }
+
+    @Override
+    public boolean checkPathRule(List<Piece> pathPieces) {
+        return pathPieces.isEmpty();
     }
 }

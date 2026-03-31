@@ -23,7 +23,6 @@ public class ChariotStrategy implements MoveStrategy{
             path.add(nextPosition);
             nextPosition = nextPosition.moveStraight(to);
         }
-        path.add(to);
         return path;
     }
 
@@ -44,5 +43,10 @@ public class ChariotStrategy implements MoveStrategy{
     @Override
     public PieceType getIdentity() {
         return PieceType.CHARIOT;
+    }
+
+    @Override
+    public boolean checkPathRule(List<Piece> pathPieces) {
+        return pathPieces.isEmpty();
     }
 }

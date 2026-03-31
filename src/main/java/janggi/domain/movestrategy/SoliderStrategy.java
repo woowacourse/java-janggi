@@ -32,7 +32,7 @@ public class SoliderStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position from, Position to) {
-        return List.of(to);
+        return List.of();
     }
 
     @Override
@@ -48,5 +48,10 @@ public class SoliderStrategy implements MoveStrategy {
     @Override
     public PieceType getIdentity() {
         return PieceType.SOLDIER;
+    }
+
+    @Override
+    public boolean checkPathRule(List<Piece> pathPieces) {
+        return pathPieces.isEmpty();
     }
 }
