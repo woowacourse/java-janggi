@@ -3,8 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Side;
 
 public abstract class BasePiece implements Piece {
-    protected Side side;
-    protected PieceType pieceType;
+    protected final Side side;
+    private final PieceType pieceType;
 
     public BasePiece(Side side, PieceType pieceType) {
         this.side = side;
