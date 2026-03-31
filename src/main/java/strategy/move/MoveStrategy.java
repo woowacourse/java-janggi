@@ -49,7 +49,7 @@ public abstract class MoveStrategy {
             return false;
         }
 
-        return destinationPiece.isEmpty() || destinationPiece.get().getTeamColor() != myTeam;
+        return destinationPiece.isEmpty() || !destinationPiece.get().isOnTeam(myTeam);
     }
 
 }

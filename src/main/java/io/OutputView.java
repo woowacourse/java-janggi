@@ -83,7 +83,7 @@ public class OutputView {
         }
         String symbol = formatBoardSymbol(piece);
 
-        if (piece.getTeamColor() == TeamColor.CHO) {
+        if (piece.isOnTeam(TeamColor.CHO)) {
             return CHO_COLOR + symbol + RESET;
         }
         return HAN_COLOR + symbol + RESET;

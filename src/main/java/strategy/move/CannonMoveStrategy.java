@@ -54,6 +54,6 @@ public class CannonMoveStrategy extends MoveStrategy {
             return false;
         }
 
-        return targetPiece.getTeamColor() != myTeam;
+        return !targetPiece.isOnTeam(myTeam);
     }
 }

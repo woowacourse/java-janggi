@@ -21,4 +21,8 @@ public class Piece {
     public TeamColor getTeamColor() {
         return this.teamColor;
     }
+
+    public boolean isOnTeam(TeamColor teamColor) {
+        return this.teamColor == teamColor;
+    }
 }
