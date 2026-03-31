@@ -15,7 +15,7 @@ public record Column(int index) {
     }
 
     private void validateRange(int index) {
-        if (!(index >= MIN && index <= MAX)) {
+        if (index < MIN || index > MAX) {
             throw new IllegalArgumentException(INVALID_COORDINATION.getMessage());
         }
     }

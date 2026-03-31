@@ -23,7 +23,7 @@ public record Row(int index) {
     }
 
     private void validateRange(int index) {
-        if (!(index >= MIN && index <= MAX)) {
+        if (index < MIN || index > MAX) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_COORDINATION.getMessage());
         }
     }
