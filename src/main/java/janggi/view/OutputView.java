@@ -14,7 +14,7 @@ public class OutputView {
     }
 
     public void printFromPositionMessage() {
-        System.out.println("움직일 기물의 위치를 입력하세요:");
+        System.out.println("움직일 기물의 위치를 입력하세요[(행,열) 형식으로]:");
     }
 
     public void printToPositionMessage() {
