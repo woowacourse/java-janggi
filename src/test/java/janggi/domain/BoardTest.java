@@ -3,6 +3,9 @@ package janggi.domain;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import janggi.domain.board.Board;
+import janggi.domain.board.Position;
+import janggi.domain.board.Space;
 import janggi.domain.piece.Byeong;
 import janggi.domain.piece.Cha;
 import janggi.domain.piece.King;
@@ -11,6 +14,7 @@ import janggi.domain.piece.Pho;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
+import janggi.domain.piece.Team;
 import janggi.domain.strategy.BasicPlacementStrategy;
 import janggi.domain.strategy.InitializeStrategy;
 import java.util.Map;

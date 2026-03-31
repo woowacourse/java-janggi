@@ -3,9 +3,8 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.*;
 
-import janggi.domain.Position;
-import janggi.domain.Space;
-import janggi.domain.Team;
+import janggi.domain.board.Position;
+import janggi.domain.board.Space;
 import org.junit.jupiter.api.Test;
 
 class ByeongTest {

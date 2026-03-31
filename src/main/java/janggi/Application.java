@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.domain.Board;
+import janggi.domain.board.Board;
 import janggi.domain.strategy.BasicPlacementStrategy;
 
 public class Application {

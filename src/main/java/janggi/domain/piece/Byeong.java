@@ -1,8 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.Path;
-import janggi.domain.Position;
-import janggi.domain.Team;
+import janggi.domain.board.Path;
+import janggi.domain.board.Position;
 
 public class Byeong extends Piece {
 
