@@ -16,7 +16,10 @@ public enum Side {
         if (this == HAN) {
             return CHO;
         }
-        return HAN;
+        if (this == CHO) {
+            return HAN;
+        }
+        throw new UnsupportedOperationException("진영이 존재하지 않아 진영을 반전시킬 수 없습니다.");
     }
 
     public String getName() {
