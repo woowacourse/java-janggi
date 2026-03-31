@@ -2,7 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
-import domain.board.FormationType;
+import domain.board.formation.FormationType;
 import domain.coordination.Coordination;
 import domain.game.dto.BoardDto;
 import java.util.List;

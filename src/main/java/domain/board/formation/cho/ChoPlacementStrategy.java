@@ -1,6 +1,6 @@
-package domain.board.cho;
+package domain.board.formation.cho;
 
-import domain.board.PlacementStrategy;
+import domain.board.formation.PlacementStrategy;
 import domain.coordination.Coordination;
 import domain.piece.*;
 

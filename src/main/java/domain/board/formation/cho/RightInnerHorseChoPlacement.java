@@ -1,4 +1,4 @@
-package domain.board.cho;
+package domain.board.formation.cho;
 
 import domain.coordination.Coordination;
 import domain.piece.Elephant;
@@ -8,13 +8,13 @@ import domain.piece.Team;
 
 import java.util.Map;
 
-public class DefaultChoPlacement extends ChoPlacementStrategy {
+public class RightInnerHorseChoPlacement extends ChoPlacementStrategy {
 
     @Override
     protected void placeHorseAndElephant(Map<Coordination, Piece> map) {
         map.put(Coordination.of(2, 10), new Horse(Team.CHO));
         map.put(Coordination.of(3, 10), new Elephant(Team.CHO));
-        map.put(Coordination.of(7, 10), new Elephant(Team.CHO));
-        map.put(Coordination.of(8, 10), new Horse(Team.CHO));
+        map.put(Coordination.of(7, 10), new Horse(Team.CHO));
+        map.put(Coordination.of(8, 10), new Elephant(Team.CHO));
     }
 }

@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.board.formation.FormationType;
 import domain.coordination.Coordination;
 import domain.piece.Piece;
 import org.junit.jupiter.params.ParameterizedTest;

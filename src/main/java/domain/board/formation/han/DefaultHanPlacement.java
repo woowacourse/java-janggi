@@ -1,4 +1,4 @@
-package domain.board.han;
+package domain.board.formation.han;
 
 import domain.coordination.Coordination;
 import domain.piece.Elephant;

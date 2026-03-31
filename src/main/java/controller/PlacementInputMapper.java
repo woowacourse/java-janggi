@@ -1,4 +1,6 @@
-package domain.board;
+package controller;
+
+import domain.board.formation.FormationType;
 
 public class PlacementInputMapper {
 

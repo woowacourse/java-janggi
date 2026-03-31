@@ -1,4 +1,4 @@
-package domain.board.cho;
+package domain.board.formation.cho;
 
 import domain.coordination.Coordination;
 import domain.piece.Elephant;

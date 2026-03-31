@@ -1,7 +1,13 @@
-package domain.board;
+package domain.board.formation;
 
-import domain.board.cho.*;
-import domain.board.han.*;
+import domain.board.formation.cho.DefaultChoPlacement;
+import domain.board.formation.cho.InnerHorseChoPlacement;
+import domain.board.formation.cho.LeftInnerHorseChoPlacement;
+import domain.board.formation.cho.RightInnerHorseChoPlacement;
+import domain.board.formation.han.DefaultHanPlacement;
+import domain.board.formation.han.InnerHorseHanPlacement;
+import domain.board.formation.han.LeftInnerHorseHanPlacement;
+import domain.board.formation.han.RightInnerHorseHanPlacement;
 
 import java.util.Map;
 

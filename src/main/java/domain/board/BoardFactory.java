@@ -1,10 +1,11 @@
 package domain.board;
 
+import domain.board.formation.FormationType;
+import domain.board.formation.PlacementStrategyRegistry;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
-
 import java.util.HashMap;
 import java.util.Map;
 

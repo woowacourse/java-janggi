@@ -1,6 +1,6 @@
-package domain.board.han;
+package domain.board.formation.han;
 
-import domain.board.PlacementStrategy;
+import domain.board.formation.PlacementStrategy;
 import domain.coordination.Coordination;
 import domain.piece.Piece;
 import domain.piece.Team;

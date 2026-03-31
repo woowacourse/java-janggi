@@ -1,7 +1,6 @@
 package controller;
 
-import domain.board.FormationType;
-import domain.board.PlacementInputMapper;
+import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.game.dto.BoardDto;

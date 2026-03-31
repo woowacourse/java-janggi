@@ -1,6 +1,6 @@
 package testDouble;
 
-import domain.board.PlacementOption;
+import domain.board.formation.PlacementOption;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
