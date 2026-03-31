@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class DatabaseInitializer {
 
     private static final String SCHEMA_SQL = "schema.sql";
-    private static final String DATA_SQL = "data.sql";
 
     private final H2ConnectionManager connectionManager;
 
@@ -20,7 +19,7 @@ public class DatabaseInitializer {
     }
 
     public void init() {
-        try (Connection connection = connectionManager.getConnection();
+        try (Connection connection = H2ConnectionManager.getConnection();
              Statement stmt = connection.createStatement()) {
 
             connection.setAutoCommit(false);

@@ -38,7 +38,7 @@ public class GameStateRepositoryImpl implements GameStateRepository {
 
     @Override
     public GameStateEntity findByRoomId(long roomId) {
-        try (Connection conn = connectionManager.getConnection();
+        try (Connection conn = H2ConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, roomId);

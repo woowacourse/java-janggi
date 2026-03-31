@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import repository.BoardRepository;
 
@@ -83,7 +82,7 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public Map<Position, Place> findBoard(long roomId) {
-        try (Connection conn = connectionManager.getConnection();
+        try (Connection conn = H2ConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_SQL)) {
 
             stmt.setLong(1, roomId);

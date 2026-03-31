@@ -111,7 +111,7 @@ public class Board {
                 .sum();
     }
 
-    public Map<Position, Place> getBoard(){
+    public Map<Position, Place> getBoard() {
         return Map.copyOf(board);
     }
 

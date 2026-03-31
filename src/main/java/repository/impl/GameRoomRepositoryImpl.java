@@ -44,7 +44,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
     @Override
     public List<GameRoomEntity> findAll() {
-        try (Connection conn = connectionManager.getConnection();
+        try (Connection conn = H2ConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_ALL)) {
 
             List<GameRoomEntity> result;
@@ -60,7 +60,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
     @Override
     public boolean existsById(long id) {
-        try (Connection conn = connectionManager.getConnection();
+        try (Connection conn = H2ConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, id);

@@ -109,7 +109,7 @@ public class Janggi {
         }
     }
 
-    private void saveGame(Board board){
+    private void saveGame(Board board) {
         OutputView.printGameName();
         String name = InputView.readLine();
         gameService.saveGame(board.getBoard(), name, turn);

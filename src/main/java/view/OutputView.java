@@ -6,6 +6,7 @@ import static domain.common.Constant.MIN_ROW;
 
 import domain.place.piece.Side;
 import entity.GameRoomEntity;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,10 +55,10 @@ public class OutputView {
     public static void printSaveRoomList(List<GameRoomEntity> gameRoomEntities) {
         System.out.println(GAME_ROOM_INFO_MESSAGE);
         gameRoomEntities
-                .forEach(g -> System.out.printf(GAME_ROOM_INFO, g.id(), g.name(), g.createdAt()));
+                .forEach(g -> System.out.printf(GAME_ROOM_INFO, g.id(), g.name(), LocalDate.from(g.createdAt())));
     }
 
-    public static void printGameName(){
+    public static void printGameName() {
         System.out.println(GAME_SAVE_NAME);
     }
 
