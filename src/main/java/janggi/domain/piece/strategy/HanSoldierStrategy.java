@@ -8,17 +8,11 @@ import janggi.domain.position.Position;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class SoldierStrategy implements MoveStrategy {
-    private final Direction forward;
-
-    public SoldierStrategy(Direction forward) {
-        this.forward = forward;
-    }
-
+public class HanSoldierStrategy implements MoveStrategy{
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(
-                        current.move(forward),
+                        current.move(Direction.DOWN),
                         current.move(Direction.LEFT),
                         current.move(Direction.RIGHT)
                 )
