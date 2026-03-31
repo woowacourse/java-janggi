@@ -1,12 +1,19 @@
 package service;
 
-import repository.impl.BoardRepositoryImpl;
+import repository.BoardRepository;
+import repository.GameRoomRepository;
+import repository.GameStateRepository;
 
 public class BoardService {
 
-    private final BoardRepositoryImpl boardRepositoryImpl;
+    private final BoardRepository boardRepository;
+    private final GameRoomRepository gameRoomRepository;
+    private final GameStateRepository gameStateRepository;
 
-    public BoardService(BoardRepositoryImpl boardRepositoryImpl) {
-        this.boardRepositoryImpl = boardRepositoryImpl;
+    public BoardService(BoardRepository boardRepository, GameRoomRepository gameRoomRepository,
+                        GameStateRepository gameStateRepository) {
+        this.boardRepository = boardRepository;
+        this.gameRoomRepository = gameRoomRepository;
+        this.gameStateRepository = gameStateRepository;
     }
 }
