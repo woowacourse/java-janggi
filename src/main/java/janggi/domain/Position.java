@@ -1,8 +1,6 @@
 package janggi.domain;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -20,18 +18,18 @@ public class Position {
     private final Row row;
     private final Column column;
 
-    private Position(Row x, Column y) {
-        this.row = x;
-        this.column = y;
+    private Position(Row row, Column column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public static Position of(Row x, Column y) {
-        String key = toKey(x, y);
+    public static Position of(Row row, Column column) {
+        String key = toKey(row, column);
         return CACHE.get(key);
     }
 
-    private static String toKey(Row x, Column y) {
-        return x.getRow() + "," + y.getColumn();
+    private static String toKey(Row row, Column column) {
+        return row.getRow() + "," + column.getColumn();
     }
 
     public int getRow() {

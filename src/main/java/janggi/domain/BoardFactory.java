@@ -24,83 +24,83 @@ public class BoardFactory {
         // 차
         board.put(Position.of(Row.of(0), Column.of(0)),
                 new Piece(new ChaMoveStrategy(), Team.HAN, PieceType.CHA));
-        board.put(Position.of(Row.of(8), Column.of(0)),
+        board.put(Position.of(Row.of(0), Column.of(8)),
                 new Piece(new ChaMoveStrategy(), Team.HAN, PieceType.CHA));
         // 상
-        board.put(Position.of(Row.of(1), Column.of(0)),
+        board.put(Position.of(Row.of(0), Column.of(1)),
                 new Piece(new SangMoveStrategy(), Team.HAN, PieceType.SANG));
-        board.put(Position.of(Row.of(6), Column.of(0)),
+        board.put(Position.of(Row.of(0), Column.of(6)),
                 new Piece(new SangMoveStrategy(), Team.HAN, PieceType.SANG));
         // 마
-        board.put(Position.of(Row.of(2), Column.of(0)),
+        board.put(Position.of(Row.of(0), Column.of(2)),
                 new Piece(new MaMoveStrategy(), Team.HAN, PieceType.MA));
-        board.put(Position.of(Row.of(7), Column.of(0)),
+        board.put(Position.of(Row.of(0), Column.of(7)),
                 new Piece(new MaMoveStrategy(), Team.HAN, PieceType.MA));
         // 사
-        board.put(Position.of(Row.of(3), Column.of(0)),
+        board.put(Position.of(Row.of(0), Column.of(3)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA));
-        board.put(Position.of(Row.of(5), Column.of(0)),
+        board.put(Position.of(Row.of(0), Column.of(5)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.SA));
         // 궁
-        board.put(Position.of(Row.of(4), Column.of(1)),
+        board.put(Position.of(Row.of(1), Column.of(4)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.HAN, PieceType.HAN_GUNG));
         // 포
-        board.put(Position.of(Row.of(1), Column.of(2)),
+        board.put(Position.of(Row.of(2), Column.of(1)),
                 new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO));
-        board.put(Position.of(Row.of(7), Column.of(2)),
+        board.put(Position.of(Row.of(2), Column.of(7)),
                 new Piece(new PoMoveStrategy(), Team.HAN, PieceType.PO));
         // 졸
-        board.put(Position.of(Row.of(0), Column.of(3)),
+        board.put(Position.of(Row.of(3), Column.of(0)),
                 new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL));
-        board.put(Position.of(Row.of(2), Column.of(3)),
+        board.put(Position.of(Row.of(3), Column.of(2)),
                 new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL));
-        board.put(Position.of(Row.of(4), Column.of(3)),
+        board.put(Position.of(Row.of(3), Column.of(4)),
                 new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL));
-        board.put(Position.of(Row.of(6), Column.of(3)),
+        board.put(Position.of(Row.of(3), Column.of(6)),
                 new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL));
-        board.put(Position.of(Row.of(8), Column.of(3)),
+        board.put(Position.of(Row.of(3), Column.of(8)),
                 new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL));
     }
 
     private static void SetChoPieces(Map<Position, Piece> board) {
         // 차
-        board.put(Position.of(Row.of(0), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(0)),
                 new Piece(new ChaMoveStrategy(), Team.CHO, PieceType.CHA));
-        board.put(Position.of(Row.of(8), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(8)),
                 new Piece(new ChaMoveStrategy(), Team.CHO, PieceType.CHA));
         // 상
-        board.put(Position.of(Row.of(1), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(1)),
                 new Piece(new SangMoveStrategy(), Team.CHO, PieceType.SANG));
-        board.put(Position.of(Row.of(6), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(6)),
                 new Piece(new SangMoveStrategy(), Team.CHO, PieceType.SANG));
         // 마
-        board.put(Position.of(Row.of(2), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(2)),
                 new Piece(new MaMoveStrategy(), Team.CHO, PieceType.MA));
-        board.put(Position.of(Row.of(7), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(7)),
                 new Piece(new MaMoveStrategy(), Team.CHO, PieceType.MA));
         // 사
-        board.put(Position.of(Row.of(3), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(3)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA));
-        board.put(Position.of(Row.of(5), Column.of(9)),
+        board.put(Position.of(Row.of(9), Column.of(5)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.SA));
         // 궁
-        board.put(Position.of(Row.of(4), Column.of(8)),
+        board.put(Position.of(Row.of(8), Column.of(4)),
                 new Piece(new GungseongBoundMoveStrategy(), Team.CHO, PieceType.CHO_GUNG));
         // 포
-        board.put(Position.of(Row.of(1), Column.of(7)),
+        board.put(Position.of(Row.of(7), Column.of(1)),
                 new Piece(new PoMoveStrategy(), Team.CHO, PieceType.PO));
         board.put(Position.of(Row.of(7), Column.of(7)),
                 new Piece(new PoMoveStrategy(), Team.CHO, PieceType.PO));
         // 졸
-        board.put(Position.of(Row.of(0), Column.of(6)),
+        board.put(Position.of(Row.of(6), Column.of(0)),
                 new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL));
-        board.put(Position.of(Row.of(2), Column.of(6)),
+        board.put(Position.of(Row.of(6), Column.of(2)),
                 new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL));
-        board.put(Position.of(Row.of(4), Column.of(6)),
+        board.put(Position.of(Row.of(6), Column.of(4)),
                 new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL));
         board.put(Position.of(Row.of(6), Column.of(6)),
                 new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL));
-        board.put(Position.of(Row.of(8), Column.of(6)),
+        board.put(Position.of(Row.of(6), Column.of(8)),
                 new Piece(new JolMoveStrategy(), Team.CHO, PieceType.CHO_JOL));
     }
 }

@@ -11,29 +11,29 @@ public class JolMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        int fromX = from.getRow();
-        int fromY = from.getColumn();
-        int toX = to.getRow();
-        int toY = to.getColumn();
+        int fromRow = from.getRow();
+        int fromCol = from.getColumn();
+        int toRow = to.getRow();
+        int toCol = to.getColumn();
 
-        if (Math.abs(fromX - toX) == NEXT_TO && fromY == toY) {
+        if (fromRow == toRow && Math.abs(fromCol - toCol) == NEXT_TO) {
             return true;
         }
 
         Team currentTeam = boardState.getPieceAt(from).getTeam();
 
         if (currentTeam == Team.HAN) {
-            if (toY - fromY == HAN_FORWARD && fromX == toX) {
+            if (fromCol == toCol && toRow - fromRow == HAN_FORWARD) {
                 return true;
             }
         }
 
         if (currentTeam == Team.CHO) {
-            if (toY - fromY == CHO_FORWARD && fromX == toX) {
+            if (fromCol == toCol && toRow - fromRow == CHO_FORWARD) {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

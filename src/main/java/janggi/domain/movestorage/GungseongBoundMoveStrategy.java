@@ -7,38 +7,38 @@ import janggi.domain.Team;
 public class GungseongBoundMoveStrategy implements MoveStrategy {
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        int fromX = from.getRow();
-        int fromY = from.getColumn();
-        int toX = to.getRow();
-        int toY = to.getColumn();
+        int fromRow = from.getRow();
+        int fromCol = from.getColumn();
+        int toRow = to.getRow();
+        int toCol = to.getColumn();
 
-        if (!(3 <= fromX && fromX <= 5) || !(3 <= toX && toX <= 5)) {
+        if (!(3 <= fromCol && fromCol <= 5) || !(3 <= toCol && toCol <= 5)) {
             return false;
         }
 
         Team currentTeam = boardState.getPieceAt(from).getTeam();
 
         if (currentTeam == Team.HAN) {
-            if (!(0 <= fromY && fromY <= 2) || !(0 <= toY && toY <= 2)) {
+            if (!(0 <= fromRow && fromRow <= 2) || !(0 <= toRow && toRow <= 2)) {
                 return false;
             }
         }
 
         if (currentTeam == Team.CHO) {
-            if (!(7 <= fromY && fromY <= 9) || !(7 <= toY && toY <= 9)) {
+            if (!(7 <= fromRow && fromRow <= 9) || !(7 <= toRow && toRow <= 9)) {
                 return false;
             }
         }
 
-        if (fromX != toX && fromY != toY) {
+        if (fromRow != toRow && fromCol != toCol) {
             return false;
         }
 
-        if (fromY == toY && Math.abs(fromX - toX) != 1) {
+        if (fromCol == toCol && Math.abs(fromRow - toRow) != 1) {
             return false;
         }
 
-        if (fromX == toX && Math.abs(fromY - toY) != 1) {
+        if (fromRow == toRow && Math.abs(fromCol - toCol) != 1) {
             return false;
         }
 

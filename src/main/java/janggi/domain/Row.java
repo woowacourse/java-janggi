@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Row {
     private static final int MIN = 0;
-    private static final int MAX = 8;
+    private static final int MAX = 9;
     private static final Map<Integer, Row> CACHE = new HashMap<>();
 
     static {

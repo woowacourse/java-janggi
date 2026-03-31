@@ -11,23 +11,23 @@ public class PoMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        int fromX = from.getRow();
-        int fromY = from.getColumn();
-        int toX = to.getRow();
-        int toY = to.getColumn();
+        int fromRow = from.getRow();
+        int fromCol = from.getColumn();
+        int toRow = to.getRow();
+        int toCol = to.getColumn();
 
-        if (fromX != toX && fromY != toY) {
+        if (fromRow != toRow && fromCol != toCol) {
             return false;
         }
 
         int jumpCount = 0;
 
-        if (fromX == toX) {
-            int start = Math.min(fromY, toY) + 1;
-            int end = Math.max(fromY, toY);
+        if (fromRow == toRow) {
+            int start = Math.min(fromCol, toCol) + 1;
+            int end = Math.max(fromCol, toCol);
 
             for (int i = start; i < end; i++) {
-                Position position = Position.of(Row.of(fromX), Column.of(i));
+                Position position = Position.of(Row.of(fromRow), Column.of(i));
                 if (boardState.hasPieceAt(position)) {
                     Piece jumpPiece = boardState.getPieceAt(position);
                     if (jumpPiece.getPieceType() == PieceType.PO) {
@@ -38,12 +38,12 @@ public class PoMoveStrategy implements MoveStrategy {
             }
         }
 
-        if (fromY == toY) {
-            int start = Math.min(fromX, toX) + 1;
-            int end = Math.max(fromX, toX);
+        if (fromCol == toCol) {
+            int start = Math.min(fromRow, toRow) + 1;
+            int end = Math.max(fromRow, toRow);
 
             for (int i = start; i < end; i++) {
-                Position position = Position.of(Row.of(i), Column.of(fromY));
+                Position position = Position.of(Row.of(i), Column.of(fromCol));
                 if (boardState.hasPieceAt(position)) {
                     Piece jumpPiece = boardState.getPieceAt(position);
                     if (jumpPiece.getPieceType() == PieceType.PO) {
