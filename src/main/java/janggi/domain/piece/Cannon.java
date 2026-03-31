@@ -5,34 +5,16 @@ import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cannon implements Piece {
-
+public class Cannon extends MoveablePiece {
     private static final String PIECE_NAME = "포";
 
-    private final Team team;
-
     public Cannon(Team team) {
-        this.team = team;
-    }
-
-    @Override
-    public boolean isEmptyPiece() {
-        return false;
+        super(team);
     }
 
     @Override
     public boolean isSamePiece(Piece other) {
-        return other.getDisplayName().equals(PIECE_NAME);
-    }
-
-    @Override
-    public boolean isSameTeam(Piece other) {
-        return other.isSame(team);
-    }
-
-    @Override
-    public boolean isSame(Team team) {
-        return this.team == team;
+        return other instanceof Cannon;
     }
 
     @Override
@@ -74,12 +56,6 @@ public class Cannon implements Piece {
     private void validateEndCannon(Piece endPiece) {
         if (isSamePiece(endPiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
-        }
-    }
-
-    private void validateSameTeam(Piece endPiece) {
-        if (isSameTeam(endPiece)) {
-            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
         }
     }
 
