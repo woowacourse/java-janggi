@@ -5,7 +5,7 @@ import domain.ExistBoard;
 import domain.PieceType;
 import domain.Position;
 
-public class Piece {
+public abstract class Piece {
 
     private final PieceType pieceType = PieceType.NONE;
     private final Camp camp;
@@ -74,9 +74,7 @@ public class Piece {
         return new Position(++x, ++y);
     }
 
-    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
-        return true;
-    }
+    public abstract boolean canMove(Position from, Position to, ExistBoard existBoard);
 
     public PieceType getPieceType() {
         return this.pieceType;
