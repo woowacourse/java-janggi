@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.PieceType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,13 +23,11 @@ public enum TableSetting {
         this.name = name;
     }
 
-    public static TableSetting from(String name) {
-        for (TableSetting tableSetting : TableSetting.values()) {
-            if (tableSetting.name.equals(name)) {
-                return tableSetting;
-            }
-        }
-        throw new IllegalArgumentException(NOT_FOUND_TABLE_SETTING);
+    public static TableSetting from(String tableSettingName) {
+        return Arrays.stream(TableSetting.values())
+                .filter(tableSetting -> tableSetting.name.equals(tableSettingName))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_TABLE_SETTING));
     }
 
     public List<PieceType> getFormation(Country country) {
