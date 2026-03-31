@@ -1,4 +1,4 @@
-package dto;
+package domain.game.dto;
 
 import domain.coordination.Coordination;
 import domain.piece.Piece;

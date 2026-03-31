@@ -3,8 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.coordination.Coordination;
-import dto.BoardDto;
-
+import domain.game.dto.BoardDto;
 import java.util.List;
 
 public class JanggiGame {
@@ -33,7 +32,7 @@ public class JanggiGame {
                 Coordination.of(from.get(0), from.get(1)),
                 Coordination.of(to.get(0), to.get(1))
         );
-        BoardDto boardDto = board.getBoardDto();
+        BoardDto boardDto = BoardDto.from(board.getBoard());
         turn = turn.reverse();
         return boardDto;
     }

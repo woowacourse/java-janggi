@@ -2,7 +2,7 @@ package controller;
 
 import domain.game.JanggiGame;
 import domain.game.Turn;
-import dto.BoardDto;
+import domain.game.dto.BoardDto;
 import util.Retry;
 import view.InputView;
 import view.OutputView;

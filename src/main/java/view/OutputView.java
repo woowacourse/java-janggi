@@ -1,7 +1,7 @@
 package view;
 
 import domain.game.Turn;
-import dto.BoardDto;
+import domain.game.dto.BoardDto;
 
 import java.util.List;
 import java.util.Map;
