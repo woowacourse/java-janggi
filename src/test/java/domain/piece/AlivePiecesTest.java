@@ -13,6 +13,8 @@ class AlivePiecesTest {
 
     private static final Side SIDE = Side.HAN;
     private static final Side OPPOSITE_SIDE = Side.CHO;
+    private static final Piece DEFAULT_PIECE = new Soldier(Side.HAN);
+    private static final Intersection DEFAULT_INTERSECTION = new Intersection(5, 5);
 
     private Intersection emptyIntersection;
     private Intersection notEmptyIntersection;
@@ -28,12 +30,83 @@ class AlivePiecesTest {
         oppositeSideIntersection = new Intersection(6, 6);
 
         Map<Intersection, Piece> pieces = Map.of(
-                notEmptyIntersection, new Soldier(SIDE),
+                notEmptyIntersection, DEFAULT_PIECE,
                 sameSideIntersection, new Soldier(SIDE),
                 oppositeSideIntersection, new Soldier(OPPOSITE_SIDE)
         );
 
         alivePieces = new AlivePieces(pieces);
+    }
+
+    @Nested
+    class 기물을_이동시킨다 {
+
+        @Test
+        void 시작_위치에_있던_기물을_목적지로_이동시킨다() {
+            // given
+            Intersection startIntersection = new Intersection(3, 3);
+            Intersection destination = new Intersection(5, 5);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    startIntersection, DEFAULT_PIECE
+            ));
+
+            // when
+            alivePieces.replace(startIntersection, destination);
+
+            // then
+            Piece pieceAtDestination = alivePieces.placedAt(destination);
+            assertThat(pieceAtDestination).isEqualTo(DEFAULT_PIECE);
+        }
+
+        @Test
+        void 기존_위치에_있던_기물_정보는_제거한다() {
+            // given
+            Intersection existIntersection = new Intersection(3, 3);
+            Intersection destination = new Intersection(5, 5);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    existIntersection, DEFAULT_PIECE
+            ));
+
+            // when
+            alivePieces.replace(existIntersection, destination);
+
+            // then
+            Piece pieceAtExistIntersection = alivePieces.placedAt(existIntersection);
+            assertThat(pieceAtExistIntersection).isNull();
+        }
+
+        @Test
+        void 목적지에_존재하던_기물_정보는_제거한다() {
+            // given
+            Intersection startIntersection = new Intersection(3, 3);
+            Intersection destination = new Intersection(5, 5);
+
+            Piece pieceAtStart = new Soldier(Side.HAN);
+            Piece pieceAtDestination = new Soldier(Side.CHO);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    startIntersection, pieceAtStart,
+                    destination, pieceAtDestination
+            ));
+
+            // when
+            alivePieces.replace(startIntersection, destination);
+
+            // then
+            Piece currentPieceAtDestination = alivePieces.placedAt(destination);
+            assertThat(currentPieceAtDestination).isNotEqualTo(pieceAtDestination);
+        }
+
+        @Test
+        void 시작_위치에_기물이_없다면_아무_동작도_수행하지_않는다() {
+            Map<Intersection, Piece> piecesBeforeReplace = alivePieces.get();
+            alivePieces.replace(emptyIntersection, DEFAULT_INTERSECTION);
+            Map<Intersection, Piece> piecesAfterReplace = alivePieces.get();
+
+            assertThat(piecesAfterReplace).isEqualTo(piecesBeforeReplace);
+        }
     }
 
     @Nested
