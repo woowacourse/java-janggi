@@ -8,13 +8,8 @@ public class CannonStrategy implements MoveStrategy {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        int preX = from.x();
-        int preY = from.y();
-
-        int nextX = to.x();
-        int nextY = to.y();
-
-        return (preX == nextX && preY != nextY) || (preX != nextX && preY == nextY);
+        return (from.isSameColumn(to) && !from.isSameRow(to))
+                || (!from.isSameColumn(to) && from.isSameRow(to));
     }
 
     @Override

@@ -33,8 +33,8 @@ public class ElephantStrategy implements MoveStrategy {
     }
 
     private boolean isSamePosition(Position from, Position to, RelativePosition relativePosition) {
-        return to.x() - from.x() == relativePosition.dx()
-                && to.y() - from.y() == relativePosition.dy();
+        return from.deltaX(to) == relativePosition.dx()
+                && from.deltaY(to) == relativePosition.dy();
     }
 
     private List<Position> createPath(Position from, List<RelativePosition> relativePositions) {

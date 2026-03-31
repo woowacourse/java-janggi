@@ -7,16 +7,10 @@ public class ChoSoldierStrategy implements MoveStrategy {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        int preX = from.x();
-        int preY = from.y();
-
-        int nextY = to.y();
-        int nextX = to.x();
-
-        if (preY - nextY == 1 && preX == nextX) {
+        if (from.deltaY(to) == -1 && from.isSameColumn(to)) {
             return true;
         }
-        return (Math.abs(nextX - preX) == 1) && (nextY == preY);
+        return from.distanceX(to) == 1 && from.isSameRow(to);
     }
 
     @Override

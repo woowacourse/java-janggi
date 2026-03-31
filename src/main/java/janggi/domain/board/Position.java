@@ -22,4 +22,27 @@ public record Position(int x, int y) {
         }
     }
 
+    public boolean isSameRow(Position other) {
+        return y == other.y;
+    }
+
+    public boolean isSameColumn(Position other) {
+        return x == other.x;
+    }
+
+    public int distanceX(Position other) {
+        return Math.abs(x - other.x);
+    }
+
+    public int distanceY(Position other) {
+        return Math.abs(y - other.y);
+    }
+
+    public int deltaX(Position other) {
+        return other.x - x;
+    }
+
+    public int deltaY(Position other) {
+        return other.y - y;
+    }
 }
