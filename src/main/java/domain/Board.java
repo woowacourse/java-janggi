@@ -24,7 +24,15 @@ public class Board {
         return new Board(setup);
     }
 
-    public void move(Position start, Position destination) {
+    public void move(Team turn, Position start, Position destination) {
+        validateIsAlly(turn, start);
+
+        validateIsReachable(start, destination);
+
+        validateCanMove(start, destination);
+        
+        validateCrashWithAlly(start, destination);
+
         Piece startPiece = getPieceOrThrowException(start);
         pieces.remove(start);
         pieces.put(destination, startPiece);
@@ -35,12 +43,6 @@ public class Board {
         if (!startPiece.isSameTeam(turn)) {
             throw new IllegalArgumentException(SHOULD_CHOOSE_CORRECT_TEAM_PIECE);
         }
-    }
-
-    public void validateIsMovable(Position start, Position destination) {
-        validateIsReachable(start, destination);
-        validateCanMove(start, destination);
-        validateCrashWithAlly(start, destination);
     }
 
     private void validateIsReachable(Position start, Position destination) {

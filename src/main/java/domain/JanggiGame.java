@@ -20,11 +20,7 @@ public class JanggiGame {
     }
 
     public void executeMove(Position start, Position destination) {
-        board.validateIsAlly(turn, start);
-
-        board.validateIsMovable(start, destination);
-
-        board.move(start, destination);
+        board.move(turn, start, destination);
         passTurn();
     }
 
