@@ -12,7 +12,7 @@ public class HorseMoveRule extends MoveRule {
             List.of(Direction.UP_LEFT, Direction.UP_RIGHT),
             List.of(Direction.UP_RIGHT, Direction.DOWN_RIGHT),
             List.of(Direction.DOWN_LEFT, Direction.DOWN_RIGHT),
-            List.of(Direction.UP_LEFT, Direction.UP_LEFT));
+            List.of(Direction.UP_LEFT, Direction.DOWN_LEFT));
 
     @Override
     protected List<MovePattern> patterns(Move move) {
