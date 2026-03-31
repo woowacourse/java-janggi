@@ -25,39 +25,19 @@ public class Coordination {
     }
 
     public int differentColumn(Coordination other) {
-        return other.differentColumn(this.column);
-    }
-
-    private int differentColumn(Column other) {
-        return this.column.different(other);
+        return other.column.different(this.column);
     }
 
     public int differentRow(Coordination other) {
-        return other.differentRow(this.row);
-    }
-
-    private int differentRow(Row other) {
-        return this.row.different(other);
+        return other.row.different(this.row);
     }
 
     public boolean isSameRowDifferentColumn(Coordination other) {
-        boolean isRowSame = other.isSameRow(this.row);
-        boolean isSameColumn = other.isSameColumn(this.column);
-        return isRowSame && !isSameColumn;
+        return this.row.equals(other.row) && !this.column.equals(other.column);
     }
 
     public boolean isSameColumnDifferentRow(Coordination other) {
-        boolean isRowSame = other.isSameRow(this.row);
-        boolean isSameColumn = other.isSameColumn(this.column);
-        return !isRowSame && isSameColumn;
-    }
-
-    private boolean isSameRow(Row other) {
-        return this.row.equals(other);
-    }
-
-    private boolean isSameColumn(Column other) {
-        return this.column.equals(other);
+        return !this.row.equals(other.row) && this.column.equals(other.column);
     }
 
     public List<Integer> coordination() {
@@ -67,7 +47,7 @@ public class Coordination {
 
     public List<Coordination> betweenRowCoordination(Coordination other) {
         List<Coordination> coordinations = new ArrayList<>();
-        List<Row> rows = other.betweenRows(this.row);
+        List<Row> rows = this.row.between(other.row);
         for (Row row : rows) {
             coordinations.add(new Coordination(this.column, row));
         }
@@ -76,19 +56,11 @@ public class Coordination {
 
     public List<Coordination> betweenColumnCoordination(Coordination other) {
         List<Coordination> coordinations = new ArrayList<>();
-        List<Column> columns = other.betweenColumns(this.column);
+        List<Column> columns = this.column.between(other.column);
         for (Column column : columns) {
             coordinations.add(new Coordination(column, this.row));
         }
         return coordinations;
-    }
-
-    private List<Row> betweenRows(Row row) {
-        return this.row.between(row);
-    }
-
-    private List<Column> betweenColumns(Column column) {
-        return this.column.between(column);
     }
 
     @Override
