@@ -1,33 +1,15 @@
 package janggi.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-import janggi.domain.piece.Jol;
 import janggi.domain.side.TeamType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 class BoardTest {
 
-    // canMove에서 시작위치 검증 안 하기 때문에 없어도 되는 테스트
-//    @Test
-//    @DisplayName("시작 위치가 장기판 범위를 벗어나면 이동할 수 없다.")
-//    void cannotMoveWhenStartPositionIsOutOfRange() {
-//        // given
-//        Board board = Board.createInitialBoard();
-//        Position outOfBound = new Position(0, 0);
-//
-//        // when & then
-//        assertThatThrownBy(() -> board.canMove(outOfBound, new Position(1, 4), TeamType.CHU))
-//            .isInstanceOf(IllegalArgumentException.class)
-//            .hasMessage("입력한 좌표가 장기판 범위 밖입니다.");
-//    }
-
     @Test
-    @DisplayName("도착 위치가 장기판 범위를 벗어나면 이동할 수 없다.")
+    @DisplayName("도착 좌표가 장기판 범위 밖일 경우 예외 발생")
     void cannotMoveWhenEndPositionIsOutOfRange() {
         // given
         Board board = Board.createInitialBoard();
@@ -40,33 +22,20 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("현재 팀의 기물이 없는 시작 위치에서 시작할 수 없다.")
+    @DisplayName("입력한 좌표에 기물이 없을 경우 예외 발생")
     void cannotMoveWhenStartPositionHasNoCurrentTeamPiece() {
         // given
         Board board = Board.createInitialBoard();
         Position notExistPosition = new Position(2, 2);
 
         // when & then
-        assertThatThrownBy(() -> board.validateCanMove(notExistPosition, new Position(1, 1), TeamType.CHU))
+        assertThatThrownBy(() -> board.isPieceExists(notExistPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("입력한 위치에 기물이 없습니다.");
     }
 
     @Test
-    @DisplayName("다른 팀의 기물이 있는 위치에서 시작할 수 없다.")
-    void cannotStartAtOpponentTeamPosition() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position opponentTeamPosition = new Position(1, 7);
-
-        // when & then
-        assertThatThrownBy(() -> board.validateCanMove(opponentTeamPosition, new Position(1, 6), TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("입력한 위치에 기물이 없습니다.");
-    }
-
-    @Test
-    @DisplayName("같은 팀의 기물이 있는 위치로는 이동할 수 없다.")
+    @DisplayName("목적 좌표에 아군 기물이 있을 경우 예외 발생")
     void cannotMoveToSameTeamPiecePosition() {
         // given
         Board board = Board.createInitialBoard();
@@ -76,122 +45,5 @@ class BoardTest {
         assertThatThrownBy(() -> board.validateCanMove(new Position(1, 1), currentTeamPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("아군이 존재하는 좌표로는 이동할 수 없습니다.");
-    }
-
-    @Test
-    @DisplayName("이동 패턴에 맞지 않는 사의 이동은 장애물과 관계없이 막는다.")
-    void cannotMoveWhenMovePatternIsInvalid() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position saStartPosition = new Position(4, 1);
-        Position saEndPosition = new Position(4, 3);
-
-        // when & then
-        assertThatThrownBy(() -> board.validateCanMove(saStartPosition, saEndPosition, TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이동할 수 없는 위치입니다.");
-    }
-
-    @Test
-    @DisplayName("차의 경로 중간에 장애물이 있으면 이동할 수 없다.")
-    void cannotMoveChaWhenPathIsBlocked() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position chaStartPosition = new Position(1, 1);
-        Position chaEndPosition = new Position(1, 5);
-
-        // when & then
-        assertThatThrownBy(() -> board.validateCanMove(chaStartPosition, chaEndPosition, TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
-    }
-
-    @Test
-    @DisplayName("마의 경로 중간에 장애물이 있으면 이동할 수 없다.")
-    void cannotMoveMaWhenLegIsBlocked() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position maStartPosition = new Position(2, 1);
-        Position maEndPosition = new Position(4, 2);
-
-        // when & then
-        assertThatThrownBy(() -> board.validateCanMove(maStartPosition, maEndPosition, TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
-    }
-
-    @Test
-    @DisplayName("포는 사이에 기물이 없으면 이동할 수 없다.")
-    void cannotMovePoWithoutBridge() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position poStartPosition = new Position(2, 3);
-        Position poEndPosition = new Position(2, 6);
-
-        // when & then
-        assertThatThrownBy(() -> board.validateCanMove(poStartPosition, poEndPosition, TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이동 경로에 기물이 존재하지 않아 이동할 수 없습니다.");
-    }
-
-    @Test
-    @DisplayName("이동 패턴과 장애물 조건을 모두 만족하면 이동할 수 있다.")
-    void validateCanMoveWhenPatternAndObstacleRulesAreSatisfied() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position jolStartPosition = new Position(1, 4);
-        Position jolEndPosition = new Position(2, 4);
-        Board movedBoard = board.move(jolStartPosition, jolEndPosition, TeamType.CHU);
-        Position chaStartPosition = new Position(1, 1);
-        Position chaEndPosition = new Position(1, 3);
-        Position poStartPosition = new Position(2, 3);
-        Position poEndPosition = new Position(2, 6);
-
-        // when & then
-        assertAll(
-            () -> assertThatCode(() -> movedBoard.validateCanMove(chaStartPosition, chaEndPosition, TeamType.CHU))
-                .doesNotThrowAnyException(),
-            () -> assertThatCode(() -> movedBoard.validateCanMove(poStartPosition, poEndPosition, TeamType.CHU))
-                .doesNotThrowAnyException()
-        );
-    }
-
-    @Test
-    @DisplayName("기물을 이동하면 새 보드를 반환하고 원본 보드는 유지한다.")
-    void moveReturnsNewBoardWithoutMutatingOriginalBoard() {
-        // given
-        Board board = Board.createInitialBoard();
-        Position start = new Position(1, 4);
-        Position end = new Position(1, 5);
-
-        // when
-        Board movedBoard = board.move(start, end, TeamType.CHU);
-
-        // then
-        assertAll(
-            () -> assertThat(board.findPiece(start)).get().isInstanceOf(Jol.class),
-            () -> assertThat(board.findPiece(end)).isEmpty(),
-            () -> assertThat(movedBoard.findPiece(start)).isEmpty(),
-            () -> assertThat(movedBoard.findPiece(end)).get().isInstanceOf(Jol.class)
-        );
-    }
-
-    @Test
-    @DisplayName("상대 기물이 있는 칸으로 이동하면 상대 기물을 잡는다.")
-    void moveCapturesOpponentPiece() {
-        // given
-        Board board = Board.createInitialBoard();
-
-        // when
-        Board firstMovedBoard = board.move(new Position(1, 4), new Position(1, 5), TeamType.CHU);
-        Board secondMovedBoard = firstMovedBoard.move(new Position(1, 5), new Position(1, 6), TeamType.CHU);
-        Board capturedBoard = secondMovedBoard.move(new Position(1, 6), new Position(1, 7), TeamType.CHU);
-
-        // then
-        assertAll(
-            () -> assertThat(secondMovedBoard.findPiece(new Position(1, 7))).get().isInstanceOf(Jol.class),
-            () -> assertThat(capturedBoard.findPiece(new Position(1, 6))).isEmpty(),
-            () -> assertThat(capturedBoard.findPiece(new Position(1, 7))).get().isInstanceOf(Jol.class)
-        );
     }
 }

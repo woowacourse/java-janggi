@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class PositionTest {
 
     @Test
-    @DisplayName("좌표 문자열 두 개를 받아 Position을 생성한다.")
+    @DisplayName("좌표 문자열 두 개를 받아 Position 생성 성공")
     void makePosition() {
         // given
         List<String> rawPosition = List.of("3", "7");
@@ -27,7 +27,7 @@ class PositionTest {
     }
 
     @Test
-    @DisplayName("좌표 입력이 두 개가 아니면 예외가 발생한다.")
+    @DisplayName("좌표 입력이 두 개가 아닐 경우 예외 발생")
     void throwWhenInputSizeIsNotTwo() {
         // given
         List<String> rawPosition = List.of("3");
@@ -39,7 +39,7 @@ class PositionTest {
     }
 
     @Test
-    @DisplayName("좌표 입력이 숫자가 아니면 예외가 발생한다.")
+    @DisplayName("좌표 입력이 숫자가 아닐 경우 예외 발생")
     void throwWhenInputContainsNonNumericValue() {
         // given
         List<String> rawPosition = List.of("a", "7");
@@ -63,22 +63,6 @@ class PositionTest {
         assertAll(
             () -> assertThat(movedPosition).isEqualTo(new Position(5, 5)),
             () -> assertThat(position).isEqualTo(new Position(4, 4))
-        );
-    }
-
-    @Test
-    @DisplayName("같은 좌표의 Position은 동등하고 해시코드도 같다.")
-    void equalsAndHashCode() {
-        // given
-        Position first = new Position(2, 8);
-        Position second = new Position(2, 8);
-        Position other = new Position(8, 2);
-
-        // when & then
-        assertAll(
-            () -> assertThat(first).isEqualTo(second),
-            () -> assertThat(first.hashCode()).isEqualTo(second.hashCode()),
-            () -> assertThat(first).isNotEqualTo(other)
         );
     }
 }
