@@ -1,7 +1,9 @@
 package domain.strategy;
 
 import domain.Position;
+import domain.Team;
 import domain.piece.PieceProvider;
+import util.CollisionValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +16,15 @@ public class PalaceStrategy implements MoveStrategy {
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-
+        Team team = board.getPiece(currentPosition).getTeam();
         for (Direction direction : directions) {
             int targetRow = currentPosition.getRows() + direction.getRowOffset();
             int targetColumns = currentPosition.getColumns() + direction.getColOffset();
 
             Position targetPosition = new Position(targetRow, targetColumns);
-            candidates.add(targetPosition);
+            if (CollisionValidator.canMoveToTarget(targetPosition, board, team)) {
+                candidates.add(targetPosition);
+            }
         }
         return candidates;
     }

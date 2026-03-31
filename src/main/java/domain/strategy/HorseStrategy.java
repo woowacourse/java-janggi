@@ -1,7 +1,9 @@
 package domain.strategy;
 
 import domain.Position;
+import domain.Team;
 import domain.piece.PieceProvider;
+import util.CollisionValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,23 +15,44 @@ public class HorseStrategy implements MoveStrategy {
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        for (Direction straight : straightDirections) {
-            int myeokRow = currentPosition.getRows() + straight.getRowOffset();
-            int myeokCol = currentPosition.getColumns() + straight.getColOffset();
-            Position myeokPosition = new Position(myeokRow, myeokCol);
-
-            if (board.isBlank(myeokPosition)) {
-                List<Direction> diagonals = getDiagonalsFor(straight);
-                for (Direction diag : diagonals) {
-                    int targetRow = myeokPosition.getRows() + diag.getRowOffset();
-                    int targetCol = myeokPosition.getColumns() + diag.getColOffset();
-                    Position targetPosition = new Position(targetRow, targetCol);
-
-                    candidates.add(targetPosition);
-                }
-            }
+        for (Direction direction : straightDirections) {
+            checkMyeokPosition(currentPosition, direction, board, candidates);
         }
         return candidates;
+    }
+
+    private void checkMyeokPosition(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidates) {
+        int myeokRow = currentPosition.getRows() + direction.getRowOffset();
+        int myeokColumn = currentPosition.getColumns() + direction.getColOffset();
+
+        if (CollisionValidator.isWithinBoard(myeokRow, myeokColumn)) {
+            Position myeokPosition = new Position(myeokRow, myeokColumn);
+            validateMyeok(currentPosition,myeokPosition, direction, candidates,board);
+        }
+    }
+
+    private void validateMyeok(Position currentPosition, Position myeokPosition, Direction straight, List<Position> candidates, PieceProvider board) {
+        if (board.isBlank(myeokPosition)) {
+            collectHorseTargets(currentPosition, straight, board, candidates);
+        }
+    }
+
+    private void collectHorseTargets(Position currentPosition, Direction straight, PieceProvider board, List<Position> candidates) {
+        Team team = board.getPiece(currentPosition).getTeam();
+        for (Direction diag : getDiagonalsFor(straight)) {
+            int targetRow = currentPosition.getRows() + straight.getRowOffset() + diag.getRowOffset();
+            int targetColumn = currentPosition.getColumns() + straight.getColOffset() + diag.getColOffset();
+            addValidatedCandidates(targetRow, targetColumn, board, candidates, team);
+        }
+    }
+
+    private void addValidatedCandidates(int row, int column, PieceProvider board, List<Position> candidates, Team team) {
+        if (CollisionValidator.isWithinBoard(row, column)) {
+            Position target = new Position(row, column);
+            if (CollisionValidator.canMoveToTarget(target, board, team)) {
+                candidates.add(target);
+            }
+        }
     }
 
     private List<Direction> getDiagonalsFor(Direction straight) {

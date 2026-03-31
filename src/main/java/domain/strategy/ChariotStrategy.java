@@ -1,7 +1,9 @@
 package domain.strategy;
 
 import domain.Position;
+import domain.Team;
 import domain.piece.PieceProvider;
+import util.CollisionValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +15,22 @@ public class ChariotStrategy implements MoveStrategy {
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
+
         for (Direction direction : straightDirections) {
             addPathCandidates(currentPosition, direction, board, candidates);
         }
-
         return candidates;
     }
 
     private void addPathCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidates) {
         int nextRows = currentPosition.getRows() + direction.getRowOffset();
         int nextColumns = currentPosition.getColumns() + direction.getColOffset();
+        Team team = board.getPiece(currentPosition).getTeam();
 
-        while (isWithinBoard(nextRows, nextColumns)) {
+        while (CollisionValidator.isWithinBoard(nextRows, nextColumns)) {
             Position nextPosition = new Position(nextRows, nextColumns);
-            candidates.add(nextPosition);
-            if (!board.isBlank(nextPosition)) {
+            boolean canContinue = addAndCheckContinue(nextPosition, board, candidates, team);
+            if (!canContinue) {
                 break;
             }
             nextRows += direction.getRowOffset();
@@ -35,7 +38,10 @@ public class ChariotStrategy implements MoveStrategy {
         }
     }
 
-    private boolean isWithinBoard(int row, int column) {
-        return row >= 0 && row < 10 && column >= 0 && column < 9;
+    private boolean addAndCheckContinue(Position nextPosition, PieceProvider board, List<Position> candidates, Team team) {
+        if (CollisionValidator.canMoveToTarget(nextPosition, board, team)) {
+            candidates.add(nextPosition);
+        }
+        return board.isBlank(nextPosition);
     }
 }

@@ -65,14 +65,19 @@ public class JanggiBoard implements PieceProvider {
     public void movePiece(Position currentPosition, Position targetPosition) {
         Piece currentPiece = getPiece(currentPosition);
 
+        validateMovePiece(currentPosition, targetPosition, currentPiece);
+
+        janggiBoard.put(targetPosition, currentPiece);
+        janggiBoard.put(currentPosition, new Blank());
+    }
+
+    private void validateMovePiece(Position currentPosition, Position targetPosition, Piece currentPiece) {
         if (currentPiece instanceof Blank) {
             throw new IllegalArgumentException("[ERROR] 선택한 위치에 기물이 비어있습니다.");
         }
         if (!currentPiece.canMove(currentPosition, targetPosition, this)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 이동할 수 없습니다.");
         }
-        janggiBoard.put(targetPosition, currentPiece);
-        janggiBoard.put(currentPosition, new Blank());
     }
 
     @Override

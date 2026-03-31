@@ -24,8 +24,8 @@ public class ElephantTest {
 
     @Test
     void 상이_목적지에_갈_수_있다() {
-        Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(3, 8);
+        Position currentPosition = new Position(0, 2);
+        Position targetPosition = new Position(3, 4);
 
         testBoard.setAllBlank();
         boolean isCanMove = elephant.canMove(currentPosition, targetPosition, testBoard);

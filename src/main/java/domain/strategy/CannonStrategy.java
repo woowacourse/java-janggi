@@ -1,8 +1,10 @@
 package domain.strategy;
 
 import domain.Position;
+import domain.Team;
 import domain.piece.Cannon;
 import domain.piece.PieceProvider;
+import util.CollisionValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +16,22 @@ public class CannonStrategy implements MoveStrategy {
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
+        Team myTeam = board.getPiece(currentPosition).getTeam();
+
         for (Direction direction : straightDirections) {
-            addCannonCandidates(currentPosition, direction, board, candidates);
+            addCannonCandidates(currentPosition, direction, board, candidates, myTeam);
         }
         return candidates;
     }
 
-    private void addCannonCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidatesPosition) {
-        int nextRows = currentPosition.getRows() + direction.getRowOffset();
-        int nextColumns = currentPosition.getColumns() + direction.getColOffset();
+    private void addCannonCandidates(Position current, Direction direction, PieceProvider board, List<Position> candidates, Team myTeam) {
+        int nextRows = current.getRows() + direction.getRowOffset();
+        int nextColumns = current.getColumns() + direction.getColOffset();
 
-        while (isWithinBoard(nextRows, nextColumns)) {
+        while (CollisionValidator.isWithinBoard(nextRows, nextColumns)) {
             Position nextPosition = new Position(nextRows, nextColumns);
             if (!board.isBlank(nextPosition)) {
-                checkBridgeAndCollect(nextPosition, direction, board, candidatesPosition);
+                checkBridgeAndCollect(nextPosition, direction, board, candidates, myTeam);
                 return;
             }
             nextRows += direction.getRowOffset();
@@ -35,32 +39,26 @@ public class CannonStrategy implements MoveStrategy {
         }
     }
 
-    private void checkBridgeAndCollect(Position nextPosition, Direction direction, PieceProvider board, List<Position> candidatesPosition) {
-        if (board.getPiece(nextPosition) instanceof Cannon) return;
-        int nextRow = nextPosition.getRows() + direction.getRowOffset();
-        int nextColumn = nextPosition.getColumns() + direction.getColOffset();
+    private void checkBridgeAndCollect(Position bridge, Direction direction, PieceProvider board, List<Position> candidates, Team myTeam) {
+        if (board.getPiece(bridge) instanceof Cannon) return;
+        int nextRow = bridge.getRows() + direction.getRowOffset();
+        int nextColumn = bridge.getColumns() + direction.getColOffset();
 
-        while (isWithinBoard(nextRow, nextColumn)) {
-            if (addCandidateAndCheckPiece(new Position(nextRow, nextColumn), board, candidatesPosition)) return;
+        while (CollisionValidator.isWithinBoard(nextRow, nextColumn)) {
+            Position target = new Position(nextRow, nextColumn);
+            if (addCandidateAndCheckPiece(target, board, candidates, myTeam)) return;
+
             nextRow += direction.getRowOffset();
             nextColumn += direction.getColOffset();
         }
-
     }
 
-    private boolean addCandidateAndCheckPiece(Position targetPosition, PieceProvider board, List<Position> candidatesPosition) {
-        if (board.isBlank(targetPosition)) {
-            candidatesPosition.add(targetPosition);
-            return false;
+    private boolean addCandidateAndCheckPiece(Position target, PieceProvider board, List<Position> candidates, Team myTeam) {
+        if (CollisionValidator.canMoveToTarget(target, board, myTeam)) {
+            if (!(board.getPiece(target) instanceof Cannon)) {
+                candidates.add(target);
+            }
         }
-        if (!(board.getPiece(targetPosition) instanceof Cannon)) {
-            candidatesPosition.add(targetPosition);
-        }
-        return true;
-    }
-
-
-    private boolean isWithinBoard(int row, int column) {
-        return row >= 0 && row < 10 && column >= 0 && column < 9;
+        return !board.isBlank(target);
     }
 }

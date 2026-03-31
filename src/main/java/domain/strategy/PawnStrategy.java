@@ -4,13 +4,12 @@ import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
+import util.CollisionValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PawnStrategy implements MoveStrategy {
-
-    private static final List<Direction> directions = new ArrayList<>(List.of(Direction.EAST, Direction.WEST));
 
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
@@ -24,14 +23,18 @@ public class PawnStrategy implements MoveStrategy {
             int targetRow = currentPosition.getRows() + direction.getRowOffset();
             int targetColumns = currentPosition.getColumns() + direction.getColOffset();
 
-            if (isWithinBoard(targetRow, targetColumns)) {
-                candidates.add(new Position(targetRow, targetColumns));
+            if (CollisionValidator.isWithinBoard(targetRow, targetColumns)) {
+                Position targetPosition = new Position(targetRow, targetColumns);
+                if (CollisionValidator.canMoveToTarget(targetPosition, board, team)) {
+                    candidates.add(targetPosition);
+                }
             }
         }
         return candidates;
     }
 
     private static List<Direction> getDirections(Team team) {
+        List<Direction> directions = new ArrayList<>(List.of(Direction.EAST, Direction.WEST));
         if (team == Team.HAN) {
             directions.add(Direction.SOUTH);
         }
@@ -41,7 +44,4 @@ public class PawnStrategy implements MoveStrategy {
         return directions;
     }
 
-    private boolean isWithinBoard(int row, int column) {
-        return row >= 0 && row < 10 && column >= 0 && column < 9;
-    }
 }

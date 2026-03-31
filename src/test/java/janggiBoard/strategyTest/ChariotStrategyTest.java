@@ -1,9 +1,8 @@
 package janggiBoard.strategyTest;
 
 import domain.Position;
-import domain.piece.Blank;
-import domain.piece.Piece;
-import domain.piece.PieceProvider;
+import domain.Team;
+import domain.piece.*;
 import domain.strategy.ChariotStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +73,10 @@ public class ChariotStrategyTest {
 
         @Override
         public Piece getPiece(Position position) {
-            return new Blank();
+            if (isBlank(position)) {
+                return new Pawn(Team.HAN);
+            }
+            return new Chariot(Team.CHO);
         }
     }
 }

@@ -1,7 +1,9 @@
 package domain.strategy;
 
 import domain.Position;
+import domain.Team;
 import domain.piece.PieceProvider;
+import util.CollisionValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,29 +15,51 @@ public class ElephantStrategy implements MoveStrategy {
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
+        Team team = board.getPiece(currentPosition).getTeam();
         for (Direction straight : straightDirections) {
-            Position straightStepPosition = new Position(
-                    currentPosition.getRows() + straight.getRowOffset(),
-                    currentPosition.getColumns() + straight.getColOffset()
-            );
-
-            if (!board.isBlank(straightStepPosition)) continue;
-
-            for (Direction diag : getDiagonalsFor(straight)) {
-                Position diagonalStepPosition = new Position(
-                        straightStepPosition.getRows() + diag.getRowOffset(),
-                        straightStepPosition.getColumns() + diag.getColOffset()
-                );
-
-                if (!board.isBlank(diagonalStepPosition)) continue;
-
-                Position target = new Position(diagonalStepPosition.getRows() + diag.getRowOffset(),
-                        diagonalStepPosition.getColumns() + diag.getColOffset()
-                );
-                candidates.add(target);
-            }
+            processStraight(currentPosition, straight, board, candidates, team);
         }
         return candidates;
+    }
+
+    private void processStraight(Position current, Direction straight, PieceProvider board, List<Position> candidates, Team team) {
+        int straightRow = current.getRows() + straight.getRowOffset();
+        int straightCol = current.getColumns() + straight.getColOffset();
+
+        if (isBlocked(straightRow, straightCol, board)) return;
+
+        Position straightMyeokPosition = new Position(straightRow, straightCol);
+        for (Direction diagonal : getDiagonalsFor(straight)) {
+            processDiagonal(straightMyeokPosition, diagonal, board, candidates, team);
+        }
+    }
+
+    private void processDiagonal(Position straightMyeokPosition, Direction diagonal, PieceProvider board, List<Position> candidates, Team team) {
+        int diagonalRow = straightMyeokPosition.getRows() + diagonal.getRowOffset();
+        int diagonalColumn = straightMyeokPosition.getColumns() + diagonal.getColOffset();
+
+        if (isBlocked(diagonalRow, diagonalColumn, board)) return;
+
+        int targetRow = diagonalRow + diagonal.getRowOffset();
+        int targetCol = diagonalColumn + diagonal.getColOffset();
+
+        if (CollisionValidator.isWithinBoard(targetRow, targetCol)) {
+            Position targetPositon = new Position(targetRow, targetCol);
+            addValidateCandidates(targetPositon, board, candidates, team);
+        }
+    }
+
+    private void addValidateCandidates(Position target, PieceProvider board, List<Position> candidates, Team team) {
+        if (CollisionValidator.canMoveToTarget(target, board, team)) {
+            candidates.add(target);
+        }
+    }
+
+    private boolean isBlocked(int row, int column, PieceProvider board) {
+        if (!CollisionValidator.isWithinBoard(row, column)) {
+            return true;
+        }
+        return !board.isBlank(new Position(row, column));
     }
 
     private List<Direction> getDiagonalsFor(Direction straight) {
