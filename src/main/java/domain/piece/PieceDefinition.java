@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.function.Function;
 
 public enum PieceDefinition {
-    CHA(List.of(1, 9), StraightMovePiece::chariot),
+    CHA(List.of(1, 9), Chariot::new),
     MA(List.of(2, 3, 7, 8), Horse::new),
     SANG(List.of(2, 3, 7, 8), Elephant::new),
     SA(List.of(4, 6), PalacePiece::guard),
     GENERAL(List.of(5), PalacePiece::general),
-    PHO(List.of(2, 8), StraightMovePiece::cannon),
+    PHO(List.of(2, 8), Cannon::new),
     BYEONG(List.of(1, 3, 5, 7, 9), Soldier::new),
     EMPTY(List.of(), team -> new EmptyPiece());
 

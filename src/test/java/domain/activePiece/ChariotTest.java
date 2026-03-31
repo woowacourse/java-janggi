@@ -3,8 +3,8 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
+import domain.piece.Chariot;
 import domain.piece.Piece;
-import domain.piece.StraightMovePiece;
 import domain.position.Column;
 import domain.position.Position;
 import domain.position.Row;
@@ -16,21 +16,21 @@ class ChariotTest {
 
     @Test
     void 차는_직선_운동한다() {
-        Piece cha = StraightMovePiece.chariot(Team.HAN);
+        Piece cha = new Chariot(Team.HAN);
         assertThat(cha.canMove(new Position(1, 4), new Position(1, 8))).isTrue();
 
     }
 
     @Test
     void 차는_직선이_아닌_방향으로_가지_못한다() {
-        Piece cha = StraightMovePiece.chariot(Team.HAN);
+        Piece cha = new Chariot(Team.HAN);
         assertThat(cha.canMove(new Position(5, 5), new Position(3, 3))).isFalse();
 
     }
 
     @Test
     void 직선_방향_경로를_출력_한다() {
-        StraightMovePiece chariot = StraightMovePiece.chariot(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN);
         Position src = new Position(new Row(1), new Column(3));
         Position dest = new Position(new Row(4), new Column(3));
         List<Position> routes = new ArrayList<>(

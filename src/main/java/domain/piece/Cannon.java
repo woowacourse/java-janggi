@@ -4,21 +4,10 @@ import domain.game.Team;
 import domain.position.Position;
 import java.util.List;
 
-public class StraightMovePiece extends ActivePiece {
+public class Cannon extends ActivePiece implements CannonRule {
 
-    private final boolean cannon;
-
-    public StraightMovePiece(Team team, PieceDefinition type, boolean cannon) {
-        super(team, type);
-        this.cannon = cannon;
-    }
-
-    public static StraightMovePiece chariot(Team team) {
-        return new StraightMovePiece(team, PieceDefinition.CHA, false);
-    }
-
-    public static StraightMovePiece cannon(Team team) {
-        return new StraightMovePiece(team, PieceDefinition.PHO, true);
+    public Cannon(Team team) {
+        super(team, PieceDefinition.PHO);
     }
 
     @Override
@@ -36,6 +25,21 @@ public class StraightMovePiece extends ActivePiece {
 
     @Override
     public boolean isCannon() {
-        return cannon;
+        return true;
+    }
+
+    @Override
+    public boolean canJumpOver(Piece other) {
+        return !other.isCannon();
+    }
+
+    @Override
+    public boolean canCaptureDest(Piece dest) {
+        return !dest.isCannon();
+    }
+
+    @Override
+    public int requiredJumpCount() {
+        return 1;
     }
 }

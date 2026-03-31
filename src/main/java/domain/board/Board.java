@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.piece.CannonRule;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.position.Position;
@@ -19,8 +20,8 @@ public class Board {
         Piece piece = pieces.get(src);
         validateCanMove(piece, src, dest);
         List<Position> route = piece.searchRoute(src, dest);
-        if (piece.isCannon()) {
-            validateCannonRoute(route, dest);
+        if (piece instanceof CannonRule cannonRule) {
+            validateCannonRoute(route, dest, cannonRule);
         } else {
             validateIntermediateRoute(route);
         }
@@ -28,32 +29,21 @@ public class Board {
         applyMove(src, dest, piece);
     }
 
-    private void validateCannonRoute(List<Position> route, Position dest) {
+    private void validateCannonRoute(List<Position> route, Position dest, CannonRule cannonRule) {
         int count = 0;
         for (Position position : route) {
-            if (findPiece(position).isNotEmpty()) {
-                validatePieceIsNotCannon(position);
+            Piece piece = findPiece(position);
+            if (piece.isNotEmpty()) {
+                if (!cannonRule.canJumpOver(piece)) {
+                    throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
+                }
                 count++;
             }
         }
-        validateCannonJumpCount(count);
-        validateDestinationIsNotCannon(dest);
-    }
-
-    private void validateCannonJumpCount(int count) {
-        if (count != 1) {
+        if (count != cannonRule.requiredJumpCount()) {
             throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
         }
-    }
-
-    private void validatePieceIsNotCannon(Position position) {
-        if (findPiece(position).isCannon()) {
-            throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
-        }
-    }
-
-    private void validateDestinationIsNotCannon(Position dest) {
-        if (findPiece(dest).isCannon()) {
+        if (!cannonRule.canCaptureDest(findPiece(dest))) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
