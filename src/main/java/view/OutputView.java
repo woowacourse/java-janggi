@@ -19,14 +19,16 @@ public class OutputView {
     private static final String HEADER_PREFIX = "    ";
     private static final String CELL_PADDING = " ";
     private static final String HEADER_GAP = " \u3000";
+
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final int PROMPT_ITEMS_PER_LINE = 5;
 
     public void printEnterChoPlayerNamePrompt() {
-        System.out.println("초나라 플레이어의 이름을 입력하세요(2~5자, 영어만 사용):");
+        System.out.println("초나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
     }
 
     public void printEnterHanPlayerNamePrompt() {
-        System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자, 영어만 사용):");
+        System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
     }
 
     public void printChooseChoElephantSetupPrompt() {
@@ -126,7 +128,7 @@ public class OutputView {
 
     public void printChoosePieceToMovePrompt(List<PieceInfoDto> pieceInfos) {
         StringBuilder prompt = new StringBuilder();
-        prompt.append("현재 보드 움직일 기물을 선택하세요:")
+        prompt.append("움직일 기물을 선택하세요:")
                 .append(LINE_SEPARATOR);
 
         for (int index = 0; index < pieceInfos.size(); index++) {
@@ -135,6 +137,8 @@ public class OutputView {
             prompt.append(index + 1).append(". ")
                     .append(pieceName).append("(")
                     .append(position.column()).append(", ").append(position.row()).append(")  ");
+
+            appendPromptLineSeparator(prompt, index + 1);
         }
 
         System.out.println(prompt);
@@ -142,7 +146,7 @@ public class OutputView {
 
     public void printChoosePositionToMovePrompt(List<PositionDto> movablePositions) {
         StringBuilder prompt = new StringBuilder();
-        prompt.append("해당 기물이 이동할 위치의 번호를 입력하세요:")
+        prompt.append("이동할 위치를 선택하세요:")
                 .append(LINE_SEPARATOR);
 
         for (int index = 0; index < movablePositions.size(); index++) {
@@ -150,15 +154,23 @@ public class OutputView {
             prompt.append(index + 1).append(". (")
                     .append(position.column()).append(", ")
                     .append(position.row()).append(") ");
+
+            appendPromptLineSeparator(prompt, index + 1);
         }
         System.out.println(prompt);
     }
 
     public void printNoMovablePiecePrompt() {
-        System.out.println("현재 움직일 수 있는 기물이 없습니다. 한 턴 쉽니다.");
+        System.out.println("움직일 수 있는 기물이 없어 한 턴 쉽니다.");
     }
 
     public void printExceptionMessage(String exceptionMessage) {
         System.out.println("[ERROR] " + exceptionMessage);
+    }
+
+    private void appendPromptLineSeparator(StringBuilder prompt, int itemCount) {
+        if (itemCount % PROMPT_ITEMS_PER_LINE == 0) {
+            prompt.append(LINE_SEPARATOR);
+        }
     }
 }
