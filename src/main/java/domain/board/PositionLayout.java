@@ -43,7 +43,13 @@ public class PositionLayout {
     private static void placeHanInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
         List<PieceType> innerPieces = arrangements.arrangeFor(Team.HAN).innerPieces();
         for (int index = 0; index < INNER_COLUMNS.size(); index++) {
-            result.put(new Position(INNER_COLUMNS.get(index), Row.ZERO), new Piece(Team.HAN, innerPieces.get(index)));
+            Position targetPosition = new Position(INNER_COLUMNS.get(index), Row.ZERO);
+            Piece newPiece = new Piece(Team.HAN, innerPieces.get(index));
+
+            if (result.containsKey(targetPosition)) {
+                throw new IllegalStateException("[ERROR] 이미 배치된 위치에 기물을 덮어쓰려 했습니다: " + targetPosition);
+            }
+            result.put(targetPosition, newPiece);
         }
     }
 
@@ -57,7 +63,13 @@ public class PositionLayout {
     private static void placeChoInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
         List<PieceType> innerPieces = arrangements.arrangeFor(Team.CHO).innerPieces();
         for (int index = 0; index < INNER_COLUMNS.size(); index++) {
-            result.put(new Position(INNER_COLUMNS.get(index), Row.ZERO.reverse()), new Piece(Team.CHO, innerPieces.get(index)));
+            Position targetPosition = new Position(INNER_COLUMNS.get(index), Row.ZERO.reverse());
+            Piece newPiece = new Piece(Team.CHO, innerPieces.get(index));
+
+            if (result.containsKey(targetPosition)) {
+                throw new IllegalStateException("[ERROR] 이미 배치된 위치에 기물을 덮어쓰려 했습니다: " + targetPosition);
+            }
+            result.put(targetPosition, newPiece);
         }
     }
 
