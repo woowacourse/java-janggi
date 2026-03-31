@@ -43,7 +43,7 @@ public class GameConsole {
     }
 
     private void playTurn() {
-        outputView.printPlayerTurnMessage(game.getCurrentPlayerName(), game.getCurrentTeam().name());
+        outputView.printPlayerTurnMessage(game.getCurrentPlayerName(), game.getCurrentTeam());
         retryOnInvalidInput(this::executeMove);
         outputView.printBoard(game.getBoardMap());
     }

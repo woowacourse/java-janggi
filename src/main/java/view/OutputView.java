@@ -39,8 +39,8 @@ public class OutputView {
         System.out.println("[ERROR] " + message);
     }
 
-    public void printPlayerTurnMessage(String name, String team) {
-        System.out.println(name + "(" + team + ")" + "님의 차례입니다.");
+    public void printPlayerTurnMessage(String name, Team team) {
+        System.out.println(name + "(" + team.name() + ")" + "님의 차례입니다.");
     }
 
     private void printPieceRow(int row, Map<Position, Piece> board) {
