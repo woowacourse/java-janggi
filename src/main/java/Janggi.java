@@ -1,32 +1,21 @@
 import domain.board.Board;
-import domain.board.BoardFactory;
+import factory.BoardFactory;
 import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
-import domain.player.Player;
-import domain.player.Players;
 import domain.position.Position;
-import java.util.List;
-import parser.PlayerNameParser;
 import parser.PositionParser;
 import view.InputView;
 import view.OutputView;
 
 public class Janggi {
 
+    private Side turn = Side.CHO;
+
     public void run() {
-        Players players = getPlayer();
         Board board = getBoard();
+        turn(board);
 
-        Side winner = play(players, board);
-        OutputView.printWinner(winner);
-    }
-
-    private Players getPlayer() {
-        OutputView.printInputPlayerNames();
-        String input = InputView.readLine();
-        List<String> names = PlayerNameParser.splitNames(input);
-
-        return Players.from(names);
+        OutputView.printWinner(turn.opposite());
     }
 
     private Board getBoard() {
@@ -36,54 +25,31 @@ public class Janggi {
         return BoardFactory.create(cho, han);
     }
 
+    private void turn(Board board){
+        while (board.isAliveGeneral(turn)) {
+            processTurn(board);
+            turn = turn.opposite();
+        }
+    }
+
     private HorseElephantFormation getHorseElephantFormation(Side side) {
         OutputView.printHorseElephantFormation(side);
         String input = InputView.readLine();
-
         return HorseElephantFormation.from(input);
     }
 
-    private Side play(Players players, Board board) {
-        Side turn = Side.CHO;
-
-        while (board.isAliveGeneral(turn)) {
-            turn = processTurn(players, board, turn);
-        }
-
-        return turn.opposite();
-    }
-
-    private Side processTurn(Players players, Board board, Side turn) {
-        Player player = players.getPlayer(turn);
-
+    private void processTurn(Board board) {
         OutputView.printBoard(board.getFormatBoard(), board.getSideBoard());
         printScore(board);
-        executeTurn(player, board);
-        printCheckIfNeeded(board, turn);
 
-        return turn.opposite();
+        executeTurn(board);
+        printCheckIfNeeded(board);
     }
 
-    private void printCheckIfNeeded(Board board, Side turn) {
-        if (board.isCheck(turn)) {
-            OutputView.printCheck(turn.opposite());
-        }
-    }
-
-    private void printScore(Board board) {
-        Side cho = Side.CHO;
-        Side han = Side.HAN;
-
-        int choScore = board.getSideScore(cho);
-        int hanScore = board.getSideScore(han);
-
-        OutputView.printScore(cho, choScore, han, hanScore);
-    }
-
-    private void executeTurn(Player player, Board board) {
+    private void executeTurn(Board board) {
         while (true) {
             try {
-                move(player, board);
+                move(board);
                 return;
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -91,20 +57,32 @@ public class Janggi {
         }
     }
 
-    private void move(Player player, Board board) {
-        Position from = getFrom(player);
-        Position to = getTo(player);
-        board.move(from, to, player.getSide());
+    private void move(Board board) {
+        Position from = getFrom();
+        Position to = getTo();
+        board.move(from, to, turn);
     }
 
-    private Position getFrom(Player player) {
-        OutputView.printPieceMove(player.getName(), player.getSide());
+    private Position getFrom() {
+        OutputView.printPieceMove(turn);
         return PositionParser.parsePosition(InputView.readLine());
     }
 
-    private Position getTo(Player player) {
-        OutputView.printPositionMove(player.getName(), player.getSide());
+    private Position getTo() {
+        OutputView.printPositionMove(turn);
         return PositionParser.parsePosition(InputView.readLine());
     }
 
+    private void printCheckIfNeeded(Board board) {
+        if (board.isCheck(turn)) {
+            OutputView.printCheck(turn.opposite());
+        }
+    }
+
+    private void printScore(Board board) {
+        int choScore = board.getSideScore(Side.CHO);
+        int hanScore = board.getSideScore(Side.HAN);
+
+        OutputView.printScore(Side.CHO, choScore, Side.HAN, hanScore);
+    }
 }
