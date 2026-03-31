@@ -13,7 +13,7 @@ public class Column {
     }
 
     private void validate(int value) {
-        if (value <= MIN_COLUMNS_NUMBER || value > MAX_COLUMNS_NUMBER) {
+        if (value < MIN_COLUMNS_NUMBER || value > MAX_COLUMNS_NUMBER) {
             throw new IllegalArgumentException("열의 위치는 1-9 사이에 있어야 합니다.");
         }
     }

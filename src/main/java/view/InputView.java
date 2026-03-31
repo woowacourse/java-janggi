@@ -1,6 +1,7 @@
 package view;
 
 import domain.game.Team;
+import domain.position.Position;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -31,23 +32,25 @@ public class InputView {
         return number;
     }
 
-    public List<String> askMovePiecePosition(Team team) {
+    public List<Position> askMovePiecePosition(Team team) {
         while (true) {
             System.out.println(team + "의 차례입니다. 움직일 기물의 위치와 이동할 위치를 행과 열 순서대로 입력하세요. ( 예: 2,5,4,3 )");
             try {
-                List<String> positions = Arrays.stream(scanner.nextLine().split(","))
+                List<String> inputs = Arrays.stream(scanner.nextLine().split(","))
                         .map(String::trim)
                         .collect(Collectors.toList());
-                validatePositionFormat(positions);
-                return positions;
+                validatePositionFormat(inputs);
+                Position src = Position.from(inputs.get(0), inputs.get(1));
+                Position dest = Position.from(inputs.get(2), inputs.get(3));
+                return List.of(src, dest);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private void validatePositionFormat(List<String> positions) {
-        if (positions.size() != MOVE_INPUT_COUNT) {
+    private void validatePositionFormat(List<String> inputs) {
+        if (inputs.size() != MOVE_INPUT_COUNT) {
             throw new IllegalArgumentException("예시와 똑같은 형식으로 입력해주세요. (예: 2,5,4,3)");
         }
     }

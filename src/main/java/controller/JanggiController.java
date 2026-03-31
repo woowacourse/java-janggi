@@ -1,14 +1,9 @@
 package controller;
 
-import domain.board.AbstractBoardFactory;
-import domain.board.Board;
+import domain.game.JanggiGame;
 import domain.game.Team;
-import domain.game.Turn;
-import domain.piece.Piece;
 import domain.position.Position;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -22,32 +17,26 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = createBoard();
-        outputView.printBoard(board);
-        Turn turn = Turn.first();
-        while (true) {
-            turn = playTurn(board, turn);
+        JanggiGame game = createGame();
+        outputView.printBoard(game.getBoard());
+        while (game.isRunning()) {
+            playTurn(game);
         }
     }
 
-    private Board createBoard() {
-        int choFormationNumber = inputView.initialFormation(Team.CHO);
-        int hanFormationNumber = inputView.initialFormation(Team.HAN);
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.putAll(AbstractBoardFactory.from(choFormationNumber).createFormation(Team.CHO));
-        pieces.putAll(AbstractBoardFactory.from(hanFormationNumber).createFormation(Team.HAN));
-        return new Board(pieces);
+    private JanggiGame createGame() {
+        int choFormation = inputView.initialFormation(Team.CHO);
+        int hanFormation = inputView.initialFormation(Team.HAN);
+        return JanggiGame.of(choFormation, hanFormation);
     }
 
-    private Turn playTurn(Board board, Turn turn) {
+    private void playTurn(JanggiGame game) {
         while (true) {
             try {
-                List<String> movePositions = inputView.askMovePiecePosition(turn.current());
-                Position src = Position.from(movePositions.get(0), movePositions.get(1));
-                Position dest = Position.from(movePositions.get(2), movePositions.get(3));
-                board.move(src, dest);
-                outputView.printBoard(board);
-                return turn.next();
+                List<Position> positions = inputView.askMovePiecePosition(game.currentTurn());
+                game.move(positions.get(0), positions.get(1));
+                outputView.printBoard(game.getBoard());
+                return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
