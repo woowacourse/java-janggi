@@ -2,6 +2,7 @@ package model.board;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import model.move.Move;
 import model.pieces.Piece;
 import model.position.Position;
@@ -32,10 +33,10 @@ public class Board {
         board.remove(position);
     }
 
-    public void move(Move move) {
+    public void move(Country turn, Move move) {
         Piece piece = findPiece(move.from());
         validatePieceExists(piece);
-
+        validateTurn(turn, piece);
         if (!piece.canMove(move, this)) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다.");
         }
@@ -46,6 +47,12 @@ public class Board {
     private static void validatePieceExists(Piece piece) {
         if (piece == null) {
             throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
+        }
+    }
+
+    private void validateTurn(Country turn, Piece piece) {
+        if (piece.country() != turn) {
+            throw new IllegalArgumentException("[ERROR] 자신의 나라의 기물만 이동시킬 수 있습니다.");
         }
     }
 
@@ -69,7 +76,4 @@ public class Board {
         return false;
     }
 
-    public Map<Position, Piece> board() {
-        return board;
-    }
 }
