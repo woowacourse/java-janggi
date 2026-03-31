@@ -46,7 +46,7 @@ public class JanggiController {
                 janggi.validateCamp(positionRequest.row(), positionRequest.column(), currentCamp);
                 return positionRequest;
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }
@@ -62,7 +62,7 @@ public class JanggiController {
                 janggi.movePiece(to.row(), to.column(), Position.of(from.row(), from.column()));
                 return true;
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }

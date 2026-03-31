@@ -61,4 +61,8 @@ public class OutputView {
                 .mapToObj(i -> "｜")
                 .collect(Collectors.joining("　"));
     }
+
+    public void printErrorMessage(String message){
+        System.out.println(message);
+    }
 }
