@@ -14,7 +14,6 @@ public class Position {
     private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";
     private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
-    private static final String INVALID_HORIZON = "수직 또는 수평이 아닙니다.";
 
     private final int x;
     private final int y;
