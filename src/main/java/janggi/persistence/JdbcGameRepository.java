@@ -68,7 +68,44 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public void update(GameSnapshot gameSnapshot) {
+        try (Connection connection = connectionManager.getConnection()) {
+            updateGame(connection, gameSnapshot);
+            deletePieces(connection, gameSnapshot.id());
+            insertPieces(connection, gameSnapshot.id(), gameSnapshot.positions());
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
+    private void updateGame(
+            Connection connection,
+            GameSnapshot gameSnapshot
+    ) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(
+                        "UPDATE games SET current_turn = ?, finished = ?, winner = ? WHERE id = ?"
+                )
+        ) {
+            statement.setString(1, gameSnapshot.currentTurn().name());
+            statement.setBoolean(2, gameSnapshot.finished());
+            statement.setString(3, winnerName(gameSnapshot.winner()));
+            statement.setLong(4, gameSnapshot.id());
+            statement.executeUpdate();
+        }
+    }
+
+    private void deletePieces(
+            Connection connection,
+            Long gameId
+    ) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(
+                        "DELETE FROM game_pieces WHERE game_id = ?"
+                )
+        ) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        }
     }
 
     private Long insertGame(Connection connection, GameSnapshot gameSnapshot) throws SQLException {
