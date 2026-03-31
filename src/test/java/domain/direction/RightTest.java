@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class RightTest {
 
     private static final Intersection CURRENT_INTERSECTION = new Intersection(5, 5);
+    private static final MoveAmount DEFAULT_MOVE_AMOUNT = new MoveAmount(1);
 
     @ParameterizedTest
     @ValueSource(ints = {
@@ -107,14 +108,24 @@ class RightTest {
     }
 
     @Test
-    void 반대_방향으로_왼쪽을_반환한다() {
+    void 방향_계산이_반대인_객체를_반환한다() {
         // given
         Right right = new Right();
-
-        // when
         Direction reverseDirection = right.reverse();
 
+        Intersection startIntersection = CURRENT_INTERSECTION;
+
+        // when
+        Intersection movedIntersection = right.moveForward(
+                startIntersection,
+                DEFAULT_MOVE_AMOUNT
+        );
+        Intersection returnedIntersection = reverseDirection.moveForward(
+                movedIntersection,
+                DEFAULT_MOVE_AMOUNT
+        );
+
         // then
-        assertThat(reverseDirection).isInstanceOf(Left.class);
+        assertThat(returnedIntersection).isEqualTo(startIntersection);
     }
 }
