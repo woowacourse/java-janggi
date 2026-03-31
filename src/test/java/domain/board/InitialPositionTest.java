@@ -44,22 +44,22 @@ class InitialPositionTest {
     }
 
     private static Stream<Arguments> sideAndExpected() {
-        final Side Cho = Side.CHO;
-        final Side Han = Side.HAN;
+        final Side cho = Side.CHO;
+        final Side han = Side.HAN;
 
         return Stream.of(
                 Arguments.of(
-                        Cho,
+                        cho,
                         Map.of(
-                                new Intersection(8, 2), new Piece(PieceType.CANNON, Cho),
-                                new Intersection(8, 8), new Piece(PieceType.CANNON, Cho)
+                                new Intersection(8, 2), new Piece(PieceType.CANNON, cho),
+                                new Intersection(8, 8), new Piece(PieceType.CANNON, cho)
                         )
                 ),
                 Arguments.of(
-                        Han,
+                        han,
                         Map.of(
-                                new Intersection(3, 2), new Piece(PieceType.CANNON, Han),
-                                new Intersection(3, 8), new Piece(PieceType.CANNON, Han)
+                                new Intersection(3, 2), new Piece(PieceType.CANNON, han),
+                                new Intersection(3, 8), new Piece(PieceType.CANNON, han)
                         )
                 )
         );

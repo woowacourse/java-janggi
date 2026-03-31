@@ -12,7 +12,7 @@ import view.OutputView;
 
 public final class JanggiController {
 
-    private static final String invalidPositionErrorMessage =
+    private static final String INVALID_POSITION_ERROR_MESSAGE =
             "(1,1)에서 (10,9) 사이의 유효한 좌표를 입력해주세요.(이전 입력: %d,%d)";
 
     private final InputView inputView;
