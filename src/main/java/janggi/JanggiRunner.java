@@ -30,19 +30,21 @@ public class JanggiRunner {
     private Position readValidStartPosition() {
         OutputView.printTurnNotice(janggiGame.getCurrentTurnTeamName());
         OutputView.printAskPiecePosition();
-        String rawPiecePosition = InputView.readLine();
-        List<String> parsedPiecePosition = DelimiterParser.parse(rawPiecePosition);
-        Position startPosition = Position.makePosition(parsedPiecePosition);
+        Position startPosition = createPosition();
         janggiGame.validatePieceExist(startPosition);
         return startPosition;
     }
 
     private Position readValidEndPosition(Position startPosition) {
         OutputView.printAskMovePosition(janggiGame.getPieceName(startPosition));
-        String rawMovePosition = InputView.readLine();
-        List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition);
-        Position endPosition = Position.makePosition(parsedMovePosition);
+        Position endPosition = createPosition();
         janggiGame.validateValidEndPosition(startPosition, endPosition);
         return endPosition;
+    }
+
+    private static Position createPosition() {
+        String rawPiecePosition = InputView.readLine();
+        List<String> parsedPiecePosition = DelimiterParser.parse(rawPiecePosition);
+        return Position.makePosition(parsedPiecePosition);
     }
 }
