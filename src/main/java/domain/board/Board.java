@@ -1,5 +1,6 @@
 package domain.board;
 
+import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
 
 import common.exception.JanggiException;
@@ -21,6 +22,7 @@ public class Board {
     }
 
     public Piece move(Position source, Position destination) {
+        validateSource(source);
         validateMovement(source, destination);
         Piece movePiece = findPiece(source);
         Piece destinationPiece = findPiece(destination);
@@ -29,6 +31,13 @@ public class Board {
         board.put(destination, movePiece);
 
         return destinationPiece;
+    }
+
+    private void validateSource(Position source) {
+        Piece sourcePiece = findPiece(source);
+        if (sourcePiece.isNone()) {
+            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+        }
     }
 
     public boolean isCho(Position position) {
