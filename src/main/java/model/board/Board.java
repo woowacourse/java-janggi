@@ -1,10 +1,13 @@
 package model.board;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import model.move.Move;
 import model.pieces.Piece;
+import model.pieces.PieceType;
 import model.position.Position;
 
 public class Board {
@@ -60,8 +63,17 @@ public class Board {
         return piece.orElse(null);
     }
 
-    public boolean isPathEmpty(Position position) {
-        return findPiece(position) == null;
+    public int countPiecesOnPath(List<Position> path) {
+        return (int) path.stream()
+                .filter(pos -> findPiece(pos) != null)
+                .count();
+    }
+
+    public boolean hasPieceTypeOnPath(List<Position> path, PieceType type) {
+        return path.stream()
+                .map(this::findPiece)
+                .filter(Objects::nonNull)
+                .anyMatch(piece -> piece.pieceType() == type);
     }
 
     private void executeMove(Move move, Piece piece) {

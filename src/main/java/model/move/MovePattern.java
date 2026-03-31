@@ -1,5 +1,6 @@
 package model.move;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.board.Board;
 import model.policy.PathPolicy;
@@ -15,48 +16,41 @@ public class MovePattern {
     }
 
     public boolean matches(Move move, Board board) {
-        Position current = checkPath(move, board);
-        if (current.isInValid()) {
+        List<Position> path = positionsOnPath(move);
+        if (!checkBoardRange(path, board) || !checkPathPolicy(path, board)) {
             return false;
         }
-        current = steps.getLast().move(current);
-        if (!current.isSamePosition(move.to())) {
+        Position destination = steps.getLast().move(move.from());
+        if (!path.isEmpty()) {
+            destination = steps.getLast().move(path.getLast());
+        }
+        if (!destination.isSamePosition(move.to()) || !board.isInside(destination)) {
             return false;
         }
 
-        return checkDestination(move, board, current);
+        return checkDestination(move, board);
     }
 
-    private boolean checkDestination(Move move, Board board, Position current) {
-        if (!checkBoardRange(board, current)) {
-            return false;
-        }
-
-        return pathPolicy.validateDestination(move, board);
-    }
-
-    private Position checkPath(Move move, Board board) {
+    private List<Position> positionsOnPath(Move move) {
+        List<Position> path = new ArrayList<>();
         Position current = move.from();
         for (int i = 0; i < steps.size() - 1; i++) {
             Step step = steps.get(i);
-            current = checkStep(step, board, current);
+            current = step.move(current);
+            path.add(current);
         }
-        return current;
+        return path;
     }
 
-    private Position checkStep(Step step, Board board, Position current) {
-        current = step.move(current);
-        if (!checkBoardRange(board, current) || !checkPathPolicy(board, current)) {
-            return Position.inValid();
-        }
-        return current;
+    private boolean checkBoardRange(List<Position> path, Board board) {
+        return path.stream().allMatch(board::isInside);
     }
 
-    private boolean checkBoardRange(Board board, Position current) {
-        return board.isInside(current);
+    private boolean checkPathPolicy(List<Position> path, Board board) {
+        return pathPolicy.validatePath(path, board);
     }
 
-    private boolean checkPathPolicy(Board board, Position current) {
-        return pathPolicy.validatePath(current, board);
+    private boolean checkDestination(Move move, Board board) {
+        return pathPolicy.validateDestination(move, board);
     }
 }

@@ -1,5 +1,6 @@
 package model.policy;
 
+import java.util.List;
 import model.board.Board;
 import model.move.Move;
 import model.pieces.Piece;
@@ -8,19 +9,18 @@ import model.position.Position;
 
 public class CannonPathPolicy extends PathPolicy {
     private static final int JUMP_PIECE = 1;
-    private int count = 0;
 
     @Override
-    public boolean validatePath(Position pos, Board board) {
-        if (!board.isPathEmpty(pos)) {
-            count++;
+    public boolean validatePath(List<Position> path, Board board) {
+        if (board.countPiecesOnPath(path) != JUMP_PIECE) {
+            throw new IllegalArgumentException("[ERROR] 포는 기물을 1개 뛰어넘어야 합니다.");
         }
 
-        if (!board.isPathEmpty(pos) && board.findPiece(pos).pieceType() == PieceType.CANNON) {
-            return false;
+        if (board.hasPieceTypeOnPath(path, PieceType.CANNON)) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
 
-        return count <= JUMP_PIECE;
+        return true;
     }
 
     @Override
@@ -28,11 +28,19 @@ public class CannonPathPolicy extends PathPolicy {
         Piece fromPiece = board.findPiece(move.from());
         Piece toPiece = board.findPiece(move.to());
 
-        return isValid() && (toPiece == null || (fromPiece.country() != toPiece.country()
-                && toPiece.pieceType() != PieceType.CANNON));
-    }
+        if (toPiece == null) {
+            return true;
+        }
 
-    public boolean isValid() {
-        return count >= JUMP_PIECE;
+        if ((fromPiece.country() != toPiece.country()
+                && toPiece.pieceType() == PieceType.CANNON)) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 먹을 수 없습니다.");
+        }
+
+        if (fromPiece.country() == toPiece.country()) {
+            throw new IllegalArgumentException("[ERROR] 아군 기물입니다.");
+        }
+
+        return true;
     }
 }
