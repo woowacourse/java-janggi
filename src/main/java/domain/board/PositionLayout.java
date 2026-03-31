@@ -31,7 +31,7 @@ public class PositionLayout {
         placeHanPieces(result);
         placeHanInnerPieces(result, arrangements);
         placeChoPieces(result);
-        placeCHoInnerPieces(result, arrangements);
+        placeChoInnerPieces(result, arrangements);
         return result;
     }
 
@@ -54,7 +54,7 @@ public class PositionLayout {
         });
     }
 
-    private static void placeCHoInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
+    private static void placeChoInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
         List<PieceType> innerPieces = arrangements.arrangeFor(Team.CHO).innerPieces();
         for (int index = 0; index < INNER_COLS.size(); index++) {
             result.put(new Position(INNER_COLS.get(index), Row.ZERO.reverse()), new Piece(Team.CHO, innerPieces.get(index)));
