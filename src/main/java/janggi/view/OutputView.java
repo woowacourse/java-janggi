@@ -1,10 +1,10 @@
 package janggi.view;
 
 import janggi.dto.BoardDto;
+import janggi.dto.PieceDto;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class OutputView {
 
@@ -17,6 +17,8 @@ public class OutputView {
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";
+
+    private static final String TEAM_HAN = "HAN";
 
     public void printStartMessage() {
         System.out.println("게임을 시작하겠습니다.");
@@ -31,10 +33,11 @@ public class OutputView {
         String[][] boardView = generateBoardView(boardDto);
 
         printXCoordinates();
-        for (int y = 0; y < BOARD_HEIGHT; y++) {
-            printNodeRow(boardView, y);
-            if (y < BOARD_HEIGHT - 1) {
-                printSpacerRows(y);
+
+        for (int row = 0; row < BOARD_HEIGHT; row++) {
+            printNodeRow(boardView, row);
+            if (row < BOARD_HEIGHT - 1) {
+                printSpacerRows(row);
             }
         }
         System.out.println();
@@ -43,35 +46,27 @@ public class OutputView {
     private String[][] generateBoardView(BoardDto boardDto) {
         String[][] boardView = new String[BOARD_HEIGHT][BOARD_WIDTH];
 
-        for (int y = 0; y < BOARD_HEIGHT; y++) {
-            Arrays.fill(boardView[y], EMPTY_NODE);
+        for (int row = 0; row < BOARD_HEIGHT; row++) {
+            Arrays.fill(boardView[row], EMPTY_NODE);
         }
 
-        Map<List<Integer>, String> pieces = boardDto.getPieces();
-        for (Map.Entry<List<Integer>, String> entry : pieces.entrySet()) {
-            List<Integer> position = entry.getKey();
-            int x = position.get(0);
-            int y = position.get(1);
-            String pieceName = entry.getValue();
+        List<PieceDto> pieces = boardDto.getPieces();
+        for (PieceDto piece : pieces) {
+            int row = piece.getRow();
+            int col = piece.getColumn();
 
-            String colorCode = determineFactionColor(pieceName, y);
+            String colorCode = determineFactionColor(piece);
+            String pieceName = piece.getName();
 
             String formattedPiece = String.format("[%s%s%s]", colorCode, pieceName, ANSI_RESET);
-            boardView[y][x] = formattedPiece;
+            boardView[row][col] = formattedPiece;
         }
 
         return boardView;
     }
 
-    private String determineFactionColor(String pieceName, int y) {
-        if (pieceName.equals("漢") || pieceName.equals("兵")) {
-            return ANSI_RED;
-        }
-        if (pieceName.equals("楚") || pieceName.equals("卒")) {
-            return ANSI_GREEN;
-        }
-
-        if (y <= 4) {
+    private String determineFactionColor(PieceDto piece) {
+        if (TEAM_HAN.equals(piece.getTeam())) {
             return ANSI_RED;
         }
         return ANSI_GREEN;
@@ -79,54 +74,55 @@ public class OutputView {
 
     private void printXCoordinates() {
         StringBuilder xAxis = new StringBuilder("   ");
-        for (int x = 0; x < BOARD_WIDTH; x++) {
-            char fullWidthNum = (char) ('\uFF10' + x);
+        for (int col = 0; col < BOARD_WIDTH; col++) {
+            char fullWidthNum = (char) ('\uFF10' + col);
             xAxis.append(" ").append(fullWidthNum).append("        ");
         }
         System.out.println(xAxis.toString());
         System.out.println();
     }
 
-    private void printNodeRow(String[][] boardView, int y) {
-        StringBuilder row = new StringBuilder();
-        row.append(y).append("  ");
-        for (int x = 0; x < BOARD_WIDTH; x++) {
-            row.append(boardView[y][x]);
-            if (x < BOARD_WIDTH - 1) {
-                row.append("-------");
+    private void printNodeRow(String[][] boardView, int row) {
+        StringBuilder rowBuilder = new StringBuilder();
+        rowBuilder.append(row).append("  ");
+
+        for (int col = 0; col < BOARD_WIDTH; col++) {
+            rowBuilder.append(boardView[row][col]);
+            if (col < BOARD_WIDTH - 1) {
+                rowBuilder.append("-------");
             }
         }
-        System.out.println(row.toString());
+        System.out.println(rowBuilder.toString());
     }
 
-    private void printSpacerRows(int y) {
+    private void printSpacerRows(int row) {
         int[] diagonalOffsets = {2, 5, 8};
 
         for (int spacerIndex = 0; spacerIndex < SPACER_LINES; spacerIndex++) {
             char[] spacer = new char[BOARD_WIDTH * NODE_CHARS];
             Arrays.fill(spacer, ' ');
 
-            for (int x = 0; x < BOARD_WIDTH; x++) {
-                spacer[x * NODE_CHARS + 1] = 'ㅣ';
+            for (int col = 0; col < BOARD_WIDTH; col++) {
+                spacer[col * NODE_CHARS + 1] = 'ㅣ';
             }
 
             int offset = diagonalOffsets[spacerIndex];
-            addPalaceDiagonals(spacer, y, offset);
+            addPalaceDiagonals(spacer, row, offset);
 
             System.out.print("   ");
             System.out.println(new String(spacer));
         }
     }
 
-    private void addPalaceDiagonals(char[] spacer, int y, int offset) {
+    private void addPalaceDiagonals(char[] spacer, int row, int offset) {
         int x3Center = 3 * NODE_CHARS + 1;
         int x4Center = 4 * NODE_CHARS + 1;
         int x5Center = 5 * NODE_CHARS + 1;
 
-        if (y == 0 || y == 7) {
+        if (row == 0 || row == 7) {
             spacer[x3Center + offset] = '\\';
             spacer[x5Center - offset] = '/';
-        } else if (y == 1 || y == 8) {
+        } else if (row == 1 || row == 8) {
             spacer[x4Center - offset] = '/';
             spacer[x4Center + offset] = '\\';
         }
