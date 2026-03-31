@@ -27,7 +27,7 @@ public class JanggiGame {
         return turn;
     }
 
-    public BoardDto start(List<Integer> from, List<Integer> to) {
+    public BoardDto playTurn(List<Integer> from, List<Integer> to) {
         board.move(
                 Coordination.of(from.get(0), from.get(1)),
                 Coordination.of(to.get(0), to.get(1))

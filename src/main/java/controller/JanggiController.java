@@ -49,7 +49,7 @@ public class JanggiController {
     private void chooseDestinationAndGameStart(JanggiGame janggiGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
-            BoardDto boardDto = janggiGame.start(from, to);
+            BoardDto boardDto = janggiGame.playTurn(from, to);
             outputView.printBoard(boardDto);
         });
     }
