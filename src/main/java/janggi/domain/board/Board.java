@@ -2,10 +2,8 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 public class Board {
     private final Map<Position, Piece> board;
@@ -21,14 +19,27 @@ public class Board {
         if (!piece.canMove(from, to)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-
-        Map<Position, Piece> paths = getPositionPiecesFromPath(piece, from, to);
-
-        if (!piece.determineMovingRule(paths, to)) {
-            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        List<Piece> pathPieces = getPathPieces(from, to, piece);
+        if (!piece.checkPathRule(pathPieces)) {
+            throw new IllegalArgumentException("이동 경로에 장애물이 있습니다.");
         }
+        if (!piece.canCapture(piece, board.get(to))) {
+            throw new IllegalArgumentException("목적지로 이동하거나 기물을 잡을 수 없습니다.");
+        }
+        
         changePiecePosition(piece, from, to);
         changeTurn();
+    }
+
+    private List<Piece> getPathPieces(Position from, Position to, Piece piece) {
+        List<Piece> pathPieces = new ArrayList<>();
+        List<Position> path = piece.findPath(from, to);
+        for (Position position : path) {
+            if (board.containsKey(position)) {
+                pathPieces.add(board.get(position));
+            }
+        }
+        return pathPieces;
     }
 
     public Map<Position, Piece> getBoard() {

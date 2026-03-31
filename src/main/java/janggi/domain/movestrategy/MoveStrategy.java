@@ -15,5 +15,11 @@ public interface MoveStrategy {
     boolean determineMovingRule(Piece sourcePiece, Map<Position, Piece> positionPieces, Position to);
 
     PieceType getIdentity();
+
+    boolean checkPathRule(List<Piece> pathPieces);
+
+    default boolean canCapture(Piece from, Piece to) {
+        return to == null || !from.isSameTeam(to);
+    }
 }
 
