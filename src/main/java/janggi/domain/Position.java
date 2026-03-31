@@ -1,12 +1,25 @@
 package janggi.domain;
 
 import janggi.exception.ExceptionMessage;
+import java.util.List;
 
 public record Position(int row, int column) {
 
+    private static final int POSITION_SIZE = 2;
     private static final int MIN_POSITION_INDEX = 0;
     private static final int MAX_ROW_INDEX = 9;
     private static final int MAX_COLUMN_INDEX = 8;
+
+    public static Position from(List<Integer> rawPosition) {
+        validatePositionSize(rawPosition);
+        return new Position(rawPosition.get(0), rawPosition.get(1));
+    }
+
+    private static void validatePositionSize(List<Integer> position) {
+        if (position.size() != POSITION_SIZE) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
+        }
+    }
 
     public Position {
         validateRow(row);

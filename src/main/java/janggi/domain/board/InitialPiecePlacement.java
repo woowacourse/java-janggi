@@ -4,7 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
-import java.util.HashMap;
 import java.util.Map;
 
 public enum InitialPiecePlacement {
@@ -43,15 +42,7 @@ public enum InitialPiecePlacement {
         this.piece = new Piece(pieceRule, camp);
     }
 
-    // TODO : 둘 다 같은 나라의 ElephantSetting 들어와도 컴파일 에러 X -> 타입 강제 고려하기
-    public static Map<Position, Piece> init(ElephantSetting hanChoice, ElephantSetting choChoice) {
-        Map<Position, Piece> board = new HashMap<>();
-
-        for (InitialPiecePlacement placement : values()) {
-            board.put(placement.position, placement.piece);
-        }
-        board.putAll(hanChoice.createElephantOrder(Camp.HAN));
-        board.putAll(choChoice.createElephantOrder(Camp.CHO));
-        return board;
+    public void placeOn(Map<Position, Piece> board) {
+        board.put(position, piece);
     }
 }

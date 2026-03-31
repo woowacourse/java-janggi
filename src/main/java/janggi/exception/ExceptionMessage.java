@@ -4,7 +4,7 @@ public enum ExceptionMessage {
 
     ONLY_NUMBERS_ALLOWED("숫자만 입력 가능합니다"),
     INVALID_INPUT_FORMAT("잘못된 입력 형식입니다."),
-    INVALID_ELEPHANT_SETTING("존재하지 않는 상차림 입니다."),
+    INVALID_ELEPHANT_SET_UP_FORMAT("존재하지 않는 상차림 입니다."),
     ROW_OUT_OF_RANGE("행은 %d행 이상 %d행 이하여야 합니다."),
     COLUMN_OUT_OF_RANGE("열은 %d열 이상 %d열 이하여야 합니다."),
     SOURCE_NOT_EXISTS("출발지에 기물이 존재하지 않습니다."),

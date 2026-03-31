@@ -2,21 +2,28 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
+import java.util.HashMap;
 import java.util.Map;
 
 public class StandardBoardInitializer implements BoardInitializer {
 
-    private final ElephantSetting hanElephantSetting;
-    private final ElephantSetting choElephantSetting;
+    private final ElephantFormation hanFormation;
+    private final ElephantFormation choFormation;
 
-    // TODO : 둘 다 같은 나라의 ElephantSetting 들어와도 컴파일 에러 X -> 타입 강제 고려하기
-    public StandardBoardInitializer(ElephantSetting hanElephantSetting, ElephantSetting choElephantSetting) {
-        this.hanElephantSetting = hanElephantSetting;
-        this.choElephantSetting = choElephantSetting;
+    public StandardBoardInitializer(ElephantFormation hanFormation, ElephantFormation choFormation) {
+        this.hanFormation = hanFormation;
+        this.choFormation = choFormation;
     }
 
     @Override
     public Map<Position, Piece> initialize() {
-        return InitialPiecePlacement.init(hanElephantSetting, choElephantSetting);
+        Map<Position, Piece> board = new HashMap<>();
+
+        for (InitialPiecePlacement placement : InitialPiecePlacement.values()) {
+            placement.placeOn(board);
+        }
+        board.putAll(hanFormation.placeElephantSetUpPieces());
+        board.putAll(choFormation.placeElephantSetUpPieces());
+        return board;
     }
 }

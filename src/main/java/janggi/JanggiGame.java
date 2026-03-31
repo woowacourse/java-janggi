@@ -4,13 +4,13 @@ import janggi.domain.Position;
 import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
-import janggi.domain.board.ElephantSetting;
+import janggi.domain.board.ElephantFormation;
+import janggi.domain.board.ElephantSetUp;
 import janggi.domain.board.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.dto.CampDto;
 import janggi.dto.PiecePositionDto;
-import janggi.exception.ExceptionMessage;
 import janggi.util.RetryHandler;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -26,16 +26,19 @@ public class JanggiGame {
     }
 
     private Board createBoard() {
-        ElephantSetting hanElephantSetting = RetryHandler.retryOnInvalidInput(
-                () -> ElephantSetting.findElephantSettingBy(
-                        InputView.readElephantSettingCommand(CampDto.from(Camp.HAN))));
-
-        ElephantSetting choElephantSetting = RetryHandler.retryOnInvalidInput(
-                () -> ElephantSetting.findElephantSettingBy(
-                        InputView.readElephantSettingCommand(CampDto.from(Camp.CHO))));
-
-        BoardInitializer initializer = new StandardBoardInitializer(hanElephantSetting, choElephantSetting);
+        ElephantFormation hanElephantFormation = readElephantFormation(Camp.HAN);
+        ElephantFormation choElephantFormation = readElephantFormation(Camp.CHO);
+        BoardInitializer initializer = new StandardBoardInitializer(hanElephantFormation, choElephantFormation);
         return new Board(initializer);
+    }
+
+    private static ElephantFormation readElephantFormation(Camp camp) {
+        return RetryHandler.retryOnInvalidInput(() -> {
+                    ElephantSetUp elephantSetUp = InputView.readElephantSettingCommand(CampDto.from(camp))
+                            .getElephantSetUp();
+                    return new ElephantFormation(camp, elephantSetUp);
+                }
+        );
     }
 
     private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {
@@ -55,27 +58,17 @@ public class JanggiGame {
     private void playTurn(Board board, Turn turn) {
         Camp camp = turn.currentTurn();
         Position source = readSource(board, camp);
-        Position destination = RetryHandler.retryOnInvalidInput(() -> toPosition(InputView.readDestination()));
+        Position destination = RetryHandler.retryOnInvalidInput(() -> Position.from(InputView.readDestination()));
         board.movePiece(source, destination, camp);
         turn.finishTurn();
     }
 
     private Position readSource(Board board, Camp camp) {
         return RetryHandler.retryOnInvalidInput(() -> {
-            Position source = toPosition(InputView.readSource(CampDto.from(camp)));
+            List<Integer> rawPosition = InputView.readSource(CampDto.from(camp));
+            Position source = Position.from(rawPosition);
             board.validateCampTurn(source, camp);
             return source;
         });
-    }
-
-    private Position toPosition(List<Integer> rawPosition) {
-        validatePositionSize(rawPosition);
-        return new Position(rawPosition.get(0), rawPosition.get(1));
-    }
-
-    private void validatePositionSize(List<Integer> rawPosition) {
-        if (rawPosition.size() != 2) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT_FORMAT.getMessage());
-        }
     }
 }
