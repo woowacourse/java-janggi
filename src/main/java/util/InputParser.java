@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static util.ErrorMessage.*;
 
@@ -45,11 +46,14 @@ public class InputParser {
     }
 
     private static void validateNoBlankToken(List<String> tokens) {
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).isBlank()) {
-                throw new IllegalArgumentException(String.format(ERROR_BLANK_TOKEN.getMessage(), i + 1));
-            }
-        }
+        IntStream.range(0, tokens.size())
+                .filter(i -> tokens.get(i).isBlank())
+                .findFirst()
+                .ifPresent(i -> {
+                    throw new IllegalArgumentException(
+                            String.format(ERROR_BLANK_TOKEN.getMessage(), i + 1)
+                    );
+                });
     }
 
     private static void validateNumberFormat(List<String> tokens) {
