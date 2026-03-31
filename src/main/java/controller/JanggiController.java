@@ -37,7 +37,7 @@ public class JanggiController {
         while (isGameContinue) {
             outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
             playTurn(janggiGame, board);
-            isGameContinue= isIsGameContinue();
+            isGameContinue= isGameContinue();
         }
     }
 
@@ -86,7 +86,11 @@ public class JanggiController {
 
     private void requestEndPosition(Position start, JanggiGame janggiGame) {
         doRetry(() -> {
-                    List<Integer> destination = inputView.requestMovePosition();
+                    Optional<List<Integer>> input = inputView.requestMovePosition();
+                    if (input.isEmpty()){
+                        return Optional.empty();
+                    }
+                    List<Integer> destination= input.get();
                     Position end = Position.create(destination.getFirst(), destination.getLast());
                     janggiService.applyMove(start, end, janggiGame);
                     return Optional.empty();
@@ -105,7 +109,7 @@ public class JanggiController {
         outputView.printBoard(janggiService.buildBoardDto(board),janggiService.buildColorDto(board));
     }
 
-    private boolean isIsGameContinue() {
+    private boolean isGameContinue() {
         return doRetry(inputView::askGameContinue);
     }
 

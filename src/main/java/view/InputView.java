@@ -49,10 +49,14 @@ public class InputView {
         return choice;
     }
 
-    public List<Integer> requestMovePosition() {
-        System.out.println("\n이동할 좌표를 입력해 주세요. ");
-        List<Integer> coordinate = InputParser.splitBy(",", scanner.nextLine());
+    public Optional<List<Integer>> requestMovePosition() {
+        System.out.println("\n이동할 좌표를 입력해 주세요. (Q : 기물 선택으로 돌아가기)");
+        String input = scanner.nextLine();
+        if (input.toLowerCase().equals("q")){
+            return Optional.empty();
+        }
+        List<Integer> coordinate = InputParser.splitBy(",", input);
         Validator.validateLength(COORDINATE_INPUT_LENGTH, coordinate.size());
-        return coordinate;
+        return Optional.of(coordinate);
     }
 }
