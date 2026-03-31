@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board implements BoardInfo {
+public class Board implements BaseBoard {
     private static final String INVALID_PIECE_SIDE_MESSAGE = "자기 진영의 기물만 움직일 수 있습니다.";
 
     private final Map<Position, Piece> board;

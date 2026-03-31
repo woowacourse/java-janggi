@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
-import janggi.domain.board.BoardInfo;
+import janggi.domain.board.BaseBoard;
 
 public class Empty extends BasePiece {
     private static final String IMMOVABLE_PIECE_MESSAGE = "이동할 수 없는 말입니다.";
@@ -18,7 +18,7 @@ public class Empty extends BasePiece {
     }
 
     @Override
-    public void validateRoute(Route route, BoardInfo boardInfo) {
+    public void validateRoute(Route route, BaseBoard boardInfo) {
         throw new IllegalArgumentException(IMMOVABLE_PIECE_MESSAGE);
     }
 }
