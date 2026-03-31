@@ -1,8 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.piece.strategy.SoldierStrategy;
-import janggi.domain.position.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,14 +14,14 @@ public class SoldierTest {
     @DisplayName("병이 포에 의해 잡힐 수 있다.")
     @Test
     void canBeCaughtByCannon() {
-        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Direction.UP));
+        Piece piece = new Soldier(Camp.CHO);
         assertThat(piece.canBeCaughtByCannon()).isTrue();
     }
 
     @DisplayName("병은 넘을 수 있다.")
     @Test
     void canBeJumpedOver() {
-        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Direction.UP));
+        Piece piece = new Soldier(Camp.CHO);
         assertThat(piece.canBeJumpedOver()).isTrue();
     }
 
@@ -31,11 +29,11 @@ public class SoldierTest {
     @Test
     void canPassRoute_Always_ReturnTrue() {
         Camp camp = Camp.CHO;
-        Soldier soldier = new Soldier(camp, new SoldierStrategy(Direction.UP));
+        Soldier soldier = new Soldier(camp);
         assertThat(soldier.canPassRoute(new HashMap<>())).isTrue();
     }
 
-    @DisplayName("병의 진영과 도착지점에 있는 기물의 진영이 다르면 true, 같으면 false를 반환한다")
+    @DisplayName("병의 진영과 도착지점에 있는 기물의 진영이 다르면 true같으면 false를 반환한다")
     @ParameterizedTest
     @CsvSource({
             "CHO, false",
@@ -43,8 +41,8 @@ public class SoldierTest {
     })
     void canCatchPiece_ReturnBoolean(Camp destinationPieceCamp, boolean expected) {
         Camp camp = Camp.CHO;
-        Soldier soldier = new Soldier(camp, new SoldierStrategy(Direction.UP));
-        Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(Direction.UP));
+        Soldier soldier = new Soldier(camp);
+        Soldier destinationSoldier = new Soldier(destinationPieceCamp);
         assertThat(soldier.canCatch(destinationSoldier)).isEqualTo(expected);
     }
 }

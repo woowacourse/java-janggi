@@ -19,7 +19,7 @@ class MoveStrategyTest {
     class 병_이동_테스트 {
         @Test
         void 초나라_병은_앞과_양_옆으로_움직인다() {
-            MoveStrategy strategy = new SoldierStrategy(Direction.UP);
+            MoveStrategy strategy = new ChoSoldierStrategy();
             Paths paths = strategy.findMovablePaths(Position.of(4,4));
             assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
             assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
@@ -28,7 +28,7 @@ class MoveStrategyTest {
 
         @Test
         void 한나라_병은_앞과_양_옆으로_움직인다() {
-            MoveStrategy strategy = new SoldierStrategy(Direction.DOWN);
+            MoveStrategy strategy = new HanSoldierStrategy();
             Paths paths = strategy.findMovablePaths(Position.of(4,4));
             assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
             assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));

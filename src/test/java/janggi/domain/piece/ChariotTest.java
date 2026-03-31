@@ -1,9 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.piece.strategy.LinearStrategy;
 import janggi.domain.position.Position;
-import janggi.domain.piece.strategy.ElephantStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,31 +14,31 @@ public class ChariotTest {
     @DisplayName("차가 포에 의해 잡힐 수 있다.")
     @Test
     void canBeCaughtByCannon() {
-        Piece piece = new Chariot(Camp.CHO, new LinearStrategy());
+        Piece piece = new Chariot(Camp.CHO);
         assertThat(piece.canBeCaughtByCannon()).isTrue();
     }
 
     @DisplayName("차는 넘을 수 있다.")
     @Test
     void canBeJumpedOver() {
-        Piece piece = new Chariot(Camp.CHO, new LinearStrategy());
+        Piece piece = new Chariot(Camp.CHO);
         assertThat(piece.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("경로에 기물이 있으면 False를 반환한다")
     @Test
     void canPassRoute_PiecesInPathIsNotEmpty_ReturnFalse() {
-        Piece piece = new Chariot(Camp.CHO, new LinearStrategy());
+        Piece piece = new Chariot(Camp.CHO);
         Map<Position, Piece> piecesInPath = new HashMap<>();
         piecesInPath.put(Position.of(3, 3),
-                new Elephant(Camp.HAN, new ElephantStrategy()));
+                new Elephant(Camp.HAN));
         assertThat(piece.canPassRoute(piecesInPath)).isFalse();
     }
 
     @DisplayName("경로에 기물이 없으면 True를 반환한다")
     @Test
     void canPassRoute_PiecesInPathIsEmpty_ReturnTrue() {
-        Piece piece = new Chariot(Camp.CHO, new LinearStrategy());
+        Piece piece = new Chariot(Camp.CHO);
         Map<Position, Piece> piecesInPath = new HashMap<>();
         assertThat(piece.canPassRoute(piecesInPath)).isTrue();
     }
@@ -48,16 +46,16 @@ public class ChariotTest {
     @DisplayName("도착 지점에 있는 기물이 같은 진영이면 False를 반환한다")
     @Test
     void canCatch_DestinationPieceIsSameCamp_ReturnFalse() {
-        Piece piece = new Chariot(Camp.CHO, new LinearStrategy());
-        Piece destinationPiece = new Elephant(Camp.CHO, new ElephantStrategy());
+        Piece piece = new Chariot(Camp.CHO);
+        Piece destinationPiece = new Elephant(Camp.CHO);
         assertThat(piece.canCatch(destinationPiece)).isFalse();
     }
 
     @DisplayName("도착 지점에 있는 기물이 다른 진영이면 True를 반환한다")
     @Test
     void canCatch_DestinationPieceIsNotSameCamp_ReturnTrue() {
-        Piece piece = new Chariot(Camp.CHO, new LinearStrategy());
-        Piece destinationPiece = new Elephant(Camp.HAN, new ElephantStrategy());
+        Piece piece = new Chariot(Camp.CHO);
+        Piece destinationPiece = new Elephant(Camp.HAN);
         assertThat(piece.canCatch(destinationPiece)).isTrue();
     }
 }
