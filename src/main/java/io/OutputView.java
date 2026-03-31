@@ -20,7 +20,7 @@ public class OutputView {
     }
 
     public void printFormationSelectionPrompt(TeamColor teamColor) {
-        System.out.println(teamColor.displayName() + " 상차림을 선택하세요.");
+        System.out.println(teamColor.getDisplayName() + " 상차림을 선택하세요.");
         System.out.println("1. 안상차림");
         System.out.println("2. 바깥상차림");
         System.out.println("3. 좌상차림");
@@ -29,7 +29,7 @@ public class OutputView {
 
     public void printCurrentTurn(TeamColor teamColor) {
         System.out.println();
-        System.out.println("현재 턴: " + teamColor.displayName());
+        System.out.println("현재 턴: " + teamColor.getDisplayName());
     }
 
     public void printPieceOptions(List<Map.Entry<Position, Piece>> pieces) {

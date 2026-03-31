@@ -16,12 +16,12 @@ public class InputView {
     }
 
     public int readFormationChoice(TeamColor teamColor) {
-        System.out.print(teamColor.displayName() + " 상차림 선택 (1. 안상 2. 바깥상 3. 좌상 4. 우상) > ");
+        System.out.print(teamColor.getDisplayName() + " 상차림 선택 (1. 안상 2. 바깥상 3. 좌상 4. 우상) > ");
         return Integer.parseInt(scanner.nextLine().trim());
     }
 
     public int readPieceChoice(TeamColor teamColor) {
-        System.out.print(teamColor.displayName() + " 차례, 선택할 기물 번호 > ");
+        System.out.print(teamColor.getDisplayName() + " 차례, 선택할 기물 번호 > ");
         return Integer.parseInt(scanner.nextLine().trim());
     }
 

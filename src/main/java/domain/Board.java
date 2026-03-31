@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import strategy.move.MoveStrategy;
 
+import static java.util.Optional.ofNullable;
+
 public class Board {
 
     private final Map<Position, Piece> pieces;
@@ -23,7 +25,7 @@ public class Board {
     }
 
     public Optional<Piece> getDestinationPiece(Route route) {
-        return Optional.ofNullable(pieces.get(route.endPos()));
+        return ofNullable(pieces.get(route.endPos()));
     }
 
     public Optional<Position> findPositionOf(Piece piece) {
@@ -34,7 +36,7 @@ public class Board {
     }
 
     public Optional<Piece> findPiece(Position position) {
-        return Optional.ofNullable(pieces.get(position));
+        return ofNullable(pieces.get(position));
     }
 
     public List<Map.Entry<Position, Piece>> findPiecesByTeam(TeamColor teamColor) {

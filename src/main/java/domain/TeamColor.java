@@ -1,13 +1,16 @@
 package domain;
 
 public enum TeamColor {
-    CHO,
-    HAN;
+    CHO("초"),
+    HAN("한");
 
-    public String displayName() {
-        if (this == CHO) {
-            return TeamColor.CHO.name();
-        }
-        return TeamColor.HAN.name();
+    private final String displayName;
+
+    TeamColor(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }
