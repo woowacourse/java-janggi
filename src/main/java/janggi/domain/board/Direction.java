@@ -16,7 +16,7 @@ public enum Direction {
     ;
 
     private final int row;
-    private final int col;
+    private final int column;
 
     private static final Map<Direction, List<Direction>> ADJACENT_DIAGONALS = Map.of(
             N, List.of(NE, NW),
@@ -25,9 +25,9 @@ public enum Direction {
             W, List.of(NW, SW)
     );
 
-    Direction(int row, int col) {
+    Direction(int row, int column) {
         this.row = row;
-        this.col = col;
+        this.column = column;
     }
 
     public List<Direction> getAdjacentDiagonals() {
@@ -35,6 +35,14 @@ public enum Direction {
     }
 
     public Position move(Position currentPosition) {
-        return currentPosition.move(this.row, this.col);
+        return currentPosition.move(this.row, this.column);
+    }
+
+    public int getNextRow(int currentRow) {
+        return currentRow + this.row;
+    }
+
+    public int getNextColumn(int currentColumn) {
+        return currentColumn + this.column;
     }
 }

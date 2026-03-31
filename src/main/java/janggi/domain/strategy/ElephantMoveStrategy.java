@@ -16,32 +16,43 @@ public class ElephantMoveStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
         Paths paths = new Paths();
-        for (Direction baseDir : baseDirections) {
-            addElephantPaths(current, baseDir, paths);
+        for (Direction baseDirection : baseDirections) {
+            addElephantPaths(current, baseDirection, paths);
         }
         return paths;
     }
 
-    private void addElephantPaths(Position current, Direction baseDir, Paths paths) {
-        for (Direction diagonalDir : baseDir.getAdjacentDiagonals()) {
-            createAndAddSequence(current, baseDir, diagonalDir, paths);
+    private void addElephantPaths(Position current, Direction baseDirection, Paths paths) {
+        for (Direction diagonalDir : baseDirection.getAdjacentDiagonals()) {
+            createAndAddSequence(current, baseDirection, diagonalDir, paths);
         }
     }
 
-    private void createAndAddSequence(Position current, Direction baseDir, Direction diagonalDir, Paths paths) {
-        try {
-            Position step1 = baseDir.move(current);
-            Position step2 = diagonalDir.move(step1);
-            Position step3 = diagonalDir.move(step2);
-
-            Path path = new Path();
-            path.makePath(step1);
-            path.makePath(step2);
-            path.makePath(step3);
-            paths.addPath(path);
-        } catch (IllegalArgumentException ignored) {
-            // 보드 밖으로 나가는 좌표가 하나라도 발생하면 해당 경로는 물리적으로 불가하므로 폐기
+    private void createAndAddSequence(Position current, Direction baseDirection, Direction diagonalDirection,
+                                      Paths paths) {
+        // 직선 이동 가능한지 체크
+        if (!current.canMove(baseDirection)) {
+            return;
         }
+        Position step1 = baseDirection.move(current);
+
+        // 첫 번째 대각선 이동 가능한지 체크
+        if (!step1.canMove(diagonalDirection)) {
+            return;
+        }
+        Position step2 = diagonalDirection.move(step1);
+
+        // 두 번째 대각선 이동 가능한지 체크
+        if (!step2.canMove(diagonalDirection)) {
+            return;
+        }
+        Position step3 = diagonalDirection.move(step2);
+
+        Path path = new Path();
+        path.makePath(step1);
+        path.makePath(step2);
+        path.makePath(step3);
+        paths.addPath(path);
     }
 
     @Override
@@ -53,20 +64,20 @@ public class ElephantMoveStrategy implements MoveStrategy {
         return destinations;
     }
 
-    private void validateElephantPath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private void validateElephantPath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
         Iterator<Position> it = route.iterator();
         Position transit1 = it.next();
         Position transit2 = it.next();
 
         if (state.get(transit1) == null && state.get(transit2) == null) {
-            addIfValid(it.next(), state, dests, me); // 최종 도착지
+            addIfValid(it.next(), state, destinations, me); // 최종 도착지
         }
     }
 
-    private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> destinations, Piece me) {
         Piece target = state.get(dest);
         if (target == null || !target.isSameSide(me)) {
-            dests.add(dest);
+            destinations.add(dest);
         }
     }
 }

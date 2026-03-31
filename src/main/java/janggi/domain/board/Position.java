@@ -19,4 +19,16 @@ public record Position(int row, int column) {
     public Position move(int row, int column) {
         return new Position(this.row + row, this.column + column);
     }
+
+    public boolean canMove(Direction direction) {
+        int nextRow = direction.getNextRow(this.row);
+        int nextColumn = direction.getNextColumn(this.column);
+
+        return isWithinBoard(nextRow, nextColumn);
+    }
+
+    private boolean isWithinBoard(int row, int column) {
+        return (row >= BOARD_MIN_ROW && row <= BOARD_MAX_ROW) &&
+                (column >= BOARD_MIN_COLUMN && column <= BOARD_MAX_COLUMN);
+    }
 }
