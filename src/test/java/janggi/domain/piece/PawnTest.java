@@ -65,7 +65,8 @@ class PawnTest {
     @CsvSource({
             "2,3,3,3",
             "2,3,1,6",
-            "2,3,3,1"
+            "2,3,3,1",
+            "2,3,2,3"
     })
     void 폰은_초_진영일_때_상좌우가_아닌_좌표로는_이동할_수_없다(int startX, int startY, int endX, int endY) {
         Position startPosition = new Position(startX, startY);
