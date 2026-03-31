@@ -1,5 +1,6 @@
 import domain.Board;
 import domain.BoardFactory;
+import domain.Team;
 import domain.vo.Position;
 import view.InputView;
 import view.OutputView;
@@ -16,6 +17,12 @@ public class JanggiController {
 
     public void run() {
         Board board = BoardFactory.setUp();
+        outputView.printBoard(board.getBoard());
+
+        int hanFormat = inputView.readHorseElephantFormation(Team.HAN.getName());
+        int chuFormat = inputView.readHorseElephantFormation(Team.CHU.getName());
+
+        board.format(chuFormat, hanFormat);
         outputView.printBoard(board.getBoard());
 
         movePosition(board);

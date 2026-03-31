@@ -8,6 +8,26 @@ public class InputView {
 
     private static final String POSITION_PATTERN = "^\\d+\\s+\\d+$";
     private final Scanner scanner = new Scanner(System.in);
+
+    public int readHorseElephantFormation(String team) {
+        System.out.println(team + "의 초기 진형을 선택하세요. (숫자만 입력)");
+        System.out.println("1. 마상마상");
+        System.out.println("2. 상마상마");
+
+        String input = scanner.nextLine().trim();
+        try {
+            int parsedInput = Integer.parseInt(input);
+            if (parsedInput != 1 && parsedInput != 2)
+                throw new IllegalArgumentException();
+            System.out.println();
+            return parsedInput;
+        }
+        catch (Exception e) {
+            System.out.println("[ERROR] 잘못된 입력입니다.");
+            System.out.println();
+            return readHorseElephantFormation(team);
+        }
+    }
     
     public Position readPosition() {
         System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0)");

@@ -31,6 +31,20 @@ class BoardTest {
 
     @Test
     @DisplayName("기물의 이동 경로에 다른 기물이 없으면 이동한다.")
+    void 기물_포진() {
+        // given
+        Board board = BoardFactory.setUp();
+        Position position = Position.of(0, 1);
+
+        // when
+        board.format(1, 1);
+
+        // then
+        assertEquals(Type.HORSE, board.getBoard().get(position).getType());
+    }
+
+    @Test
+    @DisplayName("기물의 이동 경로에 다른 기물이 없으면 이동한다.")
     void 기물_이동() {
         // given
         Map<Position, Piece> tempBoard = new HashMap<>();
