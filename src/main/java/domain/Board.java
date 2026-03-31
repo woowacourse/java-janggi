@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import domain.enums.Country;
 import domain.enums.MaSangPosition;
@@ -62,17 +63,18 @@ public class Board {
     }
 
     private List<Piece> getSameLine(Position start, Position end) {
-        if (board.get(start).getPieceType() != PieceType.PO ) {
-            return Collections.emptyList();
-        }
+//        if (!board.containsKey(end)){
+//            return Collections.emptyList();
+//        }
 
         List<Piece> pieces = new ArrayList<>();
         int startX = start.getX();
         int startY = start.getY();
         int endX = end.getX();
         int endY = end.getY();
+
         if (!(startX == endX || startY == endY)) {
-            throw new IllegalArgumentException("포는 같은 줄만 이동 가능합니다.");
+            return Collections.emptyList();
         }
 
         if (startX == endX) {

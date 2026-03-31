@@ -11,8 +11,6 @@ import domain.enums.MaSang;
 import domain.enums.PieceType;
 import domain.Position;
 import service.JanggiService;
-import service.dto.BoardDto;
-import service.dto.ColorDto;
 import service.dto.PositionDto;
 import view.InputView;
 import view.OutputView;
@@ -63,10 +61,6 @@ public class JanggiController {
 
     private JanggiGame initJanggiGame(Board board) {
         outputView.printTurnStartMessage();
-
-        BoardDto boardDto = janggiService.buildBoardDto(board);
-        ColorDto colorDto = janggiService.buildColorDto(board);
-
         return janggiService.createJanggiGame(board);
     }
 
