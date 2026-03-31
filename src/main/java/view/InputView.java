@@ -1,15 +1,14 @@
 package view;
 
-import domain.board.strategy.InitialStrategyType;
+import domain.board.strategy.InitialStrategy;
 import domain.coordinate.Position;
 import domain.board.Side;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.PatternSyntaxException;
-
 import dto.PossibleMovesDto;
-import view.message.FormationStrategyView;
+import view.message.InitialFormationFormatter;
 import view.message.SideView;
 
 public class InputView {
@@ -24,22 +23,27 @@ public class InputView {
 
     private final Scanner sc;
 
+
     public InputView(Scanner sc) {
         this.sc = sc;
     }
 
-    public InitialStrategyType requestInitialType(Side side) {
+    public InitialStrategy requestInitialType(Side side) {
         try {
             int index = INIT_INDEX_COUNT;
             System.out.printf(REQUEST_INIT_FORMAT_STRATEGY, SideView.from(side));
             for (int i = 0; i < MAX_INDEX; i++) {
-                System.out.printf("%d. %s\n", index, FormationStrategyView.format(index));
+                System.out.printf("%d. %s\n", index, InitialFormationFormatter.format(index));
                 index++;
             }
+
             System.out.println("번호를 입력해주세요.");
             int userInput = Integer.parseInt(userInput());
             validateIndex(userInput, MAX_INDEX);
-            return FormationStrategyView.from(userInput);
+            return InitialFormationFormatter
+                    .fromIndex(userInput)
+                    .create(side);
+
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
         }
@@ -48,9 +52,9 @@ public class InputView {
     public Position requestStartPiecePosition(Side side) {
         try {
             System.out.printf(REQUEST_MOVING_START_PIECE_POSITION, SideView.from(side));
-            List<String> strings = splitCoordinate(userInput());
-            int col = Integer.parseInt(strings.get(0));
-            int row = Integer.parseInt(strings.get(1));
+            List<String> parts = splitCoordinate(userInput());
+            int col = Integer.parseInt(parts.get(0).trim());
+            int row = Integer.parseInt(parts.get(1).trim());
 
             return new Position(col, row);
         } catch (PatternSyntaxException | NumberFormatException | IndexOutOfBoundsException e) {

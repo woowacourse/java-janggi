@@ -26,7 +26,7 @@ public enum SideView {
             }
         }
 
-        throw new IllegalArgumentException("존재하지 않는 팀입니다.");
+        throw new IllegalArgumentException("존재하지 않는 진영입니다.");
     }
 
     public static String getSideColor(Side side) {
@@ -36,7 +36,7 @@ public enum SideView {
             }
         }
 
-        throw new IllegalArgumentException("존재하지 않는 팀입니다.");
+        throw new IllegalArgumentException("존재하지 않는 진영입니다.");
     }
 
     public static String getResetColor() {
