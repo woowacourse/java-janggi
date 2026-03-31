@@ -1,44 +1,21 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.BoardInitializer;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class BoardInitializerTest {
-    private List<List<Piece>> board = BoardInitializer.createBoard();
-
-    @Test
-    void 보드_크기는_10개의_행과_9개의_열로_이루어진다() {
-        int rowLength = board.size();
-        int colLength = board.get(0).size();
-
-        assertThat(rowLength).isEqualTo(10);
-        assertThat(colLength).isEqualTo(9);
-    }
-
-    @Test
-    void 장기판은_32개의_기물과_58개의_빈칸이_있다() {
-        int emptyPositionCount = Math.toIntExact(board.stream()
-                .flatMap(Collection::stream)
-                .filter(Piece::isEmpty)
-                .count());
-
-        int pieceCount = Math.toIntExact(board.stream()
-                .flatMap(Collection::stream)
-                .filter((piece) -> !piece.isEmpty())
-                .count());
-
-        assertThat(emptyPositionCount).isEqualTo(58);
-        assertThat(pieceCount).isEqualTo(32);
-    }
+    private Map<Position, Piece> board = BoardInitializer.createBoard();
 
     @ParameterizedTest(name = "{0} 나라의 {1} 개수는 {2}개여야 한다")
     @CsvSource({
@@ -58,8 +35,7 @@ class BoardInitializerTest {
             "CHO, ADVISOR, 2"
     })
     void 생성기물_개수_테스트(Team team, PieceType pieceType, int expectedCount) {
-        long actualCount = board.stream()
-                .flatMap(Collection::stream)
+        long actualCount = board.values().stream()
                 .filter(piece -> piece.findTeam() == team)
                 .filter(piece -> piece.pieceType() == pieceType)
                 .count();
