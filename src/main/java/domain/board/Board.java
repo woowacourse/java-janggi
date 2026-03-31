@@ -5,7 +5,6 @@ import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
 import common.exception.JanggiException;
 import domain.piece.None;
 import domain.piece.Piece;
-import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
@@ -32,20 +31,12 @@ public class Board {
         return destinationPiece;
     }
 
-    public boolean isPieceDifferentTeam(Position source, Team team) {
-        return findPiece(source).isDifferentTeam(team);
-    }
-
     public boolean isCho(Position position) {
         return findPiece(position).isCho();
     }
 
     public boolean isHan(Position position) {
         return findPiece(position).isHan();
-    }
-
-    public boolean isNonePiece(Position source) {
-        return findPiece(source).isNone();
     }
 
     public Map<Position, Piece> getBoardMap() {
