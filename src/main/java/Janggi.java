@@ -17,7 +17,8 @@ public class Janggi {
         Players players = getPlayer();
         Board board = getBoard();
 
-        play(players, board);
+        Side winner = play(players, board);
+        OutputView.printWinner(winner);
     }
 
     private Players getPlayer() {
@@ -42,21 +43,41 @@ public class Janggi {
         return HorseElephantFormation.from(input);
     }
 
-    private void play(Players players, Board board) {
-        while (isGameRunning(board)) {
-            players.forEachPlayer(player -> turn(player, board));
+    private Side play(Players players, Board board) {
+        Side turn = Side.CHO;
+
+        while (board.isAliveGeneral(turn)) {
+            turn = processTurn(players, board, turn);
+        }
+
+        return turn.opposite();
+    }
+
+    private Side processTurn(Players players, Board board, Side turn) {
+        Player player = players.getPlayer(turn);
+
+        OutputView.printBoard(board.getFormatBoard(), board.getSideBoard());
+        printScore(board);
+        executeTurn(player, board);
+        printCheckIfNeeded(board, turn);
+
+        return turn.opposite();
+    }
+
+    private void printCheckIfNeeded(Board board, Side turn) {
+        if (board.isCheck(turn)) {
+            OutputView.printCheck(turn.opposite());
         }
     }
 
-    private boolean isGameRunning(Board board) {
-        //todo: 게임이 끝났는지 판단하는 로직 추가
-        return true;
-    }
+    private void printScore(Board board) {
+        Side cho = Side.CHO;
+        Side han = Side.HAN;
 
-    private void turn(Player player, Board board) {
-        OutputView.printBoard(board.getFormatBoard(), board.getSideBoard());
+        int choScore = board.getSideScore(cho);
+        int hanScore = board.getSideScore(han);
 
-        executeTurn(player, board);
+        OutputView.printScore(cho, choScore, han, hanScore);
     }
 
     private void executeTurn(Player player, Board board) {

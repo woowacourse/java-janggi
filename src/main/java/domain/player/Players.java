@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public class Players {
 
@@ -42,7 +41,10 @@ public class Players {
         }
     }
 
-    public void forEachPlayer(Consumer<Player> action) {
-        players.forEach(action);
+    public Player getPlayer(Side side) {
+        return players.stream()
+                .filter(player -> player.getSide() == side)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 플레이어를 찾을 수 없습니다."));
     }
 }

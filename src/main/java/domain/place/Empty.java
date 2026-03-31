@@ -15,11 +15,6 @@ public class Empty implements Place {
     }
 
     @Override
-    public boolean isSameSide(Place place) {
-        return false;
-    }
-
-    @Override
     public boolean hasSide(Side side) {
         return false;
     }
@@ -27,6 +22,11 @@ public class Empty implements Place {
     @Override
     public boolean isSameSymbol(PieceSymbol pieceSymbol) {
         return false;
+    }
+
+    @Override
+    public int getScore() {
+        return 0;
     }
 
     @Override

@@ -3,6 +3,7 @@ package view;
 import static domain.common.Constant.MAX_COLUMN;
 import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
+
 import domain.place.piece.Side;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,15 @@ public class OutputView {
 
     private static final String INPUT_POSITION_MOVE =
             "%s(%s)가 이동할 위치를 입력해주세요. (예: 3,5)\n";
+
+    private static final String PLAYER_CHECK =
+            "%s가 장군을 당했습니다.\n";
+
+    private static final String PLAYER_SCORE =
+            "%s : %d점 \n %s : %d점\n";
+
+    private static final String PLAYER_WINNER =
+            "%s 승리!";
 
     private OutputView() {
     }
@@ -44,6 +54,17 @@ public class OutputView {
         System.out.printf(INPUT_POSITION_MOVE, name, side.getName());
     }
 
+    public static void printCheck(Side side) {
+        System.out.printf(PLAYER_CHECK, side.getName());
+    }
+
+    public static void printScore(Side side1, int score1, Side side2, int score2) {
+        System.out.printf(PLAYER_SCORE, side1.getName(), score1, side2.getName(), score2);
+    }
+
+    public static void printWinner(Side side) {
+        System.out.printf(PLAYER_WINNER, side.getName());
+    }
 
     public static void printBoard(List<List<String>> boardFormats, List<List<Optional<Side>>> boardSides) {
         StringBuilder sb = new StringBuilder();

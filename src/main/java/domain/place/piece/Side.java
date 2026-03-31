@@ -26,4 +26,11 @@ public enum Side {
         return setupDirection;
     }
 
+    public Side opposite() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
+    }
+
 }

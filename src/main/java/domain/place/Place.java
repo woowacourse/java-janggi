@@ -11,11 +11,11 @@ public interface Place {
 
     boolean isEmpty();
 
-    boolean isSameSide(Place place);
-
     boolean hasSide(Side side);
 
     boolean isSameSymbol(PieceSymbol pieceSymbol);
+
+    int getScore();
 
     String getFormat();
 

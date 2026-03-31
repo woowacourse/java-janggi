@@ -25,19 +25,16 @@ public abstract class Piece implements Place {
     @Override
     public String getFormat() {
         return getSymbol().display();
+    }
 
+    @Override
+    public int getScore() {
+        return getSymbol().getScore();
     }
 
     @Override
     public boolean isEmpty() {
         return false;
-    }
-
-    @Override
-    public boolean isSameSide(Place other) {
-        return other.getSide()
-                .map(this.side::equals)
-                .orElse(false);
     }
 
     @Override
@@ -56,7 +53,7 @@ public abstract class Piece implements Place {
     }
 
     @Override
-    public List<Position> getNormalPath(Position from){
+    public List<Position> getNormalPath(Position from) {
         return moveStrategy.getPath(from);
     }
 
@@ -66,7 +63,7 @@ public abstract class Piece implements Place {
     }
 
     @Override
-    public List<Position> getPalacePath(Position from){
+    public List<Position> getPalacePath(Position from) {
         return palaceMoveStrategy.getPath(from);
     }
 
