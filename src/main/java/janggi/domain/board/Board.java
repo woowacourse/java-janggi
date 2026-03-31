@@ -31,7 +31,7 @@ public class Board {
 
     public boolean isGeneralCaptured(Team currentTeam) {
         return piecesByPosition.values().stream()
-                .noneMatch(piece -> piece.isSamePiece(new General(currentTeam)) && piece.getTeam() == currentTeam);
+                .noneMatch(piece -> piece instanceof General && piece.getTeam() == currentTeam);
     }
 
     public Map<Position, Piece> showBoard() {
