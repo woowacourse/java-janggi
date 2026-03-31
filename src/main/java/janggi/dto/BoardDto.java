@@ -22,6 +22,7 @@ public record BoardDto(
     private static final Map<TeamType, Map<PieceType, String>> CHINESE_MAP;
     private static final String EMPTY_SPACE = "＊";
     private static final String DELIMITER = "  ";
+    private static final String[] INDEX_LABELS = {"１", "２", "３", "４", "５", "６", "７", "８", "９", "10"};
 
     static {
         CHINESE_MAP = Map.of(
@@ -48,16 +49,29 @@ public record BoardDto(
     public static BoardDto from(final Board board) {
         final List<String> rowStatuses = new ArrayList<>();
         final Map<Position, Piece> positionPieceMap = board.getPositionPieceMapForDTO();
+        rowStatuses.add(generateColumnIndex());
         for (int row = MINIMUM_ROW; row <= MAXIMUM_ROW; row++) {
             rowStatuses.add(composeRowStatus(row, positionPieceMap));
         }
-
         return new BoardDto(rowStatuses);
+    }
+
+    private static String generateColumnIndex() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(DELIMITER);
+        stringBuilder.append(DELIMITER);
+        for (int column = MINIMUM_COLUMN; column <= MAXIMUM_COLUMN; column++) {
+            stringBuilder.append(DELIMITER);
+            stringBuilder.append(INDEX_LABELS[column - 1]);
+        }
+        return stringBuilder.toString();
     }
 
     private static String composeRowStatus(final int row, final Map<Position, Piece> positionPieceMap) {
         final StringBuilder stringBuilder = new StringBuilder();
         Position current;
+        stringBuilder.append(DELIMITER);
+        stringBuilder.append(INDEX_LABELS[row - 1]);
         for (int column = MINIMUM_COLUMN; column <= MAXIMUM_COLUMN; column++) {
             current = Position.valueOf(row, column);
             stringBuilder.append(DELIMITER);
