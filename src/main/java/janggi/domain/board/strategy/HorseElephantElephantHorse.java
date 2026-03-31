@@ -4,18 +4,17 @@ import janggi.domain.Camp;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.position.Position;
 
-import java.util.Map;
+import java.util.List;
 
 public class HorseElephantElephantHorse implements FormationStrategy {
     @Override
-    public Map<Position, Piece> createPieces(Camp camp) {
-        return Map.of(
-                Position.of(camp.initRowPosition(), 2), new Elephant(camp),
-                Position.of(camp.initRowPosition(), 1), new Horse(camp),
-                Position.of(camp.initRowPosition(), 6), new Elephant(camp),
-                Position.of(camp.initRowPosition(), 7), new Horse(camp)
+    public List<Piece> createPieces(Camp camp) {
+        return List.of(
+                new Horse(camp),
+                new Elephant(camp),
+                new Elephant(camp),
+                new Horse(camp)
         );
     }
 }
