@@ -11,7 +11,7 @@ public class TankMoveRule implements MoveRule {
     }
 
     private boolean isNotBlocked(Position from, Position to, BoardView board) {
-        Direction direction = Direction.findDirection(from, to);
+        Direction direction = Direction.findFourDirection(from, to);
         Position pathPosition = from;
 
         while (!pathPosition.equals(to)) {
