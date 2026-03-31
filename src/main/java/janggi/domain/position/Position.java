@@ -107,9 +107,4 @@ public class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
-
-    @Override
-    public String toString() {
-        return row.getValue() + "," + column.getValue();
-    }
 }

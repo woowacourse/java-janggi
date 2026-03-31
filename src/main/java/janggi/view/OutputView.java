@@ -53,7 +53,7 @@ public class OutputView {
     private void printPieceRow(Map<Position, Piece> board, int row) {
         System.out.print(" " + toRowLabel(row) + " ");
         for (int col = FIRST_COL; col <= LAST_COL; col++) {
-            Piece piece = board.get(createPosition(row, col));
+            Piece piece = board.get(Position.of(row, col));
             System.out.print(formatPiece(piece));
             if (col < LAST_COL) System.out.print(H_LINE);
         }
@@ -71,11 +71,6 @@ public class OutputView {
 
     private String toRowLabel(int row) {
         return row == LAST_ROW ? "0" : String.valueOf(row);
-    }
-
-    private Position createPosition(int row, int col) {
-        if (row == LAST_ROW) return Position.from("0" + col);
-        return Position.from("" + row + col);
     }
 
     private String formatPiece(Piece piece) {
