@@ -2,7 +2,7 @@ package janggi.domain;
 
 import java.util.List;
 
-public record Position(int x, int y) {
+public class Position {
     public static final int POSITION_COMPONENTS_SIZE = 2;
 
     public static final int BOARD_START_ROWS = 1;
@@ -15,16 +15,21 @@ public record Position(int x, int y) {
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
     private static final String INVALID_HORIZON = "수직 또는 수평이 아닙니다.";
 
-    public Position {
+    private final int x;
+    private final int y;
+
+    public Position(int x, int y) {
         validate(x, y);
+        this.x = x;
+        this.y = y;
     }
 
     public static Position from(List<Integer> inputs) {
             validateSize(inputs);
-            int r = inputs.getFirst();
-            int c = inputs.getLast();
+            int row = inputs.getFirst();
+            int column = inputs.getLast();
 
-            return new Position(r, c);
+            return new Position(row, column);
     }
 
     private static void validateSize(List<Integer> inputs) {
