@@ -53,7 +53,7 @@ public abstract class SingleStepStraightStrategy implements MoveStrategy {
     }
 
     private void validateDiagonalMove(Position source, Position destination) {
-        if (!Camp.isPalaceCenter(source, destination)) {
+        if (!Camp.isPalaceCenter(source) && !Camp.isPalaceCenter(destination)) {
             throw new IllegalArgumentException(INVALID_PALACE_DIAGONAL_STEP_MOVE);
         }
     }
