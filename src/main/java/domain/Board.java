@@ -15,6 +15,7 @@ import domain.pieces.Jol;
 import domain.pieces.Ma;
 import domain.pieces.None;
 import domain.pieces.Piece;
+import domain.pieces.PieceFactory;
 import domain.pieces.Po;
 import domain.pieces.Sa;
 import domain.pieces.Sang;
@@ -30,17 +31,17 @@ public class Board {
             }
 
             for (Position p : type.getChoPosition()) {
-                pieces.put(p, createPiece(type, Country.CHO));
+                pieces.put(p, PieceFactory.createPiece(type, Country.CHO));
             }
 
             for (Position p : type.getHanPosition()) {
-                pieces.put(p, createPiece(type, Country.HAN));
+                pieces.put(p, PieceFactory.createPiece(type, Country.HAN));
             }
         }
 
         for (MaSangPosition maSangPosition : MaSangPosition.values()) {
             PieceType pieceType = choHan.get(maSangPosition.getIndex());
-            pieces.put(maSangPosition.getPosition(), createPiece(pieceType, maSangPosition.getCountry()));
+            pieces.put(maSangPosition.getPosition(), PieceFactory.createPiece(pieceType, maSangPosition.getCountry()));
         }
 
         this.board = pieces;
@@ -122,18 +123,5 @@ public class Board {
             throw new IllegalArgumentException("존재하지 않는 기물입니다. 장기판 위의 기물을 입력해주세요.");
         }
         return positions;
-    }
-
-    private Piece createPiece(PieceType type, Country country) {
-        return switch (type) {
-            case CHA -> new Cha(country);
-            case MA -> new Ma(country);
-            case SANG -> new Sang(country);
-            case SA -> new Sa(country);
-            case JANG -> new Jang(country);
-            case PO -> new Po(country);
-            case JOL -> new Jol(country);
-            case NONE -> None.INSTANCE;
-        };
     }
 }

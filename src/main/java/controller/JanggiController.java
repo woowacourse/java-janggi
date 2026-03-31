@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import domain.Board;
 import domain.enums.Country;
 import domain.JanggiGame;
+import domain.enums.MaSang;
 import domain.enums.PieceType;
 import domain.Position;
 import service.JanggiService;
@@ -60,17 +61,17 @@ public class JanggiController {
     private Board initBoard() {
         outputView.printGameStartMessage();
 
-        List<PieceType> choMaSangChoose = initMaSang(Country.CHO);
-        List<PieceType> hanMaSangChoose = initMaSang(Country.HAN);
+        MaSang choMaSangChoose = initMaSang(Country.CHO);
+        MaSang hanMaSangChoose = initMaSang(Country.HAN);
 
         return janggiService.createBoard(choMaSangChoose, hanMaSangChoose);
     }
 
-    private List<PieceType> initMaSang(Country country) {
+    private MaSang initMaSang(Country country) {
         return doRetry(() -> {
             outputView.printCountry(country);
             int maSangChoice = inputView.requestMaSangPosition();
-            return janggiService.createMasang(maSangChoice);
+            return MaSang.getByNum(maSangChoice);
         });
     }
 
