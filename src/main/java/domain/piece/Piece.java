@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.BoardStatus;
+import domain.Turn;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
 import java.util.Objects;
@@ -20,14 +21,14 @@ public abstract class Piece {
 
     abstract public boolean isEmpty();
 
-    public void validateTurn(Team turn) {
-        if (this.team != turn) {
+    public void validateTurn(Turn turn) {
+        if (this.team != turn.turnOwnTeam()) {
             throw new IllegalArgumentException(PieceErrorMessage.NOT_YOUR_PIECE.getMessage());
         }
     }
 
     public void validateNotAlly(Piece destinationPiece) {
-        if (destinationPiece.isEmpty() && destinationPiece.isSameTeam(this)) {
+        if (!destinationPiece.isEmpty() && destinationPiece.isSameTeam(this)) {
             throw new IllegalArgumentException(PieceErrorMessage.ALREADY_OCCUPIED_BY_ALLY.getMessage());
         }
     }
