@@ -20,12 +20,16 @@ public class SoldierAction implements PieceAction {
         TEAM_RULES_MAP = new EnumMap<>(TeamType.class);
         TEAM_RULES_MAP.put(TeamType.RED, List.of(
             RuleWithTraces.of(new ConstrainedMovement(1, Direction.WEST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.EAST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH))));
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH_WEST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH_EAST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.EAST))));
         TEAM_RULES_MAP.put(TeamType.BLUE, List.of(
             RuleWithTraces.of(new ConstrainedMovement(1, Direction.WEST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.EAST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH))));
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH_WEST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH_EAST)),
+            RuleWithTraces.of(new ConstrainedMovement(1, Direction.EAST))));
     }
 
     private final List<Rule> rules;
