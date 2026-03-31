@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 public class OnePieceExistsConditionTest {
 
+    private static final int PASS_PIECE_COUNT = 1;
+
     MoveCondition condition = new OnePieceExistsCondition();
 
     @Test
@@ -35,7 +37,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
+                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(PASS_PIECE_COUNT));
     }
 
     @Test
@@ -59,7 +61,7 @@ public class OnePieceExistsConditionTest {
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage());
+                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(PASS_PIECE_COUNT));
     }
 
     @Test

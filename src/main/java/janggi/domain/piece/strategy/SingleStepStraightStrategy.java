@@ -1,13 +1,13 @@
 package janggi.domain.piece.strategy;
 
-import static janggi.constant.GameRule.SINGLE_STEP_DISTANCE;
-
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.exception.ExceptionMessage;
 import java.util.List;
 
 public class SingleStepStraightStrategy implements MoveStrategy {
+
+    private static final int SINGLE_STEP_DISTANCE = 1;
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
@@ -20,7 +20,7 @@ public class SingleStepStraightStrategy implements MoveStrategy {
     private void validateSingleStepMovement(DirectionInformation directionInformation) {
         if (directionInformation.calculateAbsRowDifference()
                 + directionInformation.calculateAbsColDifference() != SINGLE_STEP_DISTANCE) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 }

@@ -14,6 +14,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class ElephantStrategyTest {
 
+    private static final int ELEPHANT_STRAIGHT_MOVE_DISTANCE = 1;
+    private static final int ELEPHANT_DIAGONAL_MOVE_DISTANCE = 2;
+
     private final MoveStrategy strategy = new ElephantStrategy();
 
     private static Stream<Arguments> createPositionsAndPath() {
@@ -96,6 +99,6 @@ public class ElephantStrategyTest {
     void 상은_행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
         assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
+                .hasMessage(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage(ELEPHANT_STRAIGHT_MOVE_DISTANCE, ELEPHANT_DIAGONAL_MOVE_DISTANCE));
     }
 }

@@ -14,6 +14,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class HorseStrategyTest {
 
+    private static final int HORSE_STRAIGHT_MOVE_DISTANCE = 1;
+    private static final int HORSE_DIAGONAL_MOVE_DISTANCE = 1;
+
     private final MoveStrategy strategy = new HorseStrategy();
 
     private static Stream<Arguments> createPositionsAndPath() {
@@ -86,6 +89,6 @@ public class HorseStrategyTest {
     void 마는_행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
         assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
+                .hasMessage(ExceptionMessage.INVALID_HORSE_MOVE.getMessage(HORSE_STRAIGHT_MOVE_DISTANCE, HORSE_DIAGONAL_MOVE_DISTANCE));
     }
 }

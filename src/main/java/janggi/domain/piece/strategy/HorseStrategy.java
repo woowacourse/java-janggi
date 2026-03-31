@@ -8,6 +8,8 @@ import java.util.List;
 
 public class HorseStrategy implements MoveStrategy {
 
+    private static final int HORSE_STRAIGHT_MOVE_DISTANCE = 1;
+    private static final int HORSE_DIAGONAL_MOVE_DISTANCE = 1;
     private static final int MIN_ABS_DELTA = 1;
     private static final int MAX_ABS_DELTA = 2;
 
@@ -58,7 +60,10 @@ public class HorseStrategy implements MoveStrategy {
                         || (absRowDifference == MAX_ABS_DELTA && absColDifference == MIN_ABS_DELTA);
 
         if (!isValidHorseMove) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_HORSE_MOVE.getMessage());
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_HORSE_MOVE.getMessage(
+                    HORSE_STRAIGHT_MOVE_DISTANCE,
+                    HORSE_DIAGONAL_MOVE_DISTANCE
+            ));
         }
     }
 }

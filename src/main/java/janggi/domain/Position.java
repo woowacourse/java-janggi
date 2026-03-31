@@ -1,12 +1,12 @@
 package janggi.domain;
 
-import static janggi.constant.GameRule.MAX_COLUMN_INDEX;
-import static janggi.constant.GameRule.MAX_ROW_INDEX;
-import static janggi.constant.GameRule.MIN_POSITION_INDEX;
-
 import janggi.exception.ExceptionMessage;
 
 public record Position(int row, int column) {
+
+    private static final int MIN_POSITION_INDEX = 0;
+    private static final int MAX_ROW_INDEX = 9;
+    private static final int MAX_COLUMN_INDEX = 8;
 
     public Position {
         validateRow(row);
@@ -15,13 +15,13 @@ public record Position(int row, int column) {
 
     private void validateRow(int row) {
         if (row < MIN_POSITION_INDEX || MAX_ROW_INDEX < row) {
-            throw new IllegalArgumentException(ExceptionMessage.ROW_OUT_OF_RANGE.getMessage());
+            throw new IllegalArgumentException(ExceptionMessage.ROW_OUT_OF_RANGE.getMessage(MIN_POSITION_INDEX, MAX_ROW_INDEX));
         }
     }
 
     private void validateColumn(int column) {
         if (column < MIN_POSITION_INDEX || MAX_COLUMN_INDEX < column) {
-            throw new IllegalArgumentException(ExceptionMessage.COLUMN_OUT_OF_RANGE.getMessage());
+            throw new IllegalArgumentException(ExceptionMessage.COLUMN_OUT_OF_RANGE.getMessage(MIN_POSITION_INDEX, MAX_COLUMN_INDEX));
         }
     }
 

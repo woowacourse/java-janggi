@@ -10,6 +10,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class PositionTest {
 
+    private static final int MIN_POSITION_INDEX = 0;
+    private static final int MAX_ROW_INDEX = 9;
+    private static final int MAX_COLUMN_INDEX = 8;
+
     @ParameterizedTest
     @CsvSource(value = {
             "-1,8",
@@ -18,7 +22,7 @@ public class PositionTest {
     void 포지션의_행이_0부터_9행까지가_아닐_경우_예외가_발생한다(int row, int col) {
         Assertions.assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.ROW_OUT_OF_RANGE.getMessage());
+                .hasMessage(ExceptionMessage.ROW_OUT_OF_RANGE.getMessage(MIN_POSITION_INDEX, MAX_ROW_INDEX));
     }
 
     @ParameterizedTest
@@ -29,7 +33,7 @@ public class PositionTest {
     void 포지션의_열이_0부터_8열까지가_아닐_경우_예외가_발생한다(int row, int col) {
         Assertions.assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.COLUMN_OUT_OF_RANGE.getMessage());
+                .hasMessage(ExceptionMessage.COLUMN_OUT_OF_RANGE.getMessage(MIN_POSITION_INDEX, MAX_COLUMN_INDEX));
     }
 
     @Test

@@ -17,6 +17,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierStrategyTest {
 
+    private static final int SINGLE_STEP_DISTANCE = 1;
+
     private final MoveStrategy strategy = new SoldierStrategy();
 
     @DisplayName("병 행마법 테스트")
@@ -55,7 +57,7 @@ class SoldierStrategyTest {
         void 병은_1칸_이동이_아니면_예외가_발생한다(Position source, Position destination) {
             assertThatThrownBy(() -> strategy.findPath(source, destination, Camp.HAN))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage());
+                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
 
         @Test
@@ -86,7 +88,7 @@ class SoldierStrategyTest {
         void 졸은_1칸_이동이_아니면_예외가_발생한다() {
             assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(5, 0), Camp.CHO))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage());
+                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
 
         @Test

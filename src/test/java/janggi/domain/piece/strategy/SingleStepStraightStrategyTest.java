@@ -15,6 +15,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SingleStepStraightStrategyTest {
 
+    private static final int SINGLE_STEP_DISTANCE = 1;
+
     private final MoveStrategy strategy = new SingleStepStraightStrategy();
 
     private static Stream<Arguments> successMovePositions() {
@@ -39,9 +41,9 @@ class SingleStepStraightStrategyTest {
     }
 
     @Test
-    void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다() {
+    void 직선_방향으로_1칸_만_이동하지_않으면_예외가_발생한다() {
         assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(5, 0), Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage());
+                .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage(SINGLE_STEP_DISTANCE));
     }
 }

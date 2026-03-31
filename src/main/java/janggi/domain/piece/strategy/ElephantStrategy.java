@@ -8,6 +8,9 @@ import java.util.List;
 
 public class ElephantStrategy implements MoveStrategy {
 
+    private static final int ELEPHANT_STRAIGHT_MOVE_DISTANCE = 1;
+    private static final int ELEPHANT_DIAGONAL_MOVE_DISTANCE = 2;
+
     private static final int DIAGONAL_COUNT = 2;
     private static final int MIN_ABS_DELTA = 2;
     private static final int MAX_ABS_DELTA = 3;
@@ -29,7 +32,10 @@ public class ElephantStrategy implements MoveStrategy {
                 || directionInfo.calculateAbsColDifference() != MAX_ABS_DELTA)
                 && (directionInfo.calculateAbsRowDifference() != MAX_ABS_DELTA
                 || directionInfo.calculateAbsColDifference() != MIN_ABS_DELTA)) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage());
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage(
+                    ELEPHANT_STRAIGHT_MOVE_DISTANCE,
+                    ELEPHANT_DIAGONAL_MOVE_DISTANCE
+            ));
         }
     }
 
