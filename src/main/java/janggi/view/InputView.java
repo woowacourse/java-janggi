@@ -1,5 +1,10 @@
 package janggi.view;
 
+import janggi.exception.EmptyCoordinateException;
+import janggi.exception.EmptyInputException;
+import janggi.exception.InvalidDelimiterException;
+import janggi.exception.NonNumericInputException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,9 +31,47 @@ public class InputView {
 
     private List<Integer> readCoordinates(String message) {
         System.out.println(message);
-        return Arrays.stream(sc.nextLine().split(","))
+        String input = sc.nextLine();
+
+        validateText(input);
+        validateDelimiter(input);
+
+        String[] splitNumbers = input.split(",");
+
+        if (splitNumbers.length != 2) {
+            throw new InvalidDelimiterException(); // 또는 별도의 InvalidInputFormatException
+        }
+
+        return Arrays.stream(splitNumbers)
                 .map(String::trim)
-                .map(Integer::parseInt)
+                .peek(this::validateEmptyToken) // 🌟 3. 빈 값 체크 (",3" 입력 시 앞부분 방어)
+                .map(this::validateNumber)
                 .toList();
+    }
+
+    private void validateText(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            throw new EmptyInputException();
+        }
+    }
+
+    private void validateDelimiter(String input) {
+        if (!input.contains(",")) {
+            throw new InvalidDelimiterException();
+        }
+    }
+
+    private int validateNumber(String token) {
+        try {
+            return Integer.parseInt(token);
+        } catch (NumberFormatException e) {
+            throw new NonNumericInputException();
+        }
+    }
+
+    private void validateEmptyToken(String token) {
+        if (token.isEmpty()) {
+            throw new EmptyCoordinateException();
+        }
     }
 }
