@@ -1,6 +1,10 @@
 package domain.position;
 
 public class Row {
+
+    private static final int MIN_ROW_NUMBER = 1;
+    private static final int MAX_ROW_NUMBER = 9;
+
     private final int value;
 
     public Row(int value) {
