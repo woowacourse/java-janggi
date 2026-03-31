@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.application.GameRepository;
 import janggi.application.dto.GameSnapshot;
 import janggi.application.dto.GameSummary;
+import janggi.domain.Point;
+import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.List;
@@ -84,5 +86,34 @@ public class JdbcGameRepositoryTest {
         assertThat(gameSummaries).hasSize(2);
         assertThat(gameSummaries.get(0).finished()).isFalse();
         assertThat(gameSummaries.get(1).finished()).isTrue();
+    }
+
+    @Test
+    @DisplayName("게임 id로 저장된 게임 조회")
+    void findById() {
+        // given
+        GameSnapshot gameSnapshot = new GameSnapshot(
+                1L,
+                Team.CHO,
+                false,
+                null,
+                List.of(
+                        PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                        PositionInfo.from(Team.HAN, "JANG", 4, 8)
+                )
+        );
+        repository.save(gameSnapshot);
+
+        // when
+        Long gameId = repository.findAll().get(0).id();
+        GameSnapshot foundGame = repository.findById(gameId).orElseThrow();
+
+
+        // then
+        assertThat(foundGame.id()).isEqualTo(gameId);
+        assertThat(foundGame.currentTurn()).isEqualTo(Team.CHO);
+        assertThat(foundGame.finished()).isFalse();
+        assertThat(foundGame.winner()).isNull();
+        assertThat(foundGame.positions()).hasSize(2);
     }
 }
