@@ -16,8 +16,8 @@ public enum Camp {
         return this == camp;
     }
 
-    public Camp next(){
-        if(this == CHO){
+    public Camp next() {
+        if (this == CHO) {
             return HAN;
         }
         return CHO;

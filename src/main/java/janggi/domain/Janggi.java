@@ -1,7 +1,11 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.strategy.*;
+import janggi.domain.board.strategy.ElephantHorseElephantHorse;
+import janggi.domain.board.strategy.ElephantHorseHorseElephant;
+import janggi.domain.board.strategy.FormationStrategy;
+import janggi.domain.board.strategy.HorseElephantElephantHorse;
+import janggi.domain.board.strategy.HorseElephantHorseElephant;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 

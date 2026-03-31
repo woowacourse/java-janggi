@@ -11,7 +11,7 @@ public class Paths {
         this.paths = paths;
     }
 
-    public Path findPathByDestination(Position position){
+    public Path findPathByDestination(Position position) {
         return paths.stream()
                 .filter(p -> p.isDestination(position))
                 .findFirst()

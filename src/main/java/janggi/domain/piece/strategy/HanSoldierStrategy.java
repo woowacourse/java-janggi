@@ -8,7 +8,7 @@ import janggi.domain.position.Position;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class HanSoldierStrategy implements MoveStrategy{
+public class HanSoldierStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(

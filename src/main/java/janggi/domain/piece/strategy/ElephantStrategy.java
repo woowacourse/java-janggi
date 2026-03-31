@@ -31,6 +31,6 @@ public class ElephantStrategy implements MoveStrategy {
         return current.move(straight)
                 .flatMap(wp1 -> wp1.move(diagonal)
                         .flatMap(wp2 -> wp2.move(diagonal)
-                        .map(dest -> Path.of(List.of(wp1, wp2), dest))));
+                                .map(dest -> Path.of(List.of(wp1, wp2), dest))));
     }
 }

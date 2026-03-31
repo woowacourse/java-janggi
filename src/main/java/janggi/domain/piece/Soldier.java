@@ -3,8 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Camp;
 import janggi.domain.piece.strategy.ChoSoldierStrategy;
 import janggi.domain.piece.strategy.HanSoldierStrategy;
-import janggi.domain.position.Position;
 import janggi.domain.piece.strategy.MoveStrategy;
+import janggi.domain.position.Position;
 
 import java.util.Map;
 
@@ -22,6 +22,7 @@ public class Soldier extends Piece {
         }
         return HAN_SOLDIER_STRATEGY;
     }
+
     @Override
     public boolean canPassRoute(Map<Position, Piece> piecesInPath) {
         return true;

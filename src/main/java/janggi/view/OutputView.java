@@ -1,8 +1,8 @@
 package janggi.view;
 
 import janggi.domain.Camp;
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
-import janggi.domain.piece.*;
 
 import java.util.List;
 import java.util.Map;
@@ -62,7 +62,7 @@ public class OutputView {
                 .collect(Collectors.joining("　"));
     }
 
-    public void printErrorMessage(String message){
+    public void printErrorMessage(String message) {
         System.out.println(message);
     }
 }

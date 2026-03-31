@@ -1,7 +1,6 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Path;
-
 import janggi.domain.Paths;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;

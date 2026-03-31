@@ -14,11 +14,11 @@ public class Path {
         this.destination = destination;
     }
 
-    public static Path of(Position position){
+    public static Path of(Position position) {
         return new Path(new WayPoints(List.of()), position);
     }
 
-    public static Path of(List<Position> wayPoints, Position destination){
+    public static Path of(List<Position> wayPoints, Position destination) {
         return new Path(new WayPoints(wayPoints), destination);
     }
 
