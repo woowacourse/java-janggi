@@ -26,7 +26,8 @@ public class BoardDto {
             result.add(new PieceDto(
                     position.getRow(),
                     position.getColumn(),
-                    piece.getPieceType().getName()));
+                    piece.getPieceType().getName(),
+                    piece.getTeam().name()));
         }
         return new BoardDto(result);
     }
