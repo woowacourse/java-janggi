@@ -5,7 +5,7 @@ import java.util.List;
 
 public record Row(int index) {
 
-    private static final String INVALID_COORDINATION = "좌표값이 잘못되었습니다.";
+    private static final String ERROR_INVALID_COORDINATION = "좌표값이 잘못되었습니다.";
 
     private static final int MIN = 1;
     private static final int MAX = 10;
@@ -24,7 +24,7 @@ public record Row(int index) {
 
     private void validateRange(int index) {
         if (index < MIN || index > MAX) {
-            throw new IllegalArgumentException(INVALID_COORDINATION);
+            throw new IllegalArgumentException(ERROR_INVALID_COORDINATION);
         }
     }
 

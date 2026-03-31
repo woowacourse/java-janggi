@@ -16,7 +16,7 @@ public enum PieceName {
     SOLDIER("Soldier", "졸"),
     EMPTY("EmptyPiece", "ㆍ");
 
-    private static final String INVALID_PIECE = "알 수 없는 기물입니다: ";
+    private static final String ERROR_INVALID_PIECE = "알 수 없는 기물입니다: ";
 
     private final String className;
     private final String name;
@@ -31,7 +31,7 @@ public enum PieceName {
                 .filter(pieceName -> pieceName.className.equals(className))
                 .map(pieceName -> pieceName.name)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_PIECE + className));
+                .orElseThrow(() -> new IllegalArgumentException(ERROR_INVALID_PIECE + className));
 
         if (team == Team.HAN) return ConsoleColor.RED + name + ConsoleColor.RESET;
         if (team == Team.CHO) return ConsoleColor.GREEN + name + ConsoleColor.RESET;

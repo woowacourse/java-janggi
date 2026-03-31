@@ -22,7 +22,7 @@ public enum PlacementOption {
     CHO_LEFT_INNER_HORSE("3", new LeftInnerHorseChoPlacement()),
     CHO_RIGHT_INNER_HORSE("4", new RightInnerHorseChoPlacement());
 
-    private static final String INVALID_PLACEMENT_OPTION = "잘못된 입력 값입니다. 1~4 값을 입력해주세요.";
+    private static final String ERROR_INVALID_PLACEMENT_OPTION = "잘못된 입력 값입니다. 1~4 값을 입력해주세요.";
 
     private final String input;
     private final PlacementStrategy strategy;
@@ -38,7 +38,7 @@ public enum PlacementOption {
                 .filter(option -> option.input.equals(input))
                 .map(option -> option.strategy)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_PLACEMENT_OPTION));
+                .orElseThrow(() -> new IllegalArgumentException(ERROR_INVALID_PLACEMENT_OPTION));
     }
 
     public static PlacementStrategy choFrom(String input) {
@@ -47,6 +47,6 @@ public enum PlacementOption {
                 .filter(option -> option.input.equals(input))
                 .map(option -> option.strategy)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_PLACEMENT_OPTION));
+                .orElseThrow(() -> new IllegalArgumentException(ERROR_INVALID_PLACEMENT_OPTION));
     }
 }
