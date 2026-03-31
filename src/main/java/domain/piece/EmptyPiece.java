@@ -16,6 +16,6 @@ public class EmptyPiece extends Piece {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return true;
     }
 }
