@@ -1,14 +1,17 @@
 package domain.pieces;
 
-import java.util.ArrayList;
 import java.util.List;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.path.EmptyPathRule;
 import domain.movepolicy.path.PathRule;
+import domain.position.Direction;
 import domain.position.Position;
+import domain.position.SlidingDirectionFinder;
+import domain.position.SlidingPath;
 
 public class Cha extends FullPiece {
+    private static final SlidingDirectionFinder SLIDING_DIRECTION_FINDER = new SlidingDirectionFinder();
 
     public Cha(Side side) {
         super(side);
@@ -23,34 +26,8 @@ public class Cha extends FullPiece {
 
     @Override
     protected List<Position> getPathPositions(Position departure, Position destination) {
-        List<Position> pathPositions = new ArrayList<>();
-        if (departure.isSameRow(destination)) {
-            if (destination.isLeftColumn(departure)) {
-                while (!departure.moveLeft().equals(destination)) {
-                    departure = departure.moveLeft();
-                    pathPositions.add(departure);
-                }
-            } else {
-                while (!departure.moveRight().equals(destination)) {
-                    departure = departure.moveRight();
-                    pathPositions.add(departure);
-                }
-            }
-        }
-        if (departure.isSameColumn(destination)) {
-            if (destination.isLowerRowThan(departure)) {
-                while (!departure.moveDown().equals(destination)) {
-                    departure = departure.moveDown();
-                    pathPositions.add(departure);
-                }
-            } else {
-                while (!departure.moveUp().equals(destination)) {
-                    departure = departure.moveUp();
-                    pathPositions.add(departure);
-                }
-            }
-        }
-        return pathPositions;
+        Direction direction = SLIDING_DIRECTION_FINDER.find(departure, destination);
+        return new SlidingPath(direction).pathPositions(departure, destination);
     }
 
     @Override
