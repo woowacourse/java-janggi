@@ -135,5 +135,28 @@ class ChariotTest {
             // then
             assertThat(movableIntersections).containsAll(expected);
         }
+
+        @Test
+        void 일직선상이_아닌_칸으로는_이동할_수_없다() {
+            // given
+            Chariot chariot = new Chariot(SIDE);
+            int currentRow = 5;
+            int currentFile = 5;
+            Intersection currentIntersection = new Intersection(currentRow, currentFile);
+
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+            // when
+            List<Intersection> movableIntersections = chariot.movableIntersections(
+                    currentIntersection,
+                    emptyAlivePieces
+            );
+
+            // then
+            boolean diagonalIntersectionExist = movableIntersections.stream()
+                    .anyMatch(intersection -> intersection.hasDifferentFile(currentFile)
+                            && intersection.hasDifferentRow(currentRow));
+            assertThat(diagonalIntersectionExist).isFalse();
+        }
     }
 }

@@ -32,6 +32,14 @@ public class Intersection {
         return file.value();
     }
 
+    public boolean hasDifferentRow(int row) {
+        return this.row.value() == row;
+    }
+
+    public boolean hasDifferentFile(int file) {
+        return this.file.value() == file;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
