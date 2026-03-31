@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 public class Board {
     private static final int MIN_X = 0;
     private static final int MAX_X = 9;
-
     private static final int MIN_Y = 0;
     private static final int MAX_Y = 8;
+    
     private final Map<Point, Piece> board;
 
-    private Board(Map<Point, Piece> board) {
+    protected Board(Map<Point, Piece> board) {
         board.keySet().forEach(this::validateRange);
         this.board = board;
     }

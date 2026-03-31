@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
@@ -57,5 +58,11 @@ class BoardTest {
         assertThat(board.getBoard().containsKey(new Point(0, 0))).isFalse();
     }
 
+    @Test
+    @DisplayName("범위를 벗어난 Point가 들어오면 예외를 반환한다.")
+    void constructor() {
+        assertThatThrownBy(() -> new Board(Map.of(new Point(10, 10), new Soldier(Side.CHO))))
+                .isInstanceOf(IllegalStateException.class);
+    }
 
 }
