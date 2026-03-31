@@ -3,7 +3,6 @@ package controller;
 import domain.JanggiBoard;
 import domain.piece.Piece;
 import domain.position.Position;
-import java.util.LinkedHashMap;
 import view.InputView;
 import view.OutputView;
 
@@ -20,12 +19,12 @@ public class JanggiController {
         JanggiBoard janggiBoard = new JanggiBoard();
         while (true) {
             outputView.printBoard(janggiBoard);
-            Position currentPosition = inputMovePosition();
-            Position targetPosition = inputTargetPosition();
-            Piece currentPiece = janggiBoard.getPiece(currentPosition);
-            boolean movePiece = currentPiece.canMove(currentPosition, targetPosition, janggiBoard);
+            Position from = inputMovePosition();
+            Position to = inputTargetPosition();
+            Piece currentPiece = janggiBoard.getPiece(from);
+            boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
             if (movePiece) {
-                janggiBoard.move(currentPosition, targetPosition, currentPiece);
+                janggiBoard.move(from, to, currentPiece);
                 outputView.printBoard(janggiBoard);
             }
         }
