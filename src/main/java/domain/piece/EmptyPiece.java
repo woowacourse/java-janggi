@@ -25,7 +25,7 @@ public class EmptyPiece extends Piece {
 
     @Override
     public Team team() {
-        return null;
+        return Team.NONE;
     }
 
     @Override
