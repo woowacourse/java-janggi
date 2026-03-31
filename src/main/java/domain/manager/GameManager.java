@@ -39,7 +39,13 @@ public class GameManager {
         isGameRunning = false;
     }
 
-    public boolean isGameRunning() { return isGameRunning; }
-    public Player getCurrentPlayer() { return currentPlayer; }
-    public Board getBoard() { return board; }
+    public boolean isGameRunning() {
+        return isGameRunning;
+    }
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+    public Board getBoard() {
+        return board;
+    }
 }
