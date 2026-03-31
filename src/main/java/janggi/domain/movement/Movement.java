@@ -1,6 +1,7 @@
 package janggi.domain.movement;
 
 import janggi.domain.Position;
+import janggi.domain.board.Board;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
 import java.util.ArrayList;
@@ -35,6 +36,12 @@ public class Movement {
         }
         final Piece target = boardMediator.getPieceInPosition(to);
         return me.canCatch(target);
+    }
+
+    public boolean isValid(final Position from, final BoardMediator boardMediator) {
+        return IntStream.rangeClosed(1, maxDistance - 1)
+            .mapToObj(distance -> from.calculateNext(distance, direction))
+            .allMatch(position -> boardMediator.canMove(position, direction));
     }
 
     public boolean isBlocked(final Position from, final BoardMediator boardMediator) {

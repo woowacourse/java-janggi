@@ -88,11 +88,13 @@ class MovementTest {
         @Test
         @DisplayName("최대 거리까지 이동할 경로가 존재하는 경우")
         void success_1() {
+            Board board = new Board(new LinkedHashMap<>());
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
             Position from = Position.valueOf(10, 4);
             Movement movement = new Movement(2, Direction.NORTH_EAST);
             boolean expected = true;
 
-            boolean actual = movement.isValid(from);
+            boolean actual = movement.isValid(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -100,11 +102,13 @@ class MovementTest {
         @Test
         @DisplayName("최대 거리까지 이동할 경로가 존재하지 않는 경우")
         void success_2() {
+            Board board = new Board(new LinkedHashMap<>());
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
             Position from = Position.valueOf(9, 5);
             Movement movement = new Movement(2, Direction.NORTH_EAST);
             boolean expected = false;
 
-            boolean actual = movement.isValid(from);
+            boolean actual = movement.isValid(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
