@@ -29,8 +29,9 @@ public class InputView {
                 .map(Integer::parseInt)
                 .toList();
 
-        validateChoicesSize(choices);
-        return new OpeningFormationChoices(choices.getFirst(), choices.getLast());
+        int hanChoice = choices.get(0);
+        int choChoice = choices.get(1);
+        return new OpeningFormationChoices(hanChoice, choChoice);
     }
 
     public List<Integer> readEndPiecePosition() {

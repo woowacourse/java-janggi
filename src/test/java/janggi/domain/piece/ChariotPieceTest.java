@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class ChariotPieceTest {
     @ParameterizedTest
-    @DisplayName("차는 상하좌우 직전이면 칸 수에 상관없이 이동 가능하다.")
+    @DisplayName("차는 상하좌우 직선이면 칸 수에 상관없이 이동 가능하다.")
     @CsvSource({
             "2, 3, 6, 4",
             "8, 3, 9, 1",
@@ -31,7 +31,7 @@ class ChariotPieceTest {
     }
 
     @ParameterizedTest
-    @DisplayName("차는 상하좌우 직전으로 칸 수 상관없이 이동 가능하다.")
+    @DisplayName("차는 상하좌우 직선으로 칸 수 상관없이 이동 가능하다.")
     @CsvSource({
             "2, 3, 5, 3",
             "8, 3, 5, 3",
@@ -46,7 +46,7 @@ class ChariotPieceTest {
     }
 
     @Test
-    @DisplayName("차는 상하좌우 직전이면 칸 수에 상관없이 이동 가능하다.")
+    @DisplayName("차는 상하좌우 직선이면 칸 수에 상관없이 이동 가능하다.")
     void testFindDestinationPath() {
         Position from = new Position(2, 3);
         Position to = new Position(5, 3);

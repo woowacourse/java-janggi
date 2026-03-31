@@ -45,7 +45,7 @@ public enum OpeningFormation {
         return Arrays.stream(values())
                 .filter(openingFormation -> openingFormation.choice == choice)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 차림 선택 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 차림 선택입니다."));
     }
 
     public void initializeHan(Map<Position, Piece> board) {

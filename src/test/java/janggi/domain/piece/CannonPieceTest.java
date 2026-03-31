@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class CannonPieceTest {
 
     @ParameterizedTest
-    @DisplayName("포는 상하좌우 직전으로 칸 수 상관없이 이동 가능하다.")
+    @DisplayName("포는 상하좌우 직선으로 칸 수 상관없이 이동 가능하다.")
     @CsvSource({
             "2, 3, 5, 3",
             "8, 3, 5, 3",
