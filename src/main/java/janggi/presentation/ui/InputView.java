@@ -1,15 +1,33 @@
 package janggi.presentation.ui;
 
+import janggi.domain.status.Team;
 import janggi.presentation.dto.MoveCommand;
 import janggi.util.Console;
 import janggi.util.Parser;
+import java.util.Map;
 
 public class InputView {
+
+    private static final Map<Team, String> DISPLAY_NAME = Map.of(
+            Team.HAN, "한",
+            Team.CHO, "초"
+    );
 
     private InputView() {
     }
 
-    public static MoveCommand readPoints() {
+    public static String chooseNewGame() {
+        System.out.println("새로운 장기 게임을 시작하시겠습니까?(y,n)");
+        return Console.readLine();
+    }
+
+    public static Long chooseExistsGame() {
+        System.out.println("기존 장기 게임방ID를 입력해주세요.");
+        return Long.valueOf(Console.readLine());
+    }
+
+    public static MoveCommand readPoints(Team team) {
+        System.out.println("현재 " + DISPLAY_NAME.get(team) + "나라의 차례입니다.");
         return new MoveCommand(Parser.parsePoint(readFromPoint()),
                 Parser.parsePoint(readToPoint())
         );
