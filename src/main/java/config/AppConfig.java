@@ -1,7 +1,7 @@
 package config;
 
-import domain.board.Service.BoardService;
-import domain.board.repository.BoardRepositoryImpl;
+import service.BoardService;
+import repository.impl.BoardRepositoryImpl;
 
 public class AppConfig {
 

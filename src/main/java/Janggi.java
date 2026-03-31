@@ -1,4 +1,5 @@
 import domain.board.Board;
+import repository.BoardRepository;
 import factory.BoardFactory;
 import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
@@ -9,7 +10,12 @@ import view.OutputView;
 
 public class Janggi {
 
+    private final BoardRepository boardRepository;
     private Side turn = Side.CHO;
+
+    public Janggi(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
+    }
 
     public void run() {
         Board board = getBoard();

@@ -1,6 +1,6 @@
-package domain.board.Service;
+package service;
 
-import domain.board.repository.BoardRepositoryImpl;
+import repository.impl.BoardRepositoryImpl;
 
 public class BoardService {
 

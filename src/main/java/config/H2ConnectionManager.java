@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class H2ConnectionManager {
 
-    private static final String URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
+    private static final String URL = "jdbc:h2:file:./data/testdb";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
