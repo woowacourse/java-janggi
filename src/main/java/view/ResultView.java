@@ -9,7 +9,7 @@ public class ResultView {
     public void printBoard(BoardStatusDto dto) {
         String[][] grid = initGrid();
 
-        List<PieceDto> board = dto.getBoard();
+        List<PieceDto> board = dto.board();
         for (PieceDto pieceDto : board) {
             grid[pieceDto.getRow() - 1][pieceDto.getColumn() - 1] = pieceDto.getDescription();
         }

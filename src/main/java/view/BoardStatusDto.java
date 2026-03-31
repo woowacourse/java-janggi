@@ -6,12 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BoardStatusDto {
-    private final List<PieceDto> board;
-
-    public BoardStatusDto(List<PieceDto> board) {
-        this.board = board;
-    }
+public record BoardStatusDto(
+        List<PieceDto> board) {
 
     public static BoardStatusDto from(Map<Position, Piece> board) {
         List<PieceDto> dtos = new ArrayList<>();
@@ -19,9 +15,5 @@ public class BoardStatusDto {
             dtos.add(PieceDto.toDto(position, board.get(position)));
         }
         return new BoardStatusDto(dtos);
-    }
-
-    public List<PieceDto> getBoard() {
-        return board;
     }
 }

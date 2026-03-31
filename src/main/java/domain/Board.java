@@ -20,18 +20,14 @@ public class Board {
     }
 
     public void move(Turn turn, Position start, Position destination) {
-        // 목적지에 있는 기물 아군 적군 판별
         Piece startPiece = selectNotEmptyPiece(start);
-
-        startPiece.validateTurn(turn);
         Piece destinationPiece = findTargetPiece(destination);
 
+        startPiece.validateTurn(turn);
         startPiece.validateNotAlly(destinationPiece);
 
-        // 이동 여부 검사 (실패시 예외 발생)
         startPiece.check(BoardStatus.from(pieces), start, destination);
 
-        // 이동
         pieces.remove(start);
         pieces.put(destination, startPiece);
     }
