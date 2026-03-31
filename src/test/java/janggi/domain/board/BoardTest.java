@@ -6,8 +6,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.Arrangement;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.initializer.BoardInitializer;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {

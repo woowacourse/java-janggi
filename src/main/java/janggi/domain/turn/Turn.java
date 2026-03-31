@@ -5,11 +5,11 @@ import janggi.domain.board.Board;
 import janggi.domain.piece.PieceInfo;
 import java.util.List;
 
-public abstract class Started implements PlayerTurn {
+public abstract class Turn implements PlayerTurn {
     protected final Board board;
     protected final Side side;
 
-    public Started(Board board, Side side) {
+    public Turn(Board board, Side side) {
         this.board = board;
         this.side = side;
     }

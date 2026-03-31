@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 
-public class ChoTurn extends Started {
+public class ChoTurn extends Turn {
     public ChoTurn(Board board) {
         super(board, Side.CHO);
     }
