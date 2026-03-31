@@ -1,14 +1,19 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
+import janggi.domain.movement.Direction;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class Board {
+
+    private static final List<Direction> DEFAULT_MOVABLE_DIRECTIONS =
+        List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
     private final Map<Position, Piece> positionPieceMap;
 
@@ -58,6 +63,11 @@ public class Board {
             .map(Piece::getTeamType)
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("아직 게임이 끝나지 않았습니다."));
+    }
+
+    public boolean canMove(final Position position, final Direction direction) {
+        return DEFAULT_MOVABLE_DIRECTIONS.contains(direction) || Palace.hasDirection(position,
+            direction);
     }
 
     public Map<Position, Piece> getPositionPieceMap() {
