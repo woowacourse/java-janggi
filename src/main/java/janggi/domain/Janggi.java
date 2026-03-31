@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
 import janggi.domain.board.strategy.ElephantHorseElephantHorse;
 import janggi.domain.board.strategy.ElephantHorseHorseElephant;
 import janggi.domain.board.strategy.FormationStrategy;
@@ -27,7 +28,7 @@ public class Janggi {
     }
 
     public static Janggi start(int choFormationNumber, int hanFormationNumber) {
-        return new Janggi(Board.initializeToBoard(
+        return new Janggi(BoardFactory.create(
                 readFormation(choFormationNumber),
                 readFormation(hanFormationNumber)));
     }

@@ -15,18 +15,28 @@ public class OutputView {
     private static final String CHO_COLOR = "\u001B[1;34m";
     private static final String HAN_COLOR = "\u001B[1;31m";
 
-    private static final int COL_SIZE = 9;
-
     private static final Map<Boolean, String> COLOR_MAP = Map.of(
             true, CHO_COLOR,
             false, HAN_COLOR
     );
 
+    private static final Map<Camp, Integer> ROW_START = Map.of(
+            Camp.CHO, 9,
+            Camp.HAN, 0
+    );
+
+    private static final Map<Camp, Integer> ROW_STEP = Map.of(
+            Camp.CHO, -1,
+            Camp.HAN, 1
+    );
+
+    private static final int COL_SIZE = 9;
+
     public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
         System.out.println();
 
-        int rowStart = 9 - currentCamp.initRowPosition();
-        int rowStep = -currentCamp.direction();
+        int rowStart = ROW_START.get(currentCamp);
+        int rowStep = ROW_STEP.get(currentCamp);
 
         List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
                 .limit(10)
