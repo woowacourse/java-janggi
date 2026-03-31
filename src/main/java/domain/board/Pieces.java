@@ -10,7 +10,7 @@ public class Pieces {
     private final Map<Position, Piece> pieces;
 
     public Pieces(Map<Position, Piece> pieces) {
-        this.pieces = pieces;
+        this.pieces = new HashMap<>(pieces);
     }
 
     public static Pieces of(Arrangements arrangements) {
