@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 
-public class Finish extends Turn {
+public class Finish extends ActionTurn {
     private static final String INVALID_MOVE = "게임 종료 상태에서는 이동할 수 없습니다.";
 
     private final Side winnerSide;

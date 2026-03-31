@@ -4,8 +4,8 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 
-public class HanTurn extends Turn {
-    public HanTurn(Board board) {
+public class HanActionTurn extends ActionTurn {
+    public HanActionTurn(Board board) {
         super(board, Side.HAN);
     }
 
@@ -15,6 +15,6 @@ public class HanTurn extends Turn {
         if (board.isEndGame()) {
             return new Finish(board, side);
         }
-        return new ChoTurn(board);
+        return new ChoActionTurn(board);
     }
 }
