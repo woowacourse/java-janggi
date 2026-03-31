@@ -78,7 +78,12 @@ public final class InputView {
     }
 
     private Intersection parseIntersection(String input) {
-        String[] split = input.split(",");
+        final String delimiter = ",";
+        if (!input.contains(delimiter)) {
+            throw new IllegalArgumentException("잘못된 입력입니다.");
+        }
+
+        String[] split = input.split(delimiter);
         int row = Integer.parseInt(split[0]);
         int file = Integer.parseInt(split[1]);
 
