@@ -45,18 +45,18 @@ public enum Side {
         this.rightDirection = leftDirection.reverse();
     }
 
-    public int getRowAt(MoveAmount distance) {
+    public int getRowAt(MoveAmount distanceFromBaseRow) {
         final int defaultFile = 5;
         Intersection targetIntersection =
-                forwardDirection.moveForward(new Intersection(baseRow, defaultFile), distance);
+                forwardDirection.moveForward(new Intersection(baseRow, defaultFile), distanceFromBaseRow);
 
         return targetIntersection.row();
     }
 
-    public int getFileAt(MoveAmount distance) {
+    public int getFileAt(MoveAmount distanceFromBaseFile) {
         final int defaultRow = 5;
         Intersection targetIntersection =
-                forwardDirection.moveRight(new Intersection(defaultRow, baseFile), distance);
+                forwardDirection.moveRight(new Intersection(defaultRow, baseFile), distanceFromBaseFile);
 
         return targetIntersection.file();
     }
