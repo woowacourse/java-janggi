@@ -5,8 +5,8 @@ import domain.position.Position;
 import java.util.List;
 
 public class Soldier extends ActivePiece {
-    private final List<Integer> dx = List.of(-1, 1);
-    private final List<Integer> dy = List.of(0, 0);
+    private static final List<Integer> dx = List.of(-1, 1);
+    private static final List<Integer> dy = List.of(0, 0);
 
     public Soldier(Team team) {
         super(team, PieceDefinition.BYEONG);

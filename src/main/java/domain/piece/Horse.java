@@ -5,9 +5,8 @@ import domain.position.Position;
 import java.util.List;
 
 public class Horse extends ActivePiece {
-
-    private final List<Integer> dx = List.of(1, 2, 2, 1, -1, -2, -2, -1);
-    private final List<Integer> dy = List.of(2, 1, -1, -2, -2, -1, 1, 2);
+    private static final List<Integer> dx = List.of(1, 2, 2, 1, -1, -2, -2, -1);
+    private static final List<Integer> dy = List.of(2, 1, -1, -2, -2, -1, 1, 2);
 
     public Horse(Team team) {
         super(team, PieceDefinition.MA);

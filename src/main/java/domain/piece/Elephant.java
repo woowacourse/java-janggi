@@ -5,9 +5,8 @@ import domain.position.Position;
 import java.util.List;
 
 public class Elephant extends ActivePiece {
-    //바꾸기
-    private final List<Integer> dx = List.of(2, 3, -2, -3, -3, -2, 2, 3);
-    private final List<Integer> dy = List.of(3, 2, 3, 2, -2, -3, -3, -2);
+    private static final List<Integer> dx = List.of(2, 3, -2, -3, -3, -2, 2, 3);
+    private static final List<Integer> dy = List.of(3, 2, 3, 2, -2, -3, -3, -2);
 
     public Elephant(Team team) {
         super(team, PieceDefinition.SANG);

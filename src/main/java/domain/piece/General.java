@@ -5,8 +5,8 @@ import domain.position.Position;
 import java.util.List;
 
 public class General extends ActivePiece {
-    private final List<Integer> dx = List.of(-1, 1, 0, 0);
-    private final List<Integer> dy = List.of(0, 0, -1, 1);
+    private static final List<Integer> dx = List.of(-1, 1, 0, 0);
+    private static final List<Integer> dy = List.of(0, 0, -1, 1);
 
     public General(Team team) {
         super(team, PieceDefinition.GENERAL);
