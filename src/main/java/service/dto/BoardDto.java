@@ -1,8 +1,9 @@
 package service.dto;
 
-import java.util.List;
+import java.util.Map;
 
 
-public record BoardDto (List<Row> rows) {
-    public record Row(List<String> pieces) {};
+public record BoardDto(
+        Map<PositionDto, PieceDto> pieces
+) {
 }

@@ -63,11 +63,15 @@ public class Board {
         board.remove(endPosition);
     }
 
-    public PieceType getPiece(Position position) {
+    public PieceType getPieceType(Position position) {
         if (!board.containsKey(position)) {
             return PieceType.NONE;
         }
         return board.get(position).getPieceType();
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return Collections.unmodifiableMap(board);
     }
 
     public List<Position> getPiecesNowPosition(Country country, PieceType pieceType) {
