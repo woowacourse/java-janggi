@@ -22,8 +22,8 @@ public abstract class SingleStepStraightStrategy implements MoveStrategy {
     public List<Position> findPath(Position source, Position destination, Camp camp) {
         DirectionInformation directionInformation = new DirectionInformation(source, destination);
 
-        if (isPalace(source, destination, camp)) {
-            validatePalaceSingleStepMovement(source, destination, camp);
+        if (isPalace(source, destination)) {
+            validatePalaceSingleStepMovement(source, destination, directionInformation);
             return List.of(destination);
         }
 
@@ -31,14 +31,14 @@ public abstract class SingleStepStraightStrategy implements MoveStrategy {
         return List.of(destination);
     }
 
-    private boolean isPalace(Position source, Position destination, Camp camp) {
-        return camp.isPalace(source) && camp.isPalace(destination);
+    private boolean isPalace(Position source, Position destination) {
+        return Camp.isPalace(source) && Camp.isPalace(destination);
     }
 
-    private void validatePalaceSingleStepMovement(Position source, Position destination, Camp camp) {
-        DirectionInformation directionInformation = new DirectionInformation(source, destination);
+    private void validatePalaceSingleStepMovement(Position source, Position destination,
+                                                  DirectionInformation directionInformation) {
         if (isSingleDiagonalStep(directionInformation)) {
-            validateDiagonalMove(source, destination, camp);
+            validateDiagonalMove(source, destination);
         }
         if (!isSingleDiagonalStep(directionInformation) && !isSingleStep(directionInformation)) {
             throw new IllegalArgumentException(INVALID_PALACE_SINGLE_STEP_MOVE);
@@ -52,8 +52,8 @@ public abstract class SingleStepStraightStrategy implements MoveStrategy {
         return absRowDifference == 1 && absColumnDifference == 1;
     }
 
-    private void validateDiagonalMove(Position source, Position destination, Camp camp) {
-        if (!camp.isPalaceCenter(source, destination)) {
+    private void validateDiagonalMove(Position source, Position destination) {
+        if (!Camp.isPalaceCenter(source, destination)) {
             throw new IllegalArgumentException(INVALID_PALACE_DIAGONAL_STEP_MOVE);
         }
     }

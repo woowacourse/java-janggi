@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Position;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Camp {
@@ -52,31 +53,42 @@ public enum Camp {
         return startRowPosition;
     }
 
-    public void validatePalace(Position position) {
-        if (!(isPalaceRow(position) && isPalaceColumn(position))) {
+    public void validateFriendlyPalace(Position position) {
+        if (!(isFriendlyPalaceRow(position) && isPalaceColumn(position))) {
             throw new IllegalArgumentException(INVALID_PALACE_MOVEMENT);
         }
     }
 
-    public boolean isPalace(Position position) {
-        return isPalaceRow(position) && isPalaceColumn(position);
-    }
-
-    private boolean isPalaceRow(Position position) {
+    private boolean isFriendlyPalaceRow(Position position) {
         int absRowDifference = Math.abs(position.row() - startRowPosition);
         return absRowDifference <= 2;
     }
 
-    private boolean isPalaceColumn(Position position) {
+    public static boolean isPalace(Position position) {
+        return isPalaceRow(position) && isPalaceColumn(position);
+    }
+
+    private static boolean isPalaceRow(Position position) {
+        return Arrays.stream(values())
+                .anyMatch(camp -> {
+                    int absRowDifference = Math.abs(position.row() - camp.startRowPosition);
+                    return absRowDifference <= 2;
+                });
+    }
+
+    private static boolean isPalaceColumn(Position position) {
         return position.column() >= 3 && position.column() <= 5;
     }
 
-    public boolean isPalaceCenter(Position source, Position destination) {
+    public static boolean isPalaceCenter(Position source, Position destination) {
         return checkPalaceCenter(source) || checkPalaceCenter(destination);
     }
 
-    private boolean checkPalaceCenter(Position position) {
-        int absRowDifference = Math.abs(position.row() - startRowPosition);
-        return position.column() == 4 && absRowDifference == 1;
+    private static boolean checkPalaceCenter(Position position) {
+        return Arrays.stream(values())
+                .anyMatch(camp -> {
+                    int absRowDifference = Math.abs(position.row() - camp.startRowPosition);
+                    return position.column() == 4 && absRowDifference == 1;
+                });
     }
 }

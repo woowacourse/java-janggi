@@ -30,14 +30,6 @@ class SoldierStrategyTest {
             );
         }
 
-        private static Stream<Arguments> exceptionMovePositions() {
-            return Stream.of(
-                    Arguments.of(new Position(6, 0), new Position(5, 1)),
-                    Arguments.of(new Position(6, 0), new Position(6, 2)),
-                    Arguments.of(new Position(3, 2), new Position(2, 3))
-            );
-        }
-
         @ParameterizedTest
         @MethodSource("successMovePositions")
         void 병의_1칸_이동_여부를_확인한다(Position source, Position destination) {
@@ -47,6 +39,34 @@ class SoldierStrategyTest {
                 assertSoftly.assertThat(path).hasSize(1);
                 assertSoftly.assertThat(path).containsExactly(destination);
             });
+        }
+
+        private static Stream<Arguments> successDiagonalMovePositions() {
+            return Stream.of(
+                    Arguments.of(new Position(2, 3), new Position(1, 4), Camp.HAN),
+                    Arguments.of(new Position(2, 5), new Position(1, 4), Camp.HAN),
+                    Arguments.of(new Position(1, 4), new Position(0, 3), Camp.HAN),
+                    Arguments.of(new Position(1, 4), new Position(0, 5), Camp.HAN)
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("successDiagonalMovePositions")
+        void 병은_상대_궁성_내부에서_대각선_이동한다(Position source, Position destination, Camp camp) {
+            List<Position> path = strategy.findPath(source, destination, camp);
+
+            SoftAssertions.assertSoftly(assertSoftly -> {
+                assertSoftly.assertThat(path).hasSize(1);
+                assertSoftly.assertThat(path).containsExactly(destination);
+            });
+        }
+
+        private static Stream<Arguments> exceptionMovePositions() {
+            return Stream.of(
+                    Arguments.of(new Position(6, 0), new Position(5, 1)),
+                    Arguments.of(new Position(6, 0), new Position(6, 2)),
+                    Arguments.of(new Position(3, 2), new Position(2, 3))
+            );
         }
 
         @ParameterizedTest
@@ -62,6 +82,13 @@ class SoldierStrategyTest {
             assertThatThrownBy(() -> strategy.findPath(new Position(6, 0), new Position(7, 0), Camp.HAN))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 기물은 후진할 수 없습니다.");
+        }
+
+        @Test
+        void 병은_궁성에서_대각선이_없을때_대각_이동_시_예외가_발생한다() {
+            assertThatThrownBy(() -> strategy.findPath(new Position(1, 3), new Position(0, 4), Camp.HAN))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 궁성 내에 대각선이 존재하지 않는 경로 입니다.");
         }
     }
 
@@ -81,6 +108,26 @@ class SoldierStrategyTest {
             });
         }
 
+        private static Stream<Arguments> successDiagonalMovePositions() {
+            return Stream.of(
+                    Arguments.of(new Position(7, 3), new Position(8, 4), Camp.CHO),
+                    Arguments.of(new Position(7, 5), new Position(8, 4), Camp.CHO),
+                    Arguments.of(new Position(8, 4), new Position(9, 3), Camp.CHO),
+                    Arguments.of(new Position(8, 4), new Position(9, 5), Camp.CHO)
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("successDiagonalMovePositions")
+        void 졸은_상대_궁성_내부에서_대각선_이동한다(Position source, Position destination, Camp camp) {
+            List<Position> path = strategy.findPath(source, destination, camp);
+
+            SoftAssertions.assertSoftly(assertSoftly -> {
+                assertSoftly.assertThat(path).hasSize(1);
+                assertSoftly.assertThat(path).containsExactly(destination);
+            });
+        }
+
         @Test
         void 졸은_1칸_이동이_아니면_예외가_발생한다() {
             assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(5, 0), Camp.CHO))
@@ -93,6 +140,13 @@ class SoldierStrategyTest {
             assertThatThrownBy(() -> strategy.findPath(new Position(3, 0), new Position(2, 0), Camp.CHO))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 기물은 후진할 수 없습니다.");
+        }
+
+        @Test
+        void 졸은_궁성에서_대각선이_없을때_대각_이동_시_예외가_발생한다() {
+            assertThatThrownBy(() -> strategy.findPath(new Position(8, 3), new Position(9, 4), Camp.CHO))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 궁성 내에 대각선이 존재하지 않는 경로 입니다.");
         }
     }
 }
