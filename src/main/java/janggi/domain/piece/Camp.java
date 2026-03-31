@@ -80,11 +80,7 @@ public enum Camp {
         return position.column() >= 3 && position.column() <= 5;
     }
 
-    public static boolean isPalaceCenter(Position source, Position destination) {
-        return checkPalaceCenter(source) || checkPalaceCenter(destination);
-    }
-
-    private static boolean checkPalaceCenter(Position position) {
+    public static boolean isPalaceCenter(Position position) {
         return Arrays.stream(values())
                 .anyMatch(camp -> {
                     int absRowDifference = Math.abs(position.row() - camp.startRowPosition);
