@@ -26,7 +26,9 @@ class InitialPositionTest {
         InitialPosition initialPosition = new InitialPosition(side, new MoveAmount(2), 2, 8);
         Map<Intersection, Piece> placed = initialPosition.placePiece(new CannonFactory());
 
-        assertThat(placed).isEqualTo(expected);
+        assertThat(placed)
+                .usingRecursiveComparison()
+                .isEqualTo(expected);
     }
 
     @DisplayName("배치된 기물은 서로 동일하지 않아야 된다")

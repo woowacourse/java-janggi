@@ -33,7 +33,9 @@ class RightWingTest {
             Map<Intersection, Piece> actual = rightWing.setUpPieces(side);
 
             // then
-            assertThat(actual).isEqualTo(expected);
+            assertThat(actual)
+                    .usingRecursiveComparison()
+                    .isEqualTo(expected);
         }
 
         @Test
@@ -54,7 +56,9 @@ class RightWingTest {
             Map<Intersection, Piece> actual = rightWing.setUpPieces(side);
 
             // then
-            assertThat(actual).isEqualTo(expected);
+            assertThat(actual)
+                    .usingRecursiveComparison()
+                    .isEqualTo(expected);
         }
     }
 }
