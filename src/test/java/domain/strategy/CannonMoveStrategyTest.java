@@ -12,8 +12,8 @@ import java.util.Map;
 class CannonMoveStrategyTest {
 
     @Test
-    @DisplayName("초나라 포의 이동 경로에 포를 제외한 기물이 1개 있으면 정상 이동한다.")
-    void 초나라_포_정상_이동() {
+    @DisplayName("포의 이동 경로에 포를 제외한 기물이 1개 있으면 정상 이동한다.")
+    void cannonShouldMoveWhenOnePieceInPath() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -31,8 +31,8 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("한나라 포의 이동 경로에 다른 기물이 없으면 이동하지 못한다.")
-    void 포의_이동_경로에_다른_기물이_없으면_이동_불가() {
+    @DisplayName("포의 이동 경로에 다른 기물이 없으면 이동하지 못한다.")
+    void cannonShouldNotMoveWhenNoPieceInPath() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -49,8 +49,8 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("초나라 포의 이동 경로에 기물이 둘 이상 있으면 이동하지 않는다.")
-    void 초나라_포_이동_경로에_기물이_둘_이상_있으면_이동_불가() {
+    @DisplayName("포의 이동 경로에 기물이 둘 이상 있으면 이동하지 않는다.")
+    void cannonShouldNotMoveWhenMultiplePiecesInPath() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -69,8 +69,8 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
-    void 포_목적지에_같은_팀_기물이_있으면_이동_불가() {
+    @DisplayName("포의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
+    void cannonShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -89,8 +89,8 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("목적지에 포가 있으면 이동하지 않는다.")
-    void 목적지에_포가_있으면_이동_불가() {
+    @DisplayName("포의 목적지에 포가 있으면 이동하지 않는다.")
+    void cannonShouldNotMoveToAnotherCannon() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -109,8 +109,8 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("목적지에 다른 팀 기물이 있으면 이동한다.")
-    void 포_목적지에_다른_팀_기물이_있으면_이동_가능() {
+    @DisplayName("포의 목적지에 다른 팀 기물이 있으면 이동한다.")
+    void cannonShouldMoveToEnemyPiece() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -130,7 +130,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포의 이동 경로에 포가 존재하면 이동하지 못한다.")
-    void 포의_이동_경로에_포가_있으면_이동_불가() {
+    void cannonShouldNotMoveWhenCannonInPath() {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();

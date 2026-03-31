@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 class HorseMoveStrategyTest {
 
     @Test
-    @DisplayName("초나라 마의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
-    void 초나라_마_정상_이동() {
+    @DisplayName("마의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
+    void horseShouldMoveWhenPathIsClearForChuTeam() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -26,8 +26,8 @@ class HorseMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("한나라 마의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
-    void 한나라_마_정상_이동() {
+    @DisplayName("마의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
+    void horseShouldMoveWhenPathIsClearForHanTeam() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -41,8 +41,8 @@ class HorseMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("초나라 마의 이동 경로에 기물이 있으면 이동하지 않는다.")
-    void 초나라_마_이동_경로에_기물이_있으면_이동_불가() {
+    @DisplayName("마의 이동 경로에 기물이 있으면 이동하지 않는다.")
+    void horseShouldNotMoveWhenPieceInPath() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -56,8 +56,8 @@ class HorseMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
-    void 마_목적지에_같은_팀_기물이_있으면_이동_불가() {
+    @DisplayName("마의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
+    void horseShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
         Board board = BoardFactory.setUp();

@@ -11,7 +11,7 @@ class GuardMoveStrategyTest {
 
     @Test
     @DisplayName("사의 목적지에 기물이 없으면 이동한다.")
-    void 사_정상_이동() {
+    void guardShouldMoveToEmptyDestination() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -26,7 +26,7 @@ class GuardMoveStrategyTest {
 
     @Test
     @DisplayName("사의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
-    void 사_목적지에_같은_팀_기물이_있으면_이동_불가() {
+    void guardShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -42,7 +42,7 @@ class GuardMoveStrategyTest {
 
     @Test
     @DisplayName("사의 목적지에 다른 팀 기물이 있으면 이동한다.")
-    void 사_목적지에_다른_팀_기물이_있으면_정상_이동() {
+    void guardShouldMoveToEnemyPiece() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
         Board board = BoardFactory.setUp();

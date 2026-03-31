@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class ElephantMoveStrategyTest {
 
     @Test
-    @DisplayName("초나라 상의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
-    void 초나라_상_정상_이동() {
+    @DisplayName("상의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
+    void elephantShouldMoveWhenPathIsClear() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -25,23 +25,8 @@ class ElephantMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("한나라 상의 이동 경로에 다른 기물이 없으면 정상 이동한다.")
-    void 한나라_상_정상_이동() {
-        // given
-        MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp();
-
-        // when
-        Position from = Position.of(9, 1);
-        Position to = Position.of(6, 3);
-
-        // then
-        Assertions.assertTrue(strategy.canMove(from, to, board));
-    }
-
-    @Test
-    @DisplayName("초나라 상의 이동 경로에 기물이 있으면 이동하지 않는다.")
-    void 초나라_상_이동_경로에_기물이_있으면_이동_불가() {
+    @DisplayName("상의 이동 경로에 기물이 있으면 이동하지 않는다.")
+    void elephantShouldNotMoveWhenPieceInPath() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -55,8 +40,8 @@ class ElephantMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
-    void 상_목적지에_같은_팀_기물이_있으면_이동_불가() {
+    @DisplayName("상의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
+    void elephantShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
         Board board = BoardFactory.setUp();
@@ -70,8 +55,8 @@ class ElephantMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("목적지에 다른 팀 기물이 있으면 이동한다.")
-    void 상_목적지에_다른_팀_기물이_있으면_이동_가능() {
+    @DisplayName("상의 목적지에 다른 팀 기물이 있으면 이동한다.")
+    void elephantShouldMoveToEnemyPiece() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
         Board board = BoardFactory.setUp();

@@ -13,7 +13,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("졸의 목적지에 기물이 없으면 이동한다.")
-    void 졸_정상_이동() {
+    void soldierShouldMoveWhenDestinationIsEmpty() {
         // given
         MoveStrategy strategy = new SoldierMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -31,7 +31,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("졸의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
-    void 졸_목적지에_같은_팀_기물이_있으면_이동_불가() {
+    void soldierShouldNotMoveWhenDestinationHasAlly() {
         // given
         MoveStrategy strategy = new SoldierMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -51,7 +51,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("졸의 목적지에 다른 팀 기물이 있으면 이동한다.")
-    void 졸_목적지에_다른_팀_기물이_있으면_정상_이동() {
+    void soldierShouldMoveWhenDestinationHasEnemy() {
         // given
         MoveStrategy strategy = new SoldierMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -70,7 +70,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라 졸의 이동 경로가 후퇴이면 이동할 수 없다.")
-    void 초나라_졸의_이동_경로가_후퇴이면_이동_불가() {
+    void soldierShouldNotRetreatForChuTeam() {
         // given
         MoveStrategy strategy = new SoldierMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
@@ -88,7 +88,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("한나라 졸의 이동 경로가 후퇴이면 이동할 수 없다.")
-    void 한나라_졸의_이동_경로가_후퇴이면_이동_불가() {
+    void soldierShouldNotRetreatForHanTeam() {
         // given
         MoveStrategy strategy = new SoldierMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
