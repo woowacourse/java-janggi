@@ -4,10 +4,14 @@ import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 
 import common.exception.JanggiException;
+import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.player.Team;
+import domain.position.Position;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public enum Formation {
     SANG_MA_SANG_MA(List.of(SANG, MA, SANG, MA), 1),
@@ -30,7 +34,15 @@ public enum Formation {
                 .orElseThrow(() -> new JanggiException("1에서 4까지 숫자만 입력해주세요. 입력값: %s".formatted(inputNumber)));
     }
 
-    public List<PieceType> getFormation() {
-        return formation;
+    public void putFormation(Map<Position, Piece> board, Team team) {
+        List<Integer> columnPositions = List.of(1, 2, 6, 7);
+
+        for (int i = 0; i < formation.size(); i++) {
+            PieceType pieceType = formation.get(i);
+            int column = columnPositions.get(i);
+            Piece piece = pieceType.createPiece(team);
+            Position position = new Position(team.getColumn(), column);
+            board.put(position, piece);
+        }
     }
 }

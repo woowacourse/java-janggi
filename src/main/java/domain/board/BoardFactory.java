@@ -6,38 +6,22 @@ import static common.Constants.MIN_COLUMN;
 import domain.piece.Cha;
 import domain.piece.Jang;
 import domain.piece.Jol;
-import domain.piece.Ma;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
 import domain.player.Team;
 import domain.position.Position;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
 
     public static Board createWithFormation(Formation choFormation, Formation hanFormation) {
         Map<Position, Piece> board = createInitialBoard();
-        putFormation(board, choFormation, Team.CHO);
-        putFormation(board, hanFormation, Team.HAN);
+        choFormation.putFormation(board, Team.CHO);
+        hanFormation.putFormation(board, Team.HAN);
         return new Board(board);
-    }
-
-    private static void putFormation(Map<Position, Piece> board, Formation inputFormation, Team team) {
-        List<PieceType> formation = inputFormation.getFormation();
-        List<Integer> columnPositions = List.of(1, 2, 6, 7);
-
-        for (int i = 0; i < formation.size(); i++) {
-            PieceType pieceType = formation.get(i);
-            int column = columnPositions.get(i);
-            Piece piece = pieceType.createPiece(team);
-            Position position = new Position(team.getColumn(), column);
-            board.put(position, piece);
-        }
     }
 
     private static Map<Position, Piece> createInitialBoard() {
