@@ -54,7 +54,7 @@ public class Elephant extends Piece {
             int rowDifferent,
             int absColumnDifferent
     ) {
-        if (absColumnDifferent == 3) {
+        if (absColumnDifferent == MAX_STEP) {
             return createHorizontalIntermediateCoordinations(from, columnDifferent, rowDifferent);
         }
         return createVerticalIntermediateCoordinations(from, columnDifferent, rowDifferent);

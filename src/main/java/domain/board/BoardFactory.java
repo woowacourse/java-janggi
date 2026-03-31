@@ -11,6 +11,11 @@ import java.util.Map;
 
 public class BoardFactory {
 
+    private static final int COLUMN_MIN = 1;
+    private static final int COLUMN_MAX = 9;
+    private static final int ROW_MIN = 1;
+    private static final int ROW_MAX = 10;
+
     public static Board create(FormationType choFormation, FormationType hanFormation) {
         Map<Coordination, Piece> board = new HashMap<>();
         placeEmpty(board);
@@ -22,13 +27,13 @@ public class BoardFactory {
     }
 
     private static void placeEmpty(Map<Coordination, Piece> map) {
-        for (int row = 1; row <= 10; row++) {
+        for (int row = ROW_MIN; row <= ROW_MAX; row++) {
             placeColumns(map, row);
         }
     }
 
     private static void placeColumns(Map<Coordination, Piece> map, int row) {
-        for (int col = 1; col <= 9; col++) {
+        for (int col = COLUMN_MIN; col <= COLUMN_MAX; col++) {
             map.put(Coordination.of(col, row), new EmptyPiece(Team.NONE));
         }
     }
