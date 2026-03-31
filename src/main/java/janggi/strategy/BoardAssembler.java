@@ -82,16 +82,16 @@ public class BoardAssembler {
 
         private final int row;
         private final List<Integer> cols;
-        private final Function<Side, Piece> pieceClass;
+        private final Function<Side, Piece> pieceFactory;
 
-        DefaultPieceFactory(int row, List<Integer> cols, Function<Side, Piece> pieceClass) {
+        DefaultPieceFactory(int row, List<Integer> cols, Function<Side, Piece> pieceFactory) {
             this.row = row;
             this.cols = cols;
-            this.pieceClass = pieceClass;
+            this.pieceFactory = pieceFactory;
         }
 
         public Piece createPiece(Side side) {
-            return pieceClass.apply(side);
+            return pieceFactory.apply(side);
         }
 
         public int getRow(Side side) {
