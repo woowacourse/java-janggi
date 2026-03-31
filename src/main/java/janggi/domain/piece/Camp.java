@@ -52,19 +52,22 @@ public enum Camp {
         return startRowPosition;
     }
 
-    public void validatePalace(Position destination) {
-        int absRowDifference = Math.abs(destination.row() - startRowPosition);
-
-        if (isPalaceRowOutOfRange(absRowDifference) || isPalaceColumnOutOfRange(destination)) {
+    public void validatePalace(Position position) {
+        if (!(isPalaceRow(position) && isPalaceColumn(position))) {
             throw new IllegalArgumentException(INVALID_PALACE_MOVEMENT);
         }
     }
 
-    private boolean isPalaceRowOutOfRange(int absRowDifference) {
-        return absRowDifference > 2;
+    public boolean isPalace(Position position) {
+        return isPalaceRow(position) && isPalaceColumn(position);
     }
 
-    private boolean isPalaceColumnOutOfRange(Position destination) {
-        return destination.column() < 3 || destination.column() > 5;
+    private boolean isPalaceRow(Position position) {
+        int absRowDifference = Math.abs(position.row() - startRowPosition);
+        return absRowDifference <= 2;
+    }
+
+    private boolean isPalaceColumn(Position position) {
+        return position.column() >= 3 && position.column() <= 5;
     }
 }

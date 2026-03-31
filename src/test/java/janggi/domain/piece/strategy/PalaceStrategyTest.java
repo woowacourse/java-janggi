@@ -7,6 +7,8 @@ import janggi.domain.piece.Camp;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,53 +18,87 @@ class PalaceStrategyTest {
 
     private final MoveStrategy strategy = new PalaceStrategy();
 
-    private static Stream<Arguments> successMovePositions() {
-        return Stream.of(
-                Arguments.of(new Position(1, 4), new Position(1, 5), Camp.CHO),
-                Arguments.of(new Position(1, 4), new Position(1, 3), Camp.CHO),
-                Arguments.of(new Position(1, 4), new Position(0, 4), Camp.CHO),
-                Arguments.of(new Position(1, 4), new Position(2, 4), Camp.CHO)
-        );
+    @DisplayName("정상 경우")
+    @Nested
+    class success {
+        private static Stream<Arguments> successMovePositions() {
+            return Stream.of(
+                    Arguments.of(new Position(1, 4), new Position(1, 5), Camp.CHO),
+                    Arguments.of(new Position(1, 4), new Position(1, 3), Camp.CHO),
+                    Arguments.of(new Position(1, 4), new Position(0, 4), Camp.CHO),
+                    Arguments.of(new Position(1, 4), new Position(2, 4), Camp.CHO)
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("successMovePositions")
+        void 궁과_사는_상하좌우_1칸_이동한다(Position source, Position destination, Camp camp) {
+            //when
+            List<Position> path = strategy.findPath(source, destination, camp);
+            //then
+            SoftAssertions.assertSoftly(assertSoftly -> {
+                assertSoftly.assertThat(path).hasSize(1);
+                assertSoftly.assertThat(path).containsExactly(destination);
+            });
+        }
+
+        private static Stream<Arguments> successDiagonalMovePositions() {
+            return Stream.of(
+                    Arguments.of(new Position(1, 4), new Position(0, 3), Camp.CHO),
+                    Arguments.of(new Position(1, 4), new Position(0, 5), Camp.CHO),
+                    Arguments.of(new Position(1, 4), new Position(2, 3), Camp.CHO),
+                    Arguments.of(new Position(1, 4), new Position(2, 5), Camp.CHO),
+
+                    Arguments.of(new Position(8, 4), new Position(7, 3), Camp.HAN),
+                    Arguments.of(new Position(8, 4), new Position(7, 5), Camp.HAN),
+                    Arguments.of(new Position(8, 4), new Position(9, 3), Camp.HAN),
+                    Arguments.of(new Position(8, 4), new Position(9, 5), Camp.HAN)
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("successDiagonalMovePositions")
+        void 궁과_사는_궁성_내부에서_대각선으로_1칸_이동한다(Position source, Position destination, Camp camp) {
+            //when
+            List<Position> path = strategy.findPath(source, destination, camp);
+            //then
+            SoftAssertions.assertSoftly(assertSoftly -> {
+                assertSoftly.assertThat(path).hasSize(1);
+                assertSoftly.assertThat(path).containsExactly(destination);
+            });
+        }
     }
 
-    @ParameterizedTest
-    @MethodSource("successMovePositions")
-    void 궁과_사는_상하좌우_1칸_이동한다(Position source, Position destination, Camp camp) {
-        //when
-        List<Position> path = strategy.findPath(source, destination, camp);
-        //then
-        SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(path).hasSize(1);
-            assertSoftly.assertThat(path).containsExactly(destination);
-        });
-    }
+    @DisplayName("예외 경우")
+    @Nested
+    class exception {
+        @Test
+        void 궁과_사는_1칸_이동이_아니면_예외가_발생한다() {
+            assertThatThrownBy(() -> strategy.findPath(new Position(0, 4), new Position(2, 4), Camp.CHO))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
+        }
 
-    @Test
-    void 궁과_사는_1칸_이동이_아니면_예외가_발생한다() {
-        assertThatThrownBy(() -> strategy.findPath(new Position(0, 4), new Position(2, 4), Camp.CHO))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
-    }
+        private static Stream<Arguments> exceptionPalaceMovePositions() {
+            return Stream.of(
+                    Arguments.of(new Position(2, 3), new Position(2, 2), Camp.CHO),
+                    Arguments.of(new Position(2, 3), new Position(3, 3), Camp.CHO),
+                    Arguments.of(new Position(2, 5), new Position(3, 5), Camp.CHO),
+                    Arguments.of(new Position(2, 5), new Position(2, 6), Camp.CHO),
 
-    private static Stream<Arguments> exceptionPalaceMovePositions() {
-        return Stream.of(
-                Arguments.of(new Position(2, 3), new Position(2, 2), Camp.CHO),
-                Arguments.of(new Position(2, 3), new Position(3, 3), Camp.CHO),
-                Arguments.of(new Position(2, 5), new Position(3, 5), Camp.CHO),
-                Arguments.of(new Position(2, 5), new Position(2, 6), Camp.CHO),
+                    Arguments.of(new Position(7, 3), new Position(7, 2), Camp.HAN),
+                    Arguments.of(new Position(7, 3), new Position(6, 3), Camp.HAN),
+                    Arguments.of(new Position(7, 5), new Position(6, 5), Camp.HAN),
+                    Arguments.of(new Position(7, 5), new Position(7, 6), Camp.HAN)
+            );
+        }
 
-                Arguments.of(new Position(7, 3), new Position(7, 2), Camp.HAN),
-                Arguments.of(new Position(7, 3), new Position(6, 3), Camp.HAN),
-                Arguments.of(new Position(7, 5), new Position(6, 5), Camp.HAN),
-                Arguments.of(new Position(7, 5), new Position(7, 6), Camp.HAN)
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("exceptionPalaceMovePositions")
-    void 궁과_사는_아군_궁성_밖으로_벗어나면_예외가_발생한다(Position source, Position destination, Camp camp) {
-        assertThatThrownBy(() -> strategy.findPath(source, destination, camp))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물은 아군 궁성 영역 밖으로 이동할 수 없습니다.");
+        @ParameterizedTest
+        @MethodSource("exceptionPalaceMovePositions")
+        void 궁과_사는_아군_궁성_밖으로_벗어나면_예외가_발생한다(Position source, Position destination, Camp camp) {
+            assertThatThrownBy(() -> strategy.findPath(source, destination, camp))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 해당 기물은 아군 궁성 영역 밖으로 이동할 수 없습니다.");
+        }
     }
 }
