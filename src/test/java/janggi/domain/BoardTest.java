@@ -141,6 +141,22 @@ public class BoardTest {
         assertThat(board.isKingDie(Team.HAN)).isTrue();
     }
 
+    @Test
+    @DisplayName("보드의 현재 상태 반환")
+    void boardStatus() {
+        // given
+        Board board = initBoard(
+                PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                PositionInfo.from(Team.HAN, "JANG", 4, 8)
+        );
+
+        // when
+        List<PositionInfo> boardStatus = board.getBoardStatus();
+
+        // then
+        assertThat(boardStatus.size()).isEqualTo(2);
+    }
+
     private Board initBoard(PositionInfo... positionInfos) {
         Board board = new Board();
         board.init(List.of(positionInfos));
