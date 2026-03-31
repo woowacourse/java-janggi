@@ -26,7 +26,7 @@ class BoardTest {
 
         testBoard.move(testTurn, start, end);
 
-        Piece piece = boardStatusPlacedAtOutOfBoard.boardStatus()
+        Piece piece = boardStatusPlacedAtOutOfBoard.status()
                 .get(Position.of(3, 1));
         Assertions.assertThat(piece).isNull();
     }
