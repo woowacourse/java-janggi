@@ -23,8 +23,4 @@ public class MoveStrategyTestHelper {
         paths.addPath(path);
         return paths;
     }
-
-    public static Piece createPiece(Side side, PieceType type) {
-        return new Piece(side, type, "1");
-    }
 }
