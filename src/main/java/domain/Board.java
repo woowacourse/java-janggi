@@ -83,7 +83,7 @@ public class Board implements ExistBoard {
 
     private PositionStatusDto getPositionStatusDto(Position position) {
         if (!board.containsKey(position)) {
-            return new PositionStatusDto(position, PieceType.NONE, Camp.CHO);
+            return new PositionStatusDto(position, PieceType.NONE, Camp.NONE);
         }
 
         Piece piece = board.get(position);
