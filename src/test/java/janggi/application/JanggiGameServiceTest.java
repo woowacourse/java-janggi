@@ -144,4 +144,29 @@ public class JanggiGameServiceTest {
         assertThat(gameRepository.updatedGameSnapshot().id()).isEqualTo(1L);
         assertThat(gameRepository.updatedGameSnapshot().currentTurn()).isEqualTo(Team.HAN);
     }
+
+    @Test
+    @DisplayName("새 게임을 생성하고 저장")
+    void create_and_save_game() {
+        // given
+        FakeGameRepository gameRepository = new FakeGameRepository(List.of(),null);
+        InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(
+                List.of(
+                        PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                        PositionInfo.from(Team.HAN, "JANG", 4, 8)
+                )
+        );
+        JanggiGameService janggiGameService = new JanggiGameService(gameRepository, initialBoardProvider);
+
+        // when
+        Long gameId = janggiGameService.createGame();
+
+        // then
+        assertThat(gameId).isEqualTo(1L);
+        assertThat(gameRepository.savedGameSnapshot()).isNotNull();
+        assertThat(gameRepository.savedGameSnapshot().currentTurn()).isEqualTo(Team.CHO);
+        assertThat(gameRepository.savedGameSnapshot().finished()).isFalse();
+        assertThat(gameRepository.savedGameSnapshot().winner()).isNull();
+        assertThat(gameRepository.savedGameSnapshot().positions()).hasSize(2);
+    }
 }
