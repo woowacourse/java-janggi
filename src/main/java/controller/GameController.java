@@ -60,17 +60,21 @@ public class GameController {
         OutputView.printBoard(board);
     }
 
-    private Object gamePhaseRetry(Board board, Country country) {
-        Position from = selectPosition();
+    private void gamePhaseRetry(Board board, Country country) {
+        Position from = selectStartPosition();
         board.checkTurn(from, country);
-        Position to = selectPosition();
+        Position to = selectEndPosition();
         Move move = new Move(from, to);
         board.move(move);
-        return null;
     }
 
-    private Position selectPosition() {
+    private Position selectStartPosition() {
         List<Integer> startList = InputView.readStartPosition();
+        return Position.of(startList.get(0), startList.get(1));
+    }
+
+    private Position selectEndPosition() {
+        List<Integer> startList = InputView.readEndPosition();
         return Position.of(startList.get(0), startList.get(1));
     }
 }

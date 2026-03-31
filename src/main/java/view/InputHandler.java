@@ -16,4 +16,15 @@ public class InputHandler {
             }
         }
     }
+
+    public static void retry(Runnable callback) {
+        while (true) {
+            try {
+                callback.run();
+                return ;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 }
