@@ -45,8 +45,8 @@ public class PalaceStrategyTest {
         private final Map<Position, Boolean> boardState = new HashMap<>();
         private boolean defaultState = true;
 
-        void setBlank(Position pos) {
-            boardState.put(pos, false);
+        void setBlank(Position position) {
+            boardState.put(position, false);
         }
 
         void setAllBlank() {
