@@ -14,7 +14,7 @@ class JanggiGameTest {
     void initJanggiGame() {
         JanggiGame janggiGame = JanggiGame.init(SettingType.LEFT, SettingType.LEFT);
 
-        assertThat(janggiGame.getTurn()).isEqualTo(Team.CHO);
+        assertThat(janggiGame.getTurnOwnTeam()).isEqualTo(Team.CHO);
         assertThat(janggiGame.getJanggiGameStatus()).isNotNull();
     }
 
@@ -24,10 +24,10 @@ class JanggiGameTest {
         JanggiGame janggiGame = JanggiGame.init(SettingType.LEFT, SettingType.LEFT);
 
         janggiGame.passTurn();
-        assertThat(janggiGame.getTurn()).isEqualTo(Team.HAN);
+        assertThat(janggiGame.getTurnOwnTeam()).isEqualTo(Team.HAN);
 
         janggiGame.passTurn();
-        assertThat(janggiGame.getTurn()).isEqualTo(Team.CHO);
+        assertThat(janggiGame.getTurnOwnTeam()).isEqualTo(Team.CHO);
     }
 
     @Test
@@ -38,6 +38,6 @@ class JanggiGameTest {
         Position destination = Position.of(3, 1);
 
         janggiGame.executeMove(start, destination);
-        assertThat(janggiGame.getTurn()).isEqualTo(Team.HAN);
+        assertThat(janggiGame.getTurnOwnTeam()).isEqualTo(Team.HAN);
     }
 }

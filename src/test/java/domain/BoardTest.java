@@ -19,14 +19,14 @@ class BoardTest {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(3, 1);
-        Team turn = Team.CHO;
+        Turn testTurn = new Turn(Team.CHO);
 
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
         BoardStatus boardStatusPlacedAtOutOfBoard = testBoard.getBoardStatus();
 
-        testBoard.move(turn, start, end);
+        testBoard.move(testTurn, start, end);
 
-        Piece piece = boardStatusPlacedAtOutOfBoard.getBoardStatus()
+        Piece piece = boardStatusPlacedAtOutOfBoard.boardStatus()
                 .get(Position.of(3, 1));
         Assertions.assertThat(piece).isNull();
     }
@@ -37,12 +37,12 @@ class BoardTest {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(4, 1);
-        Team turn = Team.CHO;
+        Turn testTurn = new Turn(Team.CHO);
 
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
 
         //when, then
-        Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
+        Assertions.assertThatThrownBy(() -> testBoard.move(testTurn, start, end))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(PieceErrorMessage.ALREADY_OCCUPIED_BY_ALLY.getMessage());
     }
@@ -53,12 +53,13 @@ class BoardTest {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(8, 9);
-        Team turn = Team.CHO;
+
+        Turn testTurn = new Turn(Team.CHO);
 
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
 
         //when, then
-        Assertions.assertThatThrownBy(() -> testBoard.move(turn, start, end))
+        Assertions.assertThatThrownBy(() -> testBoard.move(testTurn, start, end))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(MoveStrategyErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage());
     }
@@ -69,13 +70,13 @@ class BoardTest {
         //given
         Position start = Position.of(1, 1);
         Position end = Position.of(3, 1);
-        Team turn = Team.CHO;
+        Turn testTurn = new Turn(Team.CHO);
 
         Board testBoard = Board.of(SettingType.LEFT, SettingType.LEFT);
 
         //when, then
         assertDoesNotThrow(
-                () -> testBoard.move(turn, start, end)
+                () -> testBoard.move(testTurn, start, end)
         );
     }
 }

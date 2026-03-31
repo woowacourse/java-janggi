@@ -5,11 +5,11 @@ import domain.position.Position;
 
 public class JanggiGame {
     private final Board board;
-    private Team turn;
+    private Turn turn;
 
     private JanggiGame(Board board) {
         this.board = board;
-        turn = Team.CHO;
+        turn = new Turn(Team.CHO);
     }
 
     public static JanggiGame init(SettingType choSetting, SettingType hanSetting) {
@@ -22,18 +22,14 @@ public class JanggiGame {
     }
 
     public void passTurn() {
-        if (Team.CHO == turn) {
-            turn = Team.HAN;
-            return;
-        }
-        turn = Team.CHO;
+        turn = turn.passTurn();
     }
 
     public BoardStatus getJanggiGameStatus() {
         return board.getBoardStatus();
     }
 
-    public Team getTurn() {
-        return turn;
+    public Team getTurnOwnTeam() {
+        return turn.turnOwnTeam();
     }
 }

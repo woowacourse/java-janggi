@@ -34,7 +34,7 @@ public class JanggiGameController {
 
     private void playTurn(JanggiGame game) {
         while (true) {
-            ActionType actionType = retry(() -> inputView.readAction(game.getTurn()));
+            ActionType actionType = retry(() -> inputView.readAction(game.getTurnOwnTeam()));
             if (actionType == ActionType.MOVE) {
                 retry(this::executeMove, game);
             }
@@ -46,7 +46,7 @@ public class JanggiGameController {
     }
 
     private void executeMove(JanggiGame game) {
-        PositionDto positionDto = inputView.readMovePositions(game.getTurn());
+        PositionDto positionDto = inputView.readMovePositions(game.getTurnOwnTeam());
 
         Position startPosition = Position.of(positionDto.getStartRow(), positionDto.getStartColumn());
         Position destinationPosition = Position.of(positionDto.getDestinationRow(),

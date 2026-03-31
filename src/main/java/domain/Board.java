@@ -19,12 +19,12 @@ public class Board {
         return new Board(setup);
     }
 
-    public void move(Team turn, Position start, Position destination) {
+    public void move(Turn turn, Position start, Position destination) {
         // 목적지에 있는 기물 아군 적군 판별
         Piece startPiece = selectNotEmptyPiece(start);
 
         startPiece.validateTurn(turn);
-        Piece destinationPiece = pieces.get(destination);
+        Piece destinationPiece = findTargetPiece(destination);
 
         startPiece.validateNotAlly(destinationPiece);
 
@@ -37,12 +37,16 @@ public class Board {
     }
 
     private Piece selectNotEmptyPiece(Position position) {
-        EmptyPiece emptyPiece = new EmptyPiece(new EmptyMoveStrategy(), Team.UNDEFINED);
-        Piece piece = pieces.getOrDefault(position, emptyPiece);
+        Piece piece = findTargetPiece(position);
         if (piece.isEmpty()) {
             throw new IllegalArgumentException(BoardErrorMessage.EMPTY_POSITION.getMessage());
         }
         return piece;
+    }
+
+    private Piece findTargetPiece(Position position) {
+        EmptyPiece emptyPiece = new EmptyPiece(new EmptyMoveStrategy(), Team.UNDEFINED);
+        return pieces.getOrDefault(position, emptyPiece);
     }
 
     public BoardStatus getBoardStatus() {

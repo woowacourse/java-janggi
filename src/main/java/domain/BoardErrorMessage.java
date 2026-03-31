@@ -1,7 +1,8 @@
 package domain;
 
 public enum BoardErrorMessage {
-    EMPTY_POSITION("해당 위치에는 기물이 존재하지 않습니다");
+    EMPTY_POSITION("해당 위치에는 기물이 존재하지 않습니다"),
+    UNDEFINED_TEAM_ERROR("턴의 상태에 오류가 발생하였습니다.");
 
     private final String message;
 
