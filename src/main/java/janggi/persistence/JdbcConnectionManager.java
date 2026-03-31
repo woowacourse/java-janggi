@@ -6,9 +6,15 @@ import java.sql.SQLException;
 
 public class JdbcConnectionManager {
 
-    private static final String URL = "jdbc:h2:file:./storage/janggi;AUTO_SERVER=TRUE";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
+    private final String URL;
+    private final String USER;
+    private final String PASSWORD;
+
+    public JdbcConnectionManager(String url, String user, String password) {
+        this.URL = url;
+        this.USER = user;
+        this.PASSWORD = password;
+    }
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);

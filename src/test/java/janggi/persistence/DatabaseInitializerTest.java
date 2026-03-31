@@ -2,7 +2,6 @@ package janggi.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,11 @@ public class DatabaseInitializerTest {
     @DisplayName("init 호출 시 테이블 생성")
     void init() throws SQLException {
         // given
-        JdbcConnectionManager connectionManager = new JdbcConnectionManager();
+        JdbcConnectionManager connectionManager = new JdbcConnectionManager(
+                "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
+                "sa",
+                ""
+        );
         DatabaseInitializer databaseInitializer = new DatabaseInitializer(connectionManager);
 
         // when
