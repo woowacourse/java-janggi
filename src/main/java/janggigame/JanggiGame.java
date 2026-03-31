@@ -1,7 +1,8 @@
 package janggigame;
 
+import domain.board.Board;
+import domain.board.Placement;
 import domain.piece.Side;
-import domain.players.Players;
 import domain.position.Position;
 import dto.BoardResponseDto;
 import util.Parser;
@@ -13,16 +14,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class JanggiGame {
-    private final Players players;
+    private final Board board;
 
-    public JanggiGame(Players players) {
-        this.players = players;
+    public JanggiGame(Board board) {
+        this.board = board;
     }
 
     public void run() {
         selectSide();
-        playersPlacement();
-        gameStart();
+        initBoard();
+        gameStart(board);
     }
 
     private void selectSide() {
@@ -46,20 +47,20 @@ public class JanggiGame {
         return sides.get(sideCode - 1);
     }
 
-    private void playersPlacement() {
-        initPlayersPlacement(Side.CHO);
-        initPlayersPlacement(Side.HAN);
+    private void initBoard() {
+        initPlacement(Side.CHO);
+        initPlacement(Side.HAN);
     }
 
-    private void initPlayersPlacement(Side side) {
+    private void initPlacement(Side side) {
         while (true) {
             try {
                 String input = inputPlacementCode(side);
                 int code = Parser.parseToPlacementCode(input);
-                players.initPlacementBySide(side, code);
+                board.placePieces(side, Placement.from(code));
                 printBoard();
                 return;
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
@@ -70,14 +71,14 @@ public class JanggiGame {
         return InputView.inputChoPlacementCode();
     }
 
-    private void gameStart() {
+    private void gameStart(Board board) {
         Side attackerSide = Side.HAN;
         while (true) {
             // TODO: 궁성을 구현하지 않아 다음 사이클에서 종료조건을 구현할 예정...
             try {
                 printBoard();
                 OutputView.printSide(attackerSide);
-                players.move(selectFromPosition(), selectToPosition(), attackerSide);
+                board.move(selectFromPosition(), selectToPosition(), attackerSide);
                 attackerSide = changeSide(attackerSide);
             } catch (Exception e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -86,7 +87,7 @@ public class JanggiGame {
     }
 
     private void printBoard() {
-        BoardResponseDto nowBoardState = BoardResponseDto.from(players.findBoardState());
+        BoardResponseDto nowBoardState = BoardResponseDto.from(board.findState());
         OutputView.printBoard(nowBoardState);
     }
 
