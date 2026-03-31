@@ -76,10 +76,6 @@ public enum Side {
         return this.equals(Side.CHO);
     }
 
-    public boolean isHan() {
-        return this.equals(Side.HAN);
-    }
-
     public String getName() {
         return name;
     }
