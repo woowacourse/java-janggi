@@ -27,10 +27,7 @@ public enum Turn {
     }
 
     public void validateSameTeam(Team team) {
-        if (this == CHO && team != Team.CHO) {
-            throw new IllegalArgumentException(NOT_SAME_TEAM.getMessage());
-        }
-        if (this == HAN && team != Team.HAN) {
+        if (!this.name().equals(team.name())) {
             throw new IllegalArgumentException(NOT_SAME_TEAM.getMessage());
         }
     }
