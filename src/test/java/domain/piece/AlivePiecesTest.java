@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.move.Path;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -96,5 +98,38 @@ class AlivePiecesTest {
         Piece placed = alivePieces.placedAt(destination);
 
         assertThat(placed).isSameAs(targetPiece);
+    }
+
+    @DisplayName("통과할 수 있는 경로인지 검증")
+    @Nested
+    class 통과할_수_있는_경로인지_검증 {
+
+        @DisplayName("경로에 다른 기물이 있으면 통과할 수 없다")
+        @Test
+        void 경로에_다른_기물이_있으면_통과할_수_없다() {
+            Intersection passingIntersection = new Intersection(5, 5);
+            Intersection destination = new Intersection(6, 5);
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    passingIntersection, new Piece(PieceType.SOLDIER, Side.CHO)
+            ));
+            Path path = new Path(destination, List.of(passingIntersection));
+
+            assertThat(alivePieces.isPassable(path)).isFalse();
+        }
+
+        @DisplayName("경로에 다른 기물이 없으면 통과할 수 있다")
+        @Test
+        void 경로에_다른_기물이_없으면_통과할_수_있다() {
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+            List<Intersection> passingIntersections = List.of(
+                    new Intersection(5, 5),
+                    new Intersection(6, 5)
+            );
+            Intersection destination = new Intersection(7, 5);
+
+            Path path = new Path(destination, passingIntersections);
+
+            assertThat(emptyAlivePieces.isPassable(path)).isTrue();
+        }
     }
 }
