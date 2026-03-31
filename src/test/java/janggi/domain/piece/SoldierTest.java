@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,20 @@ import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SoldierTest {
+
+    @DisplayName("병을 넘어갈 수 있는지 확인하는 테스트 (항상 True)")
+    @Test
+    void canBeJumpedOver_Always_ReturnTrue() {
+        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.forward()));
+        assertThat(piece.canBeJumpedOver()).isTrue();
+    }
+
+    @DisplayName("포가 병을 잡을 수 있는지 확인하는 테스트 (항상 True)")
+    @Test
+    void canBeCapturedByCannon_Always_ReturnTrue() {
+        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.forward()));
+        assertThat(piece.canBeCapturedByCannon()).isTrue();
+    }
 
     @DisplayName("병의 경로에 기물이 있는지 확인하는 메소드는 항상 true를 반환한다.")
     @Test
@@ -32,12 +47,5 @@ public class SoldierTest {
         Soldier soldier = new Soldier(camp, new SoldierStrategy(camp.forward()));
         Soldier destinationSoldier = new Soldier(destinationPieceCamp, new SoldierStrategy(destinationPieceCamp.forward()));
         assertThat(soldier.canCatch(destinationSoldier)).isEqualTo(expected);
-    }
-
-    @DisplayName("병이 포인지 확인하는 테스트 (항상 false)")
-    @Test
-    void isCannon_Always_ReturnFalse() {
-        Piece piece = new Soldier(Camp.CHO, new SoldierStrategy(Camp.CHO.forward()));
-        assertThat(piece.isCannon()).isFalse();
     }
 }

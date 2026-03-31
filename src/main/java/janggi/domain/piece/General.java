@@ -22,7 +22,12 @@ public class General extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
+    public boolean canBeJumpedOver() {
+        return true;
+    }
+
+    @Override
+    public boolean canBeCapturedByCannon() {
+        return true;
     }
 }

@@ -20,19 +20,24 @@ public class Cannon extends Piece {
                 .stream()
                 .findFirst()
                 .orElseThrow();
-        return !pieceInPath.isCannon();
+        return pieceInPath.canBeJumpedOver();
     }
 
     @Override
     public boolean canCatch(Piece piece) {
-        if (piece.isCannon()) {
+        if (isSameCamp(piece)) {
             return false;
         }
-        return !isSameCamp(piece);
+        return piece.canBeCapturedByCannon();
     }
 
     @Override
-    public boolean isCannon() {
-        return true;
+    public boolean canBeJumpedOver() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeCapturedByCannon() {
+        return false;
     }
 }

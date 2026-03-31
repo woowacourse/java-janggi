@@ -4,6 +4,7 @@ package janggi.domain.piece;
 import janggi.domain.Camp;
 import janggi.domain.Position;
 import janggi.domain.piece.strategy.CannonStrategy;
+import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.ElephantStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CannonTest {
 
-    @DisplayName("포가 포인지 확인하는 테스트 (항상 true)")
+    @DisplayName("포를 넘어갈 수 있는지 확인하는 테스트 (항상 False)")
     @Test
-    void isCannon_Always_ReturnTrue() {
+    void canBeJumpedOver_Always_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
-        assertThat(piece.isCannon()).isTrue();
+        assertThat(piece.canBeJumpedOver()).isFalse();
+    }
+
+    @DisplayName("포가 포를 잡을 수 있는지 테스트 (항상 False)")
+    @Test
+    void canBeCapturedByCannon_Always_ReturnFalse() {
+        Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
+        assertThat(piece.canBeCapturedByCannon()).isFalse();
     }
 
     @DisplayName("이동 경로에 기물이 없으면 False를 반환한다")
@@ -42,7 +50,7 @@ public class CannonTest {
 
     @DisplayName("이동 경로에 포가 있으면 False를 반환한다")
     @Test
-    void canPassRoute_PieceInPathIsCannon_ReturnFalse() {
+    void canPassRoute_PieceInPathCanBeJumpedOver_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
         Map<Position, Piece> pieceInPath = new HashMap<>();
         pieceInPath.put(Position.of(3, 3), new Cannon(Camp.CHO, new CannonStrategy()));
@@ -60,7 +68,7 @@ public class CannonTest {
 
     @DisplayName("도착 지점의 기물이 포이면 False를 반환한다")
     @Test
-    void canCatch_DestinationPieceIsCannon_ReturnFalse() {
+    void canCatch_DestinationPieceCanBeJumpedOver_ReturnFalse() {
         Piece piece = new Cannon(Camp.CHO, new CannonStrategy());
         Piece destinationPiece = new Cannon(Camp.HAN, new CannonStrategy());
         assertThat(piece.canCatch(destinationPiece)).isFalse();
