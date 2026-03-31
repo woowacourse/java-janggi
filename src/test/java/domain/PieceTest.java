@@ -12,7 +12,7 @@ class PieceTest {
     @DisplayName("기물은 이동 후에 이동한 위치에 맞는 이동 경로를 알아야 한다.")
     void piece_after_moveTo_test() {
         Position pre = new Position(4, 4);
-        Piece piece = Piece.of(PieceProperty.of(PieceType.HORSE, Team.RED), HorseMoveStrategy.of(pre));
+        Piece piece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED), HorseMoveStrategy.of(pre));
 
         Position after = new Position(5, 6);
         piece.moveTo(after);

@@ -2,10 +2,6 @@ package domain;
 
 public record PieceProperty(PieceType pieceType, Team team) {
 
-    public static PieceProperty of(PieceType pieceType, Team team) {
-        return new PieceProperty(pieceType, team);
-    }
-
     public boolean isGeneral() {
         return pieceType == PieceType.GENERAL;
     }
