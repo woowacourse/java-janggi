@@ -34,11 +34,12 @@ public class Position {
         return x.getRow() + "," + y.getColumn();
     }
 
-    public List<Integer> getPosition() {
-        List<Integer> position = new ArrayList<>();
-        position.add(row.getRow());
-        position.add(column.getColumn());
-        return position;
+    public int getRow() {
+        return row.getRow();
+    }
+
+    public int getColumn() {
+        return column.getColumn();
     }
 
     @Override

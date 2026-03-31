@@ -18,13 +18,10 @@ public class SangMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        List<Integer> fromPosition = from.getPosition();
-        List<Integer> toPosition = to.getPosition();
-
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
+        int fromX = from.getRow();
+        int fromY = from.getColumn();
+        int toX = to.getRow();
+        int toY = to.getColumn();
 
         int diffX = toX - fromX;
         int diffY = toY - fromY;

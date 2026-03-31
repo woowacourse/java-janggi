@@ -7,19 +7,14 @@ import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Row;
 
-import java.util.List;
-
 public class PoMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        List<Integer> fromPosition = from.getPosition();
-        List<Integer> toPosition = to.getPosition();
-
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
+        int fromX = from.getRow();
+        int fromY = from.getColumn();
+        int toX = to.getRow();
+        int toY = to.getColumn();
 
         if (fromX != toX && fromY != toY) {
             return false;

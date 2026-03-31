@@ -4,6 +4,7 @@ import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,8 @@ public class BoardDto {
         Map<Position, Piece> pieces = board.getBoard();
 
         for (Position position : pieces.keySet()) {
-            result.put(position.getPosition(), pieces.get(position).getPieceType().getName());
+            List<Integer> Coordinates = List.of(position.getRow(), position.getColumn());
+            result.put(Coordinates, pieces.get(position).getPieceType().getName());
         }
         return new BoardDto(result);
     }

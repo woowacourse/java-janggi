@@ -4,8 +4,6 @@ import janggi.domain.BoardState;
 import janggi.domain.Position;
 import janggi.domain.Team;
 
-import java.util.List;
-
 public class JolMoveStrategy implements MoveStrategy {
     private static final int HAN_FORWARD = 1;
     private static final int CHO_FORWARD = -1;
@@ -13,13 +11,10 @@ public class JolMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        List<Integer> fromPosition = from.getPosition();
-        List<Integer> toPosition = to.getPosition();
-
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
+        int fromX = from.getRow();
+        int fromY = from.getColumn();
+        int toX = to.getRow();
+        int toY = to.getColumn();
 
         if (Math.abs(fromX - toX) == NEXT_TO && fromY == toY) {
             return true;

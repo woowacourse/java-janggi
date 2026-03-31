@@ -4,18 +4,13 @@ import janggi.domain.BoardState;
 import janggi.domain.Position;
 import janggi.domain.Team;
 
-import java.util.List;
-
 public class GungseongBoundMoveStrategy implements MoveStrategy {
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        List<Integer> fromPosition = from.getPosition();
-        List<Integer> toPosition = to.getPosition();
-
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
+        int fromX = from.getRow();
+        int fromY = from.getColumn();
+        int toX = to.getRow();
+        int toY = to.getColumn();
 
         if (!(3 <= fromX && fromX <= 5) || !(3 <= toX && toX <= 5)) {
             return false;
