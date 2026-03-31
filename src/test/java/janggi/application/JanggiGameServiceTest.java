@@ -22,7 +22,8 @@ public class JanggiGameServiceTest {
                         new GameSummary(2L, true)
                 )
         );
-        JanggiGameService janggiGameService = new JanggiGameService(gameRepository);
+        InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(List.of());
+        JanggiGameService janggiGameService = new JanggiGameService(gameRepository,initialBoardProvider);
 
         // when
         List<GameSummary> gameSummaries = janggiGameService.findAllGames();
@@ -43,7 +44,7 @@ public class JanggiGameServiceTest {
                         PositionInfo.from(Team.CHO, "JANG", 4, 1),
                         PositionInfo.from(Team.HAN, "JANG", 4, 8)
                 )
-        )
+        );
         JanggiGameService janggiGameService = new JanggiGameService(gameRepository, initialBoardProvider);
 
         // when
