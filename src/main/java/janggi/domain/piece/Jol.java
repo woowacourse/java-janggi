@@ -11,10 +11,11 @@ import java.util.List;
 
 public class Jol extends AbstractPiece {
 
+    private static final int SCORE = 2;
     private static final int MAX_DISTANCE = 1;
 
     public Jol(Team team) {
-        super(team, PieceType.JOL);
+        super(SCORE, team, PieceType.JOL);
     }
 
     @Override

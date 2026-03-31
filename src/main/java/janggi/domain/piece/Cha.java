@@ -11,8 +11,10 @@ import java.util.List;
 
 public class Cha extends AbstractPiece {
 
+    private static final int SCORE = 13;
+
     public Cha(Team team) {
-        super(team, PieceType.CHA);
+        super(SCORE, team, PieceType.CHA);
     }
 
     @Override

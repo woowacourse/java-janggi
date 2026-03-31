@@ -14,7 +14,7 @@ public class Jang extends AbstractPiece {
     private static final int MAX_DISTANCE = 1;
 
     public Jang(Team team) {
-        super(team, PieceType.JANG);
+        super(0, team, PieceType.JANG);
     }
 
     @Override

@@ -49,13 +49,25 @@ public class Board {
                 .count() < 2;
     }
 
-    public List<List<Piece>> getPoints() {
+    public List<List<Piece>> getPieces() {
         return IntStream.range(0, BOARD_HEIGHT)
                 .mapToObj(row -> IntStream.range(0, BOARD_WIDTH)
                         .mapToObj(col -> Point.of(col, row))
                         .map(point -> this.pieces.get(point))
                         .toList()
                 ).toList();
+    }
+
+    public double calculateScore(Team team) {
+        int sum = pieces.values()
+                .stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(Piece::getScore)
+                .sum();
+        if (team.equals(Team.HAN)) {
+            return sum + 1.5;
+        }
+        return sum;
     }
 
     public Route getRoute(Points points) {

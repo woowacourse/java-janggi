@@ -1,8 +1,8 @@
 package janggi.domain;
 
+import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
-import janggi.domain.status.ChoTurn;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.Team;
 import java.util.List;
@@ -12,9 +12,9 @@ public class JanggiGame {
     private final Board board;
     private GameStatus gameStatus;
 
-    public JanggiGame(Board board) {
+    public JanggiGame(Board board, GameStatus gameStatus) {
         this.board = board;
-        this.gameStatus = new ChoTurn();
+        this.gameStatus = gameStatus;
     }
 
     public boolean isFinished() {
@@ -29,10 +29,22 @@ public class JanggiGame {
     }
 
     public List<List<Piece>> getBoardStatus() {
-        return board.getPoints();
+        return board.getPieces();
     }
 
     public void play(Point from, Point to) {
         this.gameStatus = gameStatus.move(from, to, board);
+    }
+
+    public Team getTeam() {
+        return gameStatus.getTeam();
+    }
+
+    public double getChoScore() {
+        return board.calculateScore(Team.CHO);
+    }
+
+    public double getHanScore() {
+        return board.calculateScore(Team.HAN);
     }
 }

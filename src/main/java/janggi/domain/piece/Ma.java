@@ -8,8 +8,10 @@ import java.util.List;
 
 public class Ma extends AbstractPiece {
 
+    private static final int SCORE = 5;
+
     public Ma(Team team) {
-        super(team, PieceType.MA);
+        super(SCORE, team, PieceType.MA);
     }
 
     @Override
