@@ -9,7 +9,6 @@ public class OutputView {
     public static void printBoard(Board board) {
         for (int y = 0; y < board.getBoardWidth(); y++) {
             printRow(board, y);
-            System.out.println();
         }
     }
 
