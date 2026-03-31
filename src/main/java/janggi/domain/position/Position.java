@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.position;
 
 public record Position(
     int x,

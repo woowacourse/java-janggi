@@ -4,10 +4,15 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.board.Blank;
+import janggi.domain.space.Blank;
 import janggi.domain.board.Path;
-import janggi.domain.board.Position;
-import janggi.domain.board.Space;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import janggi.domain.space.piece.Ma;
+import janggi.domain.space.piece.Pho;
+import janggi.domain.space.piece.Piece;
+import janggi.domain.space.piece.Sang;
+import janggi.domain.space.piece.Team;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

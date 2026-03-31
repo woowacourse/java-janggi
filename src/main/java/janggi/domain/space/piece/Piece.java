@@ -1,8 +1,8 @@
-package janggi.domain.piece;
+package janggi.domain.space.piece;
 
 import janggi.domain.board.Path;
-import janggi.domain.board.Position;
-import janggi.domain.board.Space;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
 import java.util.List;
 
 public abstract class Piece implements Space {

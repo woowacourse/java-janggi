@@ -1,7 +1,7 @@
 package janggi.domain.strategy;
 
-import janggi.domain.board.Position;
-import janggi.domain.board.Space;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
 import java.util.Map;
 
 public interface InitializeStrategy {

@@ -5,8 +5,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import janggi.domain.board.Path;
-import janggi.domain.board.Position;
-import janggi.domain.board.Space;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import janggi.domain.space.piece.Cha;
+import janggi.domain.space.piece.Piece;
+import janggi.domain.space.piece.Sang;
+import janggi.domain.space.piece.Team;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

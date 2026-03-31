@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.space;
 
 public interface Space {
     boolean isBlank();

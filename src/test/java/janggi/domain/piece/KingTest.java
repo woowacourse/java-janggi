@@ -3,8 +3,12 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.board.Position;
-import janggi.domain.board.Space;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import janggi.domain.space.piece.King;
+import janggi.domain.space.piece.Piece;
+import janggi.domain.space.piece.Sang;
+import janggi.domain.space.piece.Team;
 import org.junit.jupiter.api.Test;
 
 class KingTest {

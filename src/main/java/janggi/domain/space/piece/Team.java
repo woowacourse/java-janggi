@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain.space.piece;
 
 import java.util.Arrays;
 
