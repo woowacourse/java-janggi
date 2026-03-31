@@ -7,7 +7,7 @@ import janggi.view.OutputView;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class JanggiController {
+public class JanggiGame {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();

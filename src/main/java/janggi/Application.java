@@ -1,10 +1,10 @@
 package janggi;
 
-import janggi.controller.JanggiController;
+import janggi.controller.JanggiGame;
 
 public class Application {
     public static void main(String[] args) {
-        JanggiController janggiController = new JanggiController();
-        janggiController.run();
+        JanggiGame janggiGame = new JanggiGame();
+        janggiGame.run();
     }
 }
