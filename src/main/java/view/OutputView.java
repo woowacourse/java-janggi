@@ -21,10 +21,10 @@ public class OutputView {
 
     public void printBoard(Map<Position, Piece> board) {
         System.out.println();
-        System.out.println(buildHeader());
         for (int y = 9; y >= 0; y--) {
             System.out.println(buildRow(board, y));
         }
+        System.out.println(buildHeader());
     }
 
     private String buildHeader() {
@@ -62,6 +62,6 @@ public class OutputView {
     }
 
     public void printWinner(String winner) {
-        System.out.printf("%s가 승리했습니다.%n", winner);
+        System.out.printf("%s(이/가) 승리했습니다.%n", winner);
     }
 }
