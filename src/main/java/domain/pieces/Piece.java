@@ -23,7 +23,7 @@ public abstract class Piece {
     }
 
     public boolean isDifferentPieceType(Piece piece) {
-        return this.getClass() != piece.getClass();
+        return this.getPieceType()!= piece.getPieceType();
     }
 
     Position up(Position position) {
