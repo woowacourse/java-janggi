@@ -4,6 +4,8 @@ import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
 import common.exception.JanggiException;
+import domain.board.Board;
+import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.game.Game;
 import domain.player.Name;
@@ -25,11 +27,9 @@ public class GameConsole {
     public void run() {
         game = createGame();
         outputView.printBoard(game.getBoardMap());
-
         while (game.isRunning()) {
             playTurn();
         }
-
         if (!game.isRunning()) {
             outputView.printWinner(game.getWinner());
         }
@@ -37,9 +37,8 @@ public class GameConsole {
 
     private Game createGame() {
         Players players = createPlayers();
-        Formation choFormation = createChoFormation();
-        Formation hanFormation = createHanFormation();
-        return Game.of(players, choFormation, hanFormation);
+        Board board = createBoard();
+        return new Game(players, board);
     }
 
     private void playTurn() {
@@ -115,6 +114,12 @@ public class GameConsole {
         return new Player(new Name(name), team);
     }
 
+    private Board createBoard() {
+        Formation choFormation = createChoFormation();
+        Formation hanFormation = createHanFormation();
+        return BoardFactory.createWithFormation(choFormation, hanFormation);
+    }
+    
     private Formation createChoFormation() {
         return retryOnInvalidInput(() -> {
             int choPositionInput = inputView.askChoPositionInput();
