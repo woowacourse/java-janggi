@@ -1,31 +1,27 @@
 package janggi.domain.board;
 
-import janggi.domain.piece.EmptyPosition;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Board implements BoardView {
-    private final List<List<Piece>> board;
+    private final Map<Position, Piece> board;
 
     public Board() {
-        board = BoardInitializer.createBoard();
+        this(new HashMap<>());
     }
 
-    private Board(List<List<Piece>> board) {
+    public Board(Map<Position, Piece> board) {
         this.board = board;
-    }
-
-    public static Board empty() {
-        return new Board(BoardInitializer.createEmptyBoard());
     }
 
     @Override
     public Piece findByPosition(Position position) {
-        int row = position.getRow();
-        int col = position.getCol();
-        return board.get(row).get(col);
+        return board.getOrDefault(position, new EmptyPiece(Team.NONE));
     }
 
     @Override
@@ -43,21 +39,21 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("해당 기물의 이동 규칙에 맞지 않습니다.");
         }
 
-        place(from, new EmptyPosition(Team.NONE));
+        place(from, new EmptyPiece(Team.NONE));
         place(to, fromPiece);
     }
 
-    private void place(Position to, Piece nextPiece) {
-        board.get(to.getRow()).set(to.getCol(), nextPiece);
+    private void place(Position position, Piece piece) {
+        board.put(position, piece);
     }
 
     private void validateCommonMove(Team currentTeam, Piece fromPiece, Piece toPiece) {
-        if (!fromPiece.isSameTeam(currentTeam)) {
-            throw new IllegalArgumentException("자신 진영의 기물을 선택해야합니다.");
-        }
-
         if (fromPiece.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 선택하신 칸에 기물이 없습니다.");
+        }
+
+        if (!fromPiece.isSameTeam(currentTeam)) {
+            throw new IllegalArgumentException("자신 진영의 기물을 선택해야합니다.");
         }
 
         if (toPiece.isSameTeam(currentTeam)) {
