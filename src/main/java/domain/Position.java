@@ -29,13 +29,13 @@ public class Position {
 
     private void validatePosX(int x) {
         if (x < MIN_X_VALUE || x > MAX_X_VALUE) {
-            throw new IllegalArgumentException("[ERROR] x 좌표는 " + MIN_X_VALUE + "~" + MAX_X_VALUE + "사이어야합니다.");
+            throw new IllegalArgumentException("[ERROR] x 좌표는 " + MIN_X_VALUE + "~" + MAX_X_VALUE + "사이어야합니다." + " 입력값: " + x);
         }
     }
 
     private void validatePosY(int y) {
         if (y < MIN_Y_VALUE || y > MAX_Y_VALUE) {
-            throw new IllegalArgumentException("[ERROR] y 좌표는 " + MIN_Y_VALUE + "~" + MAX_Y_VALUE + "사이어야합니다.");
+            throw new IllegalArgumentException("[ERROR] y 좌표는 " + MIN_Y_VALUE + "~" + MAX_Y_VALUE + "사이어야합니다." + " 입력값: " + y);
         }
     }
 

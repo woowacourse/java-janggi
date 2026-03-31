@@ -34,6 +34,6 @@ class PositionTest {
     void Y_예외_값_입력_오류_검증(int y) {
         assertThatThrownBy(() -> new Position(1, y))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR]", "y좌표");
+                .hasMessageContaining("[ERROR]", "y 좌표");
     }
 }
