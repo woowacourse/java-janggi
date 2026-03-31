@@ -76,11 +76,17 @@ public class JanggiController {
 
     private Position getEndPiecePosition() {
         List<Integer> endPosition = inputView.readEndPiecePosition();
-        return new Position(endPosition.getFirst(), endPosition.getLast());
+        return toPosition(endPosition);
     }
 
     private Position getStartPiecePosition() {
         List<Integer> startPosition = inputView.readStartPiecePosition();
-        return new Position(startPosition.getFirst(), startPosition.getLast());
+        return toPosition(startPosition);
+    }
+
+    private Position toPosition(List<Integer> values) {
+        int x = values.get(0);
+        int y = values.get(1);
+        return new Position(x, y);
     }
 }
