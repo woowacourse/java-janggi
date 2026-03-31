@@ -67,7 +67,7 @@ public class InputView {
 
     private void validateBlank(String input) {
         if (input.isBlank()) {
-            throw new IllegalStateException("공백은 입력할 수 없습니다.");
+            throw new IllegalArgumentException("공백은 입력할 수 없습니다.");
         }
     }
 
