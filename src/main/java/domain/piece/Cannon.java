@@ -4,7 +4,6 @@ import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 
 import java.util.List;
-import java.util.Map;
 
 import static util.ErrorMessage.IMPOSSIBLE_MOVE;
 
@@ -20,66 +19,51 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        validateLocation(from, to);
-        validateOnlyOnePieceNotCannon(from, to, board);
-        validateCanon(to, board);
-        validateNotSameTeam(from, to, board);
-    }
-
-    private void validateCanon(Coordination to, Map<Coordination, Piece> board) {
-        if (board.get(to).isCannon()) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
-        }
-    }
-
-    @Override
-    public boolean isCannon() {
-        return true;
-    }
-
-    private void validateLocation(Coordination from, Coordination to) {
-        boolean movable = from.isSameRowDifferentColumn(to) || from.isSameColumnDifferentRow(to);
+    public void validateRule(Coordination from, Coordination to) {
+        boolean movable = from.isHorizontal(to) || from.isVertical(to);
         if (!movable) {
             throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
         }
     }
 
-    private void validateOnlyOnePieceNotCannon(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        List<Piece> piecesOnPath = getPieces(from, to, board);
-        validateJumpRule(piecesOnPath);
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        if (from.isVertical(to)) {
+            return from.verticalPathTo(to);
+        }
+        return from.horizontalPathTo(to);
     }
 
-    private List<Piece> getPieces(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        return resolvePath(from, to).stream()
-                .map(board::get)
-                .filter(piece -> !piece.isEmpty())
-                .toList();
+    @Override
+    public void validatePath(List<Piece> piecesOnPath) {
+        validateExactlyOneBridge(piecesOnPath);
+        validateBridgeIsNotCannon(piecesOnPath);
     }
 
-    private void validateJumpRule(List<Piece> pieces) {
-        validateExactlyOneBridge(pieces);
-        validateBridgeIsNotCannon(pieces);
+    @Override
+    public void validateNotSameTeam(Piece target) {
+        if (target.isEmpty()) {
+            return;
+        }
+        if (target instanceof Cannon) {
+            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+        }
+        if (this.team == target.team()) {
+            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+        }
     }
 
-    private void validateBridgeIsNotCannon(List<Piece> pieces) {
-        boolean hasCannon = pieces.stream()
-                .anyMatch(Piece::isCannon);
+    private void validateExactlyOneBridge(List<Piece> piecesOnPath) {
+        if (piecesOnPath.size() != 1) {
+            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+        }
+    }
+
+    private void validateBridgeIsNotCannon(List<Piece> piecesOnPath) {
+        boolean hasCannon = piecesOnPath.stream()
+                .anyMatch(p -> p instanceof Cannon);
         if (hasCannon) {
             throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
         }
-    }
-
-    private static void validateExactlyOneBridge(List<Piece> pieces) {
-        if (pieces.size() != 1) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
-        }
-    }
-
-    private List<Coordination> resolvePath(Coordination from, Coordination to) {
-        if (from.isSameColumnDifferentRow(to)) {
-            return from.betweenRowCoordination(to);
-        }
-        return from.betweenColumnCoordination(to);
     }
 }

@@ -32,11 +32,11 @@ public class Coordination {
         return other.row.different(this.row);
     }
 
-    public boolean isSameRowDifferentColumn(Coordination other) {
+    public boolean isHorizontal(Coordination other) {
         return this.row.equals(other.row) && !this.column.equals(other.column);
     }
 
-    public boolean isSameColumnDifferentRow(Coordination other) {
+    public boolean isVertical(Coordination other) {
         return !this.row.equals(other.row) && this.column.equals(other.column);
     }
 
@@ -45,7 +45,7 @@ public class Coordination {
     }
 
 
-    public List<Coordination> betweenRowCoordination(Coordination other) {
+    public List<Coordination> verticalPathTo(Coordination other) {
         List<Coordination> coordinations = new ArrayList<>();
         List<Row> rows = this.row.between(other.row);
         for (Row row : rows) {
@@ -54,7 +54,7 @@ public class Coordination {
         return coordinations;
     }
 
-    public List<Coordination> betweenColumnCoordination(Coordination other) {
+    public List<Coordination> horizontalPathTo(Coordination other) {
         List<Coordination> coordinations = new ArrayList<>();
         List<Column> columns = this.column.between(other.column);
         for (Column column : columns) {

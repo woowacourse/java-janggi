@@ -5,7 +5,7 @@ import domain.game.Turn;
 import domain.piece.error.PieceException;
 import util.ErrorMessage;
 
-import java.util.Map;
+import java.util.List;
 
 public abstract class Piece {
 
@@ -27,31 +27,24 @@ public abstract class Piece {
         turn.validateSameTeam(team);
     }
 
-    protected void validateNotSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        Piece fromPiece = board.get(from);
-        Piece toPiece = board.get(to);
-        fromPiece.validateTarget(toPiece);
-    }
-
-    private void validateTarget(Piece piece) {
-        if (!piece.isEmpty()) {
-            validateNotSameTeam(piece);
+    public void validateNotSameTeam(Piece target) {
+        if (!target.isEmpty() && this.team == target.team) {
+            throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
         }
     }
 
-    private void validateNotSameTeam(Piece piece) {
-        if (this.team == piece.team) {
+    public void validatePath(List<Piece> piecesOnPath) {
+        boolean hasBlocker = piecesOnPath.stream().anyMatch(p -> !p.isEmpty());
+        if (hasBlocker) {
             throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
         }
     }
 
     public abstract PieceType pieceType();
 
-    public abstract void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board);
+    public abstract void validateRule(Coordination from, Coordination to);
 
-    public boolean isCannon() {
-        return false;
-    }
+    public abstract List<Coordination> resolvePath(Coordination from, Coordination to);
 
     public boolean isGeneral() {
         return false;

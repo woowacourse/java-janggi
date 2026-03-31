@@ -4,7 +4,6 @@ import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 
 import java.util.List;
-import java.util.Map;
 
 import static util.ErrorMessage.IMPOSSIBLE_MOVE;
 
@@ -22,42 +21,22 @@ public class Horse extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        int colDifferent = from.differentColumn(to);
-        int rowDifferent = from.differentRow(to);
-        int absColumnDifferent = Math.abs(colDifferent);
-        int absRowDifferent = Math.abs(rowDifferent);
-
-        validateLocation(absColumnDifferent, absRowDifferent);
-
-        Coordination intermediateColumn = from.plus(colDifferent / 2, 0);
-        Coordination intermediateRow = from.plus(0, rowDifferent / 2);
-
-        validateDirection(board, absColumnDifferent, intermediateColumn, absRowDifferent, intermediateRow);
-
-        validateNotSameTeam(from, to, board);
-    }
-
-    private void validateLocation(int absColumnDifferent, int absRowDifferent) {
-        if (!MOVABLE_ABSOLUTE_LOCATION.contains(List.of(absColumnDifferent, absRowDifferent))) {
+    public void validateRule(Coordination from, Coordination to) {
+        int absCol = Math.abs(from.differentColumn(to));
+        int absRow = Math.abs(from.differentRow(to));
+        if (!MOVABLE_ABSOLUTE_LOCATION.contains(List.of(absCol, absRow))) {
             throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
         }
     }
 
-    private void validateDirection(Map<Coordination, Piece> board, int absColumnDifferent, Coordination intermediateColumn, int absRowDifferent, Coordination intermediateRow) {
-        validateDirection(absColumnDifferent, board, intermediateColumn);
-        validateDirection(absRowDifferent, board, intermediateRow);
-    }
-
-    private void validateDirection(int absDifferent, Map<Coordination, Piece> board, Coordination intermediateCoordination) {
-        if (absDifferent == 2) {
-            validatePathClear(board, intermediateCoordination);
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        int colDiff = from.differentColumn(to);
+        int rowDiff = from.differentRow(to);
+        int absCol = Math.abs(colDiff);
+        if (absCol == 2) {
+            return List.of(from.plus(colDiff / 2, 0));
         }
-    }
-
-    private void validatePathClear(Map<Coordination, Piece> board, Coordination intermediateCoordination) {
-        if (!board.get(intermediateCoordination).isEmpty()) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
-        }
+        return List.of(from.plus(0, rowDiff / 2));
     }
 }

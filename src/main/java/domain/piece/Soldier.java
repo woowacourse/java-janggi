@@ -5,7 +5,6 @@ import domain.piece.error.PieceException;
 import util.ErrorMessage;
 
 import java.util.List;
-import java.util.Map;
 
 public class Soldier extends Piece {
 
@@ -22,26 +21,16 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        validateLocation(from, to);
-        validateNotSameTeam(from, to, board);
-    }
-
-    private void validateLocation(Coordination from, Coordination to) {
-        List<Integer> different = List.of(from.differentColumn(to), from.differentRow(to));
-
-        if (team == Team.CHO) {
-            validateLocation(CHO_MOVABLE_LOCATION, different);
-            return;
-        }
-        validateLocation(HAN_MOVABLE_LOCATION, different);
-    }
-
-    private void validateLocation(List<List<Integer>> movableLocation, List<Integer> different) {
-        boolean isMovable = movableLocation.contains(different);
-
-        if (!isMovable) {
+    public void validateRule(Coordination from, Coordination to) {
+        List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
+        List<List<Integer>> movable = team == Team.CHO ? CHO_MOVABLE_LOCATION : HAN_MOVABLE_LOCATION;
+        if (!movable.contains(diff)) {
             throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
         }
+    }
+
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        return List.of();
     }
 }
