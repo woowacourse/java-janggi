@@ -15,8 +15,8 @@ public class ChariotTest {
     void 팀_확인_테스트() {
         Chariot chariot = new Chariot(Team.HAN);
 
-        boolean hanResult = chariot.isSameTeam(Team.HAN);
-        boolean choResult = chariot.isSameTeam(Team.CHO);
+        boolean hanResult = chariot.getTeam() == Team.HAN;
+        boolean choResult = chariot.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isTrue(),

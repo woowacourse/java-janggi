@@ -36,20 +36,23 @@ public class Chariot extends MoveablePiece {
         return true;
     }
 
-    private List<Position> findPath(Position from, Position to) {
-        List<Position> path = new ArrayList<>();
-        Position target = from.moveStraight(to);
-        while (target.hasOnlyStraightMove(to)) {
-            path.add(target);
-            target = target.moveStraight(to);
-        }
-        return path;
-    }
-
     private void validateMove(Position from, Position to) {
-        if (!from.hasOnlyStraightMove(to)) {
+        int rowDiff = from.calculateRowDiff(to);
+        int columnDiff = from.calculateColumnDiff(to);
+
+        if (rowDiff != 0 && columnDiff != 0) {
             throw new IllegalArgumentException("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
         }
+    }
+
+    private List<Position> findPath(Position from, Position to) {
+        List<Position> path = new ArrayList<>();
+        Position target = from.nextStraight(to);
+        while (!target.equals(to)) {
+            path.add(target);
+            target = target.nextStraight(to);
+        }
+        return path;
     }
 
     private void validateAllPieceEmpty(List<Piece> piecesOnPath) {

@@ -25,6 +25,45 @@ public class Position {
         return new Position(new Row(extractRowValue(rowColumn)), new Column(extractColumnValue(rowColumn)));
     }
 
+    public int calculateRowDiff(Position other) {
+        return other.getRowValue() - getRowValue();
+    }
+
+    public int calculateColumnDiff(Position other) {
+        return other.getColumnValue() - getColumnValue();
+    }
+
+    public Position nextStraight(Position to) {
+        int diffRow = calculateRowDiff(to);
+        int diffColumn = calculateColumnDiff(to);
+
+        if (Math.abs(diffRow) > Math.abs(diffColumn)) {
+            return Position.of(getRowValue() + Integer.signum(diffRow), getColumnValue());
+        }
+        return Position.of(getRowValue(), getColumnValue() + Integer.signum(diffColumn));
+    }
+
+    public Position nextDiagonal(Position to) {
+        int unitRow = Integer.signum(calculateRowDiff(to));
+        int unitColumn = Integer.signum(calculateColumnDiff(to));
+
+        return Position.of(getRowValue() + unitRow, getColumnValue() + unitColumn);
+    }
+
+    public int getRowValue() {
+        return row.getValue();
+    }
+
+    public int getColumnValue() {
+        return column.getValue();
+    }
+
+    private static void validatePositionLength(String rowColumn) {
+        if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
+            throw new IllegalArgumentException("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
+        }
+    }
+
     private static int extractRowValue(String rowColumn) {
         int rowValue = rowColumn.charAt(ROW_INDEX) - '0';
         if (rowValue == 0) {
@@ -35,60 +74,6 @@ public class Position {
 
     private static int extractColumnValue(String rowColumn) {
         return rowColumn.charAt(COLUMN_INDEX) - '0';
-    }
-
-    private static void validatePositionLength(String rowColumn) {
-        if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
-            throw new IllegalArgumentException("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
-        }
-    }
-
-    public boolean hasOffsetPairs(Position other, int value1, int value2) {
-        int diffRowAbs = Math.abs(other.getRowValue() - this.getRowValue());
-        int diffColumnAbs = Math.abs(other.getColumnValue() - this.getColumnValue());
-
-        return (diffRowAbs == value1 && diffColumnAbs == value2)
-                || (diffColumnAbs == value1 && diffRowAbs == value2);
-    }
-
-    public boolean hasOnlyStraightMove(Position to) {
-        int diffRowAbs = Math.abs(to.getRowValue() - this.getRowValue());
-        int diffColumnAbs = Math.abs(to.getColumnValue() - this.getColumnValue());
-
-        return (diffRowAbs == 0) != (diffColumnAbs == 0);
-    }
-
-    public Position moveStraight(Position to) {
-        int diffRow = to.getRowValue() - getRowValue();
-        int diffColumn = to.getColumnValue() - getColumnValue();
-
-        if (Math.abs(diffRow) > Math.abs(diffColumn)) {
-            return Position.of(getRowValue() + toUnit(diffRow), getColumnValue());
-        }
-        return Position.of(getRowValue(), getColumnValue() + toUnit(diffColumn));
-    }
-
-    // 대각선 이동: 양 축 모두 1칸씩
-    public Position moveDiagonal(Position to) {
-        int unitRow = toUnit(to.getRowValue() - getRowValue());
-        int unitColumn = toUnit(to.getColumnValue() - getColumnValue());
-
-        return Position.of(getRowValue() + unitRow, getColumnValue() + unitColumn);
-    }
-
-    private int toUnit(int diff) {
-        if (diff == 0) {
-            return 0;
-        }
-        return diff / Math.abs(diff);
-    }
-
-    public int getRowValue() {
-        return row.getValue();
-    }
-
-    public int getColumnValue() {
-        return column.getValue();
     }
 
     @Override

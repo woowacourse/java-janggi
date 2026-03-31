@@ -20,8 +20,8 @@ public class GeneralTest {
     void 팀_확인_테스트() {
         General general = new General(Team.HAN);
 
-        boolean hanResult = general.isSameTeam(Team.HAN);
-        boolean choResult = general.isSameTeam(Team.CHO);
+        boolean hanResult = general.getTeam() == Team.HAN;
+        boolean choResult = general.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isTrue(),
@@ -47,12 +47,12 @@ public class GeneralTest {
     }
 
     @Test
-    void 대각선_이동시키면_예외가_발생한다() {
+    void 대각선_한_칸을_이동시키면_경로를_반환한다() {
         General general = new General(Team.HAN);
 
-        assertThatThrownBy(() -> general.getPath(Position.from("11"), Position.from("22")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+        List<Position> path = general.getPath(Position.from("11"), Position.from("22"));
+
+        assertThat(path).hasSize(0);
     }
 
     @Test

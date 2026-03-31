@@ -15,8 +15,8 @@ public class GuardTest {
     void 팀_확인_테스트() {
         Guard guard = new Guard(Team.HAN);
 
-        boolean hanResult = guard.isSameTeam(Team.HAN);
-        boolean choResult = guard.isSameTeam(Team.CHO);
+        boolean hanResult = guard.getTeam() == Team.HAN;
+        boolean choResult = guard.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isTrue(),
@@ -42,12 +42,12 @@ public class GuardTest {
     }
 
     @Test
-    void 대각선_이동시키면_예외가_발생한다() {
+    void 대각선_한_칸을_이동시키면_경로를_반환한다() {
         Guard guard = new Guard(Team.HAN);
 
-        assertThatThrownBy(() -> guard.getPath(Position.from("11"), Position.from("22")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");
+        List<Position> path = guard.getPath(Position.from("11"), Position.from("22"));
+
+        assertThat(path).hasSize(0);
     }
 
     @Test

@@ -15,8 +15,8 @@ public class EmptyPieceTest {
     void 빈_기물의_팀을_확인하면_거짓을_반환한다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        boolean hanResult = emptyPiece.isSameTeam(Team.HAN);
-        boolean choResult = emptyPiece.isSameTeam(Team.CHO);
+        boolean hanResult = emptyPiece.getTeam() == Team.HAN;
+        boolean choResult = emptyPiece.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isFalse(),
@@ -28,8 +28,8 @@ public class EmptyPieceTest {
     void 빈_기물은_두_나라에_소속되지_않는다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        boolean hanResult = emptyPiece.isSameTeam(Team.HAN);
-        boolean choResult = emptyPiece.isSameTeam(Team.CHO);
+        boolean hanResult = emptyPiece.getTeam() == Team.HAN;
+        boolean choResult = emptyPiece.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isFalse(),

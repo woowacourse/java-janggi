@@ -127,6 +127,6 @@ public class BoardFactoryTest {
     private void assertPiece(Map<Position, Piece> board, String pos, Piece expected, Team team) {
         Piece actual = board.get(Position.from(pos));
         assertThat(actual.isSamePiece(expected)).isTrue();
-        assertThat(actual.isSameTeam(team)).isTrue();
+        assertThat(actual.getTeam() == team).isTrue();
     }
 }

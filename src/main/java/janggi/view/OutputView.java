@@ -75,7 +75,7 @@ public class OutputView {
 
     private String formatPiece(Piece piece) {
         if (piece.isEmptyPiece()) return CROSS;
-        if (piece.isSameTeam(Team.HAN)) {
+        if (piece.getTeam() == Team.HAN) {
             return ANSI_RED + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
         }
         return ANSI_BLUE + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;

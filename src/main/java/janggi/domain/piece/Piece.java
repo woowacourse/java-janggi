@@ -10,9 +10,9 @@ public interface Piece {
 
     boolean isSamePiece(Piece other);
 
-    boolean isSameTeam(Team team);
-
     String getDisplayName();
+
+    Team getTeam();
 
     List<Position> getPath(Position from, Position to);
 

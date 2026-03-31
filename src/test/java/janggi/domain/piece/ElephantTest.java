@@ -15,8 +15,8 @@ public class ElephantTest {
     void 팀_확인_테스트() {
         Elephant elephant = new Elephant(Team.HAN);
 
-        boolean hanResult = elephant.isSameTeam(Team.HAN);
-        boolean choResult = elephant.isSameTeam(Team.CHO);
+        boolean hanResult = elephant.getTeam() == Team.HAN;
+        boolean choResult = elephant.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isTrue(),

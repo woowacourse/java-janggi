@@ -17,8 +17,8 @@ public class HorseTest {
     void 팀_확인_테스트() {
         Horse horse = new Horse(Team.HAN);
 
-        boolean hanResult = horse.isSameTeam(Team.HAN);
-        boolean choResult = horse.isSameTeam(Team.CHO);
+        boolean hanResult = horse.getTeam() == Team.HAN;
+        boolean choResult = horse.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isTrue(),

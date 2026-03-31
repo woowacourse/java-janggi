@@ -15,17 +15,17 @@ public class EmptyPiece implements Piece {
 
     @Override
     public boolean isSamePiece(Piece other) {
-        return other.getDisplayName().equals(PIECE_NAME);
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return false;
+        return other instanceof EmptyPiece;
     }
 
     @Override
     public String getDisplayName() {
         return PIECE_NAME;
+    }
+
+    @Override
+    public Team getTeam() {
+        return Team.NONE;
     }
 
     @Override

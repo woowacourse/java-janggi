@@ -2,27 +2,34 @@ package janggi.domain.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.Test;
 
 public class PositionTest {
 
     @Test
-    void 문자열_35로_위치를_생성하면_좌표_3_5를_가지고_있다() {
-        Position position = Position.from("35");
+    void 문자열_09로_위치를_생성하면_좌표_10_9를_가지고_있다() {
+        Position position = Position.from("09");
+        int rowValue = position.getRowValue();
+        int columnValue = position.getColumnValue();
 
-        String result = position.toString();
-
-        assertThat(result).isEqualTo("3,5");
+        assertAll(
+                () -> assertThat(rowValue).isEqualTo(10),
+                () -> assertThat(columnValue).isEqualTo(9)
+        );
     }
 
     @Test
-    void 문자열_05로_위치를_생성하면_좌표_10_5를_가지고_있다() {
-        Position position = Position.from("05");
+    void 숫자_10과_9로_위치를_생성하면_좌표_10_9를_가지고_있다() {
+        Position position = Position.of(10, 9);
+        int rowValue = position.getRowValue();
+        int columnValue = position.getColumnValue();
 
-        String result = position.toString();
-
-        assertThat(result).isEqualTo("10,5");
+        assertAll(
+                () -> assertThat(rowValue).isEqualTo(10),
+                () -> assertThat(columnValue).isEqualTo(9)
+        );
     }
 
     @Test

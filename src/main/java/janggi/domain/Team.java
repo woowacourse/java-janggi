@@ -1,15 +1,21 @@
 package janggi.domain;
 
 public enum Team {
-    HAN("한"),
-    CHO("초"),
-    NONE("무"),
+    HAN("한", -1),
+    CHO("초", 1),
+    NONE("무", 0),
     ;
 
     private final String displayName;
+    private final int backwardDirection;
 
-    Team(String displayName) {
+    Team(String displayName, int backwardDirection) {
         this.displayName = displayName;
+        this.backwardDirection = backwardDirection;
+    }
+
+    public boolean isBackward(int rowDiff) {
+        return Integer.signum(rowDiff) == backwardDirection;
     }
 
     public Team convert() {

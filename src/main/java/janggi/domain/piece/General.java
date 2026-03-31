@@ -6,6 +6,7 @@ import java.util.List;
 
 public class General extends MoveablePiece {
     private static final String PIECE_NAME = "장";
+    private static final int MAX_MOVE_DISTANCE = 1;
 
     public General(Team team) {
         super(team);
@@ -34,7 +35,10 @@ public class General extends MoveablePiece {
     }
 
     private void validateMove(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 0, 1)) {
+        int absRowDiff = Math.abs(from.calculateRowDiff(to));
+        int absColumnDiff = Math.abs(from.calculateColumnDiff(to));
+
+        if (absRowDiff > MAX_MOVE_DISTANCE || absColumnDiff > MAX_MOVE_DISTANCE) {
             throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
         }
     }

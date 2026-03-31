@@ -2,10 +2,12 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.position.Position;
+
 import java.util.List;
 
 public class Guard extends MoveablePiece {
     private static final String PIECE_NAME = "사";
+    private static final int MAX_MOVE_DISTANCE = 1;
 
     public Guard(Team team) {
         super(team);
@@ -34,7 +36,10 @@ public class Guard extends MoveablePiece {
     }
 
     private void validateMove(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 0, 1)) {
+        int absRowDiff = Math.abs(from.calculateRowDiff(to));
+        int absColumnDiff = Math.abs(from.calculateColumnDiff(to));
+
+        if (absRowDiff > MAX_MOVE_DISTANCE || absColumnDiff > MAX_MOVE_DISTANCE) {
             throw new IllegalArgumentException("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");
         }
     }

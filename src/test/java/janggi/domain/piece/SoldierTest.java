@@ -15,8 +15,8 @@ public class SoldierTest {
     void 팀_확인_테스트() {
         Soldier soldier = new Soldier(Team.HAN);
 
-        boolean hanResult = soldier.isSameTeam(Team.HAN);
-        boolean choResult = soldier.isSameTeam(Team.CHO);
+        boolean hanResult = soldier.getTeam() == Team.HAN;
+        boolean choResult = soldier.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isTrue(),

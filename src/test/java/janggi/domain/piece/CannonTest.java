@@ -15,8 +15,8 @@ public class CannonTest {
     void 팀_확인_테스트() {
         Cannon cannon = new Cannon(Team.HAN);
 
-        boolean hanResult = cannon.isSameTeam(Team.HAN);
-        boolean choResult = cannon.isSameTeam(Team.CHO);
+        boolean hanResult = cannon.getTeam() == Team.HAN;
+        boolean choResult = cannon.getTeam() == Team.CHO;
 
         assertAll(
                 () -> assertThat(hanResult).isTrue(),
