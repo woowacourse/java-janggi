@@ -21,7 +21,6 @@ public class Piece {
         return pieceType.getName();
     }
 
-
     public PieceType getPieceType() {
         return pieceType;
     }
@@ -40,6 +39,10 @@ public class Piece {
 
     public List<Route> findRoutes() {
         return pieceType.findRoutes(team);
+    }
+
+    public boolean isSameTeam(Piece other) {
+        return team == other.team;
     }
 
     @Override
