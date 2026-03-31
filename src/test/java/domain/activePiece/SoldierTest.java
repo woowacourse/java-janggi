@@ -40,7 +40,7 @@ class SoldierTest {
     }
 
     @Test
-    void 한_진영에서_정상_범위가_아니면_거짓() {
+    void 한_진영에서_전진_좌우_외_방향으로_이동_불가() {
         Piece soldier = new Soldier(Team.HAN);
         assertThat(soldier.canMove(new Position(5, 5), new Position(8, 8))).isFalse();
     }
@@ -70,13 +70,13 @@ class SoldierTest {
     }
 
     @Test
-    void 초_진영에서_정상_범위가_아니면_거짓() {
+    void 초_진영에서_전진_좌우_외_방향으로_이동_불가() {
         Piece soldier = new Soldier(Team.CHO);
         assertThat(soldier.canMove(new Position(5, 5), new Position(8, 8))).isFalse();
     }
 
     @Test
-    void 병은_빈_경로_출력_한다() {
+    void 병은_인접_이동_시_중간_경로_위치가_없다() {
         ActivePiece soldier = new Soldier(Team.HAN);
 
         Position src = new Position(new Row(5), new Column(5));
@@ -85,17 +85,4 @@ class SoldierTest {
 
         assertThat(soldier.searchRoute(src, dest)).isEqualTo(routes);
     }
-
-    @Test
-    void 병_비정상_경로_출력_한다() {
-        ActivePiece soldier = new Soldier(Team.HAN);
-
-        Position src = new Position(new Row(5), new Column(5));
-        Position dest = new Position(new Row(4), new Column(5));
-        List<Position> routes = new ArrayList<>(
-                List.of(new Position(new Row(3), new Column(5))));
-
-        assertThat(soldier.searchRoute(src, dest)).isNotEqualTo(routes);
-    }
-
 }
