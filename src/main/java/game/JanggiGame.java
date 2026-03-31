@@ -31,7 +31,10 @@ public class JanggiGame {
     }
 
     public Side currentTurn() {
-        return isChoTurn ? Side.CHO : Side.HAN;
+        if (isChoTurn) {
+            return Side.CHO;
+        }
+        return Side.HAN;
     }
 
     public Board board() {
