@@ -1,10 +1,10 @@
 package factory;
 
+import domain.Piece;
 import domain.PieceProperty;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
-import domain.Piece;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.DownwardSoldierMoveStrategy;
@@ -36,7 +36,7 @@ public class JanggiBoardFactory {
             for (int j = 0; j < 9; j++) {
                 Position position = new Position(i, j);
                 board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), NonMoveableStrategy.of(position)));
+                        Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), new NonMoveableStrategy()));
             }
         }
     }
@@ -65,85 +65,85 @@ public class JanggiBoardFactory {
         upTeamPiecePositionFactory.upTeamSoldierPositions()
                 .forEach(position -> board.putIfAbsent(position,
                         Piece.of(new PieceProperty(PieceType.SOLDIER, Team.RED),
-                                DownwardSoldierMoveStrategy.of(position))));
+                                new DownwardSoldierMoveStrategy())));
     }
 
     private void setupDownTeamSoldier() {
         downTeamPositionFactory.downTeamSoldierPositions()
                 .forEach(position -> board.putIfAbsent(position,
                         Piece.of(new PieceProperty(PieceType.SOLDIER, Team.GREEN),
-                                DownwardSoldierMoveStrategy.of(position))));
+                                new DownwardSoldierMoveStrategy())));
     }
 
     private void setupUpTeamGuards() {
         upTeamPiecePositionFactory.upTeamGuardPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.GUARD, Team.RED), GuardMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.GUARD, Team.RED), new GuardMoveStrategy())));
     }
 
     private void setupDownTeamGuards() {
         downTeamPositionFactory.downTeamGuardPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.GUARD, Team.GREEN), GeneralMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.GUARD, Team.GREEN), new GeneralMoveStrategy())));
     }
 
     private void setupUpTeamChariots() {
         upTeamPiecePositionFactory.upTeamChariotPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.CHARIOT, Team.RED), ChariotMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.CHARIOT, Team.RED), new ChariotMoveStrategy())));
     }
 
     private void setupDownTeamChariots() {
         downTeamPositionFactory.downTeamChariotPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.CHARIOT, Team.GREEN), ChariotMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.CHARIOT, Team.GREEN), new ChariotMoveStrategy())));
     }
 
     private void setupUpTeamCannons() {
         upTeamPiecePositionFactory.upTeamCannonPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.CANNON, Team.RED), CannonMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.CANNON, Team.RED), new CannonMoveStrategy())));
     }
 
     private void setupDownTeamCannons() {
         downTeamPositionFactory.downTeamCannonPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.CANNON, Team.GREEN), CannonMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.CANNON, Team.GREEN), new CannonMoveStrategy())));
     }
 
     private void setupUpTeamHorses() {
         upTeamPiecePositionFactory.upTeamHorsePositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.HORSE, Team.RED), HorseMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.HORSE, Team.RED), new HorseMoveStrategy())));
     }
 
     private void setupDownTeamHorses() {
         downTeamPositionFactory.downTeamHorsePositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN), HorseMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN), new HorseMoveStrategy())));
     }
 
     private void setupUpTeamElephants() {
         upTeamPiecePositionFactory.upTeamElephantPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.ELEPHANT, Team.RED), ElephantMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.ELEPHANT, Team.RED), new ElephantMoveStrategy())));
     }
 
     private void setupDownTeamElephants() {
         downTeamPositionFactory.downTeamElephantPositions()
                 .forEach(position -> board.putIfAbsent(position,
-                        Piece.of(new PieceProperty(PieceType.ELEPHANT, Team.GREEN), ElephantMoveStrategy.of(position))));
+                        Piece.of(new PieceProperty(PieceType.ELEPHANT, Team.GREEN), new ElephantMoveStrategy())));
     }
 
     private void setupUpTeamGeneral() {
         Position position = upTeamPiecePositionFactory.upTeamGeneralPosition();
         board.putIfAbsent(position,
-                Piece.of(new PieceProperty(PieceType.GENERAL, Team.RED), GeneralMoveStrategy.of(position)));
+                Piece.of(new PieceProperty(PieceType.GENERAL, Team.RED), new GeneralMoveStrategy()));
     }
 
     private void setupDownTeamGeneral() {
         Position position = downTeamPositionFactory.downTeamGeneralPosition();
         board.putIfAbsent(position,
-                Piece.of(new PieceProperty(PieceType.GENERAL, Team.GREEN), GeneralMoveStrategy.of(position)));
+                Piece.of(new PieceProperty(PieceType.GENERAL, Team.GREEN), new GeneralMoveStrategy()));
     }
 }

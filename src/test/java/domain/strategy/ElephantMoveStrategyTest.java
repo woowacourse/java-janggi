@@ -16,36 +16,36 @@ class ElephantMoveStrategyTest {
     @MethodSource("moveablePositions")
     @DisplayName("상 기물은 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 같은 대각선으로 2번 이동할 수 있어야 한다.")
     void horse_move_test(Position position, Position expectedTarget) {
-        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(position, expectedTarget)).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("상 기물은 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 같은 대각선 2번 외에는 이동할 수 없어야 한다.")
     void horse_move_test_negative(Position position, Position expectedTarget) {
-        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(expectedTarget)).isFalse();
+        assertThat(moveStrategy.canMoveTo(position, expectedTarget)).isFalse();
     }
 
     @ParameterizedTest
     @MethodSource("moveablePositionsAndBlockedPositions")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
     void horse_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
-        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(expectedTarget, piecePositions)).isFalse();
+        assertThat(moveStrategy.hasValidPathTo(position, expectedTarget, piecePositions)).isFalse();
     }
 
     @ParameterizedTest
     @MethodSource("moveablePositionsAndNonBlockedPositions")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
     void horse_non_blocked_route_test(Position position, Position expectedTarget, List<Position> piecePositions) {
-        ElephantMoveStrategy moveStrategy = ElephantMoveStrategy.of(position);
+        ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(expectedTarget, piecePositions)).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(position, expectedTarget, piecePositions)).isTrue();
     }
 
 

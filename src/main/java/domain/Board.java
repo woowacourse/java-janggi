@@ -4,6 +4,8 @@ import domain.strategy.NonMoveableStrategy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -17,101 +19,104 @@ public class Board {
         return new Board(board);
     }
 
-    public void movePiece(Position source, Position destination) {
-        Piece piece = pieceAt(source);
-        piece.moveTo(destination);
+    public void movePiece(Position currentPosition, Position destination) {
+        Piece piece = pieceAt(currentPosition);
         board.put(destination, piece);
-        board.put(source, emptyPieceAt(source));
+        board.put(currentPosition, emptyPieceAt());
     }
 
-    public boolean canMove(Position source, Position destination) {
-        Piece piece = pieceAt(source);
+    public boolean canMove(Position currentPosition, Position destination) {
+        Piece piece = pieceAt(currentPosition);
 
         if (hasSameTeamPieceAt(piece, destination)) {
             return false;
         }
 
-        if (!piece.canMoveTo(destination)) {
+        if (!piece.canMoveTo(currentPosition, destination)) {
             return false;
         }
 
         if (piece.isCannon()) {
-            return (canCannonMove(piece, destination));
+            return (canCannonMove(piece, currentPosition, destination));
         }
 
-        return piece.hasValidPathTo(destination, occupiedPositions());
+        return piece.hasValidPathTo(currentPosition, destination, occupiedPositions());
     }
 
     public boolean hasGreenTeamGeneral() {
-        return greenPieces().stream()
-                .anyMatch(Piece::isGeneral);
+        return hasGeneral(greenPieces());
     }
 
     public boolean hasRedTeamGeneral() {
-        return redPieces().stream()
+        return hasGeneral(redPieces());
+    }
+
+    private boolean hasGeneral(Map<Position, Piece> pieces) {
+        return pieces.values().stream()
                 .anyMatch(Piece::isGeneral);
     }
 
-
-    public List<Piece> greenPieces() {
-        return board.values().stream()
-                .filter(Piece::isGreenTeam)
-                .toList();
+    public Map<Position, Piece> greenPieces() {
+        return piecesByTeam(Piece::isGreenTeam);
     }
 
-    public List<Piece> redPieces() {
-        return board.values().stream()
-                .filter(Piece::isRedTeam)
-                .toList();
+    public Map<Position, Piece> redPieces() {
+        return piecesByTeam(Piece::isRedTeam);
     }
 
-    public List<Piece> nonePieces() {
-        return board.values().stream()
-                .filter(Piece::isNoneTeam)
-                .toList();
+    public Map<Position, Piece> nonePieces() {
+        return piecesByTeam(Piece::isNoneTeam);
+    }
+
+    private Map<Position, Piece> piecesByTeam(Predicate<Piece> predicate) {
+        return board.entrySet().stream()
+                .filter(entry -> predicate.test(entry.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public Map<Position, Piece> board() {
         return Map.copyOf(board);
     }
 
-    private Piece pieceAt(Position source) {
-        return board.get(source);
+    private Piece pieceAt(Position currentPosition) {
+        return board.get(currentPosition);
     }
 
-    private static Piece emptyPieceAt(Position source) {
-        return Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), NonMoveableStrategy.of(source));
+    private static Piece emptyPieceAt() {
+        return Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE), new NonMoveableStrategy());
     }
 
-    private boolean hasSameTeamPieceAt(Piece piece, Position targetPosition) {
+    private boolean hasSameTeamPieceAt(Piece piece, Position destination) {
         if (piece.isRedTeam()) {
-            return pieceAt(targetPosition).isRedTeam();
+            return pieceAt(destination).isRedTeam();
         }
         if (piece.isGreenTeam()) {
-            return pieceAt(targetPosition).isGreenTeam();
+            return pieceAt(destination).isGreenTeam();
         }
         return false;
     }
 
-    private boolean canCannonMove(Piece piece, Position destination) {
+    private boolean canCannonMove(Piece piece, Position currentPosition, Position destination) {
         if (pieceAt(destination).isCannon()) {
             return false;
         }
-        if (piece.hasValidPathTo(destination, cannonPositions())) {
+        if (piece.hasValidPathTo(currentPosition, destination, cannonPositions())) {
             return false;
         }
-        return piece.hasValidPathTo(destination, occupiedPositions());
+        return piece.hasValidPathTo(currentPosition, destination, occupiedPositions());
     }
 
     private List<Position> cannonPositions() {
-        return board.values().stream()
-                .filter(Piece::isCannon)
-                .map(Piece::currentPosition)
+        return board.keySet().stream()
+                .filter(position -> board.get(position).isCannon())
                 .toList();
     }
 
     private List<Position> occupiedPositions() {
-        return board.values().stream().filter(piece -> !piece.isNoneTeam()).map(Piece::currentPosition).toList();
+        return board.entrySet().stream()
+                .filter(entry -> !entry.getValue().isNoneTeam())
+                .map(Map.Entry::getKey)
+                .toList();
     }
 
 }

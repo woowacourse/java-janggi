@@ -16,27 +16,27 @@ class GeneralMoveStrategyTest {
     @MethodSource("moveablePositions")
     @DisplayName("장군은 현재 위치 기준 상하좌우 한 칸 이동할 수 있다.")
     void general_move_test(Position guardPosition, Position expectedTarget) {
-        GeneralMoveStrategy moveStrategy = GeneralMoveStrategy.of(guardPosition);
+        GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(guardPosition, expectedTarget)).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("장군은 현재 위치 기준 상하좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
     void general_move_test_negative(Position guardPosition, Position wrongTarget) {
-        GeneralMoveStrategy moveStrategy = GeneralMoveStrategy.of(guardPosition);
+        GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(wrongTarget)).isFalse();
+        assertThat(moveStrategy.canMoveTo(guardPosition, wrongTarget)).isFalse();
     }
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("장군은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
     void hasValidPathTo_always_true_test(Position guardPosition, Position wrongTarget) {
-        GeneralMoveStrategy moveStrategy = GeneralMoveStrategy.of(guardPosition);
+        GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(wrongTarget, List.of())).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(guardPosition, wrongTarget, List.of())).isTrue();
     }
 
     private static Stream<Arguments> moveablePositions() {

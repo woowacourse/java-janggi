@@ -17,17 +17,12 @@ public class Piece {
         return new Piece(pieceProperty, moveStrategy);
     }
 
-    public void moveTo(Position destination) {
-        this.moveStrategy.moveTo(destination);
-        this.moveStrategy.updateRoute();
+    public boolean canMoveTo(Position currentPosition, Position destination) {
+        return moveStrategy.canMoveTo(currentPosition, destination);
     }
 
-    public boolean canMoveTo(Position destination) {
-        return moveStrategy.canMoveTo(destination);
-    }
-
-    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
-        return moveStrategy.hasValidPathTo(destination, occupiedPositions);
+    public boolean hasValidPathTo(Position currentPosition, Position destination, List<Position> occupiedPositions) {
+        return moveStrategy.hasValidPathTo(currentPosition, destination, occupiedPositions);
     }
 
     public boolean isGeneral() {
@@ -52,9 +47,5 @@ public class Piece {
 
     public boolean isNoneTeam() {
         return pieceProperty.isNoneTeam();
-    }
-
-    public Position currentPosition() {
-        return moveStrategy.position();
     }
 }

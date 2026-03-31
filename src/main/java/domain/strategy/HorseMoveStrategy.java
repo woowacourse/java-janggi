@@ -8,47 +8,32 @@ import java.util.Map;
 
 public class HorseMoveStrategy extends MoveStrategy {
 
-    private Map<Position, List<Position>> routesByDestination;
-
-    private HorseMoveStrategy(Position position) {
-        super(position);
-        this.routesByDestination = createRoutesByDestination();
-    }
-
-    public static HorseMoveStrategy of(Position position) {
-        return new HorseMoveStrategy(position);
-    }
-
-    @Override
-    public void updateRoute() {
-        this.routesByDestination = createRoutesByDestination();
-    }
-
-    private Map<Position, List<Position>> createRoutesByDestination() {
+    private Map<Position, List<Position>> createRoutesByDestination(Position currentPosition) {
         Map<Position, List<Position>> routesByDestination = new HashMap<>();
 
         for (HorseMoveRule moveRule : HorseMoveRule.values()) {
-            addRoute(routesByDestination, moveRule);
+            addRoute(currentPosition, routesByDestination, moveRule);
         }
 
         return routesByDestination;
     }
 
-    private void addRoute(Map<Position, List<Position>> routesByDestination, HorseMoveRule moveRule) {
+    private void addRoute(Position currentPosition, Map<Position, List<Position>> routesByDestination,
+                          HorseMoveRule moveRule) {
         routesByDestination.put(
-                moveRule.destination(position()),
-                moveRule.route(position())
+                moveRule.destination(currentPosition),
+                moveRule.route(currentPosition)
         );
     }
 
     @Override
-    public boolean canMoveTo(Position destination) {
-        return routesByDestination.containsKey(destination);
+    public boolean canMoveTo(Position currentPosition, Position destination) {
+        return createRoutesByDestination(currentPosition).containsKey(destination);
     }
 
     @Override
-    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position currentPosition, Position destination, List<Position> occupiedPositions) {
         return occupiedPositions.stream()
-                .noneMatch(routesByDestination.get(destination)::contains);
+                .noneMatch(createRoutesByDestination(currentPosition).get(destination)::contains);
     }
 }

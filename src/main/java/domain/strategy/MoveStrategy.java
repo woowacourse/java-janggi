@@ -5,23 +5,7 @@ import java.util.List;
 
 public abstract class MoveStrategy {
 
-    private Position position;
+    public abstract boolean canMoveTo(Position currentPosition, Position destination);
 
-    protected MoveStrategy(Position position) {
-        this.position = position;
-    }
-
-    public abstract void updateRoute();
-
-    public abstract boolean canMoveTo(Position destination);
-
-    public abstract boolean hasValidPathTo(Position destination, List<Position> occupiedPositions);
-
-    public void moveTo(Position destination) {
-        this.position = destination;
-    }
-
-    public Position position() {
-        return position;
-    }
+    public abstract boolean hasValidPathTo(Position currentPosition, Position destination, List<Position> occupiedPositions);
 }

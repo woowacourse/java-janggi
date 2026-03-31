@@ -6,7 +6,6 @@ import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,27 +16,27 @@ class DownwardSoldierMoveStrategyTest {
     @MethodSource("moveablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸 이동할 수 있다.")
     void soldier_move_test(Position guardPosition, Position expectedTarget) {
-        DownwardSoldierMoveStrategy moveStrategy = DownwardSoldierMoveStrategy.of(guardPosition);
+        DownwardSoldierMoveStrategy moveStrategy = new DownwardSoldierMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(expectedTarget)).isTrue();
+        assertThat(moveStrategy.canMoveTo(guardPosition, expectedTarget)).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
     void soldier_move_test_negative(Position guardPosition, Position wrongTarget) {
-        DownwardSoldierMoveStrategy moveStrategy = DownwardSoldierMoveStrategy.of(guardPosition);
+        DownwardSoldierMoveStrategy moveStrategy = new DownwardSoldierMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(wrongTarget)).isFalse();
+        assertThat(moveStrategy.canMoveTo(guardPosition, wrongTarget)).isFalse();
     }
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("졸은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
     void hasValidPathTo_always_true_test(Position guardPosition, Position wrongTarget) {
-        DownwardSoldierMoveStrategy moveStrategy = DownwardSoldierMoveStrategy.of(guardPosition);
+        DownwardSoldierMoveStrategy moveStrategy = new DownwardSoldierMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(wrongTarget, List.of())).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(guardPosition, wrongTarget, List.of())).isTrue();
     }
 
     private static Stream<Arguments> moveablePositions() {

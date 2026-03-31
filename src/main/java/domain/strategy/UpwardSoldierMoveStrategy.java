@@ -5,37 +5,21 @@ import java.util.List;
 
 public class UpwardSoldierMoveStrategy extends MoveStrategy {
 
-    private List<Position> destinations;
-
-    private UpwardSoldierMoveStrategy(Position position) {
-        super(position);
-        this.destinations = createDestinations();
-    }
-
-    public static UpwardSoldierMoveStrategy of(Position position) {
-        return new UpwardSoldierMoveStrategy(position);
-    }
-
-    @Override
-    public void updateRoute() {
-        this.destinations = createDestinations();
-    }
-
-    private List<Position> createDestinations() {
+    private List<Position> createDestinations(Position currentPosition) {
         return List.of(
-                position().right(),
-                position().down(),
-                position().left()
+                currentPosition.right(),
+                currentPosition.down(),
+                currentPosition.left()
         );
     }
 
     @Override
-    public boolean canMoveTo(Position destination) {
-        return destinations.contains(destination);
+    public boolean canMoveTo(Position currentPosition, Position destination) {
+        return createDestinations(currentPosition).contains(destination);
     }
 
     @Override
-    public boolean hasValidPathTo(Position targetPosition, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position currentPosition, Position targetPosition, List<Position> occupiedPositions) {
         return true;
     }
 }

@@ -15,9 +15,9 @@ class CannonMoveStrategyTest {
     void cannon_move_test() {
         Position current = new Position(4, 4);
         Position target = new Position(9, 4);
-        CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
+        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(target)).isTrue();
+        assertThat(moveStrategy.canMoveTo(current, target)).isTrue();
     }
 
     @Test
@@ -25,9 +25,9 @@ class CannonMoveStrategyTest {
     void cannon_move_test_negative() {
         Position current = new Position(4, 4);
         Position target = new Position(4, 5);
-        CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
+        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.canMoveTo(target)).isFalse();
+        assertThat(moveStrategy.canMoveTo(current, target)).isFalse();
     }
 
     @Test
@@ -36,9 +36,9 @@ class CannonMoveStrategyTest {
         Position current = new Position(9, 4);
         Position target = new Position(4, 4);
         List<Position> piecePositions = List.of(new Position(5, 4));
-        CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
+        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(target, piecePositions)).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(current, target, piecePositions)).isTrue();
     }
 
     @Test
@@ -47,8 +47,8 @@ class CannonMoveStrategyTest {
         Position current = new Position(4, 4);
         Position target = new Position(4, 9);
         List<Position> piecePositions = List.of(new Position(4, 8), new Position(4, 7));
-        CannonMoveStrategy moveStrategy = CannonMoveStrategy.of(current);
+        CannonMoveStrategy moveStrategy = new CannonMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(target, piecePositions)).isFalse();
+        assertThat(moveStrategy.hasValidPathTo(current, target, piecePositions)).isFalse();
     }
 }

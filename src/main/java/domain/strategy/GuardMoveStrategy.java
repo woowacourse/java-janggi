@@ -5,38 +5,22 @@ import java.util.List;
 
 public class GuardMoveStrategy extends MoveStrategy {
 
-    private List<Position> destinations;
-
-    private GuardMoveStrategy(Position position) {
-        super(position);
-        this.destinations = createDestinations();
-    }
-
-    public static GuardMoveStrategy of(Position position) {
-        return new GuardMoveStrategy(position);
-    }
-
-    @Override
-    public void updateRoute() {
-        this.destinations = createDestinations();
-    }
-
-    private List<Position> createDestinations() {
+    private List<Position> createDestinations(Position currentPosition) {
         return List.of(
-                position().right(),
-                position().down(),
-                position().up(),
-                position().left()
+                currentPosition.right(),
+                currentPosition.down(),
+                currentPosition.up(),
+                currentPosition.left()
         );
     }
 
     @Override
-    public boolean canMoveTo(Position destination) {
-        return destinations.contains(destination);
+    public boolean canMoveTo(Position currentPosition, Position destination) {
+        return createDestinations(currentPosition).contains(destination);
     }
 
     @Override
-    public boolean hasValidPathTo(Position destination, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position currentPosition, Position destination, List<Position> occupiedPositions) {
         return true;
     }
 }

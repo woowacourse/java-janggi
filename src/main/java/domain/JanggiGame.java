@@ -2,6 +2,7 @@ package domain;
 
 import dto.BoardDTO;
 import java.util.List;
+import java.util.Map;
 import message.ErrorMessage;
 
 public class JanggiGame {
@@ -79,16 +80,14 @@ public class JanggiGame {
     }
 
     private void validateOwnPieceExistsAt(Position selectedPosition) {
-        boolean hasOwnPiece = currentTurnPieces().stream()
-                .map(Piece::currentPosition)
-                .anyMatch(selectedPosition::equals);
+        boolean hasOwnPiece = currentTurnPieces().containsKey(selectedPosition);
 
         if (!hasOwnPiece) {
             throw new IllegalArgumentException(ErrorMessage.NOT_SAME_TEAM_PIECE.getMessage());
         }
     }
 
-    private List<Piece> currentTurnPieces() {
+    private Map<Position, Piece> currentTurnPieces() {
         if (gameStatus.equals(GameStatus.GREEN_PLAYER_TURN)) {
             return board.greenPieces();
         }

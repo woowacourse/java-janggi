@@ -9,15 +9,12 @@ import org.junit.jupiter.api.Test;
 class PieceTest {
 
     @Test
-    @DisplayName("기물은 이동 후에 이동한 위치에 맞는 이동 경로를 알아야 한다.")
+    @DisplayName("기물은 기물 전략에 맞는 이동 규칙에 따라 이동할 수 있다.")
     void piece_after_moveTo_test() {
-        Position pre = new Position(4, 4);
-        Piece piece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED), HorseMoveStrategy.of(pre));
+        Position current = new Position(3, 3);
+        Position target = new Position(5, 2);
+        Piece horsepiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.RED), new HorseMoveStrategy());
 
-        Position after = new Position(5, 6);
-        piece.moveTo(after);
-
-        assertThat(piece.canMoveTo(new Position(6, 8))).isTrue();
-        assertThat(piece.canMoveTo(new Position(3, 2))).isFalse();
+        assertThat(horsepiece.canMoveTo(current, target)).isTrue();
     }
 }
