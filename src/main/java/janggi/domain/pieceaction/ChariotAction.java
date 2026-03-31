@@ -20,9 +20,13 @@ public class ChariotAction implements PieceAction {
     static {
         RULES = List.of(
             RuleWithTraces.of(new ConstrainedMovement(MAXIMUM_ROW, Direction.SOUTH)),
-            RuleWithTraces.of(new ConstrainedMovement(MAXIMUM_ROW, Direction.NORTH)),
+            RuleWithTraces.of(new ConstrainedMovement(2, Direction.SOUTH_EAST)),
             RuleWithTraces.of(new ConstrainedMovement(MAXIMUM_COLUMN, Direction.EAST)),
-            RuleWithTraces.of(new ConstrainedMovement(MAXIMUM_COLUMN, Direction.WEST)));
+            RuleWithTraces.of(new ConstrainedMovement(2, Direction.NORTH_EAST)),
+            RuleWithTraces.of(new ConstrainedMovement(MAXIMUM_ROW, Direction.NORTH)),
+            RuleWithTraces.of(new ConstrainedMovement(2, Direction.NORTH_WEST)),
+            RuleWithTraces.of(new ConstrainedMovement(MAXIMUM_COLUMN, Direction.WEST)),
+            RuleWithTraces.of(new ConstrainedMovement(2, Direction.SOUTH_WEST)));
     }
 
     @Override

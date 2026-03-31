@@ -78,10 +78,12 @@ public class ChariotTest {
                 Position.valueOf(10, 4), chariot,
                 Position.valueOf(10, 3), new Cannon(TeamType.RED),
                 Position.valueOf(8, 4), new Guard(TeamType.RED),
-                Position.valueOf(8, 6), new Guard(TeamType.RED));
+                Position.valueOf(8, 6), new Guard(TeamType.RED),
+                Position.valueOf(10, 6), new General(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> expected = List.of(Position.valueOf(9, 4), Position.valueOf(9, 5));
+            List<Position> expected = List.of(Position.valueOf(9, 4), Position.valueOf(9, 5),
+                Position.valueOf(10, 5));
 
             List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(10, 4),
                 boardMediator);
