@@ -36,9 +36,9 @@ public class GeneralTest {
                 Position.valueOf(1, 6), new Guard(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            List<Position> expected = List.of(Position.valueOf(1, 5), Position.valueOf(1, 6),
-                Position.valueOf(2, 4), Position.valueOf(2, 6), Position.valueOf(3, 4),
-                Position.valueOf(3, 5), Position.valueOf(3, 6));
+            List<Position> expected = List.of(Position.valueOf(1, 5), Position.valueOf(2, 4),
+                Position.valueOf(2, 6), Position.valueOf(3, 4), Position.valueOf(3, 5),
+                Position.valueOf(3, 6));
 
             List<Position> actual = general.calculateMovablePositions(Position.valueOf(2, 5),
                 boardMediator);

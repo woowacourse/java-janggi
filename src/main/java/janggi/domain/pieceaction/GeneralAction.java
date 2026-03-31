@@ -2,6 +2,7 @@ package janggi.domain.pieceaction;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
+import janggi.domain.board.Palace;
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.ConstrainedMovement;
 import janggi.domain.movement.UnconstrainedMovement;
@@ -32,6 +33,7 @@ public class GeneralAction implements PieceAction {
         return RULES.stream()
             .map(rule -> rule.execute(from, boardMediator))
             .flatMap(Collection::stream)
+            .filter(Palace::hasPosition)
             .toList();
     }
 }
