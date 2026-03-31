@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.board.Board;
@@ -102,7 +102,7 @@ public class BoardTest {
             Position position = Position.valueOf(1, 1);
             Board board = new Board(new LinkedHashMap<>());
 
-            assertThatIllegalStateException()
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> board.getPieceInPosition(position));
         }
     }
