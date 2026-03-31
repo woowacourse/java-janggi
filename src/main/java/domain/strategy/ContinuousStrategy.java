@@ -25,11 +25,11 @@ public class ContinuousStrategy implements MovementStrategy {
 
     private Path createPath(Position current, Direction direction) {
         List<Position> positions = new ArrayList<>();
-        Position pos = current;
+        Position position = current;
 
-        while (pos.canMove(direction)) {
-            pos = pos.move(direction);
-            positions.add(pos);
+        while (position.canMove(direction)) {
+            position = position.move(direction);
+            positions.add(position);
         }
         return new Path(positions);
     }

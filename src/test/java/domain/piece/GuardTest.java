@@ -2,7 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.MovablePositions;
+import domain.Destinations;
 import domain.Position;
 import domain.Side;
 import domain.board.Board;
@@ -21,7 +21,7 @@ class GuardTest {
         );
         Board board = new Board(pieces);
 
-        MovablePositions movable = board.findMovablePositions(current);
+        Destinations movable = board.findMovablePositions(current);
 
         assertThat(movable.getPositions()).containsExactlyInAnyOrder(
                 Position.of(4, 1), Position.of(2, 1), Position.of(3,0)

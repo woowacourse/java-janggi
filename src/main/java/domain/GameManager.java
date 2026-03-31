@@ -48,10 +48,10 @@ public class GameManager {
     }
 
     private void playTurn(Game game) {
-        Position from = selectPiecePosition(game);
+        Position source = selectPiecePosition(game);
         retry(() -> {
-            Position to = InputParser.parsePosition(inputView.readTargetPosition());
-            game.move(from, to);
+            Position target = InputParser.parsePosition(inputView.readTargetPosition());
+            game.move(source, target);
         });
         outputView.printBoard(game.getBoard());
     }

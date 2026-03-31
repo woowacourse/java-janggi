@@ -18,24 +18,25 @@ public class Game {
         return players.getCurrentSide();
     }
 
-    public MovablePositions selectSource(Position position) {
+    public Destinations selectSource(Position position) {
         Piece piece = board.getPiece(position);
         players.getCurrentPlayer().validateAlly(piece);
         return findMovablePositions(position);
     }
 
-    public void move(Position from, Position to) {
-        selectSource(from).validateDestinations(to);
-        movePiece(from, to);
+    public void move(Position source, Position target) {
+        Destinations destinations = selectSource(source);
+        destinations.validateDestinations(target);
+        movePiece(source, target);
         players.switchPlayer();
     }
 
-    private MovablePositions findMovablePositions(Position position) {
+    private Destinations findMovablePositions(Position position) {
         return board.findMovablePositions(position);
     }
 
-    private void movePiece(Position from, Position to) {
-        this.board = board.movePiece(from, to);
+    private void movePiece(Position source, Position target) {
+        this.board = board.movePiece(source, target);
     }
 
     public Map<Position, Piece> getBoard() {

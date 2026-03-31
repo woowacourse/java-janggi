@@ -25,14 +25,14 @@ public class SequenceStrategy implements MovementStrategy {
 
     private Path createPath(Position current, List<Direction> sequence) {
         List<Position> positions = new ArrayList<>();
-        Position pos = current;
+        Position position = current;
 
         for (Direction direction : sequence) {
-            if (!pos.canMove(direction)) {
+            if (!position.canMove(direction)) {
                 return new Path(List.of());
             }
-            pos = pos.move(direction);
-            positions.add(pos);
+            position = position.move(direction);
+            positions.add(position);
         }
         return new Path(positions);
     }

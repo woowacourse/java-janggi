@@ -2,11 +2,18 @@ package domain;
 
 import java.util.List;
 
-public class MovablePositions {
+public class Destinations {
     private final List<Position> positions;
 
-    public MovablePositions(List<Position> positions) {
+    public Destinations(List<Position> positions) {
+        validate(positions);
         this.positions = List.copyOf(positions);
+    }
+
+    private void validate(List<Position> positions) {
+        if (positions.isEmpty()) {
+            throw new IllegalArgumentException("이동 가능한 목적지가 없습니다.");
+        }
     }
 
     public List<Position> getPositions() {
@@ -17,5 +24,9 @@ public class MovablePositions {
         if (!positions.contains(target)) {
             throw new IllegalArgumentException("선택할 수 없는 기물입니다.");
         }
+    }
+
+    public boolean isEmpty() {
+        return positions.isEmpty();
     }
 }

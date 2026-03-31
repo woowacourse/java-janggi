@@ -10,10 +10,6 @@ public class Path {
         this.positions = List.copyOf(positions);
     }
 
-    public boolean isEmpty() {
-        return positions.isEmpty();
-    }
-
     public Position getDestination() {
         if (isEmpty()) {
             throw new IllegalStateException("경로가 존재하지 않습니다.");
@@ -26,6 +22,10 @@ public class Path {
             return List.of();
         }
         return positions.subList(0, positions.size() - 1);
+    }
+
+    public boolean isEmpty() {
+        return positions.isEmpty();
     }
 
     public List<Position> getPositions() {

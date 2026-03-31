@@ -3,7 +3,7 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.MovablePositions;
+import domain.Destinations;
 import domain.Position;
 import domain.Side;
 import domain.piece.Chariot;
@@ -73,22 +73,22 @@ class BoardTest {
     @DisplayName("목적지에 적군 기물이 있으면 보드에서 해당 기물을 제거하고 이동한다")
     void captureEnemy() {
         // Given: (0, 3)에 초나라 졸, (0, 4)에 한나라 졸 배치
-        Position from = Position.of(0, 3);
-        Position to = Position.of(0, 4);
+        Position source = Position.of(0, 3);
+        Position target = Position.of(0, 4);
         Piece choSoldier = PieceFactory.createSoldier(Side.CHO);
         Piece hanSoldier = PieceFactory.createSoldier(Side.HAN);
 
         Board board = new Board(Map.of(
-                from, choSoldier,
-                to, hanSoldier
+                source, choSoldier,
+                target, hanSoldier
         ));
 
         // When: (0, 3)의 초나라 졸이 (0, 4)의 한나라 졸을 잡음
-        Board movedBoard = board.movePiece(from, to);
+        Board movedBoard = board.movePiece(source, target);
 
         // Then: 출발지는 비어있고, 도착지에는 초나라 졸이 위치함
-        assertThat(movedBoard.isEmpty(from)).isTrue();
-        assertThat(movedBoard.getPiece(to)).isSameAs(choSoldier);
+        assertThat(movedBoard.isEmpty(source)).isTrue();
+        assertThat(movedBoard.getPiece(target)).isSameAs(choSoldier);
     }
 
     @Test
@@ -97,14 +97,14 @@ class BoardTest {
         // Given: 비어있는 보드
         Board board = new Board(Map.of());
         Position emptyPos = Position.of(0, 0);
-        Position to = Position.of(0, 1);
+        Position target = Position.of(0, 1);
 
         // When & Then: 빈 좌표를 선택하여 이동을 시도하거나 이동 가능한 위치를 찾을 때 예외 발생
         assertThatThrownBy(() -> board.findMovablePositions(emptyPos))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 존재하지 않는 위치입니다.");
 
-        assertThatThrownBy(() -> board.movePiece(emptyPos, to))
+        assertThatThrownBy(() -> board.movePiece(emptyPos, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("출발지에 기물이 없습니다.");
     }
@@ -121,9 +121,9 @@ class BoardTest {
         ));
 
         // When: 차(Chariot)의 이동 가능 위치 탐색
-        MovablePositions movablePositions = board.findMovablePositions(chariotPos);
+        Destinations destinations = board.findMovablePositions(chariotPos);
 
         // Then: 아군이 있는 (0, 1)은 목적지 목록에 포함되지 않음
-        assertThat(movablePositions.getPositions()).doesNotContain(allyPos);
+        assertThat(destinations.getPositions()).doesNotContain(allyPos);
     }
 }

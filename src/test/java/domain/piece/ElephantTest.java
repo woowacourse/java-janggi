@@ -2,7 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.MovablePositions;
+import domain.Destinations;
 import domain.Position;
 import domain.Side;
 import domain.board.Board;
@@ -21,7 +21,7 @@ class ElephantTest {
         Board board = new Board(pieces);
 
         // When
-        MovablePositions movable = board.findMovablePositions(current);
+        Destinations movable = board.findMovablePositions(current);
 
         // Then: 8방향의 최종 목적지 확인
         assertThat(movable.getPositions()).containsExactlyInAnyOrder(
@@ -48,7 +48,7 @@ class ElephantTest {
         Board board = new Board(pieces);
 
         // When
-        MovablePositions movable = board.findMovablePositions(current);
+        Destinations movable = board.findMovablePositions(current);
 
         // Then
         // 1. 북쪽 직진 멱이 막혔으므로 (6, 7)과 (2, 7)은 없어야 함

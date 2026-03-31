@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.MovablePositions;
+import domain.Destinations;
 import domain.piece.Piece;
 import domain.Position;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ public class Board implements BoardReader{
         this.board = Map.copyOf(board);
     }
 
-    public MovablePositions findMovablePositions(Position position) {
+    public Destinations findMovablePositions(Position position) {
         validatePieceExists(position);
         Piece piece = board.get(position);
         return piece.findMovablePositions(position, this);
@@ -25,13 +25,10 @@ public class Board implements BoardReader{
         }
     }
 
-    public Board movePiece(Position from, Position to) {
+    public Board movePiece(Position source, Position target) {
         Map<Position, Piece> nextBoardMap = new HashMap<>(this.board);
-        Piece movingPiece = nextBoardMap.remove(from);
-        if (movingPiece == null) {
-            throw new IllegalArgumentException("출발지에 기물이 없습니다.");
-        }
-        nextBoardMap.put(to, movingPiece);
+        Piece movingPiece = nextBoardMap.remove(source);
+        nextBoardMap.put(target, movingPiece);
         return new Board(nextBoardMap);
     }
 
@@ -42,17 +39,15 @@ public class Board implements BoardReader{
     }
 
     @Override
-    public boolean isWithinRange(Position position) {
-        return Position.isWithinRange(position.getX(), position.getY());
-    }
-
-    @Override
     public boolean isEmpty(Position position) {
         return !board.containsKey(position);
     }
 
     @Override
     public Piece getPiece(Position position) {
+        if (isEmpty(position)) {
+            throw new IllegalArgumentException("선택한 좌표에 기물이 존재하지 않습니다.");
+        }
         return board.get(position);
     }
 

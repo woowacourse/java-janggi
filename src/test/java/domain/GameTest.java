@@ -29,11 +29,11 @@ class GameTest {
     @Test
     void 기물_이동이_완료되면_턴이_상대방_진영으로_변경된다() {
         // Given: 초나라 졸(0,3)을 (0,4)로 전진
-        Position from = Position.of(0, 3);
-        Position to = Position.of(0, 4);
+        Position source = Position.of(0, 3);
+        Position target = Position.of(0, 4);
 
         // When
-        game.move(from, to);
+        game.move(source, target);
 
         // Then
         assertThat(game.getCurrentSide()).isEqualTo(Side.HAN);
@@ -59,11 +59,11 @@ class GameTest {
     @Test
     void 선택한_기물이_이동할_수_없는_위치를_목적지로_입력하면_예외가_발생한다() {
         // Given: 초나라 졸(0,3) 선택 (졸은 대각선 이동 불가)
-        Position from = Position.of(0, 3);
+        Position source = Position.of(0, 3);
         Position invalidTo = Position.of(1, 4);
 
         // When & Then: validateDestinations(to) 호출 시 예외 발생
-        assertThatThrownBy(() -> game.move(from, invalidTo))
+        assertThatThrownBy(() -> game.move(source, invalidTo))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
