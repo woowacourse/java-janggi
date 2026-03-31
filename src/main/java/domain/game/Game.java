@@ -34,15 +34,15 @@ public class Game {
     }
 
     public Piece movePiece(Position source, Position destination) {
-        Piece caughtPiece = board.move(source, destination);
-        if (!caughtPiece.isNone()) {
-            caughtPieces.add(caughtPiece);
-        }
-        return caughtPiece;
+        Piece destinationPiece = board.move(source, destination);
+        catchPiece(destinationPiece);
+        return destinationPiece;
     }
 
     public void catchPiece(Piece caughtPiece) {
-        caughtPieces.add(caughtPiece);
+        if (!caughtPiece.isNone()) {
+            caughtPieces.add(caughtPiece);
+        }
     }
 
     public boolean isCho(Position position) {
