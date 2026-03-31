@@ -1,8 +1,8 @@
-import domain.manager.GameManager;
+import domain.console.GameConsole;
 
 public class Application {
     public static void main(String[] args) {
-        GameManager gameManager = new GameManager();
-        gameManager.run();
+        GameConsole gameConsole = new GameConsole();
+        gameConsole.run();
     }
 }

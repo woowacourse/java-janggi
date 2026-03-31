@@ -1,4 +1,4 @@
-package domain.manager;
+package domain.console;
 
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
 
-public class GameManager {
+public class GameConsole {
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
 
