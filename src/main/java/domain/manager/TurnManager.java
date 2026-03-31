@@ -23,10 +23,6 @@ public class TurnManager {
         }
     }
 
-    public void capturePiece(Piece piece) {
-        currentPlayer.addCaughtPiece(piece);
-    }
-
     public void switchTurn() {
         Player temp = currentPlayer;
         currentPlayer = standbyPlayer;

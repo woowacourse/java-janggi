@@ -1,5 +1,4 @@
 package domain.manager;
-import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
@@ -53,12 +52,6 @@ public class JanggiGame {
         Position destination = createDestination();
         Team currentTurnTeam = turnManager.getCurrentPlayer().getTeam();
 
-        if (board.hasPiece(destination)) {
-            Piece caughtPiece = board.findPiece(destination);
-            board.move(source, destination, currentTurnTeam);
-            turnManager.capturePiece(caughtPiece);
-            return;
-        }
         board.move(source, destination, currentTurnTeam);
     }
 
