@@ -84,5 +84,21 @@ public class BlueSoldierTest {
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
+
+        @Test
+        @DisplayName("궁성의 간선을 타고 이동할 수 있다.")
+        void success_4() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(3, 4), blueSoldier);
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            List<Position> expected = List.of(Position.valueOf(2, 4), Position.valueOf(2, 5),
+                Position.valueOf(3, 3), Position.valueOf(3, 5));
+
+            List<Position> actual = blueSoldier.calculateMovablePositions(
+                Position.valueOf(3, 4), boardMediator);
+
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        }
     }
 }
