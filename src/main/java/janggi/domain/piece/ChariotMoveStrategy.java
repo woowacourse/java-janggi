@@ -1,0 +1,60 @@
+package janggi.domain.piece;
+
+import janggi.domain.dynasty.Dynasty;
+import janggi.domain.position.Direction;
+import janggi.domain.position.Position;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class ChariotMoveStrategy implements MoveStrategy {
+
+    private static final ChariotMoveStrategy chariotMoveStrategy = new ChariotMoveStrategy();
+
+    private ChariotMoveStrategy () {
+    }
+
+    public static ChariotMoveStrategy getInstance() {
+        return chariotMoveStrategy;
+    }
+
+    // TODO: 궁성 관련 로직 추가
+    @Override
+    public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
+        for (Direction dir : Direction.valuesFourDirections()) {
+            List<Position> positions = from.findAllPositionsByDirection(dir);
+            movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
+        }
+
+        return movablePositions;
+    }
+
+    private static List<Position> filterMovablePositions(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
+        for (Position to : positions) {
+            if (isPiecePresent(board, to)) {
+                addIfEnemy(board, dynasty, to, movablePositions);
+                break;
+            }
+            movablePositions.add(to);
+        }
+
+        return movablePositions;
+    }
+
+    private static void addIfEnemy(Map<Position, Piece> board, Dynasty dynasty, Position to, List<Position> movablePositions) {
+        if (isEnemy(dynasty, board.get(to))) {
+            movablePositions.add(to);
+        }
+    }
+
+    private static boolean isEnemy(Dynasty dynasty, Piece piece) {
+        return !piece.isAlly(dynasty);
+    }
+
+    private static boolean isPiecePresent(Map<Position, Piece> board, Position position) {
+        return board.containsKey(position);
+    }
+
+}
