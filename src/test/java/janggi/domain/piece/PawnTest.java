@@ -20,7 +20,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = Pawn.from(Side.HAN);
+        Pawn pawn = new Pawn(Side.HAN);
 
         Route actual = pawn.findRoute(startPosition, endPosition);
 
@@ -37,7 +37,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = Pawn.from(Side.CHO);
+        Pawn pawn = new Pawn(Side.CHO);
 
         Route actual = pawn.findRoute(startPosition, endPosition);
 
@@ -54,7 +54,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = Pawn.from(Side.HAN);
+        Pawn pawn = new Pawn(Side.HAN);
 
         assertThatThrownBy(() -> pawn.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -71,7 +71,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = Pawn.from(Side.CHO);
+        Pawn pawn = new Pawn(Side.CHO);
 
         assertThatThrownBy(() -> pawn.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)

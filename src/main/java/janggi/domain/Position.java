@@ -13,6 +13,7 @@ public record Position(int x, int y) {
     private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";
     private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
+    private static final String INVALID_HORIZON = "수직 또는 수평이 아닙니다.";
 
     public Position {
         validate(x, y);
@@ -53,11 +54,15 @@ public record Position(int x, int y) {
         return new Position(x + movement.getDx(), y + movement.getDy());
     }
 
-    public int calculateDistance(Position position, boolean isVertical) {
-        if (isVertical) {
+    public int calculateDistance(Position position) {
+        if(isHorizontal(position)) {
+            return position.y - this.y;
+        }
+
+        if (isVertical(position)) {
             return position.x - this.x;
         }
-        return position.y - this.y;
+        throw new IllegalStateException(INVALID_HORIZON);
     }
 
     public boolean isHorizontal(Position position) {

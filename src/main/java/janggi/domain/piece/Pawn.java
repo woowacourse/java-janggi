@@ -1,27 +1,33 @@
 package janggi.domain.piece;
 
-import janggi.domain.Movement;
-import janggi.domain.Movements;
+import janggi.domain.Position;
+import janggi.domain.Route;
 import janggi.domain.Side;
-import janggi.domain.policy.ClearPathPolicy;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Pawn extends StepPiece {
-    public Pawn(Side side, List<Movements> moveRange) {
-        super(moveRange, new ClearPathPolicy(), side, PieceType.PAWN);
+public class Pawn extends SingleLinearPiece {
+    public Pawn(Side side) {
+        super(side, PieceType.PAWN);
     }
 
-    public static Pawn from(Side side) {
-        List<Movements> moveRange = new ArrayList<>(List.of(new Movements(List.of(Movement.LEFT)), new Movements(List.of(Movement.RIGHT))));
-        moveRange.add(calculateForwardMovement(side));
-        return new Pawn(side, moveRange);
-    }
 
-    private static Movements calculateForwardMovement(Side side) {
-        if (side.equals(Side.CHO)) {
-            return new Movements(List.of(Movement.UP));
+    @Override
+    public Route findRoute(Position start, Position end) {
+        if(!start.isHorizontal(start) && !start.isVertical(end)) {
+            throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
-        return new Movements(List.of(Movement.DOWN));
+
+        Integer validDistance = calculateForwardMovement(side);
+        if(start.isVertical(end) && start.calculateDistance(end) == validDistance) {
+            throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
+        }
+        return super.findRoute(start, end);
+
+    }
+
+    private static Integer calculateForwardMovement(Side side) {
+        if (side.equals(Side.CHO)) {
+            return 1;
+        }
+        return -1;
     }
 }

@@ -43,7 +43,7 @@ public class BoardInitializer {
             PieceType.GUNG, Gung::new,
             PieceType.MA, Ma::new,
             PieceType.NONE, (side) -> new Empty(),
-            PieceType.PAWN, Pawn::from,
+            PieceType.PAWN, Pawn::new,
             PieceType.PO, Po::new,
             PieceType.SA, Sa::new,
             PieceType.SANG, Sang::new

@@ -1,20 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Movement;
-import janggi.domain.Movements;
 import janggi.domain.Side;
-import janggi.domain.policy.ClearPathPolicy;
-import java.util.List;
 
-public class Gung extends StepPiece {
-    private static final List<Movements> MOVE_RANGE = List.of(
-            new Movements(List.of(Movement.UP)),
-            new Movements(List.of(Movement.DOWN)),
-            new Movements(List.of(Movement.LEFT)),
-            new Movements(List.of(Movement.RIGHT))
-    );
-
+public class Gung extends SingleLinearPiece {
     public Gung(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.GUNG);
+        super(side, PieceType.GUNG);
     }
 }

@@ -22,7 +22,7 @@ public abstract class LinearPiece extends ActivePiece {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
 
-        int dist = start.calculateDistance(end, isVertical);
+        int dist = start.calculateDistance(end);
         return calculatePath(start, isVertical, dist);
     }
 
