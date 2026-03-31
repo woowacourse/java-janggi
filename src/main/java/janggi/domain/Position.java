@@ -1,6 +1,10 @@
 package janggi.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Position {
 
@@ -23,16 +27,27 @@ public class Position {
         }
     }
 
-    public static boolean isInsideBoundary(int x, int y) {
+    public boolean isInsideBoundary(int x, int y) {
         return x >= MIN_X && x <= MAX_X && y >= MIN_Y && y <= MAX_Y;
     }
 
-    public int getX() {
-        return x;
+    public Optional<Position> applyDirection(int dx, int dy) {
+        if(isInsideBoundary(x + dx, y + dy)) {
+            return Optional.of(new Position(x + dx, y + dy));
+        }
+        return Optional.empty();
     }
 
-    public int getY() {
-        return y;
+    public void applyContinuousDirection(int dx, int dy, Map<Position, List<Position>> continuousRoute) {
+        List<Position> result = new ArrayList<>();
+        int nextX = x + dx;
+        int nextY = y + dy;
+        while(isInsideBoundary(nextX, nextY)) {
+            result.add(new Position(nextX, nextY));
+            continuousRoute.put(new Position(nextX, nextY), new ArrayList<>(result));
+            nextX += dx;
+            nextY += dy;
+        }
     }
 
     @Override

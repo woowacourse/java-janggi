@@ -82,60 +82,28 @@ public class Board {
     }
 
     private Map<Position, List<Position>> convertToPositions(Position position, Piece piece, List<Route> routes) {
-        Map<Position, List<Position>> result = new HashMap<>();
-
         if(piece.isCha()|| piece.isPo()) {
-            return convertToContinuousRoutes(position, routes, result);
+            return convertToContinuousRoutes(position, routes);
         }
-
-        return convertToFixedRoutes(position, routes, result);
+        return convertToFixedRoutes(position, routes);
     }
 
-    private Map<Position, List<Position>> convertToFixedRoutes(Position position, List<Route> routes,
-                                                               Map<Position, List<Position>> result) {
-        for (Route route : routes) {
-            int currentX = position.getX();
-            int currentY = position.getY();
-            List<Position> routeToPositions = new ArrayList<>();
-            List<Direction> directions = route.getRoutes();
-
-            boolean isInBoard = true;
-            for (Direction direction : directions) {
-                currentX += direction.getX();
-                currentY += direction.getY();
-                if (!Position.isInsideBoundary(currentX, currentY)) {
-                    isInBoard = false;
-                    break;
-                }
-                routeToPositions.add(new Position(currentX, currentY));
+    private Map<Position, List<Position>> convertToFixedRoutes(Position position, List<Route> routes) {
+        Map<Position, List<Position>> result = new HashMap<>();
+        for(Route route:routes) {
+            List<Position> positionRoute = route.applyDirections(position);
+            if(positionRoute.isEmpty()) {
+                continue;
             }
-            if (isInBoard && !routeToPositions.isEmpty()) {
-                result.put(routeToPositions.getLast(), routeToPositions);
-            }
+            result.put(positionRoute.getLast(), positionRoute);
         }
         return result;
     }
 
-    private Map<Position, List<Position>> convertToContinuousRoutes(Position position, List<Route> routes, Map<Position, List<Position>> result) {
+    private Map<Position, List<Position>> convertToContinuousRoutes(Position position, List<Route> routes) {
+        Map<Position, List<Position>> result = new HashMap<>();
         for(Route route: routes) {
-            int currentX = position.getX();
-            int currentY = position.getY();
-            List<Direction> directions = route.getRoutes();
-
-            for(Direction direction:directions) {
-                List<Position> routeToPositions = new ArrayList<>();
-                currentX += direction.getX();
-                currentY += direction.getY();
-                while(Position.isInsideBoundary(currentX, currentY)) {
-                    Position movePosition = new Position(currentX, currentY);
-                    routeToPositions.add(movePosition);
-
-                    result.put(movePosition, new ArrayList<>(routeToPositions));
-
-                    currentX += direction.getX();
-                    currentY += direction.getY();
-                }
-            }
+            route.applyContinuousDirections(position, result);
         }
         return result;
     }
@@ -171,7 +139,6 @@ public class Board {
                 break;
             }
         }
-
         if(hasPosition == false) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
         }

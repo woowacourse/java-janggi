@@ -1,5 +1,9 @@
 package janggi.domain;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 public enum Direction {
     UP(0, -1), DOWN(0, 1), LEFT(-1, 0), RIGHT(1, 0),
     UP_LEFT(-1, -1), UP_RIGHT(1, -1), DOWN_LEFT(-1, 1), DOWN_RIGHT(1, 1);
@@ -12,11 +16,11 @@ public enum Direction {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
+    public Optional<Position> nextPosition(Position position) {
+        return position.applyDirection(x, y);
     }
 
-    public int getY() {
-        return y;
+    public void nextContinuousPosition(Position position, Map<Position, List<Position>> continuousRoute) {
+        position.applyContinuousDirection(x, y, continuousRoute);
     }
 }
