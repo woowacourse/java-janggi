@@ -10,7 +10,6 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public class Runner {
