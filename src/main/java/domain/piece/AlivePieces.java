@@ -57,7 +57,6 @@ public class AlivePieces {
     }
 
     public boolean hasScreenExcept(Path path, PieceType excludedType) {
-        System.out.println("excludedType = " + excludedType);
         List<Piece> screens = path.passingIntersections()
                 .stream()
                 .filter(this::isNotEmpty)

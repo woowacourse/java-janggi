@@ -4,7 +4,6 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.move.Path;
 import java.util.List;
-import java.util.Objects;
 
 public final class Piece {
 
