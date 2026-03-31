@@ -1,8 +1,8 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
+import domain.piece.error.ErrorMessage;
 import domain.piece.error.PieceException;
-import util.ErrorMessage;
 
 import java.util.List;
 import java.util.Map;

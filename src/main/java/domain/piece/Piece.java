@@ -2,9 +2,9 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.game.Turn;
+import domain.piece.error.ErrorMessage;
 import domain.piece.error.PieceException;
 import java.util.Map;
-import util.ErrorMessage;
 
 public abstract class Piece {
 

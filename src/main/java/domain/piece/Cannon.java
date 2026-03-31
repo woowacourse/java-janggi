@@ -6,7 +6,7 @@ import domain.piece.error.PieceException;
 import java.util.List;
 import java.util.Map;
 
-import static util.ErrorMessage.IMPOSSIBLE_MOVE;
+import static domain.piece.error.ErrorMessage.IMPOSSIBLE_MOVE;
 
 public class Cannon extends Piece {
 

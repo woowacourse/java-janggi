@@ -7,6 +7,7 @@ import java.util.Arrays;
 public enum PieceName {
 
     CHARIOT("Chariot", "차"),
+
     HORSE("Horse", "마"),
     ELEPHANT("Elephant", "상"),
     GUARD("Guard", "사"),
@@ -14,6 +15,8 @@ public enum PieceName {
     CANNON("Cannon", "포"),
     SOLDIER("Soldier", "졸"),
     EMPTY("EmptyPiece", "ㆍ");
+
+    private static final String INVALID_PIECE = "알 수 없는 기물입니다: ";
 
     private final String className;
     private final String name;
@@ -28,7 +31,7 @@ public enum PieceName {
                 .filter(pieceName -> pieceName.className.equals(className))
                 .map(pieceName -> pieceName.name)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_PIECE.getMessage() + className));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_PIECE + className));
 
         if (team == Team.HAN) return ConsoleColor.RED + name + ConsoleColor.RESET;
         if (team == Team.CHO) return ConsoleColor.GREEN + name + ConsoleColor.RESET;
