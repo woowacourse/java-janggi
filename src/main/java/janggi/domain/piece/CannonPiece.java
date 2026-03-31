@@ -15,7 +15,7 @@ public class CannonPiece extends Piece {
             return false;
         }
         long count = positionPieces.values().stream()
-                .filter(piece -> getPieceName().equals(piece.getPieceName()))
+                .filter(piece -> getName().equals(piece.getName()))
                 .count();
         if (count != 0) {
             return false;

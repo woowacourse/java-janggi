@@ -16,20 +16,16 @@ public abstract class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public String getPieceName() {
-        return name.getName();
-    }
-
-    public String getTeamName() {
-        return team.name();
-    }
-
-    public boolean isSameTeam(Piece piece) {
-        return piece.team.equals(this.team);
+    public Name getName() {
+        return name;
     }
 
     public Team getTeam() {
         return team;
+    }
+
+    public boolean isSameTeam(Piece piece) {
+        return piece.team.equals(this.team);
     }
 
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
