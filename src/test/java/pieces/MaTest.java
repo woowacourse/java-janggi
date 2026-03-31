@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import movepolicy.rule.BasicMoveRule;
-import movepolicy.rule.MoveRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,7 +23,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -39,7 +37,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -53,7 +51,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -67,7 +65,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -81,7 +79,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -95,7 +93,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -109,7 +107,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -123,7 +121,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_1칸_이동할_수_있다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -137,7 +135,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_2칸이_도착지인_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -156,7 +154,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 출발지와_도착지_사이에는_1칸의_이동_경로만_존재한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -171,7 +169,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_좌전방_1칸이_도착지인_경우_전방_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -187,7 +185,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 전방_1칸_우전방_1칸이_도착지인_경우_전방_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.forwardDelta())
@@ -203,7 +201,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_좌후방_1칸이_도착지인_경우_후방_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -219,7 +217,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 후방_1칸_우후방_1칸이_도착지인_경우_후방_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.backDelta())
@@ -235,7 +233,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌전방_1칸이_도착지인_경우_좌_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -251,7 +249,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 좌_1칸_좌후방_1칸이_도착지인_경우_좌_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.leftDelta())
@@ -267,7 +265,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우전방_1칸이_도착지인_경우_우_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -283,7 +281,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 우_1칸_우후방_1칸이_도착지인_경우_우_1칸_포지션을_반환한다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -299,7 +297,7 @@ class MaTest {
         @EnumSource(Side.class)
         void 도착지가_유효하지_않은_경우_예외를_던진다(Side side) {
             // given
-            Piece piece = new Ma(side);
+            Piece piece = new Piece(side, PieceType.MA);
             Position departure = DEFAULT;
             Position destination = departure
                 .move(side.rightDelta())
@@ -308,16 +306,5 @@ class MaTest {
             assertThatThrownBy(() -> piece.validateDestination(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
-    }
-
-    @ParameterizedTest
-    @EnumSource(Side.class)
-    void 마는_다른_진영의_기물만_공격할_수_있는_규칙을_반환한다(Side side) {
-        // given
-        Piece piece = new Ma(side);
-        // when
-        MoveRule moveRule = piece.getMoveRule();
-        // then
-        assertThat(moveRule).isInstanceOf(BasicMoveRule.class);
     }
 }

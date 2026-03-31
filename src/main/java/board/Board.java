@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import movepolicy.rule.MoveRule;
 import movepolicy.rule.MoveTrace;
 import participant.Turn;
 import pieces.Piece;
@@ -42,8 +41,7 @@ public record Board(Map<Position, Piece> pieces) {
         Piece movingPiece = requirePieceAt(departure);
         MoveTrace moveTrace = createMovePath(movingPiece, departure, destination);
 
-        MoveRule moveRule = movingPiece.getMoveRule();
-        moveRule.validate(moveTrace);
+        movingPiece.validateMoveTrace(moveTrace);
 
         return replace(departure, destination, movingPiece);
     }

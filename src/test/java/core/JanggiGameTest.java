@@ -7,8 +7,8 @@ import board.Board;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import participant.Turn;
-import pieces.Cha;
 import pieces.Piece;
+import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
@@ -19,7 +19,7 @@ class JanggiGameTest {
         // given
         Position departure = new Position(0, 0);
         Position destination = new Position(1, 0);
-        Piece hanPiece = new Cha(Side.HAN);
+        Piece hanPiece = new Piece(Side.HAN, PieceType.CHA);
         Map<Position, Piece> pieces = Map.of(
             departure, hanPiece
         );
@@ -36,7 +36,7 @@ class JanggiGameTest {
         // given
         Position departure = new Position(9, 0);
         Position destination = new Position(8, 0);
-        Piece choPiece = new Cha(Side.CHO);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
         Map<Position, Piece> pieces = Map.of(
             departure, choPiece
         );
@@ -55,8 +55,8 @@ class JanggiGameTest {
         Position choDestination = new Position(1, 0);
         Position hanDeparture = new Position(9, 0);
         Position hanDestination = new Position(8, 0);
-        Piece choPiece = new Cha(Side.CHO);
-        Piece hanPiece = new Cha(Side.HAN);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Piece hanPiece = new Piece(Side.HAN, PieceType.CHA);
         Map<Position, Piece> pieces = Map.of(
             choDeparture, choPiece,
             hanDeparture, hanPiece
@@ -77,7 +77,7 @@ class JanggiGameTest {
         // given
         Position departure = new Position(9, 0);
         Position destination = new Position(8, 0);
-        Piece choPiece = new Cha(Side.CHO);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
         Map<Position, Piece> pieces = Map.of(
             departure, choPiece
         );

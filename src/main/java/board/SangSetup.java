@@ -2,12 +2,8 @@ package board;
 
 import java.util.HashMap;
 import java.util.Map;
-import pieces.Cha;
-import pieces.Gung;
-import pieces.JolByeong;
 import pieces.Piece;
-import pieces.Po;
-import pieces.Sa;
+import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
@@ -33,38 +29,38 @@ public final class SangSetup {
 
     private static Map<Position, Piece> createCha(Side side) {
         return Map.of(
-            toPosition(side, 0, 0), new Cha(side),
-            toPosition(side, 0, 8), new Cha(side)
+            toPosition(side, 0, 0), PieceType.CHA.create(side),
+            toPosition(side, 0, 8), PieceType.CHA.create(side)
         );
     }
 
     private static Map<Position, Piece> createSa(Side side) {
         return Map.of(
-            toPosition(side, 0, 3), new Sa(side),
-            toPosition(side, 0, 5), new Sa(side)
+            toPosition(side, 0, 3), PieceType.SA.create(side),
+            toPosition(side, 0, 5), PieceType.SA.create(side)
         );
     }
 
     private static Map<Position, Piece> createGung(Side side) {
         return Map.of(
-            toPosition(side, 1, 4), new Gung(side)
+            toPosition(side, 1, 4), PieceType.GUNG.create(side)
         );
     }
 
     private static Map<Position, Piece> createPo(Side side) {
         return Map.of(
-            toPosition(side, 2, 1), new Po(side),
-            toPosition(side, 2, 7), new Po(side)
+            toPosition(side, 2, 1), PieceType.PO.create(side),
+            toPosition(side, 2, 7), PieceType.PO.create(side)
         );
     }
 
     private static Map<Position, Piece> createJolByeong(Side side) {
         return Map.of(
-            toPosition(side, 3, 2), new JolByeong(side),
-            toPosition(side, 3, 4), new JolByeong(side),
-            toPosition(side, 3, 0), new JolByeong(side),
-            toPosition(side, 3, 6), new JolByeong(side),
-            toPosition(side, 3, 8), new JolByeong(side)
+            toPosition(side, 3, 2), PieceType.JOL_BYEONG.create(side),
+            toPosition(side, 3, 4), PieceType.JOL_BYEONG.create(side),
+            toPosition(side, 3, 0), PieceType.JOL_BYEONG.create(side),
+            toPosition(side, 3, 6), PieceType.JOL_BYEONG.create(side),
+            toPosition(side, 3, 8), PieceType.JOL_BYEONG.create(side)
         );
     }
 

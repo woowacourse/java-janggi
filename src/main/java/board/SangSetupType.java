@@ -8,6 +8,7 @@ import pieces.PieceType;
 import pieces.Side;
 
 public enum SangSetupType {
+
     LEFT_SANG_SETUP(SANG, MA, SANG, MA),
     RIGHT_SANG_SETUP(MA, SANG, MA, SANG),
     INNER_SANG_SETUP(MA, SANG, SANG, MA),

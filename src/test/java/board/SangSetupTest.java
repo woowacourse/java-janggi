@@ -6,14 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import pieces.Cha;
-import pieces.Gung;
-import pieces.JolByeong;
-import pieces.Ma;
 import pieces.Piece;
-import pieces.Po;
-import pieces.Sa;
-import pieces.Sang;
+import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
@@ -41,10 +35,10 @@ class SangSetupTest {
         // given
         SangSetupType type = SangSetupType.LEFT_SANG_SETUP;
         Map<Position, Piece> positions = Map.of(
-            position(side, 0, 1), new Sang(side),
-            position(side, 0, 2), new Ma(side),
-            position(side, 0, 6), new Sang(side),
-            position(side, 0, 7), new Ma(side)
+            position(side, 0, 1), new Piece(side, PieceType.SANG),
+            position(side, 0, 2), new Piece(side, PieceType.MA),
+            position(side, 0, 6), new Piece(side, PieceType.SANG),
+            position(side, 0, 7), new Piece(side, PieceType.MA)
         );
         // when
         Board board = SangSetup.initialize(type, side);
@@ -60,10 +54,10 @@ class SangSetupTest {
         // given
         SangSetupType type = SangSetupType.RIGHT_SANG_SETUP;
         Map<Position, Piece> positions = Map.of(
-            position(side, 0, 1), new Ma(side),
-            position(side, 0, 2), new Sang(side),
-            position(side, 0, 6), new Ma(side),
-            position(side, 0, 7), new Sang(side)
+            position(side, 0, 1), new Piece(side, PieceType.MA),
+            position(side, 0, 2), new Piece(side, PieceType.SANG),
+            position(side, 0, 6), new Piece(side, PieceType.MA),
+            position(side, 0, 7), new Piece(side, PieceType.SANG)
         );
         // when
         Board board = SangSetup.initialize(type, side);
@@ -79,10 +73,10 @@ class SangSetupTest {
         // given
         SangSetupType type = SangSetupType.INNER_SANG_SETUP;
         Map<Position, Piece> positions = Map.of(
-            position(side, 0, 1), new Ma(side),
-            position(side, 0, 2), new Sang(side),
-            position(side, 0, 6), new Sang(side),
-            position(side, 0, 7), new Ma(side)
+            position(side, 0, 1), new Piece(side, PieceType.MA),
+            position(side, 0, 2), new Piece(side, PieceType.SANG),
+            position(side, 0, 6), new Piece(side, PieceType.SANG),
+            position(side, 0, 7), new Piece(side, PieceType.MA)
         );
         // when
         Board board = SangSetup.initialize(type, side);
@@ -94,20 +88,20 @@ class SangSetupTest {
 
     private Map<Position, Piece> getDefaultSangSetup(Side side) {
         Map<Position, Piece> positions = new HashMap<>();
-        positions.put(position(side, 0, 0), new Cha(side));
-        positions.put(position(side, 0, 3), new Sa(side));
-        positions.put(position(side, 1, 4), new Gung(side));
-        positions.put(position(side, 0, 5), new Sa(side));
-        positions.put(position(side, 0, 8), new Cha(side));
+        positions.put(position(side, 0, 0), new Piece(side, PieceType.CHA));
+        positions.put(position(side, 0, 3), new Piece(side, PieceType.SA));
+        positions.put(position(side, 1, 4), new Piece(side, PieceType.GUNG));
+        positions.put(position(side, 0, 5), new Piece(side, PieceType.SA));
+        positions.put(position(side, 0, 8), new Piece(side, PieceType.CHA));
 
-        positions.put(position(side, 2, 1), new Po(side));
-        positions.put(position(side, 2, 7), new Po(side));
+        positions.put(position(side, 2, 1), new Piece(side, PieceType.PO));
+        positions.put(position(side, 2, 7), new Piece(side, PieceType.PO));
 
-        positions.put(position(side, 3, 0), new JolByeong(side));
-        positions.put(position(side, 3, 2), new JolByeong(side));
-        positions.put(position(side, 3, 4), new JolByeong(side));
-        positions.put(position(side, 3, 6), new JolByeong(side));
-        positions.put(position(side, 3, 8), new JolByeong(side));
+        positions.put(position(side, 3, 0), new Piece(side, PieceType.JOL_BYEONG));
+        positions.put(position(side, 3, 2), new Piece(side, PieceType.JOL_BYEONG));
+        positions.put(position(side, 3, 4), new Piece(side, PieceType.JOL_BYEONG));
+        positions.put(position(side, 3, 6), new Piece(side, PieceType.JOL_BYEONG));
+        positions.put(position(side, 3, 8), new Piece(side, PieceType.JOL_BYEONG));
         return positions;
     }
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import pieces.Side;
 import position.Position;
 
-class OneStepTest {
+class StepTest {
 
     private static final Position DEFAULT = new Position(4, 4);
 
@@ -19,7 +19,7 @@ class OneStepTest {
         @Test
         void 앞으로_이동한다() {
             // given
-            OneStep step = OneStep.FORWARD;
+            Step step = Step.FORWARD;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -29,7 +29,7 @@ class OneStepTest {
         @Test
         void 뒤로_이동한다() {
             // given
-            OneStep step = OneStep.BACK;
+            Step step = Step.BACK;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -39,7 +39,7 @@ class OneStepTest {
         @Test
         void 좌로_이동한다() {
             // given
-            OneStep step = OneStep.LEFT;
+            Step step = Step.LEFT;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -49,7 +49,7 @@ class OneStepTest {
         @Test
         void 우로_이동한다() {
             // given
-            OneStep step = OneStep.RIGHT;
+            Step step = Step.RIGHT;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -59,7 +59,7 @@ class OneStepTest {
         @Test
         void 좌전으로_이동한다() {
             // given
-            OneStep step = OneStep.LEFT_FORWARD;
+            Step step = Step.LEFT_FORWARD;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -69,7 +69,7 @@ class OneStepTest {
         @Test
         void 우전으로_이동한다() {
             // given
-            OneStep step = OneStep.RIGHT_FORWARD;
+            Step step = Step.RIGHT_FORWARD;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -79,7 +79,7 @@ class OneStepTest {
         @Test
         void 우후로_이동한다() {
             // given
-            OneStep step = OneStep.RIGHT_BACK;
+            Step step = Step.RIGHT_BACK;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -89,7 +89,7 @@ class OneStepTest {
         @Test
         void 좌후로_이동한다() {
             // given
-            OneStep step = OneStep.LEFT_BACK;
+            Step step = Step.LEFT_BACK;
             // when
             Position moved = step.move(DEFAULT, Side.CHO);
             // then
@@ -104,7 +104,7 @@ class OneStepTest {
         @Test
         void 앞으로_이동한다() {
             // given
-            OneStep step = OneStep.FORWARD;
+            Step step = Step.FORWARD;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then
@@ -114,7 +114,7 @@ class OneStepTest {
         @Test
         void 뒤로_이동한다() {
             // given
-            OneStep step = OneStep.BACK;
+            Step step = Step.BACK;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then
@@ -124,7 +124,7 @@ class OneStepTest {
         @Test
         void 좌로_이동한다() {
             // given
-            OneStep step = OneStep.LEFT;
+            Step step = Step.LEFT;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then
@@ -134,7 +134,7 @@ class OneStepTest {
         @Test
         void 우로_이동한다() {
             // given
-            OneStep step = OneStep.RIGHT;
+            Step step = Step.RIGHT;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then
@@ -144,7 +144,7 @@ class OneStepTest {
         @Test
         void 좌전으로_이동한다() {
             // given
-            OneStep step = OneStep.LEFT_FORWARD;
+            Step step = Step.LEFT_FORWARD;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then
@@ -154,7 +154,7 @@ class OneStepTest {
         @Test
         void 우전으로_이동한다() {
             // given
-            OneStep step = OneStep.RIGHT_FORWARD;
+            Step step = Step.RIGHT_FORWARD;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then
@@ -164,7 +164,7 @@ class OneStepTest {
         @Test
         void 우후로_이동한다() {
             // given
-            OneStep step = OneStep.RIGHT_BACK;
+            Step step = Step.RIGHT_BACK;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then
@@ -174,7 +174,7 @@ class OneStepTest {
         @Test
         void 좌후로_이동한다() {
             // given
-            OneStep step = OneStep.LEFT_BACK;
+            Step step = Step.LEFT_BACK;
             // when
             Position moved = step.move(DEFAULT, Side.HAN);
             // then

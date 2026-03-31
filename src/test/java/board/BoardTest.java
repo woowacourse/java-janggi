@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import pieces.Cha;
 import pieces.Piece;
+import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
@@ -17,7 +17,7 @@ class BoardTest {
     @Test
     void 기물의_위치를_이동시키면_기존_위치에는_기물이_존재하지_않는다() {
         // given
-        Piece piece = new Cha(Side.HAN);
+        Piece piece = new Piece(Side.HAN, PieceType.CHA);
         Position departure = new Position(1, 1);
         Position destination = new Position(2, 1);
 
@@ -36,7 +36,7 @@ class BoardTest {
     @Test
     void 기물의_위치를_이동시키면_도착지에_해당_기물이_존재한다() {
         // given
-        Piece piece = new Cha(Side.HAN);
+        Piece piece = new Piece(Side.HAN, PieceType.CHA);
         Position departure = new Position(1, 1);
         Position destination = new Position(2, 1);
 
@@ -56,8 +56,8 @@ class BoardTest {
         // given
         Position departure = new Position(1, 1);
         Position destination = new Position(2, 1);
-        Piece departurePiece = new Cha(Side.HAN);
-        Piece destinationPiece = new Cha(Side.CHO);
+        Piece departurePiece = new Piece(Side.HAN, PieceType.CHA);
+        Piece destinationPiece = new Piece(Side.CHO, PieceType.CHA);
 
         Map<Position, Piece> beforePieces = Map.of(
             departure, departurePiece,
@@ -77,8 +77,12 @@ class BoardTest {
     @Test
     void 중복이_없는_두_보드를_합친다() {
         // given
-        Map<Position, Piece> choPieces = Map.of(new Position(1, 1), new Cha(Side.CHO));
-        Map<Position, Piece> hanPieces = Map.of(new Position(1, 2), new Cha(Side.HAN));
+        Map<Position, Piece> choPieces = Map.of(
+            new Position(1, 1), new Piece(Side.CHO, PieceType.CHA)
+        );
+        Map<Position, Piece> hanPieces = Map.of(
+            new Position(1, 2), new Piece(Side.HAN, PieceType.CHA)
+        );
         Board choBoard = new Board(choPieces);
         Board hanBoard = new Board(hanPieces);
         // when
@@ -93,8 +97,12 @@ class BoardTest {
     @Test
     void 중복이_있는_두_보드를_합치는_경우_예외를_던진다() {
         // given
-        Map<Position, Piece> choPieces = Map.of(new Position(1, 1), new Cha(Side.CHO));
-        Map<Position, Piece> hanPieces = Map.of(new Position(1, 1), new Cha(Side.HAN));
+        Map<Position, Piece> choPieces = Map.of(
+            new Position(1, 1), new Piece(Side.CHO, PieceType.CHA)
+        );
+        Map<Position, Piece> hanPieces = Map.of(
+            new Position(1, 1), new Piece(Side.HAN, PieceType.CHA)
+        );
         Board choBoard = new Board(choPieces);
         Board hanBoard = new Board(hanPieces);
         // when & then

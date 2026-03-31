@@ -14,9 +14,7 @@ public class LinearRouteMovement implements Movement {
 
     @Override
     public List<Position> findPathPositions(Position departure, Position destination, Side side) {
-        if (!canReach(departure, destination, side)) {
-            throw new IllegalArgumentException("직선 이동이 아닙니다.");
-        }
+        validateCanReach(departure, destination, side);
 
         Step step = decideDirection(departure, destination, side);
         List<Position> positions = new ArrayList<>();
@@ -26,6 +24,12 @@ public class LinearRouteMovement implements Movement {
             positions.add(current);
         }
         return List.copyOf(positions);
+    }
+
+    private void validateCanReach(Position departure, Position destination, Side side) {
+        if (!canReach(departure, destination, side)) {
+            throw new IllegalArgumentException("직선 이동이 아닙니다.");
+        }
     }
 
     private Step decideDirection(Position departure, Position destination, Side side) {
@@ -38,17 +42,17 @@ public class LinearRouteMovement implements Movement {
         throw new IllegalArgumentException("직선 이동이 아닙니다.");
     }
 
-    private OneStep decideForwardOrBack(Position departure, Position destination, Side side) {
+    private Step decideForwardOrBack(Position departure, Position destination, Side side) {
         if (destination.isBackRow(departure, side)) {
-            return OneStep.BACK;
+            return Step.BACK;
         }
-        return OneStep.FORWARD;
+        return Step.FORWARD;
     }
 
-    private OneStep decideRightOrLeft(Position departure, Position destination, Side side) {
+    private Step decideRightOrLeft(Position departure, Position destination, Side side) {
         if (destination.isLeftColumn(departure, side)) {
-            return OneStep.LEFT;
+            return Step.LEFT;
         }
-        return OneStep.RIGHT;
+        return Step.RIGHT;
     }
 }
