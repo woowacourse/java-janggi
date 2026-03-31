@@ -14,34 +14,34 @@ public class Board {
 
     private static final int BOARD_HEIGHT = 10;
 
-    private final Map<Point, Piece> state;
+    private final Map<Point, Piece> piecesByPoint;
 
     public Board() {
-        this.state = new LinkedHashMap<>();
+        this.piecesByPoint = new LinkedHashMap<>();
     }
 
     public void init(List<PositionInfo> positionInfos) {
-        positionInfos.forEach(info -> state.put(info.point(), info.piece()));
+        positionInfos.forEach(info -> piecesByPoint.put(info.point(), info.piece()));
     }
 
     public void move(Point from, Point to, Team team) {
         validateFromPoint(from, team);
         validateToPoint(to, team);
-        Piece piece = state.get(from);
+        Piece piece = piecesByPoint.get(from);
         List<Point> route = piece.getRoute(from, to);
-        Piece targetPiece = state.get(to);
+        Piece targetPiece = piecesByPoint.get(to);
         if (targetPiece != null && !piece.canCapture(targetPiece)) {
             throw new IllegalArgumentException("이 기물은 해당 타겟을 잡을 수 없습니다.");
         }
         if (!piece.canMove(getPieces(route))) {
             throw new IllegalArgumentException("해당 기물의 이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
         }
-        state.remove(from);
-        state.put(to, piece);
+        piecesByPoint.remove(from);
+        piecesByPoint.put(to, piece);
     }
 
     public boolean isKingDie(Team team) {
-        return state.values().stream()
+        return piecesByPoint.values().stream()
                 .noneMatch(piece -> piece.isSameType(PieceType.JANG) &&
                         piece.isSameTeam(team));
     }
@@ -51,7 +51,7 @@ public class Board {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             pieces.add(
                     Point.getRow(i).stream()
-                            .map(state::get)
+                            .map(piecesByPoint::get)
                             .toList()
             );
         }
@@ -60,9 +60,13 @@ public class Board {
 
     public List<Piece> getPieces(List<Point> point) {
         return point.stream()
-                .map(state::get)
+                .map(piecesByPoint::get)
                 .filter(Objects::nonNull)
                 .toList();
+    }
+
+    public Map<Point, Piece> getPiecesByPoint() {
+        return piecesByPoint;
     }
 
     private void validateFromPoint(Point from, Team team) {
@@ -81,10 +85,10 @@ public class Board {
     }
 
     private boolean isSameTeam(Point point, Team team) {
-        return state.get(point).isSameTeam(team);
+        return piecesByPoint.get(point).isSameTeam(team);
     }
 
     private boolean isEmptyPoint(Point point) {
-        return state.get(point) == null;
+        return piecesByPoint.get(point) == null;
     }
 }
