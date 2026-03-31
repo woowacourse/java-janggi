@@ -37,27 +37,12 @@ class MoveStrategyTest {
     }
 
     @Nested
-    class 사_이동_테스트 {
+    class 궁_내부_이동_테스트 {
 
         @DisplayName("사는 현재 위치에서 앞, 뒤, 양 옆을 1칸씩의 좌표를 도착지점 후보로 반환한다")
         @Test
         void 사는_앞뒤_양옆으로_움직인다() {
-            MoveStrategy strategy = new AdvisorStrategy();
-            Paths paths = strategy.findMovablePaths(Position.of(4,4));
-            assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
-            assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
-            assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
-            assertThat(paths.findPathByDestination(Position.of(4, 3))).isEqualTo(Path.of(Position.of(4, 3)));
-        }
-    }
-
-    @Nested
-    class 장_이동_테스트 {
-
-        @DisplayName("장은는 현재 위치에서 앞, 뒤, 양 옆을 1칸씩의 좌표를 도착지점 후보로 반환한다")
-        @Test
-        void 장는_앞뒤_양옆으로_움직인다() {
-            MoveStrategy strategy = new GeneralStrategy();
+            MoveStrategy strategy = new PalaceStrategy();
             Paths paths = strategy.findMovablePaths(Position.of(4,4));
             assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
             assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
@@ -105,38 +90,11 @@ class MoveStrategyTest {
     }
 
     @Nested
-    class 포_이동_테스트 {
+    class 직선_이동_테스트 {
         @Test
         @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
         void findMovablePaths_ReturnAllLinearCandidates() {
-            MoveStrategy strategy = new CannonStrategy();
-            Paths paths = strategy.findMovablePaths(Position.of(4, 4));
-
-            for (int c = 0; c <= 8; c++) {
-                if (c == 4) {
-                    continue;
-                }
-                assertThat(paths.findPathByDestination(Position.of(4, c)).isDestination(Position.of(4, c))).isTrue();
-            }
-            for (int r = 0; r <= 9; r++) {
-                if (r == 4) {
-                    continue;
-                }
-                assertThat(paths.findPathByDestination(Position.of(r, 4)).isDestination(Position.of(r, 4))).isTrue();
-            }
-
-            assertThatThrownBy(() -> paths.findPathByDestination(Position.of(4, 4)))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("이동할 수 없는 좌표입니다.");
-        }
-    }
-
-    @Nested
-    class 차_이동_테스트 {
-        @Test
-        @DisplayName("차는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
-        void findMovablePaths_ReturnAllLinearCandidates() {
-            MoveStrategy strategy = new ChariotStrategy();
+            MoveStrategy strategy = new LinearStrategy();
             Paths paths = strategy.findMovablePaths(Position.of(4, 4));
 
             for (int c = 0; c <= 8; c++) {

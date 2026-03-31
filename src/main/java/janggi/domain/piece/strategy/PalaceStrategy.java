@@ -8,7 +8,7 @@ import janggi.domain.position.Position;
 
 import java.util.Optional;
 
-public class AdvisorStrategy implements MoveStrategy {
+public class PalaceStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(

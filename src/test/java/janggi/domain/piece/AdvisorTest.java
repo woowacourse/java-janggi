@@ -1,8 +1,8 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
-import janggi.domain.piece.strategy.AdvisorStrategy;
-import janggi.domain.piece.strategy.ChariotStrategy;
+import janggi.domain.piece.strategy.LinearStrategy;
+import janggi.domain.piece.strategy.PalaceStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,37 +14,37 @@ public class AdvisorTest {
     @DisplayName("사가 포에 의해 잡힐 수 있다.")
     @Test
     void canBeCaughtByCannon() {
-        Piece piece = new Advisor(Camp.CHO, new AdvisorStrategy());
+        Piece piece = new Advisor(Camp.CHO, new PalaceStrategy());
         assertThat(piece.canBeCaughtByCannon()).isTrue();
     }
 
     @DisplayName("사는 넘을 수 있다.")
     @Test
     void canBeJumpedOver() {
-        Piece piece = new Advisor(Camp.CHO, new AdvisorStrategy());
+        Piece piece = new Advisor(Camp.CHO, new PalaceStrategy());
         assertThat(piece.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("사의 경로 확인은 항상 True를 반환한다")
     @Test
     void canPassRoute_Always_ReturnTrue() {
-        Piece piece = new Advisor(Camp.CHO, new AdvisorStrategy());
+        Piece piece = new Advisor(Camp.CHO, new PalaceStrategy());
         assertThat(piece.canPassRoute(new HashMap<>())).isTrue();
     }
 
     @DisplayName("도착 지점에 있는 기물이 같은 진영이면 False를 반환한다")
     @Test
     void canCatch_DestinationPieceIsSameCamp_ReturnFalse() {
-        Piece piece = new Advisor(Camp.CHO, new AdvisorStrategy());
-        Piece desinationPiece = new Chariot(Camp.CHO, new ChariotStrategy());
+        Piece piece = new Advisor(Camp.CHO, new PalaceStrategy());
+        Piece desinationPiece = new Chariot(Camp.CHO, new LinearStrategy());
         assertThat(piece.canCatch(desinationPiece)).isFalse();
     }
 
     @DisplayName("도착 지점에 있는 기물이 다른 진영이면 False를 반환한다")
     @Test
     void canCatch_DestinationPieceIsNotSameCamp_ReturnTrue() {
-        Piece piece = new Advisor(Camp.CHO, new AdvisorStrategy());
-        Piece desinationPiece = new Chariot(Camp.HAN, new ChariotStrategy());
+        Piece piece = new Advisor(Camp.CHO, new PalaceStrategy());
+        Piece desinationPiece = new Chariot(Camp.HAN, new LinearStrategy());
         assertThat(piece.canCatch(desinationPiece)).isTrue();
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ChariotStrategy implements MoveStrategy {
+public class LinearStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current) {
         List<Path> paths = new ArrayList<>();

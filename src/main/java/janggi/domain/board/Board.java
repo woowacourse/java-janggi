@@ -33,13 +33,13 @@ public class Board {
     private static Map<Position, Piece> initializeToCho(FormationStrategy formationStrategyByCho) {
         Camp cho = Camp.CHO;
         Map<Position, Piece> choFormation = new HashMap<>(formationStrategyByCho.createPieces(cho));
-        choFormation.put(Position.of(1, 4), new General(cho, new GeneralStrategy()));
-        choFormation.put(Position.of(0, 0), new Chariot(cho, new ChariotStrategy()));
-        choFormation.put(Position.of(0, 8), new Chariot(cho, new ChariotStrategy()));
-        choFormation.put(Position.of(0, 3), new Advisor(cho, new AdvisorStrategy()));
-        choFormation.put(Position.of(0, 5), new Advisor(cho, new AdvisorStrategy()));
-        choFormation.put(Position.of(2, 1), new Cannon(cho, new CannonStrategy()));
-        choFormation.put(Position.of(2, 7), new Cannon(cho, new CannonStrategy()));
+        choFormation.put(Position.of(1, 4), new General(cho, new PalaceStrategy()));
+        choFormation.put(Position.of(0, 0), new Chariot(cho, new LinearStrategy()));
+        choFormation.put(Position.of(0, 8), new Chariot(cho, new LinearStrategy()));
+        choFormation.put(Position.of(0, 3), new Advisor(cho, new PalaceStrategy()));
+        choFormation.put(Position.of(0, 5), new Advisor(cho, new PalaceStrategy()));
+        choFormation.put(Position.of(2, 1), new Cannon(cho, new LinearStrategy()));
+        choFormation.put(Position.of(2, 7), new Cannon(cho, new LinearStrategy()));
         for (int i = 0; i <= 8; i += 2) {
             choFormation.put(Position.of(3, i), new Soldier(cho, new SoldierStrategy(Direction.UP)));
         }
@@ -49,13 +49,13 @@ public class Board {
     private static Map<Position, Piece> initializeToHan(FormationStrategy formationStrategyByHan) {
         Camp han = Camp.HAN;
         Map<Position, Piece> choFormation = new HashMap<>(formationStrategyByHan.createPieces(han));
-        choFormation.put(Position.of(8, 4), new General(han, new GeneralStrategy()));
-        choFormation.put(Position.of(9, 0), new Chariot(han, new ChariotStrategy()));
-        choFormation.put(Position.of(9, 8), new Chariot(han, new ChariotStrategy()));
-        choFormation.put(Position.of(9, 3), new Advisor(han, new AdvisorStrategy()));
-        choFormation.put(Position.of(9, 5), new Advisor(han, new AdvisorStrategy()));
-        choFormation.put(Position.of(7, 1), new Cannon(han, new CannonStrategy()));
-        choFormation.put(Position.of(7, 7), new Cannon(han, new CannonStrategy()));
+        choFormation.put(Position.of(8, 4), new General(han, new PalaceStrategy()));
+        choFormation.put(Position.of(9, 0), new Chariot(han, new LinearStrategy()));
+        choFormation.put(Position.of(9, 8), new Chariot(han, new LinearStrategy()));
+        choFormation.put(Position.of(9, 3), new Advisor(han, new PalaceStrategy()));
+        choFormation.put(Position.of(9, 5), new Advisor(han, new PalaceStrategy()));
+        choFormation.put(Position.of(7, 1), new Cannon(han, new LinearStrategy()));
+        choFormation.put(Position.of(7, 7), new Cannon(han, new LinearStrategy()));
         for (int i = 0; i <= 8; i += 2) {
             choFormation.put(Position.of(6, i), new Soldier(han, new SoldierStrategy(Direction.DOWN)));
         }
