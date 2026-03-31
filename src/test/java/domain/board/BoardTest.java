@@ -214,8 +214,6 @@ public class BoardTest {
     @Test
     @DisplayName("사 기물이 잘 이동했는지 확인한다.")
     void moveGuardTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         Position from = new Position(3, 0);
         Position to = new Position(3, 1);
         board.move(from, to);
@@ -231,8 +229,6 @@ public class BoardTest {
     @Test
     @DisplayName("상 기물이 잘 이동했는지 확인한다.")
     void moveElephantTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         Position from = new Position(1, 0);
         Position to = new Position(3, 3);
         board.move(from, to);
@@ -248,8 +244,6 @@ public class BoardTest {
     @Test
     @DisplayName("마 기물이 잘 이동했는지 확인한다.")
     void moveHorseTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         Position from = new Position(2, 0);
         Position to = new Position(3, 2);
         board.move(from, to);
@@ -265,8 +259,6 @@ public class BoardTest {
     @Test
     @DisplayName("차 기물이 잘 이동했는지 확인한다.")
     void moveChariotTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         Position from = new Position(0, 0);
         Position to = new Position(0, 2);
         board.move(from, to);
@@ -282,8 +274,6 @@ public class BoardTest {
     @Test
     @DisplayName("궁 기물이 잘 이동했는지 확인한다.")
     void moveGeneralTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-
         Position from = new Position(4, 1);
         Position to = new Position(4, 2);
         board.move(from, to);
@@ -299,7 +289,6 @@ public class BoardTest {
     @Test
     @DisplayName("포 기물이 잘 이동했는지 확인한다.")
     void moveCannonTest() {
-        Board board = new Board(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
         Position horseFrom = new Position(2, 0);
         Position horseTo = new Position(3, 2);
         board.move(horseFrom, horseTo);
@@ -314,5 +303,16 @@ public class BoardTest {
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CANNON);
         assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
+    }
+
+    @Test
+    @DisplayName("기물의 초기 위치와 이동 위치가 동일하면 예외가 발생한다.")
+    void moveSamePositionExceptionTest() {
+        Position from = new Position(0, 3);
+        Position to = new Position(0, 3);
+
+        assertThatThrownBy(() -> board.move(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 기물을 동일한 위치로 이동시킬 수 없습니다.");
     }
 }
