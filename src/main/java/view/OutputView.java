@@ -21,7 +21,7 @@ public class OutputView {
     }
 
     public void printErrorMessage(String message) {
-        System.out.println(PREFEIX_ERROR_MESSAGE+message);
+        System.out.println(PREFEIX_ERROR_MESSAGE + message);
     }
 
     public void printCountry(Country country) {
