@@ -70,4 +70,13 @@ public enum Camp {
     private boolean isPalaceColumn(Position position) {
         return position.column() >= 3 && position.column() <= 5;
     }
+
+    public boolean isPalaceCenter(Position source, Position destination) {
+        return checkPalaceCenter(source) || checkPalaceCenter(destination);
+    }
+
+    private boolean checkPalaceCenter(Position position) {
+        int absRowDifference = Math.abs(position.row() - startRowPosition);
+        return position.column() == 4 && absRowDifference == 1;
+    }
 }

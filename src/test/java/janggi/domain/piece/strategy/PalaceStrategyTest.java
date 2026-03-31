@@ -76,7 +76,7 @@ class PalaceStrategyTest {
         void 궁과_사는_1칸_이동이_아니면_예외가_발생한다() {
             assertThatThrownBy(() -> strategy.findPath(new Position(0, 4), new Position(2, 4), Camp.CHO))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
+                    .hasMessage("[ERROR] 해당 기물은 궁성 내에서 연결된 1칸만 이동할 수 있습니다.");
         }
 
         private static Stream<Arguments> exceptionPalaceMovePositions() {
@@ -99,6 +99,50 @@ class PalaceStrategyTest {
             assertThatThrownBy(() -> strategy.findPath(source, destination, camp))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 기물은 아군 궁성 영역 밖으로 이동할 수 없습니다.");
+        }
+
+        private static Stream<Arguments> exceptionPalaceCampPositions() {
+            return Stream.of(
+                    Arguments.of(new Position(1, 4), new Position(0, 3), Camp.HAN),
+                    Arguments.of(new Position(1, 4), new Position(0, 5), Camp.HAN),
+                    Arguments.of(new Position(1, 4), new Position(2, 3), Camp.HAN),
+                    Arguments.of(new Position(1, 4), new Position(2, 5), Camp.HAN),
+
+                    Arguments.of(new Position(8, 4), new Position(7, 3), Camp.CHO),
+                    Arguments.of(new Position(8, 4), new Position(7, 5), Camp.CHO),
+                    Arguments.of(new Position(8, 4), new Position(9, 3), Camp.CHO),
+                    Arguments.of(new Position(8, 4), new Position(9, 5), Camp.CHO)
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("exceptionPalaceMovePositions")
+        void 궁과_사는_상대_궁성_영역에서_이동하면_예외가_발생한다(Position source, Position destination, Camp camp) {
+            assertThatThrownBy(() -> strategy.findPath(source, destination, camp))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 해당 기물은 아군 궁성 영역 밖으로 이동할 수 없습니다.");
+        }
+
+        private static Stream<Arguments> exceptionInvalidDiagonalMovePositions() {
+            return Stream.of(
+                    Arguments.of(new Position(0, 4), new Position(1, 3), Camp.CHO),
+                    Arguments.of(new Position(0, 4), new Position(1, 5), Camp.CHO),
+                    Arguments.of(new Position(1, 3), new Position(2, 4), Camp.CHO),
+                    Arguments.of(new Position(1, 5), new Position(2, 4), Camp.CHO),
+
+                    Arguments.of(new Position(7, 4), new Position(8, 3), Camp.HAN),
+                    Arguments.of(new Position(7, 4), new Position(8, 5), Camp.HAN),
+                    Arguments.of(new Position(8, 3), new Position(9, 4), Camp.HAN),
+                    Arguments.of(new Position(8, 5), new Position(9, 4), Camp.HAN)
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("exceptionInvalidDiagonalMovePositions")
+        void 궁과_사는_궁성_대각선이_연결되지_않은_칸으로는_대각선_이동할_수_없다(Position source, Position destination, Camp camp) {
+            assertThatThrownBy(() -> strategy.findPath(source, destination, camp))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 궁성 내에 대각선이 존재하지 않는 경로 입니다.");
         }
     }
 }

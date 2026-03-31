@@ -60,7 +60,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 4), new Position(2, 4), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
+                    .hasMessage("[ERROR] 해당 기물은 궁성 내에서 연결된 1칸만 이동할 수 있습니다.");
         }
     }
 
@@ -90,7 +90,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 3), new Position(0, 5), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 해당 기물은 직선으로 1칸 이동해야 합니다.");
+                    .hasMessage("[ERROR] 해당 기물은 궁성 내에서 연결된 1칸만 이동할 수 있습니다.");
         }
     }
 
