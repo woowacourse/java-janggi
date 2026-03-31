@@ -1,6 +1,7 @@
 package domain.game;
 
 import static domain.util.AssertUtils.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
@@ -8,6 +9,7 @@ import domain.board.Intersection;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.Soldier;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -97,6 +99,41 @@ class JanggiGameTest {
             // when and then
             janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO);
             assertThatNoException(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN));
+        }
+    }
+
+    @Nested
+    class 기물이_이동_가능한_위치를_반환한다 {
+
+        @Test
+        void 본인_진영의_차례가_아니라면_예외를_던진다() {
+            // given
+            Board board = new Board(alivePieces);
+            JanggiGame janggiGame = new JanggiGame(board);
+
+            // when and then
+            assertThatThrownBy(() ->
+                    janggiGame.getMovableIntersections(CHO_START_INTERSECTION, Side.HAN)
+            )
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(CHO_TURN_MESSAGE);
+        }
+
+        @Test
+        void 본인_진영의_차례라면_기물이_이동할_수_있는_위치를_반환한다() {
+            Board board = new Board(alivePieces);
+            JanggiGame janggiGame = new JanggiGame(board);
+
+            List<Intersection> movable = janggiGame.getMovableIntersections(
+                    CHO_START_INTERSECTION,
+                    Side.CHO
+            );
+
+            assertThat(movable).containsExactlyInAnyOrder(
+                    CHO_FIRST_DESTINATION,
+                    new Intersection(5, 4),
+                    new Intersection(5, 6)
+            );
         }
     }
 }
