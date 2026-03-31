@@ -1,6 +1,8 @@
 package domain.game;
 
 import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Formation;
 import domain.game.state.ChoTurn;
 import domain.game.state.GameState;
 import domain.piece.Piece;
@@ -18,11 +20,16 @@ public class Game {
     private List<Piece> caughtPieces;
     private GameState gameState;
 
-    public Game(Players players, Board board) {
+    private Game(Players players, Board board) {
         this.players = players;
         this.board = board;
         this.caughtPieces = new ArrayList<>();
         this.gameState = new ChoTurn(this);
+    }
+
+    public static Game of(Players players, Formation choFormation, Formation hanFormation) {
+        Board board = BoardFactory.createWithFormation(choFormation, hanFormation);
+        return new Game(players, board);
     }
 
     public void move(Position source, Position destination) {

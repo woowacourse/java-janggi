@@ -6,7 +6,6 @@ import static domain.player.Team.HAN;
 import common.exception.JanggiException;
 import domain.board.Formation;
 import domain.game.Game;
-import domain.game.GameInitializer;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Players;
@@ -38,10 +37,9 @@ public class GameConsole {
 
     private Game createGame() {
         Players players = createPlayers();
-
         Formation choFormation = createChoFormation();
         Formation hanFormation = createHanFormation();
-        return GameInitializer.initialize(players, choFormation, hanFormation);
+        return Game.of(players, choFormation, hanFormation);
     }
 
     private void playTurn() {
