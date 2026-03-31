@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PositionLayout {
-    private static final Map<Position, PieceType> hanPiecesLayout = Map.ofEntries(
+    private static final Map<Position, PieceType> HAN_PIECES_LAYOUT = Map.ofEntries(
             Map.entry(new Position(Col.A, Row.ZERO), PieceType.CHARIOT),
             Map.entry(new Position(Col.D, Row.ZERO), PieceType.GUARD),
             Map.entry(new Position(Col.E, Row.ONE), PieceType.GENERAL),
@@ -36,7 +36,7 @@ public class PositionLayout {
     }
 
     private static void placeHanPieces(Map<Position, Piece> result) {
-        hanPiecesLayout.forEach((position, pieceType) ->
+        HAN_PIECES_LAYOUT.forEach((position, pieceType) ->
                 result.put(position, new Piece(Team.HAN, pieceType)));
     }
 
@@ -48,7 +48,7 @@ public class PositionLayout {
     }
 
     private static void placeChoPieces(Map<Position, Piece> result) {
-        hanPiecesLayout.forEach((position, pieceType) -> {
+        HAN_PIECES_LAYOUT.forEach((position, pieceType) -> {
             Position reversedPosition = new Position(position.col(), position.row().reverse());
             result.put(reversedPosition, new Piece(Team.CHO, pieceType));
         });
