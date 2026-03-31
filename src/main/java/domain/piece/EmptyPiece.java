@@ -4,6 +4,16 @@ import domain.position.Position;
 
 public class EmptyPiece implements Piece {
 
+    private EmptyPiece() {}
+
+    private static class LazyHolder {
+        private static final EmptyPiece INSTANCE = new EmptyPiece();
+    }
+
+    public static EmptyPiece getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+
     @Override
     public boolean canMove(Position source, Position target) {
         return false;

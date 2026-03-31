@@ -12,7 +12,7 @@ public enum PieceType {
     GENERAL(0.0, List.of(5), General::new),
     PHO(7.0, List.of(2, 8), Cannon::new),
     BYEONG(2.0, List.of(1, 3, 5, 7, 9), Soldier::new),
-    EMPTY(0.0, List.of(), team -> new EmptyPiece());
+    EMPTY(0.0, List.of(), team -> EmptyPiece.getInstance()),;
 
     private final double score;
     private final List<Integer> initialColumns;

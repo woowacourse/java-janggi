@@ -151,7 +151,7 @@ public class BoardTest {
     @Test
     void 빈_칸에서_이동_시도하면_예외() {
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(1, 1), new EmptyPiece());
+        pieces.put(new Position(1, 1), EmptyPiece.getInstance());
         Board board = new Board(pieces);
 
         assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5)))

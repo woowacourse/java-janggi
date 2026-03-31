@@ -71,10 +71,10 @@ public class Board {
 
     private void applyMove(Position src, Position dest, Piece piece) {
         pieces.put(dest, piece);
-        pieces.put(src, new EmptyPiece());
+        pieces.put(src, EmptyPiece.getInstance());
     }
 
     public Piece pieceAt(Position position) {
-        return pieces.getOrDefault(position, new EmptyPiece());
+        return pieces.getOrDefault(position, EmptyPiece.getInstance());
     }
 }
