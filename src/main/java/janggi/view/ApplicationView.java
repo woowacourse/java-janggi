@@ -14,7 +14,7 @@ public class ApplicationView {
         this.inputReader = inputReader;
     }
 
-    public int requestArrangementStrategyDecision(String side, Map<Integer, String> strategies) {
+    public int promptForArrangementStrategyDecision(String side, Map<Integer, String> strategies) {
         outputWriter.printPromptMessage(side + "팀의 초기화 전략 번호를 입력해주세요.");
 
         for (Entry<Integer, String> strategy : strategies.entrySet()) {
@@ -25,27 +25,27 @@ public class ApplicationView {
         return inputReader.readInt();
     }
 
-    public void responseBoardArray(List<List<String>> stringMatrix) {
+    public void showBoardArray(List<List<String>> stringMatrix) {
         outputWriter.printStringMatrix(stringMatrix);
     }
 
-    public void responseCurrentSide(String currentSide) {
+    public void showCurrentSide(String currentSide) {
         outputWriter.printPromptMessage(currentSide + "팀의 차례입니다.");
     }
 
-    public List<Integer> requestLocationOfPiece() {
+    public List<Integer> promptForLocationOfPiece() {
         outputWriter.printPromptMessage("이동시킬 기물의 좌표를 입력해주세요. (,로 구분)");
 
         return inputReader.readIntegers();
     }
 
-    public List<Integer> requestLocationToMove() {
+    public List<Integer> promptForLocationToMove() {
         outputWriter.printPromptMessage("해당 기물이 이동할 좌표를 입력해주세요. (,로 구분)");
 
         return inputReader.readIntegers();
     }
 
-    public void responseErrorMessage(RuntimeException e) {
+    public void showErrorMessage(RuntimeException e) {
         outputWriter.printErrorMessage(e);
     }
 }

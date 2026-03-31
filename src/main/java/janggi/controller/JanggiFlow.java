@@ -29,13 +29,13 @@ public class JanggiFlow {
 
         Side current = Side.HAN;
         while (board.isNotEmpty()) {
-            view.responseBoardArray(convertBoardStatus(board));
-            view.responseCurrentSide(current.getName());
+            view.showBoardArray(convertBoardStatus(board));
+            view.showCurrentSide(current.getName());
 
             final Side turnSide = current;
             retryUntilPieceIsSuccessfullyMoved(() -> {
                 Location from = repeatAskLocationOfPieceUntilSuccess(turnSide, board);
-                Location to = repeatAskLocationToMoveUntilSuccess(from, turnSide, board);
+                Location to = repeatAskLocationToMoveUntilSuccess(from, board);
                 board.move(from, to);
             });
             current = current.switchSide();
@@ -43,8 +43,8 @@ public class JanggiFlow {
     }
 
     private List<List<String>> convertBoardStatus(Board board) {
-        List<List<Piece>> boradIn2D = board.to2DArray();
-        return boradIn2D.stream()
+        List<List<Piece>> boardIn2D = board.to2DArray();
+        return boardIn2D.stream()
                 .map(
                         row -> row.stream()
                                 .map(Piece::getPieceType)
@@ -57,14 +57,14 @@ public class JanggiFlow {
         try {
             return askStrategy(side);
         } catch (IllegalArgumentException e) {
-            view.responseErrorMessage(e);
+            view.showErrorMessage(e);
             return repeatAskStrategyUntilSuccess(side);
         }
     }
 
     private ArrangementStrategy askStrategy(Side side) {
         Map<Integer, String> strategyInfos = convertStrategyInfo();
-        int decisionNumber = view.requestArrangementStrategyDecision(side.getName(), strategyInfos);
+        int decisionNumber = view.promptForArrangementStrategyDecision(side.getName(), strategyInfos);
         return findStrategyWithCorrespondingDecisionNumber(decisionNumber);
     }
 
@@ -87,29 +87,29 @@ public class JanggiFlow {
         try {
             return askLocationOfPiece(turnSide, board);
         } catch (IllegalArgumentException e) {
-            view.responseErrorMessage(e);
+            view.showErrorMessage(e);
             return repeatAskLocationOfPieceUntilSuccess(turnSide, board);
         }
     }
 
     private Location askLocationOfPiece(Side current, Board board) {
-        List<Integer> locationOfPiece = view.requestLocationOfPiece();
+        List<Integer> locationOfPiece = view.promptForLocationOfPiece();
         Location verifiedLocation = Location.from(locationOfPiece);
         board.validateLocationOfPiece(current, verifiedLocation);
         return verifiedLocation;
     }
 
-    private Location repeatAskLocationToMoveUntilSuccess(Location from, Side turnSide, Board board) {
+    private Location repeatAskLocationToMoveUntilSuccess(Location from, Board board) {
         try {
             return askLocationToMove(from, board);
         } catch (IllegalArgumentException e) {
-            view.responseErrorMessage(e);
-            return repeatAskLocationToMoveUntilSuccess(from, turnSide, board);
+            view.showErrorMessage(e);
+            return repeatAskLocationToMoveUntilSuccess(from, board);
         }
     }
 
     private Location askLocationToMove(Location startingLocation, Board board) {
-        List<Integer> locationToMove = view.requestLocationToMove();
+        List<Integer> locationToMove = view.promptForLocationToMove();
         Location verifiedLocation = Location.from(locationToMove);
         board.validateLocationToMove(startingLocation, verifiedLocation);
         return verifiedLocation;
@@ -119,7 +119,7 @@ public class JanggiFlow {
         try {
             runnable.run();
         } catch (IllegalArgumentException e) {
-            view.responseErrorMessage(e);
+            view.showErrorMessage(e);
             retryUntilPieceIsSuccessfullyMoved(runnable);
         }
     }
