@@ -8,7 +8,9 @@ public class ChariotMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
-        return isHorizontalMove(currentPosition, destination) || isVerticalMove(currentPosition, destination);
+        if (isHorizontalMove(currentPosition, destination))
+            return !isVerticalMove(currentPosition, destination);
+        return isVerticalMove(currentPosition, destination);
     }
 
     @Override
