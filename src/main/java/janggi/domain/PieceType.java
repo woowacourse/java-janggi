@@ -34,18 +34,6 @@ public enum PieceType {
         return name;
     }
 
-    public List<Integer> getXPositions() {
-        return xPositions;
-    }
-
-    public int getYPosition() {
-        return yPosition;
-    }
-
-    public MoveRule getMoveRule() {
-        return moveRule;
-    }
-
     public void placeOnBoard(Board board, Team team) {
         for(int xPosition:xPositions) {
             Position position = new Position(xPosition, calculateYPositionByTeam(team));
@@ -59,5 +47,9 @@ public enum PieceType {
             return 11 - yPosition;
         }
         return yPosition;
+    }
+
+    public List<Route> findRoutes(Team team) {
+        return moveRule.findRoutes(team);
     }
 }

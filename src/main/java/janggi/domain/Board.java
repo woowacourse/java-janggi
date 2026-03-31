@@ -17,8 +17,8 @@ public class Board {
         }
     }
 
-    public void place(Position positoin, Piece piece) {
-        board.put(positoin, piece);
+    public void place(Position position, Piece piece) {
+        board.put(position, piece);
     }
 
     public Map<Position, Piece> getBoard() {
@@ -27,11 +27,8 @@ public class Board {
 
     public List<Position> findAvailablePositions(Position position) {
         Piece piece = board.get(position);
-        PieceType pieceType = piece.getPieceType();
 
-        MoveRule moveRule = pieceType.getMoveRule();
-
-        List<Route> routes = moveRule.findRoutes(piece.getTeam());
+        List<Route> routes = piece.findRoutes();
 
         Map<Position, List<Position>> routePositions = convertToPositions(position, piece, routes);
 
