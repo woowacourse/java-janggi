@@ -70,5 +70,23 @@ public class ChariotTest {
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
+
+        @Test
+        @DisplayName("궁성의 간선을 타고 갈 수 있다.")
+        void success_3() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(10, 4), chariot,
+                Position.valueOf(10, 3), new Cannon(TeamType.RED),
+                Position.valueOf(8, 4), new Guard(TeamType.RED),
+                Position.valueOf(8, 6), new Guard(TeamType.RED));
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            List<Position> expected = List.of(Position.valueOf(9, 4), Position.valueOf(9, 5));
+
+            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(10, 4),
+                boardMediator);
+
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        }
     }
 }
