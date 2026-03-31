@@ -4,12 +4,20 @@ import domain.game.Team;
 import domain.position.Position;
 import java.util.List;
 
-public class General extends ActivePiece {
+public class PalacePiece extends ActivePiece {
     private static final List<Integer> dx = List.of(-1, 1, 0, 0);
     private static final List<Integer> dy = List.of(0, 0, -1, 1);
 
-    public General(Team team) {
-        super(team, PieceDefinition.GENERAL);
+    private PalacePiece(Team team, PieceDefinition type) {
+        super(team, type);
+    }
+
+    public static PalacePiece general(Team team) {
+        return new PalacePiece(team, PieceDefinition.GENERAL);
+    }
+
+    public static PalacePiece guard(Team team) {
+        return new PalacePiece(team, PieceDefinition.SA);
     }
 
     @Override
