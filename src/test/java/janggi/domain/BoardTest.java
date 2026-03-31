@@ -88,6 +88,4 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 이동할 수 없는 방향입니다.");
     }
-
-
 }
