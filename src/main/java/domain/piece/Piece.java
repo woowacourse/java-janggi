@@ -18,7 +18,7 @@ public abstract class Piece {
         this.movementStrategy = movementStrategy;
     }
 
-    public Destinations findMovablePositions(Position current, BoardReader board) {
+    public Destinations findDestinations(Position current, BoardReader board) {
         List<Path> paths = movementStrategy.generatePaths(current);
         List<Position> validDestinations = filterValidPositions(current, paths, board);
         return new Destinations(validDestinations);
@@ -29,20 +29,24 @@ public abstract class Piece {
     protected List<Position> filterStandardPaths(List<Path> paths, BoardReader board) {
         List<Position> valid = new ArrayList<>();
         for (Path path : paths) {
-            if (isObstaclesClear(path, board) && isValidDestination(path.getDestination(), board)) {
-                valid.add(path.getDestination());
-            }
+            addIfValidDestination(valid, path, board);
         }
         return valid;
     }
 
-    private boolean isObstaclesClear(Path path, BoardReader board) {
-        for (Position obstacle : path.getObstacles()) {
-            if (!board.isEmpty(obstacle)) {
-                return false;
-            }
+    private void addIfValidDestination(List<Position> valid, Path path, BoardReader board) {
+        if (isMovablePath(path, board)) {
+            valid.add(path.getDestination());
         }
-        return true;
+    }
+
+    private boolean isMovablePath(Path path, BoardReader board) {
+        return isObstaclesClear(path, board) && isValidDestination(path.getDestination(), board);
+    }
+
+    private boolean isObstaclesClear(Path path, BoardReader board) {
+        return path.getObstacles().stream()
+                .allMatch(board::isEmpty);
     }
 
     protected boolean isValidDestination(Position destination, BoardReader board) {

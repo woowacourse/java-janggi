@@ -20,10 +20,10 @@ class SoldierTest {
                 hanPos, PieceFactory.createSoldier(Side.HAN)
         ));
 
-        assertThat(board.findMovablePositions(choPos).getPositions()).containsExactlyInAnyOrder(
+        assertThat(board.findDestinations(choPos).getPositions()).containsExactlyInAnyOrder(
                 Position.of(4, 4), Position.of(3, 3), Position.of(5, 3)
         );
-        assertThat(board.findMovablePositions(hanPos).getPositions()).containsExactlyInAnyOrder(
+        assertThat(board.findDestinations(hanPos).getPositions()).containsExactlyInAnyOrder(
                 Position.of(4, 5), Position.of(3, 6), Position.of(5, 6)
         );
     }

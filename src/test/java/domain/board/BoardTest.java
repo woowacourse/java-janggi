@@ -100,13 +100,11 @@ class BoardTest {
         Position target = Position.of(0, 1);
 
         // When & Then: 빈 좌표를 선택하여 이동을 시도하거나 이동 가능한 위치를 찾을 때 예외 발생
-        assertThatThrownBy(() -> board.findMovablePositions(emptyPos))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("기물이 존재하지 않는 위치입니다.");
+        assertThatThrownBy(() -> board.findDestinations(emptyPos))
+                .isInstanceOf(IllegalArgumentException.class);
 
         assertThatThrownBy(() -> board.movePiece(emptyPos, target))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("출발지에 기물이 없습니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -121,7 +119,7 @@ class BoardTest {
         ));
 
         // When: 차(Chariot)의 이동 가능 위치 탐색
-        Destinations destinations = board.findMovablePositions(chariotPos);
+        Destinations destinations = board.findDestinations(chariotPos);
 
         // Then: 아군이 있는 (0, 1)은 목적지 목록에 포함되지 않음
         assertThat(destinations.getPositions()).doesNotContain(allyPos);

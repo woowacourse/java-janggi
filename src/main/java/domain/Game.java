@@ -21,7 +21,7 @@ public class Game {
     public Destinations selectSource(Position position) {
         Piece piece = board.getPiece(position);
         players.getCurrentPlayer().validateAlly(piece);
-        return findMovablePositions(position);
+        return findDestinations(position);
     }
 
     public void move(Position source, Position target) {
@@ -31,8 +31,8 @@ public class Game {
         players.switchPlayer();
     }
 
-    private Destinations findMovablePositions(Position position) {
-        return board.findMovablePositions(position);
+    private Destinations findDestinations(Position position) {
+        return board.findDestinations(position);
     }
 
     private void movePiece(Position source, Position target) {

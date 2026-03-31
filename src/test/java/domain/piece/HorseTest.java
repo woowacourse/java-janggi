@@ -21,7 +21,7 @@ class HorseTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: 8방향의 L자형 목적지 확인
         assertThat(movable.getPositions()).containsExactlyInAnyOrder(
@@ -45,7 +45,7 @@ class HorseTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: 북쪽 멱이 막혔으므로 북쪽 대각선 목적지인 (3, 6)과 (5, 6)은 제외되어야 함
         assertThat(movable.getPositions()).doesNotContain(

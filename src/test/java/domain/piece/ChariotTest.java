@@ -21,7 +21,7 @@ class ChariotTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: 같은 행(0, 1~9)과 같은 열(1~8, 0)의 모든 위치가 포함되어야 함 (총 9+8=17개)
         assertThat(movable.getPositions()).hasSize(17);
@@ -41,7 +41,7 @@ class ChariotTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: (0, 1), (0, 2)는 가능하지만 (0, 3)과 그 너머(0, 4)는 불가능해야 함
         assertThat(movable.getPositions()).contains(Position.of(0, 1), Position.of(0, 2));
@@ -61,7 +61,7 @@ class ChariotTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: 적군이 있는 (5, 0)까지는 이동 가능하지만, 그 너머(6, 0)는 불가능해야 함
         assertThat(movable.getPositions()).contains(Position.of(1, 0), Position.of(4, 0), Position.of(5, 0));

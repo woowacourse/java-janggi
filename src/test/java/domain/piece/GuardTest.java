@@ -21,7 +21,7 @@ class GuardTest {
         );
         Board board = new Board(pieces);
 
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         assertThat(movable.getPositions()).containsExactlyInAnyOrder(
                 Position.of(4, 1), Position.of(2, 1), Position.of(3,0)

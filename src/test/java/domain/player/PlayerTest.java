@@ -38,7 +38,7 @@ class PlayerTest {
         // When & Then: 초나라 플레이어가 한나라 기물을 validateAlly 할 때 예외 발생
         assertThatThrownBy(() -> choPlayer.validateAlly(hanPiece))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("자신의 기물만");
+                .hasMessageContaining("상대방의 기물은 움직일 수 없습니다.");
     }
 
     @Test

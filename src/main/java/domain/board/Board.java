@@ -13,23 +13,24 @@ public class Board implements BoardReader{
         this.board = Map.copyOf(board);
     }
 
-    public Destinations findMovablePositions(Position position) {
+    public Destinations findDestinations(Position position) {
         validatePieceExists(position);
         Piece piece = board.get(position);
-        return piece.findMovablePositions(position, this);
-    }
-
-    private void validatePieceExists(Position position) {
-        if (!board.containsKey(position)) {
-            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
-        }
+        return piece.findDestinations(position, this);
     }
 
     public Board movePiece(Position source, Position target) {
+        validatePieceExists(source);
         Map<Position, Piece> nextBoardMap = new HashMap<>(this.board);
         Piece movingPiece = nextBoardMap.remove(source);
         nextBoardMap.put(target, movingPiece);
         return new Board(nextBoardMap);
+    }
+
+    private void validatePieceExists(Position position) {
+        if (isEmpty(position)) {
+            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
+        }
     }
 
     public boolean isGameOver() {
@@ -45,9 +46,7 @@ public class Board implements BoardReader{
 
     @Override
     public Piece getPiece(Position position) {
-        if (isEmpty(position)) {
-            throw new IllegalArgumentException("선택한 좌표에 기물이 존재하지 않습니다.");
-        }
+        validatePieceExists(position);
         return board.get(position);
     }
 

@@ -1,6 +1,7 @@
 package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Destinations;
 import domain.Position;
@@ -25,7 +26,7 @@ class CannonTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: 다리(1, 3) 이전인 (1, 2)는 못 가고, 다리 너머인 (1, 4)부터 끝까지 이동 가능
         assertThat(movable.getPositions()).doesNotContain(Position.of(1, 2));
@@ -44,11 +45,10 @@ class CannonTest {
         );
         Board board = new Board(pieces);
 
-        // When
-        Destinations movable = board.findMovablePositions(current);
+        // When & Then 이동할 목적지가 없어서 예외가 발생
+        assertThatThrownBy(() -> board.findDestinations(current))
+                .isInstanceOf(IllegalArgumentException.class);
 
-        // Then: 다리가 포(Cannon)인 경우 뛰어넘을 수 없으므로 이동 가능한 좌표가 없어야 함
-        assertThat(movable.getPositions()).isEmpty();
     }
 
     @Test
@@ -66,7 +66,7 @@ class CannonTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: 적군(1, 5)까지는 갈 수 있지만, 그 너머(1, 6)는 갈 수 없음
         assertThat(movable.getPositions()).contains(Position.of(1, 4), Position.of(1, 5));
@@ -88,7 +88,7 @@ class CannonTest {
         Board board = new Board(pieces);
 
         // When
-        Destinations movable = board.findMovablePositions(current);
+        Destinations movable = board.findDestinations(current);
 
         // Then: 적군 포(1, 5) 직전인 (1, 4)까지만 갈 수 있고 (1, 5)는 포함되지 않음
         assertThat(movable.getPositions()).contains(Position.of(1, 4));
