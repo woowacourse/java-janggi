@@ -14,23 +14,16 @@ public class Board {
             for(PieceType pieceType:PieceType.values()) {
                 List<Integer> xPositions = pieceType.getXPositions();
                 int yPosition = pieceType.getYPosition();
-                if(team == Team.CHO) {
-                    for(int xPosition:xPositions) {
-                        Position position = new Position(xPosition, yPosition);
-                        Piece piece = new Piece(team, pieceType);
-                        board.put(position, piece);
-                    }
-                }
-
-                if(team == Team.HAN) {
-                    int hanYPosition = 11 - yPosition;
-                    for(int xPosition:xPositions) {
-                        Position position = new Position(xPosition, hanYPosition);
-                        Piece piece = new Piece(team, pieceType);
-                        board.put(position, piece);
-                    }
-                }
+                setPieces(team, pieceType, xPositions, yPosition);
             }
+        }
+    }
+
+    private void setPieces(Team team, PieceType pieceType, List<Integer> xPositions, int yPosition) {
+        for(int xPosition: xPositions) {
+            Position position = new Position(xPosition, team.calculateYPosition(team, yPosition));
+            Piece piece = new Piece(team, pieceType);
+            board.put(position, piece);
         }
     }
 
