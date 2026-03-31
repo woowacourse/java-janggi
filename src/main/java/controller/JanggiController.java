@@ -1,5 +1,6 @@
 package controller;
 
+import domain.board.PlacementInputMapper;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Turn;

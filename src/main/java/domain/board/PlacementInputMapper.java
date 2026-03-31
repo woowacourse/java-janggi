@@ -1,4 +1,4 @@
-package controller;
+package domain.board;
 
 import domain.board.formation.FormationType;
 
