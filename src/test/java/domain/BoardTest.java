@@ -21,14 +21,14 @@ class BoardTest {
         PieceType sang= PieceType.SANG;
 
 
-        assertThat(board.getPiece(Position.create(1,2))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(1,3))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,8))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,2))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,3))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,8))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(1,2))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(1,3))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(1,7))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(1,8))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(10,2))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(10,3))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(10,7))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(10,8))).isEqualTo(ma);
     }
 
     @Test
@@ -39,15 +39,14 @@ class BoardTest {
         PieceType ma= PieceType.MA;
         PieceType sang= PieceType.SANG;
 
-
-        assertThat(board.getPiece(Position.create(1,2))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,3))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(1,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(1,8))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,2))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,3))).isEqualTo(ma);
-        assertThat(board.getPiece(Position.create(10,7))).isEqualTo(sang);
-        assertThat(board.getPiece(Position.create(10,8))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(1,2))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(1,3))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(1,7))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(1,8))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(10,2))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(10,3))).isEqualTo(ma);
+        assertThat(board.getPieceType(Position.create(10,7))).isEqualTo(sang);
+        assertThat(board.getPieceType(Position.create(10,8))).isEqualTo(ma);
     }
 
     @DisplayName("도착좌표에 아무것도 없을때 말의 이동 정상 테스트")
@@ -58,7 +57,7 @@ class BoardTest {
 
         board.move(Position.create(1,3), Position.create(3,4));
 
-        assertThat(board.getPiece(Position.create(3,4))).isEqualTo(PieceType.MA);
+        assertThat(board.getPieceType(Position.create(3,4))).isEqualTo(PieceType.MA);
     }
 
     @DisplayName("이동할 수 없는 도착 좌표 이동 예외 테스트 - 이동 규칙 위반")
