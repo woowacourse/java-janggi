@@ -25,7 +25,7 @@ public enum PieceType {
     CANNON(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new CannonMoveStrategy()),
     HORSE(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new HorseMoveStrategy()),
     ELEPHANT(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new ElephantMoveStrategy()),
-    SOLDIER(new StepMoveStrategy()) {
+    SOLDIER(EnumSet.noneOf(Direction.class), new StepMoveStrategy()) {
         @Override
         public Paths calculatePaths(Position current, Side side) {
             return getMoveStrategy().findMovablePaths(current, side.getSoldierDirections());
@@ -39,10 +39,6 @@ public enum PieceType {
     PieceType(EnumSet<Direction> directions, MoveStrategy moveStrategy) {
         this.directions = directions;
         this.moveStrategy = moveStrategy;
-    }
-
-    PieceType(MoveStrategy moveStrategy) {
-        this(null, moveStrategy);
     }
 
     public Paths calculatePaths(Position current, Side side) {
