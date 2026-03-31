@@ -24,14 +24,14 @@ public class StraightRouteProvider implements RouteProvider {
     public List<Location> calculateRoute(Location from, Location to) {
         int maxDistance = calculateMaxDistance(from, to);
 
-        List<Route> directions = List.of(
+        List<Route> moveRoutes = List.of(
                 Route.create(FRONT, maxDistance),
                 Route.create(BACK, maxDistance),
                 Route.create(LEFT, maxDistance),
                 Route.create(RIGHT, maxDistance)
         );
 
-        for (Route route : directions) {
+        for (Route route : moveRoutes) {
             List<Location> locations = route.apply(from);
             if (locations.contains(to)) {
                 return locations;

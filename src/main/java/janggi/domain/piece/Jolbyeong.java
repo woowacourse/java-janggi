@@ -18,6 +18,11 @@ public class Jolbyeong extends ActivePiece {
 
     private static final PieceType PIECE_TYPE = PieceType.JOLBYEOUNG;
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
+    private final List<Route> moveRoutes = List.of(
+            Route.of(List.of(getRealFront(side))),
+            Route.of(List.of(LEFT)),
+            Route.of(List.of(RIGHT))
+    );
 
     public Jolbyeong(Side side) {
         super(PIECE_TYPE, side);
@@ -25,13 +30,7 @@ public class Jolbyeong extends ActivePiece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        List<Route> directions = List.of(
-                Route.of(List.of(getRealFront(side))),
-                Route.of(List.of(LEFT)),
-                Route.of(List.of(RIGHT))
-        );
-
-        for (Route route : directions) {
+        for (Route route : moveRoutes) {
             List<Location> locations = route.apply(from);
             if (locations.getLast().equals(to)) {
                 return locations;

@@ -21,6 +21,16 @@ public class Sang extends ActivePiece {
 
     private static final PieceType PIECE_TYPE = PieceType.SANG;
     private static final CollisionDetector COLLISION_DETECTOR = DefaultCollisionDetector.getInstance();
+    private static final List<Route> moveRoutes = List.of(
+            Route.of(List.of(FRONT, FRONT_LEFT, FRONT_LEFT)),
+            Route.of(List.of(FRONT, FRONT_RIGHT, FRONT_RIGHT)),
+            Route.of(List.of(RIGHT, FRONT_RIGHT, FRONT_RIGHT)),
+            Route.of(List.of(RIGHT, BACK_RIGHT, BACK_RIGHT)),
+            Route.of(List.of(LEFT, FRONT_LEFT, FRONT_LEFT)),
+            Route.of(List.of(LEFT, BACK_LEFT, BACK_LEFT)),
+            Route.of(List.of(BACK, BACK_LEFT, BACK_LEFT)),
+            Route.of(List.of(BACK, BACK_RIGHT, BACK_RIGHT))
+    );
 
     public Sang(Side side) {
         super(PIECE_TYPE, side);
@@ -28,18 +38,8 @@ public class Sang extends ActivePiece {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        List<Route> directions = List.of(
-                Route.of(List.of(FRONT, FRONT_LEFT, FRONT_LEFT)),
-                Route.of(List.of(FRONT, FRONT_RIGHT, FRONT_RIGHT)),
-                Route.of(List.of(RIGHT, FRONT_RIGHT, FRONT_RIGHT)),
-                Route.of(List.of(RIGHT, BACK_RIGHT, BACK_RIGHT)),
-                Route.of(List.of(LEFT, FRONT_LEFT, FRONT_LEFT)),
-                Route.of(List.of(LEFT, BACK_LEFT, BACK_LEFT)),
-                Route.of(List.of(BACK, BACK_LEFT, BACK_LEFT)),
-                Route.of(List.of(BACK, BACK_RIGHT, BACK_RIGHT))
-        );
 
-        for (Route route : directions) {
+        for (Route route : moveRoutes) {
             List<Location> locations = route.apply(from);
             if (locations.getLast().equals(to)) {
                 return locations;

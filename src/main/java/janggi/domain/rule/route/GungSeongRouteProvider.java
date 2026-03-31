@@ -16,6 +16,16 @@ import java.util.List;
 public class GungSeongRouteProvider implements RouteProvider {
 
     private static final GungSeongRouteProvider INSTANCE = new GungSeongRouteProvider();
+    private static final List<Route> moveRoutes = List.of(
+            Route.of(List.of(FRONT)),
+            Route.of(List.of(LEFT)),
+            Route.of(List.of(RIGHT)),
+            Route.of(List.of(BACK)),
+            Route.of(List.of(FRONT_LEFT)),
+            Route.of(List.of(FRONT_RIGHT)),
+            Route.of(List.of(BACK_LEFT)),
+            Route.of(List.of(BACK_RIGHT))
+    );
 
     private GungSeongRouteProvider() {
     }
@@ -26,18 +36,7 @@ public class GungSeongRouteProvider implements RouteProvider {
 
     @Override
     public List<Location> calculateRoute(Location from, Location to) {
-        List<Route> directions = List.of(
-                Route.of(List.of(FRONT)),
-                Route.of(List.of(LEFT)),
-                Route.of(List.of(RIGHT)),
-                Route.of(List.of(BACK)),
-                Route.of(List.of(FRONT_LEFT)),
-                Route.of(List.of(FRONT_RIGHT)),
-                Route.of(List.of(BACK_LEFT)),
-                Route.of(List.of(BACK_RIGHT))
-        );
-
-        for (Route route : directions) {
+        for (Route route : moveRoutes) {
             List<Location> locations = route.apply(from);
             if (locations.getLast().equals(to)) {
                 return locations;
