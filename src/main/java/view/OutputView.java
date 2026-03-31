@@ -25,6 +25,16 @@ public class OutputView {
         System.out.println();
     }
 
+    public void printWinner(Team winner) {
+        System.out.println("===== 게임 종료 =====");
+        if (winner.isCho()) {
+            System.out.println("초 팀이 이겼습니다.");
+        }
+        if (winner.isHan()) {
+            System.out.println("한 팀이 이겼습니다.");
+        }
+    }
+
     public void printErrorMessage(String message) {
         System.out.println("[ERROR] " + message);
     }

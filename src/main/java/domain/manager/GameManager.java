@@ -30,6 +30,10 @@ public class GameManager {
         while (game.isRunning()) {
             playTurn();
         }
+
+        if (!game.isRunning()) {
+            outputView.printWinner(game.getWinner());
+        }
     }
 
     private Game createGame() {
