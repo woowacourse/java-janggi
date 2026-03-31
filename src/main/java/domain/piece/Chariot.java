@@ -23,27 +23,30 @@ public class Chariot extends Piece {
     }
 
     private void collectPathPositions(List<Position> valid, Path path, BoardReader board) {
-        for (Position pos : path.getPositions()) {
-            if (processPosition(valid, pos, board)) {
-                break;
-            }
+        List<Position> positions = path.getPositions();
+        int obstacleIndex = findObstacleIndex(positions, board);
+        valid.addAll(positions.subList(0, obstacleIndex));
+        addCaptureIfPossible(valid, positions, obstacleIndex, board);
+    }
+
+    private int findObstacleIndex(List<Position> positions, BoardReader board) {
+        int index = 0;
+        while (index < positions.size() && board.isEmpty(positions.get(index))) {
+            index++;
+        }
+        return index;
+    }
+
+    private void addCaptureIfPossible(List<Position> valid, List<Position> positions, int index, BoardReader board) {
+        if (index < positions.size()) {
+            addIfEnemy(valid, positions.get(index), board);
         }
     }
 
-    private boolean processPosition(List<Position> valid, Position pos, BoardReader board) {
-        if (board.isEmpty(pos)) {
-            valid.add(pos);
-            return false;
-        }
-
-        addIfEnemy(valid, pos, board);
-        return true;
-    }
-
-    private void addIfEnemy(List<Position> valid, Position pos, BoardReader board) {
-        Piece target = board.getPiece(pos);
+    private void addIfEnemy(List<Position> valid, Position position, BoardReader board) {
+        Piece target = board.getPiece(position);
         if (!target.isAlly(getSide())) {
-            valid.add(pos);
+            valid.add(position);
         }
     }
 

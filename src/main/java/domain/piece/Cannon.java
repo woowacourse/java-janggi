@@ -34,12 +34,18 @@ public class Cannon extends Piece {
     }
 
     private int findBridgeIndex(List<Position> positions, BoardReader board) {
-        for (int i = 0; i < positions.size(); i++) {
-            if (!board.isEmpty(positions.get(i))) {
-                return i;
-            }
+        int index = 0;
+        while (index < positions.size() && board.isEmpty(positions.get(index))) {
+            index++;
         }
-        return -1;
+        return findValidIndex(index, positions.size());
+    }
+
+    private int findValidIndex(int index, int size) {
+        if (index == size) {
+            return -1;
+        }
+        return index;
     }
 
     private boolean isInvalidBridge(int index, List<Position> positions, BoardReader board) {
@@ -51,27 +57,29 @@ public class Cannon extends Piece {
     }
 
     private void collectValidDestinations(List<Position> valid, List<Position> positions, int startIndex, BoardReader board) {
-        for (int i = startIndex; i < positions.size(); i++) {
-            if (processPositionAfterJump(valid, positions.get(i), board)) {
-                break;
-            }
+        int obstacleIndex = findObstacleIndex(positions, startIndex, board);
+        valid.addAll(positions.subList(startIndex, obstacleIndex));
+        addCatchableIfPossible(valid, positions, obstacleIndex, board);
+    }
+
+    private int findObstacleIndex(List<Position> positions, int startIndex, BoardReader board) {
+        int index = startIndex;
+        while (index < positions.size() && board.isEmpty(positions.get(index))) {
+            index++;
+        }
+        return index;
+    }
+
+    private void addCatchableIfPossible(List<Position> valid, List<Position> positions, int index, BoardReader board) {
+        if (index < positions.size()) {
+            addIfCatchable(valid, positions.get(index), board);
         }
     }
 
-    private boolean processPositionAfterJump(List<Position> valid, Position pos, BoardReader board) {
-        if (board.isEmpty(pos)) {
-            valid.add(pos);
-            return false;
-        }
-
-        addIfCatchable(valid, pos, board);
-        return true;
-    }
-
-    private void addIfCatchable(List<Position> valid, Position pos, BoardReader board) {
-        Piece target = board.getPiece(pos);
+    private void addIfCatchable(List<Position> valid, Position position, BoardReader board) {
+        Piece target = board.getPiece(position);
         if (!target.isCannon() && !target.isAlly(getSide())) {
-            valid.add(pos);
+            valid.add(position);
         }
     }
 
