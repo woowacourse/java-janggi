@@ -43,19 +43,6 @@ public final class Piece {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Piece that)) {
-            return false;
-        }
-        return type == that.type && side == that.side;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, side);
-    }
-
-    @Override
     public String toString() {
         return "Piece{" +
                 "type=" + type +
