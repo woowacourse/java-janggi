@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Position {
 
-    public static int MAX_X_VALUE = 8;
-    public static int MIN_X_VALUE = 0;
-    public static int MAX_Y_VALUE = 9;
-    public static int MIN_Y_VALUE = 0;
+    public final static int MAX_X_VALUE = 8;
+    public final static int MIN_X_VALUE = 0;
+    public final static int MAX_Y_VALUE = 9;
+    public final static int MIN_Y_VALUE = 0;
 
     private final int x;
     private final int y;

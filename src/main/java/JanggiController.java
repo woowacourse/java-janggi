@@ -8,8 +8,8 @@ import view.OutputView;
 
 public class JanggiController {
 
-    InputView inputView;
-    OutputView outputView;
+    private final InputView inputView;
+    private final OutputView outputView;
 
 
     JanggiController(InputView inputView, OutputView outputView) {
