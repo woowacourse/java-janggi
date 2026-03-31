@@ -40,4 +40,9 @@ public class Cannon extends Piece {
     public boolean canBeCaughtByCannon() {
         return false;
     }
+
+    @Override
+    public String displayHanja() {
+        return displayName("包", "砲");
+    }
 }

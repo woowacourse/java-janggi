@@ -30,4 +30,9 @@ public class Chariot extends Piece {
     public boolean canBeCaughtByCannon() {
         return true;
     }
+
+    @Override
+    public String displayHanja() {
+        return displayName("車", "車");
+    }
 }

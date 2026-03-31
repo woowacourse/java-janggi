@@ -30,4 +30,9 @@ public class Elephant extends Piece {
     public boolean canBeCaughtByCannon() {
         return true;
     }
+
+    @Override
+    public String displayHanja() {
+        return displayName("象", "象");
+    }
 }

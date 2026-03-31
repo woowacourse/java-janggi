@@ -30,4 +30,9 @@ public class Advisor extends Piece {
     public boolean canBeCaughtByCannon() {
         return true;
     }
+
+    @Override
+    public String displayHanja() {
+        return displayName("士", "仕");
+    }
 }
