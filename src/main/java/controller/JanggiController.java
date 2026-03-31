@@ -3,11 +3,10 @@ package controller;
 import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.game.dto.BoardDto;
+import java.util.List;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
-
-import java.util.List;
 
 public class JanggiController {
 
@@ -27,6 +26,7 @@ public class JanggiController {
         String inputHan = inputView.inputPlacementOption(HAN);
         JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
 
+        outputView.printBoard(janggiGame.createBoardDto());
         while (!janggiGame.isGameEnd()) {
             Turn turn = janggiGame.turn();
 

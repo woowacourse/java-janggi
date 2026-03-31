@@ -32,9 +32,13 @@ public class JanggiGame {
                 Coordination.of(from.get(0), from.get(1)),
                 Coordination.of(to.get(0), to.get(1))
         );
-        BoardDto boardDto = BoardDto.from(board.getBoard());
+
         turn = turn.reverse();
-        return boardDto;
+        return createBoardDto();
+    }
+
+    public BoardDto createBoardDto() {
+        return BoardDto.from(board.getBoard());
     }
 
     public void checkSameTeam(List<Integer> inputTokens, Turn turn) {
