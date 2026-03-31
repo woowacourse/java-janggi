@@ -5,6 +5,7 @@ import domain.Path;
 import domain.Position;
 import domain.TableSetting;
 import domain.piece.PieceInfo;
+import domain.state.EmptyState;
 import domain.state.State;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,8 +20,7 @@ public class BoardStates {
 
     public void changeState(Position from, Position to) {
         State fromState = boardStates.get(from);
-        State toState = boardStates.get(to);
-        boardStates.put(from, toState);
+        boardStates.put(from, new EmptyState());
         boardStates.put(to, fromState);
     }
 
