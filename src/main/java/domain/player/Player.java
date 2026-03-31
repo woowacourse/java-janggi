@@ -1,7 +1,7 @@
 package domain.player;
 
-import domain.piece.Piece;
 import domain.Side;
+import domain.piece.Piece;
 import domain.state.TurnState;
 
 public class Player {

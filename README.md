@@ -170,18 +170,18 @@
 
 ## 프로그래밍 요구 사항
 
-- [ ] 자바 코드 컨벤션을 지키면서 프로그래밍한다.
-    - [ ] 기본적으로[Java Style Guide](https://github.com/woowacourse/woowacourse-docs/tree/master/styleguide/java)을 원칙으로 한다.
+- [x] 자바 코드 컨벤션을 지키면서 프로그래밍한다.
+    - [x] 기본적으로[Java Style Guide](https://github.com/woowacourse/woowacourse-docs/tree/master/styleguide/java)을 원칙으로 한다.
 - [ ] indent(인덴트, 들여쓰기) depth를 2를 넘지 않도록 구현한다. 1까지만 허용한다.
     - [ ] 예를 들어 while문 안에 if문이 있으면 들여쓰기는 2이다.
     - [ ] 힌트: indent(인덴트, 들여쓰기) depth를 줄이는 좋은 방법은 함수(또는 메서드)를 분리하면 된다.
-- [ ] 3항 연산자를 쓰지 않는다.
-- [ ] else 예약어를 쓰지 않는다.
-    - [ ] else 예약어를 쓰지 말라고 하니 switch/case로 구현하는 경우가 있는데 switch/case도 허용하지 않는다.
-    - [ ] 힌트: if문에서 값을 반환하는 방식으로 구현하면 else 예약어를 사용하지 않아도 된다.
+- [x] 3항 연산자를 쓰지 않는다.
+- [x] else 예약어를 쓰지 않는다.
+    - [x] else 예약어를 쓰지 말라고 하니 switch/case로 구현하는 경우가 있는데 switch/case도 허용하지 않는다.
+    - [x] 힌트: if문에서 값을 반환하는 방식으로 구현하면 else 예약어를 사용하지 않아도 된다.
 - [ ] 모든 기능을 TDD로 구현해 단위 테스트가 존재해야 한다. 단, UI(System.out, System.in) 로직은 제외
     - [ ] 핵심 로직을 구현하는 코드와 UI를 담당하는 로직을 구분한다.
-    - [ ] UI 로직을 view.InputView, ResultView와 같은 클래스를 추가해 분리한다.
+    - [x] UI 로직을 view.InputView, ResultView와 같은 클래스를 추가해 분리한다.
 - [ ] 함수(또는 메서드)의 길이가 10라인을 넘어가지 않도록 구현한다.
     - [ ] 함수(또는 메소드)가 한 가지 일만 하도록 최대한 작게 만들어라.
 - [ ] 배열 대신 컬렉션을 사용한다.

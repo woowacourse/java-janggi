@@ -1,10 +1,10 @@
 package domain.piece;
 
+import domain.Position;
+import domain.Side;
 import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
 import domain.strategy.Path;
-import domain.Position;
-import domain.Side;
 import java.util.List;
 
 public class General extends Piece {

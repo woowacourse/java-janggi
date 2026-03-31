@@ -1,9 +1,9 @@
 package domain.board;
 
-import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.Position;
 import domain.Side;
+import domain.piece.Piece;
+import domain.piece.PieceFactory;
 import java.util.HashMap;
 import java.util.Map;
 

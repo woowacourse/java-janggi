@@ -1,11 +1,11 @@
 package domain.piece;
 
 import domain.Destinations;
-import domain.strategy.Path;
 import domain.Position;
 import domain.Side;
 import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
+import domain.strategy.Path;
 import java.util.ArrayList;
 import java.util.List;
 

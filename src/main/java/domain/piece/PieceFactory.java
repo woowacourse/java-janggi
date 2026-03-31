@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.strategy.Direction;
 import domain.Side;
 import domain.strategy.ContinuousStrategy;
+import domain.strategy.Direction;
 import domain.strategy.MovementStrategy;
 import domain.strategy.OneStepStrategy;
 import domain.strategy.SequenceStrategy;

@@ -1,8 +1,8 @@
 package domain.player;
 
+import domain.Side;
 import domain.state.ActiveTurn;
 import domain.state.InactiveTurn;
-import domain.Side;
 import java.util.List;
 
 public class Players {
