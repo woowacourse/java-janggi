@@ -29,6 +29,7 @@ public class InputView {
                 .map(Integer::parseInt)
                 .toList();
 
+        validateChoicesSize(choices);
         int hanChoice = choices.get(0);
         int choChoice = choices.get(1);
         return new OpeningFormationChoices(hanChoice, choChoice);
