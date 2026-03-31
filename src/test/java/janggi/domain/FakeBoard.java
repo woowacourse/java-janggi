@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.board.BoardView;
-import janggi.domain.piece.EmptyPosition;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
@@ -26,7 +26,7 @@ public class FakeBoard implements BoardView {
 
     @Override
     public Piece findByPosition(Position position) {
-        return map.getOrDefault(position, new EmptyPosition(Team.NONE));
+        return map.getOrDefault(position, new EmptyPiece(Team.NONE));
     }
 
     @Override

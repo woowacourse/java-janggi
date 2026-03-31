@@ -2,9 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.mouveRule.MoveRule;
 
-public class EmptyPosition extends Piece {
+public class EmptyPiece extends Piece {
 
-    public EmptyPosition(Team team) {
+    public EmptyPiece(Team team) {
         super(team);
     }
 
