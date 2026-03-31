@@ -12,8 +12,6 @@ public interface Piece {
 
     Optional<MovePath> findMovePath(Position startPosition, Position endPosition);
 
-//    boolean isObstaclesNotExist(Position start, Position end, Board board);
-
     String name();
 
     PieceType getPieceType();
