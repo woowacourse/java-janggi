@@ -32,7 +32,7 @@ class ChaTest {
 
         assertThatIllegalArgumentException()
             .isThrownBy(() -> piece.validateMove(from, to))
-            .withMessage("해당 위치로 차가 이동할 수 없습니다.");
+            .withMessage("[ERROR] 해당 위치로 차가 이동할 수 없습니다.");
     }
 
     @Test
@@ -42,7 +42,7 @@ class ChaTest {
 
         assertThatIllegalArgumentException()
             .isThrownBy(() -> piece.validateArrival(space))
-            .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+            .withMessage("[ERROR] 이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
 
     @Test
@@ -52,7 +52,7 @@ class ChaTest {
 
         assertThatIllegalArgumentException()
             .isThrownBy(() -> piece.validateRoutes(pieces))
-            .withMessage("이동 경로 사이에 다른 말이 있으면 안됩니다.");
+            .withMessage("[ERROR] 이동 경로 사이에 다른 말이 있으면 안됩니다.");
     }
 
     @Test

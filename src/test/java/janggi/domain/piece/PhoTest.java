@@ -32,7 +32,7 @@ class PhoTest {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateMove(from, to))
-                .withMessage("해당 위치로 포가 이동할 수 없습니다.");
+                .withMessage("[ERROR] 해당 위치로 포가 이동할 수 없습니다.");
     }
 
     @Test
@@ -42,7 +42,7 @@ class PhoTest {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateArrival(space))
-                .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+                .withMessage("[ERROR] 이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
 
     @Test
@@ -52,7 +52,7 @@ class PhoTest {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateArrival(space))
-                .withMessage("이동하려는 위치에 상대팀의 포가 존재합니다.");
+                .withMessage("[ERROR] 이동하려는 위치에 상대팀의 포가 존재합니다.");
     }
 
     @Test
@@ -62,7 +62,7 @@ class PhoTest {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateRoutes(pieces))
-                .withMessage("포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
+                .withMessage("[ERROR] 포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
     }
 
     @Test
@@ -75,7 +75,7 @@ class PhoTest {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateRoutes(pieces))
-                .withMessage("포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
+                .withMessage("[ERROR] 포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
     }
 
     @Test
@@ -85,7 +85,7 @@ class PhoTest {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateRoutes(pieces))
-                .withMessage("포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
+                .withMessage("[ERROR] 포는 이동 경로 사이에 포를 제외한 하나의 말이 있어야 합니다.");
     }
 
     @Test

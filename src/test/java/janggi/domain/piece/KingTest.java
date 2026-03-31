@@ -29,7 +29,7 @@ class KingTest {
 
         assertThatIllegalArgumentException()
             .isThrownBy(() -> piece.validateMove(from, to))
-            .withMessage("해당 위치로 궁이 이동할 수 없습니다.");
+            .withMessage("[ERROR] 해당 위치로 궁이 이동할 수 없습니다.");
     }
 
 
@@ -40,6 +40,6 @@ class KingTest {
 
         assertThatIllegalArgumentException()
             .isThrownBy(() -> piece.validateArrival(space))
-            .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+            .withMessage("[ERROR] 이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
 }
