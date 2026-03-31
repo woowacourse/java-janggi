@@ -10,47 +10,28 @@ public class Board {
     private final Map<Position, Piece> board = new HashMap<>();
 
     public void initialize() {
-        board.put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(3, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(5, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(7, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(9, 7), new Piece(Team.CHO, PieceType.ZOL));
+        for(Team team:Team.values()) {
+            for(PieceType pieceType:PieceType.values()) {
+                List<Integer> xPositions = pieceType.getXPositions();
+                int yPosition = pieceType.getYPosition();
+                if(team == Team.CHO) {
+                    for(int xPosition:xPositions) {
+                        Position position = new Position(xPosition, yPosition);
+                        Piece piece = new Piece(team, pieceType);
+                        board.put(position, piece);
+                    }
+                }
 
-        board.put(new Position(2, 8), new Piece(Team.CHO, PieceType.PO));
-        board.put(new Position(8, 8), new Piece(Team.CHO, PieceType.PO));
-
-        board.put(new Position(1, 10), new Piece(Team.CHO, PieceType.CHA));
-        board.put(new Position(9, 10), new Piece(Team.CHO, PieceType.CHA));
-
-        board.put(new Position(2, 10), new Piece(Team.CHO, PieceType.MA));
-        board.put(new Position(3, 10), new Piece(Team.CHO, PieceType.SANG));
-        board.put(new Position(7, 10), new Piece(Team.CHO, PieceType.MA));
-        board.put(new Position(8, 10), new Piece(Team.CHO, PieceType.SANG));
-
-        board.put(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
-        board.put(new Position(6, 10), new Piece(Team.CHO, PieceType.SA));
-        board.put(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
-
-        board.put(new Position(1, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(3, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(5, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(7, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(9, 4), new Piece(Team.HAN, PieceType.ZOL));
-
-        board.put(new Position(2, 3), new Piece(Team.HAN, PieceType.PO));
-        board.put(new Position(8, 3), new Piece(Team.HAN, PieceType.PO));
-
-        board.put(new Position(1, 1), new Piece(Team.HAN, PieceType.CHA));
-        board.put(new Position(9, 1), new Piece(Team.HAN, PieceType.CHA));
-
-        board.put(new Position(2, 1), new Piece(Team.HAN, PieceType.MA));
-        board.put(new Position(3, 1), new Piece(Team.HAN, PieceType.SANG));
-        board.put(new Position(7, 1), new Piece(Team.HAN, PieceType.MA));
-        board.put(new Position(8, 1), new Piece(Team.HAN, PieceType.SANG));
-
-        board.put(new Position(4, 1), new Piece(Team.HAN, PieceType.SA));
-        board.put(new Position(6, 1), new Piece(Team.HAN, PieceType.SA));
-        board.put(new Position(5, 2), new Piece(Team.HAN, PieceType.KING));
+                if(team == Team.HAN) {
+                    int hanYPosition = 11 - yPosition;
+                    for(int xPosition:xPositions) {
+                        Position position = new Position(xPosition, hanYPosition);
+                        Piece piece = new Piece(team, pieceType);
+                        board.put(position, piece);
+                    }
+                }
+            }
+        }
     }
 
     public Map<Position, Piece> getBoard() {
