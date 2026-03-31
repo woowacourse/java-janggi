@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Direction;
 import domain.Offset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ class SoldierHanTest {
 
     @BeforeEach
     void setUp() {
-        soldier = new HanSoldier(Team.HAN);
+        soldier = new Soldier(Team.HAN);
     }
 
     @Test

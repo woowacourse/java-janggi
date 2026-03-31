@@ -2,11 +2,10 @@ package domain.board;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;
-import domain.piece.ChoSoldier;
 import domain.piece.Elephant;
 import domain.piece.General;
 import domain.piece.Guard;
-import domain.piece.HanSoldier;
+import domain.piece.Soldier;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -30,8 +29,8 @@ public class BoardFactory {
 
 
         for (Integer soliderColumns : SOLDIER_COLUMNS) {
-            pieces.put(new Position(soliderColumns, 3), new ChoSoldier(Team.CHO));
-            pieces.put(new Position(soliderColumns, 6), new HanSoldier(Team.HAN));
+            pieces.put(new Position(soliderColumns, 3), new Soldier(Team.CHO));
+            pieces.put(new Position(soliderColumns, 6), new Soldier(Team.HAN));
         }
 
         for (Integer chariotColumn : CHARIOT_COLUMNS) {
@@ -66,7 +65,6 @@ public class BoardFactory {
         pieces.put(new Position(2, 9), createPiece(hanSetting.get(1), Team.HAN));
         pieces.put(new Position(6, 9), createPiece(hanSetting.get(2), Team.HAN));
         pieces.put(new Position(7, 9), createPiece(hanSetting.get(3), Team.HAN));
-
 
         return new Board(pieces);
     }

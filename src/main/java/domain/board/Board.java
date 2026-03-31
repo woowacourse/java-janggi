@@ -52,7 +52,7 @@ public class Board {
     public List<Piece> getBlockedPieces(Position from, List<Offset> offsets) {
         return offsets.stream()
                 .map(offset -> offset.applyTo(from))
-                .map(this::getPiece).filter(Optional::isPresent)
+                .map(this::getPiece)
                 .flatMap(Optional::stream)
                 .toList();
     }

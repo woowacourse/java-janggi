@@ -30,7 +30,7 @@ public record Offset(int dx, int dy) {
     }
 
     public boolean isStraightMoving() {
-        return (Math.abs(dx) > 0 && Math.abs(dy) == 0) || (Math.abs(dx) == 0 && Math.abs(dy) > 0);
+        return (Math.abs(dx) != 0 && Math.abs(dy) == 0) || (Math.abs(dx) == 0 && Math.abs(dy) != 0);
     }
 
     public boolean isHorseMove() {
