@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public record BoardDto(Map<List<Integer>, String> board) {
+public record BoardSnapshot(Map<List<Integer>, String> board) {
 
-    public static BoardDto from(Board board) {
+    public static BoardSnapshot from(Board board) {
         Map<Coordination, Piece> boardMap = board.getBoard();
         Map<List<Integer>, String> result = boardMap.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> entry.getKey().coordination(),
                         entry -> PieceName.display(entry.getValue().pieceType(), entry.getValue().team())
                 ));
-        return new BoardDto(result);
+        return new BoardSnapshot(result);
     }
 }

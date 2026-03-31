@@ -3,7 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.coordination.Coordination;
-import dto.BoardDto;
+import dto.BoardSnapshot;
 
 import java.util.List;
 
@@ -37,14 +37,16 @@ public class JanggiGame {
         return !board.hasTwoGenerals();
     }
 
-    public BoardDto start(List<Integer> from, List<Integer> to) {
+    public void start(List<Integer> from, List<Integer> to) {
         board.move(
                 Coordination.of(from.get(0), from.get(1)),
                 Coordination.of(to.get(0), to.get(1))
         );
 
-        BoardDto boardDto = BoardDto.from(this.board);
         turn = turn.reverse();
-        return boardDto;
+    }
+
+    public BoardSnapshot captureBoard() {
+        return BoardSnapshot.from(this.board);
     }
 }

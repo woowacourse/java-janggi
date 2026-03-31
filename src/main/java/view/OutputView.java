@@ -1,6 +1,6 @@
 package view;
 
-import dto.BoardDto;
+import dto.BoardSnapshot;
 
 import java.util.List;
 import java.util.Map;
@@ -12,13 +12,11 @@ public class OutputView {
 
     private static final String TURN_DIVIDER = "──────────────────────────";
     private static final String TURN_FORMAT = "  %s 차례입니다.";
-
-    private static final String BOARD_INDENT = "    ";
-    private static final String BOARD_COL_FORMAT = " %d  ";
+    private static final String BOARD_INDENT = "     ";
+    private static final String BOARD_COL_FORMAT = "  %d ";
     private static final String BOARD_DIVIDER = "─".repeat(36);
     private static final String BOARD_ROW_FORMAT = "%2d │ ";
-    private static final String BOARD_CELL_FORMAT = "%-3s ";
-
+    private static final String BOARD_CELL_FORMAT = " %s ";
     private static final String GAME_END_DIVIDER = "==========================";
     private static final String GAME_END_MESSAGE = "게임이 종료되었습니다.";
     private static final String GAME_END_WINNER = "%s 진영이 승리하셨습니다!";
@@ -30,8 +28,8 @@ public class OutputView {
         System.out.println(TURN_DIVIDER);
     }
 
-    public void printBoard(BoardDto boardDto) {
-        Map<List<Integer>, String> board = boardDto.board();
+    public void printBoard(BoardSnapshot boardSnapshot) {
+        Map<List<Integer>, String> board = boardSnapshot.board();
 
         System.out.print(BOARD_INDENT);
         for (int col = 1; col <= COLUMN_SIZE; col++) {

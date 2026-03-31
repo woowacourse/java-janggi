@@ -21,7 +21,7 @@ public class JanggiController {
         String inputCho = inputView.inputPlacementChoOption();
         String inputHan = inputView.inputPlacementHanOption();
         JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
-
+        outputView.printBoard(janggiGame.captureBoard());
         while (!janggiGame.isGameEnd()) {
             outputView.printTurn(janggiGame.getTurnName());
             List<Integer> from = choosePiece(janggiGame);
@@ -41,7 +41,8 @@ public class JanggiController {
     private void chooseDestinationAndGameStart(JanggiGame janggiGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
-            outputView.printBoard(janggiGame.start(from, to));
+            janggiGame.start(from, to);
+            outputView.printBoard(janggiGame.captureBoard());
         });
     }
 }
