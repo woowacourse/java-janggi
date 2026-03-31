@@ -3,18 +3,21 @@ import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
 import domain.position.Position;
 import factory.BoardFactory;
+import parser.AnswerParser;
+import parser.NumberParser;
 import parser.PositionParser;
-import service.BoardService;
+import service.GameService;
+import util.RetryHandler;
 import view.InputView;
 import view.OutputView;
 
 public class Janggi {
 
-    private final BoardService boardService;
+    private final GameService gameService;
     private Side turn = Side.CHO;
 
-    public Janggi(BoardService boardService){
-        this.boardService = boardService;
+    public Janggi(GameService gameService){
+        this.gameService = gameService;
     }
 
     public void run() {
@@ -25,6 +28,27 @@ public class Janggi {
     }
 
     private Board getBoard() {
+        OutputView.printStartMenu();
+        boolean answer = RetryHandler.retryInput(() -> AnswerParser.parse(InputView.readLine()));
+
+        if(answer){
+            return getSaveBoard();
+        }
+        return getNewBoard();
+    }
+
+    private Board getSaveBoard(){
+        OutputView.printSaveRoomList(gameService.findGameRoomAll());
+        long roomId = RetryHandler.retryInput(() -> NumberParser.parse(InputView.readLine()));
+
+        if(roomId == 0)
+            return getNewBoard();
+        turn = gameService.findGameStateByRoomId(roomId).currentSide();
+
+        return new Board(gameService.findBoardByRoomId(roomId));
+    }
+
+    private Board getNewBoard(){
         HorseElephantFormation cho = getHorseElephantFormation(Side.CHO);
         HorseElephantFormation han = getHorseElephantFormation(Side.HAN);
 

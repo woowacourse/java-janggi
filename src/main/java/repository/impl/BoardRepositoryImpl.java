@@ -24,15 +24,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     private static final String SELECT_SQL =
             "SELECT position_row, position_col, side, type FROM board_piece WHERE game_room_id = ?";
 
-    private final H2ConnectionManager connectionManager;
-
-    public BoardRepositoryImpl(H2ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     @Override
-    public void saveBoard(int roomId, Map<Position, Place> board) {
-        try (Connection conn = H2ConnectionManager.getConnection()) {
+    public void saveBoard(long roomId, Map<Position, Place> board, Connection conn) {
+        try {
             conn.setAutoCommit(false);
 
             try {
@@ -45,18 +39,18 @@ public class BoardRepositoryImpl implements BoardRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("보드 상태 저장 중 오류가 발생했습니다.", e);
+            throw new RuntimeException("[ERROR] 보드 상태 저장 중 오류가 발생했습니다.", e);
         }
     }
 
-    private void deleteExisting(Connection conn, int roomId) throws SQLException {
+    private void deleteExisting(Connection conn, long roomId) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(DELETE_SQL)) {
-            stmt.setInt(1, roomId);
+            stmt.setLong(1, roomId);
             stmt.executeUpdate();
         }
     }
 
-    private void insertBoard(Connection conn, int roomId, Map<Position, Place> board) throws SQLException {
+    private void insertBoard(Connection conn, long roomId, Map<Position, Place> board) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL)) {
             for (Map.Entry<Position, Place> entry : board.entrySet()) {
                 if (entry.getValue().getSide().isPresent()) {
@@ -67,11 +61,11 @@ public class BoardRepositoryImpl implements BoardRepository {
         }
     }
 
-    private void addBatch(PreparedStatement stmt, int roomId, Map.Entry<Position, Place> entry) throws SQLException {
+    private void addBatch(PreparedStatement stmt, long roomId, Map.Entry<Position, Place> entry) throws SQLException {
         Position position = entry.getKey();
         Place place = entry.getValue();
 
-        stmt.setInt(1, roomId);
+        stmt.setLong(1, roomId);
         stmt.setInt(2, position.getRow());
         stmt.setInt(3, position.getColumn());
         stmt.setString(4, place.getSide().get().getName());
@@ -81,18 +75,18 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public Map<Position, Place> findBoard(int roomId) {
+    public Map<Position, Place> findBoard(long roomId) {
         try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_SQL)) {
+                PreparedStatement stmt = conn.prepareStatement(SELECT_SQL)) {
 
-            stmt.setInt(1, roomId);
+            stmt.setLong(1, roomId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 return extractBoard(rs);
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("보드 상태 조회 중 오류가 발생했습니다.", e);
+            throw new RuntimeException("[ERROR] 보드 상태 조회 중 오류가 발생했습니다.", e);
         }
     }
 

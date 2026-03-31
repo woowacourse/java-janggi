@@ -5,13 +5,22 @@ import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
 
 import domain.place.piece.Side;
+import entity.GameRoomEntity;
 import java.util.List;
 import java.util.Optional;
 
 public class OutputView {
 
-    private static final String INPUT_PLAYER_NAMES =
-            "초, 한 순서대로 이름을 입력해주세요(예, pobi,quda)";
+    private static final String BOARD_MENU =
+            "새로운 게임을 불러오시겠습니까?\n"
+                    + "1. 저장된 방 찾기\n"
+                    + "2. 새로운 게임";
+
+    private static final String GAME_ROOM_INFO_MESSAGE =
+            "저장된 게임방입니다.(취소는 0)";
+
+    private static final String GAME_ROOM_INFO =
+            "%d. %s %s\n";
 
     private static final String HORSE_ELEPHANT_INPUT_FORMATION =
             "%s의 상차림을 입력해주세요.(예, 상마상마,마상마상, 상마마상, 마상상마)\n";
@@ -34,12 +43,17 @@ public class OutputView {
     private OutputView() {
     }
 
-    public static void printErrorMessage(String message) {
-        System.out.println(message);
+    public static void printStartMenu(){
+        System.out.println(BOARD_MENU);
     }
 
-    public static void printInputPlayerNames() {
-        System.out.println(INPUT_PLAYER_NAMES);
+    public static void printSaveRoomList(List<GameRoomEntity> gameRoomEntities){
+        System.out.println(GAME_ROOM_INFO_MESSAGE);
+        gameRoomEntities
+                .forEach(g ->System.out.printf(GAME_ROOM_INFO, g.id(), g.name(), g.createdAt()));
+    }
+    public static void printErrorMessage(String message) {
+        System.out.println(message);
     }
 
     public static void printHorseElephantFormation(Side side) {

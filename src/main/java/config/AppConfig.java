@@ -6,7 +6,7 @@ import repository.GameStateRepository;
 import repository.impl.BoardRepositoryImpl;
 import repository.impl.GameRoomRepositoryImpl;
 import repository.impl.GameStateRepositoryImpl;
-import service.BoardService;
+import service.GameService;
 
 public class AppConfig {
 
@@ -15,16 +15,16 @@ public class AppConfig {
     }
 
     public BoardRepository boardRepository() {
-        return new BoardRepositoryImpl(connectionManager());
+        return new BoardRepositoryImpl();
     }
 
     public GameRoomRepository gameRoomRepository() {
-        return new GameRoomRepositoryImpl(connectionManager());
+        return new GameRoomRepositoryImpl();
     }
 
-    public GameStateRepository gameStateRepository() { return new GameStateRepositoryImpl(connectionManager());}
+    public GameStateRepository gameStateRepository() { return new GameStateRepositoryImpl();}
 
-    public BoardService boardService() {
-        return new BoardService(boardRepository(), gameRoomRepository(), gameStateRepository());
+    public GameService boardService() {
+        return new GameService(boardRepository(), gameRoomRepository(), gameStateRepository(), connectionManager());
     }
 }

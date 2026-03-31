@@ -22,16 +22,9 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     private static final String SELECT_ALL =
             "SELECT id, name, created_at FROM game_room";
 
-    private final H2ConnectionManager connectionManager;
-
-    public GameRoomRepositoryImpl(H2ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     @Override
-    public long save(String name) {
-        try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS)) {
+    public long save(String name, Connection conn) {
+        try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, name);
             stmt.executeUpdate();
@@ -59,32 +52,28 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
         }
     }
 
+    @Override
+    public boolean existsById(long id) {
+        try (Connection conn = H2ConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
+
+            List<GameRoomEntity> result;
+            try (ResultSet rs = stmt.executeQuery()) {
+                result = extractList(rs);
+            }
+            return !result.isEmpty();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 게임 룸 조회 중 오류가 발생했습니다.", e);
+        }
+    }
+
     private List<GameRoomEntity> extractList(ResultSet rs) throws SQLException {
         List<GameRoomEntity> result = new ArrayList<>();
         while (rs.next()) {
             result.add(toGameRoom(rs));
         }
         return result;
-    }
-
-    @Override
-    public GameRoomEntity findById(long id) {
-        try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
-
-            stmt.setLong(1, id);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return toGameRoom(rs);
-                }
-            }
-
-            throw new IllegalArgumentException("[ERROR] 해당 게임 룸이 존재하지 않습니다.");
-
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 게임 룸 조회 중 오류가 발생했습니다.", e);
-        }
     }
 
     private long getGeneratedId(PreparedStatement stmt) throws SQLException {

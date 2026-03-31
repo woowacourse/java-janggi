@@ -1,4 +1,6 @@
 package entity;
 
-public record GameStateEntity(long roomId, String currentTurn) {
+import domain.place.piece.Side;
+
+public record GameStateEntity(long roomId, Side currentSide) {
 }

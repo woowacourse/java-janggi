@@ -1,0 +1,33 @@
+2026-04-01 00:40:14.361509+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAME_ROOM" already exists; SQL statement:
+CREATE TABLE game_room (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) [42101-224]
+2026-04-01 00:40:42.208361+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAME_ROOM" already exists; SQL statement:
+CREATE TABLE game_room (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) [42101-224]
+2026-04-01 00:41:58.741513+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#1" is not set; SQL statement:
+SELECT id, name, created_at FROM game_room WHERE id = ? [90012-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:75)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:207)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:251)
+	at org.h2.command.Command.executeQuery(Command.java:192)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:131)
+	at repository.impl.GameRoomRepositoryImpl.existsById(GameRoomRepositoryImpl.java:61)
+	at service.GameService.existsById(GameService.java:69)
+	at service.GameService.findGameStateByRoomId(GameService.java:60)
+	at Janggi.getSaveBoard(Janggi.java:43)
+	at Janggi.getBoard(Janggi.java:35)
+	at Janggi.run(Janggi.java:24)
+	at Application.main(Application.java:11)

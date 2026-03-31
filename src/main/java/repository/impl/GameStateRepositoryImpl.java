@@ -17,16 +17,10 @@ public class GameStateRepositoryImpl implements GameStateRepository {
     private static final String SELECT_BY_ID_SQL =
             "SELECT game_room_id, current_turn FROM game_state WHERE game_room_id = ?";
 
-    private final H2ConnectionManager connectionManager;
-
-    public GameStateRepositoryImpl(H2ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
 
     @Override
-    public void save(int roomId, Side turn) {
-        try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(INSERT_SQL)) {
+    public void save(long roomId, Side turn, Connection conn) {
+        try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL)) {
 
             stmt.setLong(1, roomId);
             stmt.setString(2, turn.getName());
@@ -38,9 +32,9 @@ public class GameStateRepositoryImpl implements GameStateRepository {
     }
 
     @Override
-    public GameStateEntity findByRoomId(int roomId) {
+    public GameStateEntity findByRoomId(long roomId) {
         try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
+                PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, roomId);
 
@@ -58,8 +52,9 @@ public class GameStateRepositoryImpl implements GameStateRepository {
     }
 
     private GameStateEntity toGameState(ResultSet rs) throws SQLException{
+        String currentTurn = rs.getString("current_turn");
         return new GameStateEntity(
                 rs.getLong("game_room_id"),
-                rs.getString("current_turn"));
+                Side.from(currentTurn));
     }
 }
