@@ -33,8 +33,8 @@ public class FakeGameRepository implements GameRepository {
     }
 
     @Override
-    public void save(GameSnapshot gameSnapshot) {
-
+    public Long save(GameSnapshot gameSnapshot) {
+        return gameSnapshot.id();
     }
 
     @Override

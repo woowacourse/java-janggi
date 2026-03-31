@@ -57,10 +57,11 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void save(GameSnapshot gameSnapshot) {
+    public Long save(GameSnapshot gameSnapshot) {
         try (Connection connection = connectionManager.getConnection()) {
             Long gameId = insertGame(connection, gameSnapshot);
             insertPieces(connection, gameId, gameSnapshot.positions());
+            return gameId;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
         }
