@@ -2,7 +2,6 @@ package io;
 
 import domain.Board;
 import domain.Piece;
-import domain.PieceType;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
@@ -81,7 +80,7 @@ public class OutputView {
         if (piece == null) {
             return "  ";
         }
-        String symbol = formatBoardSymbol(piece);
+        String symbol = piece.getPieceType().getDisplayName();
 
         if (piece.isOnTeam(TeamColor.CHO)) {
             return CHO_COLOR + symbol + RESET;
@@ -90,52 +89,6 @@ public class OutputView {
     }
 
     private String formatPiece(Piece piece) {
-        if (piece.getPieceType() == PieceType.ROOK) {
-            return "차";
-        }
-        if (piece.getPieceType() == PieceType.HORSE) {
-            return "마";
-        }
-        if (piece.getPieceType() == PieceType.ELEPHANT) {
-            return "상";
-        }
-        if (piece.getPieceType() == PieceType.GUARD) {
-            return "사";
-        }
-        if (piece.getPieceType() == PieceType.KING) {
-            return "왕";
-        }
-        if (piece.getPieceType() == PieceType.CANNON) {
-            return "포";
-        }
-        if (piece.getPieceType() == PieceType.PAWN) {
-            return "졸";
-        }
-        throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
-    }
-
-    private String formatBoardSymbol(Piece piece) {
-        if (piece.getPieceType() == PieceType.ROOK) {
-            return "차";
-        }
-        if (piece.getPieceType() == PieceType.HORSE) {
-            return "마";
-        }
-        if (piece.getPieceType() == PieceType.ELEPHANT) {
-            return "상";
-        }
-        if (piece.getPieceType() == PieceType.GUARD) {
-            return "사";
-        }
-        if (piece.getPieceType() == PieceType.KING) {
-            return "왕";
-        }
-        if (piece.getPieceType() == PieceType.CANNON) {
-            return "포";
-        }
-        if (piece.getPieceType() == PieceType.PAWN) {
-            return "졸";
-        }
-        throw new IllegalArgumentException("지원하지 않는 기물 타입입니다.");
+        return piece.getPieceType().getDisplayName();
     }
 }

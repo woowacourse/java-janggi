@@ -10,21 +10,27 @@ import strategy.move.PawnMoveStrategy;
 import strategy.move.RookMoveStrategy;
 
 public enum PieceType {
-    CANNON(new CannonMoveStrategy()),
-    ELEPHANT(new ElephantMoveStrategy()),
-    GUARD(new GuardMoveStrategy()),
-    HORSE(new HorseMoveStrategy()),
-    KING(new KingMoveStrategy()),
-    PAWN(new PawnMoveStrategy()),
-    ROOK(new RookMoveStrategy());
+    CANNON(new CannonMoveStrategy(), "포"),
+    ELEPHANT(new ElephantMoveStrategy(), "상"),
+    GUARD(new GuardMoveStrategy(), "사"),
+    HORSE(new HorseMoveStrategy(), "마"),
+    KING(new KingMoveStrategy(), "왕"),
+    PAWN(new PawnMoveStrategy(), "졸"),
+    ROOK(new RookMoveStrategy(), "차");
 
     private final MoveStrategy moveStrategy;
+    private final String displayName;
 
-    PieceType(MoveStrategy moveStrategy) {
+    PieceType(MoveStrategy moveStrategy, String displayName) {
         this.moveStrategy = moveStrategy;
+        this.displayName = displayName;
     }
 
     public MoveStrategy moveStrategy() {
         return moveStrategy;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }
