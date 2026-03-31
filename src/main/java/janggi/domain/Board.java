@@ -34,15 +34,22 @@ public class Board {
         return new BoardSpots(boardSpots);
     }
 
-    public boolean isPieceExist(Position position, TeamType currentTeamType) {
+    public boolean isPieceExists(Position position, TeamType currentTeamType) {
         validateRange(position);
         Team currentTeam = currentTeam(currentTeamType);
-        return currentTeam.isPieceExist(position);
+        return currentTeam.isPieceExists(position);
     }
 
-    public Piece findNextTurnTeamPiece(Position position, TeamType currentTeamType) {
-        Team currentTeam = currentTeam(currentTeamType);
-        return findTeamPiece(position, currentTeam);
+    public String getPieceName(Position position, TeamType currentTeamType) {
+        Piece piece = findTeamPiece(position, currentTeam(currentTeamType));
+        return piece.name();
+    }
+
+    public void validateCanMove(Position start, Position end, TeamType currentTeamType) {
+        validateRange(end);
+        Piece piece = findTeamPiece(start, currentTeam(currentTeamType));
+        validateEndPosition(currentTeam(currentTeamType), end);
+        piece.validateCanMove(start, end, this);
     }
 
     public Optional<Piece> findPiece(Position position) {
@@ -57,66 +64,10 @@ public class Board {
         return findPiece(position).isPresent();
     }
 
-    public void validateCanMove(Position start, Position end, TeamType currentTeamType) {
-        validateRange(end);
-        Piece piece = findTeamPiece(start, currentTeam(currentTeamType));
-        validateEndPosition(currentTeam(currentTeamType), end);
-        validateCanMove(piece, start, end);
-    }
-
     public Board move(Position start, Position end, TeamType currentTeamType) {
         Team updatedCurrentTeam = currentTeam(currentTeamType).move(start, end);
         Team updatedOpponentTeam = removeOpponentPiece(currentTeamType, end);
         return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
-    }
-
-    public String getPieceName(Position position, TeamType currentTeamType) {
-        Piece piece = findTeamPiece(position, currentTeam(currentTeamType));
-        return piece.name();
-    }
-
-    private Piece findTeamPiece(Position position, Team currentTeam) {
-        return currentTeam.findPiece(position)
-                .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
-    }
-
-    private Team currentTeam(TeamType currentTeamType) {
-        if (currentTeamType == TeamType.CHU) {
-            return chu;
-        }
-        return han;
-    }
-
-    private Team opponentTeam(TeamType currentTeamType) {
-        if (currentTeamType == TeamType.CHU) {
-            return han;
-        }
-        return chu;
-    }
-
-    private void validateEndPosition(Team team, Position end) {
-        if (team.isPieceExist(end)) {
-            throw new IllegalArgumentException("아군이 존재하는 좌표로는 이동할 수 없습니다.");
-        }
-    }
-
-    private void validateCanMove(Piece piece, Position start, Position end) {
-        piece.validateCanMove(start, end, this);
-    }
-
-    private Team removeOpponentPiece(TeamType currentTeamType, Position end) {
-        Team opponentTeam = opponentTeam(currentTeamType);
-        if (opponentTeam.findPiece(end).isEmpty()) {
-            return opponentTeam;
-        }
-        return opponentTeam.remove(end);
-    }
-
-    private Board createMovedBoard(TeamType currentTeamType, Team updatedCurrentTeam, Team updatedOpponentTeam) {
-        if (currentTeamType == TeamType.CHU) {
-            return new Board(updatedCurrentTeam, updatedOpponentTeam);
-        }
-        return new Board(updatedOpponentTeam, updatedCurrentTeam);
     }
 
     private void validateRange(Position inputPosition) {
@@ -133,5 +84,45 @@ public class Board {
 
     private boolean isInRange(int start, int last, int index) {
         return index >= start && index <= last;
+    }
+
+    private Team currentTeam(TeamType currentTeamType) {
+        if (currentTeamType == TeamType.CHU) {
+            return chu;
+        }
+        return han;
+    }
+
+    private Piece findTeamPiece(Position position, Team currentTeam) {
+        return currentTeam.findPiece(position)
+                .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
+    }
+
+    private void validateEndPosition(Team team, Position end) {
+        if (team.isPieceExists(end)) {
+            throw new IllegalArgumentException("아군이 존재하는 좌표로는 이동할 수 없습니다.");
+        }
+    }
+
+    private Team removeOpponentPiece(TeamType currentTeamType, Position end) {
+        Team opponentTeam = opponentTeam(currentTeamType);
+        if (opponentTeam.findPiece(end).isEmpty()) {
+            return opponentTeam;
+        }
+        return opponentTeam.remove(end);
+    }
+
+    private Team opponentTeam(TeamType currentTeamType) {
+        if (currentTeamType == TeamType.CHU) {
+            return han;
+        }
+        return chu;
+    }
+
+    private Board createMovedBoard(TeamType currentTeamType, Team updatedCurrentTeam, Team updatedOpponentTeam) {
+        if (currentTeamType == TeamType.CHU) {
+            return new Board(updatedCurrentTeam, updatedOpponentTeam);
+        }
+        return new Board(updatedOpponentTeam, updatedCurrentTeam);
     }
 }

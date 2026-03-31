@@ -31,7 +31,7 @@ public class JanggiRunner {
         OutputView.printTurnNotice(janggiGame.getCurrentTurnTeamName());
         OutputView.printAskPiecePosition();
         Position startPosition = createPosition();
-        janggiGame.validatePieceExist(startPosition);
+        janggiGame.validatePieceExists(startPosition);
         return startPosition;
     }
 

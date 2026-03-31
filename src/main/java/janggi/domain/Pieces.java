@@ -16,20 +16,6 @@ public class Pieces {
         this.value = value;
     }
 
-    public Pieces move(Position start, Position end) {
-        Piece piece = value.get(start);
-        Map<Position, Piece> updatedValue = new HashMap<>(value);
-        updatedValue.remove(start);
-        updatedValue.put(end, piece);
-        return new Pieces(updatedValue);
-    }
-
-    public Pieces remove(Position position) {
-        Map<Position, Piece> updatedValue = new HashMap<>(value);
-        updatedValue.remove(position);
-        return new Pieces(updatedValue);
-    }
-
     public static Pieces createHan() {
         Map<Position, Piece> pieces = new HashMap<>();
         createChas(pieces, 10, TeamType.HAN);
@@ -54,7 +40,6 @@ public class Pieces {
         return new Pieces(pieces);
     }
 
-
     public Map<Position, BoardSpot> makeSnapShot() {
         Map<Position, BoardSpot> snapShot = new HashMap<>();
         for (Map.Entry<Position, Piece> entry : value.entrySet()) {
@@ -65,12 +50,26 @@ public class Pieces {
         return snapShot;
     }
 
-    public boolean isPieceExist(Position position) {
+    public boolean isPieceExists(Position position) {
         return value.containsKey(position);
     }
 
     public Optional<Piece> findPiece(Position position) {
         return Optional.ofNullable(value.get(position));
+    }
+
+    public Pieces move(Position start, Position end) {
+        Piece piece = value.get(start);
+        Map<Position, Piece> updatedValue = new HashMap<>(value);
+        updatedValue.remove(start);
+        updatedValue.put(end, piece);
+        return new Pieces(updatedValue);
+    }
+
+    public Pieces remove(Position position) {
+        Map<Position, Piece> updatedValue = new HashMap<>(value);
+        updatedValue.remove(position);
+        return new Pieces(updatedValue);
     }
 
     private static void createChas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {

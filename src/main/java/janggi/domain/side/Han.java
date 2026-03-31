@@ -4,7 +4,6 @@ import janggi.domain.Pieces;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.BoardSpot;
-import janggi.dto.BoardSpots;
 
 import java.util.Map;
 import java.util.Optional;
@@ -27,8 +26,8 @@ public class Han implements Team {
     }
 
     @Override
-    public boolean isPieceExist(Position position) {
-        return pieces.isPieceExist(position);
+    public boolean isPieceExists(Position position) {
+        return pieces.isPieceExists(position);
     }
 
     @Override
@@ -37,12 +36,12 @@ public class Han implements Team {
     }
 
     @Override
-    public Team remove(Position position) {
-        return new Han(pieces.remove(position));
+    public Team move(Position start, Position end) {
+        return new Han(pieces.move(start, end));
     }
 
     @Override
-    public Team move(Position start, Position end) {
-        return new Han(pieces.move(start, end));
+    public Team remove(Position position) {
+        return new Han(pieces.remove(position));
     }
 }

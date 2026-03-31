@@ -1,7 +1,7 @@
 package janggi.domain;
 
-import janggi.domain.piece.Piece;
 import janggi.dto.BoardSpots;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,38 +22,31 @@ public class JanggiGame {
         return lastTurn.makeBoardSnapShot();
     }
 
-    public void validatePieceExist(Position position) {
+    public String getCurrentTurnTeamName() {
+        Turn lastTurn = getLastTurn();
+        return lastTurn.nextTurnTeam();
+    }
+
+    public void validatePieceExists(Position position) {
         Turn lastTurn = getLastTurn();
         if (!lastTurn.isNextTurnTeamPieceExists(position)) {
             throw new IllegalArgumentException("기물이 존재하는 좌표가 아닙니다.");
         }
     }
 
-    public void validateValidEndPosition(Position start, Position end) {
-        Turn lastTurn = getLastTurn();
-        if (lastTurn.isNextTurnTeamPieceExists(end)) {
-            throw new IllegalArgumentException("아군이 존재하는 좌표로 이동할 수 없습니다.");
-        }
-        lastTurn.validateCanMove(start, end);
-    }
-
-    public Piece findPiece(Position position) {
-        return getLastTurn().findPiece(position);
-    }
-
     public String getPieceName(Position position) {
         return getLastTurn().getPieceName(position);
+    }
+
+    public void validateValidEndPosition(Position start, Position end) {
+        Turn lastTurn = getLastTurn();
+        lastTurn.validateCanMove(start, end);
     }
 
     public void doGame(Position start, Position end) {
         Turn lastTurn = getLastTurn();
         Turn newTurn = lastTurn.move(start, end);
         turns.add(newTurn);
-    }
-
-    public String getCurrentTurnTeamName() {
-        Turn lastTurn = getLastTurn();
-        return lastTurn.nextTurnTeam();
     }
 
     private Turn getLastTurn() {

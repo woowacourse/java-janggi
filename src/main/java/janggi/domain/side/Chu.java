@@ -26,8 +26,8 @@ public class Chu implements Team {
     }
 
     @Override
-    public boolean isPieceExist(Position position) {
-        return pieces.isPieceExist(position);
+    public boolean isPieceExists(Position position) {
+        return pieces.isPieceExists(position);
     }
 
     @Override
@@ -36,12 +36,12 @@ public class Chu implements Team {
     }
 
     @Override
-    public Team remove(Position position) {
-        return new Chu(pieces.remove(position));
+    public Team move(Position start, Position end) {
+        return new Chu(pieces.move(start, end));
     }
 
     @Override
-    public Team move(Position start, Position end) {
-        return new Chu(pieces.move(start, end));
+    public Team remove(Position position) {
+        return new Chu(pieces.remove(position));
     }
 }

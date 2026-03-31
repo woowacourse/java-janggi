@@ -1,15 +1,11 @@
 package janggi.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-import janggi.domain.piece.Jol;
-import janggi.domain.piece.Piece;
 import janggi.dto.BoardSpot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class TurnTest {
 
@@ -39,20 +35,6 @@ class TurnTest {
             () -> assertThat(turn.isNextTurnTeamPieceExists(chuJolPosition)).isTrue(),
             () -> assertThat(turn.isNextTurnTeamPieceExists(hanJolPosition)).isFalse()
         );
-    }
-
-    @Test
-    @DisplayName("현재 차례 팀의 기물을 조회한다.")
-    void findPiece() {
-        // given
-        Turn turn = Turn.createInitialTurn();
-        Position chuJolPosition = new Position(1, 4);
-
-        // when
-        Piece piece = turn.findPiece(chuJolPosition);
-
-        // then
-        assertThat(piece).isInstanceOf(Jol.class);
     }
 
     @Test
