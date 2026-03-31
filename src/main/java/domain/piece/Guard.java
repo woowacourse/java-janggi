@@ -5,8 +5,8 @@ import domain.game.Team;
 import java.util.List;
 
 public class Guard extends ActivePiece {
-    private final List<Integer> dx = List.of(-1, 1, 0, 0);
-    private final List<Integer> dy = List.of(0, 0, -1, 1);
+    private static final List<Integer> rowOffsets = List.of(-1, 1, 0, 0);
+    private static final List<Integer> columnOffsets = List.of(0, 0, -1, 1);
 
     public Guard(Team team) {
         super(team, PieceType.SA);
@@ -17,8 +17,8 @@ public class Guard extends ActivePiece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < dx.size(); i++) {
-            if (dx.get(i) == rowDiff && dy.get(i) == colDiff) {
+        for (int i = 0; i < rowOffsets.size(); i++) {
+            if (rowOffsets.get(i) == rowDiff && columnOffsets.get(i) == colDiff) {
                 return true;
             }
         }

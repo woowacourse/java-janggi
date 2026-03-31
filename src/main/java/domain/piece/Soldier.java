@@ -5,8 +5,8 @@ import domain.game.Team;
 import java.util.List;
 
 public class Soldier extends ActivePiece {
-    private final List<Integer> dx = List.of(-1, 1);
-    private final List<Integer> dy = List.of(0, 0);
+    private static final List<Integer> rowOffsets = List.of(-1, 1);
+    private static final List<Integer> columnOffsets = List.of(0, 0);
 
     public Soldier(Team team) {
         super(team, PieceType.BYEONG);
@@ -24,8 +24,8 @@ public class Soldier extends ActivePiece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < dx.size(); i++) {
-            if (dx.get(i) == colDiff && dy.get(i) == rowDiff) {
+        for (int i = 0; i < rowOffsets.size(); i++) {
+            if (rowOffsets.get(i) == colDiff && columnOffsets.get(i) == rowDiff) {
                 return true;
             }
         }

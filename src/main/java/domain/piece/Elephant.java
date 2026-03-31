@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Elephant extends ActivePiece {
 
-    private final List<Integer> dx = List.of(2, 3, -2, -3, -3, -2, 2, 3);
-    private final List<Integer> dy = List.of(3, 2, 3, 2, -2, -3, -3, -2);
+    private static final List<Integer> rowOffsets = List.of(2, 3, -2, -3, -3, -2, 2, 3);
+    private static final List<Integer> columnOffsets = List.of(3, 2, 3, 2, -2, -3, -3, -2);
 
     public Elephant(Team team) {
         super(team, PieceType.SANG);
@@ -18,8 +18,8 @@ public class Elephant extends ActivePiece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < dx.size(); i++) {
-            if (dx.get(i) == rowDiff && dy.get(i) == colDiff) {
+        for (int i = 0; i < rowOffsets.size(); i++) {
+            if (rowOffsets.get(i) == rowDiff && columnOffsets.get(i) == colDiff) {
                 return true;
             }
         }
