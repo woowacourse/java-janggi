@@ -99,7 +99,7 @@ public class Board {
     }
 
     private void validateEndPosition(Team team, Position endPosition) {
-        if (team.findPiece(endPosition).isPresent()) {
+        if (team.isPieceExist(endPosition)) {
             throw new IllegalArgumentException("같은 팀의 기물이 있는 위치로는 이동할 수 없습니다.");
         }
     }
