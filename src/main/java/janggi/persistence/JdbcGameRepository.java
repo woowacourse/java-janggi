@@ -38,7 +38,22 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public Optional<GameSnapshot> findById(Long gameId) {
-        return Optional.empty();
+        try (
+                Connection connection = connectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
+                        "SELECT id, current_turn, finished, winner FROM games WHERE id = ?"
+                )
+        ) {
+            statement.setLong(1, gameId);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+            return Optional.of(toGameSnapshot(connection, resultSet));
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+
     }
 
     @Override
@@ -121,6 +136,13 @@ public class JdbcGameRepository implements GameRepository {
         return winner.name();
     }
 
+    private Team winner(String winner) {
+        if (winner == null) {
+            return null;
+        }
+        return Team.valueOf(winner);
+    }
+
     private List<GameSummary> toGameSummaries(ResultSet resultSet) throws SQLException {
         List<GameSummary> gameSummaries = new ArrayList<>();
         while (resultSet.next()) {
@@ -130,5 +152,47 @@ public class JdbcGameRepository implements GameRepository {
             ));
         }
         return gameSummaries;
+    }
+
+    private List<PositionInfo> findPositions(
+            Connection connection,
+            Long gameId
+    ) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(
+                        "SELECT team, piece_type, x_value, y_value FROM game_pieces WHERE game_id = ? ORDER BY id"
+                )
+        ) {
+            statement.setLong(1, gameId);
+            ResultSet resultSet = statement.executeQuery();
+            return toPositions(resultSet);
+        }
+    }
+
+    private List<PositionInfo> toPositions(ResultSet resultSet) throws SQLException {
+        List<PositionInfo> positions = new ArrayList<>();
+        while (resultSet.next()) {
+            positions.add(PositionInfo.from(
+                    Team.valueOf(resultSet.getString("team")),
+                    resultSet.getString("piece_type"),
+                    resultSet.getInt("x_value"),
+                    resultSet.getInt("y_value")
+            ));
+        }
+        return positions;
+    }
+
+    private GameSnapshot toGameSnapshot(
+            Connection connection,
+            ResultSet resultSet
+    ) throws SQLException {
+        Long gameId = resultSet.getLong("id");
+        return new GameSnapshot(
+                gameId,
+                Team.valueOf(resultSet.getString("current_turn")),
+                resultSet.getBoolean("finished"),
+                winner(resultSet.getString("winner")),
+                findPositions(connection, gameId)
+        );
     }
 }
