@@ -58,7 +58,7 @@ public class Board implements BoardInfo {
     }
 
     public boolean isEndGame() {
-        return isGungAlive.values().stream().anyMatch(isCaptured -> isCaptured == false);
+        return isGungAlive.values().stream().anyMatch(isCaptured -> !isCaptured);
     }
 
     private void movePiece(Position start, Position end, Piece piece, Side side) {
