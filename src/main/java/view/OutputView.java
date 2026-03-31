@@ -1,10 +1,11 @@
 package view;
 
-import domain.piece.Piece;
 import domain.Position;
 import domain.Side;
+import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class OutputView {
 
@@ -20,28 +21,29 @@ public class OutputView {
 
     public void printBoard(Map<Position, Piece> board) {
         System.out.println();
-        System.out.print(SPACE.repeat(3));
-        NUMBERS.stream().filter(number -> !number.equals("\uFF19")).forEach(number -> System.out.print(number + SPACE));
-        System.out.println();
-
+        System.out.println(buildHeader());
         for (int y = 9; y >= 0; y--) {
-            System.out.print(SPACE + NUMBERS.get(y) + SPACE);
-            for (int x = 0; x <= 8; x++) {
-                Position position = Position.of(x, y);
-                if (board.containsKey(position)) {
-                    printPiece(board.get(position));
-                    System.out.print(RESET);
-                    continue;
-                }
-                System.out.printf(EMPTY + SPACE);
-            }
-            System.out.println();
+            System.out.println(buildRow(board, y));
         }
     }
 
-    private void printPiece(Piece piece) {
-        String color = getColor(piece.getSide());
-        System.out.printf(color + piece + SPACE);
+    private String buildHeader() {
+        return SPACE.repeat(3) + String.join(SPACE, IntStream.range(0, 9)
+                .mapToObj(NUMBERS::get)
+                .toList()) + SPACE;
+    }
+
+    private String buildRow(Map<Position, Piece> board, int y) {
+        return SPACE + NUMBERS.get(y) + SPACE + IntStream.rangeClosed(0, 8)
+                .mapToObj(x -> formatCell(board.get(Position.of(x, y))))
+                .reduce("", String::concat);
+    }
+
+    private String formatCell(Piece piece) {
+        if (piece == null) {
+            return EMPTY + SPACE;
+        }
+        return getColor(piece.getSide()) + piece + SPACE + RESET;
     }
 
     private String getColor(Side side) {
@@ -56,7 +58,7 @@ public class OutputView {
     }
 
     public void printDestinations(List<Position> destinations) {
-        System.out.println(destinations);
+        System.out.println(String.join(", ", destinations.stream().map(Position::toString).toList()));
     }
 
     public void printWinner(String winner) {
