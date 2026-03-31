@@ -51,10 +51,10 @@ class BoardTest {
 
         Board board = Board.setUp(testSetUp, emptyBoardSetUp);
 
-        board.moveTo(Point.of(0,0), Point.of(0,1));
+        board.moveTo(Point.of(0, 0), Point.of(0, 1));
 
         assertThat(board.getBoard().size()).isEqualTo(2);
-        assertThat(board.getBoard().containsKey(Point.of(0,0))).isFalse();
+        assertThat(board.getBoard().containsKey(Point.of(0, 0))).isFalse();
     }
 
 

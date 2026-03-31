@@ -21,11 +21,11 @@ class PathTest {
                                 Point.of(0, 4),
                                 Point.of(0, 5))),
                         Point.of(0, 4),
-                        new Path(List.of(
+                        List.of(
                                 Point.of(0, 1),
                                 Point.of(0, 2),
                                 Point.of(0, 3),
-                                Point.of(0, 4)))
+                                Point.of(0, 4))
                 )
         );
     }
@@ -33,7 +33,7 @@ class PathTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("cutUntil(): point까지 잘라서 Path를 리턴한다.")
-    void cutUntil(Path path, Point point, Path expected) {
-        assertThat(path.cutUntil(point)).isEqualTo(expected);
+    void cutUntil(Path path, Point point, List<Point> expected) {
+        assertThat(path.cutUntil(point).getPath()).isEqualTo(expected);
     }
 }

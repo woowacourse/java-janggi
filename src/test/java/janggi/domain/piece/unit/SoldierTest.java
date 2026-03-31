@@ -2,9 +2,7 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.coordinate.FixedPathStrategy;
 import janggi.domain.board.coordinate.Path;
-import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
@@ -40,10 +38,10 @@ class SoldierTest {
                         Collections.EMPTY_MAP,
                         List.of(Point.of(4, 0), Point.of(3, 1))),
                 Arguments.of(Side.HAN,
-                        List.of(new Path(List.of(Point.of(5,8))), new Path(List.of(Point.of(6,7)))),
+                        List.of(new Path(List.of(Point.of(5, 8))), new Path(List.of(Point.of(6, 7)))),
                         Collections.EMPTY_MAP,
-                        List.of(Point.of(5,8), Point.of(6,7)))
-                        );
+                        List.of(Point.of(5, 8), Point.of(6, 7)))
+        );
     }
 
     @ParameterizedTest

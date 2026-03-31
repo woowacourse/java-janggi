@@ -13,17 +13,17 @@ public record Point(
     private static final Point[][] CACHE = initCache();
 
     private static Point[][] initCache() {
-        Point[][] cache = new Point[MAX_X+1][MAX_Y+1];
+        Point[][] cache = new Point[MAX_X + 1][MAX_Y + 1];
         for (int x = MIN_X; x <= MAX_X; x++) {
             for (int y = MIN_Y; y <= MAX_Y; y++) {
-                cache[x][y] = new Point(x,y);
+                cache[x][y] = new Point(x, y);
             }
         }
         return cache;
     }
 
     public static Point of(int x, int y) {
-        validateRange(x,y);
+        validateRange(x, y);
         return CACHE[x][y];
     }
 
@@ -38,6 +38,6 @@ public record Point(
     }
 
     public Point add(int dx, int dy) {
-        return Point.of(this.x + dx , this.y + dy);
+        return Point.of(this.x + dx, this.y + dy);
     }
 }

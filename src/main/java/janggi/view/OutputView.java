@@ -4,7 +4,6 @@ import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.unit.Empty;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -12,11 +11,11 @@ public class OutputView {
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_RED   = "\u001B[31m";
-    private static final String ANSI_BLUE  = "\u001B[34m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_BLUE = "\u001B[34m";
 
     private static final String EMPTY_SYMBOL = "＋";
-    private static final String PATH_SYMBOL  = "〇";
+    private static final String PATH_SYMBOL = "〇";
 
     public void printBoard(Map<Point, Piece> board) {
         printBoardWithPath(board, null);

@@ -12,7 +12,7 @@ public enum Side {
         this.name = name;
     }
 
-    public static boolean isSameSide(Side firstSide, Side secondSide){
+    public static boolean isSameSide(Side firstSide, Side secondSide) {
         return firstSide.equals(secondSide);
     }
 

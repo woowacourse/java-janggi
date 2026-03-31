@@ -8,7 +8,6 @@ import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceName;
 import janggi.domain.side.Side;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,11 +50,13 @@ public class Horse extends Piece {
 
     @Override
     protected boolean isValidPath(Path path, Map<Point, Piece> piecesOnPaths) {
-        if(path.isEmpty()) return false;
+        if (path.isEmpty()) {
+            return false;
+        }
         List<Point> points = path.getPath();
 
         return points.stream()
-                .limit(points.size()-1)
+                .limit(points.size() - 1)
                 .noneMatch(piecesOnPaths::containsKey);
     }
 }
