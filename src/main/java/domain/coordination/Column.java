@@ -2,16 +2,20 @@ package domain.coordination;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static util.ErrorMessage.INVALID_COORDINATION;
 
-public record Column(int index) {
+public final class Column {
 
     public static final int MIN = 1;
     public static final int MAX = 9;
 
-    public Column {
+    private final int index;
+
+    public Column(int index) {
         validateRange(index);
+        this.index = index;
     }
 
     private void validateRange(int index) {
@@ -37,4 +41,28 @@ public record Column(int index) {
         }
         return columns;
     }
+
+    public int index() {
+        return index;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (Column) obj;
+        return this.index == that.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index);
+    }
+
+    @Override
+    public String toString() {
+        return "Column[" +
+                "index=" + index + ']';
+    }
+
 }
