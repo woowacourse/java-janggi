@@ -38,7 +38,7 @@ public class Elephant extends Piece {
         );
 
         validatePathClear(board, intermediateCoordinations);
-        validateSameTeam(from, to, board);
+        validateNotSameTeam(from, to, board);
     }
 
     private void validateLocation(int absColumnDifferent, int absRowDifferent) {

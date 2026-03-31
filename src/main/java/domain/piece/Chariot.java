@@ -23,7 +23,7 @@ public class Chariot extends Piece {
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         validateLocation(from, to);
         validatePathClear(from, to, board);
-        validateSameTeam(from, to, board);
+        validateNotSameTeam(from, to, board);
     }
 
     private void validateLocation(Coordination from, Coordination to) {

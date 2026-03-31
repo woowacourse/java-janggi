@@ -24,7 +24,7 @@ public class Cannon extends Piece {
         validateLocation(from, to);
         validateOnlyOnePieceNotCannon(from, to, board);
         validateCanon(to, board);
-        validateSameTeam(from, to, board);
+        validateNotSameTeam(from, to, board);
     }
 
     private void validateCanon(Coordination to, Map<Coordination, Piece> board) {

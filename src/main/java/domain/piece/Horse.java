@@ -35,7 +35,7 @@ public class Horse extends Piece {
 
         validateDirection(board, absColumnDifferent, intermediateColumn, absRowDifferent, intermediateRow);
 
-        validateSameTeam(from, to, board);
+        validateNotSameTeam(from, to, board);
     }
 
     private void validateLocation(int absColumnDifferent, int absRowDifferent) {

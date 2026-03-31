@@ -19,33 +19,28 @@ public abstract class Piece {
         return team;
     }
 
-
     public boolean isEmpty() {
         return false;
     }
 
-    public void isSameTeam(Piece piece) {
-        if (!isEmptyPiece(piece)) {
-            validateSameTeam(piece);
+    public void validateSameTeam(Turn turn) {
+        turn.validateSameTeam(team);
+    }
+
+    protected void validateNotSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+        Piece fromPiece = board.get(from);
+        Piece toPiece = board.get(to);
+        fromPiece.validateTarget(toPiece);
+    }
+
+    private void validateTarget(Piece piece) {
+        if (!piece.isEmpty()) {
+            validateNotSameTeam(piece);
         }
     }
 
-    protected void validateSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        Piece fromPiece = board.get(from);
-        Piece toPiece = board.get(to);
-        fromPiece.isSameTeam(toPiece);
-    }
-
-    private boolean isEmptyPiece(Piece piece) {
-        return piece.isEmpty();
-    }
-
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
-    }
-
-    private void validateSameTeam(Piece piece) {
-        if (piece.isSameTeam(this.team)) {
+    private void validateNotSameTeam(Piece piece) {
+        if (this.team == piece.team) {
             throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
         }
     }
@@ -60,9 +55,5 @@ public abstract class Piece {
 
     public boolean isGeneral() {
         return false;
-    }
-
-    public void isSameTeam(Turn turn) {
-        turn.validateSameTeam(team);
     }
 }

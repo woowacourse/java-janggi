@@ -39,6 +39,6 @@ public class Board {
 
     public void checkSameTeam(Coordination coordination, Turn turn) {
         Piece piece = board.get(coordination);
-        piece.isSameTeam(turn);
+        piece.validateSameTeam(turn);
     }
 }

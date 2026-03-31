@@ -23,7 +23,7 @@ public class General extends Piece {
     @Override
     public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         validateLocation(from, to);
-        validateSameTeam(from, to, board);
+        validateNotSameTeam(from, to, board);
     }
 
     @Override
