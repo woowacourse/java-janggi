@@ -72,7 +72,7 @@ public class GuardTest {
 
         assertThatThrownBy(() -> guard.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 사는 한 칸만 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 사 또는 궁은 한 칸만 이동할 수 있습니다.");
     }
 
     @Test
@@ -85,6 +85,6 @@ public class GuardTest {
 
         assertThatThrownBy(() -> guard.path(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 사는 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 사 또는 궁은 직선으로만 이동 가능합니다.");
     }
 }
