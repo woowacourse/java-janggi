@@ -11,12 +11,6 @@ import org.junit.jupiter.api.Test;
 
 class AlivePiecesTest {
 
-    @Test
-    void a() {
-        AlivePieces alivePieces = new AlivePieces(Map.of());
-        Piece placed = alivePieces.placedAt(new Intersection(1, 1));
-    }
-
     @DisplayName("기물의 존재 여부 검증")
     @Nested
     class 기물의_존재_여부_검증 {
