@@ -9,11 +9,11 @@ public class GeneralStrategy implements MoveStrategy {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
+        int preX = from.x();
+        int preY = from.y();
 
-        int nextX = to.getX();
-        int nextY = to.getY();
+        int nextX = to.x();
+        int nextY = to.y();
 
         if (abs(preX - nextX) > 1) {
             return false;

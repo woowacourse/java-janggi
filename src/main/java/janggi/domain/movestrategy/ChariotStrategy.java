@@ -8,11 +8,11 @@ public class ChariotStrategy implements MoveStrategy {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        int preX = from.getX();
-        int preY = from.getY();
+        int preX = from.x();
+        int preY = from.y();
 
-        int nextX = to.getX();
-        int nextY = to.getY();
+        int nextX = to.x();
+        int nextY = to.y();
 
         return (preX == nextX && preY != nextY) || (preX != nextX && preY == nextY);
     }
@@ -21,13 +21,13 @@ public class ChariotStrategy implements MoveStrategy {
     public List<Position> findPath(Position from, Position to) {
         List<Position> path = new ArrayList<>();
 
-        int currentX = from.getX();
-        int currentY = from.getY();
+        int currentX = from.x();
+        int currentY = from.y();
 
-        int stepX = Integer.compare(to.getX(), from.getX());
-        int stepY = Integer.compare(to.getY(), from.getY());
+        int stepX = Integer.compare(to.x(), from.x());
+        int stepY = Integer.compare(to.y(), from.y());
 
-        while (currentX != to.getX() || currentY != to.getY()) {
+        while (currentX != to.x() || currentY != to.y()) {
             currentX += stepX;
             currentY += stepY;
             path.add(new Position(currentX, currentY));

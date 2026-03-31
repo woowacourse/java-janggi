@@ -33,13 +33,13 @@ public class HorseStrategy implements MoveStrategy {
     }
 
     private boolean isSamePosition(Position from, Position to, RelativePosition relativePosition) {
-        return to.getX() - from.getX() == relativePosition.dx() && to.getY() - from.getY() == relativePosition.dy();
+        return to.x() - from.x() == relativePosition.dx() && to.y() - from.y() == relativePosition.dy();
     }
 
     private List<Position> createPath(Position from, List<RelativePosition> relativePositions) {
         List<Position> path = new ArrayList<>();
         for (RelativePosition relativePosition : relativePositions) {
-            path.add(new Position(from.getX() + relativePosition.dx(), from.getY() + relativePosition.dy()));
+            path.add(new Position(from.x() + relativePosition.dx(), from.y() + relativePosition.dy()));
         }
         return path;
     }
