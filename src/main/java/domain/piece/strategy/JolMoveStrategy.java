@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class JolMoveStrategy implements MoveStrategy {
-    private final int[] dRow = {1, 0, 0};
-    private final int[] dColumn = {0, -1, 1};
+    private static final int[] D_ROW = {1, 0, 0};
+    private static final int[] D_COLUMN = {0, -1, 1};
 
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
-        return IntStream.range(0, dRow.length)
-                .filter(index -> isEqualToDestination(start, destination, index))
+        return IntStream.range(0, D_ROW.length)
+                .filter(index -> isEqualToDestination(index, start, destination))
                 .mapToObj(index -> List.<Position>of())
                 .findFirst()
                 .orElseThrow(
@@ -19,8 +19,8 @@ public class JolMoveStrategy implements MoveStrategy {
                 );
     }
 
-    private boolean isEqualToDestination(Position start, Position destination, int i) {
-        Position changedPosition = start.go(dRow[i], dColumn[i]);
+    private boolean isEqualToDestination(int index, Position start, Position destination) {
+        Position changedPosition = start.go(D_ROW[index], D_COLUMN[index]);
         return changedPosition.equals(destination);
     }
 }

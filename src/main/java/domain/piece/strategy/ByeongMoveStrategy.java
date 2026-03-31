@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class ByeongMoveStrategy implements MoveStrategy {
-    private final int[] dRow = {-1, 0, 0};
-    private final int[] dColumn = {0, -1, 1};
+    private static final int[] D_ROW = {-1, 0, 0};
+    private static final int[] D_COLUMN = {0, -1, 1};
 
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
-        return IntStream.range(0, dRow.length)
+        return IntStream.range(0, D_ROW.length)
                 .filter(index -> isEqualToDestination(start, destination, index))
                 .mapToObj(index -> List.<Position>of())
                 .findFirst()
@@ -20,7 +20,7 @@ public class ByeongMoveStrategy implements MoveStrategy {
     }
 
     private boolean isEqualToDestination(Position start, Position destination, int i) {
-        Position changedPosition = start.go(dRow[i], dColumn[i]);
+        Position changedPosition = start.go(D_ROW[i], D_COLUMN[i]);
         return changedPosition.equals(destination);
     }
 }
