@@ -68,21 +68,12 @@ public class Board {
 
     private StringBuilder renderBoardRow(int row) {
         StringBuilder sb = new StringBuilder();
-        sb.append(getDisplayRow(row)).append(" │");
+        sb.append(Row.of(row).getDisplayName()).append(" │");
         for (int col = 1; col <= 9; col++) {
             sb.append(renderBoardColumn(row, col));
         }
         sb.append("│\n");
         return sb;
-    }
-
-    private int getDisplayRow(int row) {
-        int zeroRow = 0;
-        int nineRow = 10;
-        if (row == nineRow) {
-            return zeroRow;
-        }
-        return row;
     }
 
     private StringBuilder renderBoardColumn(int row, int col) {
