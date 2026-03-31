@@ -28,7 +28,7 @@ class TurnTest {
 
     @Test
     @DisplayName("현재 차례 팀의 기물 존재 여부를 확인한다.")
-    void isCurrentTeamPieceExist() {
+    void isNextTurnTeamPieceExists() {
         // given
         Turn turn = Turn.createInitialTurn();
         Position chuJolPosition = new Position(1, 4);
@@ -36,8 +36,8 @@ class TurnTest {
 
         // when & then
         assertAll(
-            () -> assertThat(turn.isCurrentTeamPieceExist(chuJolPosition)).isTrue(),
-            () -> assertThat(turn.isCurrentTeamPieceExist(hanJolPosition)).isFalse()
+            () -> assertThat(turn.isNextTurnTeamPieceExists(chuJolPosition)).isTrue(),
+            () -> assertThat(turn.isNextTurnTeamPieceExists(hanJolPosition)).isFalse()
         );
     }
 

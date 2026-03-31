@@ -18,7 +18,7 @@ public class Turn {
         return new Turn(TeamType.HAN, Board.createInitialBoard());
     }
 
-    public boolean isCurrentTeamPieceExist(Position position) {
+    public boolean isNextTurnTeamPieceExists(Position position) {
         return board.isPieceExist(position, opponentTeamType());
     }
 
