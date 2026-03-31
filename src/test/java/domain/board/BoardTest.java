@@ -8,6 +8,7 @@ import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;
 import domain.position.Position;
+import factory.BoardFactory;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

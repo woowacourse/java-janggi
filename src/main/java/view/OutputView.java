@@ -17,10 +17,10 @@ public class OutputView {
             "%s의 상차림을 입력해주세요.(예, 상마상마,마상마상, 상마마상, 마상상마)\n";
 
     private static final String INPUT_PIECE_MOVE =
-            "%s(%s)가 이동할 기물을 선택해주세요. (예: 3,5)\n";
+            "%s가 이동할 기물을 선택해주세요. (예: 3,5)\n";
 
     private static final String INPUT_POSITION_MOVE =
-            "%s(%s)가 이동할 위치를 입력해주세요. (예: 3,5)\n";
+            "%s가 이동할 위치를 입력해주세요. (예: 3,5)\n";
 
     private static final String PLAYER_CHECK =
             "%s가 장군을 당했습니다.\n";
@@ -46,12 +46,12 @@ public class OutputView {
         System.out.printf(HORSE_ELEPHANT_INPUT_FORMATION, side.getName());
     }
 
-    public static void printPieceMove(String name, Side side) {
-        System.out.printf(INPUT_PIECE_MOVE, name, side.getName());
+    public static void printPieceMove(Side side) {
+        System.out.printf(INPUT_PIECE_MOVE, side.getName());
     }
 
-    public static void printPositionMove(String name, Side side) {
-        System.out.printf(INPUT_POSITION_MOVE, name, side.getName());
+    public static void printPositionMove(Side side) {
+        System.out.printf(INPUT_POSITION_MOVE, side.getName());
     }
 
     public static void printCheck(Side side) {
