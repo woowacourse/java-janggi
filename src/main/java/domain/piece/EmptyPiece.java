@@ -6,7 +6,7 @@ import domain.position.Position;
 
 public class EmptyPiece extends Piece {
     public EmptyPiece(MoveStrategy moveStrategy, Team team) {
-        super(moveStrategy, PieceType.PO, team);
+        super(moveStrategy, PieceType.EMPTY, team);
     }
 
     @Override
@@ -16,6 +16,6 @@ public class EmptyPiece extends Piece {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return true;
     }
 }

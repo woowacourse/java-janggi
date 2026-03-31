@@ -21,14 +21,14 @@ public class InputView {
     public List<SettingType> readSettings() {
         System.out.println(SETTING_DESCRIPTION);
         String[] userInput = sc.nextLine().split(DELIMITER);
-        validateUSerInputLength(userInput, IDEAL_INPUT_SIZE_AS_SETTING_TYPE);
+        validateUserInputLength(userInput, IDEAL_INPUT_SIZE_AS_SETTING_TYPE);
         return Arrays.stream(userInput)
                 .map(String::strip)
                 .map(InputView::selectSettingType)
                 .toList();
     }
 
-    private static void validateUSerInputLength(String[] userInput, int idealSize) {
+    private static void validateUserInputLength(String[] userInput, int idealSize) {
         if (userInput.length != idealSize) {
             throw new IllegalArgumentException(ViewErrorMessage.FORMAT_ERROR.getMessage());
         }
@@ -68,7 +68,7 @@ public class InputView {
         String commandDescription = String.format(MOVE_COMMAND_DESCRIPTION, convertTeamTypeToKorean(team));
         System.out.println(commandDescription);
         String[] userInput = sc.nextLine().split(" ");
-        validateUSerInputLength(userInput, IDEAL_INPUT_SIZE_AS_MOVE_POSITION);
+        validateUserInputLength(userInput, IDEAL_INPUT_SIZE_AS_MOVE_POSITION);
         return PositionDto.toDto(userInput[0], userInput[1]);
     }
 
