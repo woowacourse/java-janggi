@@ -1,4 +1,4 @@
-package janggi.controller;
+package janggi.runner;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
@@ -9,16 +9,16 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
 
-public class JanggiController {
+public class JanggiGameRunner {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiGameRunner(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
-    public void start() {
+    public void play() {
         OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
         Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
                 openingFormationChoices.choChoice());
