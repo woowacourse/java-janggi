@@ -21,7 +21,10 @@ public class OutputView {
 
     public void printBoard(Map<Position, Piece> board) {
         System.out.println();
+        String[] rowLabels = {"일", "이", "삼", "사", "오", "육", "칠", "팔", "구", "십"};
+
         for (int row = MAX_ROW; row >= 0; row--) {
+            System.out.print(rowLabels[row] + " ");
             for (int col = 0; col <= MAX_COL; col++) {
                 Position position = Position.of(row, col);
                 if (board.containsKey(position)) {
@@ -31,14 +34,14 @@ public class OutputView {
                     String type = piece.getTypeName();
                     type = matchSoldierName(type, piece);
 
-                    System.out.print(color + type + RESET_COLOR + "  ");
+                    System.out.print(color + type + RESET_COLOR + " ");
                 } else {
-                    System.out.print("ㅁ  ");
+                    System.out.print("ㅁ ");
                 }
             }
             System.out.println();
         }
-
+        System.out.println("  갑 을 병 정 무 기 경 신 임");
         System.out.println();
     }
 
