@@ -1,0 +1,48 @@
+package janggi.domain.piece;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
+import janggi.domain.Position;
+import janggi.domain.Route;
+import janggi.domain.Side;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+public class GungTest {
+    @ParameterizedTest
+    @CsvSource({
+            "2,3,2,4",
+            "2,3,2,2",
+            "2,3,1,3",
+            "2,3,3,3"
+    })
+    void 궁은_상하좌우로_한_칸_이동할_수_있다(int startX, int startY, int endX, int endY) {
+        Position startPosition = new Position(startX, startY);
+        Position endPosition = new Position(endX, endY);
+
+        Gung gung = new Gung(Side.CHO);
+
+        Route actual = gung.findRoute(startPosition, endPosition);
+
+        assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2,3,2,5",
+            "2,3,2,1",
+            "2,3,1,6",
+            "2,3,3,1"
+    })
+    void 궁은_상하좌우가_아닌_좌표로는_이동할_수_없다(int startX, int startY, int endX, int endY) {
+        Position startPosition = new Position(startX, startY);
+        Position endPosition = new Position(endX, endY);
+
+        Gung gung = new Gung(Side.CHO);
+
+        assertThatThrownBy(() -> gung.findRoute(startPosition, endPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("올바른 도착 지점이 아닙니다.");
+    }
+}
