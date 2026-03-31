@@ -14,33 +14,32 @@ public class Runner {
     private static final String SYSTEM_ERROR_MESSAGE = "시스템 오류가 발생하여 게임을 종료합니다.";
 
     private static final Logger logger = Logger.getLogger(Runner.class.getName());
-    private Game game;
 
     public void run() {
-        initArrangeGame();
-        turnGame();
+        Game game = initArrangeGame();
+        playGame(game);
     }
 
-    private void initArrangeGame() {
+    private Game initArrangeGame() {
         String hanArrangementInput = InputView.askHanArrangement();
         Arrangement hanArrangement = Arrangement.from(hanArrangementInput);
 
         String choArrangementInput = InputView.askChoArrangement();
         Arrangement choArrangement = Arrangement.from(choArrangementInput);
 
-        game = new Game(choArrangement, hanArrangement);
+        return new Game(choArrangement, hanArrangement);
     }
 
-    private void turnGame() {
-        while (playTurnGame()) {
+    private void playGame(Game game) {
+        while (playTurnGame(game)) {
         }
     }
 
-    private boolean playTurnGame() {
+    private boolean playTurnGame(Game game) {
         try {
-            printCurrentStatus();
-            movePiece();
-            return isFinishedGame();
+            printCurrentStatus(game);
+            movePiece(game);
+            return isFinishedGame(game);
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
             return true;
@@ -51,12 +50,12 @@ public class Runner {
         }
     }
 
-    private void printCurrentStatus() {
+    private void printCurrentStatus(Game game) {
         OutputView.printBoard(game.getCurrentBoardDto());
         OutputView.printTurn(game.getCurrentSide());
     }
 
-    private void movePiece() {
+    private void movePiece(Game game) {
         List<Integer> startPositionInput = InputView.askStartPosition();
         Position startPosition = Position.from(startPositionInput);
 
@@ -66,7 +65,7 @@ public class Runner {
         game.move(startPosition, endPosition);
     }
 
-    private boolean isFinishedGame() {
+    private boolean isFinishedGame(Game game) {
         if (game.isFinished()) {
             OutputView.printWinner(game.getWinnerSide());
             return false;
