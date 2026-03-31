@@ -1,6 +1,7 @@
 package domain.moveStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 
 import domain.board.Board;
 import domain.board.StubBoard;
@@ -8,6 +9,9 @@ import domain.place.Place;
 import domain.place.moveStrategy.ElephantMoveStrategy;
 import domain.place.moveStrategy.HorseMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceEmptyMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceOneStepMoveStrategy;
 import domain.place.piece.Elephant;
 import domain.place.piece.Horse;
 import domain.place.piece.Side;
@@ -24,6 +28,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class HorseMoveStrategyTest {
 
     private final MoveStrategy moveStrategy = new HorseMoveStrategy();
+    private final PalaceMoveStrategy palaceMoveStrategy = new PalaceEmptyMoveStrategy();
 
     @ParameterizedTest
     @DisplayName("마는 모든 정상 이동을 할 수 있다")
@@ -31,7 +36,7 @@ class HorseMoveStrategyTest {
     void can_move_all_valid_cases(Position from, Position to) {
         // given
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Horse(Side.CHO, moveStrategy));
+        board.put(from, new Horse(Side.CHO, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -61,8 +66,8 @@ class HorseMoveStrategyTest {
         Position to = new Position(6, 7);
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Horse(Side.CHO, moveStrategy));
-        board.put(to, new Elephant(Side.HAN, new ElephantMoveStrategy()));
+        board.put(from, new Horse(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(to, new Elephant(Side.HAN, new ElephantMoveStrategy(), palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -79,8 +84,8 @@ class HorseMoveStrategyTest {
         Position to = new Position(6, 7);
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Horse(Side.CHO, moveStrategy));
-        board.put(to, new Elephant(Side.CHO, new ElephantMoveStrategy()));
+        board.put(from, new Horse(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(to, new Elephant(Side.CHO, new ElephantMoveStrategy(), palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -98,8 +103,8 @@ class HorseMoveStrategyTest {
         Position to = new Position(6, 7);
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Horse(Side.CHO, moveStrategy));
-        board.put(block, new Elephant(Side.HAN, new ElephantMoveStrategy()));
+        board.put(from, new Horse(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(block, new Elephant(Side.HAN, new ElephantMoveStrategy(), palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);

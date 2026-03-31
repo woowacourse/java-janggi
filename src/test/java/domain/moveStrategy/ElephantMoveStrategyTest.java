@@ -2,11 +2,11 @@ package domain.moveStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.board.Board;
-import domain.board.StubBoard;
 import domain.place.Place;
 import domain.place.moveStrategy.ElephantMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceEmptyMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
 import domain.place.piece.Elephant;
 import domain.place.piece.Side;
 import domain.position.Position;
@@ -22,6 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ElephantMoveStrategyTest {
 
     private final MoveStrategy moveStrategy = new ElephantMoveStrategy();
+    private final PalaceMoveStrategy palaceMoveStrategy = new PalaceEmptyMoveStrategy();
 
     @ParameterizedTest
     @DisplayName("상은 다양한 방향으로 정상 이동할 수 있다")
@@ -29,7 +30,7 @@ class ElephantMoveStrategyTest {
     void can_move_in_all_valid_directions(Position from, Position to) {
         // given
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Elephant(Side.CHO, moveStrategy));
+        board.put(from, new Elephant(Side.CHO, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -59,8 +60,8 @@ class ElephantMoveStrategyTest {
         Position to = new Position(7, 8);
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Elephant(Side.CHO, moveStrategy));
-        board.put(to, new Elephant(Side.HAN, moveStrategy));
+        board.put(from, new Elephant(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(to, new Elephant(Side.HAN, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -77,8 +78,8 @@ class ElephantMoveStrategyTest {
         Position firstBlock = new Position(5, 6); // 첫 직선 이동
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Elephant(Side.CHO, moveStrategy));
-        board.put(firstBlock, new Elephant(Side.HAN, moveStrategy));
+        board.put(from, new Elephant(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(firstBlock, new Elephant(Side.HAN, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, new Position(7, 8), Side.CHO);
@@ -95,8 +96,8 @@ class ElephantMoveStrategyTest {
         Position secondBlock = new Position(6, 7); // 대각 이동 중간
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Elephant(Side.CHO, moveStrategy));
-        board.put(secondBlock, new Elephant(Side.HAN, moveStrategy));
+        board.put(from, new Elephant(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(secondBlock, new Elephant(Side.HAN, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, new Position(7, 8), Side.CHO);

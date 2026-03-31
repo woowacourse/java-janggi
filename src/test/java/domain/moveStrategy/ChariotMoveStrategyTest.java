@@ -7,6 +7,8 @@ import domain.board.StubBoard;
 import domain.place.Place;
 import domain.place.moveStrategy.ChariotMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceStraightMoveStrategy;
 import domain.place.piece.Chariot;
 import domain.place.piece.Side;
 import domain.position.Position;
@@ -22,6 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ChariotMoveStrategyTest {
 
     private final MoveStrategy moveStrategy = new ChariotMoveStrategy();
+    private final PalaceMoveStrategy palaceMoveStrategy = new PalaceStraightMoveStrategy();
 
     @ParameterizedTest
     @DisplayName("차는 직선 방향으로 이동 가능하다")
@@ -29,7 +32,7 @@ class ChariotMoveStrategyTest {
     void can_move_straight(Position from, Position to) {
         // given
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Chariot(Side.CHO, moveStrategy));
+        board.put(from, new Chariot(Side.CHO, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -55,8 +58,8 @@ class ChariotMoveStrategyTest {
         Position to = new Position(3, 7);
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Chariot(Side.CHO, moveStrategy));
-        board.put(to, new Chariot(Side.HAN, moveStrategy));
+        board.put(from, new Chariot(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(to, new Chariot(Side.HAN, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -74,8 +77,8 @@ class ChariotMoveStrategyTest {
         Position to = new Position(3, 7);
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Chariot(Side.CHO, moveStrategy));
-        board.put(obstacle, new Chariot(Side.HAN, moveStrategy));
+        board.put(from, new Chariot(Side.CHO, moveStrategy, palaceMoveStrategy));
+        board.put(obstacle, new Chariot(Side.HAN, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);
@@ -92,7 +95,7 @@ class ChariotMoveStrategyTest {
         Position to = new Position(5, 7);
 
         Map<Position, Place> board = new HashMap<>();
-        board.put(from, new Chariot(Side.CHO, moveStrategy));
+        board.put(from, new Chariot(Side.CHO, moveStrategy, palaceMoveStrategy));
 
         // when
         boolean result = moveStrategy.canMove(board, from, to, Side.CHO);

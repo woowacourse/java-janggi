@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import domain.place.moveStrategy.SoldierMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;
 import domain.position.Position;
@@ -20,10 +21,12 @@ class BoardTest {
     void setup() {
         StubBoard stubBoard = new StubBoard();
         Position position = new Position(3, 1);
-        stubBoard.put(position, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
+        stubBoard.put(position, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO),
+                new PalaceSoldierMoveStrategy(Side.CHO)));
 
         Position position2 = new Position(4, 1);
-        stubBoard.put(position2, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO)));
+        stubBoard.put(position2, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO),
+                new PalaceSoldierMoveStrategy(Side.CHO)));
         board = stubBoard.create();
     }
 
