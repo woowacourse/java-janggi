@@ -61,10 +61,10 @@ class ChoTurnTest {
                 .isInstanceOf(HanTurn.class);
     }
 
-    @DisplayName("게임 진행 중인 상태이면 False를 반환한다.")
+    @DisplayName("게임 진행 중인 상태이면 false를 반환한다.")
     @Test
     void isGameOver() {
-        assertThat(new ChoTurn(new Board(new HashMap<>())).isGameOver())
+        assertThat(new ChoTurn(board).isGameOver())
                 .isFalse();
     }
 }
