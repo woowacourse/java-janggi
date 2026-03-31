@@ -7,7 +7,7 @@ import domain.Offset;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class StraightMovingPiece extends Piece{
+public abstract class StraightMovingPiece extends Piece {
     public StraightMovingPiece(PieceType pieceType, Team team) {
         super(pieceType, team);
     }
@@ -15,15 +15,14 @@ public abstract class StraightMovingPiece extends Piece{
     @Override
     public List<Offset> getPathOffset(Offset offset) {
         validateMoveRule(offset);
-        Direction mainDirection = offset.getMainDirection();
-
-        int distance = offset.calculateStraightDistance();
+        Direction mainDirection = getMainDirection(offset);
+        int distance = calculateStraightDistance(offset);
 
         return generateRoute(mainDirection, distance);
     }
 
     private void validateMoveRule(Offset offset) {
-        if (!offset.isStraightMoving()) {
+        if (!isStraightMoving(offset)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
     }
@@ -38,4 +37,24 @@ public abstract class StraightMovingPiece extends Piece{
         }
         return route;
     }
+
+    private boolean isStraightMoving(Offset offset) {
+        return (offset.absX() != 0 && offset.absY() == 0) || (offset.absX() == 0 && offset.absY() != 0);
+    }
+
+    private int calculateStraightDistance(Offset offset) {
+        if (!isStraightMoving(offset)) {
+            throw new IllegalStateException("직선 이동이 아닐 때는 직선 거리를 계산할 수 없습니다.");
+        }
+        return Math.max(offset.absX(), offset.absY());
+    }
+
+
+    public Direction getMainDirection(Offset offset) {
+        if (offset.absX() > offset.absY()) {
+            return Direction.decideXDirection(offset.dx());
+        }
+        return Direction.decideYDirection(offset.dy());
+    }
+
 }

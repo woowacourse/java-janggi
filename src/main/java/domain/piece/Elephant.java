@@ -14,7 +14,7 @@ public final class Elephant extends JumpMovingPiece {
 
     @Override
     protected void validateMoveRule(Offset offset) {
-        if (!offset.isElephantMove()) {
+        if (!isElephantMove(offset)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
     }
@@ -27,5 +27,9 @@ public final class Elephant extends JumpMovingPiece {
         Offset step2 = step1.move(main).move(sub);
 
         return List.of(step1, step2);
+    }
+
+    public boolean isElephantMove(Offset offset) {
+        return (offset.absX() == 3 && offset.absY() == 2) || (offset.absX() == 2 && offset.absY() == 3);
     }
 }

@@ -25,38 +25,23 @@ public record Offset(int dx, int dy) {
         );
     }
 
-    public boolean isSingleStep() {
-        return (Math.abs(dx) == 1 && Math.abs(dy) == 0) || (Math.abs(dx) == 0 && Math.abs(dy) == 1);
+    public int absX() {
+        return Math.abs(dx);
     }
 
-    public boolean isStraightMoving() {
-        return (Math.abs(dx) != 0 && Math.abs(dy) == 0) || (Math.abs(dx) == 0 && Math.abs(dy) != 0);
-    }
-
-    public boolean isHorseMove() {
-        return (Math.abs(dx) == 2 && Math.abs(dy) == 1) || (Math.abs(dx) == 1 && Math.abs(dy) == 2);
-    }
-
-    public boolean isElephantMove() {
-        return (Math.abs(dx) == 3 && Math.abs(dy) == 2) || (Math.abs(dx) == 2 && Math.abs(dy) == 3);
-    }
-
-    public int calculateStraightDistance() {
-        if (!isStraightMoving()) {
-            throw new IllegalStateException("직선 이동이 아닐 때는 직선 거리를 계산할 수 없습니다.");
-        }
-        return Math.max(Math.abs(dx), Math.abs(dy));
+    public int absY() {
+        return Math.abs(dy);
     }
 
     public Direction getMainDirection() {
-        if (Math.abs(dx) > Math.abs(dy)) {
+        if (absX() > absY()) {
             return Direction.decideXDirection(dx);
         }
         return Direction.decideYDirection(dy);
     }
 
     public Direction getSubDirection() {
-        if (Math.abs(dx) > Math.abs(dy)) {
+        if (absX() > absY()) {
             return Direction.decideYDirection(dy);
         }
         return Direction.decideXDirection(dx);
