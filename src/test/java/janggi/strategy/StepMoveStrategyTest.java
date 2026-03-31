@@ -60,7 +60,7 @@ public class StepMoveStrategyTest {
         Position dest = new Position(4, 3);
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(dest));
         Map<Position, Piece> boardState = new HashMap<>();
-        Piece movingPiece = new Piece(Side.CHO, PieceType.CHO_SOLDIER, "1");
+        Piece movingPiece = new Piece(Side.CHO, PieceType.SOLDIER, "1");
 
         // when
         List<Position> destinations = strategy.determineDestinations(routes, boardState, movingPiece);
@@ -77,8 +77,8 @@ public class StepMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(dest));
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(dest, new Piece(Side.HAN, PieceType.HAN_SOLDIER, "1")); // 적군
-        Piece movingPiece = new Piece(Side.CHO, PieceType.CHO_SOLDIER, "1");
+        boardState.put(dest, new Piece(Side.HAN, PieceType.SOLDIER, "1")); // 적군
+        Piece movingPiece = new Piece(Side.CHO, PieceType.SOLDIER, "1");
 
         // when
         List<Position> destinations = strategy.determineDestinations(routes, boardState, movingPiece);
@@ -95,8 +95,8 @@ public class StepMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(dest));
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(dest, new Piece(Side.CHO, PieceType.CHO_SOLDIER, "2")); // 아군
-        Piece movingPiece = new Piece(Side.CHO, PieceType.CHO_SOLDIER, "1");
+        boardState.put(dest, new Piece(Side.CHO, PieceType.SOLDIER, "2")); // 아군
+        Piece movingPiece = new Piece(Side.CHO, PieceType.SOLDIER, "1");
 
         // when
         List<Position> destinations = strategy.determineDestinations(routes, boardState, movingPiece);

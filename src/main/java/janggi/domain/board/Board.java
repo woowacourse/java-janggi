@@ -27,13 +27,13 @@ public class Board {
         initSide(initialBoard, Side.HAN,
                 BoardLayout.HAN_BASE_ROW, BoardLayout.HAN_PALACE_ROW,
                 BoardLayout.HAN_CANNON_ROW, BoardLayout.HAN_SOLDIER_ROW,
-                PieceType.HAN_SOLDIER);
+                PieceType.SOLDIER);
 
         // 초나라 초기화
         initSide(initialBoard, Side.CHO,
                 BoardLayout.CHO_BASE_ROW, BoardLayout.CHO_PALACE_ROW,
                 BoardLayout.CHO_CANNON_ROW, BoardLayout.CHO_SOLDIER_ROW,
-                PieceType.CHO_SOLDIER);
+                PieceType.SOLDIER);
 
         return new Board(initialBoard);
     }

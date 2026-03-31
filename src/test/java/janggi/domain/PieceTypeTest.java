@@ -15,6 +15,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PieceTypeTest {
+    private static final Side DEFAULT_SIDE = Side.CHO;
+
     @DisplayName("마(HORSE)는 보드 중앙에서 장애물이 없을 때, 8개의 이동 경로를 생성한다.")
     @Test
     void 마_중앙_경로_생성_테스트() {
@@ -22,7 +24,7 @@ class PieceTypeTest {
         Position center = new Position(4, 4);
 
         // when
-        Paths paths = PieceType.HORSE.calculatePaths(center);
+        Paths paths = PieceType.HORSE.calculatePaths(center, DEFAULT_SIDE);
 
         // then
         assertThat(paths).hasSize(8);
@@ -34,11 +36,11 @@ class PieceTypeTest {
         // given
         Position current = new Position(4, 4);
         PieceType horseType = PieceType.HORSE;
-        Paths paths = horseType.calculatePaths(current);
+        Paths paths = horseType.calculatePaths(current, DEFAULT_SIDE);
 
         // 남쪽 멱(5, 4)에 장애물 배치
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(new Position(5, 4), createPiece(Side.CHO, PieceType.CHO_SOLDIER));
+        boardState.put(new Position(5, 4), createPiece(Side.CHO, PieceType.SOLDIER));
 
         Piece movingPiece = createPiece(Side.HAN, PieceType.HORSE);
 
@@ -58,7 +60,7 @@ class PieceTypeTest {
         // given
         Position current = new Position(0, 0);
         PieceType chariotType = PieceType.CHARIOT;
-        Paths paths = chariotType.calculatePaths(current);
+        Paths paths = chariotType.calculatePaths(current, DEFAULT_SIDE);
 
         Map<Position, Piece> boardState = new HashMap<>();
         Piece movingPiece = createPiece(Side.CHO, PieceType.CHARIOT);
@@ -78,7 +80,7 @@ class PieceTypeTest {
         Position corner = new Position(0, 0);
 
         // when
-        Paths paths = PieceType.CHARIOT.calculatePaths(corner);
+        Paths paths = PieceType.CHARIOT.calculatePaths(corner, DEFAULT_SIDE);
 
         // then
         assertThat(paths).hasSize(2);
@@ -89,11 +91,11 @@ class PieceTypeTest {
     void 졸_정상_이동_테스트() {
         // given
         Position current = new Position(4, 4);
-        PieceType soldierType = PieceType.CHO_SOLDIER;
-        Paths paths = soldierType.calculatePaths(current);
+        PieceType soldierType = PieceType.SOLDIER;
+        Paths paths = soldierType.calculatePaths(current, DEFAULT_SIDE);
 
         Map<Position, Piece> boardState = new HashMap<>();
-        Piece movingPiece = createPiece(Side.CHO, PieceType.CHO_SOLDIER);
+        Piece movingPiece = createPiece(Side.CHO, PieceType.SOLDIER);
 
         // when
         List<Position> destinations = soldierType.determineDestinations(paths, boardState, movingPiece);
@@ -107,14 +109,14 @@ class PieceTypeTest {
     void 졸_아군_차단_검증_테스트() {
         // given
         Position current = new Position(4, 4);
-        PieceType soldierType = PieceType.CHO_SOLDIER;
-        Paths paths = soldierType.calculatePaths(current);
+        PieceType soldierType = PieceType.SOLDIER;
+        Paths paths = soldierType.calculatePaths(current, DEFAULT_SIDE);
 
         // 북쪽(3, 4)에 아군 기물 배치
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(new Position(3, 4), createPiece(Side.CHO, PieceType.CHO_SOLDIER));
+        boardState.put(new Position(3, 4), createPiece(Side.CHO, PieceType.SOLDIER));
 
-        Piece movingPiece = createPiece(Side.CHO, PieceType.CHO_SOLDIER);
+        Piece movingPiece = createPiece(Side.CHO, PieceType.SOLDIER);
 
         // when
         List<Position> destinations = soldierType.determineDestinations(paths, boardState, movingPiece);
@@ -129,10 +131,10 @@ class PieceTypeTest {
         // given
         Position current = new Position(4, 0);
         PieceType cannonType = PieceType.CANNON;
-        Paths paths = cannonType.calculatePaths(current);
+        Paths paths = cannonType.calculatePaths(current, DEFAULT_SIDE);
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(new Position(4, 2), createPiece(Side.CHO, PieceType.CHO_SOLDIER));
+        boardState.put(new Position(4, 2), createPiece(Side.CHO, PieceType.SOLDIER));
         Piece movingPiece = createPiece(Side.CHO, PieceType.CANNON);
 
         // when
@@ -149,7 +151,7 @@ class PieceTypeTest {
         // given
         Position current = new Position(0, 0);
         PieceType cannonType = PieceType.CANNON;
-        Paths paths = cannonType.calculatePaths(current);
+        Paths paths = cannonType.calculatePaths(current, DEFAULT_SIDE);
 
         Map<Position, Piece> boardState = new HashMap<>();
         Piece movingPiece = createPiece(Side.CHO, PieceType.CANNON);
@@ -167,10 +169,10 @@ class PieceTypeTest {
         // given
         Position current = new Position(4, 0);
         PieceType cannonType = PieceType.CANNON;
-        Paths paths = cannonType.calculatePaths(current);
+        Paths paths = cannonType.calculatePaths(current, DEFAULT_SIDE);
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(new Position(4, 2), createPiece(Side.HAN, PieceType.CHO_SOLDIER)); // 다리
+        boardState.put(new Position(4, 2), createPiece(Side.HAN, PieceType.SOLDIER)); // 다리
         boardState.put(new Position(4, 4), createPiece(Side.HAN, PieceType.CANNON));      // 적군 포
 
         Piece movingPiece = createPiece(Side.CHO, PieceType.CANNON);
@@ -188,11 +190,11 @@ class PieceTypeTest {
         // given
         Position current = new Position(0, 0);
         PieceType chariotType = PieceType.CHARIOT;
-        Paths paths = chariotType.calculatePaths(current);
+        Paths paths = chariotType.calculatePaths(current, DEFAULT_SIDE);
 
         Map<Position, Piece> boardState = new HashMap<>();
         Position enemyPos = new Position(0, 3);
-        boardState.put(enemyPos, createPiece(Side.HAN, PieceType.CHO_SOLDIER));
+        boardState.put(enemyPos, createPiece(Side.HAN, PieceType.SOLDIER));
 
         Piece movingPiece = createPiece(Side.CHO, PieceType.CHARIOT);
 

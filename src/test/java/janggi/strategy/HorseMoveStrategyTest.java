@@ -52,7 +52,7 @@ public class HorseMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(transit, dest));
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(transit, new Piece(Side.HAN, PieceType.HAN_SOLDIER, "1"));
+        boardState.put(transit, new Piece(Side.HAN, PieceType.SOLDIER, "1"));
 
         Piece me = new Piece(Side.CHO, PieceType.HORSE, "1");
 
@@ -72,7 +72,7 @@ public class HorseMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(transit, dest));
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(dest, new Piece(Side.HAN, PieceType.HAN_SOLDIER, "1"));
+        boardState.put(dest, new Piece(Side.HAN, PieceType.SOLDIER, "1"));
 
         Piece me = new Piece(Side.CHO, PieceType.HORSE, "1");
 
@@ -92,7 +92,7 @@ public class HorseMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(transit, dest));
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(dest, new Piece(Side.CHO, PieceType.CHO_SOLDIER, "1"));
+        boardState.put(dest, new Piece(Side.CHO, PieceType.SOLDIER, "1"));
 
         Piece me = new Piece(Side.CHO, PieceType.HORSE, "1");
 

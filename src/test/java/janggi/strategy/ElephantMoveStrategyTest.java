@@ -51,7 +51,7 @@ public class ElephantMoveStrategyTest {
 
         // 첫 번째 멱이 막힌 경우
         Map<Position, Piece> boardState1 = new HashMap<>();
-        boardState1.put(transit1, new Piece(Side.HAN, PieceType.HAN_SOLDIER, "1"));
+        boardState1.put(transit1, new Piece(Side.HAN, PieceType.SOLDIER, "1"));
 
         Piece me = new Piece(Side.CHO, PieceType.ELEPHANT, "1");
 
@@ -59,7 +59,7 @@ public class ElephantMoveStrategyTest {
 
         // 두 번째 멱이 막힌 경우
         Map<Position, Piece> boardState2 = new HashMap<>();
-        boardState2.put(transit2, new Piece(Side.HAN, PieceType.HAN_SOLDIER, "2"));
+        boardState2.put(transit2, new Piece(Side.HAN, PieceType.SOLDIER, "2"));
 
         assertThat(strategy.determineDestinations(routes, boardState2, me)).isEmpty();
     }
@@ -74,7 +74,7 @@ public class ElephantMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(transit1, transit2, dest));
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(dest, new Piece(Side.HAN, PieceType.HAN_SOLDIER, "1"));
+        boardState.put(dest, new Piece(Side.HAN, PieceType.SOLDIER, "1"));
 
         Piece me = new Piece(Side.CHO, PieceType.ELEPHANT, "1");
 
@@ -95,7 +95,7 @@ public class ElephantMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(transit1, transit2, dest));
 
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(dest, new Piece(Side.CHO, PieceType.CHO_SOLDIER, "1"));
+        boardState.put(dest, new Piece(Side.CHO, PieceType.SOLDIER, "1"));
 
         Piece me = new Piece(Side.CHO, PieceType.ELEPHANT, "1");
 

@@ -19,7 +19,7 @@ public class Piece {
     }
 
     public Paths calculatePaths(Position current) {
-        return pieceType.calculatePaths(current);
+        return pieceType.calculatePaths(current, side);
     }
 
     public boolean isSameSide(Piece other) {

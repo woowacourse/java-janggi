@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
+import janggi.domain.game.Side;
 import janggi.domain.route.Paths;
 import janggi.domain.strategy.CannonMoveStrategy;
 import janggi.domain.strategy.ElephantMoveStrategy;
@@ -24,8 +25,12 @@ public enum PieceType {
     CANNON(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new CannonMoveStrategy()),
     HORSE(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new HorseMoveStrategy()),
     ELEPHANT(EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new ElephantMoveStrategy()),
-    CHO_SOLDIER(EnumSet.of(Direction.N, Direction.E, Direction.W), new StepMoveStrategy()),
-    HAN_SOLDIER(EnumSet.of(Direction.S, Direction.E, Direction.W), new StepMoveStrategy()),
+    SOLDIER(new StepMoveStrategy()) {
+        @Override
+        public Paths calculatePaths(Position current, Side side) {
+            return getMoveStrategy().findMovablePaths(current, side.getSoldierDirections());
+        }
+    },
     ;
 
     private final EnumSet<Direction> directions;
@@ -36,11 +41,19 @@ public enum PieceType {
         this.moveStrategy = moveStrategy;
     }
 
-    public Paths calculatePaths(Position current) {
+    PieceType(MoveStrategy moveStrategy) {
+        this(null, moveStrategy);
+    }
+
+    public Paths calculatePaths(Position current, Side side) {
         return moveStrategy.findMovablePaths(current, directions);
     }
 
     public List<Position> determineDestinations(Paths paths, Map<Position, Piece> boardState, Piece movingPiece) {
         return moveStrategy.determineDestinations(paths, boardState, movingPiece);
+    }
+
+    protected MoveStrategy getMoveStrategy() {
+        return moveStrategy;
     }
 }

@@ -46,7 +46,7 @@ public class SlideMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(
                 List.of(new Position(1, 0), new Position(2, 0), new Position(3, 0)));
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(new Position(2, 0), new Piece(Side.HAN, PieceType.HAN_SOLDIER, "1"));
+        boardState.put(new Position(2, 0), new Piece(Side.HAN, PieceType.SOLDIER, "1"));
         Piece movingPiece = new Piece(Side.CHO, PieceType.CHARIOT, "1");
 
         // when
@@ -64,7 +64,7 @@ public class SlideMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(
                 List.of(new Position(1, 0), new Position(2, 0), new Position(3, 0)));
         Map<Position, Piece> boardState = new HashMap<>();
-        boardState.put(new Position(2, 0), new Piece(Side.CHO, PieceType.CHO_SOLDIER, "1"));
+        boardState.put(new Position(2, 0), new Piece(Side.CHO, PieceType.SOLDIER, "1"));
         Piece movingPiece = new Piece(Side.CHO, PieceType.CHARIOT, "1");
 
         // when
