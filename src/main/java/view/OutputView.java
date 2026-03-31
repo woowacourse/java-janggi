@@ -2,7 +2,7 @@ package view;
 
 import domain.pieces.PieceType;
 import domain.pieces.Side;
-import dto.PieceDto;
+import view.dto.PieceDto;
 
 public class OutputView {
     private static final String RED = "\u001B[31m";

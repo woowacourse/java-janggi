@@ -5,10 +5,10 @@ import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.destination.PoDestinationRule;
 import domain.movepolicy.path.PathRule;
 import domain.movepolicy.path.PoPathRule;
-import domain.position.Direction;
+import domain.movement.Direction;
 import domain.position.Position;
-import domain.position.SlidingDirectionFinder;
-import domain.position.SlidingPath;
+import domain.movement.SlidingDirectionFinder;
+import domain.movement.SlidingPath;
 
 public class Po extends FullPiece {
     private static final SlidingDirectionFinder SLIDING_DIRECTION_FINDER = new SlidingDirectionFinder();

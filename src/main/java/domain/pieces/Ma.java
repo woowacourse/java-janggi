@@ -5,9 +5,9 @@ import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.path.EmptyPathRule;
 import domain.movepolicy.path.PathRule;
-import domain.position.Direction;
-import domain.position.DirectionSequence;
-import domain.position.DirectionSequenceResult;
+import domain.movement.Direction;
+import domain.movement.DirectionSequence;
+import domain.movement.DirectionSequenceResult;
 import domain.position.Position;
 
 public class Ma extends FullPiece {

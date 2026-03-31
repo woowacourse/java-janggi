@@ -7,7 +7,7 @@ import domain.board.LeftSangSetup;
 import org.junit.jupiter.api.Test;
 import domain.pieces.PieceType;
 import domain.pieces.Side;
-import dto.PieceDto;
+import view.dto.PieceDto;
 
 class BoardViewMapperTest {
 

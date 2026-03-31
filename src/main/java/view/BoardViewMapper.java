@@ -5,7 +5,7 @@ import domain.pieces.Side;
 import java.util.Map;
 import domain.pieces.Piece;
 import domain.position.Position;
-import dto.PieceDto;
+import view.dto.PieceDto;
 
 public class BoardViewMapper {
     public PieceDto[][] map(Board board) {
