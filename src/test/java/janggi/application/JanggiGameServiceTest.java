@@ -1,7 +1,9 @@
 package janggi.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.application.dto.GameSnapshot;
 import janggi.application.dto.GameSummary;
 import janggi.domain.JanggiGame;
 import janggi.domain.status.Team;
@@ -20,7 +22,8 @@ public class JanggiGameServiceTest {
                 List.of(
                         new GameSummary(1L, false),
                         new GameSummary(2L, true)
-                )
+                ),
+                null
         );
         InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(List.of());
         JanggiGameService janggiGameService = new JanggiGameService(gameRepository,initialBoardProvider);
@@ -35,10 +38,10 @@ public class JanggiGameServiceTest {
     }
 
     @Test
-    @DisplayName("저장된 게임이 없을 시 새 게임 시작")
+    @DisplayName("새 게임 시작")
     void no_save_game_new_game_start() {
         // given
-        GameRepository gameRepository = new FakeGameRepository(List.of());
+        GameRepository gameRepository = new FakeGameRepository(List.of(),null);
         InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(
                 List.of(
                         PositionInfo.from(Team.CHO, "JANG", 4, 1),
@@ -53,5 +56,60 @@ public class JanggiGameServiceTest {
         // then
         assertThat(janggiGame.currentTurn()).isEqualTo(Team.CHO);
         assertThat(janggiGame.boardStatus()).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("선택한 게임 재시작")
+    void load_game() {
+        // given
+        GameSnapshot gameSnapshot = new GameSnapshot(
+                1L,
+                Team.HAN,
+                false,
+                null,
+                List.of(
+                        PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                        PositionInfo.from(Team.HAN, "JANG", 4, 8)
+                )
+        );
+        GameRepository gameRepository = new FakeGameRepository(
+                List.of(new GameSummary(1L, false)),
+                gameSnapshot
+        );
+        InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(List.of());
+        JanggiGameService janggiGameService = new JanggiGameService(gameRepository, initialBoardProvider);
+
+        // when
+        JanggiGame janggiGame = janggiGameService.loadGame(1L);
+
+        assertThat(janggiGame.currentTurn()).isEqualTo(Team.HAN);
+        assertThat(janggiGame.boardStatus()).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("선택한 게임이 없을 시 예외 발생")
+    void no_game_error() {
+        // given
+        GameSnapshot gameSnapshot = new GameSnapshot(
+                1L,
+                Team.HAN,
+                false,
+                null,
+                List.of(
+                        PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                        PositionInfo.from(Team.HAN, "JANG", 4, 8)
+                )
+        );
+        GameRepository gameRepository = new FakeGameRepository(
+                List.of(new GameSummary(1L, false)),
+                gameSnapshot
+        );
+        InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(List.of());
+        JanggiGameService janggiGameService = new JanggiGameService(gameRepository, initialBoardProvider);
+
+        // when & then
+        assertThatThrownBy(() -> janggiGameService.loadGame(2L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("존재하지");
     }
 }
