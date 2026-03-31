@@ -4,9 +4,9 @@ import domain.game.Team;
 
 public abstract class ActivePiece implements Piece {
     private final Team team;
-    private final PieceType type;
+    private final PieceDefinition type;
 
-    protected ActivePiece(Team team, PieceType type) {
+    protected ActivePiece(Team team, PieceDefinition type) {
         this.team = team;
         this.type = type;
     }

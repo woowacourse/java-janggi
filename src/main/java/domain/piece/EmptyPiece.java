@@ -32,6 +32,6 @@ public class EmptyPiece implements Piece {
 
     @Override
     public String toString() {
-        return PieceType.EMPTY.name();
+        return PieceDefinition.EMPTY.name();
     }
 }

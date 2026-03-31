@@ -2,7 +2,7 @@ package domain.board;
 
 import domain.game.Team;
 import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.piece.PieceDefinition;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
@@ -32,32 +32,37 @@ public abstract class AbstractBoardFactory {
     }
 
     private static void setFixedChoPieces(Map<Position, Piece> pieces) {
-        placePieces(pieces, Team.CHO, 1, PieceType.CHA);
-        placePieces(pieces, Team.CHO, 1, PieceType.SA);
-        placePieces(pieces, Team.CHO, 2, PieceType.GENERAL);
-        placePieces(pieces, Team.CHO, 3, PieceType.PHO);
-        placePieces(pieces, Team.CHO, 4, PieceType.BYEONG);
+        placePieces(pieces, Team.CHO, 1, PieceDefinition.CHA);
+        placePieces(pieces, Team.CHO, 1, PieceDefinition.SA);
+        placePieces(pieces, Team.CHO, 2, PieceDefinition.GENERAL);
+        placePieces(pieces, Team.CHO, 3, PieceDefinition.PHO);
+        placePieces(pieces, Team.CHO, 4, PieceDefinition.BYEONG);
     }
 
     private static void setFixedHanPieces(Map<Position, Piece> pieces) {
-        placePieces(pieces, Team.HAN, 10, PieceType.CHA);
-        placePieces(pieces, Team.HAN, 10, PieceType.SA);
-        placePieces(pieces, Team.HAN, 9, PieceType.GENERAL);
-        placePieces(pieces, Team.HAN, 8, PieceType.PHO);
-        placePieces(pieces, Team.HAN, 7, PieceType.BYEONG);
+        placePieces(pieces, Team.HAN, 10, PieceDefinition.CHA);
+        placePieces(pieces, Team.HAN, 10, PieceDefinition.SA);
+        placePieces(pieces, Team.HAN, 9, PieceDefinition.GENERAL);
+        placePieces(pieces, Team.HAN, 8, PieceDefinition.PHO);
+        placePieces(pieces, Team.HAN, 7, PieceDefinition.BYEONG);
     }
 
-    private static void placePieces(Map<Position, Piece> pieces, Team team, int row, PieceType type) {
+    private static void placePieces(Map<Position, Piece> pieces, Team team, int row, PieceDefinition type) {
         for (int column : type.getInitialColumns()) {
             pieces.put(new Position(row, column), type.createPiece(team));
         }
     }
 
-    protected void placeVariablePieces(Map<Position, Piece> pieces, Team team, List<PieceType> formation) {
-        List<Integer> columns = team == Team.CHO ? List.of(2, 3, 7, 8) : List.of(8, 7, 3, 2);
+    protected void placeVariablePieces(Map<Position, Piece> pieces, Team team, List<PieceDefinition> formation) {
+        List<Integer> columns;
+        if (team == Team.CHO) {
+            columns = List.of(2, 3, 7, 8);
+        } else {
+            columns = List.of(8, 7, 3, 2);
+        }
         for (int i = 0; i < columns.size(); i++) {
-            PieceType pieceType = formation.get(i);
-            pieces.put(new Position(getRow(team), columns.get(i)), pieceType.createPiece(team));
+            PieceDefinition pieceDefinition = formation.get(i);
+            pieces.put(new Position(getRow(team), columns.get(i)), pieceDefinition.createPiece(team));
         }
     }
 

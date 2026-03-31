@@ -4,10 +4,21 @@ import domain.game.Team;
 import domain.position.Position;
 import java.util.List;
 
-public class Cannon extends ActivePiece {
+public class StraightMovePiece extends ActivePiece {
 
-    public Cannon(Team team) {
-        super(team, PieceType.PHO);
+    private final boolean cannon;
+
+    public StraightMovePiece(Team team, PieceDefinition type, boolean cannon) {
+        super(team, type);
+        this.cannon = cannon;
+    }
+
+    public static StraightMovePiece chariot(Team team) {
+        return new StraightMovePiece(team, PieceDefinition.CHA, false);
+    }
+
+    public static StraightMovePiece cannon(Team team) {
+        return new StraightMovePiece(team, PieceDefinition.PHO, true);
     }
 
     @Override
@@ -20,11 +31,11 @@ public class Cannon extends ActivePiece {
         if (source.isSameCol(target)) {
             return source.makeRowStraightRoute(target);
         }
-
         return source.makeColStraightRoute(target);
     }
 
+    @Override
     public boolean isCannon() {
-        return true;
+        return cannon;
     }
 }

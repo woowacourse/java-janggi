@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.position.Position;
 import domain.game.Team;
+import domain.position.Position;
 import java.util.List;
 
 public class General extends ActivePiece {
@@ -9,7 +9,7 @@ public class General extends ActivePiece {
     private final List<Integer> dy = List.of(0, 0, -1, 1);
 
     public General(Team team) {
-        super(team, PieceType.GENERAL);
+        super(team, PieceDefinition.GENERAL);
     }
 
     @Override

@@ -1,16 +1,16 @@
 package domain.piece;
 
-import domain.position.Position;
 import domain.game.Team;
+import domain.position.Position;
 import java.util.List;
 
 public class Elephant extends ActivePiece {
-
+    //바꾸기
     private final List<Integer> dx = List.of(2, 3, -2, -3, -3, -2, 2, 3);
     private final List<Integer> dy = List.of(3, 2, 3, 2, -2, -3, -3, -2);
 
     public Elephant(Team team) {
-        super(team, PieceType.SANG);
+        super(team, PieceDefinition.SANG);
     }
 
     @Override

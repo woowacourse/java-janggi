@@ -10,18 +10,18 @@ public class ConsolePieceAppearance implements PieceAppearance {
             Team.HAN, "\u001B[31m"
     );
 
-    private static final Map<PieceType, String> DISPLAY_NAMES = Map.of(
-            PieceType.CHA, "차",
-            PieceType.MA, "마",
-            PieceType.SANG, "상",
-            PieceType.SA, "사",
-            PieceType.GENERAL, "궁",
-            PieceType.PHO, "포",
-            PieceType.BYEONG, "병"
+    private static final Map<PieceDefinition, String> DISPLAY_NAMES = Map.of(
+            PieceDefinition.CHA, "차",
+            PieceDefinition.MA, "마",
+            PieceDefinition.SANG, "상",
+            PieceDefinition.SA, "사",
+            PieceDefinition.GENERAL, "궁",
+            PieceDefinition.PHO, "포",
+            PieceDefinition.BYEONG, "병"
     );
 
     @Override
-    public String colorize(Team team, PieceType type) {
+    public String colorize(Team team, PieceDefinition type) {
         return COLORS.get(team) + DISPLAY_NAMES.get(type) + RESET;
     }
 
