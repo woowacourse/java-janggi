@@ -2,10 +2,6 @@ package domain;
 
 public record Position(int row, int col) {
 
-    public static Position of(int row, int col) {
-        return new Position(row, col);
-    }
-
     public Position up() {
         return new Position(this.row - 1, this.col);
     }

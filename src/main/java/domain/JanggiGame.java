@@ -14,9 +14,13 @@ public class JanggiGame {
     private final Board board;
     private GameStatus gameStatus;
 
-    public JanggiGame(Board board) {
+    private JanggiGame(Board board) {
         this.board = board;
         this.gameStatus = GameStatus.GREEN_PLAYER_TURN;
+    }
+
+    public static JanggiGame of(Board board) {
+        return new JanggiGame(board);
     }
 
     public void move(Position selectedPosition, Position destination) {

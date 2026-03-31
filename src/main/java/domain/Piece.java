@@ -8,14 +8,18 @@ public class Piece {
     private final PieceProperty pieceProperty;
     private final MoveStrategy moveStrategy;
 
-    public Piece(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
+    private Piece(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
         this.pieceProperty = pieceProperty;
         this.moveStrategy = moveStrategy;
     }
 
+    public static Piece of(PieceProperty pieceProperty, MoveStrategy moveStrategy) {
+        return new Piece(pieceProperty, moveStrategy);
+    }
+
     public void moveTo(Position destination) {
         this.moveStrategy.moveTo(destination);
-        moveStrategy.updateRoute();
+        this.moveStrategy.updateRoute();
     }
 
     public boolean canMoveTo(Position destination) {

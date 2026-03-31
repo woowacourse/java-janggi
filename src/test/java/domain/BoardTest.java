@@ -15,9 +15,9 @@ class BoardTest {
     @DisplayName("플레이어가 선택한 기물과 플레이어가 가고자 하는 위치에 같은 팀 기물이 존재한다면 이동할 수 없다.")
     void input_board_out_of_range_test() {
         Map<Position, Piece> testBoard = new HashMap<>();
-        Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
+        Piece horsePiece = Piece.of(PieceProperty.of(PieceType.HORSE, Team.GREEN),
                 HorseMoveStrategy.of(new Position(3, 3)));
-        Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
+        Piece soldierPiece = Piece.of(PieceProperty.of(PieceType.SOLDIER, Team.GREEN),
                 HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
@@ -37,8 +37,8 @@ class BoardTest {
         Position selectPosition = new Position(3, 3);
         Position targetPosition = new Position(5, 2);
 
-        Piece select = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN), HorseMoveStrategy.of(selectPosition));
-        Piece target = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.RED), HorseMoveStrategy.of(targetPosition));
+        Piece select = Piece.of(PieceProperty.of(PieceType.HORSE, Team.GREEN), HorseMoveStrategy.of(selectPosition));
+        Piece target = Piece.of(PieceProperty.of(PieceType.SOLDIER, Team.RED), HorseMoveStrategy.of(targetPosition));
 
         testBoard.put(select.currentPosition(), select);
         testBoard.put(target.currentPosition(), target);
@@ -56,9 +56,9 @@ class BoardTest {
     @DisplayName("플레이어가 선택한 기물이 목적지로 이동할 수 있다.")
     void canMoveTo_test() {
         Map<Position, Piece> testBoard = new HashMap<>();
-        Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
+        Piece horsePiece = Piece.of(PieceProperty.of(PieceType.HORSE, Team.GREEN),
                 HorseMoveStrategy.of(new Position(3, 3)));
-        Piece soldierPiece = new Piece(PieceProperty.of(PieceType.SOLDIER, Team.RED),
+        Piece soldierPiece = Piece.of(PieceProperty.of(PieceType.SOLDIER, Team.RED),
                 HorseMoveStrategy.of(new Position(5, 2)));
         testBoard.put(horsePiece.currentPosition(), horsePiece);
         testBoard.put(soldierPiece.currentPosition(), soldierPiece);
@@ -74,13 +74,13 @@ class BoardTest {
     @DisplayName("포는 포를 넘을 수 없다.")
     void cannon_can_not_jump_cannon() {
         Map<Position, Piece> testBoard = new HashMap<>();
-        Piece selected = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
+        Piece selected = Piece.of(PieceProperty.of(PieceType.CANNON, Team.GREEN),
                 CannonMoveStrategy.of(new Position(3, 3)));
 
-        Piece fixed = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
+        Piece fixed = Piece.of(PieceProperty.of(PieceType.CANNON, Team.GREEN),
                 CannonMoveStrategy.of(new Position(5, 3)));
 
-        Piece destination = new Piece(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
+        Piece destination = Piece.of(PieceProperty.of(PieceType.EMPTY_VALUE, Team.NONE),
                 NonMoveableStrategy.of(new Position(7, 3)));
 
         testBoard.put(selected.currentPosition(), selected);
@@ -98,13 +98,12 @@ class BoardTest {
     @DisplayName("포는 포를 잡을 수 없다.")
     void cannon_can_not_catch_cannon() {
         Map<Position, Piece> testBoard = new HashMap<>();
-        Piece selected = new Piece(PieceProperty.of(PieceType.CANNON, Team.GREEN),
+        Piece selected = Piece.of(PieceProperty.of(PieceType.CANNON, Team.GREEN),
                 CannonMoveStrategy.of(new Position(3, 3)));
 
-        Piece fixed = new Piece(PieceProperty.of(PieceType.HORSE, Team.GREEN),
-                HorseMoveStrategy.of(new Position(5, 3)));
+        Piece fixed = Piece.of(PieceProperty.of(PieceType.HORSE, Team.GREEN), HorseMoveStrategy.of(new Position(5, 3)));
 
-        Piece destination = new Piece(PieceProperty.of(PieceType.CANNON, Team.RED),
+        Piece destination = Piece.of(PieceProperty.of(PieceType.CANNON, Team.RED),
                 CannonMoveStrategy.of(new Position(7, 3)));
 
         testBoard.put(selected.currentPosition(), selected);
