@@ -1,9 +1,9 @@
 package io;
 
 import domain.board.Board;
+import domain.board.Column;
 import domain.board.Position;
 import domain.game.Turn;
-import domain.board.Col;
 import domain.board.Row;
 
 public class OutputView {
@@ -48,8 +48,8 @@ public class OutputView {
 
     private void appendRow(StringBuilder stringBuilder, Board board, Row row) {
         stringBuilder.append(String.format("%2s  ", row.display()));
-        for (Col col : Col.values()) {
-            appendCell(stringBuilder, board, new Position(col, row));
+        for (Column column : Column.values()) {
+            appendCell(stringBuilder, board, new Position(column, row));
         }
         stringBuilder.append("\n");
     }

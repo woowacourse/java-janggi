@@ -1,7 +1,7 @@
 package domain.setup;
 
 import domain.board.Position;
-import domain.board.Col;
+import domain.board.Column;
 import domain.board.Row;
 import java.util.Arrays;
 import java.util.List;
@@ -31,9 +31,9 @@ public class Coordinate {
     }
 
     private static Position toPosition(String token) {
-        Col col = Col.toCol(token.charAt(COL_POSITION_INDEX));
+        Column column = Column.toCol(token.charAt(COL_POSITION_INDEX));
         Row row = Row.toRow(token.charAt(ROW_POSITION_INDEX));
-        return new Position(col, row);
+        return new Position(column, row);
     }
 
     private static void validateInput(String input) {

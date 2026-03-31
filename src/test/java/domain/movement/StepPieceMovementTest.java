@@ -1,6 +1,6 @@
 package domain.movement;
 
-import domain.board.Col;
+import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
 import org.junit.jupiter.api.DisplayName;
@@ -13,15 +13,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("StepPieceMovement 클래스 테스트")
 class StepPieceMovementTest {
 
-    private Position pos(Col col, Row row) {
-        return new Position(col, row);
+    private Position pos(Column column, Row row) {
+        return new Position(column, row);
     }
 
     @Test
     @DisplayName("기물이 보드 중앙에 위치한다 가정, 후보 경로를 정상적으로 생성한다")
     void fromCenterCreatesFourLinearPaths() {
         StepPieceMovement movement = new StepPieceMovement();
-        Position center = pos(Col.E, Row.FOUR);
+        Position center = pos(Column.E, Row.FOUR);
 
         Paths paths = movement.candidatePaths(center);
 
@@ -32,18 +32,18 @@ class StepPieceMovementTest {
     @DisplayName("각 경로는 보드 경계까지로 구성된다")
     void eachPathExtendsToEdge() {
         StepPieceMovement movement = new StepPieceMovement();
-        Position center = pos(Col.E, Row.FOUR);
+        Position center = pos(Column.E, Row.FOUR);
 
         Paths paths = movement.candidatePaths(center);
 
         Path upPath = paths.asList().stream()
-                .filter(p -> p.endsAt(pos(Col.E, Row.ZERO)))
+                .filter(p -> p.endsAt(pos(Column.E, Row.ZERO)))
                 .findFirst()
                 .orElse(null);
         assertThat(upPath).isNotNull();
 
         Path downPath = paths.asList().stream()
-                .filter(p -> p.endsAt(pos(Col.E, Row.NINE)))
+                .filter(p -> p.endsAt(pos(Column.E, Row.NINE)))
                 .findFirst()
                 .orElse(null);
         assertThat(downPath).isNotNull();
@@ -53,20 +53,20 @@ class StepPieceMovementTest {
     @DisplayName("위 방향 경로는 모든 중간 위치를 포함한다")
     void upPathContainsAllIntermediatePositions() {
         StepPieceMovement movement = new StepPieceMovement();
-        Position start = pos(Col.E, Row.FOUR);
+        Position start = pos(Column.E, Row.FOUR);
 
         Paths paths = movement.candidatePaths(start);
 
         Path upPath = paths.asList().stream()
-                .filter(p -> p.endsAt(pos(Col.E, Row.ZERO)))
+                .filter(p -> p.endsAt(pos(Column.E, Row.ZERO)))
                 .findFirst()
                 .orElseThrow();
 
         List<Position> intermediates = upPath.intermediates();
         assertThat(intermediates).containsExactly(
-                pos(Col.E, Row.THREE),
-                pos(Col.E, Row.TWO),
-                pos(Col.E, Row.ONE)
+                pos(Column.E, Row.THREE),
+                pos(Column.E, Row.TWO),
+                pos(Column.E, Row.ONE)
         );
     }
 
@@ -74,17 +74,17 @@ class StepPieceMovementTest {
     @DisplayName("경로 내 중간 위치들이 순서대로 정렬된다")
     void pathIntermediatesAreOrdered() {
         StepPieceMovement movement = new StepPieceMovement();
-        Position start = pos(Col.A, Row.ZERO);
+        Position start = pos(Column.A, Row.ZERO);
 
         Paths paths = movement.candidatePaths(start);
 
         Path downPath = paths.asList().stream()
-                .filter(p -> p.endsAt(pos(Col.A, Row.NINE)))
+                .filter(p -> p.endsAt(pos(Column.A, Row.NINE)))
                 .findFirst()
                 .orElseThrow();
 
         List<Position> intermediates = downPath.intermediates();
-        assertThat(intermediates.get(0)).isEqualTo(pos(Col.A, Row.ONE));
-        assertThat(intermediates.get(7)).isEqualTo(pos(Col.A, Row.EIGHT));
+        assertThat(intermediates.get(0)).isEqualTo(pos(Column.A, Row.ONE));
+        assertThat(intermediates.get(7)).isEqualTo(pos(Column.A, Row.EIGHT));
     }
 }

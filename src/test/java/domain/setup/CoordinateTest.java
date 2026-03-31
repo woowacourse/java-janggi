@@ -1,6 +1,6 @@
 package domain.setup;
 
-import domain.board.Col;
+import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +19,8 @@ class CoordinateTest {
     void toCoordinateParseMixedCaseInput() {
         Coordinate coord = Coordinate.toCoordinate("E5 f3");
 
-        assertThat(coord.from()).isEqualTo(new Position(Col.E, Row.FIVE));
-        assertThat(coord.to()).isEqualTo(new Position(Col.F, Row.THREE));
+        assertThat(coord.from()).isEqualTo(new Position(Column.E, Row.FIVE));
+        assertThat(coord.to()).isEqualTo(new Position(Column.F, Row.THREE));
     }
 
     @Test
@@ -28,8 +28,8 @@ class CoordinateTest {
     void fromAndToReturnCorrectPositions() {
         Coordinate coord = Coordinate.toCoordinate("c3 g7");
 
-        assertThat(coord.from()).isEqualTo(new Position(Col.C, Row.THREE));
-        assertThat(coord.to()).isEqualTo(new Position(Col.G, Row.SEVEN));
+        assertThat(coord.from()).isEqualTo(new Position(Column.C, Row.THREE));
+        assertThat(coord.to()).isEqualTo(new Position(Column.G, Row.SEVEN));
     }
 
     @ParameterizedTest(name = "유효하지 않은 입력 '{0}'은 예외를 던진다")
