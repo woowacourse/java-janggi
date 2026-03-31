@@ -20,8 +20,18 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
+    @DisplayName("차 기물은 제자리 이동이 불가능하다.")
+    void chariot_cannot_move_same_position_test() {
+        Position current = new Position(4, 4);
+        Position target = new Position(4, 4);
+        ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
+
+        assertThat(moveStrategy.canMoveTo(current, target)).isFalse();
+    }
+
+    @Test
     @DisplayName("차 기물은 현재 위치 기준 모든 상하좌우 범위 이동 이외에 이동할 수 없어야 한다.")
-    void chariot_move_test_negative() {
+    void chariot_cannot_move_test() {
         Position current = new Position(4, 4);
         Position target = new Position(9, 5);
         ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
