@@ -14,30 +14,30 @@ import java.util.List;
 
 public class GameInitializer {
 
-    public Game initialize(String choName, String hanName, int choPositionInput, int hanPositionInput) {
+    public static Game initialize(String choName, String hanName, int choPositionInput, int hanPositionInput) {
         Players players = createPlayers(choName, hanName);
         Board board = createBoard(choPositionInput, hanPositionInput);
         return new Game(players, board);
     }
 
-    private Players createPlayers(String choName, String hanName) {
+    private static Players createPlayers(String choName, String hanName) {
         Player choPlayer = createPlayer(choName, CHO);
         Player hanPlayer = createPlayer(hanName, HAN);
         return new Players(List.of(choPlayer, hanPlayer));
     }
 
-    private Board createBoard(int choPositionInput, int hanPositionInput) {
+    private static Board createBoard(int choPositionInput, int hanPositionInput) {
         Formation choFormation = createFormation(choPositionInput);
         Formation hanFormation = createFormation(hanPositionInput);
 
         return BoardFactory.createWithFormation(choFormation, hanFormation);
     }
 
-    private Player createPlayer(String name, Team team) {
+    private static Player createPlayer(String name, Team team) {
         return new Player(new Name(name), team);
     }
 
-    private Formation createFormation(int positionInput) {
+    private static Formation createFormation(int positionInput) {
         return Formation.from(positionInput);
     }
 }
