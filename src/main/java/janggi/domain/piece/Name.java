@@ -9,7 +9,7 @@ public enum Name {
     GUARD("士"),
     SOLDIER("兵");
 
-    private String name;
+    private final String name;
 
     Name(final String name) {
         this.name = name;
