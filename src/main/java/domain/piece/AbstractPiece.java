@@ -11,7 +11,7 @@ public abstract class AbstractPiece implements Piece {
 
     protected final Team team;
 
-    public AbstractPiece(Team team) {
+    protected AbstractPiece(Team team) {
         this.team = team;
     }
 
