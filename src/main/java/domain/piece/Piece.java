@@ -54,6 +54,10 @@ public abstract class Piece {
         if (toState.isEmpty()) {
             return;
         }
+        validateToStateWithFromState(fromState, toState);
+    }
+
+    void validateToStateWithFromState(State fromState, State toState) {
         if (fromState.getPieceCountry() == toState.getPieceCountry()) {
             throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
         }

@@ -8,7 +8,6 @@ public class Cannon extends MoveStraightPiece {
     private static final String INVALID_JUMP_PIECE_COUNT = "[ERROR] 포는 하나의 기물만 뛰어 넘을 수 있습니다.";
     private static final String CANNOT_JUMP_CANNON = "[ERROR] 포는 포를 뛰어 넘을 수 없습니다.";
     private static final String CANNOT_KILL_CANNON = "[ERROR] 포는 포를 잡을 수 없습니다.";
-    private static final String CANNOT_MOVE_SAME_COUNTRY_POSITION = "[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.";
 
     private static final int CANNON_JUMP_PIECE_COUNT = 1;
 
@@ -17,15 +16,10 @@ public class Cannon extends MoveStraightPiece {
     }
 
     @Override
-    void validateToState(State fromState, State toState) {
-        if (toState.isEmpty()) {
-            return;
-        }
+    void validateToStateWithFromState(State fromState, State toState) {
+        super.validateToStateWithFromState(fromState, toState);
         if (fromState.getPieceType() == toState.getPieceType()) {
             throw new IllegalArgumentException(CANNOT_KILL_CANNON);
-        }
-        if (fromState.getPieceCountry() == toState.getPieceCountry()) {
-            throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
         }
     }
 
