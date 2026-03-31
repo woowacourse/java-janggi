@@ -1,8 +1,94 @@
 package board;
 
+import java.util.HashMap;
+import java.util.Map;
+import pieces.Cha;
+import pieces.Gung;
+import pieces.JolByeong;
+import pieces.Piece;
+import pieces.Po;
+import pieces.Sa;
 import pieces.Side;
+import position.Position;
 
-public interface SangSetup {
+public final class SangSetup {
 
-    Board initialize(Side side);
+    private static final int BOARD_ROW_SIZE = 9;
+    private static final int BOARD_COLUMN_SIZE = 8;
+
+    public static Board initialize(SangSetupType setupType, Side side) {
+        Map<Position, Piece> board = new HashMap<>();
+        putDefaultPieces(board, side);
+        board.putAll(createSangMa(setupType, side));
+        return new Board(board);
+    }
+
+    private static void putDefaultPieces(Map<Position, Piece> board, Side side) {
+        board.putAll(createCha(side));
+        board.putAll(createSa(side));
+        board.putAll(createGung(side));
+        board.putAll(createPo(side));
+        board.putAll(createJolByeong(side));
+    }
+
+    private static Map<Position, Piece> createCha(Side side) {
+        return Map.of(
+            toPosition(side, 0, 0), new Cha(side),
+            toPosition(side, 0, 8), new Cha(side)
+        );
+    }
+
+    private static Map<Position, Piece> createSa(Side side) {
+        return Map.of(
+            toPosition(side, 0, 3), new Sa(side),
+            toPosition(side, 0, 5), new Sa(side)
+        );
+    }
+
+    private static Map<Position, Piece> createGung(Side side) {
+        return Map.of(
+            toPosition(side, 1, 4), new Gung(side)
+        );
+    }
+
+    private static Map<Position, Piece> createPo(Side side) {
+        return Map.of(
+            toPosition(side, 2, 1), new Po(side),
+            toPosition(side, 2, 7), new Po(side)
+        );
+    }
+
+    private static Map<Position, Piece> createJolByeong(Side side) {
+        return Map.of(
+            toPosition(side, 3, 2), new JolByeong(side),
+            toPosition(side, 3, 4), new JolByeong(side),
+            toPosition(side, 3, 0), new JolByeong(side),
+            toPosition(side, 3, 6), new JolByeong(side),
+            toPosition(side, 3, 8), new JolByeong(side)
+        );
+    }
+
+    private static Map<Position, Piece> createSangMa(SangSetupType setupType, Side side) {
+        return Map.of(
+            toPosition(side, 0, 1), setupType.createFirst(side),
+            toPosition(side, 0, 2), setupType.createSecond(side),
+            toPosition(side, 0, 6), setupType.createThird(side),
+            toPosition(side, 0, 7), setupType.createFourth(side)
+        );
+    }
+
+    private static Position toPosition(Side side, int choRow, int choColumn) {
+        Position position = new Position(choRow, choColumn);
+        if (side.isCho()) {
+            return position;
+        }
+        return reverse(position);
+    }
+
+    private static Position reverse(Position position) {
+        return new Position(
+            BOARD_ROW_SIZE - position.row().index(),
+            BOARD_COLUMN_SIZE - position.column().index()
+        );
+    }
 }

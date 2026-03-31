@@ -1,6 +1,6 @@
 package view;
 
-import board.SangSetup;
+import board.SangSetupType;
 import pieces.Side;
 import position.Position;
 import util.Retry;
@@ -15,7 +15,7 @@ public class JanggiView {
         this.out = out;
     }
 
-    public SangSetup askSangSetupUntilSuccess(Side side) {
+    public SangSetupType askSangSetupUntilSuccess(Side side) {
         return Retry.untilSuccess(() -> {
             out.askSangSetup(side);
             return in.readSangSetup();

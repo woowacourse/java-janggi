@@ -1,4 +1,4 @@
-import board.SangSetup;
+import board.SangSetupType;
 import core.JanggiGame;
 import pieces.Side;
 import position.Position;
@@ -11,8 +11,8 @@ import view.OutputView;
 public class Application {
     public static void main(String[] args) {
         JanggiView view = new JanggiView(new InputView(), new OutputView());
-        SangSetup choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);
-        SangSetup hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
+        SangSetupType choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);
+        SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
         JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);
 
         new Application(game, view).run();

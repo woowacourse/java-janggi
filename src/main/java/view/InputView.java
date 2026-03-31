@@ -1,6 +1,6 @@
 package view;
 
-import board.SangSetup;
+import board.SangSetupType;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,9 +14,9 @@ public class InputView {
     private static final Pattern POSITION_PATTERN =
         Pattern.compile("(?<row>\\d+)\\s*,\\s*(?<column>\\d+)");
 
-    public SangSetup readSangSetup() {
+    public SangSetupType readSangSetup() {
         int inputNumber = parseInt(readStrippedLine());
-        return SangSetupType.from(inputNumber);
+        return SangSetupInput.from(inputNumber);
     }
 
     public Position readPosition() {

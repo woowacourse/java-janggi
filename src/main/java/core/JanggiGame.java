@@ -2,6 +2,7 @@ package core;
 
 import board.Board;
 import board.SangSetup;
+import board.SangSetupType;
 import participant.Turn;
 import pieces.Side;
 import position.Position;
@@ -34,9 +35,9 @@ public class JanggiGame {
         return turn.side();
     }
 
-    public static JanggiGame of(SangSetup choSangSetup, SangSetup hanSangSetup) {
-        Board choBoard = choSangSetup.initialize(Side.CHO);
-        Board hanBoard = hanSangSetup.initialize(Side.HAN);
+    public static JanggiGame of(SangSetupType choSangSetup, SangSetupType hanSangSetup) {
+        Board choBoard = SangSetup.initialize(choSangSetup, Side.CHO);
+        Board hanBoard = SangSetup.initialize(hanSangSetup, Side.HAN);
         return new JanggiGame(choBoard.merge(hanBoard));
     }
 

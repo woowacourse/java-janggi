@@ -17,9 +17,8 @@ import pieces.Sang;
 import pieces.Side;
 import position.Position;
 
-class InnerSangSetupTest {
+class SangSetupTest {
 
-    private final SangSetup setup = new InnerSangSetup();
     private static final int BOARD_ROW_SIZE = 9;
     private static final int BOARD_COLUMN_SIZE = 8;
 
@@ -27,9 +26,47 @@ class InnerSangSetupTest {
     @EnumSource(Side.class)
     void 공통_기물이_올바른_위치에_초기화된다(Side side) {
         // given
-        Map<Position, Piece> positions = getGeneralSangSetup(side);
+        Map<Position, Piece> pieces = getDefaultSangSetup(side);
         // when
-        Board board = setup.initialize(side);
+        Board board = SangSetup.initialize(SangSetupType.LEFT_SANG_SETUP, side);
+        // then
+        pieces.forEach((position, piece) ->
+            assertThat(board.pieces().get(position)).isEqualTo(piece)
+        );
+    }
+
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 왼상차림이_올바른_위치에_초기화된다(Side side) {
+        // given
+        SangSetupType type = SangSetupType.LEFT_SANG_SETUP;
+        Map<Position, Piece> positions = Map.of(
+            position(side, 0, 1), new Sang(side),
+            position(side, 0, 2), new Ma(side),
+            position(side, 0, 6), new Sang(side),
+            position(side, 0, 7), new Ma(side)
+        );
+        // when
+        Board board = SangSetup.initialize(type, side);
+        // then
+        positions.forEach((position, piece) ->
+            assertThat(board.pieces().get(position)).isEqualTo(piece)
+        );
+    }
+
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 오른상차림이_올바른_위치에_초기화된다(Side side) {
+        // given
+        SangSetupType type = SangSetupType.RIGHT_SANG_SETUP;
+        Map<Position, Piece> positions = Map.of(
+            position(side, 0, 1), new Ma(side),
+            position(side, 0, 2), new Sang(side),
+            position(side, 0, 6), new Ma(side),
+            position(side, 0, 7), new Sang(side)
+        );
+        // when
+        Board board = SangSetup.initialize(type, side);
         // then
         positions.forEach((position, piece) ->
             assertThat(board.pieces().get(position)).isEqualTo(piece)
@@ -39,20 +76,23 @@ class InnerSangSetupTest {
     @ParameterizedTest
     @EnumSource(Side.class)
     void 안상차림이_올바른_위치에_초기화된다(Side side) {
-        Board board = setup.initialize(side);
-
-        Map<Position, Piece> positions = new HashMap<>();
-        positions.put(position(side, 0, 1), new Ma(side));
-        positions.put(position(side, 0, 2), new Sang(side));
-        positions.put(position(side, 0, 6), new Sang(side));
-        positions.put(position(side, 0, 7), new Ma(side));
-
+        // given
+        SangSetupType type = SangSetupType.INNER_SANG_SETUP;
+        Map<Position, Piece> positions = Map.of(
+            position(side, 0, 1), new Ma(side),
+            position(side, 0, 2), new Sang(side),
+            position(side, 0, 6), new Sang(side),
+            position(side, 0, 7), new Ma(side)
+        );
+        // when
+        Board board = SangSetup.initialize(type, side);
+        // then
         positions.forEach((position, piece) ->
             assertThat(board.pieces().get(position)).isEqualTo(piece)
         );
     }
 
-    private Map<Position, Piece> getGeneralSangSetup(Side side) {
+    private Map<Position, Piece> getDefaultSangSetup(Side side) {
         Map<Position, Piece> positions = new HashMap<>();
         positions.put(position(side, 0, 0), new Cha(side));
         positions.put(position(side, 0, 3), new Sa(side));
@@ -85,4 +125,5 @@ class InnerSangSetupTest {
             BOARD_COLUMN_SIZE - position.column().index()
         );
     }
+
 }

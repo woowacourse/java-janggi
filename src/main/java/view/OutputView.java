@@ -12,7 +12,7 @@ public class OutputView {
 
     public void askSangSetup(Side side) {
         System.out.println(SIDE_SYMBOL.get(side) + "나라의 상차림을 선택해주세요.");
-        System.out.println(SangSetupType.convertDisplayFormat());
+        System.out.println(SangSetupInput.convertDisplayFormat());
     }
 
     public void printBoard(String board) {
