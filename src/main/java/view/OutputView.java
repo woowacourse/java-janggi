@@ -6,7 +6,7 @@ import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
 
 import domain.board.Board;
-import domain.piece.Piece;
+import domain.player.PlayerProfile;
 import domain.position.Position;
 
 public class OutputView {
