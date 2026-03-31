@@ -35,12 +35,25 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(Position start, Position end) {
-        return findMovePath(start, end).isPresent();
+    public String name() {
+        return pieceType.getName();
     }
 
     @Override
-    public Optional<MovePath> findMovePath(Position start, Position end) {
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    @Override
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
+    private boolean isValidMovePattern(Position start, Position end) {
+        return findMovePath(start, end).isPresent();
+    }
+
+    private Optional<MovePath> findMovePath(Position start, Position end) {
         int startX = start.getX();
         int startY = start.getY();
         int endX = end.getX();
@@ -54,42 +67,6 @@ public class Po implements Piece {
         return paths.stream()
             .filter(path -> path.matchesDirection(dx, dy))
             .findFirst();
-    }
-
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePath> movePath = findMovePath(start, end);
-        if (movePath.isEmpty()) {
-            return false;
-        }
-        List<Position> intermediatePositions = movePath.get().intermediatePositions(start, end);
-        List<Piece> obstacles = intermediatePositions.stream()
-            .map(board::findPiece)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
-        if (obstacles.size() != 1) {
-            return false;
-        }
-        if (obstacles.getFirst().getPieceType() == PieceType.PO) {
-            return false;
-        }
-        Optional<Piece> targetPiece = board.findPiece(end);
-        return targetPiece.isEmpty() || !(targetPiece.get().getPieceType() == PieceType.PO);
-    }
-
-    @Override
-    public String name() {
-        return pieceType.getName();
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
     }
 
     private void validateObstacles(Position start, Position end, Board board) {
@@ -110,7 +87,7 @@ public class Po implements Piece {
             throw new IllegalArgumentException("이동 경로에 기물이 1개 이상 존재합니다.");
         }
         if (obstacles.getFirst().getPieceType() == PieceType.PO) {
-            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
+            throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
     }
 }

@@ -1,61 +1,72 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class SaTest {
 
-    @Test
-    @DisplayName("사는 상하좌우 한 칸 이동할 수 있다.")
-    void isValidMovePatternStraightOneStep() {
+    private Sa sa;
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = Board.createInitialBoard();
+        sa = new Sa(TeamType.HAN);
+    }
+
+    @ParameterizedTest
+    @DisplayName("사는 상하좌우 및 대각선으로 한 칸 이동할 수 있다.")
+    @CsvSource({
+            "4, 1, 4, 2",
+            "4, 1, 5, 1",
+            "4, 1, 3, 1",
+            "4, 1, 5, 2",
+            "4, 1, 3, 2"
+    })
+    void validateCanMove_Success(int startX, int startY, int endX, int endY) {
         // given
-        Sa sa = new Sa(TeamType.CHU);
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
 
         // when & then
-        assertAll(
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 5))).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 3))).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(5, 4))).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(3, 4))).isTrue()
-        );
+        assertThatCode(() -> sa.validateCanMove(start, end, board))
+                .doesNotThrowAnyException();
     }
 
     @Test
-    @DisplayName("사는 대각선 한 칸 이동할 수 있다.")
-    void isValidMovePatternDiagonalOneStep() {
+    @DisplayName("한 칸을 초과하여 이동하거나 제자리 이동일 경우 예외 발생")
+    void validateCanMove_Fail_InvalidPattern() {
         // given
-        Sa sa = new Sa(TeamType.CHU);
+        Position start = new Position(4, 1);
+        Position moveTwoSteps = new Position(4, 3);
+        Position moveLongDiagonal = new Position(6, 3);
+        Position knightMove = new Position(5, 3);
+        Position samePosition = new Position(4, 1);
 
         // when & then
         assertAll(
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(5, 3))).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(3, 5))).isTrue(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(3, 3))).isTrue()
+                () -> assertThatThrownBy(() -> sa.validateCanMove(start, moveTwoSteps, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다."),
+                () -> assertThatThrownBy(() -> sa.validateCanMove(start, moveLongDiagonal, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다."),
+                () -> assertThatThrownBy(() -> sa.validateCanMove(start, knightMove, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다."),
+                () -> assertThatThrownBy(() -> sa.validateCanMove(start, samePosition, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다.")
         );
-    }
-
-    @Test
-    @DisplayName("사는 두 칸 이상 이동하거나 제자리로 이동할 수 없다.")
-    void cannotMoveInvalidPattern() {
-        // given
-        Sa sa = new Sa(TeamType.CHU);
-
-        // when & then
-        assertAll(
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(6, 4))).isFalse(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(6, 6))).isFalse(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 6))).isFalse(),
-            () -> assertThat(sa.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse()
-        );
-    }
-
-    private Position createPosition(int x, int y) {
-        return new Position(x, y);
     }
 }

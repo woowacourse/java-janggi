@@ -1,78 +1,89 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class MaTest {
 
-    @Test
-    @DisplayName("마는 여덟 방향의 L자 이동을 할 수 있다.")
-    void isValidMovePattern() {
+    private Ma ma;
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = Board.createInitialBoard();
+        ma = new Ma(TeamType.HAN);
+    }
+
+    @ParameterizedTest
+    @DisplayName("마는 이동 경로(멱)에 장애물이 없다면 L자 모양으로 이동할 수 있다.")
+    @CsvSource({
+            "4, 4, 5, 6",
+            "4, 4, 3, 6",
+            "4, 4, 5, 2",
+            "4, 4, 3, 2"
+    })
+    void validateCanMove_Success(int startX, int startY, int endX, int endY) {
         // given
-        Ma ma = new Ma(TeamType.CHU);
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
+
+        // when & then
+        assertThatCode(() -> ma.validateCanMove(start, end, board))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("마의 행마법(L자)이 아니거나 제자리로 이동할 경우 예외 발생")
+    void validateCanMove_Fail_InvalidPattern() {
+        // given
+        Position start = new Position(4, 4);
+        Position straightEnd = new Position(4, 6);
+        Position diagonalEnd = new Position(5, 5);
+        Position longEnd = new Position(6, 7);
 
         // when & then
         assertAll(
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(5, 6))).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(3, 6))).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(5, 2))).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(3, 2))).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(2, 5))).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(2, 3))).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(6, 5))).isTrue(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(6, 3))).isTrue()
+                () -> assertThatThrownBy(() -> ma.validateCanMove(start, straightEnd, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다."),
+                () -> assertThatThrownBy(() -> ma.validateCanMove(start, diagonalEnd, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다."),
+                () -> assertThatThrownBy(() -> ma.validateCanMove(start, longEnd, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다."),
+                () -> assertThatThrownBy(() -> ma.validateCanMove(start, start, board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다.")
         );
     }
 
-    @Test
-    @DisplayName("마는 직선이나 대각선으로 이동할 수 없고 제자리 이동도 할 수 없다.")
-    void cannotMoveInvalidPattern() {
+    @ParameterizedTest
+    @DisplayName("마의 멱(직선 방향의 첫 칸)에 기물이 존재할 경우 예외 발생")
+    @CsvSource({
+            "4, 4, 6, 5",
+            "4, 4, 6, 3",
+            "4, 4, 2, 5",
+            "4, 4, 2, 3"
+    })
+    void validateCanMove_Fail_ObstacleExist(int startX, int startY, int endX, int endY) {
         // given
-        Ma ma = new Ma(TeamType.CHU);
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
 
         // when & then
-        assertAll(
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(4, 5))).isFalse(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isFalse(),
-            () -> assertThat(ma.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse()
-        );
-    }
-
-    @Test
-    @DisplayName("이동 경로의 첫 칸이 비어 있으면 마는 이동할 수 있다.")
-    void isValidPathWhenIntermediatePositionIsEmpty() {
-        // given
-        Ma ma = new Ma(TeamType.CHU);
-        Board board = Board.createInitialBoard();
-
-        // when
-        boolean result = ma.isObstaclesNotExist(new Position(2, 1), new Position(3, 3), board);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("이동 경로의 첫 칸이 막혀 있으면 마는 이동할 수 없다.")
-    void cannotMoveWhenIntermediatePositionIsBlocked() {
-        // given
-        Ma ma = new Ma(TeamType.CHU);
-        Board board = Board.createInitialBoard();
-
-        // when
-        boolean result = ma.isObstaclesNotExist(new Position(2, 1), new Position(4, 2), board);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    private Position createPosition(int x, int y) {
-        return new Position(x, y);
+        assertThatThrownBy(() -> ma.validateCanMove(start, end, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
     }
 }

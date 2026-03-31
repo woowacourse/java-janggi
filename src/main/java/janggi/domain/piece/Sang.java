@@ -41,29 +41,6 @@ public class Sang implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(Position start, Position end) {
-        return findMovePath(start, end).isPresent();
-    }
-
-    @Override
-    public Optional<MovePath> findMovePath(Position start, Position end) {
-        int dx = end.getX() - start.getX();
-        int dy = end.getY() - start.getY();
-        return paths.stream()
-            .filter(path -> path.matches(dx, dy))
-            .findFirst();
-    }
-
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePath> movePath = findMovePath(start, end);
-        if (movePath.isEmpty()) {
-            return false;
-        }
-        return movePath.get().intermediatePositions(start, end).stream()
-            .noneMatch(board::hasPiece);
-    }
-
-    @Override
     public String name() {
         return pieceType.getName();
     }
@@ -76,5 +53,26 @@ public class Sang implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    private boolean isValidMovePattern(Position start, Position end) {
+        return findMovePath(start, end).isPresent();
+    }
+
+    private Optional<MovePath> findMovePath(Position start, Position end) {
+        int dx = end.getX() - start.getX();
+        int dy = end.getY() - start.getY();
+        return paths.stream()
+            .filter(path -> path.matches(dx, dy))
+            .findFirst();
+    }
+
+    private boolean isObstaclesNotExist(Position start, Position end, Board board) {
+        Optional<MovePath> movePath = findMovePath(start, end);
+        if (movePath.isEmpty()) {
+            return false;
+        }
+        return movePath.get().intermediatePositions(start, end).stream()
+            .noneMatch(board::hasPiece);
     }
 }

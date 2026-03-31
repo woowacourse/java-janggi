@@ -37,12 +37,25 @@ public class Gung implements Piece {
     }
 
     @Override
-    public boolean isValidMovePattern(Position start, Position end) {
-        return findMovePath(start, end).isPresent();
+    public String name() {
+        return pieceType.getName();
     }
 
     @Override
-    public Optional<MovePath> findMovePath(Position start, Position end) {
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    @Override
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
+    private boolean isValidMovePattern(Position start, Position end) {
+        return findMovePath(start, end).isPresent();
+    }
+
+    private Optional<MovePath> findMovePath(Position start, Position end) {
         int dx = end.getX() - start.getX();
         int dy = end.getY() - start.getY();
         int distanceX = Math.abs(dx);
@@ -64,20 +77,5 @@ public class Gung implements Piece {
 
     private boolean isOneStep(int distanceX, int distanceY) {
         return distanceX <= 1 && distanceY <= 1;
-    }
-
-    @Override
-    public String name() {
-        return pieceType.getName();
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
     }
 }

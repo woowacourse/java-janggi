@@ -1,78 +1,78 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class SangTest {
 
-    @Test
-    @DisplayName("상은 여덟 방향으로 이동할 수 있다.")
-    void isValidMovePattern() {
+    private Sang sang;
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = Board.createInitialBoard();
+        sang = new Sang(TeamType.HAN);
+    }
+
+    @ParameterizedTest
+    @DisplayName("상은 경로상에 장애물이 없다면 '1칸 직선 + 2칸 대각선'으로 이동할 수 있다.")
+    @CsvSource({
+            "4, 4, 6, 7",
+            "4, 4, 2, 7",
+            "4, 5, 6, 2",
+            "4, 4, 2, 1"
+    })
+    void validateCanMove_Success(int startX, int startY, int endX, int endY) {
         // given
-        Sang sang = new Sang(TeamType.CHU);
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
 
         // when & then
+        assertThatCode(() -> sang.validateCanMove(start, end, board))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("상의 행마 패턴(대형 L자)이 아닐 경우 예외 발생")
+    void validateCanMove_Fail_InvalidPattern() {
+        Position start = new Position(4, 4);
+
         assertAll(
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(7, 6))).isTrue(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(1, 6))).isTrue(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(7, 2))).isTrue(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(1, 2))).isTrue(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(6, 7))).isTrue(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(6, 1))).isTrue(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(2, 7))).isTrue(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(2, 1))).isTrue()
+                () -> assertThatThrownBy(() -> sang.validateCanMove(start, new Position(4, 7), board))
+                        .isInstanceOf(IllegalArgumentException.class),
+                () -> assertThatThrownBy(() -> sang.validateCanMove(start, new Position(5, 6), board))
+                        .isInstanceOf(IllegalArgumentException.class),
+                () -> assertThatThrownBy(() -> sang.validateCanMove(start, start, board))
+                        .isInstanceOf(IllegalArgumentException.class)
         );
     }
 
-    @Test
-    @DisplayName("상은 잘못된 이동 패턴이나 제자리 이동을 할 수 없다.")
-    void cannotMoveInvalidPattern() {
+    @ParameterizedTest
+    @DisplayName("상 이동 경로의 첫 번째 멱(직선)이나 두 번째 멱(대각선)에 기물이 있을 경우 예외 발생")
+    @CsvSource({
+            "4, 4, 7, 6",
+            "4, 4, 1, 6",
+            "4, 4, 7, 2",
+            "4, 4, 1, 2"
+    })
+    void validateCanMove_Fail_ObstacleExist(int startX, int startY, int endX, int endY) {
         // given
-        Sang sang = new Sang(TeamType.CHU);
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
 
         // when & then
-        assertAll(
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(4, 5))).isFalse(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(5, 5))).isFalse(),
-            () -> assertThat(sang.isValidMovePattern(createPosition(4, 4), createPosition(4, 4))).isFalse()
-        );
-    }
-
-    @Test
-    @DisplayName("이동 경로가 비어 있으면 상은 이동할 수 있다.")
-    void isObstaclesNotExistWhenIntermediatePositionsAreEmpty() {
-        // given
-        Sang sang = new Sang(TeamType.CHU);
-        Board board = Board.createInitialBoard();
-
-        // when
-        boolean result = sang.isObstaclesNotExist(new Position(4, 5), new Position(7, 7), board);
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("이동 경로 중 하나라도 막혀 있으면 상은 이동할 수 없다.")
-    void cannotMoveWhenIntermediatePositionIsBlocked() {
-        // given
-        Sang sang = new Sang(TeamType.CHU);
-        Board board = Board.createInitialBoard();
-
-        // when
-        boolean result = sang.isObstaclesNotExist(new Position(4, 2), new Position(7, 4), board);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    private Position createPosition(int x, int y) {
-        return new Position(x, y);
+        assertThatThrownBy(() -> sang.validateCanMove(start, end, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
     }
 }
