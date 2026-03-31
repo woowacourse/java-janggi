@@ -19,7 +19,7 @@ public class Board {
 
     public void move(Position source, Position destination, Team currentTurnTeam) {
         if (!hasPiece(source)) {
-            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+            throw new JanggiException("비어있는 곳입니다.");
         }
         Piece movePiece = findPiece(source);
         validateTurnTeam(movePiece, currentTurnTeam);
@@ -35,7 +35,7 @@ public class Board {
 
     public Piece findPiece(Position position) {
         if (!hasPiece(position)) {
-            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+            throw new JanggiException("비어있는 곳입니다.");
         }
         return board.get(position);
     }
@@ -48,19 +48,9 @@ public class Board {
         }
     }
 
-    public Team getTeamAt(Position position) {
-        Piece piece = findPiece(position);
-
-        if (!piece.isNotNone()) {
-            throw new JanggiException("비어있는 곳입니다.");
-        }
-
-        return piece.getTeam();
-    }
-
     private void validateTurnTeam(Piece piece, Team currentTurnTeam) {
         if (piece.isDifferentTeam(currentTurnTeam)) {
-            throw new JanggiException(DIFFERENT_TEAM.getMessage(currentTurnTeam));
+            throw new JanggiException("다른 팀입니다.");
         }
     }
 
