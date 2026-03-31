@@ -1,7 +1,5 @@
 package view;
 
-import util.InputParser;
-
 import java.util.List;
 import java.util.Scanner;
 

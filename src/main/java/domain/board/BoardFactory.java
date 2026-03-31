@@ -10,12 +10,12 @@ import java.util.Map;
 
 public class BoardFactory {
 
-    public static Board create(String choOption, String hanOption) {
+    public static Board create(FormationType choFormation, FormationType hanFormation) {
         Map<Coordination, Piece> board = new HashMap<>();
-
         placeEmpty(board);
-        board.putAll(PlacementOption.hanFrom(hanOption).place());
-        board.putAll(PlacementOption.choFrom(choOption).place());
+
+        board.putAll(PlacementStrategyRegistry.forHan(hanFormation).place());
+        board.putAll(PlacementStrategyRegistry.forCho(choFormation).place());
 
         return new Board(board);
     }

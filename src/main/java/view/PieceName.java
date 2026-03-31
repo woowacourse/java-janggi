@@ -1,4 +1,4 @@
-package util;
+package view;
 
 import domain.piece.Team;
 

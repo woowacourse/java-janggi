@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.board.FormationType;
 import domain.coordination.Coordination;
 import domain.game.dto.BoardDto;
 import java.util.List;
@@ -15,8 +16,8 @@ public class JanggiGame {
         this.board = board;
     }
 
-    public static JanggiGame of(String inputCho, String inputHan) {
-        return new JanggiGame(BoardFactory.create(inputCho, inputHan));
+    public static JanggiGame of(FormationType choFormat, FormationType hanFormat) {
+        return new JanggiGame(BoardFactory.create(choFormat, hanFormat));
     }
 
     public boolean isGameEnd() {

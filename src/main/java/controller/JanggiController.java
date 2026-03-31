@@ -1,5 +1,7 @@
 package controller;
 
+import domain.board.FormationType;
+import domain.board.PlacementInputMapper;
 import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.game.dto.BoardDto;
@@ -24,7 +26,10 @@ public class JanggiController {
     public void start() {
         String inputCho = inputView.inputPlacementOption(CHO);
         String inputHan = inputView.inputPlacementOption(HAN);
-        JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
+
+        FormationType choFormation = PlacementInputMapper.toFormationType(inputCho);
+        FormationType hanFormation = PlacementInputMapper.toFormationType(inputHan);
+        JanggiGame janggiGame = JanggiGame.of(choFormation, hanFormation);
 
         outputView.printBoard(janggiGame.createBoardDto());
         while (!janggiGame.isGameEnd()) {

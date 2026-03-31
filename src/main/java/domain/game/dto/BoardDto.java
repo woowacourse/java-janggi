@@ -2,7 +2,7 @@ package domain.game.dto;
 
 import domain.coordination.Coordination;
 import domain.piece.Piece;
-import util.PieceName;
+import view.PieceName;
 
 import java.util.List;
 import java.util.Map;

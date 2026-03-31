@@ -17,7 +17,7 @@ class BoardTest {
             "6,7"
     })
     void 기물을_움직였을_때_보드판에_실제로_저장된다(int column, int row) {
-        Board board = BoardFactory.create("1", "1");
+        Board board = BoardFactory.create(FormationType.DEFAULT, FormationType.DEFAULT);
 
         Coordination from = Coordination.of(5, 7);
         Piece fromPiece = board.board.get(from);
