@@ -1,14 +1,12 @@
 package domain.board;
 
 import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
 import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
 
 import domain.piece.Cha;
 import domain.piece.Jang;
 import domain.piece.Jol;
-import domain.piece.None;
+import domain.piece.Ma;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Po;
@@ -44,12 +42,6 @@ public class BoardFactory {
 
     private static Map<Position, Piece> createInitialBoard() {
         Map<Position, Piece> board = new HashMap<>();
-
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-                board.put(new Position(row, column), new None());
-            }
-        }
         addChoPieces(board);
         addHanPieces(board);
 

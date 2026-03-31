@@ -7,7 +7,6 @@ import static common.Constants.MIN_ROW;
 
 import domain.board.Board;
 import domain.piece.Piece;
-import domain.player.PlayerProfile;
 import domain.position.Position;
 
 public class OutputView {
@@ -46,9 +45,12 @@ public class OutputView {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%3d   ", row));
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Piece piece = board.findPiece(new Position(row, column));
-
-            sb.append(ConsolePieceMapper.toViewString(piece.getTeam(), piece.getPieceType()));
+            Position position = new Position(row, column);
+            if (board.hasPiece(position)) {
+                sb.append(ConsolePieceMapper.toViewString(board.findPiece(position)));
+            } else {
+                sb.append(ConsolePieceMapper.toEmptyString());
+            }
 
             if (column != MAX_COLUMN) {
                 sb.append("---");

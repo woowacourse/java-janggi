@@ -1,7 +1,6 @@
 package domain.board;
 
 import common.exception.JanggiException;
-import domain.piece.None;
 import domain.piece.Piece;
 import domain.player.Team;
 import domain.position.Path;
@@ -18,25 +17,32 @@ public class Board {
         this.board = board;
     }
 
-    public Piece move(Position source, Position destination) {
-        validateMovement(source, destination);
+    public void move(Position source, Position destination, Team currentTurnTeam) {
+        if (!hasPiece(source)) {
+            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+        }
         Piece movePiece = findPiece(source);
-        Piece destinationPiece = findPiece(destination);
+        validateTurnTeam(movePiece, currentTurnTeam);
+        validateMovement(movePiece, source, destination);
 
-        board.put(source, new None());
+        board.remove(source);
         board.put(destination, movePiece);
+    }
 
-        return destinationPiece;
+    public boolean hasPiece(Position position) {
+        return board.containsKey(position);
     }
 
     public Piece findPiece(Position position) {
+        if (!hasPiece(position)) {
+            throw new JanggiException(EMPTY_SOURCE_POSITION.getMessage());
+        }
         return board.get(position);
     }
 
-    private void validateMovement(Position source, Position destination) {
-        Piece piece = findPiece(source);
+    private void validateMovement(Piece piece, Position source, Position destination) {
         Path path = piece.calculatePath(source, destination);
-        PathPieces pathPieces = createPathPieces(path);
+        PathPieces pathPieces = createPathPieces(piece, path);
         if (!piece.validatePath(pathPieces)) {
             throw new JanggiException("기물을 이동할 수 없습니다.");
         }
@@ -52,21 +58,25 @@ public class Board {
         return piece.getTeam();
     }
 
-    private PathPieces createPathPieces(Path path) {
+    private void validateTurnTeam(Piece piece, Team currentTurnTeam) {
+        if (piece.isDifferentTeam(currentTurnTeam)) {
+            throw new JanggiException(DIFFERENT_TEAM.getMessage(currentTurnTeam));
+        }
+    }
+
+    private PathPieces createPathPieces(Piece sourcePiece, Path path) {
         List<Position> wayPoints = path.waypoints();
         List<Piece> pieces = new ArrayList<>();
 
         for (Position point : wayPoints) {
-            Piece pointPiece = findPiece(point);
-            addPieceInPath(pointPiece, pieces);
+            if (hasPiece(point)) {
+                pieces.add(findPiece(point));
+            }
         }
 
-        return new PathPieces(findPiece(path.source()), pieces, findPiece(path.destination()));
-    }
-
-    private void addPieceInPath(Piece piece, List<Piece> pieces) {
-        if (piece.isNotNone()) {
-            pieces.add(piece);
+        if (hasPiece(path.destination())) {
+            return new PathPieces(sourcePiece, pieces, findPiece(path.destination()));
         }
+        return new PathPieces(sourcePiece, pieces);
     }
 }

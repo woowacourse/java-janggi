@@ -11,8 +11,7 @@ public enum PieceType {
     SANG(Sang::new),
     JANG(Jang::new),
     PO(Po::new),
-    JOL(Jol::new),
-    NONE(team -> new None());
+    JOL(Jol::new);
 
     private final Function<Team, Piece> pieceCreator;
 

@@ -1,7 +1,7 @@
 package view;
 
+import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.player.Team;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -21,24 +21,23 @@ public class ConsolePieceMapper {
         SYMBOLS.put(PieceType.JANG, "JA");
         SYMBOLS.put(PieceType.PO, "PO");
         SYMBOLS.put(PieceType.JOL, "ZO");
-        SYMBOLS.put(PieceType.NONE, "  ");
     }
 
-    public static String toViewString(Team team, PieceType pieceType) {
-        String symbol = SYMBOLS.getOrDefault(pieceType, "  ");
+    public static String toViewString(Piece piece) {
+        String symbol = SYMBOLS.getOrDefault(piece.getPieceType(), "  ");
 
-        if (pieceType == PieceType.NONE || team == null) {
-            return String.format("[%2s]", symbol);
-        }
-
-        if (team.isCho()) {
+        if (piece.getTeam().isCho()) {
             return String.format("[%s%2s%s]", ANSI_BLUE, symbol, ANSI_RESET);
         }
 
-        if (team.isHan()) {
+        if (piece.getTeam().isHan()) {
             return String.format("[%s%2s%s]", ANSI_RED, symbol, ANSI_RESET);
         }
 
         return String.format("[%2s]", symbol);
+    }
+
+    public static String toEmptyString() {
+        return "[  ]";
     }
 }

@@ -37,7 +37,6 @@ class BoardFactoryTest {
     private void assertPiece(Board board, int row, int column, Team expectedTeam, PieceType expectedPieceType) {
         Piece piece = board.findPiece(new Position(row, column));
         assertEquals(expectedTeam, piece.getTeam());
-
         assertEquals(expectedPieceType, piece.getPieceType());
     }
 

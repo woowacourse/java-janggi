@@ -20,15 +20,24 @@ public abstract class Piece {
 
     public abstract boolean validatePath(PathPieces pathPieces);
 
+    public Path calculatePath(Position source, Position destination) {
+        return this.getPathGenerator().calculatePath(source, destination);
+    }
+
+    public boolean validatePath(PathPieces pathPieces) {
+        return this.getMovementStrategy().validatePath(pathPieces);
+    }
+
     public boolean isDifferentTeam(Piece piece) {
-        if (!piece.isNotNone()) {
-            return true;
-        }
         return this.team != piece.team;
     }
 
-    public boolean isNotNone() {
-        return this.pieceType != PieceType.NONE;
+    public boolean isDifferentTeam(Team team) {
+        return this.team != team;
+    }
+
+    public boolean isType(PieceType type) {
+        return this.pieceType == type;
     }
 
     @Override
