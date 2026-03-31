@@ -17,10 +17,18 @@ class GuardMoveStrategyTest {
         Map<Position, Piece> board = new HashMap<>();
         PieceType pieceType = PieceType.GUARD;
         Dynasty dynasty = Dynasty.CHO;
-        Position from = Position.from(5, 5);
+        Position from = Position.from(9, 5);
         board.put(from, new Piece(dynasty, pieceType));
-        board.put(Position.from(6, 5), new Piece(dynasty, pieceType));
-        board.put(Position.from(5, 6), new Piece(Dynasty.HAN, pieceType));
+
+        // 궁성 중단
+        board.put(Position.from(9, 6), new Piece(dynasty, PieceType.GUARD));
+        board.put(Position.from(9, 4), new Piece(Dynasty.HAN, PieceType.GUARD));
+        // 궁성 상단
+        board.put(Position.from(8, 6), new Piece(dynasty, PieceType.GUARD));
+        board.put(Position.from(8, 4), new Piece(Dynasty.HAN, PieceType.GUARD));
+        // 궁성 하단
+        board.put(Position.from(10, 6), new Piece(dynasty, PieceType.GUARD));
+        board.put(Position.from(10, 4), new Piece(Dynasty.HAN, PieceType.GUARD));
 
         // when
         List<Position> positions = pieceType.moveStrategy()
@@ -29,9 +37,11 @@ class GuardMoveStrategyTest {
         // then
         Assertions.assertThat(positions)
                 .containsExactlyInAnyOrder(
-                        Position.from(5, 6),
-                        Position.from(4, 5),
-                        Position.from(5, 4)
+                        Position.from(8, 4),
+                        Position.from(8, 5),
+                        Position.from(9, 4),
+                        Position.from(10, 4),
+                        Position.from(10, 5)
                 );
     }
 
