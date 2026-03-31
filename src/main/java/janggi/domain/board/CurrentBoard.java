@@ -1,5 +1,10 @@
 package janggi.domain.board;
 
+import static janggi.domain.Position.BOARD_END_COLS;
+import static janggi.domain.Position.BOARD_END_ROWS;
+import static janggi.domain.Position.BOARD_START_COLS;
+import static janggi.domain.Position.BOARD_START_ROWS;
+
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceInfo;
@@ -18,9 +23,9 @@ public class CurrentBoard {
     public static CurrentBoard from(Map<Position, Piece> board) {
         List<List<PieceInfo>> rows = new ArrayList<>();
 
-        for(int row = 1; row <= 10; row++) {
+        for(int row = BOARD_START_ROWS; row <= BOARD_END_ROWS; row++) {
             List<PieceInfo> currentRow = new ArrayList<>();
-            for(int col = 1; col <= 9; col++) {
+            for(int col = BOARD_START_COLS; col <= BOARD_END_COLS; col++) {
                 Position position = new Position(row, col);
                 currentRow.add(board.get(position).getPieceInfo());
             }
