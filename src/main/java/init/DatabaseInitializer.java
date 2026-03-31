@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class DatabaseInitializer {
 
     public static void init(H2ConnectionManager connectionManager) {
-        try (Connection connection = connectionManager.getConnection();
+        try (Connection connection = H2ConnectionManager.getConnection();
              Statement stmt = connection.createStatement()) {
 
             String sql = loadSql();

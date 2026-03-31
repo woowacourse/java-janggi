@@ -16,9 +16,8 @@ CREATE TABLE board_piece (
 );
 
 CREATE TABLE game_state (
-    id BIGINT PRIMARY KEY,
-    game_room_id BIGINT,
+    game_room_id BIGINT PRIMARY KEY,
     current_turn VARCHAR(10),
 
-    FOREIGN KEY (game_room_id) REFERENCES game_room(id)
+    FOREIGN KEY (game_room_id) REFERENCES game_room(id) ON DELETE CASCADE
 );
