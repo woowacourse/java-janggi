@@ -36,4 +36,8 @@ public final class JanggiGame {
     public Side currentTurn() {
         return currentTurn;
     }
+
+    public boolean isFinished() {
+        return board.isGeneralCaptured(currentTurn) || board.isGeneralCaptured(currentTurn.nextTurn());
+    }
 }

@@ -1,5 +1,6 @@
 package domain.game;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -10,8 +11,11 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class JanggiGameTest {
 
@@ -94,6 +98,41 @@ class JanggiGameTest {
             janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO);
             assertThatNoException()
                     .isThrownBy(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN));
+        }
+    }
+
+    @DisplayName("왕의 잡힘 여부에 따라 게임 종료를 판단한다")
+    @Nested
+    class 왕의_잡힘_여부에_따라_게임_종료를_판단한다 {
+
+        @DisplayName("왕이 하나라도 존재하지 않으면 게임이 종료된 상태이다")
+        @ParameterizedTest(name = "{0} 진영의 왕이 존재하지 않는 경우")
+        @EnumSource(Side.class)
+        void 왕이_하나라도_존재하지_않으면_게임이_종료된_상태이다(Side side) {
+            AlivePieces piecesWithOnlyOneGeneral = new AlivePieces(Map.of(
+                    new Intersection(5, 5), new Piece(PieceType.GENERAL, side)
+            ));
+            Board board = new Board(piecesWithOnlyOneGeneral);
+            JanggiGame janggiGame = new JanggiGame(board);
+
+            boolean gameFinished = janggiGame.isFinished();
+
+            assertThat(gameFinished).isTrue();
+        }
+
+        @DisplayName("왕이 모두 존재하면 게임이 종료되지 않은 상태이다")
+        @Test
+        void 왕이_모두_존재하면_게임이_종료되지_않은_상태이다() {
+            AlivePieces piecesWithBothGenerals = new AlivePieces(Map.of(
+                    new Intersection(5, 5), new Piece(PieceType.GENERAL, Side.CHO),
+                    new Intersection(3, 3), new Piece(PieceType.GENERAL, Side.HAN)
+            ));
+            Board board = new Board(piecesWithBothGenerals);
+            JanggiGame janggiGame = new JanggiGame(board);
+
+            boolean gameFinished = janggiGame.isFinished();
+
+            assertThat(gameFinished).isFalse();
         }
     }
 }
