@@ -78,7 +78,7 @@ public class Board {
 
     private int getDisplayRow(int row) {
         int zeroRow = 0;
-        int nineRow = 9;
+        int nineRow = 10;
         if (row == nineRow) {
             return zeroRow;
         }

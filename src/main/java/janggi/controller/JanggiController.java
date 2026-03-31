@@ -20,24 +20,41 @@ public class JanggiController {
     }
 
     public void run() {
-        int boardType = readInitialBoardType();
+        BoardType boardType = readInitialBoardType();
         Janggi janggi = initializeBoard(boardType);
 
         while (!janggi.isGameOver()) {
             janggi.withBoard(outputView::printBoard);
-            Position from = readFromPosition();
-            Position to = readToPosition();
-            janggi = janggi.play(from, to);
+            janggi = readAndPlay(janggi);
         }
     }
 
-    private int readInitialBoardType() {
-        outputView.printBoardInitialTypeMessage();
-        return inputView.readBoardInitializeType();
+    private Janggi readAndPlay(Janggi janggi) {
+        while (true) {
+            try {
+                Position from = readFromPosition();
+                Position to = readToPosition();
+                return janggi.play(from, to);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
-    private Janggi initializeBoard(int boardType) {
-        return Janggi.of(BoardType.of(boardType).init());
+    private BoardType readInitialBoardType() {
+        while (true) {
+            try {
+                outputView.printBoardInitialTypeMessage();
+                int boardTypeNumber = inputView.readBoardInitializeType();
+                return BoardType.of(boardTypeNumber);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private Janggi initializeBoard(BoardType boardType) {
+        return Janggi.of(boardType.init());
     }
 
     private Position readFromPosition() {
