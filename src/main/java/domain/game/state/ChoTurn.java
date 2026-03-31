@@ -3,9 +3,10 @@ package domain.game.state;
 import common.exception.JanggiException;
 import domain.game.Game;
 import domain.piece.Piece;
+import domain.player.Team;
 import domain.position.Position;
 
-public class ChoTurn extends GameState {
+public class ChoTurn extends Running {
     public ChoTurn(Game game) {
         super(game);
     }
@@ -17,7 +18,7 @@ public class ChoTurn extends GameState {
         }
         Piece caughtPiece = game.movePiece(source, destination);
         if (caughtPiece.isJang()) {
-            game.changeState(new Finished(game));
+            game.changeState(new Finished(game, Team.CHO));
             return;
         }
         game.changeState(new HanTurn(game));

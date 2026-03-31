@@ -2,11 +2,16 @@ package domain.game.state;
 
 import common.exception.JanggiException;
 import domain.game.Game;
+import domain.player.Team;
 import domain.position.Position;
 
 public class Finished extends GameState {
-    public Finished(Game game) {
+
+    private final Team winner;
+
+    public Finished(Game game, Team winner) {
         super(game);
+        this.winner = winner;
     }
 
     @Override
