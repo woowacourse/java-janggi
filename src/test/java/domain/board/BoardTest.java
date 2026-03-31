@@ -43,10 +43,9 @@ class BoardTest {
         void 이동할_수_없는_경우_Exception_던진다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
-            boardMap.put(new Position(0, 1), new Sang(Team.CHO)); // 길막기용 기물
+            boardMap.put(new Position(0, 1), new Sang(Team.CHO));
 
             Board board = new Board(boardMap);
-            // Team 대신 Player 객체를 전달합니다.
             assertThrows(JanggiException.class, () ->
                     board.move(new Position(0, 0), new Position(0, 8), choPlayer));
         }
@@ -109,9 +108,7 @@ class BoardTest {
             Board board = new Board(boardMap);
             board.move(new Position(0, 0), new Position(0, 3), choPlayer);
 
-            // 팩트 체크: 원래 자리(0,0)는 반드시 비워져야 합니다 (remove 확인)
             assertFalse(board.hasPiece(new Position(0, 0)));
-            // 목적지에는 이동한 기물이 있어야 합니다
             assertEquals(new Cha(Team.CHO), board.findPiece(new Position(0, 3)));
         }
 
