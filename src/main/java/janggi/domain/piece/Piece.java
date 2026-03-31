@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.MoveStrategy;
 import java.util.List;
@@ -34,6 +35,14 @@ public abstract class Piece {
 
     public List<Position> findPath(Position from, Position to) {
         return moveStrategy.findPath(from, to);
+    }
+
+    public boolean canMove(Position from, Position to, Board board) {
+        if (!canMoveByBasicMovingRule(from, to)) {
+            return false;
+        }
+        Map<Position, Piece> piecesOnPath = board.findPiecesOn(findPath(from, to));
+        return canMoveBySpecialMovingRule(piecesOnPath, to);
     }
 
     abstract public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to);

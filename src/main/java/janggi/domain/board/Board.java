@@ -20,7 +20,14 @@ public class Board {
     }
 
     public void move(Position from, Position to) {
-        validateMove(from, to);
+        validatePieceExistsAt(from);
+        Piece piece = board.get(from);
+        validateCurrentTurn(piece);
+
+        if (!piece.canMove(from, to, this)) {
+            throw new IllegalArgumentException("해당 기물은 이동할 수 없습니다.");
+        }
+
         movePiece(from, to);
         changeTurn();
     }
@@ -29,20 +36,19 @@ public class Board {
         return board.containsKey(position);
     }
 
-    private boolean isCurrentTeamPiece(Position from) {
-        Piece piece = board.get(from);
+    public Map<Position, Piece> findPiecesOn(List<Position> positions) {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        for (Position position : positions) {
+            if (board.containsKey(position)) {
+                positionPieces.put(position, board.get(position));
+            }
+        }
+        return positionPieces;
+    }
+
+    private boolean isCurrentTeamPiece(Piece piece) {
         return turn.isCurrentTeam(piece.getTeam());
-    }
-
-    private boolean canMoveByBasicMovingRule(Position from, Position to) {
-        Piece piece = board.get(from);
-        return piece.canMoveByBasicMovingRule(from, to);
-    }
-
-    private boolean canMoveBySpecialMovingRule(Position from, Position to) {
-        Map<Position, Piece> paths = getPositionPiecesFromPath(from, to);
-        Piece piece = board.get(from);
-        return piece.canMoveBySpecialMovingRule(paths, to);
     }
 
     private void movePiece(Position from, Position to) {
@@ -54,47 +60,15 @@ public class Board {
         this.turn = turn.changeTurn();
     }
 
-    private void validateMove(Position from, Position to) {
-        validatePieceExistsAt(from);
-        validateCurrentTurn(from);
-        validateBasicMovingRule(from, to);
-        validateSpecialMovingRule(from, to);
-    }
-
     private void validatePieceExistsAt(Position from) {
         if (!hasPieceAt(from)) {
             throw new IllegalArgumentException("해당 출발 위치에는 기물이 존재하지 않습니다");
         }
     }
 
-    private void validateCurrentTurn(Position from) {
-        if (!isCurrentTeamPiece(from)) {
+    private void validateCurrentTurn(Piece piece) {
+        if (!isCurrentTeamPiece(piece)) {
             throw new IllegalArgumentException("해당 기물은 현재 턴의 진영 기물이 아닙니다.");
         }
-    }
-
-    private void validateBasicMovingRule(Position from, Position to) {
-        if (!canMoveByBasicMovingRule(from, to)) {
-            throw new IllegalArgumentException("해당 기물은 그 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    private void validateSpecialMovingRule(Position from, Position to) {
-        if (!canMoveBySpecialMovingRule(from, to)) {
-            throw new IllegalArgumentException("해당 기물의 이동 규칙에 맞지 않습니다.");
-        }
-    }
-
-    private Map<Position, Piece> getPositionPiecesFromPath(Position from, Position to) {
-        Piece piece = board.get(from);
-        List<Position> paths = piece.findPath(from, to);
-        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
-
-        for (Position position : paths) {
-            if (board.containsKey(position)) {
-                positionPieces.put(position, board.get(position));
-            }
-        }
-        return positionPieces;
     }
 }
