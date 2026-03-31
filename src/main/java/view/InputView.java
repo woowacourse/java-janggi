@@ -1,6 +1,7 @@
 package view;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import exception.Validator;
@@ -10,6 +11,8 @@ public class InputView {
     private final Scanner scanner;
     private static final int CHOICE_START_NUMBER = 1;
     private static final int COORDINATE_INPUT_LENGTH = 2;
+    public static final int CHOICE_START_NUMBER_WITH_QUIT = 0;
+    public static final int CHOICE_QUIT_NUMBER = 0;
 
     public InputView(Scanner scanner) {
         this.scanner = scanner;
@@ -29,6 +32,11 @@ public class InputView {
         return choice;
     }
 
+    public boolean askGameContinue() {
+        System.out.println("\n게임을 계속 진행할까요? y/n ");
+        return Validator.validateYesOrNo(scanner.nextLine());
+    }
+
     public String requestPiece() {
         System.out.println("\n움작일 기물을 선택해주세요. (예: 졸, 차, 마, 등) : ");
         return scanner.nextLine();
@@ -37,7 +45,7 @@ public class InputView {
     public int requestStartPiecePosition(int size) {
         System.out.println("\n움직일 기물의 좌표의 번호를 선택해주세요. ");
         int choice = Validator.validateNumber(scanner.nextLine());
-        Validator.validateNumberInRange(CHOICE_START_NUMBER, size, choice);
+        Validator.validateNumberInRange(CHOICE_START_NUMBER_WITH_QUIT, size, choice);
         return choice;
     }
 

@@ -20,4 +20,14 @@ public final class Validator {
             throw new IllegalArgumentException(String.format("%d개의 숫자를 입력해주세요.",size));
         }
     }
+
+    public static boolean validateYesOrNo(String input) {
+        if (input.equals("y")) {
+            return true;
+        }
+        if  (input.equals("n")) {
+            return false;
+        }
+        throw new IllegalArgumentException("입력이 올바르지 않습니다.");
+    }
 }
