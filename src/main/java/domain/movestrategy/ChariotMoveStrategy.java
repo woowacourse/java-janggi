@@ -33,11 +33,23 @@ public class ChariotMoveStrategy extends BasicMoveStrategy {
             final Delta delta
     ) {
         List<Position> movable = new ArrayList<>();
+        Piece currentPiece = pieces.get(from);
 
-        for (Position current = from.move(delta); isInsideBoard(current); current = current.move(delta)) {
-            if (isEmptyOrOpposite(from, current, pieces)) {
-                movable.add(current);
+        Position nextPosition = from.move(delta);
+
+        while (isInsideBoard(nextPosition)) {
+            Piece targetPiece = pieces.get(nextPosition);
+
+            if (targetPiece == null) {
+                movable.add(nextPosition);
+                nextPosition = nextPosition.move(delta);
+                continue;
             }
+
+            if (!currentPiece.isSameTeam(targetPiece)) {
+                movable.add(nextPosition);
+            }
+            break;
         }
 
         return movable;

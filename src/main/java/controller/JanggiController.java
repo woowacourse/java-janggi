@@ -92,38 +92,42 @@ public class JanggiController {
     }
 
     private Position choosePieceToMove(Board board, Map<Position, List<Position>> moveOptions) {
-        List<PieceInfoDto> pieceInfos = moveOptions.keySet().stream()
+        List<Position> positions = moveOptions.keySet()
+                .stream()
+                .toList();
+
+        List<PieceInfoDto> pieceInfos = positions.stream()
                 .map(position -> PieceInfoDto.of(board.getPieceAt(position), position))
                 .toList();
 
         outputView.printChoosePieceToMovePrompt(pieceInfos);
         int pieceIndex = toZeroBasedIndex(inputView.readPieceNumber());
 
-        if (pieceIndex < 0 || pieceIndex >= pieceInfos.size()) {
+        if (pieceIndex < 0 || pieceIndex >= positions.size()) {
             throw new IllegalArgumentException("범위 벗어난 입력");
         }
 
-        PositionDto selectedPiecePosition = pieceInfos.get(pieceIndex).position();
-        return Position.of(selectedPiecePosition.column(), selectedPiecePosition.row());
+        return positions.get(pieceIndex);
     }
 
     private Position choosePositionToMove(Map<Position, List<Position>> moveOptions, Position from) {
-        List<PositionDto> movablePositions = moveOptions.get(from).stream()
-                .map(PositionDto::from)
-                .toList();
+        List<Position> movablePositions = moveOptions.get(from);
         if (movablePositions.isEmpty()) {
             throw new IllegalArgumentException("이동 가능한 위치 없음");
         }
 
-        outputView.printChoosePositionToMovePrompt(movablePositions);
+        List<PositionDto> movablePositionsDto = movablePositions.stream()
+                .map(PositionDto::from)
+                .toList();
+        outputView.printChoosePositionToMovePrompt(movablePositionsDto);
+
         int positionIndex = toZeroBasedIndex(inputView.readPositionNumber());
 
         if (positionIndex < 0 || positionIndex >= movablePositions.size()) {
             throw new IllegalArgumentException("범위 벗어난 입력");
         }
 
-        PositionDto selectedPosition = movablePositions.get(positionIndex);
-        return Position.of(selectedPosition.column(), selectedPosition.row());
+        return movablePositions.get(positionIndex);
     }
 
     private int toZeroBasedIndex(int userInputNumber) {

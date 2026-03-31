@@ -129,10 +129,10 @@ public class OutputView {
         prompt.append("현재 보드 움직일 기물을 선택하세요:")
                 .append(LINE_SEPARATOR);
 
-        for (int oneBasedIndex = 1; oneBasedIndex <= pieceInfos.size(); oneBasedIndex++) {
-            String pieceName = pieceInfos.get(oneBasedIndex).pieceName();
-            PositionDto position = pieceInfos.get(oneBasedIndex).position();
-            prompt.append(oneBasedIndex).append(". ")
+        for (int index = 0; index < pieceInfos.size(); index++) {
+            String pieceName = pieceInfos.get(index).pieceName();
+            PositionDto position = pieceInfos.get(index).position();
+            prompt.append(index + 1).append(". ")
                     .append(pieceName).append("(")
                     .append(position.column()).append(", ").append(position.row()).append(")  ");
         }
@@ -145,9 +145,9 @@ public class OutputView {
         prompt.append("해당 기물이 이동할 위치의 번호를 입력하세요:")
                 .append(LINE_SEPARATOR);
 
-        for (int positionIndex = 1; positionIndex <= movablePositions.size(); positionIndex++) {
-            PositionDto position = movablePositions.get(positionIndex);
-            prompt.append(positionIndex).append(". (")
+        for (int index = 0; index < movablePositions.size(); index++) {
+            PositionDto position = movablePositions.get(index);
+            prompt.append(index + 1).append(". (")
                     .append(position.column()).append(", ")
                     .append(position.row()).append(") ");
         }
