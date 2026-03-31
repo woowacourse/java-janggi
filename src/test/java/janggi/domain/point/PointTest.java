@@ -1,8 +1,7 @@
-package janggi.domain;
+package janggi.domain.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.point.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
