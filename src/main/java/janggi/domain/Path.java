@@ -24,7 +24,7 @@ public class Path {
             if (routeSpace.isBlank()) {
                 continue;
             }
-            pieces.add((Piece) routeSpace);
+            pieces.add(routeSpace.asPiece());
         }
         return pieces;
     }

@@ -28,7 +28,7 @@ public class Pho extends Piece {
     public void validateArrival(Space space) {
         super.validateArrival(space);
 
-        Piece piece = (Piece) space;
+        Piece piece = space.asPiece();
         if (piece.isSameType(PieceType.PHO)) {
             throw new IllegalArgumentException("[ERROR] 이동하려는 위치에 상대팀의 포가 존재합니다.");
         }

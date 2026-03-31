@@ -40,7 +40,7 @@ public class Board {
         Space spaceFrom = piecesInfo.get(from);
         validateBlankSpace(spaceFrom);
 
-        Piece selectedPiece = (Piece) spaceFrom;
+        Piece selectedPiece = spaceFrom.asPiece();
         validatePieceRule(from, to, selectedPiece);
 
         applyMove(from, to, selectedPiece);
@@ -75,8 +75,7 @@ public class Board {
     public boolean gameEnd() {
         long kingCount = piecesInfo.values().stream()
             .filter(space -> !space.isBlank())
-            .map(space -> (Piece) space)
-            .filter(piece -> piece.isSameType(PieceType.KING))
+            .filter(piece -> piece.asPiece().isSameType(PieceType.KING))
             .count();
 
         return kingCount < INITIAL_KING_COUNT;

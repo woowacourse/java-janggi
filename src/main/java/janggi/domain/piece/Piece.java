@@ -25,7 +25,7 @@ public abstract class Piece implements Space {
             return;
         }
 
-        Piece piece = (Piece) space;
+        Piece piece = space.asPiece();
         if (isEqualTeam(piece.team)) {
             throw new IllegalArgumentException("[ERROR] 이동하려는 위치에 같은 팀의 말이 존재합니다.");
         }
@@ -41,6 +41,10 @@ public abstract class Piece implements Space {
         return this.team == team;
     }
 
+    public boolean isSameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
     @Override
     public boolean isBlank() {
         return false;
@@ -51,7 +55,8 @@ public abstract class Piece implements Space {
         return pieceType.getName();
     }
 
-    public boolean isSameType(PieceType pieceType) {
-        return this.pieceType == pieceType;
+    @Override
+    public Piece asPiece() {
+        return this;
     }
 }
