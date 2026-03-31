@@ -11,6 +11,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static janggi.domain.piece.PieceType.HORSE;
+
 class HorseMoveStrategyTest {
 
     @Test
@@ -21,10 +23,10 @@ class HorseMoveStrategyTest {
         MoveStrategy moveStrategy = HorseMoveStrategy.getInstance();
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
-        board.put(from, new Piece(dynasty, moveStrategy));
-        board.put(Position.from(3, 4), new Piece(dynasty, moveStrategy));
-        board.put(Position.from(5, 6), new Piece(Dynasty.HAN, moveStrategy));
-        board.put(Position.from(7, 6), new Piece(Dynasty.HAN, moveStrategy));
+        board.put(from, new Piece(dynasty, HORSE));
+        board.put(Position.from(3, 4), new Piece(dynasty, HORSE));
+        board.put(Position.from(5, 6), new Piece(Dynasty.HAN, HORSE));
+        board.put(Position.from(7, 6), new Piece(Dynasty.HAN, HORSE));
 
         // when
         List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);

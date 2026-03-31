@@ -52,9 +52,4 @@ public class HorseMoveStrategy implements MoveStrategy {
         return !piece.isAlly(dynasty);
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.HORSE;
-    }
-
 }

@@ -48,9 +48,4 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return board.containsKey(position);
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.SOLDIER;
-    }
-
 }

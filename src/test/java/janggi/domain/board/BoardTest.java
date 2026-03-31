@@ -4,11 +4,13 @@ import static janggi.domain.board.Board.*;
 import static janggi.domain.board.HorseElephantPosition.HEHE;
 import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
+import static janggi.domain.piece.PieceType.CHARIOT;
 import static org.assertj.core.api.Assertions.*;
 
 import janggi.domain.DomainException;
 import janggi.domain.piece.ChariotMoveStrategy;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 
 import java.util.HashMap;
@@ -64,13 +66,13 @@ class BoardTest {
     public void movePiece_success() {
         // given
         Position from = Position.from(5, 5);
-        Piece fromPiece = new Piece(HAN, ChariotMoveStrategy.getInstance());
+        Piece fromPiece = new Piece(HAN, CHARIOT);
         Position toCanEat = Position.from(3,5);
         Position toCannotEat = Position.from(3,3);
 
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece,
-                toCanEat,  new Piece(CHO, ChariotMoveStrategy.getInstance())
+                toCanEat,  new Piece(CHO,  CHARIOT)
         ));
         Board board = new Board(policy);
 
@@ -89,7 +91,7 @@ class BoardTest {
     public void movePiece_fail() {
         // given
         Position from = Position.from(5, 5);
-        Piece fromPiece = new Piece(HAN, ChariotMoveStrategy.getInstance());
+        Piece fromPiece = new Piece(HAN, CHARIOT);
 
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece

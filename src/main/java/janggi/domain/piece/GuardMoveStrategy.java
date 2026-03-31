@@ -41,10 +41,4 @@ public class GuardMoveStrategy implements MoveStrategy {
         return board.containsKey(to);
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.GUARD;
-    }
-
-
 }

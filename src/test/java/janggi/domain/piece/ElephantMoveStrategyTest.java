@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
+import static janggi.domain.piece.PieceType.ELEPHANT;
 
 class ElephantMoveStrategyTest {
 
@@ -23,16 +24,16 @@ class ElephantMoveStrategyTest {
         MoveStrategy moveStrategy = ElephantMoveStrategy.getInstance();
         Dynasty dynasty = CHO;
         Position from = Position.from(5, 5);
-        board.put(from, new Piece(dynasty, moveStrategy));
+        board.put(from, new Piece(dynasty, ELEPHANT));
 
         // 1. 상화좌우에서 막히는 경우
-        board.put(Position.from(5, 6), new Piece(HAN, moveStrategy));
+        board.put(Position.from(5, 6), new Piece(HAN, ELEPHANT));
         // 2. 첫번째 대각선 칸에서 막히는 경우
-        board.put(Position.from(3, 4), new Piece(HAN, moveStrategy));
+        board.put(Position.from(3, 4), new Piece(HAN, ELEPHANT));
         // 3. 도착지점에 상대팀인 경우
-        board.put(Position.from(3, 2), new Piece(HAN, moveStrategy));
+        board.put(Position.from(3, 2), new Piece(HAN, ELEPHANT));
         // 4. 도착지점에 우리팀인 경우
-        board.put(Position.from(8, 7), new Piece(dynasty, moveStrategy));
+        board.put(Position.from(8, 7), new Piece(dynasty, ELEPHANT));
 
         // when
         List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);

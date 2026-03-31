@@ -10,6 +10,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static janggi.domain.piece.PieceType.CANNON;
+import static janggi.domain.piece.PieceType.CHARIOT;
+
 class CannonMoveStrategyTest {
 
     @Test
@@ -22,13 +25,13 @@ class CannonMoveStrategyTest {
         Position from = Position.from(5, 5);
 
         // 1. 위쪽에 기물이 하나만 있을 때
-        board.put(Position.from(3, 5), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
+        board.put(Position.from(3, 5), new Piece(dynasty, CHARIOT));
         // 2. 오른쪽에 기물이 두개 있을 때 (도착 지점이 아군)
-        board.put(Position.from(5, 7), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
-        board.put(Position.from(5, 9), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
+        board.put(Position.from(5, 7), new Piece(dynasty, CHARIOT));
+        board.put(Position.from(5, 9), new Piece(dynasty, CHARIOT));
         // 3. 아래쪽에 기물이 두개 있을 때 (도착 지점이 적군)
-        board.put(Position.from(7, 5), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
-        board.put(Position.from(9, 5), new Piece(Dynasty.HAN, ChariotMoveStrategy.getInstance()));
+        board.put(Position.from(7, 5), new Piece(dynasty, CHARIOT));
+        board.put(Position.from(9, 5), new Piece(Dynasty.HAN, CHARIOT));
 
         // when
         List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);
@@ -53,13 +56,13 @@ class CannonMoveStrategyTest {
         Position from = Position.from(5, 5);
 
         // 1. 첫번째로 만난 기물이 포인 경우
-        board.put(Position.from(3, 5), new Piece(dynasty, moveStrategy));
+        board.put(Position.from(3, 5), new Piece(dynasty, CANNON));
         // 2. 두번째로 만난 기물이 포인 경우 (도착 지점이 아군)
-        board.put(Position.from(5, 7), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
-        board.put(Position.from(5, 9), new Piece(dynasty, moveStrategy));
+        board.put(Position.from(5, 7), new Piece(dynasty, CHARIOT));
+        board.put(Position.from(5, 9), new Piece(dynasty, CANNON));
         // 3. 두번째로 만난 기물이 포인 경우 (도착 지점이 적군)
-        board.put(Position.from(7, 5), new Piece(dynasty, ChariotMoveStrategy.getInstance()));
-        board.put(Position.from(9, 5), new Piece(Dynasty.HAN, moveStrategy));
+        board.put(Position.from(7, 5), new Piece(dynasty, CHARIOT));
+        board.put(Position.from(9, 5), new Piece(Dynasty.HAN, CANNON));
 
         // when
         List<Position> positions = moveStrategy.findMovablePositions(board, from, dynasty);

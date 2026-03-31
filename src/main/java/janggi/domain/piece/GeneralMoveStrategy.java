@@ -41,9 +41,4 @@ public class GeneralMoveStrategy implements MoveStrategy {
         return board.containsKey(position);
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.GENERAL;
-    }
-
 }

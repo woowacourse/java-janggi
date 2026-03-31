@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
+import static janggi.domain.piece.PieceType.GENERAL;
+import static janggi.domain.piece.PieceType.GUARD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GuardMoveStrategyTest {
@@ -21,8 +23,8 @@ class GuardMoveStrategyTest {
         Position from = Position.from(1, 4);
         Dynasty dynasty = Dynasty.CHO;
         Map<Position, Piece> board = Map.of(
-                from, new Piece(dynasty, guardMoveStrategy),
-                Position.from(2, 5), new Piece(dynasty, GeneralMoveStrategy.getInstance())
+                from, new Piece(dynasty, GUARD),
+                Position.from(2, 5), new Piece(dynasty, GENERAL)
         );
 
         // when

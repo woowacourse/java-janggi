@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static janggi.domain.piece.PieceType.CHARIOT;
+
 
 class ChariotMoveStrategyTest {
 
@@ -21,9 +23,9 @@ class ChariotMoveStrategyTest {
         MoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
         Dynasty dynasty = Dynasty.CHO;
         Position from = Position.from(5, 5);
-        board.put(from, new Piece(dynasty, moveStrategy));
-        board.put(Position.from(3 ,5), new Piece(dynasty, moveStrategy));
-        board.put(Position.from(5 ,1), new Piece(Dynasty.HAN, moveStrategy));
+        board.put(from, new Piece(dynasty, CHARIOT));
+        board.put(Position.from(3 ,5), new Piece(dynasty, CHARIOT));
+        board.put(Position.from(5 ,1), new Piece(Dynasty.HAN, CHARIOT));
 
 
         // when

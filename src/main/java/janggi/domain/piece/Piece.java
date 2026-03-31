@@ -7,15 +7,15 @@ import java.util.Map;
 
 public record Piece(
         Dynasty dynasty,
-        MoveStrategy moveStrategy
+        PieceType pieceType
 ) {
 
     public List<Position> canMovePosition(Map<Position, Piece> board, Position from) {
-        return moveStrategy.findMovablePositions(board, from, dynasty);
+        return pieceType.moveStrategy().findMovablePositions(board, from, dynasty);
     }
 
     public PieceType pieceType() {
-        return moveStrategy.pieceType();
+        return pieceType;
     }
 
     public boolean isAlly(Dynasty dynasty) {

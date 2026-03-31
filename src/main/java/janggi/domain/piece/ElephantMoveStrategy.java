@@ -63,9 +63,4 @@ public class ElephantMoveStrategy implements MoveStrategy {
         return !piece.isAlly(dynasty);
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.ELEPHANT;
-    }
-
 }

@@ -57,9 +57,4 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return board.containsKey(position);
     }
 
-    @Override
-    public PieceType pieceType() {
-        return PieceType.CHARIOT;
-    }
-
 }

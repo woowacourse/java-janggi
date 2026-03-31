@@ -9,6 +9,5 @@ public interface MoveStrategy {
 
     List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty);
 
-    PieceType pieceType();
 
 }
