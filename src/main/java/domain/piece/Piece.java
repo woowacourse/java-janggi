@@ -17,4 +17,16 @@ public abstract class Piece {
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         return false;
     }
+
+    public boolean isBridge() {
+        return true;
+    }
+
+    public boolean isCatchByCannon() {
+        return true;
+    }
+
+    public boolean isBlank() {
+        return false;
+    }
 }

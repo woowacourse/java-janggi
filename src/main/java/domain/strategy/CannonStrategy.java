@@ -2,7 +2,7 @@ package domain.strategy;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.Cannon;
+import domain.piece.Piece;
 import domain.piece.PieceProvider;
 import util.CollisionValidator;
 
@@ -40,7 +40,7 @@ public class CannonStrategy implements MoveStrategy {
     }
 
     private void checkBridgeAndCollect(Position bridge, Direction direction, PieceProvider board, List<Position> candidates, Team myTeam) {
-        if (board.getPiece(bridge) instanceof Cannon) return;
+        if (!board.getPiece(bridge).isBridge()) return;
         int nextRow = bridge.getRows() + direction.getRowOffset();
         int nextColumn = bridge.getColumns() + direction.getColOffset();
 
@@ -54,11 +54,12 @@ public class CannonStrategy implements MoveStrategy {
     }
 
     private boolean addCandidateAndCheckPiece(Position target, PieceProvider board, List<Position> candidates, Team myTeam) {
+        Piece targetPiece = board.getPiece(target);
         if (CollisionValidator.canMoveToTarget(target, board, myTeam)) {
-            if (!(board.getPiece(target) instanceof Cannon)) {
+            if (targetPiece.isBlank() || targetPiece.isCatchByCannon()) {
                 candidates.add(target);
             }
         }
-        return !board.isBlank(target);
+        return !targetPiece.isBlank();
     }
 }

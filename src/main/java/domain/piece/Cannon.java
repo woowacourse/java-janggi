@@ -25,4 +25,14 @@ public class Cannon extends Piece {
         }
         return false;
     }
+
+    @Override
+    public boolean isBridge() {
+        return false;
+    }
+
+    @Override
+    public boolean isCatchByCannon() {
+        return false;
+    }
 }

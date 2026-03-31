@@ -72,7 +72,7 @@ public class JanggiBoard implements PieceProvider {
     }
 
     private void validateMovePiece(Position currentPosition, Position targetPosition, Piece currentPiece) {
-        if (currentPiece instanceof Blank) {
+        if (currentPiece.isBlank()) {
             throw new IllegalArgumentException("[ERROR] 선택한 위치에 기물이 비어있습니다.");
         }
         if (!currentPiece.canMove(currentPosition, targetPosition, this)) {
@@ -82,8 +82,7 @@ public class JanggiBoard implements PieceProvider {
 
     @Override
     public boolean isBlank(Position position) {
-        Piece piece = janggiBoard.get(position);
-        return piece instanceof Blank;
+        return getPiece(position).isBlank();
     }
 
     @Override
