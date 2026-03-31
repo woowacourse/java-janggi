@@ -22,11 +22,15 @@ public class OutputView {
     private static final String GAME_ROOM_INFO =
             "%d. %s %s\n";
 
+    private static final String GAME_SAVE_NAME =
+            "저장할 게임의 이름을 입력해주세요.";
     private static final String HORSE_ELEPHANT_INPUT_FORMATION =
             "%s의 상차림을 입력해주세요.(예, 상마상마,마상마상, 상마마상, 마상상마)\n";
 
     private static final String INPUT_PIECE_MOVE =
-            "%s가 이동할 기물을 선택해주세요. (예: 3,5)\n";
+            "%s가 이동할 기물을 선택해주세요. (좌표 : 3,5 | 저장 : save)\n";
+
+    private static final String SAVE_COMPLETE_MESSAGE = "게임이 저장되었습니다.";
 
     private static final String INPUT_POSITION_MOVE =
             "%s가 이동할 위치를 입력해주세요. (예: 3,5)\n";
@@ -35,7 +39,7 @@ public class OutputView {
             "%s가 장군을 당했습니다.\n";
 
     private static final String PLAYER_SCORE =
-            "%s : %d점 \n %s : %d점\n";
+            "%s : %d점 \n%s : %d점\n";
 
     private static final String PLAYER_WINNER =
             "%s 승리!";
@@ -43,15 +47,24 @@ public class OutputView {
     private OutputView() {
     }
 
-    public static void printStartMenu(){
+    public static void printStartMenu() {
         System.out.println(BOARD_MENU);
     }
 
-    public static void printSaveRoomList(List<GameRoomEntity> gameRoomEntities){
+    public static void printSaveRoomList(List<GameRoomEntity> gameRoomEntities) {
         System.out.println(GAME_ROOM_INFO_MESSAGE);
         gameRoomEntities
-                .forEach(g ->System.out.printf(GAME_ROOM_INFO, g.id(), g.name(), g.createdAt()));
+                .forEach(g -> System.out.printf(GAME_ROOM_INFO, g.id(), g.name(), g.createdAt()));
     }
+
+    public static void printGameName(){
+        System.out.println(GAME_SAVE_NAME);
+    }
+
+    public static void printSaveComplete() {
+        System.out.println(SAVE_COMPLETE_MESSAGE);
+    }
+
     public static void printErrorMessage(String message) {
         System.out.println(message);
     }

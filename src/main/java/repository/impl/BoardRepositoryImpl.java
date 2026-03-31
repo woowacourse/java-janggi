@@ -4,6 +4,7 @@ import config.H2ConnectionManager;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
+import factory.BoardFactory;
 import factory.PieceFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,6 +24,12 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     private static final String SELECT_SQL =
             "SELECT position_row, position_col, side, type FROM board_piece WHERE game_room_id = ?";
+
+    private final H2ConnectionManager connectionManager;
+
+    public BoardRepositoryImpl(H2ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 
     @Override
     public void saveBoard(long roomId, Map<Position, Place> board, Connection conn) {
@@ -76,8 +83,8 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public Map<Position, Place> findBoard(long roomId) {
-        try (Connection conn = H2ConnectionManager.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(SELECT_SQL)) {
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SELECT_SQL)) {
 
             stmt.setLong(1, roomId);
 
@@ -91,7 +98,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     private Map<Position, Place> extractBoard(ResultSet rs) throws SQLException {
-        Map<Position, Place> board = new HashMap<>();
+        Map<Position, Place> board = BoardFactory.setUpEmpty();
 
         while (rs.next()) {
             board.put(toPosition(rs), toPlace(rs));

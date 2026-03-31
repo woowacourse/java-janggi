@@ -41,9 +41,7 @@ public class BoardFactory {
     private static final List<Integer> SOLDIER_COLS = List.of(1, 3, 5, 7, 9);
 
     public static Board create(HorseElephantFormation cho, HorseElephantFormation han) {
-        Map<Position, Place> board = new HashMap<>();
-
-        setUpEmpty(board);
+        Map<Position, Place> board = setUpEmpty();
 
         setUpFormationHorseElephant(board, Side.CHO, cho);
         setUpFormationHorseElephant(board, Side.HAN, han);
@@ -54,12 +52,14 @@ public class BoardFactory {
         return new Board(board);
     }
 
-    private static void setUpEmpty(Map<Position, Place> board) {
+    public static Map<Position, Place> setUpEmpty() {
+        Map<Position, Place> board = new HashMap<>();
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
                 board.put(new Position(row, column), new Empty());
             }
         }
+        return board;
     }
 
     private static void setUpFormationHorseElephant(Map<Position, Place> board, Side side,

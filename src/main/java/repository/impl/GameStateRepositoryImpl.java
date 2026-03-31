@@ -2,11 +2,11 @@ package repository.impl;
 
 import config.H2ConnectionManager;
 import domain.place.piece.Side;
+import entity.GameStateEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import entity.GameStateEntity;
 import repository.GameStateRepository;
 
 public class GameStateRepositoryImpl implements GameStateRepository {
@@ -17,6 +17,11 @@ public class GameStateRepositoryImpl implements GameStateRepository {
     private static final String SELECT_BY_ID_SQL =
             "SELECT game_room_id, current_turn FROM game_state WHERE game_room_id = ?";
 
+    private final H2ConnectionManager connectionManager;
+
+    public GameStateRepositoryImpl(H2ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 
     @Override
     public void save(long roomId, Side turn, Connection conn) {
@@ -33,8 +38,8 @@ public class GameStateRepositoryImpl implements GameStateRepository {
 
     @Override
     public GameStateEntity findByRoomId(long roomId) {
-        try (Connection conn = H2ConnectionManager.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, roomId);
 
@@ -51,7 +56,7 @@ public class GameStateRepositoryImpl implements GameStateRepository {
         }
     }
 
-    private GameStateEntity toGameState(ResultSet rs) throws SQLException{
+    private GameStateEntity toGameState(ResultSet rs) throws SQLException {
         String currentTurn = rs.getString("current_turn");
         return new GameStateEntity(
                 rs.getLong("game_room_id"),

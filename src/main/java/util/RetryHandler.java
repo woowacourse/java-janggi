@@ -1,7 +1,6 @@
 package util;
 
 import java.util.function.Supplier;
-import parser.AnswerParser;
 
 public class RetryHandler {
     private RetryHandler() {

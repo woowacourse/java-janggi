@@ -15,14 +15,16 @@ public class AppConfig {
     }
 
     public BoardRepository boardRepository() {
-        return new BoardRepositoryImpl();
+        return new BoardRepositoryImpl(connectionManager());
     }
 
     public GameRoomRepository gameRoomRepository() {
-        return new GameRoomRepositoryImpl();
+        return new GameRoomRepositoryImpl(connectionManager());
     }
 
-    public GameStateRepository gameStateRepository() { return new GameStateRepositoryImpl();}
+    public GameStateRepository gameStateRepository() {
+        return new GameStateRepositoryImpl(connectionManager());
+    }
 
     public GameService boardService() {
         return new GameService(boardRepository(), gameRoomRepository(), gameStateRepository(), connectionManager());

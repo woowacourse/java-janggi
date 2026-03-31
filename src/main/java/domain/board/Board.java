@@ -111,6 +111,10 @@ public class Board {
                 .sum();
     }
 
+    public Map<Position, Place> getBoard(){
+        return Map.copyOf(board);
+    }
+
     public List<List<String>> getFormatBoard() {
         return getBoard(Place::getFormat);
     }

@@ -10,31 +10,48 @@ import java.util.stream.Collectors;
 
 public class DatabaseInitializer {
 
-    public static void init(H2ConnectionManager connectionManager) {
-        try (Connection connection = H2ConnectionManager.getConnection();
+    private static final String SCHEMA_SQL = "schema.sql";
+    private static final String DATA_SQL = "data.sql";
+
+    private final H2ConnectionManager connectionManager;
+
+    public DatabaseInitializer(H2ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+    public void init() {
+        try (Connection connection = connectionManager.getConnection();
              Statement stmt = connection.createStatement()) {
 
-            String sql = loadSql();
+            connection.setAutoCommit(false);
 
-            for (String query : sql.split(";")) {
-                String trimmed = query.trim();
-                if (!trimmed.isEmpty()) {
-                    stmt.execute(trimmed);
-                }
-            }
+            runSql(stmt, SCHEMA_SQL);
+
+            connection.commit();
 
         } catch (Exception e) {
             throw new RuntimeException("DB 초기화 실패", e);
         }
     }
 
-    private static String loadSql() {
-        InputStream is = DatabaseInitializer.class
+    private void runSql(Statement stmt, String fileName) throws Exception {
+        String sql = loadSql(fileName);
+
+        for (String query : sql.split(";")) {
+            String trimmed = query.trim();
+            if (!trimmed.isEmpty()) {
+                stmt.execute(trimmed);
+            }
+        }
+    }
+
+    private String loadSql(String fileName) {
+        InputStream is = getClass()
                 .getClassLoader()
-                .getResourceAsStream("schema.sql");
+                .getResourceAsStream(fileName);
 
         if (is == null) {
-            throw new IllegalArgumentException("SQL 파일을 찾을 수 없음: " + "schema.sql");
+            throw new IllegalArgumentException("[ERROR] SQL 파일 없음: " + fileName);
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {

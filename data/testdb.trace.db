@@ -31,3 +31,38 @@ SELECT id, name, created_at FROM game_room WHERE id = ? [90012-224]
 	at Janggi.getBoard(Janggi.java:35)
 	at Janggi.run(Janggi.java:24)
 	at Application.main(Application.java:11)
+2026-04-01 01:02:10.028839+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Cannot drop "GAME_ROOM" because "CONSTRAINT_64" depends on it; SQL statement:
+DROP TABLE IF EXISTS game_room [90107-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:644)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.command.ddl.DropTable.prepareDrop(DropTable.java:108)
+	at org.h2.command.ddl.DropTable.update(DropTable.java:133)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:169)
+	at org.h2.command.Command.executeUpdate(Command.java:256)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:262)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at init.DatabaseInitializer.runSql(DatabaseInitializer.java:44)
+	at init.DatabaseInitializer.init(DatabaseInitializer.java:28)
+	at config.DatabaseConfig.init(DatabaseConfig.java:15)
+	at Application.main(Application.java:8)
+2026-04-01 01:02:30.157360+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#1" is not set; SQL statement:
+SELECT id, name, created_at FROM game_room WHERE id = ? [90012-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:75)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:207)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:251)
+	at org.h2.command.Command.executeQuery(Command.java:192)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:131)
+	at repository.impl.GameRoomRepositoryImpl.existsById(GameRoomRepositoryImpl.java:67)
+	at service.GameService.existsById(GameService.java:69)
+	at service.GameService.findGameStateByRoomId(GameService.java:60)
+	at Janggi.getSaveBoard(Janggi.java:47)
+	at Janggi.getBoard(Janggi.java:35)
+	at Janggi.run(Janggi.java:24)
+	at Application.main(Application.java:11)

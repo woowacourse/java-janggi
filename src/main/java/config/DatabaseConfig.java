@@ -11,6 +11,7 @@ public class DatabaseConfig {
     }
 
     public void init() {
-        DatabaseInitializer.init(connectionManager);
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(connectionManager);
+        databaseInitializer.init();
     }
 }

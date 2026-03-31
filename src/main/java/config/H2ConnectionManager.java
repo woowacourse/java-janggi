@@ -12,6 +12,7 @@ public class H2ConnectionManager {
 
     public static Connection getConnection() {
         try {
+            System.out.println(new java.io.File("./data").getAbsolutePath());
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -51,22 +51,23 @@ public class GameService {
         }
     }
 
-    public Map<Position, Place> findBoardByRoomId(long roomId){
+    public Map<Position, Place> findBoardByRoomId(long roomId) {
         existsById(roomId);
         return boardRepository.findBoard(roomId);
     }
 
-    public GameStateEntity findGameStateByRoomId(long roomId){
+    public GameStateEntity findGameStateByRoomId(long roomId) {
         existsById(roomId);
         return gameStateRepository.findByRoomId(roomId);
     }
 
-    public List<GameRoomEntity> findGameRoomAll(){
+    public List<GameRoomEntity> findGameRoomAll() {
         return gameRoomRepository.findAll();
     }
 
-    private void existsById(long roomId){
-        if(!gameRoomRepository.existsById(roomId))
+    private void existsById(long roomId) {
+        if (!gameRoomRepository.existsById(roomId)) {
             throw new IllegalArgumentException("[ERROR] 없는 방 번호입니다.");
+        }
     }
 }
