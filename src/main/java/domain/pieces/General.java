@@ -9,10 +9,8 @@ import java.util.Set;
 
 public class General extends Piece {
 
-    private final PieceType pieceType = PieceType.GENERAL;
-
     public General(Camp camp) {
-        super(camp);
+        super(camp, PieceType.GENERAL);
     }
 
     @Override
@@ -94,10 +92,5 @@ public class General extends Piece {
         } catch (IllegalArgumentException e) {
             return position;
         }
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return this.pieceType;
     }
 }

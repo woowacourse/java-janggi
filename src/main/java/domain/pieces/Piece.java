@@ -7,11 +7,12 @@ import domain.Position;
 
 public abstract class Piece {
 
-    private final PieceType pieceType = PieceType.NONE;
+    private final PieceType pieceType;
     private final Camp camp;
 
-    public Piece(Camp camp) {
+    public Piece(Camp camp, PieceType pieceType) {
         this.camp = camp;
+        this.pieceType = pieceType;
     }
 
     public boolean isSameCamp(Piece comparedPiece) {

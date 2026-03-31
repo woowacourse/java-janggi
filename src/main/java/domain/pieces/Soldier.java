@@ -9,10 +9,8 @@ import java.util.Set;
 
 public class Soldier extends Piece {
 
-    private final PieceType pieceType = PieceType.SOLDIER;
-
     public Soldier(Camp camp) {
-        super(camp);
+        super(camp, PieceType.SOLDIER);
     }
 
     @Override
@@ -64,10 +62,5 @@ public class Soldier extends Piece {
         } catch (IllegalArgumentException e) {
             return position;
         }
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return this.pieceType;
     }
 }

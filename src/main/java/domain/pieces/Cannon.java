@@ -9,10 +9,8 @@ import java.util.Set;
 
 public class Cannon extends Piece {
 
-    private final PieceType pieceType = PieceType.CANNON;
-
     public Cannon(Camp camp) {
-        super(camp);
+        super(camp, PieceType.CANNON);
     }
 
     @Override
@@ -137,10 +135,5 @@ public class Cannon extends Piece {
 
     private boolean checkCannonJumping(Position position, ExistBoard existBoard) {
         return existBoard.isExist(position) && existBoard.isDifferentPieceType(position, this);
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return this.pieceType;
     }
 }

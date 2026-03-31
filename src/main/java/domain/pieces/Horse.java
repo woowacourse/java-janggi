@@ -11,10 +11,8 @@ import java.util.Map;
 
 public class Horse extends Piece {
 
-    private final PieceType pieceType = PieceType.HORSE;
-
     public Horse(Camp camp) {
-        super(camp);
+        super(camp, PieceType.HORSE);
     }
 
     @Override
@@ -171,10 +169,5 @@ public class Horse extends Piece {
             // 생성할 수 없는 Position이면 무시
         }
         return routeOfDestination;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return this.pieceType;
     }
 }

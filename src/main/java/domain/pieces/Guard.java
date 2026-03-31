@@ -9,10 +9,8 @@ import java.util.Set;
 
 public class Guard extends Piece {
 
-    private final PieceType pieceType = PieceType.GUARD;
-
     public Guard(Camp camp) {
-        super(camp);
+        super(camp, PieceType.GUARD);
     }
 
     @Override
@@ -94,10 +92,5 @@ public class Guard extends Piece {
         } catch (IllegalArgumentException e) {
             return position;
         }
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return this.pieceType;
     }
 }

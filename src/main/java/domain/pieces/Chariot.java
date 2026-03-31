@@ -9,10 +9,8 @@ import java.util.Set;
 
 public class Chariot extends Piece {
 
-    private final PieceType pieceType = PieceType.CHARIOT;
-
     public Chariot(Camp camp) {
-        super(camp);
+        super(camp, PieceType.CHARIOT);
     }
 
     @Override
@@ -77,10 +75,5 @@ public class Chariot extends Piece {
 
         }
         return movablePositions;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return this.pieceType;
     }
 }

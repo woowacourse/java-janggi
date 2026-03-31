@@ -11,10 +11,8 @@ import java.util.Map;
 
 public class Elephant extends Piece {
 
-    private final PieceType pieceType = PieceType.ELEPHANT;
-
     public Elephant(Camp camp) {
-        super(camp);
+        super(camp, PieceType.ELEPHANT);
     }
 
     @Override
@@ -200,10 +198,5 @@ public class Elephant extends Piece {
         }
 
         return routeOfDestination;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return this.pieceType;
     }
 }
