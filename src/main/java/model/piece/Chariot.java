@@ -26,6 +26,8 @@ public class Chariot extends Piece {
 
     @Override
     protected boolean isReachable(int rowDiff, int colDiff) {
-        return (colDiff >= 1 && rowDiff == 0) || (colDiff == 0 && rowDiff >= 1);
+        int absRowDiff = Math.abs(rowDiff);
+        int absColDiff = Math.abs(colDiff);
+        return (absColDiff >= 1 && absRowDiff == 0) || (absColDiff == 0 && absRowDiff >= 1);
     }
 }

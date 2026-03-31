@@ -16,17 +16,11 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean canMove(Position current, Position next) {
-        int rowDiff = next.calculateRowDiff(current);
-        int colDiff = Math.abs(next.calculateColDiff(current));
-        return isReachable(rowDiff, colDiff);
-    }
-
-    @Override
     protected boolean isReachable(int rowDiff, int colDiff) {
+        int absColDiff = Math.abs(colDiff);
         if (isCho()) {
-            return (rowDiff == -1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
+            return (rowDiff == -1 && absColDiff == 0) || (rowDiff == 0 && absColDiff == 1);
         }
-        return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
+        return (rowDiff == 1 && absColDiff == 0) || (rowDiff == 0 && absColDiff == 1);
     }
 }

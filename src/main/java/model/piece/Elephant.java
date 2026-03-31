@@ -26,6 +26,8 @@ public class Elephant extends Piece {
 
     @Override
     protected boolean isReachable(int rowDiff, int colDiff) {
-        return (colDiff == 3 && rowDiff == 2) || (colDiff == 2 && rowDiff == 3);
+        int absRowDiff = Math.abs(rowDiff);
+        int absColDiff = Math.abs(colDiff);
+        return (absColDiff == 3 && absRowDiff == 2) || (absColDiff == 2 && absRowDiff == 3);
     }
 }

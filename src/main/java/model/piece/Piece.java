@@ -29,7 +29,7 @@ public abstract class Piece {
     public boolean canMove(Position current, Position next) {
         int rowDiff = next.calculateRowDiff(current);
         int colDiff = next.calculateColDiff(current);
-        return isReachable(Math.abs(rowDiff), Math.abs(colDiff));
+        return isReachable(rowDiff, colDiff);
     }
 
     public boolean isCho() {
