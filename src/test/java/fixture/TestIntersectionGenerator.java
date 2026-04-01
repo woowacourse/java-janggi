@@ -15,4 +15,5 @@ public class TestIntersectionGenerator implements IntersectionGenerator {
     public List<Intersection> makeIntersection() {
         return this.intersections;
     }
+
 }
