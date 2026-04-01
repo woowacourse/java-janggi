@@ -58,14 +58,14 @@ public class JanggiController {
             Position position = inputView.readPosition();
             Position targetPosition = inputView.readTargetPosition();
 
-            board.move(position, targetPosition);
+            Team currentTeam = Team.from(turnCount);
+            board.move(position, targetPosition, currentTeam);
             outputView.printBoard(board.getBoard());
             return turnCount += 1;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            movePosition(board, turnCount);
+            return movePosition(board, turnCount);
         }
-        return turnCount;
     }
 }

@@ -17,9 +17,13 @@ public class Board {
         return new Board(board);
     }
 
-    public void move(final Position from, final Position to) {
+    public void move(final Position from, final Position to, final Team currentTeam) {
         Piece fromPiece = findPieceByPosition(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
+
+        if (fromPiece.getTeam() != currentTeam) {
+            throw new IllegalArgumentException("[ERROR] 상대편의 기물은 움직일 수 없습니다.");
+        }
 
         if (!fromPiece.canMovePiece(from, to, this)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");

@@ -13,4 +13,11 @@ public enum Team {
     public String getName() {
         return name;
     }
+
+    public static Team from(final int turnCount) {
+        if (turnCount % 2 == 0) {
+            return HAN;
+        }
+        return CHU;
+    }
 }

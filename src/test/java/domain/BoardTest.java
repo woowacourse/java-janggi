@@ -52,7 +52,7 @@ class BoardTest {
         // when
         Position from = Position.of(0, 0);
         Position to = Position.of(3, 0);
-        board.move(from, to);
+        board.move(from, to, Team.CHU);
 
         // then
         Piece findPiece = board.findPieceByPosition(to).get();
