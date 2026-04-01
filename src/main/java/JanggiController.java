@@ -21,25 +21,44 @@ public class JanggiController {
         outputView.printBoard(board.getBoard());
 
         Game game = Game.of(board);
-        move(board, game);
 
-        while (inputView.readRetryCommand()) {
-            move(board, game);
+        while (true) {
+            boolean isContinue = move(board, game);
+
+            if (!isContinue) {
+                break;
+            }
         }
     }
 
-    private void move(Board board, Game game) {
+    private boolean move(Board board, Game game) {
         try {
-            Position position = inputView.readPosition(game.getTurnName());
-            Position targetPosition = inputView.readTargetPosition();
+            String currentInput = inputView.readPosition(game.getTurnName());
+            if (currentInput.equals("n")) {
+                return false;
+            }
+            Position currentPosition = parsePosition(currentInput);
 
-            board.tryToMove(position, targetPosition, game.getTeam());
+            String targetInput = inputView.readTargetPosition();
+            if (targetInput.equals("n")) {
+                return false;
+            }
+            Position targetPosition = parsePosition(targetInput);
+
+            board.tryToMove(currentPosition, targetPosition, game.getTeam());
             game.nextTurn();
             outputView.printBoard(board.getBoard());
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
             move(board, game);
+            return false;
         }
+    }
+
+    private Position parsePosition(String input) {
+        String[] tokens = input.split(" ");
+        return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
     }
 }

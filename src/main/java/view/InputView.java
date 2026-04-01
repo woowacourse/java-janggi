@@ -1,7 +1,6 @@
 package view;
 
 import domain.Formation;
-import domain.vo.Position;
 
 import java.util.Scanner;
 
@@ -38,16 +37,23 @@ public class InputView {
         }
     }
     
-    public Position readPosition(String turnName) {
+    public String readPosition(String turnName) {
         System.out.println(turnName + " 차례입니다.");
-        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0)");
+        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0) [게임 종료는 n]");
 
         String input = scanner.nextLine();
         try {
+            if (input.equals("n")) {
+                return input;
+            }
             validatePositionFormat(input);
-
             String[] tokens = input.split(" ");
-            return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+            if (tokens.length != 2) {
+                throw new IllegalArgumentException();
+            }
+            Integer.parseInt(tokens[0]);
+            Integer.parseInt(tokens[1]);
+            return input;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
@@ -55,15 +61,22 @@ public class InputView {
         }
     }
 
-    public Position readTargetPosition() {
-        System.out.println("기물을 움직일 위치를 입력해주세요. (예: 0 0)");
+    public String readTargetPosition() {
+        System.out.println("기물을 움직일 위치를 입력해주세요. (예: 0 0) [게임 종료는 n]");
 
         String input = scanner.nextLine();
         try {
+            if (input.equals("n")) {
+                return input;
+            }
             validatePositionFormat(input);
-
             String[] tokens = input.split(" ");
-            return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+            if (tokens.length != 2) {
+                throw new IllegalArgumentException();
+            }
+            Integer.parseInt(tokens[0]);
+            Integer.parseInt(tokens[1]);
+            return input;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
