@@ -6,7 +6,7 @@ import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiStepStraightStrategy implements MoveStrategy {
+public class SlidingStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {

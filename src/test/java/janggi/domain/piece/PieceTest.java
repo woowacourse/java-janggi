@@ -65,7 +65,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(1, 4), new Position(3, 4), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 
@@ -92,7 +92,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 3), new Position(0, 5), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_STRAIGHT_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 
@@ -133,7 +133,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 1), new Position(0, 7), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_HORSE_MOVE.getMessage(HORSE_STRAIGHT_MOVE_DISTANCE, HORSE_DIAGONAL_MOVE_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(HORSE_STRAIGHT_MOVE_DISTANCE, HORSE_DIAGONAL_MOVE_DISTANCE));
         }
     }
 
@@ -160,7 +160,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(0, 6), new Position(3, 3), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_ELEPHANT_MOVE.getMessage(ELEPHANT_STRAIGHT_MOVE_DISTANCE, ELEPHANT_DIAGONAL_MOVE_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(ELEPHANT_STRAIGHT_MOVE_DISTANCE, ELEPHANT_DIAGONAL_MOVE_DISTANCE));
         }
     }
 
@@ -286,7 +286,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(3, 0), new Position(5, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 
@@ -325,7 +325,7 @@ class PieceTest {
             Assertions.assertThatThrownBy(
                             () -> piece.validateMove(new Position(6, 0), new Position(1, 0), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SOLDIER_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 }

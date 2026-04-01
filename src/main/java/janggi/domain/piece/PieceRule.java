@@ -5,23 +5,21 @@ import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.condition.EmptyCondition;
 import janggi.domain.piece.condition.MoveCondition;
 import janggi.domain.piece.condition.OnePieceExistsCondition;
-import janggi.domain.piece.strategy.ElephantStrategy;
-import janggi.domain.piece.strategy.HorseStrategy;
+import janggi.domain.piece.strategy.DiagonalStepStrategy;
 import janggi.domain.piece.strategy.MoveStrategy;
-import janggi.domain.piece.strategy.MultiStepStraightStrategy;
-import janggi.domain.piece.strategy.SingleStepStraightStrategy;
-import janggi.domain.piece.strategy.SoldierStrategy;
+import janggi.domain.piece.strategy.SingleStepStrategy;
+import janggi.domain.piece.strategy.SlidingStrategy;
 import java.util.List;
 
 public enum PieceRule {
 
-    GENERAL(new SingleStepStraightStrategy(), new EmptyCondition()),
-    CHARIOT(new MultiStepStraightStrategy(), new EmptyCondition()),
-    HORSE(new HorseStrategy(), new EmptyCondition()),
-    CANNON(new MultiStepStraightStrategy(), new OnePieceExistsCondition()),
-    GUARD(new SingleStepStraightStrategy(), new EmptyCondition()),
-    ELEPHANT(new ElephantStrategy(), new EmptyCondition()),
-    SOLDIER(new SoldierStrategy(), new EmptyCondition());
+    GENERAL(new SingleStepStrategy(false), new EmptyCondition()),
+    CHARIOT(new SlidingStrategy(), new EmptyCondition()),
+    HORSE(new DiagonalStepStrategy(1), new EmptyCondition()),
+    CANNON(new SlidingStrategy(), new OnePieceExistsCondition()),
+    GUARD(new SingleStepStrategy(false), new EmptyCondition()),
+    ELEPHANT(new DiagonalStepStrategy(2), new EmptyCondition()),
+    SOLDIER(new SingleStepStrategy(true), new EmptyCondition());
 
     private final MoveStrategy moveStrategy;
     private final MoveCondition moveCondition;
