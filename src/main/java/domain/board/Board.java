@@ -19,9 +19,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Board {
-
-    private final Map<Position, Place> board;
+public record Board(Map<Position, Place> board) {
 
     public Board(Map<Position, Place> board) {
         this.board = new HashMap<>(board);
@@ -59,7 +57,7 @@ public class Board {
         return path.stream()
                 .map(position -> Map.entry(position, board.get(position)))
                 .filter(entry -> !entry.getValue().isEmpty())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
     private void validateMove(Position from, Position to, Side side) {
@@ -111,7 +109,8 @@ public class Board {
                 .sum();
     }
 
-    public Map<Position, Place> getBoard() {
+    @Override
+    public Map<Position, Place> board() {
         return Map.copyOf(board);
     }
 

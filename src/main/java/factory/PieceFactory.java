@@ -42,15 +42,11 @@ public enum PieceFactory {
         this.factory = factory;
     }
 
-    public static PieceFactory from(String code) {
+    public static PieceFactory from(String target) {
         return Arrays.stream(PieceFactory.values())
-                .filter(pieceFactory -> pieceFactory.code.equals(code))
+                .filter(pieceFactory -> pieceFactory.code.equals(target))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 기물 정보를 찾을 수 없습니다"));
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public Place createPlace(Side side) {

@@ -27,6 +27,15 @@ public class PalaceOneStepMoveStrategyTest {
     private final MoveStrategy generalMoveStrategy = new GeneralMoveStrategy();
     private final PalaceMoveStrategy palaceOneStepMoveStrategy = new PalaceOneStepMoveStrategy();
 
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                Arguments.of(new Position(2, 5), new Position(1, 4)),
+                Arguments.of(new Position(2, 5), new Position(1, 6)),
+                Arguments.of(new Position(2, 5), new Position(3, 4)),
+                Arguments.of(new Position(2, 5), new Position(3, 6))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("궁은 궁성에서 한 칸 이동 가능")
     @MethodSource("validMoves")
@@ -41,16 +50,6 @@ public class PalaceOneStepMoveStrategyTest {
         //then
         assertThat(result).isTrue();
     }
-
-    static Stream<Arguments> validMoves() {
-        return Stream.of(
-                Arguments.of(new Position(2, 5), new Position(1, 4)),
-                Arguments.of(new Position(2, 5), new Position(1, 6)),
-                Arguments.of(new Position(2, 5), new Position(3, 4)),
-                Arguments.of(new Position(2, 5), new Position(3, 6))
-        );
-    }
-
 
     @Test
     @DisplayName("궁은 대각선으로 두 칸 이동 불가")

@@ -1,4 +1,4 @@
-package init;
+package service;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -7,13 +7,11 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
-public class DatabaseInitializer {
-
-    private static final String SCHEMA_SQL = "schema.sql";
+public class TestDatabaseInitializer {
 
     private final Connection connectionManager;
 
-    public DatabaseInitializer(Connection connectionManager) {
+    public TestDatabaseInitializer(Connection connectionManager) {
         this.connectionManager = connectionManager;
     }
 
@@ -22,8 +20,8 @@ public class DatabaseInitializer {
 
             connectionManager.setAutoCommit(false);
 
-            runSql(stmt, SCHEMA_SQL);
-
+            runSql(stmt, "schema.sql");
+            runSql(stmt, "data.sql");
             connectionManager.commit();
 
         } catch (Exception e) {

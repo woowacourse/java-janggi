@@ -21,6 +21,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class PalaceSoliderMoveStrategyTest {
 
+    static Stream<Arguments> validMoves() {
+        return Stream.of(
+                // CHO
+                Arguments.of(Side.CHO, new Position(2, 5), new Position(1, 4)),
+                Arguments.of(Side.CHO, new Position(2, 5), new Position(1, 6)),
+
+                // HAN
+                Arguments.of(Side.HAN, new Position(9, 5), new Position(10, 4)),
+                Arguments.of(Side.HAN, new Position(9, 5), new Position(10, 6))
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("validMoves")
     @DisplayName("졸은 궁성에서 대각으로 정상적으로 이동할 수 있다")
@@ -37,18 +49,6 @@ public class PalaceSoliderMoveStrategyTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    static Stream<Arguments> validMoves() {
-        return Stream.of(
-                // CHO
-                Arguments.of(Side.CHO, new Position(2, 5), new Position(1, 4)),
-                Arguments.of(Side.CHO, new Position(2, 5), new Position(1, 6)),
-
-                // HAN
-                Arguments.of(Side.HAN, new Position(9, 5), new Position(10, 4)),
-                Arguments.of(Side.HAN, new Position(9, 5), new Position(10, 6))
-        );
     }
 
     @Test
