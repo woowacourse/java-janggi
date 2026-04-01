@@ -3,7 +3,7 @@ package janggi.model.board.movement;
 import janggi.model.board.PositionPath;
 import janggi.model.board.position.Position;
 
-public class ByeongMovement extends StraightMovement{
+public class ByeongMovement extends MultiStepMovement{
 
     private static final int MAX_MOVE_DISTANCE = 1;
 
