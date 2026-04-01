@@ -12,6 +12,7 @@ import domain.piece.King;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
+import domain.strategy.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,26 +49,26 @@ public class JanggiBoard implements PieceProvider {
 
     private void setupTeamPieces(Team team, int baseRow, int kingRow, int cannonRow, int pawnRow) {
         // 차
-        janggiBoard.put(new Position(baseRow, 0), new Chariot(team));
-        janggiBoard.put(new Position(baseRow, 8), new Chariot(team));
+        janggiBoard.put(new Position(baseRow, 0), new Chariot(team, new ChariotStrategy()));
+        janggiBoard.put(new Position(baseRow, 8), new Chariot(team, new ChariotStrategy()));
         // 마
-        janggiBoard.put(new Position(baseRow, 1), new Horse(team));
-        janggiBoard.put(new Position(baseRow, 6), new Horse(team));
+        janggiBoard.put(new Position(baseRow, 1), new Horse(team, new HorseStrategy()));
+        janggiBoard.put(new Position(baseRow, 6), new Horse(team, new HorseStrategy()));
         // 상
-        janggiBoard.put(new Position(baseRow, 2), new Elephant(team));
-        janggiBoard.put(new Position(baseRow, 7), new Elephant(team));
+        janggiBoard.put(new Position(baseRow, 2), new Elephant(team, new ElephantStrategy()));
+        janggiBoard.put(new Position(baseRow, 7), new Elephant(team, new ElephantStrategy()));
         // 사
-        janggiBoard.put(new Position(baseRow, 3), new Guard(team));
-        janggiBoard.put(new Position(baseRow, 5), new Guard(team));
+        janggiBoard.put(new Position(baseRow, 3), new Guard(team, new PalaceStrategy()));
+        janggiBoard.put(new Position(baseRow, 5), new Guard(team, new PalaceStrategy()));
         // 궁
-        janggiBoard.put(new Position(kingRow, 4), new King(team));
+        janggiBoard.put(new Position(kingRow, 4), new King(team, new PawnStrategy()));
         // 포
-        janggiBoard.put(new Position(cannonRow, 1), new Cannon(team));
-        janggiBoard.put(new Position(cannonRow, 7), new Cannon(team));
+        janggiBoard.put(new Position(cannonRow, 1), new Cannon(team, new CannonStrategy()));
+        janggiBoard.put(new Position(cannonRow, 7), new Cannon(team, new CannonStrategy()));
 
         // 졸/병
         for (int col = 0; col < 9; col += 2) {
-            janggiBoard.put(new Position(pawnRow, col), new Pawn(team));
+            janggiBoard.put(new Position(pawnRow, col), new Pawn(team, new  PawnStrategy()));
         }
     }
 

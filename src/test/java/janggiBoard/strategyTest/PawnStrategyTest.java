@@ -31,7 +31,7 @@ public class PawnStrategyTest {
     void 초나라_졸인_경우_3가지_경우_반환() {
         Position currentPosition = new Position(5, 5);
 
-        testBoard.setPiece(currentPosition, new Pawn(Team.CHO));
+        testBoard.setPiece(currentPosition, new Pawn(Team.CHO, pawnStrategy));
 
         List<Position> candidates = pawnStrategy.getMoveCandidates(currentPosition, testBoard);
         assertThat(candidates).hasSize(3)
@@ -44,7 +44,7 @@ public class PawnStrategyTest {
     void 한나라_졸인_경우_3가지_경우_반환() {
         Position currentPosition = new Position(3, 5);
 
-        testBoard.setPiece(currentPosition, new Pawn(Team.HAN));
+        testBoard.setPiece(currentPosition, new Pawn(Team.HAN, pawnStrategy));
 
         List<Position> candidates = pawnStrategy.getMoveCandidates(currentPosition, testBoard);
         assertThat(candidates).hasSize(3)

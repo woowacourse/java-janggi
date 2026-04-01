@@ -7,6 +7,8 @@ import domain.piece.Cannon;
 import domain.piece.Guard;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
+import domain.strategy.CannonStrategy;
+import domain.strategy.PalaceStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +24,7 @@ public class CannonTest {
 
     @BeforeEach
     public void setUp() {
-        cannon = new Cannon(Team.CHO);
+        cannon = new Cannon(Team.CHO, new CannonStrategy());
         testBoard = new TestPieceProvider();
     }
 
@@ -32,7 +34,7 @@ public class CannonTest {
         Position targetPosition = new Position(8, 5);
 
         testBoard.setAllBlank();
-        testBoard.setPiece(new Position(6, 5), new Guard(Team.CHO));
+        testBoard.setPiece(new Position(6, 5), new Guard(Team.CHO, new PalaceStrategy()));
 
         boolean isCannonMove = cannon.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCannonMove).isTrue();
@@ -44,7 +46,7 @@ public class CannonTest {
         Position targetPosition = new Position(8, 5);
 
         testBoard.setAllBlank();
-        testBoard.setPiece(new Position(6, 5), new Cannon(Team.CHO));
+        testBoard.setPiece(new Position(6, 5), new Cannon(Team.CHO, new CannonStrategy()));
 
         boolean isCannonMove = cannon.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCannonMove).isFalse();
@@ -56,8 +58,8 @@ public class CannonTest {
         Position targetPosition = new Position(8, 5);
 
         testBoard.setAllBlank();
-        testBoard.setPiece(new Position(6, 5), new Guard(Team.CHO));
-        testBoard.setPiece(new Position(8, 5), new Cannon(Team.HAN));
+        testBoard.setPiece(new Position(6, 5), new Guard(Team.CHO, new  PalaceStrategy()));
+        testBoard.setPiece(new Position(8, 5), new Cannon(Team.HAN, new CannonStrategy()));
 
         boolean isCannonMove = cannon.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCannonMove).isFalse();

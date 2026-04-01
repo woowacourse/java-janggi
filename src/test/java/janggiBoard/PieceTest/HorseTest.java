@@ -6,6 +6,7 @@ import domain.piece.Blank;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
+import domain.strategy.HorseStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ public class HorseTest {
 
     @BeforeEach
     void setUp() {
-        horse = new Horse(Team.CHO);
+        horse = new Horse(Team.CHO, new HorseStrategy());
         testBoard = new TestPieceProvider();
     }
 

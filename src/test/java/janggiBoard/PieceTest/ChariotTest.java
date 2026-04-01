@@ -6,6 +6,7 @@ import domain.piece.Blank;
 import domain.piece.Chariot;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
+import domain.strategy.ChariotStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ public class ChariotTest {
 
     @BeforeEach
     public void setUp() {
-        chariot = new Chariot(Team.CHO);
+        chariot = new Chariot(Team.CHO, new ChariotStrategy());
         testBoard = new TestPieceProvider();
     }
 

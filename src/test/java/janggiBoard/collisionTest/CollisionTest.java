@@ -41,8 +41,8 @@ public class CollisionTest {
         Position currentPosition = new Position(9, 0);
         Position targetPosition = new Position(6, 0);
 
-        testBoard.setPiece(currentPosition, new Chariot(Team.CHO));
-        testBoard.setPiece(targetPosition, new Chariot(Team.CHO));
+        testBoard.setPiece(currentPosition, new Chariot(Team.CHO, chariotStrategy));
+        testBoard.setPiece(targetPosition, new Chariot(Team.CHO, chariotStrategy));
 
         assertThat(chariotStrategy.getMoveCandidates(currentPosition, testBoard)).doesNotContain(targetPosition);
     }
@@ -53,9 +53,9 @@ public class CollisionTest {
         Position currentPosition = new Position(9, 0);
         Position targetPosition = new Position(3, 0);
 
-        testBoard.setPiece(currentPosition, new Chariot(Team.CHO));
+        testBoard.setPiece(currentPosition, new Chariot(Team.CHO, chariotStrategy));
         testBoard.setAllBlank();
-        testBoard.setPiece(targetPosition, new Pawn(Team.HAN));
+        testBoard.setPiece(targetPosition, new Pawn(Team.HAN, new PawnStrategy()));
 
         assertThat(chariotStrategy.getMoveCandidates(currentPosition, testBoard)).contains(targetPosition);
     }
@@ -67,9 +67,9 @@ public class CollisionTest {
         Position myeokPosition = new Position(1, 1);
         Position targetPosition = new Position(2, 2);
 
-        testBoard.setPiece(currentPosition, new Horse(Team.HAN));
+        testBoard.setPiece(currentPosition, new Horse(Team.HAN, horseStrategy));
         testBoard.setPiece(myeokPosition, new Blank());
-        testBoard.setPiece(targetPosition, new Horse(Team.HAN));
+        testBoard.setPiece(targetPosition, new Horse(Team.HAN, horseStrategy));
 
         assertThat(horseStrategy.getMoveCandidates(currentPosition, testBoard)).doesNotContain(targetPosition);
     }
@@ -81,9 +81,9 @@ public class CollisionTest {
         Position myeokPosition = new Position(1, 1);
         Position targetPosition = new Position(2, 2);
 
-        testBoard.setPiece(currentPosition, new Horse(Team.HAN));
+        testBoard.setPiece(currentPosition, new Horse(Team.HAN, horseStrategy));
         testBoard.setPiece(myeokPosition, new Blank());
-        testBoard.setPiece(targetPosition, new Pawn(Team.CHO));
+        testBoard.setPiece(targetPosition, new Pawn(Team.CHO, new PawnStrategy()));
 
         assertThat(horseStrategy.getMoveCandidates(currentPosition, testBoard)).contains(targetPosition);
     }
@@ -96,10 +96,10 @@ public class CollisionTest {
         Position diagonalMyeok = new Position(2, 4);
         Position targetPosition = new Position(3, 5);
 
-        testBoard.setPiece(currentPosition, new Elephant(Team.HAN));
+        testBoard.setPiece(currentPosition, new Elephant(Team.HAN, elephantStrategy));
         testBoard.setPiece(straightMyeok, new Blank());
         testBoard.setPiece(diagonalMyeok, new Blank());
-        testBoard.setPiece(targetPosition, new Pawn(Team.HAN));
+        testBoard.setPiece(targetPosition, new Pawn(Team.HAN, new PalaceStrategy()));
 
         assertThat(elephantStrategy.getMoveCandidates(currentPosition, testBoard)).doesNotContain(targetPosition);
     }
@@ -112,10 +112,10 @@ public class CollisionTest {
         Position diagonalMyeok = new Position(2, 4);
         Position targetPosition = new Position(3, 5);
 
-        testBoard.setPiece(currentPosition, new Elephant(Team.HAN));
+        testBoard.setPiece(currentPosition, new Elephant(Team.HAN, elephantStrategy));
         testBoard.setPiece(straightMyeok, new Blank());
         testBoard.setPiece(diagonalMyeok, new Blank());
-        testBoard.setPiece(targetPosition, new Pawn(Team.CHO));
+        testBoard.setPiece(targetPosition, new Pawn(Team.CHO, new PawnStrategy()));
 
         assertThat(elephantStrategy.getMoveCandidates(currentPosition, testBoard)).contains(targetPosition);
     }
@@ -126,8 +126,8 @@ public class CollisionTest {
         Position currentPosition = new Position(6, 4);
         Position targetPosition = new Position(5, 4);
 
-        testBoard.setPiece(currentPosition, new Pawn(Team.CHO));
-        testBoard.setPiece(targetPosition, new Pawn(Team.CHO));
+        testBoard.setPiece(currentPosition, new Pawn(Team.CHO, pawnStrategy));
+        testBoard.setPiece(targetPosition, new Pawn(Team.CHO, pawnStrategy));
 
         assertThat(pawnStrategy.getMoveCandidates(currentPosition, testBoard)).doesNotContain(targetPosition);
     }
@@ -138,8 +138,8 @@ public class CollisionTest {
         Position currentPosition = new Position(6, 4);
         Position targetPosition = new Position(5, 4);
 
-        testBoard.setPiece(currentPosition, new Pawn(Team.CHO));
-        testBoard.setPiece(targetPosition, new Pawn(Team.HAN));
+        testBoard.setPiece(currentPosition, new Pawn(Team.CHO, pawnStrategy));
+        testBoard.setPiece(targetPosition, new Pawn(Team.HAN, pawnStrategy));
 
         assertThat(pawnStrategy.getMoveCandidates(currentPosition, testBoard)).contains(targetPosition);
     }
@@ -151,9 +151,9 @@ public class CollisionTest {
         Position bridgePosition = new Position(7, 3);
         Position targetPosition = new Position(7, 5);
 
-        testBoard.setPiece(currentPosition, new Cannon(Team.CHO));
-        testBoard.setPiece(bridgePosition, new Guard(Team.CHO));
-        testBoard.setPiece(targetPosition, new Cannon(Team.CHO));
+        testBoard.setPiece(currentPosition, new Cannon(Team.CHO, cannonStrategy));
+        testBoard.setPiece(bridgePosition, new Guard(Team.CHO, new PalaceStrategy()));
+        testBoard.setPiece(targetPosition, new Cannon(Team.CHO, cannonStrategy));
 
         assertThat(cannonStrategy.getMoveCandidates(currentPosition, testBoard)).doesNotContain(targetPosition);
     }
@@ -165,9 +165,9 @@ public class CollisionTest {
         Position bridgePosition = new Position(7, 3);
         Position targetPosition = new Position(7, 5);
 
-        testBoard.setPiece(currentPosition, new Cannon(Team.CHO));
-        testBoard.setPiece(bridgePosition, new Guard(Team.CHO));
-        testBoard.setPiece(targetPosition, new Chariot(Team.HAN));
+        testBoard.setPiece(currentPosition, new Cannon(Team.CHO, cannonStrategy));
+        testBoard.setPiece(bridgePosition, new Guard(Team.CHO, new PalaceStrategy()));
+        testBoard.setPiece(targetPosition, new Chariot(Team.HAN, new ChariotStrategy()));
 
         assertThat(cannonStrategy.getMoveCandidates(currentPosition, testBoard)).contains(targetPosition);
     }
@@ -178,8 +178,8 @@ public class CollisionTest {
         Position currentPosition = new Position(8, 4);
         Position targetPosition = new Position(7, 4);
 
-        testBoard.setPiece(currentPosition, new Guard(Team.CHO));
-        testBoard.setPiece(targetPosition, new King(Team.CHO));
+        testBoard.setPiece(currentPosition, new Guard(Team.CHO, palaceStrategy));
+        testBoard.setPiece(targetPosition, new King(Team.CHO, palaceStrategy));
 
         assertThat(palaceStrategy.getMoveCandidates(currentPosition, testBoard)).doesNotContain(targetPosition);
     }
@@ -190,8 +190,8 @@ public class CollisionTest {
         Position currentPosition = new Position(8, 4);
         Position targetPosition = new Position(7, 4);
 
-        testBoard.setPiece(currentPosition, new Guard(Team.CHO));
-        testBoard.setPiece(targetPosition, new Pawn(Team.HAN));
+        testBoard.setPiece(currentPosition, new Guard(Team.CHO, palaceStrategy));
+        testBoard.setPiece(targetPosition, new Pawn(Team.HAN, new PawnStrategy()));
 
         assertThat(palaceStrategy.getMoveCandidates(currentPosition, testBoard)).contains(targetPosition);
     }

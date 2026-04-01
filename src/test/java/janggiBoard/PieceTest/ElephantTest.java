@@ -6,6 +6,8 @@ import domain.piece.Blank;
 import domain.piece.Elephant;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
+import domain.strategy.ChariotStrategy;
+import domain.strategy.ElephantStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +23,7 @@ public class ElephantTest {
 
     @BeforeEach
     void setUp() {
-        elephant = new Elephant(Team.CHO);
+        elephant = new Elephant(Team.CHO, new ElephantStrategy());
         testBoard = new TestPieceProvider();
     }
 

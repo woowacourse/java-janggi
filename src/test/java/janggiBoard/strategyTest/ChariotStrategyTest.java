@@ -7,6 +7,7 @@ import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
 import domain.strategy.ChariotStrategy;
+import domain.strategy.PawnStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -77,9 +78,9 @@ public class ChariotStrategyTest {
         @Override
         public Piece getPiece(Position position) {
             if (isBlank(position)) {
-                return new Pawn(Team.HAN);
+                return new Pawn(Team.HAN, new PawnStrategy());
             }
-            return new Chariot(Team.CHO);
+            return new Chariot(Team.CHO, new ChariotStrategy());
         }
     }
 }

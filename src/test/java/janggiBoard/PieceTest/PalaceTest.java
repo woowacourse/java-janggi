@@ -7,6 +7,7 @@ import domain.piece.Guard;
 import domain.piece.King;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
+import domain.strategy.PalaceStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,8 +24,9 @@ public class PalaceTest {
 
     @BeforeEach
     void setUp() {
-        king = new King(Team.CHO);
-        guard = new Guard(Team.CHO);
+        PalaceStrategy palaceStrategy = new PalaceStrategy();
+        king = new King(Team.CHO, palaceStrategy);
+        guard = new Guard(Team.CHO, palaceStrategy);
         testBoard = new TestPieceProvider();
     }
 

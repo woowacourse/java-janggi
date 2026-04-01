@@ -8,6 +8,7 @@ import domain.piece.Guard;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
 import domain.strategy.CannonStrategy;
+import domain.strategy.PalaceStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ public class CannonStrategyTest {
     @Test
     void 포가_기물_한개를_넘어_빈칸으로_이동하는지_확인한다() {
         Position currentPosition = new Position(0, 0);
-        testBoard.setPiece(new Position(2, 0), new Guard(Team.CHO));
+        testBoard.setPiece(new Position(2, 0), new Guard(Team.CHO, new PalaceStrategy()));
 
         List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, testBoard);
         assertThat(candidates).contains(new Position(3, 0), new Position(9, 0));
@@ -41,7 +42,7 @@ public class CannonStrategyTest {
     @Test
     void 포는_다른포를_건너뛸_수_없다() {
         Position currentPosition = new Position(0, 0);
-        testBoard.setPiece(new Position(2, 0), new Cannon(Team.CHO));
+        testBoard.setPiece(new Position(2, 0), new Cannon(Team.CHO, cannonStrategy));
 
         List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, testBoard);
         assertThat(candidates.size()).isEqualTo(0);
@@ -59,8 +60,8 @@ public class CannonStrategyTest {
     @Test
     void 포는_다른포를_잡을_수_없다() {
         Position currentPosition = new Position(0, 0);
-        testBoard.setPiece(new Position(2, 0), new Guard(Team.CHO));
-        testBoard.setPiece(new Position(4, 0), new Cannon(Team.HAN));
+        testBoard.setPiece(new Position(2, 0), new Guard(Team.CHO, new PalaceStrategy()));
+        testBoard.setPiece(new Position(4, 0), new Cannon(Team.HAN, cannonStrategy));
 
         List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, testBoard);
         assertThat(candidates).contains(new Position(3, 0));

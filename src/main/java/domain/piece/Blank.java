@@ -3,10 +3,12 @@ package domain.piece;
 import domain.Position;
 import domain.Team;
 
+import java.util.Collections;
+
 public class Blank extends Piece {
 
     public Blank() {
-        super(Team.NONE);
+        super(Team.NONE, (currentPosition, board) -> Collections.emptyList());
     }
 
     @Override
