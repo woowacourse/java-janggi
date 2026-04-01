@@ -5,13 +5,13 @@ import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 
-public abstract class AbstractPiece implements Piece {
+public abstract class AbstractFixedStepPiece implements Piece {
 
     private final Team team;
     private final PieceType type;
     private final int score;
 
-    public AbstractPiece(int score, Team team, PieceType type) {
+    public AbstractFixedStepPiece(int score, Team team, PieceType type) {
         this.score = score;
         this.team = team;
         this.type = type;
@@ -38,9 +38,5 @@ public abstract class AbstractPiece implements Piece {
 
     public int getScore() {
         return score;
-    }
-
-    protected Team getTeam() {
-        return this.team;
     }
 }
