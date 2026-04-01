@@ -14,8 +14,10 @@ import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Board {
 
@@ -40,9 +42,9 @@ public class Board {
         return destinationPiece;
     }
 
-    public List<Position> findMovablePositions(Position source) {
+    public Set<Position> findMovablePositions(Position source) {
         validateSource(source);
-        List<Position> movablePositions = new ArrayList<>();
+        Set<Position> movablePositions = new HashSet<>();
 
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {

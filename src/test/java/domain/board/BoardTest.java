@@ -16,6 +16,7 @@ import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -133,7 +134,7 @@ class BoardTest {
 
             Board board = new Board(boardMap);
 
-            List<Position> movablePositions = board.findMovablePositions(source);
+            Set<Position> movablePositions = board.findMovablePositions(source);
 
             assertEquals(3, movablePositions.size());
             assertEquals(3, movablePositions.stream()

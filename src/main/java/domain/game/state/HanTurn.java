@@ -5,7 +5,7 @@ import domain.game.Game;
 import domain.piece.Piece;
 import domain.player.Team;
 import domain.position.Position;
-import java.util.List;
+import java.util.Set;
 
 public class HanTurn extends Running {
     public HanTurn(Game game) {
@@ -31,7 +31,7 @@ public class HanTurn extends Running {
     }
 
     @Override
-    public List<Position> selectPiece(Position source) {
+    public Set<Position> selectPiece(Position source) {
         if (game.isCho(source)) {
             throw new JanggiException("한 차례입니다. 초 기물이 선택되었습니다.");
         }

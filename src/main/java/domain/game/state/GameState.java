@@ -3,7 +3,7 @@ package domain.game.state;
 import domain.game.Game;
 import domain.player.Team;
 import domain.position.Position;
-import java.util.List;
+import java.util.Set;
 
 public abstract class GameState {
 
@@ -21,5 +21,5 @@ public abstract class GameState {
 
     public abstract Team getWinner();
 
-    public abstract List<Position> selectPiece(Position source);
+    public abstract Set<Position> selectPiece(Position source);
 }

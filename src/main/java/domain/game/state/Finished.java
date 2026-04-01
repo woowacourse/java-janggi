@@ -4,7 +4,7 @@ import common.exception.JanggiException;
 import domain.game.Game;
 import domain.player.Team;
 import domain.position.Position;
-import java.util.List;
+import java.util.Set;
 
 public class Finished extends GameState {
 
@@ -36,7 +36,7 @@ public class Finished extends GameState {
     }
 
     @Override
-    public List<Position> selectPiece(Position source) {
+    public Set<Position> selectPiece(Position source) {
         throw new JanggiException("게임이 이미 종료되었습니다.");
     }
 }

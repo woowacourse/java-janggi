@@ -11,6 +11,7 @@ import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Game {
     private Players players;
@@ -25,7 +26,7 @@ public class Game {
         this.gameState = new ChoTurn(this);
     }
 
-    public List<Position> select(Position source) {
+    public Set<Position> select(Position source) {
         return gameState.selectPiece(source);
     }
 
@@ -79,7 +80,7 @@ public class Game {
         return gameState.getWinner();
     }
 
-    public List<Position> findMovablePositions(Position source) {
+    public Set<Position> findMovablePositions(Position source) {
         return board.findMovablePositions(source);
     }
 }
