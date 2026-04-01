@@ -88,9 +88,9 @@ public class BoardFactory {
                 new Piece(new GungAndSaMoveStorage(), Team.CHO, 0, "楚"));
         // 포
         board.put(Position.of(Row.of(1), Column.of(7)),
-                new Piece(new SangMoveStorage(), Team.CHO, 7, "包"));
+                new Piece(new PoMoveStorage(), Team.CHO, 7, "包"));
         board.put(Position.of(Row.of(7), Column.of(7)),
-                new Piece(new SangMoveStorage(), Team.CHO, 7, "包"));
+                new Piece(new PoMoveStorage(), Team.CHO, 7, "包"));
         // 졸
         board.put(Position.of(Row.of(0), Column.of(6)),
                 new Piece(new JolMoveStorage(), Team.CHO, 2, "卒"));
