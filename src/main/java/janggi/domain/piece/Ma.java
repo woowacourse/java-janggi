@@ -6,7 +6,7 @@ import janggi.domain.point.Points;
 import janggi.domain.status.Team;
 import java.util.List;
 
-public class Ma extends Piece {
+public class Ma extends AbstractPiece {
 
     private static final int SCORE = 5;
 
