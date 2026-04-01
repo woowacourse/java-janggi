@@ -30,7 +30,7 @@ public class Board {
         validateIsReachable(start, destination);
 
         validateCanMove(start, destination);
-        
+
         validateCrashWithAlly(start, destination);
 
         Piece startPiece = getPieceOrThrowException(start);
@@ -38,7 +38,7 @@ public class Board {
         pieces.put(destination, startPiece);
     }
 
-    public void validateIsAlly(Team turn, Position startPosition) {
+    private void validateIsAlly(Team turn, Position startPosition) {
         Piece startPiece = getPieceOrThrowException(startPosition);
         if (!startPiece.isSameTeam(turn)) {
             throw new IllegalArgumentException(SHOULD_CHOOSE_CORRECT_TEAM_PIECE);
