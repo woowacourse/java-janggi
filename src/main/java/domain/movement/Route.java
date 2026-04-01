@@ -11,6 +11,8 @@ public class Route {
     private final List<Intersection> route;
 
     public Route(List<Intersection> intersections) {
+        validateRoute(intersections);
+
         this.route = List.copyOf(intersections);
     }
 
@@ -22,17 +24,6 @@ public class Route {
     public boolean isDestinationAvailable(AlivePieces alivePieces, Side ownSide) {
         return getDestination().isInBoard()
                 && alivePieces.placedNotSameSide(getDestination(), ownSide);
-    }
-
-    private boolean isPathAvailable(AlivePieces alivePieces) {
-        boolean pathEmpty = getPath()
-                .stream()
-                .allMatch(alivePieces::isEmpty);
-        boolean pathInBoard = getPath()
-                .stream()
-                .allMatch(Intersection::isInBoard);
-
-        return pathEmpty && pathInBoard;
     }
 
     public Intersection getDestination() {
@@ -47,6 +38,23 @@ public class Route {
         int indexOfDestination = route.size() - 1;
 
         return route.subList(0, indexOfDestination);
+    }
+
+    private boolean isPathAvailable(AlivePieces alivePieces) {
+        boolean pathEmpty = getPath()
+                .stream()
+                .allMatch(alivePieces::isEmpty);
+        boolean pathInBoard = getPath()
+                .stream()
+                .allMatch(Intersection::isInBoard);
+
+        return pathEmpty && pathInBoard;
+    }
+
+    private void validateRoute(List<Intersection> path) {
+        if (path.isEmpty()) {
+            throw new IllegalArgumentException("경로에는 하나 이상의 좌표 정보가 필요합니다.");
+        }
     }
 
     @Override
