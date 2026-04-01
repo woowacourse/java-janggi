@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class Position {
 
-    private final int rows; // 행 10
-    private final int columns; //열 9
+    private final int row; // 행 10
+    private final int column; //열 9
 
     public Position(int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
+        this.row = rows;
+        this.column = columns;
     }
 
-    public int getRows() {
-        return rows;
+    public int getRow() {
+        return row;
     }
 
-    public int getColumns() {
-        return columns;
+    public int getColumn() {
+        return column;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class Position {
             return false;
         }
         Position position = (Position) o;
-        return rows == position.rows && columns == position.columns;
+        return row == position.row && column == position.column;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rows, columns);
+        return Objects.hash(row, column);
     }
 }

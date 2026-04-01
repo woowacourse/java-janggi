@@ -24,8 +24,8 @@ public class CarStrategy implements MoveStrategy {
         Position next = currentPosition;
 
         while (true) {
-            int nextRows = next.getRows() + direction.getRowOffset();
-            int nextColumns = next.getColumns() + direction.getColOffset();
+            int nextRows = next.getRow() + direction.getRowOffset();
+            int nextColumns = next.getColumn() + direction.getColOffset();
 
             if (nextRows < 0 || nextRows >= 10 || nextColumns < 0 || nextColumns >= 9) {
                 break;

@@ -14,15 +14,15 @@ public class HorseStrategy implements MoveStrategy {
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction straight : straightDirections) {
-            int myeokRow = currentPosition.getRows() + straight.getRowOffset();
-            int myeokCol = currentPosition.getColumns() + straight.getColOffset();
+            int myeokRow = currentPosition.getRow() + straight.getRowOffset();
+            int myeokCol = currentPosition.getColumn() + straight.getColOffset();
             Position myeokPosition = new Position(myeokRow, myeokCol);
 
             if (board.isBlank(myeokPosition)) {
                 List<Direction> diagonals = getDiagonalsFor(straight);
                 for (Direction diag : diagonals) {
-                    int targetRow = myeokPosition.getRows() + diag.getRowOffset();
-                    int targetCol = myeokPosition.getColumns() + diag.getColOffset();
+                    int targetRow = myeokPosition.getRow() + diag.getRowOffset();
+                    int targetCol = myeokPosition.getColumn() + diag.getColOffset();
                     Position targetPosition = new Position(targetRow, targetCol);
 
                     candidates.add(targetPosition);

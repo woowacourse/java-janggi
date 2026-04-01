@@ -37,8 +37,8 @@ public class CannonStrategy implements MoveStrategy{
     }
 
     private Position getNext(Position position, Direction direction) {
-        int nextRows = position.getRows() + direction.getRowOffset();
-        int nextColumns = position.getColumns() + direction.getColOffset();
+        int nextRows = position.getRow() + direction.getRowOffset();
+        int nextColumns = position.getColumn() + direction.getColOffset();
         return new Position(nextRows, nextColumns);
     }
 
@@ -55,7 +55,7 @@ public class CannonStrategy implements MoveStrategy{
     }
 
     private boolean isWithinBoard(Position position) {
-        return position.getRows() >= 0 && position.getRows() < 10 &&
-                position.getColumns() >= 0 && position.getColumns() < 9;
+        return position.getRow() >= 0 && position.getRow() < 10 &&
+                position.getColumn() >= 0 && position.getColumn() < 9;
     }
 }
