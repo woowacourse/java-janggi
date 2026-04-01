@@ -26,8 +26,8 @@ public class Palace {
             pos(8, 4), List.of(pos(9, 5), pos(10, 6)),
             pos(8, 6), List.of(pos(9, 5), pos(10, 4)),
 
-            pos(10, 4), List.of(pos(2, 5), pos(8, 6)),
-            pos(10, 6), List.of(pos(2, 5), pos(8, 4)),
+            pos(10, 4), List.of(pos(9, 5), pos(8, 6)),
+            pos(10, 6), List.of(pos(9, 5), pos(8, 4)),
 
             pos(9, 5), List.of(
                     pos(8, 4), pos(8, 6),
@@ -41,6 +41,11 @@ public class Palace {
         }
         return ((pos.row().value() >= HAN_MIN_ROW && pos.row().value() <= HAN_MAX_ROW)
                 || (pos.row().value() >= CHO_MIN_ROW && pos.row().value() <= CHO_MAX_ROW));
+    }
+
+    public boolean canMove(Position from, Position to) {
+        List<Position> diagonal = PALACE.get(from);
+        return diagonal.contains(to);
     }
 
     private static Position pos(int x, int y) {
