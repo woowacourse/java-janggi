@@ -6,21 +6,29 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class ElephantMoveStrategy extends PieceStrategy {
 
     @Override
-    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
+    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
         Paths paths = new Paths();
         for (Direction baseDir : baseDirections) {
             addElephantPaths(current, paths, baseDir);
         }
         return paths;
+    }
+
+    @Override
+    protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
+        return null;
+    }
+
+    @Override
+    protected boolean isAppendable(Position currentPosition, Position targetPosition, BoardInfo boardInfo) {
+        return false;
     }
 
     private void addElephantPaths(Position current, Paths paths, Direction baseDir) {
@@ -49,25 +57,6 @@ public class ElephantMoveStrategy extends PieceStrategy {
         Position next = direction.move(now);
         path.makePath(next);
         return next;
-    }
-
-    @Override
-    public List<Position> destinationsOf(Position currentPosition, BoardInfo boardInfo) {
-        List<Position> destinations = new ArrayList<>();
-        for (Path route : routes) {
-            validateElephantPath(route, boardState, destinations, movingPiece);
-        }
-        return destinations;
-    }
-
-    private void validateElephantPath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
-        Iterator<Position> it = route.iterator();
-        Position transit1 = it.next();
-        Position transit2 = it.next();
-
-        if (state.get(transit1) == null && state.get(transit2) == null) {
-            addIfValid(it.next(), state, dests, me); // 최종 도착지
-        }
     }
 
     private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> dests, Piece me) {

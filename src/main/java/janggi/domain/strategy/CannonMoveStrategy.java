@@ -6,7 +6,6 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -15,12 +14,22 @@ import java.util.Map;
 public class CannonMoveStrategy extends PieceStrategy {
 
     @Override
-    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
+    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
         Paths paths = new Paths();
         for (Direction baseDir : baseDirections) {
             addCannonPath(current, baseDir, paths);
         }
         return paths;
+    }
+
+    @Override
+    protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
+        return null;
+    }
+
+    @Override
+    protected boolean isAppendable(Position currentPosition, Position targetPosition, BoardInfo boardInfo) {
+        return false;
     }
 
     private void addCannonPath(Position current, Direction baseDir, Paths paths) {
@@ -31,22 +40,6 @@ public class CannonMoveStrategy extends PieceStrategy {
             path.makePath(next);
         }
         paths.addPath(path);
-    }
-
-    @Override
-    public List<Position> destinationsOf(Position currentPosition, BoardInfo boardInfo) {
-        List<Position> destinations = new ArrayList<>();
-        for (Path route : routes) {
-            validateCannonPath(route, boardState, destinations, movingPiece);
-        }
-        return destinations;
-    }
-
-    private void validateCannonPath(Path route, Map<Position, Piece> state, List<Position> dests, Piece movingPiece) {
-        Iterator<Position> it = route.iterator();
-        if (findBridge(it, state)) {
-            findDestinationsAfterJump(it, state, dests, movingPiece);
-        }
     }
 
     private boolean findBridge(Iterator<Position> it, Map<Position, Piece> state) {

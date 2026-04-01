@@ -24,7 +24,7 @@ class SlideMoveStrategyTest {
         Position current = new Position(5, 5);
         Piece chariot = new Piece(Side.CHO, PieceType.CHARIOT, "0");
 
-        Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N));
+        Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N), );
         Map<Position, Piece> boardState = new HashMap<>();
 
         List<Position> destinations = strategy.destinationsOf(, paths, , boardState);
@@ -42,7 +42,7 @@ class SlideMoveStrategyTest {
         Position current = new Position(5, 5);
         Piece chariot = new Piece(Side.CHO, PieceType.CHARIOT, "0");
 
-        Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N));
+        Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N), );
         Map<Position, Piece> boardState = new HashMap<>();
         boardState.put(new Position(3, 5), new Piece(Side.HAN, PieceType.SOLDIER, "0"));
 

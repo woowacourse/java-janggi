@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
-import janggi.domain.route.Paths;
 import java.util.List;
 
 public class Piece {
@@ -29,13 +28,8 @@ public class Piece {
         }
     }
 
-    public Paths calculatePaths(Position current) {
-        return type.calculatePaths(current, side);
-    }
-
     public List<Position> determineDestinations(Position current, BoardInfo boardInfo) {
-        Paths moveablePaths = calculatePaths(current);
-        return type.determineDestinations(routes, boardState, this);
+        return type.determineDestinations(current, side, boardInfo);
     }
 
     public boolean isAlly(Piece other) {

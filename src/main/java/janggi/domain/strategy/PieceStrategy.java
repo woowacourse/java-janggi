@@ -12,10 +12,10 @@ import java.util.List;
 
 public abstract class PieceStrategy implements MoveStrategy {
 
-    public Paths findMovablePaths(Position currentPosition, EnumSet<Direction> baseDirections) {
+    public Paths findMovablePaths(Position currentPosition, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
         Paths paths = new Paths();
         for (Direction baseDir : baseDirections) {
-            navigationPath(currentPosition, baseDir, paths);
+            paths.addPath(navigationPath(currentPosition, baseDir, boardInfo));
         }
         return paths;
     }
@@ -24,7 +24,7 @@ public abstract class PieceStrategy implements MoveStrategy {
     public List<Position> destinationsOf(Position currentPosition, EnumSet<Direction> baseDirections,
                                          BoardInfo boardInfo) {
         List<Position> destinations = new ArrayList<>();
-        Paths moveablePaths = findMovablePaths(currentPosition, baseDirections);
+        Paths moveablePaths = findMovablePaths(currentPosition, baseDirections, boardInfo);
         for (Path route : moveablePaths) {
             destinations.addAll(validatePath(currentPosition, route, boardInfo));
         }
@@ -41,7 +41,7 @@ public abstract class PieceStrategy implements MoveStrategy {
         return targetPositions;
     }
 
-    protected abstract void navigationPath(Position current, Direction baseDir, Paths paths);
+    protected abstract Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo);
 
     protected abstract boolean isAppendable(Position currentPosition, Position targetPosition, BoardInfo boardInfo);
 }

@@ -38,17 +38,14 @@ public class Board implements BoardInfo {
 
     @Override
     public boolean isAlly(Position currentPosition, Position targetPosition) {
-        Piece currentPiece = piecePosition.get(targetPosition);
-        Piece targetPiece = piecePosition.get(currentPosition);
+        Piece currentPiece = piecePosition.get(currentPosition);
+        Piece targetPiece = piecePosition.get(targetPosition);
         return currentPiece.isAlly(targetPiece);
     }
 
     public List<Position> moveablePositions(Position currentPosition) {
         Piece piece = piecePosition.get(currentPosition);
         return piece.determineDestinations(currentPosition, this);
-        Paths moveablePaths = piece.calculatePaths(currentPosition);
-        Map<Position, Piece> boardState = generateStateByPaths(moveablePaths);
-        return piece.determineDestinations(moveablePaths, boardState);
     }
 
     private Map<Position, Piece> generateStateByPaths(Paths moveablePaths) {
@@ -58,7 +55,7 @@ public class Board implements BoardInfo {
     }
 
     private void generateStateByPath(Path path, Map<Position, Piece> boardState) {
-        path.forEach(position -> generateStateIfExist(boardState, position));
+        path.getPositions().forEach(position -> generateStateIfExist(boardState, position));
     }
 
     private void generateStateIfExist(Map<Position, Piece> boardState, Position position) {

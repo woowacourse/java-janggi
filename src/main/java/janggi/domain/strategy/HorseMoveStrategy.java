@@ -6,21 +6,29 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class HorseMoveStrategy extends PieceStrategy {
 
     @Override
-    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
+    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
         Paths paths = new Paths();
         for (Direction baseDir : baseDirections) {
             addHorsePaths(current, baseDir, paths);
         }
         return paths;
+    }
+
+    @Override
+    protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
+        return null;
+    }
+
+    @Override
+    protected boolean isAppendable(Position currentPosition, Position targetPosition, BoardInfo boardInfo) {
+        return false;
     }
 
     private void addHorsePaths(Position current, Direction baseDir, Paths paths) {
@@ -49,24 +57,6 @@ public class HorseMoveStrategy extends PieceStrategy {
         Position next = direction.move(now);
         path.makePath(next);
         return next;
-    }
-
-    @Override
-    public List<Position> destinationsOf(Position currentPosition, BoardInfo boardInfo) {
-        List<Position> destinations = new ArrayList<>();
-        for (Path route : routes) {
-            validateHorsePath(route, boardState, destinations, movingPiece);
-        }
-        return destinations;
-    }
-
-    private void validateHorsePath(Path route, Map<Position, Piece> state, List<Position> dests, Piece me) {
-        Iterator<Position> it = route.iterator();
-        Position transit = it.next(); // 멱 (1번째)
-
-        if (state.get(transit) == null) {
-            addIfValid(it.next(), state, dests, me); // 도착지 (2번째)
-        }
     }
 
     private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> dests, Piece me) {

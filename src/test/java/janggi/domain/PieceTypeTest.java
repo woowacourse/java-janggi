@@ -88,7 +88,7 @@ class PieceTypeTest {
 
         Piece movingPiece = new Piece(Side.HAN, PieceType.HORSE, "0");
 
-        List<Position> destinations = horse.determineDestinations(paths, boardState, movingPiece);
+        List<Position> destinations = horse.determineDestinations(paths, boardState);
 
         Position blockedDest1 = new Position(6, 3);
         Position blockedDest2 = new Position(6, 5);

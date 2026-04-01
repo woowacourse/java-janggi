@@ -25,7 +25,7 @@ class CannonMoveStrategyTest {
         Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "0");
 
         EnumSet<Direction> dirs = EnumSet.of(Direction.N);
-        Paths paths = strategy.findMovablePaths(current, dirs);
+        Paths paths = strategy.findMovablePaths(current, dirs, );
 
         Map<Position, Piece> boardState = new HashMap<>();
         boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.SOLDIER, "0"));
@@ -45,7 +45,7 @@ class CannonMoveStrategyTest {
         Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "0");
 
         EnumSet<Direction> dirs = EnumSet.of(Direction.N);
-        Paths paths = strategy.findMovablePaths(current, dirs);
+        Paths paths = strategy.findMovablePaths(current, dirs, );
 
         Map<Position, Piece> boardState = new HashMap<>();
         boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.CANNON, "1"));
