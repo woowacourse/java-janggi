@@ -32,12 +32,9 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (Math.abs(from.getRow() - to.getRow()) == 2 && Math.abs(from.getCol() - to.getCol()) != 3) {
-            return true;
-        }
-        if (Math.abs(from.getRow() - to.getRow()) == 3 && Math.abs(from.getCol() - to.getCol()) != 2) {
-            return true;
-        }
-        return false;
+        int rowDiff = Math.abs(from.getRow() - to.getRow());
+        int colDiff = Math.abs(from.getCol() - to.getCol());
+
+        return !((rowDiff == 3 && colDiff == 2) || (rowDiff == 2 && colDiff == 3));
     }
 }
