@@ -37,7 +37,7 @@ public class Piece {
         return pieceProperty.isCannon();
     }
 
-    public String name () {
+    public String name() {
         return pieceProperty.name();
     }
 
@@ -50,7 +50,7 @@ public class Piece {
     }
 
     public boolean isNone() {
-        return pieceProperty.isNoneTeam();
+        return pieceProperty.isNone();
     }
 
     public Position position() {

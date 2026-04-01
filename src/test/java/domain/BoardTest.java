@@ -3,7 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import exception.JanggiGameException;
+import exception.JanggiBusinessException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +25,7 @@ class BoardTest {
         Position targetPosition = soldierPiece.position();
 
         assertThatThrownBy(() -> board.movePiece(selectPiecePosition, targetPosition))
-                .isExactlyInstanceOf(JanggiGameException.class);
+                .isExactlyInstanceOf(JanggiBusinessException.class);
     }
 
     @Test
@@ -70,7 +70,7 @@ class BoardTest {
         Position targetPosition = destination.position();
 
         assertThatThrownBy(() -> board.movePiece(selectPiecePosition, targetPosition))
-                .isExactlyInstanceOf(JanggiGameException.class);
+                .isExactlyInstanceOf(JanggiBusinessException.class);
     }
 
     @Test
@@ -90,6 +90,6 @@ class BoardTest {
         Position targetPosition = destination.position();
 
         assertThatThrownBy(() -> board.movePiece(selectPiecePosition, targetPosition))
-                .isExactlyInstanceOf(JanggiGameException.class);
+                .isExactlyInstanceOf(JanggiBusinessException.class);
     }
 }

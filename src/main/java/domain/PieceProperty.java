@@ -36,7 +36,7 @@ public record PieceProperty(PieceType pieceType, Team team) {
         return team.equals(Team.RED);
     }
 
-    public boolean isNoneTeam() {
+    public boolean isNone() {
         return team.equals(Team.NONE);
     }
 }

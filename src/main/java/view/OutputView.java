@@ -6,15 +6,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class OutputView {
+public final class OutputView {
 
     private static final int ROW_SIZE = 10;
     private static final int COL_SIZE = 9;
+
     private static final String RESET = "\u001B[0m";
     private static final String GREEN = "\u001B[32m";
     private static final String RED = "\u001B[31m";
     private static final String EMPTY = " ＋";
     private static final String HEADER = "   0  1  2  3  4  5  6  7  8";
+
+    private OutputView() {
+
+    }
 
     public static void printBoard(List<PieceInfo> pieces) {
         Map<String, PieceInfo> pieceMap = buildPieceMap(pieces);
@@ -23,6 +28,18 @@ public class OutputView {
 
     public static void printCurrentPlayerTurn(String turn) {
         System.out.println("현재 차례: " + turn);
+    }
+
+    public static void printResult(String result) {
+        System.out.println(result);
+    }
+
+    public static void printError(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
+    public static void printTaskDivider() {
+        System.out.println();
     }
 
     private static Map<String, PieceInfo> buildPieceMap(List<PieceInfo> pieces) {

@@ -1,26 +1,31 @@
 package view;
 
 import dto.PieceInfo;
+import dto.SelectPositionRequest;
 import java.util.Scanner;
 
-public class InputView {
+public final class InputView {
 
     private static final String RESET = "\u001B[0m";
     private static final String GREEN = "\u001B[32m";
     private static final String RED = "\u001B[31m";
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public static String selectPiecePosition() {
-        System.out.println("이동시킬 기물을 선택해주세요.");
-        return scanner.nextLine();
+    private InputView() {
+
     }
 
-    public static String selectTargetPositionOf(PieceInfo pieceInfo) {
+    public static SelectPositionRequest selectPiecePosition() {
+        System.out.println("이동시킬 기물을 선택해주세요.");
+        return SelectPositionRequest.of(readLine());
+    }
+
+    public static SelectPositionRequest selectTargetPositionOf(PieceInfo pieceInfo) {
         String message = String.format("선택한 %s 기물을 이동시킬 위치를 선택해주세요.", colorize(pieceInfo));
         System.out.println(message);
 
-        return scanner.nextLine();
+        return SelectPositionRequest.of(readLine());
     }
 
     private static String colorize(PieceInfo piece) {
@@ -33,5 +38,9 @@ public class InputView {
             return RED + info + RESET;
         }
         return info;
+    }
+
+    private static String readLine() {
+        return scanner.nextLine();
     }
 }

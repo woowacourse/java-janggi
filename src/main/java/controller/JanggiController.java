@@ -2,6 +2,7 @@ package controller;
 
 import domain.JanggiGame;
 import domain.Position;
+import dto.SelectPositionRequest;
 import exception.JanggiGameException;
 import view.InputView;
 import view.OutputView;
@@ -16,41 +17,45 @@ public class JanggiController {
 
     public void run() {
         while (!janggiGame.isGameFinished()) {
-            playGame();
+            runPlayingPhase();
         }
-
-        System.out.println();
-        OutputView.printBoard(janggiGame.allFactors());
-        System.out.println(janggiGame.gameStatus());
+        runResultPhase();
     }
 
-    private void playGame() {
+    private void runPlayingPhase() {
+        displayCurrentGameState();
+        execute(this::movePiece);
+    }
+
+    private void displayCurrentGameState() {
         OutputView.printBoard(janggiGame.allFactors());
         OutputView.printCurrentPlayerTurn(janggiGame.currentPlayerTurn());
-        execute(this::playerPhase);
     }
 
-    private void playerPhase() {
-        String input = InputView.selectPiecePosition();
-        String[] split = input.split(",");
-        Position selected = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+    private void movePiece() {
+        SelectPositionRequest selectRequest = InputView.selectPiecePosition();
+        Position selected = Position.of(selectRequest.row(), selectRequest.col());
 
-        input = InputView.selectTargetPositionOf(janggiGame.findPieceInfoAt(selected));
-        split = input.split(",");
-        Position target = Position.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        SelectPositionRequest targetRequest = InputView.selectTargetPositionOf(janggiGame.findPieceInfoAt(selected));
+        Position target = Position.of(targetRequest.row(), targetRequest.col());
 
         janggiGame.move(selected, target);
     }
 
+    private void runResultPhase() {
+        OutputView.printBoard(janggiGame.allFactors());
+        OutputView.printResult(janggiGame.gameStatus());
+    }
 
     private void execute(ExecutableTask task) {
         while (true) {
             try {
                 task.execute();
+                OutputView.printTaskDivider();
                 return;
             } catch (JanggiGameException e) {
-                System.out.println(e.getMessage());
-                System.out.println();
+                OutputView.printError(e.getMessage());
+                OutputView.printTaskDivider();
             }
         }
     }

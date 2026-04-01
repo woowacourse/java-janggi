@@ -25,7 +25,7 @@ public enum PieceType {
     RED_SOLDIER("卒", RedSoldierMoveStrategy::of),
     GREEN_SOLDIER("卒", GreenSoldierMoveStrategy::of),
 
-    EMPTY_VALUE("＋", NoneMoveableStrategy::of)
+    EMPTY_VALUE("＋", NoneMoveableStrategy::of),
     ;
 
     private final String description;

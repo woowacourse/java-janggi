@@ -3,7 +3,7 @@ package domain;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
-import exception.JanggiGameException;
+import exception.JanggiBusinessException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -14,9 +14,9 @@ class JanggiGameTest {
     private Board testBoard() {
         Map<Position, Piece> testBoard = new HashMap<>();
 
-        Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.RED),Position.of(3, 3));
+        Piece horsePiece = new Piece(PieceProperty.of(PieceType.HORSE, Team.RED), Position.of(3, 3));
         Piece soldierPiece = new Piece(PieceProperty.of(PieceType.GREEN_SOLDIER, Team.GREEN), Position.of(5, 2));
-        Piece generalPiece = new Piece(PieceProperty.of(PieceType.GENERAL, Team.GREEN), Position.of(1,4));
+        Piece generalPiece = new Piece(PieceProperty.of(PieceType.GENERAL, Team.GREEN), Position.of(1, 4));
 
         testBoard.put(horsePiece.position(), horsePiece);
         testBoard.put(soldierPiece.position(), soldierPiece);
@@ -30,8 +30,8 @@ class JanggiGameTest {
     void player_select_piece_exist() {
         JanggiGame janggiGame = new JanggiGame(testBoard(), GameStatus.GREEN_PLAYER_TURN);
 
-        Position from = Position.of(3,3);
-        Position to = Position.of(5,2);
+        Position from = Position.of(3, 3);
+        Position to = Position.of(5, 2);
 
         assertDoesNotThrow(() -> janggiGame.move(from, to));
     }
@@ -40,10 +40,10 @@ class JanggiGameTest {
     @DisplayName("플레이어가 선택한 기물 위치가 장기판 범위를 벗어나면 예외를 던진다.")
     void player_select_position_out_of_range_throw_exception() {
         JanggiGame janggiGame = new JanggiGame(testBoard(), GameStatus.RED_PLAYER_TURN);
-        Position selected = Position.of(10,12);
+        Position selected = Position.of(10, 12);
 
         assertThatThrownBy(() -> janggiGame.findPieceInfoAt(selected))
-                .isExactlyInstanceOf(JanggiGameException.class);
+                .isExactlyInstanceOf(JanggiBusinessException.class);
     }
 
     @Test
@@ -51,9 +51,9 @@ class JanggiGameTest {
     void player_select_position_piece_not_exist_throw_exception() {
         JanggiGame janggiGame = new JanggiGame(testBoard(), GameStatus.GREEN_PLAYER_TURN);
 
-        Position redPiecePosition = Position.of(3,3);
+        Position redPiecePosition = Position.of(3, 3);
         assertThatThrownBy(() -> janggiGame.findPieceInfoAt(redPiecePosition))
-                .isExactlyInstanceOf(JanggiGameException.class);
+                .isExactlyInstanceOf(JanggiBusinessException.class);
     }
 
     @Test
@@ -61,8 +61,8 @@ class JanggiGameTest {
     void game_finished() {
         JanggiGame janggiGame = new JanggiGame(testBoard(), GameStatus.GREEN_PLAYER_TURN);
 
-        Position from = Position.of(3,3);
-        Position to = Position.of(1,4);
+        Position from = Position.of(3, 3);
+        Position to = Position.of(1, 4);
 
         janggiGame.move(from, to);
 
