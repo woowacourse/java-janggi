@@ -56,52 +56,54 @@ public class Board {
         // 한나라 초기화
         initSide(initialBoard, Side.HAN,
                 HAN_BASE_ROW, HAN_PALACE_ROW,
-                HAN_CANNON_ROW, HAN_SOLDIER_ROW,
-                PieceType.SOLDIER);
+                HAN_CANNON_ROW, HAN_SOLDIER_ROW
+        );
 
         // 초나라 초기화
         initSide(initialBoard, Side.CHO,
                 CHO_BASE_ROW, CHO_PALACE_ROW,
-                CHO_CANNON_ROW, CHO_SOLDIER_ROW,
-                PieceType.SOLDIER);
+                CHO_CANNON_ROW, CHO_SOLDIER_ROW
+        );
 
         return new Board(initialBoard);
     }
 
-    private static void initSide(Map<Position, Piece> initialBoard, Side side, int bR, int gR, int pR, int sR, PieceType st) {
-        initMajorPieces(initialBoard, side, bR);
-        initPalaceAndCannons(initialBoard, side, gR, pR);
-        initSoldiers(initialBoard, side, sR, st);
+    private static void initSide(Map<Position, Piece> initialBoard, Side side, int baseRow, int palaceRow,
+                                 int cannonRow, int soldierRow) {
+        initMajorPieces(initialBoard, side, baseRow);
+        initPalaceAndCannons(initialBoard, side, palaceRow, cannonRow);
+        initSoldiers(initialBoard, side, soldierRow);
     }
 
-    private static void initMajorPieces(Map<Position, Piece> initialBoard, Side side, int r) {
-        put(initialBoard, r, CHARIOT_LEFT, side, PieceType.CHARIOT, ID_FIRST);
-        put(initialBoard, r, CHARIOT_RIGHT, side, PieceType.CHARIOT, ID_SECOND);
+    private static void initMajorPieces(Map<Position, Piece> initialBoard, Side side, int row) {
+        put(initialBoard, row, CHARIOT_LEFT, side, PieceType.CHARIOT, ID_FIRST);
+        put(initialBoard, row, CHARIOT_RIGHT, side, PieceType.CHARIOT, ID_SECOND);
 
-        put(initialBoard, r, ELEPHANT_LEFT, side, PieceType.ELEPHANT, ID_FIRST);
-        put(initialBoard, r, ELEPHANT_RIGHT, side, PieceType.ELEPHANT, ID_SECOND);
+        put(initialBoard, row, ELEPHANT_LEFT, side, PieceType.ELEPHANT, ID_FIRST);
+        put(initialBoard, row, ELEPHANT_RIGHT, side, PieceType.ELEPHANT, ID_SECOND);
 
-        put(initialBoard, r, HORSE_LEFT, side, PieceType.HORSE, ID_FIRST);
-        put(initialBoard, r, HORSE_RIGHT, side, PieceType.HORSE, ID_SECOND);
+        put(initialBoard, row, HORSE_LEFT, side, PieceType.HORSE, ID_FIRST);
+        put(initialBoard, row, HORSE_RIGHT, side, PieceType.HORSE, ID_SECOND);
 
-        put(initialBoard, r, GUARD_LEFT, side, PieceType.GUARD, ID_FIRST);
-        put(initialBoard, r, GUARD_RIGHT, side, PieceType.GUARD, ID_SECOND);
+        put(initialBoard, row, GUARD_LEFT, side, PieceType.GUARD, ID_FIRST);
+        put(initialBoard, row, GUARD_RIGHT, side, PieceType.GUARD, ID_SECOND);
     }
 
-    private static void initPalaceAndCannons(Map<Position, Piece> initialBoard, Side side, int gR, int pR) {
-        put(initialBoard, gR, PALACE_COL, side, PieceType.PALACE, ID_FIRST);
-        put(initialBoard, pR, ELEPHANT_LEFT, side, PieceType.CANNON, ID_FIRST);
-        put(initialBoard, pR, ELEPHANT_RIGHT, side, PieceType.CANNON, ID_SECOND);
+    private static void initPalaceAndCannons(Map<Position, Piece> initialBoard, Side side, int palaceRow, int cannonRow) {
+        put(initialBoard, palaceRow, PALACE_COL, side, PieceType.PALACE, ID_FIRST);
+        put(initialBoard, cannonRow, ELEPHANT_LEFT, side, PieceType.CANNON, ID_FIRST);
+        put(initialBoard, cannonRow, ELEPHANT_RIGHT, side, PieceType.CANNON, ID_SECOND);
     }
 
-    private static void initSoldiers(Map<Position, Piece> initialBoard, Side side, int r, PieceType type) {
+    private static void initSoldiers(Map<Position, Piece> initialBoard, Side side, int row) {
         for (int i = 0; i < SOLDIER_TOTAL_COUNT; i++) {
-            put(initialBoard, r, i * SOLDIER_INTERVAL, side, type, String.valueOf(i));
+            put(initialBoard, row, i * SOLDIER_INTERVAL, side, PieceType.SOLDIER, String.valueOf(i));
         }
     }
 
-    private static void put(Map<Position, Piece> initialBoard, int r, int c, Side s, PieceType t, String n) {
-        initialBoard.put(new Position(r, c), new Piece(s, t, n));
+    private static void put(Map<Position, Piece> initialBoard, int row, int column, Side side, PieceType pieceType,
+                            String pieceNumber) {
+        initialBoard.put(new Position(row, column), new Piece(side, pieceType, pieceNumber));
     }
 
     Map<Position, Piece> getPiecePosition() {
