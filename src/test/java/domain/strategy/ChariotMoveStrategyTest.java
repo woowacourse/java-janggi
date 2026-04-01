@@ -11,7 +11,7 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차 기물은 현재 위치 기준 모든 상하좌우 범위 내에 위치로 이동할 수 있어야 한다.")
-    void chariot_move_test() {
+    void chariot_can_move_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(9, 4);
         ChariotMoveStrategy moveStrategy = new ChariotMoveStrategy();
@@ -41,7 +41,7 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
-    void chariot_blocked_route_test() {
+    void chariot_cannot_move_hasValidPathTo_blocked_route_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(4, 9);
         List<Position> obstacles = List.of(new Position(4, 8));
@@ -52,7 +52,7 @@ class ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
-    void chariot_non_blocked_route_test() {
+    void chariot_can_move_hasValidPathTo_non_blocked_route_test() {
         Position current = new Position(4, 4);
         Position destination = new Position(4, 9);
         List<Position> obstacles = List.of(new Position(4, 3));

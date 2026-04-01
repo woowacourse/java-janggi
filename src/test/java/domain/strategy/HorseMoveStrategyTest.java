@@ -16,7 +16,7 @@ class HorseMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("마는 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 대각선으로 이동할 수 있어야 한다.")
-    void horse_move_test(Position current, Position destination) {
+    void horse_can_move_test(Position current, Position destination) {
         HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isTrue();
@@ -25,7 +25,7 @@ class HorseMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("마는 현재 위치 기준 상하좌우 한 칸 이동 후, 진행 방향 대각선 외에는 이동할 수 없어야 한다.")
-    void horse_move_test_negative(Position current, Position destination) {
+    void horse_cannot_move_test(Position current, Position destination) {
         HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
 
         assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
@@ -33,7 +33,7 @@ class HorseMoveStrategyTest {
 
     @Test
     @DisplayName("마의 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
-    void horse_blocked_route_test() {
+    void horse_cannot_move_hasValidPathTo_blocked_route_test() {
         Position current = new Position(4, 4);
         Position destination = current.up().upCrossLeft();
         List<Position> blockedObstacles = List.of(current.up());
@@ -44,7 +44,7 @@ class HorseMoveStrategyTest {
 
     @Test
     @DisplayName("마의 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
-    void horse_non_blocked_route_test() {
+    void horse_can_move_hasValidPathTo_non_blocked_route_test() {
         Position current = new Position(4, 4);
         Position destination = current.up().upCrossLeft();
         List<Position> clearObstacles = List.of();
