@@ -1,13 +1,13 @@
 package domain;
 
+import static java.util.Optional.ofNullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import strategy.move.MoveStrategy;
-
-import static java.util.Optional.ofNullable;
 
 public class Board {
 
