@@ -25,7 +25,7 @@ public class ForwardAndDiagonalMovement {
         );
     }
 
-    public List<Intersection> moveAsAmount(
+    private List<Intersection> moveAsAmount(
             Intersection from,
             MoveAmount moveAmount,
             Vector vector
