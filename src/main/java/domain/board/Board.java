@@ -15,20 +15,20 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public void move(Position src, Position dest) {
-        Piece piece = pieces.get(src);
-        validateCanMove(piece, src, dest);
-        List<Position> route = ((ActivePiece) piece).searchRoute(src, dest);
+    public void move(Position source, Position destination) {
+        Piece piece = pieceAt(source);
+        validateCanMove(piece, source, destination);
+        List<Position> route = ((ActivePiece) piece).searchRoute(source, destination);
         if (piece.isCannon()) {
-            validateCannonRoute(route, dest);
+            validateCannonRoute(route, destination);
         } else {
             validateIntermediateRoute(route);
         }
-        validateDestination(dest, piece);
-        applyMove(src, dest, piece);
+        validateDestination(destination, piece);
+        applyMove(source, destination, piece);
     }
 
-    private void validateCannonRoute(List<Position> route, Position dest) {
+    private void validateCannonRoute(List<Position> route, Position destination) {
         int count = 0;
         for (Position position : route) {
             if (pieceAt(position).isCannon()) {
@@ -44,7 +44,7 @@ public class Board {
             throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
         }
 
-        if (pieceAt(dest).isCannon()) {
+        if (pieceAt(destination).isCannon()) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
