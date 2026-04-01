@@ -24,7 +24,7 @@ public enum ElephantSetUp {
     }
 
     public Map<Position, Piece> settingUp(Camp camp) {
-        List<Integer> settingColumns = camp.convertElephantColumns(SETTING_COLUMNS);
+        List<Integer> settingColumns = settingColumnsOf(camp);
 
         Map<Position, Piece> map = new HashMap<>();
         for (int i = 0; i < settingColumns.size(); i++) {
@@ -35,5 +35,12 @@ public enum ElephantSetUp {
         }
 
         return map;
+    }
+
+    private List<Integer> settingColumnsOf(Camp camp) {
+        if (camp == Camp.CHO) {
+            return SETTING_COLUMNS.reversed();
+        }
+        return SETTING_COLUMNS;
     }
 }

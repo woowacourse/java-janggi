@@ -8,21 +8,11 @@ public enum Camp {
 
     HAN(-1, 9, 1.5) {
         @Override
-        public List<Integer> convertElephantColumns(List<Integer> columns) {
-            return columns;
-        }
-
-        @Override
         public Camp next() {
             return CHO;
         }
     },
     CHO(1, 0, 0) {
-        @Override
-        public List<Integer> convertElephantColumns(List<Integer> columns) {
-            return columns.reversed();
-        }
-
         @Override
         public Camp next() {
             return HAN;
@@ -40,8 +30,6 @@ public enum Camp {
         this.startRowPosition = startRowPosition;
         this.bonusScoreForSecondPlayer = bonusScoreForSecondPlayer;
     }
-
-    public abstract List<Integer> convertElephantColumns(List<Integer> columns);
 
     public abstract Camp next();
 
