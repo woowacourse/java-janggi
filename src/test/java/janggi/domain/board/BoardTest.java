@@ -1,11 +1,9 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.board.Board;
-import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

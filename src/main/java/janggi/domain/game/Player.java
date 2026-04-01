@@ -1,7 +1,5 @@
 package janggi.domain.game;
 
-import janggi.dto.PlayerDTO;
-
 public class Player {
 
     private final String name;

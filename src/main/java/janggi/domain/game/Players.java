@@ -1,6 +1,5 @@
 package janggi.domain.game;
 
-import janggi.dto.PlayerDTO;
 import java.util.Set;
 
 public class Players {

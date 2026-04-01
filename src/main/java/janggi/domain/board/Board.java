@@ -104,7 +104,7 @@ public class Board {
         initialBoard.put(new Position(r, c), new Piece(s, t, n));
     }
 
-    public Map<Position, Piece> getPiecePosition() {
+    Map<Position, Piece> getPiecePosition() {
         return Map.copyOf(this.piecePosition);
     }
 

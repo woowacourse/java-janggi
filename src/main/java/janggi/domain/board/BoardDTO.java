@@ -1,7 +1,6 @@
-package janggi.dto;
+package janggi.domain.board;
 
-import janggi.domain.board.Board;
-import janggi.domain.board.Position;
+import janggi.dto.PieceDTO;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
