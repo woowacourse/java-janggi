@@ -14,7 +14,8 @@ import java.util.Map.Entry;
 public class Board {
     private static final String NOT_MY_PIECE = "[ERROR] 본인 진영의 기물이 아닙니다.";
     private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
-    
+    private static final String NOT_FOUND_PIECE_FROM_POSITION = "[ERROR] 해당 좌표에 기물이 존재하지 않습니다.";
+
     private final Map<Position, State> board;
 
     private Board(Map<Position, State> board) {
@@ -28,6 +29,9 @@ public class Board {
 
     public void validateFromPosition(Position from, Country country) {
         State fromState = board.get(from);
+        if (fromState.isEmpty()) {
+            throw new IllegalArgumentException(NOT_FOUND_PIECE_FROM_POSITION);
+        }
         if (fromState.getPiece().getPieceCountry() != country) {
             throw new IllegalArgumentException(NOT_MY_PIECE);
         }
