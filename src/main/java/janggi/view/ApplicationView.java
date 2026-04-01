@@ -20,7 +20,7 @@ public class ApplicationView {
     }
 
     public int requestArrangementStrategyDecision(Side side, List<StrategyLabel> strategies) {
-        outputWriter.printPromptMessage(side.getName() + "팀의 초기화 전략 번호를 입력해주세요.");
+        outputWriter.printPromptMessage(SideViewResolver.toDisplayName(side) + "팀의 초기화 전략 번호를 입력해주세요.");
 
         for (StrategyLabel strategy : strategies) {
             String strategyDecisionOption = String.format("%d. %s", strategy.getDecisionNumber(), strategy.getName());
@@ -60,7 +60,7 @@ public class ApplicationView {
 
     public void respondCurrentSide(Side currentSide) {
         this.lastSide = currentSide;
-        outputWriter.printPromptMessage(currentSide.getName() + "팀의 차례입니다.");
+        outputWriter.printPromptMessage(SideViewResolver.toDisplayName(currentSide) + "팀의 차례입니다.");
     }
 
     public List<Integer> requestLocationOfPiece() {
