@@ -12,13 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class Runner {
+public class JanggiGame {
 
     private final OutputView outputView;
     private final InputView inputView;
     private final Board board;
 
-    public Runner(OutputView outputView, InputView inputView) {
+    public JanggiGame(OutputView outputView, InputView inputView) {
         this.outputView = outputView;
         this.inputView = inputView;
         this.board = Board.initialize();
