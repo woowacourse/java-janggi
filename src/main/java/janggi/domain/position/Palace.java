@@ -31,15 +31,15 @@ public class Palace {
             Map.entry(Position.from(3, 5), List.of(WEST, EAST, NORTH)),
             Map.entry(Position.from(3, 6), List.of(WEST, NORTH, NORTHWEST)),
 
-            Map.entry(Position.from(9, 4), List.of(EAST, NORTHEAST, NORTH)),
-            Map.entry(Position.from(9, 6), List.of(WEST, NORTH, NORTHWEST)),
-            Map.entry(Position.from(9, 5), List.of(WEST, NORTH, EAST)),
-            Map.entry(Position.from(8, 4), List.of(SOUTH, EAST, NORTH)),
-            Map.entry(Position.from(8, 6), List.of(WEST, SOUTH, NORTH)),
-            Map.entry(Position.from(8, 5), List.of(WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST)),
-            Map.entry(Position.from(7, 4), List.of(SOUTH, SOUTHEAST, EAST)),
-            Map.entry(Position.from(7, 6), List.of(WEST, SOUTHWEST, NORTH)),
-            Map.entry(Position.from(7, 5), List.of(WEST, EAST, NORTH))
+            Map.entry(Position.from(8, 4), List.of(SOUTH, SOUTHEAST, EAST)),
+            Map.entry(Position.from(8, 5), List.of(WEST, EAST, NORTH)),
+            Map.entry(Position.from(8, 6), List.of(WEST, SOUTHWEST, NORTH)),
+            Map.entry(Position.from(9, 4), List.of(SOUTH, EAST, NORTH)),
+            Map.entry(Position.from(9, 5), List.of(WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST)),
+            Map.entry(Position.from(9, 6), List.of(WEST, SOUTH, NORTH)),
+            Map.entry(Position.from(10, 4), List.of(EAST, NORTHEAST, NORTH)),
+            Map.entry(Position.from(10, 6), List.of(WEST, NORTH, NORTHWEST)),
+            Map.entry(Position.from(10, 5), List.of(WEST, NORTH, EAST))
     );
 
 
