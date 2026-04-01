@@ -13,7 +13,7 @@ public enum BoardType {
     private final int value;
     private final Supplier<Board> boardSupplier;
 
-    BoarType(int value, Supplier<Board> boardSupplier) {
+    BoardType(int value, Supplier<Board> boardSupplier) {
         if (value < 1 || value > 4) {
             throw new IllegalArgumentException("1에서 4 사이의 자연수가 아닙니다.");
         }
@@ -22,7 +22,7 @@ public enum BoardType {
         this.boardSupplier = boardSupplier;
     }
 
-    public static BoarType of(int value) {
+    public static BoardType of(int value) {
         return Arrays.stream(values())
                 .filter(boarType -> boarType.value == value)
                 .findFirst()

@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.model.board.Board;
 import janggi.model.Team;
-import janggi.model.gimul.Piece;
-import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.piece.Piece;
+import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;

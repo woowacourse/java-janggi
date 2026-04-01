@@ -1,6 +1,6 @@
 package janggi.model.turn;
 
-import janggi.model.gimul.Piece;
+import janggi.model.piece.Piece;
 import janggi.model.board.position.Position;
 import java.util.Map;
 

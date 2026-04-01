@@ -1,14 +1,14 @@
 package janggi.view.dto;
 
 import janggi.model.Janggi;
-import janggi.model.gimul.Piece;
-import janggi.model.gimul.Byeong;
-import janggi.model.gimul.diagonalMove.Ma;
-import janggi.model.gimul.diagonalMove.Sang;
-import janggi.model.gimul.straightMove.Cha;
-import janggi.model.gimul.straightMove.Pho;
-import janggi.model.gimul.palace.Jang;
-import janggi.model.gimul.palace.Sa;
+import janggi.model.piece.Piece;
+import janggi.model.piece.Byeong;
+import janggi.model.piece.diagonalMove.Ma;
+import janggi.model.piece.diagonalMove.Sang;
+import janggi.model.piece.straightMove.Cha;
+import janggi.model.piece.straightMove.Pho;
+import janggi.model.piece.palace.Jang;
+import janggi.model.piece.palace.Sa;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
@@ -77,27 +77,27 @@ public record GameStatus(
         String symbol = "·";
 
         if (board.containsKey(position)) {
-            Piece gimul = board.get(position);
+            Piece piece = board.get(position);
 
-            if (gimul instanceof Ma) {
+            if (piece instanceof Ma) {
                 symbol = "마";
             }
-            if (gimul instanceof Sang) {
+            if (piece instanceof Sang) {
                 symbol = "상";
             }
-            if (gimul instanceof Cha) {
+            if (piece instanceof Cha) {
                 symbol = "차";
             }
-            if (gimul instanceof Pho) {
+            if (piece instanceof Pho) {
                 symbol = "포";
             }
-            if (gimul instanceof Jang) {
+            if (piece instanceof Jang) {
                 symbol = "장";
             }
-            if (gimul instanceof Sa) {
+            if (piece instanceof Sa) {
                 symbol = "사";
             }
-            if (gimul instanceof Byeong) {
+            if (piece instanceof Byeong) {
                 symbol = "병";
             }
         }

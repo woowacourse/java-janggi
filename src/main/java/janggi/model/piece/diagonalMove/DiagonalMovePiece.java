@@ -2,16 +2,10 @@ package janggi.model.piece.diagonalMove;
 
 import janggi.model.Team;
 import janggi.model.piece.Piece;
-import janggi.model.piece.PieceType;
 import java.util.List;
 
 public abstract class DiagonalMovePiece extends Piece {
 
-    protected DiagonalMovePiece(
-            Team team,
-            PieceType pieceType
-    ) {
-        super(team, pieceType);
     }
 
     @Override

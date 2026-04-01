@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.model.initializer.BoarType;
+import janggi.model.initializer.BoardType;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,9 +17,9 @@ public class InputView {
         this.scanner = new Scanner(System.in);
     }
 
-    public BoarType readBoardInitializeType() {
+    public BoardType readBoardInitializeType() {
         int boardType = Parser.parse(scanner.nextLine());
-        return BoarType.of(boardType);
+        return BoardType.of(boardType);
     }
 
     public List<Integer> readPosition() {

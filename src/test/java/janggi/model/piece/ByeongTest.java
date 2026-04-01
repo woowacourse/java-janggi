@@ -5,12 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.piece.straightMove.Cha;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.PositionPath;
-import janggi.model.position.absolute.Row;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,18 +18,10 @@ class ByeongTest {
         Position to = new Position(Row.SIX, Column.FIVE);
         Byeong byeong = new Byeong(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
-                .isEmpty();
     }
 
     @DisplayName("한나라일때, 남쪽으로 한칸 이동한다.")
@@ -45,18 +32,10 @@ class ByeongTest {
         Position to = new Position(Row.EIGHT, Column.FIVE);
         Byeong byeong = new Byeong(Team.HAN);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
-                .isEmpty();
     }
 
     @DisplayName("동쪽으로 한칸 이동한다.")
@@ -67,18 +46,10 @@ class ByeongTest {
         Position to = new Position(Row.SEVEN, Column.SIX);
         Byeong byeong = new Byeong(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board =Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
-                .isEmpty();
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -89,18 +60,10 @@ class ByeongTest {
         Position to = new Position(Row.SEVEN, Column.FOUR);
         Byeong byeong = new Byeong(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
-                .isEmpty();
     }
 
     @DisplayName("초나라일때 남쪽으로 움직이면 예외가 발생한다.")

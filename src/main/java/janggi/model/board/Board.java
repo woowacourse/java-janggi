@@ -2,7 +2,7 @@ package janggi.model.board;
 
 import janggi.model.Team;
 import janggi.model.board.position.Position;
-import janggi.model.gimul.Piece;
+import janggi.model.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,21 +24,21 @@ public class Board {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }
 
-        Piece gimulAtFrom = board.get(from);
+        Piece pieceAtFrom = board.get(from);
 
-        if (!gimulAtFrom.isSameTeam(team)) {
+        if (!pieceAtFrom.isSameTeam(team)) {
             throw new IllegalArgumentException("상대편 기물을 움직일 수 없습니다.");
         }
 
-        PositionPath path = gimulAtFrom.getLegalPath(from, to);
+        PositionPath path = pieceAtFrom.getLegalPath(from, to);
 
         if (!path.isEmpty()) {
-            List<Piece> gimulsOnPath = path.findGimulsOn(board);
-            validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
+            List<Piece> piecesOnPath = path.findPiecesOn(board);
+            validateMovePathAndDestination(to, pieceAtFrom, piecesOnPath);
         }
 
         Map<Position, Piece> movedBoard = new HashMap<>(board);
-        movedBoard.put(to, gimulAtFrom);
+        movedBoard.put(to, pieceAtFrom);
         movedBoard.remove(from);
 
         return new Board(movedBoard);
@@ -46,13 +46,13 @@ public class Board {
 
     private void validateMovePathAndDestination(
             Position to,
-            Piece gimulAtFrom,
-            List<Piece> gimulsOnPath
+            Piece pieceAtFrom,
+            List<Piece> piecesOnPath
     ) {
         boolean hasTarget = board.containsKey(to);
 
-        if ((!hasTarget && !gimulAtFrom.canPassThrough(gimulsOnPath))
-                || (hasTarget && !gimulAtFrom.canPassThrough(gimulsOnPath, board.get(to)))) {
+        if ((!hasTarget && !pieceAtFrom.canPassThrough(piecesOnPath))
+                || (hasTarget && !pieceAtFrom.canPassThrough(piecesOnPath, board.get(to)))) {
             throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
         }
     }
@@ -62,11 +62,11 @@ public class Board {
     }
 
     private boolean isChoAlive() {
-        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.CHO));
+        return board.values().stream().anyMatch(piece -> piece.isSameTeam(Team.CHO));
     }
 
     private boolean isHanAlive() {
-        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
+        return board.values().stream().anyMatch(piece -> piece.isSameTeam(Team.HAN));
     }
 
     public Map<Position, Piece> getBoard() {

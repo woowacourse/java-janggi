@@ -6,8 +6,8 @@ import janggi.model.Team;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
-import janggi.model.gimul.Piece;
-import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.piece.Piece;
+import janggi.model.piece.diagonalMove.Ma;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ class PositionPathTest {
 
     @DisplayName("경로 상에 위치하는 기물들을 반환한다.")
     @Test
-    void findGimulsOn() {
+    void findPiecesOn() {
         //given
         List<Position> positions = List.of(
                 new Position(Row.NINE, Column.EIGHT),
@@ -42,7 +42,7 @@ class PositionPathTest {
         );
 
         //when
-        List<Piece> gimuls = path.findGimulsOn(board);
+        List<Piece> gimuls = path.findPiecesOn(board);
 
         //then
         assertThat(gimuls)

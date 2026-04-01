@@ -2,7 +2,7 @@ package janggi.model.turn;
 
 import janggi.model.board.Board;
 import janggi.model.Team;
-import janggi.model.gimul.Piece;
+import janggi.model.piece.Piece;
 import janggi.model.board.position.Position;
 import java.util.Map;
 

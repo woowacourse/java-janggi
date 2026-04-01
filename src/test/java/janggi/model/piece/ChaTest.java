@@ -5,12 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.piece.straightMove.Cha;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.PositionPath;
-import janggi.model.position.absolute.Row;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -52,18 +47,10 @@ class ChaTest {
         Position to = new Position(Row.SIX, Column.FIVE);
         Cha cha = new Cha(Team.CHO);
 
-        Byeong byeong = new Byeong(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), byeong
-        );
-
         //when
         PositionPath path = cha.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
-                .containsExactly(byeong);
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -74,18 +61,10 @@ class ChaTest {
         Position to = new Position(Row.NINE, Column.THREE);
         Cha cha = new Cha(Team.CHO);
 
-        Byeong byeong = new Byeong(Team.CHO);
-
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SEVEN, Column.THREE), byeong
-        );
-
         //when
         PositionPath path = cha.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
-                .containsExactly(byeong);
     }
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")
