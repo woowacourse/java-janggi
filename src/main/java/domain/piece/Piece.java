@@ -37,7 +37,7 @@ public abstract class Piece {
         return directions;
     }
 
-    abstract void validateDirections(List<Direction> directions);
+    abstract protected void validateDirections(List<Direction> directions);
 
     public void validatePath(List<Position> paths, Board board) {
         for (int index = 0; index < paths.size() - 1; index++) {

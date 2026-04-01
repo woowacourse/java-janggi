@@ -14,7 +14,7 @@ public abstract class SingleMovingPiece extends Piece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions) {
+    protected void validateDirections(List<Direction> directions) {
         if (directions.size() != DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }

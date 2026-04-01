@@ -12,7 +12,7 @@ public abstract class StraightMovingPiece extends Piece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions) {
+    protected void validateDirections(List<Direction> directions) {
         Direction oneSide = directions.getFirst();
         boolean allSameDirection = directions.stream()
                 .allMatch(direction -> direction.equals(oneSide));

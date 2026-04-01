@@ -15,7 +15,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions) {
+    protected void validateDirections(List<Direction> directions) {
         if (directions.size() != HORSE_DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }
