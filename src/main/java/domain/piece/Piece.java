@@ -29,7 +29,7 @@ public abstract class Piece {
         return path;
     }
 
-    public List<Direction> findDirections(Position from, Position to) {
+    List<Direction> findDirections(Position from, Position to) {
         List<Integer> distances = from.calculateDistance(to);
         int x = distances.get(0);
         int y = distances.get(1);
