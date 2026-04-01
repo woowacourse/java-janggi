@@ -34,7 +34,12 @@ public class Horse extends Piece {
     }
 
     @Override
-    public String displayHanja() {
-        return displayName("馬", "馬");
+    public String choDisplayName() {
+        return "馬";
+    }
+
+    @Override
+    public String hanDisplayName() {
+        return "馬";
     }
 }

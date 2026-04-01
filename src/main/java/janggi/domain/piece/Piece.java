@@ -28,11 +28,11 @@ public abstract class Piece {
         return this.camp.isSameCamp(camp);
     }
 
-    String displayName(String choName, String hanName) {
+    public String displayName() {
         if (camp.isCho()) {
-            return choName;
+            return choDisplayName();
         }
-        return hanName;
+        return hanDisplayName();
     }
 
     abstract public boolean canPassRoute(Map<Position, Piece> piecesInPath);
@@ -43,5 +43,7 @@ public abstract class Piece {
 
     abstract public boolean canBeCaughtByCannon();
 
-    abstract public String displayHanja();
+    abstract public String choDisplayName();
+
+    abstract public String hanDisplayName();
 }

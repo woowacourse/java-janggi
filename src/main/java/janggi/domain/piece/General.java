@@ -34,7 +34,12 @@ public class General extends Piece {
     }
 
     @Override
-    public String displayHanja() {
-        return displayName("楚", "漢");
+    public String choDisplayName() {
+        return "楚";
+    }
+
+    @Override
+    public String hanDisplayName() {
+        return "漢";
     }
 }

@@ -44,7 +44,12 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public String displayHanja() {
-        return displayName("包", "砲");
+    public String choDisplayName() {
+        return "包";
+    }
+
+    @Override
+    public String hanDisplayName() {
+        return "砲";
     }
 }

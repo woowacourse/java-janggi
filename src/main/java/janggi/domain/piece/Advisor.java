@@ -34,7 +34,13 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public String displayHanja() {
-        return displayName("士", "仕");
+    public String choDisplayName() {
+        return "士";
     }
+
+    @Override
+    public String hanDisplayName() {
+        return "仕";
+    }
+
 }

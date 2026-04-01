@@ -44,7 +44,12 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public String displayHanja() {
-        return displayName("卒", "兵");
+    public String choDisplayName() {
+        return "卒";
+    }
+
+    @Override
+    public String hanDisplayName() {
+        return "兵";
     }
 }

@@ -34,7 +34,12 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public String displayHanja() {
-        return displayName("車", "車");
+    public String choDisplayName() {
+        return "車";
+    }
+
+    @Override
+    public String hanDisplayName() {
+        return "車";
     }
 }

@@ -34,7 +34,12 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public String displayHanja() {
-        return displayName("象", "象");
+    public String choDisplayName() {
+        return "象";
+    }
+
+    @Override
+    public String hanDisplayName() {
+        return "象";
     }
 }
