@@ -8,6 +8,7 @@ import janggi.domain.side.Side;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class Board {
     private static final int MAX_X = 9;
     private static final int MIN_Y = 0;
     private static final int MAX_Y = 8;
-    
+
     private final Map<Point, Piece> board;
 
     protected Board(Map<Point, Piece> board) {
@@ -47,7 +48,7 @@ public class Board {
     }
 
     public Set<Point> destinations(Point from) {
-        Piece piece = getPieceAt(from);
+        Piece piece = getPieceAt(from).orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
         List<CandidatePath> candidatePaths = piece.createCandidatePaths(from);
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(candidatePaths);
 
@@ -58,7 +59,8 @@ public class Board {
     }
 
     public void moveTo(Point from, Point to) {
-        Piece fromPiece = getPieceAt(from);
+        Piece fromPiece = getPieceAt(from).orElseThrow(
+                () -> new IllegalArgumentException("해당 Point에 기물이 없어, 움직일 수 없습니다."));
         Set<Point> destinations = destinations(from);
 
         if (!destinations.contains(to)) {
@@ -70,16 +72,17 @@ public class Board {
     }
 
     public Side getSideAt(Point point) {
-        Piece piece = getPieceAt(point);
+        Piece piece = getPieceAt(point).orElseThrow(
+                () -> new IllegalArgumentException("해당 Point에 기물이 없어, Side를 확인 할 수 없습니다."));
         return piece.getSide();
     }
 
-    private boolean isDestinationOtherSide(Piece piece, Point destination) {
-        if (isNotTherePiece(destination)) {
+    private boolean isDestinationOtherSide(Piece from, Point destination) {
+        Piece to = getPieceAt(destination).orElse(null);
+        if (to == null) {
             return true;
         }
-        return getPieceAt(destination)
-                .isNotEqualSide(piece.getSide());
+        return to.isNotEqualSide(from.getSide());
     }
 
     private Map<Point, Piece> findPiecesOnPaths(List<CandidatePath> candidateCandidatePaths) {
@@ -96,25 +99,20 @@ public class Board {
         Map<Point, Piece> pieces = new HashMap<>();
 
         for (Point point : candidatePath.getPath()) {
-            if (isNotTherePiece(point)) {
+            Piece piece = getPieceAt(point).orElse(null);
+            if (piece == null) {
                 continue;
             }
-
-            Piece piece = getPieceAt(point);
             pieces.put(point, piece);
         }
         return pieces;
     }
 
-    private boolean isNotTherePiece(Point point) {
-        return !board.containsKey(point);
-    }
-
-    private Piece getPieceAt(Point point) {
-        if (isNotTherePiece(point)) {
-            throw new IllegalArgumentException("빈 공간 입니다.");
+    private Optional<Piece> getPieceAt(Point point) {
+        if (!board.containsKey(point)) {
+            return Optional.empty();
         }
-        return board.get(point);
+        return Optional.of(board.get(point));
     }
 
 }
