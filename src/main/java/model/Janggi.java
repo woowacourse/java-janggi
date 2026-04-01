@@ -2,6 +2,7 @@ package model;
 
 import model.board.Board;
 import model.board.Route;
+import model.board.ScoreResult;
 import model.coordinate.Position;
 import model.piece.Piece;
 
@@ -34,50 +35,12 @@ public class Janggi {
         this.turn = turn.next();
     }
 
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public Team getWinnerByCapture() {
-        return turn.next();
-    }
-
-    public double getScore(Team team) {
-        double score = board.calculateScore(team);
-        if (team == Team.HAN) {
-            return score + HAN_BONUS;
-        }
-        return score;
-    }
-
-    public Team determineWinnerByScore() {
-        this.finished = true;
-        double choScore = getScore(Team.CHO);
-        double hanScore = getScore(Team.HAN);
-        if (choScore >= hanScore) {
-            return Team.CHO;
-        }
-        return Team.HAN;
-    }
-
-    public void quit() {
-        this.finished = true;
-    }
-
     public Piece findPieceAt(Position position, Team turn) {
         Piece piece = board.pickPiece(position);
         if (piece.isEnemy(turn)) {
             throw new IllegalArgumentException(turn.getName() + "의 기물이 아닙니다.");
         }
         return piece;
-    }
-
-    public Map<Position, Piece> board() {
-        return board.board();
-    }
-
-    public Team getTurn() {
-        return turn;
     }
 
     private void validateMovement(Position current, Position next, Piece piece) {
@@ -107,5 +70,32 @@ public class Janggi {
         if (route.hasCannon()) {
             throw new IllegalArgumentException("포는 포를 건너뛸 수 없습니다.");
         }
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public Team getWinnerByCapture() {
+        return turn.next();
+    }
+
+    public ScoreResult calculateScoreResultOfTeams() {
+        this.finished = true;
+        double hanScore = board.calculateScore(Team.HAN);
+        double choScore = board.calculateScore(Team.CHO);
+        return new ScoreResult(hanScore, choScore);
+    }
+
+    public void quit() {
+        this.finished = true;
+    }
+
+    public Map<Position, Piece> board() {
+        return board.board();
+    }
+
+    public Team getTurn() {
+        return turn;
     }
 }

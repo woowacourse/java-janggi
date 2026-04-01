@@ -4,6 +4,7 @@ import model.Janggi;
 import model.Team;
 import model.board.Board;
 import model.board.BoardFactory;
+import model.board.ScoreResult;
 import model.coordinate.Position;
 import model.formation.FormationFactory;
 import model.formation.JanggiFormation;
@@ -48,6 +49,10 @@ public class JanggiController {
         outputView.displayBoard(board.board());
 
         Janggi janggi = new Janggi(board);
+        processCommand(janggi);
+    }
+
+    private void processCommand(Janggi janggi) {
         int turn = 0;
         while (!janggi.isFinished() && turn++ < MAX_RETRY) {
             CommandType commandType = retry(inputView::readCommand, processError());
@@ -76,12 +81,10 @@ public class JanggiController {
     }
 
     private void handleScore(Janggi janggi) {
-        double choScore = janggi.getScore(CHO);
-        double hanScore = janggi.getScore(HAN);
-        Team winner = janggi.determineWinnerByScore();
+        ScoreResult scoreResult = janggi.calculateScoreResultOfTeams();
 
-        outputView.displayScores(choScore, hanScore);
-        outputView.displayWinner(winner.getName());
+        outputView.displayScores(scoreResult.choScore(), scoreResult.hanScore());
+        outputView.displayWinner(scoreResult.winner().getName());
     }
 
     private void handleQuit(Janggi janggi) {
