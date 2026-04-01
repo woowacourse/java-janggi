@@ -45,4 +45,26 @@ class GuardMoveStrategyTest {
                 );
     }
 
+    @Test
+    public void 사_기물은_궁성_밖으로_나갈_수_없다() {
+        // given
+        Map<Position, Piece> board = new HashMap<>();
+        PieceType pieceType = PieceType.GUARD;
+        Dynasty dynasty = Dynasty.CHO;
+        Position from = Position.from(8, 6);
+        board.put(from, new Piece(dynasty, pieceType));
+
+        // when
+        List<Position> positions = pieceType.moveStrategy()
+                .findPlaceablePositions(BoardSnapshot.of(board), from, dynasty);
+
+        // then
+        Assertions.assertThat(positions)
+                .containsExactlyInAnyOrder(
+                        Position.from(8, 5),
+                        Position.from(9, 5),
+                        Position.from(9, 6)
+                );
+    }
+
 }
