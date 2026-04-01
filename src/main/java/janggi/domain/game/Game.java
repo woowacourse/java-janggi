@@ -28,18 +28,14 @@ public class Game {
     }
 
     public Set<Point> destinations(Point from) {
-        Side pointPieceSide = board.getSideAt(from);
-        if (!turn.equals(pointPieceSide)) {
-            throw new IllegalArgumentException("%s 사이드의 차례가 아닙니다.".formatted(turn.getName()));
-        }
         return board.destinations(from);
     }
 
+    public boolean canMove(Point from) {
+        return turn.equals(board.getSideAt(from));
+    }
+
     public void move(Point from, Point to) {
-        Side pointPieceSide = board.getSideAt(from);
-        if (!turn.equals(pointPieceSide)) {
-            throw new IllegalArgumentException("%s 사이드의 차례가 아닙니다.".formatted(turn.getName()));
-        }
         board.moveTo(from, to);
         switchTurn();
     }

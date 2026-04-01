@@ -8,8 +8,7 @@ import janggi.domain.side.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class JanggiController {
@@ -35,31 +34,32 @@ public class JanggiController {
             outputView.printBoard(board);
             outputView.printSide(game.getTurn());
 
-            PieceDto pieceDto = retry(() -> getResult(game));
-            outputView.printBoardWithPath(board, pieceDto.destinations());
-
-            retry(this::movePath, game, pieceDto.from());
+            Point from = retry(() -> getPoint(game));
+            outputView.printBoardWithPath(board, game.destinations(from));
+            retry(() -> movePath(game, from, inputView.readDestination()));
         }
     }
 
-    private PieceDto getResult(Game game) {
+    private Point getPoint(Game game) {
         Point from = retry(inputView::readPoint);
-        Set<Point> destinations = game.destinations(from);
-        return new PieceDto(from, destinations);
+        if (!game.canMove(from)) {
+            throw new IllegalArgumentException("움직일 수 없습니다.");
+        }
+        return from;
     }
 
-    private void movePath(Game game, Point from) {
-        Point to = retry(() -> inputView.readDestination().orElse(null));
+    private void movePath(Game game, Point from, Optional<Point> optionalPoint) {
+        Point to = optionalPoint.orElse(null);
         if (to == null) {
             return;
         }
         game.move(from, to);
     }
 
-    private <T, U> void retry(BiConsumer<T, U> consumer, T t, U u) {
+    private void retry(Runnable runnable) {
         while (true) {
             try {
-                consumer.accept(t, u);
+                runnable.run();
                 break;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
@@ -75,8 +75,5 @@ public class JanggiController {
                 outputView.printError(e.getMessage());
             }
         }
-    }
-
-    private record PieceDto(Point from, Set<Point> destinations) {
     }
 }
