@@ -16,6 +16,16 @@ public class Board {
     private static final int MAX_COLUMN = 9;
     private static final int MIN_COLUMN = 1;
 
+    private static final int CHO_PALACE_MAX_ROW = 10;
+    private static final int CHO_PALACE_MIN_ROW = 8;
+    private static final int HAN_PALACE_MAX_ROW = 3;
+    private static final int HAN_PALACE_MIN_ROW = 1;
+    private static final int PALACE_MAX_COLUMN = 6;
+    private static final int PALACE_MIN_COLUMN = 4;
+
+    private static final Position CHO_PALACE_CENTER = Position.from(9, 5);
+    private static final Position HAN_PALACE_CENTER = Position.from(2, 5);
+
     protected final Map<Position, Piece> pieces = new HashMap<>();
 
     public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
@@ -70,6 +80,21 @@ public class Board {
                 )));
 
         return currentBoardStatuses;
+    }
+
+    public boolean isInPalace(Team team, Position target) {
+        if (Team.CHO == team) {
+            return target.isPossiblePosition(CHO_PALACE_MAX_ROW, CHO_PALACE_MIN_ROW, PALACE_MAX_COLUMN,
+                    PALACE_MIN_COLUMN);
+        }
+        return target.isPossiblePosition(HAN_PALACE_MAX_ROW, HAN_PALACE_MIN_ROW, PALACE_MAX_COLUMN, PALACE_MIN_COLUMN);
+    }
+
+    public boolean isCenterPositionInPalace(Team team, Position target) {
+        if (Team.CHO == team) {
+            return CHO_PALACE_CENTER.isSamePosition(target);
+        }
+        return HAN_PALACE_CENTER.isSamePosition(target);
     }
 
     /**
