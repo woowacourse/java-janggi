@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 
 class AlivePiecesTest {
 
+    private static final Intersection NON_EMPTY_INTERSECTION = new Intersection(5, 5);
+    private static final Intersection EMPTY_INTERSECTION = new Intersection(3, 3);
+    private static final Piece DEFAULT_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
+    private static final Piece CHO_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
+
     @DisplayName("기물의 존재 여부 검증")
     @Nested
     class 기물의_존재_여부_검증 {
 
-        private static final Intersection NON_EMPTY_INTERSECTION = new Intersection(5, 5);
-        private static final Intersection EMPTY_INTERSECTION = new Intersection(3, 3);
-        private static final Piece DEFAULT_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
         private static final AlivePieces alivePieces = new AlivePieces(Map.of(
                 NON_EMPTY_INTERSECTION, DEFAULT_PIECE
         ));
@@ -44,6 +46,36 @@ class AlivePiecesTest {
             Piece placed = alivePieces.placedAt(NON_EMPTY_INTERSECTION);
 
             assertThat(placed).isSameAs(DEFAULT_PIECE);
+        }
+    }
+
+    @DisplayName("특정 위치의 진영 검증")
+    @Nested
+    class 특정_위치의_진영_검증 {
+
+        private final AlivePieces alivePieces = new AlivePieces(Map.of(
+                NON_EMPTY_INTERSECTION, CHO_PIECE
+        ));
+
+        @DisplayName("같은 진영의 기물인지")
+        @Test
+        void 같은_진영의_기물인지() {
+            assertThat(alivePieces.placedSameSide(NON_EMPTY_INTERSECTION, Side.CHO)).isTrue();
+            assertThat(alivePieces.placedNotSameSide(NON_EMPTY_INTERSECTION, Side.CHO)).isFalse();
+        }
+
+        @DisplayName("상대 진영의 기물인지")
+        @Test
+        void 상대_진영의_기물인지() {
+            assertThat(alivePieces.placedSameSide(NON_EMPTY_INTERSECTION, Side.HAN)).isFalse();
+            assertThat(alivePieces.placedNotSameSide(NON_EMPTY_INTERSECTION, Side.HAN)).isTrue();
+        }
+
+        @DisplayName("빈 공간이면 같은 진영이 아니라고 판단")
+        @Test
+        void 빈_공간이면_같은_진영이_아니라고_판단() {
+            assertThat(alivePieces.placedSameSide(EMPTY_INTERSECTION, Side.CHO)).isFalse();
+            assertThat(alivePieces.placedNotSameSide(EMPTY_INTERSECTION, Side.CHO)).isTrue();
         }
     }
 
@@ -88,8 +120,8 @@ class AlivePiecesTest {
     @Test
     void 기물의_위치_이동_검증() {
         Piece targetPiece = new Piece(PieceType.SOLDIER, Side.CHO);
-        Intersection startIntersection = new Intersection(5, 5);
-        Intersection destination = new Intersection(3, 3);
+        Intersection startIntersection = NON_EMPTY_INTERSECTION;
+        Intersection destination = EMPTY_INTERSECTION;
         AlivePieces alivePieces = new AlivePieces(Map.of(
                 startIntersection, targetPiece
         ));
