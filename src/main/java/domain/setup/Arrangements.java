@@ -18,8 +18,9 @@ public class Arrangements {
     }
 
     public Arrangements assignArrangement(Team team, Arrangement arrangement) {
-        arrangements.put(team, arrangement);
-        return new Arrangements(new EnumMap<>(arrangements));
+        Map<Team, Arrangement> newArrangements = new EnumMap<>(arrangements);
+        newArrangements.put(team, arrangement);
+        return new Arrangements(newArrangements);
     }
 
     public boolean hasArrangementFor(Team team) {
