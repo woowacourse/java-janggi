@@ -1,6 +1,6 @@
 package janggi.domain.piece.path;
 
-import janggi.domain.board.Board;
+import janggi.domain.board.Dimension;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public class FixedPathStrategy implements PathStrategy {
     @Override
-    public List<Point> calculate(Movement movement, Point from) {
+    public List<Point> calculate(Movement movement, Point from, Dimension dimension) {
         List<Point> points = new ArrayList<>();
         Point point = from;
         for (Direction direction : movement.pattern()) {
-            if (!Board.isInRange(point.x() + direction.getDx(), point.y() + direction.getDy())) {
+            if (!dimension.isInRange(point.x() + direction.getDx(), point.y() + direction.getDy())) {
                 return Collections.emptyList();
             }
             point = point.add(direction.getDx(), direction.getDy());

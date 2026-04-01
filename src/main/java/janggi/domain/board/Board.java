@@ -13,20 +13,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Board {
-    private static final int MIN_X = 0;
-    private static final int MAX_X = 9;
-    private static final int MIN_Y = 0;
-    private static final int MAX_Y = 8;
+    private static final Dimension BOARD_DIMENSION = new BoardDimension();
+    private static final Dimension PALACE_DIMENSION = new PalaceDimension();
 
     private final Map<Point, Piece> board;
 
     protected Board(Map<Point, Piece> board) {
-        board.keySet().forEach(this::validateRange);
+        board.keySet().forEach(BOARD_DIMENSION::validateRange);
         this.board = new HashMap<>(board);
-    }
-
-    public static boolean isInRange(int nx, int ny) {
-        return nx >= MIN_X && nx <= MAX_X && ny >= MIN_Y && ny <= MAX_Y;
     }
 
     public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
@@ -37,19 +31,14 @@ public class Board {
         return new Board(board);
     }
 
-    private void validateRange(Point point) {
-        if (!isInRange(point.x(), point.y())) {
-            throw new IllegalStateException("좌표의 범위는 {0,0} ~ {8,9} 입니다.");
-        }
-    }
-
     public final Map<Point, Piece> getBoard() {
         return new HashMap<>(board);
     }
 
     public Set<Point> destinations(Point from) {
-        Piece piece = getPieceAt(from).orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
-        List<CandidatePath> candidatePaths = piece.createCandidatePaths(from);
+        Piece piece = getPieceAt(from)
+                .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
+        List<CandidatePath> candidatePaths = piece.createCandidatePaths(from, BOARD_DIMENSION);
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(candidatePaths);
 
         return piece.availablePoints(candidatePaths, piecesOnPaths)
@@ -82,7 +71,7 @@ public class Board {
         if (to == null) {
             return true;
         }
-        return to.isNotEqualSide(from.getSide());
+        return to.isDifferentSide(from.getSide());
     }
 
     private Map<Point, Piece> findPiecesOnPaths(List<CandidatePath> candidateCandidatePaths) {

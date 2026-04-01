@@ -1,5 +1,6 @@
 package janggi.domain.piece.unit;
 
+import janggi.domain.board.Dimension;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
@@ -29,7 +30,7 @@ public abstract class Piece {
         return side;
     }
 
-    public final boolean isNotEqualSide(Side otherSide) {
+    public final boolean isDifferentSide(Side otherSide) {
         return !this.side.equals(otherSide);
     }
 
@@ -49,13 +50,14 @@ public abstract class Piece {
         return !candidatePath.isEmpty();
     }
 
-    public final List<CandidatePath> createCandidatePaths(Point from) {
-        return convertToPaths(createCandidateMovement(), from, pathStrategy);
+    public final List<CandidatePath> createCandidatePaths(Point from, Dimension dimension) {
+        return convertToPaths(createCandidateMovement(), from, pathStrategy, dimension);
     }
 
-    private List<CandidatePath> convertToPaths(List<Movement> movements, Point from, PathStrategy pathStrategy) {
+    private List<CandidatePath> convertToPaths(List<Movement> movements, Point from, PathStrategy pathStrategy,
+                                               Dimension dimension) {
         return movements.stream()
-                .map(movement -> new CandidatePath(movement, from, pathStrategy))
+                .map(movement -> new CandidatePath(movement, from, pathStrategy, dimension))
                 .toList();
     }
 
