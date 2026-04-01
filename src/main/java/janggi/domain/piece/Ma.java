@@ -10,6 +10,17 @@ import java.util.Optional;
 
 public class Ma implements Piece {
 
+    private static final List<MovePath> PATHS = List.of(
+            new MovePath(List.of(Delta.UP, Delta.RIGHT_UP)),
+            new MovePath(List.of(Delta.UP, Delta.LEFT_UP)),
+            new MovePath(List.of(Delta.DOWN, Delta.RIGHT_DOWN)),
+            new MovePath(List.of(Delta.DOWN, Delta.LEFT_DOWN)),
+            new MovePath(List.of(Delta.LEFT, Delta.LEFT_UP)),
+            new MovePath(List.of(Delta.LEFT, Delta.LEFT_DOWN)),
+            new MovePath(List.of(Delta.RIGHT, Delta.RIGHT_UP)),
+            new MovePath(List.of(Delta.RIGHT, Delta.RIGHT_DOWN))
+    );
+
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
@@ -17,16 +28,7 @@ public class Ma implements Piece {
     public Ma(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.MA;
-        this.paths = List.of(
-            new MovePath(List.of(Delta.createUp(), Delta.createRightUp())),
-            new MovePath(List.of(Delta.createUp(), Delta.createLeftUp())),
-            new MovePath(List.of(Delta.createDown(), Delta.createRightDown())),
-            new MovePath(List.of(Delta.createDown(), Delta.createLeftDown())),
-            new MovePath(List.of(Delta.createLeft(), Delta.createLeftUp())),
-            new MovePath(List.of(Delta.createLeft(), Delta.createLeftDown())),
-            new MovePath(List.of(Delta.createRight(), Delta.createRightUp())),
-            new MovePath(List.of(Delta.createRight(), Delta.createRightDown()))
-        );
+        this.paths = PATHS;
     }
 
     @Override

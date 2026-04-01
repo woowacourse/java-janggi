@@ -10,6 +10,17 @@ import java.util.Optional;
 
 public class Gung implements Piece {
 
+    private static final List<MovePath> PATHS = List.of(
+            new MovePath(List.of(Delta.UP)),
+            new MovePath(List.of(Delta.DOWN)),
+            new MovePath(List.of(Delta.RIGHT)),
+            new MovePath(List.of(Delta.LEFT)),
+            new MovePath(List.of(Delta.RIGHT_UP)),
+            new MovePath(List.of(Delta.RIGHT_DOWN)),
+            new MovePath(List.of(Delta.LEFT_UP)),
+            new MovePath(List.of(Delta.LEFT_DOWN))
+    );
+
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
@@ -17,16 +28,7 @@ public class Gung implements Piece {
     public Gung(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.GUNG;
-        paths = List.of(
-            new MovePath(List.of(Delta.createUp())),
-            new MovePath(List.of(Delta.createDown())),
-            new MovePath(List.of(Delta.createLeft())),
-            new MovePath(List.of(Delta.createRight())),
-            new MovePath(List.of(Delta.createRightUp())),
-            new MovePath(List.of(Delta.createRightDown())),
-            new MovePath(List.of(Delta.createLeftUp())),
-            new MovePath(List.of(Delta.createLeftDown()))
-        );
+        paths = PATHS;
     }
 
     @Override

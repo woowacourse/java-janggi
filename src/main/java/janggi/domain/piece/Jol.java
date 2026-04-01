@@ -10,6 +10,18 @@ import java.util.Optional;
 
 public class Jol implements Piece {
 
+    private static final List<MovePath> CHU_PATHS = List.of(
+            new MovePath(List.of(Delta.UP)),
+            new MovePath(List.of(Delta.LEFT)),
+            new MovePath(List.of(Delta.RIGHT))
+    );
+
+    private static final List<MovePath> HAN_PATHS = List.of(
+            new MovePath(List.of(Delta.DOWN)),
+            new MovePath(List.of(Delta.LEFT)),
+            new MovePath(List.of(Delta.RIGHT))
+    );
+
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
@@ -17,7 +29,7 @@ public class Jol implements Piece {
     public Jol(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.JOL;
-        paths = createPaths();
+        paths = selectPaths(teamType);
     }
 
     @Override
@@ -63,18 +75,10 @@ public class Jol implements Piece {
         return start.isSamePosition(end);
     }
 
-    private List<MovePath> createPaths() {
+    private List<MovePath> selectPaths(TeamType teamType) {
         if (teamType == TeamType.HAN) {
-            return List.of(
-                new MovePath(List.of(Delta.createDown())),
-                new MovePath(List.of(Delta.createLeft())),
-                new MovePath(List.of(Delta.createRight()))
-            );
+            return HAN_PATHS;
         }
-        return List.of(
-            new MovePath(List.of(Delta.createUp())),
-            new MovePath(List.of(Delta.createLeft())),
-            new MovePath(List.of(Delta.createRight()))
-        );
+        return CHU_PATHS;
     }
 }

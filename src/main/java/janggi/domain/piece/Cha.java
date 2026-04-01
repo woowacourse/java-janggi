@@ -10,6 +10,13 @@ import java.util.Optional;
 
 public class Cha implements Piece {
 
+    private static final List<MovePath> PATHS = List.of(
+            new MovePath(List.of(Delta.UP)),
+            new MovePath(List.of(Delta.DOWN)),
+            new MovePath(List.of(Delta.LEFT)),
+            new MovePath(List.of(Delta.RIGHT))
+    );
+
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
@@ -17,12 +24,7 @@ public class Cha implements Piece {
     public Cha(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.CHA;
-        paths = List.of(
-            new MovePath(List.of(Delta.createUp())),
-            new MovePath(List.of(Delta.createDown())),
-            new MovePath(List.of(Delta.createLeft())),
-            new MovePath(List.of(Delta.createRight()))
-        );
+        paths = PATHS;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class Cha implements Piece {
             return Optional.empty();
         }
 
-        int dx = start.deltaX(end);
+        int dx = start.deltaX(end); // deltaX 말고 더 알아듣기 쉬운 메서드명으로 수정 필요
         int dy = start.deltaY(end);
 
         return paths.stream()

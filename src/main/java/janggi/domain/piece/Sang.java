@@ -10,6 +10,17 @@ import java.util.Optional;
 
 public class Sang implements Piece {
 
+    private static final List<MovePath> PATHS = List.of(
+            new MovePath(List.of(Delta.UP, Delta.RIGHT_UP, Delta.RIGHT_UP)),
+            new MovePath(List.of(Delta.UP, Delta.LEFT_UP, Delta.LEFT_UP)),
+            new MovePath(List.of(Delta.DOWN, Delta.RIGHT_DOWN, Delta.RIGHT_DOWN)),
+            new MovePath(List.of(Delta.DOWN, Delta.LEFT_DOWN, Delta.LEFT_DOWN)),
+            new MovePath(List.of(Delta.LEFT, Delta.LEFT_UP, Delta.LEFT_UP)),
+            new MovePath(List.of(Delta.LEFT, Delta.LEFT_DOWN, Delta.LEFT_DOWN)),
+            new MovePath(List.of(Delta.RIGHT, Delta.RIGHT_UP, Delta.RIGHT_UP)),
+            new MovePath(List.of(Delta.RIGHT, Delta.RIGHT_DOWN, Delta.RIGHT_DOWN))
+    );
+
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
@@ -17,16 +28,7 @@ public class Sang implements Piece {
     public Sang(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.SANG;
-        paths = List.of(
-            new MovePath(List.of(Delta.createUp(), Delta.createRightUp(), Delta.createRightUp())),
-            new MovePath(List.of(Delta.createUp(), Delta.createLeftUp(), Delta.createLeftUp())),
-            new MovePath(List.of(Delta.createDown(), Delta.createRightDown(), Delta.createRightDown())),
-            new MovePath(List.of(Delta.createDown(), Delta.createLeftDown(), Delta.createLeftDown())),
-            new MovePath(List.of(Delta.createLeft(), Delta.createLeftUp(), Delta.createLeftUp())),
-            new MovePath(List.of(Delta.createLeft(), Delta.createLeftDown(), Delta.createLeftDown())),
-            new MovePath(List.of(Delta.createRight(), Delta.createRightUp(), Delta.createRightUp())),
-            new MovePath(List.of(Delta.createRight(), Delta.createRightDown(), Delta.createRightDown()))
-        );
+        paths = PATHS;
     }
 
     @Override

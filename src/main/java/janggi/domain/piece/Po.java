@@ -10,6 +10,13 @@ import java.util.Optional;
 
 public class Po implements Piece {
 
+    private static final List<MovePath> PATHS = List.of(
+            new MovePath(List.of(Delta.UP)),
+            new MovePath(List.of(Delta.DOWN)),
+            new MovePath(List.of(Delta.LEFT)),
+            new MovePath(List.of(Delta.RIGHT))
+    );
+
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePath> paths;
@@ -17,12 +24,7 @@ public class Po implements Piece {
     public Po(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.PO;
-        paths = List.of(
-            new MovePath(List.of(Delta.createUp())),
-            new MovePath(List.of(Delta.createDown())),
-            new MovePath(List.of(Delta.createLeft())),
-            new MovePath(List.of(Delta.createRight()))
-        );
+        paths = PATHS;
     }
 
     @Override
