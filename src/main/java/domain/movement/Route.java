@@ -24,7 +24,7 @@ public class Route {
                 && alivePieces.placedNotSameSide(getDestination(), ownSide);
     }
 
-    public boolean isPathAvailable(AlivePieces alivePieces) {
+    private boolean isPathAvailable(AlivePieces alivePieces) {
         boolean pathEmpty = getPath()
                 .stream()
                 .allMatch(alivePieces::isEmpty);
