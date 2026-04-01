@@ -84,15 +84,15 @@
 
 - [x] 각 Piece의 Move Strategy를 구현한다.
 - [x] Piece의 Move Strategy은 직접 요구사항을 분석하여 정의한다.
-    - [ ] General: Palace 내부에서만 1칸 자유롭게 이동 가능.
-    - [ ] Guard: Palace 내부에서만 1칸 자유롭게 이동 가능.
+    - [x] General: Palace 내부에서만 1칸 자유롭게 이동 가능.
+    - [x] Guard: Palace 내부에서만 1칸 자유롭게 이동 가능.
     - [x] Chariot: 동일한 Row 또는 동일한 Column에 위치한 곳으로 이동 가능.
-        - [ ] 궁성 내부에서는 대각선으로 이동 가능
+        - [x] 궁성 내부에서는 대각선으로 이동 가능
     - [x] Cannon: 동일한 Row 또는 동일한 Column에 위치한 곳으로 이동 가능.
         - 꼭 기물 하나를 넘어야 함
         - Cannon 끼리는 넘을 수 없음
         - Cannon 끼리는 먹을 수 없음
-        - [ ] 궁성 내부에서는 대각선으로 이동 가능
+        - [x] 궁성 내부에서는 대각선으로 이동 가능
     - [x] Horse: Row 또는 Column으로 1칸 이동하고 진행한 방향으로 오른쪽(or왼쪽) 대각선 1칸 이동
     - [x] Elephant: Row 또는 Column으로 1칸 이동하고 진행한 방향으로 오른쪽(or왼쪽) 대각선 2칸 이동
     - [x] Soldier: 앞으로 또는 좌우로 1칸 이동 가능
@@ -100,7 +100,7 @@
 
 ### 2.1단계 - 기물의 확장
 
-- [ ] Palace 영역의 규칙을 포함하여 Piece의 Move Strategy를 구현한다.
+- [x] Palace 영역의 규칙을 포함하여 Piece의 Move Strategy를 구현한다.
 - [ ] 장기는 General이 잡히는 경우 게임에서 진다. General이 잡혔을 때 게임을 종료해야 한다.
 
 ### 2.2단계 - 승패 처리
