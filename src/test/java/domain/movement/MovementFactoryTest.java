@@ -18,17 +18,17 @@ class MovementFactoryTest {
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(GeneralMovement.class);
+        assertThat(movement).isInstanceOf(FourDirectionMovement.class);
     }
 
     @Test
-    @DisplayName("GUARD 기물은 GuardMovement를 생성한다")
+    @DisplayName("GUARD 기물은 FourDirectionMovement 생성한다")
     void createGuardMovement() {
         Piece piece = new Piece(Team.HAN, PieceType.GUARD);
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(GuardMovement.class);
+        assertThat(movement).isInstanceOf(FourDirectionMovement.class);
     }
 
     @Test
