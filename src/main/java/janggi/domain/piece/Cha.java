@@ -60,14 +60,14 @@ public class Cha implements Piece {
             return Optional.empty();
         }
 
+        if (!isStraightDirection(start, end)) {
+            return Optional.empty();
+        }
+
         int startX = start.getX();
         int startY = start.getY();
         int endX = end.getX();
         int endY = end.getY();
-
-        if (!isStraightDirection(startX, startY, endX, endY)) {
-            return Optional.empty();
-        }
 
         int dx = endX - startX;
         int dy = endY - startY;
@@ -90,7 +90,7 @@ public class Cha implements Piece {
         return start.isSamePosition(end);
     }
 
-    private boolean isStraightDirection(int startX, int startY, int endX, int endY) {
-        return startX == endX || startY == endY;
+    private boolean isStraightDirection(Position start, Position end) {
+        return start.isStraightDirection(end);
     }
 }

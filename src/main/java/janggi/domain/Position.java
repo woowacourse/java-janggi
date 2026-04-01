@@ -53,6 +53,10 @@ public class Position {
         return distanceX <= 1 && distanceY <= 1;
     }
 
+    public boolean isStraightDirection(Position position) {
+        return x == position.getX() || y == position.getY();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
