@@ -8,6 +8,10 @@ import java.util.Map;
 
 public record BoardDto(Map<Position, Piece> board) {
 
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+
     public List<List<String>> convertRows() {
         List<List<String>> result = new ArrayList<>();
 
@@ -26,11 +30,19 @@ public record BoardDto(Map<Position, Piece> board) {
 
     private String toSymbol(Piece piece) {
         if (piece.isNoneTeam()) {
-            return " . ";
+            return "";
         }
+        return coloredPieceName(piece);
+    }
+
+    private String coloredPieceName(Piece piece) {
         if (piece.isRedTeam()) {
-            return "R" + piece.pieceName();
+            return colorize(piece.pieceName(), ANSI_RED);
         }
-        return "G" + piece.pieceName();
+        return colorize(piece.pieceName(), ANSI_GREEN);
+    }
+
+    private String colorize(String text, String color) {
+        return color + text + ANSI_RESET;
     }
 }
