@@ -5,7 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
-import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
