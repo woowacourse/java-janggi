@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Country;
 import domain.Direction;
+import domain.Position;
 import java.util.List;
 
 public class Elephant extends Piece {
@@ -16,7 +17,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions) {
+    public void validateDirections(List<Direction> directions, Position from, Position to) {
         if (directions.size() != ELEPHANT_DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }

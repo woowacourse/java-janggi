@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.Country;
 import domain.Path;
 import domain.Position;
+import domain.state.EmptyState;
 import domain.state.FullState;
 import domain.state.State;
 import java.util.LinkedHashMap;
@@ -86,16 +87,16 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁이 대각선으로 이동할 경우 예외가 발생한다.")
+    @DisplayName("궁이 대각선 이동이 불가한 위치에서 대각선으로 이동할 경우 예외가 발생한다.")
     void generalDiagonalExceptionTest() {
         Piece general = new General(Country.CHO);
 
-        Position from = new Position(3, 0);
-        Position to = new Position(2, 1);
+        Position from = new Position(4, 0);
+        Position to = new Position(3, 1);
 
         assertThatThrownBy(() -> general.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 대각선으로 이동이 불가한 위치입니다.");
     }
 
     @Test
@@ -104,11 +105,39 @@ public class GeneralTest {
         Piece general = new General(Country.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(general));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.CHO)));
+        pathStates.put(new Position(4, 1), new FullState(general));
+        pathStates.put(new Position(4, 2), new FullState(new Soldier(Country.CHO)));
 
         assertThatThrownBy(() -> general.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("초나라 궁이 궁성 밖으로 나갈 경우 예외가 발생한다.")
+    void choGeneralMoveOutsidePalaceExceptionTest() {
+        Piece general = new General(Country.CHO);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(3, 0), new FullState(general));
+        pathStates.put(new Position(2, 0), new EmptyState());
+
+        assertThatThrownBy(() -> general.validateMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 기물은 궁성 외부로 이동할 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("한나라 궁이 궁성 밖으로 나갈 경우 예외가 발생한다.")
+    void hanGeneralMoveOutsidePalaceExceptionTest() {
+        Piece general = new General(Country.HAN);
+
+        Map<Position, State> pathStates = new LinkedHashMap<>();
+        pathStates.put(new Position(3, 7), new FullState(general));
+        pathStates.put(new Position(2, 7), new EmptyState());
+
+        assertThatThrownBy(() -> general.validateMove(pathStates))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 기물은 궁성 외부로 이동할 수 없습니다.");
     }
 }

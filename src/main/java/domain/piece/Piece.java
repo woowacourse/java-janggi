@@ -35,11 +35,11 @@ public abstract class Piece {
         int y = distances.get(1);
 
         List<Direction> directions = Direction.findDirections(x, y);
-        validateDirections(directions);
+        validateDirections(directions, from, to);
         return directions;
     }
 
-    abstract void validateDirections(List<Direction> directions);
+    abstract void validateDirections(List<Direction> directions, Position from, Position to);
 
     public void validateMove(Map<Position, State> pathStates) {
         List<State> states = pathStates.values().stream()

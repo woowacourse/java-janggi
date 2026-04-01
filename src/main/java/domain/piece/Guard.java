@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Country;
 
-public class Guard extends MoveOneStepPiece {
+public class Guard extends MoveInsidePalacePiece {
     public Guard(Country country) {
         super(new PieceInfo(PieceType.GUARD, country));
     }

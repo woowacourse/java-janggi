@@ -73,22 +73,39 @@ public class SoldierTest {
     }
 
     @Test
-    @DisplayName("졸병이 후진할 경우 예외가 발생한다.")
-    void soldierDownExceptionTest() {
-        Piece choSoldier = new Soldier(Country.CHO);
-        Piece hanSoldier = new Soldier(Country.HAN);
+    @DisplayName("초나라 졸병이 후진할 경우 예외가 발생한다.")
+    void choSoldierDownExceptionTest() {
+        Piece soldier = new Soldier(Country.CHO);
 
-        Position from = new Position(1, 1);
-        Position choTo = new Position(1, 0);
-        Position hanTo = new Position(1, 2);
+        Position from = new Position(4, 1);
+        Position straightTo = new Position(4, 0);
+        Position diagonalTo = new Position(3, 0);
 
-        assertThatThrownBy(() -> choSoldier.path(from, choTo))
+        assertThatThrownBy(() -> soldier.path(from, straightTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸・병은 후진할 수 없습니다.");
-        assertThatThrownBy(() -> hanSoldier.path(from, hanTo))
+        assertThatThrownBy(() -> soldier.path(from, diagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸・병은 후진할 수 없습니다.");
     }
+
+    @Test
+    @DisplayName("한나라 졸병이 후진할 경우 예외가 발생한다.")
+    void hanSoldierDownExceptionTest() {
+        Piece soldier = new Soldier(Country.HAN);
+
+        Position from = new Position(4, 8);
+        Position straightTo = new Position(4, 9);
+        Position diagonalTo = new Position(3, 9);
+
+        assertThatThrownBy(() -> soldier.path(from, straightTo))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸・병은 후진할 수 없습니다.");
+        assertThatThrownBy(() -> soldier.path(from, diagonalTo))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸・병은 후진할 수 없습니다.");
+    }
+
 
     @Test
     @DisplayName("졸병의 방향의 크기가 1이 아닌 경우 예외가 발생한다.")
@@ -104,7 +121,7 @@ public class SoldierTest {
     }
 
     @Test
-    @DisplayName("졸병이 대각선으로 이동할 경우 예외가 발생한다.")
+    @DisplayName("졸병이 대각선 이동이 불가한 위치에서 대각선으로 이동할 경우 예외가 발생한다.")
     void soldierDiagonalExceptionTest() {
         Piece choSoldier = new Soldier(Country.CHO);
         Piece hanSoldier = new Soldier(Country.HAN);
@@ -115,10 +132,10 @@ public class SoldierTest {
 
         assertThatThrownBy(() -> choSoldier.path(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 대각선으로 이동이 불가한 위치입니다.");
         assertThatThrownBy(() -> hanSoldier.path(from, hanTo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 대각선으로 이동이 불가한 위치입니다.");
     }
 
     @Test

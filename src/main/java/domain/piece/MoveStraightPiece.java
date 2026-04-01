@@ -1,10 +1,12 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Palace;
+import domain.Position;
 import java.util.List;
 
 public class MoveStraightPiece extends Piece {
-    private static final String ONLY_MOVE_STRAIGHT = "[ERROR] 해당 기물은 직선으로만 이동 가능합니다.";
+    private static final String ONLY_MOVE_STRAIGHT = "[ERROR] 대각선으로 이동이 불가한 위치입니다.";
     private static final String FIXED_DIRECTION = "[ERROR] 해당 기물은 하나의 방향으로만 이동 가능합니다.";
 
     public MoveStraightPiece(PieceInfo pieceInfo) {
@@ -12,7 +14,7 @@ public class MoveStraightPiece extends Piece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions) {
+    public void validateDirections(List<Direction> directions, Position from, Position to) {
         Direction oneSide = directions.getFirst();
         boolean allSameDirection = directions.stream()
                 .allMatch(direction -> direction.equals(oneSide));
@@ -21,6 +23,16 @@ public class MoveStraightPiece extends Piece {
         }
         // 궁성 영역 생각하지 않음
         if (oneSide.isDiagonal()) {
+            validateDiagonalMove(from, to);
+        }
+    }
+
+    private void validateDiagonalMove(Position from, Position to) {
+        Palace palace = Palace.from(this.getPieceCountry());
+        if (!palace.getDiagonalPositions().contains(from)) {
+            throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
+        }
+        if (!palace.getPositions().contains(from) || !palace.getPositions().contains(to)) {
             throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
         }
     }

@@ -99,7 +99,7 @@ public class ChariotTest {
     }
 
     @Test
-    @DisplayName("차가 대각선으로 이동할 경우 예외가 발생한다.")
+    @DisplayName("차가 대각선 이동이 불가한 위치에서 대각선으로 이동할 경우 예외가 발생한다.")
     void chariotDiagonalExceptionTest() {
         Piece chariot = new Chariot(Country.CHO);
 
@@ -108,7 +108,7 @@ public class ChariotTest {
 
         assertThatThrownBy(() -> chariot.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 기물은 직선으로만 이동 가능합니다.");
+                .hasMessage("[ERROR] 대각선으로 이동이 불가한 위치입니다.");
     }
 
     @Test

@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Position;
 import java.util.List;
 
 public class MoveOneStepPiece extends MoveStraightPiece {
@@ -13,8 +14,8 @@ public class MoveOneStepPiece extends MoveStraightPiece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions) {
-        super.validateDirections(directions);
+    public void validateDirections(List<Direction> directions, Position from, Position to) {
+        super.validateDirections(directions, from, to);
         if (directions.size() != DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }

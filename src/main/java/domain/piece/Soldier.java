@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Country;
 import domain.Direction;
+import domain.Position;
 import java.util.List;
 
 public class Soldier extends MoveOneStepPiece {
@@ -12,13 +13,12 @@ public class Soldier extends MoveOneStepPiece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions) {
-        super.validateDirections(directions);
-        Direction direction = directions.getFirst();
-        if (pieceInfo.country() == Country.CHO && direction == Direction.DOWN) {
+    public void validateDirections(List<Direction> directions, Position from, Position to) {
+        super.validateDirections(directions, from, to);
+        if (pieceInfo.country() == Country.CHO && from.y() > to.y()) {
             throw new IllegalArgumentException(TRY_GO_BACK);
         }
-        if (pieceInfo.country() == Country.HAN && direction == Direction.UP) {
+        if (pieceInfo.country() == Country.HAN && from.y() < to.y()) {
             throw new IllegalArgumentException(TRY_GO_BACK);
         }
     }
