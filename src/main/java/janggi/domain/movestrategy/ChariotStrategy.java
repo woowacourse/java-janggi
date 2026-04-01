@@ -8,8 +8,8 @@ public class ChariotStrategy implements MoveStrategy {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        return (from.isSameY(to) && !from.isSameX(to))
-                || (!from.isSameY(to) && from.isSameX(to));
+        return (from.isSameX(to) && !from.isSameY(to))
+                || (!from.isSameX(to) && from.isSameY(to));
     }
 
     @Override
