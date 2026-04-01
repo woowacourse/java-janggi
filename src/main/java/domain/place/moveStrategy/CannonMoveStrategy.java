@@ -58,19 +58,31 @@ public class CannonMoveStrategy implements MoveStrategy {
         int count = 0;
         Optional<Position> current = from.moveIfInBounds(direction);
 
-        while (current.isPresent() && !current.get().equals(to) && count <= REQUIRED_OBSTACLE_COUNT) {
+        while (canContinue(current, to, count)) {
             Place place = getPlace(board, current.get());
 
             if (isTargetCannon(place)) {
                 return false;
             }
-            if (!place.isEmpty()) {
-                count++;
-            }
 
+            count = increaseIfObstacle(place, count);
             current = current.get().moveIfInBounds(direction);
         }
-        return current.filter(to::equals).isPresent() && count == REQUIRED_OBSTACLE_COUNT;
+
+        return current.filter(to::equals).isPresent()
+                && count == REQUIRED_OBSTACLE_COUNT;
+    }
+
+    private boolean canContinue(Optional<Position> current, Position to, int count) {
+        return current.isPresent()
+                && !current.get().equals(to)
+                && count <= REQUIRED_OBSTACLE_COUNT;
+    }
+
+    private int increaseIfObstacle(Place place, int count) {
+        if(place.isEmpty())
+            return count;
+        return count+1;
     }
 
     private Place getPlace(Map<Position, Place> board, Position pos) {
