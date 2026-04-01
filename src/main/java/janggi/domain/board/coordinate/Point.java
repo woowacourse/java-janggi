@@ -29,11 +29,9 @@ public record Point(
     }
 
     private static void validateRange(int x, int y) {
-        if (!Board.isInRange(x, y)) {
+        if (!Board.isInBoard(x, y)) {
             throw new IllegalStateException(
                     "좌표의 범위는 {%d,%d} ~ {%d,%d} 입니다.".formatted(0, 0, Board.X_SIZE, Board.Y_SIZE));
         }
     }
-
-
 }

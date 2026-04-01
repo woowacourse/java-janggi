@@ -33,7 +33,7 @@ public class Board {
         return new Board(board);
     }
 
-    public static boolean isInRange(int nx, int ny) {
+    public static boolean isInBoard(int nx, int ny) {
         return nx >= 0 && nx <= Board.X_SIZE && ny >= 0 && ny <= Board.Y_SIZE;
     }
 

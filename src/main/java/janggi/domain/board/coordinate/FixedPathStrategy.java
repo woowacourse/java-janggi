@@ -13,7 +13,7 @@ public class FixedPathStrategy implements PathStrategy {
         List<Point> path = new ArrayList<>();
         Point point = from;
         for (Direction direction : pattern.directions()) {
-            if (!Board.isInRange(point.x() + direction.getDx(), point.y() + direction.getDy())) {
+            if (!Board.isInBoard(point.x() + direction.getDx(), point.y() + direction.getDy())) {
                 return Collections.emptyList();
             }
             point = point.add(direction.getDx(), direction.getDy());

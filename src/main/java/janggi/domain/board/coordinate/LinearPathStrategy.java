@@ -23,7 +23,7 @@ public class LinearPathStrategy implements PathStrategy {
         int dx = direction.getDx();
         int dy = direction.getDy();
 
-        while (Board.isInRange(from.x() + dx, from.y() + dy)) {
+        while (Board.isInBoard(from.x() + dx, from.y() + dy)) {
             Point point = from.add(dx, dy);
             path.add(point);
             dx += direction.getDx();
