@@ -64,4 +64,23 @@ class ColumnTest {
         assertThat(offsetWithinBounds).isEqualTo(result);
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1, true, 9",
+            "1, false, 1",
+            "3, true, 7",
+            "3, false, 3",
+            "5, true, 5",
+            "5, false, 5",
+    })
+    @DisplayName("뒤집을지 여부에 따라 적절한 열 객체를 반환한다.")
+    public void flippedIfNeeded_success(int row, boolean isFlipped, int result) {
+
+        // when
+        Column resultColumn = Column.flippedIfNeeded(isFlipped, row);
+
+        // then
+        assertThat(resultColumn.column()).isEqualTo(result);
+    }
+
 }

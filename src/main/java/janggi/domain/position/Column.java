@@ -22,6 +22,13 @@ public record Column(
         }
     }
 
+    public static Column flippedIfNeeded(boolean isFlipped, int column) {
+        if(isFlipped) {
+            return new Column(MIN_COLUMN + MAX_COLUMN - column);
+        }
+        return new Column(column);
+    }
+
     public Column add(int column) {
         return new Column(this.column + column);
     }

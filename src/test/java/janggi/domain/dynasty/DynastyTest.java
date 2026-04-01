@@ -38,4 +38,18 @@ class DynastyTest {
         assertThat(resolved).isEqualTo(result);
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1, CHO, 1",
+            "1, HAN, 9",
+    })
+    @DisplayName("Dynasty 타입에 맞게 column를 처리한다")
+    public void flipColumn_IfNeeded_success(int origin, Dynasty dynasty, int result) {
+        // when
+        int resolved = dynasty.flipColumnIfNeeded(origin);
+
+        // then
+        assertThat(resolved).isEqualTo(result);
+    }
+
 }

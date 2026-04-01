@@ -1,5 +1,6 @@
 package janggi.domain.dynasty;
 
+import janggi.domain.position.Column;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Row;
 
@@ -28,6 +29,11 @@ public enum Dynasty {
     public int flipRowIfNeeded(int row) {
         return Row.flippedIfNeeded(isFlipped, row)
                 .row();
+    }
+
+    public int flipColumnIfNeeded(int column) {
+        return Column.flippedIfNeeded(isFlipped, column)
+                .column();
     }
     
 }
