@@ -6,10 +6,12 @@ import domain.position.Position;
 public class JanggiGame {
     private final Board board;
     private Turn turn;
+    private GameState gameState;
 
     private JanggiGame(Board board) {
         this.board = board;
         turn = new Turn(Team.CHO);
+        gameState = GameState.PLAYING;
     }
 
     public static JanggiGame init(SettingType choSetting, SettingType hanSetting) {
@@ -17,12 +19,42 @@ public class JanggiGame {
     }
 
     public void executeMove(Position start, Position destination) {
+        validateGameIsNotFinished();
         board.move(turn, start, destination);
-        passTurn();
+        checkGameTermination();
+        if (gameState == GameState.PLAYING) {
+            passTurn();
+        }
+    }
+
+    private void validateGameIsNotFinished() {
+        if (gameState == GameState.END) {
+            throw new IllegalStateException(JanggiGameErrorMessage.ALREADY_END.getMessage());
+        }
+    }
+
+    private void checkGameTermination() {
+        if (board.isKingCaptured(Team.CHO) || board.isKingCaptured(Team.HAN)) {
+            gameState = GameState.END;
+        }
     }
 
     public void passTurn() {
         turn = turn.passTurn();
+    }
+
+    public boolean isFinished() {
+        return gameState == GameState.END;
+    }
+
+    public Team getWinner() {
+        if (gameState != GameState.END) {
+            throw new IllegalStateException(JanggiGameErrorMessage.NOW_ON_PLAYING.getMessage());
+        }
+        if (board.isKingCaptured(Team.CHO)) {
+            return Team.HAN;
+        }
+        return Team.CHO;
     }
 
     public BoardStatus getJanggiGameStatus() {

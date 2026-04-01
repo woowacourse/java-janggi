@@ -1,6 +1,7 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Team;
 import domain.position.Position;
@@ -39,5 +40,43 @@ class JanggiGameTest {
 
         janggiGame.executeMove(start, destination);
         assertThat(janggiGame.getTurnOwnTeam()).isEqualTo(Team.HAN);
+    }
+
+    @Test
+    @DisplayName("상대방의 왕을 잡으면 게임이 종료되고 승자가 결정된다.")
+    void gameEndsWhenKingIsCaptured() {
+        // given
+        JanggiGame game = JanggiGame.init(SettingType.LEFT, SettingType.LEFT);
+
+        game.executeMove(Position.of(4, 1), Position.of(4, 2));
+        game.passTurn();
+        game.executeMove(Position.of(1, 1), Position.of(7, 1));
+        game.passTurn();
+        game.executeMove(Position.of(7, 1), Position.of(9, 1));
+        game.passTurn();
+        game.executeMove(Position.of(9, 1), Position.of(9, 5));
+
+        // then
+        assertThat(game.isFinished()).isTrue();
+        assertThat(game.getWinner()).isEqualTo(Team.CHO);
+    }
+
+    @Test
+    @DisplayName("게임이 종료된 후에는 기물을 이동할 수 없다.")
+    void cannotMoveAfterGameFinished() {
+        // given
+        JanggiGame game = JanggiGame.init(SettingType.LEFT, SettingType.LEFT);
+        game.executeMove(Position.of(4, 1), Position.of(4, 2));
+        game.passTurn();
+        game.executeMove(Position.of(1, 1), Position.of(7, 1));
+        game.passTurn();
+        game.executeMove(Position.of(7, 1), Position.of(9, 1));
+        game.passTurn();
+        game.executeMove(Position.of(9, 1), Position.of(9, 5));
+
+        // when & then
+        assertThatThrownBy(() -> game.executeMove(Position.of(1, 9), Position.of(2, 9)))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage(JanggiGameErrorMessage.ALREADY_END.getMessage());
     }
 }

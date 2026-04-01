@@ -5,13 +5,14 @@ import java.util.List;
 
 public class ResultView {
     private static final String RETRY_DESCRIPTION_FORMAT = "\n잘못된 입력입니다. 다시 입력하세요. : %s\n";
+    private static final String WINNER_PRINT_FORMAT = "\n\n %s나라가 승리했습니다! \n\n";
 
     public void printBoard(BoardStatusDto dto) {
         String[][] grid = initGrid();
 
         List<PieceDto> board = dto.board();
         for (PieceDto pieceDto : board) {
-            grid[pieceDto.getRow() - 1][pieceDto.getColumn() - 1] = pieceDto.getDescription();
+            grid[pieceDto.row() - 1][pieceDto.column() - 1] = pieceDto.description();
         }
 
         writeBoard(grid);
@@ -20,6 +21,11 @@ public class ResultView {
     public void printRetryDescription(IllegalArgumentException e) {
         String exceptionDescription = String.format(RETRY_DESCRIPTION_FORMAT, e.getMessage());
         System.out.println(exceptionDescription);
+    }
+
+    public void printWinner(TeamDto winner) {
+        String winnerPrintContent = String.format(WINNER_PRINT_FORMAT, winner.teamName());
+        System.out.println(winnerPrintContent);
     }
 
     private String[][] initGrid() {

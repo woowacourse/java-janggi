@@ -7,7 +7,7 @@ import domain.position.Position;
 import java.util.Map;
 import java.util.Optional;
 
-public class PieceDto {
+public record PieceDto(int row, int column, String description) {
     private static final Map<Team, Map<PieceType, String>> SYMBOLS = Map.of(
             Team.CHO, Map.of(
                     PieceType.CHA, "차",
@@ -29,16 +29,6 @@ public class PieceDto {
             )
     );
 
-    private final int row;
-    private final int column;
-    private final String description;
-
-    public PieceDto(int row, int column, String description) {
-        this.row = row;
-        this.column = column;
-        this.description = description;
-    }
-
     public static PieceDto toDto(Position position, Piece piece) {
         return new PieceDto(
                 position.getRow().value(),
@@ -51,17 +41,5 @@ public class PieceDto {
         return Optional.ofNullable(SYMBOLS.get(team))
                 .map(map -> map.get(type))
                 .orElseThrow(() -> new IllegalArgumentException(ViewErrorMessage.NOT_MATCH_PIECE.getMessage()));
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

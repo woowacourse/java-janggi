@@ -14,6 +14,7 @@ import view.BoardStatusDto;
 import view.InputView;
 import view.PositionDto;
 import view.ResultView;
+import view.TeamDto;
 
 public class JanggiGameController {
     private final InputView inputView;
@@ -25,15 +26,12 @@ public class JanggiGameController {
     }
 
     public void play() {
-
         JanggiGame game = retry(this::initializeGame);
-
-        //2. 게임 진행 -> 반복문.
         playTurn(game);
     }
 
     private void playTurn(JanggiGame game) {
-        while (true) {
+        while (!game.isFinished()) {
             ActionType actionType = retry(() -> inputView.readAction(game.getTurnOwnTeam()));
             if (actionType == ActionType.MOVE) {
                 retry(this::executeMove, game);
@@ -43,6 +41,7 @@ public class JanggiGameController {
             }
             printBoardStatus(game.getJanggiGameStatus());
         }
+        resultView.printWinner(TeamDto.toDto(game.getWinner()));
     }
 
     private void executeMove(JanggiGame game) {

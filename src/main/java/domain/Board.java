@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.piece.strategy.EmptyMoveStrategy;
 import domain.position.Position;
@@ -30,6 +31,17 @@ public class Board {
 
         pieces.remove(start);
         pieces.put(destination, startPiece);
+    }
+
+    public boolean isKingCaptured(Team team) {
+        return getKing(team).isEmpty();
+    }
+
+    private Piece getKing(Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.JANG && piece.getTeam() == team)
+                .findFirst()
+                .orElse(new EmptyPiece(new EmptyMoveStrategy(), Team.UNDEFINED));
     }
 
     private Piece selectNotEmptyPiece(Position position) {
