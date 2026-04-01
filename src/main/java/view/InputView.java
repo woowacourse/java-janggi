@@ -1,6 +1,6 @@
 package view;
 
-import domain.board.strategy.InitialStrategy;
+import domain.board.formation.InitialFormation;
 import domain.coordinate.Position;
 import domain.board.Side;
 import java.util.Arrays;
@@ -23,12 +23,11 @@ public class InputView {
 
     private final Scanner sc;
 
-
     public InputView(Scanner sc) {
         this.sc = sc;
     }
 
-    public InitialStrategy requestInitialType(Side side) {
+    public InitialFormation requestInitialType(Side side) {
         try {
             int index = INIT_INDEX_COUNT;
             System.out.printf(REQUEST_INIT_FORMAT_STRATEGY, SideView.from(side));
@@ -67,13 +66,13 @@ public class InputView {
             int index = INIT_INDEX_COUNT;
 
             System.out.println();
-            for (Position possibleMove : possibleMovesDto.getPossibleMoves()) {
+            for (Position possibleMove : possibleMovesDto.possibleMoves()) {
                 System.out.printf("%d. (%d, %d)\n", index++, possibleMove.col(), possibleMove.row());
             }
 
             System.out.println(REQUEST_PIECE_DESTINATION);
             int userInput = Integer.parseInt(userInput());
-            validateIndex(userInput, possibleMovesDto.getPossibleMoveCount());
+            validateIndex(userInput, possibleMovesDto.possibleMoveCount());
             return userInput;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");

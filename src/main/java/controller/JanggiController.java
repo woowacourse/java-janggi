@@ -1,17 +1,16 @@
 package controller;
 
-import domain.board.Game;
+import domain.Game;
 import domain.board.BasicBoardInitializer;
-import domain.board.strategy.InitialStrategyType;
+import domain.board.formation.InitialFormation;
 import domain.board.Side;
 import domain.coordinate.Position;
 import dto.PossibleMovesDto;
 import mapper.BoardMapper;
 import mapper.PossibleMovesMapper;
+import view.InputHandler;
 import view.InputView;
 import view.OutputView;
-
-import java.util.function.Supplier;
 
 public class JanggiController {
 
@@ -29,38 +28,29 @@ public class JanggiController {
     }
 
     private Game initializeGame() {
-        InitialStrategyType hanSideInitialType = readUntilValid(() -> inputView.requestInitialType(Side.HAN));
-        InitialStrategyType chuSideInitialType = readUntilValid(() -> inputView.requestInitialType(Side.CHU));
+        InitialFormation hanInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN));
+        InitialFormation chuInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU));
         return new Game(
                 new BasicBoardInitializer(
-                        hanSideInitialType.from(Side.HAN),
-                        chuSideInitialType.from(Side.CHU)
+                        hanInitialFormation,
+                        chuInitialFormation
                 )
         );
     }
 
     private void play(Game game) {
         while (true) {
-            outputView.printBoard(BoardMapper.toDto(game.getBoard().getBoard()));
-            Position startPosition = readUntilValid(() ->
+            outputView.printBoard(BoardMapper.toDto(game.getBoard()));
+            Position startPosition = InputHandler.readUntilValid(() ->
                     game.getValidatedStartPosition(inputView.requestStartPiecePosition(game.getTurn()))
             );
 
             PossibleMovesDto possibleMovesDto = PossibleMovesMapper.toDto(game.getPossibleMoves(startPosition));
-            Position endPosition = readUntilValid(() ->
+            Position endPosition = InputHandler.readUntilValid(() ->
                     game.getEndPosition(inputView.requestPieceDestination(possibleMovesDto), possibleMovesDto)
             );
-            game.movePiece(startPosition, endPosition);
-        }
-    }
 
-    private <T> T readUntilValid(Supplier<T> reader) {
-        while (true) {
-            try {
-                return reader.get();
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
+            game.movePiece(startPosition, endPosition);
         }
     }
 }

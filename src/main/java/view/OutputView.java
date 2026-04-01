@@ -26,13 +26,14 @@ public class OutputView {
     );
 
     public void printBoard(BoardDto boardDto) {
-        System.out.println("   0  1   2  3   4   5  6   7  8");
+        System.out.println("\n   0  1   2  3   4   5  6   7  8");
 
         for (int i = 0; i < COL_SIZE; i++) {
             System.out.print(i + " ");
             for (int j = 0; j < ROW_SIZE; j++) {
-                printPieceBySide(boardDto.getBoard().get(new Position(i, j)));
+                printPieceBySide(boardDto.board().get(new Position(i, j)));
             }
+
             System.out.println();
         }
     }
@@ -44,6 +45,7 @@ public class OutputView {
             System.out.print(" " + formatPiece(piece) + " ");
             return;
         }
+
         System.out.print(" " + SideView.getSideColor(side) + formatPiece(piece) + SideView.getResetColor() + " ");
     }
 
