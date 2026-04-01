@@ -56,19 +56,22 @@ public class Cha implements Piece {
     }
 
     private Optional<MovePath> findMovePath(Position start, Position end) {
+        if (isSamePosition(start, end)) {
+            return Optional.empty();
+        }
+
         int startX = start.getX();
         int startY = start.getY();
         int endX = end.getX();
         int endY = end.getY();
 
-        if (isSamePosition(start, end)) {
-            return Optional.empty();
-        }
         if (!isStraightDirection(startX, startY, endX, endY)) {
             return Optional.empty();
         }
+
         int dx = endX - startX;
         int dy = endY - startY;
+
         return paths.stream()
             .filter(path -> path.matchesDirection(dx, dy))
             .findFirst();

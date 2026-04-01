@@ -44,6 +44,15 @@ public class Position {
         return x == position.getX() && y == position.getY();
     }
 
+    public boolean isOneStep(Position position) {
+        int dx = position.getX() - x;
+        int dy = position.getY() - y;
+        int distanceX = Math.abs(dx);
+        int distanceY = Math.abs(dy);
+
+        return distanceX <= 1 && distanceY <= 1;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

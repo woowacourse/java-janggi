@@ -47,11 +47,13 @@ public class Jol implements Piece {
     }
 
     private Optional<MovePath> findMovePath(Position start, Position end) {
-        int dx = end.getX() - start.getX();
-        int dy = end.getY() - start.getY();
         if (isSamePosition(start, end)) {
             return Optional.empty();
         }
+
+        int dx = end.getX() - start.getX();
+        int dy = end.getY() - start.getY();
+
         return paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();

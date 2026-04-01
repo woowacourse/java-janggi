@@ -56,16 +56,16 @@ public class Gung implements Piece {
     }
 
     private Optional<MovePath> findMovePath(Position start, Position end) {
-        int dx = end.getX() - start.getX();
-        int dy = end.getY() - start.getY();
-        int distanceX = Math.abs(dx);
-        int distanceY = Math.abs(dy);
         if (isSamePosition(start, end)) {
             return Optional.empty();
         }
-        if (!isOneStep(distanceX, distanceY)) {
+        if (!isOneStep(start, end)) {
             return Optional.empty();
         }
+
+        int dx = end.getX() - start.getX();
+        int dy = end.getY() - start.getY();
+
         return paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
@@ -75,7 +75,7 @@ public class Gung implements Piece {
         return start.isSamePosition(end);
     }
 
-    private boolean isOneStep(int distanceX, int distanceY) {
-        return distanceX <= 1 && distanceY <= 1;
+    private boolean isOneStep(Position start, Position end) {
+        return start.isOneStep(end);
     }
 }

@@ -66,6 +66,7 @@ public class Sang implements Piece {
 
         int dx = end.getX() - start.getX();
         int dy = end.getY() - start.getY();
+
         return paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
