@@ -1,0 +1,37 @@
+package domain.enums;
+
+import domain.Position;
+
+public enum MaSangPosition {
+    HAN_P1(1, 2, Country.CHO),
+    HAN_P2(1, 3, Country.CHO),
+    HAN_P3(1, 7, Country.CHO),
+    HAN_P4(1, 8, Country.CHO),
+
+    CHO_P1(10, 2, Country.HAN),
+    CHO_P2(10, 3, Country.HAN),
+    CHO_P3(10, 7, Country.HAN),
+    CHO_P4(10, 8, Country.HAN);
+
+    private final int x;
+    private final int y;
+    private final Country country;
+
+    MaSangPosition(int x, int y, Country country) {
+        this.x = x;
+        this.y = y;
+        this.country = country;
+    }
+
+    public Position getPosition() {
+        return Position.create(this.x, this.y);
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public int getIndex() {
+        return this.ordinal();
+    }
+}
