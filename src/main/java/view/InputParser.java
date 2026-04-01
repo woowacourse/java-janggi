@@ -11,6 +11,9 @@ public class InputParser {
 
     public static String parseTableSetting(String input) {
         input = input.replace(" ", "");
+        if (input.contains("(")) {
+            input = input.substring(0, input.indexOf("("));
+        }
         return input;
     }
 
