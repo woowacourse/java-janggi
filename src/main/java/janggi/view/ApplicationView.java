@@ -2,7 +2,7 @@ package janggi.view;
 
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
-import janggi.strategy.ArrangementStrategy;
+import janggi.strategy.StrategyLabel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -19,11 +19,11 @@ public class ApplicationView {
         this.inputReader = inputReader;
     }
 
-    public int requestArrangementStrategyDecision(Side side, List<ArrangementStrategy> strategies) {
+    public int requestArrangementStrategyDecision(Side side, List<StrategyLabel> strategies) {
         outputWriter.printPromptMessage(side.getName() + "팀의 초기화 전략 번호를 입력해주세요.");
 
-        for (ArrangementStrategy strategy : strategies) {
-            String strategyDecisionOption = String.format("%d. %s", strategy.decisionNumber(), strategy.name());
+        for (StrategyLabel strategy : strategies) {
+            String strategyDecisionOption = String.format("%d. %s", strategy.getDecisionNumber(), strategy.getName());
             outputWriter.printPromptMessage(strategyDecisionOption);
         }
 

@@ -34,7 +34,7 @@ class BoardTest {
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
         // when
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
         Board board = Board.create(assembler);
         List<List<Piece>> pieces = board.to2DArray();
 
@@ -53,7 +53,7 @@ class BoardTest {
         );
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
         Board board = Board.create(assembler);
         Location from = new Location(1, 1);
         Location to = new Location(0, 0);
@@ -76,7 +76,7 @@ class BoardTest {
                 new Location(1, 2), EmptyPiece.getInstance()
         );
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
         Board board = Board.create(assembler);
 
         // when & then
@@ -92,7 +92,7 @@ class BoardTest {
                 new Location(1, 2), EmptyPiece.getInstance()
         );
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
         Board board = Board.create(assembler);
 
         // when & then
@@ -111,7 +111,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -129,7 +129,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(11, 11));
 
@@ -151,7 +151,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -170,7 +170,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -188,7 +188,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(5, 5));
 
@@ -209,7 +209,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -229,7 +229,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -248,7 +248,7 @@ class BoardTest {
             );
             ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 

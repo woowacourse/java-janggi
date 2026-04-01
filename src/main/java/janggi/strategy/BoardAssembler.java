@@ -18,34 +18,34 @@ public class BoardAssembler {
     private static final int DEFAULT_ROWS = 10;
     private static final int DEFAULT_COLS = 9;
 
-    private final ArrangementStrategy hanStrategy;
-    private final ArrangementStrategy choStrategy;
+    private final List<ArrangementStrategy> strategies;
 
-    private BoardAssembler(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
-        this.hanStrategy = hanStrategy;
-        this.choStrategy = choStrategy;
+    private BoardAssembler(List<ArrangementStrategy> strategies) {
+        this.strategies = strategies;
     }
 
-    public static BoardAssembler of(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
-        return new BoardAssembler(hanStrategy, choStrategy);
+    public static BoardAssembler from(List<ArrangementStrategy> strategies) {
+        return new BoardAssembler(strategies);
     }
 
     public Piece[][] assemble() {
         Piece[][] arrangement = new Piece[DEFAULT_ROWS][DEFAULT_COLS];
 
         setupCommonPieces(arrangement);
-
-        hanStrategy.place(arrangement, Side.HAN);
-        choStrategy.place(arrangement, Side.CHO);
+        applyStrategies(arrangement);
 
         setupEmptyPieces(arrangement);
 
         return arrangement;
     }
 
-    private void setupCommonPieces(Piece[][] grid) {
-        setUpOneSide(grid, Side.HAN);
-        setUpOneSide(grid, Side.CHO);
+    private void setupCommonPieces(Piece[][] arrangement) {
+        setUpOneSide(arrangement, Side.HAN);
+        setUpOneSide(arrangement, Side.CHO);
+    }
+
+    private void applyStrategies(Piece[][] arrangement) {
+        strategies.forEach(strategy -> strategy.place(arrangement));
     }
 
     private void setupEmptyPieces(Piece[][] arrangement) {
@@ -58,16 +58,16 @@ public class BoardAssembler {
         }
     }
 
-    private void setUpOneSide(Piece[][] grid, Side side) {
+    private void setUpOneSide(Piece[][] arrangement, Side side) {
         for (DefaultPieceFactory factory : DefaultPieceFactory.values()) {
-            setUpPiece(grid, side, factory);
+            setUpPiece(arrangement, side, factory);
         }
     }
 
-    private void setUpPiece(Piece[][] grid, Side side, DefaultPieceFactory factory) {
+    private void setUpPiece(Piece[][] arrangement, Side side, DefaultPieceFactory factory) {
         for (int col : factory.getCols()) {
             int row = factory.getRow(side);
-            grid[row][col] = factory.createPiece(side);
+            arrangement[row][col] = factory.createPiece(side);
         }
     }
 

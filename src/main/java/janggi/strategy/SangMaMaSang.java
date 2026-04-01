@@ -5,25 +5,26 @@ import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
 
-public class SangMaMaSang extends ArrangementStrategy {
+public class SangMaMaSang implements ArrangementStrategy {
 
-    private static final SangMaMaSang INSTANCE = new SangMaMaSang();
+    private final Side side;
 
-    private SangMaMaSang() {
-        super(StrategyLabel.EHHE);
-    }
-
-    public static SangMaMaSang getInstance() {
-        return INSTANCE;
+    public SangMaMaSang(Side side) {
+        this.side = side;
     }
 
     @Override
-    public void place(Piece[][] board, Side side) {
+    public void place(Piece[][] board) {
         int boardMaxLength = board.length;
         int row = calculateRow(boardMaxLength, side);
         board[row][1] = new Sang(side);
         board[row][2] = new Ma(side);
         board[row][6] = new Ma(side);
         board[row][7] = new Sang(side);
+    }
+
+    @Override
+    public ArrangementStrategy create(Side side) {
+        return new SangMaMaSang(side);
     }
 }

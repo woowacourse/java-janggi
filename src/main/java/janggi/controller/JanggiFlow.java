@@ -5,33 +5,26 @@ import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.exception.JanggiException;
 import janggi.strategy.ArrangementStrategy;
+import janggi.strategy.ArrangementStrategyFactory;
 import janggi.strategy.BoardAssembler;
-import janggi.strategy.MaSangMaSang;
-import janggi.strategy.MaSangSangMa;
-import janggi.strategy.SangMaMaSang;
-import janggi.strategy.SangMaSangMa;
+import janggi.strategy.StrategyLabel;
 import janggi.view.ApplicationView;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class JanggiFlow {
 
     private final ApplicationView view;
-    private final List<ArrangementStrategy> strategies;
+    private final ArrangementStrategyFactory arrangementFactory;
 
     public JanggiFlow(ApplicationView view) {
         this.view = view;
-        this.strategies = List.of(
-                MaSangMaSang.getInstance(),
-                MaSangSangMa.getInstance(),
-                SangMaMaSang.getInstance(),
-                SangMaSangMa.getInstance()
-        );
+        this.arrangementFactory = new ArrangementStrategyFactory();
     }
 
     public void process() {
-        ArrangementStrategy hanStrategy = askStrategy(Side.HAN);
-        ArrangementStrategy choStrategy = askStrategy(Side.CHO);
-        Board board = Board.create(BoardAssembler.of(hanStrategy, choStrategy));
+        List<ArrangementStrategy> strategies = Stream.of(Side.values()).map(this::askStrategy).toList();
+        Board board = Board.create(BoardAssembler.from(strategies));
 
         Side current = Side.HAN;
         while (board.isNotEmpty()) {
@@ -63,15 +56,8 @@ public class JanggiFlow {
     }
 
     private ArrangementStrategy askStrategy(Side side) {
-        int decisionNumber = view.requestArrangementStrategyDecision(side, strategies);
-        return findStrategyWithCorrespondingDecisionNumber(decisionNumber);
-    }
-
-    private ArrangementStrategy findStrategyWithCorrespondingDecisionNumber(int decisionNumber) {
-        return strategies.stream()
-                .filter(strategy -> strategy.isDecisionNumberMatching(decisionNumber))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("일치하는 전략 번호가 없습니다: " + decisionNumber));
+        int decisionNumber = view.requestArrangementStrategyDecision(side, List.of(StrategyLabel.values()));
+        return arrangementFactory.createStrategy(decisionNumber, side);
     }
 
     private void retryAction(Runnable runnable) {

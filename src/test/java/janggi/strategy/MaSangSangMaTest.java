@@ -17,12 +17,12 @@ class MaSangSangMaTest {
     void shouldPlaceMaSangSangMaWhenSideHan() {
         // given
         Piece[][] grid = new Piece[10][9];
-        ArrangementStrategy strategy = MaSangSangMa.getInstance();
         Side side = Side.HAN;
+        ArrangementStrategy strategy = new MaSangSangMa(side);
         Piece expectedSidePiece = new TestPiece(side);
 
         // when
-        strategy.place(grid, side);
+        strategy.place(grid);
         Piece leftMa = grid[0][1];
         Piece leftSang = grid[0][2];
         Piece rightSang = grid[0][6];
@@ -45,12 +45,12 @@ class MaSangSangMaTest {
     void shouldPlaceMaSangSangMaWhenSideCho() {
         // given
         Piece[][] grid = new Piece[10][9];
-        ArrangementStrategy strategy = MaSangSangMa.getInstance();
         Side side = Side.CHO;
+        ArrangementStrategy strategy = new MaSangSangMa(side);
         Piece expectedSidePiece = new TestPiece(side);
 
         // when
-        strategy.place(grid, side);
+        strategy.place(grid);
         Piece leftMa = grid[9][1];
         Piece leftSang = grid[9][2];
         Piece rightSang = grid[9][6];
