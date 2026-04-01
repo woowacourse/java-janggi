@@ -1,6 +1,10 @@
-package janggi.model.initializer;
+package janggi.view;
 
 import janggi.model.board.Board;
+import janggi.model.initializer.InsideTableSetting;
+import janggi.model.initializer.LeftSidedTableSetting;
+import janggi.model.initializer.OutsideTableSetting;
+import janggi.model.initializer.RightSidedTableSetting;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
