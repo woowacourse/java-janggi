@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.route.Destinations;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ class BoardTest {
         Board board = Board.initialize();
         Position selected = new Position(0, 0);
         Position invalidTarget = new Position(5, 5);
-        List<Position> allowedDestinations = List.of(new Position(0, 1), new Position(1, 0));
+        Destinations allowedDestinations = Destinations.of(List.of(new Position(0, 1), new Position(1, 0)));
 
         assertThatThrownBy(() -> board.movePiece(selected, invalidTarget, allowedDestinations))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -42,7 +43,7 @@ class BoardTest {
         Board board = Board.initialize();
         Position selected = new Position(0, 0);
         Position target = new Position(1, 0);
-        List<Position> allowedDestinations = List.of(target);
+        Destinations allowedDestinations = Destinations.of(List.of(target));
 
         board.movePiece(selected, target, allowedDestinations);
 

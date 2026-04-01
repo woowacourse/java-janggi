@@ -19,7 +19,7 @@
     - 반문 : 이번 아무 일도 안하는 catch 문과 동일한 경우라 생각.  
       상위에선 정상 동작하지만 그 내부가 두번 꼬여서 정상 동작하는 거라면?
     - 실행 : 호출 체인 각각을 다 테스트하기
-        -
+      -
             * 마찬가지로 전략도 다 테스트는했는데 겹치는 부분을 분리하는 것이 가장 바람직할듯
 
         * `최소 단위 행위에 대한 테스트가 곧 그 상위 행위에 대한 테스트를 대체한다` 를 위해선
@@ -310,6 +310,7 @@ Following convention : https://gist.github.com/stephenparish/9941e89d80e2bc58a15
 
 ```markdown
 # basic structure
+
 <type>(<scope>): <subject>
 <BLANK LINE>
 <body>
@@ -317,6 +318,7 @@ Following convention : https://gist.github.com/stephenparish/9941e89d80e2bc58a15
 <footer>
 
 # <type>
+
 feat (feature)
 fix (bug fix)
 docs (documentation)
@@ -326,6 +328,7 @@ test (when adding missing tests)
 chore (maintain)
 
 # <scope>
+
 console - I/O
 domain - 핵심 로직
 validation - 유효성검사

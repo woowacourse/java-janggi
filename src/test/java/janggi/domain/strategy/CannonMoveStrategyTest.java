@@ -2,6 +2,7 @@ package janggi.domain.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.Board;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
@@ -10,7 +11,6 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.route.Destinations;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,15 +24,14 @@ class CannonMoveStrategyTest {
         Position current = new Position(5, 5);
         Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "0");
 
-        EnumSet<Direction> dirs = EnumSet.of(Direction.N);
-        Destinations paths = strategy.findMovablePaths(current, dirs, );
-
         Map<Position, Piece> boardState = new HashMap<>();
+        boardState.put(current, cannon);
         boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.SOLDIER, "0"));
+        Board board = new Board(boardState);
 
-        List<Position> destinations = strategy.findDestinations(, paths, , boardState);
+        Destinations destinations = strategy.findDestinations(current, EnumSet.of(Direction.N), board);
 
-        assertThat(destinations).containsExactly(
+        assertThat(destinations.getDestinations()).containsExactly(
                 new Position(3, 5), new Position(2, 5), new Position(1, 5), new Position(0, 5)
         );
     }
@@ -44,14 +43,13 @@ class CannonMoveStrategyTest {
         Position current = new Position(5, 5);
         Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "0");
 
-        EnumSet<Direction> dirs = EnumSet.of(Direction.N);
-        Destinations paths = strategy.findMovablePaths(current, dirs, );
-
         Map<Position, Piece> boardState = new HashMap<>();
+        boardState.put(current, cannon);
         boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.CANNON, "1"));
+        Board board = new Board(boardState);
 
-        List<Position> destinations = strategy.findDestinations(, paths, , boardState);
+        Destinations destinations = strategy.findDestinations(current, EnumSet.of(Direction.N), board);
 
-        assertThat(destinations).isEmpty();
+        assertThat(destinations.isEmpty()).isTrue();
     }
 }
