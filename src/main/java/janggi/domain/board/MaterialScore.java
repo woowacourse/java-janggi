@@ -9,12 +9,14 @@ public class MaterialScore {
     private static final String INVALID_NEGATIVE_DECREASE_SCORE = "차감할 점수는 0보다 커야 합니다.";
     private static final String INVALID_SCORE_SIDE = "해당 진영의 점수 정보가 존재하지 않습니다";
 
+    private static final double DUM = 1.5;
+
     private final Map<Side, Boolean> isGungAlive;
-    private final Map<Side, Integer> score;
+    private final Map<Side, Double> score;
 
     public MaterialScore(int hanScore, int choScore) {
         this.isGungAlive = new HashMap<>(Map.of(Side.HAN, true, Side.CHO, true));
-        this.score = new HashMap<>(Map.of(Side.HAN, hanScore, Side.CHO, choScore));
+        this.score = new HashMap<>(Map.of(Side.HAN, hanScore + DUM, Side.CHO, (double) choScore));
     }
 
     public SideScore getCurrentScore() {
@@ -34,7 +36,7 @@ public class MaterialScore {
             throw new IllegalArgumentException(INVALID_NEGATIVE_DECREASE_SCORE);
         }
 
-        Integer currentScore = score.get(side);
+        Double currentScore = score.get(side);
         if(currentScore == null) {
             throw new IllegalStateException(INVALID_SCORE_SIDE);
         }

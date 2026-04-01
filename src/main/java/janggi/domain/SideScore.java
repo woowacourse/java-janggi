@@ -1,4 +1,4 @@
 package janggi.domain;
 
-public record SideScore(int han, int cho) {
+public record SideScore(double han, double cho) {
 }

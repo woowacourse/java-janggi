@@ -16,7 +16,6 @@ public class OutputView {
 
     private static final String TURN_PREFIX = "현재 턴: ";
 
-    private static final String SCORE_PREFIX = "[ 현재 점수 현황 ]";
     private static final String HAN_SCORE_PREFIX = "한: ";
     private static final String CHO_SCORE_PREFIX = "초: ";
     private static final String SCORE_SUFFIX = "점";
@@ -41,11 +40,11 @@ public class OutputView {
     }
 
     public static void printScore(SideScore score) {
-        System.out.println(SCORE_PREFIX);
         System.out.println(CHO_SCORE_PREFIX + score.cho() + SCORE_SUFFIX + SCORE_DELIMITER + HAN_SCORE_PREFIX + score.han() + SCORE_SUFFIX);
     }
 
     public static void printWinner(Side winnerSide) {
+        printLine();
         System.out.printf("%s 승리!%n", winnerSide.getName());
     }
 

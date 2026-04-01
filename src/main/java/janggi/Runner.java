@@ -3,6 +3,8 @@ package janggi;
 import janggi.domain.Arrangement;
 import janggi.domain.Game;
 import janggi.domain.Position;
+import janggi.domain.Side;
+import janggi.domain.SideScore;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -69,6 +71,7 @@ public class Runner {
 
         List<Integer> endPositionInput = InputView.askEndPosition();
         Position endPosition = Position.from(endPositionInput);
+        OutputView.printLine();
 
         game.move(startPosition, endPosition);
 
@@ -80,15 +83,25 @@ public class Runner {
         String consentInput = InputView.consentEnd();
 
         if(consentInput.equals(END_TEXT)) {
+            printCurrentScore(game);
+            printScoreWinner(game);
             return false;
         }
 
         return executeTurn(game);
     }
 
+    private void printScoreWinner(Game game) {
+        SideScore score = game.getCurrentSideScore();
+        if(score.cho() > score.han()) {
+            OutputView.printWinner(Side.CHO);
+            return;
+        }
+        OutputView.printWinner(Side.HAN);
+    }
+
 
     private void printCurrentScore(Game game) {
-        OutputView.printLine();
         OutputView.printScore(game.getCurrentSideScore());
     }
 
