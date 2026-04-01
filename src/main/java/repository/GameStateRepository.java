@@ -8,5 +8,5 @@ public interface GameStateRepository {
 
     void save(long roomId, Side turn, Connection conn);
 
-    GameStateEntity findByRoomId(long roomId);
+    GameStateEntity findByRoomId(long roomId, Connection conn);
 }

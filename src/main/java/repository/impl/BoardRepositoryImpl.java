@@ -23,14 +23,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     private static final String SELECT_SQL =
             "SELECT position_row, position_col, side, type FROM board_piece WHERE game_room_id = ?";
 
-    private final Connection connectionManager;
-
-    public BoardRepositoryImpl(Connection connectionManager) {
-        this.connectionManager = connectionManager;
-    }
 
     @Override
-    public void saveBoard(long roomId, Map<Position, Place> board, java.sql.Connection conn) {
+    public void saveBoard(long roomId, Map<Position, Place> board, Connection conn) {
         try {
             deleteExisting(conn, roomId);
             insertBoard(conn, roomId, board);
@@ -39,14 +34,14 @@ public class BoardRepositoryImpl implements BoardRepository {
         }
     }
 
-    private void deleteExisting(java.sql.Connection conn, long roomId) throws SQLException {
+    private void deleteExisting(Connection conn, long roomId) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(DELETE_SQL)) {
             stmt.setLong(1, roomId);
             stmt.executeUpdate();
         }
     }
 
-    private void insertBoard(java.sql.Connection conn, long roomId, Map<Position, Place> board) throws SQLException {
+    private void insertBoard(Connection conn, long roomId, Map<Position, Place> board) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL)) {
             for (Map.Entry<Position, Place> entry : board.entrySet()) {
                 if (entry.getValue().getSide().isPresent()) {
@@ -71,8 +66,8 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public Map<Position, Place> findBoard(long roomId) {
-        try (PreparedStatement stmt = connectionManager.prepareStatement(SELECT_SQL)) {
+    public Map<Position, Place> findBoard(long roomId, Connection conn) {
+        try (PreparedStatement stmt = conn.prepareStatement(SELECT_SQL)) {
 
             stmt.setLong(1, roomId);
 

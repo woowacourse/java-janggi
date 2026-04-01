@@ -6,13 +6,19 @@ import java.sql.SQLException;
 
 public class H2ConnectionManager {
 
-    private static final String URL = "jdbc:h2:file:./data/testdb";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
+    private final String url;
+    private final String user;
+    private final String password;
 
-    public static Connection getConnection() {
+    public H2ConnectionManager(String url, String user, String password) {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+    }
+
+    public Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import config.H2ConnectionManager;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
@@ -30,13 +31,13 @@ public class GameServiceTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        Connection connectionManager = DriverManager.getConnection(URL, USER, PASSWORD);
+        H2ConnectionManager connectionManager = new H2ConnectionManager(URL, USER, PASSWORD);
         TestDatabaseInitializer testDatabaseInitializer = new TestDatabaseInitializer(connectionManager);
         testDatabaseInitializer.init();
 
-        gameService = new GameService(new BoardRepositoryImpl(connectionManager),
-                new GameRoomRepositoryImpl(connectionManager),
-                new GameStateRepositoryImpl(connectionManager), connectionManager);
+        gameService = new GameService(new BoardRepositoryImpl(),
+                new GameRoomRepositoryImpl(),
+                new GameStateRepositoryImpl(), connectionManager);
     }
 
     @Test

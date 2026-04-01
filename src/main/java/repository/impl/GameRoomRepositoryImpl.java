@@ -21,12 +21,6 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     private static final String SELECT_ALL =
             "SELECT id, name, created_at FROM game_room";
 
-    private final Connection connectionManager;
-
-    public GameRoomRepositoryImpl(Connection connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     @Override
     public long save(String name, Connection conn) {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -42,8 +36,8 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     }
 
     @Override
-    public List<GameRoomEntity> findAll() {
-        try (PreparedStatement stmt = connectionManager.prepareStatement(SELECT_ALL)) {
+    public List<GameRoomEntity> findAll(Connection conn) {
+        try (PreparedStatement stmt = conn.prepareStatement(SELECT_ALL)) {
 
             List<GameRoomEntity> result;
             try (ResultSet rs = stmt.executeQuery()) {
@@ -57,8 +51,8 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     }
 
     @Override
-    public boolean existsById(long id) {
-        try (PreparedStatement stmt = connectionManager.prepareStatement(SELECT_BY_ID_SQL)) {
+    public boolean existsById(long id, Connection conn) {
+        try (PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, id);
 

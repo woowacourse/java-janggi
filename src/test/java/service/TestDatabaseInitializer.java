@@ -1,5 +1,6 @@
 package service;
 
+import config.H2ConnectionManager;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,20 +10,22 @@ import java.util.stream.Collectors;
 
 public class TestDatabaseInitializer {
 
-    private final Connection connectionManager;
+    private static final String SCHEMA_SQL = "schema.sql";
+    private final H2ConnectionManager connectionManager;
 
-    public TestDatabaseInitializer(Connection connectionManager) {
+    public TestDatabaseInitializer(H2ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 
     public void init() {
-        try (Statement stmt = connectionManager.createStatement()) {
+        try (Connection conn = connectionManager.getConnection();
+             Statement stmt = conn.createStatement()) {
 
-            connectionManager.setAutoCommit(false);
+            conn.setAutoCommit(false);
 
-            runSql(stmt, "schema.sql");
-            runSql(stmt, "data.sql");
-            connectionManager.commit();
+            runSql(stmt, SCHEMA_SQL);
+
+            conn.commit();
 
         } catch (Exception e) {
             throw new RuntimeException("DB 초기화 실패", e);

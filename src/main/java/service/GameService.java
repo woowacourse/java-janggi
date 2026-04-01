@@ -1,5 +1,6 @@
 package service;
 
+import config.H2ConnectionManager;
 import java.sql.Connection;
 import domain.place.Place;
 import domain.place.piece.Side;
@@ -18,12 +19,12 @@ public class GameService {
     private final BoardRepository boardRepository;
     private final GameRoomRepository gameRoomRepository;
     private final GameStateRepository gameStateRepository;
-    private final Connection connectionManager;
+    private final H2ConnectionManager connectionManager;
 
     public GameService(BoardRepository boardRepository,
                        GameRoomRepository gameRoomRepository,
                        GameStateRepository gameStateRepository,
-                       Connection connectionManager) {
+                       H2ConnectionManager connectionManager) {
         this.boardRepository = boardRepository;
         this.gameRoomRepository = gameRoomRepository;
         this.gameStateRepository = gameStateRepository;
@@ -31,7 +32,7 @@ public class GameService {
     }
 
     public void saveGame(Map<Position, Place> board, String name, Side side) {
-        try (Connection conn = connectionManager) {
+        try (Connection conn = connectionManager.getConnection()) {
             conn.setAutoCommit(false);
 
             try {
@@ -51,21 +52,33 @@ public class GameService {
     }
 
     public Map<Position, Place> findBoardByRoomId(long roomId) {
-        existsById(roomId);
-        return boardRepository.findBoard(roomId);
+        try (Connection conn = connectionManager.getConnection()) {
+            existsById(roomId, conn);
+            return boardRepository.findBoard(roomId, conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public GameStateEntity findGameStateByRoomId(long roomId) {
-        existsById(roomId);
-        return gameStateRepository.findByRoomId(roomId);
+        try (Connection conn = connectionManager.getConnection()) {
+            existsById(roomId, conn);
+            return gameStateRepository.findByRoomId(roomId, conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<GameRoomEntity> findGameRoomAll() {
-        return gameRoomRepository.findAll();
+        try (Connection conn = connectionManager.getConnection()) {
+            return gameRoomRepository.findAll(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void existsById(long roomId) {
-        if (!gameRoomRepository.existsById(roomId)) {
+    private void existsById(long roomId, Connection conn) {
+        if (!gameRoomRepository.existsById(roomId, conn)) {
             throw new IllegalArgumentException("[ERROR] 없는 방 번호입니다.");
         }
     }

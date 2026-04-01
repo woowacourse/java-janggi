@@ -16,14 +16,8 @@ public class GameStateRepositoryImpl implements GameStateRepository {
     private static final String SELECT_BY_ID_SQL =
             "SELECT game_room_id, current_turn FROM game_state WHERE game_room_id = ?";
 
-    private final Connection connectionManager;
-
-    public GameStateRepositoryImpl(Connection connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     @Override
-    public void save(long roomId, Side turn, java.sql.Connection conn) {
+    public void save(long roomId, Side turn, Connection conn) {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL)) {
 
             stmt.setLong(1, roomId);
@@ -36,8 +30,8 @@ public class GameStateRepositoryImpl implements GameStateRepository {
     }
 
     @Override
-    public GameStateEntity findByRoomId(long roomId) {
-        try (PreparedStatement stmt = connectionManager.prepareStatement(SELECT_BY_ID_SQL)) {
+    public GameStateEntity findByRoomId(long roomId, Connection conn) {
+        try (PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, roomId);
 

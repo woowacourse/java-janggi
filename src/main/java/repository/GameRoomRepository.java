@@ -7,7 +7,7 @@ import java.util.List;
 public interface GameRoomRepository {
     long save(String name, Connection conn);
 
-    List<GameRoomEntity> findAll();
+    List<GameRoomEntity> findAll(Connection conn);
 
-    boolean existsById(long id);
+    boolean existsById(long id, Connection conn);
 }

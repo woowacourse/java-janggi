@@ -8,5 +8,5 @@ import java.util.Map;
 public interface BoardRepository {
     void saveBoard(long roomId, Map<Position, Place> board, Connection conn);
 
-    Map<Position, Place> findBoard(long roomId);
+    Map<Position, Place> findBoard(long roomId, Connection conn);
 }
