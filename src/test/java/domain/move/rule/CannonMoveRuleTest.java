@@ -200,6 +200,7 @@ class CannonMoveRuleTest {
     @Test
     @DisplayName("포는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void cannonCanMoveWhenNoObstacleAndDestinationIsOpponent() {
+        // given
         Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
         Piece opponentChariot = new Piece(Team.HAN, PieceType.CHARIOT);
 
@@ -232,6 +233,7 @@ class CannonMoveRuleTest {
     @Test
     @DisplayName("포는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void cannonCanMoveWhenNoObstacleAndDestinationIsEmpty() {
+        // given
         Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
         Piece opponentChariot = new Piece(Team.HAN, PieceType.CHARIOT);
 

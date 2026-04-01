@@ -134,6 +134,7 @@ class ChariotMoveRuleTest {
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void chariotCanMoveWhenNoObstacleAndDestinationIsOpponent() {
+        // given
         Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
         Piece opponentChariot = new Piece(Team.HAN, PieceType.CHARIOT);
 
