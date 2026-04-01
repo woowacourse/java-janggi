@@ -2,18 +2,16 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
-import domain.coordination.MoveDeltas;
 import domain.piece.error.PieceException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Elephant extends Piece {
 
-    private static final MoveDeltas MOVABLE_ABSOLUTE_LOCATION = MoveDeltas.of(Set.of(
+    private static final List<MoveDelta> MOVABLE_ABSOLUTE_LOCATION = List.of(
             new MoveDelta(2, 3),
             new MoveDelta(3, 2)
-    ));
+    );
     private static final int MAX_STEP = 3;
     private static final int HALF_STEP = 2;
 

@@ -2,19 +2,18 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
-import domain.coordination.MoveDeltas;
 import domain.piece.error.PieceException;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Guard extends Piece {
 
-    private static final MoveDeltas MOVABLE_LOCATION = MoveDeltas.of(Set.of(
+    private static final List<MoveDelta> MOVABLE_LOCATION = List.of(
             new MoveDelta(-1, 0),
             new MoveDelta(0, -1),
             new MoveDelta(1, 0),
             new MoveDelta(0, 1)
-    ));
+    );
 
     public Guard(Team team) {
         super(team);

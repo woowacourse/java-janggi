@@ -2,17 +2,16 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
-import domain.coordination.MoveDeltas;
 import domain.piece.error.PieceException;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Horse extends Piece {
 
-    private static final MoveDeltas MOVABLE_ABSOLUTE_LOCATION = MoveDeltas.of(Set.of(
+    private static final List<MoveDelta> MOVABLE_ABSOLUTE_LOCATION = List.of(
             new MoveDelta(1, 2),
             new MoveDelta(2, 1)
-    ));
+    );
     private static final int MAX_STEP = 2;
 
 
