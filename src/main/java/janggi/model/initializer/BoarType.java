@@ -4,7 +4,7 @@ import janggi.model.board.Board;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
-public enum BoarType {
+public enum BoardType {
     FIRST(1, () -> new LeftSidedTableSetting().init()),
     SECOND(2, () -> new RightSidedTableSetting().init()),
     THIRD(3, () -> new InsideTableSetting().init()),
