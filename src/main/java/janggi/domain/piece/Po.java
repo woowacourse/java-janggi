@@ -59,9 +59,10 @@ public class Po implements Piece {
         int endX = end.getX();
         int endY = end.getY();
 
-        if (startX == endX && startY == endY) {
+        if (isSamePosition(start, end)) {
             return Optional.empty();
         }
+
         int dx = endX - startX;
         int dy = endY - startY;
         return paths.stream()
@@ -89,5 +90,9 @@ public class Po implements Piece {
         if (obstacles.getFirst().getPieceType() == PieceType.PO) {
             throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
+    }
+
+    private boolean isSamePosition(Position start, Position end) {
+        return start.isSamePosition(end);
     }
 }

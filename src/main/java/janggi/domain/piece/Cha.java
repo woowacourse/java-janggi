@@ -61,7 +61,7 @@ public class Cha implements Piece {
         int endX = end.getX();
         int endY = end.getY();
 
-        if (isSamePosition(startX, startY, endX, endY)) {
+        if (isSamePosition(start, end)) {
             return Optional.empty();
         }
         if (!isStraightDirection(startX, startY, endX, endY)) {
@@ -83,8 +83,8 @@ public class Cha implements Piece {
             .noneMatch(board::hasPiece);
     }
 
-    private boolean isSamePosition(int startX, int startY, int endX, int endY) {
-        return startX == endX && startY == endY;
+    private boolean isSamePosition(Position start, Position end) {
+        return start.isSamePosition(end);
     }
 
     private boolean isStraightDirection(int startX, int startY, int endX, int endY) {

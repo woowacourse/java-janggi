@@ -40,6 +40,10 @@ public class Position {
         return new Position(x + delta.dx(), y + delta.dy());
     }
 
+    public boolean isSamePosition(Position position) {
+        return x == position.getX() && y == position.getY();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

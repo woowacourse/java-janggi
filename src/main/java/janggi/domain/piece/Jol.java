@@ -49,7 +49,7 @@ public class Jol implements Piece {
     private Optional<MovePath> findMovePath(Position start, Position end) {
         int dx = end.getX() - start.getX();
         int dy = end.getY() - start.getY();
-        if (isSamePosition(dx, dy)) {
+        if (isSamePosition(start, end)) {
             return Optional.empty();
         }
         return paths.stream()
@@ -57,8 +57,8 @@ public class Jol implements Piece {
             .findFirst();
     }
 
-    private boolean isSamePosition(int distanceX, int distanceY) {
-        return distanceX == 0 && distanceY == 0;
+    private boolean isSamePosition(Position start, Position end) {
+        return start.isSamePosition(end);
     }
 
     private List<MovePath> createPaths() {

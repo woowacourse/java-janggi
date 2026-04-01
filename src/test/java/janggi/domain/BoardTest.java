@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.side.TeamType;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,16 +23,15 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("입력한 좌표에 기물이 없을 경우 예외 발생")
+    @DisplayName("입력한 좌표에 기물이 없을 경우 false 반환")
     void cannotMoveWhenStartPositionHasNoCurrentTeamPiece() {
         // given
         Board board = Board.createInitialBoard();
         Position notExistPosition = new Position(2, 2);
 
         // when & then
-        assertThatThrownBy(() -> board.isPieceExists(notExistPosition, TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("입력한 위치에 기물이 없습니다.");
+        boolean pieceExists = board.isPieceExists(notExistPosition, TeamType.CHU);
+        Assertions.assertThat(pieceExists).isFalse();
     }
 
     @Test

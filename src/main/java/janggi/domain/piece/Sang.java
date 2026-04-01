@@ -60,11 +60,19 @@ public class Sang implements Piece {
     }
 
     private Optional<MovePath> findMovePath(Position start, Position end) {
+        if (isSamePosition(start, end)) {
+            return Optional.empty();
+        }
+
         int dx = end.getX() - start.getX();
         int dy = end.getY() - start.getY();
         return paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
+    }
+
+    private boolean isSamePosition(Position start, Position end) {
+        return start.isSamePosition(end);
     }
 
     private boolean isObstaclesNotExist(Position start, Position end, Board board) {

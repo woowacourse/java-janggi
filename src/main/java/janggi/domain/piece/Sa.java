@@ -60,7 +60,7 @@ public class Sa implements Piece {
         int dy = end.getY() - start.getY();
         int distanceX = Math.abs(dx);
         int distanceY = Math.abs(dy);
-        if (isSamePosition(distanceX, distanceY)) {
+        if (isSamePosition(start, end)) {
             return Optional.empty();
         }
         if (!isOneStep(distanceX, distanceY)) {
@@ -71,8 +71,8 @@ public class Sa implements Piece {
             .findFirst();
     }
 
-    private boolean isSamePosition(int distanceX, int distanceY) {
-        return distanceX == 0 && distanceY == 0;
+    private boolean isSamePosition(Position start, Position end) {
+        return start.isSamePosition(end);
     }
 
     private boolean isOneStep(int distanceX, int distanceY) {
