@@ -4,7 +4,7 @@ import janggi.model.Janggi;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
-import janggi.model.initializer.BoardType;
+import janggi.view.BoardType;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;

@@ -1,6 +1,5 @@
 package janggi.view;
 
-import janggi.model.initializer.BoardType;
 import java.util.List;
 import java.util.Scanner;
 
