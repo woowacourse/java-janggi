@@ -3,7 +3,6 @@ package domain.state;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.JanggiGame;
-import domain.piece.Team;
 import domain.setup.Arrangements;
 import domain.setup.Command;
 import org.junit.jupiter.api.DisplayName;
