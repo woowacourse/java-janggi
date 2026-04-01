@@ -4,7 +4,15 @@ import java.util.Scanner;
 
 public class ConsoleInputView implements InputView {
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
+    public ConsoleInputView() {
+        scanner = new Scanner(System.in);
+    }
+
+    public ConsoleInputView(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     @Override
     public String readLine() {
