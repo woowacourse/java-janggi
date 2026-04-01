@@ -7,7 +7,6 @@ import janggi.domain.board.ElephantFormation;
 import janggi.domain.board.InitialPiecePlacement;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.dto.CampDto;
 import janggi.dto.PiecePositionDto;
 import janggi.util.RetryHandler;
 import janggi.view.InputView;
@@ -32,7 +31,7 @@ public class JanggiGame {
 
     private ElephantFormation readElephantFormation(Camp camp) {
         return RetryHandler.retryOnInvalidInput(() -> {
-            ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(CampDto.from(camp));
+            ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(camp);
             return elephantSetUpFormat.toElephantFormation(camp);
         });
     }
@@ -53,18 +52,10 @@ public class JanggiGame {
 
     private void playTurn(Board board, Turn turn) {
         Camp camp = turn.currentTurn();
-        Position source = readSource(board, camp);
+        Position source = RetryHandler.retryOnInvalidInput(() -> Position.from(InputView.readSource(camp)));
+        board.validateCampTurn(source, camp);
         Position destination = RetryHandler.retryOnInvalidInput(() -> Position.from(InputView.readDestination()));
         board.movePiece(source, destination, camp);
         turn.finishTurn();
-    }
-
-    private Position readSource(Board board, Camp camp) {
-        return RetryHandler.retryOnInvalidInput(() -> {
-            List<Integer> rawPosition = InputView.readSource(CampDto.from(camp));
-            Position source = Position.from(rawPosition);
-            board.validateCampTurn(source, camp);
-            return source;
-        });
     }
 }

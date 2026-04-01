@@ -3,6 +3,7 @@ package janggi.view;
 import static java.util.stream.Collectors.joining;
 
 import janggi.dto.PiecePositionDto;
+import janggi.view.format.CampFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -70,7 +71,8 @@ public final class OutputView {
     }
 
     private static String colorize(PiecePositionDto piecePosition) {
-        return piecePosition.camp().color() + piecePosition.type() + RESET_COLOR;
+        CampFormat campFormat = CampFormat.from(piecePosition.camp());
+        return campFormat.getColor() + piecePosition.type() + RESET_COLOR;
     }
 
     private static String fullWidthNumber(int number) {

@@ -1,8 +1,9 @@
 package janggi.view;
 
-import janggi.dto.CampDto;
+import janggi.domain.piece.Camp;
 import janggi.exception.ExceptionMessage;
 import janggi.util.Parser;
+import janggi.view.format.CampFormat;
 import janggi.view.format.ElephantSetUpFormat;
 import java.util.List;
 import java.util.Scanner;
@@ -16,16 +17,18 @@ public final class InputView {
     private InputView() {
     }
 
-    public static ElephantSetUpFormat readElephantSettingCommand(CampDto campDto) {
-        System.out.println(LINE_SEPARATOR + "%s나라의 상차림을 선택해주세요.".formatted(campDto.name()));
+    public static ElephantSetUpFormat readElephantSettingCommand(Camp camp) {
+        CampFormat campFormat = CampFormat.from(camp);
+        System.out.println(LINE_SEPARATOR + "%s나라의 상차림을 선택해주세요.".formatted(campFormat.getName()));
         for (ElephantSetUpFormat elephantSetUpFormat : ElephantSetUpFormat.values()) {
             System.out.println(elephantSetUpFormat.getCommand() + ". " + elephantSetUpFormat.getDescription());
         }
         return ElephantSetUpFormat.findElephantSettingBy(readLine());
     }
 
-    public static List<Integer> readSource(CampDto campDto) {
-        System.out.println(LINE_SEPARATOR + "%s나라 차례 입니다.".formatted(campDto.name()));
+    public static List<Integer> readSource(Camp camp) {
+        CampFormat campFormat = CampFormat.from(camp);
+        System.out.println(LINE_SEPARATOR + "%s나라 차례 입니다.".formatted(campFormat.getName()));
         System.out.println("공격할 기물의 좌표를 행,열 순으로 입력해 주세요. (예: 9,8)");
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }
