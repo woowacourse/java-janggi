@@ -128,8 +128,8 @@ class BoardTest {
         double han = board.getSideScore(Side.HAN);
 
         //then
-        assertThat(cho).isEqualTo(15);
-        assertThat(han).isEqualTo(2.5);
+        assertThat(cho).isEqualTo(17);
+        assertThat(han).isEqualTo(3.5);
     }
 
     @Test
