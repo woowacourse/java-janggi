@@ -5,8 +5,8 @@ import janggi.model.movement.Movement;
 import janggi.model.movement.StraightMovement;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
-import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.PositionPath;
 import java.util.List;
 
 public abstract class StraightMovePiece extends Piece {

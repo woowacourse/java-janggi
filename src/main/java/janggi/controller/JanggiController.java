@@ -1,9 +1,9 @@
 package janggi.controller;
 
 import janggi.model.Janggi;
-import janggi.model.position.Column;
-import janggi.model.position.Position;
-import janggi.model.position.Row;
+import janggi.model.position.absolute.Column;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.Row;
 import janggi.view.BoardType;
 import janggi.view.InputView;
 import janggi.view.OutputView;

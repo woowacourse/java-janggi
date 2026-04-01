@@ -2,10 +2,10 @@ package janggi.model.piece.diagonalMove;
 
 import janggi.model.Team;
 import janggi.model.movement.Movement;
-import janggi.model.movement.SangMovement;
+import janggi.model.movement.patternBasedMovement.SangMovement;
 import janggi.model.piece.PieceType;
-import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.PositionPath;
 
 public class Sang extends DiagonalMovePiece {
 

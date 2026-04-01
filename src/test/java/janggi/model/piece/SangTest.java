@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.position.PositionPath;
-import janggi.model.position.Column;
-import janggi.model.position.Position;
-import janggi.model.position.Row;
 import janggi.model.piece.diagonalMove.Sang;
 import janggi.model.piece.straightMove.Cha;
-import java.util.HashMap;
+import janggi.model.position.absolute.Column;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.PositionPath;
+import janggi.model.position.absolute.Row;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -26,9 +25,9 @@ class SangTest {
 
         Byeong byeong = new Byeong(Team.CHO);
 
-        Map<Position, Piece> board = new HashMap<>(Map.of(
+        Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.FIVE), byeong
-        ));
+        );
         Sang sang = new Sang(Team.CHO);
 
         //when
@@ -50,7 +49,7 @@ class SangTest {
         //when & then
         assertThatThrownBy(() -> sang.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("가로와 세로에 대해 하나는 2칸, 다른 하나는 3칸씩 떨어져 있어야 합니다.");
+                .hasMessage("해당 경로로 이동할 수 없습니다.");
     }
 
 

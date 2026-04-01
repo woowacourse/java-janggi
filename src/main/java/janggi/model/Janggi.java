@@ -1,7 +1,7 @@
 package janggi.model;
 
 import janggi.model.piece.Piece;
-import janggi.model.position.Position;
+import janggi.model.position.absolute.Position;
 import janggi.model.turn.ChoTurn;
 import janggi.model.turn.Turn;
 import java.util.Map;
