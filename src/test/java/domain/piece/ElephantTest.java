@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Board;
 import domain.Position;
 import domain.Team;
-import domain.strategy.NoInitializeStrategy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -13,12 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import strategy.CustomInitializeStrategy;
-import strategy.InitializeStrategy;
 
 class ElephantTest {
-    private final InitializeStrategy strategy = new NoInitializeStrategy();
-
     /**
      * 직진 1칸 + 대각선 2칸만 이동 가능
      */
@@ -26,7 +21,7 @@ class ElephantTest {
     @MethodSource("invalidDirectionsProvider")
     void 코끼리의_이동범위가_직진1칸_대각선_2칸이_아닌_경우_움직일수_없다(Position to) {
         // given
-        Board board = new Board(strategy, strategy);
+        Board board = new Board();
         Piece elephant = new Elephant(Team.CHO);
 
         // when
@@ -59,8 +54,7 @@ class ElephantTest {
         testPiece.put(from, new Elephant(Team.CHO));
         testPiece.put(to, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, strategy);
+        Board board = new Board(testPiece);
 
         // when & then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(false);
@@ -81,8 +75,7 @@ class ElephantTest {
         testPiece.put(from, new Elephant(Team.CHO));
         testPiece.put(pathPosition, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, strategy);
+        Board board = new Board(testPiece);
 
         // when & then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(false);
@@ -101,8 +94,7 @@ class ElephantTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Elephant(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, strategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThat(elephant.canMove(from, to, board)).isEqualTo(true);

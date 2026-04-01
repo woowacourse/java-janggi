@@ -5,18 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Board;
 import domain.Position;
 import domain.Team;
-import domain.strategy.NoInitializeStrategy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import strategy.CustomInitializeStrategy;
-import strategy.InitializeStrategy;
+
 
 class KingTest {
-    private final InitializeStrategy strategy = new NoInitializeStrategy();
-
     /**
      * 왕 규칙 : 앞, 뒤, 양옆 한 칸씩 이동 가능
      * 1. 도착 지점이 한칸 앞뒤, 혹은 양옆인지 검증
@@ -25,7 +21,7 @@ class KingTest {
     @MethodSource("validDirectionsPositions")
     void 도착_지점이_한칸거리이면서_양쪽_옆_혹은_앞뒤인_경우_정상_테스트(Position to){
         // given
-        Board board = new Board(strategy, strategy);
+        Board board = new Board();
         Piece king = new King(Team.CHO);
 
         // when
@@ -62,8 +58,7 @@ class KingTest {
         testPiece.put(from, new King(Team.CHO));
         testPiece.put(to, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, strategy);
+        Board board = new Board(testPiece);
 
         // when & then
         assertThat(king.canMove(from, to, board)).isEqualTo(false);

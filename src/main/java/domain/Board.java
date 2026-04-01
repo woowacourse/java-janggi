@@ -13,11 +13,23 @@ public class Board {
     private static final int MAX_COLUMN = 9;
     private static final int MIN_COLUMN = 1;
 
-    protected final Map<Position, Piece> pieces = new HashMap<>();
+    private final Map<Position, Piece> pieces = new HashMap<>();
 
     public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
         initTeamBoard(choInitializeStrategy, Team.CHO);
         initTeamBoard(hanInitializeStrategy, Team.HAN);
+    }
+
+    /**
+     * 커스텀용 보드를 만들기 위한 생성자
+     *
+     * @param pieces 보드의 넣을 기물의 정보
+     */
+    public Board(Map<Position, Piece> pieces) {
+        this.pieces.putAll(pieces);
+    }
+
+    public Board() {
     }
 
     public void move(Position from, Position to, PieceType pieceType, Team team) {

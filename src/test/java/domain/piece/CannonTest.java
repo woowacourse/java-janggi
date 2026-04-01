@@ -5,15 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Board;
 import domain.Position;
 import domain.Team;
-import domain.strategy.NoInitializeStrategy;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import strategy.CustomInitializeStrategy;
-import strategy.InitializeStrategy;
 
 class CannonTest {
-    private final InitializeStrategy emptyStrategy = new NoInitializeStrategy();
     /**
      * 1. 도착 지점이 같은 열과 행이 아닌 경우 이동 불가
      * 2. 도착지에 같은 팀이 존재하는 경우 이동 불가
@@ -29,7 +25,7 @@ class CannonTest {
     @Test
     void 도착_지점이_같은_열_혹은_행이_아닌_경우_이동_불가능하다() {
         // given
-        Board board = new Board(emptyStrategy, emptyStrategy);
+        Board board = new Board();
         Piece cannon = new Cannon(Team.CHO);
 
         // when
@@ -53,8 +49,7 @@ class CannonTest {
         testPiece.put(from, new Cannon(Team.CHO));
         testPiece.put(to, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, emptyStrategy);
+        Board board = new Board(testPiece);
 
         Piece cannon = new Cannon(Team.CHO);
 
@@ -77,8 +72,7 @@ class CannonTest {
         testPiece.put(betweenFirst, new Pawn(Team.CHO));
         testPiece.put(betweenSecond, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, emptyStrategy);
+        Board board = new Board(testPiece);
         Piece cannon = new Cannon(Team.CHO);
 
         // then
@@ -95,8 +89,7 @@ class CannonTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, cannon);
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, emptyStrategy);
+        Board board = new Board(testPiece);
 
         assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
     }
@@ -118,8 +111,7 @@ class CannonTest {
         testPiece.put(from, new Cannon(Team.CHO));
         testPiece.put(between, new Cannon(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, emptyStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
@@ -143,8 +135,7 @@ class CannonTest {
         testPiece.put(between, new Pawn(Team.CHO));
         testPiece.put(to, new Pawn(Team.HAN));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, emptyStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThat(cannon.canMove(from, to, board)).isEqualTo(true);
@@ -168,8 +159,7 @@ class CannonTest {
         testPiece.put(between, new Pawn(Team.CHO));
         testPiece.put(to, new Cannon(Team.HAN));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, emptyStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThat(cannon.canMove(from, to, board)).isEqualTo(false);
@@ -189,8 +179,7 @@ class CannonTest {
         testPiece.put(from, new Cannon(Team.CHO));
         testPiece.put(between, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, emptyStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThat(cannon.canMove(from, to, board)).isEqualTo(true);

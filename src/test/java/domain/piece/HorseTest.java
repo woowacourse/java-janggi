@@ -5,18 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Board;
 import domain.Position;
 import domain.Team;
-import domain.strategy.NoInitializeStrategy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import strategy.CustomInitializeStrategy;
-import strategy.InitializeStrategy;
 
 public class HorseTest {
-    private final InitializeStrategy strategy = new NoInitializeStrategy();
 
     /**
      * 직진 1칸 + 대각선 1칸만 이동 가능
@@ -25,7 +21,7 @@ public class HorseTest {
     @MethodSource("invalidDirectionsPositions")
     void 말의_이동범위가_직진1칸_대각선_1칸이_아닌_경우_움직일수_없다(Position to) {
         // given
-        Board board = new Board(strategy, strategy);
+        Board board = new Board();
         Piece horse = new Horse(Team.CHO);
 
         // when
@@ -57,8 +53,7 @@ public class HorseTest {
         testPiece.put(from, new Horse(Team.CHO));
         testPiece.put(to, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, strategy);
+        Board board = new Board(testPiece);
 
         // when & then
         assertThat(horse.canMove(from, to, board)).isEqualTo(false);
@@ -87,8 +82,7 @@ public class HorseTest {
         testPiece.put(from, new Horse(Team.CHO));
         testPiece.put(pathPosition, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, strategy);
+        Board board = new Board(testPiece);
 
         // when & then
         assertThat(horse.canMove(from, to, board)).isEqualTo(false);
@@ -109,8 +103,7 @@ public class HorseTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Horse(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, strategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThat(horse.canMove(from, to, board)).isEqualTo(true);

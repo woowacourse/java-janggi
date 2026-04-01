@@ -8,7 +8,6 @@ import domain.piece.King;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Rook;
-import domain.strategy.NoInitializeStrategy;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,6 @@ import strategy.OuterElephantFormationStrategy;
 import strategy.RightElephantFormationStrategy;
 
 class BoardTest {
-    private final InitializeStrategy noInitializeStrategy = new NoInitializeStrategy();
     private final InitializeStrategy noElephantHorseStrategy = new NoOpElephantHorseStrategy();
 
     static class NoOpElephantHorseStrategy extends InitializeStrategy {
@@ -277,7 +275,7 @@ class BoardTest {
     @Test
     void 출발_지점에_원하는_피스가_없는_경우_이동할_수_없다() {
         // given
-        Board board = new Board(noInitializeStrategy, noInitializeStrategy);
+        Board board = new Board();
         PieceType targetType = PAWN;
 
         // when
@@ -302,8 +300,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Cannon(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
@@ -323,8 +320,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Cannon(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatThrownBy(() -> board.move(from, to, targetType, Team.HAN))
@@ -344,8 +340,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
@@ -366,8 +361,7 @@ class BoardTest {
         testPiece.put(from, new Cannon(Team.CHO));
         testPiece.put(between, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.CANNON, Team.CHO))
@@ -382,8 +376,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Rook(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.ROOK, Team.CHO))
@@ -398,8 +391,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Guard(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.GUARD, Team.CHO))
@@ -414,8 +406,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new King(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.KING, Team.CHO))
@@ -430,8 +421,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Pawn(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatCode(() -> board.move(from, to, PAWN, Team.CHO))
@@ -446,8 +436,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Horse(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.HORSE, Team.CHO))
@@ -462,8 +451,7 @@ class BoardTest {
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Elephant(Team.CHO));
 
-        InitializeStrategy customStrategy = new CustomInitializeStrategy(testPiece);
-        Board board = new Board(customStrategy, noInitializeStrategy);
+        Board board = new Board(testPiece);
 
         // then
         assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT, Team.CHO))
