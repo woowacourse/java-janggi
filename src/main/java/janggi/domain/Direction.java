@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Team;
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Position;
 
 public enum Direction {
     NORTH(-1, 0), SOUTH(1, 0), EAST(0, 1), WEST(0, -1),

@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.FakeBoard;
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

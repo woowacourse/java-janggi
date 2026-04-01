@@ -1,7 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.piece.*;
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Position;
 
 import java.util.HashMap;
 import java.util.List;

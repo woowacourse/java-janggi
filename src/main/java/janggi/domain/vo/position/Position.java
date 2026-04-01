@@ -1,4 +1,4 @@
-package janggi.domain.vo;
+package janggi.domain.vo.position;
 
 import janggi.domain.Direction;
 

@@ -1,6 +1,6 @@
 package janggi.domain.dto;
 
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Position;
 
 public class MoveCommand {
     private final Position from;

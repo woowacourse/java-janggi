@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.board.BoardView;
 import janggi.domain.mouveRule.MoveRule;
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Position;
 
 public abstract class Piece {
     private final Team team;

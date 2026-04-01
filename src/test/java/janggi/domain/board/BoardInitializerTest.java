@@ -5,12 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
-import java.util.Collection;
-import java.util.List;
+
 import java.util.Map;
 
-import janggi.domain.vo.Position;
-import org.junit.jupiter.api.Test;
+import janggi.domain.vo.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
