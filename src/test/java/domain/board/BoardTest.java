@@ -19,35 +19,33 @@ public class BoardTest {
 
     @Test
     void 장기판_기물_배치를_테스트한다() {
+        // given
         Point point = new Point(1, 4);
         Piece general = new Piece(Team.HAN, PieceType.GENERAL);
         Intersection actualIntersection = new Intersection(point, general);
         TestIntersectionGenerator testIntersectionGenerator = new TestIntersectionGenerator(
                 List.of(actualIntersection));
-
         JanggiBoard janggiBoard = new JanggiBoard(testIntersectionGenerator);
+
+        // when
         Intersection expectedIntersection = janggiBoard.findIntersection(point);
 
+        // then
         Assertions.assertThat(actualIntersection)
                 .isEqualTo(expectedIntersection);
     }
 
-    // TODO method 리팩토링
     @Test
     void 차림이_선택되었을_때_상과_마를_정확한_위치에_배치해야_한다() {
+        // when
         Formation elephantHorseHorseElephant = Formation.ELEPHANT_HORSE_HORSE_ELEPHANT;
         JanggiIntersectionGenerator janggiIntersectionGenerator = new JanggiIntersectionGenerator(
                 elephantHorseHorseElephant, elephantHorseHorseElephant
         );
         JanggiBoard janggiBoard = new JanggiBoard(janggiIntersectionGenerator);
 
-        List<Point> elephantAndHorsePoints = Stream.concat(
-                elephantHorseHorseElephant.elephantFormations().stream()
-                        .map(x -> new Point(DEFAULT_ELEPHANT_AND_HORSE_ROW, x)),
-                elephantHorseHorseElephant.horseFormations().stream()
-                        .map(x -> new Point(DEFAULT_ELEPHANT_AND_HORSE_ROW, x))
-        ).toList();
-
+        // when
+        List<Point> elephantAndHorsePoints = getFormationPoints(elephantHorseHorseElephant);
         List<Intersection> actual = elephantAndHorsePoints.stream()
                 .map(janggiBoard::findIntersection)
                 .toList();
@@ -55,6 +53,7 @@ public class BoardTest {
         List<Intersection> expected =
                 janggiIntersectionGenerator.createElephantAndHorseByFormation(Team.HAN, Formation.ELEPHANT_HORSE_HORSE_ELEPHANT);
 
+        // then
         for (int i = 0; i < actual.size(); i++) {
             Intersection actualIntersection = actual.get(i);
             Intersection expectedIntersection = expected.get(i);
@@ -67,6 +66,7 @@ public class BoardTest {
     @Test
     @DisplayName("모든 격자점에 한 팀의 장군이 존재하지 않으면 게임이 종료된다.")
     void gameWillEndWhenOneOfGeneralDoesntExist() {
+        // given
         Point start = new Point(0, 0);
         Point end = new Point(3, 0);
 
@@ -75,8 +75,10 @@ public class BoardTest {
         Intersection origin = new Intersection(start, hanGeneral);
         Intersection destination = Intersection.empty(end);
 
+        // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
 
+        // then
         Assertions.assertThat(janggiBoard.isGameOver())
                 .isTrue();
     }
@@ -84,6 +86,7 @@ public class BoardTest {
     @Test
     @DisplayName("모든 격자점에 양 팀의 장군이 존재하면 게임은 진행된다.")
     void gameWillProgressWhenOneOfGeneralDoesntExist() {
+        // given
         Point start = new Point(0, 0);
         Point end = new Point(3, 0);
 
@@ -93,8 +96,10 @@ public class BoardTest {
         Intersection origin = new Intersection(start, hanGeneral);
         Intersection destination = new Intersection(end, choGeneral);
 
+        // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
 
+        // then
         Assertions.assertThat(janggiBoard.isGameOver())
                 .isFalse();
     }
@@ -103,6 +108,7 @@ public class BoardTest {
     @Test
     @DisplayName("CHO팀의 장군이 없으면 HAN팀이 승리한다.")
     void hanWillWinWhenChoGeneralIsDead() {
+        // given
         Point start = new Point(0, 0);
         Point end = new Point(3, 0);
 
@@ -112,11 +118,22 @@ public class BoardTest {
         Intersection origin = new Intersection(start, hanGeneral);
         Intersection destination = Intersection.empty(end);
 
+        // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
         Team actualWinner = janggiBoard.getWinner();
 
+        // then
         Assertions.assertThat(actualWinner)
                 .isEqualTo(expectedWinner);
+    }
+
+    private static List<Point> getFormationPoints(Formation elephantHorseHorseElephant) {
+        return Stream.concat(
+                elephantHorseHorseElephant.elephantFormations().stream()
+                        .map(x -> new Point(DEFAULT_ELEPHANT_AND_HORSE_ROW, x)),
+                elephantHorseHorseElephant.horseFormations().stream()
+                        .map(x -> new Point(DEFAULT_ELEPHANT_AND_HORSE_ROW, x))
+        ).toList();
     }
 
 }

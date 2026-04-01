@@ -8,16 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import static domain.point.exception.PointError.*;
 
-public class CommandTest {
+class CommandTest {
 
     @Test
     @DisplayName("Command에 좌표를 2개 초과로 입력할 경우 예외가 발생한다.")
     void shouldThrowExceptionWhenPointCountIsOverThanTwo() {
         String overPoint = "1,2 3,4 5,6";
 
-        Assertions.assertThatThrownBy(() -> {
-                    Command.from(overPoint);
-                }).isInstanceOf(PointException.class)
+        Assertions.assertThatThrownBy(() -> Command.from(overPoint))
+                .isInstanceOf(PointException.class)
                 .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
     }
 
@@ -26,9 +25,8 @@ public class CommandTest {
     void shouldThrowExceptionWhenPointCountIsLessThanTwo() {
         String lessPoint = "1,2";
 
-        Assertions.assertThatThrownBy(() -> {
-                    Command.from(lessPoint);
-                }).isInstanceOf(PointException.class)
+        Assertions.assertThatThrownBy(() -> Command.from(lessPoint))
+                .isInstanceOf(PointException.class)
                 .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
     }
 
@@ -37,9 +35,8 @@ public class CommandTest {
     void shouldThrowExceptionWhenInputIsBlank() {
         String blankInput = "";
 
-        Assertions.assertThatThrownBy(() -> {
-                    Command.from(blankInput);
-                }).isInstanceOf(PointException.class)
+        Assertions.assertThatThrownBy(() -> Command.from(blankInput))
+                .isInstanceOf(PointException.class)
                 .hasMessage(POINT_INPUT_IS_BLANK.getMessage());
     }
 
@@ -48,9 +45,8 @@ public class CommandTest {
     void shouldThrowExceptionWhenPointFormatIsWrong() {
         String wrongPointFormat = "1.2 3.3";
 
-        Assertions.assertThatThrownBy(() -> {
-                    Command.from(wrongPointFormat);
-                }).isInstanceOf(PointException.class)
+        Assertions.assertThatThrownBy(() -> Command.from(wrongPointFormat))
+                .isInstanceOf(PointException.class)
                 .hasMessage(POINT_FORMAT_IS_WRONG.getMessage());
     }
 
@@ -59,9 +55,8 @@ public class CommandTest {
     void shouldThrowExceptionWhenInputIsNotNumber() {
         String notNumberInput = "ㄱ,ㄴ ㄷ,ㄹ";
 
-        Assertions.assertThatThrownBy(() -> {
-                    Command.from(notNumberInput);
-                }).isInstanceOf(PointException.class)
+        Assertions.assertThatThrownBy(() -> Command.from(notNumberInput))
+                .isInstanceOf(PointException.class)
                 .hasMessage(POINT_IS_NOT_NUMERIC.getMessage());
     }
 

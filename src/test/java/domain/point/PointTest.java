@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 
 import static domain.point.exception.PointError.POINT_RANGE_IS_OVER;
 
-public class PointTest {
+class PointTest {
     @Test
     @DisplayName("좌표가 범위를 벗어나는 경우에 에러가 발생한다")
     void shouldThrowExceptionWhenCoordinateIsOutOfBounds() {
         int outOfIndexY = 10;
         int outOfIndexX = 9;
 
-        Assertions.assertThatThrownBy(() -> {
-                    new Point(outOfIndexY, outOfIndexX);
-                }).isInstanceOf(PointException.class)
+        Assertions.assertThatThrownBy(() -> new Point(outOfIndexY, outOfIndexX))
+                .isInstanceOf(PointException.class)
                 .hasMessage(POINT_RANGE_IS_OVER.getMessage());
     }
 
@@ -142,9 +141,8 @@ public class PointTest {
         void shouldThrowException_WhenPointMovingIsOutOfBound() {
             Point point = new Point(0, 0);
 
-            Assertions.assertThatThrownBy(() -> {
-                        point.next(Vector.LEFT_UP);
-                    }).isInstanceOf(PointException.class)
+            Assertions.assertThatThrownBy(() -> point.next(Vector.LEFT_UP))
+                    .isInstanceOf(PointException.class)
                     .hasMessage(POINT_RANGE_IS_OVER.getMessage());
         }
 
