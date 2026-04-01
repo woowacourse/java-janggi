@@ -9,6 +9,9 @@ import janggi.strategy.ArrangementStrategyFactory;
 import janggi.strategy.BoardAssembler;
 import janggi.strategy.StrategyLabel;
 import janggi.view.ApplicationView;
+import janggi.view.resolver.PieceViewResolver;
+import janggi.view.resolver.SideViewResolver;
+import janggi.view.resolver.StrategyViewResolver;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,8 +30,8 @@ public class JanggiFlow {
 
         Side current = Side.HAN;
         while (board.isNotEmpty()) {
-            view.respondBoardArray(board.to2DArray());
-            view.respondCurrentSide(current);
+            printBoard(board);
+            view.respondCurrentSide(SideViewResolver.toDisplayName(current));
 
             final Side turnSide = current;
             retryAction(() -> {
@@ -38,6 +41,15 @@ public class JanggiFlow {
             });
             current = current.switchTurn();
         }
+    }
+
+    private void printBoard(Board board) {
+        List<List<String>> displayBoard = board.to2DArray().stream()
+                .map(row -> row.stream()
+                        .map(PieceViewResolver::toDisplayName)
+                        .toList())
+                .toList();
+        view.respondBoardArray(displayBoard);
     }
 
     private Board initializeBoard() {
@@ -60,7 +72,11 @@ public class JanggiFlow {
     }
 
     private ArrangementStrategy askStrategy(Side side) {
-        int decisionNumber = view.requestArrangementStrategyDecision(side, List.of(StrategyLabel.values()));
+        List<String> strategyOptions = Stream.of(StrategyLabel.values())
+                .map(StrategyViewResolver::toDisplayName)
+                .toList();
+        int decisionNumber = view.requestArrangementStrategyDecision(SideViewResolver.toDisplayName(side),
+                strategyOptions);
         return arrangementFactory.createStrategy(StrategyLabel.from(decisionNumber), side);
     }
 

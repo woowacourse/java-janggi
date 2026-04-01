@@ -1,13 +1,7 @@
 package janggi.view;
 
-import janggi.domain.Side;
-import janggi.domain.piece.Piece;
-import janggi.strategy.StrategyLabel;
 import janggi.view.input.Input;
 import janggi.view.output.Output;
-import janggi.view.resolver.PieceViewResolver;
-import janggi.view.resolver.SideViewResolver;
-import janggi.view.resolver.StrategyViewResolver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -16,26 +10,26 @@ public class ApplicationView {
 
     private final Output outputWriter;
     private final Input inputReader;
-    private List<List<Piece>> lastBoard;
-    private Side lastSide;
+
+    private List<List<String>> lastBoard;
+    private String lastSide;
 
     public ApplicationView(Output outputWriter, Input inputReader) {
         this.outputWriter = outputWriter;
         this.inputReader = inputReader;
     }
 
-    public int requestArrangementStrategyDecision(Side side, List<StrategyLabel> strategies) {
-        outputWriter.printPromptMessage(SideViewResolver.toDisplayName(side) + "팀의 초기화 전략 번호를 입력해주세요.");
+    public int requestArrangementStrategyDecision(String side, List<String> strategyOptions) {
+        outputWriter.printPromptMessage(side + "팀의 초기화 전략 번호를 입력해주세요.");
 
-        for (StrategyLabel strategy : strategies) {
-            String strategyDecisionOption = StrategyViewResolver.toDisplayName(strategy);
-            outputWriter.printPromptMessage(strategyDecisionOption);
+        for (String option : strategyOptions) {
+            outputWriter.printPromptMessage(option);
         }
 
         return retry(inputReader::readInt);
     }
 
-    public void respondBoardArray(List<List<Piece>> board2DArray) {
+    public void respondBoardArray(List<List<String>> board2DArray) {
         this.lastBoard = board2DArray;
         outputWriter.clearScreen();
         List<List<String>> stringMatrix = new ArrayList<>();
@@ -48,24 +42,22 @@ public class ApplicationView {
         stringMatrix.add(header);
 
         for (int i = 0; i < board2DArray.size(); i++) {
-            List<Piece> row = board2DArray.get(i);
+            List<String> row = board2DArray.get(i);
             List<String> stringRow = new ArrayList<>();
 
             int rowLabel = (i + 1) % 10;
             stringRow.add(String.format("%2d", rowLabel)); // 행 레이블 (2칸)
 
-            for (Piece piece : row) {
-                stringRow.add(PieceViewResolver.toDisplayName(piece));
-            }
+            stringRow.addAll(row);
             stringMatrix.add(stringRow);
         }
 
         outputWriter.printStringMatrix(stringMatrix);
     }
 
-    public void respondCurrentSide(Side currentSide) {
+    public void respondCurrentSide(String currentSide) {
         this.lastSide = currentSide;
-        outputWriter.printPromptMessage(SideViewResolver.toDisplayName(currentSide) + "팀의 차례입니다.");
+        outputWriter.printPromptMessage(currentSide + "팀의 차례입니다.");
     }
 
     public List<Integer> requestLocationOfPiece() {
@@ -76,6 +68,16 @@ public class ApplicationView {
     public List<Integer> requestLocationToMove() {
         outputWriter.printPromptMessage("해당 기물이 이동할 좌표를 입력해주세요. (row,col)");
         return retry(() -> translateInput(inputReader.readIntegers()));
+    }
+
+    public void respondErrorMessage(RuntimeException e) {
+        if (lastBoard != null) {
+            respondBoardArray(lastBoard);
+        }
+        if (lastSide != null) {
+            respondCurrentSide(lastSide);
+        }
+        outputWriter.printErrorMessage(e);
     }
 
     private List<Integer> translateInput(List<Integer> inputs) {
@@ -89,16 +91,6 @@ public class ApplicationView {
         int col = colInput - 1;
         System.out.println("row: " + row + "  col: " + col);
         return List.of(row, col);
-    }
-
-    public void respondErrorMessage(RuntimeException e) {
-        if (lastBoard != null) {
-            respondBoardArray(lastBoard);
-        }
-        if (lastSide != null) {
-            respondCurrentSide(lastSide);
-        }
-        outputWriter.printErrorMessage(e);
     }
 
     private <T> T retry(Supplier<T> supplier) {
