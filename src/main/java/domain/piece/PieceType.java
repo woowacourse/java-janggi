@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.Position;
 import domain.movestrategy.CannonMoveStrategy;
 import domain.movestrategy.ChariotMoveStrategy;
 import domain.movestrategy.ElephantMoveStrategy;

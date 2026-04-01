@@ -2,7 +2,7 @@ package controller;
 
 import domain.board.Board;
 import domain.board.ElephantSetup;
-import domain.piece.Position;
+import domain.board.Position;
 import domain.piece.Team;
 import domain.player.Player;
 import dto.PieceInfoDto;
@@ -77,7 +77,6 @@ public class JanggiController {
     private void process(Board board, Team team) {
         Map<Position, List<Position>> moveOptions = board.getMoveOptionsFor(team);
 
-        // 한 턴 쉬기
         if (moveOptions.isEmpty()) {
             outputView.printNoMovablePiecePrompt();
             return;

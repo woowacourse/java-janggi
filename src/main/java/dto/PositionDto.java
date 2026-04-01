@@ -1,6 +1,6 @@
 package dto;
 
-import domain.piece.Position;
+import domain.board.Position;
 
 public record PositionDto(int column, int row) {
 

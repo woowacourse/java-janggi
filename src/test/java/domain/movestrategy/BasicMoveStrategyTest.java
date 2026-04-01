@@ -5,7 +5,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.Position;
+import domain.board.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

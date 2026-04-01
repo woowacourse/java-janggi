@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.piece.Delta;
 import domain.piece.Piece;
-import domain.piece.Position;
+import domain.board.Position;
 import domain.piece.Team;
 import java.util.List;
 import java.util.Map;

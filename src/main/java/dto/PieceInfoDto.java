@@ -1,7 +1,7 @@
 package dto;
 
 import domain.piece.Piece;
-import domain.piece.Position;
+import domain.board.Position;
 
 public record PieceInfoDto(String pieceName, PositionDto position) {
 

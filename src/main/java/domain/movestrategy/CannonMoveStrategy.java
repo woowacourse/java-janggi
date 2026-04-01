@@ -1,27 +1,20 @@
 package domain.movestrategy;
 
+import domain.board.Position;
 import domain.piece.Delta;
 import domain.piece.Piece;
-import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CannonMoveStrategy extends BasicMoveStrategy {
 
-    private static final List<Delta> ORTHOGONAL_DELTAS = List.of(
-            Delta.UP,
-            Delta.RIGHT,
-            Delta.DOWN,
-            Delta.LEFT
-    );
-
     @Override
     public List<Position> calculateMovablePositions(final Position from,
                                                     final Map<Position, Piece> pieces) {
         List<Position> movable = new ArrayList<>();
 
-        for (final Delta delta : ORTHOGONAL_DELTAS) {
+        for (final Delta delta : Delta.ORTHOGONAL_DELTAS) {
             movable.addAll(calculateMovableByDirection(from, pieces, delta));
         }
 
