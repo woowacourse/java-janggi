@@ -53,7 +53,6 @@ public class Board implements BoardView {
         board.put(position, piece);
     }
 
-    public
     private void validateCommonMove(Team currentTeam, Piece fromPiece, Piece toPiece) {
         if (fromPiece.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 선택하신 칸에 기물이 없습니다.");
