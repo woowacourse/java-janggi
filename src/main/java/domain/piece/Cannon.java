@@ -25,7 +25,6 @@ public class Cannon extends StraightMovingPiece {
             throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
 
-        // TODO: 포는 포를 잡을 수 없음, validateDirections에서 해당 로직을 수행하면 차도 해당해버림, validatePath에서 수행하는 것이 옳음
         if (board.isCannon(paths.getLast())) {
             throw new IllegalArgumentException(CANNON_CAN_NOT_CATCH_CANNON);
         }
