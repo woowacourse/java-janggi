@@ -31,10 +31,10 @@ public class StraightMovement {
     ) {
         List<Intersection> route = new ArrayList<>();
 
-        Intersection routeNode = from;
-        for (int i = 0; i < length && routeNode.isInBoard(); i++) {
-            routeNode = vector.next(routeNode);
+        Intersection routeNode = vector.next(from);
+        for (int i = 0; i < length; i++) {
             route.add(routeNode);
+            routeNode = vector.next(routeNode);
         }
 
         return new Route(route);
