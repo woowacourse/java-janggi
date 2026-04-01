@@ -16,8 +16,8 @@ public class CannonMoveStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
         Paths paths = new Paths();
-        for (Direction baseDir : baseDirections) {
-            addCannonPath(current, baseDir, paths);
+        for (Direction baseDirection : baseDirections) {
+            addCannonPath(current, baseDirection, paths);
         }
         return paths;
     }
@@ -69,17 +69,18 @@ public class CannonMoveStrategy implements MoveStrategy {
         return (piece != null) && !piece.isCannon();
     }
 
-    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests, Piece me) {
+    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state,
+                                           List<Position> destinations, Piece me) {
         while (it.hasNext()) {
             Position position = it.next();
             Piece target = state.get(position);
 
             if (target == null) {
-                dests.add(position);
+                destinations.add(position);
                 continue;
             }
 
-            addTargetIfCapturable(position, target, dests, me);
+            addTargetIfCapturable(position, target, destinations, me);
             return;
         }
     }
