@@ -20,15 +20,15 @@ public class MovePath {
             return false;
         }
         Delta delta = path.getFirst();
-        if (delta.dx() == 0) {
-            return dx == 0 && Integer.signum(dy) == Integer.signum(delta.dy()) && dy != 0;
+        if (delta.getDx() == 0) {
+            return dx == 0 && Integer.signum(dy) == Integer.signum(delta.getDy()) && dy != 0;
         }
-        if (delta.dy() == 0) {
-            return dy == 0 && Integer.signum(dx) == Integer.signum(delta.dx()) && dx != 0;
+        if (delta.getDy() == 0) {
+            return dy == 0 && Integer.signum(dx) == Integer.signum(delta.getDx()) && dx != 0;
         }
         return Math.abs(dx) == Math.abs(dy)
-            && Integer.signum(dx) == Integer.signum(delta.dx())
-            && Integer.signum(dy) == Integer.signum(delta.dy());
+            && Integer.signum(dx) == Integer.signum(delta.getDx())
+            && Integer.signum(dy) == Integer.signum(delta.getDy());
     }
 
     public List<Position> createRoute(Position start, Position end) {
@@ -55,13 +55,13 @@ public class MovePath {
 
     private int totalDx() {
         return path.stream()
-            .mapToInt(Delta::dx)
+            .mapToInt(Delta::getDx)
             .sum();
     }
 
     private int totalDy() {
         return path.stream()
-            .mapToInt(Delta::dy)
+            .mapToInt(Delta::getDy)
             .sum();
     }
 

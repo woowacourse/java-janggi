@@ -57,7 +57,7 @@ class PositionTest {
         Position position = new Position(4, 4);
 
         // when
-        Position movedPosition = position.move(Delta.createRightUp());
+        Position movedPosition = position.move(Delta.RIGHT_UP);
 
         // then
         assertAll(

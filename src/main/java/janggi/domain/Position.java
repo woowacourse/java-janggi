@@ -37,7 +37,7 @@ public class Position {
     }
 
     public Position move(Delta delta) {
-        return new Position(x + delta.dx(), y + delta.dy());
+        return new Position(x + delta.getDx(), y + delta.getDy());
     }
 
     public boolean isSamePosition(Position position) {
