@@ -1,32 +1,42 @@
 package model.move;
 
-import java.util.ArrayList;
+import model.board.Board;
+import model.board.Country;
+import model.pieces.Piece;
+import model.pieces.PieceType;
+
 import java.util.List;
-import model.policy.CannonDestinationPolicy;
-import model.policy.CannonPathPolicy;
-import model.policy.DestinationPolicy;
-import model.policy.PathPolicy;
+
 
 public class CannonMoveRule extends MoveRule {
 
     @Override
-    protected List<MovePattern> patterns(Move move) {
+    public boolean matches(Move move, Board board, Country country) {
         if (!move.isStraight()) {
-            return List.of();
+            return false;
         }
 
-        return createPatterns(move);
-    }
-
-    private List<MovePattern> createPatterns(Move move) {
-        PathPolicy pathPolicy = new CannonPathPolicy();
-        DestinationPolicy destinationPolicy = new CannonDestinationPolicy();
-
-        List<Step> steps = new ArrayList<>();
-        for (int i = 0; i < move.distance(); i++) {
-            steps.add(new Step(move.direction()));
+        List<Piece> betweenPieces = board.findBetweenPieces(move);
+        if (!isValidBridge(betweenPieces)) {
+            return false;
         }
-
-        return List.of(new MovePattern(steps, pathPolicy, destinationPolicy));
+        Piece from = board.findPiece(move.from());
+        Piece target = board.findPiece(move.to());
+        return isValidTarget(from, target);
     }
+
+
+    private boolean isValidBridge(List<Piece> betweenPieces) {
+        return betweenPieces.size() == 1
+                && betweenPieces.getFirst().pieceType() != PieceType.CANNON;
+    }
+
+    private boolean isValidTarget(Piece from, Piece target) {
+        if (target == null) {
+            return true;
+        }
+        return target.pieceType() != PieceType.CANNON
+                && from.country() != target.country();
+    }
+
 }

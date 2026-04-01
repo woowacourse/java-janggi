@@ -1,6 +1,8 @@
 package model.board;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import model.move.Move;
@@ -70,10 +72,24 @@ public class Board {
     }
 
     public boolean isPathEmpty(Position position) {
-        if (findPiece(position) == null) {
-            return true;
+        return findPiece(position) == null;
+    }
+
+    public List<Piece> findBetweenPieces(Move move) {
+        List<Piece> pieces = new ArrayList<>();
+        Position from = move.from();
+        Position to = move.to();
+
+        Position current = from.move(move.direction());
+
+        while (!current.isSamePosition(to)) {
+            Piece piece = findPiece(current);
+            if (piece != null) {
+                pieces.add(piece);
+            }
+            current = current.move(move.direction());
         }
-        return false;
+        return List.copyOf(pieces);
     }
 
 }

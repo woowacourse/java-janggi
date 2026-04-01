@@ -1,17 +1,10 @@
 package model.move;
 
 import java.util.List;
+
 import model.board.Board;
+import model.board.Country;
 
 public abstract class MoveRule {
-    public boolean matches(Move move, Board board) {
-        for (MovePattern pattern : patterns(move)) {
-            if (pattern.matches(move, board)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected abstract List<MovePattern> patterns(Move move);
+    public abstract boolean matches(Move move, Board board, Country country);
 }
