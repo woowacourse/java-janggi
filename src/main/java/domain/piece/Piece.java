@@ -3,7 +3,6 @@ package domain.piece;
 import domain.Position;
 import domain.Side;
 import domain.strategy.MovementStrategy;
-
 import java.util.List;
 
 public abstract class Piece {
@@ -28,7 +27,7 @@ public abstract class Piece {
     }
 
     public void checkTarget(Piece piece) {
-        if(side.equals(piece.side)) {
+        if (side.equals(piece.side)) {
             throw new IllegalArgumentException(CANNOT_CAPTURE_OWN_PIECE);
         }
     }
@@ -36,9 +35,9 @@ public abstract class Piece {
     public abstract List<Position> findRoute(Position sourcePosition, Position targetPosition);
 
     public void checkRoute(List<Piece> pieces) {
-        for(Piece piece : pieces) {
-            if(!(piece instanceof Empty)) {
-                throw new IllegalArgumentException(CANNOT_CAPTURE_OWN_PIECE);
+        for (Piece piece : pieces) {
+            if (!(piece instanceof Empty)) {
+                throw new IllegalArgumentException(INVALID_TARGET_POSITION);
             }
         }
     }
