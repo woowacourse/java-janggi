@@ -43,4 +43,25 @@ public class Path {
 
         return new Path(candidates);
     }
+
+    public static Path between(Position from, Position to) {
+        List<Position> path = new ArrayList<>();
+        Direction direction = Direction.between(from, to);
+        Position pathPosition = from;
+
+        while(!pathPosition.equals(to)) {
+            path.add(pathPosition);
+            pathPosition = pathPosition.nextPosition(direction);
+        }
+
+        return new Path(path);
+    }
+
+    public List<Position> getPositions() {
+        return List.copyOf(positions);
+    }
+
+    public int size() {
+        return positions.size();
+    }
 }
