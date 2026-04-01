@@ -6,29 +6,14 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
 public class ElephantMoveStrategy extends PieceStrategy {
 
     @Override
-    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
-        Paths paths = new Paths();
-        for (Direction baseDir : baseDirections) {
-            addElephantPaths(current, paths, baseDir);
-        }
-        return paths;
-    }
-
-    @Override
     protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
         return null;
-    }
-
-    @Override
-    protected boolean isAppendable(Position currentPosition, Position targetPosition, BoardInfo boardInfo) {
-        return false;
     }
 
     private void addElephantPaths(Position current, Paths paths, Direction baseDir) {

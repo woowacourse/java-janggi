@@ -6,7 +6,6 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,22 +13,8 @@ import java.util.Map;
 public class CannonMoveStrategy extends PieceStrategy {
 
     @Override
-    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
-        Paths paths = new Paths();
-        for (Direction baseDir : baseDirections) {
-            addCannonPath(current, baseDir, paths);
-        }
-        return paths;
-    }
-
-    @Override
     protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
         return null;
-    }
-
-    @Override
-    protected boolean isAppendable(Position currentPosition, Position targetPosition, BoardInfo boardInfo) {
-        return false;
     }
 
     private void addCannonPath(Position current, Direction baseDir, Paths paths) {

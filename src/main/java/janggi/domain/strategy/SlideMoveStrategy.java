@@ -30,12 +30,4 @@ public class SlideMoveStrategy extends PieceStrategy {
         path.makePath(next);
         return path;
     }
-
-    @Override
-    protected boolean isAppendable(Position currentPosition, Position targetPosition, BoardInfo boardInfo) {
-        if (boardInfo.isEmpty(targetPosition)) {
-            return true;
-        }
-        return !boardInfo.isAlly(currentPosition, targetPosition);
-    }
 }
