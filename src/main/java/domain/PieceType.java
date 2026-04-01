@@ -3,9 +3,15 @@ package domain;
 public enum PieceType {
     GENERAL,
     GUARD,
-    HORSE,
-    ELEPHANT,
     CHARIOT,
     CANNON,
-    SOLDIER
+    HORSE,
+    ELEPHANT,
+    SOLDIER;
+
+    private MoveStrategy moveStrategy;
+
+    public MoveStrategy moveStrategy() {
+        return moveStrategy;
+    }
 }

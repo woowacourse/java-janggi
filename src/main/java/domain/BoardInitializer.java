@@ -37,8 +37,8 @@ public class BoardInitializer {
 
     private static Map<Position, Piece> createGeneral() {
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(GENERAL_COLUMN, CHO_GENERAL_ROW), new Piece(Camp.CHO, PieceType.GENERAL));
-        pieces.put(new Position(GENERAL_COLUMN, HAN_GENERAL_ROW), new Piece(Camp.HAN, PieceType.GENERAL));
+        pieces.put(new Position(GENERAL_COLUMN, CHO_GENERAL_ROW), Piece.of(Camp.CHO, PieceType.GENERAL));
+        pieces.put(new Position(GENERAL_COLUMN, HAN_GENERAL_ROW), Piece.of(Camp.HAN, PieceType.GENERAL));
 
         return pieces;
     }
@@ -46,8 +46,8 @@ public class BoardInitializer {
     private static Map<Position, Piece> createGuard() {
         Map<Position, Piece> pieces = new HashMap<>();
         for (Integer column : GUARD_COLUMNS) {
-            pieces.put(new Position(column, CHO_BASE_ROW), new Piece(Camp.CHO, PieceType.GUARD));
-            pieces.put(new Position(column, HAN_BASE_ROW), new Piece(Camp.HAN, PieceType.GUARD));
+            pieces.put(new Position(column, CHO_BASE_ROW), Piece.of(Camp.CHO, PieceType.GUARD));
+            pieces.put(new Position(column, HAN_BASE_ROW), Piece.of(Camp.HAN, PieceType.GUARD));
         }
 
         return pieces;
@@ -56,8 +56,8 @@ public class BoardInitializer {
     private static Map<Position, Piece> createChariot() {
         Map<Position, Piece> pieces = new HashMap<>();
         for (Integer column : CHARIOT_COLUMNS) {
-            pieces.put(new Position(column, CHO_BASE_ROW), new Piece(Camp.CHO, PieceType.CHARIOT));
-            pieces.put(new Position(column, HAN_BASE_ROW), new Piece(Camp.HAN, PieceType.CHARIOT));
+            pieces.put(new Position(column, CHO_BASE_ROW), Piece.of(Camp.CHO, PieceType.CHARIOT));
+            pieces.put(new Position(column, HAN_BASE_ROW), Piece.of(Camp.HAN, PieceType.CHARIOT));
         }
 
         return pieces;
@@ -66,8 +66,8 @@ public class BoardInitializer {
     private static Map<Position, Piece> createCannon() {
         Map<Position, Piece> pieces = new HashMap<>();
         for (Integer column : CANNON_COLUMNS) {
-            pieces.put(new Position(column, CHO_CANNON_ROW), new Piece(Camp.CHO, PieceType.CANNON));
-            pieces.put(new Position(column, HAN_CANNON_ROW), new Piece(Camp.HAN, PieceType.CANNON));
+            pieces.put(new Position(column, CHO_CANNON_ROW), Piece.of(Camp.CHO, PieceType.CANNON));
+            pieces.put(new Position(column, HAN_CANNON_ROW), Piece.of(Camp.HAN, PieceType.CANNON));
         }
 
         return pieces;
@@ -76,8 +76,8 @@ public class BoardInitializer {
     private static Map<Position, Piece> createHorseAndElephant(BoardSetting boardSetting) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (int i = 0; i < boardSetting.piecesArrangement().size(); i++) {
-            pieces.put(new Position(HORSE_AND_ELEPHANT_COLUMNS.get(i), CHO_BASE_ROW), new Piece(Camp.CHO, boardSetting.piecesArrangement().get(i)));
-            pieces.put(new Position(HORSE_AND_ELEPHANT_COLUMNS.get(i), HAN_BASE_ROW), new Piece(Camp.HAN, boardSetting.piecesArrangement().get(i)));
+            pieces.put(new Position(HORSE_AND_ELEPHANT_COLUMNS.get(i), CHO_BASE_ROW), Piece.of(Camp.CHO, boardSetting.piecesArrangement().get(i)));
+            pieces.put(new Position(HORSE_AND_ELEPHANT_COLUMNS.get(i), HAN_BASE_ROW), Piece.of(Camp.HAN, boardSetting.piecesArrangement().get(i)));
         }
 
         return pieces;
@@ -86,8 +86,8 @@ public class BoardInitializer {
     private static Map<Position, Piece> createSoldier() {
         Map<Position, Piece> pieces = new HashMap<>();
         for (Integer column : SOLDIER_COLUMNS) {
-            pieces.put(new Position(column, CHO_SOLDIER_ROW), new Piece(Camp.CHO, PieceType.SOLDIER));
-            pieces.put(new Position(column, HAN_SOLDIER_ROW), new Piece(Camp.HAN, PieceType.SOLDIER));
+            pieces.put(new Position(column, CHO_SOLDIER_ROW), Piece.of(Camp.CHO, PieceType.SOLDIER));
+            pieces.put(new Position(column, HAN_SOLDIER_ROW), Piece.of(Camp.HAN, PieceType.SOLDIER));
         }
 
         return pieces;
