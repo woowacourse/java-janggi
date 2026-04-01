@@ -51,13 +51,6 @@ public class Board implements BoardChecker {
         return isDestinationGeneral;
     }
 
-    private boolean isGeneralAt(Position position) {
-        if (!board.containsKey(position)) {
-            return false;
-        }
-        return board.get(position).isGeneral();
-    }
-
     public void validateCampTurn(Position source, Camp turn) {
         validateSource(source);
         Piece piece = board.get(source);
@@ -66,13 +59,20 @@ public class Board implements BoardChecker {
         }
     }
 
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
+    }
+
+    private boolean isGeneralAt(Position position) {
+        if (!board.containsKey(position)) {
+            return false;
+        }
+        return board.get(position).isGeneral();
+    }
+
     private void validateSource(Position source) {
         if (!board.containsKey(source)) {
             throw new IllegalArgumentException(SOURCE_NOT_EXISTS);
         }
-    }
-
-    public Map<Position, Piece> getBoard() {
-        return Map.copyOf(board);
     }
 }
