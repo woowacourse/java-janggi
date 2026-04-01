@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MaterialScore {
+    private static final String INVALID_NEGATIVE_DECREASE_SCORE = "차감할 점수는 0보다 커야 합니다.";
+    private static final String INVALID_SCORE_SIDE = "해당 진영의 점수 정보가 존재하지 않습니다";
+
     private final Map<Side, Boolean> isGungAlive;
     private final Map<Side, Integer> score;
 
@@ -28,12 +31,12 @@ public class MaterialScore {
 
     public void decreaseScore(Side side, int pieceScore) {
         if(pieceScore < 0) {
-            throw new IllegalStateException("");
+            throw new IllegalArgumentException(INVALID_NEGATIVE_DECREASE_SCORE);
         }
 
         Integer currentScore = score.get(side);
         if(currentScore == null) {
-            throw new IllegalArgumentException("");
+            throw new IllegalStateException(INVALID_SCORE_SIDE);
         }
 
         score.put(side, currentScore - pieceScore);
