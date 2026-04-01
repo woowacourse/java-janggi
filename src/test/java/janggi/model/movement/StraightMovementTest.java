@@ -1,17 +1,15 @@
-package janggi.model.board.movement;
+package janggi.model.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.position.PositionPath;
-import janggi.model.position.Column;
-import janggi.model.position.Position;
-import janggi.model.position.Row;
-import janggi.model.movement.Movement;
-import janggi.model.movement.StraightMovement;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Row;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

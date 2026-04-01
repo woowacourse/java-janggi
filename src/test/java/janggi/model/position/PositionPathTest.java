@@ -1,12 +1,8 @@
-package janggi.model.board;
+package janggi.model.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.model.Team;
-import janggi.model.position.Column;
-import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
-import janggi.model.position.Row;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import java.util.List;

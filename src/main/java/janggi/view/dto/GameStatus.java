@@ -2,22 +2,27 @@ package janggi.view.dto;
 
 import janggi.model.Janggi;
 import janggi.model.piece.Piece;
-import janggi.model.piece.Byeong;
-import janggi.model.piece.diagonalMove.Ma;
-import janggi.model.piece.diagonalMove.Sang;
-import janggi.model.piece.straightMove.Cha;
-import janggi.model.piece.straightMove.Pho;
-import janggi.model.piece.palace.Jang;
-import janggi.model.piece.palace.Sa;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;
+import janggi.view.PieceSymbol;
 import java.util.Map;
 
 public record GameStatus(
         String board,
         String team
 ) {
+    private static final String TOP_LINE = "    1  2  3  4  5  6  7  8  9\n  ┌───────────────────────────┐\n";
+    private static final String BOTTOM_LINE = "  └───────────────────────────┘\n";
+    private static final String LEFT_LINE = " |";
+    private static final String RIGHT_LINE = "|\n";
+
+    private static final int ROW_START = 1;
+    private static final int ROW_END = 10;
+
+    private static final int COLUMN_START = 1;
+    private static final int COLUMN_END = 9;
+
     public static GameStatus from(Janggi janggi) {
         return new GameStatus(
                 renderBoard(janggi.getBoard()),
@@ -26,84 +31,55 @@ public record GameStatus(
     }
 
     private static String renderBoard(Map<Position, Piece> board) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(TOP_LINE);
 
-        sb.append("    1  2  3  4  5  6  7  8  9\n");
-        sb.append("  ┌───────────────────────────┐\n");
-
-        int rowStart = 1;
-        int rowEnd = 10;
-
-        for (int row = rowStart; row <= rowEnd; row++) {
-            sb.append(renderBoardRow(board, row));
+        for (int row = ROW_START; row <= ROW_END; row++) {
+            renderBoardRow(sb, board, row);
         }
 
-        sb.append("  └───────────────────────────┘\n");
-
-        return sb.toString();
+        return sb.append(BOTTOM_LINE)
+                .toString();
     }
 
-    private static StringBuilder renderBoardRow(
+    private static void renderBoardRow(
+            StringBuilder sb,
             Map<Position, Piece> board,
             int row
     ) {
-        StringBuilder sb = new StringBuilder();
-        int colStart = 1;
-        int colEnd = 9;
-
         int displayRow = row;
 
         if (row == 10) {
             displayRow = 0;
         }
 
-        sb.append(displayRow).append(" │");
+        sb.append(displayRow).append(LEFT_LINE);
 
-        for (int col = colStart; col <= colEnd; col++) {
-            sb.append(renderBoardColumn(board, row, col));
+        for (int col = COLUMN_START; col <= COLUMN_END; col++) {
+            renderBoardColumn(sb, board, row, col);
         }
-        sb.append("│\n");
-        return sb;
+
+        sb.append(RIGHT_LINE);
     }
 
-    private static StringBuilder renderBoardColumn(
+    private static void renderBoardColumn(
+            StringBuilder sb,
             Map<Position, Piece> board,
             int row,
             int col
     ) {
-        StringBuilder sb = new StringBuilder();
         Position position = new Position(Row.of(row), Column.of(col));
 
         String symbol = "·";
 
         if (board.containsKey(position)) {
             Piece piece = board.get(position);
-
-            if (piece instanceof Ma) {
-                symbol = "마";
-            }
-            if (piece instanceof Sang) {
-                symbol = "상";
-            }
-            if (piece instanceof Cha) {
-                symbol = "차";
-            }
-            if (piece instanceof Pho) {
-                symbol = "포";
-            }
-            if (piece instanceof Jang) {
-                symbol = "장";
-            }
-            if (piece instanceof Sa) {
-                symbol = "사";
-            }
-            if (piece instanceof Byeong) {
-                symbol = "병";
-            }
+            symbol = PieceSymbol
+                    .from(piece.getPieceType())
+                    .getSymbol();
         }
 
-        sb.append(" ").append(String.format("%-2s", symbol));
-        return sb;
+        sb.append(" ")
+                .append(String.format("%-2s", symbol));
     }
 
     private static String renderTeam(boolean isChoTurn) {

@@ -1,15 +1,17 @@
 package janggi.model.piece;
 
 import janggi.model.Team;
-import janggi.model.position.PositionPath;
 import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
 import java.util.List;
 
 public abstract class Piece {
     protected final Team team;
+    protected final  PieceType pieceType;
 
-    protected Piece(Team team) {
+    protected Piece(Team team, PieceType pieceType) {
         this.team = team;
+        this.pieceType = pieceType;
     }
 
     public abstract PositionPath getLegalPath(Position from, Position to);
@@ -24,5 +26,9 @@ public abstract class Piece {
 
     public boolean isSameTeam(Team other) {
         return this.team.equals(other);
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 }
