@@ -11,7 +11,12 @@ public class ByeongMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
         for (int direction = 0; direction < dColumn.length; direction++) {
-            Position changedPosition = start.go(dRow[direction], dColumn[direction]);
+            Position changedPosition;
+            try {
+                changedPosition = start.go(dRow[direction], dColumn[direction]);
+            } catch (IllegalArgumentException e) {
+                continue;
+            }
 
             if (changedPosition.equals(destination)) {
                 return getIntermediatePositions();

@@ -35,7 +35,12 @@ public class SangMoveStrategy implements MoveStrategy {
             int[] rowSteps = dRow[direction];
             int[] columnSteps = dColumn[direction];
 
-            Position destinationCandidate = start.go(columnSteps[DESTINATION_INDEX], rowSteps[DESTINATION_INDEX]);
+            Position destinationCandidate;
+            try {
+                destinationCandidate = start.go(columnSteps[DESTINATION_INDEX], rowSteps[DESTINATION_INDEX]);
+            } catch (IllegalArgumentException e) {
+                continue;
+            }
 
             if (destination.equals(destinationCandidate)) {
                 return getIntermediatePositions(start, rowSteps, columnSteps);

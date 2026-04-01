@@ -11,8 +11,8 @@ class SingleStepMoveStrategyTest {
     @Test
     void 움직일_수_있다면_경로를_반환한다_전진() {
         // given
-        Position start = Position.of(2, 10);
-        Position destination = Position.of(3, 10);
+        Position start = Position.of(2, 9);
+        Position destination = Position.of(3, 9);
         MoveStrategy strategy = new SingleStepMoveStrategy();
 
         // when
@@ -25,8 +25,8 @@ class SingleStepMoveStrategyTest {
     @Test
     void 움직일_수_있다면_경로를_반환한다_후진() {
         // given
-        Position start = Position.of(2, 10);
-        Position destination = Position.of(1, 10);
+        Position start = Position.of(2, 9);
+        Position destination = Position.of(1, 9);
         MoveStrategy strategy = new SingleStepMoveStrategy();
 
         // when
@@ -39,8 +39,8 @@ class SingleStepMoveStrategyTest {
     @Test
     void 움직일_수_있다면_경로를_반환한다_우측() {
         // given
-        Position start = Position.of(2, 9);
-        Position destination = Position.of(2, 10);
+        Position start = Position.of(2, 8);
+        Position destination = Position.of(2, 9);
         MoveStrategy strategy = new SingleStepMoveStrategy();
 
         // when
@@ -53,8 +53,8 @@ class SingleStepMoveStrategyTest {
     @Test
     void 움직일_수_있다면_경로를_반환한다_좌측() {
         // given
-        Position start = Position.of(2, 10);
-        Position destination = Position.of(2, 9);
+        Position start = Position.of(2, 9);
+        Position destination = Position.of(2, 8);
         MoveStrategy strategy = new SingleStepMoveStrategy();
 
         // when

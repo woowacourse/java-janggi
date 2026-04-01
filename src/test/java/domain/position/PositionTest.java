@@ -17,8 +17,7 @@ class PositionTest {
     private static Stream<Arguments> goValues() {
         return Stream.of(
                 Arguments.of(Position.of(1, 2), 2, 3, Position.of(3, 5)),
-                Arguments.of(Position.of(3, 6), -2, 1, Position.of(1, 7)),
-                Arguments.of(Position.of(5, -3), 2, 7, Position.of(7, 4))
+                Arguments.of(Position.of(3, 6), -2, 1, Position.of(1, 7))
         );
     }
 

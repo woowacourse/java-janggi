@@ -33,8 +33,13 @@ public class MaMoveStrategy implements MoveStrategy {
         for (int direction = 0; direction < dColumn.length; direction++) {
             int[] rowSteps = dRow[direction];
             int[] columnSteps = dColumn[direction];
-
-            Position destinationCandidate = start.go(rowSteps[DESTINATION_INDEX], columnSteps[DESTINATION_INDEX]);
+            Position destinationCandidate;
+            
+            try {
+                destinationCandidate = start.go(rowSteps[DESTINATION_INDEX], columnSteps[DESTINATION_INDEX]);
+            } catch (IllegalArgumentException e) {
+                continue;
+            }
 
             if (destination.equals(destinationCandidate)) {
                 return getIntermediatePositions(start, rowSteps, columnSteps);

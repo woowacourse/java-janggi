@@ -3,10 +3,20 @@ package domain.position;
 import java.util.Objects;
 
 public class Row {
+    private static final int MIN_RANGE = 1;
+    private static final int MAX_RANGE = 10;
+    private static final String OUT_OF_RANGE = String.format("Row는 %d ~ %d 사이로 입력해야 합니다.", MIN_RANGE, MAX_RANGE);
     private final int value;
 
     public Row(int value) {
+        validate(value);
         this.value = value;
+    }
+
+    public void validate(int value) {
+        if (value < MIN_RANGE || value > MAX_RANGE) {
+            throw new IllegalArgumentException(OUT_OF_RANGE);
+        }
     }
 
     public Row add(int value) {
