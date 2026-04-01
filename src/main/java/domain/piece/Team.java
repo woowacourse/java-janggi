@@ -20,10 +20,4 @@ public enum Team {
     public boolean isCho() {
         return isCho;
     }
-
-    public void validateSameTeam(Turn turn) {
-        if (this.isCho != turn.isCho()) {
-            throw new IllegalArgumentException(ERROR_NOT_SAME_TEAM);
-        }
-    }
 }

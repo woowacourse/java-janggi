@@ -23,9 +23,9 @@ public abstract class Piece {
         return false;
     }
 
-    public void isSameTeam(Piece piece) {
-        if (!isEmptyPiece(piece)) {
-            validateSameTeam(piece);
+    public void validateNotSameTeam(Piece piece) {
+        if (!isEmptyPiece(piece) && piece.isSameTeam(this.team)) {
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 
@@ -33,24 +33,14 @@ public abstract class Piece {
         return this.team.equals(team);
     }
 
-    public void isSameTeam(Turn turn) {
-        team.validateSameTeam(turn);
-    }
-
     protected void validateSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
         Piece fromPiece = board.get(from);
         Piece toPiece = board.get(to);
-        fromPiece.isSameTeam(toPiece);
+        fromPiece.validateNotSameTeam(toPiece);
     }
 
     private boolean isEmptyPiece(Piece piece) {
         return piece.isEmpty();
-    }
-
-    private void validateSameTeam(Piece piece) {
-        if (piece.isSameTeam(this.team)) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
     }
 
     public boolean isCannon() {

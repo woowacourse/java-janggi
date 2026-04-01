@@ -41,7 +41,7 @@ public class JanggiGame {
         return BoardDto.from(board.getBoard());
     }
 
-    public void checkSameTeam(List<Integer> inputTokens, Turn turn) {
-        board.checkSameTeam(inputTokens, turn);
+    public void checkSameTeam(List<Integer> pieceLocation, Turn turn) {
+        board.checkSameTeam(pieceLocation, turn);
     }
 }

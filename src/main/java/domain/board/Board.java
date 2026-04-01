@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class Board {
 
+    private static final String ERROR_NOT_SAME_TEAM = "본인의 진영의 기물이 아닙니다.";
     private static final int TOTAL_GENERAL_COUNT = 2;
 
     protected final Map<Coordination, Piece> board;
@@ -35,10 +36,17 @@ public class Board {
                 .count() == TOTAL_GENERAL_COUNT;
     }
 
-    public void checkSameTeam(List<Integer> inputTokens, Turn turn) {
-        Coordination coordination = Coordination.of(inputTokens.get(0), inputTokens.get(1));
+    public void checkSameTeam(List<Integer> pieceLocation, Turn turn) {
+        Coordination coordination = Coordination.of(pieceLocation.get(0), pieceLocation.get(1));
         Piece piece = board.get(coordination);
-        piece.isSameTeam(turn);
+
+        validateSameTeam(turn, piece);
+    }
+
+    private static void validateSameTeam(Turn turn, Piece piece) {
+        if (!piece.isSameTeam(turn.team())) {
+            throw new IllegalArgumentException(ERROR_NOT_SAME_TEAM);
+        }
     }
 
     public Map<Coordination, Piece> getBoard() {

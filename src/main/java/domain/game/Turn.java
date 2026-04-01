@@ -1,5 +1,7 @@
 package domain.game;
 
+import domain.piece.Team;
+
 public enum Turn {
 
     CHO(true, "초"),
@@ -19,6 +21,13 @@ public enum Turn {
 
     public String getName() {
         return name;
+    }
+
+    public Team team() {
+        if (this.isCho == CHO.isCho()) {
+            return Team.CHO;
+        }
+        return Team.HAN;
     }
 
     public Turn reverse() {
