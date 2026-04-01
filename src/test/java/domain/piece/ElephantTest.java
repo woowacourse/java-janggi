@@ -6,7 +6,6 @@ import domain.Board;
 import domain.Position;
 import domain.Team;
 import domain.strategy.NoInitializeStrategy;
-import domain.stub.StubBoard;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;

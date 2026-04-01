@@ -26,11 +26,7 @@ public class Elephant extends Piece {
         }
 
         // 3. 도착지랑 출발지 사이에 말이 존재하지 않는 경우 이동 가능
-        if (hasPieceInPath(from, to, board)) {
-            return false;
-        }
-
-        return true;
+        return !hasPieceInPath(from, to, board);
     }
 
     private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
@@ -48,10 +44,11 @@ public class Elephant extends Piece {
         int row = Integer.signum(rowDistance);
         int col = Integer.signum(columnDistance);
 
-        Position duff = Position.from(row, col);
+        Position  moveDirection = Position.from(row, col);
 
         for (int i = 0; i < 2; i++) {
-            Position pathPosition = to.diff(duff);
+            Position pathPosition = to.diff(moveDirection);
+            to = pathPosition;
             if (!board.isEmpty(pathPosition)) {
                 return true;
             }
