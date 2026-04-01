@@ -6,11 +6,12 @@ import janggi.domain.board.Board;
 import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;
-import janggi.domain.board.initializer.dto.ElephantSetUpDto;
 import janggi.domain.piece.Camp;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.CampDto;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class JanggiGame {
@@ -30,19 +31,19 @@ public class JanggiGame {
     }
 
     private Board createBoard() {
-        ElephantSetUpDto hanElephantSetUp = readElephantSetUp(Camp.HAN);
-        ElephantSetUpDto choElephantSetUp = readElephantSetUp(Camp.CHO);
+        Map<Camp, ElephantSetUp> elephantSetUps = new HashMap<>();
+        readElephantSetUp(elephantSetUps, Camp.HAN);
+        readElephantSetUp(elephantSetUps, Camp.CHO);
 
-        BoardInitializer initializer
-                = new StandardBoardInitializer(hanElephantSetUp, choElephantSetUp);
+        BoardInitializer initializer = new StandardBoardInitializer(elephantSetUps);
         return new Board(initializer);
     }
 
-    private ElephantSetUpDto readElephantSetUp(Camp camp) {
+    private void readElephantSetUp(Map<Camp, ElephantSetUp> elephantSetUps, Camp camp) {
         ElephantSetUp elephantSetUp = retryOnInvalidInput(
                 () -> inputView.readElephantSetting(CampDto.from(camp))
         );
-        return new ElephantSetUpDto(camp, elephantSetUp);
+        elephantSetUps.put(camp, elephantSetUp);
     }
 
     private void play(Board board) {

@@ -1,7 +1,6 @@
 package janggi.domain.board.initializer;
 
 import janggi.domain.Position;
-import janggi.domain.board.initializer.dto.ElephantSetUpDto;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -44,15 +43,12 @@ public enum InitialPiecePlacement {
         this.piece = new Piece(pieceType, camp);
     }
 
-    public static Map<Position, Piece> init(ElephantSetUpDto firstChoice, ElephantSetUpDto secondChoice) {
+    public static Map<Position, Piece> initialize() {
         Map<Position, Piece> board = new HashMap<>();
 
         for (InitialPiecePlacement placement : values()) {
             board.put(placement.position, placement.piece);
         }
-
-        board.putAll(firstChoice.settingUp());
-        board.putAll(secondChoice.settingUp());
         return board;
     }
 }
