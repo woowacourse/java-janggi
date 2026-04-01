@@ -27,10 +27,6 @@ public class JanggiBoard implements PieceProvider {
 
 
     public void move(Position from, Position to, Piece currentPiece) {
-        boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
-        if (!movePiece) {
-            throw new IllegalArgumentException("해당 위치로 이동할 수 없는 기물입니다.");
-        }
         janggiBoard.put(to, currentPiece);
         janggiBoard.put(from, new Blank());
     }

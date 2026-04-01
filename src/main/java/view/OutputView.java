@@ -16,10 +16,20 @@ public class OutputView {
     private static final int BOARD_COLUMNS = 9;
 
     public void printBoard(JanggiBoard board) {
+        printColumnIndices();
         for (int row = 0; row < BOARD_ROWS; row++) {
+            System.out.printf("%2d ", row);
             printRow(board, row);
             System.out.println();
         }
+    }
+
+    private void printColumnIndices() {
+        System.out.print("   ");
+        for (int col = 0; col < BOARD_COLUMNS; col++) {
+            System.out.print(col + "．");
+        }
+        System.out.println();
     }
 
     private void printRow(JanggiBoard board, int row) {
