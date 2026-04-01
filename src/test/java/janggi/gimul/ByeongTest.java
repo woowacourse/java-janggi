@@ -81,6 +81,30 @@ class ByeongTest {
                 .isEqualTo(0);
     }
 
+    @DisplayName("대각선으로 이동하면 예외가 발생한다.")
+    @Test
+    void getLegalPath_diagonal() {
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.SIX, Column.SIX);
+        Byeong byeong = new Byeong(Team.CHO);
+
+        assertThatThrownBy(() -> byeong.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
+    @DisplayName("두 칸 이동하면 예외가 발생한다.")
+    @Test
+    void getLegalPath_twoStep() {
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.FIVE, Column.FIVE);
+        Byeong byeong = new Byeong(Team.CHO);
+
+        assertThatThrownBy(() -> byeong.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
     @DisplayName("초나라일때 남쪽으로 움직이면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid_cho() {
