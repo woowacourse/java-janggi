@@ -1,23 +1,25 @@
 package domain.strategy;
 
 import domain.position.Position;
-import domain.piece.PieceProvider;
+import domain.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HorseStrategy implements MoveStrategy {
+public class HorseStrategy implements Strategy {
     @Override
-    public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
+    public List<Position> getMoveCandidates(Position from) {
         List<Position> candidates = new ArrayList<>();
 
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction straight : straightDirections) {
-            int myeokRow = currentPosition.getRow() + straight.getRowOffset();
-            int myeokCol = currentPosition.getColumn() + straight.getColOffset();
+            // 1칸 직선 방향으로 가기
+            int myeokRow = from.getRow() + straight.getRowOffset();
+            int myeokCol = from.getColumn() + straight.getColOffset();
             Position myeokPosition = new Position(myeokRow, myeokCol);
 
+            // 1칸 이동한 좌표가 빈 좌표인지
             if (board.isBlank(myeokPosition)) {
                 List<Direction> diagonals = getDiagonalsFor(straight);
                 for (Direction diag : diagonals) {

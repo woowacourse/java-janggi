@@ -23,7 +23,7 @@ public class JanggiController {
                 Position from = inputMovePosition();
                 Position to = inputTargetPosition();
                 Piece currentPiece = janggiBoard.getPiece(from);
-                boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
+                boolean movePiece = currentPiece.canMove(from, to);
                 if (!movePiece) {
                     throw new IllegalArgumentException("해당 위치로 이동할 수 없는 기물입니다.");
                 }

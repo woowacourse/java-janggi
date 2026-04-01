@@ -1,5 +1,6 @@
 package janggiBoard.strategyTest;
 
+import domain.PieceProvider;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;

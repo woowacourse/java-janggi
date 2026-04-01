@@ -1,5 +1,6 @@
-package domain.piece;
+package domain;
 
+import domain.piece.Piece;
 import domain.position.Position;
 
 public interface PieceProvider {

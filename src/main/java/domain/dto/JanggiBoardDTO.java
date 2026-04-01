@@ -1,5 +1,6 @@
-package domain;
+package domain.dto;
 
+import domain.JanggiBoard;
 import java.util.List;
 
 public record JanggiBoardDTO(List<PieceDTO> janggiBoardDto) {

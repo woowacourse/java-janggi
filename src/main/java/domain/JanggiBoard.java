@@ -1,5 +1,8 @@
 package domain;
 
+import static domain.Index.BOARD_COLUMNS;
+import static domain.Index.BOARD_ROWS;
+
 import domain.piece.*;
 
 import domain.position.Position;
@@ -8,8 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JanggiBoard implements PieceProvider {
-    private static final int BOARD_ROWS = 10;
-    private static final int BOARD_COLUMNS = 9;
 
     private final Map<Position, Piece> janggiBoard;
 
@@ -23,14 +24,20 @@ public class JanggiBoard implements PieceProvider {
         return Collections.unmodifiableMap(janggiBoard);
     }
 
-    public void move(Position currentPosition, Position targetPosition, Piece currentPiece) {
-        janggiBoard.put(targetPosition, currentPiece);
-        janggiBoard.put(currentPosition, new Blank());
+
+
+    public void move(Position from, Position to, Piece currentPiece) {
+        boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
+        if (!movePiece) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없는 기물입니다.");
+        }
+        janggiBoard.put(to, currentPiece);
+        janggiBoard.put(from, new Blank());
     }
 
     private void initializeBoard() {
-        for (int row = 0; row < BOARD_ROWS; row++) {
-            for (int column = 0; column < BOARD_COLUMNS; column++) {
+        for (int row = 0; row < BOARD_ROWS.getIndex(); row++) {
+            for (int column = 0; column < BOARD_COLUMNS.getIndex(); column++) {
                 janggiBoard.put(new Position(row, column), new Blank());
             }
         }

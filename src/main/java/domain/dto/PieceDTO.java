@@ -1,5 +1,6 @@
-package domain;
+package domain.dto;
 
+import domain.Team;
 import domain.piece.Piece;
 import domain.position.Position;
 

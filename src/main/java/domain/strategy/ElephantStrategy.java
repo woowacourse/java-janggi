@@ -1,22 +1,22 @@
 package domain.strategy;
 
 import domain.position.Position;
-import domain.piece.PieceProvider;
+import domain.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElephantStrategy implements MoveStrategy{
+public class ElephantStrategy implements Strategy {
 
     @Override
-    public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
+    public List<Position> getMoveCandidates(Position from) {
         List<Position> candidates = new ArrayList<>();
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction straight : straightDirections) {
             Position myeok1 = new Position(
-                    currentPosition.getRow() + straight.getRowOffset(),
-                    currentPosition.getColumn() + straight.getColOffset()
+                    from.getRow() + straight.getRowOffset(),
+                    from.getColumn() + straight.getColOffset()
             );
 
             if (!board.isBlank(myeok1)) continue;

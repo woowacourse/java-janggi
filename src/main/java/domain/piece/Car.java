@@ -1,14 +1,15 @@
 package domain.piece;
 
+import domain.PieceProvider;
 import domain.position.Position;
 import domain.Team;
 import domain.strategy.CarStrategy;
-import domain.strategy.MoveStrategy;
+import domain.strategy.Strategy;
 
 import java.util.List;
 
 public class Car extends Piece {
-    private final MoveStrategy moveStrategy;
+    private final Strategy moveStrategy;
 
     public Car(Team team) {
         super(team);
@@ -16,11 +17,11 @@ public class Car extends Piece {
     }
 
     @Override
-    public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
-        List<Position> moveCandidates = moveStrategy.getMoveCandidates(currentPosition, pieceProvider);
+    public boolean canMove(Position from, Position to, PieceProvider pieceProvider) {
+        List<Position> moveCandidates = moveStrategy.getMoveCandidates(from, pieceProvider);
 
         for (Position candidatePosition : moveCandidates) {
-            if (candidatePosition.equals(targetPosition)) {
+            if (candidatePosition.equals(to)) {
                 return true;
             }
         }

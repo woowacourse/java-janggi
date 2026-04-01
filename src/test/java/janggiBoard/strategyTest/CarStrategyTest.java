@@ -3,7 +3,7 @@ package janggiBoard.strategyTest;
 import domain.position.Position;
 import domain.piece.Blank;
 import domain.piece.Piece;
-import domain.piece.PieceProvider;
+import domain.PieceProvider;
 import domain.strategy.CarStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

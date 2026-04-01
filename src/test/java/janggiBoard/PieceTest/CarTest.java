@@ -5,7 +5,7 @@ import domain.Team;
 import domain.piece.Blank;
 import domain.piece.Car;
 import domain.piece.Piece;
-import domain.piece.PieceProvider;
+import domain.PieceProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

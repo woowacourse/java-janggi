@@ -2,19 +2,19 @@ package domain.strategy;
 
 import domain.position.Position;
 import domain.piece.Cannon;
-import domain.piece.PieceProvider;
+import domain.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CannonStrategy implements MoveStrategy{
+public class CannonStrategy implements Strategy {
 
     @Override
-    public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
+    public List<Position> getMoveCandidates(Position from) {
         List<Position> candidates = new ArrayList<>();
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
         for (Direction direction : straightDirections) {
-            addCannonCandidates(currentPosition, direction, board, candidates);
+            addCannonCandidates(from, direction, board, candidates);
         }
         return candidates;
     }

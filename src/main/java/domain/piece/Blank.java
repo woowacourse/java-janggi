@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.PieceProvider;
 import domain.Team;
 import domain.position.Position;
 
@@ -10,7 +11,7 @@ public class Blank extends Piece {
     }
 
     @Override
-    public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
+    public boolean canMove(Position from, Position to, PieceProvider pieceProvider) {
         return false;
     }
 }

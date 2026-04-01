@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.PieceProvider;
 import domain.position.Position;
 import domain.Team;
 
@@ -14,9 +15,5 @@ public abstract class Piece {
         return team;
     }
 
-    public void canMove(Position targetPosition) {
-        // moveStrategy.movable();
-    }
-
-    public abstract boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider);
+    public abstract boolean canMove(Position from, Position to, PieceProvider pieceProvider);
 }

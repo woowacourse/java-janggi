@@ -1,20 +1,20 @@
 package domain.strategy;
 
 import domain.position.Position;
-import domain.piece.PieceProvider;
+import domain.PieceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarStrategy implements MoveStrategy {
+public class CarStrategy implements Strategy {
 
     @Override
-    public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
+    public List<Position> getMoveCandidates(Position from) {
         List<Position> candidates = new ArrayList<>();
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction direction : straightDirections) {
-            addPathCandidates(currentPosition, direction, board, candidates);
+            addPathCandidates(from, direction, board, candidates);
         }
 
         return candidates;
