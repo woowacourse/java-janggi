@@ -4,7 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.piece.straightMove.Cha;
+import janggi.model.board.position.Column;
+import janggi.model.board.position.Position;
+import janggi.model.board.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,6 +55,8 @@ class ChaTest {
         PositionPath path = cha.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isFalse();
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -65,6 +71,8 @@ class ChaTest {
         PositionPath path = cha.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isFalse();
     }
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")

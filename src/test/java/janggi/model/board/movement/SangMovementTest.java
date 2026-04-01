@@ -3,10 +3,15 @@ package janggi.model.board.movement;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
-import janggi.model.board.PositionPath;
 import janggi.model.board.position.Row;
+import janggi.model.piece.Byeong;
+import janggi.model.piece.Piece;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -50,12 +55,19 @@ class SangMovementTest {
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FOUR, Column.THREE);
 
+        Byeong byeong = new Byeong(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SIX, Column.FIVE), byeong
+        ));
+
         Movement movement = new SangMovement();
 
         //when
         PositionPath path = movement.move(from, to);
 
         //then
-        assertThat(path.isEmpty()).isFalse();
+        assertThat(path.findPiecesOn(board))
+                .containsExactly(byeong);
     }
 }

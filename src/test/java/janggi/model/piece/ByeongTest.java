@@ -4,7 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
 import janggi.model.piece.straightMove.Cha;
+import janggi.model.board.position.Column;
+import janggi.model.board.position.Position;
+import janggi.model.board.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +26,8 @@ class ByeongTest {
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("한나라일때, 남쪽으로 한칸 이동한다.")
@@ -36,6 +42,8 @@ class ByeongTest {
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("동쪽으로 한칸 이동한다.")
@@ -50,6 +58,8 @@ class ByeongTest {
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -64,6 +74,8 @@ class ByeongTest {
         PositionPath path = byeong.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("초나라일때 남쪽으로 움직이면 예외가 발생한다.")

@@ -4,9 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
+import janggi.model.board.position.Column;
+import janggi.model.board.position.Position;
+import janggi.model.board.position.Row;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.piece.straightMove.Pho;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -48,10 +54,18 @@ class PhoTest {
         Position to = new Position(Row.SIX, Column.FIVE);
         Pho pho = new Pho(Team.CHO);
 
+        Cha cha = new Cha(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SIX, Column.FOUR), cha
+        ));
+
         //when
         PositionPath path = pho.getLegalPath(from, to);
 
         //then
+        assertThat(path.findPiecesOn(board))
+                .containsExactly(cha);
     }
 
     @DisplayName("같은 열이면 이동할 수 있다.")
@@ -62,10 +76,18 @@ class PhoTest {
         Position to = new Position(Row.NINE, Column.THREE);
         Pho pho = new Pho(Team.CHO);
 
+        Cha cha = new Cha(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SEVEN, Column.THREE), cha
+        ));
+
         //when
         PositionPath path = pho.getLegalPath(from, to);
 
         //then
+        assertThat(path.findPiecesOn(board))
+                .containsExactly(cha);
     }
 
     @DisplayName("아무런 기물이 없으면 예외가 발생한다.")

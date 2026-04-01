@@ -1,9 +1,9 @@
 package janggi.model.turn;
 
-import janggi.model.board.Board;
 import janggi.model.Team;
-import janggi.model.piece.Piece;
+import janggi.model.board.Board;
 import janggi.model.board.position.Position;
+import janggi.model.piece.Piece;
 import java.util.Map;
 
 public class ChoTurn implements Turn {
@@ -36,7 +36,7 @@ public class ChoTurn implements Turn {
 
     @Override
     public Map<Position, Piece> getBoard() {
-        return board.getBoard();
+        return board.board();
     }
 
     @Override

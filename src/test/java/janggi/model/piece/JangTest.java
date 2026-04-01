@@ -4,7 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.board.PositionPath;
+import janggi.model.piece.straightMove.Cha;
 import janggi.model.piece.palace.Jang;
+import janggi.model.board.position.Column;
+import janggi.model.board.position.Position;
+import janggi.model.board.position.Row;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +26,7 @@ class JangTest {
         //when & then
         assertThatThrownBy(() -> jang.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("두 지점이 한 칸 떨어져 있지 않습니다.");
     }
 
     @DisplayName("남쪽으로 한칸 이동한다.")
@@ -35,6 +41,8 @@ class JangTest {
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("북쪽으로 한칸 이동한다.")
@@ -49,6 +57,8 @@ class JangTest {
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
 
@@ -64,6 +74,8 @@ class JangTest {
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -78,7 +90,10 @@ class JangTest {
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
+        assertThat(path.isEmpty())
+                .isTrue();
     }
+
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")
     @Test
