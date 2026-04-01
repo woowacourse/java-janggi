@@ -52,10 +52,25 @@ public class JanggiGame {
 
     private void playTurn(Board board, Turn turn) {
         Camp camp = turn.currentTurn();
-        Position source = RetryHandler.retryOnInvalidInput(() -> Position.from(InputView.readSource(camp)));
-        board.validateCampTurn(source, camp);
-        Position destination = RetryHandler.retryOnInvalidInput(() -> Position.from(InputView.readDestination()));
+        Position source = readSource(board, camp);
+        Position destination = readDestination(board, source, camp);
         board.movePiece(source, destination, camp);
         turn.finishTurn();
+    }
+
+    private Position readSource(Board board, Camp camp) {
+        return RetryHandler.retryOnInvalidInput(() -> {
+            Position source = Position.from(InputView.readSource(camp));
+            board.validateSource(source, camp);
+            return source;
+        });
+    }
+
+    private Position readDestination(Board board, Position source, Camp camp) {
+        return RetryHandler.retryOnInvalidInput(() -> {
+            Position destination = Position.from(InputView.readDestination());
+            board.validateDestination(destination, source, camp);
+            return destination;
+        });
     }
 }

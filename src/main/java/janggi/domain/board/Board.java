@@ -22,41 +22,49 @@ public class Board implements BoardChecker {
     }
 
     @Override
-    public boolean isSameCampPieceAt(Position position, Camp camp) {
-        if (board.containsKey(position)) {
-            return board.get(position).isSameCamp(camp);
+    public boolean hasSameCampPieceAt(Position position, Camp camp) {
+        if (hasPieceAt(position)) {
+            Piece piece = board.get(position);
+            return piece.isSameCamp(camp);
         }
         return false;
     }
 
     @Override
     public boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule) {
-        if (board.containsKey(position)) {
-            Piece foundPiece = board.get(position);
-            return foundPiece.isSamePieceRule(pieceRule);
+        if (hasPieceAt(position)) {
+            Piece piece = board.get(position);
+            return piece.isSamePieceRule(pieceRule);
         }
         return false;
     }
 
-    public void movePiece(Position source, Position destination, Camp turn) {
-        validateCampTurn(source, turn);
+    public void movePiece(Position source, Position destination, Camp camp) {
+        validateSource(source, camp);
+        validateDestination(destination, source, camp);
+
         Piece piece = board.get(source);
         piece.validateMove(source, destination, this);
+
         board.put(destination, piece);
         board.remove(source);
     }
 
-    public void validateCampTurn(Position source, Camp turn) {
-        validateSource(source);
-        Piece piece = board.get(source);
-        if (!piece.isSameCamp(turn)) {
+    public void validateSource(Position source, Camp camp) {
+        if (!hasPieceAt(source)) {
+            throw new IllegalArgumentException(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
+        }
+        if (!hasSameCampPieceAt(source, camp)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_CAMP_PIECE.getMessage());
         }
     }
 
-    private void validateSource(Position source) {
-        if (!board.containsKey(source)) {
-            throw new IllegalArgumentException(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
+    public void validateDestination(Position destination, Position source, Camp camp) {
+        if (destination.equals(source)) {
+            throw new IllegalArgumentException(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
+        }
+        if (hasSameCampPieceAt(destination, camp)) {
+            throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
         }
     }
 

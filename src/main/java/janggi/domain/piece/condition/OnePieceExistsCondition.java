@@ -44,7 +44,7 @@ public class OnePieceExistsCondition implements MoveCondition {
     }
 
     private void validateDestination(Position destination, Camp camp, BoardChecker board, PieceRule pieceRule) {
-        if (board.isSameCampPieceAt(destination, camp)) {
+        if (board.hasSameCampPieceAt(destination, camp)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
         }
 

@@ -8,7 +8,7 @@ public interface BoardChecker {
 
     boolean hasPieceAt(Position position);
 
-    boolean isSameCampPieceAt(Position position, Camp camp);
+    boolean hasSameCampPieceAt(Position position, Camp camp);
 
     boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule);
 }
