@@ -1,19 +1,14 @@
 package domain;
 
-public class Position {
+public record Position(int column, int row) {
     private static final int MIN_POSITION = 0;
     private static final int MAX_COLUMN = 8;
     private static final int MAX_ROW = 9;
 
-    private final int column;
-    private final int row;
-
-    public Position(int column, int row) {
+    public Position {
         validateColumn(column);
         validateRow(row);
 
-        this.column = column;
-        this.row = row;
     }
 
     private void validateColumn(int column) {
