@@ -21,6 +21,18 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return false;
     }
 
+    private boolean isNotCorrectPath(final Position from, final Position to) {
+        if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) == 1) {
+            return false;
+        }
+
+        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) == 1) {
+            return false;
+        }
+
+        return true;
+    }
+
     private boolean isWithdraw(final Position from, final Position to, final Board board) {
         Team team = board.findPieceByPosition(from).get().getTeam();
         if (team == Team.CHU && from.getRow() - to.getRow() == 1) {
@@ -32,17 +44,5 @@ public class SoldierMoveStrategy implements MoveStrategy {
         }
 
         return false;
-    }
-
-    private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) == 1) {
-            return false;
-        }
-
-        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) == 1) {
-            return false;
-        }
-
-        return true;
     }
 }
