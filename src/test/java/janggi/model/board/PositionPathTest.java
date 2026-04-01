@@ -3,9 +3,10 @@ package janggi.model.board;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.model.Team;
-import janggi.model.board.position.Column;
-import janggi.model.board.position.Position;
-import janggi.model.board.position.Row;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Row;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import java.util.List;

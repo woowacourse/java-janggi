@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.board.PositionPath;
-import janggi.model.board.position.Column;
-import janggi.model.board.position.Position;
-import janggi.model.board.position.Row;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
+import janggi.model.movement.Movement;
+import janggi.model.movement.StraightMovement;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
 import java.util.HashMap;

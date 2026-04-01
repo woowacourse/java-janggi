@@ -1,8 +1,8 @@
-package janggi.model.board;
+package janggi.model;
 
-import janggi.model.Team;
-import janggi.model.board.position.Position;
+import janggi.model.position.Position;
 import janggi.model.piece.Piece;
+import janggi.model.position.PositionPath;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

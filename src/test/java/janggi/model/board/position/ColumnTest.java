@@ -2,6 +2,7 @@ package janggi.model.board.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.model.position.Column;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

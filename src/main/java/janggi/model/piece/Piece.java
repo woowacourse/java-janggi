@@ -1,11 +1,14 @@
 package janggi.model.piece;
 
 import janggi.model.Team;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Position;
 import java.util.List;
 
 public abstract class Piece {
     protected final Team team;
 
+    protected Piece(Team team) {
         this.team = team;
     }
 

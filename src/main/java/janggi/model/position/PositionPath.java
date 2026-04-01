@@ -1,6 +1,5 @@
-package janggi.model.board;
+package janggi.model.position;
 
-import janggi.model.board.position.Position;
 import janggi.model.piece.Piece;
 import java.util.List;
 import java.util.Map;

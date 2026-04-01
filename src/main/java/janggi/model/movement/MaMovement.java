@@ -1,8 +1,8 @@
-package janggi.model.board.movement;
+package janggi.model.movement;
 
-import janggi.model.board.position.Position;
-import janggi.model.board.PositionPath;
-import janggi.model.board.position.Row;
+import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Row;
 import java.util.ArrayList;
 import java.util.List;
 

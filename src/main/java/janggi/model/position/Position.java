@@ -1,4 +1,4 @@
-package janggi.model.board.position;
+package janggi.model.position;
 
 public record Position(
         Row row,

@@ -9,9 +9,9 @@ import janggi.model.piece.straightMove.Cha;
 import janggi.model.piece.straightMove.Pho;
 import janggi.model.piece.palace.Jang;
 import janggi.model.piece.palace.Sa;
-import janggi.model.board.position.Column;
-import janggi.model.board.position.Position;
-import janggi.model.board.position.Row;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
 import java.util.Map;
 
 public record GameStatus(

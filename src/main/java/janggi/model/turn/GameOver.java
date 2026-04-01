@@ -1,7 +1,7 @@
 package janggi.model.turn;
 
 import janggi.model.piece.Piece;
-import janggi.model.board.position.Position;
+import janggi.model.position.Position;
 import java.util.Map;
 
 public class GameOver implements Turn {
