@@ -1,5 +1,9 @@
 package domain.strategy;
 
+import static domain.Index.BOARD_COLUMNS;
+import static domain.Index.BOARD_ROWS;
+
+import domain.Index;
 import domain.position.Position;
 import domain.piece.Cannon;
 import domain.PieceProvider;
@@ -10,7 +14,7 @@ import java.util.List;
 public class CannonStrategy implements Strategy {
 
     @Override
-    public List<Position> getMoveCandidates(Position from) {
+    public List<Position> getMoveCandidates(Position from, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
         for (Direction direction : straightDirections) {
@@ -55,7 +59,7 @@ public class CannonStrategy implements Strategy {
     }
 
     private boolean isWithinBoard(Position position) {
-        return position.getRow() >= 0 && position.getRow() < 10 &&
-                position.getColumn() >= 0 && position.getColumn() < 9;
+        return position.getRow() >= 0 && position.getRow() < BOARD_ROWS.getIndex() &&
+                position.getColumn() >= 0 && position.getColumn() < BOARD_COLUMNS.getIndex();
     }
 }
