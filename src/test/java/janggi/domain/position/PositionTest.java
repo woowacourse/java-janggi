@@ -46,6 +46,16 @@ class PositionTest {
         assertThat(to).isPresent().get().isEqualTo(result);
     }
 
+    @ParameterizedTest(name = "({0},{1})에서는 대각선 이동이 가능하다.")
+    @MethodSource("현재_위치가_대각선_이동이_가능한_위치인지_확인하는_테스트_케이스")
+    void 현재_위치가_대각선_이동이_가능한_위치인지_확인한다(int row, int column) {
+        // when
+        Position from = Position.from(row, column);
+        
+        // then
+        assertThat(from.canMoveDiagonal()).isTrue();
+    }
+
     private static Stream<Arguments> 특정_위치에서_특정_방향에_있는_모든_위치_반환_테스트_케이스() {
         return Stream.of(
                 Arguments.of(NORTH, List.of(
@@ -69,6 +79,21 @@ class PositionTest {
                 Arguments.of(SOUTHWEST, Position.from(6, 4)),
                 Arguments.of(WEST, Position.from(5, 4)),
                 Arguments.of(NORTHWEST, Position.from(4, 4))
+        );
+    }
+
+    private static Stream<Arguments> 현재_위치가_대각선_이동이_가능한_위치인지_확인하는_테스트_케이스() {
+        return Stream.of(
+                Arguments.of(1, 4),
+                Arguments.of(1, 6),
+                Arguments.of(2, 5),
+                Arguments.of(3, 4),
+                Arguments.of(3, 6),
+                Arguments.of(8, 4),
+                Arguments.of(8, 6),
+                Arguments.of(9, 5),
+                Arguments.of(10, 4),
+                Arguments.of(10, 6)
         );
     }
 

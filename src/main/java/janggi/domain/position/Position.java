@@ -12,6 +12,7 @@ public record Position(
 ) {
 
     private static final Map<String, Position> POSITIONS = new HashMap<>();
+    private static final Map<Position, List<Direction>> DIAGONAL = new HashMap<>();
 
     static {
         for (Row row : Row.values()) {
@@ -19,6 +20,19 @@ public record Position(
                 POSITIONS.put(toKey(row, column), new Position(row, column));
             }
         }
+    }
+
+    static {
+        DIAGONAL.put(Position.from(1, 4), List.of(Direction.SOUTHEAST));
+        DIAGONAL.put(Position.from(1, 6), List.of(Direction.SOUTHWEST));
+        DIAGONAL.put(Position.from(2, 5), List.of(Direction.valuesFourDiagonalDirection()));
+        DIAGONAL.put(Position.from(3, 4), List.of(Direction.NORTHEAST));
+        DIAGONAL.put(Position.from(3, 6), List.of(Direction.NORTHWEST));
+        DIAGONAL.put(Position.from(8, 4), List.of(Direction.SOUTHEAST));
+        DIAGONAL.put(Position.from(8, 6), List.of(Direction.SOUTHWEST));
+        DIAGONAL.put(Position.from(9, 5), List.of(Direction.valuesFourDiagonalDirection()));
+        DIAGONAL.put(Position.from(10, 4), List.of(Direction.NORTHEAST));
+        DIAGONAL.put(Position.from(10, 6), List.of(Direction.NORTHWEST));
     }
 
     public static Position from(int row, int column) {
@@ -32,7 +46,7 @@ public record Position(
     public List<Position> findAllPositionsByDirection(Direction dir) {
         List<Position> positions = new ArrayList<>();
         Optional<Position> current = nextPositionByDirection(dir);
-        
+
         while (current.isPresent()) {
             Position position = current.get();
             positions.add(position);
@@ -47,6 +61,10 @@ public record Position(
         } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
+    }
+
+    public boolean canMoveDiagonal() {
+        return DIAGONAL.containsKey(this);
     }
 
     private Position add(int row, int column) {
