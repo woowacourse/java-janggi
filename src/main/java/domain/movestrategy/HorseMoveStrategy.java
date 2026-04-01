@@ -8,15 +8,15 @@ import java.util.Map;
 
 public class HorseMoveStrategy implements MoveStrategy {
 
-    private static final Map<Position, Delta> PATH_BY_DESTINATION = Map.ofEntries(
-            Map.entry(Position.of(-2, -1), Delta.UP),
-            Map.entry(Position.of(-2, 1), Delta.UP),
-            Map.entry(Position.of(-1, -2), Delta.LEFT),
-            Map.entry(Position.of(1, -2), Delta.LEFT),
-            Map.entry(Position.of(2, -1), Delta.DOWN),
-            Map.entry(Position.of(2, 1), Delta.DOWN),
-            Map.entry(Position.of(-1, 2), Delta.RIGHT),
-            Map.entry(Position.of(1, 2), Delta.RIGHT)
+    private static final Map<Delta, Delta> PATH_BY_DESTINATION = Map.ofEntries(
+            Map.entry(new Delta(-2, -1), Delta.UP),
+            Map.entry(new Delta(-2, 1), Delta.UP),
+            Map.entry(new Delta(-1, -2), Delta.LEFT),
+            Map.entry(new Delta(1, -2), Delta.LEFT),
+            Map.entry(new Delta(2, -1), Delta.DOWN),
+            Map.entry(new Delta(2, 1), Delta.DOWN),
+            Map.entry(new Delta(-1, 2), Delta.RIGHT),
+            Map.entry(new Delta(1, 2), Delta.RIGHT)
     );
 
     @Override

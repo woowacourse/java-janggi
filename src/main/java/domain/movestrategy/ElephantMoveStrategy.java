@@ -8,18 +8,18 @@ import java.util.Map;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
-    private static final Map<Position, List<Delta>> PATHS_BY_DESTINATION = Map.ofEntries(
-            Map.entry(Position.of(-3, -2), List.of(Delta.UP, Delta.LEFT_UP)),
-            Map.entry(Position.of(-3, 2), List.of(Delta.UP, Delta.RIGHT_UP)),
+    private static final Map<Delta, List<Delta>> PATHS_BY_DESTINATION = Map.ofEntries(
+            Map.entry(new Delta(-3, -2), List.of(Delta.UP, Delta.LEFT_UP)),
+            Map.entry(new Delta(-3, 2), List.of(Delta.UP, Delta.RIGHT_UP)),
 
-            Map.entry(Position.of(3, -2), List.of(Delta.DOWN, Delta.LEFT_DOWN)),
-            Map.entry(Position.of(3, 2), List.of(Delta.DOWN, Delta.RIGHT_DOWN)),
+            Map.entry(new Delta(3, -2), List.of(Delta.DOWN, Delta.LEFT_DOWN)),
+            Map.entry(new Delta(3, 2), List.of(Delta.DOWN, Delta.RIGHT_DOWN)),
 
-            Map.entry(Position.of(-2, -3), List.of(Delta.LEFT, Delta.LEFT_UP)),
-            Map.entry(Position.of(2, -3), List.of(Delta.LEFT, Delta.LEFT_DOWN)),
+            Map.entry(new Delta(-2, -3), List.of(Delta.LEFT, Delta.LEFT_UP)),
+            Map.entry(new Delta(2, -3), List.of(Delta.LEFT, Delta.LEFT_DOWN)),
 
-            Map.entry(Position.of(-2, 3), List.of(Delta.RIGHT, Delta.RIGHT_UP)),
-            Map.entry(Position.of(2, 3), List.of(Delta.RIGHT, Delta.RIGHT_DOWN))
+            Map.entry(new Delta(-2, 3), List.of(Delta.RIGHT, Delta.RIGHT_UP)),
+            Map.entry(new Delta(2, 3), List.of(Delta.RIGHT, Delta.RIGHT_DOWN))
     );
 
     @Override

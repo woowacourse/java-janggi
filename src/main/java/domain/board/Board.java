@@ -41,7 +41,6 @@ public class Board {
         return new Board(pieces);
     }
 
-    // 테스트만이 아니라 이후 DB에서 상태를 받아올 때 필요할 것으로 판단.
     public static Board of(Map<Position, Piece> pieces) {
         return new Board(new HashMap<>(pieces));
     }
