@@ -1,0 +1,34 @@
+package position;
+
+public record Row(int index) {
+
+    private static final int MINIMUM_BOUNDARY = 0;
+    private static final int MAXIMUM_BOUNDARY = 9;
+    private static final int ONE_SPACE = 1;
+
+    public Row {
+        validateRange(index);
+    }
+
+    private void validateRange(int index) {
+        if (index < MINIMUM_BOUNDARY || index > MAXIMUM_BOUNDARY) {
+            throw new IllegalArgumentException("유효하지 않은 ROW입니다.");
+        }
+    }
+
+    public boolean isBelow(Row other) {
+        return this.index < other.index;
+    }
+
+    public boolean isAbove(Row other) {
+        return this.index > other.index;
+    }
+
+    public boolean isGapBiggerThanOne(Row other) {
+        return Math.abs(this.index - other.index) > ONE_SPACE;
+    }
+
+    public Row add(Delta delta) {
+        return new Row(index + delta.rowDelta());
+    }
+}
