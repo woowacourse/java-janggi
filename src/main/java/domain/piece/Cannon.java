@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Cannon extends StraightMovingPiece {
     private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
+    private static final String CANNON_CAN_NOT_CATCH_CANNON = "[ERROR] 포는 포를 잡을 수 없습니다.";
 
     private static final int CANNON_JUMP_PIECE_COUNT = 1;
 
@@ -22,6 +23,11 @@ public class Cannon extends StraightMovingPiece {
         }
         if (pieceCount != CANNON_JUMP_PIECE_COUNT) {
             throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+        }
+
+        // TODO: 포는 포를 잡을 수 없음, validateDirections에서 해당 로직을 수행하면 차도 해당해버림, validatePath에서 수행하는 것이 옳음
+        if (board.isCannon(paths.getLast())) {
+            throw new IllegalArgumentException(CANNON_CAN_NOT_CATCH_CANNON);
         }
     }
 

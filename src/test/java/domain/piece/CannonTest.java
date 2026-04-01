@@ -3,8 +3,10 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.Board;
 import domain.Country;
 import domain.Position;
+import domain.TableSetting;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -61,5 +63,20 @@ public class CannonTest {
         assertThatThrownBy(() -> cannon.path(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
+    }
+
+    @Test
+    @DisplayName("포가 포를 잡을 경우 예외가 발생한다.")
+    void cannonCatchCannonExceptionTest() {
+        Board board = Board.create(TableSetting.RIGHT_TABLE, TableSetting.LEFT_TABLE);
+        board.move(new Position(0, 3), new Position(0, 4));
+        board.move(new Position(0, 4), new Position(1, 4));
+
+        Position from = new Position(1, 2);
+        Position to = new Position(1, 7);
+
+        assertThatThrownBy(() -> board.move(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
 }
