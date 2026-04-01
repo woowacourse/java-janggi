@@ -1,12 +1,13 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.Direction;
 import janggi.domain.board.BoardView;
 import janggi.domain.piece.PieceType;
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Path;
+import janggi.domain.vo.position.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CannonMoveRule implements MoveRule {
     @Override
@@ -15,36 +16,30 @@ public class CannonMoveRule implements MoveRule {
             return false;
         }
 
-        List<Position> piecePositionsBetween = findPiecePositionsBetween(from, to, board);
+        List<PieceType> pieceTypesBetween = findPieceTypesBetween(from, to, board);
 
-        return hasOneBridgeNotCannon(piecePositionsBetween, board) && !isTargetCannon(to, board);
+        return hasOneBridgeNotCannon(pieceTypesBetween, board) && !isTargetCannon(to, board);
     }
 
-    private boolean hasOneBridgeNotCannon(List<Position> positions, BoardView board) {
-        return positions.size() == 1 && board.findByPosition(positions.get(0)).pieceType() != PieceType.CANNON;
+    private boolean hasOneBridgeNotCannon(List<PieceType> types, BoardView board) {
+
+        return types.size() == 1 && types.get(0) != PieceType.CANNON;
     }
 
     private boolean isTargetCannon(Position to, BoardView board) {
-        return board.findByPosition(to).pieceType() == PieceType.CANNON;
+        return board.findTypeByPosition(to) == PieceType.CANNON;
     }
 
-    private List<Position> findPiecePositionsBetween(Position from, Position to, BoardView board) {
-        List<Position> piecePositions = new ArrayList<>();
-        Direction direction = Direction.between(from, to);
-        Position pathPosition = from;
+    private List<PieceType> findPieceTypesBetween(Position from, Position to, BoardView board) {
+        List<PieceType> pieces = new ArrayList<>();
+        Path path = Path.between(from, to);
 
-        while(pathPosition.hasNext(direction)) {
-            pathPosition = pathPosition.nextPosition(direction);
-
-            if (pathPosition.equals(to)) {
-             break;
-            }
-
-            if (!board.isEmptyPosition(pathPosition)) {
-                piecePositions.add(pathPosition);
-            }
+        for (int i = 0; i < path.size(); i++) {
+            pieces.add(board.findTypeByPosition(path.positionAt(i)));
         }
 
-        return piecePositions;
+        return pieces.stream()
+                .filter(type -> type != PieceType.EMPTY)
+                .collect(Collectors.toList());
     }
 }

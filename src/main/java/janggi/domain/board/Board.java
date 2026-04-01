@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 
@@ -16,7 +17,7 @@ public class Board implements BoardView {
     }
 
     public Board(Map<Position, Piece> board) {
-        this.board = board;
+        this.board = new HashMap<>(board);
     }
 
     @Override
@@ -27,6 +28,11 @@ public class Board implements BoardView {
     @Override
     public boolean isEmptyPosition(Position position) {
         return findByPosition(position).isEmpty();
+    }
+
+    @Override
+    public PieceType findTypeByPosition(Position position) {
+        return findByPosition(position).pieceType();
     }
 
     public void move(Position from, Position to, Team currentTeam) {
@@ -43,10 +49,11 @@ public class Board implements BoardView {
         place(to, fromPiece);
     }
 
-    private void place(Position position, Piece piece) {
+    public void place(Position position, Piece piece) {
         board.put(position, piece);
     }
 
+    public
     private void validateCommonMove(Team currentTeam, Piece fromPiece, Piece toPiece) {
         if (fromPiece.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 선택하신 칸에 기물이 없습니다.");
@@ -59,5 +66,13 @@ public class Board implements BoardView {
         if (toPiece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("이미 도착지점에 플레이어님의 진영 기물이 있습니다.");
         }
+    }
+
+    public static Board createBoardWith(Object... args) {
+        Board board = new Board();
+        for (int i = 0; i < args.length; i += 2) {
+            board.place((Position) args[i], (Piece) args[i + 1]);
+        }
+        return board;
     }
 }
