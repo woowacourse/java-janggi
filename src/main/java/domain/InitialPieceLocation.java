@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public enum PieceLocation {
+public enum InitialPieceLocation {
     GENERAL(initGeneralPosition()),
     GUARD(initGuardPosition()),
     HORSE(initHorsePosition()),
@@ -15,7 +15,7 @@ public enum PieceLocation {
 
     private final Map<Camp, List<Position>> positions;
 
-    PieceLocation(Map<Camp, List<Position>> positions) {
+    InitialPieceLocation(Map<Camp, List<Position>> positions) {
         this.positions = positions;
     }
 

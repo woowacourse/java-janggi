@@ -12,15 +12,15 @@ public enum ElephantFormation {
     OUTER(4, initOuter());
 
     private final int formationNumber;
-    private final Map<PieceLocation, Map<Camp, List<Position>>> positions;
+    private final Map<InitialPieceLocation, Map<Camp, List<Position>>> positions;
 
-    ElephantFormation(int formationNumber, Map<PieceLocation, Map<Camp, List<Position>>> positions) {
+    ElephantFormation(int formationNumber, Map<InitialPieceLocation, Map<Camp, List<Position>>> positions) {
         this.formationNumber = formationNumber;
         this.positions = positions;
     }
 
-    private static Map<PieceLocation, Map<Camp, List<Position>>> initRight() {
-        Map<PieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
+    private static Map<InitialPieceLocation, Map<Camp, List<Position>>> initRight() {
+        Map<InitialPieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
         Map<Camp, List<Position>> horseRightPosition = new HashMap<>();
         horseRightPosition.put(Camp.HAN, List.of(
                 new Position(2, 0),
@@ -32,7 +32,7 @@ public enum ElephantFormation {
                 new Position(6, 9)
         ));
 
-        position.put(PieceLocation.HORSE, horseRightPosition);
+        position.put(InitialPieceLocation.HORSE, horseRightPosition);
 
         Map<Camp, List<Position>> elephantRightPosition = new HashMap<>();
         elephantRightPosition.put(Camp.HAN, List.of(
@@ -45,13 +45,13 @@ public enum ElephantFormation {
                 new Position(7, 9)
         ));
 
-        position.put(PieceLocation.ELEPHANT, elephantRightPosition);
+        position.put(InitialPieceLocation.ELEPHANT, elephantRightPosition);
 
         return position;
     }
 
-    private static Map<PieceLocation, Map<Camp, List<Position>>> initInner() {
-        Map<PieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
+    private static Map<InitialPieceLocation, Map<Camp, List<Position>>> initInner() {
+        Map<InitialPieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
         Map<Camp, List<Position>> horseInnerPosition = new HashMap<>();
         horseInnerPosition.put(Camp.HAN, List.of(
                 new Position(1, 0),
@@ -63,7 +63,7 @@ public enum ElephantFormation {
                 new Position(7, 9)
         ));
 
-        position.put(PieceLocation.HORSE, horseInnerPosition);
+        position.put(InitialPieceLocation.HORSE, horseInnerPosition);
 
         Map<Camp, List<Position>> elephantInnerPosition = new HashMap<>();
         elephantInnerPosition.put(Camp.HAN, List.of(
@@ -76,13 +76,13 @@ public enum ElephantFormation {
                 new Position(6, 9)
         ));
 
-        position.put(PieceLocation.ELEPHANT, elephantInnerPosition);
+        position.put(InitialPieceLocation.ELEPHANT, elephantInnerPosition);
 
         return position;
     }
 
-    private static Map<PieceLocation, Map<Camp, List<Position>>> initLeft() {
-        Map<PieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
+    private static Map<InitialPieceLocation, Map<Camp, List<Position>>> initLeft() {
+        Map<InitialPieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
         Map<Camp, List<Position>> horseLeftPosition = new HashMap<>();
         horseLeftPosition.put(Camp.HAN, List.of(
                 new Position(1, 0),
@@ -94,7 +94,7 @@ public enum ElephantFormation {
                 new Position(7, 9)
         ));
 
-        position.put(PieceLocation.HORSE, horseLeftPosition);
+        position.put(InitialPieceLocation.HORSE, horseLeftPosition);
 
         Map<Camp, List<Position>> elephantLeftPosition = new HashMap<>();
         elephantLeftPosition.put(Camp.HAN, List.of(
@@ -107,13 +107,13 @@ public enum ElephantFormation {
                 new Position(6, 9)
         ));
 
-        position.put(PieceLocation.ELEPHANT, elephantLeftPosition);
+        position.put(InitialPieceLocation.ELEPHANT, elephantLeftPosition);
 
         return position;
     }
 
-    private static Map<PieceLocation, Map<Camp, List<Position>>> initOuter() {
-        Map<PieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
+    private static Map<InitialPieceLocation, Map<Camp, List<Position>>> initOuter() {
+        Map<InitialPieceLocation, Map<Camp, List<Position>>> position = new HashMap<>();
         Map<Camp, List<Position>> horseOuterPosition = new HashMap<>();
         horseOuterPosition.put(Camp.HAN, List.of(
                 new Position(2, 0),
@@ -125,7 +125,7 @@ public enum ElephantFormation {
                 new Position(6, 9)
         ));
 
-        position.put(PieceLocation.HORSE, horseOuterPosition);
+        position.put(InitialPieceLocation.HORSE, horseOuterPosition);
 
         Map<Camp, List<Position>> elephantOuterPosition = new HashMap<>();
         elephantOuterPosition.put(Camp.HAN, List.of(
@@ -138,7 +138,7 @@ public enum ElephantFormation {
                 new Position(7, 9)
         ));
 
-        position.put(PieceLocation.ELEPHANT, elephantOuterPosition);
+        position.put(InitialPieceLocation.ELEPHANT, elephantOuterPosition);
 
         return position;
     }
@@ -150,7 +150,7 @@ public enum ElephantFormation {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 타입 번호입니다." + formationNumber));
     }
 
-    public List<Position> getPositions(PieceLocation pieceLocation, Camp camp) {
-        return positions.get(pieceLocation).get(camp);
+    public List<Position> getPositions(InitialPieceLocation initialPieceLocation, Camp camp) {
+        return positions.get(initialPieceLocation).get(camp);
     }
 }
