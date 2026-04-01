@@ -1,5 +1,9 @@
 package domain.board;
 
+import static common.Constants.MAX_COLUMN;
+import static common.Constants.MAX_ROW;
+import static common.Constants.MIN_COLUMN;
+import static common.Constants.MIN_ROW;
 import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
 
@@ -24,13 +28,43 @@ public class Board {
     public Piece move(Position source, Position destination) {
         validateSource(source);
         validateMovement(source, destination);
+        return executeMove(source, destination);
+    }
+
+    private Piece executeMove(Position source, Position destination) {
         Piece movePiece = findPiece(source);
         Piece destinationPiece = findPiece(destination);
 
         board.put(source, new None());
         board.put(destination, movePiece);
-
         return destinationPiece;
+    }
+
+    public List<Position> findMovablePositions(Position source) {
+        validateSource(source);
+        List<Position> movablePositions = new ArrayList<>();
+
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+                Position destination = new Position(row, column);
+                if (canMove(source, destination)) {
+                    movablePositions.add(destination);
+                }
+            }
+        }
+        return movablePositions;
+    }
+
+    public boolean canMove(Position source, Position destination) {
+        validateSource(source);
+        try {
+            Piece piece = findPiece(source);
+            Path path = piece.calculatePath(source, destination);
+            PathPieces pathPieces = createPathPieces(path);
+            return piece.validatePath(pathPieces);
+        } catch (JanggiException exception) {
+            return false;
+        }
     }
 
     private void validateSource(Position source) {
@@ -57,10 +91,7 @@ public class Board {
     }
 
     private void validateMovement(Position source, Position destination) {
-        Piece piece = findPiece(source);
-        Path path = piece.calculatePath(source, destination);
-        PathPieces pathPieces = createPathPieces(path);
-        if (!piece.validatePath(pathPieces)) {
+        if (!canMove(source, destination)) {
             throw new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination));
         }
     }

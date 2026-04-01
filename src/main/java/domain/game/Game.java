@@ -25,6 +25,10 @@ public class Game {
         this.gameState = new ChoTurn(this);
     }
 
+    public List<Position> select(Position source) {
+        return gameState.selectPiece(source);
+    }
+
     public void move(Position source, Position destination) {
         gameState.move(source, destination);
     }
@@ -73,5 +77,9 @@ public class Game {
 
     public Team getWinner() {
         return gameState.getWinner();
+    }
+
+    public List<Position> findMovablePositions(Position source) {
+        return board.findMovablePositions(source);
     }
 }
