@@ -1,8 +1,8 @@
 package janggi.model;
 
-import janggi.model.position.Position;
 import janggi.model.piece.Piece;
-import janggi.model.position.PositionPath;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.PositionPath;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

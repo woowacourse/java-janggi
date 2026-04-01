@@ -1,4 +1,4 @@
-package janggi.model.position;
+package janggi.model.position.absolute;
 
 public record Position(
         Row row,

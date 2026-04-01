@@ -1,8 +1,8 @@
 package janggi.model.piece;
 
 import janggi.model.Team;
-import janggi.model.position.Position;
-import janggi.model.position.PositionPath;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.PositionPath;
 import java.util.List;
 
 public abstract class Piece {

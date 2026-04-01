@@ -1,21 +1,20 @@
-package janggi.model.position;
+package janggi.model.position.absolute;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class RowTest {
-
-    @DisplayName("두 행 사이의 거리를 반환한다.")
+class ColumnTest {
+    @DisplayName("두 열 사이의 거리를 반환한다.")
     @Test
     void getDistanceTo() {
         //given
-        Row eight = Row.EIGHT;
-        Row zero = Row.ZERO;
+        Column eight = Column.EIGHT;
+        Column zero = Column.SEVEN;
 
         //when & then
         assertThat(eight.getDistanceTo(zero))
-                .isEqualTo(-2);
+                .isEqualTo(1);
     }
 }

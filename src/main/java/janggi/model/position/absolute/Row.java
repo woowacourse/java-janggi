@@ -1,4 +1,4 @@
-package janggi.model.position;
+package janggi.model.position.absolute;
 
 import java.util.Arrays;
 
@@ -14,10 +14,13 @@ public enum Row {
     NINE(9),
     ZERO(10);
 
+    public static final int START = 1;
+    public static final int END = 10;
+
     private  final int value;
 
     Row(int value) {
-        if (value < 1 || value > 10) {
+        if (value < START || value > END) {
             throw new IllegalArgumentException("value는 1 이상 10 이햐의 자연수여야 합니다.");
         }
 

@@ -1,4 +1,4 @@
-package janggi.model.position;
+package janggi.model.position.absolute;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

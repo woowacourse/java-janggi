@@ -1,4 +1,4 @@
-package janggi.model.position;
+package janggi.model.position.absolute;
 
 import java.util.Arrays;
 
@@ -12,6 +12,9 @@ public enum Column {
     SEVEN(7),
     EIGHT(8),
     NINE(9);
+
+    public static final int START = 1;
+    public static final int END = 9;
 
     private final int value;
 

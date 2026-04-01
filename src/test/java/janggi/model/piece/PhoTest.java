@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.position.PositionPath;
-import janggi.model.position.Column;
-import janggi.model.position.Position;
-import janggi.model.position.Row;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.piece.straightMove.Pho;
-import java.util.HashMap;
+import janggi.model.position.absolute.Column;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.PositionPath;
+import janggi.model.position.absolute.Row;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -56,9 +55,9 @@ class PhoTest {
 
         Cha cha = new Cha(Team.CHO);
 
-        Map<Position, Piece> board = new HashMap<>(Map.of(
+        Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.FOUR), cha
-        ));
+        );
 
         //when
         PositionPath path = pho.getLegalPath(from, to);
@@ -78,9 +77,9 @@ class PhoTest {
 
         Cha cha = new Cha(Team.CHO);
 
-        Map<Position, Piece> board = new HashMap<>(Map.of(
+        Map<Position, Piece> board = Map.of(
                 new Position(Row.SEVEN, Column.THREE), cha
-        ));
+        );
 
         //when
         PositionPath path = pho.getLegalPath(from, to);

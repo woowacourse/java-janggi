@@ -2,9 +2,9 @@ package janggi.view.dto;
 
 import janggi.model.Janggi;
 import janggi.model.piece.Piece;
-import janggi.model.position.Column;
-import janggi.model.position.Position;
-import janggi.model.position.Row;
+import janggi.model.position.absolute.Column;
+import janggi.model.position.absolute.Position;
+import janggi.model.position.absolute.Row;
 import janggi.view.PieceSymbol;
 import java.util.Map;
 
@@ -17,12 +17,6 @@ public record GameStatus(
     private static final String LEFT_LINE = " |";
     private static final String RIGHT_LINE = "|\n";
 
-    private static final int ROW_START = 1;
-    private static final int ROW_END = 10;
-
-    private static final int COLUMN_START = 1;
-    private static final int COLUMN_END = 9;
-
     public static GameStatus from(Janggi janggi) {
         return new GameStatus(
                 renderBoard(janggi.getBoard()),
@@ -33,7 +27,7 @@ public record GameStatus(
     private static String renderBoard(Map<Position, Piece> board) {
         StringBuilder sb = new StringBuilder(TOP_LINE);
 
-        for (int row = ROW_START; row <= ROW_END; row++) {
+        for (int row = Row.START; row <= Row.END; row++) {
             renderBoardRow(sb, board, row);
         }
 
@@ -54,7 +48,7 @@ public record GameStatus(
 
         sb.append(displayRow).append(LEFT_LINE);
 
-        for (int col = COLUMN_START; col <= COLUMN_END; col++) {
+        for (int col = Column.START; col <= Column.END; col++) {
             renderBoardColumn(sb, board, row, col);
         }
 

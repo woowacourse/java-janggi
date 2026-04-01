@@ -1,4 +1,4 @@
-package janggi.model.position;
+package janggi.model.position.absolute;
 
 import janggi.model.piece.Piece;
 import java.util.List;
