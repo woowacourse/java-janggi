@@ -13,7 +13,7 @@ public enum Column {
     EIGHT(8),
     NINE(9);
 
-    private  final int value;
+    private final int value;
 
     Column(int value) {
         if (value < 1 || value > 9) {
