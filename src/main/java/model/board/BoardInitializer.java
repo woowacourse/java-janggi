@@ -6,22 +6,13 @@ import view.OutputView;
 
 public class BoardInitializer {
 
-    public void initialize(Board board) {
-        initializeArmy(board, Country.CHO);
-        OutputView.printLine();
-        initializeArmy(board, Country.HAN);
+    public void initialize(Board board, ArrangementType choType, ArrangementType hanType) {
+        initializeArmy(board, Country.CHO, choType);
+        initializeArmy(board, Country.HAN, hanType);
     }
 
-    private void initializeArmy(Board board, Country country) {
-        OutputView.printArrangeCountry(country);
-        Army army = InputHandler.retry(() -> {
-            String input = InputView.readArrangement(country);
-            ArrangementType type = ArrangementType.from(input);
-
-            return new Army(type.strategy());
-        });
-
+    private void initializeArmy(Board board, Country country, ArrangementType type) {
+        Army army = new Army(type.strategy());
         army.deployTo(board, country);
     }
-
 }

@@ -19,12 +19,27 @@ public class GameController {
 
     public void start() {
         Board board = new Board();
-        boardInitializer.initialize(board);
+        init(board);
         OutputView.printBoard(board);
+
         while (true) {
             choGamePhase(board);
             hanGamePhase(board);
         }
+    }
+
+    private void init(Board board){
+        ArrangementType choType = readArrangementType(Country.CHO);
+        OutputView.printLine();
+        ArrangementType hanType = readArrangementType(Country.HAN);
+
+        boardInitializer.initialize(board, choType, hanType);
+    }
+
+    private ArrangementType readArrangementType(Country country){
+        OutputView.printArrangeCountry(country);
+        return InputHandler.retry(() ->
+                ArrangementType.from(InputView.readArrangement(country)));
     }
 
     private void choGamePhase(Board board) {
