@@ -15,20 +15,22 @@ import java.util.List;
 
 public enum PieceType {
 
-    GENERAL(new PalaceStrategy(), new EmptyCondition()),
-    CHARIOT(new MultiStepStraightStrategy(), new EmptyCondition()),
-    HORSE(new HorseStrategy(), new EmptyCondition()),
-    CANNON(new MultiStepStraightStrategy(), new OnePieceExistsCondition()),
-    GUARD(new PalaceStrategy(), new EmptyCondition()),
-    ELEPHANT(new ElephantStrategy(), new EmptyCondition()),
-    SOLDIER(new SoldierStrategy(), new EmptyCondition());
+    GENERAL(new PalaceStrategy(), new EmptyCondition(), 0),
+    CHARIOT(new MultiStepStraightStrategy(), new EmptyCondition(), 13),
+    CANNON(new MultiStepStraightStrategy(), new OnePieceExistsCondition(), 7),
+    HORSE(new HorseStrategy(), new EmptyCondition(), 5),
+    ELEPHANT(new ElephantStrategy(), new EmptyCondition(), 3),
+    GUARD(new PalaceStrategy(), new EmptyCondition(), 3),
+    SOLDIER(new SoldierStrategy(), new EmptyCondition(), 2);
 
     private final MoveStrategy moveStrategy;
     private final MoveCondition moveCondition;
+    private final double score;
 
-    PieceType(MoveStrategy moveStrategy, MoveCondition moveCondition) {
+    PieceType(MoveStrategy moveStrategy, MoveCondition moveCondition, int score) {
         this.moveStrategy = moveStrategy;
         this.moveCondition = moveCondition;
+        this.score = score;
     }
 
     public List<Position> findPath(Position source, Position destination, Camp camp) {
@@ -37,5 +39,9 @@ public enum PieceType {
 
     public void checkPath(List<Position> path, Camp camp, BoardChecker board) {
         moveCondition.checkPath(path, camp, board, this);
+    }
+
+    public double score() {
+        return score;
     }
 }

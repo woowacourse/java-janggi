@@ -69,13 +69,13 @@ class BoardTest {
     @Test
     void 궁을_잡으면_게임이_끝난다() {
         // given
-        Position source = new Position(7, 1);
-        Position destination = new Position(0, 1);
+        Position source = new Position(7, 4);
+        Position destination = new Position(1, 4);
 
         Board board = new Board(() -> Map.of(
-                new Position(4, 1), new Piece(PieceType.SOLDIER, Camp.HAN),
-                destination, new Piece(PieceType.GENERAL, Camp.CHO),
-                source, new Piece(PieceType.CANNON, Camp.HAN)
+                new Position(6, 4), new Piece(PieceType.SOLDIER, Camp.HAN),
+                source, new Piece(PieceType.CANNON, Camp.HAN),
+                destination, new Piece(PieceType.GENERAL, Camp.CHO)
         ));
 
         // when
@@ -83,5 +83,26 @@ class BoardTest {
 
         // then
         assertThat(gameEnded).isTrue();
+    }
+
+    @Test
+    void 각_진영의_남아있는_기물로_점수를_계산한다() {
+        // given
+        Board board = new Board(() -> Map.of(
+                new Position(1, 4), new Piece(PieceType.GENERAL, Camp.CHO),
+                new Position(0, 0), new Piece(PieceType.CHARIOT, Camp.CHO),
+                new Position(0, 8), new Piece(PieceType.CHARIOT, Camp.CHO),
+
+                new Position(4, 1), new Piece(PieceType.SOLDIER, Camp.HAN),
+                new Position(7, 1), new Piece(PieceType.CANNON, Camp.HAN),
+                new Position(7, 7), new Piece(PieceType.CANNON, Camp.HAN)
+        ));
+
+        // when
+        Map<Camp, Double> eachCampScore = board.calculateScore();
+
+        // then
+        assertThat(eachCampScore.get(Camp.CHO)).isEqualTo(26);
+        assertThat(eachCampScore.get(Camp.HAN)).isEqualTo(17.5);
     }
 }

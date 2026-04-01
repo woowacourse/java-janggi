@@ -27,6 +27,7 @@ public final class OutputView {
             "０", "１", "２", "３", "４", "５", "６", "７", "８", "９"
     };
 
+    private static final String SCORE = "%s나라 점수: %.1f";
     private static final String WINNER = "%s나라가 승리하였습니다!! 축하드립니다!!";
 
     public void printError(String errorMessage) {
@@ -34,11 +35,11 @@ public final class OutputView {
     }
 
     public void printBoard(Map<Position, Piece> boardState) {
-        System.out.println(renderBoard(toPiecePositions(boardState)));
+        System.out.println(renderBoard(toPiecePositions(boardState)) + LINE_SEPARATOR);
     }
 
     public void printWinner(Camp camp) {
-        String winnerName = CampDto.from(camp).color() + CampDto.from(camp).name() + RESET;
+        String winnerName = toCampName(camp);
         System.out.printf((WINNER) + "%n", winnerName);
     }
 
@@ -91,5 +92,17 @@ public final class OutputView {
 
     private String fullWidthNumber(int number) {
         return FULL_WIDTH_NUMBERS[number];
+    }
+
+    public void printScore(Map<Camp, Double> eachCampScore) {
+        for (Camp camp : eachCampScore.keySet()) {
+            String campName = toCampName(camp);
+            System.out.printf(SCORE + "%n", campName, eachCampScore.get(camp));
+        }
+    }
+
+    private String toCampName(Camp camp) {
+        CampDto campDto = CampDto.from(camp);
+        return campDto.color() + campDto.name() + RESET;
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum Camp {
 
-    HAN(-1, 9) {
+    HAN(-1, 9, 1.5) {
         @Override
         public List<Integer> convertElephantColumns(List<Integer> columns) {
             return columns;
@@ -17,7 +17,7 @@ public enum Camp {
             return CHO;
         }
     },
-    CHO(1, 0) {
+    CHO(1, 0, 0) {
         @Override
         public List<Integer> convertElephantColumns(List<Integer> columns) {
             return columns.reversed();
@@ -33,10 +33,12 @@ public enum Camp {
 
     private final int forwardDirection;
     private final int startRowPosition;
+    private final double bonusScoreForSecondPlayer;
 
-    Camp(int forwardDirection, int startRowPosition) {
+    Camp(int forwardDirection, int startRowPosition, double bonusScoreForSecondPlayer) {
         this.forwardDirection = forwardDirection;
         this.startRowPosition = startRowPosition;
+        this.bonusScoreForSecondPlayer = bonusScoreForSecondPlayer;
     }
 
     public abstract List<Integer> convertElephantColumns(List<Integer> columns);
@@ -51,6 +53,10 @@ public enum Camp {
 
     public int getStartRowPosition() {
         return startRowPosition;
+    }
+
+    public double getBonusScoreForSecondPlayer() {
+        return bonusScoreForSecondPlayer;
     }
 
     public void validateFriendlyPalace(Position position) {
@@ -86,5 +92,10 @@ public enum Camp {
                     int absRowDifference = Math.abs(position.row() - camp.startRowPosition);
                     return position.column() == 4 && absRowDifference == 1;
                 });
+    }
+
+    public static List<Camp> getAllCamp() {
+        return Arrays.stream(values())
+                .toList();
     }
 }

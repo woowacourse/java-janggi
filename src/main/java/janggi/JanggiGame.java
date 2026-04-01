@@ -49,6 +49,7 @@ public class JanggiGame {
         Turn turn = new Turn();
         boolean continueGame = true;
         while (continueGame) {
+            outputView.printScore(board.calculateScore());
             continueGame = retryOnInvalidInput(() -> playTurn(board, turn));
             outputView.printBoard(board.getBoard());
         }

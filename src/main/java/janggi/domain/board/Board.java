@@ -59,6 +59,22 @@ public class Board implements BoardChecker {
         }
     }
 
+    public Map<Camp, Double> calculateScore() {
+        Map<Camp, Double> resultScore = new HashMap<>();
+
+        Camp.getAllCamp().forEach(camp -> {
+            double totalScore = board.values().stream()
+                    .filter(piece -> piece.isSameCamp(camp))
+                    .mapToDouble(Piece::score)
+                    .sum();
+
+            totalScore += camp.getBonusScoreForSecondPlayer();
+            resultScore.put(camp, totalScore);
+        });
+
+        return resultScore;
+    }
+
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
     }
