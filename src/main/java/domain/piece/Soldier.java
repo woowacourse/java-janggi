@@ -24,7 +24,7 @@ public class Soldier extends Piece {
         List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
         List<List<Integer>> movable = team == Team.CHO ? CHO_MOVABLE_LOCATION : HAN_MOVABLE_LOCATION;
         if (!movable.contains(diff)) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
+            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 

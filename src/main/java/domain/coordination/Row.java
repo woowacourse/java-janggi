@@ -8,7 +8,7 @@ public final class Row {
 
     public static final int MIN = 1;
     public static final int MAX = 10;
-    private static final String INVALID_COORDINATION = "좌표값이 잘못되었습니다.";
+    public static final String INVALID_COORDINATION_MESSAGE = "좌표값이 잘못되었습니다.";
 
     private final int index;
 
@@ -27,7 +27,7 @@ public final class Row {
 
     private void validateRange(int index) {
         if (!(index >= MIN && index <= MAX)) {
-            throw new IllegalArgumentException(INVALID_COORDINATION);
+            throw new IllegalArgumentException(INVALID_COORDINATION_MESSAGE);
         }
     }
 

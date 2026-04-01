@@ -27,7 +27,7 @@ public class General extends Piece {
     public void validateRule(Coordination from, Coordination to) {
         List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
         if (!MOVABLE_LOCATION.contains(diff)) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
+            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 

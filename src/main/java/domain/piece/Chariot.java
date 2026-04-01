@@ -20,7 +20,7 @@ public class Chariot extends Piece {
     public void validateRule(Coordination from, Coordination to) {
         boolean movable = from.isHorizontal(to) || from.isVertical(to);
         if (!movable) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
+            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 

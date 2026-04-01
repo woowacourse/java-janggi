@@ -7,7 +7,7 @@ public enum Turn {
     CHO("초"),
     HAN("한");
 
-    private static final String NOT_SAME_TEAM = "본인의 진영의 기물이 아닙니다.";
+    public static final String NOT_SAME_TEAM_MESSAGE = "본인의 진영의 기물이 아닙니다.";
 
     private final String name;
 
@@ -28,7 +28,7 @@ public enum Turn {
 
     public void validateSameTeam(Team team) {
         if (!this.name().equals(team.name())) {
-            throw new IllegalArgumentException(NOT_SAME_TEAM);
+            throw new IllegalArgumentException(NOT_SAME_TEAM_MESSAGE);
         }
     }
 }

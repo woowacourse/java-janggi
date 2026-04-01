@@ -23,7 +23,7 @@ public class Horse extends Piece {
         int absCol = Math.abs(from.differentColumn(to));
         int absRow = Math.abs(from.differentRow(to));
         if (!MOVABLE_ABSOLUTE_LOCATION.contains(List.of(absCol, absRow))) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
+            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 
