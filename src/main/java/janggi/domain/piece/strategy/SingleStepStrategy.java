@@ -29,7 +29,7 @@ public class SingleStepStrategy implements MoveStrategy {
     }
 
     private void validateMovement(DirectionInformation directionInfo) {
-        if (directionInfo.calculateAbsRowDifference() + directionInfo.calculateAbsColDifference() != SINGLE_STEP_DISTANCE) {
+        if (directionInfo.calculateDistance() != SINGLE_STEP_DISTANCE) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }

@@ -8,6 +8,10 @@ public record DirectionInformation(int rowDifference, int colDifference) {
         this(destination.calculateRowDistance(source), destination.calculateColumnDistance(source));
     }
 
+    public int calculateDistance() {
+        return calculateAbsRowDifference() + calculateAbsColDifference();
+    }
+
     public int calculateAbsRowDifference() {
         return Math.abs(rowDifference);
     }
