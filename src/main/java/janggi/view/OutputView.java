@@ -20,23 +20,13 @@ public class OutputView {
             false, HAN_COLOR
     );
 
-    private static final Map<Camp, Integer> ROW_START = Map.of(
-            Camp.CHO, 9,
-            Camp.HAN, 0
-    );
-
-    private static final Map<Camp, Integer> ROW_STEP = Map.of(
-            Camp.CHO, -1,
-            Camp.HAN, 1
-    );
-
     private static final int COL_SIZE = 9;
 
     public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
         System.out.println();
 
-        int rowStart = ROW_START.get(currentCamp);
-        int rowStep = ROW_STEP.get(currentCamp);
+        int rowStart = currentCamp.initRowPosition();
+        int rowStep = -currentCamp.direction();
 
         List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
                 .limit(10)
