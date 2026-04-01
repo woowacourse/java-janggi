@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.position.Position;
+import java.util.List;
 
 public class EmptyPiece implements Piece {
 
@@ -20,6 +21,11 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public List<Position> searchRoute(Position source, Position target) {
+        return List.of();
+    }
+
+    @Override
     public boolean isNotEmpty() {
         return false;
     }
@@ -32,6 +38,11 @@ public class EmptyPiece implements Piece {
     @Override
     public String display(PieceAppearance colorizer) {
         return colorizer.colorizeEmpty();
+    }
+
+    @Override
+    public boolean isCannon() {
+        return false;
     }
 
     @Override

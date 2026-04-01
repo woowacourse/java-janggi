@@ -1,9 +1,12 @@
 package domain.piece;
 
 import domain.position.Position;
+import java.util.List;
 
 public interface Piece {
     boolean canMove(Position source, Position target);
+
+    List<Position> searchRoute(Position source, Position target);
 
     boolean isNotEmpty();
 
@@ -11,7 +14,5 @@ public interface Piece {
 
     String display(PieceAppearance colorizer);
 
-    default boolean isCannon() {
-        return false;
-    }
+    boolean isCannon();
 }

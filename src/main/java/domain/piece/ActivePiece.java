@@ -28,8 +28,6 @@ public abstract class ActivePiece implements Piece {
         return team.forwardRowDirection();
     }
 
-    public abstract List<Position> searchRoute(Position source, Position target);
-
     @Override
     public String display(PieceAppearance colorizer) {
         return colorizer.colorize(team, type);

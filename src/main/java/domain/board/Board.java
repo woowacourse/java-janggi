@@ -18,7 +18,7 @@ public class Board {
     public void move(Position source, Position destination) {
         Piece piece = pieceAt(source);
         validateCanMove(piece, source, destination);
-        List<Position> route = ((ActivePiece) piece).searchRoute(source, destination);
+        List<Position> route = piece.searchRoute(source, destination);
         if (piece.isCannon()) {
             validateCannonRoute(route, destination);
         } else {
@@ -63,8 +63,8 @@ public class Board {
         }
     }
 
-    private void validateDestination(Position dest, Piece movingPiece) {
-        if (pieceAt(dest).isAlly(movingPiece)) {
+    private void validateDestination(Position destination, Piece movingPiece) {
+        if (pieceAt(destination).isAlly(movingPiece)) {
             throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
         }
     }

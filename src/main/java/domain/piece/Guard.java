@@ -29,4 +29,9 @@ public class Guard extends ActivePiece {
     public List<Position> searchRoute(Position source, Position target) {
         return List.of();
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }

@@ -24,4 +24,9 @@ public class Chariot extends ActivePiece {
 
         return source.makeColStraightRoute(target);
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }

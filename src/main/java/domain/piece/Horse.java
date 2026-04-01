@@ -42,4 +42,9 @@ public class Horse extends ActivePiece {
 
         return List.of(source.addPosition(-1, 0));
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }
