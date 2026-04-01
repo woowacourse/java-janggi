@@ -1,5 +1,7 @@
 package janggi.domain.position;
 
+import janggi.domain.DomainException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,8 @@ import static janggi.domain.position.Direction.*;
  * 나라에 따라도 달라짐
  */
 public class Palace {
+
+    public static final String INVALID_PALACE_POSITION = "해당 위치(%d,%d)는 궁성이 아닙니다.";
 
     // key: Position, value: 각 Position에서 궁성 내에서 이동할 수 있는 방향 목록
     private static Map<Position, List<Direction>> palacePositionDirectionMap = Map.ofEntries(
@@ -38,12 +42,16 @@ public class Palace {
             Map.entry(Position.from(7, 5), List.of(WEST, EAST, NORTH))
     );
 
+
     public static boolean isPalace(Position position) {
         return palacePositionDirectionMap.containsKey(position);
     }
 
-    public static List<Direction> getMovableDirections(Position position) {
-        return palacePositionDirectionMap.getOrDefault(position, List.of());
+    public static List<Direction> getMovableDirectionsAtPalace(Position position) {
+        if(!isPalace(position)) {
+            throw new DomainException(String.format(INVALID_PALACE_POSITION, position.row().row(), position.column().column()));
+        }
+        return palacePositionDirectionMap.get(position);
     }
 
 }
