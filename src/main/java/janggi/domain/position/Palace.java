@@ -16,21 +16,34 @@ import static janggi.domain.position.Direction.*;
 public class Palace {
 
     // key: Position, value: 각 Position에서 궁성 내에서 이동할 수 있는 방향 목록
-    private static Map<Position, List<Direction>> palacePositionDirectionMap = Map.of(
-            Position.from(1, 4), List.of(SOUTH, SOUTHEAST, EAST),
-            Position.from(1, 5), List.of(WEST, SOUTHEAST, EAST),
-            Position.from(1, 6), List.of(SOUTHWEST, SOUTHEAST, SOUTH),
-            Position.from(2, 4), List.of(SOUTH, EAST, NORTH),
-            Position.from(2, 5), List.of(WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST),
-            Position.from(2, 6), List.of(WEST, SOUTH, NORTH),
-            Position.from(3, 4), List.of(EAST, NORTHEAST, NORTH),
-            Position.from(3, 5), List.of(WEST, EAST, NORTH),
-            Position.from(3, 6), List.of(WEST, NORTH, NORTHWEST)
+    private static Map<Position, List<Direction>> palacePositionDirectionMap = Map.ofEntries(
+            Map.entry(Position.from(1, 4), List.of(SOUTH, SOUTHEAST, EAST)),
+            Map.entry(Position.from(1, 5), List.of(WEST, SOUTH, EAST)),
+            Map.entry(Position.from(1, 6), List.of(SOUTHWEST, SOUTHEAST, SOUTH)),
+            Map.entry(Position.from(2, 4), List.of(SOUTH, EAST, NORTH)),
+            Map.entry(Position.from(2, 5), List.of(WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST)),
+            Map.entry(Position.from(2, 6), List.of(WEST, SOUTH, NORTH)),
+            Map.entry(Position.from(3, 4), List.of(EAST, NORTHEAST, NORTH)),
+            Map.entry(Position.from(3, 5), List.of(WEST, EAST, NORTH)),
+            Map.entry(Position.from(3, 6), List.of(WEST, NORTH, NORTHWEST)),
+
+            Map.entry(Position.from(9, 4), List.of(EAST, NORTHEAST, NORTH)),
+            Map.entry(Position.from(9, 6), List.of(WEST, NORTH, NORTHWEST)),
+            Map.entry(Position.from(9, 5), List.of(WEST, NORTH, EAST)),
+            Map.entry(Position.from(8, 4), List.of(SOUTH, EAST, NORTH)),
+            Map.entry(Position.from(8, 6), List.of(WEST, SOUTH, NORTH)),
+            Map.entry(Position.from(8, 5), List.of(WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST)),
+            Map.entry(Position.from(7, 4), List.of(SOUTH, SOUTHEAST, EAST)),
+            Map.entry(Position.from(7, 6), List.of(WEST, SOUTHWEST, NORTH)),
+            Map.entry(Position.from(7, 5), List.of(WEST, EAST, NORTH))
     );
 
     public static boolean isPalace(Position position) {
-        return palacePositionDirectionMap.containsKey(position) ||
-                palacePositionDirectionMap.containsKey(position.flip());
+        return palacePositionDirectionMap.containsKey(position);
+    }
+
+    public static List<Direction> getMovableDirections(Position position) {
+        return palacePositionDirectionMap.getOrDefault(position, List.of());
     }
 
 }
