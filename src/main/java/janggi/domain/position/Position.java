@@ -53,8 +53,6 @@ public class Position {
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(row);
-        result = 31 * result + Objects.hashCode(column);
-        return result;
+        return Objects.hash(row, column);
     }
 }

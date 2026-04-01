@@ -22,10 +22,6 @@ public class Path {
         return new Path(new WayPoints(wayPoints), destination);
     }
 
-    public Position destination() {
-        return destination;
-    }
-
     public boolean isDestination(Position position) {
         return destination.equals(position);
     }
@@ -43,8 +39,6 @@ public class Path {
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(wayPoints);
-        result = 31 * result + Objects.hashCode(destination);
-        return result;
+        return Objects.hash(wayPoints, destination);
     }
 }
