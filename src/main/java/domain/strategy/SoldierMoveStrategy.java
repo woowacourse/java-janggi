@@ -18,6 +18,10 @@ public class SoldierMoveStrategy implements MoveStrategy {
             return true;
         }
 
+        if (!board.isExistPosition(to)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -35,6 +39,10 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
+        if (Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) != 1) {
+            return true;
+        }
+
         if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) != 1) {
             return true;
         }
