@@ -20,8 +20,8 @@ public class GeneralTest {
     void generalPathTest(Position from, Position to, List<Position> paths) {
         Piece choGeneral = new General(Country.CHO);
         Piece hanGeneral = new General(Country.HAN);
-        assertThat(choGeneral.path(from, to)).isEqualTo(paths);
-        assertThat(hanGeneral.path(from, to)).isEqualTo(paths);
+        assertThat(choGeneral.findPaths(from, to)).isEqualTo(paths);
+        assertThat(hanGeneral.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedGeneralPaths() {
@@ -45,7 +45,7 @@ public class GeneralTest {
         Position from = new Position(3, 0);
         Position to = new Position(3, 2);
 
-        assertThatThrownBy(() -> general.path(from, to))
+        assertThatThrownBy(() -> general.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 한 칸만 이동할 수 있습니다.");
     }
@@ -58,7 +58,7 @@ public class GeneralTest {
         Position from = new Position(3, 0);
         Position to = new Position(2, 1);
 
-        assertThatThrownBy(() -> general.path(from, to))
+        assertThatThrownBy(() -> general.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
     }

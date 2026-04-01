@@ -20,8 +20,8 @@ public class HorseTest {
     void horsePathTest(Position from, Position to, List<Position> paths) {
         Piece choHorse = new Horse(Country.CHO);
         Piece hanHorse = new Horse(Country.HAN);
-        assertThat(choHorse.path(from, to)).isEqualTo(paths);
-        assertThat(hanHorse.path(from, to)).isEqualTo(paths);
+        assertThat(choHorse.findPaths(from, to)).isEqualTo(paths);
+        assertThat(hanHorse.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedHorsePaths() {
@@ -54,7 +54,7 @@ public class HorseTest {
         Position from = new Position(1, 0);
         Position to = new Position(4, 4);
 
-        assertThatThrownBy(() -> horse.path(from, to))
+        assertThatThrownBy(() -> horse.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마가 이동할 수 있는 방향은 2개이어야 합니다.");
     }
@@ -68,10 +68,10 @@ public class HorseTest {
         Position allDialogTo = new Position(3, 3);
         Position notExistDialogTo = new Position(1, 3);
 
-        assertThatThrownBy(() -> horse.path(from, allDialogTo))
+        assertThatThrownBy(() -> horse.findPaths(from, allDialogTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 1번째 방향은 직선이고, 2번째 방향은 대각선이어야 합니다.");
-        assertThatThrownBy(() -> horse.path(from, notExistDialogTo))
+        assertThatThrownBy(() -> horse.findPaths(from, notExistDialogTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 1번째 방향은 직선이고, 2번째 방향은 대각선이어야 합니다.");
     }

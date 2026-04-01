@@ -39,7 +39,7 @@ public class Board {
 
     public void move(Position from, Position to) {
         Piece piece = board.get(from).getPiece();
-        List<Position> paths = piece.path(from, to);
+        List<Position> paths = piece.findPaths(from, to);
 
         if (!board.get(to).isEmpty()) {
             Country fromCountry = board.get(from).getPiece().getPieceCountry();
@@ -49,7 +49,7 @@ public class Board {
             }
         }
 
-        piece.validatePath(paths, this);
+        piece.validateClearPath(paths, this);
 
         board.put(to, new FullState(piece));
         board.put(from, new EmptyState());

@@ -20,8 +20,8 @@ public class ElephantTest {
     void elephantPathTest(Position from, Position to, List<Position> paths) {
         Piece choElephant = new Elephant(Country.CHO);
         Piece hanElephant = new Elephant(Country.HAN);
-        assertThat(choElephant.path(from, to)).isEqualTo(paths);
-        assertThat(hanElephant.path(from, to)).isEqualTo(paths);
+        assertThat(choElephant.findPaths(from, to)).isEqualTo(paths);
+        assertThat(hanElephant.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedElephantPaths() {
@@ -53,7 +53,7 @@ public class ElephantTest {
         Position from = new Position(1, 0);
         Position to = new Position(4, 4);
 
-        assertThatThrownBy(() -> elephant.path(from, to))
+        assertThatThrownBy(() -> elephant.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상이 이동할 수 있는 방향은 3개이어야 합니다.");
     }
@@ -66,7 +66,7 @@ public class ElephantTest {
         Position from = new Position(1, 3);
         Position to = new Position(2, 0);
 
-        assertThatThrownBy(() -> elephant.path(from, to))
+        assertThatThrownBy(() -> elephant.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 2번째 방향과 3번째 방향은 동일해야 합니다.");
     }
@@ -80,10 +80,10 @@ public class ElephantTest {
         Position allDiagonalTo = new Position(4, 4);
         Position notExistDiagonalTo = new Position(1, 4);
 
-        assertThatThrownBy(() -> elephant.path(from, allDiagonalTo))
+        assertThatThrownBy(() -> elephant.findPaths(from, allDiagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 1번째 방향은 직선이고, 2, 3번째 방향은 대각선이어야 합니다.");
-        assertThatThrownBy(() -> elephant.path(from, notExistDiagonalTo))
+        assertThatThrownBy(() -> elephant.findPaths(from, notExistDiagonalTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 1번째 방향은 직선이고, 2, 3번째 방향은 대각선이어야 합니다.");
     }

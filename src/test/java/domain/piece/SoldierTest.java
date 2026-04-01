@@ -20,7 +20,7 @@ public class SoldierTest {
     void soldierPathTest(Position from, Position to, List<Position> paths) {
         Piece choSoldier = new Soldier(Country.CHO);
 
-        assertThat(choSoldier.path(from, to)).isEqualTo(paths);
+        assertThat(choSoldier.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedSoldierPaths() {
@@ -40,7 +40,7 @@ public class SoldierTest {
     void hanSoldierPathTest(Position from, Position to, List<Position> paths) {
         Piece hanSoldier = new Soldier(Country.HAN);
 
-        assertThat(hanSoldier.path(from, to)).isEqualTo(paths);
+        assertThat(hanSoldier.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedHanSoldierPaths() {
@@ -63,10 +63,10 @@ public class SoldierTest {
         Position choTo = new Position(1, 0);
         Position hanTo = new Position(1, 2);
 
-        assertThatThrownBy(() -> choSoldier.path(from, choTo))
+        assertThatThrownBy(() -> choSoldier.findPaths(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸・병은 후진할 수 없습니다.");
-        assertThatThrownBy(() -> hanSoldier.path(from, hanTo))
+        assertThatThrownBy(() -> hanSoldier.findPaths(from, hanTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸・병은 후진할 수 없습니다.");
     }
@@ -79,7 +79,7 @@ public class SoldierTest {
         Position from = new Position(1, 1);
         Position to = new Position(1, 3);
 
-        assertThatThrownBy(() -> soldier.path(from, to))
+        assertThatThrownBy(() -> soldier.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 한 칸만 이동할 수 있습니다.");
     }
@@ -94,10 +94,10 @@ public class SoldierTest {
         Position choTo = new Position(2, 2);
         Position hanTo = new Position(0, 0);
 
-        assertThatThrownBy(() -> choSoldier.path(from, choTo))
+        assertThatThrownBy(() -> choSoldier.findPaths(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
-        assertThatThrownBy(() -> hanSoldier.path(from, hanTo))
+        assertThatThrownBy(() -> hanSoldier.findPaths(from, hanTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
     }

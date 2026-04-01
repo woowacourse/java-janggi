@@ -22,8 +22,8 @@ public class CannonTest {
     void cannonPathTest(Position from, Position to, List<Position> paths) {
         Piece choCannon = new Cannon(Country.CHO);
         Piece hanCannon = new Cannon(Country.HAN);
-        assertThat(choCannon.path(from, to)).isEqualTo(paths);
-        assertThat(hanCannon.path(from, to)).isEqualTo(paths);
+        assertThat(choCannon.findPaths(from, to)).isEqualTo(paths);
+        assertThat(hanCannon.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedCannonPaths() {
@@ -47,7 +47,7 @@ public class CannonTest {
         Position from = new Position(1, 2);
         Position to = new Position(4, 4);
 
-        assertThatThrownBy(() -> cannon.path(from, to))
+        assertThatThrownBy(() -> cannon.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 하나의 방향으로만 이동 가능합니다.");
     }
@@ -60,7 +60,7 @@ public class CannonTest {
         Position from = new Position(1, 1);
         Position to = new Position(4, 4);
 
-        assertThatThrownBy(() -> cannon.path(from, to))
+        assertThatThrownBy(() -> cannon.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
     }

@@ -17,17 +17,17 @@ public abstract class Piece {
         this.pieceInfo = pieceInfo;
     }
 
-    public List<Position> path(Position from, Position to) {
+    public List<Position> findPaths(Position from, Position to) {
         List<Position> path = new ArrayList<>();
         Position position = from;
-        for (Direction direction : findDirections(from, to)) {
+        for (Direction direction : findMovingDirections(from, to)) {
             position = position.nextPosition(direction);
             path.add(position);
         }
         return path;
     }
 
-    public List<Direction> findDirections(Position from, Position to) {
+    public List<Direction> findMovingDirections(Position from, Position to) {
         Distance distance = from.calculateDistance(to);
         int x = distance.x();
         int y = distance.y();
@@ -39,7 +39,7 @@ public abstract class Piece {
 
     abstract protected void validateDirections(List<Direction> directions);
 
-    public void validatePath(List<Position> paths, Board board) {
+    public void validateClearPath(List<Position> paths, Board board) {
         for (int index = 0; index < paths.size() - 1; index++) {
             if (!board.isEmpty(paths.get(index))) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);

@@ -21,8 +21,8 @@ public class ChariotTest {
         Piece choChariot = new Chariot(Country.CHO);
         Piece hanChariot = new Chariot(Country.HAN);
 
-        assertThat(choChariot.path(from, to)).isEqualTo(paths);
-        assertThat(hanChariot.path(from, to)).isEqualTo(paths);
+        assertThat(choChariot.findPaths(from, to)).isEqualTo(paths);
+        assertThat(hanChariot.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedChariotPaths() {
@@ -46,7 +46,7 @@ public class ChariotTest {
         Position from = new Position(1, 2);
         Position to = new Position(4, 4);
 
-        assertThatThrownBy(() -> chariot.path(from, to))
+        assertThatThrownBy(() -> chariot.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 하나의 방향으로만 이동 가능합니다.");
     }
@@ -59,7 +59,7 @@ public class ChariotTest {
         Position from = new Position(1, 1);
         Position to = new Position(4, 4);
 
-        assertThatThrownBy(() -> chariot.path(from, to))
+        assertThatThrownBy(() -> chariot.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
     }

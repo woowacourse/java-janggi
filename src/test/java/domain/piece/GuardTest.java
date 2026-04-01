@@ -21,8 +21,8 @@ public class GuardTest {
         Piece choGuard = new Guard(Country.CHO);
         Piece handGuard = new Guard(Country.HAN);
 
-        assertThat(choGuard.path(from, to)).isEqualTo(paths);
-        assertThat(handGuard.path(from, to)).isEqualTo(paths);
+        assertThat(choGuard.findPaths(from, to)).isEqualTo(paths);
+        assertThat(handGuard.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedChoGuardPaths() {
@@ -45,8 +45,8 @@ public class GuardTest {
         Piece choGuard = new Guard(Country.CHO);
         Piece handGuard = new Guard(Country.HAN);
 
-        assertThat(choGuard.path(from, to)).isEqualTo(paths);
-        assertThat(handGuard.path(from, to)).isEqualTo(paths);
+        assertThat(choGuard.findPaths(from, to)).isEqualTo(paths);
+        assertThat(handGuard.findPaths(from, to)).isEqualTo(paths);
     }
 
     static Stream<Arguments> expectedHanGuardPaths() {
@@ -70,7 +70,7 @@ public class GuardTest {
         Position from = new Position(3, 0);
         Position to = new Position(3, 2);
 
-        assertThatThrownBy(() -> guard.path(from, to))
+        assertThatThrownBy(() -> guard.findPaths(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 한 칸만 이동할 수 있습니다.");
     }
@@ -83,7 +83,7 @@ public class GuardTest {
         Position from = new Position(3, 0);
         Position choTo = new Position(2, 1);
 
-        assertThatThrownBy(() -> guard.path(from, choTo))
+        assertThatThrownBy(() -> guard.findPaths(from, choTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 직선으로만 이동 가능합니다.");
     }

@@ -16,7 +16,7 @@ public class Cannon extends StraightMovingPiece {
     }
 
     @Override
-    public void validatePath(List<Position> paths, Board board) {
+    public void validateClearPath(List<Position> paths, Board board) {
         int pieceCount = 0;
         for (int index = 0; index < paths.size() - 1; index++) {
             pieceCount = countPiece(paths.get(index), board, pieceCount);
