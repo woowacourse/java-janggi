@@ -8,7 +8,6 @@ import janggi.domain.side.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public class JanggiController {
@@ -36,7 +35,7 @@ public class JanggiController {
 
             Point from = retry(() -> getPoint(game));
             outputView.printBoardWithPath(board, game.destinations(from));
-            retry(() -> movePath(game, from, inputView.readDestination()));
+            retry(() -> movePath(game, from));
         }
     }
 
@@ -48,8 +47,8 @@ public class JanggiController {
         return from;
     }
 
-    private void movePath(Game game, Point from, Optional<Point> optionalPoint) {
-        Point to = optionalPoint.orElse(null);
+    private void movePath(Game game, Point from) {
+        Point to = inputView.readDestination();
         if (to == null) {
             return;
         }
