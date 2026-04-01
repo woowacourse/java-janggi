@@ -36,10 +36,9 @@ public class Position {
 
     public Optional<Position> move(Direction direction) {
         return Optional.ofNullable(
-                ALL_POSITION.get((row.value() + direction.dr()) + "," + (column.value() + direction.dc()))
+                ALL_POSITION.get(createKey(row.value() + direction.dr(), column.value() + direction.dc()))
         );
     }
-
     private static String createKey(int row, int column) {
         return row + "," + column;
     }
