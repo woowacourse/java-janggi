@@ -33,7 +33,7 @@ public class DefaultBoardDesignPolicy implements BoardDesignPolicy {
     }
 
     private static void settingFirstRow(Map<Position, Piece> board, HorseElephantPosition horseElephantPos, Dynasty dynasty) {
-        int row = dynasty.resolveRow(1);
+        int row = dynasty.flipRowIfNeeded(1);
 
         board.put(Position.from(row, 1), new Piece(dynasty, CHARIOT));
         board.put(Position.from(row, 4), new Piece(dynasty, GUARD));
@@ -50,18 +50,18 @@ public class DefaultBoardDesignPolicy implements BoardDesignPolicy {
     }
 
     private static void settingSecondRow(Map<Position, Piece> board, Dynasty dynasty) {
-        int row = dynasty.resolveRow(2);
+        int row = dynasty.flipRowIfNeeded(2);
         board.put(Position.from(row, 5), new Piece(dynasty, PieceType.GENERAL));
     }
 
     private static void settingThirdRow(Map<Position, Piece> board, Dynasty dynasty) {
-        int row = dynasty.resolveRow(3);
+        int row = dynasty.flipRowIfNeeded(3);
         board.put(Position.from(row, 2), new Piece(dynasty, CANNON));
         board.put(Position.from(row, 8), new Piece(dynasty, CANNON));
     }
 
     private static void settingFourthRow(Map<Position, Piece> board, Dynasty dynasty) {
-        int row = dynasty.resolveRow(4);
+        int row = dynasty.flipRowIfNeeded(4);
         board.put(Position.from(row, 1), new Piece(dynasty, SOLDIER));
         board.put(Position.from(row, 3), new Piece(dynasty, SOLDIER));
         board.put(Position.from(row, 5), new Piece(dynasty, SOLDIER));

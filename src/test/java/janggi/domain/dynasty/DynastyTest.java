@@ -30,9 +30,9 @@ class DynastyTest {
             "1, HAN, 10",
     })
     @DisplayName("Dynasty 타입에 맞게 row를 처리한다")
-    public void resolveRow_success(int origin, Dynasty dynasty, int result) {
+    public void flipRow_IfNeeded_success(int origin, Dynasty dynasty, int result) {
         // when
-        int resolved = dynasty.resolveRow(origin);
+        int resolved = dynasty.flipRowIfNeeded(origin);
 
         // then
         assertThat(resolved).isEqualTo(result);

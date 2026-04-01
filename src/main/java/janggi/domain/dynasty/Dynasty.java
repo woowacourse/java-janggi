@@ -25,7 +25,7 @@ public enum Dynasty {
         return values[(ordinal() + 1) % values.length];
     }
 
-    public int resolveRow(int row) {
+    public int flipRowIfNeeded(int row) {
         return Row.flippedIfNeeded(isFlipped, row)
                 .row();
     }
