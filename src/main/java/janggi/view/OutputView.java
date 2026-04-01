@@ -55,7 +55,7 @@ public final class OutputView {
 
     private static void applyPieces(String[][] board, List<PiecePositionDto> piecePositions) {
         for (PiecePositionDto piecePosition : piecePositions) {
-            board[piecePosition.row()][piecePosition.col()] = colorize(piecePosition);
+            board[piecePosition.row()][piecePosition.column()] = colorize(piecePosition);
         }
     }
 

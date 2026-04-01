@@ -4,7 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.ElephantFormation;
-import janggi.domain.board.ElephantSetUp;
 import janggi.domain.board.InitialPiecePlacement;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
@@ -31,13 +30,11 @@ public class JanggiGame {
         return InitialPiecePlacement.initialize(hanElephantFormation, choElephantFormation);
     }
 
-    private static ElephantFormation readElephantFormation(Camp camp) {
+    private ElephantFormation readElephantFormation(Camp camp) {
         return RetryHandler.retryOnInvalidInput(() -> {
-                    ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(CampDto.from(camp));
-                    ElephantSetUp elephantSetUp = elephantSetUpFormat.getElephantSetUp();
-                    return new ElephantFormation(camp, elephantSetUp);
-                }
-        );
+            ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(CampDto.from(camp));
+            return elephantSetUpFormat.toElephantFormation(camp);
+        });
     }
 
     private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {

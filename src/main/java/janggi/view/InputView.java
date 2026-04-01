@@ -17,7 +17,7 @@ public final class InputView {
     }
 
     public static ElephantSetUpFormat readElephantSettingCommand(CampDto campDto) {
-        System.out.println("%s나라의 상차림을 선택해주세요.".formatted(campDto.name()));
+        System.out.println(LINE_SEPARATOR + "%s나라의 상차림을 선택해주세요.".formatted(campDto.name()));
         for (ElephantSetUpFormat elephantSetUpFormat : ElephantSetUpFormat.values()) {
             System.out.println(elephantSetUpFormat.getCommand() + ". " + elephantSetUpFormat.getDescription());
         }

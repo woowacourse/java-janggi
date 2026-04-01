@@ -37,6 +37,4 @@ public class ElephantFormation {
         }
         return map;
     }
-
-
 }

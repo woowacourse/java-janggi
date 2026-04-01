@@ -6,7 +6,7 @@ import janggi.view.format.PieceFormat;
 
 public record PiecePositionDto(
         int row,
-        int col,
+        int column,
         String type,
         CampDto camp
 ) {
