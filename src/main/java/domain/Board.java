@@ -54,8 +54,8 @@ public class Board {
 
         return moveStrategy.makeRoutes(currentPosition, piece.getTeamColor()).stream()
                 .filter(route -> route.endPos().isInsideBoard())
-                .filter(route -> moveStrategy.canMove(route, getBlockingPieces(route), getDestinationPiece(route),
-                        piece.getTeamColor()))
+                .filter(route -> moveStrategy.canMove(route, getBlockingPieces(route),
+                        getDestinationPiece(route).orElse(null), piece.getTeamColor()))
                 .toList();
     }
 
@@ -71,9 +71,9 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException("해당 기물은 목적지로 이동할 수 없습니다."));
 
         List<Piece> blockingPieces = getBlockingPieces(route);
-        Optional<Piece> destinationPiece = getDestinationPiece(route);
+        Piece pieceAtDestination = getDestinationPiece(route).orElse(null);
 
-        if (!moveStrategy.canMove(route, blockingPieces, destinationPiece, piece.getTeamColor())) {
+        if (!moveStrategy.canMove(route, blockingPieces, pieceAtDestination, piece.getTeamColor())) {
             throw new IllegalArgumentException("현재 판 상태에서는 해당 목적지로 이동할 수 없습니다.");
         }
 

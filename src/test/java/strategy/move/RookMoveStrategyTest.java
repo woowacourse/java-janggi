@@ -8,7 +8,6 @@ import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +58,7 @@ public class RookMoveStrategyTest {
             MoveStrategy moveStrategy = new RookMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
 
-            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), null, TeamColor.CHO);
 
             assertThat(canMove).isTrue();
         }
@@ -72,7 +71,7 @@ public class RookMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
-                    Optional.empty(),
+                    null,
                     TeamColor.CHO
             );
 
@@ -87,7 +86,7 @@ public class RookMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(),
-                    Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD)),
+                    Piece.of(TeamColor.CHO, PieceType.GUARD),
                     TeamColor.CHO
             );
 
