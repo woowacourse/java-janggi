@@ -38,7 +38,8 @@ public class InputView {
         }
     }
     
-    public Position readPosition() {
+    public Position readPosition(String turnName) {
+        System.out.println(turnName + " 차례입니다.");
         System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0)");
 
         String input = scanner.nextLine();
@@ -50,7 +51,7 @@ public class InputView {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            return readPosition();
+            return readPosition(turnName);
         }
     }
 

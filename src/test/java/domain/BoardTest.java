@@ -22,25 +22,11 @@ class BoardTest {
     void 보드_생성(int row, int col, Type expected) {
         // given
         // when
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
+        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
 
         // then
         Piece piece = board.findPieceByPosition(Position.of(row, col)).get();
         assertEquals(expected, piece.getType());
-    }
-
-    @Test
-    @DisplayName("기물의 이동 경로에 다른 기물이 없으면 이동한다.")
-    void 기물_포진() {
-        // given
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
-        Position position = Position.of(0, 1);
-
-        // when
-        board.format(1, 1);
-
-        // then
-        assertEquals(Type.HORSE, board.getBoard().get(position).getType());
     }
 
     @Test
@@ -55,7 +41,7 @@ class BoardTest {
         // when
         Position from = Position.of(0, 0);
         Position to = Position.of(1, 0);
-        board.tryToMove(from, to);
+        board.tryToMove(from, to, Team.CHU);
 
         // then
         Piece findPiece = board.findPieceByPosition(to).get();

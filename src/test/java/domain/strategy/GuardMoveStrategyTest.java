@@ -16,7 +16,7 @@ class GuardMoveStrategyTest {
     void guardShouldMoveToEmptyDestination() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
+        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_HORSE, Formation.LEFT_ELEPHANT_RIGHT_HORSE);
 
         // when
         Position position = Position.of(0, 3);
@@ -31,7 +31,7 @@ class GuardMoveStrategyTest {
     void guardShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
+        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_HORSE, Formation.LEFT_ELEPHANT_RIGHT_HORSE);
 
         // when
         Position position = Position.of(0, 3);

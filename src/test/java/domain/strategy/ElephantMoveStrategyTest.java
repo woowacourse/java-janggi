@@ -2,6 +2,7 @@ package domain.strategy;
 
 import domain.Board;
 import domain.BoardFactory;
+import domain.Formation;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldMoveWhenPathIsClear() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
+        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_HORSE, Formation.LEFT_ELEPHANT_RIGHT_HORSE);
 
         // when
         Position from = Position.of(0, 1);
@@ -29,7 +30,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldNotMoveWhenPieceInPath() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
+        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_HORSE, Formation.LEFT_ELEPHANT_RIGHT_HORSE);
 
         // when
         Position from = Position.of(0, 1);
@@ -44,7 +45,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
+        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_HORSE, Formation.LEFT_ELEPHANT_RIGHT_HORSE);
 
         // when
         Position from = Position.of(6, 1);
@@ -59,7 +60,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldMoveToEnemyPiece() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp(hanFormat, chuFormat);
+        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_HORSE, Formation.LEFT_ELEPHANT_RIGHT_HORSE);
 
         // when
         Position from = Position.of(3, 4);

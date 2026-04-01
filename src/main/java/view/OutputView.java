@@ -21,7 +21,7 @@ public class OutputView {
 
     public void printBoard(Map<Position, Piece> board) {
         System.out.println();
-        String[] rowLabels = {"일", "이", "삼", "사", "오", "육", "칠", "팔", "구", "십"};
+        String[] rowLabels = {"영", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"};
 
         for (int row = MAX_ROW; row >= 0; row--) {
             System.out.print(rowLabels[row] + " ");
@@ -41,7 +41,7 @@ public class OutputView {
             }
             System.out.println();
         }
-        System.out.println("  일 이 삼 사 오 육 칠 팔 구");
+        System.out.println("  영 일 이 삼 사 오 육 칠 팔");
         System.out.println();
     }
 
