@@ -7,7 +7,6 @@ import domain.board.wing.Wings;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class InitialPiecesTest {
@@ -30,10 +29,7 @@ class InitialPiecesTest {
         // given
         InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
 
-        // when
-        Map<Intersection, Piece> initializedPieces = initialPieces.toMap();
-
-        // then
-        assertThat(initializedPieces).hasSize(INITIAL_PIECES_AMOUNT);
+        // when and then
+        assertThat(initialPieces.size()).isEqualTo(INITIAL_PIECES_AMOUNT);
     }
 }

@@ -42,6 +42,10 @@ public class InitialPieces {
         );
     }
 
+    public int size() {
+        return initialPieces.size();
+    }
+
     public Map<Intersection, Piece> toMap() {
         return Map.copyOf(initialPieces);
     }
