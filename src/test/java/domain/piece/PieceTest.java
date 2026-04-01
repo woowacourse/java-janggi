@@ -41,14 +41,14 @@ class PieceTest {
 
     @Test
     @DisplayName("isStepPiece : 마와 상 기물에만 true를 반환한다")
-    void isStepPieceReturnsTrueForHorseAndElephant() {
-        assertThat(new Piece(Team.HAN, PieceType.HORSE).isStepPiece()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isStepPiece()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.CANNON).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GUARD).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isStepPiece()).isFalse();
+    void isLeapPieceReturnsTrueForHorseAndElephant() {
+        assertThat(new Piece(Team.HAN, PieceType.HORSE).isLeapPiece()).isTrue();
+        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isLeapPiece()).isTrue();
+        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isLeapPiece()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.CANNON).isLeapPiece()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isLeapPiece()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.GUARD).isLeapPiece()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isLeapPiece()).isFalse();
     }
 
     @Test

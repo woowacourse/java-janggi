@@ -29,7 +29,7 @@ public class Piece {
         return pieceType == PieceType.CANNON;
     }
 
-    public boolean isStepPiece() {
+    public boolean isLeapPiece() {
         return pieceType == PieceType.HORSE || pieceType == PieceType.ELEPHANT;
     }
 

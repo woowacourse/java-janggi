@@ -27,7 +27,7 @@ public final class MovementValidator {
         if (piece.isCannon()) {
             return isValidCannon(piece, candidatePaths, to);
         }
-        if (piece.isStepPiece()) {
+        if (piece.isLeapPiece()) {
             return isValidStepPiece(piece, candidatePaths, to);
         }
         return isValidPalacePiece(piece, candidatePaths, to);
