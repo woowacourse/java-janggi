@@ -36,11 +36,6 @@ public class Board implements BaseBoard {
     }
 
     @Override
-    public boolean isEnemy(Side side, Position position) {
-        return !board.get(position).isEqualSide(side);
-    }
-
-    @Override
     public boolean isAlly(Side side, Position position) {
         return board.get(position).isEqualSide(side);
     }

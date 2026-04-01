@@ -12,7 +12,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class JumpPolicyTest {
-    private BaseBoard createBoardInterface(List<Position> isEmpty, List<Position> isPo, List<Position> isEnemy, List<Position> isAlly) {
+    private BaseBoard createBoardInterface(List<Position> isEmpty, List<Position> isPo, List<Position> isAlly) {
         return new BaseBoard() {
             @Override
             public boolean isEmpty(Position position) {
@@ -22,11 +22,6 @@ class JumpPolicyTest {
             @Override
             public boolean isEqualPieceType(Position position, PieceType pieceType){
                 return isPo.contains(position);
-            }
-
-            @Override
-            public boolean isEnemy(Side side, Position position) {
-                return isEnemy.contains(position);
             }
 
             @Override
@@ -47,10 +42,9 @@ class JumpPolicyTest {
 
         List<Position> isEmpty = List.of(new Position(8, 4), new Position(8, 5), new Position(8, 6), new Position(8, 7));
         List<Position> isPo = List.of(new Position(8, 2));
-        List<Position> isEnemy = List.of();
         List<Position> isAlly = List.of(new Position(8, 2), new Position(8, 3));
 
-        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
+        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
         assertThat(jumpPolicy.isMovable(path, Side.CHO, baseBoard)).isTrue();
     }
@@ -62,10 +56,9 @@ class JumpPolicyTest {
 
         List<Position> isEmpty = List.of(new Position(1, 3));
         List<Position> isPo = List.of(new Position(1, 1));
-        List<Position> isEnemy = List.of(new Position(1, 2), new Position(1, 4));
         List<Position> isAlly = List.of(new Position(1, 1));
 
-        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
+        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
         assertThat(jumpPolicy.isMovable(path, Side.CHO, baseBoard)).isTrue();
     }
@@ -76,10 +69,9 @@ class JumpPolicyTest {
 
         List<Position> isEmpty = List.of(new Position(1, 3));
         List<Position> isPo = List.of(new Position(1, 1), new Position(1, 4));
-        List<Position> isEnemy = List.of(new Position(1, 2), new Position(1, 4));
         List<Position> isAlly = List.of(new Position(1, 1));
 
-        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
+        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
         assertThat(jumpPolicy.isMovable(path, Side.CHO, baseBoard)).isFalse();
     }
@@ -90,10 +82,9 @@ class JumpPolicyTest {
 
         List<Position> isEmpty = List.of(new Position(1, 3));
         List<Position> isPo = List.of(new Position(1, 1));
-        List<Position> isEnemy = List.of();
         List<Position> isAlly = List.of(new Position(1, 1), new Position(1, 2), new Position(1, 4));
 
-        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
+        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
         assertThat(jumpPolicy.isMovable(path, Side.CHO, baseBoard)).isFalse();
     }
@@ -104,10 +95,9 @@ class JumpPolicyTest {
 
         List<Position> isEmpty = List.of(new Position(1, 4));
         List<Position> isPo = List.of(new Position(1, 1));
-        List<Position> isEnemy = List.of(new Position(1, 2), new Position(1, 3));
         List<Position> isAlly = List.of(new Position(1, 1));
 
-        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
+        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
         assertThat(jumpPolicy.isMovable(path, Side.CHO, baseBoard)).isFalse();
     }
@@ -118,10 +108,9 @@ class JumpPolicyTest {
 
         List<Position> isEmpty = List.of(new Position(1, 3), new Position(1, 4));
         List<Position> isPo = List.of(new Position(1, 1), new Position(1, 2));
-        List<Position> isEnemy = List.of(new Position(1, 2));
         List<Position> isAlly = List.of(new Position(1, 1));
 
-        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isEnemy, isAlly);
+        BaseBoard baseBoard = createBoardInterface(isEmpty, isPo, isAlly);
         JumpPolicy jumpPolicy = new JumpPolicy();
         assertThat(jumpPolicy.isMovable(path, Side.CHO, baseBoard)).isFalse();
     }

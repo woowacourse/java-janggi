@@ -10,8 +10,6 @@ public interface BaseBoard {
 
     boolean isEqualPieceType(Position position, PieceType pieceType);
 
-    boolean isEnemy(Side side, Position position);
-
     boolean isAlly(Side side, Position position);
 
     PieceInfo[][] getCurrentBoard();
