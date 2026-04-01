@@ -6,10 +6,10 @@ import model.pieces.Piece;
 
 public class DefaultDestinationPolicy implements DestinationPolicy {
     @Override
-    public boolean validate(Move move, Board board, PathPolicy pathPolicy) {
+    public boolean validate(Move move, Board board) {
         Piece fromPiece = board.findPiece(move.from());
         Piece toPiece = board.findPiece(move.to());
 
-        return toPiece == null || (fromPiece.country() != toPiece.country());
+        return toPiece == null || fromPiece.country() != toPiece.country();
     }
 }

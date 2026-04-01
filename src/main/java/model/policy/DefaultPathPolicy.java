@@ -8,9 +8,4 @@ public class DefaultPathPolicy extends PathPolicy {
     public boolean check(Position pos, Board board) {
         return board.isPathEmpty(pos);
     }
-
-    @Override
-    public boolean isValid() {
-        return false;
-    }
 }

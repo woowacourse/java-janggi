@@ -1,6 +1,7 @@
 package model.move;
 
 import java.util.List;
+
 import model.board.Board;
 import model.policy.DestinationPolicy;
 import model.policy.PathPolicy;
@@ -19,7 +20,7 @@ public class MovePattern {
 
     public boolean matches(Move move, Board board) {
         return execute(move, board).isSamePosition(move.to())
-                && destinationPolicy.validate(move, board, pathPolicy);
+                && destinationPolicy.validate(move, board);
     }
 
     private Position execute(Move move, Board board) {
