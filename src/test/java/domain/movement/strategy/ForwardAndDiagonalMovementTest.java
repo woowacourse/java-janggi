@@ -37,7 +37,7 @@ class ForwardAndDiagonalMovementTest {
         );
 
         // when
-        Set<Route> actual = forwardAndDiagonalMovement.getRoutes(START_INTERSECTION, moveAmount, forward);
+        List<Route> actual = forwardAndDiagonalMovement.getRoutes(START_INTERSECTION, moveAmount, forward);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);

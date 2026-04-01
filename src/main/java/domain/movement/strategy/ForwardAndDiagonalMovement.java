@@ -6,11 +6,10 @@ import domain.movement.Route;
 import domain.movement.Vector;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class ForwardAndDiagonalMovement {
 
-    public Set<Route> getRoutes(
+    public List<Route> getRoutes(
             Intersection from,
             MoveAmount diagonalMovementAmount,
             Vector vector
@@ -19,7 +18,7 @@ public class ForwardAndDiagonalMovement {
         List<Intersection> leftRoute = moveAsAmount(forwardNode, diagonalMovementAmount, vector.turnLeft45Degrees());
         List<Intersection> rightRoute = moveAsAmount(forwardNode, diagonalMovementAmount, vector.turnRight45Degrees());
 
-        return Set.of(
+        return List.of(
                 new Route(leftRoute),
                 new Route(rightRoute)
         );
