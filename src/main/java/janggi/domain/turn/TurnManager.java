@@ -11,10 +11,12 @@ public class TurnManager {
     private static final int MAXIMUM_TEAMS_SIZE = 2;
 
     private final Deque<Team> teams;
+    private int turnTaken;
 
     public TurnManager(final List<Team> teams) {
         validateTeamsSize(teams);
         this.teams = new LinkedList<>(teams);
+        this.turnTaken = 1;
     }
 
     private void validateTeamsSize(final List<Team> teams) {
@@ -31,5 +33,10 @@ public class TurnManager {
 
     public void progressToNext() {
         teams.addLast(teams.removeFirst());
+        turnTaken++;
+    }
+
+    public int getTurnTaken() {
+        return turnTaken;
     }
 }
