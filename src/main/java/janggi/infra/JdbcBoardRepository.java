@@ -41,7 +41,6 @@ public class JdbcBoardRepository implements BoardRepository {
             url = properties.getProperty("db.url");
             username = properties.getProperty("db.username");
             password = properties.getProperty("db.password");
-            initTable();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -97,37 +96,6 @@ public class JdbcBoardRepository implements BoardRepository {
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
-    }
-
-    private void initTable() {
-        String createGameRoom = """
-                CREATE TABLE IF NOT EXISTS game_room(
-                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                    current_turn VARCHAR(10) NOT NULL,
-                    winner VARCHAR(10),
-                    cha_score DOUBLE,
-                    han_score DOUBLE
-                )
-                """;
-
-        String createPiece = """
-                CREATE TABLE IF NOT EXISTS piece(
-                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                    game_room_id BIGINT NOT NULL,
-                    piece_name VARCHAR(10) NOT NULL,
-                    team VARCHAR(10) NOT NULL,
-                    row_pos INT NOT NULL,
-                    col_pos INT NOT NULL,
-                    FOREIGN KEY (game_room_id) REFERENCES game_room(id) ON DELETE CASCADE
-                )
-                """;
-        try(Connection connection = getConnection()) {
-            Statement statement = connection.createStatement();
-            statement.execute(createGameRoom);
-            statement.execute(createPiece);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private static void addPieceData(List<List<Piece>> pieces, int i, List<PieceData> data) {
