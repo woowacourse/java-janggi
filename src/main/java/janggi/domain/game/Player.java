@@ -14,7 +14,11 @@ public class Player {
         return turn.isCurrent(this.side);
     }
 
-    public PlayerDTO mapToVO() {
-        return new PlayerDTO(name, side);
+    public String getName() {
+        return name;
+    }
+
+    public Side getSide() {
+        return side;
     }
 }

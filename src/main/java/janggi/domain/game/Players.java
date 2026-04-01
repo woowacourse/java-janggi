@@ -32,7 +32,7 @@ public class Players {
         return players.stream()
                 .filter(player -> player.isMyTurn(turn))
                 .findFirst()
-                .map(Player::mapToVO)
+                .map(PlayerDTO::from)
                 .orElseThrow(() -> new IllegalStateException(ERROR_PLAYER_NOT_FOUND));
     }
 
