@@ -41,7 +41,7 @@ public class OutputView {
             }
             System.out.println();
         }
-        System.out.println("  갑 을 병 정 무 기 경 신 임");
+        System.out.println("  일 이 삼 사 오 육 칠 팔 구");
         System.out.println();
     }
 
