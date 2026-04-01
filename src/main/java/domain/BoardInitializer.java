@@ -15,23 +15,22 @@ public class BoardInitializer {
     private static final int HAN_CANNON_ROW = HAN_BASE_ROW - 2;
     private static final int HAN_SOLDIER_ROW = HAN_BASE_ROW - 3;
 
-    private static final List<Integer> CHARIOT_COLUMNS = List.of(0, 8);
-    private static final List<Integer> HORSE_AND_ELEPHANT_COLUMNS = List.of(1, 2, 6, 7);
-    private static final List<Integer> CANNON_COLUMNS = List.of(1, 7);
-    private static final List<Integer> SOLDIER_COLUMNS = List.of(0, 2, 4, 6, 8);
-    private static final List<Integer> GUARD_COLUMNS = List.of(3, 5);
     private static final int GENERAL_COLUMN = 4;
-
+    private static final List<Integer> GUARD_COLUMNS = List.of(3, 5);
+    private static final List<Integer> CHARIOT_COLUMNS = List.of(0, 8);
+    private static final List<Integer> CANNON_COLUMNS = List.of(1, 7);
+    private static final List<Integer> HORSE_AND_ELEPHANT_COLUMNS = List.of(1, 2, 6, 7);
+    private static final List<Integer> SOLDIER_COLUMNS = List.of(0, 2, 4, 6, 8);
 
     public static Map<Position, Piece> init(BoardSetting boardSetting) {
         Map<Position, Piece> pieces = new HashMap<>();
 
         pieces.putAll(createGeneral());
-        pieces.putAll(createCannon());
-        pieces.putAll(createSoldier());
-        pieces.putAll(createChariot());
-        pieces.putAll(createHorseAndElephant(boardSetting));
         pieces.putAll(createGuard());
+        pieces.putAll(createChariot());
+        pieces.putAll(createCannon());
+        pieces.putAll(createHorseAndElephant(boardSetting));
+        pieces.putAll(createSoldier());
 
         return pieces;
     }
@@ -44,21 +43,11 @@ public class BoardInitializer {
         return pieces;
     }
 
-    private static Map<Position, Piece> createCannon() {
+    private static Map<Position, Piece> createGuard() {
         Map<Position, Piece> pieces = new HashMap<>();
-        for (Integer column : CANNON_COLUMNS) {
-            pieces.put(new Position(column, CHO_CANNON_ROW), new Piece(Camp.CHO, PieceType.CANNON));
-            pieces.put(new Position(column, HAN_CANNON_ROW), new Piece(Camp.HAN, PieceType.CANNON));
-        }
-
-        return pieces;
-    }
-
-    private static Map<Position, Piece> createSoldier() {
-        Map<Position, Piece> pieces = new HashMap<>();
-        for (Integer column : SOLDIER_COLUMNS) {
-            pieces.put(new Position(column, CHO_SOLDIER_ROW), new Piece(Camp.CHO, PieceType.SOLDIER));
-            pieces.put(new Position(column, HAN_SOLDIER_ROW), new Piece(Camp.HAN, PieceType.SOLDIER));
+        for (Integer column : GUARD_COLUMNS) {
+            pieces.put(new Position(column, CHO_BASE_ROW), new Piece(Camp.CHO, PieceType.GUARD));
+            pieces.put(new Position(column, HAN_BASE_ROW), new Piece(Camp.HAN, PieceType.GUARD));
         }
 
         return pieces;
@@ -74,6 +63,16 @@ public class BoardInitializer {
         return pieces;
     }
 
+    private static Map<Position, Piece> createCannon() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        for (Integer column : CANNON_COLUMNS) {
+            pieces.put(new Position(column, CHO_CANNON_ROW), new Piece(Camp.CHO, PieceType.CANNON));
+            pieces.put(new Position(column, HAN_CANNON_ROW), new Piece(Camp.HAN, PieceType.CANNON));
+        }
+
+        return pieces;
+    }
+
     private static Map<Position, Piece> createHorseAndElephant(BoardSetting boardSetting) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (int i = 0; i < boardSetting.piecesArrangement().size(); i++) {
@@ -84,14 +83,13 @@ public class BoardInitializer {
         return pieces;
     }
 
-    private static Map<Position, Piece> createGuard() {
+    private static Map<Position, Piece> createSoldier() {
         Map<Position, Piece> pieces = new HashMap<>();
-        for (Integer column : GUARD_COLUMNS) {
-            pieces.put(new Position(column, CHO_BASE_ROW), new Piece(Camp.CHO, PieceType.GUARD));
-            pieces.put(new Position(column, HAN_BASE_ROW), new Piece(Camp.HAN, PieceType.GUARD));
+        for (Integer column : SOLDIER_COLUMNS) {
+            pieces.put(new Position(column, CHO_SOLDIER_ROW), new Piece(Camp.CHO, PieceType.SOLDIER));
+            pieces.put(new Position(column, HAN_SOLDIER_ROW), new Piece(Camp.HAN, PieceType.SOLDIER));
         }
 
         return pieces;
     }
-
 }
