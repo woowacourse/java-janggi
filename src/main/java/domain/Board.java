@@ -19,7 +19,7 @@ public class Board {
         return new Board(board);
     }
 
-    public void move(final Position from, final Position to) {
+    public void tryToMove(final Position from, final Position to) {
         Piece fromPiece = findPieceByPosition(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
 
@@ -27,8 +27,7 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");
         }
 
-        board.remove(from);
-        board.put(to, fromPiece);
+        movePiece(from, to, fromPiece);
     }
 
     public boolean isExistPosition(final Position tempPosition) {
@@ -39,13 +38,16 @@ public class Board {
         return Optional.ofNullable(board.get(position));
     }
 
-    public boolean isAnotherTeam(final Position from, final Position to) {
-        if (findPieceByPosition(to).isEmpty()) {
+    public boolean canOccupy(Position from, Position to) {
+        Piece currentPiece = findPieceByPosition(from)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."));
+
+        Optional<Piece> target = findPieceByPosition(to);
+        if (target.isEmpty()) {
             return true;
         }
 
-        Piece currentPiece = findPieceByPosition(from).get();
-        Piece targetPiece = findPieceByPosition(to).get();
+        Piece targetPiece = target.get();
         return currentPiece.isAnotherTeam(targetPiece);
     }
 
@@ -69,5 +71,10 @@ public class Board {
 
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
+    }
+
+    private void movePiece(Position from, Position to, Piece fromPiece) {
+        board.remove(from);
+        board.put(to, fromPiece);
     }
 }

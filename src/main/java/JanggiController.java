@@ -25,24 +25,24 @@ public class JanggiController {
         board.format(chuFormat, hanFormat);
         outputView.printBoard(board.getBoard());
 
-        movePosition(board);
+        move(board);
 
         while (inputView.readRetryCommand()) {
-            movePosition(board);
+            move(board);
         }
     }
 
-    private void movePosition(Board board) {
+    private void move(Board board) {
         try {
             Position position = inputView.readPosition();
             Position targetPosition = inputView.readTargetPosition();
 
-            board.move(position, targetPosition);
+            board.tryToMove(position, targetPosition);
             outputView.printBoard(board.getBoard());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            movePosition(board);
+            move(board);
         }
     }
 }

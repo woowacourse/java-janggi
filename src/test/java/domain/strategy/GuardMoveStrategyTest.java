@@ -1,11 +1,13 @@
 package domain.strategy;
 
-import domain.Board;
-import domain.BoardFactory;
+import domain.*;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 class GuardMoveStrategyTest {
 
@@ -45,11 +47,15 @@ class GuardMoveStrategyTest {
     void guardShouldMoveToEnemyPiece() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Map<Position, Piece> boardMapper = new HashMap<>();
+        boardMapper.put(Position.of(0, 3), Piece.of(Team.CHU, Type.GUARD, strategy));
+        boardMapper.put(Position.of(0, 4), Piece.of(Team.HAN, Type.SOLDIER, new FixedMoveStrategy()));
+
+        Board board = Board.of(boardMapper);
 
         // when
         Position position = Position.of(0, 3);
-        Position targetPosition = Position.of(6, 0);
+        Position targetPosition = Position.of(0, 4);
 
         // then
         Assertions.assertTrue(strategy.canMove(position, targetPosition, board));

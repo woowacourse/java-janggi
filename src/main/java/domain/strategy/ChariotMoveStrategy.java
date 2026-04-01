@@ -28,7 +28,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
             }
         }
 
-        return board.isAnotherTeam(from, to);
+        return board.canOccupy(from, to);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {

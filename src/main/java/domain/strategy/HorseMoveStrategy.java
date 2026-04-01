@@ -16,11 +16,8 @@ public class HorseMoveStrategy implements MoveStrategy {
         if (board.isExistPosition(Position.of((from.getRow() + nx / 2), (from.getCol() + ny / 2)))) {
             return false;
         }
-        if (board.isAnotherTeam(from, to)) {
-            return true;
-        }
 
-        return false;
+        return board.canOccupy(from, to);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {

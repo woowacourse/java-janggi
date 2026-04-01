@@ -79,12 +79,12 @@ class ChariotMoveStrategyTest {
 
         Map<Position, Piece> boardFactory = new HashMap<>();
         boardFactory.put(Position.of(0, 0), Piece.of(Team.CHU, Type.CHARIOT, new ChariotMoveStrategy()));
-        boardFactory.put(Position.of(0, 0), Piece.of(Team.CHU, Type.CHARIOT, new ChariotMoveStrategy()));
+        boardFactory.put(Position.of(3, 0), Piece.of(Team.HAN, Type.CHARIOT, new ChariotMoveStrategy()));
         Board board = Board.of(boardFactory);
 
         // when
-        Position from = Position.of(3, 0);
-        Position to = Position.of(6, 0);
+        Position from = Position.of(0, 0);
+        Position to = Position.of(3, 0);
 
         // then
         Assertions.assertTrue(strategy.canMove(from, to, board));

@@ -14,11 +14,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
         if (isWithdraw(from, to, board))
             return false;
 
-        if (board.isAnotherTeam(from, to)) {
-            return true;
-        }
-
-        return false;
+        return board.canOccupy(from, to);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {

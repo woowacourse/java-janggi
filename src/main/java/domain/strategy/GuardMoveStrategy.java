@@ -10,11 +10,7 @@ public class GuardMoveStrategy implements MoveStrategy {
         if (isNotCorrectPath(from, to))
             return false;
 
-        if (board.isAnotherTeam(from, to)) {
-            return true;
-        }
-
-        return false;
+        return board.canOccupy(from, to);
     }
 
     private boolean isNotCorrectPath(Position from, Position to) {

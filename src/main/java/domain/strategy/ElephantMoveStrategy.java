@@ -24,10 +24,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
             return false;
         }
 
-        if (board.isAnotherTeam(from, to)) {
-            return true;
-        }
-        return false;
+        return board.canOccupy(from, to);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {

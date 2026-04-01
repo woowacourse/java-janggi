@@ -10,10 +10,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
         if (isNotCorrectPath(from, to))
             return false;
 
-        if (board.isAnotherTeam(from, to)) {
-            return true;
-        }
-        return false;
+        return board.canOccupy(from, to);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
