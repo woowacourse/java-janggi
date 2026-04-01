@@ -19,7 +19,7 @@ class CannonMoveStrategyTest {
 
     @DisplayName("포는 이동 경로에 반드시 다른 기물이 하나 있어야 넘어서 이동할 수 있다")
     @Test
-    void moveablePositions() {
+    void findDestinations() {
         CannonMoveStrategy strategy = new CannonMoveStrategy();
         Position current = new Position(5, 5);
         Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "0");
@@ -30,7 +30,7 @@ class CannonMoveStrategyTest {
         Map<Position, Piece> boardState = new HashMap<>();
         boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.SOLDIER, "0"));
 
-        List<Position> destinations = strategy.moveablePositions(, paths, , boardState);
+        List<Position> destinations = strategy.findDestinations(, paths, , boardState);
 
         assertThat(destinations).containsExactly(
                 new Position(3, 5), new Position(2, 5), new Position(1, 5), new Position(0, 5)
@@ -39,7 +39,7 @@ class CannonMoveStrategyTest {
 
     @DisplayName("포는 다른 포를 포다리로 삼거나 포를 잡을 수 없다")
     @Test
-    void moveablePositions_BridgeOrTargetIsCannon_ReturnsEmpty() {
+    void findDestinations_BridgeOrTargetIsCannon_ReturnsEmpty() {
         CannonMoveStrategy strategy = new CannonMoveStrategy();
         Position current = new Position(5, 5);
         Piece cannon = new Piece(Side.CHO, PieceType.CANNON, "0");
@@ -50,7 +50,7 @@ class CannonMoveStrategyTest {
         Map<Position, Piece> boardState = new HashMap<>();
         boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.CANNON, "1"));
 
-        List<Position> destinations = strategy.moveablePositions(, paths, , boardState);
+        List<Position> destinations = strategy.findDestinations(, paths, , boardState);
 
         assertThat(destinations).isEmpty();
     }

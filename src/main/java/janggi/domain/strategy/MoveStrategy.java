@@ -8,5 +8,5 @@ import java.util.EnumSet;
 
 public interface MoveStrategy {
 
-    Destinations moveablePositions(Position currentPosition, EnumSet<Direction> baseDirections, BoardInfo boardInfo);
+    Destinations findDestinations(Position currentPosition, EnumSet<Direction> baseDirections, BoardInfo boardInfo);
 }

@@ -37,6 +37,6 @@ public enum PieceType {
     }
 
     public Destinations determineDestinations(Position currentPosition, Side side, BoardInfo boardInfo) {
-        return moveStrategy.moveablePositions(currentPosition, directionProvider.apply(side), boardInfo);
+        return moveStrategy.findDestinations(currentPosition, directionProvider.apply(side), boardInfo);
     }
 }
