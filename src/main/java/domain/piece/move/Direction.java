@@ -12,6 +12,14 @@ public class Direction {
         this.vectors = vectors;
     }
 
+    public static Direction straight(Vector vector, int distance) {
+        final List<Vector> vectors = new ArrayList<>();
+        for (int i = 0; i < distance; i++) {
+            vectors.add(vector);
+        }
+        return new Direction(List.copyOf(vectors));
+    }
+
     public boolean canReach(Point start, Point target) {
         int dy = vectors.stream().mapToInt(Vector::dy).sum();
         int dx = vectors.stream().mapToInt(Vector::dx).sum();
