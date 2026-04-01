@@ -5,19 +5,21 @@ import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
-import domain.palace.PalaceGeometry;
+import domain.palace.Palace;
 import java.util.List;
 
 public class KingMoveStrategy extends MoveStrategy {
 
-    private final PalaceGeometry palaceGeometry;
+    private final Palace hanPalace;
+    private final Palace choPalace;
 
     public KingMoveStrategy() {
-        this(new PalaceGeometry());
+        this(Palace.createHanPalace(), Palace.createChoPalace());
     }
 
-    KingMoveStrategy(PalaceGeometry palaceGeometry) {
-        this.palaceGeometry = palaceGeometry;
+    KingMoveStrategy(Palace hanPalace, Palace choPalace) {
+        this.hanPalace = hanPalace;
+        this.choPalace = choPalace;
     }
 
     @Override
@@ -27,9 +29,16 @@ public class KingMoveStrategy extends MoveStrategy {
 
     @Override
     public List<Route> makeRoutes(Position curPos, Piece piece) {
-        return palaceGeometry.adjacentPositionsInsideMyPalace(curPos, piece.getTeamColor()).stream()
+        return palaceFor(piece.getTeamColor()).getAdjacentPositions(curPos).stream()
                 .map(destination -> new Route(curPos, destination, List.of()))
                 .toList();
+    }
+
+    private Palace palaceFor(TeamColor teamColor) {
+        if (teamColor == TeamColor.HAN) {
+            return hanPalace;
+        }
+        return choPalace;
     }
 
     @Override
