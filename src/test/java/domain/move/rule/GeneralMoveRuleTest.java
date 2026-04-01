@@ -49,6 +49,7 @@ class GeneralMoveRuleTest {
     @Test
     @DisplayName("장군은 도착지에 상대팀이 있으면 이동할 수 있다.")
     void canMoveGeneralWhenDestinationIsEmpty() {
+        // given
         Point start = new Point(1, 4);
         Point end = new Point(2, 4);
 

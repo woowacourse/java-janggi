@@ -22,6 +22,7 @@ class MoveTest {
     @Test
     @DisplayName("이동이 끝난 뒤 출발지는 비어있고, 도착지는 기물이 존재한다.")
     void shouldMovePieceToDestinationAndLeaveSourceEmpty() {
+        // given
         Team currentTurn = Team.CHO;
         Point start = new Point(0, 0);
         Point end = new Point(3, 0);
@@ -31,20 +32,28 @@ class MoveTest {
 
         Intersection origin = new Intersection(start, chariot);
         Intersection destination = new Intersection(end, soldier);
-
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
-        janggiBoard.tryToMove(start, end, currentTurn);
-
         Intersection expectedEmpty = Intersection.empty(start);
         Intersection expectedChariot = new Intersection(end, chariot);
 
-        Assertions.assertThat(origin).isEqualTo(expectedEmpty);
-        Assertions.assertThat(destination).isEqualTo(expectedChariot);
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
+
+        // when
+        janggiBoard.tryToMove(start, end, currentTurn);
+        Intersection actualOrigin = janggiBoard.findIntersection(start);
+        Intersection actualDestination = janggiBoard.findIntersection(end);
+
+        // then
+        Assertions.assertThat(actualOrigin)
+                .isEqualTo(expectedEmpty);
+
+        Assertions.assertThat(actualDestination)
+                .isEqualTo(expectedChariot);
     }
 
     @Test
     @DisplayName("상대 칸을 출발 좌표로 지정하면, 예외가 발생한다.")
     void shouldThrowExceptionWhenOriginIsOpponent() {
+        // given
         Point start = new Point(0, 0);
         Point end = new Point(1, 0);
 
@@ -55,34 +64,37 @@ class MoveTest {
         Intersection opponentIntersection = new Intersection(start, choPiece);
         Intersection destination = Intersection.empty(end);
 
+        // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 opponentIntersection,
                 destination)
         ));
 
-        Assertions.assertThatThrownBy(() -> {
-                    janggiBoard.tryToMove(start, end, opponentTeam);
-                }).isInstanceOf(IntersectionException.class)
+        // then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, opponentTeam))
+                .isInstanceOf(IntersectionException.class)
                 .hasMessage(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getMessage());
     }
 
     @Test
     @DisplayName("빈 칸을 출발 좌표로 지정하면, 예외가 발생한다.")
     void shouldThrowExceptionWhenOriginIsEmpty() {
+        // given
         Point start = new Point(0, 0);
         Point end = new Point(1, 0);
 
         Intersection emptyIntersection = Intersection.empty(start);
         Intersection destination = Intersection.empty(end);
 
+        // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 emptyIntersection,
                 destination)
         ));
 
-        Assertions.assertThatThrownBy(() -> {
-                    janggiBoard.tryToMove(start, end, Team.CHO);
-                }).isInstanceOf(IntersectionException.class)
+        // then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, Team.CHO))
+                .isInstanceOf(IntersectionException.class)
                 .hasMessage(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
     }
 
