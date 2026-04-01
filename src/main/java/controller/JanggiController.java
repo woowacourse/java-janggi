@@ -28,10 +28,10 @@ public class JanggiController {
         outputView.printBoard(board.getBoard());
 
         int turnCount = 0;
-        movePosition(board, turnCount);
+        turnCount = movePosition(board, turnCount);
 
         while (inputView.readRetryCommand()) {
-            movePosition(board, turnCount);
+            turnCount = movePosition(board, turnCount);
         }
     }
 
@@ -51,21 +51,21 @@ public class JanggiController {
         return board;
     }
 
-    private void movePosition(Board board, int turnCount) {
+    private int movePosition(Board board, int turnCount) {
         try {
             outputView.printCurrentTurn(turnCount);
-            turnCount += 1;
 
             Position position = inputView.readPosition();
             Position targetPosition = inputView.readTargetPosition();
 
             board.move(position, targetPosition);
             outputView.printBoard(board.getBoard());
+            return turnCount += 1;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            turnCount -= 1;
             movePosition(board, turnCount);
         }
+        return turnCount;
     }
 }
