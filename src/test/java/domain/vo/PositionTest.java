@@ -10,7 +10,7 @@ class PositionTest {
 
     @Test
     @DisplayName("정상적인 좌표값 입력 시 Position을 생성한다.")
-    void 위치_정상_입력() {
+    void shouldCreatePositionSuccessfully() {
         // given
         // when
         int x = 1;
@@ -25,7 +25,7 @@ class PositionTest {
 
     @Test
     @DisplayName("행이 0~9 범위를 벗어나면 예외를 발생한다.")
-    void 위치_행_비정상_입력() {
+    void shouldThrowExceptionForInvalidRow() {
         // given
         // when
         // then
@@ -36,7 +36,7 @@ class PositionTest {
 
     @Test
     @DisplayName("열이 0~8 범위를 벗어나면 예외를 발생한다.")
-    void 위치_열_비정상_입력() {
+    void shouldThrowExceptionForInvalidCol() {
         // given
         // when
         // then

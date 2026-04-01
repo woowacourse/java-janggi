@@ -25,4 +25,8 @@ public class Game {
     public Team getTeam() {
         return turn.getTeam();
     }
+
+    public Board getBoard() {
+        return board;
+    }
 }

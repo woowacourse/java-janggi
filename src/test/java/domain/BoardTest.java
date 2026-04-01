@@ -19,7 +19,7 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("providePiece")
     @DisplayName("보드를 생성하면 기물들 초기화된다.")
-    void 보드_생성(int row, int col, Type expected) {
+    void shouldCreateBoardCorrectly(int row, int col, Type expected) {
         // given
         // when
         Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
@@ -31,7 +31,7 @@ class BoardTest {
 
     @Test
     @DisplayName("기물의 이동 경로에 다른 기물이 없으면 이동한다.")
-    void 기물_이동() {
+    void shouldMovePieceSuccessfully() {
         // given
         Map<Position, Piece> tempBoard = new HashMap<>();
         tempBoard.put(Position.of(0, 0), Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));

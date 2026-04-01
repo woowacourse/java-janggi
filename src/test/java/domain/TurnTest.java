@@ -14,7 +14,7 @@ class TurnTest {
         Turn turn = Turn.of();
 
         // then
-        Assertions.assertEquals(turn.getTeam(), Team.CHU);
+        Assertions.assertEquals(Team.CHU, turn.getTeam());
     }
 
     @Test
@@ -27,6 +27,6 @@ class TurnTest {
         Team change = turn.change();
 
         // then
-        Assertions.assertEquals(change, Team.HAN);
+        Assertions.assertEquals(Team.HAN, change);
     }
 }
