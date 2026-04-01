@@ -17,7 +17,7 @@ public class InputView {
         return readElephantFormation(camp);
     }
 
-    public Position askFromPosition(Camp camp) {
+    public Position readFromPosition(Camp camp) {
         while (true) {
             try {
                 System.out.println(CAMP_NAMES.get(camp) + " 플레이어는 움직일 말의 위치를 column, row 형식으로 입력해 주세요. (입력좌표 예시 column, row: 0, 9)");
@@ -28,7 +28,7 @@ public class InputView {
         }
     }
 
-    public Position askToPosition(Camp camp) {
+    public Position readToPosition(Camp camp) {
         while (true) {
             try {
                 System.out.println(
