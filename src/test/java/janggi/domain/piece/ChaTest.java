@@ -34,8 +34,8 @@ class ChaTest {
         Position to = new Position(1, 1);
 
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> piece.validateMove(from, to))
-            .withMessage("해당 위치로 차가 이동할 수 없습니다.");
+                .isThrownBy(() -> piece.validateMove(from, to))
+                .withMessage("해당 위치로 차가 이동할 수 없습니다.");
     }
 
     @Test
@@ -44,8 +44,8 @@ class ChaTest {
         Space space = new Sang(Team.CHO);
 
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> piece.validateArrival(space))
-            .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+                .isThrownBy(() -> piece.validateArrival(space))
+                .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
 
     @Test
@@ -54,8 +54,8 @@ class ChaTest {
         List<Piece> pieces = List.of(new Sang(Team.CHO));
 
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> piece.validateRoutes(pieces))
-            .withMessage("이동 경로 사이에 다른 말이 있으면 안됩니다.");
+                .isThrownBy(() -> piece.validateRoutes(pieces))
+                .withMessage("이동 경로 사이에 다른 말이 있으면 안됩니다.");
     }
 
     @Test
@@ -125,5 +125,27 @@ class ChaTest {
                 new Position(0, 1)
         ));
         assertThat(actual).isEqualTo(expect);
+    }
+
+    @Test
+    void 차_궁성_정상_이동_테스트() {
+        Piece piece = new Cha(Team.CHO);
+
+        Position from = new Position(3, 0);
+        Position to = new Position(5, 2);
+
+        assertDoesNotThrow(() -> piece.validateMove(from, to));
+    }
+
+    @Test
+    void 차_궁성_예외_이동_테스트() {
+        Piece piece = new Cha(Team.CHO);
+
+        Position from = new Position(3, 0);
+        Position to = new Position(5, 1);
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> piece.validateMove(from, to))
+                .withMessage("해당 위치로 차가 이동할 수 없습니다.");
     }
 }
