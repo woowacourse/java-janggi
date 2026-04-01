@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class SingleStepStraightStrategy implements MoveStrategy {
 
-    public static final int SINGLE_STEP_DISTANCE = 1;
+    private static final int SINGLE_STEP_DISTANCE = 1;
     private static final String INVALID_SINGLE_STEP_STRAIGHT_MOVE = String.format(
             "[ERROR] 해당 기물은 직선으로 %d칸 이동해야 합니다.",
             SINGLE_STEP_DISTANCE

@@ -2,9 +2,9 @@ package janggi.domain;
 
 public record Position(int row, int column) {
 
-    public static final int MIN_POSITION_INDEX = 0;
-    public static final int MAX_ROW_INDEX = 9;
-    public static final int MAX_COLUMN_INDEX = 8;
+    private static final int MIN_POSITION_INDEX = 0;
+    private static final int MAX_ROW_INDEX = 9;
+    private static final int MAX_COLUMN_INDEX = 8;
     private static final String ROW_OUT_OF_RANGE = String.format(
             "[ERROR] 행은 %d행 이상 %d행 이하여야 합니다.",
             MIN_POSITION_INDEX,
