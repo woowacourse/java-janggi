@@ -11,7 +11,7 @@ import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
-public class Board implements BoardInterface {
+public class Board implements BaseBoard {
     public static final int BOARD_START_ROWS = 1;
     public static final int BOARD_START_COLS = 1;
     public static final int ARRAY_INDEX_OFFSET = 1;

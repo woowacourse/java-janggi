@@ -5,7 +5,7 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
 
-public interface BoardInterface {
+public interface BaseBoard {
     boolean isEmpty(Position position);
 
     boolean isEqualPieceType(Position position, PieceType pieceType);

@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.board.BoardInterface;
+import janggi.domain.board.BaseBoard;
 import janggi.domain.policy.RoutePolicy;
 
 import java.util.List;
@@ -18,8 +18,8 @@ public abstract class ActivePiece extends BasePiece {
     }
 
     @Override
-    public void validateRoute(List<Position> path, BoardInterface boardInterface) {
-        if (!routePolicy.isMovable(path, side, boardInterface)) {
+    public void validateRoute(List<Position> path, BaseBoard baseBoard) {
+        if (!routePolicy.isMovable(path, side, baseBoard)) {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }
