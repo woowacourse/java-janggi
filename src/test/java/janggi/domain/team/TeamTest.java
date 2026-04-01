@@ -14,13 +14,42 @@ import janggi.domain.piece.Sang;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class HanTest {
+class TeamTest {
+
+    @Test
+    @DisplayName("초나라 팀은 초기 배치대로 기물을 가진다.")
+    void createInitialChuTeam() {
+        // given
+        Team chu = Team.createInitialTeam(TeamType.CHU);
+
+        // when & then
+        assertAll(
+            () -> assertThat(chu.makeSnapShot().value()).hasSize(16),
+            () -> assertThat(chu.findPiece(new Position(1, 1))).get().isInstanceOf(Cha.class),
+            () -> assertThat(chu.findPiece(new Position(9, 1))).get().isInstanceOf(Cha.class),
+            () -> assertThat(chu.findPiece(new Position(2, 1))).get().isInstanceOf(Ma.class),
+            () -> assertThat(chu.findPiece(new Position(8, 1))).get().isInstanceOf(Ma.class),
+            () -> assertThat(chu.findPiece(new Position(3, 1))).get().isInstanceOf(Sang.class),
+            () -> assertThat(chu.findPiece(new Position(7, 1))).get().isInstanceOf(Sang.class),
+            () -> assertThat(chu.findPiece(new Position(4, 1))).get().isInstanceOf(Sa.class),
+            () -> assertThat(chu.findPiece(new Position(6, 1))).get().isInstanceOf(Sa.class),
+            () -> assertThat(chu.findPiece(new Position(5, 2))).get().isInstanceOf(Gung.class),
+            () -> assertThat(chu.findPiece(new Position(2, 3))).get().isInstanceOf(Po.class),
+            () -> assertThat(chu.findPiece(new Position(8, 3))).get().isInstanceOf(Po.class),
+            () -> assertThat(chu.findPiece(new Position(1, 4))).get().isInstanceOf(Jol.class),
+            () -> assertThat(chu.findPiece(new Position(3, 4))).get().isInstanceOf(Jol.class),
+            () -> assertThat(chu.findPiece(new Position(5, 4))).get().isInstanceOf(Jol.class),
+            () -> assertThat(chu.findPiece(new Position(7, 4))).get().isInstanceOf(Jol.class),
+            () -> assertThat(chu.findPiece(new Position(9, 4))).get().isInstanceOf(Jol.class),
+            () -> assertThat(chu.findPiece(new Position(5, 5))).isEmpty()
+        );
+    }
 
     @Test
     @DisplayName("한나라 팀은 초기 배치대로 기물을 가진다.")
-    void createInitialHan() {
+    void createInitialHanTeam() {
         // given
-        Han han = Han.createInitialHan();
+        Team han = Team.createInitialTeam(TeamType.HAN);
 
         // when & then
         assertAll(
@@ -49,16 +78,19 @@ class HanTest {
     @DisplayName("기물을 이동한 새 팀 상태를 반환한다.")
     void move() {
         // given
-        Team han = Han.createInitialHan();
+        Team chu = Team.createInitialTeam(TeamType.CHU);
+        Position chuJolPosition = new Position(1, 4);
+        Position movedChuJolPosition = new Position(1, 5);
 
         // when
-        Team movedHan = han.move(new Position(1, 7), new Position(1, 6));
+        Team movedChu = chu.move(chuJolPosition, movedChuJolPosition);
 
         // then
         assertAll(
-            () -> assertThat(movedHan.findPiece(new Position(1, 7))).isEmpty(),
-            () -> assertThat(movedHan.findPiece(new Position(1, 6))).get().isInstanceOf(Jol.class),
-            () -> assertThat(han.findPiece(new Position(1, 7))).get().isInstanceOf(Jol.class)
+            () -> assertThat(movedChu.findPiece(chuJolPosition)).isEmpty(),
+            () -> assertThat(movedChu.findPiece(movedChuJolPosition)).get().isInstanceOf(Jol.class),
+            () -> assertThat(chu.findPiece(movedChuJolPosition)).isEmpty(),
+            () -> assertThat(chu.findPiece(chuJolPosition)).get().isInstanceOf(Jol.class)
         );
     }
 
@@ -66,7 +98,7 @@ class HanTest {
     @DisplayName("기물을 제거하면 새 팀 상태를 반환하여 원본은 유지한다.")
     void remove() {
         // given
-        Team han = Han.createInitialHan();
+        Team han = Team.createInitialTeam(TeamType.HAN);
 
         // when
         Team removedHan = han.remove(new Position(1, 7));

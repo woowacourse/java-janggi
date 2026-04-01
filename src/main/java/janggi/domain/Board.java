@@ -1,8 +1,6 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.team.Chu;
-import janggi.domain.team.Han;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
@@ -25,7 +23,7 @@ public class Board {
     }
 
     public static Board createInitialBoard() {
-        return new Board(Chu.createInitialChu(), Han.createInitialHan());
+        return new Board(Team.createInitialTeam(TeamType.CHU), Team.createInitialTeam(TeamType.HAN));
     }
 
     public BoardSpots makeSnapShot() {

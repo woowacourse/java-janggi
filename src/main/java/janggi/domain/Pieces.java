@@ -37,7 +37,14 @@ public class Pieces {
         return new Pieces(updatedValue);
     }
 
-    public static Pieces createHan() {
+    public static Pieces create(TeamType teamType) {
+        if (teamType == TeamType.HAN) {
+            return createHan();
+        }
+        return createChu();
+    }
+
+    private static Pieces createHan() {
         Map<Position, Piece> pieces = new HashMap<>();
         createChas(pieces, 10, TeamType.HAN);
         createMas(pieces, 10, TeamType.HAN);
@@ -49,7 +56,7 @@ public class Pieces {
         return new Pieces(pieces);
     }
 
-    public static Pieces createChu() {
+    private static Pieces createChu() {
         Map<Position, Piece> pieces = new HashMap<>();
         createChas(pieces, 1, TeamType.CHU);
         createMas(pieces, 1, TeamType.CHU);
@@ -60,7 +67,6 @@ public class Pieces {
         createJols(pieces, 4, TeamType.CHU);
         return new Pieces(pieces);
     }
-
 
     public BoardSpots makeSnapShot() {
         Map<Position, BoardSpot> snapShot = new HashMap<>();

@@ -1,17 +1,38 @@
 package janggi.domain.team;
 
+import janggi.domain.Pieces;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.BoardSpots;
 import java.util.Optional;
 
-public interface Team {
+public class Team {
 
-    BoardSpots makeSnapShot();
+    private final TeamType teamType;
+    private final Pieces pieces;
 
-    Optional<Piece> findPiece(Position position);
+    private Team(TeamType teamType, Pieces pieces) {
+        this.teamType = teamType;
+        this.pieces = pieces;
+    }
 
-    Team remove(Position position);
+    public static Team createInitialTeam(TeamType teamType) {
+        return new Team(teamType, Pieces.create(teamType));
+    }
 
-    Team move(Position piecePosition, Position targetPosition);
+    public BoardSpots makeSnapShot() {
+        return pieces.makeSnapShot();
+    }
+
+    public Optional<Piece> findPiece(Position position) {
+        return pieces.findPiece(position);
+    }
+
+    public Team remove(Position position) {
+        return new Team(teamType, pieces.remove(position));
+    }
+
+    public Team move(Position piecePosition, Position targetPosition) {
+        return new Team(teamType, pieces.move(piecePosition, targetPosition));
+    }
 }

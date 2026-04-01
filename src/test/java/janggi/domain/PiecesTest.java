@@ -3,6 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.team.TeamType;
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.PieceType;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ class PiecesTest {
     @DisplayName("기물을 이동하면 새 Pieces를 반환하고 원본은 유지한다.")
     void move() {
         // given
-        Pieces pieces = Pieces.createChu();
+        Pieces pieces = Pieces.create(TeamType.CHU);
         Position start = new Position(1, 4);
         Position end = new Position(1, 5);
 
@@ -34,7 +35,7 @@ class PiecesTest {
     @DisplayName("기물을 제거하면 새 Pieces를 반환하고 원본은 유지한다.")
     void remove() {
         // given
-        Pieces pieces = Pieces.createChu();
+        Pieces pieces = Pieces.create(TeamType.CHU);
         Position target = new Position(1, 4);
 
         // when
@@ -52,7 +53,7 @@ class PiecesTest {
     @DisplayName("보드 스냅샷은 좌표, 기물 이름, 팀 정보를 포함한다.")
     void makeSnapShot() {
         // given
-        Pieces pieces = Pieces.createChu();
+        Pieces pieces = Pieces.create(TeamType.CHU);
 
         // when
         var boardSpots = pieces.makeSnapShot();
@@ -63,7 +64,7 @@ class PiecesTest {
         assertAll(
             () -> assertThat(gungSpot.position()).isEqualTo(new Position(5, 2)),
             () -> assertThat(gungSpot.pieceName()).isEqualTo(PieceType.GUNG.getNickname()),
-            () -> assertThat(gungSpot.teamType()).isEqualTo(janggi.domain.team.TeamType.CHU)
+            () -> assertThat(gungSpot.teamType()).isEqualTo(TeamType.CHU)
         );
     }
 }
