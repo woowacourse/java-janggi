@@ -21,6 +21,12 @@ public enum Camp {
     private static final String INVALID_BACKWARD_MOVEMENT = "[ERROR] 해당 기물은 후진할 수 없습니다.";
     private static final String INVALID_PALACE_MOVEMENT = "[ERROR] 해당 기물은 아군 궁성 영역 밖으로 이동할 수 없습니다.";
 
+    private static final int PALACE_CENTER_ROW_DISTANCE = 1;
+    private static final int FRIENDLY_PALACE_ROW_RANGE = 2;
+    private static final int PALACE_START_COLUMN = 3;
+    private static final int PALACE_CENTER_COLUMN = 4;
+    private static final int PALACE_END_COLUMN = 5;
+
     private final int forwardDirection;
     private final int startRowPosition;
     private final double bonusScoreForSecondPlayer;
@@ -55,7 +61,7 @@ public enum Camp {
 
     private boolean isFriendlyPalaceRow(Position position) {
         int absRowDifference = Math.abs(position.row() - startRowPosition);
-        return absRowDifference <= 2;
+        return absRowDifference <= FRIENDLY_PALACE_ROW_RANGE;
     }
 
     public static boolean isPalace(Position position) {
@@ -66,19 +72,21 @@ public enum Camp {
         return Arrays.stream(values())
                 .anyMatch(camp -> {
                     int absRowDifference = Math.abs(position.row() - camp.startRowPosition);
-                    return absRowDifference <= 2;
+                    return absRowDifference <= FRIENDLY_PALACE_ROW_RANGE;
                 });
     }
 
     private static boolean isPalaceColumn(Position position) {
-        return position.column() >= 3 && position.column() <= 5;
+        return position.column() >= PALACE_START_COLUMN
+                && position.column() <= PALACE_END_COLUMN;
     }
 
     public static boolean isPalaceCenter(Position position) {
         return Arrays.stream(values())
                 .anyMatch(camp -> {
                     int absRowDifference = Math.abs(position.row() - camp.startRowPosition);
-                    return position.column() == 4 && absRowDifference == 1;
+                    return position.column() == PALACE_CENTER_COLUMN
+                            && absRowDifference == PALACE_CENTER_ROW_DISTANCE;
                 });
     }
 
