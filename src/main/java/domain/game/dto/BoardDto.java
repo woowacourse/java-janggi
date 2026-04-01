@@ -2,11 +2,10 @@ package domain.game.dto;
 
 import domain.coordination.Coordination;
 import domain.piece.Piece;
-import view.PieceName;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import view.PieceName;
 
 public record BoardDto(Map<List<Integer>, String> board) {
 

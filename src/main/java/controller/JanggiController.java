@@ -54,7 +54,8 @@ public class JanggiController {
     private void chooseDestinationAndGameStart(JanggiGame janggiGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
-            BoardDto boardDto = janggiGame.playTurn(from, to);
+            janggiGame.playTurn(from, to);
+            BoardDto boardDto = janggiGame.createBoardDto();
             outputView.printBoard(boardDto);
         });
     }
