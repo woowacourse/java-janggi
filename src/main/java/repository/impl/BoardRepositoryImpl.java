@@ -32,17 +32,8 @@ public class BoardRepositoryImpl implements BoardRepository {
     @Override
     public void saveBoard(long roomId, Map<Position, Place> board, java.sql.Connection conn) {
         try {
-            conn.setAutoCommit(false);
-
-            try {
-                deleteExisting(conn, roomId);
-                insertBoard(conn, roomId, board);
-                conn.commit();
-            } catch (SQLException e) {
-                conn.rollback();
-                throw e;
-            }
-
+            deleteExisting(conn, roomId);
+            insertBoard(conn, roomId, board);
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 보드 상태 저장 중 오류가 발생했습니다.", e);
         }
