@@ -3,7 +3,6 @@ package domain.piece;
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.coordination.MoveDeltas;
-import domain.piece.error.ErrorMessage;
 import domain.piece.error.PieceException;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +36,7 @@ public class Guard extends Piece {
         boolean isMovable = MOVABLE_LOCATION.contains(different);
 
         if (!isMovable) {
-            throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 }

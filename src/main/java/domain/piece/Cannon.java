@@ -2,11 +2,8 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
-
 import java.util.List;
 import java.util.Map;
-
-import static domain.piece.error.ErrorMessage.IMPOSSIBLE_MOVE;
 
 public class Cannon extends Piece {
 
@@ -24,7 +21,7 @@ public class Cannon extends Piece {
 
     private void validateCanon(Coordination to, Map<Coordination, Piece> board) {
         if (board.get(to).isCannon()) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 
@@ -36,7 +33,7 @@ public class Cannon extends Piece {
     private void validateLocation(Coordination from, Coordination to) {
         boolean movable = from.isSameRowDifferentColumn(to) || from.isSameColumnDifferentRow(to);
         if (!movable) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 
@@ -61,13 +58,13 @@ public class Cannon extends Piece {
         boolean hasCannon = pieces.stream()
                 .anyMatch(Piece::isCannon);
         if (hasCannon) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 
     private static void validateExactlyOneBridge(List<Piece> pieces) {
         if (pieces.size() != 1) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 

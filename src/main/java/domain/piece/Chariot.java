@@ -2,11 +2,8 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
-
 import java.util.List;
 import java.util.Map;
-
-import static domain.piece.error.ErrorMessage.IMPOSSIBLE_MOVE;
 
 public class Chariot extends Piece {
 
@@ -24,7 +21,7 @@ public class Chariot extends Piece {
     private void validateLocation(Coordination from, Coordination to) {
         boolean movable = from.isSameRowDifferentColumn(to) || from.isSameColumnDifferentRow(to);
         if (!movable) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 
@@ -32,7 +29,7 @@ public class Chariot extends Piece {
         List<Coordination> path = resolvePath(from, to);
         for (Coordination coordination : path) {
             if (!board.get(coordination).isEmpty()) {
-                throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+                throw new PieceException(IMPOSSIBLE_MOVE);
             }
         }
     }

@@ -2,11 +2,12 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.game.Turn;
-import domain.piece.error.ErrorMessage;
 import domain.piece.error.PieceException;
 import java.util.Map;
 
 public abstract class Piece {
+
+    protected static final String IMPOSSIBLE_MOVE = "기물이 움직일 수 없는 위치입니다.";
 
     protected final Team team;
 
@@ -48,7 +49,7 @@ public abstract class Piece {
 
     private void validateSameTeam(Piece piece) {
         if (piece.isSameTeam(this.team)) {
-            throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 

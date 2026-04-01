@@ -1,7 +1,5 @@
 package domain.piece;
 
-import static domain.piece.error.ErrorMessage.IMPOSSIBLE_MOVE;
-
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.coordination.MoveDeltas;
@@ -43,7 +41,7 @@ public class Horse extends Piece {
 
     private void validateLocation(MoveDelta absDifferent) {
         if (!MOVABLE_ABSOLUTE_LOCATION.contains(absDifferent)) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 
@@ -62,7 +60,7 @@ public class Horse extends Piece {
 
     private void validatePathClear(Map<Coordination, Piece> board, Coordination intermediateCoordination) {
         if (!board.get(intermediateCoordination).isEmpty()) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 }
