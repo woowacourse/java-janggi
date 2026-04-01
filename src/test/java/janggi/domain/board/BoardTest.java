@@ -25,7 +25,7 @@ class BoardTest {
         // when
         board.movePiece(source, destination, Camp.HAN);
         // then
-        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceType.CANNON);
+        boolean destinationExists = board.hasSamePieceTypeAt(destination, PieceType.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
 
         SoftAssertions.assertSoftly(assertSoftly -> {

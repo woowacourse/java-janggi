@@ -11,7 +11,7 @@ public record Piece(PieceType pieceType, Camp camp) {
         pieceType.checkPath(path, camp, board);
     }
 
-    public boolean isSamePieceRule(PieceType pieceType) {
+    public boolean isSamePieceType(PieceType pieceType) {
         return this.pieceType == pieceType;
     }
 

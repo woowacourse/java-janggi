@@ -38,7 +38,7 @@ public class OnePieceExistsCondition implements MoveCondition {
     }
 
     private void validateSamePieceRule(BoardChecker board, PieceType pieceType, Position position) {
-        if (board.hasSamePieceRuleAt(position, pieceType)) {
+        if (board.hasSamePieceTypeAt(position, pieceType)) {
             throw new IllegalArgumentException(SAME_PIECE_TYPE_IN_PATH);
         }
     }
@@ -54,7 +54,7 @@ public class OnePieceExistsCondition implements MoveCondition {
             throw new IllegalArgumentException(SAME_CAMP_PIECE_AT_DESTINATION);
         }
 
-        if (board.hasSamePieceRuleAt(destination, pieceType)) {
+        if (board.hasSamePieceTypeAt(destination, pieceType)) {
             throw new IllegalArgumentException(SAME_PIECE_TYPE_AT_DESTINATION);
         }
     }

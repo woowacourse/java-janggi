@@ -32,10 +32,10 @@ public class Board implements BoardChecker {
     }
 
     @Override
-    public boolean hasSamePieceRuleAt(Position position, PieceType pieceType) {
+    public boolean hasSamePieceTypeAt(Position position, PieceType pieceType) {
         if (board.containsKey(position)) {
             Piece foundPiece = board.get(position);
-            return foundPiece.isSamePieceRule(pieceType);
+            return foundPiece.isSamePieceType(pieceType);
         }
         return false;
     }

@@ -10,5 +10,5 @@ public interface BoardChecker {
 
     boolean isSameCampPieceAt(Position position, Camp camp);
 
-    boolean hasSamePieceRuleAt(Position position, PieceType pieceType);
+    boolean hasSamePieceTypeAt(Position position, PieceType pieceType);
 }

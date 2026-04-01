@@ -19,7 +19,7 @@ class PieceTest {
         // given
         Piece piece = new Piece(PieceType.CANNON, Camp.CHO);
         // when
-        boolean result = piece.isSamePieceRule(PieceType.CANNON);
+        boolean result = piece.isSamePieceType(PieceType.CANNON);
         // then
         assertThat(result).isTrue();
     }
