@@ -9,7 +9,6 @@ import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.domain.Route;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

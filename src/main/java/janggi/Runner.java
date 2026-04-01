@@ -6,10 +6,13 @@ import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Runner {
+    public static final String END_TEXT = "종료";
+
     private static final String UNEXPECTED_SERVER_ERROR_LOG_MESSAGE = "예측하지 못한 시스템 오류 발생";
     private static final String SYSTEM_ERROR_MESSAGE = "시스템 오류가 발생하여 게임을 종료합니다.";
 
@@ -38,9 +41,7 @@ public class Runner {
     private boolean playTurnGame(Game game) {
         try {
             printCurrentStatus(game);
-            movePiece(game);
-            printCurrentScore(game);
-            return isFinishedGame(game);
+            return executeTurn(game);
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
             return true;
@@ -57,15 +58,34 @@ public class Runner {
         OutputView.printTurn(game.getCurrentSide());
     }
 
-    private void movePiece(Game game) {
-        List<Integer> startPositionInput = InputView.askStartPosition();
-        Position startPosition = Position.from(startPositionInput);
+    private boolean executeTurn(Game game) {
+        Optional<List<Integer>> startPositionInput = InputView.askStartPosition();
+
+        if(startPositionInput.isEmpty()) {
+            return consentEndGame(game);
+        }
+
+        Position startPosition = Position.from(startPositionInput.get());
 
         List<Integer> endPositionInput = InputView.askEndPosition();
         Position endPosition = Position.from(endPositionInput);
 
         game.move(startPosition, endPosition);
+
+        printCurrentScore(game);
+        return isFinishedGame(game);
     }
+
+    private boolean consentEndGame(Game game) {
+        String consentInput = InputView.consentEnd();
+
+        if(consentInput.equals(END_TEXT)) {
+            return false;
+        }
+
+        return executeTurn(game);
+    }
+
 
     private void printCurrentScore(Game game) {
         OutputView.printLine();
