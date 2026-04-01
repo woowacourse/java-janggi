@@ -1,54 +1,55 @@
 package domain;
 
+import domain.board.Board;
+import domain.board.BoardStatus;
 import domain.piece.Team;
 import domain.position.Position;
 
 public class JanggiGame {
     private final Board board;
-    private Turn turn;
-    private GameState gameState;
+    private final GameContext context;
 
-    private JanggiGame(Board board) {
+    private JanggiGame(Board board, GameContext context) {
         this.board = board;
-        turn = new Turn(Team.CHO);
-        gameState = GameState.PLAYING;
+        this.context = context;
     }
 
     public static JanggiGame init(SettingType choSetting, SettingType hanSetting) {
-        return new JanggiGame(Board.of(choSetting, hanSetting));
+        GameContext gameContext = new GameContext(new Turn(Team.CHO), GameState.PLAYING);
+        return new JanggiGame(Board.of(choSetting, hanSetting), gameContext);
     }
 
     public void executeMove(Position start, Position destination) {
         validateGameIsNotFinished();
-        board.move(turn, start, destination);
+        board.move(context.getTurn(), start, destination);
         checkGameTermination();
-        if (gameState == GameState.PLAYING) {
+        if (context.getGameState() == GameState.PLAYING) {
             passTurn();
         }
     }
 
     private void validateGameIsNotFinished() {
-        if (gameState == GameState.END) {
+        if (context.getGameState() == GameState.END) {
             throw new IllegalStateException(JanggiGameErrorMessage.ALREADY_END.getMessage());
         }
     }
 
     private void checkGameTermination() {
         if (board.isKingCaptured(Team.CHO) || board.isKingCaptured(Team.HAN)) {
-            gameState = GameState.END;
+            context.finishGame();
         }
     }
 
     public void passTurn() {
-        turn = turn.passTurn();
+        context.passTurn();
     }
 
     public boolean isFinished() {
-        return gameState == GameState.END;
+        return context.getGameState() == GameState.END;
     }
 
     public Team getWinner() {
-        if (gameState != GameState.END) {
+        if (context.getGameState() != GameState.END) {
             throw new IllegalStateException(JanggiGameErrorMessage.NOW_ON_PLAYING.getMessage());
         }
         if (board.isKingCaptured(Team.CHO)) {
@@ -62,6 +63,6 @@ public class JanggiGame {
     }
 
     public Team getTurnOwnTeam() {
-        return turn.turnOwnTeam();
+        return context.getTurn().turnOwnTeam();
     }
 }

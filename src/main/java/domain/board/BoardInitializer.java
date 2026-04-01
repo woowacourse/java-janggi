@@ -1,5 +1,7 @@
-package domain;
+package domain.board;
 
+import domain.SettingInfo;
+import domain.SettingType;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Jang;

@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public enum BoardErrorMessage {
     EMPTY_POSITION("해당 위치에는 기물이 존재하지 않습니다"),

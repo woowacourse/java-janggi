@@ -1,7 +1,7 @@
 package domain.piece;
 
 
-import domain.BoardStatus;
+import domain.board.BoardStatus;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
 import domain.piece.strategy.component.PalaceMoveRule;

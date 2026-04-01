@@ -1,8 +1,8 @@
 package controller;
 
-import domain.BoardStatus;
 import domain.JanggiGame;
 import domain.SettingType;
+import domain.board.BoardStatus;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
@@ -39,7 +39,8 @@ public class JanggiGameController {
             if (actionType == ActionType.PASS) {
                 game.passTurn();
             }
-            printBoardStatus(game.getJanggiGameStatus());
+            BoardStatus currentBoardStatus = game.getJanggiGameStatus();
+            printBoardStatus(currentBoardStatus);
         }
         resultView.printWinner(TeamDto.toDto(game.getWinner()));
     }

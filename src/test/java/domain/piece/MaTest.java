@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.BoardStatus;
+import domain.board.BoardStatus;
 import domain.piece.strategy.MaMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;

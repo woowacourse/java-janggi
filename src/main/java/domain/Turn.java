@@ -1,5 +1,6 @@
 package domain;
 
+import domain.board.BoardErrorMessage;
 import domain.piece.Team;
 
 public record Turn(

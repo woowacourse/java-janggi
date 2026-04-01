@@ -1,5 +1,7 @@
-package domain;
+package domain.board;
 
+import domain.SettingType;
+import domain.Turn;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;

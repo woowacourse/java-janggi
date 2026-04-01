@@ -2,7 +2,7 @@ package domain.piece;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import domain.BoardStatus;
+import domain.board.BoardStatus;
 import domain.piece.strategy.ByeongMoveStrategy;
 import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
