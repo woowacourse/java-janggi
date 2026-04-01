@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class TestDatabaseInitializer {
 
     private static final String SCHEMA_SQL = "schema.sql";
+    private static final String DATA_SQL = "data.sql";
     private final H2ConnectionManager connectionManager;
 
     public TestDatabaseInitializer(H2ConnectionManager connectionManager) {
@@ -24,6 +25,7 @@ public class TestDatabaseInitializer {
             conn.setAutoCommit(false);
 
             runSql(stmt, SCHEMA_SQL);
+            runSql(stmt, DATA_SQL);
 
             conn.commit();
 
