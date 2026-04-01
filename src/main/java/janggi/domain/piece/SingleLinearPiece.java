@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
@@ -14,9 +15,20 @@ public class SingleLinearPiece extends LinearPiece {
 
     @Override
     public Route findRoute(Position start, Position end) {
-        if(Math.abs(start.calculateRowDistance(end) + start.calculateColumnDistance(end)) != RESTRICTED_DISTANCE) {
+        try {
+            Movement direction = start.getLinearDirection(end);
+            int distance = start.calculateLinearDistance(end);
+            validateDistance(distance);
+
+            return calculatePath(start, direction, distance);
+        } catch (IllegalStateException e) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
-        return super.findRoute(start, end);
+    }
+
+    private void validateDistance(int distance) {
+        if(distance != RESTRICTED_DISTANCE) {
+            throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
+        }
     }
 }

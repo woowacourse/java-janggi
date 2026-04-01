@@ -15,15 +15,15 @@ public abstract class LinearPiece extends ActivePiece {
 
     @Override
     public Route findRoute(Position start, Position end) {
-        boolean isVertical = start.isVertical(end);
-        boolean isHorizontal = start.isHorizontal(end);
+        try {
+            Movement direction = start.getLinearDirection(end);
+            int distance = start.calculateLinearDistance(end);
 
-        if (!isVertical && !isHorizontal) {
+            return calculatePath(start, direction, distance);
+        } catch (IllegalStateException e) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
 
-        int dist = start.calculateColumnDistance(end) + start.calculateRowDistance(end);
-        return calculatePath(start, isVertical, dist);
     }
 
     @Override
@@ -33,32 +33,10 @@ public abstract class LinearPiece extends ActivePiece {
         }
     }
 
-    private Route calculatePath(Position start, boolean isVertical, int dist) {
-        Movement movement = resolveMovement(isVertical, dist);
+    protected Route calculatePath(Position start, Movement direction, int dist) {
         return new Route(Stream
-                .iterate(start, current -> current.move(movement))
+                .iterate(start, current -> current.move(direction))
                 .limit(Math.abs(dist) + 1)
                 .toList());
-    }
-
-    private Movement resolveMovement(boolean isVertical, int dist) {
-        if (isVertical) {
-            return resolveVerticalMovement(dist);
-        }
-        return resolveHorizontalMovement(dist);
-    }
-
-    private Movement resolveVerticalMovement(int dist) {
-        if (dist < 0) {
-            return Movement.UP;
-        }
-        return Movement.DOWN;
-    }
-
-    private Movement resolveHorizontalMovement(int dist) {
-        if (dist < 0) {
-            return Movement.LEFT;
-        }
-        return Movement.RIGHT;
     }
 }

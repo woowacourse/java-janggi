@@ -15,6 +15,8 @@ public class Position {
     private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
 
+    private static final String INVALID_LINEAR_POSITION = "직선이 아닙니다.";
+
     private final int x;
     private final int y;
 
@@ -76,19 +78,32 @@ public class Position {
         return new Position(x + movement.getDx(), y + movement.getDy());
     }
 
-    public int calculateRowDistance(Position position) {
-        return position.x - x;
+    public Movement getLinearDirection(Position position) {
+        if(!isLinear(position)) {
+            throw new IllegalStateException(INVALID_LINEAR_POSITION);
+        }
+
+        int dx = Integer.compare(position.x, x);
+        int dy = Integer.compare(position.y, y);
+
+        return Movement.of(dx, dy);
     }
 
-    public int calculateColumnDistance(Position position) {
-        return position.y - y;
+    public int calculateLinearDistance(Position position) {
+        if(!isLinear(position)) {
+            throw new IllegalStateException(INVALID_LINEAR_POSITION);
+        }
+
+        int dx = Math.abs(position.x - x);
+        int dy = Math.abs(position.y - y);
+
+        return Math.max(dx, dy);
     }
 
-    public boolean isHorizontal(Position position) {
-        return position.x == this.x;
-    }
+    private boolean isLinear(Position position) {
+        int dx = Math.abs(position.x - x);
+        int dy = Math.abs(position.y - y);
 
-    public boolean isVertical(Position position) {
-        return position.y == this.y;
+        return (dx == 0 && dy != 0) || (dy == 0 && dx != 0);
     }
 }

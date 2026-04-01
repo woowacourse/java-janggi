@@ -34,6 +34,6 @@ public enum Movement {
         return Arrays.stream(Movement.values())
                 .filter(movement ->  movement.dx == dx && movement.dy == dy)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_DELTA_DIRECTION_MESSAGE));
+                .orElseThrow(() -> new IllegalStateException(INVALID_DELTA_DIRECTION_MESSAGE));
     }
 }

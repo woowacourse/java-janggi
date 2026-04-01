@@ -15,7 +15,7 @@ class ChaTest {
     void 시작_좌표와_끝_좌표가_같은_선_상에_존재하지_않으면_에러가_발생한다() {
         Cha cha = new Cha(Side.CHO);
         Position start = new Position(2, 3);
-        Position end = new Position(3, 4);
+        Position end = new Position(5, 6);
 
         assertThatThrownBy(() -> cha.findRoute(start, end))
                 .isInstanceOf(IllegalArgumentException.class)
