@@ -1,8 +1,9 @@
 package model.piece;
 
-import java.util.List;
 import model.Team;
 import model.coordinate.Position;
+
+import java.util.List;
 
 public class Guard extends Piece {
 

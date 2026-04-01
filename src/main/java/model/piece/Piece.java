@@ -1,8 +1,9 @@
 package model.piece;
 
-import java.util.List;
 import model.Team;
 import model.coordinate.Position;
+
+import java.util.List;
 
 public abstract class Piece {
 
@@ -46,5 +47,13 @@ public abstract class Piece {
 
     public PieceType getType() {
         return type;
+    }
+
+    public double getScore() {
+        return type.getScore();
+    }
+
+    public boolean isGeneral() {
+        return type == PieceType.GENERAL;
     }
 }

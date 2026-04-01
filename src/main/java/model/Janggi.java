@@ -1,22 +1,26 @@
 package model;
 
-import java.util.List;
-
 import model.board.Board;
 import model.board.Route;
 import model.coordinate.Position;
 import model.piece.Piece;
 
+import java.util.List;
+import java.util.Map;
+
 public class Janggi {
 
     public static final int CANNON_HURDLE_COUNT = 1;
+    private static final double HAN_BONUS = 1.5;
 
     private final Board board;
     private Team turn;
+    private boolean finished;
 
     public Janggi(Board board) {
         this.board = board;
         this.turn = Team.CHO;
+        this.finished = false;
     }
 
     public void move(Position current, Position next) {
@@ -24,7 +28,40 @@ public class Janggi {
         validateMovement(current, next, piece);
 
         board.movePiece(current, next);
+        if (!board.hasGeneral(turn)) {
+            this.finished = true;
+        }
         this.turn = turn.next();
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public Team getWinnerByCapture() {
+        return turn.next();
+    }
+
+    public double getScore(Team team) {
+        double score = board.calculateScore(team);
+        if (team == Team.HAN) {
+            return score + HAN_BONUS;
+        }
+        return score;
+    }
+
+    public Team determineWinnerByScore() {
+        this.finished = true;
+        double choScore = getScore(Team.CHO);
+        double hanScore = getScore(Team.HAN);
+        if (choScore >= hanScore) {
+            return Team.CHO;
+        }
+        return Team.HAN;
+    }
+
+    public void quit() {
+        this.finished = true;
     }
 
     public Piece findPieceAt(Position position, Team turn) {
@@ -33,6 +70,10 @@ public class Janggi {
             throw new IllegalArgumentException(turn.getName() + "의 기물이 아닙니다.");
         }
         return piece;
+    }
+
+    public Map<Position, Piece> board() {
+        return board.board();
     }
 
     public Team getTurn() {

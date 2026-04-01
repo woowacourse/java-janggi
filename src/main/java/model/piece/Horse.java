@@ -1,10 +1,11 @@
 package model.piece;
 
-import java.util.ArrayList;
-import java.util.List;
 import model.Team;
 import model.coordinate.Direction;
 import model.coordinate.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Horse extends Piece {
 

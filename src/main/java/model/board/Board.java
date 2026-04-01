@@ -1,5 +1,6 @@
 package model.board;
 
+import model.Team;
 import model.coordinate.Position;
 import model.piece.Piece;
 
@@ -48,6 +49,18 @@ public class Board {
 
     public Map<Position, Piece> board() {
         return Map.copyOf(board);
+    }
+
+    public boolean hasGeneral(Team team) {
+        return board.values().stream()
+                .anyMatch(piece -> piece.isGeneral() && !piece.isEnemy(team));
+    }
+
+    public double calculateScore(Team team) {
+        return board.values().stream()
+                .filter(piece -> !piece.isEnemy(team))
+                .mapToDouble(Piece::getScore)
+                .sum();
     }
 
     public Route createRoute(List<Position> positions) {
