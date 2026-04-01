@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.board.strategy.InitialStrategy;
+import domain.board.formation.InitialFormation;
 import domain.coordinate.Position;
 import domain.piece.*;
 
@@ -12,20 +12,20 @@ public class BasicBoardInitializer implements BoardInitializer {
     private static final int COL_SIZE = 10;
     private static final int ROW_SIZE = 9;
 
-    private final InitialStrategy hanSideInitialType;
-    private final InitialStrategy chuSideInitialType;
+    private final InitialFormation hanSideInitialType;
+    private final InitialFormation chuSideInitialType;
 
-    public BasicBoardInitializer(InitialStrategy hanSideInitialType, InitialStrategy chuSideInitialType) {
-        this.hanSideInitialType = hanSideInitialType;
-        this.chuSideInitialType = chuSideInitialType;
+    public BasicBoardInitializer(InitialFormation hanSideInitialFormation, InitialFormation chuSideInitialFormation) {
+        this.hanSideInitialType = hanSideInitialFormation;
+        this.chuSideInitialType = chuSideInitialFormation;
     }
 
     public Map<Position, Piece> initialize() {
         Map<Position, Piece> pieceInitPlacements = new HashMap<>();
 
-        initializeHanPieces(pieceInitPlacements);
+        initializeSidePieces(pieceInitPlacements, Side.HAN);
         hanSideInitialType.apply(pieceInitPlacements);
-        initializeChuPieces(pieceInitPlacements);
+        initializeSidePieces(pieceInitPlacements, Side.CHU);
         chuSideInitialType.apply(pieceInitPlacements);
         initializeEmptyPiece(pieceInitPlacements);
 
@@ -40,40 +40,29 @@ public class BasicBoardInitializer implements BoardInitializer {
         }
     }
 
-    private void initializeHanPieces(Map<Position, Piece> pieceInitPlacements) {
-        pieceInitPlacements.put(new Position(0, 0), new Chariot(Side.HAN));
-        pieceInitPlacements.put(new Position(0, 3), new Guard(Side.HAN));
-        pieceInitPlacements.put(new Position(0, 5), new Guard(Side.HAN));
-        pieceInitPlacements.put(new Position(0, 8), new Chariot(Side.HAN));
+    private void initializeSidePieces(Map<Position, Piece> placements, Side side) {
+        placements.put(new Position(getRow(0, side), 0), new Chariot(side));
+        placements.put(new Position(getRow(0, side), 3), new Guard(side));
+        placements.put(new Position(getRow(0, side), 5), new Guard(side));
+        placements.put(new Position(getRow(0, side), 8), new Chariot(side));
 
-        pieceInitPlacements.put(new Position(1, 4), new King(Side.HAN));
+        placements.put(new Position(getRow(1, side), 4), new King(side));
 
-        pieceInitPlacements.put(new Position(2, 1), new Cannon(Side.HAN));
-        pieceInitPlacements.put(new Position(2, 7), new Cannon(Side.HAN));
+        placements.put(new Position(getRow(2, side), 1), new Cannon(side));
+        placements.put(new Position(getRow(2, side), 7), new Cannon(side));
 
-        pieceInitPlacements.put(new Position(3, 0), new Pawn(Side.HAN));
-        pieceInitPlacements.put(new Position(3, 2), new Pawn(Side.HAN));
-        pieceInitPlacements.put(new Position(3, 4), new Pawn(Side.HAN));
-        pieceInitPlacements.put(new Position(3, 6), new Pawn(Side.HAN));
-        pieceInitPlacements.put(new Position(3, 8), new Pawn(Side.HAN));
+        int pawnRow = getRow(3, side);
+        for (int col = 0; col <= 8; col += 2) {
+            placements.put(new Position(pawnRow, col), new Pawn(side));
+        }
     }
 
-    private void initializeChuPieces(Map<Position, Piece> pieceInitPlacements) {
-        pieceInitPlacements.put(new Position(9,0), new Chariot(Side.CHU));
-        pieceInitPlacements.put(new Position(9,3), new Guard(Side.CHU));
-        pieceInitPlacements.put(new Position(9,5), new Guard(Side.CHU));
-        pieceInitPlacements.put(new Position(9,8), new Chariot(Side.CHU));
+    private int getRow(int row, Side side) {
+        if (side == Side.HAN) {
+            return row;
+        }
 
-        pieceInitPlacements.put(new Position(8,4), new King(Side.CHU));
-
-        pieceInitPlacements.put(new Position(7,1), new Cannon(Side.CHU));
-        pieceInitPlacements.put(new Position(7,7), new Cannon(Side.CHU));
-
-        pieceInitPlacements.put(new Position(6,0), new Pawn(Side.CHU));
-        pieceInitPlacements.put(new Position(6,2), new Pawn(Side.CHU));
-        pieceInitPlacements.put(new Position(6,4), new Pawn(Side.CHU));
-        pieceInitPlacements.put(new Position(6,6), new Pawn(Side.CHU));
-        pieceInitPlacements.put(new Position(6,8), new Pawn(Side.CHU));
+        return 9 - row;
     }
 
     public Side getFirstTurnSide() {
