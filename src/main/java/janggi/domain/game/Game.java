@@ -14,7 +14,7 @@ public class Game {
     private final Board board;
     private Side turn;
 
-    private Game(Board board) {
+    protected Game(Board board) {
         this.board = board;
         turn = INIT_TURN;
     }
