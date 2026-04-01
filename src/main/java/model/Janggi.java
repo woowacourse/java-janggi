@@ -8,6 +8,7 @@ import model.piece.Piece;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Janggi {
 
@@ -28,8 +29,8 @@ public class Janggi {
         Piece piece = findPieceAt(current, turn);
         validateMovement(current, next, piece);
 
-        board.movePiece(current, next);
-        if (!board.hasGeneral(turn)) {
+        Optional<Piece> capturedPiece = board.movePiece(current, next);
+        if (capturedPiece.map(Piece::isGeneral).orElse(false)) {
             this.finished = true;
         }
         this.turn = turn.next();

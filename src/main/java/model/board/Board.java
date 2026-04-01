@@ -7,6 +7,7 @@ import model.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
 
@@ -19,15 +20,16 @@ public class Board {
         this.board = new HashMap<>(board);
     }
 
-    public void movePiece(Position current, Position next) {
+    public Optional<Piece> movePiece(Position current, Position next) {
         Piece currentPiece = pickPiece(current);
-        Piece otherPiece = board.get(next);
-        if (otherPiece != null) {
-            validateAlly(currentPiece, otherPiece);
+        Piece capturedPiece = board.get(next);
+        if (capturedPiece != null) {
+            validateAlly(currentPiece, capturedPiece);
         }
 
         board.remove(current);
         board.put(next, currentPiece);
+        return Optional.ofNullable(capturedPiece);
     }
 
     public Piece pickPiece(Position position) {
@@ -49,11 +51,6 @@ public class Board {
 
     public Map<Position, Piece> board() {
         return Map.copyOf(board);
-    }
-
-    public boolean hasGeneral(Team team) {
-        return board.values().stream()
-                .anyMatch(piece -> piece.isGeneral() && !piece.isEnemy(team));
     }
 
     public double calculateScore(Team team) {
