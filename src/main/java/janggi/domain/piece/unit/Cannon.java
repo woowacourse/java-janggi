@@ -6,14 +6,14 @@ import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Cannon extends Piece {
-    private static final PieceName NAME = PieceName.CANNON;
+    private static final PieceType TYPE = PieceType.CANNON;
     private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
     private static final List<Pattern> PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH)),
@@ -23,7 +23,7 @@ public class Cannon extends Piece {
     );
 
     public Cannon(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(TYPE, side, DEFAULT_STRATEGY);
     }
 
     @Override

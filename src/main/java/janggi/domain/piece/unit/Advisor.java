@@ -6,21 +6,21 @@ import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class Advisor extends Piece {
-    private static final PieceName NAME = PieceName.ADVISOR;
+    private static final PieceType TYPE = PieceType.ADVISOR;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
     private static final List<Pattern> PATTERNS = Arrays.stream(Direction.values())
             .map(direction -> new Pattern(List.of(direction)))
             .toList();
 
     public Advisor(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(TYPE, side, DEFAULT_STRATEGY);
     }
 
     @Override

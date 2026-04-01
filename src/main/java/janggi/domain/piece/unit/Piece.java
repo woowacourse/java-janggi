@@ -4,25 +4,25 @@ import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece {
-    protected PieceName name;
+    protected PieceType type;
     protected Side side;
     protected PathStrategy pathStrategy;
 
-    public Piece(PieceName name, Side side, PathStrategy pathStrategy) {
-        this.name = name;
+    public Piece(PieceType type, Side side, PathStrategy pathStrategy) {
+        this.type = type;
         this.side = side;
         this.pathStrategy = pathStrategy;
     }
 
     public String getName() {
-        return name.getNameFormat(side);
+        return type.getNameFormat(side);
     }
 
     public final Side getSide() {
@@ -50,7 +50,7 @@ public abstract class Piece {
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(name);
+        int result = Objects.hashCode(type);
         result = 31 * result + Objects.hashCode(side);
         return result;
     }
@@ -64,7 +64,7 @@ public abstract class Piece {
             return false;
         }
 
-        return name == piece.name && side == piece.side;
+        return type == piece.type && side == piece.side;
     }
 
 }

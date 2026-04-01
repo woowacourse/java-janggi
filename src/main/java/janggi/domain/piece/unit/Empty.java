@@ -3,17 +3,17 @@ package janggi.domain.piece.unit;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
 
 public class Empty extends Piece {
     public static final Piece INSTANCE = new Empty();
-    private static final PieceName NAME = PieceName.NONE;
+    private static final PieceType TYPE = PieceType.NONE;
 
     private Empty() {
-        super(NAME, Side.NONE, null);
+        super(TYPE, Side.NONE, null);
     }
 
     @Override

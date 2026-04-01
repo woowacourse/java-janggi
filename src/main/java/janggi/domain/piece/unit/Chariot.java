@@ -6,13 +6,13 @@ import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
 
 public class Chariot extends Piece {
-    private static final PieceName NAME = PieceName.CHARIOT;
+    private static final PieceType TYPE = PieceType.CHARIOT;
     private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
     private static final List<Pattern> PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH)),
@@ -22,7 +22,7 @@ public class Chariot extends Piece {
     );
 
     public Chariot(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(TYPE, side, DEFAULT_STRATEGY);
     }
 
     @Override

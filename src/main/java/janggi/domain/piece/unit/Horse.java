@@ -6,13 +6,13 @@ import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
 
 public class Horse extends Piece {
-    private static final PieceName NAME = PieceName.HORSE;
+    private static final PieceType TYPE = PieceType.HORSE;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
     private static final List<Pattern> PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST)),
@@ -26,7 +26,7 @@ public class Horse extends Piece {
     );
 
     public Horse(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(TYPE, side, DEFAULT_STRATEGY);
     }
 
     @Override
