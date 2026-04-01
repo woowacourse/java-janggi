@@ -36,11 +36,7 @@ public class Piece {
         if (other == null) {
             return false;
         }
-        return other.isAlly(side);
-    }
-
-    private boolean isAlly(Side otherSide) {
-        return side == otherSide;
+        return other.side == this.side;
     }
 
     public boolean isCannon() {
