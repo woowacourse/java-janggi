@@ -22,11 +22,11 @@ public record Position(int x, int y) {
         }
     }
 
-    public boolean isSameRow(Position other) {
+    public boolean isSameX(Position other) {
         return y == other.y;
     }
 
-    public boolean isSameColumn(Position other) {
+    public boolean isSameY(Position other) {
         return x == other.x;
     }
 

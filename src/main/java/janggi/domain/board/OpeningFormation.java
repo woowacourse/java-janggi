@@ -15,6 +15,9 @@ public enum OpeningFormation {
     INNER_ELEPHANT(3, 3, 2, 7, 8, 3, 2, 7, 8),
     OUTER_ELEPHANT(4, 2, 3, 8, 7, 2, 3, 8, 7);
 
+    private static final int HAN_BASE_ROW = BoardRange.MIN_Y;
+    private static final int CHO_BASE_ROW = BoardRange.MAX_Y;
+
     private final int choice;
     private final int hanLeftElephantX;
     private final int hanLeftHorseX;
@@ -24,8 +27,6 @@ public enum OpeningFormation {
     private final int choLeftHorseX;
     private final int choRightElephantX;
     private final int choRightHorseX;
-    private static final int HAN_BASE_ROW = BoardRange.MIN_Y;
-    private static final int CHO_BASE_ROW = BoardRange.MAX_Y;
 
     OpeningFormation(int choice, int hanLeftElephantX, int hanLeftHorseX, int hanRightElephantX,
                      int hanRightHorseX, int choLeftElephantX, int choLeftHorseX,
