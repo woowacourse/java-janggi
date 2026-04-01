@@ -35,7 +35,14 @@ public enum Palace {
         return positions;
     }
 
-    public List<Position> getDiagonalPositions() {
-        return diagonalPositions;
+    public static boolean isSamePalace(Position from, Position to) {
+        if (CHO_PALACE.getPositions().contains(from) && CHO_PALACE.getPositions().contains(to)) {
+            return true;
+        }
+        return HAN_PALACE.getPositions().contains(from) && HAN_PALACE.getPositions().contains(to);
+    }
+
+    public static boolean canDiagonal(Position from) {
+        return CHO_PALACE.diagonalPositions.contains(from) || HAN_PALACE.diagonalPositions.contains(from);
     }
 }

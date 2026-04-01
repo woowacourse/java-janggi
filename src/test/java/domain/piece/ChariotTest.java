@@ -172,6 +172,19 @@ public class ChariotTest {
     }
 
     @Test
+    @DisplayName("차가 궁성 내부에서 바깥까지 대각선으로 이동할 경우 예외가 발생한다.")
+    void chariotDiagonalOutsidePalaceExceptionTest() {
+        Piece chariot = new Chariot(Country.CHO);
+
+        Position from = new Position(5, 9);
+        Position to = new Position(2, 6);
+
+        assertThatThrownBy(() -> chariot.path(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 대각선으로 이동이 불가한 위치입니다.");
+    }
+
+    @Test
     @DisplayName("차의 경로에 다른 기물이 존재하면 예외가 발생한다.")
     void chariotOtherPieceExistPathExceptionTest() {
         Piece chariot = new Chariot(Country.CHO);

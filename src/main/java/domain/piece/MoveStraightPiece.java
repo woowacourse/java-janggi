@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.Country;
 import domain.Direction;
 import domain.Palace;
 import domain.Position;
@@ -22,16 +21,16 @@ public class MoveStraightPiece extends Piece {
         if (!allSameDirection) {
             throw new IllegalArgumentException(FIXED_DIRECTION);
         }
-        // 궁성 영역 생각하지 않음
         if (oneSide.isDiagonal()) {
             validateDiagonalMove(from, to);
         }
     }
 
     private void validateDiagonalMove(Position from, Position to) {
-        Palace myPalace = Palace.from(this.getPieceCountry());
-        Palace otherPalace = Palace.from(Country.anotherCountry(this.getPieceCountry()));
-        if (!myPalace.getDiagonalPositions().contains(from) && !otherPalace.getDiagonalPositions().contains(from)) {
+        if (!Palace.canDiagonal(from)) {
+            throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
+        }
+        if (!Palace.isSamePalace(from, to)) {
             throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
         }
     }

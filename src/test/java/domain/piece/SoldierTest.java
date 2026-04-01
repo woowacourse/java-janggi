@@ -177,6 +177,19 @@ public class SoldierTest {
     }
 
     @Test
+    @DisplayName("졸병이 궁성 내부에서 바깥까지 대각선으로 이동할 경우 예외가 발생한다.")
+    void soliderDiagonalOutsidePalaceExceptionTest() {
+        Piece solider = new Soldier(Country.CHO);
+
+        Position from = new Position(3, 7);
+        Position to = new Position(2, 6);
+
+        assertThatThrownBy(() -> solider.path(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 대각선으로 이동이 불가한 위치입니다.");
+    }
+
+    @Test
     @DisplayName("졸병이 대각선 이동이 불가한 위치에서 대각선으로 이동할 경우 예외가 발생한다.")
     void soldierDiagonalExceptionTest() {
         Piece choSoldier = new Soldier(Country.CHO);

@@ -172,6 +172,19 @@ public class CannonTest {
     }
 
     @Test
+    @DisplayName("포가 궁성 내부에서 바깥까지 대각선으로 이동할 경우 예외가 발생한다.")
+    void cannonDiagonalOutsidePalaceExceptionTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(5, 9);
+        Position to = new Position(2, 6);
+
+        assertThatThrownBy(() -> cannon.path(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 대각선으로 이동이 불가한 위치입니다.");
+    }
+
+    @Test
     @DisplayName("포의 from, to 사이 경로에 기물이 1개가 아니면 예외가 발생한다.")
     void cannonJumpPieceCountExceptionTest() {
         Cannon cannon = new Cannon(Country.CHO);
