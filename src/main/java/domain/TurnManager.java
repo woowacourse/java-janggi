@@ -2,21 +2,21 @@ package domain;
 
 public class TurnManager {
 
-    private TeamColor teamColor;
+    private TeamColor currentTeamColor;
 
     public TurnManager(){
-        this.teamColor = TeamColor.CHO;
+        this.currentTeamColor = TeamColor.CHO;
     }
 
     public void progressTurn(){
-        if(teamColor.equals(TeamColor.CHO)) {
-            this.teamColor = TeamColor.HAN;
+        if(currentTeamColor.equals(TeamColor.CHO)) {
+            this.currentTeamColor = TeamColor.HAN;
             return;
         }
-        this.teamColor = TeamColor.CHO;
+        this.currentTeamColor = TeamColor.CHO;
     }
 
     public TeamColor getCurrentTurn() {
-        return this.teamColor;
+        return this.currentTeamColor;
     }
 }
