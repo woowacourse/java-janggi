@@ -19,7 +19,7 @@ class StepMoveStrategyTest {
 
     @DisplayName("지정된 방향으로 1칸 이동 시 아군 기물이 없으면 목적지로 산출된다")
     @Test
-    void determineDestinations_NoObstacles_ReturnsDestination() {
+    void destinationsOf_NoObstacles_ReturnsDestination() {
         StepMoveStrategy strategy = new StepMoveStrategy();
         Position current = new Position(5, 5);
         Piece soldier = new Piece(Side.CHO, PieceType.SOLDIER, "0");
@@ -27,14 +27,14 @@ class StepMoveStrategyTest {
         Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N));
         Map<Position, Piece> boardState = new HashMap<>();
 
-        List<Position> destinations = strategy.determineDestinations(paths, boardState, soldier);
+        List<Position> destinations = strategy.destinationsOf(, paths, , boardState);
 
         assertThat(destinations).containsExactly(new Position(4, 5));
     }
 
     @DisplayName("이동하려는 1칸 위치에 아군 기물이 있으면 이동할 수 없다")
     @Test
-    void determineDestinations_BlockedBySameSide_ReturnsEmpty() {
+    void destinationsOf_BlockedBySameSide_ReturnsEmpty() {
         StepMoveStrategy strategy = new StepMoveStrategy();
         Position current = new Position(5, 5);
         Piece soldier = new Piece(Side.CHO, PieceType.SOLDIER, "0");
@@ -44,7 +44,7 @@ class StepMoveStrategyTest {
 
         boardState.put(new Position(4, 5), new Piece(Side.CHO, PieceType.HORSE, "1"));
 
-        List<Position> destinations = strategy.determineDestinations(paths, boardState, soldier);
+        List<Position> destinations = strategy.destinationsOf(, paths, , boardState);
 
         assertThat(destinations).isEmpty();
     }

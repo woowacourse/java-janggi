@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.route.Paths;
 import java.util.List;
-import java.util.Map;
 
 public class Piece {
 
@@ -33,18 +33,19 @@ public class Piece {
         return type.calculatePaths(current, side);
     }
 
-    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState) {
+    public List<Position> determineDestinations(Position current, BoardInfo boardInfo) {
+        Paths moveablePaths = calculatePaths(current);
         return type.determineDestinations(routes, boardState, this);
     }
 
-    public boolean isSameSide(Piece other) {
+    public boolean isAlly(Piece other) {
         if (other == null) {
             return false;
         }
-        return other.isSameSide(side);
+        return other.isAlly(side);
     }
 
-    private boolean isSameSide(Side otherSide) {
+    private boolean isAlly(Side otherSide) {
         return side == otherSide;
     }
 

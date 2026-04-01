@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-public class Board {
+public class Board implements BoardInfo {
 
     private final Map<Position, Piece> piecePosition;
 
@@ -31,8 +31,21 @@ public class Board {
         return initialPiecePosition;
     }
 
-    public List<Position> calculateDestinations(Position currentPosition) {
+    @Override
+    public boolean isEmpty(Position position) {
+        return piecePosition.containsKey(position);
+    }
+
+    @Override
+    public boolean isAlly(Position currentPosition, Position targetPosition) {
+        Piece currentPiece = piecePosition.get(targetPosition);
+        Piece targetPiece = piecePosition.get(currentPosition);
+        return currentPiece.isAlly(targetPiece);
+    }
+
+    public List<Position> moveablePositions(Position currentPosition) {
         Piece piece = piecePosition.get(currentPosition);
+        return piece.determineDestinations(currentPosition, this);
         Paths moveablePaths = piece.calculatePaths(currentPosition);
         Map<Position, Piece> boardState = generateStateByPaths(moveablePaths);
         return piece.determineDestinations(moveablePaths, boardState);

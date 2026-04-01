@@ -1,10 +1,11 @@
 package janggi.domain.strategy;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
-import janggi.domain.piece.Piece;
-import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -20,6 +21,7 @@ public class StepMoveStrategy implements MoveStrategy {
         }
         return paths;
     }
+
     private void addStepPath(Position current, Direction baseDir, Paths paths) {
         if (baseDir.canMove(current)) {
             Path path = new Path();
@@ -29,7 +31,7 @@ public class StepMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece) {
+    public List<Position> destinationsOf(Position currentPosition, BoardInfo boardInfo) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
             validateStepPath(route, boardState, destinations, movingPiece);
@@ -41,7 +43,7 @@ public class StepMoveStrategy implements MoveStrategy {
         Position dest = route.iterator().next();
         Piece target = state.get(dest);
 
-        if (target == null || !target.isSameSide(me)) {
+        if (target == null || !target.isAlly(me)) {
             dests.add(dest);
         }
     }

@@ -36,7 +36,7 @@ class PieceTest {
         Piece choPiece1 = new Piece(Side.CHO, PieceType.SOLDIER, "0");
         Piece choPiece2 = new Piece(Side.CHO, PieceType.CHARIOT, "1");
 
-        assertThat(choPiece1.isSameSide(choPiece2)).isTrue();
+        assertThat(choPiece1.isAlly(choPiece2)).isTrue();
     }
 
     @DisplayName("비교 대상 기물이 다른 진영이거나 null이면 거짓을 반환한다")
@@ -45,8 +45,8 @@ class PieceTest {
         Piece choPiece = new Piece(Side.CHO, PieceType.SOLDIER, "0");
         Piece hanPiece = new Piece(Side.HAN, PieceType.SOLDIER, "0");
 
-        assertThat(choPiece.isSameSide(hanPiece)).isFalse();
-        assertThat(choPiece.isSameSide(null)).isFalse();
+        assertThat(choPiece.isAlly(hanPiece)).isFalse();
+        assertThat(choPiece.isAlly(null)).isFalse();
     }
 
     @DisplayName("기물의 타입이 포(CANNON)인지 확인한다")

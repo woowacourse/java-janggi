@@ -1,5 +1,6 @@
 package janggi.domain.strategy;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
@@ -33,7 +34,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece) {
+    public List<Position> destinationsOf(Position currentPosition, BoardInfo boardInfo) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
             validateCannonPath(route, boardState, destinations, movingPiece);
@@ -55,7 +56,8 @@ public class CannonMoveStrategy implements MoveStrategy {
         return target != null && !target.isCannon();
     }
 
-    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests, Piece movingPiece) {
+    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests,
+                                           Piece movingPiece) {
         while (it.hasNext() && !processTarget(it.next(), state, dests, movingPiece)) {
         }
     }
@@ -71,7 +73,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private void addIfCapturable(Position pos, Piece target, List<Position> dests, Piece movingPiece) {
-        if (!target.isCannon() && !target.isSameSide(movingPiece)) {
+        if (!target.isCannon() && !target.isAlly(movingPiece)) {
             dests.add(pos);
         }
     }

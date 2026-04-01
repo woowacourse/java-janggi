@@ -41,14 +41,15 @@ public class GameManager {
     }
 
     public List<Position> findDestinations(Position selectedPosition) {
-        return board.calculateDestinations(selectedPosition);
+        return board.moveablePositions(selectedPosition);
     }
 
     public boolean isPieceExist(Position position) {
         return board.isPieceExist(position);
     }
 
-    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper, PieceMapper<V> pieceMapper) {
+    public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper,
+                                             PieceMapper<V> pieceMapper) {
         return board.exportBoardState(positionMapper, pieceMapper);
     }
 

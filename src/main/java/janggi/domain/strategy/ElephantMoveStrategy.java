@@ -1,5 +1,6 @@
 package janggi.domain.strategy;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
@@ -34,7 +35,9 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
         for (Direction direction : directions) {
             current = createSequenceIfPossible(current, direction, path);
-            if (current == null) return;
+            if (current == null) {
+                return;
+            }
         }
         paths.addPath(path);
     }
@@ -49,7 +52,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece) {
+    public List<Position> destinationsOf(Position currentPosition, BoardInfo boardInfo) {
         List<Position> destinations = new ArrayList<>();
         for (Path route : routes) {
             validateElephantPath(route, boardState, destinations, movingPiece);
@@ -69,7 +72,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> dests, Piece me) {
         Piece target = state.get(dest);
-        if (target == null || !target.isSameSide(me)) {
+        if (target == null || !target.isAlly(me)) {
             dests.add(dest);
         }
     }

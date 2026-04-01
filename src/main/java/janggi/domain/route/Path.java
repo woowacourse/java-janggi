@@ -2,10 +2,9 @@ package janggi.domain.route;
 
 import janggi.domain.board.Position;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class Path implements Iterable<Position> {
+public class Path {
 
     private final List<Position> positions;
 
@@ -17,13 +16,7 @@ public class Path implements Iterable<Position> {
         positions.add(nextPosition);
     }
 
-    @Override
-    public Iterator<Position> iterator() {
-        return positions.iterator();
-    }
-
-    @Override
-    public String toString() {
-        return positions.toString();
+    public List<Position> getPositions() {
+        return List.copyOf(positions);
     }
 }
