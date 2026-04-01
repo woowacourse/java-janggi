@@ -1,5 +1,8 @@
-package janggi.domain.piece;
+package janggi.domain.piece.Implementation;
 
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.template.AbstractStraightPiece;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 

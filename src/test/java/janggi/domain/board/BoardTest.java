@@ -1,11 +1,11 @@
 package janggi.domain.board;
 
-import janggi.domain.piece.Cha;
-import janggi.domain.piece.Jol;
-import janggi.domain.piece.Ma;
-import janggi.domain.piece.Pho;
+import janggi.domain.piece.Implementation.Cha;
+import janggi.domain.piece.Implementation.Jol;
+import janggi.domain.piece.Implementation.Ma;
+import janggi.domain.piece.Implementation.Pho;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Sang;
+import janggi.domain.piece.Implementation.Sang;
 import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import java.util.LinkedHashMap;

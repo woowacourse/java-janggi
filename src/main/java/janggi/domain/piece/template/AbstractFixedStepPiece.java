@@ -1,5 +1,7 @@
-package janggi.domain.piece;
+package janggi.domain.piece.template;
 
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
 import janggi.domain.point.Route;

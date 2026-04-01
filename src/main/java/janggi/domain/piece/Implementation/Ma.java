@@ -1,6 +1,8 @@
-package janggi.domain.piece;
+package janggi.domain.piece.Implementation;
 
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.MaDirection;
+import janggi.domain.piece.template.AbstractFixedStepPiece;
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
 import janggi.domain.status.Team;

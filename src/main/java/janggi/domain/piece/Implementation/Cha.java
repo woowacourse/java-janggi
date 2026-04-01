@@ -1,5 +1,7 @@
-package janggi.domain.piece;
+package janggi.domain.piece.Implementation;
 
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.template.AbstractStraightPiece;
 import janggi.domain.status.Team;
 
 public class Cha extends AbstractStraightPiece {

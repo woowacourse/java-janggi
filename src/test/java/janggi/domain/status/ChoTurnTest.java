@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import janggi.domain.board.Board;
 import janggi.domain.point.Point;
-import janggi.domain.piece.Cha;
-import janggi.domain.piece.Jang;
+import janggi.domain.piece.Implementation.Cha;
+import janggi.domain.piece.Implementation.Jang;
 import janggi.domain.piece.Piece;
 import java.util.LinkedHashMap;
 import java.util.Map;

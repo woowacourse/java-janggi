@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.piece.Implementation.Jol;
 import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import org.junit.jupiter.api.DisplayName;

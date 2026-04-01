@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.board.Board;
+import janggi.domain.piece.Implementation.Cha;
+import janggi.domain.piece.Implementation.Pho;
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
 import janggi.domain.point.Route;

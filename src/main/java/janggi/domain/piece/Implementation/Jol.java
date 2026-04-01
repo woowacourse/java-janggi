@@ -1,7 +1,9 @@
-package janggi.domain.piece;
+package janggi.domain.piece.Implementation;
 
 import static java.lang.Math.abs;
 
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.CastleDirection;
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
@@ -9,33 +11,36 @@ import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.List;
 
-abstract class AbstractNormalPiece implements Piece {
+public class Jol implements Piece {
 
     private static final int MAX_DISTANCE = 1;
+    private static final int SCORE = 2;
 
     private final Team team;
     private final PieceType type;
-    private final int score;
 
-    AbstractNormalPiece(int score, Team team, PieceType type) {
+    public Jol(Team team) {
         this.team = team;
-        this.type = type;
-        this.score = score;
+        this.type = PieceType.JOL;
     }
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
-        if (!from.inSameCastle(to)) {
-            throw new IllegalArgumentException("[ERROR] 궁성 밖으로 나갈 수 없습니다.");
-        }
         int pathCol = to.calculatePathColumn(from);
         int pathRow = to.calculatePathRow(from);
+        int signCol = Integer.compare(pathCol, 0);
+        int signRow = Integer.compare(pathRow, 0);
+        validateForward(signRow);
         int distanceCol = abs(pathCol);
         int distanceRow = abs(pathRow);
+        if (from.inSameCastle(to)) {
+            CastleDirection direction = CastleDirection.find(from, signCol, signRow);
+            Point point = Point.of(from.getColumn() + direction.getTargetCol(),
+                    from.getRow() + direction.getTargetRow());
+            return new Points(List.of(point));
+        }
         validateDistance(distanceCol, distanceRow);
-        CastleDirection direction = CastleDirection.find(from, pathCol, pathRow);
-        Point point = Point.of(from.getColumn() + direction.getTargetCol(), from.getRow() + direction.getTargetRow());
-        return new Points(List.of(point));
+        return new Points(List.of(to));
     }
 
     @Override
@@ -60,11 +65,17 @@ abstract class AbstractNormalPiece implements Piece {
 
     @Override
     public int getScore() {
-        return score;
+        return SCORE;
+    }
+
+    private void validateForward(int signRow) {
+        if ((team.equals(Team.CHO) && signRow < 0) || (team.equals(Team.HAN) && signRow > 0)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
+        }
     }
 
     private void validateDistance(int distanceCol, int distanceRow) {
-        if (distanceCol > MAX_DISTANCE || distanceRow > MAX_DISTANCE || (distanceCol == 0 && distanceRow == 0)) {
+        if (distanceCol > MAX_DISTANCE || distanceRow > MAX_DISTANCE || (distanceCol + distanceRow > MAX_DISTANCE)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
     }

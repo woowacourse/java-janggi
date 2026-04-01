@@ -1,7 +1,9 @@
-package janggi.domain.piece;
+package janggi.domain.piece.template;
 
 import static java.lang.Math.abs;
 
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.CastleDirection;
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
