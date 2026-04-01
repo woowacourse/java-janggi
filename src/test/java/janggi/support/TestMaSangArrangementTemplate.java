@@ -3,15 +3,13 @@ package janggi.support;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
-import janggi.strategy.ArrangementStrategy;
-import janggi.strategy.StrategyLabel;
+import janggi.strategy.MaSangArrangementTemplate;
 import java.util.Map;
 
-public class TestArrangementStrategy extends ArrangementStrategy {
+public class TestMaSangArrangementTemplate extends MaSangArrangementTemplate {
     private final Map<Location, Piece> customPieces;
 
-    public TestArrangementStrategy(Map<Location, Piece> customPieces) {
-        super(StrategyLabel.MSMS);
+    public TestMaSangArrangementTemplate(Map<Location, Piece> customPieces) {
         this.customPieces = customPieces;
     }
 

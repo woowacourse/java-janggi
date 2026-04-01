@@ -2,7 +2,6 @@ package janggi.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
@@ -14,17 +13,7 @@ class BoardAssemblerTest {
     @DisplayName("조립기는 전략을 실행한 후, 기물이 없는 나머지 빈 칸을 EmptyPiece로 채운다.")
     void shouldFillEmptySpaces() {
         // given
-        ArrangementStrategy doNothingStrategy = new ArrangementStrategy(StrategyLabel.MSMS) {
-            @Override
-            public void place(Piece[][] arrangement, Side side) {
-                return;
-            }
-
-            @Override
-            protected void placeVariablePieces(Piece[][] arrangement, Side side) {
-                return;
-            }
-        };
+        ArrangementStrategy doNothingStrategy = (arrangement, side) -> {};
 
         BoardAssembler assembler = BoardAssembler.of(doNothingStrategy, doNothingStrategy);
 

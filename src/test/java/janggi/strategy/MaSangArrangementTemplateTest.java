@@ -12,9 +12,9 @@ import janggi.domain.piece.Sa;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ArrangementStrategyTest {
+class MaSangArrangementTemplateTest {
 
-    private final ArrangementStrategy dummyStrategy = new ArrangementStrategy(StrategyLabel.MSMS) {
+    private final MaSangArrangementTemplate dummyStrategy = new MaSangArrangementTemplate() {
         @Override
         protected void placeVariablePieces(Piece[][] arrangement, Side side) {
             return;

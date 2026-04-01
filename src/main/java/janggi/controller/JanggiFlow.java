@@ -8,17 +8,14 @@ import janggi.domain.piece.PieceType;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
 import janggi.view.ApplicationView;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class JanggiFlow {
 
-    private final List<ArrangementStrategy> strategies;
     private final ApplicationView view;
 
-    public JanggiFlow(List<ArrangementStrategy> strategies, ApplicationView view) {
-        this.strategies = strategies;
+    public JanggiFlow(ApplicationView view) {
         this.view = view;
     }
 
@@ -63,24 +60,9 @@ public class JanggiFlow {
     }
 
     private ArrangementStrategy askStrategy(Side side) {
-        Map<Integer, String> strategyInfos = convertStrategyInfo();
+        Map<Integer, String> strategyInfos = ArrangementStrategyResolver.getStrategyOptions();
         int decisionNumber = view.promptForArrangementStrategyDecision(side.getName(), strategyInfos);
-        return findStrategyWithCorrespondingDecisionNumber(decisionNumber);
-    }
-
-    private Map<Integer, String> convertStrategyInfo() {
-        Map<Integer, String> strategyInfos = new LinkedHashMap<>();
-        for (ArrangementStrategy strategy : strategies) {
-            strategyInfos.put(strategy.decisionNumber(), strategy.name());
-        }
-        return strategyInfos;
-    }
-
-    private ArrangementStrategy findStrategyWithCorrespondingDecisionNumber(int decisionNumber) {
-        return strategies.stream()
-                .filter(strategy -> strategy.isDecisionNumberMatching(decisionNumber))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("일치하는 전략 번호가 없습니다: " + decisionNumber));
+        return ArrangementStrategyResolver.resolve(decisionNumber);
     }
 
     private Location repeatAskLocationOfPieceUntilSuccess(Side turnSide, Board board) {

@@ -9,9 +9,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class SangMaSangMaTest {
+class SangMaSangMaStrategyTest {
 
-    private static final ArrangementStrategy STRATEGY = SangMaSangMa.getInstance();
+    private static final SangMaSangMaStrategy STRATEGY = SangMaSangMaStrategy.getInstance();
 
     @Test
     @DisplayName("Han 팀의 Sang 객체와 Ma 객체를 SangMaSangMa의 위치에 생성해 넣어준다.")

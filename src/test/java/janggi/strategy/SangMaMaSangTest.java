@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class SangMaMaSangTest {
 
-    private static final ArrangementStrategy STRATEGY = SangMaMaSang.getInstance();
+    private static final SangMaMaSangStrategy STRATEGY = SangMaMaSangStrategy.getInstance();
 
     @Test
     @DisplayName("Han 팀의 Sang 객체와 Ma 객체를 SangMaMaSang의 위치에 생성해 넣어준다.")

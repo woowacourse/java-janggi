@@ -6,15 +6,11 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
 
 @SuppressWarnings("java:S6548")
-public class SangMaSangMa extends ArrangementStrategy {
+public class MaSangMaSangStrategy extends MaSangArrangementTemplate {
 
-    private static final SangMaSangMa INSTANCE = new SangMaSangMa();
+    private static final MaSangMaSangStrategy INSTANCE = new MaSangMaSangStrategy();
 
-    private SangMaSangMa() {
-        super(StrategyLabel.SMSM);
-    }
-
-    public static SangMaSangMa getInstance() {
+    public static MaSangMaSangStrategy getInstance() {
         return INSTANCE;
     }
 
@@ -22,9 +18,9 @@ public class SangMaSangMa extends ArrangementStrategy {
     protected void placeVariablePieces(Piece[][] board, Side side) {
         int boardMaxLength = board.length;
         int row = calculateInitialRow(boardMaxLength, side);
-        board[row][1] = new Sang(side);
-        board[row][2] = new Ma(side);
-        board[row][6] = new Sang(side);
-        board[row][7] = new Ma(side);
+        board[row][1] = new Ma(side);
+        board[row][2] = new Sang(side);
+        board[row][6] = new Ma(side);
+        board[row][7] = new Sang(side);
     }
 }
