@@ -1,0 +1,76 @@
+package domain.board;
+
+import domain.piece.Piece;
+import domain.setup.Arrangements;
+import domain.piece.PieceType;
+import domain.piece.Team;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class PositionLayout {
+    private static final Map<Position, PieceType> hanPiecesLayout = Map.ofEntries(
+            Map.entry(new Position(Column.A, Row.ZERO), PieceType.CHARIOT),
+            Map.entry(new Position(Column.D, Row.ZERO), PieceType.GUARD),
+            Map.entry(new Position(Column.E, Row.ONE), PieceType.GENERAL),
+            Map.entry(new Position(Column.F, Row.ZERO), PieceType.GUARD),
+            Map.entry(new Position(Column.I, Row.ZERO), PieceType.CHARIOT),
+            Map.entry(new Position(Column.B, Row.TWO), PieceType.CANNON),
+            Map.entry(new Position(Column.H, Row.TWO), PieceType.CANNON),
+            Map.entry(new Position(Column.A, Row.THREE), PieceType.SOLDIER),
+            Map.entry(new Position(Column.C, Row.THREE), PieceType.SOLDIER),
+            Map.entry(new Position(Column.E, Row.THREE), PieceType.SOLDIER),
+            Map.entry(new Position(Column.G, Row.THREE), PieceType.SOLDIER),
+            Map.entry(new Position(Column.I, Row.THREE), PieceType.SOLDIER)
+    );
+
+    private static final List<Column> INNER_COLUMNS = List.of(Column.B, Column.C, Column.G, Column.H);
+
+    public static Map<Position, Piece> build(Arrangements arrangements) {
+        Map<Position, Piece> result = new HashMap<>();
+        placeHanPieces(result);
+        placeHanInnerPieces(result, arrangements);
+        placeChoPieces(result);
+        placeChoInnerPieces(result, arrangements);
+        return result;
+    }
+
+    private static void placeHanPieces(Map<Position, Piece> result) {
+        hanPiecesLayout.forEach((position, pieceType) ->
+                result.put(position, new Piece(Team.HAN, pieceType)));
+    }
+
+    private static void placeHanInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
+        List<PieceType> innerPieces = arrangements.arrangeFor(Team.HAN).innerPieces();
+        for (int index = 0; index < INNER_COLUMNS.size(); index++) {
+            Position targetPosition = new Position(INNER_COLUMNS.get(index), Row.ZERO);
+            Piece newPiece = new Piece(Team.HAN, innerPieces.get(index));
+
+            if (result.containsKey(targetPosition)) {
+                throw new IllegalStateException("[ERROR] 이미 배치된 위치에 기물을 덮어쓰려 했습니다: " + targetPosition);
+            }
+            result.put(targetPosition, newPiece);
+        }
+    }
+
+    private static void placeChoPieces(Map<Position, Piece> result) {
+        hanPiecesLayout.forEach((position, pieceType) -> {
+            Position reversedPosition = new Position(position.column(), position.row().reverse());
+            result.put(reversedPosition, new Piece(Team.CHO, pieceType));
+        });
+    }
+
+    private static void placeChoInnerPieces(Map<Position, Piece> result, Arrangements arrangements) {
+        List<PieceType> innerPieces = arrangements.arrangeFor(Team.CHO).innerPieces();
+        for (int index = 0; index < INNER_COLUMNS.size(); index++) {
+            Position targetPosition = new Position(INNER_COLUMNS.get(index), Row.ZERO.reverse());
+            Piece newPiece = new Piece(Team.CHO, innerPieces.get(index));
+
+            if (result.containsKey(targetPosition)) {
+                throw new IllegalStateException("[ERROR] 이미 배치된 위치에 기물을 덮어쓰려 했습니다: " + targetPosition);
+            }
+            result.put(targetPosition, newPiece);
+        }
+    }
+
+}
