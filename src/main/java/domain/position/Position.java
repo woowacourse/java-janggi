@@ -1,10 +1,6 @@
 package domain.position;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
-
+import domain.board.BoardPolicy;
 import domain.place.moveStrategy.Direction;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,10 +15,6 @@ public class Position {
         this.column = new Column(column);
     }
 
-    public boolean isNotStrategyLine(Position position) {
-        return getRow() != position.getRow() && getColumn() != position.getColumn();
-    }
-
     public int getRow() {
         return row.row();
     }
@@ -35,14 +27,11 @@ public class Position {
         int currentRow = getRow() + direction.getRow();
         int currentColumn = getColumn() + direction.getColumn();
 
-        if (!isNotOutOfBounds(currentRow, currentColumn)) {
+        if (!BoardPolicy.isValidPosition(currentRow, currentColumn)) {
             return Optional.empty();
         }
-        return Optional.of(new Position(currentRow, currentColumn));
-    }
 
-    private boolean isNotOutOfBounds(int row, int column) {
-        return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
+        return Optional.of(new Position(currentRow, currentColumn));
     }
 
     @Override

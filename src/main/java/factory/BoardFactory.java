@@ -1,9 +1,9 @@
 package factory;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
+import static domain.board.BoardPolicy.MAX_COLUMN;
+import static domain.board.BoardPolicy.MAX_ROW;
+import static domain.board.BoardPolicy.MIN_COLUMN;
+import static domain.board.BoardPolicy.MIN_ROW;
 
 import domain.board.Board;
 import domain.board.HorseElephantFormation;

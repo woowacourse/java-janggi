@@ -1,7 +1,6 @@
 package domain.position;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MIN_COLUMN;
+import domain.board.BoardPolicy;
 
 public record Column(int column) {
 
@@ -11,7 +10,7 @@ public record Column(int column) {
     }
 
     private void validateColumn(int column) {
-        if (column > MAX_COLUMN || column < MIN_COLUMN) {
+        if (!BoardPolicy.isValidColumn(column)) {
             throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
         }
     }
