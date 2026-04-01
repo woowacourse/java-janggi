@@ -20,7 +20,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> placeablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirection()) {
+        for (Direction dir : from.directions()) {
             List<Position> allPositions = from.findAllPositionsByDirection(dir);
             List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
 
@@ -36,7 +36,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         if (!board.isSamePieceType(from, CANNON)) {
             List<Position> allPositions = from.findAllPositionsByDirection(dir);
             List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
-            
+
             if (!positions.isEmpty()) {
                 placeablePositions.addAll(removeIfCannotCatch(board, dynasty, positions));
             }

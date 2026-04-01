@@ -18,7 +18,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> placeablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirection()) {
+        for (Direction dir : from.directions()) {
             if (dir.equals(dynasty.front().back())) {
                 continue;
             }

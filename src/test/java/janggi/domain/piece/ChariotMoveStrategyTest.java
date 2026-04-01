@@ -18,10 +18,11 @@ class ChariotMoveStrategyTest {
         Map<Position, Piece> board = new HashMap<>();
         PieceType pieceType = PieceType.CHARIOT;
         Dynasty dynasty = Dynasty.CHO;
-        Position from = Position.from(5, 5);
+        Position from = Position.from(3, 4);
         board.put(from, new Piece(dynasty, pieceType));
-        board.put(Position.from(3, 5), new Piece(dynasty, pieceType));
-        board.put(Position.from(5, 1), new Piece(Dynasty.HAN, pieceType));
+        board.put(Position.from(1, 6), new Piece(Dynasty.HAN, pieceType));
+        board.put(Position.from(3, 8), new Piece(dynasty, pieceType));
+        board.put(Position.from(6, 4), new Piece(Dynasty.HAN, pieceType));
 
         // when
         List<Position> positions = pieceType.moveStrategy()
@@ -30,20 +31,19 @@ class ChariotMoveStrategyTest {
         // then
         Assertions.assertThat(positions)
                 .containsExactlyInAnyOrder(
-                        Position.from(5, 6),
-                        Position.from(5, 7),
-                        Position.from(5, 8),
-                        Position.from(5, 9),
-                        Position.from(4, 5),
-                        Position.from(5, 1),
-                        Position.from(5, 2),
-                        Position.from(5, 3),
+                        Position.from(2, 4),
+                        Position.from(1, 4),
+                        Position.from(2, 5),
+                        Position.from(1, 6),
+                        Position.from(3, 5),
+                        Position.from(3, 6),
+                        Position.from(3, 7),
+                        Position.from(4, 4),
                         Position.from(5, 4),
-                        Position.from(6, 5),
-                        Position.from(7, 5),
-                        Position.from(8, 5),
-                        Position.from(9, 5),
-                        Position.from(10, 5)
+                        Position.from(6, 4),
+                        Position.from(3, 3),
+                        Position.from(3, 2),
+                        Position.from(3, 1)
                 );
     }
 
