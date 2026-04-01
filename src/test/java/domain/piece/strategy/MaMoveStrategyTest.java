@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class MaMoveStrategyTest {
 
-    private final MoveStrategy strategy = new JolMoveStrategy(new PalaceMoveRule());
+    private final MoveStrategy strategy = new MaMoveStrategy();
 
 
     @ParameterizedTest
