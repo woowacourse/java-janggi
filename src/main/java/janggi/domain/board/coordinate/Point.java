@@ -24,18 +24,16 @@ public record Point(
         return CACHE[x][y];
     }
 
-    public static boolean isInRange(int nx, int ny) {
-        return nx >= 0 && nx <= Board.X_SIZE && ny >= 0 && ny <= Board.Y_SIZE;
+    public Point add(int dx, int dy) {
+        return Point.of(this.x + dx, this.y + dy);
     }
 
     private static void validateRange(int x, int y) {
-        if (!isInRange(x, y)) {
+        if (!Board.isInRange(x, y)) {
             throw new IllegalStateException(
                     "좌표의 범위는 {%d,%d} ~ {%d,%d} 입니다.".formatted(0, 0, Board.X_SIZE, Board.Y_SIZE));
         }
     }
 
-    public Point add(int dx, int dy) {
-        return Point.of(this.x + dx, this.y + dy);
-    }
+
 }
