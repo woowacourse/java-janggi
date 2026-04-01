@@ -1,15 +1,16 @@
 package controller;
 
-import model.board.Board;
-import model.board.BoardFactory;
 import model.Janggi;
 import model.Team;
+import model.board.Board;
+import model.board.BoardFactory;
 import model.coordinate.Position;
 import model.formation.FormationFactory;
 import model.formation.JanggiFormation;
 import model.piece.Piece;
 import view.InputView;
 import view.OutputView;
+import view.command.CommandType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,12 +23,19 @@ import static model.Team.HAN;
 
 public class JanggiController {
     private static final int MAX_RETRY = 200;
+
     private final InputView inputView;
     private final OutputView outputView;
+    private final Map<CommandType, Consumer<Janggi>> commandMap;
 
     public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.commandMap = Map.of(
+                CommandType.MOVE, this::handleMove,
+                CommandType.SCORE, this::handleScore,
+                CommandType.QUIT, this::handleQuit
+        );
     }
 
     public void run() {
@@ -40,14 +48,17 @@ public class JanggiController {
         outputView.displayBoard(board.board());
 
         Janggi janggi = new Janggi(board);
-        int trial = 0;
-        while (trial++ < MAX_RETRY) {
-            retry(() -> playByTurn(janggi), processError());
-            outputView.displayBoard(board.board());
+        int turn = 0;
+        while (!janggi.isFinished() && turn++ < MAX_RETRY) {
+            CommandType commandType = retry(inputView::readCommand, processError());
+            retry(() -> commandMap.get(commandType).accept(janggi), processError());
+        }
+        if (!janggi.isFinished()) {
+            handleScore(janggi);
         }
     }
 
-    private void playByTurn(Janggi janggi) {
+    private void handleMove(Janggi janggi) {
         Team currentTurn = janggi.getTurn();
 
         Position current = inputView.readSource(currentTurn);
@@ -55,6 +66,27 @@ public class JanggiController {
 
         Position next = inputView.readDestination(currentTurn, piece);
         janggi.move(current, next);
+
+        outputView.displayBoard(janggi.board());
+
+        if (janggi.isFinished()) {
+            Team winner = janggi.getWinnerByCapture();
+            outputView.displayWinner(winner.getName());
+        }
+    }
+
+    private void handleScore(Janggi janggi) {
+        double choScore = janggi.getScore(CHO);
+        double hanScore = janggi.getScore(HAN);
+        Team winner = janggi.determineWinnerByScore();
+
+        outputView.displayScores(choScore, hanScore);
+        outputView.displayWinner(winner.getName());
+    }
+
+    private void handleQuit(Janggi janggi) {
+        janggi.quit();
+        outputView.displaySaved();
     }
 
     private Consumer<IllegalArgumentException> processError() {

@@ -54,4 +54,17 @@ public class OutputView {
     public void displayError(String message) {
         System.out.println(RED + "[ERROR] " + message + RESET);
     }
+
+    public void displayWinner(String winnerName) {
+        System.out.printf("%n%s가 승리했습니다!%n", winnerName);
+    }
+
+    public void displayScores(double choScore, double hanScore) {
+        System.out.printf("%n초나라 점수: %.1f%n", choScore);
+        System.out.printf("한나라 점수: %.1f%n", hanScore);
+    }
+
+    public void displaySaved() {
+        System.out.println("\n게임이 저장되었습니다.");
+    }
 }

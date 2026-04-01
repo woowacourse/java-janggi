@@ -4,6 +4,7 @@ import model.Team;
 import model.coordinate.Position;
 import model.formation.JanggiFormation;
 import model.piece.Piece;
+import view.command.CommandType;
 import view.parser.InputParser;
 
 import java.util.List;
@@ -45,5 +46,11 @@ public class InputView {
         System.out.printf("[%s] 기물 %s의 다음 위치를 선택해주세요. (쉼표 기준으로 분리)%n", turn.getName(), formatSymbol(piece));
         System.out.print("기물: ");
         return extractPosition();
+    }
+
+    public CommandType readCommand() {
+        System.out.println("명령을 선택해주세요. (m/move: 이동, s/score: 점수 판정, q/quit: 저장 후 종료)");
+        System.out.print("> ");
+        return CommandType.from(SCANNER.nextLine());
     }
 }
