@@ -1,13 +1,18 @@
 package janggi.domain.piece;
 
+import janggi.domain.DomainException;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class GeneralMoveStrategy implements MoveStrategy {
+
+    public static final String GENERAL_POSITION_STATE_ERROR = "궁 기물은 궁성안에 존재해야 합니다.";
 
     private static final GeneralMoveStrategy generalMoveStrategy = new GeneralMoveStrategy();
 
@@ -18,18 +23,27 @@ public class GeneralMoveStrategy implements MoveStrategy {
         return generalMoveStrategy;
     }
 
-    // TODO: 궁성 관련 로직 추가
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+
+        if (!Palace.isPalace(from)) {
+            throw new DomainException(GENERAL_POSITION_STATE_ERROR);
+        }
+        // to가 궁성이면 추가
+        List<Direction> movableDirections = Palace.getMovableDirections(from);
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesAllDirections()) {
+        for (Direction dir : movableDirections) {
             addIfMovable(board, from, dynasty, dir, movablePositions);
         }
+
         return movablePositions;
     }
 
     private static void addIfMovable(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {
         from.findOnePositionByDirection(dir).ifPresent(to -> {
+            if(!Palace.isPalace(to)) {
+                return;
+            }
             if (isPiecePresent(board, to) && board.get(to).isAlly(dynasty)) {
                 return;
             }
