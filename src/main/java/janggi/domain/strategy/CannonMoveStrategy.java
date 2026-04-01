@@ -3,56 +3,46 @@ package janggi.domain.strategy;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
-import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
-import janggi.domain.route.Paths;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class CannonMoveStrategy extends PieceStrategy {
 
     @Override
     protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
-        return null;
-    }
-
-    private void addCannonPath(Position current, Direction baseDir, Paths paths) {
         Path path = new Path();
-        Position next = current;
-        while (baseDir.canMove(next)) {
-            next = baseDir.move(next);
-            path.makePath(next);
+        Position target = firstMoveablePosition(current, baseDir, boardInfo);
+        if (boardInfo.isCannon(target)) {
+            return path;
         }
-        paths.addPath(path);
+        return navigationMoveablePosition(current, baseDir, target, path, boardInfo);
     }
 
-    private boolean findBridge(Iterator<Position> it, Map<Position, Piece> state) {
-        Piece target = null;
-        while (it.hasNext() && (target = state.get(it.next())) == null) {
+    private Position firstMoveablePosition(Position current, Direction baseDir, BoardInfo boardInfo) {
+        while (baseDir.canMove(current) && boardInfo.isEmpty(current)) {
+            current = baseDir.move(current);
         }
-        return target != null && !target.isCannon();
+        return current;
     }
 
-    private void findDestinationsAfterJump(Iterator<Position> it, Map<Position, Piece> state, List<Position> dests,
-                                           Piece movingPiece) {
-        while (it.hasNext() && !processTarget(it.next(), state, dests, movingPiece)) {
+    private Path navigationMoveablePosition(Position current, Direction baseDir, Position target,
+                                            Path path, BoardInfo boardInfo) {
+        if (baseDir.canMove(target) && !boardInfo.isEmpty(baseDir.move(target))) {
+            target = baseDir.move(target);
+            path.makePath(target);
         }
+        if (baseDir.canMove(target)) {
+            return path;
+        }
+        return navigationIfEnemy(current, baseDir, target, path, boardInfo);
     }
 
-    private boolean processTarget(Position pos, Map<Position, Piece> state, List<Position> dests, Piece movingPiece) {
-        Piece target = state.get(pos);
-        if (target == null) {
-            dests.add(pos);
-            return false;
+    private Path navigationIfEnemy(Position current, Direction baseDir, Position next,
+                                   Path path, BoardInfo boardInfo) {
+        next = baseDir.move(next);
+        if (boardInfo.isAlly(current, next) && boardInfo.isCannon(next)) {
+            return path;
         }
-        addIfCapturable(pos, target, dests, movingPiece);
-        return true;
-    }
-
-    private void addIfCapturable(Position pos, Piece target, List<Position> dests, Piece movingPiece) {
-        if (!target.isCannon() && !target.isAlly(movingPiece)) {
-            dests.add(pos);
-        }
+        path.makePath(next);
+        return path;
     }
 }

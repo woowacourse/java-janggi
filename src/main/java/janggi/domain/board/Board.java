@@ -38,9 +38,20 @@ public class Board implements BoardInfo {
 
     @Override
     public boolean isAlly(Position currentPosition, Position targetPosition) {
+        if (!piecePosition.containsKey(currentPosition) || !piecePosition.containsKey(targetPosition)) {
+            return false;
+        }
         Piece currentPiece = piecePosition.get(currentPosition);
         Piece targetPiece = piecePosition.get(targetPosition);
         return currentPiece.isAlly(targetPiece);
+    }
+
+    @Override
+    public boolean isCannon(Position position) {
+        if (!piecePosition.containsKey(position)) {
+            return false;
+        }
+        return piecePosition.get(position).isCannon();
     }
 
     public List<Position> moveablePositions(Position currentPosition) {
