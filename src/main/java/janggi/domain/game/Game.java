@@ -28,7 +28,9 @@ public class Game {
     }
 
     public Set<Point> destinations(Point from) {
-        return board.destinations(from);
+        Set<Point> destinations = board.destinations(from);
+        destinations.add(from);
+        return destinations;
     }
 
     public boolean canMove(Point from) {
@@ -36,8 +38,16 @@ public class Game {
     }
 
     public void move(Point from, Point to) {
+        if (isPassTurn(from, to)) {
+            switchTurn();
+            return;
+        }
         board.moveTo(from, to);
         switchTurn();
+    }
+
+    private boolean isPassTurn(Point from, Point to) {
+        return from.equals(to);
     }
 
     public Map<Point, Piece> getBoard() {
