@@ -9,7 +9,7 @@ import java.util.List;
 public class ElephantStrategy implements Strategy {
 
     @Override
-    public List<Position> getMoveCandidates(Position from) {
+    public List<Position> getMoveCandidates(Position from, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 

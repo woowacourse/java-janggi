@@ -7,9 +7,9 @@ public class Position {
     private final int row; // 행 10
     private final int column; //열 9
 
-    public Position(int rows, int columns) {
-        this.row = rows;
-        this.column = columns;
+    public Position(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
     public int getRow() {

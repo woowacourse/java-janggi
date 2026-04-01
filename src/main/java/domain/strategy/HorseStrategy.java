@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HorseStrategy implements Strategy {
     @Override
-    public List<Position> getMoveCandidates(Position from) {
+    public List<Position> getMoveCandidates(Position from, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
 
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
@@ -19,7 +19,6 @@ public class HorseStrategy implements Strategy {
             int myeokCol = from.getColumn() + straight.getColOffset();
             Position myeokPosition = new Position(myeokRow, myeokCol);
 
-            // 1칸 이동한 좌표가 빈 좌표인지
             if (board.isBlank(myeokPosition)) {
                 List<Direction> diagonals = getDiagonalsFor(straight);
                 for (Direction diag : diagonals) {
