@@ -40,14 +40,6 @@ public class Players {
         return new Players(this.players);
     }
 
-    public Player getFirst() {
-        return players.getFirst();
-    }
-
-    public Player removeFirst() {
-        return players.removeFirst();
-    }
-
     public Player getByTeam(Team team) {
         return players.stream()
                 .filter(player -> player.getTeam() == team)
