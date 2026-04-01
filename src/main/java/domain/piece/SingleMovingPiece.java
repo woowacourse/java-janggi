@@ -6,8 +6,8 @@ import java.util.List;
 public abstract class SingleMovingPiece extends Piece {
     private static final int DIRECTION_SIZE = 1;
 
-    private static final String INVALID_DIRECTION_SIZE = "[ERROR] 사 또는 궁은 한 칸만 이동할 수 있습니다.";
-    private static final String ONLY_MOVE_STRAIGHT = "[ERROR] 사 또는 궁은 직선으로만 이동 가능합니다.";
+    private static final String INVALID_DIRECTION_SIZE = "[ERROR] 한 칸만 이동할 수 있습니다.";
+    private static final String ONLY_MOVE_STRAIGHT = "[ERROR] 직선으로만 이동 가능합니다.";
 
     public SingleMovingPiece(PieceInfo pieceInfo) {
         super(pieceInfo);
