@@ -32,7 +32,7 @@ public class GameService {
     }
 
     public void saveGame(Map<Position, Place> board, String name, Side side) {
-        try (Connection conn = H2ConnectionManager.getConnection()) {
+        try (Connection conn = connectionManager.getConnection()) {
             conn.setAutoCommit(false);
 
             try {
