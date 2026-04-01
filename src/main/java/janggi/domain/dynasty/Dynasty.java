@@ -27,13 +27,13 @@ public enum Dynasty {
     }
 
     public int flipRowIfNeeded(int row) {
-        return Row.flippedIfNeeded(isFlipped, row)
+        return new Row(row).flipIfNeeded(isFlipped)
                 .row();
     }
 
     public int flipColumnIfNeeded(int column) {
-        return Column.flippedIfNeeded(isFlipped, column)
+        return new Column(column).flipIfNeeded(isFlipped)
                 .column();
     }
-    
+
 }

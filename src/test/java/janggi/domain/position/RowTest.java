@@ -74,10 +74,13 @@ class RowTest {
             "5, false, 5",
     })
     @DisplayName("뒤집을지 여부에 따라 적절한 행 객체를 반환한다.")
-    public void flippedIfNeeded_success(int row, boolean isFlipped, int result) {
+    public void flipIfNeeded_success(int r, boolean isFlipped, int result) {
 
         // when
-        Row resultRow = Row.flippedIfNeeded(isFlipped, row);
+        Row row = new Row(r);
+
+        // when
+        Row resultRow = row.flipIfNeeded(isFlipped);
 
         // then
         assertThat(resultRow.row()).isEqualTo(result);

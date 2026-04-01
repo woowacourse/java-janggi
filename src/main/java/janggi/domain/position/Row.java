@@ -21,7 +21,7 @@ public record Row(
         }
     }
 
-    public static Row flippedIfNeeded(boolean isFlipped, int row) {
+    public Row flipIfNeeded(boolean isFlipped) {
         if(isFlipped) {
             return new Row(MIN_ROW + MAX_ROW - row);
         }

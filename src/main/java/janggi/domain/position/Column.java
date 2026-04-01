@@ -22,7 +22,7 @@ public record Column(
         }
     }
 
-    public static Column flippedIfNeeded(boolean isFlipped, int column) {
+    public Column flipIfNeeded(boolean isFlipped) {
         if(isFlipped) {
             return new Column(MIN_COLUMN + MAX_COLUMN - column);
         }

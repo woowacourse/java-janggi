@@ -74,10 +74,13 @@ class ColumnTest {
             "5, false, 5",
     })
     @DisplayName("뒤집을지 여부에 따라 적절한 열 객체를 반환한다.")
-    public void flippedIfNeeded_success(int row, boolean isFlipped, int result) {
+    public void flipIfNeeded_success(int col, boolean isFlipped, int result) {
+
+        // given
+        Column column = new Column(col);
 
         // when
-        Column resultColumn = Column.flippedIfNeeded(isFlipped, row);
+        Column resultColumn = column.flipIfNeeded(isFlipped);
 
         // then
         assertThat(resultColumn.column()).isEqualTo(result);
