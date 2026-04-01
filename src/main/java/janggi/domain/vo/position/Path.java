@@ -1,0 +1,46 @@
+package janggi.domain.vo.position;
+
+import janggi.domain.Direction;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Path {
+    private final List<Position> positions;
+
+    public Path() {
+        this(new ArrayList<>());
+    }
+
+    public Path(List<Position> positions) {
+        this.positions = new ArrayList<>(positions);
+    }
+
+    public boolean isArrived(Position position) {
+        return !positions.isEmpty() && positions.getLast().equals(position);
+    }
+
+    public int destinationStep() {
+        return positions.size() - 1;
+    }
+
+    public Position positionAt(int index) {
+        return positions.get(index);
+    }
+
+    public boolean contains(Position position) {
+        return positions.contains(position);
+    }
+
+    public static Path candidatePositions(Position from, List<Direction> directions) {
+        List<Position> candidates = new ArrayList<>();
+
+        for (Direction direction : directions) {
+            if (from.hasNext(direction)) {
+                candidates.add(from.nextPosition(direction));
+            }
+        }
+
+        return new Path(candidates);
+    }
+}
