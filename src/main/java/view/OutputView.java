@@ -30,6 +30,10 @@ public class OutputView {
         }
     }
 
+    public void printErrorMessage(IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+    }
+
 
     private String getSymbol(Piece piece) {
         if (piece instanceof Cannon) {

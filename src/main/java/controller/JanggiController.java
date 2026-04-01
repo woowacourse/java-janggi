@@ -18,14 +18,18 @@ public class JanggiController {
     public void run() {
         JanggiBoard janggiBoard = new JanggiBoard();
         while (true) {
-            outputView.printBoard(janggiBoard);
-            Position from = inputMovePosition();
-            Position to = inputTargetPosition();
-            Piece currentPiece = janggiBoard.getPiece(from);
-            boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
-            if (movePiece) {
-                janggiBoard.move(from, to, currentPiece);
+            try {
                 outputView.printBoard(janggiBoard);
+                Position from = inputMovePosition();
+                Position to = inputTargetPosition();
+                Piece currentPiece = janggiBoard.getPiece(from);
+                boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
+                if (movePiece) {
+                    janggiBoard.move(from, to, currentPiece);
+                    outputView.printBoard(janggiBoard);
+                }
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e);
             }
         }
     }
