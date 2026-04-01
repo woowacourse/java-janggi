@@ -3,51 +3,41 @@ package janggi.domain.strategy;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
-import janggi.domain.piece.Piece;
 import janggi.domain.route.Path;
-import janggi.domain.route.Paths;
 import java.util.List;
-import java.util.Map;
 
 public class ElephantMoveStrategy extends PieceStrategy {
 
     @Override
     protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
-        return null;
-    }
-
-    private void addElephantPaths(Position current, Paths paths, Direction baseDir) {
-        for (Direction diagonalDir : baseDir.nextDiagonalDirections()) {
-            createAndAddSequence(current, paths, baseDir, diagonalDir, diagonalDir);
+        if (!baseDir.canMove(current)) {
+            return new Path();
         }
+        Position firstStep = baseDir.move(current);
+        if (!boardInfo.isEmpty(firstStep)) {
+            return new Path();
+        }
+        List<Direction> nextDirections = baseDir.nextDiagonalDirections();
+        return navigationIfEnemy(current, nextDirections, firstStep, boardInfo);
     }
 
-    private void createAndAddSequence(Position start, Paths paths, Direction... directions) {
+    private Path navigationIfEnemy(Position current, List<Direction> nextDirections, Position firstStep,
+                                   BoardInfo boardInfo) {
         Path path = new Path();
-        Position current = start;
-
-        for (Direction direction : directions) {
-            current = createSequenceIfPossible(current, direction, path);
-            if (current == null) {
-                return;
-            }
-        }
-        paths.addPath(path);
+        nextDirections.forEach(
+                targetDirection -> navigationIfEnemy(current, targetDirection, firstStep, path, boardInfo));
+        return path;
     }
 
-    private Position createSequenceIfPossible(Position now, Direction direction, Path path) {
-        if (!direction.canMove(now)) {
-            return null;
+    private void navigationIfEnemy(Position current, Direction targetDirection, Position firstStep, Path path,
+                                   BoardInfo boardInfo) {
+        if (!targetDirection.canMove(firstStep)) {
+            return;
         }
-        Position next = direction.move(now);
-        path.makePath(next);
-        return next;
-    }
-
-    private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> dests, Piece me) {
-        Piece target = state.get(dest);
-        if (target == null || !target.isAlly(me)) {
-            dests.add(dest);
+        Position nextStep = targetDirection.move(firstStep);
+        if (targetDirection.canMove(nextStep) &&
+                !boardInfo.isAlly(current, targetDirection.move(nextStep))) {
+            path.makePath(targetDirection.move(nextStep));
         }
     }
 }

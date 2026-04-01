@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class PieceStrategy implements MoveStrategy {
 
-    public Paths findMovablePaths(Position currentPosition, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
+    private Paths findMovablePaths(Position currentPosition, EnumSet<Direction> baseDirections, BoardInfo boardInfo) {
         Paths paths = new Paths();
         for (Direction baseDir : baseDirections) {
             paths.addPath(navigationPath(currentPosition, baseDir, boardInfo));
