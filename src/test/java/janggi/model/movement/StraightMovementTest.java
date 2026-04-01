@@ -6,10 +6,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.model.Team;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.PositionPath;
-import janggi.model.position.absolute.Row;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Row;
+import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,9 +54,9 @@ class StraightMovementTest {
 
         Byeong byeong = new Byeong(Team.CHO);
 
-        Map<Position, Piece> board = Map.of(
+        Map<Position, Piece> board = new HashMap<>(Map.of(
                 new Position(Row.SEVEN, Column.FIVE), byeong
-        );
+        ));
 
         //when
         PositionPath path = movement.move(from, to);

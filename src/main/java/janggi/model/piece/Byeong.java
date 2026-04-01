@@ -1,19 +1,31 @@
 package janggi.model.piece;
 
 import janggi.model.Team;
-import janggi.model.position.PositionPath;
-import janggi.model.position.Position;
 import janggi.model.movement.ByeongMovement;
 import janggi.model.movement.Movement;
+import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
 import java.util.List;
 
 public class Byeong extends Piece {
 
     private final Movement movement;
 
+    private Byeong(
+            Team team,
+            PieceType pieceType,
+            Movement movement
+    ) {
+        super(team, pieceType);
+        this.movement = movement;
+    }
+
     public Byeong(Team team) {
-        super(team);
-        this.movement = new ByeongMovement();
+        this(
+                team,
+                PieceType.BYEONG,
+                new ByeongMovement()
+        );
     }
 
     @Override

@@ -4,13 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.movement.patternBasedMovement.MaMovement;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
-import janggi.model.position.absolute.Column;
-import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.PositionPath;
-import janggi.model.position.absolute.Row;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Row;
+import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,21 +31,21 @@ class MaMovementTest {
                 new Position(Row.NINE, Column.FIVE)
                 )
         ).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 경로로 이동할 수 없습니다.");
+                .hasMessage("가로와 세로에 대해 하나는 1칸, 다른 하나는 2칸씩 떨어져 있어야 합니다.");
 
         assertThatThrownBy(() -> movement.move(
                         from,
                         new Position(Row.SIX, Column.FIVE)
                 )
         ).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 경로로 이동할 수 없습니다.");
+                .hasMessage("가로와 세로에 대해 하나는 1칸, 다른 하나는 2칸씩 떨어져 있어야 합니다.");
 
         assertThatThrownBy(() -> movement.move(
                         from,
                         new Position(Row.FIVE, Column.FIVE)
                 )
         ).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 경로로 이동할 수 없습니다.");
+                .hasMessage("가로와 세로에 대해 하나는 1칸, 다른 하나는 2칸씩 떨어져 있어야 합니다.");
     }
 
 
@@ -55,9 +55,9 @@ class MaMovementTest {
         //given
         Byeong byeong = new Byeong(Team.CHO);
 
-        Map<Position, Piece> board = Map.of(
+        Map<Position, Piece> board = new HashMap<>(Map.of(
                 new Position(Row.SIX, Column.FIVE), byeong
-        );
+        ));
 
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FIVE, Column.FOUR);
