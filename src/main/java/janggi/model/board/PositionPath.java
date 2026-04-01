@@ -19,8 +19,4 @@ public class PositionPath {
                 .map(board::get)
                 .toList();
     }
-
-    public boolean isEmpty() {
-        return path.isEmpty();
-    }
 }

@@ -5,12 +5,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.piece.straightMove.Cha;
-import janggi.model.piece.diagonalMove.Sang;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
+import janggi.model.piece.diagonalMove.Sang;
+import janggi.model.piece.straightMove.Cha;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,14 +23,20 @@ class SangTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FOUR, Column.THREE);
+
+        Byeong byeong = new Byeong(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SIX, Column.FIVE), byeong
+        ));
         Sang sang = new Sang(Team.CHO);
 
         //when
         PositionPath path = sang.getLegalPath(from, to);
 
         //then
-        assertThat(path.isEmpty())
-                .isFalse();
+        assertThat(path.findPiecesOn(board))
+                .containsExactly(byeong);
     }
 
     @DisplayName("행과 열의 거리가 각각 (1,3) 혹은 (3,1)이 아니면 예외가 발생한다.")

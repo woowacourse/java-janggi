@@ -7,13 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
-
-    private final Map<Position, Piece> board;
-
-    public Board(Map<Position, Piece> board) {
-        this.board = board;
-    }
+public record Board(Map<Position, Piece> board) {
 
     public Board move(
             Team team,
@@ -32,10 +26,8 @@ public class Board {
 
         PositionPath path = pieceAtFrom.getLegalPath(from, to);
 
-        if (!path.isEmpty()) {
-            List<Piece> piecesOnPath = path.findPiecesOn(board);
-            validateMovePathAndDestination(to, pieceAtFrom, piecesOnPath);
-        }
+        List<Piece> piecesOnPath = path.findPiecesOn(board);
+        validateMovePathAndDestination(to, pieceAtFrom, piecesOnPath);
 
         Map<Position, Piece> movedBoard = new HashMap<>(board);
         movedBoard.put(to, pieceAtFrom);
@@ -69,7 +61,8 @@ public class Board {
         return board.values().stream().anyMatch(piece -> piece.isSameTeam(Team.HAN));
     }
 
-    public Map<Position, Piece> getBoard() {
+    @Override
+    public Map<Position, Piece> board() {
         return Map.copyOf(board);
     }
 }

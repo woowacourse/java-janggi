@@ -5,12 +5,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.piece.straightMove.Cha;
-import janggi.model.piece.palace.Sa;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
+import janggi.model.piece.palace.Sa;
+import janggi.model.piece.straightMove.Cha;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -38,12 +40,18 @@ class SaTest {
         Position to = new Position(Row.SIX, Column.FIVE);
         Sa sa = new Sa(Team.HAN);
 
+        Cha cha = new Cha(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SIX, Column.FOUR), cha
+        ));
+
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.isEmpty())
-                .isTrue();
+        assertThat(path.findPiecesOn(board))
+                .isEmpty();
     }
 
     @DisplayName("북쪽으로 한칸 이동한다.")
@@ -54,12 +62,18 @@ class SaTest {
         Position to = new Position(Row.EIGHT, Column.FIVE);
         Sa sa = new Sa(Team.HAN);
 
+        Cha cha = new Cha(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SIX, Column.FOUR), cha
+        ));
+
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.isEmpty())
-                .isTrue();
+        assertThat(path.findPiecesOn(board))
+                .isEmpty();
     }
 
 
@@ -70,13 +84,18 @@ class SaTest {
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SIX);
         Sa sa = new Sa(Team.CHO);
+        Cha cha = new Cha(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SIX, Column.FOUR), cha
+        ));
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.isEmpty())
-                .isTrue();
+        assertThat(path.findPiecesOn(board))
+                .isEmpty();
     }
 
     @DisplayName("서쪽으로 한칸 이동한다.")
@@ -87,12 +106,18 @@ class SaTest {
         Position to = new Position(Row.SEVEN, Column.FOUR);
         Sa sa = new Sa(Team.HAN);
 
+        Cha cha = new Cha(Team.CHO);
+
+        Map<Position, Piece> board = new HashMap<>(Map.of(
+                new Position(Row.SIX, Column.FOUR), cha
+        ));
+
         //when
         PositionPath path = sa.getLegalPath(from, to);
 
         //then
-        assertThat(path.isEmpty())
-                .isTrue();
+        assertThat(path.findPiecesOn(board))
+                .isEmpty();
     }
 
 
