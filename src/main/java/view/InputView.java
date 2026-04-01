@@ -38,7 +38,7 @@ public class InputView {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            return readPosition();
+            return readTargetPosition();
         }
     }
 
