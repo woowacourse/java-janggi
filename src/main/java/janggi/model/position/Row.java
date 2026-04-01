@@ -67,4 +67,8 @@ public enum Row {
         }
         return this.value;
     }
+
+    public int getValue() {
+        return this.value;
+    }
 }

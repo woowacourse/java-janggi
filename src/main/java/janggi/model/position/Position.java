@@ -25,10 +25,9 @@ public record Position(
     }
 
     public PositionPath moveHorizontal(int distance) {
-        int adjustValue = 1;
         Position to = new Position(
                 row,
-                Column.of((column.ordinal() + adjustValue) + distance)
+                Column.of(column.getValue() + distance)
         );
 
         if (!this.row.equals(to.row)) {
@@ -39,17 +38,18 @@ public record Position(
     }
 
     public PositionPath moveVertical(int distance) {
-        int adjustValue = 1;
-
         Position to = new Position(
-                Row.of((row.ordinal() + adjustValue) + distance),
+                Row.of(row.getValue() + distance),
                 column
         );
+
+        if (!this.column.equals(to.column)) {
+            throw new IllegalArgumentException("같은 열이 아닙니다.");
+        }
 
         List<Row> rows = this.row.to(to.row);
         return new PositionPath(rows.stream().map(row -> new Position(row, this.column)).toList());
     }
-
 
     public int getRowDistance(Position other) {
         return this.row.getDistance(other.row);
