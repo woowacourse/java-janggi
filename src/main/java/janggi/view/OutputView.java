@@ -77,13 +77,8 @@ public class OutputView {
         }
     }
 
-    private String getColorByTeam(Piece piece) {
-        if(piece.getTeam() == Team.CHO) return CHO_COLOR;
-        return HAN_COLOR;
-    }
-
     public void printTurnMessage(boolean isChoTurn) {
-        if(isChoTurn) {
+        if (isChoTurn) {
             System.out.println(OutputView.CHO_COLOR + "\n현재 초나라 차례입니다" + OutputView.RESET);
         } else {
             System.out.println(OutputView.HAN_COLOR + "\n한나라 차례입니다" + OutputView.RESET);
@@ -96,5 +91,12 @@ public class OutputView {
 
     public void printMoveChoiceInfo() {
         System.out.println("이동하고자 하는 목표 지점의 좌표를 입력하세요.");
+    }
+
+    private String getColorByTeam(Piece piece) {
+        if (piece.getTeam() == Team.CHO) {
+            return CHO_COLOR;
+        }
+        return HAN_COLOR;
     }
 }

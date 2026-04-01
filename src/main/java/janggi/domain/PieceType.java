@@ -35,21 +35,21 @@ public enum PieceType {
     }
 
     public void placeOnBoard(Board board, Team team) {
-        for(int xPosition:xPositions) {
+        for (int xPosition : xPositions) {
             Position position = new Position(xPosition, calculateYPositionByTeam(team));
             Piece piece = new Piece(team, this);
             board.place(position, piece);
         }
     }
 
+    public List<Route> findRoutes(Team team) {
+        return moveRule.findRoutes(team);
+    }
+
     private int calculateYPositionByTeam(Team team) {
-        if(team == Team.HAN) {
+        if (team == Team.HAN) {
             return 11 - yPosition;
         }
         return yPosition;
-    }
-
-    public List<Route> findRoutes(Team team) {
-        return moveRule.findRoutes(team);
     }
 }

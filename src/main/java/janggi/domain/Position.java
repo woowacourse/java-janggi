@@ -21,16 +21,6 @@ public class Position {
         this.y = y;
     }
 
-    private void validateBoundary(int x, int y) {
-        if (x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y) {
-            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
-        }
-    }
-
-    public boolean isInsideBoundary(int x, int y) {
-        return x >= MIN_X && x <= MAX_X && y >= MIN_Y && y <= MAX_Y;
-    }
-
     public Optional<Position> applyDirection(int dx, int dy) {
         if(isInsideBoundary(x + dx, y + dy)) {
             return Optional.of(new Position(x + dx, y + dy));
@@ -48,6 +38,16 @@ public class Position {
             nextX += dx;
             nextY += dy;
         }
+    }
+
+    private void validateBoundary(int x, int y) {
+        if (x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y) {
+            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
+        }
+    }
+
+    private boolean isInsideBoundary(int x, int y) {
+        return x >= MIN_X && x <= MAX_X && y >= MIN_Y && y <= MAX_Y;
     }
 
     @Override

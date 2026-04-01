@@ -21,10 +21,6 @@ public class Piece {
         return pieceType.getName();
     }
 
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
     public Team getTeam() {
         return team;
     }
