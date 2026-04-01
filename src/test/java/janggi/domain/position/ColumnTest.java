@@ -66,21 +66,18 @@ class ColumnTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "1, true, 9",
-            "1, false, 1",
-            "3, true, 7",
-            "3, false, 3",
-            "5, true, 5",
-            "5, false, 5",
+            "1, 9",
+            "3, 7",
+            "5, 5",
     })
     @DisplayName("뒤집을지 여부에 따라 적절한 열 객체를 반환한다.")
-    public void flipIfNeeded_success(int col, boolean isFlipped, int result) {
+    public void flip_success(int col, int result) {
 
         // given
         Column column = new Column(col);
 
         // when
-        Column resultColumn = column.flipIfNeeded(isFlipped);
+        Column resultColumn = column.flip();
 
         // then
         assertThat(resultColumn.column()).isEqualTo(result);

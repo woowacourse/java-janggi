@@ -22,11 +22,8 @@ public record Column(
         }
     }
 
-    public Column flipIfNeeded(boolean isFlipped) {
-        if(isFlipped) {
-            return new Column(MIN_COLUMN + MAX_COLUMN - column);
-        }
-        return new Column(column);
+    public Column flip() {
+        return new Column(MIN_COLUMN + MAX_COLUMN - column);
     }
 
     public Column add(int column) {

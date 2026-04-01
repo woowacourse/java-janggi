@@ -21,11 +21,8 @@ public record Row(
         }
     }
 
-    public Row flipIfNeeded(boolean isFlipped) {
-        if(isFlipped) {
-            return new Row(MIN_ROW + MAX_ROW - row);
-        }
-        return new Row(row);
+    public Row flip() {
+        return new Row(MIN_ROW + MAX_ROW - row);
     }
 
     public Row add(int row) {

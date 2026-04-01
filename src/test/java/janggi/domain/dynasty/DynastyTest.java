@@ -1,5 +1,7 @@
 package janggi.domain.dynasty;
 
+import janggi.domain.position.Column;
+import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,25 +34,38 @@ class DynastyTest {
     })
     @DisplayName("Dynasty 타입에 맞게 row를 처리한다")
     public void flipRow_IfNeeded_success(int origin, Dynasty dynasty, int result) {
+
+        // given
+        Row row = new Row(origin);
+
         // when
-        int resolved = dynasty.flipRowIfNeeded(origin);
+        Row newRow = dynasty.flipRowIfNeeded(row);
 
         // then
-        assertThat(resolved).isEqualTo(result);
+        assertThat(newRow.row()).isEqualTo(result);
     }
 
     @ParameterizedTest
     @CsvSource(value = {
-            "1, CHO, 1",
-            "1, HAN, 9",
+            "1, 1, CHO, 1, 1",
+            "1, 1, HAN, 10, 9",
     })
-    @DisplayName("Dynasty 타입에 맞게 column를 처리한다")
-    public void flipColumn_IfNeeded_success(int origin, Dynasty dynasty, int result) {
+    @DisplayName("Dynasty 타입에 맞게 position를 처리한다")
+    public void flipPosition_IfNeeded_success(
+            int originRow, int originColumn, Dynasty dynasty, int resultRow, int resultColumn) {
+
+        // given
+        Position position = Position.from(originRow, originColumn);
+
         // when
-        int resolved = dynasty.flipColumnIfNeeded(origin);
+        Position resultPosition = dynasty.flipPositionIfNeeded(position);
 
         // then
-        assertThat(resolved).isEqualTo(result);
+        assertThat(resultPosition).extracting(
+                Position::row, Position::column
+        ).containsExactly(
+                new Row(resultRow), new Column(resultColumn)
+        );
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public record Position(
         Row row,
         Column column
@@ -13,6 +14,9 @@ public record Position(
         return new Position(new Row(row), new Column(column));
     }
 
+    public Position flip() {
+        return new Position(row.flip(), column.flip());
+    }
     public List<Position> findAllPositionsByDirection(Direction dir) {
         List<Position> positions = new ArrayList<>();
         Position cur = this;
@@ -31,6 +35,7 @@ public record Position(
 
         return Optional.empty();
     }
+
 
     private Position add(int row, int column) {
         return new Position(this.row.add(row), this.column.add(column));

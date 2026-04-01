@@ -66,21 +66,18 @@ class RowTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "1, true, 10",
-            "1, false, 1",
-            "3, true, 8",
-            "3, false, 3",
-            "5, true, 6",
-            "5, false, 5",
+            "1, 10",
+            "3, 8",
+            "5, 6",
     })
-    @DisplayName("뒤집을지 여부에 따라 적절한 행 객체를 반환한다.")
-    public void flipIfNeeded_success(int r, boolean isFlipped, int result) {
+    @DisplayName("행 객체를 뒤집어서 반환한다.")
+    public void flip_success(int r, int result) {
 
         // when
         Row row = new Row(r);
 
         // when
-        Row resultRow = row.flipIfNeeded(isFlipped);
+        Row resultRow = row.flip();
 
         // then
         assertThat(resultRow.row()).isEqualTo(result);
