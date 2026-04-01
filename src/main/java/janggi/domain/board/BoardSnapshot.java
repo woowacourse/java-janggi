@@ -33,6 +33,10 @@ public class BoardSnapshot {
         return positions;
     }
 
+    public boolean isPlaceable(Position position, Dynasty dynasty) {
+        return isEmpty(position) || !isSameDynasty(position, dynasty);
+    }
+
     public boolean isSameDynasty(Position position, Dynasty dynasty) {
         if (isEmpty(position)) {
             return false;

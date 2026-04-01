@@ -23,7 +23,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
                 continue;
             }
             from.nextPositionByDirection(dir).ifPresent(to -> {
-                if (board.isEmpty(to) || !board.isSameDynasty(to, dynasty)) {
+                if (board.isPlaceable(to, dynasty)) {
                     placeablePositions.add(to);
                 }
             });
