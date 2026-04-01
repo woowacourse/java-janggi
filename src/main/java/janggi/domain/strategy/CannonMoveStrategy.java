@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class CannonMoveStrategy implements MoveStrategy {
+public class CannonMoveStrategy extends PieceStrategy {
 
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {

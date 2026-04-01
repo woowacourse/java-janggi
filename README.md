@@ -1,27 +1,33 @@
 # java-janggi
 
-## 1차 PR 코멘트 반영 
+## 1차 PR 코멘트 반영
+
 ### `InitialBoardInfo` `Side-Effect` `Pure Function`
+
 - 출력 매개변수(Output Parameter) 패턴. 굳이 매개변수로 받아와서 채울 이유가?
-  - 의문 : get 해서 값을 넣기보단 그저 맵을 주고 시키는 것이 `TDA` 하지않나? 
-  - 반문 : 저게 게터가 맞나?   
-    내부의 상태를 꺼내다 쓰는 것이 아닌  
-    `요청`한 `행위`의 `결과`를 그저 반환하는 것  
-    미션 1 에서의 파생 상태도 아닌 그야말로 `결과`
-  - 실행 : `BoardInfo` 는 각 진영별 기물 맵을 리턴, `Board` 는 초기화하며 그 값들을 `putAll`
+    - 의문 : get 해서 값을 넣기보단 그저 맵을 주고 시키는 것이 `TDA` 하지않나?
+    - 반문 : 저게 게터가 맞나?   
+      내부의 상태를 꺼내다 쓰는 것이 아닌  
+      `요청`한 `행위`의 `결과`를 그저 반환하는 것  
+      미션 1 에서의 파생 상태도 아닌 그야말로 `결과`
+    - 실행 : `BoardInfo` 는 각 진영별 기물 맵을 리턴, `Board` 는 초기화하며 그 값들을 `putAll`
 
 ### `위임에 대한 테스트`
+
 - `gameManager.isFinished()` 는 `board.isBothPalaceExist()` 를 호출하는 단순 위임.
-  - 의문 : 단순 호출 체인 전체를 테스트해야 하는가?
-  - 반문 : 이번 아무 일도 안하는 catch 문과 동일한 경우라 생각.  
-    상위에선 정상 동작하지만 그 내부가 두번 꼬여서 정상 동작하는 거라면? 
-  - 실행 : 호출 체인 각각을 다 테스트하기
-    - * 마찬가지로 전략도 다 테스트는했는데 겹치는 부분을 분리하는 것이 가장 바람직할듯
-    * `최소 단위 행위에 대한 테스트가 곧 그 상위 행위에 대한 테스트를 대체한다` 를 위해선 
-    * 중복된 기능에 대한 통합과 그에 대한 테스트가 매우 효과적일 듯
-    * 장기 규칙 6번의 `역할/인터페이스 설계 기준` 에 추가/수정이 필요한 부분?
+    - 의문 : 단순 호출 체인 전체를 테스트해야 하는가?
+    - 반문 : 이번 아무 일도 안하는 catch 문과 동일한 경우라 생각.  
+      상위에선 정상 동작하지만 그 내부가 두번 꼬여서 정상 동작하는 거라면?
+    - 실행 : 호출 체인 각각을 다 테스트하기
+        -
+            * 마찬가지로 전략도 다 테스트는했는데 겹치는 부분을 분리하는 것이 가장 바람직할듯
+
+        * `최소 단위 행위에 대한 테스트가 곧 그 상위 행위에 대한 테스트를 대체한다` 를 위해선
+        * 중복된 기능에 대한 통합과 그에 대한 테스트가 매우 효과적일 듯
+        * 장기 규칙 6번의 `역할/인터페이스 설계 기준` 에 추가/수정이 필요한 부분?
 
 ## 📋 목차
+
 - [개요](#-개요)
 - [구현 기능 목록](#-구현-기능-목록)
 - [입출력 요구 사항](#입출력-요구-사항)
@@ -82,8 +88,8 @@
     - [x] [규칙] 플레이어들을 관리할 컬렉션을 가진다. `private Set<Player> players`
     - [x] [규칙] 각 진영의 플레이어 이름으로 플레이어 일급 컬렉션 생성 `public from(String choPlayer, String hanPlayer)`
     - [x] [규칙] 각 진영의 플레이어 이름으로 플레이어 객체 생성 `public Player(String name, Side side)`
-    - [x] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException` 을 발생시킨다. `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
-
+    - [x] [예외 처리] 플레이어 닉네임이 중복되는 경우, `IllegalArgumentException` 을 발생시킨다.
+      `private void validateDuplicatedName(String choPlayerName, String hanPlayerName)`
 
 ## 2. 보드 초기화 및 출력
 
@@ -108,14 +114,14 @@
 
 - [x] **[Domain]** 기물의 최소 이동 단위를 관리하는 클래스 `enum Direction`
     - [x] [규칙] 기물의 모든 최소 이동 단위 경우의 수를 정의
-      - E(0, 1)
-      - W(0, -1)
-      - S(1, 0)
-      - N(-1, 0)
-      - NE(-1, 1)
-      - NW(-1, -1)
-      - SE(1, 1)
-      - SW(1, -1)
+        - E(0, 1)
+        - W(0, -1)
+        - S(1, 0)
+        - N(-1, 0)
+        - NE(-1, 1)
+        - NW(-1, -1)
+        - SE(1, 1)
+        - SW(1, -1)
     - [x] [규칙] 이동 단위는 초기 위치 `class Positoin` 을 받아, 이동 위치 `class Position` 를 반환한다.
       `public Static Position move(Position currentPosition)`
 
@@ -125,12 +131,12 @@
     - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
       `List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece)`
 
-- [x] **[Domain]** 기물의 이동 규칙(전략)을 관리하는 구현체 클래스 `class Strategy implements MoveStrategy`
-    - [x] [규칙] 각 기물별 이동 규칙을 방향 `enum Direction` 의 조합 `abstract sealed class EnumSet` 으로 표현 
+- [x] **[Domain]** 기물의 이동 규칙(전략)을 관리하는 구현체 클래스 `class Strategy extends PieceStrategy`
+    - [x] [규칙] 각 기물별 이동 규칙을 방향 `enum Direction` 의 조합 `abstract sealed class EnumSet` 으로 표현
     - [x] [규칙] 동일한 이동 규칙 `class StepMoveStrategy` (한 칸 이동)을 가진 경우,  
       동일한 전략 객체를 재사용하되 방향의 조합을 조율해 해당 기물의 이동 규칙을 표현
     - [ ] [의문] `CHARIOT` / `CANNON` 은 동일한 직선 이동 `경로` 를 가졌지만  
-      `이동 규칙` 은 다름. 이 때 상속과 재정의를 사용하는 것이 과연 바람직할까? 
+      `이동 규칙` 은 다름. 이 때 상속과 재정의를 사용하는 것이 과연 바람직할까?
 
 - [x] **[`Domain/VO`]** 기물의 이동 가능성을 판정하기 위한 최소 정보를 전달할 클래스 `record Piece`
     - [x] [규칙] 기물의 진영을 전달 `Side side`
@@ -141,15 +147,15 @@
 
 - [x] **[Domain]** 기물의 종류, 이동 규칙을 관리하는 클래스 `enum PieceType`
     - [x] [규칙] 기물의 종류 `PieceType`
-      - General
-      - Guard
-      - Horse
-      - Elephant
-      - Chariot
-      - Cannon
-      - Soldier
-    - [x] [규칙] 기물의 이동 규칙 `class Strategy implements MoveStrategy`
-      - [x] [규칙] * `1.1단계 - 보드 초기화` 를 선행하기 위해 비워 둠
+        - General
+        - Guard
+        - Horse
+        - Elephant
+        - Chariot
+        - Cannon
+        - Soldier
+    - [x] [규칙] 기물의 이동 규칙 `class Strategy extends PieceStrategy`
+        - [x] [규칙] * `1.1단계 - 보드 초기화` 를 선행하기 위해 비워 둠
 
 - [x] **[Domain]** 기물의 정보를 관리하는 클래스 `class Piece`
     - [x] [규칙] 기물의 고유한 식별자 `private final String pieceNumber`
@@ -164,27 +170,27 @@
 - [x] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`
     - [x] [규칙] ※ 요구사항 분석과 미션 진행 설계에 따라 상/마 자유 배치 생략, 기본 위치로 일괄 고정.
     - [x] [규칙] 각 진영에 속한 `졸(병) 포 차 마 상 사 궁` 을 배치한다.
-        ![](https://i.namu.wiki/i/j-sZdZbz3kD7bGBzAq8G4Rbkl-gfasbRzB9hFgQp3tqpnfo-cLccIqPqEjiUi30MadlJdqvP-Jkw5NUqhKJBdQ.svg)
-      - [x] [규칙] `졸(병)` 은 5개, 각 진영 첫 번째 행 (초-6, 한-3) 양 끝 열 (0, 8) 에서부터, 한 칸의 간격을 두고 배치한다.
-        ![](https://velog.velcdn.com/images/nn98/post/9729b224-4b37-4fbe-b08d-9a7148b5fcad/image.png)
-      - [x] [규칙] `포` 는 2개, 각 진영 두 번째 행 (초-7, 한-2) 양 끝 열 (0, 8) 에서 한 칸의 간격을 두고 배치한다.
-        ![](https://velog.velcdn.com/images/nn98/post/7b636ac0-e9da-4651-8dc3-1c29b272cf68/image.png)
-      - [x] [규칙] `차` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝 열 (0, 8) 에 배치한다.
-        ![](https://velog.velcdn.com/images/nn98/post/d80c5ac6-9650-499f-add7-4baa9a8ec491/image.png)
-      - [x] [규칙] `상` 은 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 한 칸 떨어진 열 (1, 7) 에 배치한다.
-        ![](https://velog.velcdn.com/images/nn98/post/abe72e90-a785-4b61-a542-caa5c54bde56/image.png)
-      - [x] [규칙] `마` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 두 칸 떨어진 열 (2, 6) 에 배치한다.
-        ![](https://velog.velcdn.com/images/nn98/post/43ca2acf-71cf-48e1-80c9-f93d737225e1/image.png)
-      - [x] [규칙] `사` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 세 칸 떨어진 열 (3, 5) 에 배치한다.
-        ![](https://velog.velcdn.com/images/nn98/post/8eb3d297-6ba9-4209-9c55-efef637f6bae/image.png)
-      - [x] [규칙] `궁` 은 1개, 각 진영 마지막에서 한 칸 윗 행 (초-8, 한-1) 중간 열 (4) 에 배치한다.
-      - ![](https://velog.velcdn.com/images/nn98/post/7e935174-b161-4812-9e91-111a3a8c5bca/image.png)
+      ![](https://i.namu.wiki/i/j-sZdZbz3kD7bGBzAq8G4Rbkl-gfasbRzB9hFgQp3tqpnfo-cLccIqPqEjiUi30MadlJdqvP-Jkw5NUqhKJBdQ.svg)
+        - [x] [규칙] `졸(병)` 은 5개, 각 진영 첫 번째 행 (초-6, 한-3) 양 끝 열 (0, 8) 에서부터, 한 칸의 간격을 두고 배치한다.
+          ![](https://velog.velcdn.com/images/nn98/post/9729b224-4b37-4fbe-b08d-9a7148b5fcad/image.png)
+        - [x] [규칙] `포` 는 2개, 각 진영 두 번째 행 (초-7, 한-2) 양 끝 열 (0, 8) 에서 한 칸의 간격을 두고 배치한다.
+          ![](https://velog.velcdn.com/images/nn98/post/7b636ac0-e9da-4651-8dc3-1c29b272cf68/image.png)
+        - [x] [규칙] `차` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝 열 (0, 8) 에 배치한다.
+          ![](https://velog.velcdn.com/images/nn98/post/d80c5ac6-9650-499f-add7-4baa9a8ec491/image.png)
+        - [x] [규칙] `상` 은 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 한 칸 떨어진 열 (1, 7) 에 배치한다.
+          ![](https://velog.velcdn.com/images/nn98/post/abe72e90-a785-4b61-a542-caa5c54bde56/image.png)
+        - [x] [규칙] `마` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 두 칸 떨어진 열 (2, 6) 에 배치한다.
+          ![](https://velog.velcdn.com/images/nn98/post/43ca2acf-71cf-48e1-80c9-f93d737225e1/image.png)
+        - [x] [규칙] `사` 는 2개, 각 진영 마지막 행 (초-9, 한-0) 양 끝에서 세 칸 떨어진 열 (3, 5) 에 배치한다.
+          ![](https://velog.velcdn.com/images/nn98/post/8eb3d297-6ba9-4209-9c55-efef637f6bae/image.png)
+        - [x] [규칙] `궁` 은 1개, 각 진영 마지막에서 한 칸 윗 행 (초-8, 한-1) 중간 열 (4) 에 배치한다.
+        - ![](https://velog.velcdn.com/images/nn98/post/7e935174-b161-4812-9e91-111a3a8c5bca/image.png)
 
 - [x] **[DTO/UI]** 현재 장기판의 상태를 출력한다. `class OutputView`
-    - [x] [`!임시`] 장기판 `class Board`의 기물 배치 상태 `Map<Position, Piece> piecePosition`를 바탕으로 `class BoardDTO` 생성 `public BoardDTO from(Board board)`
+    - [x] [`!임시`] 장기판 `class Board`의 기물 배치 상태 `Map<Position, Piece> piecePosition`를 바탕으로 `class BoardDTO` 생성
+      `public BoardDTO from(Board board)`
     - [x] [`!임시`] `BoardDTO`를 전달받아 장기판의 기물 배치 상태를 콘솔에 출력한다.  
       `public void printBoardStatus(BoardDTO boardDto)`
-
 
 ## 3. 기물 이동 로직
 
@@ -210,7 +216,6 @@
 
 - [x] **[Domain]** 검증을 통과하면 기물을 이동시키고 장기판을 갱신한다.
 
-
 ## 4. 승패 판정 및 게임 종료 (1차 PR 이후 구현)
 
 - [x] **[Domain]** 상대의 '궁'이 잡혔는지 판단하여 게임 종료 여부를 결정한다.
@@ -220,7 +225,6 @@
 
 - [ ] **[UI]** 최종 승패 결과를 출력한다.
     - [ ] [출력] 상대방의 장을 잡은 진영(플레이어)을 승자로 출력한다.
-
 
 ## 3️⃣ 입출력 요구 사항
 

@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class ElephantMoveStrategy implements MoveStrategy {
+public class ElephantMoveStrategy extends PieceStrategy {
 
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {

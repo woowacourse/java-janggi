@@ -11,7 +11,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
-public class SlideMoveStrategy implements MoveStrategy {
+public class SlideMoveStrategy extends PieceStrategy {
 
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
