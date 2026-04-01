@@ -102,7 +102,7 @@ class ChariotMoveRuleTest {
 
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
-    void chariotCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
+    void chariotCanMoveWhenNoObstacleAndDestinationIsEmpty() {
         // given
         Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
 

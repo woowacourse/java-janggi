@@ -88,7 +88,7 @@ class ElephantMoveRuleTest {
 
     @Test
     @DisplayName("상은 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
-    void horseCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
+    void horseCanMoveWhenNoObstacleAndDestinationIsEmpty() {
         //given
         Point start = new Point(0, 0);
         Point middlePoint1 = new Point(1, 0);
