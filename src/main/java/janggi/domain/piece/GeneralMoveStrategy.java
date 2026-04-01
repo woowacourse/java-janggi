@@ -29,10 +29,8 @@ public class GeneralMoveStrategy implements MoveStrategy {
         if (!Palace.isPalace(from)) {
             throw new DomainException(GENERAL_POSITION_STATE_ERROR);
         }
-        // to가 궁성이면 추가
-        List<Direction> movableDirections = Palace.getMovableDirections(from);
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : movableDirections) {
+        for (Direction dir : Palace.getMovableDirections(from)) {
             addIfMovable(board, from, dynasty, dir, movablePositions);
         }
 
