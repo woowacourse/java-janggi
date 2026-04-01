@@ -41,8 +41,8 @@ public class PieceDto {
 
     public static PieceDto toDto(Position position, Piece piece) {
         return new PieceDto(
-                position.getRow().getValue(),
-                position.getColumn().getValue(),
+                position.getRow().value(),
+                position.getColumn().value(),
                 getSymbol(piece.getTeam(), piece.getPieceType())
         );
     }

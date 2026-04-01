@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -8,8 +9,19 @@ public class ByeongMoveStrategy implements MoveStrategy {
     private static final int[] D_ROW = {-1, 0, 0};
     private static final int[] D_COLUMN = {0, -1, 1};
 
+    private final PalaceMoveRule palaceMoveRule;
+
+    public ByeongMoveStrategy(PalaceMoveRule palaceMoveRule) {
+        this.palaceMoveRule = palaceMoveRule;
+    }
+
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
+
+        if (palaceMoveRule.isPalacePath(start, destination)) {
+            return List.of();
+        }
+
         return IntStream.range(0, D_ROW.length)
                 .filter(index -> isEqualToDestination(start, destination, index))
                 .mapToObj(index -> List.<Position>of())

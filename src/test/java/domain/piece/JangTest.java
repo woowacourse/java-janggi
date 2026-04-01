@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.BoardStatus;
 import domain.piece.strategy.SingleStepMoveStrategy;
+import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.HashMap;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +16,9 @@ class JangTest {
     @DisplayName("목적지와 출발지 사이에 상대 기물이 존재할 수 없으므로 잘 간다고 판단한다")
     void isMovable_success() {
         //given
-        Jang testPiece = new Jang(new SingleStepMoveStrategy(), Team.CHO);
-        Position start = Position.of(2, 2);
-        Position destination = Position.of(2, 3);
+        Jang testPiece = new Jang(new SingleStepMoveStrategy(new PalaceMoveRule()), Team.CHO);
+        Position start = Position.of(2, 5);
+        Position destination = Position.of(2, 6);
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
         BoardStatus testBoard = BoardStatus.from(testPieces);

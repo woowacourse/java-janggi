@@ -3,6 +3,7 @@ package domain.piece;
 import domain.BoardStatus;
 import domain.piece.strategy.SangMoveStrategy;
 import domain.piece.strategy.SingleStepMoveStrategy;
+import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.HashMap;
 import org.assertj.core.api.Assertions;
@@ -20,7 +21,7 @@ class SangTest {
         Position obstacle = Position.of(4, 3);
 
         HashMap<Position, Piece> testPieces = new HashMap<>();
-        testPieces.put(obstacle, new Sa(new SingleStepMoveStrategy(), Team.CHO));
+        testPieces.put(obstacle, new Sa(new SingleStepMoveStrategy(new PalaceMoveRule()), Team.CHO));
 
         BoardStatus testBoard = BoardStatus.from(testPieces);
 

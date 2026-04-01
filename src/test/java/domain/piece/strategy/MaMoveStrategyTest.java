@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -11,6 +12,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class MaMoveStrategyTest {
+
+    private final MoveStrategy strategy = new JolMoveStrategy(new PalaceMoveRule());
+
+
     @ParameterizedTest
     @MethodSource("moveWays")
     @DisplayName("움직일 수 있다면 경로를 반환한다")
@@ -18,7 +23,6 @@ class MaMoveStrategyTest {
         // given
         Position start = Position.of(3, 3);
 
-        MoveStrategy strategy = new MaMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
         Assertions.assertThat(movablePath.size()).isEqualTo(expectSize);
         Assertions.assertThat(movablePath).containsAll(expectPath);
@@ -51,8 +55,6 @@ class MaMoveStrategyTest {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(4, 9);
-
-        MoveStrategy strategy = new JolMoveStrategy();
 
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
                 .isInstanceOf(IllegalArgumentException.class)

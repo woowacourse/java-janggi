@@ -6,6 +6,7 @@ import domain.position.Position;
 import java.util.List;
 
 public class Po extends Piece {
+
     public Po(MoveStrategy moveStrategy, Team team) {
         super(moveStrategy, PieceType.PO, team);
     }

@@ -17,6 +17,7 @@ import domain.piece.strategy.MaMoveStrategy;
 import domain.piece.strategy.SangMoveStrategy;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
+import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,15 +32,18 @@ public class BoardInitializer {
     }
 
     private Map<PieceType, Piece> initPieceByTeam(Team team) {
+        PalaceMoveRule palaceMoveRule = new PalaceMoveRule();
+
         Map<PieceType, Piece> pieces = new HashMap<>();
-        pieces.put(PieceType.PO, new Po(new SlidingMoveStrategy(), team));
+
+        pieces.put(PieceType.PO, new Po(new SlidingMoveStrategy(palaceMoveRule), team));
         pieces.put(PieceType.MA, new Ma(new MaMoveStrategy(), team));
         pieces.put(PieceType.SANG, new Sang(new SangMoveStrategy(), team));
-        pieces.put(PieceType.SA, new Sa(new SingleStepMoveStrategy(), team));
-        pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(), team));
-        pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(), team));
-        pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(), team));
-        pieces.put(PieceType.BYEONG, new Byeong(new ByeongMoveStrategy(), team));
+        pieces.put(PieceType.SA, new Sa(new SingleStepMoveStrategy(palaceMoveRule), team));
+        pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(palaceMoveRule), team));
+        pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(palaceMoveRule), team));
+        pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(palaceMoveRule), team));
+        pieces.put(PieceType.BYEONG, new Byeong(new ByeongMoveStrategy(palaceMoveRule), team));
         return pieces;
     }
 
