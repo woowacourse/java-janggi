@@ -6,11 +6,11 @@ import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForwardStepStrategy implements MoveStrategy {
+public class SingleStepStrategy implements MoveStrategy {
 
     private final List<Direction> directions;
 
-    public ForwardStepStrategy(List<Direction> directions) {
+    public SingleStepStrategy(List<Direction> directions) {
         this.directions = List.copyOf(directions);
     }
 

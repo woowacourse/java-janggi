@@ -6,11 +6,11 @@ import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForwardStepStrategy implements MoveStrategy {
+public class SlidingMoveStrategy implements MoveStrategy {
 
     private final List<Direction> directions;
 
-    public ForwardStepStrategy(List<Direction> directions) {
+    public SlidingMoveStrategy(List<Direction> directions) {
         this.directions = List.copyOf(directions);
     }
 
@@ -20,13 +20,18 @@ public class ForwardStepStrategy implements MoveStrategy {
 
         for (Direction direction : directions) {
             List<Direction> directionPath = new ArrayList<>();
-            Position dest = start.nextPosition(direction);
 
-            if (!dest.isValidRange()) {
-                continue;
+            Position current = start;
+            while (true) {
+                current = current.nextPosition(direction);
+
+                if (!current.isValidRange()) {
+                    break;
+                }
+
+                directionPath.add(direction);
             }
 
-            directionPath.add(direction);
             paths.add(directionPath);
         }
 

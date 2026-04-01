@@ -1,35 +1,40 @@
 package domain.strategy;
 
-import domain.board.Board;
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
-import domain.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PathBasedMoveStrategy implements MoveStrategy {
 
-    private final List<List<Direction>> paths;
+    private final List<List<Direction>> movePaths;
 
-    public PathBasedMoveStrategy(List<List<Direction>> paths) {
-        this.paths = paths;
+    public PathBasedMoveStrategy(List<List<Direction>> movePaths) {
+        this.movePaths = List.copyOf(movePaths);
     }
 
     @Override
-    public List<Position> generate(Board board, Position start, Piece piece) {
-        List<Position> result = new ArrayList<>();
+    public List<List<Direction>> calculatePotentialPaths(Position start) {
+        List<List<Direction>> paths = new ArrayList<>();
 
-        for (List<Direction> path : paths) {
+        for (List<Direction> movePath : movePaths) {
+            List<Direction> directionPath = new ArrayList<>();
+
             Position current = start;
+            for (Direction direction : movePath) {
+                current = current.nextPosition(direction);
 
-            for (Direction dir : path) {
-                current = current.nextPosition(dir);
+                directionPath.add(direction);
             }
 
-            result.add(current);
+            if (!current.isValidRange()) {
+                continue;
+            }
+
+            paths.add(directionPath);
         }
 
-        return result;
+        return List.copyOf(paths);
     }
 }
