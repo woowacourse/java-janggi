@@ -56,7 +56,7 @@ public class GameStateRepositoryImpl implements GameStateRepository {
 
     private GameStateEntity toGameState(ResultSet rs) throws SQLException {
         String currentTurn = rs.getString("current_turn");
-        return new GameStateEntity(
+        return GameStateEntity.of(
                 rs.getLong("game_room_id"),
                 Side.from(currentTurn));
     }

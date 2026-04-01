@@ -1,6 +1,5 @@
 package repository.impl;
 
-
 import java.sql.Connection;
 import domain.place.Place;
 import domain.place.piece.Side;

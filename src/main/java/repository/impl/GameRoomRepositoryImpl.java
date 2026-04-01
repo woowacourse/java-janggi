@@ -91,7 +91,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     }
 
     private GameRoomEntity toGameRoom(ResultSet rs) throws SQLException {
-        return new GameRoomEntity(
+        return GameRoomEntity.of(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getTimestamp("created_at").toLocalDateTime()
