@@ -31,7 +31,7 @@ public class ElephantMoveStrategy extends PieceStrategy {
 
     private void navigationIfEnemy(Position current, Direction targetDirection, Position firstStep, Path path,
                                    BoardInfo boardInfo) {
-        if (!targetDirection.canMove(firstStep)) {
+        if (!targetDirection.canMove(firstStep) || !boardInfo.isEmpty(targetDirection.move(firstStep))) {
             return;
         }
         Position nextStep = targetDirection.move(firstStep);

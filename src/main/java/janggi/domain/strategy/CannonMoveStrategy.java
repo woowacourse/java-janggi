@@ -17,9 +17,12 @@ public class CannonMoveStrategy extends PieceStrategy {
     }
 
     private Position firstMoveablePosition(Position current, Direction baseDir, BoardInfo boardInfo) {
-        do {
+        if (!baseDir.canMove(current) || !boardInfo.isEmpty(baseDir.move(current))) {
+            return current;
+        }
+        while (baseDir.canMove(current) && boardInfo.isEmpty(current)) {
             current = baseDir.move(current);
-        } while (baseDir.canMove(current) && boardInfo.isEmpty(current));
+        }
         return current;
     }
 
