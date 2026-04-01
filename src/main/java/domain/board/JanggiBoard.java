@@ -2,7 +2,16 @@ package domain.board;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.*;
+import domain.piece.Blank;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Pawn;
+import domain.piece.Piece;
+import domain.piece.PieceProvider;
 
 import java.util.Collections;
 import java.util.HashMap;

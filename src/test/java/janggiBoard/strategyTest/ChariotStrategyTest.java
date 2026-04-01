@@ -2,7 +2,10 @@ package janggiBoard.strategyTest;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.*;
+import domain.piece.Chariot;
+import domain.piece.Pawn;
+import domain.piece.Piece;
+import domain.piece.PieceProvider;
 import domain.strategy.ChariotStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

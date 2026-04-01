@@ -2,7 +2,10 @@ package janggiBoard.PieceTest;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.*;
+import domain.piece.Blank;
+import domain.piece.Elephant;
+import domain.piece.Piece;
+import domain.piece.PieceProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

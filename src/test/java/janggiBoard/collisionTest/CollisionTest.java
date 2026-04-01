@@ -2,8 +2,22 @@ package janggiBoard.collisionTest;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.*;
-import domain.strategy.*;
+import domain.piece.Blank;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Pawn;
+import domain.piece.Piece;
+import domain.piece.PieceProvider;
+import domain.strategy.CannonStrategy;
+import domain.strategy.ChariotStrategy;
+import domain.strategy.ElephantStrategy;
+import domain.strategy.HorseStrategy;
+import domain.strategy.PalaceStrategy;
+import domain.strategy.PawnStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
