@@ -3,11 +3,19 @@ package view;
 import domain.Camp;
 import domain.Position;
 import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class InputView {
 
     private final Scanner sc = new Scanner(System.in);
+    private static final Map<Camp, String> CAMP_NAMES = new EnumMap<>(
+            Map.of(
+                    Camp.CHO, "초나라",
+                    Camp.HAN, "한나라"
+            )
+    );
 
     public int askElephantFormation(Camp camp) {
         return readElephantFormation(camp);
@@ -16,7 +24,7 @@ public class InputView {
     public Position askFromPosition(Camp camp) {
         while (true) {
             try {
-                System.out.println(camp.getCampName() + " 플레이어는 말을 선택해주세요. (입력좌표 예시: 2, 1)");
+                System.out.println(CAMP_NAMES.get(camp) + " 플레이어는 말을 선택해주세요. (입력좌표 예시: 2, 1)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -28,7 +36,7 @@ public class InputView {
         while (true) {
             try {
                 System.out.println(
-                        camp.getCampName() + " 플레이어는 선택한 말을 움직일 위치를 입력해 주세요.(입력좌표 예시: 2, 3)");
+                        CAMP_NAMES.get(camp) + " 플레이어는 선택한 말을 움직일 위치를 입력해 주세요.(입력좌표 예시: 2, 3)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -39,7 +47,7 @@ public class InputView {
     private int readElephantFormation(Camp camp) {
         while (true) {
             try {
-                System.out.println(camp.getCampName() + " 상 차림을 결정해주세요.");
+                System.out.println(CAMP_NAMES.get(camp) + " 상 차림을 결정해주세요.");
                 System.out.println("1. [마 상 마 상]");
                 System.out.println("2. [마 상 상 마]");
                 System.out.println("3. [상 마 상 마]");
