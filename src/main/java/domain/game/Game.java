@@ -1,10 +1,12 @@
 package domain.game;
 
 import domain.board.JanggiBoard;
+import domain.intersection.Intersection;
 import domain.point.Point;
 import domain.team.Team;
 import dto.BoardStatusDTO;
 import dto.MoveDTO;
+import java.util.Map;
 
 public class Game {
 
@@ -28,7 +30,7 @@ public class Game {
         return turn;
     }
 
-    public BoardStatusDTO boardStatus() {
+    public Map<Point, Intersection> boardStatus() {
         return janggiBoard.boardStatus();
     }
 

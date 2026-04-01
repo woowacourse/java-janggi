@@ -75,8 +75,8 @@ public class JanggiBoard {
                 .toList();
     }
 
-    public BoardStatusDTO boardStatus() {
-        return new BoardStatusDTO(intersections);
+    public Map<Point, Intersection> boardStatus() {
+        return Map.copyOf(intersections);
     }
 
     public Intersection findIntersection(Point point) {
