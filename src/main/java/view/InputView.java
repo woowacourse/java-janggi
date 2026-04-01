@@ -1,5 +1,6 @@
 package view;
 
+import domain.Formation;
 import domain.vo.Position;
 
 import java.util.Scanner;
@@ -9,18 +10,26 @@ public class InputView {
     private static final String POSITION_PATTERN = "^\\d+\\s+\\d+$";
     private final Scanner scanner = new Scanner(System.in);
 
-    public int readHorseElephantFormation(String team) {
+    public Formation readHorseElephantFormation(String team) {
         System.out.println(team + "의 초기 진형을 선택하세요. (숫자만 입력)");
-        System.out.println("1. 마상마상");
-        System.out.println("2. 상마상마");
+        System.out.println("1. 상마상마");
+        System.out.println("2. 마상마상");
+        System.out.println("3. 상마마상");
+        System.out.println("4. 마상상마");
 
         String input = scanner.nextLine().trim();
         try {
             int parsedInput = Integer.parseInt(input);
-            if (parsedInput != 1 && parsedInput != 2)
+            if (parsedInput < 1 || parsedInput > 4)
                 throw new IllegalArgumentException();
             System.out.println();
-            return parsedInput;
+            return switch (parsedInput) {
+                case 1 -> Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT;
+                case 2 -> Formation.LEFT_HORSE_RIGHT_HORSE;
+                case 3 -> Formation.LEFT_ELEPHANT_RIGHT_HORSE;
+                case 4 -> Formation.LEFT_HORSE_RIGHT_ELEPHANT;
+                default -> throw new IllegalArgumentException();
+            };
         }
         catch (Exception e) {
             System.out.println("[ERROR] 잘못된 입력입니다.");

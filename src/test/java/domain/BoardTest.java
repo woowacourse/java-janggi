@@ -22,7 +22,7 @@ class BoardTest {
     void 보드_생성(int row, int col, Type expected) {
         // given
         // when
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // then
         Piece piece = board.findPieceByPosition(Position.of(row, col)).get();
@@ -33,7 +33,7 @@ class BoardTest {
     @DisplayName("기물의 이동 경로에 다른 기물이 없으면 이동한다.")
     void 기물_포진() {
         // given
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
         Position position = Position.of(0, 1);
 
         // when

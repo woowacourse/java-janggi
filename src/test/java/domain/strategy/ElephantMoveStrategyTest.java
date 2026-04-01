@@ -14,7 +14,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldMoveWhenPathIsClear() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(0, 1);
@@ -29,7 +29,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldNotMoveWhenPieceInPath() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(0, 1);
@@ -44,7 +44,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(6, 1);
@@ -59,7 +59,7 @@ class ElephantMoveStrategyTest {
     void elephantShouldMoveToEnemyPiece() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(3, 4);

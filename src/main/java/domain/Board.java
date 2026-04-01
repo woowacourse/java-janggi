@@ -51,24 +51,6 @@ public class Board {
         return currentPiece.isAnotherTeam(targetPiece);
     }
 
-    public void format(int chuFormat, int hanFormat) {
-        if (chuFormat == 1) {
-            board.put(Position.of(0, 1), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
-            board.put(Position.of(0, 2), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
-
-            board.put(Position.of(0, 6), Piece.of(Team.CHU, Type.HORSE, new HorseMoveStrategy()));
-            board.put(Position.of(0, 7), Piece.of(Team.CHU, Type.ELEPHANT, new ElephantMoveStrategy()));
-        }
-
-        if (hanFormat == 1) {
-            board.put(Position.of(9, 1), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
-            board.put(Position.of(9, 2), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
-
-            board.put(Position.of(9, 6), Piece.of(Team.HAN, Type.HORSE, new HorseMoveStrategy()));
-            board.put(Position.of(9, 7), Piece.of(Team.HAN, Type.ELEPHANT, new ElephantMoveStrategy()));
-        }
-    }
-
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
     }

@@ -15,7 +15,7 @@ class HorseMoveStrategyTest {
     void horseShouldMoveWhenPathIsClearForChuTeam() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(0, 2);
@@ -30,7 +30,7 @@ class HorseMoveStrategyTest {
     void horseShouldMoveWhenPathIsClearForHanTeam() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(9, 2);
@@ -45,7 +45,7 @@ class HorseMoveStrategyTest {
     void horseShouldNotMoveWhenPieceInPath() {
         // given
         MoveStrategy strategy = new ElephantMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(0, 2);
@@ -60,7 +60,7 @@ class HorseMoveStrategyTest {
     void horseShouldNotMoveToAllyPiece() {
         // given
         MoveStrategy strategy = new HorseMoveStrategy();
-        Board board = BoardFactory.setUp();
+        Board board = BoardFactory.setUp(hanFormat, chuFormat);
 
         // when
         Position from = Position.of(0, 2);

@@ -11,7 +11,7 @@ public class BoardFactory {
 
     private BoardFactory() {}
 
-    public static Board setUp() {
+    public static Board setUp(Formation hanFormation, Formation chuFormation) {
         Map<Position, Piece> board = new TreeMap<>(Comparator
                 .comparingInt(Position::getRow).reversed()
                 .thenComparingInt(Position::getCol));
@@ -50,6 +50,40 @@ public class BoardFactory {
         board.put(Position.of(6, 6),Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
         board.put(Position.of(6, 8),Piece.of(Team.HAN, Type.SOLDIER, new SoldierMoveStrategy()));
 
+        formatElephantAndHorse(chuFormation, Team.CHU, 0, board);
+        formatElephantAndHorse(hanFormation, Team.HAN, 9, board);
+
         return Board.of(board);
+    }
+
+    private static void formatElephantAndHorse(Formation formation, Team team, int row, Map<Position, Piece> board) {
+        if (formation == Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT) {  // 상마상마
+            board.put(Position.of(row, 1),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(row, 2),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+
+            board.put(Position.of(row, 6),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(row, 7),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+        }
+        if (formation == Formation.LEFT_HORSE_RIGHT_HORSE) {      // 마상마상
+            board.put(Position.of(row, 1),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(row, 2),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+
+            board.put(Position.of(row, 6),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(row, 7),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+        }
+        if (formation == Formation.LEFT_ELEPHANT_RIGHT_HORSE) {    // 상마마상
+            board.put(Position.of(row, 1),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(row, 2),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+
+            board.put(Position.of(row, 6),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(row, 7),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+        }
+        if (formation == Formation.LEFT_HORSE_RIGHT_ELEPHANT) {    // 마상상마
+            board.put(Position.of(row, 1),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+            board.put(Position.of(row, 2),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+
+            board.put(Position.of(row, 6),Piece.of(team, Type.ELEPHANT, new ElephantMoveStrategy()));
+            board.put(Position.of(row, 7),Piece.of(team, Type.HORSE, new HorseMoveStrategy()));
+        }
     }
 }

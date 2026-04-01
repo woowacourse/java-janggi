@@ -1,5 +1,6 @@
 import domain.Board;
 import domain.BoardFactory;
+import domain.Formation;
 import domain.Team;
 import domain.vo.Position;
 import view.InputView;
@@ -16,13 +17,10 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = BoardFactory.setUp();
-        outputView.printBoard(board.getBoard());
+        Formation hanFormation = inputView.readHorseElephantFormation(Team.HAN.getName());
+        Formation chuFormation = inputView.readHorseElephantFormation(Team.CHU.getName());
 
-        int hanFormat = inputView.readHorseElephantFormation(Team.HAN.getName());
-        int chuFormat = inputView.readHorseElephantFormation(Team.CHU.getName());
-
-        board.format(chuFormat, hanFormat);
+        Board board = BoardFactory.setUp(hanFormation, chuFormation);
         outputView.printBoard(board.getBoard());
 
         move(board);
