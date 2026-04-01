@@ -11,6 +11,14 @@ public record Position(int column, int row) {
 
     }
 
+    public int calculateDeltaX(Position destination) {
+        return destination.column - this.column;
+    }
+
+    public int calculateDeltaY(Position destination) {
+        return destination.row - this.row;
+    }
+
     private void validateColumn(int column) {
         if (column < MIN_POSITION || column > MAX_COLUMN) {
             throw new IllegalArgumentException(
