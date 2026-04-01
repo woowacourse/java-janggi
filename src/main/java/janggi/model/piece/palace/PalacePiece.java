@@ -2,7 +2,7 @@ package janggi.model.piece.palace;
 
 import janggi.model.Team;
 import janggi.model.movement.Movement;
-import janggi.model.movement.OneStepMovement;
+import janggi.model.movement.patternBasedMovement.OneStepMovement;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
 import janggi.model.position.absolute.Position;

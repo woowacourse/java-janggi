@@ -2,7 +2,7 @@ package janggi.model.piece;
 
 import janggi.model.Team;
 import janggi.model.movement.Movement;
-import janggi.model.movement.patternBasedMovement.ByeongMovement;
+import janggi.model.movement.patternBasedMovement.OneStepMovement;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Byeong extends Piece {
         this(
                 team,
                 PieceType.BYEONG,
-                new ByeongMovement()
+                new OneStepMovement()
         );
     }
 
