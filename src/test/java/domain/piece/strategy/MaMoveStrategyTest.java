@@ -1,6 +1,5 @@
 package domain.piece.strategy;
 
-import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
