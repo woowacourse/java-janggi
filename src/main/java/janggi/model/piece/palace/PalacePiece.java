@@ -1,11 +1,11 @@
 package janggi.model.piece.palace;
 
 import janggi.model.Team;
-import janggi.model.board.PositionPath;
+import janggi.model.position.PositionPath;
 import janggi.model.piece.Piece;
-import janggi.model.board.position.Position;
-import janggi.model.board.movement.Movement;
-import janggi.model.board.movement.OneStepMovement;
+import janggi.model.position.Position;
+import janggi.model.movement.Movement;
+import janggi.model.movement.OneStepMovement;
 import java.util.List;
 
 public abstract class PalacePiece extends Piece {

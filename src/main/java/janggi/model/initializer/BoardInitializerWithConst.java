@@ -1,16 +1,16 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
-import janggi.model.board.Board;
+import janggi.model.Board;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.piece.Piece;
 import janggi.model.piece.palace.Jang;
 import janggi.model.piece.straightMove.Pho;
 import janggi.model.piece.palace.Sa;
-import janggi.model.board.position.Column;
-import janggi.model.board.position.Position;
-import janggi.model.board.position.Row;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

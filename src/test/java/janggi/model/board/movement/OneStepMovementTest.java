@@ -2,9 +2,11 @@ package janggi.model.board.movement;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.model.board.position.Column;
-import janggi.model.board.position.Position;
-import janggi.model.board.position.Row;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
+import janggi.model.movement.Movement;
+import janggi.model.movement.OneStepMovement;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

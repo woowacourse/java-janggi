@@ -1,10 +1,10 @@
 package janggi.model.piece;
 
 import janggi.model.Team;
-import janggi.model.board.PositionPath;
-import janggi.model.board.position.Position;
-import janggi.model.board.movement.ByeongMovement;
-import janggi.model.board.movement.Movement;
+import janggi.model.position.PositionPath;
+import janggi.model.position.Position;
+import janggi.model.movement.ByeongMovement;
+import janggi.model.movement.Movement;
 import java.util.List;
 
 public class Byeong extends Piece {

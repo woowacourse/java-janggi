@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.model.board.Board;
+import janggi.model.Board;
 import janggi.model.initializer.InsideTableSetting;
 import janggi.model.initializer.LeftSidedTableSetting;
 import janggi.model.initializer.OutsideTableSetting;
