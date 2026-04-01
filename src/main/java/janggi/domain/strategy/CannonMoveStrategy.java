@@ -9,28 +9,28 @@ public class CannonMoveStrategy extends PieceStrategy {
 
     @Override
     protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
-        Path path = new Path();
         Position target = firstMoveablePosition(current, baseDir, boardInfo);
         if (boardInfo.isCannon(target)) {
-            return path;
+            return new Path();
         }
-        return navigationMoveablePosition(current, baseDir, target, path, boardInfo);
+        return navigationMoveablePosition(current, baseDir, target, boardInfo);
     }
 
     private Position firstMoveablePosition(Position current, Direction baseDir, BoardInfo boardInfo) {
-        while (baseDir.canMove(current) && boardInfo.isEmpty(current)) {
+        do {
             current = baseDir.move(current);
-        }
+        } while (baseDir.canMove(current) && boardInfo.isEmpty(current));
         return current;
     }
 
     private Path navigationMoveablePosition(Position current, Direction baseDir, Position target,
-                                            Path path, BoardInfo boardInfo) {
-        if (baseDir.canMove(target) && !boardInfo.isEmpty(baseDir.move(target))) {
+                                            BoardInfo boardInfo) {
+        Path path = new Path();
+        while (baseDir.canMove(target) && boardInfo.isEmpty(baseDir.move(target))) {
             target = baseDir.move(target);
             path.makePath(target);
         }
-        if (baseDir.canMove(target)) {
+        if (!baseDir.canMove(target)) {
             return path;
         }
         return navigationIfEnemy(current, baseDir, target, path, boardInfo);
@@ -39,7 +39,7 @@ public class CannonMoveStrategy extends PieceStrategy {
     private Path navigationIfEnemy(Position current, Direction baseDir, Position next,
                                    Path path, BoardInfo boardInfo) {
         next = baseDir.move(next);
-        if (boardInfo.isAlly(current, next) && boardInfo.isCannon(next)) {
+        if (boardInfo.isAlly(current, next) || boardInfo.isCannon(next)) {
             return path;
         }
         path.makePath(next);
