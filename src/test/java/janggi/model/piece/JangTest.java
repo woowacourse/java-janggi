@@ -27,7 +27,7 @@ class JangTest {
         //when & then
         assertThatThrownBy(() -> jang.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("두 지점이 한 칸 떨어져 있지 않습니다.");
+                .hasMessage("해당 경로로 이동할 수 없습니다.");
     }
 
     @DisplayName("남쪽으로 한칸 이동한다.")
