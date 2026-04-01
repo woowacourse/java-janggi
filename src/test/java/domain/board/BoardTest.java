@@ -14,6 +14,7 @@ import domain.piece.Sang;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -108,6 +109,41 @@ class BoardTest {
             Board board = new Board(boardMap);
 
             assertEquals(new None(), board.move(new Position(0, 0), new Position(0, 3)));
+        }
+    }
+
+    @Nested
+    class 기물_선택_테스트 {
+        @Test
+        void 이동_가능_여부를_반환한다() {
+            Map<Position, Piece> boardMap = createEmptyBoard();
+            boardMap.put(new Position(6, 4), new Jol(Team.CHO));
+
+            Board board = new Board(boardMap);
+
+            assertEquals(true, board.canMove(new Position(6, 4), new Position(5, 4)));
+            assertEquals(false, board.canMove(new Position(6, 4), new Position(7, 4)));
+        }
+
+        @Test
+        void 선택한_기물의_이동_가능한_모든_위치를_반환한다() {
+            Map<Position, Piece> boardMap = createEmptyBoard();
+            Position source = new Position(6, 4);
+            boardMap.put(source, new Jol(Team.CHO));
+
+            Board board = new Board(boardMap);
+
+            List<Position> movablePositions = board.findMovablePositions(source);
+
+            assertEquals(3, movablePositions.size());
+            assertEquals(3, movablePositions.stream()
+                    .filter(List.of(
+                            new Position(5, 4),
+                            new Position(6, 5),
+                            new Position(6, 3)
+                    )::contains)
+                    .count()
+            );
         }
     }
 }
