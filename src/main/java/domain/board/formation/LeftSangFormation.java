@@ -1,4 +1,4 @@
-package domain.board.strategy;
+package domain.board.formation;
 
 import domain.board.Side;
 import domain.coordinate.Position;
@@ -8,11 +8,11 @@ import domain.piece.Piece;
 
 import java.util.Map;
 
-public class LeftSangStrategy implements InitialStrategy {
+public class LeftSangFormation implements InitialFormation {
 
     private final Side side;
 
-    public LeftSangStrategy(Side side) {
+    public LeftSangFormation(Side side) {
         this.side = side;
     }
 

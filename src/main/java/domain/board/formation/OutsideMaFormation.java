@@ -1,4 +1,4 @@
-package domain.board.strategy;
+package domain.board.formation;
 
 import domain.board.Side;
 import domain.coordinate.Position;
@@ -8,11 +8,11 @@ import domain.piece.Piece;
 
 import java.util.Map;
 
-public class InsideMaStrategy implements InitialStrategy {
+public class OutsideMaFormation implements InitialFormation {
 
     private final Side side;
 
-    public InsideMaStrategy(Side side) {
+    public OutsideMaFormation(Side side) {
         this.side = side;
     }
 
@@ -22,9 +22,9 @@ public class InsideMaStrategy implements InitialStrategy {
     }
 
     private void initStrategyType(Map<Position, Piece> pieceInitPlacements, Side side, int col) {
-        pieceInitPlacements.put(new Position(col, 1), new Elephant(side));
-        pieceInitPlacements.put(new Position(col, 2), new Horse(side));
-        pieceInitPlacements.put(new Position(col, 6), new Horse(side));
-        pieceInitPlacements.put(new Position(col, 7), new Elephant(side));
+        pieceInitPlacements.put(new Position(col, 1), new Horse(side));
+        pieceInitPlacements.put(new Position(col, 2), new Elephant(side));
+        pieceInitPlacements.put(new Position(col, 6), new Elephant(side));
+        pieceInitPlacements.put(new Position(col, 7), new Horse(side));
     }
 }
