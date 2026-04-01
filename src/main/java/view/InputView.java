@@ -4,6 +4,7 @@ import domain.Formation;
 import java.util.Scanner;
 
 public class InputView {
+
     private final String READ_FORMATION_MESSAGE = "[%s] 포진을 선택해주세요.";
 
     private final Scanner scanner = new Scanner(System.in);
@@ -20,30 +21,30 @@ public class InputView {
         return readFormation();
     }
 
-    public int readSourceXPosition() {
+    public String readSourceXPosition() {
         System.out.println();
         System.out.println("움직일 기물의 x 좌표를 입력해주세요. (x 범위 1 ~ 9)");
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
-    public int readSourceYPosition() {
+    public String readSourceYPosition() {
         System.out.println("움직일 기물의 y 좌표를 입력해주세요. (y 범위 1 ~ 10)");
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
-    public int readTargetXPosition() {
+    public String readTargetXPosition() {
         System.out.println();
         System.out.println("목적지 x 좌표를 입력해주세요. (x 범위 1 ~ 9)");
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
-    public int readTargetYPosition() {
+    public String readTargetYPosition() {
         System.out.println("목적지 y 좌표를 입력해주세요. (y 범위 1 ~ 10)");
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
     private String readFormation() {
-        for(Formation formation : Formation.values()) {
+        for (Formation formation : Formation.values()) {
             System.out.println(formation.toDisplayString());
         }
         return scanner.nextLine();
