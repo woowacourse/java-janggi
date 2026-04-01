@@ -13,6 +13,7 @@ public record Position(
 
     private static final Map<String, Position> POSITIONS = new HashMap<>();
     private static final Map<Position, List<Direction>> DIAGONAL = new HashMap<>();
+    private static final List<Direction> DIRECTIONS_NEWS = List.of(Direction.valuesFourDirection());
 
     static {
         for (Row row : Row.values()) {
@@ -63,6 +64,15 @@ public record Position(
         }
     }
 
+    public List<Direction> directions() {
+        List<Direction> directions = new ArrayList<>(List.of(Direction.valuesFourDirection()));
+        if (canMoveDiagonal()) {
+            directions.addAll(DIAGONAL.get(this));
+        }
+        return directions;
+    }
+
+    // TODO: position이랑 test에서만 사용 private으로 변경필요
     public boolean canMoveDiagonal() {
         return DIAGONAL.containsKey(this);
     }

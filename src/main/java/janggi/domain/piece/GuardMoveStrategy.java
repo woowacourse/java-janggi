@@ -18,7 +18,7 @@ public class GuardMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
         List<Position> placeablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirection()) {
+        for (Direction dir : from.directions()) {
             from.nextPositionByDirection(dir).ifPresent(to -> {
                 if (board.isEmpty(to) || !board.isSameDynasty(to, dynasty)) {
                     placeablePositions.add(to);
