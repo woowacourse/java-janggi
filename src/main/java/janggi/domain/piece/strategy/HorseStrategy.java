@@ -34,11 +34,11 @@ public class HorseStrategy implements MoveStrategy {
 
         int rowDirection = directionInformation.calculateRowDirection();
         int columnDirection = directionInformation.calculateColumnDirection();
-        source = source.moveRow(rowDirection);
-        path.add(source);
+        Position current = source.moveRow(rowDirection);
+        path.add(current);
 
-        source = source.moveDiagonal(rowDirection, columnDirection);
-        path.add(source);
+        current = current.moveDiagonal(rowDirection, columnDirection);
+        path.add(current);
         return path;
     }
 
@@ -47,11 +47,11 @@ public class HorseStrategy implements MoveStrategy {
 
         int rowDirection = directionInformation.calculateRowDirection();
         int columnDirection = directionInformation.calculateColumnDirection();
-        source = source.moveColumn(columnDirection);
-        path.add(source);
+        Position current = source.moveColumn(columnDirection);
+        path.add(current);
 
-        source = source.moveDiagonal(rowDirection, columnDirection);
-        path.add(source);
+        current = current.moveDiagonal(rowDirection, columnDirection);
+        path.add(current);
         return path;
     }
 
