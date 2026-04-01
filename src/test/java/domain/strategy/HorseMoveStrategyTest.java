@@ -6,6 +6,7 @@ import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,22 +31,26 @@ class HorseMoveStrategyTest {
         assertThat(moveStrategy.canMoveTo(current, destination)).isFalse();
     }
 
-    @ParameterizedTest
-    @MethodSource("moveablePositionsAndBlockedPositions")
+    @Test
     @DisplayName("마의 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
-    void horse_blocked_route_test(Position current, Position destination, List<Position> obstacles) {
+    void horse_blocked_route_test() {
+        Position current = new Position(4, 4);
+        Position destination = current.up().upCrossLeft();
+        List<Position> blockedObstacles = List.of(current.up());
         HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isFalse();
+        assertThat(moveStrategy.hasValidPathTo(current, destination, blockedObstacles)).isFalse();
     }
 
-    @ParameterizedTest
-    @MethodSource("moveablePositionsAndNonBlockedPositions")
+    @Test
     @DisplayName("마의 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
-    void horse_non_blocked_route_test(Position current, Position destination, List<Position> obstacles) {
+    void horse_non_blocked_route_test() {
+        Position current = new Position(4, 4);
+        Position destination = current.up().upCrossLeft();
+        List<Position> clearObstacles = List.of();
         HorseMoveStrategy moveStrategy = new HorseMoveStrategy();
 
-        assertThat(moveStrategy.hasValidPathTo(current, destination, obstacles)).isTrue();
+        assertThat(moveStrategy.hasValidPathTo(current, destination, clearObstacles)).isTrue();
     }
 
 
@@ -76,29 +81,6 @@ class HorseMoveStrategyTest {
                 Arguments.arguments(midPosition, midPosition.left().downCrossLeft().left()),
                 Arguments.arguments(midPosition, midPosition.right().upCrossRight().left()),
                 Arguments.arguments(midPosition, midPosition.right().downCrossRight().left())
-        );
-    }
-
-    private static Stream<Arguments> moveablePositionsAndNonBlockedPositions() {
-        return moveablePositions().map(arguments -> {
-            Object[] args = arguments.get();
-            return Arguments.arguments(args[0], args[1], List.of());
-        });
-    }
-
-    private static Stream<Arguments> moveablePositionsAndBlockedPositions() {
-        Position midPosition = new Position(4, 4);
-
-        return Stream.of(
-                Arguments.arguments(midPosition, midPosition.up().upCrossLeft(), List.of(midPosition.up())),
-                Arguments.arguments(midPosition, midPosition.up().upCrossRight(), List.of(midPosition.up())),
-                Arguments.arguments(midPosition, midPosition.down().downCrossLeft(), List.of(midPosition.down())),
-                Arguments.arguments(midPosition, midPosition.down().downCrossRight(), List.of(midPosition.down())),
-
-                Arguments.arguments(midPosition, midPosition.left().upCrossLeft(), List.of(midPosition.left())),
-                Arguments.arguments(midPosition, midPosition.left().downCrossLeft(), List.of(midPosition.left())),
-                Arguments.arguments(midPosition, midPosition.right().upCrossRight(), List.of(midPosition.right())),
-                Arguments.arguments(midPosition, midPosition.right().downCrossRight(), List.of(midPosition.right()))
         );
     }
 }

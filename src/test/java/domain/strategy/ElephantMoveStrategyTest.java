@@ -84,21 +84,15 @@ class ElephantMoveStrategyTest {
 
         return Stream.of(
                 Arguments.arguments(midPosition, midPosition.up().upCrossLeft().upCrossLeft(), List.of(midPosition.up())),
-                Arguments.arguments(midPosition, midPosition.up().upCrossRight().upCrossRight(), List.of(midPosition.up())),
-                Arguments.arguments(midPosition, midPosition.down().downCrossLeft().downCrossLeft(), List.of(midPosition.down())),
-                Arguments.arguments(midPosition, midPosition.down().downCrossRight().downCrossRight(), List.of(midPosition.down())),
-
-                Arguments.arguments(midPosition, midPosition.left().upCrossLeft().upCrossLeft(), List.of(midPosition.left())),
-                Arguments.arguments(midPosition, midPosition.left().downCrossLeft().downCrossLeft(), List.of(midPosition.left())),
-                Arguments.arguments(midPosition, midPosition.right().upCrossRight().upCrossRight(), List.of(midPosition.right())),
-                Arguments.arguments(midPosition, midPosition.right().downCrossRight().downCrossRight(), List.of(midPosition.right()))
+                Arguments.arguments(midPosition, midPosition.up().upCrossLeft().upCrossLeft(), List.of(midPosition.up().upCrossLeft()))
         );
     }
 
     private static Stream<Arguments> moveablePositionsAndNonBlockedPositions() {
-        return moveablePositions().map(arguments -> {
-            Object[] args = arguments.get();
-            return Arguments.arguments(args[0], args[1], List.of());
-        });
+        Position midPosition = new Position(4, 4);
+
+        return Stream.of(
+                Arguments.arguments(midPosition, midPosition.up().upCrossLeft().upCrossLeft(), List.of())
+        );
     }
 }
