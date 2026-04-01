@@ -51,7 +51,7 @@ class MaMoveStrategyTest {
         // given
         Position start = Position.of(2, 9);
         Position destination = Position.of(4, 9);
-        MoveStrategy strategy = new JolMoveStrategy();
+        MoveStrategy strategy = new MaMoveStrategy();
 
         // when & then
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination)).isInstanceOf(
