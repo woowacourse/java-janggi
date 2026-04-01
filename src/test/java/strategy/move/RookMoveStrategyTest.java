@@ -20,7 +20,7 @@ public class RookMoveStrategyTest {
         @Test
         public void 차는_초나라에서_동서남북_직선_경로를_보드_끝까지_가진다() {
             MoveStrategy strategy = new RookMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.ROOK));
 
             assertThat(paths).hasSize(36);
             assertThat(paths).contains(
@@ -38,7 +38,10 @@ public class RookMoveStrategyTest {
         @Test
         public void 차는_현재위치에서_여러칸_떨어진_직선_목적지_경로를_생성한다() {
             MoveStrategy strategy = new RookMoveStrategy();
-            List<Route> routes = strategy.makeRoutes(Position.of(4, 4), TeamColor.HAN);
+            List<Route> routes = strategy.makeRoutes(
+                    Position.of(4, 4),
+                    Piece.of(TeamColor.HAN, PieceType.ROOK)
+            );
 
             assertThat(routes).contains(
                     new Route(Position.of(4, 4), Position.of(0, 4),

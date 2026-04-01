@@ -20,7 +20,7 @@ public class HorseMoveStrategyTest {
         @Test
         public void 초나라_마는_직진1칸_대각선1칸으로_이루어진_8개의_경로를_가진다() {
             MoveStrategy strategy = new HorseMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.HORSE));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).contains(
@@ -38,7 +38,7 @@ public class HorseMoveStrategyTest {
         @Test
         public void 한나라_마는_직진1칸_대각선1칸으로_이루어진_8개의_경로를_가진다() {
             MoveStrategy strategy = new HorseMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.HAN, PieceType.HORSE));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).contains(
@@ -89,7 +89,7 @@ public class HorseMoveStrategyTest {
             Position curPos = Position.of(4, 4);
             MoveStrategy moveStrategy = new HorseMoveStrategy();
 
-            List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+            List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.HORSE));
             assertThat(routes).containsExactlyInAnyOrder(
                     new Route(curPos, Position.of(2, 3), List.of(Position.of(3, 4))),
                     new Route(curPos, Position.of(2, 5), List.of(Position.of(3, 4))),

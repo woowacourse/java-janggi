@@ -13,7 +13,7 @@ import domain.TeamColor;
 public class CannonMoveStrategy extends MoveStrategy {
 
     @Override
-    public List<MovePath> getPaths(TeamColor teamColor) {
+    public List<MovePath> getPaths(Piece piece) {
         List<MovePath> paths = new ArrayList<>();
 
         paths.addAll(createStraightPaths(Direction.NORTH));

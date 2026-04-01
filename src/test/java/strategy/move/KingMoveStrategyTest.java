@@ -20,7 +20,7 @@ public class KingMoveStrategyTest {
         @Test
         public void 초나라_왕은_8방향으로_이동_가능하다() {
             MoveStrategy strategy = new KingMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.KING));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).containsExactlyInAnyOrder(
@@ -38,7 +38,7 @@ public class KingMoveStrategyTest {
         @Test
         public void 한나라_왕은_8방향으로_이동_가능하다() {
             MoveStrategy strategy = new KingMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.HAN, PieceType.KING));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).containsExactlyInAnyOrder(
@@ -89,7 +89,7 @@ public class KingMoveStrategyTest {
             Position curPos = Position.of(1, 4);
             MoveStrategy moveStrategy = new KingMoveStrategy();
 
-            List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+            List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.KING));
             assertThat(routes).containsExactlyInAnyOrder(
                     new Route(curPos, Position.of(0, 4), List.of()),
                     new Route(curPos, Position.of(2, 4), List.of()),

@@ -19,8 +19,8 @@ public class GuardMoveStrategyTest {
     class 이동경로 {
         @Test
         public void 초나라_사는_8방향으로_이동_가능하다() {
-            MoveStrategy strategy = new KingMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+            MoveStrategy strategy = new GuardMoveStrategy();
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.GUARD));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).containsExactlyInAnyOrder(
@@ -37,8 +37,8 @@ public class GuardMoveStrategyTest {
 
         @Test
         public void 한나라_사는_8방향으로_이동_가능하다() {
-            MoveStrategy strategy = new KingMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+            MoveStrategy strategy = new GuardMoveStrategy();
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.HAN, PieceType.GUARD));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).containsExactlyInAnyOrder(
@@ -85,11 +85,11 @@ public class GuardMoveStrategyTest {
     @Nested
     class 좌표생성 {
         @Test
-        public void 왕이_정상적으로_진행경로_좌표를_안다() {
+        public void 사가_정상적으로_진행경로_좌표를_안다() {
             Position curPos = Position.of(1, 4);
             MoveStrategy moveStrategy = new GuardMoveStrategy();
 
-            List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+            List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.GUARD));
             assertThat(routes).containsExactlyInAnyOrder(
                     new Route(curPos, Position.of(0, 4), List.of()),
                     new Route(curPos, Position.of(2, 4), List.of()),

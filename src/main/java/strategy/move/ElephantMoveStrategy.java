@@ -21,7 +21,7 @@ public class ElephantMoveStrategy extends MoveStrategy {
     );
 
     @Override
-    public List<MovePath> getPaths(TeamColor teamColor) {
+    public List<MovePath> getPaths(Piece piece) {
         return PATHS;
     }
 

@@ -13,11 +13,11 @@ import domain.TeamColor;
 
 public abstract class MoveStrategy {
 
-    public abstract List<MovePath> getPaths(TeamColor teamColor);
+    public abstract List<MovePath> getPaths(Piece piece);
 
-    public List<Route> makeRoutes(Position curPos, TeamColor teamColor) {
+    public List<Route> makeRoutes(Position curPos, Piece piece) {
         List<Route> validRoutes = new ArrayList<>();
-        List<MovePath> paths = getPaths(teamColor);
+        List<MovePath> paths = getPaths(piece);
 
         for (MovePath path : paths) {
             routeIfWithinBoard(curPos, path).ifPresent(validRoutes::add);

@@ -20,7 +20,7 @@ public class ElephantMoveStrategyTest {
         @Test
         public void 초나라_상은_직진1칸_대각선2칸으로_이루어진_8개의_경로를_가진다() {
             MoveStrategy strategy = new ElephantMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.ELEPHANT));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).contains(
@@ -33,7 +33,7 @@ public class ElephantMoveStrategyTest {
         @Test
         public void 한나라_상은_직진1칸_대각선2칸으로_이루어진_8개의_경로를_가진다() {
             MoveStrategy strategy = new ElephantMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.HAN, PieceType.ELEPHANT));
 
             assertThat(paths).hasSize(8);
             assertThat(paths).contains(
@@ -79,7 +79,7 @@ public class ElephantMoveStrategyTest {
             Position curPos = Position.of(4, 4);
             MoveStrategy moveStrategy = new ElephantMoveStrategy();
 
-            List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+            List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.ELEPHANT));
             assertThat(routes).containsExactlyInAnyOrder(
                     new Route(curPos, Position.of(1, 2), List.of(Position.of(3, 4), Position.of(2, 3))),
                     new Route(curPos, Position.of(1, 6), List.of(Position.of(3, 4), Position.of(2, 5))),

@@ -11,8 +11,8 @@ public class PawnMoveStrategy extends MoveStrategy {
 
 
     @Override
-    public List<MovePath> getPaths(TeamColor teamColor) {
-        if (teamColor == TeamColor.CHO) {
+    public List<MovePath> getPaths(Piece piece) {
+        if (piece.getTeamColor() == TeamColor.CHO) {
             return List.of(
                     new MovePath(List.of(Direction.NORTH)),
                     new MovePath(List.of(Direction.EAST)),

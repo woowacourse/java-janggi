@@ -52,7 +52,7 @@ public class Board {
 
         MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
 
-        return moveStrategy.makeRoutes(currentPosition, piece.getTeamColor()).stream()
+        return moveStrategy.makeRoutes(currentPosition, piece).stream()
                 .filter(route -> route.endPos().isInsideBoard())
                 .filter(route -> moveStrategy.canMove(route, getBlockingPieces(route),
                         getDestinationPiece(route).orElse(null), piece.getTeamColor()))
@@ -65,7 +65,7 @@ public class Board {
 
         MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
 
-        Route route = moveStrategy.makeRoutes(currentPosition, piece.getTeamColor()).stream()
+        Route route = moveStrategy.makeRoutes(currentPosition, piece).stream()
                 .filter(candidate -> candidate.endPos().equals(destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 기물은 목적지로 이동할 수 없습니다."));

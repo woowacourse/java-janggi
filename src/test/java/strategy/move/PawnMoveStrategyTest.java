@@ -28,7 +28,7 @@ public class PawnMoveStrategyTest {
         @Test
         public void 초나라_졸은_북동서로_이동_가능하다() {
             MoveStrategy moveStrategy = new PawnMoveStrategy();
-            List<MovePath> movePathList = moveStrategy.getPaths(TeamColor.CHO);
+            List<MovePath> movePathList = moveStrategy.getPaths(Piece.of(TeamColor.CHO, PieceType.PAWN));
             assertThat(movePathList).contains(new MovePath(List.of(Direction.NORTH)));
             assertThat(movePathList).contains(new MovePath(List.of(Direction.WEST)));
             assertThat(movePathList).contains(new MovePath(List.of(Direction.EAST)));
@@ -38,7 +38,7 @@ public class PawnMoveStrategyTest {
         @Test
         public void 한나라_졸은_남동서로_이동_가능하다() {
             MoveStrategy moveStrategy = new PawnMoveStrategy();
-            List<MovePath> movePaths = moveStrategy.getPaths(TeamColor.HAN);
+            List<MovePath> movePaths = moveStrategy.getPaths(Piece.of(TeamColor.HAN, PieceType.PAWN));
             assertThat(movePaths).contains(new MovePath(List.of(Direction.SOUTH)));
             assertThat(movePaths).contains(new MovePath(List.of(Direction.WEST)));
             assertThat(movePaths).contains(new MovePath(List.of(Direction.EAST)));
@@ -53,7 +53,7 @@ public class PawnMoveStrategyTest {
             Position curPos = Position.of(2,3);
             MoveStrategy moveStrategy = new PawnMoveStrategy();
 
-            List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+            List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.PAWN));
             assertThat(routes).containsExactlyInAnyOrder(
                     new Route(curPos, Position.of(1, 3), List.of()),
                     new Route(curPos, Position.of(2, 4), List.of()),
@@ -66,7 +66,7 @@ public class PawnMoveStrategyTest {
             MoveStrategy moveStrategy = new PawnMoveStrategy();
             Position curPos = Position.of(3,4);
 
-            List<Route> possibleRoutes = moveStrategy.makeRoutes(curPos, TeamColor.HAN);
+            List<Route> possibleRoutes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.HAN, PieceType.PAWN));
             assertThat(possibleRoutes).containsExactlyInAnyOrder(
                     new Route(curPos,Position.of(4,4),List.of()),
                     new Route(curPos,Position.of(3,5),List.of()),
