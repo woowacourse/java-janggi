@@ -1,15 +1,19 @@
 package model.move;
 
 import java.util.List;
+
+import model.board.Country;
 import model.policy.DefaultDestinationPolicy;
 import model.policy.DefaultPathPolicy;
-import model.policy.DestinationPolicy;
-import model.policy.PathPolicy;
 
-public class GeneralMoveRule extends MoveRule {
+public class GeneralMoveRule extends PatternMoveRule {
+
+    public GeneralMoveRule() {
+        super(new DefaultPathPolicy(), new DefaultDestinationPolicy());
+    }
 
     @Override
-    protected List<MovePattern> patterns(Move move) {
+    protected List<MovePattern> patterns(Move move, Country country) {
         if (!move.isStraight()) {
             return List.of();
         }
@@ -18,10 +22,7 @@ public class GeneralMoveRule extends MoveRule {
     }
 
     private List<MovePattern> createPatterns(Move move) {
-        PathPolicy pathPolicy = new DefaultPathPolicy();
-        DestinationPolicy destinationPolicy = new DefaultDestinationPolicy();
-
         List<Step> steps = List.of(new Step(move.direction()));
-        return List.of(new MovePattern(steps, pathPolicy, destinationPolicy));
+        return List.of(new MovePattern(steps, pathPolicy(), destinationPolicy()));
     }
 }
