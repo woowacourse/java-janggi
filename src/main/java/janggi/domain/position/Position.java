@@ -14,9 +14,6 @@ public record Position(
         return new Position(new Row(row), new Column(column));
     }
 
-    public Position flip() {
-        return new Position(row.flip(), column.flip());
-    }
     public List<Position> findAllPositionsByDirection(Direction dir) {
         List<Position> positions = new ArrayList<>();
         Position cur = this;

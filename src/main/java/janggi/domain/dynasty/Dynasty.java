@@ -38,12 +38,4 @@ public enum Dynasty {
         return row;
     }
 
-    public Position flipPositionIfNeeded(Position position) {
-        if(isFlipped) {
-            return position.flip();
-        }
-
-        return position;
-    }
-
 }

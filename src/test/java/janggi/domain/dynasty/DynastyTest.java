@@ -45,27 +45,4 @@ class DynastyTest {
         assertThat(newRow.row()).isEqualTo(result);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {
-            "1, 1, CHO, 1, 1",
-            "1, 1, HAN, 10, 9",
-    })
-    @DisplayName("Dynasty 타입에 맞게 position를 처리한다")
-    public void flipPosition_IfNeeded_success(
-            int originRow, int originColumn, Dynasty dynasty, int resultRow, int resultColumn) {
-
-        // given
-        Position position = Position.from(originRow, originColumn);
-
-        // when
-        Position resultPosition = dynasty.flipPositionIfNeeded(position);
-
-        // then
-        assertThat(resultPosition).extracting(
-                Position::row, Position::column
-        ).containsExactly(
-                new Row(resultRow), new Column(resultColumn)
-        );
-    }
-
 }
