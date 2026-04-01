@@ -4,37 +4,39 @@ import janggi.domain.JanggiGame;
 import janggi.domain.Position;
 import janggi.util.ActionExecutor;
 import janggi.util.DelimiterParser;
-import janggi.view.OutputView;
 import janggi.view.input.InputView;
+import janggi.view.output.OutputView;
 import java.util.List;
 
 public class JanggiRunner {
 
     private final InputView inputView;
+    private final OutputView outputView;
 
-    public JanggiRunner(InputView inputView) {
+    public JanggiRunner(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
+        this.outputView = outputView;
     }
 
     public void execute() {
-        OutputView.printStartMessage();
+        outputView.printStartMessage();
 
         JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
         while (true) {
-            OutputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
+            outputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
             Position startPosition = ActionExecutor.retryUntilSuccess(
-                () -> readValidStartPosition(janggiGame)
+                () -> readValidStartPosition(janggiGame), outputView
             );
             Position endPosition = ActionExecutor.retryUntilSuccess(
-                () -> readValidEndPosition(janggiGame, startPosition)
+                () -> readValidEndPosition(janggiGame, startPosition), outputView
             );
             janggiGame.doGame(startPosition, endPosition);
         }
     }
 
     private Position readValidStartPosition(JanggiGame janggiGame) {
-        OutputView.printTurnNotice(janggiGame.getCurrentTurnTeamName());
-        OutputView.printAskPiecePosition();
+        outputView.printTurnNotice(janggiGame.getCurrentTurnTeamName());
+        outputView.printAskPiecePosition();
         String rawPiecePosition = inputView.readLine();
         List<String> parsedPiecePosition = DelimiterParser.parse(rawPiecePosition);
         Position startPosition = Position.makePosition(parsedPiecePosition);
@@ -43,7 +45,7 @@ public class JanggiRunner {
     }
 
     private Position readValidEndPosition(JanggiGame janggiGame, Position startPosition) {
-        OutputView.printAskMovePosition(janggiGame.findPiece(startPosition).nickname());
+        outputView.printAskMovePosition(janggiGame.findPiece(startPosition).nickname());
         String rawMovePosition = inputView.readLine();
         List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition);
         Position endPosition = Position.makePosition(parsedMovePosition);
