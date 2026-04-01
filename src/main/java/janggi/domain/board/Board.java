@@ -128,7 +128,7 @@ public class Board {
 
     private void validateOwnPiece(Position position, Side currentTurn) {
         Piece piece = piecePosition.get(position);
-        if (piece.getSide() != currentTurn) {
+        if (!piece.isOwnedBy(currentTurn)) {
             throw new IllegalArgumentException(ERROR_NOT_OWNED_PIECE);
         }
     }

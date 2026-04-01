@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceDTO;
 import janggi.domain.piece.PieceType;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +35,12 @@ public class BoardTest {
 
         // (0, 0) 위치에 한나라 차(Chariot)가 있는지 확인
         Piece piece = piecePosition.get(new Position(0, 0));
+
+        PieceDTO pieceDTO = PieceDTO.from(piece);
+
         assertAll(
-                () -> assertThat(piece.getSide()).isEqualTo(Side.HAN),
-                () -> assertThat(piece.getPieceType()).isEqualTo(PieceType.CHARIOT)
+                () -> assertThat(pieceDTO.side()).isEqualTo(Side.HAN),
+                () -> assertThat(pieceDTO.pieceType()).isEqualTo(PieceType.CHARIOT)
         );
     }
 

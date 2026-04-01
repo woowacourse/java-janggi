@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.domain.board.Position;
-import janggi.dto.PieceDTO;
+import janggi.domain.piece.PieceDTO;
 import janggi.domain.board.BoardDTO;
 import java.util.Map;
 import java.util.Set;

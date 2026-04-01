@@ -1,10 +1,8 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.game.Side;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

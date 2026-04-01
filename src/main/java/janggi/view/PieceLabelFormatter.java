@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.domain.piece.PieceType;
-import janggi.dto.PieceDTO;
+import janggi.domain.piece.PieceDTO;
 import janggi.domain.game.Side;
 import java.util.Map;
 
@@ -14,20 +14,20 @@ public class PieceLabelFormatter {
             PieceType.ELEPHANT, "상"
     );
 
-    public static String toFullWidth(PieceDTO vo) {
-        return getPieceName(vo) + convertToFullWidthChar(vo.pieceNumber());
+    public static String toFullWidth(PieceDTO pieceDTO) {
+        return getPieceName(pieceDTO) + convertToFullWidthChar(pieceDTO.pieceNumber());
     }
 
-    private static String getPieceName(PieceDTO vo) {
-        if (vo.type() == PieceType.PALACE) {
-            return toPalaceName(vo.side());
+    private static String getPieceName(PieceDTO pieceDTO) {
+        if (pieceDTO.pieceType() == PieceType.PALACE) {
+            return toPalaceName(pieceDTO.side());
         }
 
-        if (vo.type() == PieceType.SOLDIER) {
-            return toSoldierName(vo.side());
+        if (pieceDTO.pieceType() == PieceType.SOLDIER) {
+            return toSoldierName(pieceDTO.side());
         }
 
-        return NAMES.get(vo.type());
+        return NAMES.get(pieceDTO.pieceType());
     }
 
     private static String toPalaceName(Side side) {

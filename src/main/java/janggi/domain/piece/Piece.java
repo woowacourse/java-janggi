@@ -29,6 +29,10 @@ public class Piece {
         return this.side == other.side;
     }
 
+    public boolean isOwnedBy(Side currentTurn) {
+        return this.side == currentTurn;
+    }
+
     public boolean isCannon() {
         return this.pieceType == PieceType.CANNON;
     }
@@ -37,15 +41,15 @@ public class Piece {
         return pieceType.determineDestinations(routes, boardState, this);
     }
 
-    public Side getSide() {
+    Side getSide() {
         return side;
     }
 
-    public PieceType getPieceType() {
+    PieceType getPieceType() {
         return pieceType;
     }
 
-    public String getPieceNumber() {
+    String getPieceNumber() {
         return pieceNumber;
     }
 

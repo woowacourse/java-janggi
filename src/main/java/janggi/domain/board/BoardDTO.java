@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-import janggi.dto.PieceDTO;
+import janggi.domain.piece.PieceDTO;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
