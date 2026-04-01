@@ -9,7 +9,7 @@ public record Position(int row, int column) {
     public static final int BOARD_MIN_COLUMN = 0;
 
     public Position {
-        if ((row < BOARD_MIN_ROW || row > BOARD_MAX_ROW) || (column < BOARD_MIN_COLUMN || column > BOARD_MAX_COLUMN)) {
+        if (!isWithinBoard(row, column)) {
             throw new IllegalArgumentException(
                     String.format(ERROR_OUT_OF_BOUNDS, BOARD_MIN_ROW, BOARD_MAX_ROW, BOARD_MIN_COLUMN,
                             BOARD_MAX_COLUMN));
@@ -27,7 +27,7 @@ public record Position(int row, int column) {
         return isWithinBoard(nextRow, nextColumn);
     }
 
-    private boolean isWithinBoard(int row, int column) {
+    private static boolean isWithinBoard(int row, int column) {
         return (row >= BOARD_MIN_ROW && row <= BOARD_MAX_ROW) &&
                 (column >= BOARD_MIN_COLUMN && column <= BOARD_MAX_COLUMN);
     }
