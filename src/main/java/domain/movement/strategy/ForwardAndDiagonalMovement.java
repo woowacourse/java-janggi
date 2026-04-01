@@ -33,10 +33,10 @@ public class ForwardAndDiagonalMovement {
         List<Intersection> intersections = new ArrayList<>();
         intersections.add(from);
 
-        Intersection currentIntersection = from;
+        Intersection currentIntersection = vector.next(from);
         for (int i = 0; i < moveAmount.amount(); i++) {
-            currentIntersection = vector.next(currentIntersection);
             intersections.add(currentIntersection);
+            currentIntersection = vector.next(currentIntersection);
         }
 
         return intersections;
