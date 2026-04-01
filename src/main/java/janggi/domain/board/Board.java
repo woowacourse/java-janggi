@@ -15,6 +15,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Board {
+    public static final int X_SIZE = 9;
+    public static final int Y_SIZE = 8;
+
 
     private final Map<Point, Piece> board;
 
