@@ -80,8 +80,8 @@ class GuardPieceTest {
     void testMoveOtherTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.CHO, new ElephantStrategy()));
         GuardPiece generalPiece = new GuardPiece(Team.HAN, new GuardStrategy());
-        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isFalse();
+        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }
