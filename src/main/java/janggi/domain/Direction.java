@@ -15,7 +15,7 @@ public enum Direction {
         this.dy = dy;
     }
 
-    public static Direction findFourDirection(Position from, Position to) {
+    public static Direction between(Position from, Position to) {
         if (from.isOnSameCol(to) && from.getRow() < to.getRow()) {
             return SOUTH;
         }

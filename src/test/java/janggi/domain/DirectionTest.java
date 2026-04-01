@@ -18,6 +18,6 @@ class DirectionTest {
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
-        assertThat(Direction.findFourDirection(from, to)).isEqualTo(direction);
+        assertThat(Direction.between(from, to)).isEqualTo(direction);
     }
 }

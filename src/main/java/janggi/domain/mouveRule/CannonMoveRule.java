@@ -30,7 +30,7 @@ public class CannonMoveRule implements MoveRule {
 
     private List<Position> findPiecePositionsBetween(Position from, Position to, BoardView board) {
         List<Position> piecePositions = new ArrayList<>();
-        Direction direction = Direction.findFourDirection(from, to);
+        Direction direction = Direction.between(from, to);
         Position pathPosition = from;
 
         while(pathPosition.hasNext(direction)) {
