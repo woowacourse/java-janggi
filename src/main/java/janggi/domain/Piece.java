@@ -25,9 +25,13 @@ public class Piece {
 
         Piece pieceTo = boardState.getPieceAt(to);
 
-        if (pieceTo != null && getTeam() == pieceTo.getTeam()) {
+        if (pieceTo != null && isSameTeam(pieceTo)) {
             throw new InvalidMoveException();
         }
+    }
+
+    private boolean isSameTeam(Piece pieceTo) {
+        return team == pieceTo.getTeam();
     }
 
     public String getName() {
