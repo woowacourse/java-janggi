@@ -1,7 +1,7 @@
 package view;
 
 import domain.game.Turn;
-import domain.game.dto.BoardDto;
+import view.dto.BoardDto;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;

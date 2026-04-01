@@ -4,7 +4,7 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.formation.FormationType;
 import domain.coordination.Coordination;
-import domain.game.dto.BoardDto;
+import view.dto.BoardDto;
 import java.util.List;
 
 public class JanggiGame {
