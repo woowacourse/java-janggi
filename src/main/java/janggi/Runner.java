@@ -7,33 +7,31 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class Runner {
-    private Game game;
-
     public void run() {
-        initArrangeGame();
-        turnGame();
+        Game game = initArrangeGame();
+        turnGame(game);
     }
 
-    private void initArrangeGame() {
+    private Game initArrangeGame() {
         String hanArrangementInput = InputView.askHanArrangement();
         Arrangement hanArrangement = Arrangement.from(hanArrangementInput);
 
         String choArrangementInput = InputView.askChoArrangement();
         Arrangement choArrangement = Arrangement.from(choArrangementInput);
 
-        game = new Game(choArrangement, hanArrangement);
+        return new Game(choArrangement, hanArrangement);
     }
 
-    private void turnGame() {
+    private void turnGame(Game game) {
         while (!game.isFinished()) {
-            playTurnGame();
+            playTurnGame(game);
         }
-        printWinner();
+        printWinner(game);
     }
 
-    private void playTurnGame() {
+    private void playTurnGame(Game game) {
         try {
-            printCurrentStatus();
+            printCurrentStatus(game);
             Position startPosition = Position.from(InputView.askStartPosition());
             Position endPosition = Position.from(InputView.askEndPosition());
 
@@ -43,12 +41,12 @@ public class Runner {
         }
     }
 
-    private void printCurrentStatus() {
+    private void printCurrentStatus(Game game) {
         OutputView.printTurn(game.getCurrentSide());
         OutputView.printBoard(game.getCurrentBoard());
     }
 
-    private void printWinner() {
+    private void printWinner(Game game) {
         OutputView.printBoard(game.getCurrentBoard());
         OutputView.printWinner(game.getCurrentSide());
     }
