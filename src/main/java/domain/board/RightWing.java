@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class RightWing extends Wing {
 
+    private static final int FAR_FROM_BASE_ROW = 0;
+
     public RightWing(List<Piece> pieces) {
         super(pieces);
     }
@@ -21,7 +23,7 @@ public class RightWing extends Wing {
     }
 
     private Map<Intersection, Piece> setUpHanPieces() {
-        int row = Side.HAN.getBaseRow();
+        int row = Side.HAN.calculateRowFromBase(FAR_FROM_BASE_ROW);
 
         return Map.of(
                 new Intersection(row, 3), first,
@@ -30,7 +32,7 @@ public class RightWing extends Wing {
     }
 
     private Map<Intersection, Piece> setUpChoPieces() {
-        int row = Side.CHO.getBaseRow();
+        int row = Side.CHO.calculateRowFromBase(FAR_FROM_BASE_ROW);
 
         return Map.of(
                 new Intersection(row, 7), first,

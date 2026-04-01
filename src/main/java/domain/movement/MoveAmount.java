@@ -1,4 +1,4 @@
-package domain.direction;
+package domain.movement;
 
 public record MoveAmount(
         int amount
@@ -10,5 +10,9 @@ public record MoveAmount(
         if (amount < MINIMUM_AMOUNT) {
             throw new IllegalArgumentException("이동 거리는 " + MINIMUM_AMOUNT + " 이상이어야 합니다.");
         }
+    }
+
+    public static MoveAmount maximum() {
+        return new MoveAmount(Integer.MAX_VALUE);
     }
 }

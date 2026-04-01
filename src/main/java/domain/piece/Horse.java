@@ -1,15 +1,19 @@
 package domain.piece;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
+import domain.movement.Route;
+import domain.movement.Vector;
+import domain.movement.MoveAmount;
 import domain.game.Side;
+import domain.movement.strategy.ForwardAndDiagonalMovement;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Horse extends Piece {
 
-    private static final MoveAmount MOVE_UNIT = new MoveAmount(1);
+    private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(1);
+
+    private final ForwardAndDiagonalMovement movementStrategy = new ForwardAndDiagonalMovement();
 
     public Horse(Side side) {
         super(side);
@@ -31,8 +35,10 @@ public final class Horse extends Piece {
             AlivePieces alivePieces
     ) {
         List<Intersection> movableIntersections = new ArrayList<>();
-        for (Direction direction : side.getAllDirections()) {
-            addIfMovable(from, direction, alivePieces, movableIntersections);
+
+        for (Vector vector : side.getAllDirections()) {
+            List<Intersection> reachableDestinations = findReachableDestinations(from, vector, alivePieces);
+            movableIntersections.addAll(reachableDestinations);
         }
 
         return List.copyOf(movableIntersections);
@@ -43,25 +49,15 @@ public final class Horse extends Piece {
         return true;
     }
 
-    private void addIfMovable(
+    private List<Intersection> findReachableDestinations(
             Intersection from,
-            Direction direction,
-            AlivePieces alivePieces,
-            List<Intersection> movableIntersections
+            Vector vector,
+            AlivePieces alivePieces
     ) {
-        Intersection forwardIntersection = direction.moveForward(from, MOVE_UNIT);
-        if (forwardIntersection.isOutOfBoard() || alivePieces.isNotEmpty(forwardIntersection)) {
-            return;
-        }
-
-        Intersection leftDestination = direction.moveForwardLeft(forwardIntersection, MOVE_UNIT);
-        if (leftDestination.isInBoard() && alivePieces.placedNotSameSide(leftDestination, side)) {
-            movableIntersections.add(leftDestination);
-        }
-
-        Intersection rightDestination = direction.moveForwardRight(forwardIntersection, MOVE_UNIT);
-        if (rightDestination.isInBoard() && alivePieces.placedNotSameSide(rightDestination, side)) {
-            movableIntersections.add(rightDestination);
-        }
+        return movementStrategy.getRoutes(from, DIAGONAL_MOVE_AMOUNT, vector)
+                .stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
+                .map(Route::getDestination)
+                .toList();
     }
 }

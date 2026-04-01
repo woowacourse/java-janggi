@@ -1,15 +1,13 @@
 package domain.piece;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.List;
 
 public class General extends PalacePiece {
 
     private static final int INITIAL_FILE = 5;
-    private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(1);
+    private static final int FAR_FROM_BASE_ROW = 1;
 
     public General(Side side) {
         super(side);
@@ -17,12 +15,8 @@ public class General extends PalacePiece {
 
     @Override
     public List<Intersection> initAt() {
-        Direction forwardDirection = side.getForwardDirection();
-
-        return List.of(forwardDirection.moveForward(
-                new Intersection(side.getBaseRow(), INITIAL_FILE),
-                FAR_FROM_BASE_ROW
-        ));
+        int row = side.calculateRowFromBase(FAR_FROM_BASE_ROW);
+        return List.of(new Intersection(row, INITIAL_FILE));
     }
 
     @Override

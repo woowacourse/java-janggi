@@ -1,15 +1,19 @@
 package domain.piece;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
+import domain.movement.Route;
+import domain.movement.Vector;
+import domain.movement.MoveAmount;
 import domain.game.Side;
+import domain.movement.strategy.StraightMovement;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class PalacePiece extends StaticPositionedPiece {
 
-    private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
+    private static final MoveAmount FORWARD_AMOUNT = new MoveAmount(1);
+
+    private final StraightMovement movementStrategy = new StraightMovement();
 
     public PalacePiece(Side side) {
         super(side);
@@ -32,30 +36,23 @@ public abstract class PalacePiece extends StaticPositionedPiece {
     ) {
         List<Intersection> movableIntersections = new ArrayList<>();
 
-        for (Direction direction : side.getAllDirections()) {
-            addIfMovable(
-                    direction.moveForward(from, MOVE_AMOUNT),
-                    alivePieces,
-                    movableIntersections
-            );
+        for (Vector vector : side.getAllDirections()) {
+            List<Intersection> reachableDestinations = findReachableDestinations(from, vector, alivePieces);
+            movableIntersections.addAll(reachableDestinations);
         }
 
         return List.copyOf(movableIntersections);
     }
 
-    private void addIfMovable(
-            Intersection destination,
-            AlivePieces alivePieces,
-            List<Intersection> movableIntersections
+    private List<Intersection> findReachableDestinations(
+            Intersection from,
+            Vector vector,
+            AlivePieces alivePieces
     ) {
-        if (destination.isOutOfBoard()) {
-            return;
-        }
-
-        Piece destinationPiece = alivePieces.placedAt(destination);
-
-        if (alivePieces.isEmpty(destination) || destinationPiece.hasDifferentSide(side)) {
-            movableIntersections.add(destination);
-        }
+        return movementStrategy.getRoutes(from, FORWARD_AMOUNT, vector)
+                .stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
+                .map(Route::getDestination)
+                .toList();
     }
 }

@@ -3,9 +3,8 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
 import domain.game.Side;
+import domain.movement.Vector;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -64,7 +63,6 @@ class SoldierTest {
 
         private static final int DEFAULT_ROW = 5;
         private static final int DEFAULT_FILE = 5;
-        private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
         private static final Side SIDE = Side.HAN;
         private static final Side OPPOSITE_SIDE = Side.CHO;
         private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
@@ -73,11 +71,11 @@ class SoldierTest {
 
         @ParameterizedTest
         @MethodSource("soliderDirections")
-        void 아군_기물이_있는_위치로는_이동할_수_없다(Direction direction) {
+        void 아군_기물이_있는_위치로는_이동할_수_없다(Vector vector) {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            Intersection forwardIntersection = direction.moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            Intersection forwardIntersection = vector.next(CURRENT_INTERSECTION);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     forwardIntersection, SAME_SIDE_PIECE
             ));
@@ -91,11 +89,11 @@ class SoldierTest {
 
         @ParameterizedTest
         @MethodSource("soliderDirections")
-        void 상대_기물이_있는_위치로는_이동할_수_있다(Direction direction) {
+        void 상대_기물이_있는_위치로는_이동할_수_있다(Vector vector) {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            Intersection forwardIntersection = direction.moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            Intersection forwardIntersection = vector.next(CURRENT_INTERSECTION);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     forwardIntersection, OPPOSITE_SIDE_PIECE
             ));
@@ -109,11 +107,11 @@ class SoldierTest {
 
         @ParameterizedTest
         @MethodSource("soliderDirections")
-        void 비어_있는_위치로는_이동할_수_있다(Direction direction) {
+        void 비어_있는_위치로는_이동할_수_있다(Vector vector) {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            Intersection forwardIntersection = direction.moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            Intersection forwardIntersection = vector.next(CURRENT_INTERSECTION);
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
@@ -128,8 +126,8 @@ class SoldierTest {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            Intersection backwardIntersection = SIDE.getBackwardDirection()
-                    .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            Vector backward = SIDE.toBackward();
+            Intersection backwardIntersection = backward.next(CURRENT_INTERSECTION);
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
@@ -141,9 +139,9 @@ class SoldierTest {
 
         private static Stream<Arguments> soliderDirections() {
             return Stream.of(
-                    Arguments.of(SIDE.getForwardDirection()),
-                    Arguments.of(SIDE.getRightDirection()),
-                    Arguments.of(SIDE.getLeftDirection())
+                    Arguments.of(SIDE.toForward()),
+                    Arguments.of(SIDE.toRight()),
+                    Arguments.of(SIDE.toLeft())
             );
         }
     }

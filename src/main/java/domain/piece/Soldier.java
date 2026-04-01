@@ -1,17 +1,23 @@
 package domain.piece;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
 import domain.game.Side;
-import java.util.ArrayList;
+import domain.movement.MoveAmount;
+import domain.movement.Route;
+import domain.movement.Vector;
+import domain.movement.strategy.StraightMovement;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 public final class Soldier extends StaticPositionedPiece {
 
-    private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(3);
+    private static final int FAR_FROM_BASE_ROW = 3;
     private static final List<Integer> INITIAL_FILES = List.of(1, 3, 5, 7, 9);
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
+
+    private final StraightMovement movementStrategy = new StraightMovement();
 
     public Soldier(Side side) {
         super(side);
@@ -19,16 +25,11 @@ public final class Soldier extends StaticPositionedPiece {
 
     @Override
     public List<Intersection> initAt() {
-        Direction forwardDirection = side.getForwardDirection();
+        int row = side.calculateRowFromBase(FAR_FROM_BASE_ROW);
 
         return INITIAL_FILES.stream()
-                .map(this::currentIntersection)
-                .map(intersection -> forwardDirection.moveForward(intersection, FAR_FROM_BASE_ROW))
+                .map(file -> new Intersection(row, file))
                 .toList();
-    }
-
-    private Intersection currentIntersection(int file) {
-        return new Intersection(side.getBaseRow(), file);
     }
 
     @Override
@@ -46,21 +47,19 @@ public final class Soldier extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        List<Intersection> movableIntersections = new ArrayList<>();
+        Vector forward = side.toForward();
+        List<Route> forwardRoutes = movementStrategy.getRoutes(from, MOVE_AMOUNT, forward);
+        Vector left = side.toLeft();
+        List<Route> leftRoutes = movementStrategy.getRoutes(from, MOVE_AMOUNT, left);
+        Vector right = side.toRight();
+        List<Route> rightRoutes = movementStrategy.getRoutes(from, MOVE_AMOUNT, right);
 
-        Intersection forwardIntersection = side.getForwardDirection()
-                .moveForward(from, MOVE_AMOUNT);
-        addIfMovable(forwardIntersection, alivePieces, movableIntersections);
+        List<Intersection> movableDestinations = concatRoutes(forwardRoutes, leftRoutes, rightRoutes)
+                .filter(route -> route.isDestinationAvailable(alivePieces, side))
+                .map(Route::getDestination)
+                .toList();
 
-        Intersection leftIntersection = side.getLeftDirection()
-                .moveForward(from, MOVE_AMOUNT);
-        addIfMovable(leftIntersection, alivePieces, movableIntersections);
-
-        Intersection rightIntersection = side.getRightDirection()
-                .moveForward(from, MOVE_AMOUNT);
-        addIfMovable(rightIntersection, alivePieces, movableIntersections);
-
-        return List.copyOf(movableIntersections);
+        return List.copyOf(movableDestinations);
     }
 
     @Override
@@ -68,19 +67,9 @@ public final class Soldier extends StaticPositionedPiece {
         return false;
     }
 
-    private void addIfMovable(
-            Intersection destination,
-            AlivePieces alivePieces,
-            List<Intersection> movableIntersections
-    ) {
-        if (destination.isOutOfBoard()) {
-            return;
-        }
-
-        Piece destinationPiece = alivePieces.placedAt(destination);
-
-        if (alivePieces.isEmpty(destination) || destinationPiece.hasDifferentSide(side)) {
-            movableIntersections.add(destination);
-        }
+    @SafeVarargs
+    private Stream<Route> concatRoutes(List<Route>... routesCollection) {
+        return Arrays.stream(routesCollection)
+                .flatMap(Collection::stream);
     }
 }

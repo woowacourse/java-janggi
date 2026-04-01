@@ -1,15 +1,19 @@
 package domain.piece;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
+import domain.movement.Route;
+import domain.movement.Vector;
+import domain.movement.MoveAmount;
 import domain.game.Side;
+import domain.movement.strategy.ForwardAndDiagonalMovement;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Elephant extends Piece {
 
-    private static final MoveAmount MOVE_UNIT = new MoveAmount(1);
+    private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(2);
+
+    private final ForwardAndDiagonalMovement movementStrategy = new ForwardAndDiagonalMovement();
 
     public Elephant(Side side) {
         super(side);
@@ -31,8 +35,10 @@ public final class Elephant extends Piece {
             AlivePieces alivePieces
     ) {
         List<Intersection> movableIntersections = new ArrayList<>();
-        for (Direction direction : side.getAllDirections()) {
-            addIfMovable(from, direction, alivePieces, movableIntersections);
+
+        for (Vector vector : side.getAllDirections()) {
+            List<Intersection> reachableDestinations = findReachableDestinations(from, vector, alivePieces);
+            movableIntersections.addAll(reachableDestinations);
         }
 
         return List.copyOf(movableIntersections);
@@ -43,64 +49,15 @@ public final class Elephant extends Piece {
         return true;
     }
 
-    private void addIfMovable(
+    private List<Intersection> findReachableDestinations(
             Intersection from,
-            Direction direction,
-            AlivePieces alivePieces,
-            List<Intersection> movableIntersections
+            Vector vector,
+            AlivePieces alivePieces
     ) {
-        addLeftDestinationIfReachable(from, direction, alivePieces, movableIntersections);
-        addRightDestinationIfReachable(from, direction, alivePieces, movableIntersections);
-    }
-
-    private void addLeftDestinationIfReachable(
-            Intersection from,
-            Direction direction,
-            AlivePieces alivePieces,
-            List<Intersection> movableIntersections
-    ) {
-        List<Intersection> path = pathToLeftDestination(from, direction);
-        Intersection destination = direction.moveForwardLeft(path.getLast(), MOVE_UNIT);
-
-        if (isAvailablePath(alivePieces, path) && isAvailableDestination(destination, alivePieces)) {
-            movableIntersections.add(destination);
-        }
-    }
-
-    private void addRightDestinationIfReachable(
-            Intersection from,
-            Direction direction,
-            AlivePieces alivePieces,
-            List<Intersection> movableIntersections
-    ) {
-        List<Intersection> path = pathToRightDestination(from, direction);
-        Intersection destination = direction.moveForwardRight(path.getLast(), MOVE_UNIT);
-
-        if (isAvailablePath(alivePieces, path) && isAvailableDestination(destination, alivePieces)) {
-            movableIntersections.add(destination);
-        }
-    }
-
-    private List<Intersection> pathToLeftDestination(Intersection from, Direction direction) {
-        Intersection firstNode = direction.moveForward(from, MOVE_UNIT);
-        Intersection secondNode = direction.moveForwardLeft(firstNode, MOVE_UNIT);
-
-        return List.of(firstNode, secondNode);
-    }
-
-    private List<Intersection> pathToRightDestination(Intersection from, Direction direction) {
-        Intersection firstNode = direction.moveForward(from, MOVE_UNIT);
-        Intersection secondNode = direction.moveForwardRight(firstNode, MOVE_UNIT);
-
-        return List.of(firstNode, secondNode);
-    }
-
-    private boolean isAvailablePath(AlivePieces alivePieces, List<Intersection> path) {
-        return path.stream()
-                .allMatch(node -> node.isInBoard() && alivePieces.isEmpty(node));
-    }
-
-    private boolean isAvailableDestination(Intersection destination, AlivePieces alivePieces) {
-        return destination.isInBoard() && alivePieces.placedNotSameSide(destination, side);
+        return movementStrategy.getRoutes(from, DIAGONAL_MOVE_AMOUNT, vector)
+                .stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
+                .map(Route::getDestination)
+                .toList();
     }
 }

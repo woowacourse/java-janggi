@@ -3,8 +3,8 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
-import domain.direction.MoveAmount;
 import domain.game.Side;
+import domain.movement.Vector;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
@@ -17,7 +17,6 @@ class PalacePieceTest {
 
         private static final int DEFAULT_ROW = 5;
         private static final int DEFAULT_FILE = 5;
-        private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
         private static final Side SIDE = Side.HAN;
         private static final Side OPPOSITE_SIDE = Side.CHO;
         private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
@@ -29,8 +28,8 @@ class PalacePieceTest {
             // given
             PalacePiece palacePiece = new Guard(SIDE);
 
-            Intersection sameSidePieceIntersection = SIDE.getForwardDirection()
-                    .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            Vector forward = SIDE.toForward();
+            Intersection sameSidePieceIntersection = forward.next(CURRENT_INTERSECTION);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     sameSidePieceIntersection, SAME_SIDE_PIECE
             ));
@@ -68,8 +67,8 @@ class PalacePieceTest {
             // given
             PalacePiece palacePiece = new Guard(SIDE);
 
-            Intersection oppositeSidePieceIntersection = SIDE.getForwardDirection()
-                    .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            Vector forward = SIDE.toForward();
+            Intersection oppositeSidePieceIntersection = forward.next(CURRENT_INTERSECTION);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     oppositeSidePieceIntersection, OPPOSITE_SIDE_PIECE
             ));
@@ -86,8 +85,8 @@ class PalacePieceTest {
             // given
             PalacePiece palacePiece = new Guard(SIDE);
 
-            Intersection emptyIntersection = SIDE.getForwardDirection()
-                    .moveForward(CURRENT_INTERSECTION, MOVE_AMOUNT);
+            Vector forward = SIDE.toForward();
+            Intersection emptyIntersection = forward.next(CURRENT_INTERSECTION);
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when

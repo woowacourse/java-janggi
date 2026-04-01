@@ -1,14 +1,12 @@
 package domain.piece;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
 import domain.game.Side;
 import java.util.List;
 
 public class Guard extends PalacePiece {
 
-    private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(0);
+    private static final int FAR_FROM_BASE_ROW = 0;
     private static final List<Integer> INITIAL_FILES = List.of(4, 6);
 
     public Guard(Side side) {
@@ -17,20 +15,14 @@ public class Guard extends PalacePiece {
 
     @Override
     public List<Intersection> initAt() {
-        Direction forwardDirection = side.getForwardDirection();
-
+        int row = side.calculateRowFromBase(FAR_FROM_BASE_ROW);
         return INITIAL_FILES.stream()
-                .map(this::currentIntersection)
-                .map(intersection -> forwardDirection.moveForward(intersection, FAR_FROM_BASE_ROW))
+                .map(file -> new Intersection(row, file))
                 .toList();
     }
 
     @Override
     public boolean canBelongToWing() {
         return false;
-    }
-
-    private Intersection currentIntersection(int file) {
-        return new Intersection(side.getBaseRow(), file);
     }
 }

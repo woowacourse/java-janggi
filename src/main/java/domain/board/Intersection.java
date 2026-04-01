@@ -54,4 +54,12 @@ public class Intersection {
     public int hashCode() {
         return Objects.hash(row, file);
     }
+
+    @Override
+    public String toString() {
+        return "Intersection{" +
+                "row=" + row +
+                ", file=" + file +
+                '}';
+    }
 }

@@ -1,17 +1,21 @@
 package domain.piece;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
-import domain.direction.MoveAmount;
+import domain.movement.Route;
+import domain.movement.Vector;
+import domain.movement.MoveAmount;
 import domain.game.Side;
+import domain.movement.strategy.StraightMovement;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Chariot extends StaticPositionedPiece {
 
-    private static final MoveAmount FAR_FROM_BASE_ROW = new MoveAmount(0);
+    private static final int FAR_FROM_BASE_ROW = 0;
     private static final List<Integer> INITIAL_FILES = List.of(1, 9);
-    private static final MoveAmount MOVE_UNIT = new MoveAmount(1);
+    private static final MoveAmount FORWARDABLE_AMOUNT = MoveAmount.maximum();
+
+    private final StraightMovement movementStrategy = new StraightMovement();
 
     public Chariot(Side side) {
         super(side);
@@ -19,16 +23,11 @@ public final class Chariot extends StaticPositionedPiece {
 
     @Override
     public List<Intersection> initAt() {
-        Direction forwardDirection = side.getForwardDirection();
+        int row = side.calculateRowFromBase(FAR_FROM_BASE_ROW);
 
         return INITIAL_FILES.stream()
-                .map(this::currentIntersection)
-                .map(intersection -> forwardDirection.moveForward(intersection, FAR_FROM_BASE_ROW))
+                .map(file -> new Intersection(row, file))
                 .toList();
-    }
-
-    private Intersection currentIntersection(int file) {
-        return new Intersection(side.getBaseRow(), file);
     }
 
     @Override
@@ -48,8 +47,9 @@ public final class Chariot extends StaticPositionedPiece {
     ) {
         List<Intersection> movableIntersections = new ArrayList<>();
 
-        for (Direction direction : side.getAllDirections()) {
-            addReachableIntersections(from, direction, alivePieces, movableIntersections);
+        for (Vector vector : side.getAllDirections()) {
+            List<Intersection> movableDestinations = findReachableDestinations(from, vector, alivePieces);
+            movableIntersections.addAll(movableDestinations);
         }
 
         return List.copyOf(movableIntersections);
@@ -60,25 +60,15 @@ public final class Chariot extends StaticPositionedPiece {
         return false;
     }
 
-    private void addReachableIntersections(
+    private List<Intersection> findReachableDestinations(
             Intersection from,
-            Direction direction,
-            AlivePieces alivePieces,
-            List<Intersection> reachableIntersections
+            Vector vector,
+            AlivePieces alivePieces
     ) {
-        Intersection currentIntersection = direction.moveForward(from, MOVE_UNIT);
-        while (isPassableIntersection(currentIntersection, alivePieces)) {
-            reachableIntersections.add(currentIntersection);
-
-            currentIntersection = direction.moveForward(currentIntersection, MOVE_UNIT);
-        }
-
-        if (alivePieces.placedOppositeSide(currentIntersection, side)) {
-            reachableIntersections.add(currentIntersection);
-        }
-    }
-
-    private boolean isPassableIntersection(Intersection intersection, AlivePieces alivePieces) {
-        return intersection.isInBoard() && alivePieces.isEmpty(intersection);
+        return movementStrategy.getRoutes(from, FORWARDABLE_AMOUNT, vector)
+                .stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
+                .map(Route::getDestination)
+                .toList();
     }
 }
