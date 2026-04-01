@@ -4,6 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
+import java.util.HashMap;
 import java.util.Map;
 
 public enum InitialPiecePlacement {
@@ -42,7 +43,14 @@ public enum InitialPiecePlacement {
         this.piece = new Piece(pieceRule, camp);
     }
 
-    public void placeOn(Map<Position, Piece> board) {
-        board.put(position, piece);
+    public static Board initialize(ElephantFormation hanFormation, ElephantFormation choFormation) {
+        Map<Position, Piece> board = new HashMap<>();
+
+        for (InitialPiecePlacement placement : values()) {
+            board.put(placement.position, placement.piece);
+        }
+        board.putAll(hanFormation.placeElephantSetUpPieces());
+        board.putAll(choFormation.placeElephantSetUpPieces());
+        return new Board(board);
     }
 }

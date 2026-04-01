@@ -18,7 +18,7 @@ class BoardTest {
         Position source = new Position(7, 1);
         Position destination = new Position(0, 1);
 
-        Board board = new Board(() -> Map.of(
+        Board board = new Board(Map.of(
                 new Position(4, 1), new Piece(PieceRule.SOLDIER, Camp.HAN),
                 destination, new Piece(PieceRule.HORSE, Camp.CHO),
                 source, new Piece(PieceRule.CANNON, Camp.HAN)
@@ -42,7 +42,7 @@ class BoardTest {
         Position destination = new Position(0, 1);
 
         // when
-        Board board = new Board(() -> Map.of(
+        Board board = new Board(Map.of(
                 destination, new Piece(PieceRule.HORSE, Camp.CHO),
                 source, new Piece(PieceRule.CANNON, Camp.CHO)
         ));
@@ -58,7 +58,7 @@ class BoardTest {
         Position source = new Position(7, 1);
         Position destination = new Position(0, 1);
         // when
-        Board board = new Board(Map::of);
+        Board board = new Board(Map.of());
         // then
         Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)

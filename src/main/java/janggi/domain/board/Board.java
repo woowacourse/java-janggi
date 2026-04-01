@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class Board implements BoardChecker {
 
-    private final Map<Position, Piece> board = new HashMap<>();
+    private final Map<Position, Piece> board;
 
-    public Board(BoardInitializer boardInitializer) {
-        board.putAll(boardInitializer.initialize());
+    public Board(Map<Position, Piece> board) {
+        this.board = new HashMap<>(board);
     }
 
     @Override

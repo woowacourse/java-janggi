@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
@@ -32,8 +31,7 @@ public class OnePieceExistsConditionTest {
         );
         Camp camp = Camp.HAN;
 
-        BoardInitializer boardInitializer = Map::of;
-        Board board = new Board(boardInitializer);
+        Board board = new Board(Map.of());
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -52,12 +50,10 @@ public class OnePieceExistsConditionTest {
                 new Position(0, 5)
         );
         Camp camp = Camp.HAN;
-
-        BoardInitializer boardInitializer = () -> Map.of(
+        Board board = new Board(Map.of(
                 new Position(0, 3), new Piece(PieceRule.CHARIOT, Camp.HAN),
                 new Position(0, 4), new Piece(PieceRule.ELEPHANT, Camp.HAN)
-        );
-        Board board = new Board(boardInitializer);
+        ));
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -76,11 +72,9 @@ public class OnePieceExistsConditionTest {
                 new Position(0, 5)
         );
         Camp camp = Camp.HAN;
-
-        BoardInitializer boardInitializer = () -> Map.of(
+        Board board = new Board(Map.of(
                 new Position(0, 4), new Piece(PieceRule.CANNON, Camp.CHO)
-        );
-        Board board = new Board(boardInitializer);
+        ));
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -99,12 +93,10 @@ public class OnePieceExistsConditionTest {
                 new Position(0, 5)
         );
         Camp camp = Camp.HAN;
-
-        BoardInitializer boardInitializer = () -> Map.of(
+        Board board = new Board(Map.of(
                 new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.HAN),
                 new Position(0, 5), new Piece(PieceRule.CHARIOT, Camp.HAN)
-        );
-        Board board = new Board(boardInitializer);
+        ));
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -123,12 +115,10 @@ public class OnePieceExistsConditionTest {
                 new Position(0, 5)
         );
         Camp camp = Camp.HAN;
-
-        BoardInitializer boardInitializer = () -> Map.of(
+        Board board = new Board(Map.of(
                 new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.HAN),
                 new Position(0, 5), new Piece(PieceRule.CANNON, Camp.CHO)
-        );
-        Board board = new Board(boardInitializer);
+        ));
         //when & then
         assertThatThrownBy(() -> condition.checkPath(path, camp, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)

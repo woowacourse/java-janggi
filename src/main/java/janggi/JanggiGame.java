@@ -3,10 +3,9 @@ package janggi;
 import janggi.domain.Position;
 import janggi.domain.Turn;
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.ElephantFormation;
 import janggi.domain.board.ElephantSetUp;
-import janggi.domain.board.StandardBoardInitializer;
+import janggi.domain.board.InitialPiecePlacement;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.dto.CampDto;
@@ -14,6 +13,7 @@ import janggi.dto.PiecePositionDto;
 import janggi.util.RetryHandler;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.format.ElephantSetUpFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -28,14 +28,13 @@ public class JanggiGame {
     private Board createBoard() {
         ElephantFormation hanElephantFormation = readElephantFormation(Camp.HAN);
         ElephantFormation choElephantFormation = readElephantFormation(Camp.CHO);
-        BoardInitializer initializer = new StandardBoardInitializer(hanElephantFormation, choElephantFormation);
-        return new Board(initializer);
+        return InitialPiecePlacement.initialize(hanElephantFormation, choElephantFormation);
     }
 
     private static ElephantFormation readElephantFormation(Camp camp) {
         return RetryHandler.retryOnInvalidInput(() -> {
-                    ElephantSetUp elephantSetUp = InputView.readElephantSettingCommand(CampDto.from(camp))
-                            .getElephantSetUp();
+                    ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(CampDto.from(camp));
+                    ElephantSetUp elephantSetUp = elephantSetUpFormat.getElephantSetUp();
                     return new ElephantFormation(camp, elephantSetUp);
                 }
         );

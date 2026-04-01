@@ -9,39 +9,39 @@ import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class StandardBoardInitializerTest {
+public class InitialPiecePlacementTest {
 
     @Test
     void 한_상마상마_초_마상마상_으로_보드를_초기화한다() {
         // given
-        BoardInitializer initializer = new StandardBoardInitializer(
-                new ElephantFormation(Camp.HAN, ElephantSetUp.LEFT_ELEPHANT),
-                new ElephantFormation(Camp.CHO, ElephantSetUp.RIGHT_ELEPHANT));
+        ElephantFormation hanElephantFormation = new ElephantFormation(Camp.HAN, ElephantSetUp.LEFT_ELEPHANT);
+        ElephantFormation choElephantFormation = new ElephantFormation(Camp.CHO, ElephantSetUp.RIGHT_ELEPHANT);
+
         Map<Position, Piece> expectedBoard = createExpectedBoard();
         expectedBoard.putAll(createChoLeftHanRightBoard());
         // when
-        Map<Position, Piece> board = initializer.initialize();
+        Board board = InitialPiecePlacement.initialize(hanElephantFormation, choElephantFormation);
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(board).hasSize(32);
-            assertSoftly.assertThat(board).isEqualTo(expectedBoard);
+            assertSoftly.assertThat(board.getBoard()).hasSize(32);
+            assertSoftly.assertThat(board.getBoard()).isEqualTo(expectedBoard);
         });
     }
 
     @Test
     void 한_상마마상_초_마상상마_으로_보드를_초기화한다() {
         // given
-        BoardInitializer initializer = new StandardBoardInitializer(
-                new ElephantFormation(Camp.HAN, ElephantSetUp.OUTER_ELEPHANT),
-                new ElephantFormation(Camp.CHO, ElephantSetUp.INNER_ELEPHANT));
+        ElephantFormation hanElephantFormation = new ElephantFormation(Camp.HAN, ElephantSetUp.OUTER_ELEPHANT);
+        ElephantFormation choElephantFormation = new ElephantFormation(Camp.CHO, ElephantSetUp.INNER_ELEPHANT);
+
         Map<Position, Piece> expectedBoard = createExpectedBoard();
         expectedBoard.putAll(createChoInnerHanOuterBoard());
         // when
-        Map<Position, Piece> board = initializer.initialize();
+        Board board = InitialPiecePlacement.initialize(hanElephantFormation, choElephantFormation);
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(board).hasSize(32);
-            assertSoftly.assertThat(board).isEqualTo(expectedBoard);
+            assertSoftly.assertThat(board.getBoard()).hasSize(32);
+            assertSoftly.assertThat(board.getBoard()).isEqualTo(expectedBoard);
         });
     }
 
