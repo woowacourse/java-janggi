@@ -1,12 +1,13 @@
 package config;
 
 import init.DatabaseInitializer;
+import java.sql.Connection;
 
 public class DatabaseConfig {
 
-    private final H2ConnectionManager connectionManager;
+    private final Connection connectionManager;
 
-    public DatabaseConfig(H2ConnectionManager connectionManager) {
+    public DatabaseConfig(Connection connectionManager) {
         this.connectionManager = connectionManager;
     }
 

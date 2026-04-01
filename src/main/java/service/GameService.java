@@ -1,12 +1,11 @@
 package service;
 
-import config.H2ConnectionManager;
+import java.sql.Connection;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
 import entity.GameRoomEntity;
 import entity.GameStateEntity;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +18,12 @@ public class GameService {
     private final BoardRepository boardRepository;
     private final GameRoomRepository gameRoomRepository;
     private final GameStateRepository gameStateRepository;
-    private final H2ConnectionManager connectionManager;
+    private final Connection connectionManager;
 
     public GameService(BoardRepository boardRepository,
                        GameRoomRepository gameRoomRepository,
                        GameStateRepository gameStateRepository,
-                       H2ConnectionManager connectionManager) {
+                       Connection connectionManager) {
         this.boardRepository = boardRepository;
         this.gameRoomRepository = gameRoomRepository;
         this.gameStateRepository = gameStateRepository;
@@ -32,7 +31,7 @@ public class GameService {
     }
 
     public void saveGame(Map<Position, Place> board, String name, Side side) {
-        try (Connection conn = connectionManager.getConnection()) {
+        try (Connection conn = connectionManager) {
             conn.setAutoCommit(false);
 
             try {

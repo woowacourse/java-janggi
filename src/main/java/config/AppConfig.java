@@ -1,5 +1,6 @@
 package config;
 
+import java.sql.Connection;
 import repository.BoardRepository;
 import repository.GameRoomRepository;
 import repository.GameStateRepository;
@@ -10,8 +11,8 @@ import service.GameService;
 
 public class AppConfig {
 
-    public H2ConnectionManager connectionManager() {
-        return new H2ConnectionManager();
+    public Connection connectionManager() {
+        return H2ConnectionManager.getConnection();
     }
 
     public BoardRepository boardRepository() {

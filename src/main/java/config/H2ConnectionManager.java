@@ -1,6 +1,5 @@
 package config;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -10,7 +9,7 @@ public class H2ConnectionManager {
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
-    public static Connection getConnection() {
+    public static java.sql.Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {

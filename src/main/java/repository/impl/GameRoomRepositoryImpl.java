@@ -1,8 +1,7 @@
 package repository.impl;
 
-import config.H2ConnectionManager;
-import entity.GameRoomEntity;
 import java.sql.Connection;
+import entity.GameRoomEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,9 +21,9 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     private static final String SELECT_ALL =
             "SELECT id, name, created_at FROM game_room";
 
-    private final H2ConnectionManager connectionManager;
+    private final Connection connectionManager;
 
-    public GameRoomRepositoryImpl(H2ConnectionManager connectionManager) {
+    public GameRoomRepositoryImpl(Connection connectionManager) {
         this.connectionManager = connectionManager;
     }
 
@@ -44,8 +43,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
     @Override
     public List<GameRoomEntity> findAll() {
-        try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_ALL)) {
+        try (PreparedStatement stmt = connectionManager.prepareStatement(SELECT_ALL)) {
 
             List<GameRoomEntity> result;
             try (ResultSet rs = stmt.executeQuery()) {
@@ -60,8 +58,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
     @Override
     public boolean existsById(long id) {
-        try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
+        try (PreparedStatement stmt = connectionManager.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, id);
 

@@ -1,12 +1,12 @@
 package repository.impl;
 
-import config.H2ConnectionManager;
+
+import java.sql.Connection;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
 import factory.BoardFactory;
 import factory.PieceFactory;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,14 +24,14 @@ public class BoardRepositoryImpl implements BoardRepository {
     private static final String SELECT_SQL =
             "SELECT position_row, position_col, side, type FROM board_piece WHERE game_room_id = ?";
 
-    private final H2ConnectionManager connectionManager;
+    private final Connection connectionManager;
 
-    public BoardRepositoryImpl(H2ConnectionManager connectionManager) {
+    public BoardRepositoryImpl(Connection connectionManager) {
         this.connectionManager = connectionManager;
     }
 
     @Override
-    public void saveBoard(long roomId, Map<Position, Place> board, Connection conn) {
+    public void saveBoard(long roomId, Map<Position, Place> board, java.sql.Connection conn) {
         try {
             conn.setAutoCommit(false);
 
@@ -49,14 +49,14 @@ public class BoardRepositoryImpl implements BoardRepository {
         }
     }
 
-    private void deleteExisting(Connection conn, long roomId) throws SQLException {
+    private void deleteExisting(java.sql.Connection conn, long roomId) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(DELETE_SQL)) {
             stmt.setLong(1, roomId);
             stmt.executeUpdate();
         }
     }
 
-    private void insertBoard(Connection conn, long roomId, Map<Position, Place> board) throws SQLException {
+    private void insertBoard(java.sql.Connection conn, long roomId, Map<Position, Place> board) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL)) {
             for (Map.Entry<Position, Place> entry : board.entrySet()) {
                 if (entry.getValue().getSide().isPresent()) {
@@ -82,8 +82,7 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public Map<Position, Place> findBoard(long roomId) {
-        try (Connection conn = H2ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_SQL)) {
+        try (PreparedStatement stmt = connectionManager.prepareStatement(SELECT_SQL)) {
 
             stmt.setLong(1, roomId);
 
