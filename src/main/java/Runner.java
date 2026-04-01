@@ -114,7 +114,7 @@ public class Runner {
         return pieces.get(pieceChoice - 1).getValue();
     }
 
-    private domain.Route getSelectedRoute(List<domain.Route> routes, int routeChoice) {
+    private domain.Route getSelectedRoute(List<Route> routes, int routeChoice) {
         if (routeChoice < 1 || routeChoice > routes.size()) {
             throw new IllegalArgumentException("경로 번호가 범위를 벗어났습니다.");
         }
