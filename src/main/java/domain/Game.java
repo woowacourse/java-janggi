@@ -3,7 +3,6 @@ package domain;
 import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.coordinate.Position;
-import domain.piece.Piece;
 
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class Game {
         return board.getPossibleMoves(start);
     }
 
-    public Piece[][] getBoard() {
-        return board.getBoard();
+    public CellSnapshot[][] toSnapshot() {
+        return board.toSnapshot();
     }
 }

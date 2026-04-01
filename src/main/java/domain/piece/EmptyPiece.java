@@ -21,6 +21,11 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.EMPTY;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return this;
     }

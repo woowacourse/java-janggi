@@ -37,6 +37,8 @@ public abstract class Piece {
         return side.getForward();
     }
 
+    public abstract PieceType getType();
+
     public abstract Piece withSide(Side side);
 
     public abstract boolean isEmpty();

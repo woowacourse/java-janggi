@@ -1,8 +1,8 @@
 package view;
 
-import domain.coordinate.Position;
+import domain.CellSnapshot;
 import domain.Side;
-import domain.piece.Piece;
+import domain.coordinate.Position;
 import view.message.PieceView;
 
 import java.util.List;
@@ -11,13 +11,13 @@ import view.message.SideView;
 public class OutputView {
 
 
-    public void printBoard(Piece[][] board) {
+    public void printBoard(CellSnapshot[][] board) {
         System.out.println("   0  1   2  3   4   5  6   7  8");
 
         for (int i = 0; i < 10; i++) {
             System.out.print(i + " ");
             for (int j = 0; j < 9; j++) {
-                printPieceBySide(board[i][j]);
+                printCell(board[i][j]);
             }
             System.out.println();
         }
@@ -30,14 +30,14 @@ public class OutputView {
         }
     }
 
-    private void printPieceBySide(Piece piece) {
-        Side side = piece.getSide();
+    private void printCell(CellSnapshot cell) {
+        String name = PieceView.from(cell.type());
 
-        if (piece.isEmpty()) {
-            System.out.print(" " + PieceView.from(piece) + " ");
+        if (cell.side() == Side.NEUTRAL) {
+            System.out.print(" " + name + " ");
             return;
         }
-        System.out.print(" " + SideView.getSideColor(side) + PieceView.from(piece) + SideView.getResetColor() + " ");
+        System.out.print(" " + SideView.getSideColor(cell.side()) + name + SideView.getResetColor() + " ");
     }
 
     public void printCanNotMovablePieceError() {

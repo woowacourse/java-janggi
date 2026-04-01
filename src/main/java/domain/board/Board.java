@@ -1,12 +1,12 @@
 package domain.board;
 
+import domain.CellSnapshot;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.piece.Cannon;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +68,14 @@ public class Board {
         return piece.getPossiblePositions(pathPieces, paths);
     }
 
-    public Piece[][] getBoard() {
-        return Arrays.copyOf(board, board.length);
+    public CellSnapshot[][] toSnapshot() {
+        CellSnapshot[][] snapshot = new CellSnapshot[BOUNDS.colsize()][BOUNDS.rowSize()];
+        for (int i = 0; i < BOUNDS.colsize(); i++) {
+            for (int j = 0; j < BOUNDS.rowSize(); j++) {
+                Piece piece = board[i][j];
+                snapshot[i][j] = new CellSnapshot(piece.getType(), piece.getSide());
+            }
+        }
+        return snapshot;
     }
 }

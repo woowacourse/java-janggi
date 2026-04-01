@@ -33,6 +33,11 @@ public final class Elephant extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.ELEPHANT;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return new Elephant(side);
     }

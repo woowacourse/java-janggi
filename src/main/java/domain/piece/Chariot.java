@@ -22,6 +22,11 @@ public final class Chariot extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.CHARIOT;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return new Chariot(side);
     }

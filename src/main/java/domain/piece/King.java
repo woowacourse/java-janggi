@@ -26,6 +26,11 @@ public final class King extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.KING;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return new King(side);
     }

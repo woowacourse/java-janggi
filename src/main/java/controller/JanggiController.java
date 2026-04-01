@@ -24,7 +24,7 @@ public class JanggiController {
         Game game = new Game(boardInitializer);
 
         while (true) {
-            outputView.printBoard(game.getBoard());
+            outputView.printBoard(game.toSnapshot());
             Position startPosition = RetryInput.read(() -> getStartPosition(game));
 
             List<Position> possibleMoves = game.getPossibleMoves(startPosition);

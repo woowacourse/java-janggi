@@ -26,6 +26,11 @@ public final class Guard extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.GUARD;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return new Guard(side);
     }

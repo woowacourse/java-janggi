@@ -22,6 +22,11 @@ public final class Cannon extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.CANNON;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return new Cannon(side);
     }

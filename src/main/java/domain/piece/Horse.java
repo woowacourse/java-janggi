@@ -33,6 +33,11 @@ public final class Horse extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return new Horse(side);
     }

@@ -58,7 +58,7 @@ public class BasicBoardInitializer implements BoardInitializer {
         placements.putAll(chuPlacements);
     }
 
-    private static Position translateChuPosition(Position pos) {
+    private Position translateChuPosition(Position pos) {
         int row = pos.row();
         int col = 9 - pos.col();
         return new Position(col, row);

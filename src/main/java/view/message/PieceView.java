@@ -1,57 +1,32 @@
 package view.message;
 
-import domain.piece.*;
+import domain.piece.PieceType;
 
 public enum PieceView {
 
-    PAWN("졸"),
-    CHARIOT("차"),
-    HORSE("마"),
-    ELEPHANT("상"),
-    CANNON("포"),
-    GUARD("사"),
-    KING("장"),
-    EMPTY("ㅁ");
+    PAWN(PieceType.PAWN, "졸"),
+    CHARIOT(PieceType.CHARIOT, "차"),
+    HORSE(PieceType.HORSE, "마"),
+    ELEPHANT(PieceType.ELEPHANT, "상"),
+    CANNON(PieceType.CANNON, "포"),
+    GUARD(PieceType.GUARD, "사"),
+    KING(PieceType.KING, "장"),
+    EMPTY(PieceType.EMPTY, "ㅁ");
 
+    private final PieceType type;
     private final String name;
 
-    PieceView(String name) {
+    PieceView(PieceType type, String name) {
+        this.type = type;
         this.name = name;
     }
 
-    public static String from(Piece piece) {
-        if (piece instanceof Pawn) {
-            return PAWN.name;
+    public static String from(PieceType pieceType) {
+        for (PieceView view : values()) {
+            if (view.type == pieceType) {
+                return view.name;
+            }
         }
-
-        if (piece instanceof Chariot) {
-            return CHARIOT.name;
-        }
-
-        if (piece instanceof Horse) {
-            return HORSE.name;
-        }
-
-        if (piece instanceof Elephant) {
-            return ELEPHANT.name;
-        }
-
-        if (piece instanceof Cannon) {
-            return CANNON.name;
-        }
-
-        if (piece instanceof Guard) {
-            return GUARD.name;
-        }
-
-        if (piece instanceof King) {
-            return KING.name;
-        }
-
         return EMPTY.name;
-    }
-
-    public String getName() {
-        return name;
     }
 }

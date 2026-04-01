@@ -26,6 +26,11 @@ public final class Pawn extends Piece {
     }
 
     @Override
+    public PieceType getType() {
+        return PieceType.PAWN;
+    }
+
+    @Override
     public Piece withSide(Side side) {
         return new Pawn(side);
     }
