@@ -29,18 +29,19 @@ public enum PieceTypeFormatter {
     }
 
     public static String from(PieceType pieceType, Country country) {
-        String pieceName = Arrays.stream(PieceTypeFormatter.values())
-                .filter(pieceTypeFormatter -> pieceTypeFormatter.pieceType == pieceType)
-                .map(PieceTypeFormatter::getPieceName)
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 기물 종류입니다."));
-
         if (pieceType == PieceType.SOLDIER) {
             return getSoldierName(country);
         }
         if (pieceType == PieceType.GENERAL) {
             return getGeneralName(country);
         }
+        
+        String pieceName = Arrays.stream(PieceTypeFormatter.values())
+                .filter(pieceTypeFormatter -> pieceTypeFormatter.pieceType == pieceType)
+                .map(PieceTypeFormatter::getPieceName)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 기물 종류입니다."));
+
         return getOtherName(country, pieceName);
     }
 
