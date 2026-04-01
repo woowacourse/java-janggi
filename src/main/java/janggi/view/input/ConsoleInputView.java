@@ -1,12 +1,13 @@
-package janggi.view;
+package janggi.view.input;
 
 import java.util.Scanner;
 
-public class InputView {
+public class ConsoleInputView implements InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static String readLine() {
+    @Override
+    public String readLine() {
         return scanner.nextLine();
     }
 }
