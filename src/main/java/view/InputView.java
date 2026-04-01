@@ -58,7 +58,7 @@ public class InputView {
     }
 
     public String readArrangement(Team team) {
-        System.out.println(team.getName() + "나라의 판차림 방식을 선택해주세요.(1: 상마상마, 2: 마상마상, 3: 마상상마, 4: 상마마상)");
+        System.out.println(team.getName() + "나라의 판차림 방식을 선택해주세요.(상마상마, 마상마상, 마상상마, 상마마상)");
 
         return scanner.nextLine();
     }

@@ -2,6 +2,7 @@ package controller;
 
 import domain.Board;
 import domain.BoardFactory;
+import domain.Formation;
 import domain.Team;
 import domain.vo.Position;
 import view.InputView;
@@ -19,11 +20,8 @@ public class JanggiController {
 
     public void run() {
         Board board = BoardFactory.setUp();
-        String hanArrangement = inputView.readArrangement(Team.HAN);
-        String chuArrangement = inputView.readArrangement(Team.CHU);
-
-        board = applyArrangement(hanArrangement, board, Team.HAN);
-        board = applyArrangement(chuArrangement, board, Team.CHU);
+        board = readHanFormation(board);
+        board = readChuFormation(board);
 
         outputView.printBoard(board.getBoard());
 
@@ -35,19 +33,47 @@ public class JanggiController {
         }
     }
 
+    private Board readChuFormation(Board board) {
+        while (true) {
+            try {
+                String chuArrangement = inputView.readArrangement(Team.CHU);
+                board = applyArrangement(chuArrangement, board, Team.CHU);
+                return board;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println();
+            }
+        }
+    }
+
+    private Board readHanFormation(Board board) {
+        while (true) {
+            try {
+                String hanArrangement = inputView.readArrangement(Team.HAN);
+                board = applyArrangement(hanArrangement, board, Team.HAN);
+
+                return board;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println();
+            }
+        }
+    }
+
     private static Board applyArrangement(String arrangement, Board board, Team team) {
-        if (arrangement.equals("1")) {
+        if (Formation.from(arrangement) == Formation.SANG_MA_SANG_MA) {
             return BoardFactory.setUpLeftElephantFormation(board.getBoard(), team);
         }
-        if (arrangement.equals("2")) {
+        if (Formation.from(arrangement) == Formation.MA_SANG_MA_SANG) {
             return BoardFactory.setUpRightElephantFormation(board.getBoard(), team);
         }
-        if (arrangement.equals("3")) {
+        if (Formation.from(arrangement) == Formation.MA_SANG_SANG_MA) {
             return BoardFactory.setUpInnerElephantFormation(board.getBoard(), team);
         }
-        if (arrangement.equals("4")) {
+        if (Formation.from(arrangement) == Formation.SANG_MA_MA_SANG) {
             return BoardFactory.setUpOuterElephantFormation(board.getBoard(), team);
         }
+
         return board;
     }
 
