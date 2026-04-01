@@ -1,6 +1,9 @@
 package model;
 
 import java.util.List;
+
+import model.board.Board;
+import model.board.Route;
 import model.coordinate.Position;
 import model.piece.Piece;
 
@@ -47,18 +50,20 @@ public class Janggi {
         }
 
         List<Position> path = piece.extractPath(current, next);
-        if (board.hasPieceAt(path)) {
+        Route route = board.createRoute(path);
+        if (route.hasPiece()) {
             throw new IllegalArgumentException("이동 경로에 기물이 있어 이동할 수 없는 위치입니다.");
         }
     }
 
     private void validateMovementOfCannon(Position current, Position next, Piece piece) {
         List<Position> path = piece.extractPath(current, next);
-        int countedPieces = board.countPiecesAt(path);
+        Route route = board.createRoute(path);
+        int countedPieces = route.countPieces();
         if (countedPieces != CANNON_HURDLE_COUNT) {
             throw new IllegalArgumentException("포는 1개의 기물만 건너 뛰어야 합니다.");
         }
-        if (board.hasCannon(path)) {
+        if (route.hasCannon()) {
             throw new IllegalArgumentException("포는 포를 건너뛸 수 없습니다.");
         }
     }

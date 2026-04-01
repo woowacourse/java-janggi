@@ -1,6 +1,6 @@
 package view;
 
-import model.Board;
+import model.board.Board;
 import model.coordinate.Position;
 import model.piece.Piece;
 

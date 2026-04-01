@@ -1,7 +1,7 @@
 package controller;
 
-import model.Board;
-import model.BoardFactory;
+import model.board.Board;
+import model.board.BoardFactory;
 import model.Janggi;
 import model.Team;
 import model.coordinate.Position;

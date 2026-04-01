@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 import model.coordinate.Position;
 import model.piece.Cannon;

@@ -1,6 +1,6 @@
 package model.piece;
 
-import model.Board;
+import model.board.Board;
 import model.Janggi;
 import model.Team;
 import model.coordinate.Position;

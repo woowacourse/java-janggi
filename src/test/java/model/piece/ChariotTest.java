@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.Board;
+import model.board.Board;
 import model.Team;
 import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
@@ -85,7 +85,7 @@ public class ChariotTest {
         List<Position> path = chariot.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isTrue();
+        assertThat(board.createRoute(path).hasPiece()).isTrue();
     }
 
     @Test
@@ -103,7 +103,7 @@ public class ChariotTest {
         List<Position> path = chariot.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isFalse();
+        assertThat(board.createRoute(path).hasPiece()).isFalse();
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ChariotTest {
         List<Position> path = chariot.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isFalse();
+        assertThat(board.createRoute(path).hasPiece()).isFalse();
     }
 
 }

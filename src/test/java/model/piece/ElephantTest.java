@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.Board;
+import model.board.Board;
 import model.Janggi;
 import model.Team;
 import model.coordinate.Position;
@@ -54,7 +54,7 @@ public class ElephantTest {
         List<Position> path = elephant.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isTrue();
+        assertThat(board.createRoute(path).hasPiece()).isTrue();
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ElephantTest {
         List<Position> path = elephant.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isTrue();
+        assertThat(board.createRoute(path).hasPiece()).isTrue();
     }
 
     @Test
@@ -119,6 +119,6 @@ public class ElephantTest {
         List<Position> path = elephant.extractPath(current, next);
 
         // then
-        assertThat(board.hasPieceAt(path)).isFalse();
+        assertThat(board.createRoute(path).hasPiece()).isFalse();
     }
 }
