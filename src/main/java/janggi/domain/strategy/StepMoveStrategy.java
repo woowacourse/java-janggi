@@ -11,8 +11,8 @@ public class StepMoveStrategy extends PieceStrategy {
     @Override
     protected Destinations navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
         if (baseDir.canMove(current) && !boardInfo.isAlly(current, baseDir.move(current))) {
-            return new Destinations(List.of(baseDir.move(current)));
+            return Destinations.of(List.of(baseDir.move(current)));
         }
-        return new Destinations();
+        return Destinations.empty();
     }
 }

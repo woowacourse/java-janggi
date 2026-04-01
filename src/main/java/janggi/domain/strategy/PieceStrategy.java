@@ -10,8 +10,8 @@ public abstract class PieceStrategy implements MoveStrategy {
 
     @Override
     public Destinations moveablePositions(Position currentPosition, EnumSet<Direction> baseDirections,
-                                            BoardInfo boardInfo) {
-        Destinations destinations = new Destinations();
+                                          BoardInfo boardInfo) {
+        Destinations destinations = Destinations.empty();
         for (Direction baseDirection : baseDirections) {
             destinations = destinations.addDestinations(navigationPath(currentPosition, baseDirection, boardInfo));
         }

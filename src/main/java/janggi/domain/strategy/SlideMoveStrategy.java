@@ -10,11 +10,11 @@ public class SlideMoveStrategy extends PieceStrategy {
 
     @Override
     protected Destinations navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
-        Destinations destinations = new Destinations();
+        Destinations destinations = Destinations.empty();
         Position next = current;
         while (baseDir.canMove(next) && boardInfo.isEmpty(baseDir.move(next))) {
             next = baseDir.move(next);
-            destinations = destinations.addDestination(next);
+            destinations = destinations.addDestinations(Destinations.of(List.of(next)));
         }
         if (!baseDir.canMove(next)) {
             return destinations;
@@ -26,8 +26,8 @@ public class SlideMoveStrategy extends PieceStrategy {
                                            BoardInfo boardInfo) {
         next = baseDir.move(next);
         if (boardInfo.isAlly(current, next)) {
-            return new Destinations();
+            return Destinations.empty();
         }
-        return new Destinations(List.of(next));
+        return Destinations.of(List.of(next));
     }
 }

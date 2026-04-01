@@ -9,18 +9,16 @@ public class Destinations {
 
     private final List<Position> destinations;
 
-    public Destinations() {
-        this.destinations = Collections.emptyList();
-    }
-
-    public Destinations(List<Position> destinations) {
+    private Destinations(List<Position> destinations) {
         this.destinations = new ArrayList<>(destinations);
     }
 
-    public Destinations addDestination(Position destination) {
-        List<Position> newDestinations = new ArrayList<>(this.destinations);
-        newDestinations.add(destination);
-        return new Destinations(newDestinations);
+    public static Destinations empty() {
+        return new Destinations(Collections.emptyList());
+    }
+
+    public static Destinations of(List<Position> destinations) {
+        return new Destinations(destinations);
     }
 
     public Destinations addDestinations(Destinations other) {

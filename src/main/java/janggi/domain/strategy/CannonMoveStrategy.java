@@ -11,11 +11,11 @@ public class CannonMoveStrategy extends PieceStrategy {
     @Override
     protected Destinations navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
         if (!baseDir.canMove(current)) {
-            return new Destinations();
+            return Destinations.empty();
         }
         Position target = firstMoveablePosition(current, baseDir, boardInfo);
         if (boardInfo.isCannon(target)) {
-            return new Destinations();
+            return Destinations.empty();
         }
         return navigationMoveablePosition(current, baseDir, target, boardInfo);
     }
@@ -29,10 +29,10 @@ public class CannonMoveStrategy extends PieceStrategy {
 
     private Destinations navigationMoveablePosition(Position current, Direction baseDir, Position target,
                                                     BoardInfo boardInfo) {
-        Destinations destinations = new Destinations();
+        Destinations destinations = Destinations.empty();
         while (baseDir.canMove(target) && boardInfo.isEmpty(baseDir.move(target))) {
             target = baseDir.move(target);
-            destinations = destinations.addDestination(target); // 재할당
+            destinations = destinations.addDestinations(Destinations.of(List.of(target)));
         }
         if (!baseDir.canMove(target)) {
             return destinations;
@@ -43,8 +43,8 @@ public class CannonMoveStrategy extends PieceStrategy {
     private Destinations navigationIfEnemy(Position current, Direction baseDir, Position next, BoardInfo boardInfo) {
         next = baseDir.move(next);
         if (boardInfo.isAlly(current, next) || boardInfo.isCannon(next)) {
-            return new Destinations();
+            return Destinations.empty();
         }
-        return new Destinations(List.of(next));
+        return Destinations.of(List.of(next));
     }
 }

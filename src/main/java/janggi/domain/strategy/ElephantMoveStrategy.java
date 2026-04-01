@@ -11,11 +11,11 @@ public class ElephantMoveStrategy extends PieceStrategy {
     @Override
     protected Destinations navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
         if (!baseDir.canMove(current)) {
-            return new Destinations();
+            return Destinations.empty();
         }
         Position firstStep = baseDir.move(current);
         if (!boardInfo.isEmpty(firstStep)) {
-            return new Destinations();
+            return Destinations.empty();
         }
         List<Direction> nextDirections = baseDir.nextDiagonalDirections();
         return navigationIfEnemy(current, nextDirections, firstStep, boardInfo);
@@ -23,7 +23,7 @@ public class ElephantMoveStrategy extends PieceStrategy {
 
     private Destinations navigationIfEnemy(Position current, List<Direction> nextDirections, Position firstStep,
                                            BoardInfo boardInfo) {
-        Destinations destinations = new Destinations();
+        Destinations destinations = Destinations.empty();
         for (Direction direction : nextDirections) {
             destinations = destinations.addDestinations(navigationIfEnemy(current, direction, firstStep, boardInfo));
         }
@@ -31,15 +31,15 @@ public class ElephantMoveStrategy extends PieceStrategy {
     }
 
     private Destinations navigationIfEnemy(Position current, Direction targetDirection, Position firstStep,
-                                   BoardInfo boardInfo) {
+                                           BoardInfo boardInfo) {
         if (!targetDirection.canMove(firstStep) || !boardInfo.isEmpty(targetDirection.move(firstStep))) {
-            return new Destinations();
+            return Destinations.empty();
         }
         Position nextStep = targetDirection.move(firstStep);
         if (targetDirection.canMove(nextStep) &&
                 !boardInfo.isAlly(current, targetDirection.move(nextStep))) {
-            return new Destinations(List.of(targetDirection.move(nextStep)));
+            return Destinations.of(List.of(targetDirection.move(nextStep)));
         }
-        return new Destinations();
+        return Destinations.empty();
     }
 }
