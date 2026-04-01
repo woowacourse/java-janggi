@@ -6,52 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
+    private final Map<Position, Piece> board;
 
-    private final Map<Position, Piece> board = new HashMap<>();
-
-    public void initialize() {
-        board.put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(3, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(5, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(7, 7), new Piece(Team.CHO, PieceType.ZOL));
-        board.put(new Position(9, 7), new Piece(Team.CHO, PieceType.ZOL));
-
-        board.put(new Position(2, 8), new Piece(Team.CHO, PieceType.PO));
-        board.put(new Position(8, 8), new Piece(Team.CHO, PieceType.PO));
-
-        board.put(new Position(1, 10), new Piece(Team.CHO, PieceType.CHA));
-        board.put(new Position(9, 10), new Piece(Team.CHO, PieceType.CHA));
-
-        board.put(new Position(2, 10), new Piece(Team.CHO, PieceType.MA));
-        board.put(new Position(3, 10), new Piece(Team.CHO, PieceType.SANG));
-        board.put(new Position(7, 10), new Piece(Team.CHO, PieceType.MA));
-        board.put(new Position(8, 10), new Piece(Team.CHO, PieceType.SANG));
-
-        board.put(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
-        board.put(new Position(6, 10), new Piece(Team.CHO, PieceType.SA));
-        board.put(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
-
-        board.put(new Position(1, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(3, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(5, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(7, 4), new Piece(Team.HAN, PieceType.ZOL));
-        board.put(new Position(9, 4), new Piece(Team.HAN, PieceType.ZOL));
-
-        board.put(new Position(2, 3), new Piece(Team.HAN, PieceType.PO));
-        board.put(new Position(8, 3), new Piece(Team.HAN, PieceType.PO));
-
-        board.put(new Position(1, 1), new Piece(Team.HAN, PieceType.CHA));
-        board.put(new Position(9, 1), new Piece(Team.HAN, PieceType.CHA));
-
-        board.put(new Position(2, 1), new Piece(Team.HAN, PieceType.MA));
-        board.put(new Position(3, 1), new Piece(Team.HAN, PieceType.SANG));
-        board.put(new Position(7, 1), new Piece(Team.HAN, PieceType.MA));
-        board.put(new Position(8, 1), new Piece(Team.HAN, PieceType.SANG));
-
-        board.put(new Position(4, 1), new Piece(Team.HAN, PieceType.SA));
-        board.put(new Position(6, 1), new Piece(Team.HAN, PieceType.SA));
-        board.put(new Position(5, 2), new Piece(Team.HAN, PieceType.KING));
+    public Board(Map<Position, Piece> initBoard) {
+        this.board = initBoard;
     }
+
 
     public Map<Position, Piece> getBoard() {
         return board;
@@ -73,23 +33,23 @@ public class Board {
             Piece destinationPiece = board.get(destination);
             List<Position> route = entry.getValue();
 
-            if(piece.getPieceType() == PieceType.PO) {
-                if(!hasOneObstacleAndNotPo(route)) {
+            if (piece.getPieceType() == PieceType.PO) {
+                if (!hasOneObstacleAndNotPo(route)) {
                     continue;
                 }
 
-                if(board.containsKey(destination)) {
-                    if(isDestinationIsMyTeam(destinationPiece, piece) || isDestinationIsPo(destinationPiece)) {
+                if (board.containsKey(destination)) {
+                    if (isDestinationIsMyTeam(destinationPiece, piece) || isDestinationIsPo(destinationPiece)) {
                         continue;
                     }
                 }
                 availablePositions.add(destination);
             } else {
-                if(hasObstacleOnRoute(route)) {
+                if (hasObstacleOnRoute(route)) {
                     continue;
                 }
-                if(board.containsKey(destination)) {
-                    if(isDestinationIsMyTeam(destinationPiece, piece)) {
+                if (board.containsKey(destination)) {
+                    if (isDestinationIsMyTeam(destinationPiece, piece)) {
                         continue;
                     }
                 }
@@ -97,7 +57,7 @@ public class Board {
             }
         }
 
-        if(availablePositions.isEmpty()) {
+        if (availablePositions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
         }
         return availablePositions;
@@ -119,7 +79,7 @@ public class Board {
     private Map<Position, List<Position>> convertToPositions(Position position, Piece piece, List<Route> routes) {
         Map<Position, List<Position>> result = new HashMap<>();
 
-        if(piece.isCha()|| piece.isPo()) {
+        if (piece.isCha() || piece.isPo()) {
             return convertToContinuousRoutes(position, routes, result);
         }
 
@@ -151,17 +111,18 @@ public class Board {
         return result;
     }
 
-    private Map<Position, List<Position>> convertToContinuousRoutes(Position position, List<Route> routes, Map<Position, List<Position>> result) {
-        for(Route route: routes) {
+    private Map<Position, List<Position>> convertToContinuousRoutes(Position position, List<Route> routes,
+                                                                    Map<Position, List<Position>> result) {
+        for (Route route : routes) {
             int currentX = position.getX();
             int currentY = position.getY();
             List<Direction> directions = route.getRoutes();
 
-            for(Direction direction:directions) {
+            for (Direction direction : directions) {
                 List<Position> routeToPositions = new ArrayList<>();
                 currentX += direction.getX();
                 currentY += direction.getY();
-                while(Position.isInsideBoundary(currentX, currentY)) {
+                while (Position.isInsideBoundary(currentX, currentY)) {
                     Position movePosition = new Position(currentX, currentY);
                     routeToPositions.add(movePosition);
 
@@ -182,9 +143,9 @@ public class Board {
     private boolean hasOneObstacleAndNotPo(List<Position> route) {
         int count = 0;
         List<Piece> obstacles = new ArrayList<>();
-        for(int i = 0; i < route.size() -1; i++) {
-            if(board.containsKey(route.get(i))) {
-                count+=1;
+        for (int i = 0; i < route.size() - 1; i++) {
+            if (board.containsKey(route.get(i))) {
+                count += 1;
                 obstacles.add(board.get(route.get(i)));
             }
         }
@@ -200,14 +161,14 @@ public class Board {
     public void validateDestination(Position movePiecePosition, Position destination) {
         List<Position> availablePositions = findAvailablePositions(movePiecePosition);
         boolean hasPosition = false;
-        for(Position position:availablePositions) {
-            if (position == destination) {
+        for (Position position : availablePositions) {
+            if (position.equals(destination)) {
                 hasPosition = true;
                 break;
             }
         }
 
-        if(!hasPosition) {
+        if (!hasPosition) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
         }
     }

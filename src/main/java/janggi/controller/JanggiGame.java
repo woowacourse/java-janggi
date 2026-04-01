@@ -2,10 +2,12 @@ package janggi.controller;
 
 import janggi.domain.Board;
 import janggi.domain.BoardFactory;
+import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class JanggiGame {
@@ -35,9 +37,8 @@ public class JanggiGame {
     }
 
     private Board initializeBoard() {
-        Board board = new Board();
-        BoardFactory.settingUpBoard();
-        return board;
+        Map<Position, Piece> initBoard = BoardFactory.settingUpBoard();
+        return new Board(initBoard);
     }
 
     private Position chooseTargetPosition(Board board, Position movePiecePosition) {
