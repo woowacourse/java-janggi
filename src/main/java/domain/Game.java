@@ -17,11 +17,6 @@ public class Game {
         this.turn = boardInitializer.getFirstTurnSide();
     }
 
-    public Piece getPiece(Position position) {
-        validateStartPosition(position);
-        return board.getPiece(position);
-    }
-
     public boolean isAvailableDestination(Position destination) {
         if (board.isInvalidRange(destination)) {
             return false;
