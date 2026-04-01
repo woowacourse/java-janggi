@@ -24,7 +24,7 @@ public final class JanggiController {
         outputView.printGameStart();
 
         InitialPieces initialPieces = setUpInitialPieces();
-        AlivePieces alivePieces = new AlivePieces(initialPieces.toMap());
+        AlivePieces alivePieces = initialPieces.toAlivePieces();
         Board board = new Board(alivePieces);
         JanggiGame janggiGame = new JanggiGame(board);
 

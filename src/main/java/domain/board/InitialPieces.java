@@ -3,6 +3,7 @@ package domain.board;
 import domain.board.wing.Wings;
 import domain.direction.MoveAmount;
 import domain.game.Side;
+import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.factory.CannonFactory;
 import domain.piece.factory.ChariotFactory;
@@ -42,11 +43,11 @@ public class InitialPieces {
         );
     }
 
-    public int size() {
-        return initialPieces.size();
+    public AlivePieces toAlivePieces() {
+        return new AlivePieces(initialPieces);
     }
 
-    public Map<Intersection, Piece> toMap() {
-        return Map.copyOf(initialPieces);
+    public int size() {
+        return initialPieces.size();
     }
 }
