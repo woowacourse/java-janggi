@@ -9,13 +9,17 @@ import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.List;
 
-public class Jol extends AbstractPiece {
+public class Jol implements Piece {
 
-    private static final int SCORE = 2;
     private static final int MAX_DISTANCE = 1;
+    private static final int SCORE = 2;
+
+    private final Team team;
+    private final PieceType type;
 
     public Jol(Team team) {
-        super(SCORE, team, PieceType.JOL);
+        this.team = team;
+        this.type = PieceType.JOL;
     }
 
     @Override
@@ -39,11 +43,31 @@ public class Jol extends AbstractPiece {
 
     @Override
     public boolean canMove(Route route) {
-        return !route.hasAlly(super.getTeam());
+        return !route.hasAlly(team);
+    }
+
+    @Override
+    public boolean isSameTeam(Team team) {
+        return this.team.equals(team);
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return this.type.equals(type);
+    }
+
+    @Override
+    public PieceType getType() {
+        return type;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 
     private void validateForward(int signRow) {
-        if ((super.getTeam().equals(Team.CHO) && signRow < 0) || (super.getTeam().equals(Team.HAN) && signRow > 0)) {
+        if ((team.equals(Team.CHO) && signRow < 0) || (team.equals(Team.HAN) && signRow > 0)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
     }
