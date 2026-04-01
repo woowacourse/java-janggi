@@ -40,7 +40,7 @@ public class OutputView {
             "%s가 장군을 당했습니다.\n";
 
     private static final String PLAYER_SCORE =
-            "%s : %d점 \n%s : %d점\n";
+            "%s : %.1f점 \n%s : %.1f점\n";
 
     private static final String PLAYER_WINNER =
             "%s 승리!";
@@ -86,7 +86,7 @@ public class OutputView {
         System.out.printf(PLAYER_CHECK, side.getName());
     }
 
-    public static void printScore(Side side1, int score1, Side side2, int score2) {
+    public static void printScore(Side side1, double score1, Side side2, double score2) {
         System.out.printf(PLAYER_SCORE, side1.getName(), score1, side2.getName(), score2);
     }
 

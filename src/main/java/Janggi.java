@@ -128,8 +128,8 @@ public class Janggi {
     }
 
     private void printScore(Board board) {
-        int choScore = board.getSideScore(Side.CHO);
-        int hanScore = board.getSideScore(Side.HAN);
+        double choScore = board.getSideScore(Side.CHO);
+        double hanScore = board.getSideScore(Side.HAN);
 
         OutputView.printScore(Side.CHO, choScore, Side.HAN, hanScore);
     }

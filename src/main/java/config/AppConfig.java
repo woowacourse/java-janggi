@@ -30,4 +30,5 @@ public class AppConfig {
     public GameService boardService() {
         return new GameService(boardRepository(), gameRoomRepository(), gameStateRepository(), connectionManager());
     }
+
 }

@@ -19,7 +19,11 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public record Board(Map<Position, Place> board) {
+public class Board {
+
+    private static final double HAN_PIECE_BONUS_SCORE = 1.5;
+
+    private final Map<Position, Place> board;
 
     public Board(Map<Position, Place> board) {
         this.board = new HashMap<>(board);
@@ -102,14 +106,16 @@ public record Board(Map<Position, Place> board) {
                 .anyMatch(p -> p.isSameSymbol(PieceSymbol.GENERAL));
     }
 
-    public int getSideScore(Side side) {
-        return board.values().stream()
+    public double getSideScore(Side side) {
+        double sum = board.values().stream()
                 .filter(place -> place.hasSide(side))
-                .mapToInt(Place::getScore)
+                .mapToDouble(Place::getScore)
                 .sum();
+        if(side == Side.HAN)
+            sum += HAN_PIECE_BONUS_SCORE;
+        return sum;
     }
 
-    @Override
     public Map<Position, Place> board() {
         return Map.copyOf(board);
     }

@@ -42,6 +42,10 @@ class BoardTest {
         stubBoard.put(new Position(2,5), new General(Side.CHO, new GeneralMoveStrategy(),
                 new PalaceOneStepMoveStrategy()));
 
+        Position position4 = new Position(6, 1);
+        stubBoard.put(position4, new Soldier(Side.HAN, new SoldierMoveStrategy(Side.HAN),
+                new PalaceSoldierMoveStrategy(Side.HAN)));
+
         board = stubBoard.create();
     }
 
@@ -120,12 +124,12 @@ class BoardTest {
     @DisplayName("기물 점수 계산")
     void board_calculate_side(){
         //given & when
-        int cho = board.getSideScore(Side.CHO);
-        int han = board.getSideScore(Side.HAN);
+        double cho = board.getSideScore(Side.CHO);
+        double han = board.getSideScore(Side.HAN);
 
         //then
         assertThat(cho).isEqualTo(15);
-        assertThat(han).isEqualTo(0);
+        assertThat(han).isEqualTo(2.5);
     }
 
     @Test

@@ -6,8 +6,8 @@ public enum PieceSymbol {
     CANNON("포", 7),
     HORSE("마", 5),
     ELEPHANT("상", 3),
-    GUARD("사", 2),
-    SOLDIER("졸", 1);
+    GUARD("사", 3),
+    SOLDIER("졸", 2);
 
     private final String display;
     private final int score;
