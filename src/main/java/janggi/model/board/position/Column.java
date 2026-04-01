@@ -31,7 +31,7 @@ public enum Column {
     }
 
     public int getDistanceTo(Column other) {
-        return this.ordinal() - other.ordinal();
+        return this.value - other.value;
     }
 
     public int getValue() {
