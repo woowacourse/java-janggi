@@ -50,14 +50,18 @@ public class BasicBoardInitializer implements BoardInitializer {
             }
 
             Position pos = entry.getKey();
-            int row = pos.row();
-            int col = 9 - pos.col();
-            Position newPosition = new Position(col, row);
+            Position chuPosition = translateChuPosition(pos);
 
-            chuPlacements.put(newPosition, copyAsChu(piece));
+            chuPlacements.put(chuPosition, copyAsChu(piece));
         }
 
         placements.putAll(chuPlacements);
+    }
+
+    private static Position translateChuPosition(Position pos) {
+        int row = pos.row();
+        int col = 9 - pos.col();
+        return new Position(col, row);
     }
 
     private Piece copyAsChu(Piece piece) {
