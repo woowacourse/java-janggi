@@ -27,20 +27,13 @@ public class JanggiController {
     }
 
     public void run() {
-        final Team redTeam = setupRedTeam();
         final Team blueTeam = setupBlueTeam();
+        final Team redTeam = setupRedTeam();
         final Board board = BoardGenerator.generate(redTeam, blueTeam);
-        final TurnManager turnManager = new TurnManager(List.of(redTeam, blueTeam));
+        final TurnManager turnManager = new TurnManager(List.of(blueTeam, redTeam));
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
         OutputView.printGameResult(GameResultDto.from(board));
-    }
-
-    private Team setupRedTeam() {
-        OutputView.printSetupGuide(TeamType.RED);
-        final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
-        final SetupPolicy setupPolicy = setupCommand.toPolicy();
-        return new RedTeam(setupPolicy);
     }
 
     private Team setupBlueTeam() {
@@ -48,6 +41,13 @@ public class JanggiController {
         final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
         final SetupPolicy setupPolicy = setupCommand.toPolicy();
         return new BlueTeam(setupPolicy);
+    }
+
+    private Team setupRedTeam() {
+        OutputView.printSetupGuide(TeamType.RED);
+        final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
+        final SetupPolicy setupPolicy = setupCommand.toPolicy();
+        return new RedTeam(setupPolicy);
     }
 
     private SetupCommand readSetupCommand() {
