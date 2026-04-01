@@ -13,4 +13,9 @@ public class InputView {
         String[] position = input.split(" ");
         return new Position(Integer.parseInt(position[0]), Integer.parseInt(position[1]));
     }
+
+    public int readBoardFormationChoice() {
+        System.out.println("상차림 번호를 입력하세요");
+        return Integer.parseInt(scanner.nextLine());
+    }
 }

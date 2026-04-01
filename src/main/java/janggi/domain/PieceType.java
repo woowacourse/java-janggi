@@ -19,9 +19,9 @@ public enum PieceType {
     ZOL("졸", List.of(1, 3, 5, 7, 9), 7, new ZolMoveRule());
 
     private final String name;
-    private final List<Integer> xPositions;
     private final int yPosition;
     private final MoveRule moveRule;
+    private List<Integer> xPositions;
 
     PieceType(String name, List<Integer> xPositions, int yPosition, MoveRule moveRule) {
         this.name = name;
@@ -51,5 +51,15 @@ public enum PieceType {
             return 11 - yPosition;
         }
         return yPosition;
+    }
+
+    public void changeXPositionsByFormation(BoardFormation boardFormation) {
+        if (this == MA) {
+            xPositions = boardFormation.getMaXPositions();
+        }
+
+        if (this == SANG) {
+            xPositions = boardFormation.getSangXPositions();
+        }
     }
 }

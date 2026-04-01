@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.BoardFormation;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
@@ -98,5 +99,12 @@ public class OutputView {
             return CHO_COLOR;
         }
         return HAN_COLOR;
+    }
+
+    public void printBoardFormation(Team team) {
+        System.out.printf("%s 상차림을 선택하세요.%n", team.getName());
+        for (BoardFormation boardFormation : BoardFormation.values()) {
+            System.out.printf("%d. %s%n", boardFormation.getChoice(), boardFormation.getName());
+        }
     }
 }

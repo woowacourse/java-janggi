@@ -18,35 +18,76 @@ public class BoardTest {
     @CsvSource({
 
             "CHO,KING,5,9",
-            "CHO,SA,4,10","CHO,SA,6,10",
-            "CHO,SANG,3,10","CHO,SANG,8,10",
-            "CHO,MA,2,10","CHO,MA,7,10",
-            "CHO,CHA,1,10","CHO,CHA,9,10",
-            "CHO,PO,2,8","CHO,PO,8,8",
+            "CHO,SA,4,10", "CHO,SA,6,10",
+            "CHO,SANG,3,10", "CHO,SANG,8,10",
+            "CHO,MA,2,10", "CHO,MA,7,10",
+            "CHO,CHA,1,10", "CHO,CHA,9,10",
+            "CHO,PO,2,8", "CHO,PO,8,8",
             "CHO,ZOL,1,7", "CHO,ZOL,3,7", "CHO,ZOL,5,7", "CHO,ZOL,7,7", "CHO,ZOL,9,7",
 
             "HAN,KING,5,2",
-            "HAN,SA,4,1","HAN,SA,6,1",
-            "HAN,SANG,3,1","HAN,SANG,8,1",
-            "HAN,MA,2,1","HAN,MA,7,1",
-            "HAN,CHA,1,1","HAN,CHA,9,1",
-            "HAN,PO,2,3","HAN,PO,8,3",
+            "HAN,SA,4,1", "HAN,SA,6,1",
+            "HAN,SANG,3,1", "HAN,SANG,8,1",
+            "HAN,MA,2,1", "HAN,MA,7,1",
+            "HAN,CHA,1,1", "HAN,CHA,9,1",
+            "HAN,PO,2,3", "HAN,PO,8,3",
             "HAN,ZOL,1,4", "HAN,ZOL,3,4", "HAN,ZOL,5,4", "HAN,ZOL,7,4", "HAN,ZOL,9,4"
 
     })
-    @DisplayName("초기화된 보드의 지정된 위치에 각 나라의 기물이 알맞게 배치되어 있다")
-    void 보드_초기화_기물_배치_확인(Team team, PieceType pieceType, int x, int y){
+    @DisplayName("초기화된 보드의 지정된 위치에 각 나라의 기물이 알맞게 배치되어 있다 (초, 한 모두 기본 상차림인 마상마상)")
+    void 보드_초기화_기물_배치_확인(Team team, PieceType pieceType, int x, int y) {
         //given
         Board board = new Board();
-        board.initialize();
-        Position position = new Position(x,y);
-        Piece zol = new Piece(team,pieceType);
+        BoardFormation hanFormation = BoardFormation.MA_SANG_MA_SANG;
+        BoardFormation choFormation = BoardFormation.MA_SANG_MA_SANG;
+        Position position = new Position(x, y);
+        Piece piece = new Piece(team, pieceType);
 
         //when
-        Map<Position, Piece> checkZol = board.getBoard();
+        board.initializeByFormation(hanFormation, Team.HAN);
+        board.initializeByFormation(choFormation, Team.CHO);
+        Map<Position, Piece> checkPiece = board.getBoard();
 
         //then
-        assertThat(checkZol.get(position)).isEqualTo(zol);
+        assertThat(checkPiece.get(position)).isEqualTo(piece);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+
+            "CHO,KING,5,9",
+            "CHO,SA,4,10", "CHO,SA,6,10",
+            "CHO,SANG,2,10", "CHO,SANG,7,10",
+            "CHO,MA,3,10", "CHO,MA,8,10",
+            "CHO,CHA,1,10", "CHO,CHA,9,10",
+            "CHO,PO,2,8", "CHO,PO,8,8",
+            "CHO,ZOL,1,7", "CHO,ZOL,3,7", "CHO,ZOL,5,7", "CHO,ZOL,7,7", "CHO,ZOL,9,7",
+
+            "HAN,KING,5,2",
+            "HAN,SA,4,1", "HAN,SA,6,1",
+            "HAN,SANG,3,1", "HAN,SANG,8,1",
+            "HAN,MA,2,1", "HAN,MA,7,1",
+            "HAN,CHA,1,1", "HAN,CHA,9,1",
+            "HAN,PO,2,3", "HAN,PO,8,3",
+            "HAN,ZOL,1,4", "HAN,ZOL,3,4", "HAN,ZOL,5,4", "HAN,ZOL,7,4", "HAN,ZOL,9,4"
+
+    })
+    @DisplayName("한나라는 마상마상, 초나라는 상마상마의 상차람으로 보드를 초기화한다.")
+    void 한_마상마상_초_상마상마의_상차림으로_보드_초기화(Team team, PieceType pieceType, int x, int y) {
+        // given
+        Board board = new Board();
+        BoardFormation hanFormation = BoardFormation.MA_SANG_MA_SANG;
+        BoardFormation choFormation = BoardFormation.SANG_MA_SANG_MA;
+        Position position = new Position(x, y);
+        Piece piece = new Piece(team, pieceType);
+
+        // when
+        board.initializeByFormation(hanFormation, Team.HAN);
+        board.initializeByFormation(choFormation, Team.CHO);
+        Map<Position, Piece> checkPiece = board.getBoard();
+
+        // then
+        assertThat(checkPiece.get(position)).isEqualTo(piece);
     }
 
     @Test
@@ -54,7 +95,7 @@ public class BoardTest {
     void 초나라_졸_장애물_없을때_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(5,7);
+        Position position = new Position(5, 7);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
         Position zolUp = new Position(5, 6);
         Position zolLeft = new Position(4, 7);
@@ -73,7 +114,7 @@ public class BoardTest {
     void 초나라_졸_아군이_막고있을때_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(5,7);
+        Position position = new Position(5, 7);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
         Position zolUp = new Position(5, 6);
         board.getBoard().put(zolUp, new Piece(Team.CHO, PieceType.ZOL));
@@ -93,7 +134,7 @@ public class BoardTest {
     void 마_장애물_없을때_8방향_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(4,6);
+        Position position = new Position(4, 6);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(5, 4);
@@ -101,8 +142,8 @@ public class BoardTest {
         Position maPos4 = new Position(6, 7);
         Position maPos5 = new Position(3, 8);
         Position maPos6 = new Position(5, 8);
-        Position maPos7 = new Position(2,5);
-        Position maPos8 = new Position(2,7);
+        Position maPos7 = new Position(2, 5);
+        Position maPos8 = new Position(2, 7);
         List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
 
         //when
@@ -118,15 +159,15 @@ public class BoardTest {
     void 마_멱이_막혀있을때_해당_방향_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(4,6);
+        Position position = new Position(4, 6);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
-        board.getBoard().put(new Position(4,5), new Piece(Team.HAN, PieceType.CHA));
+        board.getBoard().put(new Position(4, 5), new Piece(Team.HAN, PieceType.CHA));
         Position maPos1 = new Position(6, 5);
         Position maPos2 = new Position(6, 7);
         Position maPos3 = new Position(3, 8);
         Position maPos4 = new Position(5, 8);
-        Position maPos5 = new Position(2,5);
-        Position maPos6 = new Position(2,7);
+        Position maPos5 = new Position(2, 5);
+        Position maPos6 = new Position(2, 7);
         List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
 
         //when
@@ -142,16 +183,16 @@ public class BoardTest {
     void 마_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(4,6);
+        Position position = new Position(4, 6);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
-        board.getBoard().put(new Position(2,7), new Piece(Team.CHO, PieceType.CHA));
+        board.getBoard().put(new Position(2, 7), new Piece(Team.CHO, PieceType.CHA));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(5, 4);
         Position maPos3 = new Position(6, 5);
         Position maPos4 = new Position(6, 7);
         Position maPos5 = new Position(3, 8);
         Position maPos6 = new Position(5, 8);
-        Position maPos7 = new Position(2,5);
+        Position maPos7 = new Position(2, 5);
         List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
 
         //when
@@ -167,7 +208,7 @@ public class BoardTest {
     void 상_장애물_없을때_8방향_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(5,7);
+        Position position = new Position(5, 7);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(7, 4);
@@ -175,8 +216,8 @@ public class BoardTest {
         Position maPos4 = new Position(8, 9);
         Position maPos5 = new Position(3, 10);
         Position maPos6 = new Position(7, 10);
-        Position maPos7 = new Position(2,5);
-        Position maPos8 = new Position(2,9);
+        Position maPos7 = new Position(2, 5);
+        Position maPos8 = new Position(2, 9);
         List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
 
         //when
@@ -192,16 +233,16 @@ public class BoardTest {
     void 상_대각선_멱이_막혀있을때_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(5,7);
+        Position position = new Position(5, 7);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(6,5), new Piece(Team.CHO, PieceType.ZOL));
+        board.getBoard().put(new Position(6, 5), new Piece(Team.CHO, PieceType.ZOL));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(8, 5);
         Position maPos3 = new Position(8, 9);
         Position maPos4 = new Position(3, 10);
         Position maPos5 = new Position(7, 10);
-        Position maPos6 = new Position(2,5);
-        Position maPos7 = new Position(2,9);
+        Position maPos6 = new Position(2, 5);
+        Position maPos7 = new Position(2, 9);
         List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
 
         //when
@@ -217,15 +258,15 @@ public class BoardTest {
     void 상_직선_멱이_막혀있을때_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(5,7);
+        Position position = new Position(5, 7);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.ZOL));
+        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.ZOL));
         Position maPos1 = new Position(8, 5);
         Position maPos2 = new Position(8, 9);
         Position maPos3 = new Position(3, 10);
         Position maPos4 = new Position(7, 10);
-        Position maPos5 = new Position(2,5);
-        Position maPos6 = new Position(2,9);
+        Position maPos5 = new Position(2, 5);
+        Position maPos6 = new Position(2, 9);
         List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
 
         //when
@@ -241,16 +282,16 @@ public class BoardTest {
     void 상_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(5,7);
+        Position position = new Position(5, 7);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(2,9), new Piece(Team.CHO, PieceType.ZOL));
+        board.getBoard().put(new Position(2, 9), new Piece(Team.CHO, PieceType.ZOL));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(7, 4);
         Position maPos3 = new Position(8, 5);
         Position maPos4 = new Position(8, 9);
         Position maPos5 = new Position(3, 10);
         Position maPos6 = new Position(7, 10);
-        Position maPos7 = new Position(2,5);
+        Position maPos7 = new Position(2, 5);
         List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
 
         //when
@@ -266,7 +307,7 @@ public class BoardTest {
     void 사_장애물_없을때_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(4,10);
+        Position position = new Position(4, 10);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 9);
@@ -288,7 +329,7 @@ public class BoardTest {
     void 사_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(4,10);
+        Position position = new Position(4, 10);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
         board.getBoard().put(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
         Position maPos1 = new Position(4, 9);
@@ -310,7 +351,7 @@ public class BoardTest {
     void 사_목적지에_적군_존재시_이동_가능() {
         //given
         Board board = new Board();
-        Position position = new Position(4,10);
+        Position position = new Position(4, 10);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
         board.getBoard().put(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
         Position maPos1 = new Position(4, 9);
@@ -329,11 +370,11 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("왕은 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)" )
+    @DisplayName("왕은 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)")
     void 왕_장애물_없을때_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(5,9);
+        Position position = new Position(5, 9);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
@@ -358,7 +399,7 @@ public class BoardTest {
     void 왕_목적지에_아군_존재시_이동_불가() {
         //given
         Board board = new Board();
-        Position position = new Position(5,9);
+        Position position = new Position(5, 9);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
         board.getBoard().put(new Position(4, 9), new Piece(Team.CHO, PieceType.SA));
         board.getBoard().put(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
@@ -383,7 +424,7 @@ public class BoardTest {
     void 왕_목적있지에_적군_존재시_이동_가능() {
         //given
         Board board = new Board();
-        Position position = new Position(5,9);
+        Position position = new Position(5, 9);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
         board.getBoard().put(new Position(4, 9), new Piece(Team.HAN, PieceType.ZOL));
         board.getBoard().put(new Position(4, 10), new Piece(Team.HAN, PieceType.CHA));
@@ -410,7 +451,7 @@ public class BoardTest {
     void 차_장애물_없을때_직선_끝까지_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(1,10);
+        Position position = new Position(1, 10);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8), new Position(1, 7),
@@ -440,11 +481,11 @@ public class BoardTest {
     void 차_경로에_아군_존재시_아군_직전까지_이동_가능() {
         //given
         Board board = new Board();
-        Position position = new Position(1,10);
+        Position position = new Position(1, 10);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
-        board.getBoard().put(new Position(1,7), new Piece(Team.CHO, PieceType.ZOL));
+        board.getBoard().put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
         List<Position> upRoutes = List.of(
-                new Position(1, 9), new Position(1,8)
+                new Position(1, 9), new Position(1, 8)
         );
 
         List<Position> rightRoutes = List.of(
@@ -469,9 +510,9 @@ public class BoardTest {
     void 차_경로에_적군_존재시_적군_위치까지_이동_가능() {
         //given
         Board board = new Board();
-        Position position = new Position(1,10);
+        Position position = new Position(1, 10);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
-        board.getBoard().put(new Position(1,7), new Piece(Team.HAN, PieceType.CHA));
+        board.getBoard().put(new Position(1, 7), new Piece(Team.HAN, PieceType.CHA));
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8), new Position(1, 7)
         );
@@ -498,9 +539,9 @@ public class BoardTest {
     void 포_경로에_일반_기물_포다리가_1개_있을때_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(5,8);
+        Position position = new Position(5, 8);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.CHA));
+        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
         List<Position> upRoutes = List.of(
                 new Position(5, 5), new Position(5, 4), new Position(5, 3),
                 new Position(5, 2), new Position(5, 1)
@@ -520,10 +561,10 @@ public class BoardTest {
     @DisplayName("포는 넘어가려는 목적지에 또 다른 포가 있으면, 포는 포를 포획할 수 없으므로 이동할 수 없다")
     void 포_목적지에_다른_포가_있으면_포획_및_이동_불가() {
         Board board = new Board();
-        Position position = new Position(5,8);
+        Position position = new Position(5, 8);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.CHA));
-        board.getBoard().put(new Position(5,5), new Piece(Team.HAN, PieceType.PO));
+        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        board.getBoard().put(new Position(5, 5), new Piece(Team.HAN, PieceType.PO));
         List<Position> upRoutes = List.of();
 
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
@@ -538,10 +579,10 @@ public class BoardTest {
     void 포_목적지에_일반_적군_기물이_있을때_이동_성공() {
         //given
         Board board = new Board();
-        Position position = new Position(5,8);
+        Position position = new Position(5, 8);
         board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5,6), new Piece(Team.HAN, PieceType.CHA));
-        board.getBoard().put(new Position(5,5), new Piece(Team.HAN, PieceType.ZOL));
+        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        board.getBoard().put(new Position(5, 5), new Piece(Team.HAN, PieceType.ZOL));
         List<Position> upRoutes = List.of(new Position(5, 5));
 
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
