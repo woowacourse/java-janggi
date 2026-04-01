@@ -1,4 +1,4 @@
-package janggi.view;
+package janggi.view.input;
 
 import java.util.List;
 

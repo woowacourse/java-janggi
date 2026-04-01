@@ -1,4 +1,4 @@
-package janggi.view;
+package janggi.view.output;
 
 import java.util.List;
 

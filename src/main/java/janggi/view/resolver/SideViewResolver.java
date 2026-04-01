@@ -1,4 +1,4 @@
-package janggi.view;
+package janggi.view.resolver;
 
 import janggi.domain.Side;
 

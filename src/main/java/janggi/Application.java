@@ -2,8 +2,8 @@ package janggi;
 
 import janggi.controller.JanggiFlow;
 import janggi.view.ApplicationView;
-import janggi.view.ConsoleReader;
-import janggi.view.ConsoleWriter;
+import janggi.view.input.ConsoleReader;
+import janggi.view.output.ConsoleWriter;
 
 public class Application {
 
