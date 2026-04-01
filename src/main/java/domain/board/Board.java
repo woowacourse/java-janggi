@@ -18,13 +18,9 @@ public class Board implements BoardChecker {
 
     @Override
     public boolean isTargetType(Position position, PieceType pieceType) {
-        Piece piece = board.get(position);
-
-        if (piece == null) {
-            return false;
-        }
-
-        return piece.type() == pieceType;
+        return findPiece(position)
+                .map(piece -> piece.type() == pieceType)
+                .orElse(false);
     }
 
     public void move(Position from, Position to) {
@@ -37,13 +33,8 @@ public class Board implements BoardChecker {
     }
 
     public Piece findBy(Position position) {
-        Piece piece = board.get(position);
-
-        if (piece == null) {
-            throw new NoSuchElementException("[ERROR] 해당 좌표에 기물이 없습니다.");
-        }
-
-        return piece;
+        return findPiece(position)
+                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 좌표에 기물이 없습니다."));
     }
 
     @Override
@@ -58,22 +49,15 @@ public class Board implements BoardChecker {
     }
 
     private void addPieceIfExists(Position position, List<Piece> piecesInPath) {
-        Piece piece = board.get(position);
-
-        if (piece != null) {
-            piecesInPath.add(piece);
-        }
+        findPiece(position).ifPresent(piecesInPath::add);
     }
 
     @Override
     public boolean isSameCamp(Position from, Position to) {
         Piece fromPiece = findBy(from);
-        Piece toPiece = board.get(to);
 
-        if (toPiece == null) {
-            return false;
-        }
-
-        return fromPiece.camp() == toPiece.camp();
+        return findPiece(to)
+                .map(toPiece -> fromPiece.camp() == toPiece.camp())
+                .orElse(false);
     }
 }

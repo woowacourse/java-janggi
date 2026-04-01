@@ -6,6 +6,7 @@ import domain.piece.Camp;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BoardRenderer {
     private static final String ANSI_GREEN = "\u001B[32m";
@@ -42,7 +43,7 @@ public class BoardRenderer {
         List<String> cells = new ArrayList<>();
 
         for (int x = MIN_X; x <= MAX_X; x++) {
-            Piece piece = board.findPiece(new Position(x, y)).orElse(null);
+            Optional<Piece> piece = board.findPiece(new Position(x, y));
             cells.add(renderPiece(piece));
         }
 
@@ -67,11 +68,11 @@ public class BoardRenderer {
         return COLUMN_LABEL_PREFIX + String.join(COLUMN_LABEL_GAP, labels);
     }
 
-    private String renderPiece(Piece piece) {
-        if (piece == null) {
-            return EMPTY_CELL;
-        }
+    private String renderPiece(Optional<Piece> piece) {
+        return piece.map(this::renderOccupiedPiece).orElse(EMPTY_CELL);
+    }
 
+    private String renderOccupiedPiece(Piece piece) {
         String symbol = switch (piece.type()) {
             case GENERAL -> renderGeneral(piece.camp());
             case SOLDIER -> renderSoldier(piece.camp());

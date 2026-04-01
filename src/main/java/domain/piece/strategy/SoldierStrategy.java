@@ -17,14 +17,21 @@ public class SoldierStrategy implements MoveStrategy {
 
         int dx = from.calculateDx(to);
         int dy = from.calculateDy(to);
-        int distance = Math.abs(dx) + Math.abs(dy);
 
+        validateSoldierBackMove(dy, forwardDirection);
+        validateSoldierMoveOne(dx, dy);
+    }
+
+    private static void validateSoldierMoveOne(int dx, int dy) {
+        int distance = Math.abs(dx) + Math.abs(dy);
+        if (distance != 1) {
+            throw new IllegalArgumentException("[ERROR] 졸/병은 한 칸만그 움직일 수 있습니다.");
+        }
+    }
+
+    private static void validateSoldierBackMove(int dy, int forwardDirection) {
         if (dy == -forwardDirection) {
             throw new IllegalArgumentException("[ERROR] 졸/병은 후퇴가 불가능합니다.");
-        }
-
-        if (distance != 1) {
-            throw new IllegalArgumentException("[ERROR] 졸/병은 한 칸만 움직일 수 있습니다.");
         }
     }
 }
