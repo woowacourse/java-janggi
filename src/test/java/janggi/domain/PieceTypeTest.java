@@ -22,7 +22,7 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType horse = PieceType.HORSE;
 
-        Paths paths = horse.calculatePaths(current);
+        Paths paths = horse.calculatePaths(current, Side.CHO);
 
         int pathCount = 0;
         for (Path path : paths) {
@@ -38,7 +38,7 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType elephant = PieceType.ELEPHANT;
 
-        Paths paths = elephant.calculatePaths(current);
+        Paths paths = elephant.calculatePaths(current, Side.CHO);
 
         int pathCount = 0;
         for (Path path : paths) {
@@ -54,7 +54,7 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType palace = PieceType.PALACE;
 
-        Paths paths = palace.calculatePaths(current);
+        Paths paths = palace.calculatePaths(current, Side.CHO);
 
         int pathCount = 0;
         for (Path path : paths) {
@@ -70,7 +70,7 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType chariot = PieceType.CHARIOT;
 
-        Paths paths = chariot.calculatePaths(current);
+        Paths paths = chariot.calculatePaths(current, Side.CHO);
 
         assertThat(paths).isNotEmpty();
     }
@@ -80,11 +80,11 @@ class PieceTypeTest {
     void determineDestinations_Horse_WithObstacle() {
         Position current = new Position(4, 4);
         PieceType horse = PieceType.HORSE;
-        Paths paths = horse.calculatePaths(current);
+        Paths paths = horse.calculatePaths(current, Side.CHO);
 
         Map<Position, Piece> boardState = new HashMap<>();
         Position obstacleTransit = new Position(5, 4);
-        boardState.put(obstacleTransit, new Piece(Side.CHO, PieceType.CHO_SOLDIER, "0"));
+        boardState.put(obstacleTransit, new Piece(Side.CHO, PieceType.SOLDIER, "0"));
 
         Piece movingPiece = new Piece(Side.HAN, PieceType.HORSE, "0");
 

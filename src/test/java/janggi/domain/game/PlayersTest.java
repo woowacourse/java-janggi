@@ -34,7 +34,7 @@ class PlayersTest {
     void isCurrentSidePiece_MatchesTurnAndPieceSide_ReturnsTrue() {
         Players players = Players.from("초나라", "한나라");
         Turn turn = Turn.init();
-        Piece choPiece = new Piece(Side.CHO, PieceType.CHO_SOLDIER, "0");
+        Piece choPiece = new Piece(Side.CHO, PieceType.SOLDIER, "0");
 
         assertThat(players.isCurrentSidePiece(turn, choPiece)).isTrue();
     }

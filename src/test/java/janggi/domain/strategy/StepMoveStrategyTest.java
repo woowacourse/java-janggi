@@ -22,7 +22,7 @@ class StepMoveStrategyTest {
     void determineDestinations_NoObstacles_ReturnsDestination() {
         StepMoveStrategy strategy = new StepMoveStrategy();
         Position current = new Position(5, 5);
-        Piece soldier = new Piece(Side.CHO, PieceType.CHO_SOLDIER, "0");
+        Piece soldier = new Piece(Side.CHO, PieceType.SOLDIER, "0");
 
         Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N));
         Map<Position, Piece> boardState = new HashMap<>();
@@ -37,7 +37,7 @@ class StepMoveStrategyTest {
     void determineDestinations_BlockedBySameSide_ReturnsEmpty() {
         StepMoveStrategy strategy = new StepMoveStrategy();
         Position current = new Position(5, 5);
-        Piece soldier = new Piece(Side.CHO, PieceType.CHO_SOLDIER, "0");
+        Piece soldier = new Piece(Side.CHO, PieceType.SOLDIER, "0");
 
         Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N));
         Map<Position, Piece> boardState = new HashMap<>();

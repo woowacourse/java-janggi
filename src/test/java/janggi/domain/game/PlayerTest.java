@@ -22,7 +22,7 @@ class PlayerTest {
     @Test
     void isOwnPiece_ReturnsTrueIfPieceMatchesSide() {
         Player player = new Player("플레이어1", Side.CHO);
-        Piece piece = new Piece(Side.CHO, PieceType.CHO_SOLDIER, "0");
+        Piece piece = new Piece(Side.CHO, PieceType.SOLDIER, "0");
 
         assertThat(player.isOwnPiece(piece)).isTrue();
     }

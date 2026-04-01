@@ -45,7 +45,7 @@ class HorseMoveStrategyTest {
         Paths paths = strategy.findMovablePaths(current, EnumSet.of(Direction.N));
         Map<Position, Piece> boardState = new HashMap<>();
 
-        boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.HAN_SOLDIER, "0"));
+        boardState.put(new Position(4, 5), new Piece(Side.HAN, PieceType.SOLDIER, "0"));
 
         List<Position> destinations = strategy.determineDestinations(paths, boardState, horse);
 
