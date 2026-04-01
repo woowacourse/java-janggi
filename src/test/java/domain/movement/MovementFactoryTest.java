@@ -38,7 +38,7 @@ class MovementFactoryTest {
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(StepPieceMovement.class);
+        assertThat(movement).isInstanceOf(LinearMovement.class);
     }
 
     @Test
@@ -48,7 +48,7 @@ class MovementFactoryTest {
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(StepPieceMovement.class);
+        assertThat(movement).isInstanceOf(LinearMovement.class);
     }
 
     @Test

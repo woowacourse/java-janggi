@@ -13,8 +13,8 @@ public final class MovementFactory {
     static {
         MOVEMENT_SUPPLIERS.put(PieceType.GENERAL, FourDirectionMovement::new);
         MOVEMENT_SUPPLIERS.put(PieceType.GUARD, FourDirectionMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.CHARIOT, StepPieceMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.CANNON, StepPieceMovement::new);
+        MOVEMENT_SUPPLIERS.put(PieceType.CHARIOT, LinearMovement::new);
+        MOVEMENT_SUPPLIERS.put(PieceType.CANNON, LinearMovement::new);
         MOVEMENT_SUPPLIERS.put(PieceType.ELEPHANT, ElephantMovement::new);
         MOVEMENT_SUPPLIERS.put(PieceType.HORSE, HorseMovement::new);
     }

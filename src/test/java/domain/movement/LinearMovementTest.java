@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("StepPieceMovement 클래스 테스트")
-class StepPieceMovementTest {
+class LinearMovementTest {
 
     private Position pos(Column column, Row row) {
         return new Position(column, row);
@@ -19,7 +19,7 @@ class StepPieceMovementTest {
     @Test
     @DisplayName("기물이 보드 중앙에 위치한다 가정, 후보 경로를 정상적으로 생성한다")
     void fromCenterCreatesFourLinearPaths() {
-        StepPieceMovement movement = new StepPieceMovement();
+        LinearMovement movement = new LinearMovement();
         Position center = pos(Column.E, Row.FOUR);
 
         Paths paths = movement.candidatePaths(center);
@@ -30,7 +30,7 @@ class StepPieceMovementTest {
     @Test
     @DisplayName("각 경로는 보드 경계까지로 구성된다")
     void eachPathExtendsToEdge() {
-        StepPieceMovement movement = new StepPieceMovement();
+        LinearMovement movement = new LinearMovement();
         Position center = pos(Column.E, Row.FOUR);
 
         Paths paths = movement.candidatePaths(center);
@@ -51,7 +51,7 @@ class StepPieceMovementTest {
     @Test
     @DisplayName("위 방향 경로는 모든 중간 위치를 포함한다")
     void upPathContainsAllIntermediatePositions() {
-        StepPieceMovement movement = new StepPieceMovement();
+        LinearMovement movement = new LinearMovement();
         Position start = pos(Column.E, Row.FOUR);
 
         Paths paths = movement.candidatePaths(start);
@@ -72,7 +72,7 @@ class StepPieceMovementTest {
     @Test
     @DisplayName("경로 내 중간 위치들이 순서대로 정렬된다")
     void pathIntermediatesAreOrdered() {
-        StepPieceMovement movement = new StepPieceMovement();
+        LinearMovement movement = new LinearMovement();
         Position start = pos(Column.A, Row.ZERO);
 
         Paths paths = movement.candidatePaths(start);

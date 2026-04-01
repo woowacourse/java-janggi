@@ -4,7 +4,7 @@ import domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StepPieceMovement implements Movement {
+public class LinearMovement implements Movement {
     private static final List<Delta> MOVES = List.of(
             new Delta(new ColDelta(0), new RowDelta(-1)),
             new Delta(new ColDelta(0), new RowDelta(1)),
