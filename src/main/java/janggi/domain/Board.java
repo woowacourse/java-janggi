@@ -7,6 +7,7 @@ import janggi.domain.side.Team;
 import janggi.domain.side.TeamType;
 import janggi.dto.BoardSpot;
 import janggi.dto.BoardSpots;
+
 import java.util.HashMap;
 import java.util.Optional;
 

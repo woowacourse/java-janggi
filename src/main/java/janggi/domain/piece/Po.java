@@ -8,7 +8,7 @@ import janggi.domain.side.TeamType;
 import java.util.List;
 import java.util.Optional;
 
-public class Po implements Piece {
+public class Po extends Piece {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Delta.UP)),
@@ -17,14 +17,8 @@ public class Po implements Piece {
             new MovePath(List.of(Delta.RIGHT))
     );
 
-    private final TeamType teamType;
-    private final PieceType pieceType;
-    private final List<MovePath> paths;
-
     public Po(TeamType teamType) {
-        this.teamType = teamType;
-        pieceType = PieceType.PO;
-        paths = PATHS;
+        super(teamType, PieceType.PO);
     }
 
     @Override
@@ -34,21 +28,6 @@ public class Po implements Piece {
         }
 
         validateObstacles(start, end, board);
-    }
-
-    @Override
-    public String name() {
-        return pieceType.getName();
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
     }
 
     private boolean isValidMovePattern(Position start, Position end) {
@@ -63,7 +42,7 @@ public class Po implements Piece {
         int dx = start.deltaX(end);
         int dy = start.deltaY(end);
 
-        return paths.stream()
+        return PATHS.stream()
             .filter(path -> path.matchesDirection(dx, dy))
             .findFirst();
     }

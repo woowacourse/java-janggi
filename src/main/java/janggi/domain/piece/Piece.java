@@ -4,13 +4,27 @@ import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 
-public interface Piece {
+public abstract class Piece {
 
-    void validateCanMove(Position start, Position end, Board board);
+    private final TeamType teamType;
+    private final PieceType pieceType;
 
-    String name();
+    public Piece(TeamType teamType, PieceType pieceType) {
+        this.teamType = teamType;
+        this.pieceType = pieceType;
+    }
 
-    PieceType getPieceType();
+    public String name() {
+        return pieceType.getName();
+    }
 
-    TeamType getTeamType();
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
+    public abstract void validateCanMove(Position start, Position end, Board board);
 }

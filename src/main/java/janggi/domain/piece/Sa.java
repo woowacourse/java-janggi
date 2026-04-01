@@ -8,7 +8,7 @@ import janggi.domain.side.TeamType;
 import java.util.List;
 import java.util.Optional;
 
-public class Sa implements Piece {
+public class Sa extends Piece {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Delta.UP)),
@@ -21,14 +21,8 @@ public class Sa implements Piece {
             new MovePath(List.of(Delta.LEFT_DOWN))
     );
 
-    private final TeamType teamType;
-    private final PieceType pieceType;
-    private final List<MovePath> paths;
-
     public Sa(TeamType teamType) {
-        this.teamType = teamType;
-        pieceType = PieceType.SA;
-        paths = PATHS;
+        super(teamType, PieceType.SA);
     }
 
     @Override
@@ -36,21 +30,6 @@ public class Sa implements Piece {
         if (!isValidMovePattern(start, end)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-    }
-
-    @Override
-    public String name() {
-        return pieceType.getName();
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
     }
 
     private boolean isValidMovePattern(Position start, Position end) {
@@ -69,7 +48,7 @@ public class Sa implements Piece {
         int dx = start.deltaX(end);
         int dy = start.deltaY(end);
 
-        return paths.stream()
+        return PATHS.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
     }
