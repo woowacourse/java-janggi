@@ -69,3 +69,82 @@
 #### 구현되지 않은 기능
 - 상마상마, 마상마상 등의 상차림 변경은 미구현
 - 외통수 시 게임을 종료하는 기능 미구현(장을 잡을 때까지 게임 진행)
+
+
+```mermaid
+classDiagram
+  Piece <|.. Ma
+  Piece <|.. Cha
+  Piece <|.. Pho
+  Piece <|.. Sang
+  Piece <|.. Jang
+  Piece <|.. Sa
+  Piece <|.. Jol
+  Board -- Piece
+  GameTurn .. HanTurn
+  GameTurn .. ChoTurn
+  GameTurn .. FinishedGame
+  JanggiGame -- GameTurn
+  JanggiGame -- Board
+  
+  class Point {
+	  int x
+	  int y
+	  of(int x, int y)
+  }
+  class Piece {
+	  Team team
+	  isSameTeam(Team team)
+	  getRoute(Point from, Point to)
+	  canMove(List<Piece> route)
+  }
+  class Board {
+	  Map~Point, Piece~ state
+	  init()
+	  move(Point from, Point to)
+  }
+  class JanggiGame {
+		Board board
+		GameTurn gameState
+	  play()
+  }
+  class GameTurn {
+	  Team team
+	  <<interface>>
+	  move()
+  }
+  class HanTurn {
+		Team han
+	  move()
+  }
+  class ChoTurn {
+	  Team cho
+	  move()
+  }
+  class FinishedGame {
+	  Team winner
+	  move()
+  }
+```
+```mermaid
+erDiagram
+    GameRoom ||--o{ Piece : "contains (1:N)"
+    
+    GameRoom {
+        BIGINT id PK
+        VARCHAR current_turn
+        VARCHAR winner
+        DOUBLE cho_score
+        DOUBLE han_score
+    }
+    
+    Piece {
+        BIGINT id PK
+        BIGINT game_room_id FK
+        VARCHAR piece_name
+        VARCHAR team
+        INT row_pos
+        INT col_pos
+    }
+
+```
