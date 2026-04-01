@@ -3,41 +3,43 @@ package janggi.domain.strategy;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
-import janggi.domain.route.Path;
+import janggi.domain.route.Destinations;
 import java.util.List;
 
 public class ElephantMoveStrategy extends PieceStrategy {
 
     @Override
-    protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
+    protected Destinations navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
         if (!baseDir.canMove(current)) {
-            return new Path();
+            return new Destinations();
         }
         Position firstStep = baseDir.move(current);
         if (!boardInfo.isEmpty(firstStep)) {
-            return new Path();
+            return new Destinations();
         }
         List<Direction> nextDirections = baseDir.nextDiagonalDirections();
         return navigationIfEnemy(current, nextDirections, firstStep, boardInfo);
     }
 
-    private Path navigationIfEnemy(Position current, List<Direction> nextDirections, Position firstStep,
-                                   BoardInfo boardInfo) {
-        Path path = new Path();
-        nextDirections.forEach(
-                targetDirection -> navigationIfEnemy(current, targetDirection, firstStep, path, boardInfo));
-        return path;
+    private Destinations navigationIfEnemy(Position current, List<Direction> nextDirections, Position firstStep,
+                                           BoardInfo boardInfo) {
+        Destinations destinations = new Destinations();
+        for (Direction direction : nextDirections) {
+            destinations = destinations.addDestinations(navigationIfEnemy(current, direction, firstStep, boardInfo));
+        }
+        return destinations;
     }
 
-    private void navigationIfEnemy(Position current, Direction targetDirection, Position firstStep, Path path,
+    private Destinations navigationIfEnemy(Position current, Direction targetDirection, Position firstStep,
                                    BoardInfo boardInfo) {
         if (!targetDirection.canMove(firstStep) || !boardInfo.isEmpty(targetDirection.move(firstStep))) {
-            return;
+            return new Destinations();
         }
         Position nextStep = targetDirection.move(firstStep);
         if (targetDirection.canMove(nextStep) &&
                 !boardInfo.isAlly(current, targetDirection.move(nextStep))) {
-            path.makePath(targetDirection.move(nextStep));
+            return new Destinations(List.of(targetDirection.move(nextStep)));
         }
+        return new Destinations();
     }
 }

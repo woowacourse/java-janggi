@@ -108,9 +108,9 @@
     - [x] [규칙] 기물의 이동 경로를 위치의 목록으로 표시 `private final List<Position> positions`
     - [x] [규칙] 기물의 위치를 하나씩 받아 이동 경로를 표시 `public void makePath(Position nextPosition)`
 
-- [x] **[Domain]** 기물의 모든 이동 경로를 관리하는 일급 컬렉션 `class Paths`
+- [x] **[Domain]** 기물의 모든 이동 경로를 관리하는 일급 컬렉션 `class Destinations`
     - [x] [규칙] 기물이 이동할 수 있는 모든 경로를 목록으로 표시 `private final List<Path> paths`
-    - [x] [규칙] 기물의 이동 경로를 하나씩 받아 모든 이동 경로를 표시 `public void addPath(Path path)`
+    - [x] [규칙] 기물의 이동 경로를 하나씩 받아 모든 이동 경로를 표시 `public void addPath(Path destinations)`
 
 - [x] **[Domain]** 기물의 최소 이동 단위를 관리하는 클래스 `enum Direction`
     - [x] [규칙] 기물의 모든 최소 이동 단위 경우의 수를 정의
@@ -127,9 +127,9 @@
 
 - [x] **[Domain]** 기물의 이동 규칙(전략)을 관리하는 클래스 `interface MoveStrategy`
     - [x] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환  
-      `Paths findMovablePaths(Position current, EnumSet<Direction> directions)`
+      `Destinations findMovablePaths(Position current, EnumSet<Direction> directions)`
     - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환  
-      `List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece)`
+      `List<Position> determineDestinations(Destinations routes, Map<Position, Piece> boardState, Piece movingPiece)`
 
 - [x] **[Domain]** 기물의 이동 규칙(전략)을 관리하는 구현체 클래스 `class Strategy extends PieceStrategy`
     - [x] [규칙] 각 기물별 이동 규칙을 방향 `enum Direction` 의 조합 `abstract sealed class EnumSet` 으로 표현
@@ -162,9 +162,9 @@
     - [x] [규칙] 기물의 고유한 종류 `private final PieceType pieceType`
     - [x] [규칙] 기물의 소속 진영 `private final Side side`
     - [x] [규칙] 기물이 이동 가능한 모든 `경로`를 계산해서, 경로의 집합으로 반환
-      `public Paths calculatePaths(Position current)`
+      `public Destinations calculatePaths(Position current)`
     - [x] [규칙] 기물이 이동 가능한 모든 `위치`를, 해당 경로에 있는 기물 정보를 반영하고 계산해서 반환
-      `public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState)`
+      `public List<Position> determineDestinations(Destinations routes, Map<Position, Piece> boardState)`
     - [x] [규칙] 기물의 상태를 포장된 객체로 반환 `public Piece toVO()`
 
 - [x] **[Domain]** 게임판과 그에 속한 기물, 각 기물의 위치를 관리할 일급 컬렉션 `class Board`

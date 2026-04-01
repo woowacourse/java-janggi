@@ -3,49 +3,48 @@ package janggi.domain.strategy;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
-import janggi.domain.route.Path;
+import janggi.domain.route.Destinations;
+import java.util.List;
 
 public class CannonMoveStrategy extends PieceStrategy {
 
     @Override
-    protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
+    protected Destinations navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
+        if (!baseDir.canMove(current)) {
+            return new Destinations();
+        }
         Position target = firstMoveablePosition(current, baseDir, boardInfo);
         if (boardInfo.isCannon(target)) {
-            return new Path();
+            return new Destinations();
         }
         return navigationMoveablePosition(current, baseDir, target, boardInfo);
     }
 
     private Position firstMoveablePosition(Position current, Direction baseDir, BoardInfo boardInfo) {
-        if (!baseDir.canMove(current) || !boardInfo.isEmpty(baseDir.move(current))) {
-            return current;
-        }
-        while (baseDir.canMove(current) && boardInfo.isEmpty(current)) {
+        do {
             current = baseDir.move(current);
-        }
+        } while (baseDir.canMove(current) && boardInfo.isEmpty(current));
         return current;
     }
 
-    private Path navigationMoveablePosition(Position current, Direction baseDir, Position target,
-                                            BoardInfo boardInfo) {
-        Path path = new Path();
+    private Destinations navigationMoveablePosition(Position current, Direction baseDir, Position target,
+                                                    BoardInfo boardInfo) {
+        Destinations destinations = new Destinations();
         while (baseDir.canMove(target) && boardInfo.isEmpty(baseDir.move(target))) {
             target = baseDir.move(target);
-            path.makePath(target);
+            destinations = destinations.addDestination(target); // 재할당
         }
         if (!baseDir.canMove(target)) {
-            return path;
+            return destinations;
         }
-        return navigationIfEnemy(current, baseDir, target, path, boardInfo);
+        return destinations.addDestinations(navigationIfEnemy(current, baseDir, target, boardInfo));
     }
 
-    private Path navigationIfEnemy(Position current, Direction baseDir, Position next,
-                                   Path path, BoardInfo boardInfo) {
+    private Destinations navigationIfEnemy(Position current, Direction baseDir, Position next, BoardInfo boardInfo) {
         next = baseDir.move(next);
         if (boardInfo.isAlly(current, next) || boardInfo.isCannon(next)) {
-            return path;
+            return new Destinations();
         }
-        path.makePath(next);
-        return path;
+        return new Destinations(List.of(next));
     }
 }

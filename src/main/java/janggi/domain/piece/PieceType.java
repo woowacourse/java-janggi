@@ -4,6 +4,7 @@ import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
+import janggi.domain.route.Destinations;
 import janggi.domain.strategy.CannonMoveStrategy;
 import janggi.domain.strategy.ElephantMoveStrategy;
 import janggi.domain.strategy.HorseMoveStrategy;
@@ -11,7 +12,6 @@ import janggi.domain.strategy.MoveStrategy;
 import janggi.domain.strategy.SlideMoveStrategy;
 import janggi.domain.strategy.StepMoveStrategy;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.function.Function;
 
 public enum PieceType {
@@ -36,7 +36,7 @@ public enum PieceType {
         this.moveStrategy = moveStrategy;
     }
 
-    public List<Position> determineDestinations(Position currentPosition, Side side, BoardInfo boardInfo) {
-        return moveStrategy.destinationsOf(currentPosition, directionProvider.apply(side), boardInfo);
+    public Destinations determineDestinations(Position currentPosition, Side side, BoardInfo boardInfo) {
+        return moveStrategy.moveablePositions(currentPosition, directionProvider.apply(side), boardInfo);
     }
 }

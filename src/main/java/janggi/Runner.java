@@ -3,6 +3,7 @@ package janggi;
 import janggi.domain.board.Position;
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Player;
+import janggi.domain.route.Destinations;
 import janggi.dto.BoardDTO;
 import janggi.dto.PieceDTO;
 import janggi.dto.PlayerDTO;
@@ -51,7 +52,7 @@ public class Runner {
             gameManager.switchTurn();
             return;
         }
-        List<Position> destinations = gameManager.findDestinations(selected);
+        Destinations destinations = gameManager.findDestinations(selected);
         movePiece(selected, destinations);
     }
 
@@ -79,15 +80,15 @@ public class Runner {
         return new BoardDTO(gameManager.exportBoardState(PositionDTO::new, PieceDTO::new));
     }
 
-    private void movePiece(Position selected, List<Position> destinations) {
-        List<PositionDTO> positionDTOS = destinations.stream()
+    private void movePiece(Position selected, Destinations destinations) {
+        List<PositionDTO> positionDTOS = destinations.getDestinations().stream()
                 .map(position -> position.map(PositionDTO::new))
                 .toList();
         Position target = movePieceToMoveablePosition(selected, destinations, positionDTOS);
         outputView.printBoardStatus(mapToBoardDTO(), target.map(PositionDTO::new));
     }
 
-    private Position movePieceToMoveablePosition(Position selected, List<Position> destinations, List<PositionDTO> positionDTOS) {
+    private Position movePieceToMoveablePosition(Position selected, Destinations destinations, List<PositionDTO> positionDTOS) {
         return retry(() -> {
             outputView.printBoardStatus(mapToBoardDTO(), selected.map(PositionDTO::new), positionDTOS);
             Position target = selectTargetPosition();

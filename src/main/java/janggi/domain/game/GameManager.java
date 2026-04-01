@@ -4,7 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
-import java.util.List;
+import janggi.domain.route.Destinations;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -40,7 +40,7 @@ public class GameManager {
         return false;
     }
 
-    public List<Position> findDestinations(Position selectedPosition) {
+    public Destinations findDestinations(Position selectedPosition) {
         return board.moveablePositions(selectedPosition);
     }
 
@@ -53,7 +53,7 @@ public class GameManager {
         return board.exportBoardState(positionMapper, pieceMapper);
     }
 
-    public void movePiece(Position selected, Position target, List<Position> destinations) {
+    public void movePiece(Position selected, Position target, Destinations destinations) {
         board.movePiece(selected, target, destinations);
     }
 }

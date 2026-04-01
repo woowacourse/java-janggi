@@ -2,11 +2,9 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
-import janggi.domain.route.Path;
-import janggi.domain.route.Paths;
+import janggi.domain.route.Destinations;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -54,29 +52,13 @@ public class Board implements BoardInfo {
         return piecePosition.get(position).isCannon();
     }
 
-    public List<Position> moveablePositions(Position currentPosition) {
+    public Destinations moveablePositions(Position currentPosition) {
         Piece piece = piecePosition.get(currentPosition);
         return piece.determineDestinations(currentPosition, this);
     }
 
-    private Map<Position, Piece> generateStateByPaths(Paths moveablePaths) {
-        Map<Position, Piece> boardState = new HashMap<>();
-        moveablePaths.forEach(path -> generateStateByPath(path, boardState));
-        return boardState;
-    }
-
-    private void generateStateByPath(Path path, Map<Position, Piece> boardState) {
-        path.getPositions().forEach(position -> generateStateIfExist(boardState, position));
-    }
-
-    private void generateStateIfExist(Map<Position, Piece> boardState, Position position) {
-        if (piecePosition.containsKey(position)) {
-            boardState.put(position, piecePosition.get(position));
-        }
-    }
-
-    public void movePiece(Position selected, Position target, List<Position> destinations) {
-        if (!destinations.contains(target)) {
+    public void movePiece(Position selected, Position target, Destinations destinations) {
+        if (!destinations.containsDestination(target)) {
             throw new IllegalArgumentException("[ERROR] 표시된 이동 가능 좌표를 선택해주세요.");
         }
         Piece movingPiece = piecePosition.remove(selected);

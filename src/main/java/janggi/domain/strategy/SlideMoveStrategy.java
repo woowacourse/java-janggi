@@ -3,31 +3,31 @@ package janggi.domain.strategy;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
-import janggi.domain.route.Path;
+import janggi.domain.route.Destinations;
+import java.util.List;
 
 public class SlideMoveStrategy extends PieceStrategy {
 
     @Override
-    protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
-        Path path = new Path();
+    protected Destinations navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
+        Destinations destinations = new Destinations();
         Position next = current;
         while (baseDir.canMove(next) && boardInfo.isEmpty(baseDir.move(next))) {
             next = baseDir.move(next);
-            path.makePath(next);
+            destinations = destinations.addDestination(next);
         }
         if (!baseDir.canMove(next)) {
-            return path;
+            return destinations;
         }
-        return navigationIfEnemy(current, baseDir, next, path, boardInfo);
+        return destinations.addDestinations(navigationIfEnemy(current, baseDir, next, boardInfo));
     }
 
-    private Path navigationIfEnemy(Position current, Direction baseDir, Position next,
-                                   Path path, BoardInfo boardInfo) {
+    private Destinations navigationIfEnemy(Position current, Direction baseDir, Position next,
+                                           BoardInfo boardInfo) {
         next = baseDir.move(next);
         if (boardInfo.isAlly(current, next)) {
-            return path;
+            return new Destinations();
         }
-        path.makePath(next);
-        return path;
+        return new Destinations(List.of(next));
     }
 }

@@ -6,8 +6,7 @@ import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.route.Path;
-import janggi.domain.route.Paths;
+import janggi.domain.route.Destinations;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +21,10 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType horse = PieceType.HORSE;
 
-        Paths paths = horse.calculatePaths(current, Side.CHO);
+        Destinations paths = horse.calculatePaths(current, Side.CHO);
 
         int pathCount = 0;
-        for (Path path : paths) {
+        for (Destinations destinations : paths) {
             pathCount++;
         }
 
@@ -38,10 +37,10 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType elephant = PieceType.ELEPHANT;
 
-        Paths paths = elephant.calculatePaths(current, Side.CHO);
+        Destinations paths = elephant.calculatePaths(current, Side.CHO);
 
         int pathCount = 0;
-        for (Path path : paths) {
+        for (Destinations destinations : paths) {
             pathCount++;
         }
 
@@ -54,10 +53,10 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType palace = PieceType.PALACE;
 
-        Paths paths = palace.calculatePaths(current, Side.CHO);
+        Destinations paths = palace.calculatePaths(current, Side.CHO);
 
         int pathCount = 0;
-        for (Path path : paths) {
+        for (Destinations destinations : paths) {
             pathCount++;
         }
 
@@ -70,7 +69,7 @@ class PieceTypeTest {
         Position current = new Position(4, 4);
         PieceType chariot = PieceType.CHARIOT;
 
-        Paths paths = chariot.calculatePaths(current, Side.CHO);
+        Destinations paths = chariot.calculatePaths(current, Side.CHO);
 
         assertThat(paths).isNotEmpty();
     }
@@ -80,7 +79,7 @@ class PieceTypeTest {
     void determineDestinations_Horse_WithObstacle() {
         Position current = new Position(4, 4);
         PieceType horse = PieceType.HORSE;
-        Paths paths = horse.calculatePaths(current, Side.CHO);
+        Destinations paths = horse.calculatePaths(current, Side.CHO);
 
         Map<Position, Piece> boardState = new HashMap<>();
         Position obstacleTransit = new Position(5, 4);

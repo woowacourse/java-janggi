@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
-import java.util.List;
+import janggi.domain.route.Destinations;
 
 public class Piece {
 
@@ -28,7 +28,7 @@ public class Piece {
         }
     }
 
-    public List<Position> determineDestinations(Position current, BoardInfo boardInfo) {
+    public Destinations determineDestinations(Position current, BoardInfo boardInfo) {
         return type.determineDestinations(current, side, boardInfo);
     }
 
