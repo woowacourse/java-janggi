@@ -1,6 +1,8 @@
 package janggi.domain.piece;
 
+import janggi.domain.Route;
 import janggi.domain.Side;
+import janggi.domain.board.BaseBoard;
 import janggi.domain.policy.RoutePolicy;
 
 public abstract class ActivePiece extends BasePiece {
@@ -12,5 +14,12 @@ public abstract class ActivePiece extends BasePiece {
     public ActivePiece(RoutePolicy routePolicy, Side side, PieceType pieceType) {
         super(side, pieceType);
         this.routePolicy = routePolicy;
+    }
+
+    @Override
+    public void validateRoute(Route route, BaseBoard boardInfo) {
+        if (!routePolicy.isMovable(route, side, boardInfo)) {
+            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
+        }
     }
 }

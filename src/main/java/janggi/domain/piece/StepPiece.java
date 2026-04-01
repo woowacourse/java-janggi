@@ -26,11 +26,4 @@ public abstract class StepPiece extends ActivePiece {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));
     }
-
-    @Override
-    public void validateRoute(Route route, BaseBoard boardInfo) {
-        if (!routePolicy.isMovable(route, side, boardInfo)) {
-            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
-        }
-    }
 }

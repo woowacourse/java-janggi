@@ -26,13 +26,6 @@ public abstract class LinearPiece extends ActivePiece {
 
     }
 
-    @Override
-    public void validateRoute(Route route, BaseBoard boardInfo) {
-        if (!routePolicy.isMovable(route, side, boardInfo)) {
-            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
-        }
-    }
-
     protected Route calculatePath(Position start, Movement direction, int dist) {
         return new Route(Stream
                 .iterate(start, current -> current.move(direction))
