@@ -14,7 +14,7 @@ public class MoveOneStepPiece extends MoveStraightPiece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions, Position from, Position to) {
+    void validateDirections(List<Direction> directions, Position from, Position to) {
         super.validateDirections(directions, from, to);
         if (directions.size() != DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);

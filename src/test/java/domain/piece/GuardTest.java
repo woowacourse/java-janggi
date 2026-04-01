@@ -74,6 +74,62 @@ public class GuardTest {
     }
 
     @Test
+    @DisplayName("사의 궁성 내부 오른쪽 위 목적지까지의 경로를 정확히 계산한다.")
+    void guardRightUpPathInsidePalaceTest() {
+        Piece guard = new Guard(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 2);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(5, 2));
+
+        assertThat(guard.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("사의 궁성 내부 오른쪽 아래 목적지까지의 경로를 정확히 계산한다.")
+    void guardRightDownPathInsidePalaceTest() {
+        Piece guard = new Guard(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 0);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(5, 0));
+
+        assertThat(guard.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("사의 궁성 내부 왼쪽 위 목적지까지의 경로를 정확히 계산한다.")
+    void guardLeftUpPathInsidePalaceTest() {
+        Piece guard = new Guard(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(3, 2);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(3, 2));
+
+        assertThat(guard.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("사의 궁성 내부 왼쪽 아래 목적지까지의 경로를 정확히 계산한다.")
+    void guardLeftDownPathInsidePalaceTest() {
+        Piece guard = new Guard(Country.CHO);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(3, 0);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(3, 0));
+
+        assertThat(guard.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
     @DisplayName("사의 방향의 크기가 1이 아닌 경우 예외가 발생한다.")
     void guardDirectionSizeExceptionTest() {
         Piece guard = new Guard(Country.CHO);

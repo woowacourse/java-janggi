@@ -86,6 +86,66 @@ public class CannonTest {
     }
 
     @Test
+    @DisplayName("포의 궁성 내부 오른쪽 위 목적지까지의 경로를 정확히 계산한다.")
+    void cannonRightUpPathInsidePalaceTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(3, 0);
+        Position to = new Position(5, 2);
+
+        path.add(new Position(3, 0));
+        path.add(new Position(4, 1));
+        path.add(new Position(5, 2));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("포의 궁성 내부 오른쪽 아래 목적지까지의 경로를 정확히 계산한다.")
+    void cannonRightDownPathInsidePalaceTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(3, 2);
+        Position to = new Position(5, 0);
+
+        path.add(new Position(3, 2));
+        path.add(new Position(4, 1));
+        path.add(new Position(5, 0));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("포의 궁성 내부 왼쪽 위 목적지까지의 경로를 정확히 계산한다.")
+    void cannonLeftUpPathInsidePalaceTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(5, 0);
+        Position to = new Position(3, 2);
+
+        path.add(new Position(5, 0));
+        path.add(new Position(4, 1));
+        path.add(new Position(3, 2));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("포의 궁성 내부 왼쪽 아래 목적지까지의 경로를 정확히 계산한다.")
+    void cannonLeftDownPathInsidePalaceTest() {
+        Piece cannon = new Cannon(Country.CHO);
+
+        Position from = new Position(5, 2);
+        Position to = new Position(3, 0);
+
+        path.add(new Position(5, 2));
+        path.add(new Position(4, 1));
+        path.add(new Position(3, 0));
+
+        assertThat(cannon.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
     @DisplayName("포가 하나의 방향으로만 이동하지 않을 경우 예외가 발생한다.")
     void cannonOneDirectionExceptionTest() {
         Piece cannon = new Cannon(Country.CHO);

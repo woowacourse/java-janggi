@@ -13,7 +13,7 @@ public class Soldier extends MoveOneStepPiece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions, Position from, Position to) {
+    void validateDirections(List<Direction> directions, Position from, Position to) {
         super.validateDirections(directions, from, to);
         if (pieceInfo.country() == Country.CHO && from.y() > to.y()) {
             throw new IllegalArgumentException(TRY_GO_BACK);

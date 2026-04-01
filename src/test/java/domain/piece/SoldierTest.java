@@ -73,6 +73,62 @@ public class SoldierTest {
     }
 
     @Test
+    @DisplayName("초나라 졸병의 상대 궁성 내부 오른쪽 위 목적지까지의 경로를 정확히 계산한다.")
+    void soldierRightUpPathInsidePalaceTest() {
+        Piece soldier = new Soldier(Country.CHO);
+
+        Position from = new Position(4, 8);
+        Position to = new Position(5, 9);
+
+        path.add(new Position(4, 8));
+        path.add(new Position(5, 9));
+
+        assertThat(soldier.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("초나라 졸병의 상대 궁성 내부 왼쪽 위 목적지까지의 경로를 정확히 계산한다.")
+    void soldierLeftUpPathInsidePalaceTest() {
+        Piece soldier = new Soldier(Country.CHO);
+
+        Position from = new Position(4, 8);
+        Position to = new Position(3, 9);
+
+        path.add(new Position(4, 8));
+        path.add(new Position(3, 9));
+
+        assertThat(soldier.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("한나라 졸병의 상대 궁성 내부 오른쪽 아래 목적지까지의 경로를 정확히 계산한다.")
+    void soldierRightDownPathInsidePalaceTest() {
+        Piece soldier = new Soldier(Country.HAN);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 0);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(5, 0));
+
+        assertThat(soldier.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
+    @DisplayName("한나라 졸병의 궁성 내부 왼쪽 아래 목적지까지의 경로를 정확히 계산한다.")
+    void soldierLeftDownPathInsidePalaceTest() {
+        Piece soldier = new Soldier(Country.HAN);
+
+        Position from = new Position(4, 1);
+        Position to = new Position(3, 0);
+
+        path.add(new Position(4, 1));
+        path.add(new Position(3, 0));
+
+        assertThat(soldier.path(from, to)).isEqualTo(path);
+    }
+
+    @Test
     @DisplayName("초나라 졸병이 후진할 경우 예외가 발생한다.")
     void choSoldierDownExceptionTest() {
         Piece soldier = new Soldier(Country.CHO);

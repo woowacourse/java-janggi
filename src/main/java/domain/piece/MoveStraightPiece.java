@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Country;
 import domain.Direction;
 import domain.Palace;
 import domain.Position;
@@ -14,7 +15,7 @@ public class MoveStraightPiece extends Piece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions, Position from, Position to) {
+    void validateDirections(List<Direction> directions, Position from, Position to) {
         Direction oneSide = directions.getFirst();
         boolean allSameDirection = directions.stream()
                 .allMatch(direction -> direction.equals(oneSide));
@@ -28,11 +29,9 @@ public class MoveStraightPiece extends Piece {
     }
 
     private void validateDiagonalMove(Position from, Position to) {
-        Palace palace = Palace.from(this.getPieceCountry());
-        if (!palace.getDiagonalPositions().contains(from)) {
-            throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
-        }
-        if (!palace.getPositions().contains(from) || !palace.getPositions().contains(to)) {
+        Palace myPalace = Palace.from(this.getPieceCountry());
+        Palace otherPalace = Palace.from(Country.anotherCountry(this.getPieceCountry()));
+        if (!myPalace.getDiagonalPositions().contains(from) && !otherPalace.getDiagonalPositions().contains(from)) {
             throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
         }
     }

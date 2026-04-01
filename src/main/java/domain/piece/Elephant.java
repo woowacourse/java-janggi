@@ -17,7 +17,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public void validateDirections(List<Direction> directions, Position from, Position to) {
+    void validateDirections(List<Direction> directions, Position from, Position to) {
         if (directions.size() != ELEPHANT_DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }
