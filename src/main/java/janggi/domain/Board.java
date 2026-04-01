@@ -50,7 +50,7 @@ public class Board {
         List<Position> availablePositions = findAvailablePositions(movePiecePosition);
         boolean hasPosition = false;
         for(Position position:availablePositions) {
-            if (position == destination) {
+            if (position.equals(destination)) {
                 hasPosition = true;
                 break;
             }
