@@ -40,9 +40,7 @@ public class Board {
 
     private Map<Position, Piece> generateStateByPaths(Paths moveablePaths) {
         Map<Position, Piece> boardState = new HashMap<>();
-        moveablePaths.forEach(path -> {
-            generateStateByPath(path, boardState);
-        });
+        moveablePaths.forEach(path -> generateStateByPath(path, boardState));
         return boardState;
     }
 
