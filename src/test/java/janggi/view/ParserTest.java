@@ -1,5 +1,6 @@
-package janggi.util;
+package janggi.view;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
@@ -20,5 +21,12 @@ class ParserTest {
             assertSoftly.assertThat(parsedExpression.getFirst()).isEqualTo(10);
             assertSoftly.assertThat(parsedExpression.getLast()).isEqualTo(20);
         });
+    }
+
+    @Test
+    void 숫자가_아닌_문자가_포함되면_예외가_발생한다() {
+        assertThatThrownBy(() -> Parser.parseByDelimiter(",", "10,a"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 숫자만 입력 가능합니다");
     }
 }

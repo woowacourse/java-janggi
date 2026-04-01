@@ -2,7 +2,6 @@ package janggi.view;
 
 import janggi.domain.Position;
 import janggi.domain.board.initializer.ElephantSetUp;
-import janggi.util.Parser;
 import janggi.view.dto.CampDto;
 import janggi.view.format.ElephantSetUpFormat;
 import java.util.List;
@@ -32,11 +31,10 @@ public final class InputView {
 
     public ElephantSetUp readElephantSetting(CampDto campDto) {
         String campName = campDto.color() + campDto.name() + RESET;
-        System.out.println(String.format(
-                ELEPHANT_SETTING,
+        System.out.printf(
+                (ELEPHANT_SETTING) + "%n",
                 campName,
-                ElephantSetUpFormat.outputMessage())
-        );
+                ElephantSetUpFormat.outputMessage());
         return ElephantSetUpFormat.from(readLine()).toElephantSetting();
     }
 
@@ -54,7 +52,7 @@ public final class InputView {
 
     public Position readSource(CampDto campDto) {
         String campName = campDto.color() + campDto.name() + RESET;
-        System.out.println(String.format(TURN, campName));
+        System.out.printf((TURN) + "%n", campName);
         System.out.println(SOURCE);
         return toPosition(Parser.parseByDelimiter(DELIMITER, readLine()));
     }
