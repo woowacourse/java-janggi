@@ -1,25 +1,28 @@
 package janggi.strategy;
 
+import java.util.Arrays;
+
 public enum StrategyLabel {
 
-    HEHE("마상마상", 1),
-    HEEH("마상상마", 2),
-    EHHE("상마마상", 3),
-    EHEH("상마상마", 4);
+    HEHE(1),
+    HEEH(2),
+    EHHE(3),
+    EHEH(4);
 
-    private final String name;
     private final int decisionNumber;
 
-    StrategyLabel(String name, int decisionNumber) {
-        this.name = name;
+    StrategyLabel(int decisionNumber) {
         this.decisionNumber = decisionNumber;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getDecisionNumber() {
         return decisionNumber;
+    }
+
+    public static StrategyLabel from(int decisionNumber) {
+        return Arrays.stream(values())
+                .filter(label -> label.decisionNumber == decisionNumber)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전략 번호입니다: " + decisionNumber));
     }
 }

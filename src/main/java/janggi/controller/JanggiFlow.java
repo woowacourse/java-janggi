@@ -23,8 +23,7 @@ public class JanggiFlow {
     }
 
     public void process() {
-        List<ArrangementStrategy> strategies = Stream.of(Side.values()).map(this::askStrategy).toList();
-        Board board = Board.create(BoardAssembler.from(strategies));
+        Board board = initializeBoard();
 
         Side current = Side.HAN;
         while (board.isNotEmpty()) {
@@ -39,6 +38,11 @@ public class JanggiFlow {
             });
             current = current.switchTurn();
         }
+    }
+
+    private Board initializeBoard() {
+        List<ArrangementStrategy> strategies = Stream.of(Side.values()).map(this::askStrategy).toList();
+        return Board.create(BoardAssembler.from(strategies));
     }
 
     private Location askLocationOfPiece(Side current, Board board) {
@@ -57,7 +61,7 @@ public class JanggiFlow {
 
     private ArrangementStrategy askStrategy(Side side) {
         int decisionNumber = view.requestArrangementStrategyDecision(side, List.of(StrategyLabel.values()));
-        return arrangementFactory.createStrategy(decisionNumber, side);
+        return arrangementFactory.createStrategy(StrategyLabel.from(decisionNumber), side);
     }
 
     private void retryAction(Runnable runnable) {

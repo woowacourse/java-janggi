@@ -23,7 +23,7 @@ public class ApplicationView {
         outputWriter.printPromptMessage(SideViewResolver.toDisplayName(side) + "팀의 초기화 전략 번호를 입력해주세요.");
 
         for (StrategyLabel strategy : strategies) {
-            String strategyDecisionOption = String.format("%d. %s", strategy.getDecisionNumber(), strategy.getName());
+            String strategyDecisionOption = String.format("%d. %s", strategy.getDecisionNumber(), StrategyViewResolver.toDisplayName(strategy));
             outputWriter.printPromptMessage(strategyDecisionOption);
         }
 
