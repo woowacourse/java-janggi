@@ -3,8 +3,14 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import domain.place.moveStrategy.ChariotMoveStrategy;
+import domain.place.moveStrategy.GeneralMoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceOneStepMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceStraightMoveStrategy;
+import domain.place.piece.Chariot;
+import domain.place.piece.General;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;
 import domain.position.Position;
@@ -28,6 +34,14 @@ class BoardTest {
         Position position2 = new Position(4, 1);
         stubBoard.put(position2, new Soldier(Side.CHO, new SoldierMoveStrategy(Side.CHO),
                 new PalaceSoldierMoveStrategy(Side.CHO)));
+
+        Position position3 = new Position(10, 9);
+        stubBoard.put(position3, new Chariot(Side.CHO, new ChariotMoveStrategy(),
+                new PalaceStraightMoveStrategy()));
+
+        stubBoard.put(new Position(2,5), new General(Side.CHO, new GeneralMoveStrategy(),
+                new PalaceOneStepMoveStrategy()));
+
         board = stubBoard.create();
     }
 
@@ -102,4 +116,23 @@ class BoardTest {
                 .hasMessageContaining("[ERROR] 기물이 가지 못하는 자리입니다.");
     }
 
+    @Test
+    @DisplayName("기물 점수 계산")
+    void board_calculate_side(){
+        //given & when
+        int cho = board.getSideScore(Side.CHO);
+        int han = board.getSideScore(Side.HAN);
+
+        //then
+        assertThat(cho).isEqualTo(15);
+        assertThat(han).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("보드에 궁이 살아있는지 검사")
+    void board_alive_general(){
+        //given & when & then
+        assertThat(board.isAliveGeneral(Side.CHO)).isTrue();
+        assertThat(board.isAliveGeneral(Side.HAN)).isFalse();
+    }
 }
