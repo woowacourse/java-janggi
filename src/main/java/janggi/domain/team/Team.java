@@ -1,4 +1,4 @@
-package janggi.domain.side;
+package janggi.domain.team;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;

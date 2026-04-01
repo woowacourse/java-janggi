@@ -1,7 +1,7 @@
 package janggi.dto;
 
 import janggi.domain.Position;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 public record BoardSpot(
     Position position,

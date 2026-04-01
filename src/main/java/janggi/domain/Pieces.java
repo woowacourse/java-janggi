@@ -8,7 +8,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
 import janggi.dto.BoardSpots;
 import java.util.HashMap;

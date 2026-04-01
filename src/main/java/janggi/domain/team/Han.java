@@ -1,4 +1,4 @@
-package janggi.domain.side;
+package janggi.domain.team;
 
 import janggi.domain.Pieces;
 import janggi.domain.Position;
@@ -6,16 +6,16 @@ import janggi.domain.piece.Piece;
 import janggi.dto.BoardSpots;
 import java.util.Optional;
 
-public class Chu implements Team {
+public class Han implements Team {
 
     private final Pieces pieces;
 
-    private Chu(Pieces pieces) {
+    private Han(Pieces pieces) {
         this.pieces = pieces;
     }
 
-    public static Chu createInitialChu() {
-        return new Chu(Pieces.createChu());
+    public static Han createInitialHan() {
+        return new Han(Pieces.createHan());
     }
 
     @Override
@@ -30,11 +30,11 @@ public class Chu implements Team {
 
     @Override
     public Team remove(Position position) {
-        return new Chu(pieces.remove(position));
+        return new Han(pieces.remove(position));
     }
 
     @Override
     public Team move(Position piecePosition, Position targetPosition) {
-        return new Chu(pieces.move(piecePosition, targetPosition));
+        return new Han(pieces.move(piecePosition, targetPosition));
     }
 }

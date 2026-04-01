@@ -1,10 +1,10 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.side.Chu;
-import janggi.domain.side.Han;
-import janggi.domain.side.Team;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.Chu;
+import janggi.domain.team.Han;
+import janggi.domain.team.Team;
+import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
 import janggi.dto.BoardSpots;
 import java.util.HashMap;
