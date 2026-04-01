@@ -57,6 +57,14 @@ public class Position {
         return x == position.getX() || y == position.getY();
     }
 
+    public int deltaX(Position position) {
+        return position.getX() - x;
+    }
+
+    public int deltaY(Position position) {
+        return position.getY() - y;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

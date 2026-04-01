@@ -51,8 +51,8 @@ public class Jol implements Piece {
             return Optional.empty();
         }
 
-        int dx = end.getX() - start.getX();
-        int dy = end.getY() - start.getY();
+        int dx = start.deltaX(end);
+        int dy = start.deltaY(end);
 
         return paths.stream()
             .filter(path -> path.matches(dx, dy))

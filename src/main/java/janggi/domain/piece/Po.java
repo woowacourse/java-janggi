@@ -58,13 +58,8 @@ public class Po implements Piece {
             return Optional.empty();
         }
 
-        int startX = start.getX();
-        int startY = start.getY();
-        int endX = end.getX();
-        int endY = end.getY();
-
-        int dx = endX - startX;
-        int dy = endY - startY;
+        int dx = start.deltaX(end);
+        int dy = start.deltaY(end);
 
         return paths.stream()
             .filter(path -> path.matchesDirection(dx, dy))
