@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.FakeBoard;
+import janggi.domain.board.Board;
 import janggi.domain.vo.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonTest {
     private final Piece cannon = new Cannon(Team.HAN);
-    private FakeBoard board;
+    private Board board;
 
     @Test
     void 하나의_기물을_넘는_정상_이동_테스트() {
@@ -18,7 +18,7 @@ class CannonTest {
         Position from = new Position(0, 0);
         Position to = new Position(0, 4);
 
-        board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO));
+        board = Board.createBoardWith(new Position(0, 2), new Soldier(Team.CHO));
 
         // when, then
         assertThat(cannon.canMove(from, to, board)).isTrue();
@@ -30,7 +30,7 @@ class CannonTest {
         Position from = new Position(0, 0);
         Position to = new Position(0, 4);
 
-        board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
+        board = Board.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
                 to, new Advisor(Team.HAN));
 
         // when, then
@@ -43,7 +43,7 @@ class CannonTest {
         Position from = new Position(0, 0);
         Position to = new Position(0, 4);
 
-        board = new FakeBoard();
+        board = new Board();
 
         // when, then
         assertThat(cannon.canMove(from, to, board)).isFalse();
@@ -56,7 +56,7 @@ class CannonTest {
         Position from = new Position(0, 0);
         Position to = new Position(0, 5);
 
-        board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
+        board = Board.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
                 new Position(0, 4), new Advisor(Team.HAN));
 
         // when, then
@@ -69,7 +69,7 @@ class CannonTest {
         Position from = new Position(0, 0);
         Position to = new Position(0, 4);
 
-        board = FakeBoard.createBoardWith(new Position(0, 2), new Cannon(Team.CHO));
+        board = Board.createBoardWith(new Position(0, 2), new Cannon(Team.CHO));
 
         // when, then
         assertThat(cannon.canMove(from, to, board)).isFalse();
@@ -81,7 +81,7 @@ class CannonTest {
         Position from = new Position(0, 0);
         Position to = new Position(0, 4);
 
-        board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
+        board = Board.createBoardWith(new Position(0, 2), new Soldier(Team.CHO),
                 to, new Cannon(Team.HAN));
 
         // when, then
@@ -99,7 +99,7 @@ class CannonTest {
         // given
         Position from = new Position(fR, fC);
         Position to = new Position(tR, tC);
-        board = new FakeBoard();
+        board = new Board();
 
         // when, then
         assertThat(cannon.canMove(from, to, board)).isFalse();

@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.FakeBoard;
+import janggi.domain.board.Board;
 import janggi.domain.vo.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SoldierTest {
-    private final FakeBoard board = new FakeBoard();
+    private final Board board = new Board();
     private Piece soldier;
 
     @ParameterizedTest

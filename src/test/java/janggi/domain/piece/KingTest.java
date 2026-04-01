@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.FakeBoard;
-import janggi.domain.board.BoardView;
+import janggi.domain.board.Board;
 import janggi.domain.vo.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class KingTest {
     private final Piece king = new King(Team.HAN);
-    private BoardView fakeBoard;
+    private Board board;
 
     @ParameterizedTest
     @CsvSource({
@@ -26,10 +25,10 @@ class KingTest {
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
-        fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
+        board = new Board(Map.of(from, new King(Team.HAN)));
 
         // when, then
-        assertThat(king.canMove(from, to, fakeBoard)).isTrue();
+        assertThat(king.canMove(from, to, board)).isTrue();
     }
 
     @ParameterizedTest
@@ -41,10 +40,10 @@ class KingTest {
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
-        fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
+        board = new Board(Map.of(from, new King(Team.HAN)));
 
         // when, then
-        assertThat(king.canMove(from, to, fakeBoard)).isTrue();
+        assertThat(king.canMove(from, to, board)).isTrue();
     }
 
     @ParameterizedTest
@@ -59,9 +58,9 @@ class KingTest {
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
-        fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
+        board = new Board(Map.of(from, new King(Team.HAN)));
 
         // when, then
-        assertThat(king.canMove(from, to, fakeBoard)).isFalse();
+        assertThat(king.canMove(from, to, board)).isFalse();
     }
 }

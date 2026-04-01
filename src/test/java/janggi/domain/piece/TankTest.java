@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.FakeBoard;
+import janggi.domain.board.Board;
 import janggi.domain.vo.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class TankTest {
     private final Piece tank = new Tank(Team.HAN);
-    private FakeBoard fakeBoard;
+    private Board board;
 
     @BeforeEach
     void setUp() {
-        fakeBoard = new FakeBoard();
+        board = new Board();
     }
 
     @ParameterizedTest
@@ -33,7 +33,7 @@ class TankTest {
         Position to = new Position(toRow, toCol);
 
         // when, then
-        assertThat(tank.canMove(from, to, fakeBoard)).isTrue();
+        assertThat(tank.canMove(from, to, board)).isTrue();
     }
 
     @ParameterizedTest
@@ -49,7 +49,7 @@ class TankTest {
         Position to = new Position(toRow, toCol);
 
         // when, then
-        assertThat(tank.canMove(from, to, fakeBoard)).isFalse();
+        assertThat(tank.canMove(from, to, board)).isFalse();
     }
 
     @Test
@@ -58,9 +58,9 @@ class TankTest {
         Position from = new Position(0, 0);
         Position to = new Position(0, 5);
 
-        fakeBoard.place(new Position(0, 3), new Soldier(Team.HAN));
+        board.place(new Position(0, 3), new Soldier(Team.HAN));
 
         // when, then
-        assertThat(tank.canMove(from, to, fakeBoard)).isFalse();
+        assertThat(tank.canMove(from, to, board)).isFalse();
     }
 }
