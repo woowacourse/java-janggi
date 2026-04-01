@@ -14,6 +14,7 @@ import domain.player.Players;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -43,14 +44,19 @@ public class GameConsole {
 
     private void playTurn() {
         outputView.printPlayerTurnMessage(game.getCurrentPlayerName(), game.getCurrentTeam());
-        retryOnInvalidInput(this::executeMove);
-        outputView.printBoard(game.getBoardMap());
-    }
 
-    private void executeMove() {
-        Position source = createSource();
-        Position destination = createDestination();
-        game.move(source, destination);
+        Position source = retryOnInvalidInput(() -> {
+            Position position = createSource();
+            Set<Position> movablePositions = game.select(position);
+            outputView.printBoard(game.getBoardMap(), movablePositions);
+            return position;
+        });
+
+        retryOnInvalidInput(() -> {
+            Position destination = createDestination();
+            game.move(source, destination);
+        });
+        outputView.printBoard(game.getBoardMap());
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {
@@ -119,7 +125,7 @@ public class GameConsole {
         Formation hanFormation = createHanFormation();
         return BoardFactory.createWithFormation(choFormation, hanFormation);
     }
-    
+
     private Formation createChoFormation() {
         return retryOnInvalidInput(() -> {
             int choPositionInput = inputView.askChoPositionInput();

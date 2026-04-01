@@ -9,17 +9,20 @@ import domain.piece.Piece;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.Map;
+import java.util.Set;
 
 public class OutputView {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_BRIGHT_YELLOW = "\u001B[93m";
+
 
     private static final String[] numberLabels = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"};
 
     public void printBoard(Map<Position, Piece> board) {
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            printPieceRow(row, board);
+            printPieceRow(row, board, Set.of());
         }
         printColumnHeader();
         System.out.println();
@@ -43,12 +46,13 @@ public class OutputView {
         System.out.println(name + "(" + team.name() + ")" + "님의 차례입니다.");
     }
 
-    private void printPieceRow(int row, Map<Position, Piece> board) {
+    private void printPieceRow(int row, Map<Position, Piece> board, Set<Position> movablePositions) {
         StringBuilder sb = new StringBuilder();
         sb.append(numberLabels[row]).append(' ');
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Piece piece = board.get(new Position(row, column));
-            sb.append(formatPiece(piece));
+            Position position = new Position(row, column);
+            Piece piece = board.get(position);
+            sb.append(formatPiece(piece, movablePositions.contains(position)));
             if (column != MAX_COLUMN) {
                 sb.append(' ');
             }
@@ -68,12 +72,19 @@ public class OutputView {
         System.out.println(sb);
     }
 
-    private String formatPiece(Piece piece) {
+    private String formatPiece(Piece piece, boolean isMovablePosition) {
         if (piece.isNone()) {
-            return "＋";
+            String noneDisplay = "＋";
+            if (isMovablePosition) {
+                return ANSI_BRIGHT_YELLOW + "O" + ANSI_RESET;
+            }
+            return noneDisplay;
         }
 
         String displayName = piece.getPieceType().getDisplayName(piece.getTeam());
+        if (isMovablePosition) {
+            return ANSI_BRIGHT_YELLOW + displayName + ANSI_RESET;
+        }
         Team team = piece.getTeam();
 
         if (team.isCho()) {
@@ -83,5 +94,13 @@ public class OutputView {
             return ANSI_RED + displayName + ANSI_RESET;
         }
         return displayName;
+    }
+
+    public void printBoard(Map<Position, Piece> boardMap, Set<Position> movablePositions) {
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            printPieceRow(row, boardMap, movablePositions);
+        }
+        printColumnHeader();
+        System.out.println();
     }
 }
