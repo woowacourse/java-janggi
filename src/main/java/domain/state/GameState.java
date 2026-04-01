@@ -7,5 +7,4 @@ import io.OutputView;
 public interface GameState {
     GameState handle(JanggiGame game, Command command);
     void display(JanggiGame game, OutputView outputView);
-
 }

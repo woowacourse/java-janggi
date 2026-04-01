@@ -11,7 +11,6 @@ public class PlayingState implements GameState {
     @Override
     public GameState handle(JanggiGame game, Command command) {
         game.move(command.toCoordinate());
-        game.nextTurn();
         return this;
     }
 

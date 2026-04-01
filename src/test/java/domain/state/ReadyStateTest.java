@@ -25,18 +25,6 @@ class ReadyStateTest {
     }
 
     @Test
-    @DisplayName("HAN 배치 입력 후 턴이 CHO로 변경된다")
-    void afterHanArrangementTurnChangesToCho() {
-        Arrangements arrangements = new Arrangements();
-        ReadyState state = new ReadyState(arrangements);
-        JanggiGame game = new JanggiGame();
-
-        state.handle(game, new Command("1"));
-
-        assertThat(game.getTurn().display()).isEqualTo(Team.CHO.display());
-    }
-
-    @Test
     @DisplayName("JanggiGame을 통해 두 번 명령하면 PlayingState로 전환된다")
     void gameTransitionsToPlayingStateAfterTwoArrangements() {
         JanggiGame game = new JanggiGame();

@@ -21,6 +21,7 @@ public class JanggiGame {
 
     public void processCommand(Command command) {
         gameState = gameState.handle(this, command);
+        nextTurn();
     }
 
     public void setupBoard(Arrangements arrangements) {
