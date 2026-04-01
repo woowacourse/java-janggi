@@ -56,10 +56,8 @@ public class Position {
     }
 
     public boolean hasNext(Direction direction) {
-        return canMakePositionOnBoard(this.getRow() + direction.getDx(), this.getCol() + direction.getDy());
-    }
-
-    private boolean canMakePositionOnBoard(int row, int col) {
+        int row = this.getRow() + direction.getDx();
+        int col = this.getCol() + direction.getDy();
         return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
     }
 
