@@ -3,7 +3,7 @@ package domain.piece;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PieceTest {
+class PieceTest {
 
     @Test
     void 소속팀이_달라도_기물은_동등하다() {

@@ -17,7 +17,7 @@ import java.util.List;
 import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_EMPTY;
 import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
 
-public class MoveTest {
+class MoveTest {
 
     @Test
     @DisplayName("이동이 끝난 뒤 출발지는 비어있고, 도착지는 기물이 존재한다.")
