@@ -5,8 +5,6 @@ import domain.piece.error.PieceException;
 
 import java.util.List;
 
-import static util.ErrorMessage.IMPOSSIBLE_MOVE;
-
 public class Elephant extends Piece {
 
     private static final List<List<Integer>> MOVABLE_ABSOLUTE_LOCATION = List.of(List.of(2, 3), List.of(3, 2));
@@ -25,7 +23,7 @@ public class Elephant extends Piece {
         int absCol = Math.abs(from.differentColumn(to));
         int absRow = Math.abs(from.differentRow(to));
         if (!MOVABLE_ABSOLUTE_LOCATION.contains(List.of(absCol, absRow))) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 

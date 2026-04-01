@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
-import util.ErrorMessage;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class Guard extends Piece {
     public void validateRule(Coordination from, Coordination to) {
         List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
         if (!MOVABLE_LOCATION.contains(diff)) {
-            throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 

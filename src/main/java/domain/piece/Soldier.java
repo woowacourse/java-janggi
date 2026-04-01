@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
-import util.ErrorMessage;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class Soldier extends Piece {
         List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
         List<List<Integer>> movable = team == Team.CHO ? CHO_MOVABLE_LOCATION : HAN_MOVABLE_LOCATION;
         if (!movable.contains(diff)) {
-            throw new PieceException(ErrorMessage.IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 

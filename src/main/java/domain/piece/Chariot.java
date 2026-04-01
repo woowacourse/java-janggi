@@ -5,8 +5,6 @@ import domain.piece.error.PieceException;
 
 import java.util.List;
 
-import static util.ErrorMessage.IMPOSSIBLE_MOVE;
-
 public class Chariot extends Piece {
 
     public Chariot(Team team) {
@@ -22,7 +20,7 @@ public class Chariot extends Piece {
     public void validateRule(Coordination from, Coordination to) {
         boolean movable = from.isHorizontal(to) || from.isVertical(to);
         if (!movable) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 

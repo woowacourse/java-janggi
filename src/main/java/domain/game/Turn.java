@@ -2,12 +2,12 @@ package domain.game;
 
 import domain.piece.Team;
 
-import static util.ErrorMessage.NOT_SAME_TEAM;
-
 public enum Turn {
 
     CHO("초"),
     HAN("한");
+
+    private static final String NOT_SAME_TEAM = "본인의 진영의 기물이 아닙니다.";
 
     private final String name;
 
@@ -28,7 +28,7 @@ public enum Turn {
 
     public void validateSameTeam(Team team) {
         if (!this.name().equals(team.name())) {
-            throw new IllegalArgumentException(NOT_SAME_TEAM.getMessage());
+            throw new IllegalArgumentException(NOT_SAME_TEAM);
         }
     }
 }

@@ -5,9 +5,11 @@ import domain.piece.error.PieceException;
 
 import java.util.List;
 
-import static util.ErrorMessage.IMPOSSIBLE_MOVE;
-
 public class Cannon extends Piece {
+
+    private static final String IMPOSSIBLE_MOVE_MESSAGE = "이동할 수 없는 위치입니다.";
+    private static final String BLOCKED_PATH_MESSAGE = "경로에 기물이 있어 이동할 수 없습니다.";
+    private static final String SAME_TEAM_TARGET_MESSAGE = "아군 기물이 있는 위치로 이동할 수 없습니다.";
 
     public Cannon(Team team) {
         super(team);
@@ -22,7 +24,7 @@ public class Cannon extends Piece {
     public void validateRule(Coordination from, Coordination to) {
         boolean movable = from.isHorizontal(to) || from.isVertical(to);
         if (!movable) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
         }
     }
 
@@ -46,16 +48,16 @@ public class Cannon extends Piece {
             return;
         }
         if (target instanceof Cannon) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
         }
         if (this.team == target.team()) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(SAME_TEAM_TARGET_MESSAGE);
         }
     }
 
     private void validateExactlyOneBridge(List<Piece> piecesOnPath) {
         if (piecesOnPath.size() != 1) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(BLOCKED_PATH_MESSAGE);
         }
     }
 
@@ -63,7 +65,7 @@ public class Cannon extends Piece {
         boolean hasCannon = piecesOnPath.stream()
                 .anyMatch(p -> p instanceof Cannon);
         if (hasCannon) {
-            throw new PieceException(IMPOSSIBLE_MOVE.getMessage());
+            throw new PieceException(BLOCKED_PATH_MESSAGE);
         }
     }
 }
