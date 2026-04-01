@@ -27,7 +27,7 @@ public class GuardMoveStrategy implements MoveStrategy {
             throw new DomainException(GUARD_POSITION_STATE_ERROR);
         }
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : Palace.getMovableDirections(from)) {
+        for (Direction dir : Palace.getMovableDirectionsAtPalace(from)) {
             addIfMovable(board, from, dynasty, dir, movablePositions);
         }
         return movablePositions;

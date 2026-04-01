@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +19,21 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return soldierMoveStrategy;
     }
 
-    // TODO: 궁성 관련 로직 추가
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirections()) {
+        for (Direction dir : getMovableDirections(from)) {
             addIfMovable(board, from, dynasty, dir, movablePositions);
         }
         return movablePositions;
+    }
+
+    private static List<Direction> getMovableDirections(Position from) {
+        List<Direction> movableDirections = List.of(Direction.valuesFourDirections());
+        if(Palace.isPalace(from)) {
+            movableDirections = Palace.getMovableDirectionsAtPalace(from);
+        }
+        return movableDirections;
     }
 
     private static void addIfMovable(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {
