@@ -11,11 +11,7 @@ public class InputView {
 
     private final Scanner sc = new Scanner(System.in);
     private static final Map<Camp, String> CAMP_NAMES = new EnumMap<>(
-            Map.of(
-                    Camp.CHO, "초나라",
-                    Camp.HAN, "한나라"
-            )
-    );
+            Map.of(Camp.CHO, "초나라", Camp.HAN, "한나라"));
 
     public int askElephantFormation(Camp camp) {
         return readElephantFormation(camp);
@@ -24,7 +20,7 @@ public class InputView {
     public Position askFromPosition(Camp camp) {
         while (true) {
             try {
-                System.out.println(CAMP_NAMES.get(camp) + " 플레이어는 말을 선택해주세요. (입력좌표 예시: 2, 1)");
+                System.out.println(CAMP_NAMES.get(camp) + " 플레이어는 움직일 말의 위치를 column, row 형식으로 입력해 주세요. (입력좌표 예시 column, row: 0, 9)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -36,7 +32,7 @@ public class InputView {
         while (true) {
             try {
                 System.out.println(
-                        CAMP_NAMES.get(camp) + " 플레이어는 선택한 말을 움직일 위치를 입력해 주세요.(입력좌표 예시: 2, 3)");
+                        CAMP_NAMES.get(camp) + " 플레이어는 선택한 말을 움직일 위치를 column, row 형식으로 입력해 주세요.(입력좌표 예시 column, row: 0, 7)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -60,16 +56,15 @@ public class InputView {
     }
 
     private Position readPosition() {
-        System.out.print("좌표: ");
-        String[] input = Arrays.stream(sc.nextLine().split(","))
-                .map(String::trim)
+        System.out.print("좌표(column, row): ");
+        String[] input = Arrays.stream(sc.nextLine().split(",")).map(String::trim)
                 .toArray(String[]::new);
 
         validateInputSize(input);
-        int x = parseInt(input[0]);
-        int y = parseInt(input[1]);
+        int column = parseInt(input[0]);
+        int row = parseInt(input[1]);
         System.out.println();
-        return new Position(x, y);
+        return new Position(column, row);
     }
 
     private int parseInt(String input) {
