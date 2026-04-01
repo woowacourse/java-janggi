@@ -1,4 +1,4 @@
-package janggi.model.gimul;
+package janggi.model.piece;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
@@ -14,9 +14,9 @@ public abstract class Piece {
 
     public abstract PositionPath getLegalPath(Position from, Position to);
 
-    public abstract boolean canPassThrough(List<Piece> gimulsOnPath, Piece pieceAtTo);
+    public abstract boolean canPassThrough(List<Piece> piecesOnPath, Piece pieceAtTo);
 
-    public abstract boolean canPassThrough(List<Piece> gimulsOnPath);
+    public abstract boolean canPassThrough(List<Piece> piecesOnPath);
 
     public boolean isSameTeam(Piece other) {
         return this.team.equals(other.team);

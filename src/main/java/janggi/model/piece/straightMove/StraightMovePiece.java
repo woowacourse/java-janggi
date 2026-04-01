@@ -1,8 +1,8 @@
-package janggi.model.gimul.straightMove;
+package janggi.model.piece.straightMove;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.gimul.Piece;
+import janggi.model.piece.Piece;
 import janggi.model.board.position.Position;
 import janggi.model.board.movement.Movement;
 import janggi.model.board.movement.StraightMovement;
@@ -19,12 +19,12 @@ public abstract class StraightMovePiece extends Piece {
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
-        return new StraightMovement().move(from, to);
+        return movement.move(from, to);
     }
 
 
     @Override
-    public boolean canPassThrough(List<Piece> gimulsOnPath) {
-        return gimulsOnPath.isEmpty();
+    public boolean canPassThrough(List<Piece> piecesOnPath) {
+        return piecesOnPath.isEmpty();
     }
 }

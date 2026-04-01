@@ -1,4 +1,4 @@
-package janggi.model.gimul;
+package janggi.model.piece;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
@@ -28,10 +28,10 @@ public class Byeong extends Piece {
 
     @Override
     public boolean canPassThrough(
-            List<Piece> gimulsOnPath,
-            Piece gimulAtTo
+            List<Piece> piecesOnPath,
+            Piece pieceAtTo
     ) {
-        return gimulsOnPath.isEmpty() && !this.isSameTeam(gimulAtTo);
+        return piecesOnPath.isEmpty() && !this.isSameTeam(pieceAtTo);
     }
 
     private boolean isMovingSouth(Position from, Position to) {
@@ -39,7 +39,7 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public boolean canPassThrough(List<Piece> gimulsOnPath) {
-        return gimulsOnPath.isEmpty();
+    public boolean canPassThrough(List<Piece> piecesOnPath) {
+        return piecesOnPath.isEmpty();
     }
 }

@@ -1,7 +1,7 @@
 package janggi.model.board;
 
 import janggi.model.board.position.Position;
-import janggi.model.gimul.Piece;
+import janggi.model.piece.Piece;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class PositionPath {
         this.path = path;
     }
 
-    public List<Piece> findGimulsOn(Map<Position, Piece> board) {
+    public List<Piece> findPiecesOn(Map<Position, Piece> board) {
         return path.stream()
                 .filter(board::containsKey)
                 .map(board::get)

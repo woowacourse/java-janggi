@@ -1,4 +1,4 @@
-package janggi.model.gimul.diagonalMove;
+package janggi.model.piece.diagonalMove;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;

@@ -2,12 +2,12 @@ package janggi.model.initializer;
 
 import janggi.model.Team;
 import janggi.model.board.Board;
-import janggi.model.gimul.Byeong;
-import janggi.model.gimul.straightMove.Cha;
-import janggi.model.gimul.Piece;
-import janggi.model.gimul.palace.Jang;
-import janggi.model.gimul.straightMove.Pho;
-import janggi.model.gimul.palace.Sa;
+import janggi.model.piece.Byeong;
+import janggi.model.piece.straightMove.Cha;
+import janggi.model.piece.Piece;
+import janggi.model.piece.palace.Jang;
+import janggi.model.piece.straightMove.Pho;
+import janggi.model.piece.palace.Sa;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;

@@ -1,12 +1,11 @@
-package janggi.model.gimul;
+package janggi.model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.gimul.straightMove.Cha;
-import janggi.model.gimul.straightMove.Pho;
+import janggi.model.piece.straightMove.Cha;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
@@ -14,7 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PhoTest {
+class ChaTest {
 
     @DisplayName("같은 행이나 열에 위치해있지 않으면 예외가 발생한다.")
     @Test
@@ -22,10 +21,10 @@ class PhoTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.TWO, Column.FIVE);
-        Pho pho = new Pho(Team.CHO);
+        Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThatThrownBy(() -> pho.getLegalPath(from, to))
+        assertThatThrownBy(() -> cha.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("직선 관계에 위치해 있지 않습니다.");
     }
@@ -36,10 +35,10 @@ class PhoTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.SIX, Column.THREE);
-        Pho pho = new Pho(Team.CHO);
+        Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThatThrownBy(() -> pho.getLegalPath(from, to))
+        assertThatThrownBy(() -> cha.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("직선 관계에 위치해 있지 않습니다.");
     }
@@ -50,10 +49,10 @@ class PhoTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Pho pho = new Pho(Team.CHO);
+        Cha cha = new Cha(Team.CHO);
 
         //when
-        PositionPath path = pho.getLegalPath(from, to);
+        PositionPath path = cha.getLegalPath(from, to);
 
         //then
         assertThat(path.isEmpty())
@@ -66,35 +65,28 @@ class PhoTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.NINE, Column.THREE);
-        Pho pho = new Pho(Team.CHO);
+        Cha cha = new Cha(Team.CHO);
 
         //when
-        PositionPath path = pho.getLegalPath(from, to);
+        PositionPath path = cha.getLegalPath(from, to);
 
         //then
         assertThat(path.isEmpty())
                 .isFalse();
     }
 
-    @DisplayName("아무런 기물이 없으면 예외가 발생한다.")
+    @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")
     @Test
-    void canPassThrough_Empty() {
+    void canPassThrough() {
         //given
-        Pho pho = new Pho(Team.CHO);
+        List<Piece> gimulsOnPath = List.of(
+                new Cha(Team.CHO)
+        );
+        Cha gimulAtTo = new Cha(Team.HAN);
+        Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of(), null))
-                .isFalse();
-    }
-
-    @DisplayName("포함된 기물이 포이면 예외가 발생한다.")
-    @Test
-    void canPassThrough_pho() {
-        //given
-        Pho pho = new Pho(Team.CHO);
-
-        //when & then
-        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO)), null))
+        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 
@@ -105,11 +97,11 @@ class PhoTest {
         List<Piece> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
-        Pho gimulAtTo = new Pho(Team.CHO);
-        Pho pho = new Pho(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 }

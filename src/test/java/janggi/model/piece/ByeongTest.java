@@ -1,12 +1,11 @@
-package janggi.model.gimul;
+package janggi.model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.gimul.straightMove.Cha;
-import janggi.model.gimul.palace.Sa;
+import janggi.model.piece.straightMove.Cha;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
@@ -14,54 +13,38 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class SaTest {
-
-    @DisplayName("이동 거리가 1칸 초과이면 예외가 발생한다.")
-    @Test
-    void getLegalPath_invalid() {
-        //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SEVEN, Column.SEVEN);
-        Sa sa = new Sa(Team.HAN);
-
-        //when & then
-        assertThatThrownBy(() -> sa.getLegalPath(from, to))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("두 지점이 한 칸 떨어져 있지 않습니다.");
-    }
-
-    @DisplayName("남쪽으로 한칸 이동한다.")
-    @Test
-    void getLegalPath_moveSouth() {
-        //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SIX, Column.FIVE);
-        Sa sa = new Sa(Team.HAN);
-
-        //when
-        PositionPath path = sa.getLegalPath(from, to);
-
-        //then
-        assertThat(path.isEmpty())
-                .isTrue();
-    }
-
-    @DisplayName("북쪽으로 한칸 이동한다.")
+class ByeongTest {
+    @DisplayName("초나라일때, 북쪽으로 한칸 이동한다.")
     @Test
     void getLegalPath_moveNorth() {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.EIGHT, Column.FIVE);
-        Sa sa = new Sa(Team.HAN);
+        Position to = new Position(Row.SIX, Column.FIVE);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        PositionPath path = sa.getLegalPath(from, to);
+        PositionPath path = byeong.getLegalPath(from, to);
 
         //then
         assertThat(path.isEmpty())
                 .isTrue();
     }
 
+    @DisplayName("한나라일때, 남쪽으로 한칸 이동한다.")
+    @Test
+    void getLegalPath_moveSouth() {
+        //given
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.EIGHT, Column.FIVE);
+        Byeong byeong = new Byeong(Team.HAN);
+
+        //when
+        PositionPath path = byeong.getLegalPath(from, to);
+
+        //then
+        assertThat(path.isEmpty())
+                .isTrue();
+    }
 
     @DisplayName("동쪽으로 한칸 이동한다.")
     @Test
@@ -69,10 +52,10 @@ class SaTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SIX);
-        Sa sa = new Sa(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        PositionPath path = sa.getLegalPath(from, to);
+        PositionPath path = byeong.getLegalPath(from, to);
 
         //then
         assertThat(path.isEmpty())
@@ -85,14 +68,42 @@ class SaTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.FOUR);
-        Sa sa = new Sa(Team.HAN);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when
-        PositionPath path = sa.getLegalPath(from, to);
+        PositionPath path = byeong.getLegalPath(from, to);
 
         //then
         assertThat(path.isEmpty())
                 .isTrue();
+    }
+
+    @DisplayName("초나라일때 남쪽으로 움직이면 예외가 발생한다.")
+    @Test
+    void getLegalPath_invalid_cho() {
+        //given
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.EIGHT, Column.FIVE);
+        Byeong byeong = new Byeong(Team.CHO);
+
+        //when & then
+        assertThatThrownBy(() -> byeong.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
+    @DisplayName("한나라일때 북쪽으로 움직이면 예외가 발생한다.")
+    @Test
+    void getLegalPath_invalid_han() {
+        //given
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.SIX, Column.FIVE);
+        Byeong byeong = new Byeong(Team.HAN);
+
+        //when & then
+        assertThatThrownBy(() -> byeong.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
     }
 
 
@@ -104,10 +115,10 @@ class SaTest {
                 new Cha(Team.CHO)
         );
         Cha gimulAtTo = new Cha(Team.HAN);
-        Sa sa = new Sa(Team.HAN);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 
@@ -118,11 +129,11 @@ class SaTest {
         List<Piece> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
-        Sa gimulAtTo = new Sa(Team.CHO);
-        Sa sa = new Sa(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 }

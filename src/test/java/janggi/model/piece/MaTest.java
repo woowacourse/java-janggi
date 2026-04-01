@@ -1,12 +1,12 @@
-package janggi.model.gimul;
+package janggi.model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.gimul.straightMove.Cha;
-import janggi.model.gimul.diagonalMove.Sang;
+import janggi.model.piece.straightMove.Cha;
+import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
@@ -14,35 +14,35 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class SangTest {
-    @DisplayName("상하 또는 좌우로 한칸을 간 후에 같은 방향의 대각선으로 두칸 이동한다.")
+class MaTest {
+    @DisplayName("상하 또는 좌우로 한칸을 간 후에 같은 방향의 대각선으로 한칸 이동한다.")
     @Test
     void getLegalPath() {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.FOUR, Column.THREE);
-        Sang sang = new Sang(Team.CHO);
+        Position to = new Position(Row.FIVE, Column.SIX);
+        Ma ma = new Ma(Team.CHO);
 
         //when
-        PositionPath path = sang.getLegalPath(from, to);
+        PositionPath path = ma.getLegalPath(from, to);
 
         //then
         assertThat(path.isEmpty())
                 .isFalse();
     }
 
-    @DisplayName("행과 열의 거리가 각각 (1,3) 혹은 (3,1)이 아니면 예외가 발생한다.")
+    @DisplayName("행과 열의 거리가 각각 (1,2) 혹은 (2,1)이 아니면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FOUR, Column.SIX);
-        Sang sang = new Sang(Team.CHO);
+        Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThatThrownBy(() -> sang.getLegalPath(from, to))
+        assertThatThrownBy(() -> ma.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("가로와 세로에 대해 하나는 2칸, 다른 하나는 3칸씩 떨어져 있어야 합니다.");
+                .hasMessage("가로와 세로에 대해 하나는 1칸, 다른 하나는 2칸씩 떨어져 있어야 합니다.");
     }
 
 
@@ -54,10 +54,11 @@ class SangTest {
                 new Cha(Team.CHO)
         );
         Cha gimulAtTo = new Cha(Team.HAN);
-        Sang sang = new Sang(Team.CHO);
+
+        Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThat(sang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(ma.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 
@@ -68,12 +69,23 @@ class SangTest {
         List<Piece> gimulsOnPath = List.of(
                 new Cha(Team.CHO)
         );
-        Sang gimulAtTo = new Sang(Team.CHO);
-        Sang sang = new Sang(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.CHO);
+        Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThat(sang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(ma.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
+    }
+
+    @DisplayName("같은 팀이면 true를 반환한다.")
+    @Test
+    void isSameTeam() {
+        //given
+        Ma ma = new Ma(Team.CHO);
+
+        //when & then
+        assertThat(ma.isSameTeam(Team.CHO)).isTrue();
+        assertThat(ma.isSameTeam(Team.HAN)).isFalse();
     }
 
 

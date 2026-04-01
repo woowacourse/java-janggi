@@ -1,8 +1,8 @@
-package janggi.model.gimul.palace;
+package janggi.model.piece.palace;
 
 import janggi.model.Team;
 import janggi.model.board.PositionPath;
-import janggi.model.gimul.Piece;
+import janggi.model.piece.Piece;
 import janggi.model.board.position.Position;
 import janggi.model.board.movement.Movement;
 import janggi.model.board.movement.OneStepMovement;
@@ -23,13 +23,13 @@ public abstract class PalacePiece extends Piece {
     }
 
     @Override
-    public boolean canPassThrough(List<Piece> gimulsOnPath, Piece pieceAtTo) {
-        return gimulsOnPath.isEmpty() && !this.isSameTeam(pieceAtTo);
+    public boolean canPassThrough(List<Piece> piecesOnPath, Piece pieceAtTo) {
+        return piecesOnPath.isEmpty() && !this.isSameTeam(pieceAtTo);
     }
 
     @Override
-    public boolean canPassThrough(List<Piece> gimulsOnPath) {
-        return gimulsOnPath.isEmpty();
+    public boolean canPassThrough(List<Piece> piecesOnPath) {
+        return piecesOnPath.isEmpty();
     }
 
 }

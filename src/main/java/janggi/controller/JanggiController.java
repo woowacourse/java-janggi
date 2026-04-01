@@ -4,7 +4,7 @@ import janggi.model.Janggi;
 import janggi.model.board.position.Column;
 import janggi.model.board.position.Position;
 import janggi.model.board.position.Row;
-import janggi.model.initializer.BoarType;
+import janggi.model.initializer.BoardType;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;
@@ -35,7 +35,7 @@ public class JanggiController {
 
     private Janggi setUpJanggi() {
         outputView.printBoardInitialTypeMessage();
-        BoarType boarType = inputView.readBoardInitializeType();
+        BoardType boarType = inputView.readBoardInitializeType();
         return Janggi.of(boarType.getBoard());
     }
 

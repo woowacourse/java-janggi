@@ -1,4 +1,4 @@
-package janggi.model.gimul.palace;
+package janggi.model.piece.palace;
 
 import janggi.model.Team;
 
