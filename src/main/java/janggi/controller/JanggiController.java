@@ -20,32 +20,44 @@ public class JanggiController {
         outputView.printBoard(board.getBoard());
 
         while (true) {
-            outputView.printTurnMessage(isChoTurn);
+            playGame(isChoTurn, board);
 
-            Position movePiecePosition = doLoop(() -> {
-                outputView.printMoveInfo();
-                Position position = inputView.readPosition();
-                board.findAvailablePositions(position);
-                return position;
-            });
-
-            List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
-
-            outputView.printAvailablePositions(board.getBoard(), availablePositions);
-
-            Position movePosition = doLoop(() -> {
-                outputView.printMoveChoiceInfo();
-                Position position = inputView.readPosition();
-                board.validateDestination(movePiecePosition, position);
-                return position;
-            });
-
-            board.movePiece(movePiecePosition, movePosition);
-
-            outputView.printBoard(board.getBoard());
-
-            isChoTurn = !isChoTurn;
+            isChoTurn = changeTurn(isChoTurn);
         }
+    }
+
+    private void playGame(boolean isChoTurn, Board board) {
+        outputView.printTurnMessage(isChoTurn);
+
+        Position movePiecePosition = doLoop(() -> askMovePiecePosition(board));
+
+        List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
+
+        outputView.printAvailablePositions(board.getBoard(), availablePositions);
+
+        Position movePosition = doLoop(() -> askMovePosition(board, movePiecePosition));
+
+        board.movePiece(movePiecePosition, movePosition);
+
+        outputView.printBoard(board.getBoard());
+    }
+
+    private boolean changeTurn(boolean isChoTurn) {
+        return !isChoTurn;
+    }
+
+    private Position askMovePosition(Board board, Position movePiecePosition) {
+        outputView.printMoveChoiceInfo();
+        Position position = inputView.readPosition();
+        board.validateDestination(movePiecePosition, position);
+        return position;
+    }
+
+    private Position askMovePiecePosition(Board board) {
+        outputView.printMoveInfo();
+        Position position = inputView.readPosition();
+        board.findAvailablePositions(position);
+        return position;
     }
 
     private <T> T doLoop(Supplier<T> inputFunction) {
