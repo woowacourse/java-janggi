@@ -10,6 +10,7 @@ import java.util.List;
 public class Soldier implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.SOLDIER;
+    private static final double PIECE_SCORE = 2D;
 
     private final TeamType teamType;
     private final PieceAction pieceAction;
@@ -48,5 +49,10 @@ public class Soldier implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public double getScore() {
+        return PIECE_SCORE;
     }
 }

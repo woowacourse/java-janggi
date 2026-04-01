@@ -5,6 +5,7 @@ import janggi.domain.movement.Direction;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,14 @@ public class Board {
     public boolean canMove(final Position position, final Direction direction) {
         return DEFAULT_MOVABLE_DIRECTIONS.contains(direction) || Palace.hasDirection(position,
             direction);
+    }
+
+    public double calculateScoreByTeam(final TeamType teamType) {
+        return positionPieceMap.values()
+            .stream()
+            .filter(piece -> piece.getTeamType() == teamType)
+            .mapToDouble(Piece::getScore)
+            .sum() + teamType.getScoreOffset();
     }
 
     public Map<Position, Piece> getPositionPieceMap() {

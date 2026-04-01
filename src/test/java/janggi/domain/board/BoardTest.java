@@ -9,8 +9,12 @@ import janggi.domain.movement.Direction;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
+import janggi.domain.setup.InnerElephantSetupPolicy;
+import janggi.domain.team.RedTeam;
+import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -222,6 +226,51 @@ public class BoardTest {
                     Direction.NORTH_WEST, Direction.NORTH_EAST, Direction.SOUTH_EAST, Direction.SOUTH_WEST)),
                 Arguments.of(Position.valueOf(10, 4), List.of(Direction.NORTH_EAST)),
                 Arguments.of(Position.valueOf(10, 6), List.of(Direction.NORTH_WEST)));
+        }
+    }
+
+    @Nested
+    @DisplayName("특정 팀의 남은 기물 점수 합 계산 테스트")
+    class CalculateScoreByTeam {
+
+        @Test
+        @DisplayName("초나라의 남은 기물 점수 합을 계산한다.")
+        void success_1() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(1, 1), new Soldier(TeamType.BLUE),
+                Position.valueOf(1, 4), new Cannon(TeamType.BLUE),
+                Position.valueOf(1, 5), new Guard(TeamType.BLUE),
+                Position.valueOf(2, 5), new General(TeamType.RED),
+                Position.valueOf(10, 9), new Chariot(TeamType.RED),
+                Position.valueOf(3, 3), new Chariot(TeamType.BLUE),
+                Position.valueOf(8, 5), new General(TeamType.BLUE));
+            Board board = new Board(positionPieceMap);
+            TeamType teamType = TeamType.BLUE;
+            double expected = 2 + 7 + 3 + 13;
+
+            double actual = board.calculateScoreByTeam(teamType);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("한나라의 경우 1.5점을 추가로 획득한다.")
+        void success_2() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(1, 1), new Soldier(TeamType.RED),
+                Position.valueOf(1, 4), new Cannon(TeamType.RED),
+                Position.valueOf(1, 5), new Guard(TeamType.RED),
+                Position.valueOf(2, 5), new General(TeamType.RED),
+                Position.valueOf(3, 3), new Chariot(TeamType.RED),
+                Position.valueOf(8, 5), new General(TeamType.BLUE),
+                Position.valueOf(10, 9), new Chariot(TeamType.BLUE));
+            Board board = new Board(positionPieceMap);
+            TeamType teamType = TeamType.RED;
+            double expected = 2 + 7 + 3 + 13 + 1.5;
+
+            double actual = board.calculateScoreByTeam(teamType);
+
+            assertThat(actual).isEqualTo(expected);
         }
     }
 }

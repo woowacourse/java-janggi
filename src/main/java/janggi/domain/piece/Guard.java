@@ -10,6 +10,7 @@ import java.util.List;
 public class Guard implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.GUARD;
+    private static final double PIECE_SCORE = 3D;
     private static final PieceAction PIECE_ACTION = new GuardAction();
 
     private final TeamType teamType;
@@ -47,5 +48,10 @@ public class Guard implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public double getScore() {
+        return PIECE_SCORE;
     }
 }

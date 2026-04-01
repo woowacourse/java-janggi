@@ -10,6 +10,7 @@ import java.util.List;
 public class Cannon implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.CANNON;
+    private static final double PIECE_SCORE = 7D;
     private static final PieceAction PIECE_ACTION = new CannonAction();
     private static final List<PieceType> UNCATCHABLE_PIECE_TYPES = List.of(PieceType.CANNON);
 
@@ -49,5 +50,10 @@ public class Cannon implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public double getScore() {
+        return PIECE_SCORE;
     }
 }

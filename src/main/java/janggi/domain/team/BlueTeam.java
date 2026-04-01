@@ -36,5 +36,4 @@ public class BlueTeam implements Team {
     public String getName() {
         return TEAM_TYPE.getName();
     }
-
 }

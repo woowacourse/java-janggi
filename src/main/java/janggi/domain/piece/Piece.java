@@ -18,4 +18,6 @@ public interface Piece {
     PieceType getPieceType();
 
     TeamType getTeamType();
+
+    double getScore();
 }

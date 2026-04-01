@@ -48,4 +48,9 @@ public class General implements Piece {
     public TeamType getTeamType() {
         return teamType;
     }
+
+    @Override
+    public double getScore() {
+        return 0;
+    }
 }

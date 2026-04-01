@@ -10,6 +10,7 @@ import java.util.List;
 public class Elephant implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.ELEPHANT;
+    private static final double PIECE_SCORE = 3D;
     private static final PieceAction PIECE_ACTION = new ElephantAction();
 
     private final TeamType teamType;
@@ -47,5 +48,10 @@ public class Elephant implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public double getScore() {
+        return 0;
     }
 }
