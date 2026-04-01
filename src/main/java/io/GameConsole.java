@@ -1,7 +1,6 @@
 package io;
 
 import domain.game.JanggiGame;
-import java.util.function.Supplier;
 
 public class GameConsole {
     private final OutputView outputView;
@@ -19,17 +18,26 @@ public class GameConsole {
             retryUntilSuccess(() -> {
                 janggiGame.displayRequestCommand(outputView);
                 janggiGame.processCommand(inputView.readCommand());
-                return null;
             });
         }
     }
 
-    private <T> T retryUntilSuccess(Supplier<T> action) {
-        try {
-            return action.get();
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            return retryUntilSuccess(action);
+    private void retryUntilSuccess(Runnable action) {
+        boolean isSuccess = false;
+
+        while (!isSuccess) {
+            isSuccess = attempt(action);
         }
     }
+
+    private boolean attempt(Runnable action) {
+        try {
+            action.run();
+            return true;
+        } catch (IllegalArgumentException exception) {
+            outputView.printErrorMessage(exception.getMessage());
+            return false;
+        }
+    }
+
 }
