@@ -2,7 +2,8 @@ package janggi.domain.mouveRule;
 
 import janggi.domain.board.BoardView;
 import janggi.domain.Direction;
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Path;
+import janggi.domain.vo.position.Position;
 import java.util.List;
 
 public class ElephantMoveRule implements MoveRule {
@@ -19,9 +20,9 @@ public class ElephantMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
         for (List<Direction> directions : ELEPHANT_PATHS) {
-            List<Position> path = from.generatePath(directions);
+            Path path = from.generatePath(directions);
 
-            if (isArrived(path, to) && isNotBlocked(path, board)){
+            if (path.isArrived(to) && isNotBlocked(path, board)){
                 return true;
             }
         }
@@ -29,20 +30,13 @@ public class ElephantMoveRule implements MoveRule {
         return false;
     }
 
-    private boolean isArrived(List<Position> path, Position to) {
-        return !path.isEmpty() && path.get(lastStep(path)).equals(to);
-    }
-
-    private boolean isNotBlocked(List<Position> path, BoardView board) {
-        for (int step = 0; step < lastStep(path); step++) {
-            if (!board.isEmptyPosition(path.get(step))) {
+    private boolean isNotBlocked(Path path, BoardView board) {
+        for (int step = 0; step < path.destinationStep(); step++) {
+            if (!board.isEmptyPosition(path.positionAt(step))) {
                 return false;
             }
         }
 
         return true;
-    }
-    private int lastStep(List<Position> path) {
-        return path.size()-1;
     }
 }

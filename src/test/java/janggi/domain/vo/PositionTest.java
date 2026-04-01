@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import janggi.domain.Direction;
+import janggi.domain.vo.position.Path;
 import janggi.domain.vo.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,11 +54,11 @@ public class PositionTest {
         List<Direction> directions = List.of(Direction.EAST, Direction.EAST);
 
         // when
-        List<Position> path = from.generatePath(directions);
+        Path path = from.generatePath(directions);
 
         // then
-        assertThat(path).hasSize(2);
-        assertThat(path).containsExactly(new Position(0, 1), new Position(0, 2));
+        assertThat(path.getPositions()).hasSize(2);
+        assertThat(path.getPositions()).containsExactly(new Position(0, 1), new Position(0, 2));
     }
 
     @Test
@@ -67,10 +68,10 @@ public class PositionTest {
         List<Direction> directions = List.of(Direction.WEST);
 
         // when
-        List<Position> path = from.generatePath(directions);
+        Path path = from.generatePath(directions);
 
         // then
-        assertThat(path).isEmpty();
+        assertThat(path.getPositions()).isEmpty();
     }
 
     @ParameterizedTest

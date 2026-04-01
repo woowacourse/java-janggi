@@ -23,20 +23,20 @@ public class Position {
         this.col = col;
     }
 
-    public List<Position> generatePath(List<Direction> directions) {
+    public Path generatePath(List<Direction> directions) {
         List<Position> path = new ArrayList<>();
         Position current = this;
 
         for (Direction direction : directions) {
             if (!current.hasNext(direction)) {
-                return Collections.emptyList();
+                return new Path();
             }
 
             current = current.nextPosition(direction);
             path.add(current);
         }
 
-        return path;
+        return new Path(path);
     }
 
     public boolean isOnSameRow(Position other) {

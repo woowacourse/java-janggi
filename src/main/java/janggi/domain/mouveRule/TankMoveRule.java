@@ -2,7 +2,7 @@ package janggi.domain.mouveRule;
 
 import janggi.domain.Direction;
 import janggi.domain.board.BoardView;
-import janggi.domain.vo.Position;
+import janggi.domain.vo.position.Position;
 
 public class TankMoveRule implements MoveRule {
     @Override
