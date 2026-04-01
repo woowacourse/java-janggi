@@ -1,6 +1,5 @@
 package config;
 
-import java.sql.Connection;
 import repository.BoardRepository;
 import repository.GameRoomRepository;
 import repository.GameStateRepository;
@@ -11,24 +10,27 @@ import service.GameService;
 
 public class AppConfig {
 
-    public Connection connectionManager() {
-        return H2ConnectionManager.getConnection();
+    private static final String URL = "jdbc:h2:file:./data/testdb";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "";
+
+    private final H2ConnectionManager connectionManager = new H2ConnectionManager(URL, USER, PASSWORD);
+    private final BoardRepository boardRepository = new BoardRepositoryImpl();
+    private final GameRoomRepository gameRoomRepository = new GameRoomRepositoryImpl();
+    private final GameStateRepository gameStateRepository = new GameStateRepositoryImpl();
+
+    private final GameService gameService = new GameService(
+            boardRepository,
+            gameRoomRepository,
+            gameStateRepository,
+            connectionManager
+    );
+
+    public H2ConnectionManager connectionManager() {
+        return connectionManager;
     }
 
-    public BoardRepository boardRepository() {
-        return new BoardRepositoryImpl(connectionManager());
+    public GameService gameService() {
+        return gameService;
     }
-
-    public GameRoomRepository gameRoomRepository() {
-        return new GameRoomRepositoryImpl(connectionManager());
-    }
-
-    public GameStateRepository gameStateRepository() {
-        return new GameStateRepositoryImpl(connectionManager());
-    }
-
-    public GameService boardService() {
-        return new GameService(boardRepository(), gameRoomRepository(), gameStateRepository(), connectionManager());
-    }
-
 }
