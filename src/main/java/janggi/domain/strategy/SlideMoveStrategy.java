@@ -27,7 +27,7 @@ public class SlideMoveStrategy implements MoveStrategy {
 
         while (pointer.canMove(baseDirection)) {
             pointer = baseDirection.move(pointer);
-            path.makePath(pointer);
+            path.add(pointer);
         }
 
         paths.addPath(path);

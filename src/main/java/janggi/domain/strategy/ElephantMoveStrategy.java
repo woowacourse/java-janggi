@@ -49,9 +49,9 @@ public class ElephantMoveStrategy implements MoveStrategy {
         Position step3 = diagonalDirection.move(step2);
 
         Path path = new Path();
-        path.makePath(step1);
-        path.makePath(step2);
-        path.makePath(step3);
+        path.add(step1);
+        path.add(step2);
+        path.add(step3);
         paths.addPath(path);
     }
 

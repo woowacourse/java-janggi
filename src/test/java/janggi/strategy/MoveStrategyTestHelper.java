@@ -15,7 +15,7 @@ public class MoveStrategyTestHelper {
 
     public static Paths createRoute(List<Position> positions) {
         Path path = new Path();
-        positions.forEach(path::makePath);
+        positions.forEach(path::add);
         Paths paths = new Paths();
         paths.addPath(path);
         return paths;

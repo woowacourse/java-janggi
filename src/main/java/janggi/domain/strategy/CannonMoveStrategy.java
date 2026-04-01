@@ -28,7 +28,7 @@ public class CannonMoveStrategy implements MoveStrategy {
 
         while (next.canMove(baseDirection)) {
             next = baseDirection.move(next);
-            path.makePath(next);
+            path.add(next);
         }
 
         paths.addPath(path);

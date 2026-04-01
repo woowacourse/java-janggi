@@ -13,7 +13,7 @@ public class Path implements Iterable<Position> {
         this.positions = new ArrayList<>();
     }
 
-    public void makePath(Position nextPosition) {
+    public void add(Position nextPosition) {
         positions.add(nextPosition);
     }
 

@@ -24,7 +24,7 @@ public class StepMoveStrategy implements MoveStrategy {
     private void addStepPath(Position current, Direction baseDirection, Paths paths) {
         if (current.canMove(baseDirection)) {
             Path path = new Path();
-            path.makePath(baseDirection.move(current));
+            path.add(baseDirection.move(current));
             paths.addPath(path);
         }
     }

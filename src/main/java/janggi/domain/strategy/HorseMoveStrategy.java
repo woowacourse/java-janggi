@@ -43,8 +43,8 @@ public class HorseMoveStrategy implements MoveStrategy {
         Position step2 = diagonalDirection.move(step1);
 
         Path path = new Path();
-        path.makePath(step1);
-        path.makePath(step2);
+        path.add(step1);
+        path.add(step2);
         paths.addPath(path);
     }
 
