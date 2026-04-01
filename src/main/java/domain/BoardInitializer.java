@@ -21,18 +21,22 @@ import java.util.Map;
 public class BoardInitializer {
     private static final int TABLE_SETTING_SIZE = 4;
 
-    public static Map<Position, State> initialize(TableSetting choTableSetting, TableSetting hanTableSetting) {
-        Map<Position, State> board = new LinkedHashMap<>();
-        initializeSettings(choTableSetting, hanTableSetting, board);
+    private final Map<Position, State> board = new LinkedHashMap<>();
+
+    public BoardInitializer() {
+    }
+
+    public Map<Position, State> initialize(TableSetting choTableSetting, TableSetting hanTableSetting) {
+        initializeSettings(choTableSetting, hanTableSetting);
 
         for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
             EmptyState emptyState = new EmptyState();
-            initializeRow(y, emptyState, board);
+            initializeRow(y, emptyState);
         }
         return board;
     }
 
-    private static void initializeRow(int y, EmptyState emptyState, Map<Position, State> board) {
+    private void initializeRow(int y, EmptyState emptyState) {
         for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
             Position position = new Position(x, y);
             if (!board.containsKey(position)) {
@@ -41,17 +45,16 @@ public class BoardInitializer {
         }
     }
 
-    private static void initializeSettings(TableSetting choTableSetting, TableSetting hanTableSetting,
-                                           Map<Position, State> board) {
-        initializeSoldierPosition(board);
-        initializeGuardPosition(board);
-        initializeCannonPosition(board);
-        initializeChariotPosition(board);
-        initializeGeneralPosition(board);
-        initializeTableSettings(choTableSetting, hanTableSetting, board);
+    private void initializeSettings(TableSetting choTableSetting, TableSetting hanTableSetting) {
+        initializeSoldierPosition();
+        initializeGuardPosition();
+        initializeCannonPosition();
+        initializeChariotPosition();
+        initializeGeneralPosition();
+        initializeTableSettings(choTableSetting, hanTableSetting);
     }
 
-    private static void initializeSoldierPosition(Map<Position, State> board) {
+    private void initializeSoldierPosition() {
         for (Position choPosition : InitialPosition.SOLDIER.getChoPositions()) {
             board.put(choPosition, new FullState(new Soldier(Country.CHO)));
         }
@@ -60,7 +63,7 @@ public class BoardInitializer {
         }
     }
 
-    private static void initializeGuardPosition(Map<Position, State> board) {
+    private void initializeGuardPosition() {
         for (Position choPosition : InitialPosition.GUARD.getChoPositions()) {
             board.put(choPosition, new FullState(new Guard(Country.CHO)));
         }
@@ -69,7 +72,7 @@ public class BoardInitializer {
         }
     }
 
-    private static void initializeCannonPosition(Map<Position, State> board) {
+    private void initializeCannonPosition() {
         for (Position choPosition : InitialPosition.CANNON.getChoPositions()) {
             board.put(choPosition, new FullState(new Cannon(Country.CHO)));
         }
@@ -78,7 +81,7 @@ public class BoardInitializer {
         }
     }
 
-    private static void initializeChariotPosition(Map<Position, State> board) {
+    private void initializeChariotPosition() {
         for (Position choPosition : InitialPosition.CHARIOT.getChoPositions()) {
             board.put(choPosition, new FullState(new Chariot(Country.CHO)));
         }
@@ -87,7 +90,7 @@ public class BoardInitializer {
         }
     }
 
-    private static void initializeGeneralPosition(Map<Position, State> board) {
+    private void initializeGeneralPosition() {
         for (Position choPosition : InitialPosition.GENERAL.getChoPositions()) {
             board.put(choPosition, new FullState(new General(Country.CHO)));
         }
@@ -96,13 +99,12 @@ public class BoardInitializer {
         }
     }
 
-    private static void initializeTableSettings(TableSetting choTableSetting, TableSetting hanTableSetting,
-                                                Map<Position, State> board) {
-        initializeChoTableSetting(choTableSetting, board);
-        initializeHanTableSetting(hanTableSetting, board);
+    private void initializeTableSettings(TableSetting choTableSetting, TableSetting hanTableSetting) {
+        initializeChoTableSetting(choTableSetting);
+        initializeHanTableSetting(hanTableSetting);
     }
 
-    private static void initializeChoTableSetting(TableSetting choTableSetting, Map<Position, State> board) {
+    private void initializeChoTableSetting(TableSetting choTableSetting) {
         for (int index = 0; index < TABLE_SETTING_SIZE; index++) {
             PieceType pieceType = choTableSetting.getFormation(Country.CHO).get(index);
             if (pieceType == PieceType.HORSE) {
@@ -115,7 +117,7 @@ public class BoardInitializer {
         }
     }
 
-    private static void initializeHanTableSetting(TableSetting hanTableSetting, Map<Position, State> board) {
+    private void initializeHanTableSetting(TableSetting hanTableSetting) {
         for (int index = 0; index < TABLE_SETTING_SIZE; index++) {
             PieceType pieceType = hanTableSetting.getFormation(Country.HAN).get(index);
             if (pieceType == PieceType.HORSE) {

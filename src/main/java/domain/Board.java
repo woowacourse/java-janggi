@@ -23,7 +23,7 @@ public class Board {
     }
 
     public static Board create(TableSetting choSetting, TableSetting hanSetting) {
-        Map<Position, State> board = BoardInitializer.initialize(choSetting, hanSetting);
+        Map<Position, State> board = new BoardInitializer().initialize(choSetting, hanSetting);
         return new Board(board);
     }
 
