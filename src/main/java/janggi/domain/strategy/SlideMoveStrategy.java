@@ -7,16 +7,6 @@ import janggi.domain.route.Path;
 
 public class SlideMoveStrategy extends PieceStrategy {
 
-    private static Path navigationIfEnemy(Position current, Direction baseDir, BoardInfo boardInfo, Position next,
-                                          Path path) {
-        next = baseDir.move(next);
-        if (boardInfo.isAlly(current, next)) {
-            return path;
-        }
-        path.makePath(next);
-        return path;
-    }
-
     @Override
     protected Path navigationPath(Position current, Direction baseDir, BoardInfo boardInfo) {
         Path path = new Path();
@@ -29,6 +19,16 @@ public class SlideMoveStrategy extends PieceStrategy {
             return path;
         }
         return navigationIfEnemy(current, baseDir, boardInfo, next, path);
+    }
+
+    private Path navigationIfEnemy(Position current, Direction baseDir, BoardInfo boardInfo, Position next,
+                                   Path path) {
+        next = baseDir.move(next);
+        if (boardInfo.isAlly(current, next)) {
+            return path;
+        }
+        path.makePath(next);
+        return path;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class Board implements BoardInfo {
 
     @Override
     public boolean isEmpty(Position position) {
-        return piecePosition.containsKey(position);
+        return !piecePosition.containsKey(position);
     }
 
     @Override
