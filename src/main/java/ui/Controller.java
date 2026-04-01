@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import ui.dto.ActionType;
 import ui.dto.BoardStatusDto;
+import ui.dto.MovePositionDto;
 import ui.dto.PositionDto;
 import ui.view.InputView;
 import ui.view.ResultView;
@@ -54,10 +55,13 @@ public class Controller {
     }
 
     private void executeMove(JanggiGame game) {
-        PositionDto positionDto = inputView.readMovePositions(game.getTurn());
+        MovePositionDto movePositionDto = inputView.readMovePositions(game.getTurn());
 
-        Position startPosition = Position.of(positionDto.getStartRow(), positionDto.getStartColumn());
-        Position destinationPosition = Position.of(positionDto.getDestinationRow(), positionDto.getDestinationColumn());
+        PositionDto start = movePositionDto.getStart();
+        PositionDto destination = movePositionDto.getDestination();
+
+        Position startPosition = Position.of(start.getRow(), start.getColumn());
+        Position destinationPosition = Position.of(destination.getRow(), destination.getColumn());
         game.executeMove(startPosition, destinationPosition);
     }
 

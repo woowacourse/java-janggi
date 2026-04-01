@@ -1,43 +1,37 @@
 package ui.dto;
 
 public class PositionDto {
-    private final int startRow;
-    private final int startColumn;
-    private final int destinationRow;
-    private final int destinationColumn;
+    private static final String COLUMN_SHOULD_BE_ALPHABETIC = "Coumn은 a~i 사이의 값을 입력해야 합니다.";
+    private final int row;
+    private final int column;
 
-    private PositionDto(int startRow, int startColumn, int destinationRow, int destinationColumn) {
-        this.startRow = startRow;
-        this.startColumn = startColumn;
-        this.destinationRow = destinationRow;
-        this.destinationColumn = destinationColumn;
+    public PositionDto(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public static PositionDto toDto(String startInfo, String destinationInfo) {
-        char startColumnInfo = startInfo.charAt(0);
-        int startColumnValue = (int) startColumnInfo - 'a' + 1;
-        int startRowValue = Integer.parseInt(startInfo.substring(1));
+    public static PositionDto toDto(String input) {
+        char columnInfo = getColumnInfo(input);
 
-        char destinationColumnInfo = destinationInfo.charAt(0);
-        int destinationColumnValue = (int) destinationColumnInfo - 'a' + 1;
-        int destinationRowValue = Integer.parseInt(destinationInfo.substring(1));
+        int columnValue = (int) columnInfo - 'a' + 1;
+        int rowValue = Integer.parseInt(input.substring(1));
 
-        return new PositionDto(startRowValue, startColumnValue, destinationRowValue, destinationColumnValue);
+        return new PositionDto(rowValue, columnValue);
     }
 
-    public int getStartRow() {
-        return startRow;
+    private static char getColumnInfo(String input) {
+        char columnInfo = input.charAt(0);
+        if (!Character.isAlphabetic(columnInfo)) {
+            throw new IllegalArgumentException(COLUMN_SHOULD_BE_ALPHABETIC);
+        }
+        return columnInfo;
     }
 
-    public int getStartColumn() {
-        return startColumn;
+    public int getRow() {
+        return row;
     }
 
-    public int getDestinationRow() {
-        return destinationRow;
-    }
-
-    public int getDestinationColumn() {
-        return destinationColumn;
+    public int getColumn() {
+        return column;
     }
 }

@@ -16,7 +16,7 @@ public class BoardStatusDto {
     public static BoardStatusDto from(Map<Position, Piece> board) {
         List<PieceDto> dtos = new ArrayList<>();
         for (Position position : board.keySet()) {
-            dtos.add(PieceDto.toDto(position, board.get(position)));
+            dtos.add(PieceDto.of(board.get(position), position));
         }
         return new BoardStatusDto(dtos);
     }

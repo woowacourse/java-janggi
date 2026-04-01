@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import ui.dto.ActionType;
+import ui.dto.MovePositionDto;
 import ui.dto.PositionDto;
 
 public class InputView {
@@ -46,12 +47,18 @@ public class InputView {
         throw new IllegalArgumentException(INVALID_SETTING_INPUT);
     }
 
-    public PositionDto readMovePositions(Team team) {
+    public MovePositionDto readMovePositions(Team team) {
         String commandDescription = String.format(MOVE_COMMAND_DESCRIPTION, convertTeamTypeToKorean(team));
         System.out.println(commandDescription);
+
         String input = sc.nextLine();
+
         String[] positions = input.split(" ");
-        return PositionDto.toDto(positions[0], positions[1]);
+
+        PositionDto startPosition = PositionDto.toDto(positions[0]);
+        PositionDto destinationPosition = PositionDto.toDto(positions[1]);
+
+        return new MovePositionDto(startPosition, destinationPosition);
     }
 
     public ActionType readAction(Team team) {

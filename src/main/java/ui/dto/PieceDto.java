@@ -6,72 +6,72 @@ import domain.piece.Team;
 import domain.position.Position;
 
 public class PieceDto {
-    private static final String INVALID_PIECE_TYPE = "일치하는 기물 정보가 없습니다.";
     private final int row;
     private final int column;
     private final String description;
 
-    public PieceDto(int row, int column, String description) {
+    private PieceDto(int row, int column, String description) {
         this.row = row;
         this.column = column;
         this.description = description;
     }
 
-    public static PieceDto toDto(Position position, Piece piece) {
+    public static PieceDto of(Piece piece, Position position) {
         int row = position.getRow().getValue();
-        int col = position.getColumn().getValue();
-        PieceType type = piece.getPieceType();
-        Team team = piece.getTeam();
+        int column = position.getColumn().getValue();
 
-        if (team == Team.CHO) {
-            if (type == PieceType.CHA) {
-                return new PieceDto(row, col, "차");
-            }
-            if (type == PieceType.SANG) {
-                return new PieceDto(row, col, "상");
-            }
-            if (type == PieceType.MA) {
-                return new PieceDto(row, col, "마");
-            }
-            if (type == PieceType.SA) {
-                return new PieceDto(row, col, "사");
-            }
-            if (type == PieceType.JANG) {
-                return new PieceDto(row, col, "장");
-            }
-            if (type == PieceType.PO) {
-                return new PieceDto(row, col, "포");
-            }
-            if (type == PieceType.JOL) {
-                return new PieceDto(row, col, "졸");
-            }
+        return new PieceDto(row, column, selectDescription(piece));
+    }
+
+    private static String selectDescription(Piece piece) {
+        if (piece.isSameTeam(Team.CHO)) {
+            return selectChoDescription(piece.getPieceType());
         }
+        return selectHanDescription(piece.getPieceType());
+    }
 
-        if (team == Team.HAN) {
-            if (type == PieceType.CHA) {
-                return new PieceDto(row, col, "車");
-            }
-            if (type == PieceType.SANG) {
-                return new PieceDto(row, col, "象");
-            }
-            if (type == PieceType.MA) {
-                return new PieceDto(row, col, "馬");
-            }
-            if (type == PieceType.SA) {
-                return new PieceDto(row, col, "士");
-            }
-            if (type == PieceType.JANG) {
-                return new PieceDto(row, col, "漢");
-            }
-            if (type == PieceType.PO) {
-                return new PieceDto(row, col, "包");
-            }
-            if (type == PieceType.BYEONG) {
-                return new PieceDto(row, col, "兵");
-            }
+    private static String selectChoDescription(PieceType pieceType) {
+        if (pieceType == PieceType.CHA) {
+            return "차";
         }
+        if (pieceType == PieceType.SANG) {
+            return "상";
+        }
+        if (pieceType == PieceType.MA) {
+            return "마";
+        }
+        if (pieceType == PieceType.SA) {
+            return "사";
+        }
+        if (pieceType == PieceType.JANG) {
+            return "장";
+        }
+        if (pieceType == PieceType.PO) {
+            return "포";
+        }
+        return "졸";
+    }
 
-        throw new IllegalArgumentException(INVALID_PIECE_TYPE);
+    private static String selectHanDescription(PieceType pieceType) {
+        if (pieceType == PieceType.CHA) {
+            return "車";
+        }
+        if (pieceType == PieceType.SANG) {
+            return "象";
+        }
+        if (pieceType == PieceType.MA) {
+            return "馬";
+        }
+        if (pieceType == PieceType.SA) {
+            return "士";
+        }
+        if (pieceType == PieceType.JANG) {
+            return "漢";
+        }
+        if (pieceType == PieceType.PO) {
+            return "包";
+        }
+        return "兵";
     }
 
     public int getRow() {
