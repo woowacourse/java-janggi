@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Board {
 
-    protected final Map<Coordination, Piece> board;
+    private final Map<Coordination, Piece> board;
 
     public Board(Map<Coordination, Piece> board) {
         this.board = board;
