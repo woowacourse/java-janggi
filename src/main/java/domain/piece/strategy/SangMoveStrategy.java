@@ -32,8 +32,8 @@ public class SangMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
         for (int direction = 0; direction < dColumn.length; direction++) {
-            int[] rowSteps = dColumn[direction];
-            int[] columnSteps = dRow[direction];
+            int[] rowSteps = dRow[direction];
+            int[] columnSteps = dColumn[direction];
 
             Position destinationCandidate = start.go(columnSteps[DESTINATION_INDEX], rowSteps[DESTINATION_INDEX]);
 
