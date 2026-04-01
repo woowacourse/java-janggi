@@ -1,6 +1,5 @@
 package domain.position;
 
-
 import domain.board.BoardPolicy;
 
 public record Row(int row) {

@@ -30,7 +30,7 @@ public class GameServiceTest {
     private GameService gameService;
 
     @BeforeEach
-    void setUp() throws SQLException {
+    void setUp() {
         H2ConnectionManager connectionManager = new H2ConnectionManager(URL, USER, PASSWORD);
         TestDatabaseInitializer testDatabaseInitializer = new TestDatabaseInitializer(connectionManager);
         testDatabaseInitializer.init();
