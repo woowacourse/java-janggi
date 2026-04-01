@@ -22,7 +22,7 @@ public class Board {
 
     protected Board(Map<Point, Piece> board) {
         board.keySet().forEach(this::validateRange);
-        this.board = board;
+        this.board = new HashMap<>(board);
     }
 
     public static boolean isInRange(int nx, int ny) {

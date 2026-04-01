@@ -18,7 +18,7 @@ public class CandidatePath {
     }
 
     public List<Point> getPath() {
-        return path;
+        return List.copyOf(path);
     }
 
     public boolean isEmpty() {
