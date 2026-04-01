@@ -31,6 +31,6 @@ public class SaTest {
 
         assertThatThrownBy(() -> sa.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 사는 궁성 밖으로 나갈 수 없습니다.");
+                .hasMessageContaining("[ERROR] 궁성 밖으로 나갈 수 없습니다.");
     }
 }
