@@ -2,6 +2,8 @@ package strategy.move;
 
 import domain.Direction;
 import domain.MovePath;
+import domain.Piece;
+import domain.Route;
 import domain.TeamColor;
 import java.util.List;
 
@@ -22,4 +24,15 @@ public class HorseMoveStrategy extends MoveStrategy {
     public List<MovePath> getPaths(TeamColor teamColor) {
         return PATHS;
     }
+
+    @Override
+    public boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam) {
+        if (!blockingPieces.isEmpty()) {
+            return false;
+        }
+
+        return pieceAtDestination == null || !pieceAtDestination.isOnTeam(myTeam);
+    }
+
+
 }

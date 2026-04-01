@@ -5,6 +5,8 @@ import java.util.List;
 
 import domain.Direction;
 import domain.MovePath;
+import domain.Piece;
+import domain.Route;
 import domain.TeamColor;
 
 public class RookMoveStrategy extends MoveStrategy {
@@ -32,5 +34,15 @@ public class RookMoveStrategy extends MoveStrategy {
         }
         return List.copyOf(paths);
     }
+
+    @Override
+    public boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam) {
+        if (!blockingPieces.isEmpty()) {
+            return false;
+        }
+
+        return pieceAtDestination == null || !pieceAtDestination.isOnTeam(myTeam);
+    }
+
 
 }

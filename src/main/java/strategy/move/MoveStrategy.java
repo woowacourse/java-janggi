@@ -44,12 +44,6 @@ public abstract class MoveStrategy {
         return Optional.of(new Route(start, currentPos, intermediates));
     }
 
-    public boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam) {
-        if (!blockingPieces.isEmpty()) {
-            return false;
-        }
-
-        return pieceAtDestination == null || !pieceAtDestination.isOnTeam(myTeam);
-    }
+    public abstract boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam);
 
 }
