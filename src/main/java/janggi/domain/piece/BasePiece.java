@@ -25,4 +25,9 @@ public abstract class BasePiece implements Piece {
     public PieceAttribute getPieceInfo() {
         return new PieceAttribute(side, pieceType);
     }
+
+    @Override
+    public int getPieceScore() {
+        return this.pieceType.getScore();
+    }
 }

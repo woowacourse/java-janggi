@@ -39,6 +39,7 @@ public class Runner {
         try {
             printCurrentStatus(game);
             movePiece(game);
+            printCurrentScore(game);
             return isFinishedGame(game);
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
@@ -51,6 +52,7 @@ public class Runner {
     }
 
     private void printCurrentStatus(Game game) {
+        OutputView.printLine();
         OutputView.printBoard(game.getCurrentBoardDto());
         OutputView.printTurn(game.getCurrentSide());
     }
@@ -63,6 +65,11 @@ public class Runner {
         Position endPosition = Position.from(endPositionInput);
 
         game.move(startPosition, endPosition);
+    }
+
+    private void printCurrentScore(Game game) {
+        OutputView.printLine();
+        OutputView.printScore(game.getCurrentSideScore());
     }
 
     private boolean isFinishedGame(Game game) {

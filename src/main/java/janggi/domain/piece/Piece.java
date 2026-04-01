@@ -14,5 +14,7 @@ public interface Piece {
 
     boolean isEqualSide(Side side);
 
+    int getPieceScore();
+    
     PieceAttribute getPieceInfo();
 }

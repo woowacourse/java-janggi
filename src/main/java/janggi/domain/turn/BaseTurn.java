@@ -1,6 +1,7 @@
 package janggi.domain.turn;
 
 import janggi.domain.Side;
+import janggi.domain.SideScore;
 import janggi.domain.board.Board;
 import janggi.domain.piece.PieceAttribute;
 import java.util.List;
@@ -32,5 +33,10 @@ public abstract class BaseTurn implements PlayerTurn {
     @Override
     public Side getWinnerSide() {
         return Side.EMPTY;
+    }
+
+    @Override
+    public SideScore getCurrentScore() {
+        return board.getScore();
     }
 }

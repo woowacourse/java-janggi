@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.domain.Side;
+import janggi.domain.SideScore;
 import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
@@ -14,7 +15,18 @@ public class OutputView {
     private static final String ANSI_GREEN = "\u001B[32m";
 
     private static final String TURN_PREFIX = "현재 턴: ";
+
+    private static final String SCORE_PREFIX = "[ 현재 점수 현황 ]";
+    private static final String HAN_SCORE_PREFIX = "한: ";
+    private static final String CHO_SCORE_PREFIX = "초: ";
+    private static final String SCORE_SUFFIX = "점";
+    private static final String SCORE_DELIMITER = ", ";
+
     private static final String ERROR_PREFIX = "[ERROR] ";
+
+    public static void printLine() {
+        System.out.println();
+    }
 
     public static void printBoard(BoardDto boardDto) {
         List<List<PieceAttribute>> board = boardDto.board();
@@ -26,6 +38,11 @@ public class OutputView {
 
     public static void printTurn(Side side) {
         System.out.println(TURN_PREFIX + side.getName());
+    }
+
+    public static void printScore(SideScore score) {
+        System.out.println(SCORE_PREFIX);
+        System.out.println(CHO_SCORE_PREFIX + score.cho() + SCORE_SUFFIX + SCORE_DELIMITER + HAN_SCORE_PREFIX + score.han() + SCORE_SUFFIX);
     }
 
     public static void printWinner(Side winnerSide) {
