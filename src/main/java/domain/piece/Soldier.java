@@ -4,7 +4,7 @@ import domain.Country;
 import domain.Direction;
 import java.util.List;
 
-public class Soldier extends MoveOneSpacePiece {
+public class Soldier extends MoveOneStepPiece {
     private static final String TRY_GO_BACK = "[ERROR] 졸・병은 후진할 수 없습니다.";
 
     public Soldier(Country country) {
