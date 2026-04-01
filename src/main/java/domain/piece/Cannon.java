@@ -1,14 +1,21 @@
 package domain.piece;
 
-import domain.coordinate.Direction;
-import domain.Game;
+import domain.board.BoardBounds;
+import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
+import domain.rule.CannonRule;
+import domain.rule.Rule;
+import domain.strategy.LinearStrategy;
+import domain.strategy.Strategy;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class Cannon extends Piece {
+
+    private final Strategy strategy = new LinearStrategy();
+    private final Rule rule = new CannonRule();
 
     public Cannon(Side side) {
         super(side);
@@ -25,42 +32,12 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Game game, Position start) {
-        List<Position> possiblePositions = new ArrayList<>();
+    public List<Path> getPaths(Position start, BoardBounds bounds) {
+        return strategy.getPaths(start, bounds);
+    }
 
-        List<Direction> directions = List.of(
-                Direction.UP,
-                Direction.DOWN,
-                Direction.LEFT,
-                Direction.RIGHT
-        );
-
-        for (Direction direction : directions) {
-            Position current = start;
-            while (true) {
-                current = current.nextPosition(direction);
-
-                if (game.isCannon(current)) {
-                    break;
-                }
-
-                if (!game.isCannon(current) && game.isNotEmpty(current)) {
-                    while (true) {
-                        current = current.nextPosition(direction);
-                        if (!game.isAvailableDestination(current) || game.isCannon(current)) {
-                            break;
-                        }
-
-                        possiblePositions.add(current);
-                        if (game.isOpponentPiece(current)) {
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        return possiblePositions;
+    @Override
+    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
+        return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
 }

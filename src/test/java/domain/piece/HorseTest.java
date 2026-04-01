@@ -46,10 +46,8 @@ class HorseTest {
         // given
         Game game = new Game(new HorseTestInitializer());
         Position start = new Position(4, 4);
-        Piece horse = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -70,10 +68,8 @@ class HorseTest {
         // given
         Game game = new Game(new HorseTestInitializer());
         Position start = new Position(1, 1);
-        Piece horse = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -85,10 +81,8 @@ class HorseTest {
         // given
         Game game = new Game(new HorseTestInitializer());
         Position start = new Position(9, 0);
-        Piece horse = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).doesNotContain(new Position(7, 1));
@@ -100,10 +94,8 @@ class HorseTest {
         // given
         Game game = new Game(new HorseTestInitializer());
         Position start = new Position(9, 0);
-        Piece horse = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = horse.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(8, 2));

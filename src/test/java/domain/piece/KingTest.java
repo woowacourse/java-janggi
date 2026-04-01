@@ -71,10 +71,9 @@ class KingTest {
         // given
         Game game = new Game(new HanSideKingInitializer());
         Position start = new Position(1, 4);
-        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(1, 3), new Position(2, 4), new Position(0, 4),
@@ -87,10 +86,9 @@ class KingTest {
         // given
         Game game = new Game(new ChuSideKingInitializer());
         Position start = new Position(6, 0);
-        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
@@ -102,10 +100,9 @@ class KingTest {
         // given
         Game game = new Game(new HanSideKingInitializer());
         Position start = new Position(3, 6);
-        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -117,10 +114,9 @@ class KingTest {
         // given
         Game game = new Game(new HanSideKingInitializer());
         Position start = new Position(3, 7);
-        Piece king = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = king.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));

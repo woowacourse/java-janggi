@@ -68,10 +68,9 @@ public class GuardTest {
         // given
         Game game = new Game(new HanSideGuardInitializer());
         Position start = new Position(3, 0);
-        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(2, 0), new Position(3, 1));
@@ -83,10 +82,9 @@ public class GuardTest {
         // given
         Game game = new Game(new ChuSideGuardInitializer());
         Position start = new Position(6, 0);
-        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(7, 0), new Position(6, 1));
@@ -98,10 +96,9 @@ public class GuardTest {
         // given
         Game game = new Game(new HanSideGuardInitializer());
         Position start = new Position(3, 6);
-        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -113,10 +110,9 @@ public class GuardTest {
         // given
         Game game = new Game(new HanSideGuardInitializer());
         Position start = new Position(3, 7);
-        Piece guard = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = guard.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));

@@ -1,11 +1,14 @@
 package domain.board;
 
+import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.piece.Cannon;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -46,6 +49,23 @@ public class Board {
 
     public void validateRange(Position position) {
         BOUNDS.validateContains(position);
+    }
+
+    public Map<Position, Piece> collectPieces(List<Path> paths) {
+        Map<Position, Piece> result = new HashMap<>();
+        for (Path path : paths) {
+            for (Position position : path.getPositions()) {
+                result.put(position, board[position.col()][position.row()]);
+            }
+        }
+        return result;
+    }
+
+    public List<Position> getPossibleMoves(Position start) {
+        Piece piece = board[start.col()][start.row()];
+        List<Path> paths = piece.getPaths(start, BOUNDS);
+        Map<Position, Piece> pathPieces = collectPieces(paths);
+        return piece.getPossiblePositions(pathPieces, paths);
     }
 
     public Piece[][] getBoard() {

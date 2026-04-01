@@ -1,11 +1,13 @@
 package domain.piece;
 
+import domain.board.BoardBounds;
 import domain.coordinate.Direction;
-import domain.Game;
+import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class Piece {
 
@@ -39,6 +41,7 @@ public abstract class Piece {
 
     public abstract boolean isEmpty();
 
-    public abstract List<Position> getPossibleMoves(Game game, Position start);
+    public abstract List<Path> getPaths(Position start, BoardBounds bounds);
 
+    public abstract List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths);
 }

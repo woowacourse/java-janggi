@@ -68,10 +68,8 @@ class PawnTest {
         // given
         Game game = new Game(new HanSidePawnInitializer());
         Position start = new Position(3, 0);
-        Piece pawn = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(3, 1));
@@ -83,10 +81,8 @@ class PawnTest {
         // given
         Game game = new Game(new ChuSidePawnInitializer());
         Position start = new Position(6, 0);
-        Piece pawn = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(6, 1));
@@ -98,10 +94,9 @@ class PawnTest {
         // given
         Game game = new Game(new HanSidePawnInitializer());
         Position start = new Position(3, 6);
-        Piece pawn = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -113,10 +108,9 @@ class PawnTest {
         // given
         Game game = new Game(new HanSidePawnInitializer());
         Position start = new Position(3, 7);
-        Piece pawn = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = pawn.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));

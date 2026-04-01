@@ -1,14 +1,32 @@
 package domain.piece;
 
 import domain.coordinate.Direction;
-import domain.Game;
+import domain.board.BoardBounds;
+import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
+import domain.rule.LeapRule;
+import domain.rule.Rule;
+import domain.strategy.SequenceStrategy;
+import domain.strategy.Strategy;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class Horse extends Piece {
+
+    private static final List<List<Direction>> SEQUENCES = List.of(
+            List.of(Direction.UP, Direction.UP_LEFT),
+            List.of(Direction.UP, Direction.UP_RIGHT),
+            List.of(Direction.DOWN, Direction.DOWN_LEFT),
+            List.of(Direction.DOWN, Direction.DOWN_RIGHT),
+            List.of(Direction.LEFT, Direction.UP_LEFT),
+            List.of(Direction.LEFT, Direction.DOWN_LEFT),
+            List.of(Direction.RIGHT, Direction.UP_RIGHT),
+            List.of(Direction.RIGHT, Direction.DOWN_RIGHT));
+
+    private final Strategy strategy = new SequenceStrategy(SEQUENCES);
+    private final Rule rule = new LeapRule();
 
     public Horse(Side side) {
         super(side);
@@ -25,32 +43,12 @@ public final class Horse extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Game game, Position start) {
-        List<List<Direction>> paths = List.of(
-                List.of(Direction.UP, Direction.UP_LEFT),
-                List.of(Direction.UP, Direction.UP_RIGHT),
-                List.of(Direction.DOWN, Direction.DOWN_LEFT),
-                List.of(Direction.DOWN, Direction.DOWN_RIGHT),
-                List.of(Direction.LEFT, Direction.UP_LEFT),
-                List.of(Direction.LEFT, Direction.DOWN_LEFT),
-                List.of(Direction.RIGHT, Direction.UP_RIGHT),
-                List.of(Direction.RIGHT, Direction.DOWN_RIGHT));
+    public List<Path> getPaths(Position start, BoardBounds bounds) {
+        return strategy.getPaths(start, bounds);
+    }
 
-        List<Position> possiblePositions = new ArrayList<>();
-
-        for (List<Direction> path : paths) {
-            Position firstMovePosition = start.nextPosition(path.getFirst());
-            if (game.isNotEmpty(firstMovePosition)) {
-                continue;
-            }
-
-            Position destination = firstMovePosition.nextPosition(path.get(1));
-
-            if (game.isAvailableDestination(destination)) {
-                possiblePositions.add(destination);
-            }
-        }
-
-        return possiblePositions;
+    @Override
+    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
+        return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
 }

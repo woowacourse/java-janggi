@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,16 @@ public final class BoardBounds {
             for (int row = 0; row < rowSize; row++) {
                 positions.add(new Position(col, row));
             }
+        }
+        return positions;
+    }
+
+    public List<Position> rayPositions(Position start, Direction direction) {
+        List<Position> positions = new ArrayList<>();
+        Position next = start.nextPosition(direction);
+        while (contains(next)) {
+            positions.add(next);
+            next = next.nextPosition(direction);
         }
         return positions;
     }

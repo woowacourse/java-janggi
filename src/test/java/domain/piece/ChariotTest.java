@@ -49,10 +49,9 @@ class ChariotTest {
         // given
         Game game = new Game(new ChariotTestInitializer());
         Position start = new Position(2, 1);
-        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -81,10 +80,9 @@ class ChariotTest {
         // given
         Game game = new Game(new ChariotTestInitializer());
         Position start = new Position(4, 4);
-        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -96,10 +94,9 @@ class ChariotTest {
         // given
         Game game = new Game(new ChariotTestInitializer());
         Position start = new Position(4, 8);
-        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).contains(new Position(5, 8), new Position(6, 8));

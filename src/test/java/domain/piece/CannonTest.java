@@ -77,10 +77,8 @@ class CannonTest {
         // given
         Game game = new Game(new CannonTestInitializer());
         Position start = new Position(9, 0);
-        Piece cannon = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -96,10 +94,8 @@ class CannonTest {
         // given
         Game game = new Game(new CannonTestInitializer());
         Position start = new Position(7, 1);
-        Piece cannon = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -113,10 +109,8 @@ class CannonTest {
         // given
         Game game = new Game(new CannonTestInitializer());
         Position start = new Position(8, 6);
-        Piece cannon = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(6, 6));
@@ -128,10 +122,8 @@ class CannonTest {
         // given
         Game game = new Game(new CannonTestInitializer());
         Position start = new Position(4, 4);
-        Piece cannon = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -144,10 +136,8 @@ class CannonTest {
         // given
         Game game = new Game(new norMalPieceMultiJumpTestInitializer());
         Position start = new Position(7, 4);
-        Piece cannon = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = cannon.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).doesNotContain(

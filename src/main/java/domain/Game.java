@@ -5,6 +5,8 @@ import domain.board.BoardInitializer;
 import domain.coordinate.Position;
 import domain.piece.Piece;
 
+import java.util.List;
+
 public class Game {
 
     private final Board board;
@@ -71,6 +73,10 @@ public class Game {
 
     public Side getTurn() {
         return turn;
+    }
+
+    public List<Position> getPossibleMoves(Position start) {
+        return board.getPossibleMoves(start);
     }
 
     public Piece[][] getBoard() {

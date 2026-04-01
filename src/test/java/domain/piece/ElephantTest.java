@@ -51,10 +51,8 @@ class ElephantTest {
         // given
         Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(4, 4);
-        Piece elephant = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -75,10 +73,8 @@ class ElephantTest {
         // given
         Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(0, 0);
-        Piece elephant = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -90,10 +86,8 @@ class ElephantTest {
         // given
         Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(9, 8);
-        Piece elephant = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -105,10 +99,8 @@ class ElephantTest {
         // given
         Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(9, 0);
-        Piece elephant = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).doesNotContain(new Position(6, 2));
@@ -120,10 +112,8 @@ class ElephantTest {
         // given
         Game game = new Game(new ElephantTestInitializer());
         Position start = new Position(9, 0);
-        Piece elephant = game.getPiece(start);
-
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game, start);
+        List<Position> possibleMoves = game.getPossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(7, 3));
