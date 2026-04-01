@@ -29,7 +29,7 @@ class KingTest {
         fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
 
         // when, then
-        assertThat(king.moveRule().canMove(from, to, fakeBoard)).isTrue();
+        assertThat(king.canMove(from, to, fakeBoard)).isTrue();
     }
 
     @ParameterizedTest
@@ -44,7 +44,7 @@ class KingTest {
         fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
 
         // when, then
-        assertThat(king.moveRule().canMove(from, to, fakeBoard)).isTrue();
+        assertThat(king.canMove(from, to, fakeBoard)).isTrue();
     }
 
     @ParameterizedTest
@@ -62,6 +62,6 @@ class KingTest {
         fakeBoard = new FakeBoard(Map.of(from, new King(Team.HAN)));
 
         // when, then
-        assertThat(king.moveRule().canMove(from, to, fakeBoard)).isFalse();
+        assertThat(king.canMove(from, to, fakeBoard)).isFalse();
     }
 }

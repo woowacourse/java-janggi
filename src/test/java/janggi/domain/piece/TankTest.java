@@ -33,7 +33,7 @@ class TankTest {
         Position to = new Position(toRow, toCol);
 
         // when, then
-        assertThat(tank.moveRule().canMove(from, to, fakeBoard)).isTrue();
+        assertThat(tank.canMove(from, to, fakeBoard)).isTrue();
     }
 
     @ParameterizedTest
@@ -49,7 +49,7 @@ class TankTest {
         Position to = new Position(toRow, toCol);
 
         // when, then
-        assertThat(tank.moveRule().canMove(from, to, fakeBoard)).isFalse();
+        assertThat(tank.canMove(from, to, fakeBoard)).isFalse();
     }
 
     @Test
@@ -61,7 +61,6 @@ class TankTest {
         fakeBoard.place(new Position(0, 3), new Soldier(Team.HAN));
 
         // when, then
-        assertThat(tank.moveRule().canMove(from, to, fakeBoard)).isFalse();
+        assertThat(tank.canMove(from, to, fakeBoard)).isFalse();
     }
-
 }

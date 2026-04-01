@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SoldierTest {
     private final FakeBoard board = new FakeBoard();
+    private Piece soldier;
 
     @ParameterizedTest
     @CsvSource({
@@ -17,12 +18,12 @@ class SoldierTest {
     })
     void 각_진영_전진_테스트(Team team, int fromRow, int fromCol, int toRow, int toCol) {
         // given
-        Piece soldier = new Soldier(team);
+        soldier = new Soldier(team);
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
         // when, then
-        assertThat(soldier.moveRule().canMove(from, to, board)).isTrue();
+        assertThat(soldier.canMove(from, to, board)).isTrue();
     }
 
     @ParameterizedTest
@@ -32,12 +33,12 @@ class SoldierTest {
     })
     void 각_진영_후진_불가_테스트(Team team, int fromRow, int fromCol, int toRow, int toCol) {
         // given
-        Piece soldier = new Soldier(team);
+        soldier = new Soldier(team);
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
         // when, then
-        assertThat(soldier.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(soldier.canMove(from, to, board)).isFalse();
     }
 
     @ParameterizedTest
@@ -48,10 +49,10 @@ class SoldierTest {
             "HAN, 4, 4, 4, 5"  // 한 동쪽 이동
     })
     void 각_진영_좌우_이동_테스트(Team team, int fromRow, int fromCol, int toRow, int toCol) {
-        Piece soldier = new Soldier(team);
+        soldier = new Soldier(team);
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
-        assertThat(soldier.moveRule().canMove(from, to, board)).isTrue();
+        assertThat(soldier.canMove(from, to, board)).isTrue();
     }
 }

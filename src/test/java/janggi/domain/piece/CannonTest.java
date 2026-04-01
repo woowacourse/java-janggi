@@ -21,7 +21,7 @@ class CannonTest {
         board = FakeBoard.createBoardWith(new Position(0, 2), new Soldier(Team.CHO));
 
         // when, then
-        assertThat(cannon.moveRule().canMove(from, to, board)).isTrue();
+        assertThat(cannon.canMove(from, to, board)).isTrue();
     }
 
     @Test
@@ -34,7 +34,7 @@ class CannonTest {
                 to, new Advisor(Team.HAN));
 
         // when, then
-        assertThat(cannon.moveRule().canMove(from, to, board)).isTrue();
+        assertThat(cannon.canMove(from, to, board)).isTrue();
     }
 
     @Test
@@ -46,7 +46,7 @@ class CannonTest {
         board = new FakeBoard();
 
         // when, then
-        assertThat(cannon.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(cannon.canMove(from, to, board)).isFalse();
     }
 
 
@@ -60,7 +60,7 @@ class CannonTest {
                 new Position(0, 4), new Advisor(Team.HAN));
 
         // when, then
-        assertThat(cannon.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(cannon.canMove(from, to, board)).isFalse();
     }
 
     @Test
@@ -72,7 +72,7 @@ class CannonTest {
         board = FakeBoard.createBoardWith(new Position(0, 2), new Cannon(Team.CHO));
 
         // when, then
-        assertThat(cannon.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(cannon.canMove(from, to, board)).isFalse();
     }
 
     @Test
@@ -85,7 +85,7 @@ class CannonTest {
                 to, new Cannon(Team.HAN));
 
         // when, then
-        assertThat(cannon.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(cannon.canMove(from, to, board)).isFalse();
     }
 
     @ParameterizedTest(name = "직선 이동이 아닌 경우 실패: {0}, {1} -> {2}, {3}")
@@ -102,6 +102,6 @@ class CannonTest {
         board = new FakeBoard();
 
         // when, then
-        assertThat(cannon.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(cannon.canMove(from, to, board)).isFalse();
     }
 }

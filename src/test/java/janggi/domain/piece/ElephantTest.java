@@ -61,12 +61,12 @@ class ElephantTest {
     @ParameterizedTest(name = "상 정상 이동: {0}")
     @MethodSource("provideNormalMove")
     void 상_정상_이동_테스트(String description, Position from, Position to, BoardView board) {
-        assertThat(elephant.moveRule().canMove(from, to, board)).isTrue();
+        assertThat(elephant.canMove(from, to, board)).isTrue();
     }
 
     @ParameterizedTest(name = "상 이동 실패: {0}")
     @MethodSource("provideInvalidMove")
     void 상_이동_실패_테스트(String description, Position from, Position to, BoardView board) {
-        assertThat(elephant.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(elephant.canMove(from, to, board)).isFalse();
     }
 }

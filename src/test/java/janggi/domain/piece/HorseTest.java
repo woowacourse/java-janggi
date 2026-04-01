@@ -60,13 +60,13 @@ class HorseTest {
     @ParameterizedTest(name = "마 정상 이동: {0}")
     @MethodSource("provideNormalMove")
     void 마_정상_이동_테스트(String description, Position from, Position to, BoardView board) {
-        assertThat(horse.moveRule().canMove(from, to, board)).isTrue();
+        assertThat(horse.canMove(from, to, board)).isTrue();
     }
 
     @ParameterizedTest(name = "마 이동 실패: {0}")
     @MethodSource("provideInvalidMove")
     void 마_이동_실패_테스트(String description, Position from, Position to, BoardView board) {
-        assertThat(horse.moveRule().canMove(from, to, board)).isFalse();
+        assertThat(horse.canMove(from, to, board)).isFalse();
     }
 
 }

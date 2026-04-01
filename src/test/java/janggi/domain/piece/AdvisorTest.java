@@ -29,7 +29,7 @@ class AdvisorTest {
         fakeBoard = new FakeBoard(Map.of(from, new Advisor(Team.HAN)));
 
         // when, then
-        assertThat(advisor.moveRule().canMove(from, to, fakeBoard)).isTrue();
+        assertThat(advisor.canMove(from, to, fakeBoard)).isTrue();
     }
 
     @ParameterizedTest
@@ -44,7 +44,7 @@ class AdvisorTest {
         fakeBoard = new FakeBoard(Map.of(from, new Advisor(Team.HAN)));
 
         // when, then
-        assertThat(advisor.moveRule().canMove(from, to, fakeBoard)).isTrue();
+        assertThat(advisor.canMove(from, to, fakeBoard)).isTrue();
     }
 
     @ParameterizedTest
@@ -62,6 +62,6 @@ class AdvisorTest {
         fakeBoard = new FakeBoard(Map.of(from, new Advisor(Team.HAN)));
 
         // when, then
-        assertThat(advisor.moveRule().canMove(from, to, fakeBoard)).isFalse();
+        assertThat(advisor.canMove(from, to, fakeBoard)).isFalse();
     }
 }
