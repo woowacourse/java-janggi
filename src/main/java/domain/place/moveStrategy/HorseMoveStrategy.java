@@ -47,12 +47,12 @@ public class HorseMoveStrategy implements MoveStrategy {
                 .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection));
     }
 
-    private boolean canFollowSequence(Map<Position, Place> path, Position from, Position to, List<Direction> sequence) {
+    private boolean canFollowSequence(Map<Position, Place> board, Position from, Position to, List<Direction> sequence) {
         Direction firstStepDirection = sequence.get(0);
         Direction secondStepDirection = sequence.get(1);
 
         return from.moveIfInBounds(firstStepDirection)
-                .filter(firstStepPosition -> !path.containsKey(firstStepPosition))
+                .filter(firstStepPosition -> !board.containsKey(firstStepPosition))
                 .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
                 .filter(to::equals)
                 .isPresent();
