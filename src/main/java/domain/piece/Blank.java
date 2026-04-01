@@ -17,11 +17,6 @@ public class Blank extends Piece {
     }
 
     @Override
-    public boolean isBlank() {
-        return true;
-    }
-
-    @Override
     public boolean isBridge() {
         return false;
     }
@@ -29,5 +24,10 @@ public class Blank extends Piece {
     @Override
     public boolean isCatchByCannon() {
         return false;
+    }
+
+    @Override
+    public boolean isBlank() {
+        return true;
     }
 }

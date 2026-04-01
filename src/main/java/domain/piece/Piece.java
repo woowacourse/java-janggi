@@ -29,15 +29,9 @@ public abstract class Piece {
         return candidates.contains(targetPosition);
     }
 
-    public boolean isBridge() {
-        return true;
-    }
+    public abstract boolean isBridge();
 
-    public boolean isCatchByCannon() {
-        return true;
-    }
+    public abstract boolean isCatchByCannon();
 
-    public boolean isBlank() {
-        return false;
-    }
+    public abstract boolean isBlank();
 }

@@ -8,4 +8,19 @@ public class Chariot extends Piece {
     public Chariot(Team team, MoveStrategy moveStrategy) {
         super(team, moveStrategy);
     }
+
+    @Override
+    public boolean isBridge() {
+        return true;
+    }
+
+    @Override
+    public boolean isCatchByCannon() {
+        return true;
+    }
+
+    @Override
+    public boolean isBlank() {
+        return false;
+    }
 }

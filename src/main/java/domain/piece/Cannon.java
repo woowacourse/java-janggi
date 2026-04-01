@@ -19,4 +19,9 @@ public class Cannon extends Piece {
     public boolean isCatchByCannon() {
         return false;
     }
+
+    @Override
+    public boolean isBlank() {
+        return false;
+    }
 }

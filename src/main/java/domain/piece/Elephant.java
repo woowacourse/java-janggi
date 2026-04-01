@@ -8,4 +8,19 @@ public class Elephant extends Piece {
     public Elephant(Team team, MoveStrategy moveStrategy) {
         super(team, moveStrategy);
     }
+
+    @Override
+    public boolean isBridge() {
+        return true;
+    }
+
+    @Override
+    public boolean isCatchByCannon() {
+        return true;
+    }
+
+    @Override
+    public boolean isBlank() {
+        return false;
+    }
 }
