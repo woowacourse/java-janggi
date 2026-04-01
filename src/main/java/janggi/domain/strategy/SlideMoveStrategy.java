@@ -18,11 +18,11 @@ public class SlideMoveStrategy extends PieceStrategy {
         if (!baseDir.canMove(next)) {
             return path;
         }
-        return navigationIfEnemy(current, baseDir, boardInfo, next, path);
+        return navigationIfEnemy(current, baseDir, next, path, boardInfo);
     }
 
-    private Path navigationIfEnemy(Position current, Direction baseDir, BoardInfo boardInfo, Position next,
-                                   Path path) {
+    private Path navigationIfEnemy(Position current, Direction baseDir, Position next,
+                                   Path path, BoardInfo boardInfo) {
         next = baseDir.move(next);
         if (boardInfo.isAlly(current, next)) {
             return path;
