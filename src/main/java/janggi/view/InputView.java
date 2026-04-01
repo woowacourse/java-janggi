@@ -13,6 +13,7 @@ public final class InputView {
     private static final String INVALID_INPUT_FORMAT = "[ERROR] 잘못된 입력 형식입니다.";
     private static final String DELIMITER = ",";
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String RESET = "\u001B[0m";
 
     private static final String ELEPHANT_SETTING = """
             
@@ -30,9 +31,10 @@ public final class InputView {
     }
 
     public ElephantSetUp readElephantSetting(CampDto campDto) {
+        String campName = campDto.color() + campDto.name() + RESET;
         System.out.println(String.format(
                 ELEPHANT_SETTING,
-                campDto.name(),
+                campName,
                 ElephantSetUpFormat.outputMessage())
         );
         return ElephantSetUpFormat.from(readLine()).toElephantSetting();
@@ -51,7 +53,8 @@ public final class InputView {
     }
 
     public Position readSource(CampDto campDto) {
-        System.out.println(String.format(TURN, campDto.name()));
+        String campName = campDto.color() + campDto.name() + RESET;
+        System.out.println(String.format(TURN, campName));
         System.out.println(SOURCE);
         return toPosition(Parser.parseByDelimiter(DELIMITER, readLine()));
     }

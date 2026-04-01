@@ -1,5 +1,7 @@
 package janggi.domain.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
@@ -62,5 +64,24 @@ class BoardTest {
         Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 출발지에 기물이 존재하지 않습니다.");
+    }
+
+    @Test
+    void 궁을_잡으면_게임이_끝난다() {
+        // given
+        Position source = new Position(7, 1);
+        Position destination = new Position(0, 1);
+
+        Board board = new Board(() -> Map.of(
+                new Position(4, 1), new Piece(PieceType.SOLDIER, Camp.HAN),
+                destination, new Piece(PieceType.GENERAL, Camp.CHO),
+                source, new Piece(PieceType.CANNON, Camp.HAN)
+        ));
+
+        // when
+        boolean gameEnded = board.movePiece(source, destination, Camp.HAN);
+
+        // then
+        assertThat(gameEnded).isTrue();
     }
 }

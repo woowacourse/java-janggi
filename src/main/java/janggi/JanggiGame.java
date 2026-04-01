@@ -47,18 +47,26 @@ public class JanggiGame {
 
     private void play(Board board) {
         Turn turn = new Turn();
-        while (true) {
-            retryOnInvalidInput(() -> playTurn(board, turn));
+        boolean continueGame = true;
+        while (continueGame) {
+            continueGame = retryOnInvalidInput(() -> playTurn(board, turn));
             outputView.printBoard(board.getBoard());
         }
+        outputView.printWinner(turn.currentTurn());
     }
 
-    private void playTurn(Board board, Turn turn) {
+    private boolean playTurn(Board board, Turn turn) {
         Camp camp = turn.currentTurn();
+
         Position source = retryOnInvalidInput(() -> readSource(board, camp));
         Position destination = retryOnInvalidInput(inputView::readDestination);
-        board.movePiece(source, destination, camp);
+
+        boolean gameEnded = board.movePiece(source, destination, camp);
+        if (gameEnded) {
+            return false;
+        }
         turn.finishTurn();
+        return true;
     }
 
     private Position readSource(Board board, Camp camp) {
@@ -71,17 +79,6 @@ public class JanggiGame {
         while (true) {
             try {
                 return input.get();
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private void retryOnInvalidInput(Runnable input) {
-        while (true) {
-            try {
-                input.run();
-                return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

@@ -18,4 +18,8 @@ public record Piece(PieceType pieceType, Camp camp) {
     public boolean isSameCamp(Camp camp) {
         return this.camp == camp;
     }
+
+    public boolean isGeneral() {
+        return pieceType == PieceType.GENERAL;
+    }
 }

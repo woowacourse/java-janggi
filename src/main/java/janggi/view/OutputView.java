@@ -3,6 +3,7 @@ package janggi.view;
 import static java.util.stream.Collectors.joining;
 
 import janggi.domain.Position;
+import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.view.dto.CampDto;
 import janggi.view.dto.PiecePositionDto;
@@ -26,12 +27,19 @@ public final class OutputView {
             "０", "１", "２", "３", "４", "５", "６", "７", "８", "９"
     };
 
+    private static final String WINNER = "%s나라가 승리하였습니다!! 축하드립니다!!";
+
     public void printError(String errorMessage) {
         System.out.println(errorMessage);
     }
 
     public void printBoard(Map<Position, Piece> boardState) {
         System.out.println(renderBoard(toPiecePositions(boardState)));
+    }
+
+    public void printWinner(Camp camp) {
+        String winnerName = CampDto.from(camp).color() + CampDto.from(camp).name() + RESET;
+        System.out.printf((WINNER) + "%n", winnerName);
     }
 
     private List<PiecePositionDto> toPiecePositions(Map<Position, Piece> boardState) {

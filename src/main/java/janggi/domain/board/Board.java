@@ -33,19 +33,29 @@ public class Board implements BoardChecker {
 
     @Override
     public boolean hasSamePieceTypeAt(Position position, PieceType pieceType) {
-        if (board.containsKey(position)) {
-            Piece foundPiece = board.get(position);
-            return foundPiece.isSamePieceType(pieceType);
+        if (!board.containsKey(position)) {
+            return false;
         }
-        return false;
+        Piece foundPiece = board.get(position);
+        return foundPiece.isSamePieceType(pieceType);
     }
 
-    public void movePiece(Position source, Position destination, Camp turn) {
+    public boolean movePiece(Position source, Position destination, Camp turn) {
         validateCampTurn(source, turn);
-        Piece piece = board.get(source);
-        piece.validateMove(source, destination, this);
-        board.put(destination, piece);
+        Piece movingPiece = board.get(source);
+        movingPiece.validateMove(source, destination, this);
+
+        boolean isDestinationGeneral = isGeneralAt(destination);
         board.remove(source);
+        board.put(destination, movingPiece);
+        return isDestinationGeneral;
+    }
+
+    private boolean isGeneralAt(Position position) {
+        if (!board.containsKey(position)) {
+            return false;
+        }
+        return board.get(position).isGeneral();
     }
 
     public void validateCampTurn(Position source, Camp turn) {
