@@ -20,7 +20,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
         List<Position> placeablePositions = new ArrayList<>();
         for (Direction dir : from.directions()) {
             from.nextPositionByDirection(dir).ifPresent(to -> {
-                if (board.isPlaceable(to, dynasty)) {
+                if (board.isPlaceable(to, dynasty) && to.isPalace(dynasty)) {
                     placeablePositions.add(to);
                 }
             });

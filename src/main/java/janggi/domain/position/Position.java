@@ -1,5 +1,6 @@
 package janggi.domain.position;
 
+import janggi.domain.dynasty.Dynasty;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +71,17 @@ public record Position(
             directions.addAll(DIAGONAL.get(this));
         }
         return directions;
+    }
+
+    // TODO: 러프하게 작성됨. 궁성 position을 관리하는 위치를 어디로 할지 다시 고민하기
+    public boolean isPalace(Dynasty dynasty) {
+        if (4 > this.column.column() || this.column.column() > 6) {
+            return false;
+        }
+        if (dynasty.equals(Dynasty.HAN)) {
+            return this.row.row() <= 3;
+        }
+        return this.row.row() >= 8;
     }
 
     // TODO: position이랑 test에서만 사용 private으로 변경필요
