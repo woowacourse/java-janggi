@@ -13,7 +13,6 @@ public class OutputView {
     private static final List<String> POSITION_NUMBERS = List.of("０", "１", "２", "３", "４", "５", "６", "７", "８", "９");
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final String BLANK_STATE = "十";
     private static final String STATE_SEPARATOR = "  ";
     private static final String X_POSITION_START_BLANK = "   ";
 
@@ -35,16 +34,17 @@ public class OutputView {
 
     private void printRow(Map<Position, PieceInfo> pieceInfos, int y) {
         for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
-            PieceInfo pieceInfo = pieceInfos.get(new Position(x, y));
-            printState(pieceInfo);
+            Position position = new Position(x, y);
+            PieceInfo pieceInfo = pieceInfos.get(position);
+            printState(pieceInfo, position);
         }
         System.out.println();
     }
 
-    private void printState(PieceInfo pieceInfo) {
+    private void printState(PieceInfo pieceInfo, Position position) {
         System.out.print(STATE_SEPARATOR);
         if (pieceInfo == null) {
-            System.out.print(BLANK_STATE);
+            System.out.print(EmptyStateFormatter.getEmptyState(position));
             return;
         }
         String pieceName = PieceTypeFormatter.from(pieceInfo.pieceType(), pieceInfo.country());
