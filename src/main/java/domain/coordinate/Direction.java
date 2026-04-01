@@ -1,5 +1,7 @@
 package domain.coordinate;
 
+import domain.board.Side;
+
 public enum Direction {
 
     UP(-1, 0), DOWN(1, 0), LEFT(0, -1), RIGHT(0, 1),
@@ -11,6 +13,14 @@ public enum Direction {
     Direction(int col, int row) {
         this.col = col;
         this.row = row;
+    }
+
+    public static Direction getForward(Side side) {
+        if (side == Side.HAN) {
+            return Direction.DOWN;
+        }
+
+        return Direction.UP;
     }
 
     public int getRow() {

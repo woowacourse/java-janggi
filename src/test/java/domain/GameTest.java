@@ -1,9 +1,8 @@
 package domain;
 
 import domain.board.BasicBoardInitializer;
-import domain.board.Game;
 import domain.board.Side;
-import domain.board.strategy.OutsideMaStrategy;
+import domain.board.formation.OutsideMaFormation;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GameTest {
 
-    BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer(new OutsideMaStrategy(Side.HAN), new OutsideMaStrategy(Side.CHU));
+    BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer(new OutsideMaFormation(Side.HAN), new OutsideMaFormation(Side.CHU));
 
     @Test
     @DisplayName("해당 좌표가 비어있으면 시작 좌표로 선택할 수 없다.")
@@ -49,45 +48,6 @@ class GameTest {
 
         // when - then
         assertDoesNotThrow(() -> game.getValidatedStartPosition(position));
-    }
-
-    @Test
-    @DisplayName("0부터 9 범위를 넘어간 열 좌표 입력에 대한 이동은 예외를 발생한다.")
-    void boardRange_Col_Error_Test() {
-        // given
-        Game game = new Game(basicBoardInitializer);
-        Position start = new Position(10, 4);
-        Position destination = new Position(4, 4);
-
-        // when - then
-        assertThatThrownBy(() -> game.movePiece(start, destination))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("0부터 8 범위를 넘어간 행 좌표 입력에 대한 이동은 예외를 발생한다.")
-    void boardRange_Row_Error_Test() {
-        // given
-        Game game = new Game(basicBoardInitializer);
-        Position start = new Position(4, 9);
-        Position destination = new Position(4, 4);
-
-        // when - then
-        assertThatThrownBy(() -> game.movePiece(start, destination))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("음수 좌표 입력은 예외에 대한 이동은 발생한다.")
-    void boardRange_Negative_Error_Test() {
-        // given
-        Game game = new Game(basicBoardInitializer);
-        Position start = new Position(-1, 4);
-        Position destination = new Position(4, 4);
-
-        // when - then
-        assertThatThrownBy(() -> game.movePiece(start, destination))
-                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

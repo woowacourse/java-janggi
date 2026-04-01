@@ -1,7 +1,5 @@
 package domain.board;
 
-import domain.coordinate.Direction;
-
 public enum Side {
 
     HAN,
@@ -18,14 +16,6 @@ public enum Side {
         }
 
         return HAN;
-    }
-
-    public Direction getForward() {
-        if (this == Side.HAN) {
-            return Direction.DOWN;
-        }
-
-        return Direction.UP;
     }
 
     public int getStartingRow() {

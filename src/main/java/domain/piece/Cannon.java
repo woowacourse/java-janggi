@@ -1,25 +1,25 @@
 package domain.piece;
 
 import domain.board.Side;
-import domain.rule.BoardBoundaryRule;
-import domain.rule.CannonCaptureRule;
-import domain.rule.BasicCaptureRule;
-import domain.strategy.CannonMoveStrategy;
+import domain.coordinate.Direction;
+import domain.strategy.SlidingMoveStrategy;
 
 import java.util.List;
 
 public final class Cannon extends Piece {
 
+    private static final List<Direction> CANNON_DIRECTIONS = List.of(
+            Direction.UP,
+            Direction.DOWN,
+            Direction.LEFT,
+            Direction.RIGHT
+    );
+
     public Cannon(Side side) {
         super(
                 PieceType.CANNON,
                 side,
-                new CannonMoveStrategy(),
-                List.of(
-                        new BoardBoundaryRule(),
-                        new BasicCaptureRule(),
-                        new CannonCaptureRule()
-                )
+                new SlidingMoveStrategy(CANNON_DIRECTIONS)
         );
     }
 }

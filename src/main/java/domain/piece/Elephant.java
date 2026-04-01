@@ -2,16 +2,13 @@ package domain.piece;
 
 import domain.board.Side;
 import domain.coordinate.Direction;
-import domain.rule.BoardBoundaryRule;
-import domain.rule.BasicCaptureRule;
-import domain.rule.MiddlePathBlockRule;
 import domain.strategy.PathBasedMoveStrategy;
 
 import java.util.List;
 
 public final class Elephant extends Piece {
 
-    private static final List<List<Direction>> PATHS = List.of(
+    private static final List<List<Direction>> ELEPHANT_PATHS = List.of(
             List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
             List.of(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT),
             List.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT),
@@ -26,12 +23,7 @@ public final class Elephant extends Piece {
         super(
                 PieceType.ELEPHANT,
                 side,
-                new PathBasedMoveStrategy(PATHS),
-                List.of(
-                        new BoardBoundaryRule(),
-                        new BasicCaptureRule(),
-                        new MiddlePathBlockRule(PATHS)
-                )
+                new PathBasedMoveStrategy(ELEPHANT_PATHS)
         );
     }
 }

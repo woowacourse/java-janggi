@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.Game;
+import domain.board.Board;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -34,8 +34,18 @@ class ChariotTest {
 
             piecesPosition.put(new Position(2, 1), new Chariot(Side.HAN));
 
+            initializeEmptyPiece(piecesPosition);
             return piecesPosition;
         }
+
+        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 9; j++) {
+                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
+                }
+            }
+        }
+
 
         @Override
         public Side getFirstTurnSide() {
@@ -47,12 +57,11 @@ class ChariotTest {
     @DisplayName("한나라 진영에서 차는 상/하/좌/우 4가지 방향으로 n 칸 이동 가능하다.")
     void getHanPossibleMovesTest() {
         // given
-        Game game = new Game(new ChariotTestInitializer());
+        Board board = new Board(new ChariotTestInitializer().initialize());
         Position start = new Position(2, 1);
-        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -79,12 +88,11 @@ class ChariotTest {
     @DisplayName("차는 아군 기물을 뛰어넘을 수 없다.")
     void doesNotJumpTest() {
         // given
-        Game game = new Game(new ChariotTestInitializer());
+        Board board = new Board(new ChariotTestInitializer().initialize());
         Position start = new Position(4, 4);
-        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -94,12 +102,11 @@ class ChariotTest {
     @DisplayName("차는 적 기물을 잡으면 멈춰야 한다.")
     void doesNotJumpOpponentTest() {
         // given
-        Game game = new Game(new ChariotTestInitializer());
+        Board board = new Board(new ChariotTestInitializer().initialize());
         Position start = new Position(4, 8);
-        Piece chariot = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = chariot.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         assertThat(possibleMoves).contains(new Position(5, 8), new Position(6, 8));

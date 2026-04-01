@@ -1,12 +1,18 @@
-package domain.board;
+package domain;
 
+import domain.board.Board;
+import domain.board.BoardInitializer;
+import domain.board.Side;
 import domain.coordinate.Position;
 import domain.piece.Piece;
 import dto.PossibleMovesDto;
 
 import java.util.List;
+import java.util.Map;
 
 public class Game {
+
+    private static final int INDEX_OFFSET = 1;
 
     private final Board board;
     private Side turn;
@@ -21,23 +27,25 @@ public class Game {
         changeTurn();
     }
 
-    public Piece getPiece(Position position) {
-        return board.getPiece(position);
-    }
-
     public Position getValidatedStartPosition(Position position) {
-        board.validateStartPosition(position, turn);
+        position.validateRange();
+        validateEnsureSameSidePiece(position);
         validateMovable(position);
         return position;
     }
 
     public List<Position> getPossibleMoves(Position start) {
-        Piece piece = getPiece(start);
-        return piece.getPossibleMoves(getBoard(), start);
+        return board.calculatePossibleMoves(start);
     }
 
     public Position getEndPosition(int index, PossibleMovesDto possibleMovesDto) {
-        return possibleMovesDto.getPossibleMoves().get(index - 1);
+        return possibleMovesDto.possibleMoves().get(index - INDEX_OFFSET);
+    }
+
+    private void validateEnsureSameSidePiece(Position start) {
+        if (board.isOpponentSide(start, turn)) {
+            throw new IllegalArgumentException("\n아군 기물만 이동 가능합니다. 다시 입력해주세요.");
+        }
     }
 
     private void validateMovable(Position position) {
@@ -56,7 +64,7 @@ public class Game {
         return turn;
     }
 
-    public Board getBoard() {
-        return board;
+    public Map<Position, Piece> getBoard() {
+        return board.getBoard();
     }
 }

@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.Game;
+import domain.board.Board;
 import domain.coordinate.Position;
 import domain.board.Side;
 import domain.board.BoardInitializer;
@@ -36,7 +36,16 @@ class ElephantTest {
             piecesPosition.put(new Position(6, 2), new Horse(Side.HAN));
             piecesPosition.put(new Position(7, 3), new Horse(Side.CHU));
 
+            initializeEmptyPiece(piecesPosition);
             return piecesPosition;
+        }
+
+        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 9; j++) {
+                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
+                }
+            }
         }
 
         @Override
@@ -49,12 +58,11 @@ class ElephantTest {
     @DisplayName("상은 상/하/좌/우 4가지 방향으로 1 칸 이동 후 해당 방향의 대각선으로 2 칸 이동한다.")
     void getPossibleMovesTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Board board = new Board(new ElephantTestInitializer().initialize());
         Position start = new Position(4, 4);
-        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(
@@ -73,12 +81,11 @@ class ElephantTest {
     @DisplayName("상은 1차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
     void firstMoveBlockTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Board board = new Board(new ElephantTestInitializer().initialize());
         Position start = new Position(0, 0);
-        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -88,12 +95,11 @@ class ElephantTest {
     @DisplayName("상은 2차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
     void secondMoveBlockTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Board board = new Board(new ElephantTestInitializer().initialize());
         Position start = new Position(9, 8);
-        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
@@ -103,12 +109,11 @@ class ElephantTest {
     @DisplayName("상은 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Board board = new Board(new ElephantTestInitializer().initialize());
         Position start = new Position(9, 0);
-        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         assertThat(possibleMoves).doesNotContain(new Position(6, 2));
@@ -118,12 +123,11 @@ class ElephantTest {
     @DisplayName("상은 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Game game = new Game(new ElephantTestInitializer());
+        Board board = new Board(new ElephantTestInitializer().initialize());
         Position start = new Position(9, 0);
-        Piece elephant = game.getPiece(start);
 
         // when
-        List<Position> possibleMoves = elephant.getPossibleMoves(game.getBoard(), start);
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
         assertThat(possibleMoves).containsOnly(new Position(7, 3));

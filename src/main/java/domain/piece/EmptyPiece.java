@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.Board;
+import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import domain.board.Side;
 
@@ -11,7 +11,10 @@ public class EmptyPiece extends Piece {
     private static final EmptyPiece INSTANCE = new EmptyPiece();
 
     private EmptyPiece() {
-        super(Side.NEUTRAL);
+        super(
+                PieceType.EMPTY,
+                Side.NEUTRAL
+        );
     }
 
     public static EmptyPiece getInstance() {
@@ -19,7 +22,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Board board, Position start) {
+    public List<List<Direction>> getPotentialPaths(Position start) {
         return List.of();
     }
 }

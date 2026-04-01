@@ -8,5 +8,6 @@ public enum PieceType {
     CHARIOT,
     CANNON,
     GUARD,
-    KING
+    KING,
+    EMPTY
 }
