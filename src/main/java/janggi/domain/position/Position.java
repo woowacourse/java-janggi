@@ -13,7 +13,7 @@ public class Position {
                 .flatMap(row -> Column.all().stream()
                         .map(column -> new Position(row, column)))
                 .collect(Collectors.toMap(
-                        p -> p.row.value() + "," + p.column.value(),
+                        p -> createKey(p.row.value(), p.column.value()),
                         p -> p
                 ));
     }
@@ -27,7 +27,7 @@ public class Position {
     }
 
     public static Position of(int row, int column) {
-        Position position = ALL_POSITION.get(row + "," + column);
+        Position position = ALL_POSITION.get(createKey(row, column));
         if (position == null) {
             throw new IllegalArgumentException("잘못된 좌표입니다.");
         }
@@ -38,6 +38,10 @@ public class Position {
         return Optional.ofNullable(
                 ALL_POSITION.get((row.value() + direction.dr()) + "," + (column.value() + direction.dc()))
         );
+    }
+
+    private static String createKey(int row, int column) {
+        return row + "," + column;
     }
 
     @Override
