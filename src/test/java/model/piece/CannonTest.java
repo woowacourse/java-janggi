@@ -1,8 +1,8 @@
 package model.piece;
 
-import model.board.Board;
 import model.Janggi;
 import model.Team;
+import model.board.Board;
 import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
