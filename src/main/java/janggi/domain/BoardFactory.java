@@ -4,6 +4,7 @@ import janggi.domain.movestorage.ChaMoveStorage;
 import janggi.domain.movestorage.GungAndSaMoveStorage;
 import janggi.domain.movestorage.JolMoveStorage;
 import janggi.domain.movestorage.MaMoveStorage;
+import janggi.domain.movestorage.PoMoveStorage;
 import janggi.domain.movestorage.SangMoveStorage;
 
 import java.util.HashMap;
@@ -45,9 +46,9 @@ public class BoardFactory {
                 new Piece(new GungAndSaMoveStorage(), Team.HAN, 0, "漢"));
         // 포
         board.put(Position.of(Row.of(1), Column.of(2)),
-                new Piece(new SangMoveStorage(), Team.HAN, 7, "包"));
+                new Piece(new PoMoveStorage(), Team.HAN, 7, "包"));
         board.put(Position.of(Row.of(7), Column.of(2)),
-                new Piece(new SangMoveStorage(), Team.HAN, 7, "包"));
+                new Piece(new PoMoveStorage(), Team.HAN, 7, "包"));
         // 졸
         board.put(Position.of(Row.of(0), Column.of(3)),
                 new Piece(new JolMoveStorage(), Team.HAN, 2, "兵"));
