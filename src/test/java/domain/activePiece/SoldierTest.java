@@ -83,7 +83,7 @@ class SoldierTest {
         Position destination = new Position(new Row(4), new Column(5));
         List<Position> routes = new ArrayList<>();
 
-        assertThat(soldier.searchRoute(source, destination)).isEqualTo(routes);
+        assertThat(soldier.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
@@ -95,7 +95,7 @@ class SoldierTest {
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(3), new Column(5))));
 
-        assertThat(soldier.searchRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(soldier.calculateRoute(source, destination)).isNotEqualTo(routes);
     }
 
 }

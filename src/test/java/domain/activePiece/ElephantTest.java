@@ -33,7 +33,7 @@ class ElephantTest {
         Position destination = new Position(6, 5);
         List<Position> routes = List.of(mid, mid2);
 
-        assertThat(elephant.searchRoute(source, destination)).isEqualTo(routes);
+        assertThat(elephant.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
@@ -45,6 +45,6 @@ class ElephantTest {
         Position destination = new Position(8, 9);
         List<Position> routes = List.of(mid, mid2, destination);
 
-        assertThat(elephant.searchRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(elephant.calculateRoute(source, destination)).isNotEqualTo(routes);
     }
 }

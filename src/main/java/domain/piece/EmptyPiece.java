@@ -21,7 +21,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public List<Position> searchRoute(Position source, Position target) {
+    public List<Position> calculateRoute(Position source, Position target) {
         return List.of();
     }
 

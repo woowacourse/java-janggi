@@ -33,7 +33,7 @@ class HorseTest {
         Position destination = new Position(5, 4);
         List<Position> routes = List.of(mid);
 
-        assertThat(horse.searchRoute(source, destination)).isEqualTo(routes);
+        assertThat(horse.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
@@ -44,6 +44,6 @@ class HorseTest {
         Position destination = new Position(7, 3);
         List<Position> routes = new ArrayList<>(List.of(mid, destination));
 
-        assertThat(horse.searchRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(horse.calculateRoute(source, destination)).isNotEqualTo(routes);
     }
 }

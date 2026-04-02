@@ -35,7 +35,7 @@ class GeneralTest {
         Position destination = new Position(new Row(2), new Column(3));
         List<Position> routes = new ArrayList<>();
 
-        assertThat(general.searchRoute(source, destination)).isEqualTo(routes);
+        assertThat(general.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
@@ -47,6 +47,6 @@ class GeneralTest {
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(3), new Column(3))));
 
-        assertThat(general.searchRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(general.calculateRoute(source, destination)).isNotEqualTo(routes);
     }
 }

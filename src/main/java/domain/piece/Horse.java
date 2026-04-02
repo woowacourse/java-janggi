@@ -27,7 +27,7 @@ public class Horse extends ActivePiece {
     }
 
     @Override
-    public List<Position> searchRoute(Position source, Position target) {
+    public List<Position> calculateRoute(Position source, Position target) {
         if (source.columnDiff(target) == -2) {
             return List.of(source.addPosition(0, 1));
         }

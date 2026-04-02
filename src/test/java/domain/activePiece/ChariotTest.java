@@ -38,7 +38,7 @@ class ChariotTest {
                 List.of(new Position(new Row(2), new Column(3)),
                         new Position(new Row(3), new Column(3))));
 
-        assertThat(chariot.searchRoute(source, destination)).isEqualTo(routes);
+        assertThat(chariot.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
@@ -51,6 +51,6 @@ class ChariotTest {
                         new Position(new Row(5), new Column(4)),
                         new Position(new Row(7), new Column(4))));
 
-        assertThat(chariot.searchRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(chariot.calculateRoute(source, destination)).isNotEqualTo(routes);
     }
 }

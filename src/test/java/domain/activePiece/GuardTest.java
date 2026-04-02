@@ -35,7 +35,7 @@ class GuardTest {
         Position destination = new Position(new Row(2), new Column(3));
         List<Position> routes = new ArrayList<>();
 
-        assertThat(guard.searchRoute(source, destination)).isEqualTo(routes);
+        assertThat(guard.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
@@ -47,6 +47,6 @@ class GuardTest {
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(3), new Column(3))));
 
-        assertThat(guard.searchRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(guard.calculateRoute(source, destination)).isNotEqualTo(routes);
     }
 }

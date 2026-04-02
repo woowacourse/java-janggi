@@ -17,7 +17,7 @@ public class Chariot extends ActivePiece {
     }
 
     @Override
-    public List<Position> searchRoute(Position source, Position target) {
+    public List<Position> calculateRoute(Position source, Position target) {
         if (source.isSameCol(target)) {
             return source.makeRowStraightRoute(target);
         }

@@ -27,7 +27,7 @@ public class Elephant extends ActivePiece {
     }
 
     @Override
-    public List<Position> searchRoute(Position source, Position target) {
+    public List<Position> calculateRoute(Position source, Position target) {
         if (source.columnDiff(target) == -3) {
             Position mid = source.addPosition(0, 1);
             return List.of(mid, mid.middlePosition(target));

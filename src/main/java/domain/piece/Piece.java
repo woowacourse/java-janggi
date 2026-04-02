@@ -6,7 +6,7 @@ import java.util.List;
 public interface Piece {
     boolean canMove(Position source, Position target);
 
-    List<Position> searchRoute(Position source, Position target);
+    List<Position> calculateRoute(Position source, Position target);
 
     void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece);
 

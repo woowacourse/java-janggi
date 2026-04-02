@@ -38,7 +38,7 @@ class CannonTest {
                 List.of(new Position(new Row(2), new Column(3)),
                         new Position(new Row(3), new Column(3))));
 
-        assertThat(cannon.searchRoute(source, destination)).isEqualTo(routes);
+        assertThat(cannon.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
@@ -52,6 +52,6 @@ class CannonTest {
                         new Position(new Row(5), new Column(4)),
                         new Position(new Row(7), new Column(4))));
 
-        assertThat(cannon.searchRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(cannon.calculateRoute(source, destination)).isNotEqualTo(routes);
     }
 }
