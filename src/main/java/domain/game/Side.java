@@ -1,19 +1,15 @@
 package domain.game;
 
 import domain.movement.Vector;
-import domain.movement.direction.Direction;
-import domain.movement.direction.Down;
-import domain.movement.direction.Up;
-import java.util.List;
 
 public enum Side {
-    HAN(1, new Down()) {
+    HAN(1, Vector.down()) {
         @Override
         public Side nextTurn() {
             return CHO;
         }
     },
-    CHO(10, new Up()) {
+    CHO(10, Vector.up()) {
         @Override
         public Side nextTurn() {
             return HAN;
@@ -22,46 +18,22 @@ public enum Side {
     ;
 
     private final int baseRow;
-    private final Direction direction;
+    private final Vector forward;
 
     Side(
             int baseRow,
-            Direction forwardDirection
+            Vector forward
     ) {
         this.baseRow = baseRow;
-        this.direction = forwardDirection;
+        this.forward = forward;
     }
 
     public int calculateRowFromBase(int farFromBaseRow) {
-        int rowDelta = direction.toForward()
-                .rowDelta();
-
-        return baseRow + (rowDelta * farFromBaseRow);
+        return baseRow + (forward.rowDelta() * farFromBaseRow);
     }
 
     public Vector toForward() {
-        return direction.toForward();
-    }
-
-    public Vector toBackward() {
-        return direction.toBackword();
-    }
-
-    public Vector toLeft() {
-        return direction.toLeft();
-    }
-
-    public Vector toRight() {
-        return direction.toRight();
-    }
-
-    public List<Vector> getAllDirections() {
-        return List.of(
-                toForward(),
-                toBackward(),
-                toLeft(),
-                toRight()
-        );
+        return forward;
     }
 
     public abstract Side nextTurn();

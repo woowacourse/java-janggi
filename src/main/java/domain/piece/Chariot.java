@@ -48,7 +48,7 @@ public final class Chariot extends StaticPositionedPiece {
     ) {
         List<Intersection> movableIntersections = new ArrayList<>();
 
-        for (Vector vector : side.getAllDirections()) {
+        for (Vector vector : Vector.cardinals()) {
             List<Intersection> movableDestinations = findReachableDestinations(from, vector, alivePieces);
             movableIntersections.addAll(movableDestinations);
         }

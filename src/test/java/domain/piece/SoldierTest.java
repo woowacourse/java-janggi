@@ -126,7 +126,7 @@ class SoldierTest {
             // given
             Soldier soldier = new Soldier(SIDE);
 
-            Vector backward = SIDE.toBackward();
+            Vector backward = reverse(SIDE.toForward());
             Intersection backwardIntersection = backward.next(CURRENT_INTERSECTION);
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
@@ -140,9 +140,16 @@ class SoldierTest {
         private static Stream<Arguments> soliderDirections() {
             return Stream.of(
                     Arguments.of(SIDE.toForward()),
-                    Arguments.of(SIDE.toRight()),
-                    Arguments.of(SIDE.toLeft())
+                    Arguments.of(Vector.right()),
+                    Arguments.of(Vector.left())
             );
         }
+    }
+
+    private Vector reverse(Vector vector) {
+        int reversedRowDelta = vector.rowDelta() * -1;
+        int reversedFileDelta = vector.fileDelta() * -1;
+
+        return new Vector(reversedRowDelta, reversedFileDelta);
     }
 }

@@ -37,7 +37,7 @@ public final class Horse extends Piece {
     ) {
         List<Intersection> movableIntersections = new ArrayList<>();
 
-        for (Vector vector : side.getAllDirections()) {
+        for (Vector vector : Vector.cardinals()) {
             List<Intersection> reachableDestinations = findReachableDestinations(from, vector, alivePieces);
             movableIntersections.addAll(reachableDestinations);
         }

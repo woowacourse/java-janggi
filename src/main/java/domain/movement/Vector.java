@@ -1,6 +1,7 @@
 package domain.movement;
 
 import domain.board.Intersection;
+import java.util.List;
 
 public record Vector(
         int rowDelta,
@@ -14,6 +15,31 @@ public record Vector(
         return new Intersection(
                 intersection.getRow() + rowDelta,
                 intersection.getFile() + fileDelta
+        );
+    }
+
+    public static Vector up() {
+        return new Vector(-1, 0);
+    }
+
+    public static Vector down() {
+        return new Vector(1, 0);
+    }
+
+    public static Vector left() {
+        return new Vector(0, -1);
+    }
+
+    public static Vector right() {
+        return new Vector(0, 1);
+    }
+
+    public static List<Vector> cardinals() {
+        return List.of(
+                Vector.up(),
+                Vector.down(),
+                Vector.left(),
+                Vector.right()
         );
     }
 

@@ -50,9 +50,9 @@ public final class Soldier extends StaticPositionedPiece {
     ) {
         Vector forward = side.toForward();
         List<Route> forwardRoutes = moveStrategy.getRoutes(from, forward);
-        Vector left = side.toLeft();
+        Vector left = Vector.left();
         List<Route> leftRoutes = moveStrategy.getRoutes(from, left);
-        Vector right = side.toRight();
+        Vector right = Vector.right();
         List<Route> rightRoutes = moveStrategy.getRoutes(from, right);
 
         List<Intersection> movableDestinations = concatRoutes(forwardRoutes, leftRoutes, rightRoutes)
