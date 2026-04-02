@@ -1,7 +1,6 @@
 package domain.move.strategy;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.move.Path;
@@ -16,8 +15,15 @@ public final class SingleStepMovement extends Movement {
     @Override
     protected List<Path> candidatePaths(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        for (Direction direction : side.getAllDirections()) {
-            Intersection destination = direction.moveForward(from, MOVE_AMOUNT);
+
+        List<Intersection> destinations = List.of(
+                side.moveForward(from, MOVE_AMOUNT),
+                side.moveLeft(from, MOVE_AMOUNT),
+                side.moveRight(from, MOVE_AMOUNT),
+                side.moveBackward(from, MOVE_AMOUNT)
+        );
+
+        for (Intersection destination : destinations) {
             paths.add(new Path(destination, Collections.emptyList()));
         }
 

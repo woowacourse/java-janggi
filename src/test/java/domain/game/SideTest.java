@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
 import domain.direction.MoveAmount;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,29 +24,25 @@ class SideTest {
             assertThat(none.nextTurn()).isEqualTo(Side.NONE);
         }
 
-        @DisplayName("방향 정보를 요청해도 NPE가 발생하지 않고 NoDirection을 반환한다")
+        @DisplayName("이동을 요청하면 이동하지 않는다(제자리 이동)")
         @Test
-        void 방향_요청_시_NPE_미발생() {
+        void 이동_요청_시_제자리() {
             Side none = Side.NONE;
+            Intersection startIntersection = new Intersection(5, 5);
+            MoveAmount moveAmount = new MoveAmount(1);
 
-            assertThatNoException().isThrownBy(() -> {
-                none.getForwardDirection();
-                none.getBackwardDirection();
-                none.getLeftDirection();
-                none.getRightDirection();
-            });
-        }
+            List<Intersection> movedIntersections = List.of(
+                    none.moveForward(startIntersection, moveAmount),
+                    none.moveLeft(startIntersection, moveAmount),
+                    none.moveRight(startIntersection, moveAmount),
+                    none.moveBackward(startIntersection, moveAmount),
+                    none.moveForwardLeft(startIntersection, moveAmount),
+                    none.moveForwardRight(startIntersection, moveAmount)
+            );
 
-        @DisplayName("방향 이동 메서드 호출 시 좌표가 변하지 않고 자기 자신을 반환한다")
-        @Test
-        void 이동_시_좌표_불변() {
-            Side none = Side.NONE;
-            Direction direction = none.getForwardDirection();
-            Intersection currentIntersection = new Intersection(5, 5);
-            MoveAmount amount = new MoveAmount(1);
-
-            assertThat(direction.moveForward(currentIntersection, amount)).isEqualTo(currentIntersection);
-            assertThat(direction.reverse()).isEqualTo(direction);
+            for (Intersection movedIntersection : movedIntersections) {
+                assertThat(movedIntersection).isEqualTo(startIntersection);
+            }
         }
 
         @DisplayName("기준 행/열 계산 시 NPE가 발생하지 않는다")

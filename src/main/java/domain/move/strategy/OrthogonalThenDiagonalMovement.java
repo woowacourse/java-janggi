@@ -1,7 +1,6 @@
 package domain.move.strategy;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.move.Path;
@@ -25,11 +24,10 @@ public final class OrthogonalThenDiagonalMovement extends Movement {
 
     private static List<Path> forwardDirectionPaths(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction forwardDirection = side.getForwardDirection();
 
-        Intersection forward = forwardDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = forwardDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardRight = forwardDirection.moveForwardRight(forward, MOVE_AMOUNT);
+        Intersection forward = side.moveForward(from, MOVE_AMOUNT);
+        Intersection forwardLeft = side.moveForwardLeft(forward, MOVE_AMOUNT);
+        Intersection forwardRight = side.moveForwardRight(forward, MOVE_AMOUNT);
 
         paths.add(new Path(forwardLeft, List.of(forward)));
         paths.add(new Path(forwardRight, List.of(forward)));
@@ -39,42 +37,40 @@ public final class OrthogonalThenDiagonalMovement extends Movement {
 
     private static List<Path> backWardDirectionPaths(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction backwardDirection = side.getBackwardDirection();
 
-        Intersection forward = backwardDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = backwardDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardRight = backwardDirection.moveForwardRight(forward, MOVE_AMOUNT);
+        Intersection backward = side.moveBackward(from, MOVE_AMOUNT);
+        Intersection backwardLeft = side.moveBackwardLeft(backward, MOVE_AMOUNT);
+        Intersection backwardRight = side.moveBackwardRight(backward, MOVE_AMOUNT);
 
-        paths.add(new Path(forwardLeft, List.of(forward)));
-        paths.add(new Path(forwardRight, List.of(forward)));
+        paths.add(new Path(backwardLeft, List.of(backward)));
+        paths.add(new Path(backwardRight, List.of(backward)));
 
         return List.copyOf(paths);
     }
 
     private static List<Path> leftDirectionPaths(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction leftDirection = side.getLeftDirection();
 
-        Intersection forward = leftDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = leftDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardRight = leftDirection.moveForwardRight(forward, MOVE_AMOUNT);
+        // TODO 여기도 방향이 헷갈림
+        Intersection left = side.moveLeft(from, MOVE_AMOUNT);
+        Intersection forwardLeft = side.moveBackwardLeft(left, MOVE_AMOUNT);
+        Intersection forwardRight = side.moveForwardLeft(left, MOVE_AMOUNT);
 
-        paths.add(new Path(forwardLeft, List.of(forward)));
-        paths.add(new Path(forwardRight, List.of(forward)));
+        paths.add(new Path(forwardLeft, List.of(left)));
+        paths.add(new Path(forwardRight, List.of(left)));
 
         return List.copyOf(paths);
     }
 
     private static List<Path> rightDirectionPaths(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction rightDirection = side.getRightDirection();
 
-        Intersection forward = rightDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = rightDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardRight = rightDirection.moveForwardRight(forward, MOVE_AMOUNT);
+        Intersection right = side.moveRight(from, MOVE_AMOUNT);
+        Intersection forwardRight = side.moveForwardRight(right, MOVE_AMOUNT);
+        Intersection backwardRight = side.moveBackwardRight(right, MOVE_AMOUNT);
 
-        paths.add(new Path(forwardLeft, List.of(forward)));
-        paths.add(new Path(forwardRight, List.of(forward)));
+        paths.add(new Path(forwardRight, List.of(right)));
+        paths.add(new Path(backwardRight, List.of(right)));
 
         return List.copyOf(paths);
     }

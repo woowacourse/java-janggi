@@ -33,9 +33,7 @@ public enum Side {
     private final int baseRow;
     private final int baseFile;
     private final Direction forwardDirection;
-    private final Direction backwardDirection;
     private final Direction leftDirection;
-    private final Direction rightDirection;
 
     Side(
             int baseRow,
@@ -46,12 +44,11 @@ public enum Side {
         this.baseRow = baseRow;
         this.baseFile = baseFile;
         this.forwardDirection = forwardDirection;
-        this.backwardDirection = forwardDirection.reverse();
         this.leftDirection = leftDirection;
-        this.rightDirection = leftDirection.reverse();
     }
 
     public int getRowAt(MoveAmount distanceFromBaseRow) {
+        // TODO 이 부분도 명령하는 방식으로 바꿀 수 있을 듯
         final int defaultFile = 5;
         Intersection targetIntersection =
                 forwardDirection.moveForward(new Intersection(baseRow, defaultFile), distanceFromBaseRow);
@@ -67,24 +64,43 @@ public enum Side {
         return targetIntersection.file();
     }
 
-    public Direction getForwardDirection() {
-        return forwardDirection;
+    public Intersection moveForward(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.moveForward(from, moveAmount);
     }
 
-    public Direction getBackwardDirection() {
-        return backwardDirection;
+    public Intersection moveLeft(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.moveLeft(from, moveAmount);
     }
 
-    public Direction getLeftDirection() {
-        return leftDirection;
+    public Intersection moveRight(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.moveRight(from, moveAmount);
     }
 
-    public Direction getRightDirection() {
-        return rightDirection;
+    public Intersection moveForwardLeft(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.moveForwardLeft(from, moveAmount);
+    }
+
+    public Intersection moveForwardRight(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.moveForwardRight(from, moveAmount);
+    }
+
+    public Intersection moveBackward(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.reverse().moveForward(from, moveAmount);
+    }
+
+    public Intersection moveBackwardLeft(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.reverse().moveForwardRight(from, moveAmount);
+    }
+
+    public Intersection moveBackwardRight(Intersection from, MoveAmount moveAmount) {
+        return forwardDirection.reverse().moveForwardLeft(from, moveAmount);
     }
 
     public List<Direction> getAllDirections() {
-        return List.of(forwardDirection, backwardDirection, leftDirection, rightDirection);
+        return List.of(
+                forwardDirection, forwardDirection.reverse(),
+                leftDirection, leftDirection.reverse()
+        );
     }
 
     public abstract Side nextTurn();

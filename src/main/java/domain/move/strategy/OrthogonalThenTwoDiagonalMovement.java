@@ -1,7 +1,6 @@
 package domain.move.strategy;
 
 import domain.board.Intersection;
-import domain.direction.Direction;
 import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.move.Path;
@@ -25,14 +24,13 @@ public final class OrthogonalThenTwoDiagonalMovement extends Movement {
 
     private static List<Path> forwardDirectionIntersections(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction forwardDirection = side.getForwardDirection();
 
-        Intersection forward = forwardDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = forwardDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardLeft2Times = forwardDirection.moveForwardLeft(forwardLeft, MOVE_AMOUNT);
+        Intersection forward = side.moveForward(from, MOVE_AMOUNT);
+        Intersection forwardLeft = side.moveForwardLeft(forward, MOVE_AMOUNT);
+        Intersection forwardLeft2Times = side.moveForwardLeft(forwardLeft, MOVE_AMOUNT);
 
-        Intersection forwardRight = forwardDirection.moveForwardRight(forward, MOVE_AMOUNT);
-        Intersection forwardRight2Times = forwardDirection.moveForwardRight(forwardRight, MOVE_AMOUNT);
+        Intersection forwardRight = side.moveForwardRight(forward, MOVE_AMOUNT);
+        Intersection forwardRight2Times = side.moveForwardRight(forwardRight, MOVE_AMOUNT);
 
         paths.add(new Path(forwardLeft2Times, List.of(forward, forwardLeft)));
         paths.add(new Path(forwardRight2Times, List.of(forward, forwardRight)));
@@ -42,51 +40,47 @@ public final class OrthogonalThenTwoDiagonalMovement extends Movement {
 
     private static List<Path> backWardDirectionIntersections(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction backwardDirection = side.getBackwardDirection();
 
-        Intersection forward = backwardDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = backwardDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardLeft2Times = backwardDirection.moveForwardLeft(forwardLeft, MOVE_AMOUNT);
+        Intersection backward = side.moveBackward(from, MOVE_AMOUNT);
+        Intersection backwardLeft = side.moveBackwardLeft(backward, MOVE_AMOUNT);
+        Intersection backwardLeft2Times = side.moveBackwardLeft(backwardLeft, MOVE_AMOUNT);
 
-        Intersection forwardRight = backwardDirection.moveForwardRight(forward, MOVE_AMOUNT);
-        Intersection forwardRight2Times = backwardDirection.moveForwardRight(forwardRight, MOVE_AMOUNT);
+        Intersection backwardRight = side.moveBackwardRight(backward, MOVE_AMOUNT);
+        Intersection backwardRight2Times = side.moveBackwardRight(backwardRight, MOVE_AMOUNT);
 
-        paths.add(new Path(forwardLeft2Times, List.of(forward, forwardLeft)));
-        paths.add(new Path(forwardRight2Times, List.of(forward, forwardRight)));
+        paths.add(new Path(backwardLeft2Times, List.of(backward, backwardRight)));
+        paths.add(new Path(backwardRight2Times, List.of(backward, backwardRight)));
 
         return List.copyOf(paths);
     }
 
     private static List<Path> leftDirectionIntersections(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction leftDirection = side.getLeftDirection();
 
-        Intersection forward = leftDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = leftDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardLeft2Times = leftDirection.moveForwardLeft(forwardLeft, MOVE_AMOUNT);
+        Intersection left = side.moveLeft(from, MOVE_AMOUNT);
+        Intersection forwardLeft = side.moveBackwardLeft(left, MOVE_AMOUNT);
+        Intersection forwardLeft2Times = side.moveBackwardLeft(forwardLeft, MOVE_AMOUNT);
+        Intersection forwardRight = side.moveForwardLeft(left, MOVE_AMOUNT);
+        Intersection forwardRight2Times = side.moveForwardLeft(forwardRight, MOVE_AMOUNT);
 
-        Intersection forwardRight = leftDirection.moveForwardRight(forward, MOVE_AMOUNT);
-        Intersection forwardRight2Times = leftDirection.moveForwardRight(forwardRight, MOVE_AMOUNT);
-
-        paths.add(new Path(forwardLeft2Times, List.of(forward, forwardLeft)));
-        paths.add(new Path(forwardRight2Times, List.of(forward, forwardRight)));
+        paths.add(new Path(forwardLeft2Times, List.of(left, forwardLeft)));
+        paths.add(new Path(forwardRight2Times, List.of(left, forwardRight)));
 
         return List.copyOf(paths);
     }
 
     private static List<Path> rightDirectionIntersections(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
-        Direction rightDirection = side.getRightDirection();
 
-        Intersection forward = rightDirection.moveForward(from, MOVE_AMOUNT);
-        Intersection forwardLeft = rightDirection.moveForwardLeft(forward, MOVE_AMOUNT);
-        Intersection forwardLeft2Times = rightDirection.moveForwardLeft(forwardLeft, MOVE_AMOUNT);
+        Intersection right = side.moveRight(from, MOVE_AMOUNT);
+        Intersection forwardRight = side.moveForwardRight(right, MOVE_AMOUNT);
+        Intersection forwardRight2Times = side.moveForwardRight(forwardRight, MOVE_AMOUNT);
 
-        Intersection forwardRight = rightDirection.moveForwardRight(forward, MOVE_AMOUNT);
-        Intersection forwardRight2Times = rightDirection.moveForwardRight(forwardRight, MOVE_AMOUNT);
+        Intersection backwardRight = side.moveBackwardRight(right, MOVE_AMOUNT);
+        Intersection backwardRight2Times = side.moveBackwardRight(backwardRight, MOVE_AMOUNT);
 
-        paths.add(new Path(forwardLeft2Times, List.of(forward, forwardLeft)));
-        paths.add(new Path(forwardRight2Times, List.of(forward, forwardRight)));
+        paths.add(new Path(forwardRight2Times, List.of(right, forwardRight)));
+        paths.add(new Path(backwardRight2Times, List.of(right, backwardRight)));
 
         return List.copyOf(paths);
     }
