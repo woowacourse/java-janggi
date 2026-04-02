@@ -1,35 +1,27 @@
 package domain;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum MaSang {
-    HAN_P1(1, 2, Country.CHO),
-    HAN_P2(1, 3, Country.CHO),
-    HAN_P3(1, 7, Country.CHO),
-    HAN_P4(1, 8, Country.CHO),
+    MA_SANG_SANG_MA(1, List.of(PieceType.MA, PieceType.SANG, PieceType.SANG, PieceType.MA)),
+    MA_SANG_MA_SANG(2, List.of(PieceType.MA, PieceType.SANG, PieceType.MA, PieceType.SANG)),
+    SANG_MA_SANG_MA(3, List.of(PieceType.SANG, PieceType.MA, PieceType.SANG, PieceType.MA)),
+    SANG_MA_MA_SANG(4, List.of(PieceType.SANG, PieceType.MA, PieceType.MA, PieceType.SANG));
 
-    CHO_P1(10, 2, Country.HAN),
-    CHO_P2(10, 3, Country.HAN),
-    CHO_P3(10, 7, Country.HAN),
-    CHO_P4(10, 8, Country.HAN);
+    private final int command;
+    private final List<PieceType> pieceTypes;
 
-    private final int x;
-    private final int y;
-    private final Country country;
-
-    MaSang(int x, int y, Country country) {
-        this.x = x;
-        this.y = y;
-        this.country = country;
+    MaSang(int command, List<PieceType> pieceTypes) {
+        this.command = command;
+        this.pieceTypes = pieceTypes;
     }
 
-    public Position getPosition() {
-        return Position.create(this.x, this.y);
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public int getIndex() {
-        return this.ordinal();
+    public static List<PieceType> getMaSangPosition(int command) {
+        return Arrays.stream(values())
+                .filter(maSang -> maSang.command == command)
+                .findAny()
+                .map(maSang -> maSang.pieceTypes)
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 입력입니다."));
     }
 }
