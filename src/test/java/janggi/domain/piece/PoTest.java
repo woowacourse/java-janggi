@@ -3,6 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 
@@ -79,5 +81,43 @@ class PoTest {
                 new Position(4, 3),
                 end
         );
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "8,4,10,6",
+            "8,6,10,4",
+            "1,4,3,6",
+            "1,6,3,4"
+    })
+    void 궁성_내부에서는_연결된_대각선_방향으로_이동이_가능하다(int startX, int startY, int endX, int endY) {
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
+
+        Po po = new Po(Side.CHO);
+
+        List<Position> routes = po.findRoute(start, end);
+
+        assertThat(routes.getLast()).isEqualTo(end);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "9,5,7,3",
+            "9,5,7,7",
+            "10,4,6,8",
+            "10,6,6,2",
+            "1,4,4,7",
+            "1,6,5,2"
+    })
+    void 궁성_내부에서_연결된_대각선_너머로_이동할_수_없다(int startX, int startY, int endX, int endY) {
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
+
+        Po po = new Po(Side.CHO);
+
+        assertThatThrownBy(() -> po.findRoute(start, end))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("올바른 도착 지점이 아닙니다.");
     }
 }
