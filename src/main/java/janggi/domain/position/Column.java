@@ -22,6 +22,7 @@ public class Column {
     private Column(int value) {
         this.value = value;
     }
+
     public static Column of(int value) {
         if (!CACHE.containsKey(value)) {
             throw new ColumnOutOfRangeException();
@@ -29,7 +30,7 @@ public class Column {
         return CACHE.get(value);
     }
 
-    public static Collection<Column> values() {
+    static Collection<Column> values() {
         return CACHE.values();
     }
 

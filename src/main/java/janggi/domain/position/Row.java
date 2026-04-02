@@ -22,6 +22,7 @@ public class Row {
     private Row(int value) {
         this.value = value;
     }
+
     public static Row of(int value) {
         if (!CACHE.containsKey(value)) {
             throw new RowOutOfRangeException();
@@ -29,7 +30,7 @@ public class Row {
         return CACHE.get(value);
     }
 
-    public static Collection<Row> values() {
+    static Collection<Row> values() {
         return CACHE.values();
     }
 
