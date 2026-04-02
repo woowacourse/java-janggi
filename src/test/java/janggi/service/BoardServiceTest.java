@@ -5,16 +5,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
 import janggi.config.TestDBConnection;
-import janggi.domain.setup.InnerElephantSetupPolicy;
-import janggi.domain.team.BlueTeam;
-import janggi.domain.team.RedTeam;
-import janggi.domain.team.Team;
-import janggi.domain.turn.TurnManager;
 import janggi.entity.BoardEntity;
-import janggi.entity.GameStateEntity;
 import janggi.repository.BoardRepository;
 import janggi.repository.BoardRepositoryImpl;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +33,7 @@ public class BoardServiceTest {
 
     @Test
     @DisplayName("보드 생성 테스트")
-    void CreateBoard() {
+    void createBoard() {
         String name = "게임 1";
         BoardEntity expected = BoardEntity.from(1, name);
 
@@ -53,7 +46,7 @@ public class BoardServiceTest {
 
     @Test
     @DisplayName("보드 삭제 테스트")
-    void RemoveBoard() {
+    void removeBoard() {
         String name = "게임 1";
         long id = boardRepository.save(BoardEntity.from(name));
         boolean expected = true;

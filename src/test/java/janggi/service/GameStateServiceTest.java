@@ -46,7 +46,7 @@ class GameStateServiceTest {
 
     @Test
     @DisplayName("게임 상태 생성 테스트")
-    void CreateGameState() {
+    void createGameState() {
         Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
         Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
         TurnManager turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
@@ -60,7 +60,7 @@ class GameStateServiceTest {
 
     @Test
     @DisplayName("게임 상태 변경 테스트")
-    void ModifyGameState() {
+    void modifyGameState() {
         Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
         Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
         TurnManager beforeTurnManager = new TurnManager(1, List.of(blueTeam, redTeam));
@@ -76,7 +76,7 @@ class GameStateServiceTest {
 
     @Test
     @DisplayName("게임 상태 삭제 테스트")
-    void RemoveGameState() {
+    void removeGameState() {
         Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
         Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
         TurnManager turnManager = new TurnManager(4, List.of(blueTeam, redTeam));
