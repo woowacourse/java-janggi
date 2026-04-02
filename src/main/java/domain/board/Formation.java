@@ -75,9 +75,9 @@ public enum Formation {
     public abstract void placeElephant(Map<Position, Piece> pieces, Side side);
 
     private static void place(Map<Position, Piece> pieces, Side side, List<Piece> orders) {
-        List<Integer> a = side.formationX();
+        List<Integer> formationX = side.formationX();
         for (int i = 0; i < orders.size(); i++) {
-            pieces.put(Position.of(a.get(i), side.baseY()), orders.get(i));
+            pieces.put(Position.of(formationX.get(i), side.baseY()), orders.get(i));
         }
     }
 }
