@@ -1,14 +1,12 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Delta;
 import janggi.domain.MovePath;
-import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 
 import java.util.List;
 
-public class Jol extends Piece {
+public class Jol extends SteppingPiece {
 
     private static final List<MovePath> CHU_PATHS = List.of(
             new MovePath(List.of(Delta.UP)),
@@ -27,25 +25,10 @@ public class Jol extends Piece {
     }
 
     @Override
-    public void validateCanMove(Position start, Position end, Board board) {
-        checkSamePosition(start, end);
-        checkMovePath(start, end);
-    }
-
-    private void checkMovePath(Position start, Position end) {
-        int dx = start.deltaX(end);
-        int dy = start.deltaY(end);
-
-        selectPaths(getTeamType()).stream()
-                .filter(path -> path.matches(dx, dy))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
-    }
-
-    private List<MovePath> selectPaths(TeamType teamType) {
-        if (teamType == TeamType.HAN) {
-            return HAN_PATHS;
+    protected List<MovePath> getPaths() {
+        if (getTeamType() == TeamType.CHU) {
+            return CHU_PATHS;
         }
-        return CHU_PATHS;
+        return HAN_PATHS;
     }
 }

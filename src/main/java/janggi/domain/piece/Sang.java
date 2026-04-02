@@ -1,14 +1,12 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Delta;
 import janggi.domain.MovePath;
-import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 
 import java.util.List;
 
-public class Sang extends Piece {
+public class Sang extends LeapingPiece {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Delta.UP, Delta.RIGHT_UP, Delta.RIGHT_UP)),
@@ -26,26 +24,7 @@ public class Sang extends Piece {
     }
 
     @Override
-    public void validateCanMove(Position start, Position end, Board board) {
-        checkSamePosition(start, end);
-        MovePath movePath = findMovePath(start, end);
-        validatePieceInPath(movePath, start, end, board);
-    }
-
-    private MovePath findMovePath(Position start, Position end) {
-        int dx = start.deltaX(end);
-        int dy = start.deltaY(end);
-
-        return PATHS.stream()
-                .filter(path -> path.matches(dx, dy))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
-    }
-
-    private void validatePieceInPath(MovePath movePath, Position start, Position end, Board board) {
-        if (movePath.intermediatePositions(start, end).stream()
-                .anyMatch(board::hasPiece)) {
-            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
-        }
+    protected List<MovePath> getPaths() {
+        return PATHS;
     }
 }

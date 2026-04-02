@@ -8,7 +8,7 @@ import janggi.domain.side.TeamType;
 import java.util.List;
 import java.util.Optional;
 
-public class Po extends Piece {
+public class Po extends SlidingPiece {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Delta.UP)),
@@ -22,23 +22,12 @@ public class Po extends Piece {
     }
 
     @Override
-    public void validateCanMove(Position start, Position end, Board board) {
-        checkSamePosition(start, end);
-        MovePath movePath = findMovePath(start, end);
-        validateObstacles(movePath, start, end, board);
+    protected List<MovePath> getPaths() {
+        return PATHS;
     }
 
-    private MovePath findMovePath(Position start, Position end) {
-        int dx = start.deltaX(end);
-        int dy = start.deltaY(end);
-
-        return PATHS.stream()
-                .filter(path -> path.matchesDirection(dx, dy))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
-    }
-
-    private void validateObstacles(MovePath movePath, Position start, Position end, Board board) {
+    @Override
+    protected void validatePieceInPath(MovePath movePath, Position start, Position end, Board board) {
         List<Position> intermediatePositions = movePath.intermediatePositions(start, end);
         List<Piece> obstacles = intermediatePositions.stream()
                 .map(board::findPiece)

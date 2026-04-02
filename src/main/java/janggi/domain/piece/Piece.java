@@ -1,8 +1,11 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
+import janggi.domain.MovePath;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
+
+import java.util.List;
 
 public abstract class Piece {
 
@@ -33,4 +36,6 @@ public abstract class Piece {
     }
 
     public abstract void validateCanMove(Position start, Position end, Board board);
+
+    protected abstract List<MovePath> getPaths();
 }
