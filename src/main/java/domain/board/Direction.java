@@ -18,19 +18,19 @@ public enum Direction {
     LEFT(0, -1, true),
     UP_LEFT(1, -1, false);
 
-    private final int dRow;
-    private final int dColumn;
+    private final int deltaRow;
+    private final int deltaColumn;
     private final boolean isStraight;
 
-    Direction(int dRow, int dColumn, boolean isStraight) {
-        this.dRow = dRow;
-        this.dColumn = dColumn;
+    Direction(int deltaRow, int deltaColumn, boolean isStraight) {
+        this.deltaRow = deltaRow;
+        this.deltaColumn = deltaColumn;
         this.isStraight = isStraight;
     }
 
     public static Direction from(int row, int col) {
         return Arrays.stream(values())
-                .filter(direction -> direction.dRow == row && direction.dColumn == col)
+                .filter(direction -> direction.deltaRow == row && direction.deltaColumn == col)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당되는 단위 방향이 아닙니다."));
     }
@@ -84,15 +84,15 @@ public enum Direction {
         return isStraight;
     }
 
-    public int getdRow() {
-        return dRow;
+    public int getDeltaRow() {
+        return deltaRow;
     }
 
-    public int getdColumn() {
-        return dColumn;
+    public int getDeltaColumn() {
+        return deltaColumn;
     }
 
     public boolean isSameAtLeastOne(Direction direction) {
-        return (dRow == direction.dRow || dColumn == direction.dColumn);
+        return (deltaRow == direction.deltaRow || deltaColumn == direction.deltaColumn);
     }
 }

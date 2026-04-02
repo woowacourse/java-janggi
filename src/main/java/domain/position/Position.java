@@ -36,7 +36,7 @@ public final class Position {
     }
 
     public Position append(Direction direction) {
-        return Position.of(getRow() + direction.getdRow(), getColumn() + direction.getdColumn());
+        return Position.of(getRow() + direction.getDeltaRow(), getColumn() + direction.getDeltaColumn());
     }
 
     public int getRow() {
