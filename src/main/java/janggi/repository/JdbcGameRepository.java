@@ -32,7 +32,7 @@ public class JdbcGameRepository implements GameRepository {
         ) {
             return toGameSummaries(resultSet);
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("[ERROR] 게임 목록 조회 중 데이터베이스 오류가 발생했습니다.", exception);
         }
     }
 
@@ -51,7 +51,7 @@ public class JdbcGameRepository implements GameRepository {
             }
             return Optional.of(toGameSnapshot(connection, resultSet));
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("[ERROR] 게임 조회 중 데이터베이스 오류가 발생했습니다.", exception);
         }
 
     }
@@ -63,7 +63,7 @@ public class JdbcGameRepository implements GameRepository {
             insertPieces(connection, gameId, gameSnapshot.positions());
             return gameId;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("[ERROR] 게임 저장 중 데이터베이스 오류가 발생했습니다.", exception);
         }
     }
 
@@ -74,7 +74,7 @@ public class JdbcGameRepository implements GameRepository {
             deletePieces(connection, gameSnapshot.id());
             insertPieces(connection, gameSnapshot.id(), gameSnapshot.positions());
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("[ERROR] 게임 수정 중 데이터베이스 오류가 발생했습니다.", exception);
         }
     }
 

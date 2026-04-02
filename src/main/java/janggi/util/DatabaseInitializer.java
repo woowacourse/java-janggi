@@ -24,7 +24,7 @@ public class DatabaseInitializer {
         ) {
             statement.execute(readSchema());
         } catch (SQLException | IOException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("[ERROR] 데이터베이스 초기화 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -38,7 +38,7 @@ public class DatabaseInitializer {
     private InputStream schemaStream() {
         InputStream stream = getClass().getResourceAsStream("/schema.sql");
         if (stream == null) {
-            throw new IllegalArgumentException("schema.sql 파일을 찾을 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] schema.sql 파일을 찾을 수 없습니다.");
         }
         return stream;
     }

@@ -26,7 +26,7 @@ public class Point {
 
     static {
         List<List<Point>> points = new ArrayList<>();
-        for(int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
             List<Point> row = new ArrayList<>();
             addX(row, i);
             points.add(row);
@@ -99,7 +99,6 @@ public class Point {
         return (this == first && to == second) || (this == second && to == first);
     }
 
-
     private boolean isInChoPalace() {
         return isInRange(CHO_PALACE_MIN_Y, CHO_PALACE_MAX_Y);
     }
@@ -114,14 +113,14 @@ public class Point {
     }
 
     private static void addX(List<Point> row, int y) {
-        for(int i = 0; i < BOARD_WIDTH; i++) {
+        for (int i = 0; i < BOARD_WIDTH; i++) {
             row.add(new Point(i, y));
         }
     }
 
     private static void validateRange(int x, int y) {
         if (x < 0 || x >= BOARD_WIDTH || y < 0 || y >= BOARD_HEIGHT) {
-            throw new IllegalArgumentException("올바르지 않은 위치 범위입니다.");
+            throw new IllegalArgumentException("[ERROR] 올바르지 않은 위치 범위입니다.");
         }
     }
 }

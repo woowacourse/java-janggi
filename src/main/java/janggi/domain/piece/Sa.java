@@ -17,12 +17,12 @@ public class Sa extends BasePiece {
     @Override
     public List<Point> getRoute(Point from, Point to) {
         if (!from.isInSamePalace(to)) {
-            throw new IllegalArgumentException("사는 같은 궁성 안에서만 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 사는 같은 궁성 안에서만 이동할 수 있습니다.");
         }
         if (isNormalMove(from, to) || isPalaceDiagonalMove(from, to)) {
             return List.of();
         }
-        throw new IllegalArgumentException("사는 궁성 안에서 한 칸만 이동할 수 있습니다.");
+        throw new IllegalArgumentException("[ERROR] 사는 궁성 안에서 한 칸만 이동할 수 있습니다.");
     }
 
     private boolean isNormalMove(Point from, Point to) {

@@ -36,7 +36,7 @@ public class JanggiGameService {
 
     public JanggiGame loadGame(Long gameId) {
         GameSnapshot gameSnapshot = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임입니다."));
         Board board = new Board();
         board.init(gameSnapshot.positions());
         return new JanggiGame(board, gameStatus(gameSnapshot));

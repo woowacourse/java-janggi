@@ -43,7 +43,7 @@ public class JanggiApplication {
         if (InputView.isLoadGameCommand(command)) {
             return loadGame(janggiGameService);
         }
-        throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
+        throw new IllegalArgumentException("[ERROR] 1 또는 2를 입력해 주세요.");
     }
 
     private static Long loadGame(JanggiGameService janggiGameService) {

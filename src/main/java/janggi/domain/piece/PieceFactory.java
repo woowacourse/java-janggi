@@ -18,7 +18,7 @@ public class PieceFactory {
 
     public static Piece initPiece(Team team, PieceType pieceType) {
         if (!FACTORY.containsKey(pieceType)) {
-            throw new IllegalArgumentException("존재하지 않는 기물입니다.");
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 기물입니다.");
         }
         return FACTORY.get(pieceType).apply(team);
     }

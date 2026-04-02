@@ -28,7 +28,7 @@ public class JanggiGame {
 
     public Team getWinner() {
         if (!gameStatus.isFinished()) {
-            throw new RuntimeException("게임이 아직 끝나지 않았습니다.");
+            throw new RuntimeException("[ERROR] 게임이 아직 끝나지 않았습니다.");
         }
         return gameStatus.getTeam();
     }
@@ -44,6 +44,7 @@ public class JanggiGame {
     public Team currentTurn() {
         return gameStatus.getTeam();
     }
+
     public List<PositionInfo> boardStatus() {
         return board.getBoardStatus();
     }

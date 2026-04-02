@@ -27,7 +27,7 @@ public class Jol extends BasePiece {
             return List.of();
         }
 
-        throw new IllegalArgumentException("졸은 앞으로, 좌우 한 칸 또는 궁성 안에서 대각선 한 칸만 이동할 수 있습니다.");
+        throw new IllegalArgumentException("[ERROR] 졸은 앞으로, 좌우 한 칸 또는 궁성 안에서 대각선 한 칸만 이동할 수 있습니다.");
     }
 
     private boolean isNormalMove(int distanceX, int distanceY) {
@@ -42,7 +42,7 @@ public class Jol extends BasePiece {
 
     private void validateBackMove(int pathY) {
         if ((team == Team.CHO && pathY < 0) || (team == Team.HAN && pathY > 0)) {
-            throw new IllegalArgumentException("뒤로 이동할 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 뒤로 이동할 수 없습니다.");
         }
     }
 }

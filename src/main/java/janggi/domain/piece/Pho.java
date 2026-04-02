@@ -21,7 +21,7 @@ public class Pho extends BasePiece {
         if (from.isPalaceDiagonalMove(to)) {
             return getPalaceRoute(from, to);
         }
-        throw new IllegalArgumentException("차는 직선 또는 궁성 대각선으로만 이동할 수 있습니다.");
+        throw new IllegalArgumentException("[ERROR] 포는 직선 또는 궁성 대각선으로만 이동할 수 있습니다.");
     }
 
     private boolean isStraightMove(Point from, Point to) {
@@ -60,7 +60,7 @@ public class Pho extends BasePiece {
             int middleY = (from.getY() + to.getY()) / 2;
             return List.of(Point.of(middleX, middleY));
         }
-        throw new IllegalArgumentException("궁성 대각선 경로가 아닙니다.");
+        throw new IllegalArgumentException("[ERROR] 궁성 대각선 경로가 아닙니다.");
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Pho extends BasePiece {
 
     private void validateDiagonalMove(int pathX, int pathY) {
         if (pathX != 0 && pathY != 0) {
-            throw new IllegalArgumentException("대각선 이동은 불가능합니다.");
+            throw new IllegalArgumentException("[ERROR] 대각선 이동은 불가능합니다.");
         }
     }
 }

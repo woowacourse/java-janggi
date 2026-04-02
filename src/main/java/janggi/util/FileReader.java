@@ -16,7 +16,7 @@ public class FileReader {
         try (BufferedReader reader = createReader(resourcePath)) {
             return readLines(reader);
         } catch (IOException e) {
-            throw new IllegalStateException("[ERROR] 파일을 찾을 수 없습니다.");
+            throw new IllegalStateException("[ERROR] 파일을 읽을 수 없습니다.", e);
         }
     }
 

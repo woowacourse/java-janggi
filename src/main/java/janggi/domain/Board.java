@@ -31,10 +31,10 @@ public class Board {
         List<Point> route = piece.getRoute(from, to);
         Piece targetPiece = piecesByPoint.get(to);
         if (targetPiece != null && !piece.canCapture(targetPiece)) {
-            throw new IllegalArgumentException("이 기물은 해당 타겟을 잡을 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 이 기물은 해당 타겟을 잡을 수 없습니다.");
         }
         if (!piece.canMove(getPieces(route))) {
-            throw new IllegalArgumentException("해당 기물의 이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
         }
         piecesByPoint.remove(from);
         piecesByPoint.put(to, piece);
@@ -75,16 +75,16 @@ public class Board {
 
     private void validateFromPoint(Point from, Team team) {
         if (isEmptyPoint(from)) {
-            throw new IllegalArgumentException("출발지에 이동할 기물이 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 출발지에 이동할 기물이 없습니다.");
         }
         if (!isSameTeam(from, team)) {
-            throw new IllegalArgumentException("상대방의 기물은 움직일 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 상대방의 기물은 움직일 수 없습니다.");
         }
     }
 
     private void validateToPoint(Point to, Team team) {
         if (!isEmptyPoint(to) && isSameTeam(to, team)) {
-            throw new IllegalArgumentException("도착지에 본인의 기물이 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 도착지에 본인의 기물이 있습니다.");
         }
     }
 
