@@ -30,6 +30,6 @@ public class TestArrangementStrategy implements ArrangementStrategy {
 
     @Override
     public ArrangementStrategy create(Side side) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
