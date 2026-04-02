@@ -6,6 +6,7 @@ import janggi.domain.game.Side;
 import janggi.domain.route.Paths;
 import janggi.domain.strategy.CannonMoveStrategy;
 import janggi.domain.strategy.ElephantMoveStrategy;
+import janggi.domain.strategy.EmptyMoveStrategy;
 import janggi.domain.strategy.HorseMoveStrategy;
 import janggi.domain.strategy.MoveStrategy;
 import janggi.domain.strategy.SlideMoveStrategy;
@@ -27,6 +28,7 @@ public enum PieceType {
     HORSE(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new HorseMoveStrategy()),
     ELEPHANT(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new ElephantMoveStrategy()),
     SOLDIER(Side::getSoldierDirections, new StepMoveStrategy()),
+    EMPTY(side -> EnumSet.noneOf(Direction.class), new EmptyMoveStrategy()),
     ;
 
     private final Function<Side, EnumSet<Direction>> directionProvider;

@@ -6,6 +6,7 @@ import java.util.EnumSet;
 public enum Side {
     CHO("초", Direction.N),
     HAN("한", Direction.S),
+    NONE("없음", Direction.NONE),
     ;
 
     private final String displayName;

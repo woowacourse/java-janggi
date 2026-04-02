@@ -13,6 +13,7 @@ public enum Direction {
     NW(-1, -1),
     SE(1, 1),
     SW(1, -1),
+    NONE(0, 0),
     ;
 
     private final int row;

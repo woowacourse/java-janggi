@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Piece {
+    private static final Piece EMPTY_INSTANCE = new Piece(Side.NONE, PieceType.EMPTY, "0");
+
     private final Side side;
     private final PieceType pieceType;
     private final String pieceNumber;
@@ -37,8 +39,16 @@ public class Piece {
         return this.pieceType == PieceType.CANNON;
     }
 
+    public boolean isEmpty() {
+        return this.pieceType == PieceType.EMPTY;
+    }
+
     public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState) {
         return pieceType.determineDestinations(routes, boardState, this);
+    }
+
+    public static Piece createEmpty() {
+        return EMPTY_INSTANCE;
     }
 
     Side getSide() {

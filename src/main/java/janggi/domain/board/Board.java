@@ -123,9 +123,13 @@ public class Board {
     }
 
     private void validatePieceExist(Position position) {
-        if (piecePosition.get(position) == null) {
+        if (pieceAt(position).isEmpty()) {
             throw new IllegalArgumentException(ERROR_NOT_FOUND_PIECE);
         }
+    }
+
+    private Piece pieceAt(Position position) {
+        return piecePosition.getOrDefault(position, Piece.createEmpty());
     }
 
     private void validateOwnPiece(Position position, Side currentTurn) {
@@ -158,8 +162,8 @@ public class Board {
 
     private void generateStateByPath(Path path, Map<Position, Piece> boardState) {
         path.forEach(position -> {
-            Piece piece = piecePosition.get(position);
-            if (piece != null) {
+            Piece piece = pieceAt(position);
+            if (!piece.isEmpty()) {
                 boardState.put(position, piece);
             }
         });
