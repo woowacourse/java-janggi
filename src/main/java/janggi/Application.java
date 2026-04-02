@@ -1,16 +1,19 @@
 package janggi;
 
+import janggi.config.AppConfig;
 import janggi.controller.JanggiController;
-import janggi.view.InputView;
-import janggi.view.OutputView;
+import janggi.util.Console;
 
 public class Application {
 
     public static void main(String[] args) {
-        new JanggiController(
-                new InputView(),
-                new OutputView()
-        ).run();
+        AppConfig appConfig = new AppConfig();
+        JanggiController controller = appConfig.controller();
+        try {
+            controller.run();
+        } finally {
+            Console.close();
+        }
     }
 
 }
