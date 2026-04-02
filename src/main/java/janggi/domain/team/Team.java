@@ -20,6 +20,10 @@ public class Team {
         return new Team(teamType, Pieces.create(teamType));
     }
 
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
     public BoardSpots makeSnapShot() {
         return pieces.makeSnapShot();
     }
@@ -34,9 +38,5 @@ public class Team {
 
     public Team move(Position piecePosition, Position targetPosition) {
         return new Team(teamType, pieces.move(piecePosition, targetPosition));
-    }
-
-    public boolean isSameTeamType(TeamType suggestedTeamType) {
-        return teamType == suggestedTeamType;
     }
 }

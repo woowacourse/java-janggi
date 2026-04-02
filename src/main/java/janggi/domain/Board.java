@@ -5,9 +5,9 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
 import janggi.dto.BoardSpots;
-import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class Board {
@@ -16,22 +16,22 @@ public class Board {
     private static final int LAST_X_INDEX = 9;
     private static final int LAST_Y_INDEX = 10;
 
-    private final List<Team> teams;
+    private final Map<TeamType, Team> teams;
 
-    private Board(List<Team> teams) {
-        this.teams = new ArrayList<>(teams);
+    private Board(Map<TeamType, Team> teams) {
+        this.teams = new EnumMap<>(teams);
     }
 
     public static Board createInitialBoard() {
-        return new Board(List.of(
-            Team.createInitialTeam(TeamType.CHU),
-            Team.createInitialTeam(TeamType.HAN)
-        ));
+        Map<TeamType, Team> teams = new EnumMap<>(TeamType.class);
+        teams.put(TeamType.CHU, Team.createInitialTeam(TeamType.CHU));
+        teams.put(TeamType.HAN, Team.createInitialTeam(TeamType.HAN));
+        return new Board(teams);
     }
 
     public BoardSpots makeSnapShot() {
         HashMap<Position, BoardSpot> boardSpots = new HashMap<>();
-        for (Team team : teams) {
+        for (Team team : teams.values()) {
             boardSpots.putAll(team.makeSnapShot().value());
         }
         return new BoardSpots(boardSpots);
@@ -49,7 +49,7 @@ public class Board {
     }
 
     public Optional<Piece> findPiece(Position position) {
-        return teams.stream()
+        return teams.values().stream()
             .map(team -> team.findPiece(position))
             .flatMap(Optional::stream)
             .findFirst();
@@ -115,25 +115,10 @@ public class Board {
     }
 
     private Board createMovedBoard(TeamType nowTurn, Team movedCurrentTeam, Team remainedOpponentTeam) {
-        List<Team> movedTeams = teams.stream()
-            .map(team -> replaceMovedTeam(nowTurn, movedCurrentTeam, remainedOpponentTeam, team))
-            .toList();
+        Map<TeamType, Team> movedTeams = new EnumMap<>(teams);
+        movedTeams.put(nowTurn, movedCurrentTeam);
+        movedTeams.put(nowTurn.findOpponent(), remainedOpponentTeam);
         return new Board(movedTeams);
-    }
-
-    private Team replaceMovedTeam(
-        TeamType nowTurn,
-        Team movedCurrentTeam,
-        Team remainedOpponentTeam,
-        Team team
-    ) {
-        if (team.isSameTeamType(nowTurn)) {
-            return movedCurrentTeam;
-        }
-        if (team.isSameTeamType(nowTurn.findOpponent())) {
-            return remainedOpponentTeam;
-        }
-        return team;
     }
 
     private void validateRange(Position inputPosition) {
@@ -153,10 +138,9 @@ public class Board {
     }
 
     private Team findSpecificTeam(TeamType teamType) {
-        return teams.stream()
-            .filter(team -> team.isSameTeamType(teamType))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(String.format("%s 팀이 존재하지 않습니다.", teamType.getName()))
-            );
+        if (teams.containsKey(teamType)) {
+            return teams.get(teamType);
+        }
+        throw new IllegalArgumentException(String.format("%s 팀이 존재하지 않습니다.", teamType.getName()));
     }
 }
