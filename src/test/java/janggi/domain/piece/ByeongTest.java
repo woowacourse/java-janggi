@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import janggi.domain.position.Position;
 import janggi.domain.space.Space;
 import janggi.domain.space.piece.Byeong;
+import janggi.domain.space.piece.Pho;
 import janggi.domain.space.piece.Piece;
 import janggi.domain.space.piece.Sang;
 import janggi.domain.space.piece.Team;
@@ -55,5 +56,27 @@ class ByeongTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.validateArrival(space))
                 .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+    }
+
+    @Test
+    void 병_궁성_정상_이동_테스트() {
+        Piece piece = new Byeong(Team.CHO);
+
+        Position from = new Position(3, 7);
+        Position to = new Position(4, 8);
+
+        assertDoesNotThrow(() -> piece.validateMove(from, to));
+    }
+
+    @Test
+    void 병_궁성_예외_이동_테스트() {
+        Piece piece = new Byeong(Team.CHO);
+
+        Position from = new Position(3, 7);
+        Position to = new Position(5, 8);
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> piece.validateMove(from, to))
+                .withMessage("해당 위치로 병이 이동할 수 없습니다.");
     }
 }
