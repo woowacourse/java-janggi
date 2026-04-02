@@ -52,8 +52,7 @@ public class JanggiController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            move(board, game);
-            return false;
+            return move(board, game);
         }
     }
 
