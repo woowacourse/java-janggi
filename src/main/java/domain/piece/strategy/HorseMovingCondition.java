@@ -10,7 +10,7 @@ import java.util.Queue;
 
 public class HorseMovingCondition implements MovingCondition {
 
-    private final static int MAX_DIRECTION = 2;
+    private static final int MAX_DIRECTION = 2;
 
     @Override
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
