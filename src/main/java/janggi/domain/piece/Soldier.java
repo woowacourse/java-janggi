@@ -17,13 +17,13 @@ public class Soldier implements Piece {
 
     static {
         final List<MoveRule> redMovementStrategies = List.of(
-                new SlidingMoveRule(List.of(new Movement(1, Direction.LEFT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.RIGHT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN))));
+                new SlidingMoveRule(new Movement(1, Direction.LEFT)),
+                new SlidingMoveRule(new Movement(1, Direction.RIGHT)),
+                new SlidingMoveRule(new Movement(1, Direction.DOWN)));
         final List<MoveRule> blueMovementStrategies = List.of(
-                new SlidingMoveRule(List.of(new Movement(1, Direction.LEFT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.RIGHT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.UP))));
+                new SlidingMoveRule(new Movement(1, Direction.LEFT)),
+                new SlidingMoveRule(new Movement(1, Direction.RIGHT)),
+                new SlidingMoveRule(new Movement(1, Direction.UP)));
         RED_PIECE_ACTION = new PieceAction(redMovementStrategies);
         BLUE_PIECE_ACTION = new PieceAction(blueMovementStrategies);
     }

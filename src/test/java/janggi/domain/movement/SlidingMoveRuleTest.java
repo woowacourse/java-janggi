@@ -26,9 +26,7 @@ public class SlidingMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         Direction direction = Direction.DOWN;
-        MoveRule moveRuleWithTraces = new SlidingMoveRule(
-                List.of(new Movement(MAXIMUM_ROW, direction))
-        );
+        MoveRule moveRuleWithTraces = new SlidingMoveRule(new Movement(MAXIMUM_ROW, direction));
         Position from = Position.valueOf(5, 3);
 
         // when

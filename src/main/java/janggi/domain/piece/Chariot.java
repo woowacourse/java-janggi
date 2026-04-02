@@ -19,10 +19,10 @@ public class Chariot implements Piece {
 
     static {
         final List<MoveRule> movementStrategies = List.of(
-                new SlidingMoveRule(List.of(new Movement(MAXIMUM_ROW, Direction.UP))),
-                new SlidingMoveRule(List.of(new Movement(MAXIMUM_ROW, Direction.DOWN))),
-                new SlidingMoveRule(List.of(new Movement(MAXIMUM_COLUMN, Direction.RIGHT))),
-                new SlidingMoveRule(List.of(new Movement(MAXIMUM_COLUMN, Direction.LEFT))));
+                new SlidingMoveRule(new Movement(MAXIMUM_ROW, Direction.UP)),
+                new SlidingMoveRule(new Movement(MAXIMUM_ROW, Direction.DOWN)),
+                new SlidingMoveRule(new Movement(MAXIMUM_COLUMN, Direction.RIGHT)),
+                new SlidingMoveRule(new Movement(MAXIMUM_COLUMN, Direction.LEFT)));
         PIECE_ACTION = new PieceAction(movementStrategies);
     }
 

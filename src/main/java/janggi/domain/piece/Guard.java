@@ -16,14 +16,14 @@ public class Guard implements Piece {
 
     static {
         final List<MoveRule> movementStrategies = List.of(
-                new SlidingMoveRule(List.of(new Movement(1, Direction.UP_LEFT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.UP))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.UP_RIGHT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.LEFT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.RIGHT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN_LEFT))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN))),
-                new SlidingMoveRule(List.of(new Movement(1, Direction.DOWN_RIGHT))));
+                new SlidingMoveRule(new Movement(1, Direction.UP_LEFT)),
+                new SlidingMoveRule(new Movement(1, Direction.UP)),
+                new SlidingMoveRule(new Movement(1, Direction.UP_RIGHT)),
+                new SlidingMoveRule(new Movement(1, Direction.LEFT)),
+                new SlidingMoveRule(new Movement(1, Direction.RIGHT)),
+                new SlidingMoveRule(new Movement(1, Direction.DOWN_LEFT)),
+                new SlidingMoveRule(new Movement(1, Direction.DOWN)),
+                new SlidingMoveRule(new Movement(1, Direction.DOWN_RIGHT)));
         PIECE_ACTION = new PieceAction(movementStrategies);
     }
 
