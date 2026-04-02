@@ -38,12 +38,11 @@ public class Board {
     }
 
     public boolean hasGeneral(Dynasty dynasty) {
-        for (Piece piece : board.values()) {
-            if (piece.isSamePieceType(PieceType.GENERAL) && piece.isSameDynasty(dynasty)) {
-                return true;
-            }
-        }
-        return false;
+        return board.values().stream()
+                .anyMatch(piece ->
+                        piece.isSamePieceType(PieceType.GENERAL)
+                                && piece.isSameDynasty(dynasty)
+                );
     }
 
     public int sumPointsOf(Dynasty dynasty) {
