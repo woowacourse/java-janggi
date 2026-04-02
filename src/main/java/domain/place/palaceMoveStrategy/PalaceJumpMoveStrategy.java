@@ -63,8 +63,15 @@ public class PalaceJumpMoveStrategy implements PalaceMoveStrategy {
         Place middlePlace = getPlace(board, current.get());
         current = current.get().moveIfInBounds(direction);
 
-        return !isTargetCannon(middlePlace) && !middlePlace.isEmpty()
-                && current.filter(to::equals).isPresent();
+        return isValidMiddlePlace(middlePlace) && isAtDestination(current, to);
+    }
+
+    private boolean isValidMiddlePlace(Place middlePlace){
+        return !isTargetCannon(middlePlace) && !middlePlace.isEmpty();
+    }
+
+    private boolean isAtDestination(Optional<Position> current, Position to){
+        return current.isPresent() && current.get().equals(to);
     }
 
     private Place getPlace(Map<Position, Place> board, Position position) {

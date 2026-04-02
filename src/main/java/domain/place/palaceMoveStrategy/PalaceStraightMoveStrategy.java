@@ -51,7 +51,7 @@ public class PalaceStraightMoveStrategy implements PalaceMoveStrategy {
                                     Position to,
                                     Direction direction) {
         Optional<Position> current = from.moveIfInBounds(direction);
-        while (current.isPresent() && !to.equals(current.get())) {
+        while (isNotAtDestination(current, to)) {
             Position pos = current.get();
             Place place = board.getOrDefault(pos, new Empty());
             if (!place.isEmpty()) {
@@ -61,7 +61,15 @@ public class PalaceStraightMoveStrategy implements PalaceMoveStrategy {
             current = current.get().moveIfInBounds(direction);
         }
 
-        return current.filter(to::equals).isPresent();
+        return isAtDestination(current, to);
+    }
+
+    private boolean isAtDestination(Optional<Position> current, Position to){
+        return current.isPresent() && current.get().equals(to);
+    }
+
+    private boolean isNotAtDestination(Optional<Position> current, Position to){
+        return current.isPresent() && !current.get().equals(to);
     }
 
 }

@@ -58,7 +58,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         int count = 0;
         Optional<Position> current = from.moveIfInBounds(direction);
 
-        while (canContinue(current, to, count)) {
+        while (canContinueTraversal(current, to, count)) {
             Place place = getPlace(board, current.get());
 
             if (isTargetCannon(place)) {
@@ -69,22 +69,34 @@ public class CannonMoveStrategy implements MoveStrategy {
             current = current.get().moveIfInBounds(direction);
         }
 
-        return current.filter(to::equals).isPresent()
-                && count == REQUIRED_OBSTACLE_COUNT;
+        return isAtDestination(current,to) && isWithinObstacleLimit(count);
     }
 
-    private boolean canContinue(Optional<Position> current, Position to, int count) {
-        return current.isPresent()
-                && !current.get().equals(to)
-                && count <= REQUIRED_OBSTACLE_COUNT;
+    private boolean canContinueTraversal(Optional<Position> current, Position to, int count) {
+        return isNotAtDestination(current, to) && isNotWithinObstacleLimit(count);
     }
 
     private int increaseIfObstacle(Place place, int count) {
-        if(place.isEmpty())
+        if (place.isEmpty())
             return count;
-        return count+1;
+        return count + 1;
     }
 
+    private boolean isAtDestination(Optional<Position> current, Position to){
+        return current.isPresent() && current.get().equals(to);
+    }
+
+    private boolean isWithinObstacleLimit(int count) {
+        return count == REQUIRED_OBSTACLE_COUNT;
+    }
+
+    private boolean isNotAtDestination(Optional<Position> current, Position to){
+        return current.isPresent() && !current.get().equals(to);
+    }
+
+    private boolean isNotWithinObstacleLimit(int count) {
+        return count <= REQUIRED_OBSTACLE_COUNT;
+    }
     private Place getPlace(Map<Position, Place> board, Position pos) {
         return board.getOrDefault(pos, new Empty());
     }
