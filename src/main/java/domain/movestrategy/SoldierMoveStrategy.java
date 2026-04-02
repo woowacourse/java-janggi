@@ -6,7 +6,7 @@ import domain.piece.Delta;
 import domain.piece.Team;
 import java.util.List;
 
-public class SoldierMoveStrategy extends BasicMoveStrategy {
+public class SoldierMoveStrategy implements MoveStrategy {
 
     private static final List<Delta> CHO_PATHS = List.of(
             Delta.RIGHT, Delta.UP, Delta.LEFT

@@ -7,7 +7,7 @@ import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChariotMoveStrategy extends BasicMoveStrategy {
+public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> getMovablePositions(final Board board, final Position from) {

@@ -6,7 +6,7 @@ import domain.piece.Delta;
 import java.util.List;
 import java.util.Map;
 
-public class ElephantMoveStrategy extends BasicMoveStrategy {
+public class ElephantMoveStrategy implements MoveStrategy {
 
     private static final Map<Delta, List<Delta>> PATHS_BY_DESTINATION = Map.ofEntries(
             Map.entry(Delta.of(-3, -2), List.of(Delta.UP, Delta.LEFT_UP)),

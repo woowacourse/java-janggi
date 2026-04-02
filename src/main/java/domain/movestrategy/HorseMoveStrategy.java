@@ -6,7 +6,7 @@ import domain.piece.Delta;
 import java.util.List;
 import java.util.Map;
 
-public class HorseMoveStrategy extends BasicMoveStrategy {
+public class HorseMoveStrategy implements MoveStrategy {
 
     private static final Map<Delta, Delta> PATH_BY_DESTINATION = Map.ofEntries(
             Map.entry(Delta.of(-2, -1), Delta.UP),

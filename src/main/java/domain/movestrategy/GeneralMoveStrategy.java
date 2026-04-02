@@ -6,7 +6,7 @@ import domain.piece.Delta;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class GeneralMoveStrategy extends BasicMoveStrategy {
+public class GeneralMoveStrategy implements MoveStrategy {
 
     private static final List<Delta> ALL_DIRECTIONS = List.of(
             Delta.UP, Delta.RIGHT_UP, Delta.RIGHT, Delta.RIGHT_DOWN,

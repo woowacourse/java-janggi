@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CannonMoveStrategy extends BasicMoveStrategy {
+public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> getMovablePositions(final Board board, final Position from) {
