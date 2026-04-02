@@ -6,7 +6,7 @@ import domain.state.InactiveTurn;
 import java.util.List;
 
 public class Players {
-    List<Player> players;
+    private final List<Player> players;
 
     private Players(Player cho, Player han) {
         this.players = List.of(cho, han);
@@ -29,6 +29,13 @@ public class Players {
     public Player getCurrentPlayer() {
         return players.stream()
                 .filter(Player::isCurrentTurn)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어가 없습니다."));
+    }
+
+    public Player getWaitingPlayer() {
+        return players.stream()
+                .filter(player -> !player.isCurrentTurn())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어가 없습니다."));
     }
