@@ -22,7 +22,6 @@ class SoldierPathPolicyTest {
         Move move = new Move(from, to);
         SoldierPathPolicy policy = new SoldierPathPolicy();
 
-        // 정상 이동은 예외 없이 true를 반환해야 함
         assertThatCode(() -> policy.validateDestination(move, board, country))
                 .doesNotThrowAnyException();
     }
@@ -34,7 +33,6 @@ class SoldierPathPolicyTest {
         Move move = new Move(from, to);
         SoldierPathPolicy policy = new SoldierPathPolicy();
 
-        // 예외 발생 및 메시지 검증
         assertThatThrownBy(() -> policy.validateDestination(move, board, country))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 병사는 뒤로 갈 수 없습니다.");

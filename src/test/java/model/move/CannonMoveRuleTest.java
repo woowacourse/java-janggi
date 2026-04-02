@@ -1,7 +1,6 @@
 package model.move;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.List;
@@ -12,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class CannonMoveRuleTest {
+
     @ParameterizedTest()
     @MethodSource("provideCannonMove")
     void 포는_직선_방향으로만_패턴을_생성한다(Position from, Position to, boolean expected) {
