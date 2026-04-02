@@ -43,4 +43,5 @@ public record Point(
     public Point next(Vector vector) {
         return new Point(y + vector.dy(), x + vector.dx());
     }
+
 }

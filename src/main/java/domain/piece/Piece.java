@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.team.Team;
-import java.util.Objects;
 
 public abstract class Piece {
 
@@ -38,26 +37,16 @@ public abstract class Piece {
         return this.pieceType == pieceType;
     }
 
+    public boolean isSamePiece(Piece piece) {
+        return isSamePiece(piece.pieceType);
+    }
+
     public boolean hasPiece() {
         return this.pieceType != PieceType.NONE;
     }
 
     public String getChineseCharacter() {
         return pieceType.getChineseCharacter(team);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return pieceType == piece.pieceType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(pieceType);
     }
 
 }

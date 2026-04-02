@@ -5,7 +5,6 @@ import domain.piece.NonePiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.point.Point;
-import java.util.Objects;
 
 public class Intersection {
 
@@ -34,7 +33,7 @@ public class Intersection {
     }
 
     public boolean isSamePiece(Intersection intersection) {
-        return this.piece.equals(intersection.piece);
+        return this.piece.isSamePiece(intersection.piece);
     }
 
     public boolean isSamePiece(PieceType pieceType) {
@@ -59,20 +58,6 @@ public class Intersection {
 
     public IntersectionState toIntersectionState() {
         return new IntersectionState(point, piece.pieceType(), piece.team());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Intersection that = (Intersection) o;
-        return Objects.equals(point, that.point) && Objects.equals(piece, that.piece);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(point, piece);
     }
 
 }
