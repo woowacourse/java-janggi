@@ -13,7 +13,7 @@ public class TurnManager {
         this.currentTurnTeamType = currentTurnTeamType.nextTeamType();
     }
 
-    public boolean checkFromTurn(Piece piece) {
+    public boolean isCurrentTurnOf(Piece piece) {
         return piece.getTeamType() == currentTurnTeamType;
     }
 

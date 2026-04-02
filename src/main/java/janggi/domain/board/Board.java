@@ -13,13 +13,13 @@ public class Board implements BoardMediator {
         this.positionPieceMap = positionPieceMap;
     }
 
-    public void changeBoard(final Position from, final Position to) {
+    public void movePiece(final Position from, final Position to) {
         positionPieceMap.put(to, positionPieceMap.remove(from));
     }
 
     @Override
     public boolean hasPieceAt(final Position position) {
-        return isNotBlank(position);
+        return hasPieceIn(position);
     }
 
     @Override
@@ -39,12 +39,12 @@ public class Board implements BoardMediator {
     }
 
 
-    private boolean isNotBlank(final Position position) {
+    private boolean hasPieceIn(final Position position) {
         return positionPieceMap.containsKey(position);
     }
 
     private Piece findPieceByPosition(final Position position) {
-        if (!isNotBlank(position)) {
+        if (!hasPieceIn(position)) {
             throw new IllegalArgumentException("요청된 위치에는 기물이 존재하지 않습니다.");
         }
         return positionPieceMap.get(position);

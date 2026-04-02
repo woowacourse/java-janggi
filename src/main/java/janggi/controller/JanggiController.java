@@ -56,7 +56,7 @@ public class JanggiController {
         List<Position> movable = piece.calculateMovablePositions(from, board);
         OutputView.printBoardWithMovable(BoardDto.from(board, movable));
         Position to = RetryExecutor.retry(() -> inputToPosition(movable));
-        board.changeBoard(from, to);
+        board.movePiece(from, to);
         turnManager.changeTurn();
     }
 
@@ -78,7 +78,7 @@ public class JanggiController {
                 OutputView.printInputFromPosition();
                 Position from = InputView.readPosition();
                 Piece piece = board.getPieceInPosition(from);
-                if (!turnManager.checkFromTurn(piece)) {
+                if (!turnManager.isCurrentTurnOf(piece)) {
                     throw new IllegalArgumentException("자신의 기물을 선택하세요.");
                 }
                 return from;
