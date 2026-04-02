@@ -1,5 +1,6 @@
 package domain.strategy;
 
+import domain.Side;
 import java.util.List;
 
 public enum Direction {
@@ -40,6 +41,10 @@ public enum Direction {
                 List.of(E, NE, NE), List.of(E, SE, SE),
                 List.of(W, NW, NW), List.of(W, SW, SW)
         );
+    }
+
+    public static List<Direction> soldier(Side side) {
+        return List.of(E, W, side.soldierForward());
     }
 
     public int getDx() {
