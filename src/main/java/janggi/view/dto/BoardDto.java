@@ -18,18 +18,22 @@ public record BoardDto(
         List<List<PieceDto>> allPieces = new ArrayList<>();
         for (int row = Row.MIN_ROW; row <= Row.MAX_ROW; row++) {
             List<PieceDto> piecesByRow = new ArrayList<>();
-            for (int column = Column.MIN_COLUMN; column <= Column.MAX_COLUMN; column++) {
-                Position position = Position.from(row, column);
-                if (board.containsKey(position)) {
-                    Piece piece = board.get(position);
-                    piecesByRow.add(new PieceDto(PieceMapper.from(piece), DynastyColorMapper.from(piece.dynasty())));
-                    continue;
-                }
-                piecesByRow.add(new PieceDto("  ", ""));
-            }
+            addRow(board, row, piecesByRow);
             allPieces.add(piecesByRow);
         }
         return new BoardDto(allPieces);
+    }
+
+    private static void addRow(Map<Position, Piece> board, int row, List<PieceDto> piecesByRow) {
+        for (int column = Column.MIN_COLUMN; column <= Column.MAX_COLUMN; column++) {
+            Position position = Position.from(row, column);
+            if (board.containsKey(position)) {
+                Piece piece = board.get(position);
+                piecesByRow.add(new PieceDto(PieceMapper.from(piece), DynastyColorMapper.from(piece.dynasty())));
+                continue;
+            }
+            piecesByRow.add(new PieceDto("＊", ""));
+        }
     }
 
 }
