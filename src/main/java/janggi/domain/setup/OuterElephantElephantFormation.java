@@ -13,6 +13,6 @@ public class OuterElephantElephantFormation extends ElephantFormation {
         boardMap.put(Position.valueOf(1, 3), PieceType.HORSE);
         boardMap.put(Position.valueOf(1, 7), PieceType.HORSE);
         boardMap.put(Position.valueOf(1, 8), PieceType.ELEPHANT);
-        return boardMap;
+        return Map.copyOf(boardMap);
     }
 }
