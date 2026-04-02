@@ -4,10 +4,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
 import domain.player.Team;
-import dto.PieceInfoDto;
-import dto.PieceInfosDto;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -39,8 +36,7 @@ public class Board {
     public boolean hasPiece(Position position) {
         return pieces.containsKey(position);
     }
-
-
+    
     public Position findGeneral(Team team) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().getPieceType() == PieceType.GENERAL)
@@ -50,12 +46,6 @@ public class Board {
                 .orElseThrow(() -> new IllegalStateException(GENERAL_NOWHERE));
     }
 
-    public PieceInfosDto getPieceInfos() {
-        List<PieceInfoDto> pieceInfos = pieces.entrySet().stream()
-                .map(entry -> PieceInfoDto.of(entry.getValue(), entry.getKey()))
-                .toList();
-        return PieceInfosDto.of(pieceInfos);
-    }
 
     public Piece getPiece(Position position) {
         if (hasPiece(position)) {

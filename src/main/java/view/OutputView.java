@@ -9,10 +9,11 @@ import java.util.List;
 
 public class OutputView {
 
-    private static final String EMPTY = "　";
+    private static final String EMPTY = "    ";
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
+    private static final String BOARD_OUTER_SPACES = "   ";
 
 
     public void printEnterChoPlayerNamePrompt() {
@@ -62,7 +63,7 @@ public class OutputView {
     private String renderCell(BoardView board, Position pos) {
         return board.findPiece(pos)
                 .map(this::renderPiece)
-                .orElse("    ");
+                .orElse(EMPTY);
     }
 
     private String renderPiece(Piece piece) {
@@ -80,7 +81,7 @@ public class OutputView {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("   ");
+        sb.append(BOARD_OUTER_SPACES);
         sb.append("+----".repeat(Math.max(0, cols)));
         sb.append("+");
 
@@ -88,7 +89,7 @@ public class OutputView {
     }
 
     private void printColumnNumbers(BoardView board) {
-        System.out.print("   ");
+        System.out.print(BOARD_OUTER_SPACES);
 
         for (int col = board.minCol(); col <= board.maxCol(); col++) {
             System.out.printf("  %2d ", col);
