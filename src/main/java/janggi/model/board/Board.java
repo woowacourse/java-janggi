@@ -1,5 +1,6 @@
-package janggi.model;
+package janggi.model.board;
 
+import janggi.model.Team;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
