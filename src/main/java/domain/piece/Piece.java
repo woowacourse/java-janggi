@@ -37,6 +37,10 @@ public class Piece {
         return pieceType == PieceType.SOLDIER;
     }
 
+    public boolean isPalacePiece() {
+        return pieceType == PieceType.GENERAL || pieceType == PieceType.GUARD;
+    }
+
     public boolean isOwnedBy(Team targetTeam) {
         return this.team == targetTeam;
     }

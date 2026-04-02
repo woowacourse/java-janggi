@@ -63,12 +63,27 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 출발 좌표의 기물이 상대 기물입니다.");
         }
 
+        if (piece.isPalacePiece()) {
+            validatePalaceMove(from, to);
+        }
+
         Movement movement = MovementFactory.create(piece);
         Paths paths = movement.candidatePaths(from);
 
         MovementValidator validator = new MovementValidator(this);
         if (!validator.isValid(piece, paths, to)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 움직임입니다.");
+        }
+    }
+
+    private void validatePalaceMove(Position from, Position to) {
+        Palace palace = Palace.requirePalace(from);
+        palace.validateContains(to);
+
+        boolean isDiagonal = from.column() != to.column() && from.row() != to.row();
+        if (isDiagonal) {
+            palace.validateOnDiagonal(from);
+            palace.validateOnDiagonal(to);
         }
     }
 }
