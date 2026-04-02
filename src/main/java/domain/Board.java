@@ -38,6 +38,18 @@ public class Board {
         movePiece(from, to, piece);
     }
 
+    public double calculateScore(Team team) {
+        double score = this.pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(Piece::getPieceScore)
+                .sum();
+
+        if (team == Team.HAN) {
+            score += 1.5;
+        }
+        return score;
+    }
+
     /**
      * 플레이어가 입력한 기물의 이동 가능 여부를 판단한다
      *

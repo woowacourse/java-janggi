@@ -30,5 +30,9 @@ public abstract class Piece {
         return this.type == type;
     }
 
+    public int getPieceScore() {
+        return type.getScore();
+    }
+
     public abstract boolean canMove(Position from, Position to, Board board);
 }
