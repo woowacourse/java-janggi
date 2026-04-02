@@ -7,27 +7,31 @@ import domain.position.Position;
 import domain.PieceProvider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CannonStrategy implements Strategy {
 
     @Override
     public List<Position> getMoveCandidates(Position from, PieceProvider board) {
-        List<Position> candidates = new ArrayList<>();
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
-        for (Direction direction : straightDirections) {
-            addCannonCandidates(from, direction, board, candidates);
-        }
-        return candidates;
+
+        return Arrays.stream(straightDirections)
+                .flatMap(direction -> addCannonCandidates(from, direction, board).stream())
+                .collect(Collectors.toList());
     }
 
-    private void addCannonCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidatesPosition) {
+    private List<Position> addCannonCandidates(Position currentPosition, Direction direction, PieceProvider board) {
         Position bridge = findFirstPiece(currentPosition, direction, board);
         boolean isCannon = board.isCannon(bridge);
+
         if (!isWithinBoard(bridge) || isCannon) {
-            return;
+            return Collections.emptyList();
         }
-        collectTargets(bridge, direction, board, candidatesPosition);
+
+        return collectTargets(bridge, direction, board);
     }
 
     private Position findFirstPiece(Position position, Direction direction, PieceProvider board) {
@@ -44,16 +48,21 @@ public class CannonStrategy implements Strategy {
         return new Position(nextRows, nextColumns);
     }
 
-    private void collectTargets(Position bridge, Direction direction, PieceProvider board, List<Position> candidates) {
+    private List<Position> collectTargets(Position bridge, Direction direction, PieceProvider board) {
+        List<Position> candidates = new ArrayList<>();
         Position target = getNext(bridge, direction);
+
         while (isWithinBoard(target) && board.isBlank(target)) {
             candidates.add(target);
             target = getNext(target, direction);
         }
+
         boolean isCannon = board.isCannon(target);
         if (isWithinBoard(target) && !isCannon) {
             candidates.add(target);
         }
+
+        return candidates;
     }
 
     private boolean isWithinBoard(Position position) {
