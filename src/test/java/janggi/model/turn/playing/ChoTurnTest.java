@@ -1,4 +1,4 @@
-package janggi.model.turn;
+package janggi.model.turn.playing;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
