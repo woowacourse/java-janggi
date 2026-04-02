@@ -50,7 +50,7 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        return false;
+        return board.isGeneralCaught();
     }
 
     public double calculateScoreByDynasty(Dynasty dynasty) {

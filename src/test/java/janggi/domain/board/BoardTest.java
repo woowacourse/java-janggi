@@ -131,4 +131,34 @@ class BoardTest {
         // then
         assertThat(score).isEqualTo(expected);
     }
+    
+    @Test
+    @DisplayName("장기판에 궁 기물이 없는 경우")
+    public void isGeneralCaught_success1() throws Exception {
+        // given
+        BoardDesignPolicy boardDesignPolicy = Map::of;
+        Board board = new Board(boardDesignPolicy);
+
+        // when
+        boolean generalCaught = board.isGeneralCaught();
+
+        // then
+        assertThat(generalCaught).isEqualTo(true);
+    }
+
+    @Test
+    @DisplayName("장기판에 궁 기물이 있는 경우")
+    public void isGeneralCaught_success2() throws Exception {
+        // given
+        BoardDesignPolicy boardDesignPolicy = () -> Map.of(
+                Position.from(2, 5), new Piece(CHO, PieceType.GENERAL)
+        );
+        Board board = new Board(boardDesignPolicy);
+
+        // when
+        boolean generalCaught = board.isGeneralCaught();
+
+        // then
+        assertThat(generalCaught).isEqualTo(false);
+    }
 }

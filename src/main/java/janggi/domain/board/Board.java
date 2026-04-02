@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.DomainException;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 
 import java.util.HashMap;
@@ -63,4 +64,12 @@ public class Board {
         return sum;
     }
 
+    public boolean isGeneralCaught() {
+        for (Position position : board.keySet()) {
+            if(PieceType.GENERAL.equals(board.get(position).pieceType())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
