@@ -3,6 +3,7 @@ package janggi.view;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -12,81 +13,72 @@ public class OutputView {
     public static final String CHO_COLOR = "\u001B[34m";
     public static final String AVAILABLE_COLOR = "\u001B[32m";
     public static final String RESET = "\u001B[0m";
+
     private static final String[] X_VALUES = {"１", "２", "３", "４", "５", "６", "７", "８", "９"};
+    private static final String EMPTY_MARK = "． ";
+    private static final String AVAILABLE_MARK = "Ｏ ";
 
     public static void printErrorMessage(String message) {
         System.out.printf("%s%n", message);
     }
 
     public void printBoard(Map<Position, Piece> board) {
-        System.out.print("   ");
-        for (int x = 1; x <= 9; x++) {
-            System.out.print(X_VALUES[x - 1] + " ");
-        }
-        System.out.println();
+        printGrid(board, Collections.emptyList());
+    }
+
+    public void printAvailablePositions(Map<Position, Piece> board, List<Position> availablePositions) {
+        printGrid(board, availablePositions);
+    }
+
+    private void printGrid(Map<Position, Piece> board, List<Position> availablePositions) {
+        printXAxis();
 
         for (int y = 1; y <= 10; y++) {
-            System.out.print(String.format("%2d ", y));
-
+            System.out.printf("%2d ", y);
             for (int x = 1; x <= 9; x++) {
                 Position currentPos = new Position(x, y);
-                if (board.containsKey(currentPos)) {
-                    Piece piece = board.get(currentPos);
-                    String color = getColorByTeam(piece);
-
-                    System.out.print(color + piece.getPieceTypeName() + RESET + " ");
-                } else {
-                    System.out.print("． ");
-                }
+                printCell(board, availablePositions, currentPos);
             }
             System.out.println();
         }
     }
 
-    public void printAvailablePositions(Map<Position, Piece> board, List<Position> availablePositions) {
+    private void printXAxis() {
         System.out.print("   ");
-        for (int x = 1; x <= 9; x++) {
-            System.out.print(X_VALUES[x - 1] + " ");
+        for (String xValue : X_VALUES) {
+            System.out.print(xValue + " ");
         }
         System.out.println();
+    }
 
-        for (int y = 1; y <= 10; y++) {
-            System.out.print(String.format("%2d ", y));
+    private void printCell(Map<Position, Piece> board, List<Position> availablePositions, Position position) {
+        boolean isAvailable = availablePositions.contains(position);
+        boolean hasPiece = board.containsKey(position);
 
-            for (int x = 1; x <= 9; x++) {
-                Position currentPos = new Position(x, y);
-
-                if (availablePositions.contains(currentPos)) {
-                    if (board.containsKey(currentPos)) {
-                        System.out.print(AVAILABLE_COLOR + board.get(currentPos).getPieceTypeName() + RESET + " ");
-                    } else {
-                        System.out.print(AVAILABLE_COLOR + "Ｏ" + RESET + " ");
-                    }
-                    continue;
-                }
-
-                if (board.containsKey(currentPos)) {
-                    Piece piece = board.get(currentPos);
-                    String color = getColorByTeam(piece);
-                    System.out.print(color + piece.getPieceTypeName() + RESET + " ");
-                } else {
-                    System.out.print("． ");
-                }
-            }
-            System.out.println();
+        if (isAvailable && hasPiece) {
+            System.out.print(AVAILABLE_COLOR + board.get(position).getPieceTypeName() + RESET + " ");
+        } else if (isAvailable) {
+            System.out.print(AVAILABLE_COLOR + AVAILABLE_MARK + RESET);
+        } else if (hasPiece) {
+            Piece piece = board.get(position);
+            System.out.print(getColorByTeam(piece) + piece.getPieceTypeName() + RESET + " ");
+        } else {
+            System.out.print(EMPTY_MARK);
         }
     }
 
     private String getColorByTeam(Piece piece) {
-        if(piece.getTeam() == Team.CHO) return CHO_COLOR;
+        if (piece.getTeam() == Team.CHO) {
+            return CHO_COLOR;
+        }
         return HAN_COLOR;
     }
 
     public void printTurnMessage(boolean isChoTurn) {
-        if(isChoTurn) {
-            System.out.println(OutputView.CHO_COLOR + "\n현재 초나라 차례입니다" + OutputView.RESET);
+        if (isChoTurn) {
+            System.out.println(CHO_COLOR + "\n현재 초나라 차례입니다" + RESET);
         } else {
-            System.out.println(OutputView.HAN_COLOR + "\n한나라 차례입니다" + OutputView.RESET);
+            System.out.println(HAN_COLOR + "\n한나라 차례입니다" + RESET);
         }
     }
 
