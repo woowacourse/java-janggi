@@ -4,7 +4,9 @@ import common.exception.JanggiException;
 import domain.piece.BasicPiece;
 import domain.piece.MovablePiece;
 import domain.piece.None;
+import domain.piece.PieceType;
 import domain.player.Player;
+import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.List;
@@ -80,5 +82,38 @@ public class Board {
         int rowDiff = Math.abs(source.row() - destination.row());
         int columnDiff = Math.abs(source.column() - destination.column());
         return rowDiff > 0 && rowDiff == columnDiff;
+    }
+
+    public boolean isBigJang() {
+        Position choJangPosition = findJangPosition(Team.CHO);
+        Position hanJangPosition = findJangPosition(Team.HAN);
+
+        if (choJangPosition.column() != hanJangPosition.column()) {
+            return false;
+        }
+
+        int startRow = Math.min(choJangPosition.row(), hanJangPosition.row()) + 1;
+        int endRow = Math.max(choJangPosition.row(), hanJangPosition.row());
+        int column = choJangPosition.column();
+
+        for (int row = startRow; row < endRow; row++) {
+            if (!findPiece(new Position(row, column)).isNone()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Position findJangPosition(Team team) {
+        return board.entrySet().stream()
+                .filter(entry -> {
+                    BasicPiece piece = entry.getValue();
+                    return !piece.isNone()
+                            && piece.isType(PieceType.JANG)
+                            && piece.getTeam() == team;
+                })
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
     }
 }

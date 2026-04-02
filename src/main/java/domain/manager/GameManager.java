@@ -7,6 +7,7 @@ import domain.piece.BasicPiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.player.Player;
+import domain.player.PlayerProfile;
 import domain.position.Position;
 
 public class GameManager {
@@ -15,12 +16,14 @@ public class GameManager {
     private Player currentPlayer;
     private Player standbyPlayer;
     private boolean isGameRunning;
+    private boolean isDraw;
 
     public GameManager(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
         this.currentPlayer = choPlayer;
         this.standbyPlayer = hanPlayer;
         this.board = BoardFactory.createWithFormation(choFormation, hanFormation);
         this.isGameRunning = true;
+        this.isDraw = false;
     }
 
     public void move(Position source, Position destination) {
@@ -34,11 +37,25 @@ public class GameManager {
             return;
         }
 
+        if (board.isBigJang()) {
+            isDraw = true;
+            isGameRunning = false;
+            return;
+        }
+
         switchTurn();
     }
 
     public void validateSource(Position source) {
         board.validateSource(source, currentPlayer);
+    }
+
+    public PlayerProfile calculateWinnerWhenBigJang() {
+        if(currentPlayer.calculateScore() > standbyPlayer.calculateScore()) {
+            return currentPlayer.getProfile();
+        }
+
+        return standbyPlayer.getProfile();
     }
 
     public void switchTurn() {
@@ -59,5 +76,8 @@ public class GameManager {
     }
     public Board getBoard() {
         return board;
+    }
+    public boolean isDraw() {
+        return isDraw;
     }
 }

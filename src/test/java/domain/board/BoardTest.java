@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import common.exception.JanggiException;
 import domain.piece.BasicPiece;
 import domain.piece.Cha;
+import domain.piece.Jang;
 import domain.piece.Jol;
 import domain.piece.None;
 import domain.piece.Po;
@@ -30,12 +31,10 @@ import org.junit.jupiter.api.Test;
 class BoardTest {
 
     private Player choPlayer;
-    private Player hanPlayer;
 
     @BeforeEach
     void setUp() {
         choPlayer = new Player(new Name("초나라"), Team.CHO);
-        hanPlayer = new Player(new Name("한나라"), Team.HAN);
     }
 
     private Map<Position, BasicPiece> createEmptyBoard() {
@@ -134,6 +133,30 @@ class BoardTest {
             assertTrue(board.findPiece(new Position(0, 0)).isNone());
             assertFalse(board.findPiece(new Position(0, 3)).isNone());
             assertEquals(new Cha(Team.CHO), board.findPiece(new Position(0, 3)));
+        }
+    }
+
+    @Nested
+    class BigJangTest {
+        @Test
+        void 두_장의_사이에_기물이_없고_같은_열이면_빅장이다() {
+            Map<Position, BasicPiece> boardMap = createEmptyBoard();
+            boardMap.put(new Position(0, 4), new Jang(Team.HAN));
+            boardMap.put(new Position(9, 4), new Jang(Team.CHO));
+
+            Board board = new Board(boardMap);
+            assertTrue(board.isBigJang());
+        }
+
+        @Test
+        void 두_장의_사이에_기물이_있으면_빅장이_아니다() {
+            Map<Position, BasicPiece> boardMap = createEmptyBoard();
+            boardMap.put(new Position(0, 4), new Jang(Team.HAN));
+            boardMap.put(new Position(9, 4), new Jang(Team.CHO));
+            boardMap.put(new Position(4, 4), new Jol(Team.CHO));
+
+            Board board = new Board(boardMap);
+            assertFalse(board.isBigJang());
         }
     }
 }
