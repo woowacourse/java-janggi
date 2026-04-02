@@ -1,4 +1,4 @@
-package janggi.model.board;
+package janggi.model.board.palace;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

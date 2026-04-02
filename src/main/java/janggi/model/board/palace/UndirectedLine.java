@@ -1,4 +1,4 @@
-package janggi.model.board;
+package janggi.model.board.palace;
 
 import janggi.model.position.absolute.Position;
 
