@@ -6,7 +6,6 @@ import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class NonStraightPathGenerator implements PathGenerator {
 
@@ -18,26 +17,24 @@ public class NonStraightPathGenerator implements PathGenerator {
 
     @Override
     public Path calculatePath(Position source, Position destination) {
-        return paths.stream()
-                .map(directionPath -> tryBuildPath(source, destination, directionPath))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst()
-                .orElseThrow(() -> new JanggiException("기물을 이동할 수 없습니다."));
+        for (DirectionPath directionPath : paths) {
+            try {
+                return buildPath(source, destination, directionPath);
+            } catch (JanggiException ignored) {
+            }
+        }
+        throw new JanggiException("기물을 이동할 수 없습니다.");
     }
 
-    private Optional<Path> tryBuildPath(Position source, Position destination, DirectionPath directionPath) {
-        try {
-            List<Position> waypoints = gatherWaypoints(source, directionPath.directions());
+    private Path buildPath(Position source, Position destination, DirectionPath directionPath) {
+        List<Position> waypoints = gatherWaypoints(source, directionPath.directions());
 
-            if (destination.equals(waypoints.getLast())) {
-                waypoints.removeLast();
-                return Optional.of(new Path(source, destination, waypoints));
-            }
-        } catch (JanggiException ignored) {
-            return Optional.empty();
+        if (!destination.equals(waypoints.getLast())) {
+            throw new JanggiException("유효하지 않은 후보 경로입니다.");
         }
-        return Optional.empty();
+
+        waypoints.removeLast();
+        return new Path(source, destination, waypoints);
     }
 
     private List<Position> gatherWaypoints(Position source, List<Direction> directions) {
@@ -50,3 +47,4 @@ public class NonStraightPathGenerator implements PathGenerator {
         return waypoints;
     }
 }
+
