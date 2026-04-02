@@ -4,7 +4,7 @@ import pieces.Side;
 
 public record Position(Row row, Column column) {
 
-    public Position(int row, int column) {
+    public Position(final int row, final int column) {
         this(new Row(row), new Column(column));
     }
 
@@ -15,7 +15,7 @@ public record Position(Row row, Column column) {
     }
 
     public Position move(Delta delta) {
-        return new Position(row.add(delta), column.add(delta));
+        return new Position(row.add(delta), column.move(delta));
     }
 
     public boolean isSameRow(Position departure) {

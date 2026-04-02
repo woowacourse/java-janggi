@@ -32,8 +32,7 @@ public class FixedRouteMovement implements Movement {
     }
 
     private boolean canReachDestination(
-        Position departure, Position destination, Side side, Route route
-    ) {
+        Position departure, Position destination, Side side, Route route) {
         Optional<Position> position = route.destinationOf(departure, side);
         return position
             .filter(destination::equals)

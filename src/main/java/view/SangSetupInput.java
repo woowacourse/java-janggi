@@ -21,11 +21,11 @@ public enum SangSetupInput {
         this.sangSetupType = sangSetupType;
     }
 
-    public static SangSetupType from(int inputNumber) {
+    public static SangSetupType from(final int inputNumber) {
         return findByInputNumber(inputNumber).sangSetupType;
     }
 
-    public static SangSetupInput findByInputNumber(int inputNumber) {
+    public static SangSetupInput findByInputNumber(final int inputNumber) {
         return Arrays.stream(values())
             .filter(type -> type.inputNumber == inputNumber)
             .findFirst()

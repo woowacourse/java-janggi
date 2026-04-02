@@ -7,6 +7,7 @@ import view.DisplayBoard;
 import view.JanggiView;
 
 public class Application {
+
     public static void main(String[] args) {
         JanggiView view = new JanggiView();
         SangSetupType choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);

@@ -23,7 +23,7 @@ public class InputView {
         return parsePosition(readStrippedLine());
     }
 
-    private int parseInt(String input) {
+    private int parseInt(final String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -31,7 +31,7 @@ public class InputView {
         }
     }
 
-    private Position parsePosition(String input) {
+    private Position parsePosition(final String input) {
         Matcher matcher = POSITION_PATTERN.matcher(input);
         validatePositionFormat(matcher);
 

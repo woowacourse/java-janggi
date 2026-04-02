@@ -10,7 +10,7 @@ public record Column(int index) {
         validateRange(index);
     }
 
-    private void validateRange(int index) {
+    private void validateRange(final int index) {
         if (!isValidRange(index)) {
             throw new IllegalArgumentException("유효하지 않은 COLUMN입니다.");
         }
@@ -37,7 +37,7 @@ public record Column(int index) {
         return isValidRange(nextColumn);
     }
 
-    public Column add(Delta delta) {
+    public Column move(Delta delta) {
         return new Column(index + delta.columnDelta());
     }
 }

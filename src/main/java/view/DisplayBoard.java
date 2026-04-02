@@ -52,7 +52,7 @@ public class DisplayBoard {
         return " " + DisplayPiece.symbolOf(piece) + " ";
     }
 
-    private static String padLeft(String value, int size) {
+    private static String padLeft(String value, final int size) {
         if (value.length() >= size) {
             return value;
         }

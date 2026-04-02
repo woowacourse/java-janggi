@@ -39,14 +39,14 @@ public record Board(Map<Position, Piece> pieces) {
 
     public Board move(Position departure, Position destination) {
         Piece movingPiece = requirePieceAt(departure);
-        MoveTrace moveTrace = createMovePath(movingPiece, departure, destination);
+        MoveTrace moveTrace = findMoveTrace(movingPiece, departure, destination);
 
         movingPiece.validate(moveTrace);
 
         return replace(departure, destination, movingPiece);
     }
 
-    private MoveTrace createMovePath(Piece movingPiece, Position departure, Position destination) {
+    private MoveTrace findMoveTrace(Piece movingPiece, Position departure, Position destination) {
         List<Position> pathPositions = movingPiece.findPathPositions(departure, destination);
         List<Piece> pathPieces = findPathPieces(pathPositions);
         Piece targetPiece = pieceAt(destination);

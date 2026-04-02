@@ -31,7 +31,7 @@ class ColumnTest {
             Column before = new Column(1);
             Delta delta = new Delta(0, deltaValue);
             // when
-            Column added = before.add(delta);
+            Column added = before.move(delta);
             // then
             int expectedColumnIndex = before.index() + delta.columnDelta();
             assertThat(added.index()).isEqualTo(expectedColumnIndex);
@@ -44,7 +44,7 @@ class ColumnTest {
             Column before = new Column(MINIMUM_BOUNDARY);
             Delta delta = new Delta(0, deltaValue);
             // when & then
-            assertThatThrownBy(() -> before.add(delta))
+            assertThatThrownBy(() -> before.move(delta))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }

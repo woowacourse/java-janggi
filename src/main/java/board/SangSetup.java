@@ -73,7 +73,7 @@ public final class SangSetup {
         );
     }
 
-    private static Position toPosition(Side side, int choRow, int choColumn) {
+    private static Position toPosition(Side side, final int choRow, final int choColumn) {
         Position position = new Position(choRow, choColumn);
         if (side.isCho()) {
             return position;
