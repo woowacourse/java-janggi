@@ -21,6 +21,22 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
+    private static final Map<Team, Integer> NORMAL_PIECE_ROWS = Map.of(
+            Team.CHO, 9,
+            Team.HAN, 0
+    );
+    private static final Map<Team, Integer> JANG_ROWS = Map.of(
+            Team.CHO, 8,
+            Team.HAN, 1
+    );
+    private static final Map<Team, Integer> PO_ROWS = Map.of(
+            Team.CHO, 7,
+            Team.HAN, 2
+    );
+    private static final Map<Team, Integer> JOL_ROWS = Map.of(
+            Team.CHO, 6,
+            Team.HAN, 3
+    );
 
     public static Board createWithFormation(Formation choFormation, Formation hanFormation) {
         Map<Position, Piece> board = createEmptyBoard();
@@ -39,7 +55,7 @@ public class BoardFactory {
             PieceType pieceType = formation.get(i);
             int column = columnPositions.get(i);
             Piece piece = PieceFactory.createPiece(team, pieceType);
-            Position position = new Position(team.getNormalPieceRow(), column);
+            Position position = new Position(NORMAL_PIECE_ROWS.get(team), column);
             board.put(position, piece);
         }
     }
@@ -56,7 +72,7 @@ public class BoardFactory {
     }
 
     private static void putFixedPieces(Map<Position, Piece> board, Team team) {
-        int normalPieceRow = team.getNormalPieceRow();
+        int normalPieceRow = NORMAL_PIECE_ROWS.get(team);
 
         board.put(new Position(normalPieceRow, 0), new Cha(team));
         board.put(new Position(normalPieceRow, 3), new Sa(team));
@@ -64,13 +80,13 @@ public class BoardFactory {
         board.put(new Position(normalPieceRow, 5), new Sa(team));
         board.put(new Position(normalPieceRow, 8), new Cha(team));
 
-        board.put(new Position(team.getJangRow(), 4), new Jang(team));
+        board.put(new Position(JANG_ROWS.get(team), 4), new Jang(team));
 
-        board.put(new Position(team.getPoRow(), 1), new Po(team));
-        board.put(new Position(team.getPoRow(), 7), new Po(team));
+        board.put(new Position(PO_ROWS.get(team), 1), new Po(team));
+        board.put(new Position(PO_ROWS.get(team), 7), new Po(team));
 
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column += 2) {
-            board.put(new Position(team.getJolRow(), column), new Jol(team));
+            board.put(new Position(JOL_ROWS.get(team), column), new Jol(team));
         }
     }
 }
