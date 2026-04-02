@@ -21,6 +21,10 @@ public class GeneralMoveRule implements MoveRule {
 
     @Override
     public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        if (origin.isPalace()) {
+            return DEFAULT_GENERAL_DIRECTIONS.add(origin.getDiagonalDirections())
+                    .findPoints(origin, destination);
+        }
         return DEFAULT_GENERAL_DIRECTIONS.findPoints(origin, destination);
     }
 
