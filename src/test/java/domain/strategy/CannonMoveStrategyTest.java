@@ -17,8 +17,8 @@ class CannonMoveStrategyTest {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
-        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
+        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON));
+        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER));
 
         Board board = BoardFactory.of(boardMapper);
 
@@ -34,9 +34,9 @@ class CannonMoveStrategyTest {
     @DisplayName("한나라 포의 이동 경로에 다른 기물이 없으면 이동하지 못한다.")
     void 포의_이동_경로에_다른_기물이_없으면_이동_불가() {
         // given
-        MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
+        Piece cannon = Piece.of(Team.CHU, Type.CANNON);
+        boardMapper.put(Position.of(2, 1), cannon);
 
         Board board = BoardFactory.of(boardMapper);
 
@@ -45,7 +45,7 @@ class CannonMoveStrategyTest {
         Position to = Position.of(5, 1);
 
         // then
-        Assertions.assertFalse(strategy.canMove(from, to, board));
+        Assertions.assertFalse(cannon.canMovePiece(from, to, board));
     }
 
     @Test
@@ -54,9 +54,9 @@ class CannonMoveStrategyTest {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
-        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
-        boardMapper.put(Position.of(4, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
+        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON));
+        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER));
+        boardMapper.put(Position.of(4, 1), Piece.of(Team.CHU, Type.SOLDIER));
 
         Board board = BoardFactory.of(boardMapper);
 
@@ -74,9 +74,9 @@ class CannonMoveStrategyTest {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
-        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
-        boardMapper.put(Position.of(5, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
+        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON));
+        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER));
+        boardMapper.put(Position.of(5, 1), Piece.of(Team.CHU, Type.SOLDIER));
 
         Board board = BoardFactory.of(boardMapper);
 
@@ -94,9 +94,9 @@ class CannonMoveStrategyTest {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
-        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
-        boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.CANNON, strategy));
+        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON));
+        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER));
+        boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.CANNON));
 
         Board board = BoardFactory.of(boardMapper);
 
@@ -114,9 +114,9 @@ class CannonMoveStrategyTest {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
-        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
-        boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.SOLDIER, new FixedMoveStrategy()));
+        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON));
+        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.SOLDIER));
+        boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.SOLDIER));
 
         Board board = BoardFactory.of(boardMapper);
 
@@ -134,9 +134,9 @@ class CannonMoveStrategyTest {
         // given
         MoveStrategy strategy = new CannonMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
-        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.CANNON, strategy));
-        boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.SOLDIER, new FixedMoveStrategy()));
+        boardMapper.put(Position.of(2, 1), Piece.of(Team.CHU, Type.CANNON));
+        boardMapper.put(Position.of(3, 1), Piece.of(Team.CHU, Type.CANNON));
+        boardMapper.put(Position.of(5, 1), Piece.of(Team.HAN, Type.SOLDIER));
 
         Board board = BoardFactory.of(boardMapper);
 

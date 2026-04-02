@@ -12,6 +12,6 @@ class PieceTest {
         // given
         // when
         // then
-        Assertions.assertDoesNotThrow(() -> Piece.of(Team.CHU, Type.CHARIOT, new FixedMoveStrategy()));
+        Assertions.assertDoesNotThrow(() -> Piece.of(Team.CHU, Type.CHARIOT));
     }
 }

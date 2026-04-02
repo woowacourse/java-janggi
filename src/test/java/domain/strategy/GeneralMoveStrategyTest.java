@@ -19,7 +19,7 @@ class GeneralMoveStrategyTest {
     void setUp() {
         strategy = new GeneralMoveStrategy();
         boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(1, 4), Piece.of(Team.CHU, Type.GENERAL, strategy));
+        boardMapper.put(Position.of(1, 4), Piece.of(Team.CHU, Type.GENERAL));
     }
 
     @Test
@@ -40,7 +40,7 @@ class GeneralMoveStrategyTest {
     @DisplayName("궁의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
     void 궁_목적지에_같은_팀_기물이_있으면_이동_불가() {
         // given
-        boardMapper.put(Position.of(1, 5), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
+        boardMapper.put(Position.of(1, 5), Piece.of(Team.CHU, Type.SOLDIER));
         Board board = BoardFactory.of(boardMapper);
 
         // when
@@ -56,7 +56,7 @@ class GeneralMoveStrategyTest {
     @DisplayName("궁의 목적지에 다른 팀 기물이 있으면 이동한다.")
     void 궁_목적지에_다른_팀_기물이_있으면_정상_이동() {
         // given
-        boardMapper.put(Position.of(1, 5), Piece.of(Team.HAN, Type.SOLDIER, new FixedMoveStrategy()));
+        boardMapper.put(Position.of(1, 5), Piece.of(Team.HAN, Type.SOLDIER));
         Board board = BoardFactory.of(boardMapper);
 
         // when

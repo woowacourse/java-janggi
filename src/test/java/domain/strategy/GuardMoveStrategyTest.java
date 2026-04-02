@@ -33,10 +33,10 @@ class GuardMoveStrategyTest {
     @DisplayName("사의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
     void 사_목적지에_같은_팀_기물이_있으면_이동_불가() {
         // given
-        MoveStrategy guardMoveStrategy = new GuardMoveStrategy();
         Map<Position, Piece> PositionPiecePair = new LinkedHashMap<>();
-        PositionPiecePair.put(Position.of(0, 3), Piece.of(Team.CHU, Type.GUARD, guardMoveStrategy));
-        PositionPiecePair.put(Position.of(0, 2), Piece.of(Team.CHU, Type.GUARD, guardMoveStrategy));
+        Piece guardPiece = Piece.of(Team.CHU, Type.GUARD);
+        PositionPiecePair.put(Position.of(0, 3), guardPiece);
+        PositionPiecePair.put(Position.of(0, 2), guardPiece);
         Board board = Board.of(PositionPiecePair);
 
         Position position = Position.of(0, 3);
@@ -44,7 +44,7 @@ class GuardMoveStrategyTest {
 
         // when
         // then
-        Assertions.assertFalse(guardMoveStrategy.canMove(position, targetPosition, board));
+        Assertions.assertFalse(guardPiece.canMovePiece(position, targetPosition, board));
     }
 
 
@@ -52,11 +52,11 @@ class GuardMoveStrategyTest {
     @DisplayName("사의 목적지에 다른 팀 기물이 있으면 이동한다.")
     void 사_목적지에_다른_팀_기물이_있으면_정상_이동() {
         // given
-        MoveStrategy guardMoveStrategy = new GuardMoveStrategy();
-        MoveStrategy soldierMoveStrategy = new SoldierMoveStrategy();
         Map<Position, Piece> positionPiecePair = new LinkedHashMap<>();
-        positionPiecePair.put(Position.of(0, 3), Piece.of(Team.CHU, Type.GUARD, guardMoveStrategy));
-        positionPiecePair.put(Position.of(1, 3), Piece.of(Team.HAN, Type.SOLDIER, soldierMoveStrategy));
+        Piece guardPiece = Piece.of(Team.CHU, Type.GUARD);
+        positionPiecePair.put(Position.of(0, 3), guardPiece);
+        Piece soldierPiece = Piece.of(Team.HAN, Type.SOLDIER);
+        positionPiecePair.put(Position.of(1, 3), soldierPiece);
         Board board = Board.of(positionPiecePair);
 
         Position position = Position.of(0, 3);
@@ -64,16 +64,16 @@ class GuardMoveStrategyTest {
 
         // when
         // then
-        Assertions.assertTrue(guardMoveStrategy.canMove(position, targetPosition, board));
+        Assertions.assertTrue(guardPiece.canMovePiece(position, targetPosition, board));
     }
 
     @Test
     @DisplayName("사가 궁성 외부 대각선으로 이동하면 예외를 발생한다.")
     void 사_궁성_밖_대각선_이동_불가() {
         // given
-        MoveStrategy guardMoveStrategy = new GuardMoveStrategy();
         Map<Position, Piece> positionPiecePair = new LinkedHashMap<>();
-        positionPiecePair.put(Position.of(0, 3), Piece.of(Team.CHU, Type.GUARD, guardMoveStrategy));
+        Piece guardPiece = Piece.of(Team.CHU, Type.GUARD);
+        positionPiecePair.put(Position.of(0, 3), guardPiece);
         Board board = Board.of(positionPiecePair);
 
         Position position = Position.of(0, 3);
@@ -81,6 +81,6 @@ class GuardMoveStrategyTest {
 
         // when
         // then
-        Assertions.assertFalse(guardMoveStrategy.canMove(position, targetPosition, board));
+        Assertions.assertFalse(guardPiece.canMovePiece(position, targetPosition, board));
     }
 }

@@ -2,7 +2,7 @@ package domain.vo;
 
 import java.util.Objects;
 
-public class Position {
+public class Position implements Comparable<Position> {
 
     private static final int MAX_COLUMN = 8;
     private static final int MAX_ROW = 9;
@@ -55,5 +55,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, col);
+    }
+
+    @Override
+    public int compareTo(Position other) {
+        if (this.row != other.row) {
+            return Integer.compare(this.row, other.row);
+        }
+        return Integer.compare(other.col, this.col);
     }
 }
