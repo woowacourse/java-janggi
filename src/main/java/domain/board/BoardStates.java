@@ -66,7 +66,11 @@ public class BoardStates {
         return boardStates.get(position).getPieceCountryType();
     }
 
-    public PieceInfos getPieceInfos() {
+    public BoardSnapshot getBoardSnapshot(CountryType countryType) {
+        return new BoardSnapshot(makePieceInfos(), countryType);
+    }
+
+    private PieceInfos makePieceInfos() {
         Map<Position, PieceInfo> pieceInfos = new HashMap<>();
         for (Entry<Position, State> entry : boardStates.entrySet()) {
             adjustPieceInfo(pieceInfos, entry);

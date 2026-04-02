@@ -59,9 +59,7 @@ public class JanggiController {
     }
 
     private boolean checkEndAndMovePiece(Board board, CountryType countryType) {
-        outputView.printTurn(CountryFormatter.from(countryType));
-        outputView.printScore(board.getScores());
-        outputView.printBoard(board.getPieceInfos());
+        outputView.printBoard(board.getBoardSnapshot(countryType), board.getScores());
 
         boolean isEnd = movePiece(board, countryType);
         if (isEnd) {

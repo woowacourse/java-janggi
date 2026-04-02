@@ -5,6 +5,7 @@ import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
 import domain.Position;
+import domain.board.BoardSnapshot;
 import domain.country.CountryType;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
@@ -23,16 +24,15 @@ public class OutputView {
     private static final String PRINT_END_WITH_CATCH_GENERAL = "%s가 %s의 궁을 잡아서 게임을 종료합니다.";
     private static final String PRINT_WINNER = "%s가 게임을 승리했습니다.";
 
-    public void printTurn(String countryName) {
-        System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR, countryName);
-    }
-
-    public void printBoard(PieceInfos pieceInfos) {
+    public void printBoard(BoardSnapshot boardSnapshot, Map<CountryType, Double> scores) {
+        System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR,
+                CountryFormatter.from(boardSnapshot.countryType()));
         System.out.println();
+        printScore(scores);
 
         for (int y = Y_MAXIMUM_POSITION; y >= INITIAL_POSITION; y--) {
             System.out.print(POSITION_NUMBERS.get(y));
-            printRow(pieceInfos, y);
+            printRow(boardSnapshot.pieceInfos(), y);
         }
         printXPositionNumbers();
     }

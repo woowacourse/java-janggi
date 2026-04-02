@@ -23,7 +23,7 @@ public class BoardTest {
     private final BoardFactory boardFactory = new BoardFactory();
     private final Board board = boardFactory.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
     private final StubBoardStates stubBoardStates = new StubBoardStates();
-    private final PieceInfos initPieceInfos = board.getPieceInfos();
+    private final PieceInfos initPieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
     @Test
     @DisplayName("from 좌표에 기물이 존재하지 않는 경우 예외가 발생한다.")
@@ -100,7 +100,7 @@ public class BoardTest {
     @MethodSource("tableSettings")
     void choElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
         Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(new Position(1, 0)).pieceType()).isEqualTo(
                 choTableSetting.getFormation(CountryType.CHO).getFirst());
@@ -124,7 +124,7 @@ public class BoardTest {
     @MethodSource("tableSettings")
     void hanElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
         Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(new Position(1, 9)).pieceType()).isEqualTo(
                 hanTableSetting.getFormation(CountryType.HAN).getFirst());
@@ -201,7 +201,7 @@ public class BoardTest {
         Position to = new Position(1, 3);
         board.checkEndAndPlay(from, to);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.SOLDIER);
@@ -215,7 +215,7 @@ public class BoardTest {
         Position to = new Position(3, 1);
         board.checkEndAndPlay(from, to);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GUARD);
@@ -229,7 +229,7 @@ public class BoardTest {
         Position to = new Position(3, 3);
         board.checkEndAndPlay(from, to);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.ELEPHANT);
@@ -243,7 +243,7 @@ public class BoardTest {
         Position to = new Position(3, 2);
         board.checkEndAndPlay(from, to);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.HORSE);
@@ -257,7 +257,7 @@ public class BoardTest {
         Position to = new Position(0, 2);
         board.checkEndAndPlay(from, to);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CHARIOT);
@@ -271,7 +271,7 @@ public class BoardTest {
         Position to = new Position(4, 2);
         board.checkEndAndPlay(from, to);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GENERAL);
@@ -289,7 +289,7 @@ public class BoardTest {
         Position to = new Position(4, 2);
         board.checkEndAndPlay(from, to);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CANNON);
@@ -308,7 +308,7 @@ public class BoardTest {
         Position hanChariotFrom = new Position(0, 9);
         board.checkEndAndPlay(choChariotFrom, hanChariotFrom);
 
-        PieceInfos pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getBoardSnapshot(CountryType.CHO).pieceInfos();
 
         assertThat(pieceInfos.get(choChariotFrom)).isNull();
         assertThat(pieceInfos.get(hanChariotFrom).pieceType()).isEqualTo(PieceType.CHARIOT);
