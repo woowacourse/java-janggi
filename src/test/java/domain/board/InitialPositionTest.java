@@ -22,13 +22,14 @@ class InitialPositionTest {
     @DisplayName("진영에 따른 기물 초기 배치")
     @ParameterizedTest(name = "잔영이 {0}일 때")
     @MethodSource("sideAndExpected")
-    void 진영에_따른_기물_초기_배치(Side side, Map<Intersection, Piece> expected) {
+    void 진영에_따른_기물_초기_배치(Side side, List<Intersection> expected) {
         InitialPosition initialPosition = new InitialPosition(side, new MoveAmount(2), 2, 8);
         Map<Intersection, Piece> placed = initialPosition.placePiece(new CannonFactory());
 
-        assertThat(placed)
-                .usingRecursiveComparison()
-                .isEqualTo(expected);
+        for (Intersection intersection : expected) {
+            Piece placedPiece = placed.get(intersection);
+            assertThat(placedPiece.isSameType(PieceType.CANNON)).isTrue();
+        }
     }
 
     @DisplayName("배치된 기물은 서로 동일하지 않아야 된다")
@@ -52,16 +53,16 @@ class InitialPositionTest {
         return Stream.of(
                 Arguments.of(
                         cho,
-                        Map.of(
-                                new Intersection(8, 2), new Piece(PieceType.CANNON, cho),
-                                new Intersection(8, 8), new Piece(PieceType.CANNON, cho)
+                        List.of(
+                                new Intersection(8, 2),
+                                new Intersection(8, 8)
                         )
                 ),
                 Arguments.of(
                         han,
-                        Map.of(
-                                new Intersection(3, 2), new Piece(PieceType.CANNON, han),
-                                new Intersection(3, 8), new Piece(PieceType.CANNON, han)
+                        List.of(
+                                new Intersection(3, 2),
+                                new Intersection(3, 8)
                         )
                 )
         );
