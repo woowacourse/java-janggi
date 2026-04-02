@@ -13,7 +13,7 @@ public class GuardMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> getMovablePositions(Board board, Position from) {
+    public List<Position> getMovablePositions(final Board board, final Position from) {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
                 .filter(Position::isInside)

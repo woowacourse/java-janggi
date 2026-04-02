@@ -20,7 +20,7 @@ public class HorseMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> getMovablePositions(Board board, Position from) {
+    public List<Position> getMovablePositions(final Board board, final Position from) {
 
         return PATH_BY_DESTINATION.entrySet().stream()
                 .filter(entry -> board.isEmpty(from.move(entry.getValue())))

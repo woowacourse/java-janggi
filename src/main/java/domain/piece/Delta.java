@@ -20,7 +20,7 @@ public record Delta(int column, int row) {
             Delta.LEFT
     );
 
-    public static Delta of(int column, int row) {
+    public static Delta of(final int column, final int row) {
         return new Delta(column, row);
     }
 }

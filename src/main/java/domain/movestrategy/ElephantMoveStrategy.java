@@ -23,7 +23,7 @@ public class ElephantMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> getMovablePositions(Board board, Position from) {
+    public List<Position> getMovablePositions(final Board board, final Position from) {
         return PATHS_BY_DESTINATION.entrySet().stream()
                 .filter(entry -> !isBlocked(board, from, entry.getValue()))
                 .filter(entry -> board.isEmptyOrOpposite(from, from.move(entry.getKey())))
@@ -32,7 +32,7 @@ public class ElephantMoveStrategy extends BasicMoveStrategy {
                 .toList();
     }
 
-    private boolean isBlocked(Board board, Position from, List<Delta> paths) {
+    private boolean isBlocked(final Board board, final Position from, final List<Delta> paths) {
         Position current = from;
 
         for (Delta delta : paths) {

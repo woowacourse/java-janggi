@@ -86,8 +86,10 @@ public class OutputView {
         }
     }
 
-    private void appendBoardRow(final StringBuilder builder, final int column,
-                                final Map<PositionDto, PieceNameDto> pieceByPosition
+    private void appendBoardRow(
+            final StringBuilder builder,
+            final int column,
+            final Map<PositionDto, PieceNameDto> pieceByPosition
     ) {
         builder.append(String.format("%2d ", column));
 
@@ -130,7 +132,7 @@ public class OutputView {
         return RED_CODE + pieceInfo.displayName() + COLOR_RESET_CODE;
     }
 
-    public void printChoosePieceToMovePrompt(List<PieceInfoDto> pieceInfos) {
+    public void printChoosePieceToMovePrompt(final List<PieceInfoDto> pieceInfos) {
         StringBuilder prompt = new StringBuilder();
         prompt.append("움직일 기물을 선택하세요:")
                 .append(LINE_SEPARATOR);
@@ -148,7 +150,7 @@ public class OutputView {
         System.out.println(prompt);
     }
 
-    public void printChoosePositionToMovePrompt(List<PositionDto> movablePositions) {
+    public void printChoosePositionToMovePrompt(final List<PositionDto> movablePositions) {
         StringBuilder prompt = new StringBuilder();
         prompt.append("이동할 위치를 선택하세요:")
                 .append(LINE_SEPARATOR);
@@ -164,15 +166,11 @@ public class OutputView {
         System.out.println(prompt);
     }
 
-    public void printNoMovablePiecePrompt() {
-        System.out.println("움직일 수 있는 기물이 없어 한 턴 쉽니다.");
-    }
-
-    public void printExceptionMessage(String exceptionMessage) {
+    public void printExceptionMessage(final String exceptionMessage) {
         System.out.println("[ERROR] " + exceptionMessage);
     }
 
-    private void appendPromptLineSeparator(StringBuilder prompt, int itemCount) {
+    private void appendPromptLineSeparator(final StringBuilder prompt, final int itemCount) {
         if (itemCount % PROMPT_ITEMS_PER_LINE == 0) {
             prompt.append(LINE_SEPARATOR);
         }

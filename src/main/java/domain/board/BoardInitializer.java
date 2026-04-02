@@ -46,7 +46,7 @@ public final class BoardInitializer {
     private BoardInitializer() {
     }
 
-    public static Board init(ElephantSetup choElephantSetup, ElephantSetup hanElephantSetup) {
+    public static Board init(final ElephantSetup choElephantSetup, final ElephantSetup hanElephantSetup) {
         Map<Position, Piece> pieces = new HashMap<>();
 
         CHO_INITIAL_POSITIONS.forEach((position, pieceType) -> pieces.put(position, Piece.choPieceOf(pieceType)));

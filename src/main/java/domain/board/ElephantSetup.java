@@ -54,7 +54,7 @@ public enum ElephantSetup {
                 .toList();
     }
 
-    public static ElephantSetup of(int number) {
+    public static ElephantSetup of(final int number) {
         validateRange(number);
         return values()[number - 1];
     }

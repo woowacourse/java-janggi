@@ -18,7 +18,7 @@ public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -62,11 +62,11 @@ public class JanggiController {
         return inputView.readElephantSetup();
     }
 
-    private void processTurn(JanggiGame janggiGame, Team team) {
+    private void processTurn(final JanggiGame janggiGame, final Team team) {
         retry(() -> process(janggiGame, team));
     }
 
-    private void process(JanggiGame janggiGame, Team team) {
+    private void process(final JanggiGame janggiGame, final Team team) {
         List<Position> piecePositions = janggiGame.getPiecePositionsFor(team);
 
         Position from = selectPieceToMove(janggiGame, piecePositions);
@@ -79,7 +79,7 @@ public class JanggiController {
         outputView.printBoardWithPieces(PieceInfosDto.from(janggiGame));
     }
 
-    private Position selectPieceToMove(JanggiGame janggiGame, List<Position> piecePositions) {
+    private Position selectPieceToMove(final JanggiGame janggiGame, final List<Position> piecePositions) {
         List<PieceInfoDto> pieceInfos = piecePositions.stream()
                 .map(position -> PieceInfoDto.of(janggiGame.getPieceAt(position), position))
                 .toList();
@@ -94,7 +94,7 @@ public class JanggiController {
         return piecePositions.get(pieceIndex);
     }
 
-    private Position selectPositionToMove(List<Position> movablePositions) {
+    private Position selectPositionToMove(final List<Position> movablePositions) {
         List<PositionDto> movablePositionsDto = movablePositions.stream()
                 .map(PositionDto::of)
                 .toList();
@@ -110,7 +110,7 @@ public class JanggiController {
         return movablePositions.get(positionIndex);
     }
 
-    private void retry(Runnable callback) {
+    private void retry(final Runnable callback) {
         while (true) {
             try {
                 callback.run();
@@ -121,7 +121,7 @@ public class JanggiController {
         }
     }
 
-    private <T> T retry(Supplier<T> callback) {
+    private <T> T retry(final Supplier<T> callback) {
         while (true) {
             try {
                 return callback.get();

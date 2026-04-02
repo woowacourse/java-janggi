@@ -18,14 +18,6 @@ public class Piece {
         this.pieceType = pieceType;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
     public boolean isCannon() {
         return pieceType == PieceType.CANNON;
     }
@@ -34,12 +26,24 @@ public class Piece {
         return pieceType == PieceType.GENERAL;
     }
 
-    public boolean isOpposite(Piece other) {
+    public boolean isOpposite(final Piece other) {
         return this.team != other.team;
+    }
+
+    public boolean isSameTeam(final Team team) {
+        return this.team == team;
     }
 
     public boolean isChoPiece() {
         return team == Team.CHO;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public String getNameForCho() {
@@ -48,9 +52,5 @@ public class Piece {
 
     public String getNameForHan() {
         return pieceType.getNameForHan();
-    }
-
-    public boolean isSameTeam(Team team) {
-        return this.team == team;
     }
 }

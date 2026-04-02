@@ -14,7 +14,7 @@ public class GeneralMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> getMovablePositions(Board board, Position from) {
+    public List<Position> getMovablePositions(final Board board, final Position from) {
         Position anotherGeneralPosition = board.getAnotherGeneralPosition(from);
 
         return ALL_DIRECTIONS.stream()
@@ -25,7 +25,11 @@ public class GeneralMoveStrategy extends BasicMoveStrategy {
                 .toList();
     }
 
-    private boolean areGeneralsFacingEachOther(Board board, Position generalPosition, Position anotherGeneralPosition) {
+    private boolean areGeneralsFacingEachOther(
+            final Board board,
+            final Position generalPosition,
+            final Position anotherGeneralPosition
+    ) {
         if (generalPosition.row() != anotherGeneralPosition.row()) {
             return false;
         }

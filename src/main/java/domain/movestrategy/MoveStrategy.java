@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MoveStrategy {
 
-    List<Position> getMovablePositions(Board board, Position from);
+    List<Position> getMovablePositions(final Board board, final Position from);
 }

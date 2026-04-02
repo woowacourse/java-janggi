@@ -31,7 +31,7 @@ public record Position(
         return Position.of(mirroredColumn, mirroredRow);
     }
 
-    public boolean canMove(Delta delta) {
+    public boolean canMove(final Delta delta) {
         return move(delta).isInside();
     }
 }

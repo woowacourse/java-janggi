@@ -5,11 +5,11 @@ import domain.piece.PieceType;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class MoveStrategyRegistry {
+public final class MoveStrategyRegistry {
 
     private final Map<PieceType, MoveStrategy> moveStrategies;
 
-    public MoveStrategyRegistry(Map<PieceType, MoveStrategy> moveStrategies) {
+    public MoveStrategyRegistry(final Map<PieceType, MoveStrategy> moveStrategies) {
         this.moveStrategies = moveStrategies;
     }
 
@@ -27,7 +27,7 @@ public class MoveStrategyRegistry {
         return new MoveStrategyRegistry(moveStrategies);
     }
 
-    public MoveStrategy getMoveStrategyBy(Piece piece) {
+    public MoveStrategy getMoveStrategyBy(final Piece piece) {
         if(!moveStrategies.containsKey(piece.getPieceType())) {
             throw new IllegalArgumentException("행마법이 존재하지 않습니다.");
         }

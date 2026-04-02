@@ -11,7 +11,7 @@ import java.util.Optional;
 public class CannonMoveStrategy extends BasicMoveStrategy {
 
     @Override
-    public List<Position> getMovablePositions(Board board, Position from) {
+    public List<Position> getMovablePositions(final Board board, final Position from) {
         Piece cannon = board.getPieceAt(from);
         List<Position> movable = new ArrayList<>();
 
@@ -23,11 +23,11 @@ public class CannonMoveStrategy extends BasicMoveStrategy {
     }
 
     private void collectMovablePositions(
-            Board board,
-            Piece cannon,
-            Position from,
-            Delta direction,
-            List<Position> movable
+            final Board board,
+            final Piece cannon,
+            final Position from,
+            final Delta direction,
+            final List<Position> movable
     ) {
         Optional<Position> bridge = findBridge(board, from, direction);
         if (bridge.isEmpty()) {
@@ -37,7 +37,7 @@ public class CannonMoveStrategy extends BasicMoveStrategy {
         collectLandingPositions(board, cannon, bridge.get(), direction, movable);
     }
 
-    private Optional<Position> findBridge(Board board, Position from, Delta direction) {
+    private Optional<Position> findBridge(final Board board, final Position from, final Delta direction) {
         Position current = from;
 
         while (current.canMove(direction)) {
@@ -59,11 +59,11 @@ public class CannonMoveStrategy extends BasicMoveStrategy {
     }
 
     private void collectLandingPositions(
-            Board board,
-            Piece cannon,
-            Position bridge,
-            Delta direction,
-            List<Position> movable
+            final Board board,
+            final Piece cannon,
+            final Position bridge,
+            final Delta direction,
+            final List<Position> movable
     ) {
         Position current = bridge;
 

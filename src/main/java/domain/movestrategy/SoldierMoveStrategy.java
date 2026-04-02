@@ -17,7 +17,7 @@ public class SoldierMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> getMovablePositions(Board board, Position from) {
+    public List<Position> getMovablePositions(final Board board, final Position from) {
         Team team = board.getTeam(from);
         List<Delta> paths = getDeltasBy(team);
 
@@ -29,7 +29,7 @@ public class SoldierMoveStrategy extends BasicMoveStrategy {
                 .toList();
     }
 
-    private List<Delta> getDeltasBy(Team team) {
+    private List<Delta> getDeltasBy(final Team team) {
         if (team == Team.HAN) {
             return HAN_PATHS;
         }

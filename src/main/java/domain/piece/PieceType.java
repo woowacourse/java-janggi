@@ -10,7 +10,7 @@ public enum PieceType {
     CANNON("砲", "炮"),
     CHARIOT("車", "車");
 
-    PieceType(String nameForCho, String nameForHan) {
+    PieceType(final String nameForCho, final String nameForHan) {
         this.nameForCho = nameForCho;
         this.nameForHan = nameForHan;
     }

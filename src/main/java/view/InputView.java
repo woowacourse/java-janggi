@@ -27,7 +27,7 @@ public class InputView {
         return toZeroBasedIndex(positionIndex);
     }
 
-    private int toZeroBasedIndex(int userInputNumber) {
+    private int toZeroBasedIndex(final int userInputNumber) {
         return userInputNumber - USER_INPUT_START_INDEX;
     }
 }

@@ -18,26 +18,26 @@ public class Board {
         return new Board(pieces);
     }
 
-    public void move(Position from, Position to) {
+    public void move(final Position from, final Position to) {
         Piece piece = pieces.remove(from);
         pieces.put(to, piece);
     }
 
-    public List<Position> getPiecePositionsFor(Team team) {
+    public List<Position> getPiecePositionsFor(final Team team) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().isSameTeam(team))
                 .map(Entry::getKey)
                 .toList();
     }
 
-    public boolean isEmptyOrOpposite(Position from, Position to) {
+    public boolean isEmptyOrOpposite(final Position from, final Position to) {
         if (!pieces.containsKey(from)) {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않음");
         }
         return !pieces.containsKey(to) || pieces.get(from).isOpposite(pieces.get(to));
     }
 
-    public Position getAnotherGeneralPosition(Position generalPosition) {
+    public Position getAnotherGeneralPosition(final Position generalPosition) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().isGeneral())
                 .filter(entry -> !entry.getKey().equals(generalPosition))
@@ -50,14 +50,14 @@ public class Board {
         return pieces.get(position);
     }
 
-    public Team getTeam(Position position) {
+    public Team getTeam(final Position position) {
         if (!pieces.containsKey(position)) {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않음");
         }
         return pieces.get(position).getTeam();
     }
 
-    public boolean isEmpty(Position position) {
+    public boolean isEmpty(final Position position) {
         return !pieces.containsKey(position);
     }
 

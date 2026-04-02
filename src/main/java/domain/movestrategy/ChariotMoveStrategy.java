@@ -10,7 +10,7 @@ import java.util.List;
 public class ChariotMoveStrategy extends BasicMoveStrategy {
 
     @Override
-    public List<Position> getMovablePositions(Board board, Position from) {
+    public List<Position> getMovablePositions(final Board board, final Position from) {
         Piece chariot = board.getPieceAt(from);
         List<Position> movable = new ArrayList<>();
 
@@ -22,11 +22,11 @@ public class ChariotMoveStrategy extends BasicMoveStrategy {
     }
 
     private void collectMovablePositions(
-            Board board,
-            Piece chariot,
-            Position from,
-            Delta direction,
-            List<Position> movable
+            final Board board,
+            final Piece chariot,
+            final Position from,
+            final Delta direction,
+            final List<Position> movable
     ) {
         Position current = from;
 
