@@ -1,5 +1,7 @@
 package domain.piece;
 
+import domain.path.Direction;
+
 public enum Camp {
     CHO(Direction.UP),
     HAN(Direction.DOWN);

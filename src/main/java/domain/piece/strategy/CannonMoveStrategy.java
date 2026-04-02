@@ -3,7 +3,7 @@ package domain.piece.strategy;
 import domain.board.Position;
 import domain.path.PathGenerator;
 import domain.path.PathInfo;
-import domain.piece.Direction;
+import domain.path.Direction;
 import domain.piece.PieceType;
 
 import java.util.List;
@@ -19,7 +19,6 @@ public class CannonMoveStrategy implements MoveStrategy {
         }
 
         Direction direction = Direction.decideDirection(deltaX, deltaY);
-
         return PathGenerator.generateStraightPath(departure, destination, direction);
     }
 

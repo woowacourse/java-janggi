@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.board.Position;
+import domain.path.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

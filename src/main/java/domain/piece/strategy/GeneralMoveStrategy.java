@@ -3,7 +3,7 @@ package domain.piece.strategy;
 import domain.board.Position;
 import domain.path.PathGenerator;
 import domain.path.PathInfo;
-import domain.piece.Direction;
+import domain.path.Direction;
 
 import java.util.List;
 
@@ -17,12 +17,11 @@ public class GeneralMoveStrategy implements MoveStrategy {
             throw new IllegalArgumentException("궁/사는 직선 방향으로만 이동할 수 있습니다.");
         }
 
-        if (deltaX > 1 || deltaY > 1) {
+        if (Math.abs(deltaX) + Math.abs(deltaY) != 1) {
             throw new IllegalArgumentException("궁/사는 직선 방향으로 한 칸만 이동 가능합니다.");
         }
 
         Direction direction = Direction.decideDirection(deltaX, deltaY);
-
         return PathGenerator.generateStraightPath(departure, destination, direction);
     }
 

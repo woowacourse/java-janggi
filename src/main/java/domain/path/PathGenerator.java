@@ -1,7 +1,6 @@
 package domain.path;
 
 import domain.board.Position;
-import domain.piece.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,18 @@ public class PathGenerator {
 
         Position current = departure;
         while (!current.equals(destination)) {
+            current = current.move(direction.getDeltaX(), direction.getDeltaY());
+            paths.add(current);
+        }
+
+        return paths;
+    }
+
+    public static List<Position> generateComplexPath(Position departure, Position destination, List<Direction> directions) {
+        List<Position> paths = new ArrayList<>();
+
+        Position current = departure;
+        for (Direction direction : directions) {
             current = current.move(direction.getDeltaX(), direction.getDeltaY());
             paths.add(current);
         }

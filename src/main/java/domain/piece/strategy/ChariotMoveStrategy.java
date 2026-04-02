@@ -3,7 +3,7 @@ package domain.piece.strategy;
 import domain.path.PathGenerator;
 import domain.path.PathInfo;
 import domain.board.Position;
-import domain.piece.Direction;
+import domain.path.Direction;
 
 import java.util.List;
 
@@ -18,7 +18,6 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
 
         Direction direction = Direction.decideDirection(deltaX, deltaY);
-
         return PathGenerator.generateStraightPath(departure, destination, direction);
     }
 

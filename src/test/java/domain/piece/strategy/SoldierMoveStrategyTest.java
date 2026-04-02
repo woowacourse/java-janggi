@@ -17,7 +17,8 @@ class SoldierMoveStrategyTest {
         Position from = new Position(8, 0);
         Position to = new Position(8, 2);
 
-        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -45,7 +46,8 @@ class SoldierMoveStrategyTest {
         Position from = new Position(8, 0);
         Position to = new Position(7, 1);
 
-        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -53,7 +55,8 @@ class SoldierMoveStrategyTest {
         Position from = new Position(7, 2);
         Position to = new Position(7, 1);
 
-        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

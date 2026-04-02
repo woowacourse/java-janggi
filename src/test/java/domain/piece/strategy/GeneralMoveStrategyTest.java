@@ -16,7 +16,8 @@ class GeneralMoveStrategyTest {
         Position from = new Position(8, 0);
         Position to = new Position(8, 2);
 
-        assertThatThrownBy(() -> generalMoveStrategy.getPath(from, to)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> generalMoveStrategy.getPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -44,6 +45,7 @@ class GeneralMoveStrategyTest {
         Position from = new Position(8, 0);
         Position to = new Position(7, 1);
 
-        assertThatThrownBy(() -> generalMoveStrategy.getPath(from, to)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> generalMoveStrategy.getPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
