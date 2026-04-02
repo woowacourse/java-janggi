@@ -4,7 +4,7 @@ import common.exception.JanggiException;
 import domain.direction.Direction;
 import domain.position.Position;
 
-public class StraightPathGenerator extends DirectionalPathGenerator {
+public class OrthogonalStraightPathGenerator extends DirectionalPathGenerator {
 
     @Override
     protected void validateMove(Position source, Position destination) {
