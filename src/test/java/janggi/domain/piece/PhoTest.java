@@ -27,6 +27,8 @@ public class PhoTest {
         info.add(PositionInfo.from(List.of("HAN", "CHA", "1", "2")));
         info.add(PositionInfo.from(List.of("HAN", "CHA", "1", "3")));
         info.add(PositionInfo.from(List.of("CHO", "PHO", "1", "5")));
+        info.add(PositionInfo.from(List.of("CHO", "PHO", "3", "0")));
+        info.add(PositionInfo.from(List.of("CHO", "JANG", "4", "1")));
         info.add(PositionInfo.from(List.of("CHO", "PHO", "1", "6")));
         board.init(info);
     }
@@ -106,5 +108,20 @@ public class PhoTest {
 
         // then
         assertThat(pho.canMove(pieces)).isFalse();
+    }
+
+    @Test
+    @DisplayName("궁성 안에서 대각선으로 이동하는 기능")
+    void palace_diagonal_move() {
+        // given
+        Piece cha = new Cha(Team.CHO);
+        Point from = Point.of(3, 0);
+        Point to = Point.of(5, 2);
+
+        // when
+        List<Point> route = cha.getRoute(from, to);
+
+        // then
+        assertThat(route.size()).isEqualTo(1);
     }
 }
