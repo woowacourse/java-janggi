@@ -61,6 +61,10 @@ public abstract class Piece implements Space {
         return this.pieceType == pieceType;
     }
 
+    public int getScore() {
+        return pieceType.getScore();
+    }
+
     protected void validateSpecificArrival(Piece piece) {
     }
 }

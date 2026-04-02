@@ -46,6 +46,20 @@ public class Board {
                 .count() != KING_COUNT;
     }
 
+    public double calculatePieceScore(Team team) {
+        List<Piece> arrivePieces = findArrivedPieces();
+        double totalScore = arrivePieces.stream()
+                .filter(piece -> piece.isEqualTeam(team))
+                .mapToInt(Piece::getScore)
+                .sum();
+
+        if (team == Team.HAN) {
+            totalScore += 1.5;
+        }
+
+        return totalScore;
+    }
+
     private Map<Position, Space> generateBlankBoard() {
         Map<Position, Space> blankBoard = new HashMap<>();
 
