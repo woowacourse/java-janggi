@@ -26,39 +26,22 @@ public class ElephantMovingCondition implements MovingCondition {
             Queue<Direction> directions
     ) {
         Direction firstDirection = directions.remove();
-        if (!canFirstStep(state, startPosition, firstDirection)) {
+        Position nextPosition = startPosition.append(firstDirection);
+
+        if (!firstDirection.isStraight() || isBlocked(state, nextPosition)) {
             return false;
         }
 
-        Position firstPosition = startPosition.append(firstDirection);
-        Direction secondDirection = directions.poll();
-        if (!canSecondStep(state, firstPosition, firstDirection, secondDirection)) {
+        Direction secondDirection = directions.remove();
+        nextPosition = nextPosition.append(secondDirection);
+        if (secondDirection.isNotSameAtLeastOne(firstDirection) || isBlocked(state, nextPosition)) {
             return false;
         }
-        return canLastStep(directions, secondDirection);
+
+        return directions.remove() == secondDirection;
     }
 
-    private boolean canFirstStep(Map<Position, Piece> state, Position startPosition, Direction nextDirection) {
-        if (!nextDirection.isStraight()) {
-            return false;
-        }
-        Position nextPosition = startPosition.append(nextDirection);
-        return isNotBlocked(state, nextPosition);
-    }
-
-    private boolean canSecondStep(Map<Position, Piece> state, Position firstPosition, Direction firstDirection, Direction secondDirection) {
-        if (firstDirection.isNotSameAtLeastOne(secondDirection)) {
-            return false;
-        }
-        Position secondPosition = firstPosition.append(secondDirection);
-        return isNotBlocked(state, secondPosition);
-    }
-
-    private boolean canLastStep(Queue<Direction> directions, Direction secondDirection) {
-        return directions.poll() == secondDirection;
-    }
-
-    private boolean isNotBlocked(Map<Position, Piece> state, Position position) {
-        return !state.containsKey(position);
+    private boolean isBlocked(Map<Position, Piece> state, Position position) {
+        return state.containsKey(position);
     }
 }
