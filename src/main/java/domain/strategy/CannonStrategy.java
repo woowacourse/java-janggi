@@ -3,9 +3,7 @@ package domain.strategy;
 import static domain.Index.BOARD_COLUMNS;
 import static domain.Index.BOARD_ROWS;
 
-import domain.Index;
 import domain.position.Position;
-import domain.piece.Cannon;
 import domain.PieceProvider;
 
 import java.util.ArrayList;
@@ -25,8 +23,8 @@ public class CannonStrategy implements Strategy {
 
     private void addCannonCandidates(Position currentPosition, Direction direction, PieceProvider board, List<Position> candidatesPosition) {
         Position bridge = findFirstPiece(currentPosition, direction, board);
-        boolean isInstanceOfCannon = board.getPiece(bridge) instanceof Cannon;
-        if (!isWithinBoard(bridge) || isInstanceOfCannon) {
+        boolean isCannon = board.isCannon(bridge);
+        if (!isWithinBoard(bridge) || isCannon) {
             return;
         }
         collectTargets(bridge, direction, board, candidatesPosition);
@@ -52,8 +50,8 @@ public class CannonStrategy implements Strategy {
             candidates.add(target);
             target = getNext(target, direction);
         }
-        boolean isInstanceOfCannon = board.getPiece(target) instanceof Cannon;
-        if (isWithinBoard(target) && !isInstanceOfCannon) {
+        boolean isCannon = board.isCannon(target);
+        if (isWithinBoard(target) && !isCannon) {
             candidates.add(target);
         }
     }
