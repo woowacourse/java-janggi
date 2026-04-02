@@ -15,6 +15,10 @@ public class CenterPalace extends Intersection {
         super(point, piece);
     }
 
+    public static CenterPalace empty(Point point) {
+        return new CenterPalace(point, Piece.none());
+    }
+
     @Override
     public boolean isPalace() {
         return true;

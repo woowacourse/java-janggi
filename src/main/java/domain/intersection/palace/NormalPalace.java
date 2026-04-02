@@ -11,6 +11,10 @@ public class NormalPalace extends Intersection {
         super(point, piece);
     }
 
+    public static NormalPalace empty(Point point) {
+        return new NormalPalace(point, Piece.none());
+    }
+
     @Override
     public boolean isPalace() {
         return true;

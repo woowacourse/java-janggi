@@ -12,6 +12,10 @@ public class RightTopPalace extends Intersection {
         super(point, piece);
     }
 
+    public static RightTopPalace empty(Point point) {
+        return new RightTopPalace(point, Piece.none());
+    }
+
     @Override
     public boolean isPalace() {
         return true;
