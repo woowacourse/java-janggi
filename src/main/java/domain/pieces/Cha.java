@@ -1,10 +1,15 @@
 package domain.pieces;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import domain.enums.Country;
-import domain.enums.PieceType;
 import domain.Position;
+import domain.enums.Country;
+import domain.enums.Direction;
+import domain.enums.PieceType;
+import domain.strategy.StraightMovement;
+import domain.strategy.MoveStrategy;
 
 public class Cha extends Piece {
 
@@ -18,16 +23,41 @@ public class Cha extends Piece {
     }
 
     @Override
+    public List<Position> getAvailableRoute(Position start) {
+        List<Position> availableRoute = new ArrayList<>();
+        for (Direction direction : List.of(Direction.UP, Direction.RIGHT, Direction.LEFT, Direction.DOWN)) {
+            int i = Position.MAX_ROW;
+            Position now = start;
+            while (i-- > 0) {
+                Optional<Position> position = move(now, direction, getCountry());
+                if (position.isPresent()) {
+                    availableRoute.add(position.get());
+                    now = position.get();
+                    continue;
+                }
+                break;
+            }
+        }
+        return availableRoute;
+    }
+
+    @Override
+    public Optional<Position> move(Position start, Direction direction, Country country) {
+        MoveStrategy moveStraight = new StraightMovement();
+        return moveStraight.move(start, direction, country);
+    }
+
+    @Override
     public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
         int count = 0;
         for (Piece piece : pieces) {
-            if (piece.getPieceType()!=PieceType.NONE){
+            if (piece.getPieceType() != PieceType.NONE) {
                 count++;
             }
         }
-        if (!endPieceType.equals(PieceType.NONE)){
+        if (!endPieceType.equals(PieceType.NONE)) {
             count--;
         }
-        return !(count>=1);
+        return !(count >= 1);
     }
 }

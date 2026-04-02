@@ -1,10 +1,15 @@
 package domain.pieces;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import domain.enums.Country;
+import domain.enums.Direction;
 import domain.enums.PieceType;
 import domain.Position;
+import domain.strategy.StraightMovement;
+import domain.strategy.MoveStrategy;
 
 public class Po extends Piece {
 
@@ -18,6 +23,25 @@ public class Po extends Piece {
     }
 
     @Override
+    public List<Position> getAvailableRoute(Position start){
+        List<Position> availableRoute = new ArrayList<>();
+        for (Direction direction : List.of(Direction.UP, Direction.RIGHT, Direction.LEFT, Direction.DOWN)) {
+            int i = Position.MAX_ROW;
+            Position now = start;
+            while (i-- > 0) {
+                Optional<Position> position = move(now, direction, getCountry());
+                if (position.isPresent()) {
+                    availableRoute.add(position.get());
+                    now = position.get();
+                    continue;
+                }
+                break;
+            }
+        }
+        return availableRoute;
+    }
+
+    @Override
     public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
         // 중간에 기물 하나인지 && 넘는게 포인지
         if (countSameLine(pieces) != 1) {
@@ -26,6 +50,12 @@ public class Po extends Piece {
 
         // 도착 기물이 포인지
         return !endPieceType.equals(PieceType.PO);
+    }
+
+    @Override
+    public Optional<Position> move(Position start, Direction direction, Country country) {
+        MoveStrategy moveStraight = new StraightMovement();
+        return moveStraight.move(start, direction, country);
     }
 
     private int countSameLine(List<Piece> pieces) {
