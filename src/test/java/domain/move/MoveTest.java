@@ -17,6 +17,7 @@ import java.util.List;
 import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_EMPTY;
 import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
 
+// THINK 클래스명과 테스트 의도에 대해서 고민해볼 것.
 class MoveTest {
 
     @Test
