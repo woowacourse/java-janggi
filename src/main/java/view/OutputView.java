@@ -22,12 +22,12 @@ public class OutputView {
     private static final String PRINT_TURN = "%s의 차례입니다.";
     private static final String PRINT_SCORE = "%s: %.1f점";
     private static final String PRINT_END_WITH_CATCH_GENERAL = "%s가 %s의 궁을 잡아서 게임을 종료합니다.";
+    private static final String PRINT_END_WITH_BOARD_REPEAT = "동일 포지션이 3번 반복되어 게임을 종료합니다.";
     private static final String PRINT_WINNER = "%s가 게임을 승리했습니다.";
 
     public void printBoard(BoardSnapshot boardSnapshot, Map<CountryType, Double> scores) {
         System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR,
                 CountryFormatter.from(boardSnapshot.countryType()));
-        System.out.println();
         printScore(scores);
 
         for (int y = Y_MAXIMUM_POSITION; y >= INITIAL_POSITION; y--) {
@@ -73,6 +73,16 @@ public class OutputView {
         String loser = CountryFormatter.from(winnerCountryType.anotherCountryType());
         System.out.printf(LINE_SEPARATOR + PRINT_END_WITH_CATCH_GENERAL + LINE_SEPARATOR, winner, loser);
         printWinner(winnerCountryType);
+    }
+
+    public void printEndWithBoardRepeat(Map<CountryType, Double> scores) {
+        System.out.println(LINE_SEPARATOR + PRINT_END_WITH_BOARD_REPEAT);
+        printScore(scores);
+        if (scores.get(CountryType.HAN) > scores.get(CountryType.CHO)) {
+            printWinner(CountryType.HAN);
+            return;
+        }
+        printWinner(CountryType.CHO);
     }
 
     private void printWinner(CountryType winnerCountryType) {
