@@ -7,6 +7,7 @@ import domain.strategy.MovementStrategy;
 import domain.strategy.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Cannon extends Piece {
     private final PieceType pieceType = PieceType.CANNON;
@@ -17,22 +18,20 @@ public class Cannon extends Piece {
 
     @Override
     protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
-        List<Position> valid = new ArrayList<>();
-        for (Path path : paths) {
-            addJumpPathPositions(valid, path, board);
-        }
-        return valid;
+        return paths.stream()
+                .flatMap(path -> collectJumpPathPositions(path, board).stream())
+                .toList();
     }
 
-    private void addJumpPathPositions(List<Position> valid, Path path, BoardReader board) {
+    private List<Position> collectJumpPathPositions(Path path, BoardReader board) {
         List<Position> positions = path.getPositions();
         int bridgeIndex = findBridgeIndex(positions, board);
 
         if (isInvalidBridge(bridgeIndex, positions, board)) {
-            return;
+            return List.of();
         }
 
-        collectValidDestinations(valid, positions, bridgeIndex + 1, board);
+        return collectValidDestinations(positions, bridgeIndex + 1, board);
     }
 
     private int findBridgeIndex(List<Position> positions, BoardReader board) {
@@ -58,10 +57,11 @@ public class Cannon extends Piece {
         return bridge.isCannon();
     }
 
-    private void collectValidDestinations(List<Position> valid, List<Position> positions, int startIndex, BoardReader board) {
+    private List<Position> collectValidDestinations(List<Position> positions, int startIndex, BoardReader board) {
         int obstacleIndex = findObstacleIndex(positions, startIndex, board);
-        valid.addAll(positions.subList(startIndex, obstacleIndex));
-        addCatchableIfPossible(valid, positions, obstacleIndex, board);
+        List<Position> valid = new ArrayList<>(positions.subList(startIndex, obstacleIndex));
+        findCatchablePosition(positions, obstacleIndex, board).ifPresent(valid::add);
+        return valid;
     }
 
     private int findObstacleIndex(List<Position> positions, int startIndex, BoardReader board) {
@@ -72,17 +72,16 @@ public class Cannon extends Piece {
         return index;
     }
 
-    private void addCatchableIfPossible(List<Position> valid, List<Position> positions, int index, BoardReader board) {
-        if (index < positions.size()) {
-            addIfCatchable(valid, positions.get(index), board);
+    private Optional<Position> findCatchablePosition(List<Position> positions, int index, BoardReader board) {
+        if (index >= positions.size()) {
+            return Optional.empty();
         }
-    }
-
-    private void addIfCatchable(List<Position> valid, Position position, BoardReader board) {
+        Position position = positions.get(index);
         Piece target = board.getPiece(position);
         if (!target.isCannon() && !target.isAlly(getSide())) {
-            valid.add(position);
+            return Optional.of(position);
         }
+        return Optional.empty();
     }
 
     @Override
