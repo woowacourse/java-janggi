@@ -10,10 +10,14 @@ public record Row(int index) {
         validateRange(index);
     }
 
-    private void validateRange(int index) {
-        if (index < MINIMUM_BOUNDARY || index > MAXIMUM_BOUNDARY) {
+    private void validateRange(final int index) {
+        if (!isValidRange(index)) {
             throw new IllegalArgumentException("유효하지 않은 ROW입니다.");
         }
+    }
+
+    private boolean isValidRange(final int index) {
+        return MINIMUM_BOUNDARY <= index && index <= MAXIMUM_BOUNDARY;
     }
 
     public boolean isBelow(Row other) {
@@ -30,5 +34,10 @@ public record Row(int index) {
 
     public Row add(Delta delta) {
         return new Row(index + delta.rowDelta());
+    }
+
+    public boolean canMove(Delta delta) {
+        int nextIndex = index + delta.rowDelta();
+        return isValidRange(nextIndex);
     }
 }

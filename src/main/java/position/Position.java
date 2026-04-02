@@ -8,6 +8,12 @@ public record Position(Row row, Column column) {
         this(new Row(row), new Column(column));
     }
 
+    public boolean canMove(Delta delta) {
+        boolean canMoveRow = row.canMove(delta);
+        boolean canMoveColumn = column.canMove(delta);
+        return canMoveRow && canMoveColumn;
+    }
+
     public Position move(Delta delta) {
         return new Position(row.add(delta), column.add(delta));
     }

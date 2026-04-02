@@ -11,9 +11,13 @@ public record Column(int index) {
     }
 
     private void validateRange(int index) {
-        if (index < MINIMUM_BOUNDARY || index > MAXIMUM_BOUNDARY) {
+        if (!isValidRange(index)) {
             throw new IllegalArgumentException("유효하지 않은 COLUMN입니다.");
         }
+    }
+
+    private boolean isValidRange(final int index) {
+        return MINIMUM_BOUNDARY <= index && index <= MAXIMUM_BOUNDARY;
     }
 
     public boolean isLeft(Column column) {
@@ -26,6 +30,11 @@ public record Column(int index) {
 
     public boolean isGapBiggerThanOne(Column other) {
         return Math.abs(this.index - other.index) > ONE_SPACE;
+    }
+
+    public boolean canMove(Delta delta) {
+        int nextColumn = index + delta.columnDelta();
+        return isValidRange(nextColumn);
     }
 
     public Column add(Delta delta) {

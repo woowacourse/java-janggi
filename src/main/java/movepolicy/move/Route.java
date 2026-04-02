@@ -17,11 +17,10 @@ public class Route {
     public Optional<Position> destinationOf(Position departure, Side side) {
         Position current = departure;
         for (Step step : steps) {
-            try {
-                current = step.move(current, side);
-            } catch (IllegalArgumentException ignored) {
+            if (!step.canMove(current, side)) {
                 return Optional.empty();
             }
+            current = step.move(current, side);
         }
         return Optional.of(current);
     }

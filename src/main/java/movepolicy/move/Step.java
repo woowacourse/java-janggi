@@ -7,11 +7,21 @@ public enum Step {
 
     FORWARD {
         @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.forwardDelta());
+        }
+
+        @Override
         public Position move(Position position, Side side) {
             return position.move(side.forwardDelta());
         }
     },
     BACK {
+        @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.backDelta());
+        }
+
         @Override
         public Position move(Position position, Side side) {
             return position.move(side.backDelta());
@@ -19,11 +29,21 @@ public enum Step {
     },
     LEFT {
         @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.leftDelta());
+        }
+
+        @Override
         public Position move(Position position, Side side) {
             return position.move(side.leftDelta());
         }
     },
     RIGHT {
+        @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.rightDelta());
+        }
+
         @Override
         public Position move(Position position, Side side) {
             return position.move(side.rightDelta());
@@ -31,11 +51,21 @@ public enum Step {
     },
     LEFT_FORWARD {
         @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.leftForwardDelta());
+        }
+
+        @Override
         public Position move(Position position, Side side) {
             return position.move(side.leftForwardDelta());
         }
     },
     RIGHT_FORWARD {
+        @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.rightForwardDelta());
+        }
+
         @Override
         public Position move(Position position, Side side) {
             return position.move(side.rightForwardDelta());
@@ -43,11 +73,21 @@ public enum Step {
     },
     RIGHT_BACK {
         @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.rightBackDelta());
+        }
+
+        @Override
         public Position move(Position position, Side side) {
             return position.move(side.rightBackDelta());
         }
     },
     LEFT_BACK {
+        @Override
+        public boolean canMove(Position position, Side side) {
+            return position.canMove(side.leftBackDelta());
+        }
+
         @Override
         public Position move(Position position, Side side) {
             return position.move(side.leftBackDelta());
@@ -55,4 +95,6 @@ public enum Step {
     };
 
     public abstract Position move(Position position, Side side);
+
+    public abstract boolean canMove(Position position, Side side);
 }
