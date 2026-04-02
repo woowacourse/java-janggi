@@ -1,4 +1,4 @@
-package domain;
+package view;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class InputParserTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"(0,3)", "(3,  9)"})
+    @ValueSource(strings = {"0,3", "3,  9"})
     void 올바른_좌표_형식이_입력되는_경우_정상_동작한다(String input) {
         assertThatCode(() -> InputParser.parsePosition(input))
                 .doesNotThrowAnyException();
@@ -18,7 +18,7 @@ class InputParserTest {
 
     @ParameterizedTest
     @NullAndEmptySource
-    @ValueSource(strings = {" ", "0,3", "a,b", "(a,b)", "()", "(,)"})
+    @ValueSource(strings = {" ", "(0,3)", "(a,b)", "a,b", "0", "(,)"})
     void 위치_입력_포맷이_올바른_형태가_아니면_예외가_발생한다(String input) {
         assertThatThrownBy(() -> InputParser.parsePosition(input))
                 .isInstanceOf(IllegalArgumentException.class);
