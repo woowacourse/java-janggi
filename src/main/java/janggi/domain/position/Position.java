@@ -60,7 +60,7 @@ public class Position {
 
     private static void validatePositionLength(String rowColumn) {
         if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
-            throw new IllegalArgumentException("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
+            throw new IllegalArgumentException("[ERROR] 올바른 좌표값이 아닙니다.");
         }
     }
 
