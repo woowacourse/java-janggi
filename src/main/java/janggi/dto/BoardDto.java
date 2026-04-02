@@ -1,12 +1,7 @@
 package janggi.dto;
 
 import janggi.domain.Board;
-import janggi.domain.Piece;
-import janggi.domain.position.Position;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BoardDto {
     private final List<PieceDto> pieces;
@@ -16,20 +11,15 @@ public class BoardDto {
     }
 
     public static BoardDto from(Board board) {
-        List<PieceDto> result = new ArrayList<>();
-        Map<Position, Piece> pieces = board.getBoard();
+        List<PieceDto> pieces = board.getBoard().entrySet().stream()
+                .map(entry -> new PieceDto(
+                        entry.getKey().getRow(),
+                        entry.getKey().getColumn(),
+                        entry.getValue().getPieceType().getName(),
+                        entry.getValue().getTeam().name()))
+                .toList();
 
-        for(Map.Entry<Position, Piece> entry : pieces.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-
-            result.add(new PieceDto(
-                    position.getRow(),
-                    position.getColumn(),
-                    piece.getPieceType().getName(),
-                    piece.getTeam().name()));
-        }
-        return new BoardDto(result);
+        return new BoardDto(pieces);
     }
 
     public List<PieceDto> getPieces() {
