@@ -40,6 +40,13 @@ public enum Direction {
     }
 
     public static Direction fromDiagonal(int rowDifference, int columnDifference) {
+        int absoluteRowDifference = Math.abs(rowDifference);
+        int absoluteColumnDifference = Math.abs(columnDifference);
+
+        if (absoluteRowDifference != absoluteColumnDifference) {
+            throw new JanggiException("이동할 수 없습니다.");
+        }
+
         if (rowDifference < 0 && columnDifference > 0) {
             return NORTH_EAST;
         }
