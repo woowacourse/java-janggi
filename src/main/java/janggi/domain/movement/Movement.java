@@ -79,10 +79,15 @@ public class Movement {
     // 경로에 장애물을 만나면 그때까지의 리스트를 반환하고, 적을 만난다면 적의 좌표를 포함하여 반환한다.
     public List<Position> calculateTraces(final Position from, final Piece piece, final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
+        Position prev = from;
         for (int distance = 1; distance <= maxDistance; distance++) {
             Position to = calculateNextPosition(from, distance);
+            if (prev.equals(to)) {
+                return traces;
+            }
             if (!hasPieceAt(to, boardMediator)) {
                 traces.add(to);
+                prev = to;
                 continue;
             }
             final Piece target = findPieceAt(to, boardMediator);
