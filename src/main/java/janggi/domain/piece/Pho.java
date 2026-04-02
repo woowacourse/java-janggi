@@ -15,10 +15,19 @@ public class Pho extends BasePiece {
 
     @Override
     public List<Point> getRoute(Point from, Point to) {
-        if (from.isInSamePalace(to)) {
+        if (isStraightMove(from, to)) {
+            return getNormalRoute(from, to);
+        }
+        if (from.isPalaceDiagonalMove(to)) {
             return getPalaceRoute(from, to);
         }
-        return getNormalRoute(from, to);
+        throw new IllegalArgumentException("차는 직선 또는 궁성 대각선으로만 이동할 수 있습니다.");
+    }
+
+    private boolean isStraightMove(Point from, Point to) {
+        int pathX = to.getPathX(from);
+        int pathY = to.getPathY(from);
+        return pathX == 0 || pathY == 0;
     }
 
     private List<Point> getNormalRoute(Point from, Point to) {
@@ -43,13 +52,15 @@ public class Pho extends BasePiece {
         int pathX = abs(to.getPathX(from));
         int pathY = abs(to.getPathY(from));
 
-        if (pathX != 2 || pathY != 2) {
-            throw new IllegalArgumentException("궁성 경로가 아닙니다.");
+        if (pathX == 1 && pathY == 1) {
+            return List.of();
         }
-
-        int middleX = (from.getX() + to.getX()) / 2;
-        int middleY = (from.getY() + to.getY()) / 2;
-        return List.of((Point.of(middleX, middleY)));
+        if (pathX == 2 && pathY == 2) {
+            int middleX = (from.getX() + to.getX()) / 2;
+            int middleY = (from.getY() + to.getY()) / 2;
+            return List.of(Point.of(middleX, middleY));
+        }
+        throw new IllegalArgumentException("궁성 대각선 경로가 아닙니다.");
     }
 
     @Override
