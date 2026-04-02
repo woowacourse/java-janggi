@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 class SaTest {
 
-    @DisplayName("from이나 to가 궁성 밖에 위치하면 예외가 발생한다.")
+    @DisplayName("from과 to가 같은 궁성 안에 없으면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {
         //given
@@ -28,7 +28,7 @@ class SaTest {
         //when & then
         assertThatThrownBy(() -> sa.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("궁성 밖의 위치가 포함돼 있습니다.");
+                .hasMessage("from과 to는 같은 궁성 안에 있어야 합니다.");
     }
 
     @DisplayName("궁성 안의 선을 따라 이동하지 않으면 예외가 발생한다.")

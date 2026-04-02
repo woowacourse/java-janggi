@@ -2,29 +2,26 @@ package janggi.model.piece;
 
 import janggi.model.Team;
 import janggi.model.movement.Movement;
-import janggi.model.movement.patternBasedMovement.OneStepMovement;
+import janggi.model.movement.patternBasedMovement.ByeongMovement;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
 import java.util.List;
 
 public class Byeong extends Piece {
 
-    private final Movement movement;
-
     private Byeong(
             Team team,
             PieceType pieceType,
-            Movement movement
+            Movement defaultMovement
     ) {
-        super(team, pieceType);
-        this.movement = movement;
+        super(team, pieceType, defaultMovement);
     }
 
     public Byeong(Team team) {
         this(
                 team,
                 PieceType.BYEONG,
-                new OneStepMovement()
+                new ByeongMovement()
         );
     }
 
@@ -35,7 +32,7 @@ public class Byeong extends Piece {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        return movement.move(from, to);
+        return defaultMovement.move(from, to);
     }
 
     @Override

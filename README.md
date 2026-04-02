@@ -55,16 +55,16 @@
     - [x] 원래 위치가 상대 궁성 안인지 확인한다.
     - [x] 이동할 위치가 궁성의 대각선 상에 있는지 확인한다.
     - [x] `IllegalArgumentException`: 허용되지 않는 방향으로 이동하는 경우
-- [ ] 차는 궁성의 간선을 따라 대각선으로 이동할 수 있다.
-    - [ ] 원래 위치와 이동할 위치가 동일 궁성의 간선 위에 있는지 확인한다.
-    - [ ] `IllegalArgumentException`: 궁성 간선을 따르지 않는 대각 이동인 경우
-    - [ ] `IllegalArgumentException`: 이동 경로에 장애물이 있는 경우
--  [ ] 포는 하나의 기물어 넘으면 궁성의 간선을 따라 대각선으로 이동할 수 있다.
-    - [ ] 원래 위치와 이동할 위치가 동일 궁성의 간선 위에 있는지 확인한다.
-    - [ ] 이동 시 반드시 하나의 기물을 넘어야 한다.
-    - [ ] `IllegalArgumentException`: 궁성 간선을 따르지 않는 대각 이동인 경우
-    - [ ] `IllegalArgumentException`: 넘는 기물이 없는 경우
-    - [ ] `IllegalArgumentException`: 포를 넘는 경우
+- [x] 차는 궁성의 간선을 따라 대각선으로 이동할 수 있다.
+    - [x] 원래 위치와 이동할 위치가 동일 궁성의 간선 위에 있는지 확인한다.
+    - [x] `IllegalArgumentException`: 궁성 간선을 따르지 않는 대각 이동인 경우
+    - [x] `IllegalArgumentException`: 이동 경로에 장애물이 있는 경우
+-  [x] 포는 하나의 기물어 넘으면 궁성의 간선을 따라 대각선으로 이동할 수 있다.
+    - [x] 원래 위치와 이동할 위치가 동일 궁성의 간선 위에 있는지 확인한다.
+    - [x] 이동 시 반드시 하나의 기물을 넘어야 한다.
+    - [x] `IllegalArgumentException`: 궁성 간선을 따르지 않는 대각 이동인 경우
+    - [x] `IllegalArgumentException`: 넘는 기물이 없는 경우
+    - [x] `IllegalArgumentException`: 포를 넘는 경우
 
 ### 장군 (게임 종료)
 

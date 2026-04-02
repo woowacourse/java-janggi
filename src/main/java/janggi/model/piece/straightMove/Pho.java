@@ -14,12 +14,8 @@ public class Pho extends StraightMovePiece {
     }
 
     public Pho(Team team) {
-        this(
-                team,
-                PieceType.PHO
-        );
+        this(team, PieceType.PHO);
     }
-
 
     @Override
     public boolean canPassThrough(List<Piece> piecesOnPath, Piece pieceAtTo) {
