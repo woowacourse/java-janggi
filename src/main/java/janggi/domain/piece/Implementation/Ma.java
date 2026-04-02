@@ -22,7 +22,8 @@ public class Ma extends AbstractFixedStepPiece {
         int pathY = to.calculatePathRow(from);
 
         MaDirection direction = MaDirection.find(pathX, pathY);
-        Point point = Point.of(from.getColumn() + direction.getRouteCol(), from.getRow() + direction.getRouteRow());
+
+        Point point = Point.of(from.getColumn() + direction.getWaypoint().directionColumn(), from.getRow() + direction.getWaypoint().directionRow());
         return new Points(List.of(point));
     }
 }

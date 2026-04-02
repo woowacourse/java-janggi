@@ -1,41 +1,76 @@
 package janggi.domain.piece.direction;
 
 import java.util.Arrays;
+import java.util.List;
 
 public enum MaDirection {
-    UP_LEFT(-1, -2, 0, -1),
-    UP_RIGHT(1, -2, 0, -1),
-    DOWN_LEFT(-1, 2, 0, 1),
-    DOWN_RIGHT(1, 2, 0, 1),
-    LEFT_UP(-2, -1, -1, 0),
-    LEFT_DOWN(-2, 1, -1, 0),
-    RIGHT_UP(2, -1, 1, 0),
-    RIGHT_DOWN(2, 1, 1, 0);
+    UP_LEFT(
+        List.of(
+            new Offset(-1, -2),
+            new Offset(0, -1)
+        )
+    ),
+    UP_RIGHT(
+        List.of(
+            new Offset(1, -2),
+            new Offset(0, -1)
+        )
+    ),
+    DOWN_LEFT(
+        List.of(
+            new Offset(-1, 2),
+            new Offset(0, 1)
+        )
+    ),
+    DOWN_RIGHT(
+        List.of(
+            new Offset(1, 2),
+            new Offset(0, 1)
+        )
+    ),
+    LEFT_UP(
+        List.of(
+            new Offset(-2, -1),
+            new Offset(-1, 0)
+        )
+    ),
+    LEFT_DOWN(
+        List.of(
+            new Offset(-2, 1),
+            new Offset(-1, 0)
+        )
+    ),
+    RIGHT_UP(
+        List.of(
+            new Offset(2, -1),
+            new Offset(1, 0)
+        )
+    ),
+    RIGHT_DOWN(
+        List.of(
+            new Offset(2, 1),
+            new Offset(1, 0)
+        )
+    );
 
-    private final int targetCol;
-    private final int targetRow;
-    private final int routeCol;
-    private final int routeRow;
+    List<Offset> routes;
 
-    MaDirection(int targetCol, int targetRow, int routeCol, int routeRow) {
-        this.targetCol = targetCol;
-        this.targetRow = targetRow;
-        this.routeCol = routeCol;
-        this.routeRow = routeRow;
+    MaDirection(List<Offset> routes) {
+        this.routes = routes;
     }
 
     public static MaDirection find(int directionCol, int directionRow) {
         return Arrays.stream(values())
-                .filter(dir -> dir.targetCol == directionCol && dir.targetRow == directionRow)
+                .filter(dir -> dir.getTarget().directionColumn() == directionCol && dir.getTarget().directionRow() == directionRow)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 마가 이동할 수 없는 방향입니다."));
     }
 
-    public int getRouteCol() {
-        return routeCol;
+    public Offset getWaypoint() {
+        return routes.getLast();
     }
 
-    public int getRouteRow() {
-        return routeRow;
+    private Offset getTarget() {
+        return routes.getFirst();
     }
 }
