@@ -138,7 +138,7 @@ public class OutputView {
                 .append(LINE_SEPARATOR);
 
         for (int index = 0; index < pieceInfos.size(); index++) {
-            String pieceName = pieceInfos.get(index).pieceName();
+            String pieceName = pieceInfos.get(index).pieceName().displayName();
             PositionDto position = pieceInfos.get(index).position();
             prompt.append(index + 1).append(". ")
                     .append(pieceName).append("(")

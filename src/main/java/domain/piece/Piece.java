@@ -45,12 +45,4 @@ public class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
-
-    public String getNameForCho() {
-        return pieceType.getNameForCho();
-    }
-
-    public String getNameForHan() {
-        return pieceType.getNameForHan();
-    }
 }
