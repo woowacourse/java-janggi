@@ -35,6 +35,10 @@ public class Position {
         return new Position(this.row + row, this.column + column);
     }
 
+    public Position moduloRow(int divisor) {
+        return new Position(this.row % divisor, this.column);
+    }
+
     public <T> T map(BiFunction<Integer, Integer, T> mapper) {
         return mapper.apply(this.row, this.column);
     }

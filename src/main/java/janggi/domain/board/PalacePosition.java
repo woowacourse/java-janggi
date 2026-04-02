@@ -15,6 +15,8 @@ public enum PalacePosition {
     SOUTH_WEST(new Position(2, 3), EnumSet.of(Direction.NE)),
     ;
 
+    private static final int PALACE_DISTANCE = 7;
+
     private final Position position;
     private final EnumSet<Direction> directions;
 
@@ -24,11 +26,16 @@ public enum PalacePosition {
     }
 
     public static EnumSet<Direction> palaceDirections(Position position) {
+        Position hanPalacePosition = position.moduloRow(PALACE_DISTANCE);
         PalacePosition target = Arrays.stream(values())
-                .filter(palacePosition -> palacePosition.position.equals(position))
+                .filter(palacePosition -> palacePosition.position.equals(hanPalacePosition))
                 .findAny()
                 .orElse(EAST);
-        System.out.println(target);
         return EnumSet.copyOf(target.directions);
+    }
+
+    public static boolean isPalacePosition(Position position) {
+        Position hanPalacePosition = position.moduloRow(PALACE_DISTANCE);
+        return Arrays.stream(values()).anyMatch(palacePosition -> palacePosition.position.equals(hanPalacePosition));
     }
 }

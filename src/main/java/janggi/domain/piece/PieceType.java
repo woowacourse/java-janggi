@@ -10,14 +10,15 @@ import janggi.domain.strategy.CannonMoveStrategy;
 import janggi.domain.strategy.ElephantMoveStrategy;
 import janggi.domain.strategy.HorseMoveStrategy;
 import janggi.domain.strategy.MoveStrategy;
+import janggi.domain.strategy.PalaceMoveStrategy;
 import janggi.domain.strategy.SlideMoveStrategy;
 import janggi.domain.strategy.StepMoveStrategy;
 import java.util.EnumSet;
 import java.util.function.Function;
 
 public enum PieceType {
-    PALACE(side -> Direction.cardinalDirections(), new StepMoveStrategy()),
-    GUARD(side -> Direction.cardinalDirections(), new StepMoveStrategy()),
+    PALACE(side -> Direction.cardinalDirections(), new PalaceMoveStrategy()),
+    GUARD(side -> Direction.cardinalDirections(), new PalaceMoveStrategy()),
     CHARIOT(side -> Direction.cardinalDirections(), new SlideMoveStrategy()),
     CANNON(side -> Direction.cardinalDirections(), new CannonMoveStrategy()),
     HORSE(side -> Direction.cardinalDirections(), new HorseMoveStrategy()),

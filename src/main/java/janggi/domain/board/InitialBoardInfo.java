@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public enum InitialBoardInfo {
-    HAN(Side.HAN, 0, 1, 2, 3, PieceType.SOLDIER),
-    CHO(Side.CHO, 9, 8, 7, 6, PieceType.SOLDIER),
+    HAN(Side.HAN, 0, 1, 2, 3),
+    CHO(Side.CHO, 9, 8, 7, 6),
     ;
 
     private static final List<Integer> SOLDIER_COLUMNS = List.of(0, 2, 4, 6, 8);
@@ -20,20 +20,18 @@ public enum InitialBoardInfo {
     private static final List<Integer> GUARD_COLUMNS = List.of(3, 5);
     private static final List<Integer> PALACE_COLUMNS = List.of(4);
 
-    final Side side;
-    final int bottomRow;
-    final int palaceRow;
-    final int cannonRow;
-    final int soldierRow;
-    final PieceType soldierType;
+    private final Side side;
+    private final int bottomRow;
+    private final int palaceRow;
+    private final int cannonRow;
+    private final int soldierRow;
 
-    InitialBoardInfo(Side side, int bottomRow, int palaceRow, int cannonRow, int soldierRow, PieceType soldierType) {
+    InitialBoardInfo(Side side, int bottomRow, int palaceRow, int cannonRow, int soldierRow) {
         this.side = side;
         this.bottomRow = bottomRow;
         this.palaceRow = palaceRow;
         this.cannonRow = cannonRow;
         this.soldierRow = soldierRow;
-        this.soldierType = soldierType;
     }
 
     public Map<Position, Piece> generateInitialPiecePositions() {
