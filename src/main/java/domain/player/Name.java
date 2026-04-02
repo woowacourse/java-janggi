@@ -24,7 +24,7 @@ public record Name(
 
     private void validateNameFormat(final String name) {
         Matcher matcher = VALID_NAME_REGEX.matcher(name);
-        if (matcher.matches()) {
+        if (!matcher.matches()) {
             throw new IllegalArgumentException("이름이 규칙에 맞지 않습니다. 이름은 2~5자의 영문자로 이루어진 문자열만 가능합니다. name: " + name);
         }
     }
