@@ -1,10 +1,10 @@
 package domain.board;
 
+import domain.Path;
+import domain.Position;
 import domain.country.Countries;
 import domain.country.Country;
 import domain.country.CountryType;
-import domain.Path;
-import domain.Position;
 import domain.piece.PieceInfo;
 import java.util.Map;
 
@@ -31,12 +31,16 @@ public class Board {
         Path path = boardStates.getPiecePath(from, to);
 
         boardStates.validatePieceMove(from, path);
+        adjustScore(to);
+        boardStates.changeState(from, to);
+    }
+
+    private void adjustScore(Position to) {
         if (!boardStates.isEmpty(to)) {
             CountryType countryType = boardStates.getPieceCountryType(to);
             Country country = countries.findCountryByCountryType(countryType);
             boardStates.adjustScore(to, country);
         }
-        boardStates.changeState(from, to);
     }
 
     public void validateMoveSamePosition(Position from, Position to) {
