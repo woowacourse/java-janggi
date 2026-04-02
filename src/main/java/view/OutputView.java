@@ -1,9 +1,10 @@
 package view;
 
+import domain.board.BoardState;
+import domain.board.IntersectionState;
+import domain.point.Point;
 import domain.team.Team;
-import dto.BoardStatusDTO;
-import dto.PointInfoDTO;
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -19,19 +20,26 @@ public class OutputView {
         System.out.print(turn.getKoreanTeamName() + "(" + turn.getChineseTeamName() + ")의 차례입니다.\n");
     }
 
-    public void printCurrentBoardStatus(final BoardStatusDTO boardStatus) {
-        final List<PointInfoDTO> pointInfos = boardStatus.boardStatus();
+    public void printCurrentBoardStatus(final BoardState boardState) {
+        final Map<Point, String> board = boardState.intersectionStates().stream()
+                .collect(Collectors.toMap(
+                        IntersectionState::point,
+                        state -> state.pieceType().getChineseCharacter(state.team())
+                ));
+
         final String header = IntStream.range(MIN_INDEX, MAX_FILE)
                 .mapToObj(this::toFullWidthNumber)
                 .collect(Collectors.joining(HALF_SPACE));
+
         final String rows = IntStream.range(MIN_INDEX, MAX_ROW)
                 .mapToObj(row -> {
                     final String rowCells = IntStream.range(MIN_INDEX, MAX_FILE)
-                            .mapToObj(file -> pointInfos.get(row * MAX_FILE + file).pointInfo())
+                            .mapToObj(file -> board.getOrDefault(new Point(row, file), "＋"))
                             .collect(Collectors.joining(HALF_SPACE));
                     return toFullWidthNumber(row) + HALF_SPACE + rowCells;
                 })
                 .collect(Collectors.joining(System.lineSeparator()));
+
         System.out.println(FULL_SPACE + HALF_SPACE + header);
         System.out.println(rows);
     }

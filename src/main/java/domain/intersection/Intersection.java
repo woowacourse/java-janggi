@@ -1,5 +1,6 @@
 package domain.intersection;
 
+import domain.board.IntersectionState;
 import domain.piece.NonePiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -54,6 +55,10 @@ public class Intersection {
 
     public String getChineseCharacter() {
         return piece.getChineseCharacter();
+    }
+
+    public IntersectionState toIntersectionState() {
+        return new IntersectionState(point, piece.pieceType(), piece.team());
     }
 
     @Override

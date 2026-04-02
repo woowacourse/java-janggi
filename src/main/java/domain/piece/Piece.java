@@ -18,6 +18,14 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
+    public PieceType pieceType() {
+        return pieceType;
+    }
+
+    public Team team() {
+        return team;
+    }
+
     public boolean isSameTeam(Piece other) {
         return this.team == other.team;
     }

@@ -5,7 +5,6 @@ import domain.board.JanggiBoard;
 import domain.board.JanggiGenerator;
 import domain.game.Game;
 import domain.team.Team;
-import dto.BoardStatusDTO;
 import dto.MoveDTO;
 import view.InputView;
 import view.OutputView;
@@ -29,7 +28,7 @@ public class JanggiController {
 
         while (true) {
             try {
-                outputView.printCurrentBoardStatus(new BoardStatusDTO(game.boardStatus()));
+                outputView.printCurrentBoardStatus(game.boardStatus());
                 final Team turn = game.currentTurn();
                 outputView.printCurrentTurn(turn);
                 MoveDTO move = new MoveDTO(inputView.inputMovePiecePoint(), inputView.inputDestinationPoint());

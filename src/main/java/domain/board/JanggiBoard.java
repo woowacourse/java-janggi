@@ -10,7 +10,7 @@ import domain.piece.move.HorseMoveRule;
 import domain.piece.move.MoveRule;
 import domain.piece.move.SoliderMoveRule;
 import domain.point.Point;
-import dto.BoardStatusDTO;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,8 +75,12 @@ public class JanggiBoard {
                 .toList();
     }
 
-    public Map<Point, Intersection> boardStatus() {
-        return Map.copyOf(intersections);
+    public BoardState boardStatus() {
+        final List<IntersectionState> intersectionStates = new ArrayList<>();
+        for (Intersection intersection : intersections.values()) {
+            intersectionStates.add(intersection.toIntersectionState());
+        }
+        return new BoardState(intersectionStates);
     }
 
     public Intersection findIntersection(Point point) {
