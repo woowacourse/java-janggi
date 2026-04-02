@@ -5,12 +5,10 @@ import static janggi.util.InputParser.parsePosition;
 
 import janggi.dto.DynastyDto;
 import janggi.dto.PositionDto;
+import janggi.util.Console;
 import java.util.List;
-import java.util.Scanner;
 
 public class InputView {
-
-    private static final Scanner scanner = new Scanner(System.in);
 
     public InputView() {
     }
@@ -19,7 +17,7 @@ public class InputView {
         System.out.println(dynastyDto.dynastyName() + "나라의 상차림 법을 숫자로 입력해주세요.");
         System.out.println("1: 마상마상, 2: 마상상마, 3: 상마상마, 4: 상마마상");
 
-        String input = scanner.nextLine();
+        String input = Console.readLine();
         return parseHorseElephantPositionOrdinal(input);
     }
 
@@ -35,7 +33,7 @@ public class InputView {
     }
 
     private PositionDto readPosition() {
-        String input = scanner.nextLine();
+        String input = Console.readLine();
         List<Integer> rowAndColumn = parsePosition(input);
         return PositionDto.from(rowAndColumn);
     }
