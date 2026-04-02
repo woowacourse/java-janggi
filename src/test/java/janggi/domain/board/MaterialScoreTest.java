@@ -14,7 +14,7 @@ public class MaterialScoreTest {
         SideScore currentScore = materialScore.getCurrentScore();
 
         assertThat(currentScore.cho()).isEqualTo(72);
-        assertThat(currentScore.han()).isEqualTo(54);
+        assertThat(currentScore.han()).isEqualTo(55.5);
     }
 
     @Test

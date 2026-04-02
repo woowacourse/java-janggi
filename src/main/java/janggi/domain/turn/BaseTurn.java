@@ -7,12 +7,14 @@ import janggi.domain.piece.PieceAttribute;
 import java.util.List;
 
 public abstract class BaseTurn implements PlayerTurn {
-    protected final Board board;
-    protected final Side side;
+    protected static final int MAX_TURN = 200;
 
-    public BaseTurn(Board board, Side side) {
+    protected final Board board;
+    protected final int turn;
+
+    public BaseTurn(Board board, int turn) {
         this.board = board;
-        this.side = side;
+        this.turn = turn;
     }
 
     @Override
@@ -23,11 +25,6 @@ public abstract class BaseTurn implements PlayerTurn {
     @Override
     public List<List<PieceAttribute>> getCurrentBoard() {
         return board.getCurrentBoard();
-    }
-
-    @Override
-    public Side getCurrentSide() {
-        return side;
     }
 
     @Override

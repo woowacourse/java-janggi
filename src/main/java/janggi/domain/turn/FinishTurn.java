@@ -9,8 +9,8 @@ public class FinishTurn extends BaseTurn {
 
     private final Side winnerSide;
 
-    public FinishTurn(Board board, Side winnerSide) {
-        super(board, Side.EMPTY);
+    public FinishTurn(Board board, Side winnerSide, int turn) {
+        super(board, turn);
         this.winnerSide = winnerSide;
     }
 
@@ -27,5 +27,10 @@ public class FinishTurn extends BaseTurn {
     @Override
     public Side getWinnerSide() {
         return winnerSide;
+    }
+
+    @Override
+    public Side getCurrentSide() {
+        return Side.EMPTY;
     }
 }

@@ -5,16 +5,26 @@ import janggi.domain.Side;
 import janggi.domain.board.Board;
 
 public class HanTurn extends BaseTurn {
-    public HanTurn(Board board) {
-        super(board, Side.HAN);
+    public HanTurn(Board board, int turn) {
+        super(board, turn);
     }
 
     @Override
     public PlayerTurn move(Position start, Position end) {
-        board.move(start, end, side);
-        if (board.isEndGame()) {
-            return new FinishTurn(board, side);
+        board.move(start, end, Side.HAN);
+
+        if(turn == MAX_TURN) {
+            return new FinishTurn(board, Side.EMPTY, turn);
         }
-        return new ChoTurn(board);
+
+        if (board.isEndGame()) {
+            return new FinishTurn(board, Side.HAN, turn);
+        }
+        return new ChoTurn(board, turn + 1);
+    }
+
+    @Override
+    public Side getCurrentSide() {
+        return Side.HAN;
     }
 }

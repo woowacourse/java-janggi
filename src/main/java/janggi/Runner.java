@@ -38,6 +38,15 @@ public class Runner {
     private void playGame(Game game) {
         while (playTurnGame(game)) {
         }
+
+        Side winnerSide = game.getWinnerSide();
+
+        if(winnerSide == null) {
+            printCurrentScore(game);
+            printScoreWinner(game);
+            return;
+        }
+        OutputView.printWinner(winnerSide);
     }
 
     private boolean playTurnGame(Game game) {
@@ -76,15 +85,13 @@ public class Runner {
         game.move(startPosition, endPosition);
 
         printCurrentScore(game);
-        return isFinishedGame(game);
+        return game.isFinished();
     }
 
     private boolean consentEndGame(Game game) {
         String consentInput = InputView.consentEnd();
 
         if(consentInput.equals(END_TEXT)) {
-            printCurrentScore(game);
-            printScoreWinner(game);
             return false;
         }
 
@@ -103,13 +110,5 @@ public class Runner {
 
     private void printCurrentScore(Game game) {
         OutputView.printScore(game.getCurrentSideScore());
-    }
-
-    private boolean isFinishedGame(Game game) {
-        if (game.isFinished()) {
-            OutputView.printWinner(game.getWinnerSide());
-            return false;
-        }
-        return true;
     }
 }

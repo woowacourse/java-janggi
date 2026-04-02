@@ -65,7 +65,7 @@ class BoardTest {
         Board board = new Board(customBoard, PieceType.PAWN.getScore(), PieceType.PAWN.getScore());
 
         board.move(new Position(1, 2), new Position(1, 1), Side.CHO);
-        assertThat(board.getScore()).isEqualTo(new SideScore(0, PieceType.PAWN.getScore()));
+        assertThat(board.getScore()).isEqualTo(new SideScore(1.5, PieceType.PAWN.getScore()));
     }
 
     @Test

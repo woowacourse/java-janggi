@@ -128,7 +128,7 @@ public class Position {
         return isGungSung(this) && isGungSung(position) && (!GungSungM.contains(this) && !GungSungM.contains(position));
     }
 
-    private boolean isGungSung(Position position) {
+    public static boolean isGungSung(Position position) {
         if(position.y < GUNG_SUNG_COL_START || position.y > GUNG_SUNG_COL_END) {
             return false;
         }
