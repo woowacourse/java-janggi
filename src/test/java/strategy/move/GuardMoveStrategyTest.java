@@ -2,10 +2,12 @@ package strategy.move;
 
 import domain.Piece;
 import domain.PieceType;
+import domain.Board;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,8 +43,9 @@ public class GuardMoveStrategyTest {
     public void 사는_궁성_중앙에서_8방향으로_이동할_수_있다() {
         Position curPos = Position.of(8, 4);
         MoveStrategy moveStrategy = new GuardMoveStrategy();
+        Board router = new Board(Map.<Position, Piece>of());
 
-        List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.GUARD));
+        List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.GUARD), router);
         assertThat(routes).containsExactlyInAnyOrder(
                 new Route(curPos, Position.of(7, 4), List.of()),
                 new Route(curPos, Position.of(9, 4), List.of()),
@@ -59,8 +62,9 @@ public class GuardMoveStrategyTest {
     public void 사는_궁성_밖에서는_이동경로가_없다() {
         Position curPos = Position.of(5, 4);
         MoveStrategy moveStrategy = new GuardMoveStrategy();
+        Board router = new Board(Map.<Position, Piece>of());
 
-        List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.GUARD));
+        List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.GUARD), router);
 
         assertThat(routes).isEmpty();
     }

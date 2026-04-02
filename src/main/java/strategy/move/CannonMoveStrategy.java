@@ -7,13 +7,15 @@ import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.PieceType;
+import domain.Position;
 import domain.Route;
 import domain.TeamColor;
+import domain.palace.PalaceRouter;
 
 public class CannonMoveStrategy extends MoveStrategy {
 
     @Override
-    public List<MovePath> getPaths(Piece piece) {
+    public List<MovePath> getPaths(Piece piece, Position from, PalaceRouter router) {
         List<MovePath> paths = new ArrayList<>();
 
         paths.addAll(createStraightPaths(Direction.NORTH));

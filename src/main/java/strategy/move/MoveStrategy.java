@@ -10,14 +10,15 @@ import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
+import domain.palace.PalaceRouter;
 
 public abstract class MoveStrategy {
 
-    public abstract List<MovePath> getPaths(Piece piece);
+    public abstract List<MovePath> getPaths(Piece piece, Position from, PalaceRouter router);
 
-    public List<Route> makeRoutes(Position curPos, Piece piece) {
+    public List<Route> makeRoutes(Position curPos, Piece piece, PalaceRouter router) {
         List<Route> validRoutes = new ArrayList<>();
-        List<MovePath> paths = getPaths(piece);
+        List<MovePath> paths = getPaths(piece, curPos, router);
 
         for (MovePath path : paths) {
             routeIfWithinBoard(curPos, path).ifPresent(validRoutes::add);

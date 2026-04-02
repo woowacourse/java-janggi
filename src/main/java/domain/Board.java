@@ -7,9 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import domain.palace.Palace;
+import domain.palace.PalaceRouter;
 import strategy.move.MoveStrategy;
 
-public class Board {
+public class Board implements PalaceRouter {
+
+    private final Palace hanPalace = new Palace(Position.of(1, 4));
+    private final Palace choPalace = new Palace(Position.of(8, 4));
 
     private final Map<Position, Piece> pieces;
 
@@ -52,7 +57,7 @@ public class Board {
 
         MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
 
-        return moveStrategy.makeRoutes(currentPosition, piece).stream()
+        return moveStrategy.makeRoutes(currentPosition, piece, this).stream()
                 .filter(route -> route.endPos().isInsideBoard())
                 .filter(route -> moveStrategy.canMove(route, getBlockingPieces(route),
                         getDestinationPiece(route).orElse(null), piece.getTeamColor()))
@@ -65,7 +70,7 @@ public class Board {
 
         MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
 
-        Route route = moveStrategy.makeRoutes(currentPosition, piece).stream()
+        Route route = moveStrategy.makeRoutes(currentPosition, piece, this).stream()
                 .filter(candidate -> candidate.endPos().equals(destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 기물은 목적지로 이동할 수 없습니다."));
@@ -79,5 +84,17 @@ public class Board {
 
         pieces.remove(currentPosition);
         pieces.put(destination, piece);
+    }
+
+    @Override
+    public boolean isInsidePalace(Position position) {
+        return hanPalace.contains(position) || choPalace.contains(position);
+    }
+
+    @Override
+    public List<Position> getDiagonalAdjacents(Position position) {
+        if (hanPalace.contains(position)) return hanPalace.getDiagonalAdjacents(position);
+        if (choPalace.contains(position)) return choPalace.getDiagonalAdjacents(position);
+        return List.of();
     }
 }

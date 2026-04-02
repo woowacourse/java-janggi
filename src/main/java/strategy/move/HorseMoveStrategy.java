@@ -3,8 +3,10 @@ package strategy.move;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
+import domain.Position;
 import domain.Route;
 import domain.TeamColor;
+import domain.palace.PalaceRouter;
 import java.util.List;
 
 public class HorseMoveStrategy extends MoveStrategy {
@@ -21,7 +23,7 @@ public class HorseMoveStrategy extends MoveStrategy {
     );
 
     @Override
-    public List<MovePath> getPaths(Piece piece) {
+    public List<MovePath> getPaths(Piece piece, Position from, PalaceRouter router) {
         return PATHS;
     }
 

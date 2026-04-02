@@ -8,6 +8,7 @@ import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import java.util.List;
+import domain.palace.PalaceRouter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +16,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CannonMoveStrategyTest {
 
+    private PalaceRouter outsidePalaceRouter() {
+        return new PalaceRouter() {
+            @Override
+            public boolean isInsidePalace(Position position) {
+                return false;
+            }
+
+            @Override
+            public List<Position> getDiagonalAdjacents(Position position) {
+                return List.of();
+            }
+        };
+    }
+
     @Nested
     class 이동경로 {
         @Test
         public void 포는_초나라에서_동서남북_직선_경로를_보드_끝까지_가진다() {
             MoveStrategy strategy = new CannonMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.CANNON));
+            Position from = Position.of(4, 4);
+            PalaceRouter router = outsidePalaceRouter();
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.CANNON), from, router);
 
             assertThat(paths).hasSize(36);
             assertThat(paths).contains(
@@ -38,9 +55,11 @@ public class CannonMoveStrategyTest {
         @Test
         public void 포는_현재위치에서_여러칸_떨어진_직선_목적지_경로를_생성한다() {
             MoveStrategy strategy = new CannonMoveStrategy();
+            PalaceRouter router = outsidePalaceRouter();
             List<Route> routes = strategy.makeRoutes(
                     Position.of(4, 4),
-                    Piece.of(TeamColor.HAN, PieceType.CANNON)
+                    Piece.of(TeamColor.HAN, PieceType.CANNON),
+                    router
             );
 
             assertThat(routes).contains(

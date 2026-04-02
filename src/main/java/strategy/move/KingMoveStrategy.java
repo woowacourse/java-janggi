@@ -1,12 +1,13 @@
 package strategy.move;
 
+import java.util.ArrayList;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
-import domain.palace.Palace;
+import domain.palace.PalaceRouter;
 import java.util.List;
 
 public class KingMoveStrategy extends MoveStrategy {
@@ -23,8 +24,19 @@ public class KingMoveStrategy extends MoveStrategy {
     );
 
     @Override
-    public List<MovePath> getPaths(Piece piece) {
-        return PATHS;
+    public List<MovePath> getPaths(Piece piece, Position from, PalaceRouter router) {
+        if (!router.isInsidePalace(from)) {
+            return List.of();
+        }
+
+        List<MovePath> paths = new ArrayList<>();
+        for (MovePath path : PATHS) {
+            Direction direction = path.steps().getFirst();
+            if (router.isInsidePalace(from.next(direction))) {
+                paths.add(path);
+            }
+        }
+        return List.copyOf(paths);
     }
 
     @Override
