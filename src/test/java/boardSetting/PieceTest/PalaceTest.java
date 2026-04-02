@@ -1,4 +1,4 @@
-package janggiBoard.PieceTest;
+package boardSetting.PieceTest;
 
 import domain.PieceProvider;
 import domain.position.Position;
@@ -84,6 +84,11 @@ public class PalaceTest {
         @Override
         public boolean isBlank(Position position) {
             return boardState.getOrDefault(position, defaultState);
+        }
+
+        @Override
+        public boolean isCannon(Position position) {
+            return false;
         }
 
         @Override

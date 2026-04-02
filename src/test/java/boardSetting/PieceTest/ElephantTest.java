@@ -1,42 +1,48 @@
-package janggiBoard.strategyTest;
+package boardSetting.PieceTest;
 
-import domain.position.Position;
-import domain.piece.Blank;
-import domain.piece.Piece;
 import domain.PieceProvider;
-import domain.strategy.PawnStrategy;
+import domain.position.Position;
+import domain.Team;
+import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PawnStrategyTest {
+public class ElephantTest {
 
-    private PawnStrategy pawnStrategy;
     private TestPieceProvider testBoard;
+    private Elephant elephant;
 
     @BeforeEach
     void setUp() {
-        pawnStrategy = new PawnStrategy();
+        elephant = new Elephant(Team.CHO);
         testBoard = new TestPieceProvider();
     }
 
     @Test
-    void 졸은_4가지_이동_후보_모두_반환() {
+    void 마가_목적지에_갈_수_있다() {
         Position currentPosition = new Position(5, 5);
+        Position targetPosition = new Position(3, 8);
+
         testBoard.setAllBlank();
+        boolean isCanMove = elephant.canMove(currentPosition, targetPosition, testBoard);
+        assertThat(isCanMove).isTrue();
+    }
 
-        List<Position> candidates = pawnStrategy.getMoveCandidates(currentPosition, testBoard);
+    @Test
+    void 마가_목적지에_갈_수_없다() {
+        Position currentPosition = new Position(5, 5);
+        Position targetPosition = new Position(3, 8);
 
-        assertThat(candidates).hasSize(4)
-                .containsExactlyInAnyOrder(
-                        new Position(4, 5), new Position(6, 5),
-                        new Position(5, 4), new Position(5, 6)
-                );
+        testBoard.setAllBlank();
+        testBoard.setBlank(new Position(5, 6));
+
+        boolean isCanMove = elephant.canMove(currentPosition, targetPosition, testBoard);
+        assertThat(isCanMove).isFalse();
     }
 
     private static class TestPieceProvider implements PieceProvider {
@@ -54,6 +60,11 @@ public class PawnStrategyTest {
         @Override
         public boolean isBlank(Position position) {
             return boardState.getOrDefault(position, defaultState);
+        }
+
+        @Override
+        public boolean isCannon(Position position) {
+            return false;
         }
 
         @Override

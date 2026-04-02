@@ -1,4 +1,4 @@
-package janggiBoard.PieceTest;
+package boardSetting.PieceTest;
 
 import domain.PieceProvider;
 import domain.position.Position;
@@ -74,6 +74,11 @@ public class CannonTest {
         @Override
         public boolean isBlank(Position position) {
             return !pieces.containsKey(position);
+        }
+
+        @Override
+        public boolean isCannon(Position position) {
+            return true;
         }
 
         @Override

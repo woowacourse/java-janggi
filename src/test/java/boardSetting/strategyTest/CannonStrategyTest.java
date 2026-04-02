@@ -1,4 +1,4 @@
-package janggiBoard.strategyTest;
+package boardSetting.strategyTest;
 
 import domain.PieceProvider;
 import domain.position.Position;
@@ -78,6 +78,11 @@ public class CannonStrategyTest {
         @Override
         public boolean isBlank(Position position) {
             return !pieces.containsKey(position);
+        }
+
+        @Override
+        public boolean isCannon(Position position) {
+            return true;
         }
 
         @Override

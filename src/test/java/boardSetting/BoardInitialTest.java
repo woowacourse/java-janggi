@@ -1,13 +1,13 @@
-package janggiBoard;
+package boardSetting;
 
 import domain.JanggiBoard;
+import domain.JanggiBoardInitializer;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public class BoardInitialTest {
 
     @BeforeEach
     void setUp() {
-        janggiBoard = new JanggiBoard();
+        janggiBoard = new JanggiBoard(new JanggiBoardInitializer());
     }
 
     @Test

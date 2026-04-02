@@ -1,6 +1,7 @@
 package controller;
 
 import domain.JanggiBoard;
+import domain.JanggiBoardInitializer;
 import domain.piece.Piece;
 import domain.position.Position;
 import view.InputView;
@@ -16,7 +17,7 @@ public class JanggiController {
     }
 
     public void run() {
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardInitializer());
         while (true) {
             try {
                 outputView.printBoard(janggiBoard);

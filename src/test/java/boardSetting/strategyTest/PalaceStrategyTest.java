@@ -1,4 +1,4 @@
-package janggiBoard.strategyTest;
+package boardSetting.strategyTest;
 
 import domain.position.Position;
 import domain.piece.Blank;
@@ -56,6 +56,11 @@ public class PalaceStrategyTest {
         @Override
         public boolean isBlank(Position position) {
             return boardState.getOrDefault(position, defaultState);
+        }
+
+        @Override
+        public boolean isCannon(Position position) {
+            return false;
         }
 
         @Override

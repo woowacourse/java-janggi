@@ -1,9 +1,9 @@
-package janggiBoard.PieceTest;
+package boardSetting.PieceTest;
 
 import domain.position.Position;
 import domain.Team;
 import domain.piece.Blank;
-import domain.piece.Horse;
+import domain.piece.Car;
 import domain.piece.Piece;
 import domain.PieceProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,37 +14,40 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class HorseTest {
+public class CarTest {
+
+    private Car car;
     private TestPieceProvider testBoard;
-    private Horse horse;
 
     @BeforeEach
-    void setUp() {
-        horse = new Horse(Team.CHO);
+    public void setUp() {
+        car = new Car(Team.CHO);
         testBoard = new TestPieceProvider();
     }
 
     @Test
-    void 마가_목적지에_갈_수_있다() {
+    void 차는_목적지에_갈_수_있다() {
         Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(3, 4);
+        Position targetPosition = new Position(7, 5);
 
         testBoard.setAllBlank();
-        boolean isCanMove = horse.canMove(currentPosition, targetPosition, testBoard);
-        assertThat(isCanMove).isTrue();
+        boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
+        assertThat(isCarMove).isTrue();
     }
 
     @Test
-    void 마가_목적지에_갈_수_없다() {
+    void 차는_목적지에_갈_수_없다() {
         Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(3, 4);
+        Position targetPosition = new Position(7, 5);
 
         testBoard.setAllBlank();
-        testBoard.setBlank(new Position(4, 5));
+        testBoard.setBlank(new Position(6, 5));
 
-        boolean isCanMove = horse.canMove(currentPosition, targetPosition, testBoard);
-        assertThat(isCanMove).isFalse();
+        boolean isCarMove = car.canMove(currentPosition, targetPosition, testBoard);
+
+        assertThat(isCarMove).isFalse();
     }
+
 
     private static class TestPieceProvider implements PieceProvider {
         private final Map<Position, Boolean> boardState = new HashMap<>();
@@ -61,6 +64,11 @@ public class HorseTest {
         @Override
         public boolean isBlank(Position position) {
             return boardState.getOrDefault(position, defaultState);
+        }
+
+        @Override
+        public boolean isCannon(Position position) {
+            return false;
         }
 
         @Override
