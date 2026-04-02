@@ -1,11 +1,10 @@
 package domain.place.piece;
 
 import domain.board.BoardView;
-import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.position.Position;
 
-public abstract class Piece implements Place {
+public abstract class Piece {
     protected final Side side;
     protected final MoveStrategy moveStrategy;
 
@@ -16,34 +15,23 @@ public abstract class Piece implements Place {
 
     public abstract PieceSymbol getSymbol();
 
-    @Override
     public String getFormat() {
         return side.colorize(getSymbol().display());
     }
 
-    @Override
-    public boolean isEmpty() {
-        return false;
+    public boolean isSameSide(Piece piece) {
+        return this.side == piece.side;
     }
 
-    @Override
     public boolean isSameSide(Side side) {
         return this.side == side;
     }
 
-    @Override
-    public Side getSide() {
-        return side;
-    }
-
-    @Override
     public boolean isCannon() {
         return false;
     }
 
-    @Override
     public boolean canMove(BoardView board, Position from, Position to) {
         return moveStrategy.canMove(board, from, to);
     }
 }
-
