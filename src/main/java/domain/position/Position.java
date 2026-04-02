@@ -14,6 +14,10 @@ public record Position(int row, int column) {
         validate(row, column);
     }
 
+    public static boolean isValid(int row, int column) {
+        return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
+    }
+
     private void validate(int row, int column) {
         if (row < MIN_ROW || row > MAX_ROW) {
             throw new JanggiException(INVALID_ROW_RANGE.formatted(MIN_ROW, MAX_ROW, row));

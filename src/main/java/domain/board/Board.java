@@ -60,14 +60,13 @@ public class Board {
 
     public boolean canMove(Position source, Position destination) {
         validateSource(source);
-        try {
-            Piece piece = findPiece(source);
-            Path path = piece.calculatePath(source, destination);
-            PathPieces pathPieces = createPathPieces(path);
-            return piece.isValidPath(pathPieces);
-        } catch (JanggiException exception) {
+        Piece piece = findPiece(source);
+        if (!piece.isPathPossible(source, destination)) {
             return false;
         }
+        Path path = piece.calculatePath(source, destination);
+        PathPieces pathPieces = createPathPieces(path);
+        return piece.isValidPath(pathPieces);
     }
 
     private void validateSource(Position source) {

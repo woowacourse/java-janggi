@@ -13,19 +13,18 @@ public class StraightPathGenerator implements PathGenerator {
 
     @Override
     public Path calculatePath(Position source, Position destination) {
-        if (!validateMove(source, destination)) {
+        if (!isPathPossible(source, destination)) {
             throw new JanggiException(INVALID_STRAIGHT_PATH.getMessage());
         }
         Direction direction = determineDirection(source, destination);
-
         return buildPath(source, destination, direction);
     }
 
-    private boolean validateMove(Position source, Position destination) {
+    @Override
+    public boolean isPathPossible(Position source, Position destination) {
         if (source.equals(destination)) {
             return false;
         }
-
         return source.row() == destination.row() || source.column() == destination.column();
     }
 

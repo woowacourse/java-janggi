@@ -43,4 +43,10 @@ public enum Direction {
     public Position calculateNextPosition(Position source) {
         return new Position(source.row() + this.offsetRow, source.column() + this.offsetColumn);
     }
+
+    public boolean canCalculateNextPosition(Position source) {
+        int nextRow = source.row() + this.offsetRow;
+        int nextColumn = source.column() + this.offsetColumn;
+        return Position.isValid(nextRow, nextColumn);
+    }
 }

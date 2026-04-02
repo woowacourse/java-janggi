@@ -26,6 +26,10 @@ public abstract class Piece {
         return this.getPathGenerator().calculatePath(source, destination);
     }
 
+    public boolean isPathPossible(Position source, Position destination) {
+        return this.getPathGenerator().isPathPossible(source, destination);
+    }
+
     public boolean isValidPath(PathPieces pathPieces) {
         return this.getMovementStrategy().isValidPath(pathPieces);
     }
