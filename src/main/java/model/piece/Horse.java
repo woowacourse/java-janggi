@@ -3,8 +3,8 @@ package model.piece;
 import model.Team;
 import model.coordinate.Direction;
 import model.coordinate.Position;
-import model.piece.strategy.reach.AnimalReach;
-import model.piece.strategy.reach.ReachStrategy;
+import model.piece.strategy.AnimalReach;
+import model.piece.strategy.ReachStrategy;
 
 import java.util.ArrayList;
 import java.util.List;

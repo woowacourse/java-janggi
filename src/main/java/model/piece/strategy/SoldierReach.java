@@ -1,4 +1,4 @@
-package model.piece.strategy.reach;
+package model.piece.strategy;
 
 // 졸, 병: 전진 + 좌우 1칸
 public class SoldierReach implements ReachStrategy {

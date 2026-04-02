@@ -4,9 +4,9 @@ import model.Team;
 import model.coordinate.Direction;
 import model.coordinate.PalacePositions;
 import model.coordinate.Position;
-import model.piece.strategy.reach.LinearReach;
-import model.piece.strategy.reach.PalaceLinearReach;
-import model.piece.strategy.reach.ReachStrategy;
+import model.piece.strategy.LinearReach;
+import model.piece.strategy.PalaceLinearReach;
+import model.piece.strategy.ReachStrategy;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package model.piece.strategy.reach;
+package model.piece.strategy;
 
 // 졸, 병 궁성: 전진 + 좌우 + 전진 대각선 1칸
 public class PalaceSoldierReach implements ReachStrategy {

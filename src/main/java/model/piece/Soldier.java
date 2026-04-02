@@ -3,9 +3,9 @@ package model.piece;
 import model.Team;
 import model.coordinate.PalacePositions;
 import model.coordinate.Position;
-import model.piece.strategy.reach.PalaceSoldierReach;
-import model.piece.strategy.reach.ReachStrategy;
-import model.piece.strategy.reach.SoldierReach;
+import model.piece.strategy.PalaceSoldierReach;
+import model.piece.strategy.ReachStrategy;
+import model.piece.strategy.SoldierReach;
 
 import java.util.List;
 

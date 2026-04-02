@@ -1,4 +1,4 @@
-package model.piece.strategy.reach;
+package model.piece.strategy;
 
 import model.coordinate.PalacePositions;
 import model.coordinate.Position;

@@ -1,4 +1,4 @@
-package model.piece.strategy.reach;
+package model.piece.strategy;
 
 // 차, 포 궁성: 상하좌우 N칸 + 대각선
 public class PalaceLinearReach implements ReachStrategy {

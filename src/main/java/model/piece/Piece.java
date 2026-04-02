@@ -2,7 +2,7 @@ package model.piece;
 
 import model.Team;
 import model.coordinate.Position;
-import model.piece.strategy.reach.ReachStrategy;
+import model.piece.strategy.ReachStrategy;
 
 import java.util.List;
 
