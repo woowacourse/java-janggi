@@ -22,7 +22,7 @@ public class Piece {
     }
 
     public Piece(Side side, PieceType type) {
-        this(side, type, type.moveRule, type.movement);
+        this(side, type, type.getMoveRule(), type.getMovement());
     }
 
     public final boolean isSameSide(Side side) {
@@ -57,15 +57,14 @@ public class Piece {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Piece piece)) {
             return false;
         }
-        Piece other = (Piece) o;
-        return side == other.side;
+        return side == piece.side && type == piece.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(side);
+        return Objects.hash(side, type);
     }
 }

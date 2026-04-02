@@ -88,12 +88,20 @@ public enum PieceType {
         EmptyPathMoveRule.withOtherSideTargetRule()
     );
 
-    public final Movement movement;
-    public final MoveRule moveRule;
+    private final Movement movement;
+    private final MoveRule moveRule;
 
     PieceType(Movement movement, MoveRule moveRule) {
         this.movement = movement;
         this.moveRule = moveRule;
+    }
+
+    public Movement getMovement() {
+        return movement;
+    }
+
+    public MoveRule getMoveRule() {
+        return moveRule;
     }
 
     public boolean isPo() {
