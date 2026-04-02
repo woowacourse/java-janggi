@@ -86,6 +86,20 @@ public class RookMoveStrategyTest {
                     new Route(from, Position.of(2, 5), List.of())
             );
         }
+
+        @Test
+        public void 차는_궁성_대각선_모서리에서_중앙을_거쳐_맞은편_모서리로_이동한다() {
+            MoveStrategy strategy = new RookMoveStrategy();
+            PalaceRouter router = new Board(Map.<Position, Piece>of());
+
+            Position from = Position.of(0, 3);
+            Position center = Position.of(1, 4);
+            List<Route> routes = strategy.makeRoutes(from, Piece.of(TeamColor.HAN, PieceType.ROOK), router);
+
+            assertThat(routes).contains(
+                    new Route(from, Position.of(2, 5), List.of(center))
+            );
+        }
     }
 
     @Nested

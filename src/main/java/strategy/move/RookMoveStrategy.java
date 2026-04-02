@@ -41,10 +41,42 @@ public class RookMoveStrategy extends MoveStrategy {
             return;
         }
 
+        addSingleStepPalaceDiagonals(from, router, paths);
+        addTwoStepPalaceDiagonalThroughCenter(from, router, paths);
+    }
+
+    private void addSingleStepPalaceDiagonals(Position from, PalaceRouter router, List<MovePath> paths) {
         for (Position diagonal : router.getDiagonalAdjacents(from)) {
             directionForUnitStep(from, diagonal)
                     .ifPresent(direction -> paths.add(new MovePath(List.of(direction))));
         }
+    }
+
+    private void addTwoStepPalaceDiagonalThroughCenter(Position from, PalaceRouter router, List<MovePath> paths) {
+        for (Position through : router.getDiagonalAdjacents(from)) {
+            addOppositeCornerDiagonalPathIfValid(from, through, router, paths);
+        }
+    }
+
+    private void addOppositeCornerDiagonalPathIfValid(
+            Position from, Position through, PalaceRouter router, List<MovePath> paths) {
+        Optional<Direction> direction = directionForUnitStep(from, through);
+        if (direction.isEmpty()) {
+            return;
+        }
+        addPalaceDiagonalSkipIfValid(through, direction.get(), router, paths);
+    }
+
+    private void addPalaceDiagonalSkipIfValid(
+            Position through, Direction step, PalaceRouter router, List<MovePath> paths) {
+        Position end = through.next(step);
+        if (!end.isInsideBoard()) {
+            return;
+        }
+        if (!router.isInsidePalace(end)) {
+            return;
+        }
+        paths.add(new MovePath(List.of(step, step)));
     }
 
     private Optional<Direction> directionForUnitStep(Position from, Position to) {
