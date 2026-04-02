@@ -178,25 +178,6 @@ class HorseMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("마는 도착지에 같은 팀 기물이 있으면 이동할 수 없다.")
-    void 마_같은팀_도착지_이동_불가() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Horse(Side.CHO, new HorseMoveStrategy()));
-        stubBoard.put(new Position(6, 7), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-
-        Position from = new Position(5, 5);
-        Position to = new Position(6, 7);
-
-        // when
-        boolean result = new HorseMoveStrategy().canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    @Test
     @DisplayName("마는 이동 경로(첫 칸)에 장애물이 있으면 이동할 수 없다.")
     void 마_경로_장애물_이동_불가() {
         // given

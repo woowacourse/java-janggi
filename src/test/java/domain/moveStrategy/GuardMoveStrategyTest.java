@@ -105,25 +105,6 @@ class GuardMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("사는 아군 위치로 이동 불가")
-    void 사_아군_이동_불가() {
-        // given
-        StubBoard stub = new StubBoard();
-        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
-        stub.put(new Position(5, 6), new Guard(Side.CHO, new GuardMoveStrategy()));
-        Board board = stub.create();
-
-        Position from = new Position(5, 5);
-        Position to = new Position(5, 6);
-
-        // when
-        boolean result = new GuardMoveStrategy().canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    @Test
     @DisplayName("사는 적군을 잡을 수 있다")
     void 사_적군_공격_가능() {
         // given

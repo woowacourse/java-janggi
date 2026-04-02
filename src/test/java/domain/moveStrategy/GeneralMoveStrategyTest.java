@@ -107,25 +107,6 @@ class GeneralMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("궁은 아군 위치로 이동 불가")
-    void 궁_아군_이동_불가() {
-        // given
-        StubBoard stub = new StubBoard();
-        stub.put(new Position(5, 5), new General(Side.CHO, new GeneralMoveStrategy()));
-        stub.put(new Position(5, 6), new Guard(Side.CHO, new GuardMoveStrategy()));
-        Board board = stub.create();
-
-        Position from = new Position(5, 5);
-        Position to = new Position(5, 6);
-
-        // when
-        boolean result = new GeneralMoveStrategy().canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    @Test
     @DisplayName("궁은 적군을 잡을 수 있다")
     void 궁_적군_공격_가능() {
         // given

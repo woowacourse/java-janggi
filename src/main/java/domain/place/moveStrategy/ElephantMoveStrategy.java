@@ -16,10 +16,6 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameTeam(from, to)) {
-            return false;
-        }
-
         return ORTHOGONAL_DIRECTIONS.stream()
                 .filter(d -> isFirstStepClear(board, from, d))
                 .anyMatch(d -> canReachViaDiagonalPath(board, from, to, d));

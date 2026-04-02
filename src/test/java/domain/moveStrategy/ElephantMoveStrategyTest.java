@@ -177,25 +177,6 @@ class ElephantMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("상은 도착지에 같은 팀이 있으면 이동할 수 없다.")
-    void 상_같은팀_도착지_이동_불가() {
-        // given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(5, 5), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        stubBoard.put(new Position(7, 8), new Elephant(Side.CHO, new ElephantMoveStrategy()));
-        Board board = stubBoard.create();
-        Position from = new Position(5, 5);
-        Position to = new Position(7, 8);
-        MoveStrategy moveStrategy = new ElephantMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    @Test
     @DisplayName("상은 첫 번째 경로에 장애물이 있으면 이동할 수 없다.")
     void 상_첫번째_경로_차단() {
         // given

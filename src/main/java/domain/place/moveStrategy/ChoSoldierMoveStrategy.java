@@ -12,10 +12,6 @@ public class ChoSoldierMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameTeam(from, to)) {
-            return false;
-        }
-
         return canReachAdjacentPosition(from, to);
     }
 

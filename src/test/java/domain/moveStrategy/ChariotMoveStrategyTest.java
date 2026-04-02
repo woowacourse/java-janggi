@@ -127,24 +127,4 @@ class ChariotMoveStrategyTest {
         //then
         assertThat(result).isFalse();
     }
-
-    @Test
-    @DisplayName("차가 자신의 팀을 만나면 이동 불가능하다.")
-    void 차_같은팀으로_이동_불가() {
-        //given
-        StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(3, 5), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        stubBoard.put(new Position(3, 7), new Chariot(Side.CHO, new ChariotMoveStrategy()));
-        Board board = stubBoard.create();
-
-        Position from = new Position(3, 5);
-        Position to = new Position(3, 7);
-
-        // when
-        MoveStrategy moveStrategy = new ChariotMoveStrategy();
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        //then
-        assertThat(result).isFalse();
-    }
 }

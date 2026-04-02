@@ -135,27 +135,6 @@ class SoldierMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("초나라 졸은 아군 위치로 이동 불가")
-    void 초나라_졸_아군_위치_이동_불가() {
-        // given
-        StubBoard stub = new StubBoard();
-        stub.put(new Position(2, 2), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        stub.put(new Position(2, 3), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        Board board = stub.create();
-
-        Position from = new Position(2, 2);
-        Position to = new Position(2, 3);
-
-        MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
-
-        // when
-        boolean result = moveStrategy.canMove(board, from, to);
-
-        // then
-        assertThat(result).isFalse();
-    }
-
-    @Test
     @DisplayName("초나라 졸은 적군을 잡을 수 있다")
     void 초나라_졸_적군_공격_가능() {
         // given

@@ -12,10 +12,6 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameTeam(from, to)) {
-            return false;
-        }
-
         if (from.isNotStrategyLine(to)) {
             return false;
         }
