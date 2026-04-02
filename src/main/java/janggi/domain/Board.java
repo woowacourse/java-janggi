@@ -68,12 +68,10 @@ public class Board {
     }
 
     private boolean hasObstacleOnRoute(List<Position> route) {
-        for (int i = 0; i < route.size() - 1; i++) {
-            if (board.containsKey(route.get(i))) {
-                return true;
-            }
-        }
-        return false;
+        Position targetPosition = route.getLast();
+        return route.stream()
+                .filter(position -> position != targetPosition)
+                .anyMatch(board::containsKey);
     }
 
     private Map<Position, List<Position>> convertToPositions(Position position, Piece piece, List<Route> routes) {
