@@ -19,32 +19,36 @@ import java.util.Map;
 public class JanggiGameController {
 
     private final JanggiGameService service;
+    private final InputView inputView;
+    private final OutputView outputView;
 
-    public JanggiGameController(JanggiGameService service) {
+    public JanggiGameController(JanggiGameService service, InputView inputView, OutputView outputView) {
         this.service = service;
+        this.inputView = inputView;
+        this.outputView = outputView;
     }
 
     public void run() {
-        Long roomId = chooseBoard(InputView.chooseNewGame());
-        OutputView.printStartGame();
-        OutputView.printGameStatus(service.getBoardStatus());
-        OutputView.printCurrentScore(service.getHanScore(), service.getChoScore());
+        Long roomId = chooseBoard(inputView.chooseNewGame());
+        outputView.printStartGame();
+        outputView.printGameStatus(service.getBoardStatus());
+        outputView.printCurrentScore(service.getHanScore(), service.getChoScore());
         while (!service.isFinished()) {
             playGame(roomId);
         }
-        OutputView.printWinner(service.winner());
+        outputView.printWinner(service.winner());
         Console.close();
     }
 
     private void playGame(Long roomId) {
         try {
             Team team = service.currentTurn();
-            MoveCommand points = InputView.readPoints(team);
+            MoveCommand points = inputView.readPoints(team);
             service.play(roomId, points.from(), points.to());
-            OutputView.printGameStatus(service.getBoardStatus());
-            OutputView.printCurrentScore(service.getHanScore(), service.getChoScore());
+            outputView.printGameStatus(service.getBoardStatus());
+            outputView.printCurrentScore(service.getHanScore(), service.getChoScore());
         } catch (IllegalArgumentException e) {
-            OutputView.printError(e.getMessage());
+            outputView.printError(e.getMessage());
         }
     }
 
@@ -52,7 +56,7 @@ public class JanggiGameController {
         if (command.isNewGame()) {
             return service.startNewGame(readInitBoard());
         }
-        Long gameRoomId = InputView.chooseExistsGame();
+        Long gameRoomId = inputView.chooseExistsGame();
         service.loadExistsBoard(gameRoomId);
         return gameRoomId;
     }
