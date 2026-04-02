@@ -1,0 +1,41 @@
+package janggi.repository;
+
+import janggi.config.DBConnection;
+import janggi.entity.BoardEntity;
+import janggi.entity.GameStateEntity;
+import janggi.global.EntityMapper;
+
+public class BoardRepositoryImpl implements BoardRepository {
+
+    private static final String TABLE_NAME = "boards";
+    private final DBConnection dbConnection;
+
+    public BoardRepositoryImpl(final DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
+    @Override
+    public long save(final BoardEntity boardEntity) {
+        final String sql = String.format("INSERT INTO %s (name) VALUES ('%s')",
+            TABLE_NAME, boardEntity.name());
+        return dbConnection.executeUpdate(sql);
+    }
+
+    @Override
+    public BoardEntity findById(final long targetId) {
+        final String sql = String.format("SELECT id, name FROM %s WHERE id = %d",
+            TABLE_NAME, targetId);
+        final EntityMapper<BoardEntity> mapper = resultSet -> {
+            int id = 0;
+            String name = "";
+            while (resultSet.next()) {
+                id = resultSet.getInt(1);
+                name = resultSet.getString(2);
+            }
+            return BoardEntity.from(id, name);
+
+        };
+
+        return dbConnection.executeSelect(sql, mapper);
+    }
+}
