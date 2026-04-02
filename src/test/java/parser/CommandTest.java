@@ -11,9 +11,16 @@ class CommandTest {
     @Test
     void 포메이션_입력이_1_2_3_4_일때_정상_동작한다() {
         Assertions.assertThat(Command.from("1")).isEqualTo(Command.FIRST);
-        assertThat(Command.from(" 2 ")).isEqualTo(Command.SECOND);
+        assertThat(Command.from("2")).isEqualTo(Command.SECOND);
         assertThat(Command.from("3")).isEqualTo(Command.THIRD);
         assertThat(Command.from("4")).isEqualTo(Command.FOURTH);
+    }
+
+    @Test
+    void 포메이션_입력에_공백이_포함되어도_정상_동작한다() {
+        Assertions.assertThat(Command.from("1  ")).isEqualTo(Command.FIRST);
+        assertThat(Command.from("  2")).isEqualTo(Command.SECOND);
+        assertThat(Command.from("  3  ")).isEqualTo(Command.THIRD);
     }
 
     @Test
