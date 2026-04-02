@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import javax.swing.text.html.Option;
 
 public class InputView {
     private static final String HAN_ARRANGEMENT_MESSAGE = "한 진영의 배치를 입력해주세요. (예: 마상마상, 마상상마, 상마상마, 상마마상)";
@@ -18,6 +19,21 @@ public class InputView {
     private static final String INVALID_POSITION_TYPE = "숫자만 입력 가능합니다.";
 
     private static final Scanner scanner = new Scanner(System.in);
+
+    public static Optional<Integer> askLoadGame() {
+        System.out.println("불러오려는 게임의 번호를, 또는 새로 생성하려면 '*'를 입력해주세요.");
+        String input = scanner.nextLine();
+        System.out.println();
+        if(input.trim().equals("*")) {
+            return Optional.empty();
+        }
+        return Optional.of(parseInt(input));
+    }
+
+    public static String askGameName() {
+        System.out.println("생성하려는 게임의 이름을 입력해주세요.");
+        return scanner.nextLine();
+    }
 
     public static String askHanArrangement() {
         System.out.println(HAN_ARRANGEMENT_MESSAGE);

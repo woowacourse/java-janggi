@@ -1,10 +1,12 @@
 package janggi.view;
 
+import janggi.domain.GameInfo;
 import janggi.domain.Side;
 import janggi.domain.SideScore;
 import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class OutputView {
@@ -25,6 +27,15 @@ public class OutputView {
 
     public static void printLine() {
         System.out.println();
+    }
+
+    public static void printGameRoom(List<GameInfo> gameInfos) {
+        System.out.println("진행 중인 장기 게임");
+        for(int i = 0; i < gameInfos.size(); i++) {
+            GameInfo gameInfo = gameInfos.get(i);
+            System.out.println(i + 1 + ". 이름: " + gameInfo.name() + ", 생성 시간: " + gameInfo.created() + ", 가장 마지막 플레이 시간: " + gameInfo.recent());
+        }
+        printLine();
     }
 
     public static void printBoard(BoardDto boardDto) {

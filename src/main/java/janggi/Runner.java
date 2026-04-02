@@ -2,11 +2,15 @@ package janggi;
 
 import janggi.domain.Arrangement;
 import janggi.domain.Game;
+import janggi.domain.GameInfo;
+import janggi.domain.GameName;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.SideScore;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -20,9 +24,54 @@ public class Runner {
 
     private static final Logger logger = Logger.getLogger(Runner.class.getName());
 
+    private final JanggiService janggiService;
+
+    public Runner(JanggiService janggiService) {
+        this.janggiService = janggiService;
+    }
+
     public void run() {
+        manageGameRoom();
         Game game = initArrangeGame();
         playGame(game);
+    }
+
+    public void manageGameRoom() {
+        List<GameInfo> gameInfos = janggiService.getEntireGame();
+        if(gameInfos.isEmpty()) {
+            addGame();
+            /* initialize new */
+            return;
+        }
+        OutputView.printGameRoom(gameInfos);
+
+        Optional<Integer> input = InputView.askLoadGame();
+
+        if(input.isEmpty()) {
+            addGame();
+            /* initialize new */
+            return;
+        }
+
+        GameInfo selectedGame = gameInfos.get(input.get() - 1);
+
+        if(selectedGame == null) {
+            throw new IllegalArgumentException("잘못된 값을 입력하셨습니다.");
+        }
+
+        /* initialize info */
+
+    }
+
+    private void addGame() {
+        GameName gameName = new GameName(InputView.askGameName());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = LocalDateTime.now().format(formatter);
+
+        System.out.println(formattedNow);
+
+        janggiService.addGameData(gameName.name(), formattedNow, formattedNow);
     }
 
     private Game initArrangeGame() {
