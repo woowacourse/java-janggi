@@ -46,15 +46,15 @@ public record Position(int row, int column) {
         return column - other.column;
     }
 
-    public Position moveRow(int direction) {
-        return new Position(row + direction, column);
+    public Position moveRow(int distance) {
+        return new Position(row + distance, column);
     }
 
-    public Position moveCol(int direction) {
-        return new Position(row, column + direction);
+    public Position moveCol(int distance) {
+        return new Position(row, column + distance);
     }
 
-    public Position moveDiagonal(int rowDirection, int colDirection) {
-        return new Position(row + rowDirection, column + colDirection);
+    public Position moveDiagonal(int rowDistance, int colDistance) {
+        return new Position(row + rowDistance, column + colDistance);
     }
 }

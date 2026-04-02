@@ -2,38 +2,29 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.condition.EmptyCondition;
-import janggi.domain.piece.condition.MoveCondition;
-import janggi.domain.piece.condition.OnePieceExistsCondition;
-import janggi.domain.piece.strategy.DiagonalStepStrategy;
-import janggi.domain.piece.strategy.MoveStrategy;
-import janggi.domain.piece.strategy.SingleStepStrategy;
-import janggi.domain.piece.strategy.SlidingStrategy;
-import java.util.List;
+import janggi.domain.piece.strategy.DiagonalStepRule;
+import janggi.domain.piece.strategy.EmptySlidingRule;
+import janggi.domain.piece.strategy.JumpingSlidingRule;
+import janggi.domain.piece.strategy.MoveRule;
+import janggi.domain.piece.strategy.SingleStepRule;
 
 public enum PieceRule {
 
-    GENERAL(new SingleStepStrategy(false), new EmptyCondition()),
-    CHARIOT(new SlidingStrategy(), new EmptyCondition()),
-    HORSE(new DiagonalStepStrategy(1), new EmptyCondition()),
-    CANNON(new SlidingStrategy(), new OnePieceExistsCondition()),
-    GUARD(new SingleStepStrategy(false), new EmptyCondition()),
-    ELEPHANT(new DiagonalStepStrategy(2), new EmptyCondition()),
-    SOLDIER(new SingleStepStrategy(true), new EmptyCondition());
+    GENERAL(new SingleStepRule(false)),
+    CHARIOT(new EmptySlidingRule()),
+    HORSE(new DiagonalStepRule(1)),
+    CANNON(new JumpingSlidingRule()),
+    GUARD(new SingleStepRule(false)),
+    ELEPHANT(new DiagonalStepRule(2)),
+    SOLDIER(new SingleStepRule(true));
 
-    private final MoveStrategy moveStrategy;
-    private final MoveCondition moveCondition;
+    private final MoveRule moveRule;
 
-    PieceRule(MoveStrategy moveStrategy, MoveCondition moveCondition) {
-        this.moveStrategy = moveStrategy;
-        this.moveCondition = moveCondition;
+    PieceRule(MoveRule moveRule) {
+        this.moveRule = moveRule;
     }
 
-    public List<Position> findPath(Position source, Position destination, Camp camp) {
-        return moveStrategy.findPath(source, destination, camp);
-    }
-
-    public void checkPath(List<Position> path, Camp camp, BoardChecker board) {
-        moveCondition.checkPath(path, camp, board, this);
+    public void validateMove(Position source, Position destination, Camp camp, BoardChecker board) {
+        moveRule.validate(source, destination, camp, board, this);
     }
 }

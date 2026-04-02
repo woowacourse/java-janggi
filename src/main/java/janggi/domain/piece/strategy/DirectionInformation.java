@@ -2,45 +2,45 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 
-public record DirectionInformation(int rowDifference, int colDifference) {
+public record DirectionInformation(int rowDistance, int colDistance) {
 
     public DirectionInformation(Position source, Position destination) {
         this(destination.calculateRowDistance(source), destination.calculateColumnDistance(source));
     }
 
     public int calculateRowDirection() {
-        if (rowDifference == 0) {
+        if (rowDistance == 0) {
             return 0;
         }
-        return rowDifference / Math.abs(rowDifference);
+        return rowDistance / Math.abs(rowDistance);
     }
 
     public int calculateColDirection() {
-        if (colDifference == 0) {
+        if (colDistance == 0) {
             return 0;
         }
-        return colDifference / Math.abs(colDifference);
+        return colDistance / Math.abs(colDistance);
     }
 
     public int calculateDistance() {
-        return Math.abs(rowDifference) + Math.abs(colDifference);
+        return Math.abs(rowDistance) + Math.abs(colDistance);
     }
 
     public boolean isRowBiggerThanCol() {
-        return Math.abs(rowDifference) > Math.abs(colDifference);
+        return Math.abs(rowDistance) > Math.abs(colDistance);
     }
 
     public boolean isHorizontal() {
-        return rowDifference == 0;
+        return rowDistance == 0;
     }
 
     public boolean isVertical() {
-        return colDifference == 0;
+        return colDistance == 0;
     }
 
-    public boolean hasAbsDifferences(int difference1, int difference2) {
-        int absRow = Math.abs(rowDifference);
-        int absCol = Math.abs(colDifference);
-        return (absRow == difference1 && absCol == difference2) || (absRow == difference2 && absCol == difference1);
+    public boolean hasAbsDifferences(int distance1, int distance2) {
+        int absRow = Math.abs(rowDistance);
+        int absCol = Math.abs(colDistance);
+        return (absRow == distance1 && absCol == distance2) || (absRow == distance2 && absCol == distance1);
     }
 }
