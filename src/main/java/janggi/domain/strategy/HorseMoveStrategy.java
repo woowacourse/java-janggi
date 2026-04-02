@@ -4,6 +4,7 @@ import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
 import janggi.domain.route.Destinations;
+import java.util.EnumSet;
 import java.util.List;
 
 public class HorseMoveStrategy extends PieceStrategy {
@@ -17,11 +18,11 @@ public class HorseMoveStrategy extends PieceStrategy {
         if (!boardInfo.isEmpty(firstStep)) {
             return Destinations.empty();
         }
-        List<Direction> nextDirections = baseDir.nextDiagonalDirections();
+        EnumSet<Direction> nextDirections = baseDir.nextDiagonalDirections();
         return navigationIfEnemy(current, nextDirections, firstStep, boardInfo);
     }
 
-    private Destinations navigationIfEnemy(Position current, List<Direction> nextDirections, Position firstStep,
+    private Destinations navigationIfEnemy(Position current, EnumSet<Direction> nextDirections, Position firstStep,
                                            BoardInfo boardInfo) {
         Destinations destinations = Destinations.empty();
         for (Direction targetDirection : nextDirections) {

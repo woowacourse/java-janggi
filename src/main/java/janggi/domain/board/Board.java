@@ -84,8 +84,8 @@ public class Board implements BoardInfo {
                                              PieceMapper<V> pieceMapper) {
         return piecePosition.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> entry.getKey().map(positionMapper), // Position 상태 Push
-                        entry -> entry.getValue().map(pieceMapper)   // Piece 상태 Push
+                        entry -> entry.getKey().map(positionMapper),
+                        entry -> entry.getValue().map(pieceMapper)
                 ));
     }
 }
