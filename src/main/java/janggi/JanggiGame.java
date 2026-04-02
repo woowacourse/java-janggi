@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.PieceSelection;
 import janggi.domain.game.Players;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
@@ -53,18 +54,17 @@ public class JanggiGame {
 
     private void playerTurn(PlayerDTO currentPlayer) {
         Side currentSide = currentPlayer.side();
-        Position selected = selectMovablePiece(currentSide);
-        List<Position> destinations = board.calculateDestinations(selected, currentSide);
-        movePiece(selected, destinations);
+        PieceSelection pieceSelection = selectMovablePiece(currentSide);
+        movePiece(pieceSelection.selected(), pieceSelection.destinations());
     }
 
-    private Position selectMovablePiece(Side currentSide) {
+    private PieceSelection selectMovablePiece(Side currentSide) {
         return retry(() -> {
             outputView.printSelectPiecePosition();
             Position position = readTargetPosition();
-            board.calculateDestinations(position, currentSide);
+            List<Position> destinations = board.calculateDestinations(position, currentSide);
 
-            return position;
+            return new PieceSelection(position, destinations);
         });
     }
 
