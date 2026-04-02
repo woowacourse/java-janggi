@@ -19,7 +19,7 @@ public class Board {
     public void movePiece(Position piecePosition, Position targetPosition) {
         Piece piece = findPieceAt(piecePosition);
         validateMoveable(piece, targetPosition);
-
+//        piece.getProperties().getPieceType().getName();
         board.replace(targetPosition, piece.moved(targetPosition));
         board.replace(piecePosition, Piece.None(piecePosition));
     }

@@ -17,15 +17,7 @@ public class ChariotMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean isMoveAble(Position destination) {
-        if (isSameRow(destination)) {
-            return !destination.equals(position.left()) && !destination.equals(position.right());
-        }
-
-        if (isSameCol(destination)) {
-            return !destination.equals(position.up()) && !destination.equals(position.down());
-        }
-
-        return false;
+        return isSameCol(destination) || isSameRow(destination);
     }
 
     @Override

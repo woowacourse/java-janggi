@@ -20,6 +20,9 @@ public class GuardMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean isMoveAble(Position targetPosition) {
+        if(!targetPosition.isInPalace()) {
+            return false;
+        }
         return destinations.contains(targetPosition);
     }
 
