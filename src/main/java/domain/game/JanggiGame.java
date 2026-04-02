@@ -37,12 +37,24 @@ public class JanggiGame {
         return turn;
     }
 
+    public Team getCurrentTeam() {
+        return turn.team();
+    }
+
+    public Team getEnemy() {
+        return turn.getEnemy();
+    }
+
     public void move(Coordinate coordinate) {
         this.board = board.move(coordinate, turn);
     }
 
     public void nextTurn() {
         this.turn = turn.changeTeam();
+    }
+
+    public boolean isFinished() {
+        return gameState.isFinished();
     }
 
     public void displayRequestCommand(OutputView outputView) {

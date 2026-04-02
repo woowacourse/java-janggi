@@ -6,6 +6,7 @@ import domain.board.Position;
 import domain.board.Row;
 import domain.game.Turn;
 import domain.piece.Team;
+import domain.state.GameResult;
 
 public class OutputView {
     public static final String RED   = "\u001B[31m";
@@ -71,5 +72,10 @@ public class OutputView {
 
     public void printCheckMessage(Team checkedTeam) {
         System.out.println("\n[장군] " + checkedTeam.display());
+    }
+
+    public void printGameResult(GameResult result) {
+        System.out.println("\n게임 종료!");
+        System.out.println(result.message());
     }
 }

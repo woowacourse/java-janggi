@@ -27,6 +27,10 @@ public final class Path {
         return positions.subList(0, positions.size() - 1);
     }
 
+    public List<Position> positions() {
+        return positions;
+    }
+
     public Path subPathTo(Position position) {
         int index = positions.indexOf(position);
         if (index == -1) {

@@ -62,6 +62,10 @@ public class Board {
         return pieces.getAllPiecesOf(team);
     }
 
+    public Board simulateMove(Position from, Position to) {
+        return new Board(pieces.move(from, to));
+    }
+
     private void validateMove(Coordinate coordinate, Turn turn) {
         Position from = coordinate.from();
         Position to = coordinate.to();

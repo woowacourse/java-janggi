@@ -5,16 +5,22 @@ import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Team;
 import domain.rule.CheckDetector;
+import domain.rule.CheckmateDetector;
 import domain.setup.Command;
 import io.OutputView;
 
 public class PlayingState implements GameState {
 
     private final CheckDetector checkDetector = new CheckDetector();
+    private final CheckmateDetector checkmateDetector = new CheckmateDetector();
 
     @Override
     public GameState handle(JanggiGame game, Command command) {
         game.move(command.toCoordinate());
+        Team opponent = game.getEnemy();
+        if (checkmateDetector.isCheckmate(game.getBoard(), opponent)) {
+            return new EndGameState(GameResult.winOf(game.getCurrentTeam()));
+        }
         return this;
     }
 

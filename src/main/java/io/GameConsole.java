@@ -16,8 +16,11 @@ public class GameConsole {
 
     public void run() {
         while (true) {
+            janggiGame.displayRequestCommand(outputView);
+            if (janggiGame.isFinished()) {
+                break;
+            }
             retryUntilSuccess(() -> {
-                janggiGame.displayRequestCommand(outputView);
                 janggiGame.processCommand(inputView.readCommand());
                 return null;
             });

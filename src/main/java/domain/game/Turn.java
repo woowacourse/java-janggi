@@ -29,4 +29,8 @@ public class Turn {
     public Turn changeTeam() {
         return new Turn(team.enemy());
     }
+
+    public Team getEnemy() {
+        return team.enemy();
+    }
 }
