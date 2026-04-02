@@ -1,12 +1,15 @@
 package domain.move.directions;
 
 import domain.intersection.Intersection;
+import domain.move.directions.exception.DirectionException;
 import domain.point.Point;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import static domain.move.directions.exception.DirectionError.INVALID_DIRECTION;
 
 public record Directions(
         List<Direction> directions
@@ -40,7 +43,7 @@ public record Directions(
                 .filter(direction -> direction.canReach(start, end))
                 .findFirst()
                 .map(direction -> direction.getPoints(start))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new DirectionException(INVALID_DIRECTION.getMessage()));
     }
 
 }
