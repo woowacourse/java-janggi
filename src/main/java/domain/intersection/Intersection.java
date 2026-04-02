@@ -1,6 +1,7 @@
 package domain.intersection;
 
 import domain.intersection.exception.IntersectionException;
+import domain.move.directions.Directions;
 import domain.piece.Piece;
 import domain.piece.Team;
 import domain.point.Point;
@@ -84,6 +85,18 @@ public class Intersection {
         if (!hasPiece()) {
             throw new IntersectionException(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
         }
+    }
+
+    public boolean isPalace() {
+        return false;
+    }
+
+    public boolean hasLinearPiece() {
+        return piece.isLinearPiece();
+    }
+
+    public Directions getDiagonalDirections() {
+        return Directions.empty();
     }
 
     @Override
