@@ -170,6 +170,7 @@ public class Board {
     }
 
     public void movePiece(Position selected, Position target) {
+        validatePieceExist(selected);
         Piece movingPiece = piecePosition.remove(selected);
         piecePosition.put(target, movingPiece);
     }

@@ -73,4 +73,20 @@ public class BoardTest {
                 () -> assertThat(piecePosition.get(target)).isNotNull()
         );
     }
+
+    @Test
+    @DisplayName("기물이 없는 빈 칸을 선택하려 하는 경우, IllegalArgumentException이 발생한다.")
+    void 빈_칸_선택_예외_테스트() {
+        // given
+        Board board = Board.initialize();
+        Position emptyPosition = new Position(5, 5);
+        Position targetPosition = new Position(4, 4);
+
+        // when & then
+        assertThatThrownBy(() -> board.movePiece(emptyPosition, targetPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 해당 위치에 기물이 없습니다.");
+
+        assertThat(board.getPiecePosition().get(targetPosition)).isNull();
+    }
 }
