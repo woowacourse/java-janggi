@@ -1,5 +1,7 @@
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Board;
+import domain.BoardFactory;
 import domain.Formation;
 import domain.Game;
 import domain.Position;
@@ -22,7 +24,7 @@ public class GameTest {
     @DisplayName("초 턴에 한 기물을 선택한 경우 이동할 수 없다.")
     @Test
     void 초_턴에_한_기물을_선택한_경우_이동할_수_없다() {
-        Game game = new Game(Formation.from("1"), Formation.from("1"));
+        Game game = createGame("1", "1");
         Position sourcePosition = Position.of(1, 4);
         Position targetPosition = Position.of(1, 1);
 
@@ -34,7 +36,7 @@ public class GameTest {
     @DisplayName("한 턴에 초 기물을 선택한 경우 이동할 수 없다.")
     @Test
     void 한_턴에_초_기물을_선택한_경우_이동할_수_없다() {
-        Game game = new Game(Formation.from("1"), Formation.from("1"));
+        Game game = createGame("1", "1");
         moveBySide(game, Side.CHO, Position.of(1, 7), Position.of(1, 6));
 
         Assertions.assertThatThrownBy(() -> game.move(Position.of(3, 7), Position.of(3, 6)))
@@ -45,7 +47,7 @@ public class GameTest {
     @DisplayName("출발지에 기물이 존재하지 않는 경우 이동할 수 없다.")
     @Test
     void 기물이_존재하지_않는_경우_이동할_수_없다() {
-        Game game = new Game(Formation.from("1"), Formation.from("1"));
+        Game game = createGame("1", "1");
         Position sourcePosition = Position.of(5, 5);
         Position targetPosition = Position.of(1, 1);
 
@@ -65,7 +67,7 @@ public class GameTest {
             @Test
             @DisplayName("차가 세로로 이동한다.")
             void 차가_세로로_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 1);
                 Position target = Position.of(1, 3);
 
@@ -78,7 +80,7 @@ public class GameTest {
             @Test
             @DisplayName("차가 가로로 이동한다.")
             void 차가_가로로_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 1);
                 Position mid = Position.of(1, 2);
                 Position target = Position.of(3, 2);
@@ -92,7 +94,7 @@ public class GameTest {
             @Test
             @DisplayName("차가 대각선으로 이동하면 예외가 발생한다.")
             void 차가_대각선으로_이동하면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 1);
                 Position target = Position.of(3, 3);
 
@@ -108,7 +110,7 @@ public class GameTest {
             @Test
             @DisplayName("상이 대각선 방향으로 이동한다.")
             void 상이_대각선_방향으로_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(2, 1);
                 Position target = Position.of(4, 4);
 
@@ -121,7 +123,7 @@ public class GameTest {
             @Test
             @DisplayName("상이 이동 불가능한 위치로 이동하면 예외가 발생한다.")
             void 상이_이동_불가능한_위치로_이동하면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(2, 1);
                 Position target = Position.of(3, 2);
 
@@ -137,7 +139,7 @@ public class GameTest {
             @Test
             @DisplayName("마가 날 일자로 이동한다.")
             void 마가_날_일자로_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("4"));
+                Game game = createGame("1", "4");
                 Position source = Position.of(2, 1);
                 Position target = Position.of(3, 3);
 
@@ -150,7 +152,7 @@ public class GameTest {
             @Test
             @DisplayName("마가 이동 불가능한 위치로 이동하면 예외가 발생한다.")
             void 마가_이동_불가능한_위치로_이동하면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("4"));
+                Game game = createGame("1", "4");
                 Position source = Position.of(2, 1);
                 Position target = Position.of(4, 4);
 
@@ -166,7 +168,7 @@ public class GameTest {
             @Test
             @DisplayName("포가 기물을 하나 뛰어넘어 이동한다.")
             void 포가_기물을_하나_뛰어넘어_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
 
                 moveBySide(game, Side.HAN, Position.of(4, 1), Position.of(4, 2));
                 moveBySide(game, Side.HAN, Position.of(4, 2), Position.of(4, 3));
@@ -179,7 +181,7 @@ public class GameTest {
             @Test
             @DisplayName("포가 뛰어넘을 기물이 없으면 예외가 발생한다.")
             void 포가_뛰어넘을_기물이_없으면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(2, 3);
                 Position target = Position.of(5, 3);
 
@@ -190,7 +192,7 @@ public class GameTest {
             @Test
             @DisplayName("포가 포를 뛰어넘으면 예외가 발생한다.")
             void 포가_포를_뛰어넘으면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
 
                 moveBySide(game, Side.HAN, Position.of(6, 1), Position.of(6, 2));
                 moveBySide(game, Side.HAN, Position.of(6, 2), Position.of(6, 3));
@@ -210,7 +212,7 @@ public class GameTest {
             @Test
             @DisplayName("사가 한 칸 이동한다.")
             void 사가_한_칸_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(4, 1);
                 Position target = Position.of(5, 1);
 
@@ -223,7 +225,7 @@ public class GameTest {
             @Test
             @DisplayName("사가 두 칸 이상 이동하면 예외가 발생한다.")
             void 사가_두_칸_이상_이동하면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(4, 1);
                 Position target = Position.of(4, 3);
 
@@ -239,7 +241,7 @@ public class GameTest {
             @Test
             @DisplayName("궁이 한 칸 이동한다.")
             void 궁이_한_칸_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(5, 2);
                 Position target = Position.of(5, 1);
 
@@ -252,7 +254,7 @@ public class GameTest {
             @Test
             @DisplayName("궁이 두 칸 이상 이동하면 예외가 발생한다.")
             void 궁이_두_칸_이상_이동하면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(5, 2);
                 Position target = Position.of(5, 4);
 
@@ -268,7 +270,7 @@ public class GameTest {
             @Test
             @DisplayName("졸이 앞으로 한 칸 이동한다.")
             void 졸이_앞으로_한_칸_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 7);
                 Position target = Position.of(1, 6);
 
@@ -281,7 +283,7 @@ public class GameTest {
             @Test
             @DisplayName("병이 앞으로 한 칸 이동한다.")
             void 병이_앞으로_한_칸_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 4);
                 Position target = Position.of(1, 5);
 
@@ -294,7 +296,7 @@ public class GameTest {
             @Test
             @DisplayName("졸이 옆으로 한 칸 이동한다.")
             void 졸이_옆으로_한_칸_이동한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 7);
                 Position target = Position.of(2, 7);
 
@@ -306,7 +308,7 @@ public class GameTest {
             @Test
             @DisplayName("졸이 뒤로 이동하면 예외가 발생한다.")
             void 졸이_뒤로_이동하면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 7);
                 Position target = Position.of(1, 8);
 
@@ -322,7 +324,7 @@ public class GameTest {
             @Test
             @DisplayName("적 기물을 잡을 수 있다.")
             void 적_기물을_잡을_수_있다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
 
                 moveBySide(game, Side.HAN, Position.of(1, 4), Position.of(2, 4));
                 moveBySide(game, Side.HAN, Position.of(1, 1), Position.of(1, 7));
@@ -334,7 +336,7 @@ public class GameTest {
             @Test
             @DisplayName("아군 기물을 잡으면 예외가 발생한다.")
             void 아군_기물을_잡으면_예외가_발생한다() {
-                Game game = new Game(Formation.from("1"), Formation.from("1"));
+                Game game = createGame("1", "1");
                 Position source = Position.of(1, 1);
                 Position target = Position.of(1, 4);
 
@@ -343,6 +345,11 @@ public class GameTest {
                     .hasMessageContaining("아군 기물은 잡을 수 없습니다.");
             }
         }
+    }
+
+    private Game createGame(String choFormation, String hanFormation) {
+        Board board = BoardFactory.createBoard(Formation.from(choFormation), Formation.from(hanFormation));
+        return new Game(board);
     }
 
     private void moveBySide(Game game, Side side, Position source, Position target) {

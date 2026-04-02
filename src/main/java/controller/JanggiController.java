@@ -1,5 +1,7 @@
 package controller;
 
+import domain.Board;
+import domain.BoardFactory;
 import domain.Formation;
 import domain.Game;
 import domain.Position;
@@ -65,7 +67,9 @@ public class JanggiController {
     private Game initGame() {
         Formation choformation = readChoFormation();
         Formation hanformation = readHanFormation();
-        Game game = new Game(choformation, hanformation);
+
+        Board board = BoardFactory.createBoard(choformation, hanformation);
+        Game game = new Game(board);
         outputView.printBoardStatus(game.getBoard());
         return game;
     }

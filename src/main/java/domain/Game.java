@@ -9,8 +9,8 @@ public class Game {
     private final Board board;
     private final Turn turn;
 
-    public Game(Formation choFormation, Formation hanFormation) {
-        this.board = new Board(choFormation, hanFormation);
+    public Game(Board board) {
+        this.board = board;
         this.turn = new Turn(Side.CHO);
     }
 
