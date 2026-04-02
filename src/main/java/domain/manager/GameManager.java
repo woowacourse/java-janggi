@@ -3,6 +3,8 @@ package domain.manager;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
+import domain.piece.BasicPiece;
+import domain.piece.PieceType;
 import domain.player.Player;
 import domain.position.Position;
 
@@ -21,7 +23,11 @@ public class GameManager {
     }
 
     public void move(Position source, Position destination) {
-        board.move(source, destination, currentPlayer);
+        BasicPiece caughtPiece = board.move(source, destination, currentPlayer);
+        if (caughtPiece.isType(PieceType.JANG)) {
+            isGameRunning = false;
+            return;
+        }
         switchTurn();
     }
 

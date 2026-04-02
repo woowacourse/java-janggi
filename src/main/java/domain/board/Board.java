@@ -17,14 +17,17 @@ public class Board {
         this.board = board;
     }
 
-    public void move(Position source, Position destination, Player player) {
+    public BasicPiece move(Position source, Position destination, Player player) {
         validateSource(source, player);
         BasicPiece movePiece = findPiece(source);
 
         validateMovement((MovablePiece) movePiece, source, destination);
 
+        BasicPiece caughtPiece = findPiece(destination);
         board.put(source, None.getInstance());
         board.put(destination, movePiece);
+
+        return caughtPiece;
     }
 
     public BasicPiece findPiece(Position position) {

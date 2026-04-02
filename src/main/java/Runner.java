@@ -30,6 +30,8 @@ public class Runner {
         while (gameManager.isGameRunning()) {
             playTurn();
         }
+
+        outputView.printResult(gameManager.getCurrentPlayer().getProfile());
     }
 
     private void playTurn() {
