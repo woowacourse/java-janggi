@@ -77,12 +77,17 @@ public class Board {
         Position current = from.move(move.direction());
 
         while (!current.isSamePosition(to)) {
-            Piece piece = findPiece(current);
-            if (piece != null) {
-                pieces.add(piece);
-            }
-            current = current.move(move.direction());
+            current = getPosition(move, current, pieces);
         }
         return List.copyOf(pieces);
+    }
+
+    private Position getPosition(Move move, Position current, List<Piece> pieces) {
+        Piece piece = findPiece(current);
+        if (piece != null) {
+            pieces.add(piece);
+        }
+        current = current.move(move.direction());
+        return current;
     }
 }
