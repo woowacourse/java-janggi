@@ -45,6 +45,16 @@ public class Down implements Direction {
     }
 
     @Override
+    public Direction left() {
+        return new Right();
+    }
+
+    @Override
+    public Direction right() {
+        return new Left();
+    }
+
+    @Override
     public Direction reverse() {
         return new Up();
     }

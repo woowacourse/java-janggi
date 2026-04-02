@@ -3,26 +3,24 @@ package domain.game;
 import domain.board.Intersection;
 import domain.direction.Direction;
 import domain.direction.Down;
-import domain.direction.Left;
 import domain.direction.MoveAmount;
-import domain.direction.Right;
 import domain.direction.Up;
 import java.util.List;
 
 public enum Side {
-    HAN(1, 9, new Down(), new Right()) {
+    HAN(1, 9, new Down()) {
         @Override
         public Side nextTurn() {
             return CHO;
         }
     },
-    CHO(10, 1, new Up(), new Left()) {
+    CHO(10, 1, new Up()) {
         @Override
         public Side nextTurn() {
             return HAN;
         }
     },
-    NONE(0, 0, new NoDirection(), new NoDirection()) {
+    NONE(0, 0, new NoDirection()) {
         @Override
         public Side nextTurn() {
             return NONE;
@@ -33,18 +31,15 @@ public enum Side {
     private final int baseRow;
     private final int baseFile;
     private final Direction forwardDirection;
-    private final Direction leftDirection;
 
     Side(
             int baseRow,
             int baseFile,
-            Direction forwardDirection,
-            Direction leftDirection
+            Direction forwardDirection
     ) {
         this.baseRow = baseRow;
         this.baseFile = baseFile;
         this.forwardDirection = forwardDirection;
-        this.leftDirection = leftDirection;
     }
 
     public int getRowAt(MoveAmount distanceFromBaseRow) {
@@ -99,7 +94,7 @@ public enum Side {
     public List<Direction> getAllDirections() {
         return List.of(
                 forwardDirection, forwardDirection.reverse(),
-                leftDirection, leftDirection.reverse()
+                forwardDirection.left(), forwardDirection.right()
         );
     }
 
@@ -129,6 +124,16 @@ public enum Side {
         @Override
         public Intersection moveForwardRight(Intersection current, MoveAmount amount) {
             return current;
+        }
+
+        @Override
+        public Direction left() {
+            return this;
+        }
+
+        @Override
+        public Direction right() {
+            return this;
         }
 
         @Override
