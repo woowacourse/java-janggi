@@ -40,6 +40,15 @@ public class Ma extends Piece {
         return findMovePath(start, end).isPresent();
     }
 
+    private boolean isObstaclesNotExist(Position startPosition, Position endPosition, Board board) {
+        Optional<MovePath> movePath = findMovePath(startPosition, endPosition);
+        if (movePath.isEmpty()) {
+            return false;
+        }
+        return movePath.get().intermediatePositions(startPosition, endPosition).stream()
+                .noneMatch(board::hasPiece);
+    }
+
     private Optional<MovePath> findMovePath(Position start, Position end) {
         if (isSamePosition(start, end)) {
             return Optional.empty();
@@ -55,14 +64,5 @@ public class Ma extends Piece {
 
     private boolean isSamePosition(Position start, Position end) {
         return start.isSamePosition(end);
-    }
-
-    private boolean isObstaclesNotExist(Position startPosition, Position endPosition, Board board) {
-        Optional<MovePath> movePath = findMovePath(startPosition, endPosition);
-        if (movePath.isEmpty()) {
-            return false;
-        }
-        return movePath.get().intermediatePositions(startPosition, endPosition).stream()
-            .noneMatch(board::hasPiece);
     }
 }

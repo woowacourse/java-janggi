@@ -34,19 +34,6 @@ public class Po extends Piece {
         return findMovePath(start, end).isPresent();
     }
 
-    private Optional<MovePath> findMovePath(Position start, Position end) {
-        if (isSamePosition(start, end)) {
-            return Optional.empty();
-        }
-
-        int dx = start.deltaX(end);
-        int dy = start.deltaY(end);
-
-        return PATHS.stream()
-            .filter(path -> path.matchesDirection(dx, dy))
-            .findFirst();
-    }
-
     private void validateObstacles(Position start, Position end, Board board) {
         Optional<MovePath> movePath = findMovePath(start, end);
         if (movePath.isEmpty()) {
@@ -67,6 +54,19 @@ public class Po extends Piece {
         if (obstacles.getFirst().getPieceType() == PieceType.PO) {
             throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
+    }
+
+    private Optional<MovePath> findMovePath(Position start, Position end) {
+        if (isSamePosition(start, end)) {
+            return Optional.empty();
+        }
+
+        int dx = start.deltaX(end);
+        int dy = start.deltaY(end);
+
+        return PATHS.stream()
+            .filter(path -> path.matchesDirection(dx, dy))
+            .findFirst();
     }
 
     private boolean isSamePosition(Position start, Position end) {

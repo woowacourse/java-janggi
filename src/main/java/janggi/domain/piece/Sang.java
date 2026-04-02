@@ -40,6 +40,15 @@ public class Sang extends Piece {
         return findMovePath(start, end).isPresent();
     }
 
+    private boolean isObstaclesNotExist(Position start, Position end, Board board) {
+        Optional<MovePath> movePath = findMovePath(start, end);
+        if (movePath.isEmpty()) {
+            return false;
+        }
+        return movePath.get().intermediatePositions(start, end).stream()
+                .noneMatch(board::hasPiece);
+    }
+
     private Optional<MovePath> findMovePath(Position start, Position end) {
         if (isSamePosition(start, end)) {
             return Optional.empty();
@@ -55,14 +64,5 @@ public class Sang extends Piece {
 
     private boolean isSamePosition(Position start, Position end) {
         return start.isSamePosition(end);
-    }
-
-    private boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePath> movePath = findMovePath(start, end);
-        if (movePath.isEmpty()) {
-            return false;
-        }
-        return movePath.get().intermediatePositions(start, end).stream()
-            .noneMatch(board::hasPiece);
     }
 }
