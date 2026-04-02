@@ -3,10 +3,13 @@ package janggi.domain.mouveRule;
 import janggi.domain.BoardView;
 import janggi.domain.vo.Position;
 
-public class PalaceMoveRule implements MoveRule {
+public class AdvisorMoveRule implements MoveRule {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
+        if (!board.isInsidePalace(from) || !board.isInsidePalace(to)) {
+            return false;
+        }
         return isStraightOneStep(from, to) || board.canMoveDiagonallyInPalace(from, to);
     }
 

@@ -6,9 +6,9 @@ import janggi.domain.Board;
 import janggi.domain.vo.Position;
 import org.junit.jupiter.api.Test;
 
-class PalaceMoveRuleTest {
+class KingMoveRuleTest {
     private final Board board = Board.empty();
-    private final MoveRule moveRule = new PalaceMoveRule();
+    private final MoveRule moveRule = new KingMoveRule();
 
     //한나라
     @Test
@@ -185,3 +185,4 @@ class PalaceMoveRuleTest {
                 new Position(7, 5), new Position(9, 3), board)).isFalse();
     }
 }
+
