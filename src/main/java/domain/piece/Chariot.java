@@ -7,6 +7,7 @@ import domain.strategy.MovementStrategy;
 import domain.strategy.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Chariot extends Piece {
     private final PieceType pieceType = PieceType.CHARIOT;
@@ -17,18 +18,17 @@ public class Chariot extends Piece {
 
     @Override
     protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
-        List<Position> valid = new ArrayList<>();
-        for (Path path : paths) {
-            collectPathPositions(valid, path, board);
-        }
-        return valid;
+        return paths.stream()
+                .flatMap(path -> collectPathPositions(path, board).stream())
+                .toList();
     }
 
-    private void collectPathPositions(List<Position> valid, Path path, BoardReader board) {
+    private List<Position> collectPathPositions(Path path, BoardReader board) {
         List<Position> positions = path.getPositions();
         int obstacleIndex = findObstacleIndex(positions, board);
-        valid.addAll(positions.subList(0, obstacleIndex));
-        addCaptureIfPossible(valid, positions, obstacleIndex, board);
+        List<Position> valid = new ArrayList<>(positions.subList(0, obstacleIndex));
+        findCapturePosition(positions, obstacleIndex, board).ifPresent(valid::add);
+        return valid;
     }
 
     private int findObstacleIndex(List<Position> positions, BoardReader board) {
@@ -39,17 +39,16 @@ public class Chariot extends Piece {
         return index;
     }
 
-    private void addCaptureIfPossible(List<Position> valid, List<Position> positions, int index, BoardReader board) {
-        if (index < positions.size()) {
-            addIfEnemy(valid, positions.get(index), board);
+    private Optional<Position> findCapturePosition(List<Position> positions, int index, BoardReader board) {
+        if (index >= positions.size()) {
+            return Optional.empty();
         }
-    }
-
-    private void addIfEnemy(List<Position> valid, Position position, BoardReader board) {
+        Position position = positions.get(index);
         Piece target = board.getPiece(position);
         if (!target.isAlly(getSide())) {
-            valid.add(position);
+            return Optional.of(position);
         }
+        return Optional.empty();
     }
 
     @Override
