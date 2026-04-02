@@ -24,6 +24,10 @@ public class OutputView {
     private OutputView() {
     }
 
+    public static void printMessage(String string) {
+        System.out.println(string);
+    }
+
     public static void printInputPlayerNames() {
         System.out.println(INPUT_PLAYER_NAMES);
     }

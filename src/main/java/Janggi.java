@@ -1,69 +1,40 @@
 import domain.board.Board;
-import domain.board.BoardFactory;
-import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
 import domain.player.Player;
 import domain.player.Players;
 import domain.position.Position;
 import java.util.List;
-import parser.PlayerNameParser;
-import parser.PositionParser;
-import view.InputView;
-import view.OutputView;
 
 public class Janggi {
 
-    public void run() {
-        Players players = getPlayer();
-        Board board = getBoard();
+    private final Players players;
+    private final Board board;
+    private Player currentPlayer;
 
-        play(players, board);
+    public Janggi(Players players, Board board) {
+        this.players = players;
+        this.board = board;
+        this.currentPlayer = players.getPlayerBySide(Side.CHO);
     }
 
-    private Players getPlayer() {
-        OutputView.printInputPlayerNames();
-        String input = InputView.readLine();
-        List<String> names = PlayerNameParser.splitNames(input);
-
-        return Players.from(names);
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    private Board getBoard() {
-        HorseElephantFormation cho = getHorseElephantFormation(Side.CHO);
-        HorseElephantFormation han = getHorseElephantFormation(Side.HAN);
-
-        return BoardFactory.create(cho, han);
+    public List<List<String>> getBoardFormat() {
+        return board.getFormatBoard();
     }
 
-    private HorseElephantFormation getHorseElephantFormation(Side side) {
-        OutputView.printHorseElephantFormation(side);
-        String input = InputView.readLine();
-
-        return HorseElephantFormation.from(input);
+    public void move(Position from, Position to) {
+        board.move(from, to, currentPlayer.getSide());
+        changeTurn();
     }
 
-    private void play(Players players, Board board) {
-        while (true) {
-            turn(players.getPlayerBySide(Side.CHO), board);
-            turn(players.getPlayerBySide(Side.HAN), board);
+    private void changeTurn() {
+        if (currentPlayer.getSide() == Side.CHO) {
+            currentPlayer = players.getPlayerBySide(Side.HAN);
+            return;
         }
-    }
-
-    private void turn(Player player, Board board) {
-        OutputView.printBoard(board.getFormatBoard());
-        Position from = getFrom(player);
-        Position to = getTo(player);
-
-        board.move(from, to, player.getSide());
-    }
-
-    private Position getFrom(Player player) {
-        OutputView.printPieceMove(player.getName(), player.getSide());
-        return PositionParser.parsePosition(InputView.readLine());
-    }
-
-    private Position getTo(Player player) {
-        OutputView.printPositionMove(player.getName(), player.getSide());
-        return PositionParser.parsePosition(InputView.readLine());
+        currentPlayer = players.getPlayerBySide(Side.CHO);
     }
 }
