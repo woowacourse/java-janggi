@@ -2,6 +2,8 @@ package domain.move.rule;
 
 import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
+import domain.intersection.palace.NormalIntersection;
+import domain.move.directions.exception.DirectionException;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
 import domain.piece.Piece;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static domain.move.directions.exception.DirectionError.INVALID_DIRECTION;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
 
 class SoliderMoveRuleTest {
@@ -100,5 +103,54 @@ class SoliderMoveRuleTest {
         Assertions.assertThat(actual)
                 .isEqualTo(expected);
     }
+
+    @Test
+    @DisplayName("초 진영 졸이 내려가려고 하면 예외가 발생한다.")
+    void shouldThrowExceptionWhenSoliderOfChoMoveDown() {
+        // given
+        Point start = new Point(1, 0);
+        Point end = start.next(Vector.DOWN);
+
+        Team sameTeam = Team.CHO;
+        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
+
+        Intersection origin = new NormalIntersection(start, soldier);
+        Intersection destination = NormalIntersection.empty(end);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                origin,
+                destination))
+        );
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, sameTeam))
+                .isInstanceOf(DirectionException.class)
+                .hasMessage(INVALID_DIRECTION.getMessage());
+    }
+
+    @Test
+    @DisplayName("한 진영 졸이 올라가려고 하면 예외가 발생한다.")
+    void shouldThrowExceptionWhenSoliderOfHanMoveUp() {
+        // given
+        Point start = new Point(1, 0);
+        Point end = start.next(Vector.UP);
+
+        Team sameTeam = Team.HAN;
+        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
+
+        Intersection origin = new NormalIntersection(start, soldier);
+        Intersection destination = NormalIntersection.empty(end);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                origin,
+                destination))
+        );
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, sameTeam))
+                .isInstanceOf(DirectionException.class)
+                .hasMessage(INVALID_DIRECTION.getMessage());
+    }
+
 
 }

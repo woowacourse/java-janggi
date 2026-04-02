@@ -9,29 +9,21 @@ import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.path.Path;
 import domain.point.Point;
+
 import java.util.List;
 
 public class SoliderMoveRule implements MoveRule {
 
-    private static final Directions DEFAULT_HAN_DIRECTIONS = new Directions(List.of(
-            new Direction(List.of(DOWN)),
-            new Direction(List.of(RIGHT)),
-            new Direction(List.of(LEFT)))
-    );
+    private static final Directions DEFAULT_SOLIDER_DIRECTIONS = initializeDirections();
 
-    private static final Directions DEFAULT_CHO_DIRECTIONS = new Directions(List.of(
-            new Direction(List.of(UP)),
-            new Direction(List.of(RIGHT)),
-            new Direction(List.of(LEFT)))
-    );
 
     public SoliderMoveRule() {
     }
 
     @Override
     public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
-        Directions directions = getDirections(origin);
-        return directions.findPoints(origin, destination);
+        Directions forward = DEFAULT_SOLIDER_DIRECTIONS.toForward(origin);
+        return forward.findPoints(origin, destination);
     }
 
     @Override
@@ -39,12 +31,13 @@ public class SoliderMoveRule implements MoveRule {
         path.validateIsSameTeam();
     }
 
-
-    public Directions getDirections(Intersection origin){
-        if (origin.isChoIntersection()) {
-            return DEFAULT_CHO_DIRECTIONS;
-        }
-        return DEFAULT_HAN_DIRECTIONS;
+    public static Directions initializeDirections() {
+        return new Directions(List.of(
+                new Direction(List.of(UP)),
+                new Direction(List.of(DOWN)),
+                new Direction(List.of(RIGHT)),
+                new Direction(List.of(LEFT)))
+        );
     }
 
 }

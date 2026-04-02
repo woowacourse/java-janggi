@@ -46,4 +46,12 @@ public record Directions(
                 .orElseThrow(() -> new DirectionException(INVALID_DIRECTION.getMessage()));
     }
 
+    public Directions toForward(Intersection origin) {
+        List<Direction> forwardDirections = this.directions.stream()
+                .map(direction -> direction.toForward(origin.getTeam()))
+                .filter(direction -> !direction.vectors().isEmpty())
+                .toList();
+        return new Directions(forwardDirections);
+    }
+
 }

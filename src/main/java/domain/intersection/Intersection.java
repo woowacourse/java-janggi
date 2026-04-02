@@ -91,6 +91,10 @@ public class Intersection {
         return false;
     }
 
+    public Team getTeam() {
+        return piece.team();
+    }
+
     public boolean hasLinearPiece() {
         return piece.isLinearPiece();
     }
