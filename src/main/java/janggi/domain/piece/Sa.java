@@ -1,12 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
-import janggi.domain.PalaceRoutes;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Sa extends StepPiece {
@@ -32,12 +30,5 @@ public class Sa extends StepPiece {
         if(!position.isPalace()) {
             throw new IllegalArgumentException(SA_MOVE_OUTSIDE_PALACE_MESSAGE);
         }
-    }
-
-    @Override
-    protected List<List<Movement>> candidateMoves(Position position){
-        List<List<Movement>> moves = new ArrayList<>(super.candidateMoves(position));
-        moves.addAll(PalaceRoutes.diagonalOneStepMovements(position));
-        return moves;
     }
 }

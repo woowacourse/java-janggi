@@ -1,12 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
-import janggi.domain.PalaceRoutes;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends StepPiece {
@@ -35,12 +33,5 @@ public class Pawn extends StepPiece {
         if(side.equals(Side.HAN) && start.isAbove(end)) {
             throw new IllegalArgumentException(PAWN_MOVE_BACKWARD_MESSAGE);
         }
-    }
-
-    @Override
-    protected List<List<Movement>> candidateMoves(Position position){
-        List<List<Movement>> moves = new ArrayList<>(super.candidateMoves(position));
-        moves.addAll(PalaceRoutes.diagonalOneStepMovements(position));
-        return moves;
     }
 }

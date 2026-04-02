@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
+import janggi.domain.PalaceRoutes;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.RoutePolicy;
@@ -34,7 +35,9 @@ public abstract class StepPiece extends ActivePiece {
         return calculatedPath;
     }
 
-    protected List<List<Movement>> candidateMoves(Position start) {
-        return new ArrayList<>(baseMoveRange);
+    private List<List<Movement>> candidateMoves(Position position){
+        List<List<Movement>> moves = new ArrayList<>(baseMoveRange);
+        moves.addAll(PalaceRoutes.diagonalOneStepMovements(position));
+        return moves;
     }
 }
