@@ -108,15 +108,15 @@ public class BoardTest {
         Board board = initBoard(
                 PositionInfo.from(Team.CHO, "JANG", 4, 1),
                 PositionInfo.from(Team.HAN, "JANG", 4, 8),
-                PositionInfo.from(Team.CHO, "JANG", 4, 2),
-                PositionInfo.from(Team.HAN, "JOL", 4, 3)
+                PositionInfo.from(Team.CHO, "CHA", 0, 0),
+                PositionInfo.from(Team.HAN, "JOL", 0, 3)
         );
 
-        board.move(Point.of(4, 2), Point.of(4, 3), Team.CHO);
+        board.move(Point.of(0, 0), Point.of(0, 3), Team.CHO);
 
-        assertThat(pieceAt(board, 4, 2)).isNull();
-        assertThat(pieceAt(board, 4, 3).getType()).isEqualTo(PieceType.JANG);
-        assertThat(pieceAt(board, 4, 3).isSameTeam(Team.CHO)).isTrue();
+        assertThat(pieceAt(board, 0, 0)).isNull();
+        assertThat(pieceAt(board, 0, 3).getType()).isEqualTo(PieceType.CHA);
+        assertThat(pieceAt(board, 0, 3).isSameTeam(Team.CHO)).isTrue();
     }
 
     @Test
