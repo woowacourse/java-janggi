@@ -6,6 +6,7 @@ import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,8 @@ import org.junit.jupiter.api.Test;
 public class StepMoveRuleTest {
 
     @Test
-    @DisplayName("이동 가능한 목적지 계산 테스트")
-    void execute() {
+    @DisplayName("경로와 목적지에 장애물이 없다")
+    void execute_1() {
         // given
         Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(5, 3), new Elephant(TeamType.RED)
@@ -26,14 +27,112 @@ public class StepMoveRuleTest {
                 new Movement(1, Direction.RIGHT),
                 new Movement(2, Direction.UP_RIGHT)
         );
-        MoveRule moveRuleWithNoTraces = new StepMoveRule(movementOrder);
+        MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = moveRuleWithNoTraces.execute(from, board);
+        List<Position> actual = stepMoveRule.execute(from, board);
 
         // then
         List<Position> expected = List.of(Position.valueOf(3, 6));
+        assertThat(actual).hasSameElementsAs(expected);
+    }
+
+    @Test
+    @DisplayName("경로에 장애물이 없지만 목적지에 장애물이 있다")
+    void execute_2() {
+        // given
+        Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(5, 3), new Elephant(TeamType.RED),
+                Position.valueOf(3, 6), new Soldier(TeamType.RED)
+        );
+        Board board = new Board(positionPieceMap);
+        List<Movement> movementOrder = List.of(
+                new Movement(1, Direction.RIGHT),
+                new Movement(2, Direction.UP_RIGHT)
+        );
+        MoveRule stepMoveRule = new StepMoveRule(movementOrder);
+        Position from = Position.valueOf(5, 3);
+
+        // when
+        List<Position> actual = stepMoveRule.execute(from, board);
+
+        // then
+        List<Position> expected = List.of();
+        assertThat(actual).hasSameElementsAs(expected);
+    }
+
+    @Test
+    @DisplayName("경로에 장애물이 없고 목적지에 적 기물이 있다")
+    void execute_3() {
+        // given
+        Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(5, 3), new Elephant(TeamType.RED),
+                Position.valueOf(3, 6), new Soldier(TeamType.BLUE)
+        );
+        Board board = new Board(positionPieceMap);
+        List<Movement> movementOrder = List.of(
+                new Movement(1, Direction.RIGHT),
+                new Movement(2, Direction.UP_RIGHT)
+        );
+        MoveRule stepMoveRule = new StepMoveRule(movementOrder);
+        Position from = Position.valueOf(5, 3);
+
+        // when
+        List<Position> actual = stepMoveRule.execute(from, board);
+
+        // then
+        List<Position> expected = List.of(Position.valueOf(3, 6));
+        assertThat(actual).hasSameElementsAs(expected);
+    }
+
+    @Test
+    @DisplayName("경로에 장애물이 있고 목적지에 적 기물이 있다")
+    void execute_4() {
+        // given
+        Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(5, 3), new Elephant(TeamType.RED),
+                Position.valueOf(5, 4), new Soldier(TeamType.BLUE),
+                Position.valueOf(6, 3), new Soldier(TeamType.BLUE)
+        );
+        Board board = new Board(positionPieceMap);
+        List<Movement> movementOrder = List.of(
+                new Movement(1, Direction.RIGHT),
+                new Movement(2, Direction.UP_RIGHT)
+        );
+        MoveRule stepMoveRule = new StepMoveRule(movementOrder);
+        Position from = Position.valueOf(5, 3);
+
+        // when
+        List<Position> actual = stepMoveRule.execute(from, board);
+
+        // then
+        List<Position> expected = List.of();
+        assertThat(actual).hasSameElementsAs(expected);
+    }
+
+    @Test
+    @DisplayName("경로에 장애물이 있고 목적지에 적 기물이 있다")
+    void execute_5() {
+        // given
+        Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(5, 3), new Elephant(TeamType.RED),
+                Position.valueOf(4, 5), new Soldier(TeamType.BLUE),
+                Position.valueOf(6, 3), new Soldier(TeamType.BLUE)
+        );
+        Board board = new Board(positionPieceMap);
+        List<Movement> movementOrder = List.of(
+                new Movement(1, Direction.RIGHT),
+                new Movement(2, Direction.UP_RIGHT)
+        );
+        MoveRule stepMoveRule = new StepMoveRule(movementOrder);
+        Position from = Position.valueOf(5, 3);
+
+        // when
+        List<Position> actual = stepMoveRule.execute(from, board);
+
+        // then
+        List<Position> expected = List.of();
         assertThat(actual).hasSameElementsAs(expected);
     }
 }
