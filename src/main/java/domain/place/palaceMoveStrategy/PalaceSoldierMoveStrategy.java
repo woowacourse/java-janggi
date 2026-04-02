@@ -1,6 +1,7 @@
 package domain.place.palaceMoveStrategy;
 
 import domain.place.Empty;
+import domain.place.PalaceArea;
 import domain.place.Place;
 import domain.place.moveStrategy.Direction;
 import domain.place.piece.Side;
@@ -27,7 +28,7 @@ public class PalaceSoldierMoveStrategy implements PalaceMoveStrategy {
     public List<Position> getPath(Position from) {
         return directions.stream()
                 .flatMap(direction -> from.moveIfInBounds(direction).stream())
-                .filter(PalaceMovementRule::isInsidePalace)
+                .filter(PalaceArea::isInsidePalace)
                 .toList();
     }
 
@@ -39,7 +40,7 @@ public class PalaceSoldierMoveStrategy implements PalaceMoveStrategy {
         }
         return directions.stream()
                 .flatMap(d -> from.moveIfInBounds(d).stream())
-                .filter(PalaceMovementRule::isInsidePalace)
+                .filter(PalaceArea::isInsidePalace)
                 .anyMatch(to::equals);
     }
 

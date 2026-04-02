@@ -1,6 +1,7 @@
 package domain.place.palaceMoveStrategy;
 
 import domain.place.Empty;
+import domain.place.PalaceArea;
 import domain.place.Place;
 import domain.place.moveStrategy.Direction;
 import domain.place.piece.Side;
@@ -28,7 +29,7 @@ public class PalaceStraightMoveStrategy implements PalaceMoveStrategy {
     private void collectLinePositions(List<Position> result, Position from, Direction direction) {
         Optional<Position> current = from.moveIfInBounds(direction);
 
-        while (current.isPresent() && PalaceMovementRule.isInsidePalace(current.get())) {
+        while (current.isPresent() && PalaceArea.isInsidePalace(current.get())) {
             Position pos = current.get();
             result.add(pos);
 

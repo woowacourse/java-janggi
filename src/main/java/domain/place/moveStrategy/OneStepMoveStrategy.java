@@ -2,7 +2,7 @@ package domain.place.moveStrategy;
 
 import domain.place.Empty;
 import domain.place.Place;
-import domain.place.palaceMoveStrategy.PalaceMovementRule;
+import domain.place.PalaceArea;
 import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.List;
@@ -18,7 +18,7 @@ public class OneStepMoveStrategy implements MoveStrategy {
     public List<Position> getPath(Position from) {
         return ORTHOGONAL_DIRECTIONS.stream()
                 .flatMap(d -> from.moveIfInBounds(d).stream())
-                .filter(PalaceMovementRule::isInsidePalace)
+                .filter(PalaceArea::isInsidePalace)
                 .toList();
     }
 
@@ -30,7 +30,7 @@ public class OneStepMoveStrategy implements MoveStrategy {
         }
         return ORTHOGONAL_DIRECTIONS.stream()
                 .flatMap(d -> from.moveIfInBounds(d).stream())
-                .filter(PalaceMovementRule::isInsidePalace)
+                .filter(PalaceArea::isInsidePalace)
                 .anyMatch(to::equals);
     }
 

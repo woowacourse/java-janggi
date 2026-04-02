@@ -1,6 +1,7 @@
 package domain.place.palaceMoveStrategy;
 
 import domain.place.Empty;
+import domain.place.PalaceArea;
 import domain.place.Place;
 import domain.place.moveStrategy.Direction;
 import domain.place.piece.PieceSymbol;
@@ -30,7 +31,7 @@ public class PalaceJumpMoveStrategy implements PalaceMoveStrategy {
     private void collectLinePositions(List<Position> result, Position from, Direction direction) {
         Optional<Position> current = from.moveIfInBounds(direction);
 
-        while (current.isPresent() && PalaceMovementRule.isInsidePalace(current.get())) {
+        while (current.isPresent() && PalaceArea.isInsidePalace(current.get())) {
             Position pos = current.get();
             result.add(pos);
 
@@ -57,7 +58,7 @@ public class PalaceJumpMoveStrategy implements PalaceMoveStrategy {
                                 Position to,
                                 Direction direction) {
         Optional<Position> current = from.moveIfInBounds(direction);
-        if (current.isEmpty() || !PalaceMovementRule.isInsideSpecialPalace(current.get())) {
+        if (current.isEmpty() || !PalaceArea.isInsideSpecialPalace(current.get())) {
             return false;
         }
         Place middlePlace = getPlace(board, current.get());

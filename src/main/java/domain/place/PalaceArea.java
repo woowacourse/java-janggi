@@ -1,9 +1,9 @@
-package domain.place.palaceMoveStrategy;
+package domain.place;
 
 import domain.position.Position;
 import java.util.Set;
 
-public class PalaceMovementRule {
+public class PalaceArea {
     private static final Set<Position> NORMAL_PALACE = Set.of(
             new Position(1, 5),
             new Position(2, 4),
