@@ -1,6 +1,7 @@
 package domain.position;
 
-import domain.board.BoardPolicy;
+import static domain.board.BoardPolicy.MAX_ROW;
+import static domain.board.BoardPolicy.MIN_ROW;
 
 public record Row(int row) {
 
@@ -9,7 +10,7 @@ public record Row(int row) {
     }
 
     private void validateRange(int row) {
-        if (!BoardPolicy.isValidRow(row)) {
+        if (row < MIN_ROW || row > MAX_ROW) {
             throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
         }
     }

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.place.Place;
 import domain.place.moveStrategy.ElephantMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
-import domain.place.palaceMoveStrategy.PalaceEmptyMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceRestrictedMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
 import domain.place.piece.Elephant;
 import domain.place.piece.Side;
@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ElephantMoveStrategyTest {
 
     private final MoveStrategy moveStrategy = new ElephantMoveStrategy();
-    private final PalaceMoveStrategy palaceMoveStrategy = new PalaceEmptyMoveStrategy();
+    private final PalaceMoveStrategy palaceMoveStrategy = new PalaceRestrictedMoveStrategy();
 
     static Stream<Arguments> validMoves() {
         return Stream.of(

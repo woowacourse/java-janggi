@@ -1,5 +1,8 @@
 package domain.position;
 
+import static domain.board.BoardPolicy.MAX_COLUMN;
+import static domain.board.BoardPolicy.MIN_COLUMN;
+
 import domain.board.BoardPolicy;
 import domain.place.moveStrategy.Direction;
 import java.util.Objects;
@@ -27,7 +30,7 @@ public class Position {
         int currentRow = getRow() + direction.getRow();
         int currentColumn = getColumn() + direction.getColumn();
 
-        if (!BoardPolicy.isValidPosition(currentRow, currentColumn)) {
+        if (BoardPolicy.isOutBoundPosition(currentRow, currentColumn)) {
             return Optional.empty();
         }
 

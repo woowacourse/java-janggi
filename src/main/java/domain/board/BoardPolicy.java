@@ -7,15 +7,15 @@ public class BoardPolicy {
     public static final int MIN_COLUMN = 1;
     public static final int MAX_COLUMN = 9;
 
-    public static boolean isValidPosition(int row, int col) {
-        return isValidRow(row) && isValidColumn(col);
+    public static boolean isOutBoundPosition(int row, int col) {
+        return isOutBoundRow(row) || isOutBoundColumn(col);
     }
 
-    public static boolean isValidRow(int row){
-        return row >= MIN_ROW && row <= MAX_ROW ;
+    private static boolean isOutBoundRow(int row){
+        return row < MIN_ROW || row > MAX_ROW ;
     }
 
-    public static boolean isValidColumn(int col){
-        return col >= MIN_COLUMN && col <= MAX_COLUMN;
+    private static boolean isOutBoundColumn(int col){
+        return col < MIN_COLUMN || col > MAX_COLUMN;
     }
 }
