@@ -2,7 +2,6 @@ package domain.piece.strategy;
 
 import domain.board.Direction;
 import domain.piece.Piece;
-import domain.piece.Side;
 import domain.position.Position;
 
 import java.util.Map;
