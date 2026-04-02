@@ -1,15 +1,17 @@
 package janggi.domain;
 
+import janggi.domain.piece.strategy.Direction;
+
 public enum Camp {
-    CHO(1, 0),
-    HAN(-1, 9);
+    CHO(Direction.up(), 0),
+    HAN(Direction.down(), 9);
 
-    private final int direction;
-    private final int initRowPosition;
+    private final Direction forward;
+    private final int baselineRow;
 
-    Camp(int direction, int initRowPosition) {
-        this.direction = direction;
-        this.initRowPosition = initRowPosition;
+    Camp(Direction forward, int baselineRow) {
+        this.forward = forward;
+        this.baselineRow = baselineRow;
     }
 
     public boolean isSameCamp(Camp camp) {
@@ -20,11 +22,15 @@ public enum Camp {
         return this == CHO;
     }
 
-    public int direction() {
-        return direction;
+    public Direction forward() {
+        return forward;
     }
 
-    public int initRowPosition() {
-        return initRowPosition;
+    public int baselineRow() {
+        return baselineRow;
+    }
+
+    public int calculateRow(int offset) {
+        return baselineRow + (forward.directionRow() * offset);
     }
 }

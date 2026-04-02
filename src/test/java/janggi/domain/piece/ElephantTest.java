@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.Position;
+import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.ElephantStrategy;
 import janggi.domain.piece.strategy.HorseStrategy;
 import org.junit.jupiter.api.DisplayName;
@@ -14,11 +15,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ElephantTest {
 
-    @DisplayName("상이 포인지 확인하는 테스트 (항상 false)")
+    @DisplayName("상을 넘어갈 수 있는지 확인하는 테스트 (항상 True)")
     @Test
-    void isCannon_Always_ReturnFalse() {
+    void canBeJumpedOver_Always_ReturnTrue() {
         Piece piece = new Elephant(Camp.CHO, new ElephantStrategy());
-        assertThat(piece.isCannon()).isFalse();
+        assertThat(piece.canBeJumpedOver()).isTrue();
+    }
+
+    @DisplayName("포가 상을 잡을 수 있는지 확인하는 테스트 (항상 True)")
+    @Test
+    void canBeCapturedByCannon_Always_ReturnTrue() {
+        Piece piece = new Elephant(Camp.CHO, new ElephantStrategy());
+        assertThat(piece.canBeCapturedByCannon()).isTrue();
     }
 
     @Test

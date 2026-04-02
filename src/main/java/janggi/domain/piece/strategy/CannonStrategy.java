@@ -30,14 +30,14 @@ public class CannonStrategy implements MoveStrategy {
         List<Path> paths = new ArrayList<>();
         List<Position> route = new ArrayList<>();
         int currentDistance = INITIAL_DISTANCE;
-        Optional<Position> next = direction.next(current);
+        Optional<Position> next = direction.findNextPosition(current);
 
         while (next.isPresent()) {
             Position destination = next.get();
             addValidPath(paths, route, destination, currentDistance);
 
             route.add(destination);
-            next = direction.next(destination); // 다음 칸 찾기
+            next = direction.findNextPosition(destination); // 다음 칸 찾기
             currentDistance += DISTANCE_INCREMENT;
         }
 

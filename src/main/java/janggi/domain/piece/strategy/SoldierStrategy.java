@@ -8,26 +8,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class SoldierStrategy implements MoveStrategy {
-    private final int direction;
+    private final Direction forwardDirection;
 
-    public SoldierStrategy(int direction) {
-        this.direction = direction;
+    public SoldierStrategy(Direction forwardDirection) {
+        this.forwardDirection = forwardDirection;
     }
 
     @Override
     public List<Path> findMovablePaths(Position current) {
         List<Path> paths = new ArrayList<>();
 
-        addPath(paths, current, direction, 0);
-        addPath(paths, current, 0, 1);
-        addPath(paths, current, 0, -1);
+        addPath(paths, current, forwardDirection);
+        addPath(paths, current, Direction.left());
+        addPath(paths, current, Direction.right());
 
         return Collections.unmodifiableList(paths);
     }
 
-    private void addPath(List<Path> paths, Position current, int destRow, int destCol) {
-        current.move(destRow, destCol)
-                .map(dest -> new Path(List.of(), dest))
+    private void addPath(List<Path> paths, Position current, Direction direction) {
+        direction.findNextPosition(current)
+                .map(position -> new Path(List.of(), position))
                 .ifPresent(paths::add);
     }
 }

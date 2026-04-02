@@ -41,7 +41,9 @@ public abstract class Piece {
 
     abstract public boolean canCatch(Piece piece);
 
-    abstract public boolean isCannon();
+    abstract public boolean canBeJumpedOver();
+
+    abstract public boolean canBeCapturedByCannon();
 
     abstract protected String pieceDisplayName(Camp camp);
 }

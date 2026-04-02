@@ -12,11 +12,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class GeneralTest {
 
-    @DisplayName("장이 포인지 확인하는 테스트 (항상 false)")
+    @DisplayName("장을 넘어갈 수 있는지 확인하는 테스트 (항상 True)")
     @Test
-    void isCannon_Always_ReturnFalse() {
+    void canBeJumpedOver_Always_ReturnTrue() {
         Piece piece = new General(Camp.CHO, new GeneralStrategy());
-        assertThat(piece.isCannon()).isFalse();
+        assertThat(piece.canBeJumpedOver()).isTrue();
+    }
+
+    @DisplayName("포가 장을 잡을 수 있는지 확인하는 테스트 (항상 True)")
+    @Test
+    void canBeCapturedByCannon_Always_ReturnTrue() {
+        Piece piece = new General(Camp.CHO, new GeneralStrategy());
+        assertThat(piece.canBeCapturedByCannon()).isTrue();
     }
 
     @DisplayName("장의 경로 확인은 항상 True를 반환한다")

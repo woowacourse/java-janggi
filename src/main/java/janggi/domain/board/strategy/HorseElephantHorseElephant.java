@@ -14,10 +14,10 @@ public class HorseElephantHorseElephant implements FormationStrategy {
     @Override
     public Map<Position, Piece> createPieces(Camp camp) {
         return Map.of(
-                Position.of(camp.initRowPosition(), 2), new Elephant(camp, new ElephantStrategy()),
-                Position.of(camp.initRowPosition(), 1), new Horse(camp, new HorseStrategy()),
-                Position.of(camp.initRowPosition(), 7), new Elephant(camp, new ElephantStrategy()),
-                Position.of(camp.initRowPosition(), 6), new Horse(camp, new HorseStrategy())
+                Position.of(camp.baselineRow(), 2), new Elephant(camp, new ElephantStrategy()),
+                Position.of(camp.baselineRow(), 1), new Horse(camp, new HorseStrategy()),
+                Position.of(camp.baselineRow(), 7), new Elephant(camp, new ElephantStrategy()),
+                Position.of(camp.baselineRow(), 6), new Horse(camp, new HorseStrategy())
         );
     }
 }
