@@ -226,3 +226,5 @@
 
 - [x] PieceSaveDao를 구현하여 Piece의 저장를 수행한다
 - [x] PieceFindDao를 구현하여 Piece의 조회를 수행한다
+- [x] PieceUpdateDao를 구현하여 Piece의 값을 업데이트하는 역할을 수행한다
+- [x] PieceDeleteDao를 구현하여 Piece의 값을 삭제하는 역할을 수행한다
