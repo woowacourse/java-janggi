@@ -1,7 +1,6 @@
 package view;
 
 import domain.board.formation.InitialFormationType;
-import domain.coordinate.Position;
 import domain.board.Side;
 import java.util.Arrays;
 import java.util.List;
@@ -49,14 +48,14 @@ public class InputView {
         }
     }
 
-    public Position requestStartPiecePosition(Side side) {
+    public List<Integer> requestStartPiecePosition(Side side) {
         try {
             System.out.printf(REQUEST_MOVING_START_PIECE_POSITION, SideView.from(side));
-            List<String> parts = splitCoordinate(userInput());
-            int col = Integer.parseInt(parts.get(0).trim());
-            int row = Integer.parseInt(parts.get(1).trim());
+            List<String> inputs = splitCoordinate(userInput());
+            int col = Integer.parseInt(inputs.get(0).trim());
+            int row = Integer.parseInt(inputs.get(1).trim());
 
-            return new Position(col, row);
+            return List.of(col, row);
         } catch (PatternSyntaxException | NumberFormatException | IndexOutOfBoundsException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
         }

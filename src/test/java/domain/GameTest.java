@@ -23,7 +23,7 @@ class GameTest {
         Position position = new Position(8, 1);
 
         // when - then
-        assertThatThrownBy(() -> game.getValidatedStartPosition(position))
+        assertThatThrownBy(() -> game.validateMoveable(position))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -35,7 +35,7 @@ class GameTest {
         Position position = new Position(0, 0);
 
         // when - then
-        assertThatThrownBy(() -> game.getValidatedStartPosition(position))
+        assertThatThrownBy(() -> game.validateMoveable(position))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -47,7 +47,7 @@ class GameTest {
         Position position = new Position(9, 0);
 
         // when - then
-        assertDoesNotThrow(() -> game.getValidatedStartPosition(position));
+        assertDoesNotThrow(() -> game.validateMoveable(position));
     }
 
     @Test

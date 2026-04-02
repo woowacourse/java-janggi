@@ -24,8 +24,7 @@ public class Game {
         changeTurn();
     }
 
-    public Position getValidatedStartPosition(Position position) {
-        position.validateRange();
+    public Position validateMoveable(Position position) {
         validateEnsureSameSidePiece(position);
         validateMovable(position);
         return position;

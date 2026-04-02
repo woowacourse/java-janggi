@@ -72,7 +72,6 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-
     @Test
     @DisplayName("해당 좌표가 비어있으면 True를 반환한다.")
     void isEmpty_True_Test() {

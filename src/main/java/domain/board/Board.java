@@ -36,9 +36,8 @@ public class Board {
     }
 
     public void movePiece(Position start, Position dest) {
-        start.validateRange();
-        dest.validateRange();
-
+        Position.of(start.col(), start.row());
+        Position.of(dest.col(), dest.row());
         board.put(dest, board.get(start));
         board.put(start, EmptyPiece.getInstance());
     }

@@ -11,7 +11,7 @@ public abstract class Piece {
 
     private final PieceType type;
     private final Side side;
-    private MoveStrategy moveStrategy;
+    private final MoveStrategy moveStrategy;
 
     public Piece(PieceType type, Side side, MoveStrategy moveStrategy) {
         this.type = type;
@@ -20,8 +20,7 @@ public abstract class Piece {
     }
 
     public Piece(PieceType type, Side side) {
-        this.type = type;
-        this.side = side;
+        this(type, side, null);
     }
 
     public Side getSide() {

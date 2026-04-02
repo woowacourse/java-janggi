@@ -43,7 +43,7 @@ public class JanggiController {
         while (true) {
             outputView.printBoard(BoardMapper.toDto(game.getBoard()));
             Position startPosition = InputHandler.readUntilValid(() ->
-                    game.getValidatedStartPosition(inputView.requestStartPiecePosition(game.getTurn()))
+                    game.validateMoveable(createPosition(inputView.requestStartPiecePosition(game.getTurn())))
             );
 
             List<Position> possibleMoves = game.getPossibleMoves(startPosition);
@@ -53,5 +53,11 @@ public class JanggiController {
 
             game.movePiece(startPosition, endPosition);
         }
+    }
+
+    private Position createPosition(List<Integer> inputs) {
+        int col = inputs.get(0);
+        int row = inputs.get(1);
+        return Position.of(col, row);
     }
 }
