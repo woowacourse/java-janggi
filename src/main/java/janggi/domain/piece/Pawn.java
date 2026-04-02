@@ -11,21 +11,15 @@ import java.util.List;
 
 public class Pawn extends StepPiece {
     private static final String PAWN_MOVE_BACKWARD_MESSAGE = "병은 뒤로 이동할 수 없습니다.";
-    public Pawn(Side side, List<List<Movement>> moveRange) {
-        super(moveRange, new ClearPathPolicy(), side, PieceType.PAWN);
-    }
+    private static final List<List<Movement>> MOVE_RANGE = List.of(
+            List.of(Movement.UP),
+            List.of(Movement.DOWN),
+            List.of(Movement.LEFT),
+            List.of(Movement.RIGHT)
+    );
 
-    public static Pawn from(Side side) {
-        List<List<Movement>> moveRange = new ArrayList<>(List.of(List.of(Movement.LEFT), List.of(Movement.RIGHT)));
-        moveRange.add(calculateForwardMovement(side));
-        return new Pawn(side, moveRange);
-    }
-
-    private static List<Movement> calculateForwardMovement(Side side) {
-        if (side.equals(Side.CHO)) {
-            return List.of(Movement.UP);
-        }
-        return List.of(Movement.DOWN);
+    public Pawn(Side side) {
+        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.PAWN);
     }
 
     @Override
