@@ -12,6 +12,10 @@ public record PositionDto(
         return new PositionDto(rowAndColumn.getFirst(), rowAndColumn.getLast());
     }
 
+    public static PositionDto from(Position position) {
+        return new PositionDto(position.row().row(), position.column().column());
+    }
+
     public static List<PositionDto> fromPositions(List<Position> positions) {
         return positions.stream()
                 .map(position -> new PositionDto(position.row().row(), position.column().column()))
