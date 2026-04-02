@@ -3,7 +3,7 @@ package domain.strategy;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class ContinuousStrategy implements MovementStrategy {
     private final List<Direction> directions;
@@ -16,11 +16,11 @@ public class ContinuousStrategy implements MovementStrategy {
     public List<Path> generatePaths(Position current) {
         return directions.stream()
                 .map(direction -> createPath(current, direction))
-                .filter(path -> !path.isEmpty())
+                .flatMap(Optional::stream)
                 .toList();
     }
 
-    private Path createPath(Position current, Direction direction) {
+    private Optional<Path> createPath(Position current, Direction direction) {
         List<Position> positions = new ArrayList<>();
         Position position = current;
 
@@ -28,6 +28,9 @@ public class ContinuousStrategy implements MovementStrategy {
             position = position.move(direction);
             positions.add(position);
         }
-        return new Path(positions);
+        if (positions.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(new Path(positions));
     }
 }
