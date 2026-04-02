@@ -1,57 +1,52 @@
 package domain.movestrategy;
 
+import domain.board.Board;
+import domain.board.Position;
 import domain.piece.Delta;
 import domain.piece.Piece;
-import domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ChariotMoveStrategy extends BasicMoveStrategy {
 
-    private static final List<Delta> ORTHOGONAL = List.of(
-            Delta.UP,
-            Delta.RIGHT,
-            Delta.DOWN,
-            Delta.LEFT
-    );
-
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> getMovablePositions(Board board, Position from) {
+        Piece chariot = board.getPieceAt(from);
         List<Position> movable = new ArrayList<>();
 
-        for (final Delta delta : ORTHOGONAL) {
-            movable.addAll(calculateByDirection(from, pieces, delta));
+        for (Delta direction : Delta.ORTHOGONAL_DELTAS) {
+            collectMovablePositions(board, chariot, from, direction, movable);
         }
 
         return movable;
     }
 
-    private List<Position> calculateByDirection(
-            final Position from,
-            final Map<Position, Piece> pieces,
-            final Delta delta
+    private void collectMovablePositions(
+            Board board,
+            Piece chariot,
+            Position from,
+            Delta direction,
+            List<Position> movable
     ) {
-        List<Position> movable = new ArrayList<>();
-        Piece currentPiece = pieces.get(from);
+        Position current = from;
 
-        Position nextPosition = from.move(delta);
+        while (current.canMove(direction)) {
+            current = current.move(direction);
 
-        while (isInsideBoard(nextPosition)) {
-            Piece targetPiece = pieces.get(nextPosition);
-
-            if (targetPiece == null) {
-                movable.add(nextPosition);
-                nextPosition = nextPosition.move(delta);
+            if (board.isEmpty(current)) {
+                movable.add(current);
                 continue;
             }
 
-            if (!currentPiece.isSameTeam(targetPiece)) {
-                movable.add(nextPosition);
+            Piece target = board.getPieceAt(current);
+            if (canCapture(chariot, target)) {
+                movable.add(current);
             }
-            break;
+            return;
         }
+    }
 
-        return movable;
+    private boolean canCapture(Piece chariot, Piece target) {
+        return chariot.isOpposite(target);
     }
 }

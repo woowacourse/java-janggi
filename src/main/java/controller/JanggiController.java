@@ -1,136 +1,113 @@
 package controller;
 
-import domain.board.Board;
 import domain.board.ElephantSetup;
 import domain.board.Position;
+import domain.game.JanggiGame;
 import domain.piece.Team;
 import domain.player.Player;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
 import dto.PositionDto;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
-    private static final int USER_INPUT_START_INDEX = 1;
-
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
-        Player choPlayer = retry(this::setupChoPlayer);
-        Player hanPlayer = retry(this::setupHanPlayer);
+        Player choPlayer = retry(this::initChoPlayer);
+        Player hanPlayer = retry(this::initHanPlayer);
 
-        Board board = initBoard();
+        ElephantSetup choElephantSetup = retry(this::initChoElephantSetup);
+        ElephantSetup hanElephantSetup = retry(this::initHanElephantSetup);
 
-        outputView.printBoardWithPieces(PieceInfosDto.from(board));
+        JanggiGame janggiGame = JanggiGame.init(choElephantSetup, hanElephantSetup);
 
-        // TODO: 게임 종료 구현 (사이클 2)
+        outputView.printBoardWithPieces(PieceInfosDto.from(janggiGame));
+
         while (true) {
-            processTurn(board, Team.CHO);
-            processTurn(board, Team.HAN);
+            processTurn(janggiGame, Team.CHO);
+            processTurn(janggiGame, Team.HAN);
         }
     }
 
-    private Player setupHanPlayer() {
+    private Player initChoPlayer() {
         outputView.printEnterHanPlayerNamePrompt();
         String hanPlayerName = inputView.readPlayerName();
         return Player.han(hanPlayerName);
     }
 
-    private Player setupChoPlayer() {
+    private Player initHanPlayer() {
         outputView.printEnterChoPlayerNamePrompt();
         String choPlayerName = inputView.readPlayerName();
         return Player.cho(choPlayerName);
     }
 
-    private Board initBoard() {
-        ElephantSetup choElephantSetup = retry(this::askChoElephantSetup);
-        ElephantSetup hanElephantSetup = retry(this::askHanElephantSetup);
-
-        return Board.init(choElephantSetup, hanElephantSetup);
-    }
-
-    private ElephantSetup askChoElephantSetup() {
+    private ElephantSetup initChoElephantSetup() {
         outputView.printChooseChoElephantSetupPrompt();
         return inputView.readElephantSetup();
     }
 
-    private ElephantSetup askHanElephantSetup() {
+    private ElephantSetup initHanElephantSetup() {
         outputView.printChooseHanElephantSetupPrompt();
         return inputView.readElephantSetup();
     }
 
-    private void processTurn(Board board, Team team) {
-        retry(() -> process(board, team));
+    private void processTurn(JanggiGame janggiGame, Team team) {
+        retry(() -> process(janggiGame, team));
     }
 
-    private void process(Board board, Team team) {
-        Map<Position, List<Position>> moveOptions = board.getMoveOptionsFor(team);
+    private void process(JanggiGame janggiGame, Team team) {
+        List<Position> piecePositions = janggiGame.getPiecePositionsFor(team);
 
-        if (moveOptions.isEmpty()) {
-            outputView.printNoMovablePiecePrompt();
-            return;
-        }
+        Position from = selectPieceToMove(janggiGame, piecePositions);
+        List<Position> movablePositions = janggiGame.getMovablePositions(from);
 
-        Position from = choosePieceToMove(board, moveOptions);
-        Position to = choosePositionToMove(moveOptions, from);
+        Position to = selectPositionToMove(movablePositions);
 
-        board.move(from, to, team);
+        janggiGame.move(from, to);
 
-        outputView.printBoardWithPieces(PieceInfosDto.from(board));
+        outputView.printBoardWithPieces(PieceInfosDto.from(janggiGame));
     }
 
-    private Position choosePieceToMove(Board board, Map<Position, List<Position>> moveOptions) {
-        List<Position> positions = moveOptions.keySet()
-                .stream()
-                .toList();
-
-        List<PieceInfoDto> pieceInfos = positions.stream()
-                .map(position -> PieceInfoDto.of(board.getPieceAt(position), position))
+    private Position selectPieceToMove(JanggiGame janggiGame, List<Position> piecePositions) {
+        List<PieceInfoDto> pieceInfos = piecePositions.stream()
+                .map(position -> PieceInfoDto.of(janggiGame.getPieceAt(position), position))
                 .toList();
 
         outputView.printChoosePieceToMovePrompt(pieceInfos);
-        int pieceIndex = toZeroBasedIndex(inputView.readPieceNumber());
+        int pieceIndex = inputView.readPieceIndex();
 
-        if (pieceIndex < 0 || pieceIndex >= positions.size()) {
+        if (pieceIndex < 0 || pieceIndex >= pieceInfos.size()) {
             throw new IllegalArgumentException("범위 벗어난 입력");
         }
 
-        return positions.get(pieceIndex);
+        return piecePositions.get(pieceIndex);
     }
 
-    private Position choosePositionToMove(Map<Position, List<Position>> moveOptions, Position from) {
-        List<Position> movablePositions = moveOptions.get(from);
-        if (movablePositions.isEmpty()) {
-            throw new IllegalArgumentException("이동 가능한 위치 없음");
-        }
-
+    private Position selectPositionToMove(List<Position> movablePositions) {
         List<PositionDto> movablePositionsDto = movablePositions.stream()
-                .map(PositionDto::from)
+                .map(PositionDto::of)
                 .toList();
+
         outputView.printChoosePositionToMovePrompt(movablePositionsDto);
 
-        int positionIndex = toZeroBasedIndex(inputView.readPositionNumber());
+        int positionIndex = inputView.readPositionIndex();
 
         if (positionIndex < 0 || positionIndex >= movablePositions.size()) {
             throw new IllegalArgumentException("범위 벗어난 입력");
         }
 
         return movablePositions.get(positionIndex);
-    }
-
-    private int toZeroBasedIndex(int userInputNumber) {
-        return userInputNumber - USER_INPUT_START_INDEX;
     }
 
     private void retry(Runnable callback) {

@@ -1,9 +1,5 @@
 package domain.piece;
 
-import domain.board.Position;
-import java.util.List;
-import java.util.Map;
-
 public class Piece {
 
     private final Team team;
@@ -38,8 +34,8 @@ public class Piece {
         return pieceType == PieceType.GENERAL;
     }
 
-    public boolean isSameTeam(Piece other) {
-        return this.team == other.team;
+    public boolean isOpposite(Piece other) {
+        return this.team != other.team;
     }
 
     public boolean isChoPiece() {
@@ -52,10 +48,6 @@ public class Piece {
 
     public String getNameForHan() {
         return pieceType.getNameForHan();
-    }
-
-    public List<Position> calculateMovablePositions(Position current, Map<Position, Piece> pieces) {
-        return pieceType.calculateMovablePositions(current, pieces);
     }
 
     public boolean isSameTeam(Team team) {

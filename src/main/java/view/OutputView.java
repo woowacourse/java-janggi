@@ -1,6 +1,5 @@
 package view;
 
-import domain.board.Board;
 import domain.board.ElephantSetup;
 import dto.PieceInfoDto;
 import dto.PieceInfosDto;
@@ -22,6 +21,11 @@ public class OutputView {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final int PROMPT_ITEMS_PER_LINE = 5;
+
+    private static final int MIN_COLUMN_RANGE = 1;
+    private static final int MAX_COLUMN_RANGE = 10;
+    private static final int MIN_ROW_RANGE = 1;
+    private static final int MAX_ROW_RANGE = 9;
 
     public void printEnterChoPlayerNamePrompt() {
         System.out.println("초나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
@@ -68,7 +72,7 @@ public class OutputView {
     private void appendRowHeader(final StringBuilder builder) {
         builder.append(HEADER_PREFIX);
 
-        for (int row = Board.MIN_ROW_RANGE; row <= Board.MAX_ROW_RANGE; row++) {
+        for (int row = MIN_ROW_RANGE; row <= MAX_ROW_RANGE; row++) {
             builder.append(row)
                     .append(HEADER_GAP);
         }
@@ -77,7 +81,7 @@ public class OutputView {
     }
 
     private void appendBoardRows(final StringBuilder builder, final Map<PositionDto, PieceNameDto> pieceByPosition) {
-        for (int column = Board.MIN_COLUMN_RANGE; column <= Board.MAX_COLUMN_RANGE; column++) {
+        for (int column = MIN_COLUMN_RANGE; column <= MAX_COLUMN_RANGE; column++) {
             appendBoardRow(builder, column, pieceByPosition);
         }
     }
@@ -87,7 +91,7 @@ public class OutputView {
     ) {
         builder.append(String.format("%2d ", column));
 
-        for (int row = Board.MIN_ROW_RANGE; row <= Board.MAX_ROW_RANGE; row++) {
+        for (int row = MIN_ROW_RANGE; row <= MAX_ROW_RANGE; row++) {
             appendRenderedCell(builder, column, row, pieceByPosition);
         }
 

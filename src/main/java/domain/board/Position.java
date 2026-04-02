@@ -16,10 +16,6 @@ public record Position(
         return new Position(column, row);
     }
 
-    public Position move(final Position offset) {
-        return Position.of(column + offset.column, row + offset.row);
-    }
-
     public Position move(final Delta delta) {
         return Position.of(column + delta.column(), row + delta.row());
     }
@@ -33,5 +29,9 @@ public record Position(
         int mirroredColumn = MAX_COLUMN_RANGE - column + 1;
         int mirroredRow = MAX_ROW_RANGE - row + 1;
         return Position.of(mirroredColumn, mirroredRow);
+    }
+
+    public boolean canMove(Delta delta) {
+        return move(delta).isInside();
     }
 }

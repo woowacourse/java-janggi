@@ -1,31 +1,32 @@
 package domain.movestrategy;
 
-import domain.piece.Delta;
-import domain.piece.Piece;
+import domain.board.Board;
 import domain.board.Position;
+import domain.piece.Delta;
 import java.util.List;
 import java.util.Map;
 
 public class HorseMoveStrategy extends BasicMoveStrategy {
 
-    private static final Map<Position, Delta> PATH_BY_DESTINATION = Map.ofEntries(
-            Map.entry(Position.of(-2, -1), Delta.UP),
-            Map.entry(Position.of(-2, 1), Delta.UP),
-            Map.entry(Position.of(-1, -2), Delta.LEFT),
-            Map.entry(Position.of(1, -2), Delta.LEFT),
-            Map.entry(Position.of(2, -1), Delta.DOWN),
-            Map.entry(Position.of(2, 1), Delta.DOWN),
-            Map.entry(Position.of(-1, 2), Delta.RIGHT),
-            Map.entry(Position.of(1, 2), Delta.RIGHT)
+    private static final Map<Delta, Delta> PATH_BY_DESTINATION = Map.ofEntries(
+            Map.entry(Delta.of(-2, -1), Delta.UP),
+            Map.entry(Delta.of(-2, 1), Delta.UP),
+            Map.entry(Delta.of(-1, -2), Delta.LEFT),
+            Map.entry(Delta.of(1, -2), Delta.LEFT),
+            Map.entry(Delta.of(2, -1), Delta.DOWN),
+            Map.entry(Delta.of(2, 1), Delta.DOWN),
+            Map.entry(Delta.of(-1, 2), Delta.RIGHT),
+            Map.entry(Delta.of(1, 2), Delta.RIGHT)
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> getMovablePositions(Board board, Position from) {
+
         return PATH_BY_DESTINATION.entrySet().stream()
-                .filter(entry -> !pieces.containsKey(from.move(entry.getValue())))
+                .filter(entry -> board.isEmpty(from.move(entry.getValue())))
+                .filter(entry -> board.isEmptyOrOpposite(from, from.move(entry.getKey())))
                 .map(entry -> from.move(entry.getKey()))
-                .filter(this::isInsideBoard)
-                .filter(position -> isEmptyOrOpposite(from, position, pieces))
+                .filter(Position::isInside)
                 .toList();
     }
 }

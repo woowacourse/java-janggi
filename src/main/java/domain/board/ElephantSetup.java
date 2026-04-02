@@ -1,10 +1,6 @@
 package domain.board;
 
-import static domain.piece.PieceType.ELEPHANT;
-import static domain.piece.PieceType.HORSE;
-
 import domain.piece.PieceType;
-import domain.piece.Position;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -13,31 +9,31 @@ public enum ElephantSetup {
 
     INNER_ELEPHANT_SETUP("마상상마(馬象象馬)",
             Map.of(
-                    Position.of(1, 2), HORSE,
-                    Position.of(1, 3), ELEPHANT,
-                    Position.of(1, 7), ELEPHANT,
-                    Position.of(1, 8), HORSE
+                    Position.of(1, 2), PieceType.HORSE,
+                    Position.of(1, 3), PieceType.ELEPHANT,
+                    Position.of(1, 7), PieceType.ELEPHANT,
+                    Position.of(1, 8), PieceType.HORSE
             )),
     OUTER_ELEPHANT_SETUP("상마마상(象馬馬象)",
             Map.of(
-                    Position.of(1, 2), ELEPHANT,
-                    Position.of(1, 3), HORSE,
-                    Position.of(1, 7), HORSE,
-                    Position.of(1, 8), ELEPHANT
+                    Position.of(1, 2), PieceType.ELEPHANT,
+                    Position.of(1, 3), PieceType.HORSE,
+                    Position.of(1, 7), PieceType.HORSE,
+                    Position.of(1, 8), PieceType.ELEPHANT
             )),
     RIGHT_ELEPHANT_SETUP("마상마상(馬象馬象)",
             Map.of(
-                    Position.of(1, 2), HORSE,
-                    Position.of(1, 3), ELEPHANT,
-                    Position.of(1, 7), HORSE,
-                    Position.of(1, 8), ELEPHANT
+                    Position.of(1, 2), PieceType.HORSE,
+                    Position.of(1, 3), PieceType.ELEPHANT,
+                    Position.of(1, 7), PieceType.HORSE,
+                    Position.of(1, 8), PieceType.ELEPHANT
             )),
     LEFT_ELEPHANT_SETUP("상마상마(象馬象馬)",
             Map.of(
-                    Position.of(1, 2), ELEPHANT,
-                    Position.of(1, 3), HORSE,
-                    Position.of(1, 7), ELEPHANT,
-                    Position.of(1, 8), HORSE
+                    Position.of(1, 2), PieceType.ELEPHANT,
+                    Position.of(1, 3), PieceType.HORSE,
+                    Position.of(1, 7), PieceType.ELEPHANT,
+                    Position.of(1, 8), PieceType.HORSE
             ));
 
     private final String description;

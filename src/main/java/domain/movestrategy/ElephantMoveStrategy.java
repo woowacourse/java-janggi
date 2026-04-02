@@ -1,43 +1,43 @@
 package domain.movestrategy;
 
-import domain.piece.Delta;
-import domain.piece.Piece;
+import domain.board.Board;
 import domain.board.Position;
+import domain.piece.Delta;
 import java.util.List;
 import java.util.Map;
 
 public class ElephantMoveStrategy extends BasicMoveStrategy {
 
-    private static final Map<Position, List<Delta>> PATHS_BY_DESTINATION = Map.ofEntries(
-            Map.entry(Position.of(-3, -2), List.of(Delta.UP, Delta.LEFT_UP)),
-            Map.entry(Position.of(-3, 2), List.of(Delta.UP, Delta.RIGHT_UP)),
+    private static final Map<Delta, List<Delta>> PATHS_BY_DESTINATION = Map.ofEntries(
+            Map.entry(Delta.of(-3, -2), List.of(Delta.UP, Delta.LEFT_UP)),
+            Map.entry(Delta.of(-3, 2), List.of(Delta.UP, Delta.RIGHT_UP)),
 
-            Map.entry(Position.of(3, -2), List.of(Delta.DOWN, Delta.LEFT_DOWN)),
-            Map.entry(Position.of(3, 2), List.of(Delta.DOWN, Delta.RIGHT_DOWN)),
+            Map.entry(Delta.of(3, -2), List.of(Delta.DOWN, Delta.LEFT_DOWN)),
+            Map.entry(Delta.of(3, 2), List.of(Delta.DOWN, Delta.RIGHT_DOWN)),
 
-            Map.entry(Position.of(-2, -3), List.of(Delta.LEFT, Delta.LEFT_UP)),
-            Map.entry(Position.of(2, -3), List.of(Delta.LEFT, Delta.LEFT_DOWN)),
+            Map.entry(Delta.of(-2, -3), List.of(Delta.LEFT, Delta.LEFT_UP)),
+            Map.entry(Delta.of(2, -3), List.of(Delta.LEFT, Delta.LEFT_DOWN)),
 
-            Map.entry(Position.of(-2, 3), List.of(Delta.RIGHT, Delta.RIGHT_UP)),
-            Map.entry(Position.of(2, 3), List.of(Delta.RIGHT, Delta.RIGHT_DOWN))
+            Map.entry(Delta.of(-2, 3), List.of(Delta.RIGHT, Delta.RIGHT_UP)),
+            Map.entry(Delta.of(2, 3), List.of(Delta.RIGHT, Delta.RIGHT_DOWN))
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> getMovablePositions(Board board, Position from) {
         return PATHS_BY_DESTINATION.entrySet().stream()
-                .filter(entry -> !isBlocked(from, entry.getValue(), pieces))
+                .filter(entry -> !isBlocked(board, from, entry.getValue()))
+                .filter(entry -> board.isEmptyOrOpposite(from, from.move(entry.getKey())))
                 .map(entry -> from.move(entry.getKey()))
-                .filter(this::isInsideBoard)
-                .filter(position -> isEmptyOrOpposite(from, position, pieces))
+                .filter(Position::isInside)
                 .toList();
     }
 
-    private boolean isBlocked(final Position from, final List<Delta> paths, final Map<Position, Piece> pieces) {
+    private boolean isBlocked(Board board, Position from, List<Delta> paths) {
         Position current = from;
 
         for (Delta delta : paths) {
             current = current.move(delta);
-            if (pieces.containsKey(current)) {
+            if (!board.isEmpty(current)) {
                 return true;
             }
         }

@@ -2,22 +2,29 @@ package domain.movestrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.board.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
 class GuardMoveStrategyTest {
 
-    private final GuardMoveStrategy strategy = new GuardMoveStrategy();
+    MoveStrategy strategy;
+
+    @BeforeEach
+    void setUp() {
+        strategy = new GuardMoveStrategy();
+    }
 
     @Test
-    @DisplayName("사는 8방향 한 칸 이동이 가능하다")
+    @DisplayName("사는 8방향 한 칸 이동이 가능")
     void move_all_directions() {
         // given
         Position from = Position.of(5, 5);
@@ -25,8 +32,10 @@ class GuardMoveStrategyTest {
 
         pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
 
+        Board board = Board.init(pieces);
+
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, pieces);
+        List<Position> result = strategy.getMovablePositions(board, from);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(

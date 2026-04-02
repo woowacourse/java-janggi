@@ -1,10 +1,9 @@
 package domain.movestrategy;
 
-import domain.piece.Delta;
-import domain.piece.Piece;
+import domain.board.Board;
 import domain.board.Position;
+import domain.piece.Delta;
 import java.util.List;
-import java.util.Map;
 
 public class GuardMoveStrategy extends BasicMoveStrategy {
 
@@ -14,11 +13,11 @@ public class GuardMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> getMovablePositions(Board board, Position from) {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
-                .filter(this::isInsideBoard)
-                .filter(position -> isEmptyOrOpposite(from, position, pieces))
+                .filter(Position::isInside)
+                .filter(position -> board.isEmptyOrOpposite(from, position))
                 .toList();
     }
 }

@@ -1,12 +1,10 @@
 package domain.movestrategy;
 
-import domain.piece.Delta;
-import domain.piece.Piece;
+import domain.board.Board;
 import domain.board.Position;
+import domain.piece.Delta;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class GeneralMoveStrategy extends BasicMoveStrategy {
 
@@ -16,48 +14,27 @@ public class GeneralMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
+    public List<Position> getMovablePositions(Board board, Position from) {
+        Position anotherGeneralPosition = board.getAnotherGeneralPosition(from);
+
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
-                .filter(position -> !isDirected(position, pieces, from))
-                .filter(this::isInsideBoard)
-                .filter(position -> isEmptyOrOpposite(from, position, pieces))
+                .filter(Position::isInside)
+                .filter(position -> board.isEmptyOrOpposite(from, position))
+                .filter(position -> !areGeneralsFacingEachOther(board, position, anotherGeneralPosition))
                 .toList();
     }
 
-    private boolean isDirected(Position nextPosition, Map<Position, Piece> pieces, Position from) {
-        Optional<Position> oppositeGeneralPositionOpt = pieces.entrySet().stream()
-                .filter(entry -> entry.getValue().isGeneral())
-                .map(Entry::getKey)
-                .filter(position -> !from.equals(position))
-                .findFirst();
-
-        if (oppositeGeneralPositionOpt.isEmpty()) {
-            throw new IllegalStateException();
-        }
-
-        Position opposite = oppositeGeneralPositionOpt.get();
-
-        if (nextPosition.row() != opposite.row()) {
+    private boolean areGeneralsFacingEachOther(Board board, Position generalPosition, Position anotherGeneralPosition) {
+        if (generalPosition.row() != anotherGeneralPosition.row()) {
             return false;
         }
+        int lowerGeneralColumn = Math.min(generalPosition.column(), anotherGeneralPosition.column());
+        int upperGeneralColumn = Math.max(generalPosition.column(), anotherGeneralPosition.column());
+        int row = generalPosition.row();
 
-        for (int column = Math.min(nextPosition.column(), opposite.column()) + 1;
-             column < Math.max(nextPosition.column(), opposite.column());
-             column++) {
-
-            Position mid = Position.of(column, nextPosition.row());
-
-            if (!pieces.containsKey(mid)) {
-                continue;
-            }
-            if (mid.equals(from)) {
-                continue;
-            }
-
-            return false;
-        }
-
-        return true;
+        return IntStream.range(lowerGeneralColumn, upperGeneralColumn)
+                .mapToObj(column -> Position.of(column, row))
+                .anyMatch(board::isEmpty);
     }
 }

@@ -4,7 +4,7 @@ import domain.board.Position;
 
 public record PositionDto(int column, int row) {
 
-    public static PositionDto from(Position position) {
+    public static PositionDto of(Position position) {
         return new PositionDto(position.column(), position.row());
     }
 }

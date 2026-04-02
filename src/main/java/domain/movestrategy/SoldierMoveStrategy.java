@@ -1,11 +1,10 @@
 package domain.movestrategy;
 
-import domain.piece.Delta;
-import domain.piece.Piece;
+import domain.board.Board;
 import domain.board.Position;
+import domain.piece.Delta;
 import domain.piece.Team;
 import java.util.List;
-import java.util.Map;
 
 public class SoldierMoveStrategy extends BasicMoveStrategy {
 
@@ -18,18 +17,20 @@ public class SoldierMoveStrategy extends BasicMoveStrategy {
     );
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final Map<Position, Piece> pieces) {
-        List<Delta> paths = getPathsByTeam(from, pieces);
+    public List<Position> getMovablePositions(Board board, Position from) {
+        Team team = board.getTeam(from);
+        List<Delta> paths = getDeltasBy(team);
 
         return paths.stream()
                 .map(from::move)
-                .filter(this::isInsideBoard)
-                .filter(position -> isEmptyOrOpposite(from, position, pieces))
+                .filter(Position::isInside)
+                .filter(board::isEmpty)
+                .filter(position -> board.isEmptyOrOpposite(from, position))
                 .toList();
     }
 
-    private static List<Delta> getPathsByTeam(final Position from, final Map<Position, Piece> pieces) {
-        if (pieces.get(from).getTeam() == Team.HAN) {
+    private List<Delta> getDeltasBy(Team team) {
+        if (team == Team.HAN) {
             return HAN_PATHS;
         }
         return CHO_PATHS;
