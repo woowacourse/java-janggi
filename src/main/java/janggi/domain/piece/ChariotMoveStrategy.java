@@ -24,14 +24,14 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
         List<Position> movablePositions = new ArrayList<>();
 
-        List<Direction> defaultMovalbleDirections = List.of(Direction.valuesFourDirections());
-        for (Direction dir : defaultMovalbleDirections) {
+        List<Direction> defaultMovableDirections = List.of(Direction.valuesFourDirections());
+        for (Direction dir : defaultMovableDirections) {
             List<Position> positions = from.findAllPositionsByDirection(dir);
             movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
         }
 
         if(Palace.isPalace(from)) {
-            List<Direction> newDirectionsOfPalace = getNewDirectionsOfPalace(from, defaultMovalbleDirections);
+            List<Direction> newDirectionsOfPalace = getNewDirectionsOfPalace(from, defaultMovableDirections);
             for (Direction dir : newDirectionsOfPalace) {
                 List<Position> positions = from.findAllPositionsByDirection(dir);
                 movablePositions.addAll(filterMovablePositionsInPalace(positions, board, dynasty));

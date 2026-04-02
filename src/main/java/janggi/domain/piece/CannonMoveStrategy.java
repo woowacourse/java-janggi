@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
 
 import java.util.ArrayList;
@@ -19,22 +20,72 @@ public class CannonMoveStrategy implements MoveStrategy {
         return cannonMoveStrategy;
     }
 
-    // TODO: 궁성 관련 로직 추가
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirections()) {
+
+        List<Direction> defaultMovableDirections = List.of(Direction.valuesFourDirections());
+        for (Direction dir : defaultMovableDirections) {
             List<Position> positions = from.findAllPositionsByDirection(dir);
             movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
         }
 
+        if(Palace.isPalace(from)) {
+            List<Direction> newDirectionsOfPalace = getNewDirectionsOfPalace(from, defaultMovableDirections);
+            for (Direction dir : newDirectionsOfPalace) {
+                List<Position> positions = from.findAllPositionsByDirection(dir);
+                movablePositions.addAll(filterMovablePositionsInPalace(positions, board, dynasty));
+            }
+        }
+
         return movablePositions;
+    }
+
+    private static List<Direction> getNewDirectionsOfPalace(Position from, List<Direction> defaultMovableDirections) {
+        List<Direction> newDirectionsOfPalace = new ArrayList<>(Palace.getMovableDirectionsAtPalace(from));
+        newDirectionsOfPalace.removeAll(defaultMovableDirections);
+        return newDirectionsOfPalace;
     }
 
     private List<Position> filterMovablePositions(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
         List<Position> movablePositions = new ArrayList<>();
         boolean hasHopped = false;
         for (Position to : positions) {
+
+            if (!hasHopped) {
+                if (!isPiecePresent(board, to)) {
+                    continue;
+                }
+                if (isCannon(board.get(to))) {
+                    return movablePositions;
+                }
+                hasHopped = true;
+                continue;
+            }
+
+            if (!isPiecePresent(board, to)) {
+                movablePositions.add(to);
+                continue;
+            }
+
+            Piece piece = board.get(to);
+            if (isEnemy(dynasty, piece) && !isCannon(piece)) {
+                movablePositions.add(to);
+            }
+            return movablePositions;
+        }
+
+        return movablePositions;
+    }
+
+    private List<Position> filterMovablePositionsInPalace(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+        List<Position> movablePositions = new ArrayList<>();
+        boolean hasHopped = false;
+        for (Position to : positions) {
+
+            if(!Palace.isPalace(to)) {
+                break;
+            }
 
             if (!hasHopped) {
                 if (!isPiecePresent(board, to)) {

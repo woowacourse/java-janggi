@@ -49,7 +49,7 @@ ChariotMoveStrategyTest {
 
     @Test
     @DisplayName("차 기물은 궁성 영역 안에서는 대각선으로 이동할 수 있다.")
-    public void chariot_findMovablePositions_success() {
+    public void chariot_findMovablePositions_success2() {
         // given
         MoveStrategy moveStrategy = ChariotMoveStrategy.getInstance();
 
