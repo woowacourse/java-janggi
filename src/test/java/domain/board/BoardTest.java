@@ -1,12 +1,8 @@
 package domain.board;
 
-import domain.Offset;
-
-import domain.piece.Elephant;
-import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.Team;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
+
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -95,14 +91,5 @@ public class BoardTest {
                     Arguments.of(new Position(7, 2))
             );
         }
-    }
-
-    @Test
-    void 기물이_이동할_경로에_대한_다른_기물의_위치_정보를_반환한다() {
-        List<Offset> offsets = List.of(new Offset(1, 0), new Offset(2, 0));
-        List<Piece> obstacles = board.getBlockedPieces(new Position(0, 0), offsets);  // 차에 대해 진행
-
-        assertThat(obstacles).isEqualTo(List.of(new Horse(Team.CHO), new Elephant(Team.CHO)));
-
     }
 }

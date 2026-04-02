@@ -32,7 +32,7 @@ public abstract class Piece {
 
     public void validateMove(List<Piece> blockedPieces, Optional<Piece> to) {
         if (!blockedPieces.isEmpty()) {
-            throw new IllegalArgumentException(ErrorMessage.PATH_BLOCKED.getMessage());
+            throw new IllegalStateException(ErrorMessage.PATH_BLOCKED.getMessage());
         }
     }
 
