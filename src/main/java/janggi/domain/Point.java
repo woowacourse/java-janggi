@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import static java.lang.Math.abs;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,9 +65,19 @@ public class Point {
         return this.y - from.y;
     }
 
-    public boolean isInSamePalace(Point other) {
-        return (isInChoPalace() && other.isInChoPalace())
-                || (isInHanPalace() && other.isInHanPalace());
+    public boolean isInSamePalace(Point to) {
+        return (isInChoPalace() && to.isInChoPalace())
+                || (isInHanPalace() && to.isInHanPalace());
+    }
+
+    public boolean isPalaceDiagonalMove(Point to) {
+        if (!isInSamePalace(to)) {
+            return false;
+        }
+        int pathX = abs(to.getPathX(this));
+        int pathY = abs(to.getPathY(this));
+        return (pathX == 1 && pathY == 1)
+                || (pathX == 2 && pathY == 2);
     }
 
     private boolean isInChoPalace() {
