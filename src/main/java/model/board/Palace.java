@@ -35,7 +35,7 @@ public class Palace {
             )
     );
 
-    public boolean isPalaceBound(Position pos) {
+    public static boolean isPalaceBound(Position pos) {
         if (pos.column().value() < MIN_COL || pos.column().value() > MAX_COL) {
             return false;
         }
@@ -43,8 +43,11 @@ public class Palace {
                 || (pos.row().value() >= CHO_MIN_ROW && pos.row().value() <= CHO_MAX_ROW));
     }
 
-    public boolean canMove(Position from, Position to) {
+    public static boolean canMove(Position from, Position to) {
         List<Position> diagonal = PALACE.get(from);
+        if (diagonal == null) {
+            return false;
+        }
         return diagonal.contains(to);
     }
 

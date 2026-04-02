@@ -1,5 +1,6 @@
 package model.move;
 
+import model.board.Palace;
 import model.position.Position;
 
 public record Move(Position from, Position to) {
@@ -26,7 +27,14 @@ public record Move(Position from, Position to) {
     }
 
     public boolean isStraight() {
-        return from.isSameRow(to) || from.isSameColumn(to);
+        return from.isSameRow(to) || from.isSameColumn(to) || isDiagonal();
+    }
+
+    private boolean isDiagonal() {
+        if (!Palace.isPalaceBound(from) || !Palace.isPalaceBound(to)) {
+            return false;
+        }
+        return Palace.canMove(from, to);
     }
 
     private void validate(Position from, Position to) {
