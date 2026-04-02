@@ -41,10 +41,6 @@ public class Po extends Piece {
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
     }
 
-    private boolean isSamePosition(Position start, Position end) {
-        return start.isSamePosition(end);
-    }
-
     private void validateObstacles(MovePath movePath, Position start, Position end, Board board) {
         List<Position> intermediatePositions = movePath.intermediatePositions(start, end);
         List<Piece> obstacles = intermediatePositions.stream()

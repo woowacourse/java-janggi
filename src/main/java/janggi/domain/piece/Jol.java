@@ -41,10 +41,6 @@ public class Jol extends Piece {
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
     }
 
-    private boolean isSamePosition(Position start, Position end) {
-        return start.isSamePosition(end);
-    }
-
     private List<MovePath> selectPaths(TeamType teamType) {
         if (teamType == TeamType.HAN) {
             return HAN_PATHS;

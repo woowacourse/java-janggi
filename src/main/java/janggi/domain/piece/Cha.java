@@ -47,8 +47,4 @@ public class Cha extends Piece {
             throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
     }
-
-    private boolean isSamePosition(Position start, Position end) {
-        return start.isSamePosition(end);
-    }
 }

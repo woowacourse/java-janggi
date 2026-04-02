@@ -26,5 +26,9 @@ public abstract class Piece {
         return teamType;
     }
 
+    public boolean isSamePosition(Position start, Position end) {
+        return start.isSamePosition(end);
+    }
+
     public abstract void validateCanMove(Position start, Position end, Board board);
 }
