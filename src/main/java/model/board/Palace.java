@@ -35,7 +35,7 @@ public class Palace {
             )
     );
 
-    public boolean isBound(Position pos) {
+    public boolean isPalaceBound(Position pos) {
         if (pos.column().value() < MIN_COL || pos.column().value() > MAX_COL) {
             return false;
         }
