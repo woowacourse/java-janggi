@@ -15,13 +15,9 @@ public class DynastyMapper {
         dynastyMap.put(Dynasty.CHO, "초");
     }
 
-    public static String toKorean(Dynasty dynasty) {
-        return dynastyMap.get(dynasty);
-    }
-
     public static String toKoreanWithColor(Dynasty dynasty) {
         return DynastyColorMapper.from(dynasty) +
-                DynastyMapper.toKorean(dynasty) +
+                dynastyMap.get(dynasty) +
                 " " + ANSI_RESET;
     }
 }

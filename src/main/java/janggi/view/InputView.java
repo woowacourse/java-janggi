@@ -18,7 +18,7 @@ public class InputView {
     private static final String INVALID_POSITION_FORMAT_MESSAGE = "위치를 콤마로 구분된 두 개의 숫자로 올바르게 입력해주세요. 입력값: %s";
 
     public int readHorseElephantPosition(Dynasty dynasty) {
-        String dynastyKorean = DynastyMapper.toKorean(dynasty);
+        String dynastyKorean = DynastyMapper.toKoreanWithColor(dynasty);
         System.out.println(dynastyKorean + "나라의 상차림 법을 숫자로 입력해주세요.");
         System.out.println("1: 마상마상, 2: 마상상마, 3: 상마상마, 4: 상마마상");
         String position = scanner.nextLine();

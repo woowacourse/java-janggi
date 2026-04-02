@@ -40,10 +40,10 @@ public class JanggiController {
     }
 
     private void printScore(Game game) {
-        outputView.printScore(Map.of(
+        outputView.printScore(new EnumMap<>(Map.of(
                 Dynasty.CHO, game.calculateScoreByDynasty(Dynasty.CHO),
                 Dynasty.HAN, game.calculateScoreByDynasty(Dynasty.HAN)
-        ));
+        )));
     }
 
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {
