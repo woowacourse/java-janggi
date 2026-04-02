@@ -38,7 +38,7 @@ public enum Side {
 
     public static Side from(String name) {
         return Arrays.stream(Side.values())
-                .filter(side -> side.name.equals(name))
+                .filter(side -> side.getName().equals(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_SIDE_NAME));
     }

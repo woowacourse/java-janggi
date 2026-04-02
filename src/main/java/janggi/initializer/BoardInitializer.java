@@ -88,7 +88,7 @@ public class BoardInitializer {
 
     public static Map<Position, Piece> createBoard(List<PieceInitInfo> pieceInitInfos) {
         Map<Position, Piece> board = initBoard();
-        pieceInitInfos.forEach(pieceInitInfo -> initBoard().put(pieceInitInfo.position(), pieceMap.get(pieceInitInfo.pieceType()).apply(pieceInitInfo.side())));
+        pieceInitInfos.forEach(pieceInitInfo -> board.put(pieceInitInfo.position(), pieceMap.get(pieceInitInfo.pieceType()).apply(pieceInitInfo.side())));
         return board;
     }
 

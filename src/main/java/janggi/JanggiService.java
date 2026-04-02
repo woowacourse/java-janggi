@@ -27,7 +27,6 @@ public class JanggiService {
     }
 
     public List<GameResponseDto> getEntireGame() {
-        gameRoom.initTable();
         return gameRoom.findAllGames();
     }
 
@@ -67,15 +66,13 @@ public class JanggiService {
         }
     }
 
-    public List<PieceInitInfo> getPieceInitInfos(int gameId) {
-        return piece.getAllPieces(gameId).stream()
-                .map(pieceDto -> new PieceInitInfo(new Position(pieceDto.x(), pieceDto.y()), Side.from(pieceDto.side()), PieceType.from(pieceDto.pieceType())))
-                .toList();
+    public List<PieceDto> getPieceInitInfos(int gameId) {
+        return piece.getAllPieces(gameId);
     }
 
     public void movePiece(int gameId, Position start, Position end, Side side, PieceType pieceType, TurnDto turnDto) {
         Connection connection = sqlManager.ensureConnection();
-        PieceDto pieceDto = new PieceDto(end.getX(), end.getY(), side.name(), pieceType.name());
+        PieceDto pieceDto = new PieceDto(end.getX(), end.getY(), pieceType.getName(), side.getName());
         try {
             gameRoom.updateGameTurn(connection, gameId, turnDto);
             piece.deletePiece(connection, gameId, start.getX(), start.getY());

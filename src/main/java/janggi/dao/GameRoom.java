@@ -38,7 +38,7 @@ public class GameRoom {
         }
     }
 
-    public int insertGame(Connection connection, GameDto gameDto) {
+    public int insertGame(Connection connection, GameDto gameDto) throws SQLException {
         int generatedId = -1;
         String sql = "INSERT INTO GameRoom (name, created_at, updated_at, turn, side) VALUES (?, ?, ?, ?, ?)";
 
@@ -57,9 +57,6 @@ public class GameRoom {
                     generatedId = rs.getInt(1);
                 }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         return generatedId;
@@ -67,8 +64,7 @@ public class GameRoom {
 
     public List<GameResponseDto> findAllGames() {
         List<GameResponseDto> gameInfos = new ArrayList<>();
-        String sql = "SELECT * FROM GameRoom";
-
+        String sql = "SELECT id, name, created_at, updated_at, side, turn FROM GameRoom";
         try (Connection conn = sqlManager.ensureConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

@@ -9,6 +9,7 @@ import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.SideScore;
+import janggi.domain.piece.PieceType;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.TurnDto;
@@ -38,8 +39,13 @@ public class Runner {
     }
 
     public void run() {
-        int gameId = manageGameRoom();
-        playGame(gameId);
+        try {
+            int gameId = manageGameRoom();
+            playGame(gameId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public int manageGameRoom() {
@@ -62,7 +68,9 @@ public class Runner {
             throw new IllegalArgumentException("잘못된 값을 입력하셨습니다.");
         }
 
-        List<PieceInitInfo> pieceInitInfos = janggiService.getPieceInitInfos(selectedGame.id());
+        List<PieceInitInfo> pieceInitInfos = janggiService.getPieceInitInfos(selectedGame.id()).stream().map(pieceDto -> new PieceInitInfo(new Position(pieceDto.x(), pieceDto.y()), Side.from(pieceDto.side()),
+                PieceType.from(pieceDto.pieceType()))).toList();
+
         game.init(pieceInitInfos, selectedGame.side(), selectedGame.turn());
         return selectedGame.id();
     }
@@ -79,10 +87,10 @@ public class Runner {
         Arrangement choArrangement = Arrangement.from(choArrangementInput);
 
         List<PieceDto> pieceDtos = game.init(choArrangement, hanArrangement).stream()
-                .map(pieceInitInfo -> new PieceDto(pieceInitInfo.position().getX(), pieceInitInfo.position().getY(), pieceInitInfo.pieceType().name(), pieceInitInfo.side().name()))
+                .map(pieceInitInfo -> new PieceDto(pieceInitInfo.position().getX(), pieceInitInfo.position().getY(), pieceInitInfo.pieceType().getName(), pieceInitInfo.side().getName()))
                 .toList();
 
-        return janggiService.addGameData(new GameDto(gameName.name(), formattedNow, formattedNow, Side.CHO.name(), 1), pieceDtos);
+        return janggiService.addGameData(new GameDto(gameName.name(), formattedNow, formattedNow, Side.CHO.getName(), 1), pieceDtos);
     }
 
     private void playGame(int gameId) {
@@ -136,12 +144,14 @@ public class Runner {
         OutputView.printLine();
 
         MoveResult moveResult = game.move(startPosition, endPosition);
-        TurnDto turnDto = new TurnDto(moveResult.turnAttribute().side().name(), moveResult.turnAttribute().turn());
+        TurnDto turnDto = new TurnDto(moveResult.turnAttribute().side().getName(), moveResult.turnAttribute().turn());
 
         janggiService.movePiece(gameId, startPosition, endPosition, moveResult.pieceAttribute().side(), moveResult.pieceAttribute().pieceType(), turnDto);
 
         printCurrentScore();
-        return game.isFinished();
+
+        System.out.println(game.isFinished());
+        return !game.isFinished();
     }
 
     private boolean consentEndGame(int gameId) {

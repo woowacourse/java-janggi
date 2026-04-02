@@ -32,7 +32,7 @@ public enum PieceType {
 
     public static PieceType from(String name) {
         return Arrays.stream(PieceType.values())
-                .filter(pieceType -> pieceType.name.equals(name))
+                .filter(pieceType -> pieceType.getName().equals(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_PIECE_TYPE_NAME));
     }
