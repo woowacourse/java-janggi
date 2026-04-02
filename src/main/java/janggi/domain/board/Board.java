@@ -15,13 +15,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Board {
-    private static final Dimension BOARD_DIMENSION = new BoardDimension();
-    private static final Dimension PALACE_DIMENSION = new PalaceDimension();
+    private static final Coordination BOARD_COORDINATION = new BoardCoordination();
+    private static final Coordination PALACE_COORDINATION = new PalaceCoordination();
 
     private final Map<Point, Piece> pieces;
 
     protected Board(Map<Point, Piece> pieces) {
-        pieces.keySet().forEach(BOARD_DIMENSION::validateRange);
+        pieces.keySet().forEach(BOARD_COORDINATION::validateRange);
         this.pieces = new HashMap<>(pieces);
     }
 
@@ -40,7 +40,7 @@ public class Board {
 
     public Set<Point> destinations(Point from) {
         Set<Point> destinations = pieceDestinations(from);
-        if (PALACE_DIMENSION.isInRange(from.x(), from.y())) {
+        if (PALACE_COORDINATION.isInRange(from.x(), from.y())) {
             destinations.addAll(palaceDestinations(from));
         }
 
@@ -51,7 +51,7 @@ public class Board {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
         List<CandidatePath> candidatePaths = convertToCandidatePaths(
-                PalaceMovements.getMovements(from), from, piece.pathStrategy(), PALACE_DIMENSION);
+                PalaceMovements.getMovements(from), from, piece.pathStrategy(), PALACE_COORDINATION);
 
         return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
                 .stream()
@@ -63,7 +63,7 @@ public class Board {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
         List<CandidatePath> candidatePaths = convertToCandidatePaths(piece.createCandidateMovement(), from,
-                piece.pathStrategy(), BOARD_DIMENSION);
+                piece.pathStrategy(), BOARD_COORDINATION);
 
         return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
                 .stream()
@@ -75,9 +75,9 @@ public class Board {
     private List<CandidatePath> convertToCandidatePaths(List<Movement> movements,
                                                         Point from,
                                                         PathStrategy pathStrategy,
-                                                        Dimension dimension) {
+                                                        Coordination coordination) {
         return movements.stream()
-                .map(movement -> new CandidatePath(movement, from, pathStrategy, dimension))
+                .map(movement -> new CandidatePath(movement, from, pathStrategy, coordination))
                 .toList();
     }
 

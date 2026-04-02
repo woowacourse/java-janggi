@@ -3,7 +3,7 @@ package janggi.domain.piece.path;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.board.BoardDimension;
+import janggi.domain.board.BoardCoordination;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
@@ -49,7 +49,7 @@ class LinearCandidatePathStrategyTest {
         @MethodSource
         @DisplayName("movement에 따른 경로 계산")
         void calculate(Movement movement, Point from, List<Point> expected) {
-            assertThat(LINEAR_PATH_STRATEGY.calculate(movement, from, new BoardDimension()))
+            assertThat(LINEAR_PATH_STRATEGY.calculate(movement, from, new BoardCoordination()))
                     .containsAll(expected);
         }
 
@@ -60,7 +60,7 @@ class LinearCandidatePathStrategyTest {
                     () -> LINEAR_PATH_STRATEGY.calculate(
                             new Movement(List.of(Direction.NORTH_EAST, Direction.EAST)),
                             new Point(0, 0),
-                            new BoardDimension()))
+                            new BoardCoordination()))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

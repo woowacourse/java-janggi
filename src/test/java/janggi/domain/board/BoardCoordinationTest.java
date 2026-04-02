@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class BoardDimensionTest {
-    private static final Dimension BOARD_DIMENSION = new BoardDimension();
+class BoardCoordinationTest {
+    private static final Coordination BOARD_COORDINATION = new BoardCoordination();
 
     @ParameterizedTest
     @CsvSource({
@@ -18,7 +18,7 @@ class BoardDimensionTest {
     })
     @DisplayName("Han 진영 궁성 안쪽에 있다면 true를 리턴한다.")
     void isInRange(int nx, int ny, boolean expected) {
-        assertThat(BOARD_DIMENSION.isInRange(nx, ny)).isEqualTo(expected);
+        assertThat(BOARD_COORDINATION.isInRange(nx, ny)).isEqualTo(expected);
     }
 
     // HAN 진영
@@ -31,6 +31,6 @@ class BoardDimensionTest {
     })
     @DisplayName("Han 진영 궁성 바깥에 있다면 false를 리턴한다.")
     void isNotInRange(int nx, int ny, boolean expected) {
-        assertThat(BOARD_DIMENSION.isInRange(nx, ny)).isEqualTo(expected);
+        assertThat(BOARD_COORDINATION.isInRange(nx, ny)).isEqualTo(expected);
     }
 }

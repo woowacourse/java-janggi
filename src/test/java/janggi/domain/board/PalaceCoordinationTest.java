@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class PalaceDimensionTest {
-    private static final Dimension PALACE_DIMENSION = new PalaceDimension();
+class PalaceCoordinationTest {
+    private static final Coordination PALACE_COORDINATION = new PalaceCoordination();
 
     @Nested
     class IsRangeOf {
@@ -22,7 +22,7 @@ class PalaceDimensionTest {
         })
         @DisplayName("Cho 진영 궁성에 있다면 true를 리턴한다.")
         void isInRangeOfCho(int nx, int ny, boolean expected) {
-            assertThat(PALACE_DIMENSION.isInRange(nx, ny)).isEqualTo(expected);
+            assertThat(PALACE_COORDINATION.isInRange(nx, ny)).isEqualTo(expected);
 
         }
 
@@ -39,7 +39,7 @@ class PalaceDimensionTest {
         })
         @DisplayName("Cho 진영 궁성 바깥에 있다면 false를 리턴한다.")
         void isNotInRangeOfCho(int nx, int ny, boolean expected) {
-            assertThat(PALACE_DIMENSION.isInRange(nx, ny)).isEqualTo(expected);
+            assertThat(PALACE_COORDINATION.isInRange(nx, ny)).isEqualTo(expected);
         }
 
         // HAN 진영
@@ -52,7 +52,7 @@ class PalaceDimensionTest {
         })
         @DisplayName("Han 진영 궁성 안쪽에 있다면 true를 리턴한다.")
         void isInRangeOfHan(int nx, int ny, boolean expected) {
-            assertThat(PALACE_DIMENSION.isInRange(nx, ny)).isEqualTo(expected);
+            assertThat(PALACE_COORDINATION.isInRange(nx, ny)).isEqualTo(expected);
         }
 
         // HAN 진영
@@ -69,7 +69,7 @@ class PalaceDimensionTest {
         })
         @DisplayName("Han 진영 궁성 바깥에 있다면 false를 리턴한다.")
         void isNotInRangeOfHan(int nx, int ny, boolean expected) {
-            assertThat(PALACE_DIMENSION.isInRange(nx, ny)).isEqualTo(expected);
+            assertThat(PALACE_COORDINATION.isInRange(nx, ny)).isEqualTo(expected);
         }
 
     }

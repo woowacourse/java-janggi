@@ -82,7 +82,7 @@ class CannonTest {
         List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
 
         assertThat(points.size()).isEqualTo(expected.size());
-        assertThat(expected.containsAll(points)).isTrue();
+        assertThat(expected.containsAll(points)).isEqualTo(true);
     }
 
     @ParameterizedTest

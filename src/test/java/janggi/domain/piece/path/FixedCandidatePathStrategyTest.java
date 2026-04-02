@@ -2,7 +2,7 @@ package janggi.domain.piece.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.BoardDimension;
+import janggi.domain.board.BoardCoordination;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
@@ -35,7 +35,7 @@ class FixedCandidatePathStrategyTest {
     @MethodSource
     @DisplayName("calculate(): movement에 따른 경로 계산")
     void calculate(Movement movement, Point from, List<Point> expected) {
-        assertThat(FIXED_PATH_STRATEGY.calculate(movement, from, new BoardDimension()))
+        assertThat(FIXED_PATH_STRATEGY.calculate(movement, from, new BoardCoordination()))
                 .containsAll(expected);
     }
 }

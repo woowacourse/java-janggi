@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.board.point.Point;
 
-public interface Dimension {
+public interface Coordination {
     public boolean isInRange(int nx, int ny);
 
     default void validateRange(Point point) {
@@ -10,6 +10,4 @@ public interface Dimension {
             throw new IllegalStateException("유효하지 않은 범위입니다.");
         }
     }
-
-    ;
 }

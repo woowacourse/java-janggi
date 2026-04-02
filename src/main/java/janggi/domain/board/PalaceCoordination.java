@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-public class PalaceDimension implements Dimension {
+public class PalaceCoordination implements Coordination {
     private static final int CHO_MIN_X = 0;
     private static final int CHO_MAX_X = 2;
     private static final int HAN_MIN_X = 7;

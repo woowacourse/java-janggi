@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-public class BoardDimension implements Dimension {
+public class BoardCoordination implements Coordination {
     private static final int MIN_X = 0;
     private static final int MAX_X = 9;
     private static final int MIN_Y = 0;

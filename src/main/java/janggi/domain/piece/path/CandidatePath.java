@@ -1,6 +1,6 @@
 package janggi.domain.piece.path;
 
-import janggi.domain.board.Dimension;
+import janggi.domain.board.Coordination;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
@@ -22,8 +22,8 @@ public class CandidatePath {
         this.path = path;
     }
 
-    public CandidatePath(Movement movement, Point from, PathStrategy pathStrategy, Dimension dimension) {
-        this(from, pathStrategy.calculate(movement, from, dimension));
+    public CandidatePath(Movement movement, Point from, PathStrategy pathStrategy, Coordination coordination) {
+        this(from, pathStrategy.calculate(movement, from, coordination));
     }
 
     public boolean isForward(Direction direction) {
