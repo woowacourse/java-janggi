@@ -227,9 +227,9 @@ class GeneralMoveRuleTest {
             Point centerPoint = new Point(8, 4);
             Point rightTopPoint = centerPoint.next(Vector.LEFT_DOWN);
 
-            Intersection centerPalace = new CenterPalace(rightTopPoint, general);
-            Intersection leftBottomPalace = LeftBottomPalace.empty(centerPoint);
-            Intersection expected = new LeftBottomPalace(centerPoint, general);
+            Intersection centerPalace = new CenterPalace(centerPoint, general);
+            Intersection leftBottomPalace = LeftBottomPalace.empty(rightTopPoint);
+            Intersection expected = new LeftBottomPalace(rightTopPoint, general);
 
             JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                     centerPalace,
@@ -237,10 +237,10 @@ class GeneralMoveRuleTest {
             )));
 
             // when
-            janggiBoard.tryToMove(rightTopPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPoint, rightTopPoint, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightTopPoint))
                     .isEqualTo(expected);
         }
 
@@ -253,9 +253,9 @@ class GeneralMoveRuleTest {
             Point centerPoint = new Point(8, 4);
             Point rightTopPoint = centerPoint.next(Vector.LEFT_UP);
 
-            Intersection centerPalace = new CenterPalace(rightTopPoint, general);
-            Intersection leftTopPalace = LeftTopPalace.empty(centerPoint);
-            Intersection expected = new LeftTopPalace(centerPoint, general);
+            Intersection centerPalace = new CenterPalace(centerPoint, general);
+            Intersection leftTopPalace = LeftTopPalace.empty(rightTopPoint);
+            Intersection expected = new LeftTopPalace(rightTopPoint, general);
 
             JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                     centerPalace,
@@ -263,10 +263,10 @@ class GeneralMoveRuleTest {
             )));
 
             // when
-            janggiBoard.tryToMove(rightTopPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPoint, rightTopPoint, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightTopPoint))
                     .isEqualTo(expected);
         }
 
@@ -280,9 +280,9 @@ class GeneralMoveRuleTest {
             Point rightDownPoint = centerPoint.next(Vector.RIGHT_DOWN);
 
 
-            Intersection centerPalace = new CenterPalace(rightDownPoint, general);
-            Intersection rightBottomPalace = RightBottomPalace.empty(centerPoint);
-            Intersection expected = new RightBottomPalace(centerPoint, general);
+            Intersection centerPalace = new CenterPalace(centerPoint, general);
+            Intersection rightBottomPalace = RightBottomPalace.empty(rightDownPoint);
+            Intersection expected = new RightBottomPalace(rightDownPoint, general);
 
             JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                     centerPalace,
@@ -290,10 +290,10 @@ class GeneralMoveRuleTest {
             )));
 
             // when
-            janggiBoard.tryToMove(rightDownPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPoint, rightDownPoint, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightDownPoint))
                     .isEqualTo(expected);
         }
 
@@ -307,9 +307,9 @@ class GeneralMoveRuleTest {
             Point rightDownPoint = centerPoint.next(Vector.RIGHT_UP);
 
 
-            Intersection centerPalace = new CenterPalace(rightDownPoint, general);
-            Intersection rightTopPalace = RightTopPalace.empty(centerPoint);
-            Intersection expected = new RightTopPalace(centerPoint, general);
+            Intersection centerPalace = new CenterPalace(centerPoint, general);
+            Intersection rightTopPalace = RightTopPalace.empty(rightDownPoint);
+            Intersection expected = new RightTopPalace(rightDownPoint, general);
 
             JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                     centerPalace,
@@ -317,10 +317,10 @@ class GeneralMoveRuleTest {
             )));
 
             // when
-            janggiBoard.tryToMove(rightDownPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPoint, rightDownPoint, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightDownPoint))
                     .isEqualTo(expected);
         }
 

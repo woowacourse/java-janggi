@@ -168,12 +168,12 @@ class GuardMoveRuleTest {
         }
 
         @Test
-        @DisplayName("장군은 우하(9, 5)에서 가운데(8, 4)으로 이동할 수 있다.")
+        @DisplayName("사는 우하(9, 5)에서 가운데(8, 4)으로 이동할 수 있다.")
         void guardCanMoveLeftUpOnceWhenGuardInRightBottomPalace() {
             // given
             Piece guard = new Piece(Team.CHO, PieceType.GUARD);
 
-            Point rightBottomPoint = new Point(7, 3);
+            Point rightBottomPoint = new Point(9, 5);
             Point centerPoint = rightBottomPoint.next(Vector.LEFT_UP);
 
             Intersection leftBottomPalace = new RightBottomPalace(rightBottomPoint, guard);
