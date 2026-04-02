@@ -22,11 +22,19 @@ class InitialPositionTest {
     @DisplayName("진영에 따른 기물 초기 배치")
     @ParameterizedTest(name = "잔영이 {0}일 때")
     @MethodSource("sideAndExpected")
-    void 진영에_따른_기물_초기_배치(Side side, List<Intersection> expected) {
+    void 진영에_따른_기물_초기_배치(Side side, List<Intersection> expectedPositions) {
         InitialPosition initialPosition = new InitialPosition(side, new MoveAmount(2), 2, 8);
         Map<Intersection, Piece> placed = initialPosition.placePiece(new CannonFactory());
 
-        for (Intersection intersection : expected) {
+        assertThat(expectedPositions)
+                .hasSize(2)
+                .extracting(placed::get)
+                .allSatisfy(piece -> {
+                    assertThat(piece.isSameType(PieceType.CANNON)).isTrue();
+                    assertThat(piece.isSameSide(side)).isTrue();
+                });
+
+        for (Intersection intersection : expectedPositions) {
             Piece placedPiece = placed.get(intersection);
             assertThat(placedPiece.isSameType(PieceType.CANNON)).isTrue();
         }
