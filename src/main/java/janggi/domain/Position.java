@@ -84,6 +84,14 @@ public final class Position {
             Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     @Override
     public boolean equals(final Object object) {
         if (object == null || getClass() != object.getClass()) {
