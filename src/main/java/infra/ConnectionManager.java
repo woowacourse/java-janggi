@@ -1,4 +1,4 @@
-package config;
+package infra;
 
 import java.sql.Connection;
 

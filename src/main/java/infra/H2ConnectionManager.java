@@ -1,10 +1,10 @@
-package config;
+package infra;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class H2ConnectionManager implements ConnectionManager{
+public class H2ConnectionManager implements ConnectionManager {
 
     private final String url;
     private final String user;

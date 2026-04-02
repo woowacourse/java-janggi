@@ -1,5 +1,7 @@
 package config;
 
+import infra.ConnectionManager;
+import infra.DBExecutor;
 import repository.BoardRepository;
 import repository.GameRoomRepository;
 import repository.GameStateRepository;
@@ -10,13 +12,13 @@ public class ServiceConfig {
             BoardRepository boardRepository,
             GameRoomRepository gameRoomRepository,
             GameStateRepository gameStateRepository,
-            ConnectionManager connectionManager
+            DBExecutor dbExecutor
     ) {
         return new GameService(
                 boardRepository,
                 gameRoomRepository,
                 gameStateRepository,
-                connectionManager
+                dbExecutor
         );
     }
 }

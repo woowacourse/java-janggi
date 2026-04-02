@@ -1,7 +1,6 @@
 package service;
 
-import config.ConnectionManager;
-import config.H2ConnectionManager;
+import infra.ConnectionManager;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

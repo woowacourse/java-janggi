@@ -4,15 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import config.H2ConnectionManager;
+import infra.DBExecutor;
+import infra.H2ConnectionManager;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
 import entity.GameStateEntity;
 import factory.BoardFactory;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,9 +33,11 @@ public class GameServiceTest {
         TestDatabaseInitializer testDatabaseInitializer = new TestDatabaseInitializer(connectionManager);
         testDatabaseInitializer.init();
 
+        DBExecutor dbExecutor = new DBExecutor(connectionManager);
+
         gameService = new GameService(new BoardRepositoryImpl(),
                 new GameRoomRepositoryImpl(),
-                new GameStateRepositoryImpl(), connectionManager);
+                new GameStateRepositoryImpl(), dbExecutor);
     }
 
     @Test

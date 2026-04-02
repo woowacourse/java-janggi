@@ -1,6 +1,7 @@
 package service;
 
-import config.ConnectionManager;
+import infra.ConnectionManager;
+import infra.DBExecutor;
 import java.sql.Connection;
 import domain.place.Place;
 import domain.place.piece.Side;
@@ -10,6 +11,7 @@ import entity.GameStateEntity;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import repository.BoardRepository;
 import repository.GameRoomRepository;
 import repository.GameStateRepository;
@@ -19,62 +21,43 @@ public class GameService {
     private final BoardRepository boardRepository;
     private final GameRoomRepository gameRoomRepository;
     private final GameStateRepository gameStateRepository;
-    private final ConnectionManager connectionManager;
+    private final DBExecutor dbExecutor;
 
     public GameService(BoardRepository boardRepository,
                        GameRoomRepository gameRoomRepository,
                        GameStateRepository gameStateRepository,
-                       ConnectionManager connectionManager) {
+                       DBExecutor dbExecutor) {
         this.boardRepository = boardRepository;
         this.gameRoomRepository = gameRoomRepository;
         this.gameStateRepository = gameStateRepository;
-        this.connectionManager = connectionManager;
+        this.dbExecutor = dbExecutor;
     }
 
     public void saveGame(Map<Position, Place> board, String name, Side side) {
-        try (Connection conn = connectionManager.getConnection()) {
-            conn.setAutoCommit(false);
-
-            try {
-                long roomId = gameRoomRepository.save(name, conn);
-                boardRepository.saveBoard(roomId, board, conn);
-                gameStateRepository.save(roomId, side, conn);
-
-                conn.commit();
-            } catch (Exception e) {
-                conn.rollback();
-                throw new RuntimeException("게임 저장 실패", e);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        dbExecutor.transaction(connection -> {
+            long roomId = gameRoomRepository.save(name, connection);
+            boardRepository.saveBoard(roomId, board, connection);
+            gameStateRepository.save(roomId, side, connection);
+        });
     }
 
     public Map<Position, Place> findBoardByRoomId(long roomId) {
-        try (Connection conn = connectionManager.getConnection()) {
-            existsById(roomId, conn);
-            return boardRepository.findBoard(roomId, conn);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return dbExecutor.transaction(connection -> {
+            existsById(roomId, connection);
+            return boardRepository.findBoard(roomId, connection);
+        });
     }
 
     public GameStateEntity findGameStateByRoomId(long roomId) {
-        try (Connection conn = connectionManager.getConnection()) {
-            existsById(roomId, conn);
-            return gameStateRepository.findByRoomId(roomId, conn);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return dbExecutor.transaction(connection -> {
+            existsById(roomId, connection);
+            return gameStateRepository.findByRoomId(roomId, connection);
+        });
+
     }
 
     public List<GameRoomEntity> findGameRoomAll() {
-        try (Connection conn = connectionManager.getConnection()) {
-            return gameRoomRepository.findAll(conn);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return dbExecutor.transaction(gameRoomRepository::findAll);
     }
 
     private void existsById(long roomId, Connection conn) {
@@ -82,4 +65,5 @@ public class GameService {
             throw new IllegalArgumentException("[ERROR] 없는 방 번호입니다.");
         }
     }
+
 }

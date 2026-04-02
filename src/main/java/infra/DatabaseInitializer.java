@@ -1,7 +1,5 @@
-package init;
+package infra;
 
-import config.ConnectionManager;
-import config.H2ConnectionManager;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

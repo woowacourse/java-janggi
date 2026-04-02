@@ -1,7 +1,7 @@
 package config;
 
 
-import init.DatabaseInitializer;
+import infra.DatabaseInitializer;
 import service.GameService;
 
 public class AppConfig {
@@ -15,7 +15,7 @@ public class AppConfig {
                 repositoryConfig.boardRepository(),
                 repositoryConfig.gameRoomRepository(),
                 repositoryConfig.gameStateRepository(),
-                databaseConfig.connectionManager()
+                databaseConfig.dbExecutor()
         );
     }
 

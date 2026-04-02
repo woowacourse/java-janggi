@@ -1,6 +1,9 @@
 package config;
 
-import init.DatabaseInitializer;
+import infra.ConnectionManager;
+import infra.DBExecutor;
+import infra.DatabaseInitializer;
+import infra.H2ConnectionManager;
 
 public class DatabaseConfig {
 
@@ -14,11 +17,8 @@ public class DatabaseConfig {
         this.connectionManager = new H2ConnectionManager(URL, USER, PASSWORD);
     }
 
-    public ConnectionManager connectionManager() {
-        return connectionManager;
-    }
-
+    public DBExecutor dbExecutor() { return new DBExecutor(connectionManager);}
     public DatabaseInitializer databaseInitializer(){
-        return new DatabaseInitializer(connectionManager());
+        return new DatabaseInitializer(connectionManager);
     }
 }
