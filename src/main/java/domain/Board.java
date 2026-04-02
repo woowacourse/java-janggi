@@ -2,9 +2,9 @@ package domain;
 
 import domain.vo.Position;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 
 public class Board {
 
@@ -25,7 +25,7 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 상대편 기물이기 떄문에 움직일 수 없습니다.");
         }
 
-        if (!fromPiece.canMovePiece(from, to, Board.of(new TreeMap<>(this.board)))) {
+        if (!fromPiece.canMovePiece(from, to, Board.of(new HashMap<>(this.board)))) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");
         }
 
