@@ -52,16 +52,24 @@ public class InputView {
         if (split.length != 2) {
             throw new IllegalArgumentException(String.format(INVALID_POSITION_FORMAT_MESSAGE, input));
         }
-        List<Integer> position = Arrays.stream(split)
+        List<Integer> position = convertPositionToInt(split, input);
+
+        return PositionDto.from(position.getFirst(), position.getLast());
+    }
+
+    private static List<Integer> convertPositionToInt(String[] split, String input) {
+        return Arrays.stream(split)
                 .map(str -> {
                     try {
-                        return Integer.parseInt(str.strip());
+                        int parsed = Integer.parseInt(str.trim());
+                        if(parsed == 0) { // 출력은 0으로, 내부적으로는 10으로 처리되므로
+                            return 10;
+                        }
+                        return parsed;
                     } catch (NumberFormatException e) {
                         throw new IllegalArgumentException(String.format(INVALID_POSITION_FORMAT_MESSAGE, input));
                     }
                 }).toList();
-
-        return PositionDto.from(position.getFirst(), position.getLast());
     }
-    
+
 }

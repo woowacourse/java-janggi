@@ -4,7 +4,6 @@ import janggi.domain.position.Column;
 import janggi.view.dto.BoardDto;
 import janggi.view.dto.PieceDto;
 import janggi.view.dto.PositionDto;
-import janggi.view.mapper.DynastyColorMapper;
 import janggi.domain.dynasty.Dynasty;
 import janggi.view.mapper.DynastyMapper;
 
@@ -18,7 +17,7 @@ public class OutputView {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ERROR_PREFIX = "[ERROR] ";
 
-    private static final List<String> FULL_WIDTH_NUMBERS = List.of("-1", "１","２", "３", "４", "５", "６", "７", "８", "９", "⑩");
+    private static final List<String> FULL_WIDTH_NUMBERS = List.of("-1", "１","２", "３", "４", "５", "６", "７", "８", "９", "０");
 
     public void printBoard(BoardDto boardDto) {
         printRow();
@@ -59,9 +58,17 @@ public class OutputView {
 
         StringJoiner stringJoiner = new StringJoiner(",");
         for (PositionDto position : positions) {
-            stringJoiner.add(" (" + position.row() + "," + position.column() + ")");
+            stringJoiner.add(" (" + convertRow(position.row()) + "," + position.column() + ")");
         }
         System.out.println(stringJoiner + "입니다.");
+        System.out.println();
+    }
+
+    private static int convertRow(int row) { // 출력은 0으로, 내부적으로는 10으로 처리되므로
+        if(row == 10) {
+            return 0;
+        }
+        return row;
     }
 
     public void printErrorMessage(String errorMessage) {
