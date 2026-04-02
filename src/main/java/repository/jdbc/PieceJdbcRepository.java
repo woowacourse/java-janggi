@@ -4,13 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import repository.RepositoryErrorMessage;
-import repository.dao.PieceDeleteDao;
-import repository.dao.PieceFindDao;
-import repository.dao.PieceSaveDao;
-import repository.dao.PieceUpdateDao;
+import repository.dao.PieceDao;
 import repository.entity.PieceEntity;
 
-public class PieceJdbcRepository implements PieceSaveDao, PieceFindDao, PieceUpdateDao, PieceDeleteDao {
+public class PieceJdbcRepository implements PieceDao {
 
     private static final String INSERT_PIECE_SQL = "INSERT INTO piece(piece_row, piece_col, team, type ) values(?, ?, ?, ?)";
     private static final String SELECT_PIECE_SQL = "SELECT * FROM piece WHERE piece_row = ? AND piece_col = ?";
@@ -65,7 +62,7 @@ public class PieceJdbcRepository implements PieceSaveDao, PieceFindDao, PieceUpd
     }
 
     @Override
-    public PieceEntity find(int row, int column) throws SQLException {
+    public PieceEntity find(int targetRow, int targetColumn) throws SQLException {
         List<PieceEntity> pieceEntities = template.executeRead(
                 SELECT_PIECE_SQL,
                 (rs) -> new PieceEntity(
@@ -75,8 +72,8 @@ public class PieceJdbcRepository implements PieceSaveDao, PieceFindDao, PieceUpd
                         rs.getString("team"),
                         rs.getString("type")
                 ),
-                row,
-                column
+                targetRow,
+                targetColumn
         );
 
         validateSinglePieceEntity(pieceEntities);
@@ -107,13 +104,13 @@ public class PieceJdbcRepository implements PieceSaveDao, PieceFindDao, PieceUpd
     }
 
     @Override
-    public void update(int originRow, int originColumn, int newRow, int newColumn) throws SQLException {
+    public void update(int targetRow, int targetColumn, int newRow, int newColumn) throws SQLException {
         template.executeCommand(
                 UPDATE_PIECE_SQL,
                 newRow,
                 newColumn,
-                originRow,
-                originColumn
+                targetRow,
+                targetColumn
         );
     }
 

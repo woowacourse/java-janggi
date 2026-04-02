@@ -224,7 +224,9 @@
 
 ## PieceJdbcRepository
 
-- [x] PieceSaveDao를 구현하여 Piece의 저장를 수행한다
-- [x] PieceFindDao를 구현하여 Piece의 조회를 수행한다
-- [x] PieceUpdateDao를 구현하여 Piece의 값을 업데이트하는 역할을 수행한다
-- [x] PieceDeleteDao를 구현하여 Piece의 값을 삭제하는 역할을 수행한다
+- [x] 단일 Piece를 잘 저장한다
+- [x] 여러 Piece들을 잘 저장한다
+- [x] 하나의 Piece를 row와 column으로 잘 찾아온다
+- [x] 모든 Piece들을 잘 찾아온다
+- [x] 하나의 piece를 row와 column으로 찾아 새로운 위치의 값으로 업데이트 한다
+- [x] 하나의 piece를 row와 column으로 찾아 삭제한다

@@ -10,7 +10,7 @@ import java.util.List;
 public class JdbcTemplate {
 
     private final JdbcConnectionGenerator jdbcConnectionGenerator;
-    private ResultSet resultSet;
+    private ResultSet resultSet = null;
 
     public JdbcTemplate(JdbcConnectionGenerator jdbcConnectionGenerator) {
         this.jdbcConnectionGenerator = jdbcConnectionGenerator;
@@ -34,7 +34,7 @@ public class JdbcTemplate {
 
             return results;
         } finally {
-            close(preparedStatement, connection, null);
+            close(preparedStatement, connection, resultSet);
         }
     }
 
@@ -46,10 +46,9 @@ public class JdbcTemplate {
             for (int i = 1; i <= parameters.length; i++) {
                 preparedStatement.setObject(i, parameters[i - 1]);
             }
-
             return preparedStatement.executeUpdate();
         } finally {
-            close(preparedStatement, connection, null);
+            close(preparedStatement, connection, resultSet);
         }
     }
 
@@ -66,7 +65,7 @@ public class JdbcTemplate {
             }
             preparedStatement.executeBatch();
         } finally {
-            close(preparedStatement, connection, null);
+            close(preparedStatement, connection, resultSet);
         }
     }
 
