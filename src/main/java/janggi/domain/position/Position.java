@@ -1,8 +1,8 @@
 package janggi.domain.position;
 
 public record Position(
-    int x,
-    int y
+        int x,
+        int y
 ) {
     private static final int MIN_X = 0;
     private static final int MAX_X = 9;
@@ -19,6 +19,26 @@ public record Position(
 
     public int deltaY(Position other) {
         return other.y - y;
+    }
+
+    public boolean isInsideCastle() {
+        return Castle.isInsideCastle(this);
+    }
+
+    public boolean isInsideSameCastle(Position other) {
+        return Castle.isSameCastle(this, other);
+    }
+
+    public boolean isDiagonalMoveInCastle(Position to) {
+        if (!(this.isInsideCastle() && to.isInsideCastle())) {
+            return false;
+        }
+
+        if (!this.isInsideSameCastle(to)) {
+            return false;
+        }
+
+        return !(Castle.isCastleSide(this) || Castle.isCastleSide(to));
     }
 
     private void validateCoordinate(int x, int y) {
