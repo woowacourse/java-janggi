@@ -24,31 +24,36 @@ class PositionTest {
     @Test
     void 행이_0이면_예외가_발생한다() {
         assertThatThrownBy(() -> new Position(0, 5))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("행의 위치는");
     }
 
     @Test
     void 행이_11이면_예외가_발생한다() {
         assertThatThrownBy(() -> new Position(11, 5))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("행의 위치는");
     }
 
     @Test
     void 열이_0이면_예외가_발생한다() {
         assertThatThrownBy(() -> new Position(5, 0))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("열의 위치는");
     }
 
     @Test
     void 열이_11이면_예외가_발생한다() {
         assertThatThrownBy(() -> new Position(5, 11))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("열의 위치는");
     }
 
     @Test
     void 행과_열이_모두_음수이면_예외가_발생한다() {
         assertThatThrownBy(() -> new Position(-1, -1))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("행의 위치는");
     }
 
     @Test
