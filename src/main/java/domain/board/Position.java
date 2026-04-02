@@ -8,7 +8,6 @@ public record Position(int column, int row) {
     public Position {
         validateColumn(column);
         validateRow(row);
-
     }
 
     public Position move(int deltaX, int deltaY) {

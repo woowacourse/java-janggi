@@ -2,6 +2,7 @@ package domain.board;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -41,12 +42,12 @@ class PositionTest {
 
         @Test
         void 두_좌표의_x_증가량을_계산한다() {
-            assertThat(position.calculateDeltaX(new Position(1,0))).isEqualTo(1);
+            assertThat(position.calculateDeltaX(new Position(1, 0))).isEqualTo(1);
         }
 
         @Test
         void 두_좌표의_y_증가량을_계산한다() {
-            assertThat(position.calculateDeltaY(new Position(0,1))).isEqualTo(1);
+            assertThat(position.calculateDeltaY(new Position(0, 1))).isEqualTo(1);
 
         }
     }

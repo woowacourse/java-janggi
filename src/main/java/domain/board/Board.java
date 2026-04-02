@@ -29,10 +29,10 @@ public class Board {
     public void move(Position departure, Position destination) {
         Piece departurePiece = pieceAt(departure);
 
-        List<Position> positions = departurePiece.getPath(departure, destination);
-
         List<PathInfo> path = new ArrayList<>();
-        positions.forEach(position -> path.add(new PathInfo(position, pieceAt(position))));
+        for (Position position : departurePiece.getPath(departure, destination)) {
+            path.add(new PathInfo(position, pieceAt(position)));
+        }
 
         departurePiece.validateBlockingPiece(path, departure, destination);
 

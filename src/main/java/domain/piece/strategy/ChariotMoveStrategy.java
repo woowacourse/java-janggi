@@ -1,8 +1,9 @@
-package domain.piece;
+package domain.piece.strategy;
 
 import domain.path.PathGenerator;
 import domain.path.PathInfo;
 import domain.board.Position;
+import domain.piece.Direction;
 
 import java.util.List;
 

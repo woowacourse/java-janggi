@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.board.Position;
 import domain.path.PathInfo;
+import domain.piece.strategy.ChariotMoveStrategy;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

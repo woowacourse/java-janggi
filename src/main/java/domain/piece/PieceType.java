@@ -1,5 +1,8 @@
 package domain.piece;
 
+import domain.piece.strategy.ChariotMoveStrategy;
+import domain.piece.strategy.MoveStrategy;
+
 public enum PieceType {
     GENERAL(new ChariotMoveStrategy()),
     GUARD(new ChariotMoveStrategy()),

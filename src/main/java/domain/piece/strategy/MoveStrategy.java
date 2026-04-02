@@ -1,4 +1,4 @@
-package domain.piece;
+package domain.piece.strategy;
 
 import domain.path.PathInfo;
 import domain.board.Position;
