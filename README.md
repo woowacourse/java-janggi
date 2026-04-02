@@ -107,17 +107,17 @@
 
 #### 장기 대국에서 무승부를 허용하지 않는다.
 
-- [ ] 무승부가 허용되지않기 때문에 아래와 같은 상황에서 각 Dynasty의 Piece Points를 합산하여 승부를 결정한다.
+- [x] 무승부가 허용되지않기 때문에 아래와 같은 상황에서 각 Dynasty의 Piece Points를 합산하여 승부를 결정한다.
     - ~~무한 장군과 멍군, 동일한 국면 반복~~
-    - [ ] 위 경우를 판단하기 어렵다면 두 Dynasty가 30점 미만이 된 순간 점수를 비교하여 승패를 결정한다.
-- [ ] 따라서 각 Dynasty마다 현재 남아 있는 Piece에 대한 Points를 구할 수 있어야 한다.
-    - [ ] Chariots는 13point이다.
-    - [ ] Cannons는 7point이다.
-    - [ ] Horses는 5point이다.
-    - [ ] Elephants는 3point이다.
-    - [ ] Guards는 3point이다.
-    - [ ] Soldiers는 2point이다.
-- [ ] CHO Dynasty는 선공이므로 유리하다. 불리한 HAN Dynasty에게는 Deom을 부여한다.
+    - [x] 위 경우를 판단하기 어렵다면 두 Dynasty가 30점 미만이 된 순간 점수를 비교하여 승패를 결정한다.
+- [x] 따라서 각 Dynasty마다 현재 남아 있는 Piece에 대한 Points를 구할 수 있어야 한다.
+    - [x] Chariots는 13point이다.
+    - [x] Cannons는 7point이다.
+    - [x] Horses는 5point이다.
+    - [x] Elephants는 3point이다.
+    - [x] Guards는 3point이다.
+    - [x] Soldiers는 2point이다.
+- [x] CHO Dynasty는 선공이므로 유리하다. 불리한 HAN Dynasty에게는 Deom을 부여한다.
     - 따라서 게임 시작 시 각 Dynasty의 Points는 다음과 같다.
     - CHO: 72점
     - HAN: 73.5점
