@@ -39,6 +39,19 @@ class BoardTest {
     }
 
     @Test
+    void 출발지에서_도착지로_기물을_이동시킨다(){
+        Position from = new Position(0, 0);
+        Position to = new Position(0, 3);
+        Piece movingPiece = board.pieceAt(from);
+
+        board.move(from, to);
+
+        assertThat(board.isExistPieceAt(from)).isFalse();
+        assertThat(board.pieceAt(to)).isEqualTo(movingPiece);
+
+    }
+
+    @Test
     void 도착지에_위치한_기물이_같은_진영의_기물일_경우_예외를_던진다() {
         assertThatThrownBy(() -> board.move(new Position(8, 0), new Position(7, 0)))
                 .isInstanceOf(IllegalArgumentException.class);
