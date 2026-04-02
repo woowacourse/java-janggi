@@ -63,4 +63,20 @@ public class Board {
         }
         throw new IllegalStateException(EMPTY_POSITION);
     }
+
+    public int getMinRowRange() {
+        return MIN_ROW_RANGE;
+    }
+
+    public int getMaxRowRange() {
+        return MAX_ROW_RANGE;
+    }
+
+    public int getMinColumnRange() {
+        return MIN_COLUMN_RANGE;
+    }
+
+    public int getMaxColumnRange() {
+        return MAX_COLUMN_RANGE;
+    }
 }

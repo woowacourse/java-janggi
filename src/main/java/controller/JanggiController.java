@@ -1,5 +1,6 @@
 package controller;
 
+import controller.response.BoardView;
 import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.board.ElephantSetup;
@@ -23,6 +24,15 @@ public class JanggiController {
         Player hanPlayer = generateHanPlayer();
 
         Board board = initializeBoard();
+
+        // 턴 진행 (턴 전환)
+
+        // 보드판 출력
+        outputView.printBoard(BoardView.from(board));
+        // 기물 선택
+        // 기물이 이동 가능한 좌표 선택
+        // 기물 이동
+        // 종료 판단은 사이클2
     }
 
 
