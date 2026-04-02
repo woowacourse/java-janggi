@@ -9,7 +9,7 @@ public record Score(
         return new Score(other.value + value);
     }
 
-    public boolean isBigger(Score score) {
-        return this.value > score.value;
+    public boolean isBiggerOrSame(Score score) {
+        return this.value >= score.value;
     }
 }

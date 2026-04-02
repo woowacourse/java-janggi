@@ -3,7 +3,9 @@ package janggi.domain.game;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.unit.Advisor;
+import janggi.domain.piece.unit.Elephant;
 import janggi.domain.piece.unit.General;
+import janggi.domain.piece.unit.Horse;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.point.Point;
@@ -16,8 +18,31 @@ import org.junit.jupiter.api.Test;
 class BigJangRuleTest {
     private static Rule RULE = new BigJangRule();
 
-    @Test
-    void getWinSide() {
+    @Nested
+    class GetWinSide {
+        @Test
+        @DisplayName("초 진영이 어드밴티지(1.5)때문에 이긴다")
+        void choWin() {
+            Map<Point, Piece> pieces = Map.of(
+                    new Point(1, 4), new General(Side.CHO),
+                    new Point(8, 4), new General(Side.HAN),
+                    new Point(0, 1), new Horse(Side.CHO),       //5점
+                    new Point(9, 2), new Elephant(Side.HAN),    //3점
+                    new Point(9, 6), new Elephant(Side.HAN));   //3점
+            assertThat(RULE.getWinSide(pieces)).isEqualTo(Side.CHO);
+        }
+
+        @Test
+        @DisplayName("한 진영이 점수가 더 높다면 이긴다.")
+        void hanWin() {
+            Map<Point, Piece> pieces = Map.of(
+                    new Point(1, 4), new General(Side.CHO),
+                    new Point(8, 4), new General(Side.HAN),
+                    new Point(0, 1), new Horse(Side.HAN),       //5점
+                    new Point(9, 2), new Elephant(Side.CHO)     //3점
+            );
+            assertThat(RULE.getWinSide(pieces)).isEqualTo(Side.HAN);
+        }
     }
 
     @Nested
@@ -57,7 +82,6 @@ class BigJangRuleTest {
             Map<Point, Piece> pieces = Map.of(
                     new Point(1, 4), new General(Side.CHO));
             assertThat(RULE.isEnd(pieces)).isEqualTo(false);
-
         }
     }
 }

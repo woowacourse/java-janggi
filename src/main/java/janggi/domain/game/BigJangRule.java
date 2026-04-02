@@ -31,7 +31,7 @@ public class BigJangRule implements Rule {
         Score choScore = getScore(pieces, Side.CHO).add(CHO_ADVANTAGE);
         Score hanScore = getScore(pieces, Side.HAN);
 
-        if (choScore.isBigger(hanScore)) {
+        if (choScore.isBiggerOrSame(hanScore)) {
             return Side.CHO;
         }
         return Side.HAN;
