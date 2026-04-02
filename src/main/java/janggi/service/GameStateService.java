@@ -17,4 +17,10 @@ public class GameStateService {
 
         return gameStateRepository.save(gameStateEntity);
     }
+
+    public long modifyGameState(final long id, final TurnManager turnManager) {
+        final GameStateEntity gameStateEntity = GameStateEntity.from(id, turnManager);
+
+        return gameStateRepository.update(gameStateEntity);
+    }
 }

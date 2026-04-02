@@ -13,10 +13,10 @@ public class TurnManager {
     private final Deque<Team> teams;
     private int turnTaken;
 
-    public TurnManager(final List<Team> teams) {
+    public TurnManager(final int turnTaken, final List<Team> teams) {
         validateTeamsSize(teams);
         this.teams = new LinkedList<>(teams);
-        this.turnTaken = 1;
+        this.turnTaken = turnTaken;
     }
 
     private void validateTeamsSize(final List<Team> teams) {

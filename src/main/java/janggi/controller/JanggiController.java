@@ -30,7 +30,7 @@ public class JanggiController {
         final Team blueTeam = setupBlueTeam();
         final Team redTeam = setupRedTeam();
         final Board board = BoardGenerator.generate(redTeam, blueTeam);
-        final TurnManager turnManager = new TurnManager(List.of(blueTeam, redTeam));
+        final TurnManager turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
         OutputView.printGameResult(GameResultDto.from(board));

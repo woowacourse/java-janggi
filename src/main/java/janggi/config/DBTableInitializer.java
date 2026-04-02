@@ -4,16 +4,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public final class DBTableInitializer {
+public class DBTableInitializer {
 
     private static final String ABSOLUTE_SQL_FILE_PATH = "./src/main/resources/schema.sql";
-    private static boolean executed;
 
-    private DBTableInitializer() {
+    private final DBConnection dbConnection;
+    private boolean executed;
 
+    public DBTableInitializer(final DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
     }
 
-    public static void init() {
+    public void init() {
         if (executed) {
             throw new IllegalStateException("이미 DB 테이블이 초기화된 상태입니다.");
         }
@@ -25,7 +27,7 @@ public final class DBTableInitializer {
             String statement;
             while (scanner.hasNext()) {
                 statement = scanner.next();
-                DBConnection.executeUpdate(statement);
+                dbConnection.executeUpdate(statement);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

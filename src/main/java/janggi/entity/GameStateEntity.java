@@ -19,7 +19,7 @@ public record GameStateEntity(
         return new GameStateEntity(0, turnManager.getTurnTaken(), teamQueue);
     }
 
-    public static GameStateEntity from(final int id, final TurnManager turnManager) {
+    public static GameStateEntity from(final long id, final TurnManager turnManager) {
         final String teamQueue = turnManager.getTeams()
             .stream()
             .map(Team::getTeamType)

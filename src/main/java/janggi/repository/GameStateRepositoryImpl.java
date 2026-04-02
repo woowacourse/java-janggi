@@ -8,12 +8,18 @@ public class GameStateRepositoryImpl implements GameStateRepository {
 
     private static final String TABLE_NAME = "game_states";
 
+    private final DBConnection dbConnection;
+
+    public GameStateRepositoryImpl(final DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
     @Override
     public long save(final GameStateEntity gameStateEntity) {
         final String sql = String.format(
             "INSERT INTO %s (turns_taken, team_queue) VALUES (%d, '%s')",
             TABLE_NAME, gameStateEntity.turns_taken(), gameStateEntity.team_queue());
-        return DBConnection.executeInsert(sql);
+        return dbConnection.executeUpdate(sql);
     }
 
     @Override
@@ -31,6 +37,23 @@ public class GameStateRepositoryImpl implements GameStateRepository {
             }
             return new GameStateEntity(id, turnsTaken, teamQueue);
         };
-        return DBConnection.executeSelect(sql, mapper);
+        return dbConnection.executeSelect(sql, mapper);
     }
+
+    @Override
+    public long update(final GameStateEntity gameStateEntity) {
+        final String sql = String.format("UPDATE %s SET turns_taken = %d, team_queue = '%s' WHERE id = %d",
+            TABLE_NAME, gameStateEntity.turns_taken(), gameStateEntity.team_queue(), gameStateEntity.id());
+
+        return dbConnection.executeUpdate(sql);
+    }
+
+
+    @Override
+    public long deleteById(final long id) {
+        final String sql = String.format("DELETE FROM %s WHERE id = %d", TABLE_NAME, id);
+        return dbConnection.executeUpdate(sql);
+    }
+
+
 }
