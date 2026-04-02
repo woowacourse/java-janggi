@@ -49,4 +49,18 @@ public class PointTest {
         // then
         assertThat(result).isTrue();
     }
+
+    @Test
+    @DisplayName("궁성 내에서 대각선으로 이동하는지 판단")
+    void is_palace_diagonal_move() {
+        // given
+        Point from = Point.of(3, 0);
+        Point to = Point.of(5, 2);
+
+        // when
+        boolean result = from.isPalaceDiagonalMove(to);
+
+        // then
+        assertThat(result).isTrue();
+    }
 }
