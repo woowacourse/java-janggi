@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Board;
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.gimul.linearMove.Cha;
+import janggi.model.gimul.linearMove.Pho;
 import janggi.model.gimul.palace.Jang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
@@ -161,19 +164,45 @@ class BoardTest {
     @DisplayName("양쪽 장이 살아있으면 게임이 종료되지 않는다.")
     @Test
     void isGameOver_both_jang_alive() {
-        Map<Position, AbstractGimul> board = new HashMap<>();
+        Map<Position, AbstractGimul> runningBoard = new HashMap<>();
 
-        board.put(
+        runningBoard.put(
                 new Position(Row.NINE, Column.FIVE),
                 new Jang(Team.CHO)
         );
-        board.put(
+        runningBoard.put(
                 new Position(Row.TWO, Column.FIVE),
                 new Jang(Team.HAN)
         );
 
-        Board board1 = new Board(board);
+        Board board = new Board(runningBoard);
 
-        assertThat(board1.isGameOver()).isFalse();
+        assertThat(board.isGameOver()).isFalse();
+    }
+
+    @DisplayName("초나라 기물의 점수 합산을 반환한다.")
+    @Test
+    void calculateScore_cho() {
+        Map<Position, AbstractGimul> board = new HashMap<>();
+        board.put(new Position(Row.SEVEN, Column.FIVE), new Cha(Team.CHO));
+        board.put(new Position(Row.SEVEN, Column.THREE), new Ma(Team.CHO));
+        board.put(new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN));
+
+        Board gameBoard = new Board(board);
+
+        assertThat(gameBoard.calculateScore(Team.CHO)).isEqualTo(new Score(18));
+    }
+
+    @DisplayName("한나라 기물의 점수 합산을 반환한다.")
+    @Test
+    void calculateScore_han() {
+        Map<Position, AbstractGimul> board = new HashMap<>();
+        board.put(new Position(Row.SEVEN, Column.FIVE), new Cha(Team.HAN));
+        board.put(new Position(Row.SEVEN, Column.THREE), new Pho(Team.HAN));
+        board.put(new Position(Row.NINE, Column.FIVE), new Jang(Team.CHO));
+
+        Board gameBoard = new Board(board);
+
+        assertThat(gameBoard.calculateScore(Team.HAN)).isEqualTo(new Score(20));
     }
 }

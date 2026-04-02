@@ -1,5 +1,6 @@
 package janggi.model.gimul.diagonalMove;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
@@ -7,7 +8,7 @@ import janggi.model.position.PositionDelta;
 import janggi.model.position.PositionPath;
 
 public class Sang extends AbstractDiagonalGimul {
-
+    private static final int SCORE_VALUE = 3;
     private static final int FIRST_MOVE = 2;
     private static final int SECOND_MOVE = 3;
 
@@ -41,5 +42,10 @@ public class Sang extends AbstractDiagonalGimul {
     @Override
     public String getSymbol() {
         return "상";
+    }
+
+    @Override
+    public Score getScore() {
+        return new Score(SCORE_VALUE);
     }
 }

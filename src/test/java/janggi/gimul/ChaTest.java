@@ -3,6 +3,7 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.linearMove.Cha;
@@ -169,5 +170,12 @@ class ChaTest {
         //when & then
         assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
+    }
+
+    @DisplayName("차의 점수는 13점이다.")
+    @Test
+    void getScore() {
+        Cha cha = new Cha(Team.CHO);
+        assertThat(cha.getScore()).isEqualTo(new Score(13));
     }
 }

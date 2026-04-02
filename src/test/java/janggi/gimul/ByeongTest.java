@@ -3,6 +3,7 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.Byeong;
@@ -223,5 +224,12 @@ class ByeongTest {
         //when & then
         assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
+    }
+
+    @DisplayName("병의 점수는 13점이다.")
+    @Test
+    void getScore() {
+        Byeong byeong = new Byeong(Team.CHO);
+        assertThat(byeong.getScore()).isEqualTo(new Score(2));
     }
 }

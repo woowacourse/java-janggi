@@ -1,5 +1,6 @@
 package janggi.model.gimul;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
@@ -7,6 +8,7 @@ import janggi.model.position.PositionPath;
 import java.util.List;
 
 public class Byeong extends AbstractGimul {
+    private static final int SCORE_VALUE = 2;
     private static final int MAX_DISTANCE = 2;
     private static final int CHO_BACKWARD = 1;
     private static final int HAN_BACKWARD = -1;
@@ -71,5 +73,10 @@ public class Byeong extends AbstractGimul {
     @Override
     public String getSymbol() {
         return "병";
+    }
+
+    @Override
+    public Score getScore() {
+        return new Score(SCORE_VALUE);
     }
 }

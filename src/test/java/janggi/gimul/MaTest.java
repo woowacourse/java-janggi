@@ -3,6 +3,7 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Ma;
@@ -112,5 +113,12 @@ class MaTest {
         //when & then
         assertThat(ma.isSameTeam(Team.CHO)).isTrue();
         assertThat(ma.isSameTeam(Team.HAN)).isFalse();
+    }
+
+    @DisplayName("마의 점수는 5점이다.")
+    @Test
+    void getScore() {
+        Ma ma = new Ma(Team.CHO);
+        assertThat(ma.getScore()).isEqualTo(new Score(5));
     }
 }

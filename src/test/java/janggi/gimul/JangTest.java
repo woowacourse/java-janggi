@@ -3,6 +3,7 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.linearMove.Cha;
@@ -118,5 +119,12 @@ class JangTest {
 
         PositionPath positionPath = jang.getLegalPath(from, to);
         assertThat(positionPath.stream().count()).isEqualTo(0);
+    }
+
+    @DisplayName("장군의 점수는 0점이다.")
+    @Test
+    void getScore() {
+        Jang jang = new Jang(Team.CHO);
+        assertThat(jang.getScore()).isEqualTo(new Score(0));
     }
 }

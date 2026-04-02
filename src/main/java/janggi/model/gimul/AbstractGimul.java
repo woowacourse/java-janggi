@@ -1,5 +1,6 @@
 package janggi.model.gimul;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
@@ -19,6 +20,8 @@ public abstract class AbstractGimul {
     public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath);
 
     public abstract String getSymbol();
+
+    public abstract Score getScore();
 
     public boolean isSameTeam(AbstractGimul other) {
         return this.team.equals(other.team);

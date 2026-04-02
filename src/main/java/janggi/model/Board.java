@@ -84,6 +84,13 @@ public class Board {
         throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
     }
 
+    public Score calculateScore(Team team) {
+        return board.values().stream()
+                .filter(gimul -> gimul.isSameTeam(team))
+                .map(AbstractGimul::getScore)
+                .reduce(Score.zero(), Score::add);
+    }
+
     public String render() {
         StringBuilder sb = new StringBuilder();
         sb.append("    1  2  3  4  5  6  7  8  9\n");
