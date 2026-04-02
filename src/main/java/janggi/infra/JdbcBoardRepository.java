@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,7 +47,7 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public Long save(JanggiGame game) {
-        try(Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             Long roomId = roomDao.save(GameRoomData.from(game), connection);
             List<List<Piece>> pieces = game.getBoardStatus();
             List<PieceData> data = new ArrayList<>();
@@ -64,7 +63,7 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public void update(Long roomId, Point from, Point to, JanggiGame game) {
-        try(Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             roomDao.update(roomId, GameRoomData.from(game), connection);
             piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
             piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn(), connection);
@@ -75,7 +74,7 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public JanggiGame loadGame(Long gameRoomId) {
-        try(Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             GameRoomData roomData = roomDao.findRoomById(gameRoomId, connection);
             List<PieceData> pieceDatas = piecesDao.findAllByRoomId(gameRoomId, connection);
             Map<Point, Piece> pieces = new LinkedHashMap<>();
