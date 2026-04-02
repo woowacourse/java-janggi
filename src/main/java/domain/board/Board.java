@@ -2,12 +2,12 @@ package domain.board;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Board implements BoardChecker {
     private final Map<Position, Piece> board;
@@ -43,17 +43,10 @@ public class Board implements BoardChecker {
 
     @Override
     public List<Piece> findPiecesInPath(List<Position> path) {
-        List<Piece> piecesInPath = new ArrayList<>();
-
-        for (Position position : path) {
-            addPieceIfExists(position, piecesInPath);
-        }
-
-        return piecesInPath;
-    }
-
-    private void addPieceIfExists(Position position, List<Piece> piecesInPath) {
-        findPiece(position).ifPresent(piecesInPath::add);
+        return path.stream()
+                .map(this::findPiece)
+                .flatMap(Optional::stream)
+                .collect(Collectors.toList());
     }
 
     @Override
