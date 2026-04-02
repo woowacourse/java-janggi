@@ -13,11 +13,6 @@ public class Guard extends MoveablePiece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof Guard;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.GUARD;
     }

@@ -15,11 +15,6 @@ public class Elephant extends MoveablePiece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof Elephant;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.ELEPHANT;
     }

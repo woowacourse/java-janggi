@@ -13,11 +13,6 @@ public class General extends MoveablePiece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof General;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.GENERAL;
     }

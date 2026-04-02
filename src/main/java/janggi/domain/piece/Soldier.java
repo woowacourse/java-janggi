@@ -14,11 +14,6 @@ public class Soldier extends MoveablePiece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof Soldier;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.SOLDIER;
     }

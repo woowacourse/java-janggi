@@ -13,11 +13,6 @@ public class Cannon extends MoveablePiece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof Cannon;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.CANNON;
     }

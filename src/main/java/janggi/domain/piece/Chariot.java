@@ -13,11 +13,6 @@ public class Chariot extends MoveablePiece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof Chariot;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.CHARIOT;
     }

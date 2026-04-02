@@ -15,11 +15,6 @@ public class Horse extends MoveablePiece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof Horse;
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.HORSE;
     }

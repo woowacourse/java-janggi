@@ -16,6 +16,11 @@ public abstract class MoveablePiece implements Piece {
     }
 
     @Override
+    public boolean isSamePiece(Piece other) {
+        return this.getClass() == other.getClass();
+    }
+
+    @Override
     public Team getTeam() {
         return team;
     }
