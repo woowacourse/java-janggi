@@ -35,8 +35,7 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     private static void canMoveByDirection(Position from, Direction dir,
-                                           Map<Position, Piece> board, Dynasty dynasty,
-                                           List<Position> canMovePositions) {
+                                           Map<Position, Piece> board, Dynasty dynasty, List<Position> canMovePositions) {
         from.findOnePositionByDirection(dir).ifPresent(to -> {
             if (!isPiecePresent(board, to) || isEnemy(board.get(to), dynasty)) {
                 canMovePositions.add(to);
