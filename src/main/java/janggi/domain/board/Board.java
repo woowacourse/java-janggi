@@ -3,12 +3,13 @@ package janggi.domain.board;
 import janggi.domain.DomainException;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static janggi.domain.piece.PieceType.GENERAL;
 
 public class Board {
 
@@ -64,9 +65,10 @@ public class Board {
         return sum;
     }
 
-    public boolean isGeneralCaught() {
+    public boolean isGeneralCaughtByDynasty(Dynasty dynasty) {
         for (Position position : board.keySet()) {
-            if(PieceType.GENERAL.equals(board.get(position).pieceType())) {
+            Piece piece = board.get(position);
+            if(GENERAL.equals(piece.pieceType()) && piece.dynasty().equals(dynasty)) {
                 return false;
             }
         }

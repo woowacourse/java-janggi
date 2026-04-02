@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.*;
 
 import janggi.domain.DomainException;
 import janggi.domain.dynasty.Dynasty;
-import janggi.domain.piece.ChariotMoveStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
@@ -21,6 +20,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class BoardTest {
 
@@ -132,31 +133,39 @@ class BoardTest {
         assertThat(score).isEqualTo(expected);
     }
     
-    @Test
-    @DisplayName("장기판에 궁 기물이 없는 경우")
-    public void isGeneralCaught_success1() throws Exception {
+    @ParameterizedTest
+    @CsvSource(value = {
+            "2, 5, CHO",
+            "7, 5, HAN"
+    })
+    @DisplayName("장기판에 특정나라의 궁 기물이 잡힌 경우")
+    public void isGeneralCaught_ByDynasty_success1(int row, int column, Dynasty dynasty) throws Exception {
         // given
-        BoardDesignPolicy boardDesignPolicy = Map::of;
+        BoardDesignPolicy boardDesignPolicy = () -> Map.of(
+                Position.from(row, column), new Piece(dynasty, PieceType.GENERAL)
+        );
         Board board = new Board(boardDesignPolicy);
 
         // when
-        boolean generalCaught = board.isGeneralCaught();
+        boolean generalCaught = board.isGeneralCaughtByDynasty(dynasty.next());
 
         // then
         assertThat(generalCaught).isEqualTo(true);
     }
 
-    @Test
-    @DisplayName("장기판에 궁 기물이 있는 경우")
-    public void isGeneralCaught_success2() throws Exception {
+    @ParameterizedTest
+    @EnumSource(Dynasty.class)
+    @DisplayName("장기판에 특정 나라의 궁 기물이 있는 경우")
+    public void isGeneralCaught_ByDynasty_success2(Dynasty dynasty) throws Exception {
         // given
         BoardDesignPolicy boardDesignPolicy = () -> Map.of(
-                Position.from(2, 5), new Piece(CHO, PieceType.GENERAL)
+                Position.from(2, 5), new Piece(CHO, PieceType.GENERAL),
+                Position.from(7, 5), new Piece(HAN, PieceType.GENERAL)
         );
         Board board = new Board(boardDesignPolicy);
 
         // when
-        boolean generalCaught = board.isGeneralCaught();
+        boolean generalCaught = board.isGeneralCaughtByDynasty(dynasty);
 
         // then
         assertThat(generalCaught).isEqualTo(false);

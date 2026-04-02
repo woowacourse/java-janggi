@@ -1,6 +1,7 @@
 package janggi.domain.game;
 
 import static janggi.domain.dynasty.Dynasty.CHO;
+import static janggi.domain.dynasty.Dynasty.HAN;
 
 import janggi.domain.DomainException;
 import janggi.domain.board.Board;
@@ -10,6 +11,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Game {
 
@@ -17,7 +19,6 @@ public class Game {
     private final CurrentTurn currentTurn;
 
     public static final String NO_AVAILABLE_MOVES_MESSAGE = "해당 위치(%d, %d)의 기물이 이동할 수 있는 위치가 없습니다.";
-
 
     private Game(Board board, CurrentTurn currentTurn) {
         this.board = board;
@@ -49,8 +50,13 @@ public class Game {
         currentTurn.changeTurn();
     }
 
-    public boolean isGameOver() {
-        return board.isGeneralCaught();
+    public Optional<Dynasty> winner() {
+        if (board.isGeneralCaughtByDynasty(CHO)) {
+            return Optional.of(HAN);
+        } else if (board.isGeneralCaughtByDynasty(HAN)) {
+            return Optional.of(CHO);
+        }
+        return Optional.empty();
     }
 
     public double calculateScoreByDynasty(Dynasty dynasty) {
