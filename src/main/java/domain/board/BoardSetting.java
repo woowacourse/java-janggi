@@ -1,9 +1,11 @@
-package domain;
+package domain.board;
+
+import domain.piece.PieceType;
 
 import java.util.List;
 
-import static domain.PieceType.ELEPHANT;
-import static domain.PieceType.HORSE;
+import static domain.piece.PieceType.ELEPHANT;
+import static domain.piece.PieceType.HORSE;
 
 public enum BoardSetting {
     LEFT_ELEPHANT_SET_UP(List.of(ELEPHANT, HORSE, ELEPHANT, HORSE)),

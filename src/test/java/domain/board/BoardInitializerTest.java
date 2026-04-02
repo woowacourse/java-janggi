@@ -1,5 +1,8 @@
-package domain;
+package domain.board;
 
+import domain.piece.Camp;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 

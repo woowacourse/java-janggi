@@ -1,4 +1,8 @@
-package domain;
+package domain.piece;
+
+import domain.path.PathGenerator;
+import domain.path.PathInfo;
+import domain.board.Position;
 
 import java.util.List;
 

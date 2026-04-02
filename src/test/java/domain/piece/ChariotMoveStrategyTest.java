@@ -1,5 +1,7 @@
-package domain;
+package domain.piece;
 
+import domain.board.Position;
+import domain.path.PathInfo;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

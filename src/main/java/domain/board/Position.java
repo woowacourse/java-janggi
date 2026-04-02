@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public record Position(int column, int row) {
     private static final int MIN_POSITION = 0;

@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

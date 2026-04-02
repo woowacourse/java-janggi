@@ -1,4 +1,7 @@
-package domain;
+package domain.board;
+
+import domain.path.PathInfo;
+import domain.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;

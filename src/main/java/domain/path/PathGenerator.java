@@ -1,4 +1,7 @@
-package domain;
+package domain.path;
+
+import domain.board.Position;
+import domain.piece.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
