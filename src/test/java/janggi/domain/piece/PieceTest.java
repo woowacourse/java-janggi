@@ -59,4 +59,35 @@ public class PieceTest {
         // when & then
         assertThat(cannon).isEqualTo(cannon2);
     }
+
+    @Test
+    @DisplayName("빈 기물을 생성하는 경우, isEmpty()는 true를 반환한다.")
+    void 빈_기물_생성_테스트() {
+        // given
+        Piece emptyPiece = Piece.createEmpty();
+
+        // when & then
+        assertThat(emptyPiece.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("일반 기물을 생성하는 경우, isEmpty()는 false를 반환한다.")
+    void 일반_기물_생성_테스트() {
+        // given
+        Piece piece = new Piece(Side.CHO, PieceType.CHARIOT, "1");
+
+        // when & then
+        assertThat(piece.isEmpty()).isFalse();
+    }
+
+    @Test
+    @DisplayName("빈 기물과 진영을 비교하는 경우, false를 반환한다.")
+    void 빈_기물_진영_비교_테스트() {
+        // given
+        Piece emptyPiece = Piece.createEmpty();
+        Piece choChariot = new Piece(Side.CHO, PieceType.CHARIOT, "1");
+
+        // when & then
+        assertThat(choChariot.isSameSide(emptyPiece)).isFalse();
+    }
 }
