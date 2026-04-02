@@ -1,7 +1,6 @@
 package domain.board;
 
 import domain.position.Position;
-import net.bytebuddy.asm.MemberSubstitution;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
