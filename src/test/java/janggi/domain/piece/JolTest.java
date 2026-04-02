@@ -1,9 +1,11 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Point;
 import janggi.domain.status.Team;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -49,5 +51,34 @@ public class JolTest {
         assertThatThrownBy(() -> jol.getRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("한 칸만");
+    }
+
+    @Test
+    @DisplayName("대각선 이동 시 에외 발생")
+    void not_diagonal() {
+        // given
+        Piece jol = new Jol(Team.CHO);
+        Point from = Point.of(0,0);
+        Point to = Point.of(1, 1);
+
+        // when & then
+        assertThatThrownBy(() -> jol.getRoute(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("대각선");
+    }
+
+    @Test
+    @DisplayName("궁성 내에서 대각선 이동")
+    void palace_diagonal_move() {
+        // given
+        Piece jol = new Jol(Team.HAN);
+        Point from = Point.of(3, 2);
+        Point to = Point.of(4, 1);
+
+        // when
+        List<Point> result = jol.getRoute(from, to);
+
+        // then
+        assertThat(result).isEmpty();
     }
 }
