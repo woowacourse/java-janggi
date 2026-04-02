@@ -7,7 +7,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotCorrectPath(from, to))
+        if (isNotStraightPath(from, to))
             return false;
 
         int nx = Integer.compare(to.getRow(), from.getRow());
@@ -31,7 +31,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return board.canOccupy(from, to);
     }
 
-    private boolean isNotCorrectPath(final Position from, final Position to) {
+    private boolean isNotStraightPath(final Position from, final Position to) {
         return from.getCol() != to.getCol() && from.getRow() != to.getRow();
     }
 }

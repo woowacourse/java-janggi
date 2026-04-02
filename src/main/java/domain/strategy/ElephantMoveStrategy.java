@@ -10,17 +10,17 @@ public class ElephantMoveStrategy implements MoveStrategy {
         if (isNotCorrectPath(from, to))
             return false;
 
-        int nx = to.getRow() - from.getRow();
-        int ny = to.getCol() - from.getCol();
+        int distanceX = to.getRow() - from.getRow();
+        int distanceY = to.getCol() - from.getCol();
 
         int row = from.getRow();
         int col = from.getCol();
 
-        if (board.isExistPosition(Position.of(row + nx / 3, col + ny / 3))) {
+        if (board.isExistPosition(Position.of(row + distanceX / 3, col + distanceY / 3))) {
             return false;
         }
 
-        if (board.isExistPosition(Position.of(row + nx / 3 + nx / 2, col + ny / 3 + ny / 2))) {
+        if (board.isExistPosition(Position.of(row + distanceX / 3 + distanceX / 2, col + distanceY / 3 + distanceY / 2))) {
             return false;
         }
 

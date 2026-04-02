@@ -8,7 +8,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotCorrectPath(from, to))
+        if (isNotStraightPath(from, to))
             return false;
 
         if (isWithdraw(from, to, board))
@@ -17,7 +17,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return board.canOccupy(from, to);
     }
 
-    private boolean isNotCorrectPath(final Position from, final Position to) {
+    private boolean isNotStraightPath(final Position from, final Position to) {
         if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) == 1) {
             return false;
         }

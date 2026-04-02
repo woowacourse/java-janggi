@@ -13,7 +13,7 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotCorrectPath(from, to)) 
+        if (isNotStraightPath(from, to))
             return false;
 
         int nx = Integer.compare(to.getRow(), from.getRow());
@@ -53,7 +53,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         return piece.isPresent() && piece.get().getType() == Type.CANNON;
     }
 
-    private boolean isNotCorrectPath(Position from, Position to) {
+    private boolean isNotStraightPath(Position from, Position to) {
         return from.getRow() != to.getRow() && from.getCol() != to.getCol();
     }
 }

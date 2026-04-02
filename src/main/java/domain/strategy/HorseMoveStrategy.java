@@ -10,10 +10,10 @@ public class HorseMoveStrategy implements MoveStrategy {
         if (isNotCorrectPath(from, to))
             return false;
 
-        int nx = to.getRow() - from.getRow();
-        int ny = to.getCol() - from.getCol();
+        int distanceX = to.getRow() - from.getRow();
+        int distanceY = to.getCol() - from.getCol();
 
-        if (board.isExistPosition(Position.of((from.getRow() + nx / 2), (from.getCol() + ny / 2)))) {
+        if (board.isExistPosition(Position.of((from.getRow() + distanceX / 2), (from.getCol() + distanceY / 2)))) {
             return false;
         }
 
