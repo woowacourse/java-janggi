@@ -3,7 +3,7 @@ package domain.piece;
 import domain.Direction;
 import domain.Position;
 import domain.Side;
-import domain.strategy.PathMovement;
+import domain.strategy.MovementStrategy;
 import java.util.List;
 
 public class Elephant extends Piece {
@@ -19,8 +19,8 @@ public class Elephant extends Piece {
         List.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT)
     );
 
-    public Elephant(Side side) {
-        super(side, new PathMovement());
+    public Elephant(Side side, MovementStrategy movementStrategy) {
+        super(side, movementStrategy);
     }
 
     @Override
