@@ -1,9 +1,9 @@
 package janggi.controller;
 
-import janggi.domain.Board;
-import janggi.domain.BoardFactory;
 import janggi.domain.Piece;
 import janggi.domain.Position;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.function.Supplier;
 
 public class JanggiGame {
 
-    private boolean isChoTurn = true;
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
+    private boolean isChoTurn = true;
 
     public void run() {
         Board board = initializeBoard();

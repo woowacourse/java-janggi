@@ -11,6 +11,10 @@ public class Route {
         this.routes = routes;
     }
 
+    public List<Direction> getRoutes() {
+        return routes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Route route)) {
@@ -22,9 +26,5 @@ public class Route {
     @Override
     public int hashCode() {
         return Objects.hashCode(routes);
-    }
-
-    public List<Direction> getRoutes() {
-        return routes;
     }
 }

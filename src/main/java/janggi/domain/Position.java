@@ -8,6 +8,7 @@ public class Position {
     private static final int MAX_X = 9;
     private static final int MIN_Y = 1;
     private static final int MAX_Y = 10;
+
     private final int x;
     private final int y;
 
@@ -15,12 +16,6 @@ public class Position {
         validateBoundary(x, y);
         this.x = x;
         this.y = y;
-    }
-
-    private void validateBoundary(int x, int y) {
-        if (x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y) {
-            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
-        }
     }
 
     public static boolean isInsideBoundary(int x, int y) {
@@ -46,5 +41,11 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    private void validateBoundary(int x, int y) {
+        if (x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y) {
+            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
+        }
     }
 }

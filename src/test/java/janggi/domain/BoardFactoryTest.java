@@ -2,6 +2,8 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

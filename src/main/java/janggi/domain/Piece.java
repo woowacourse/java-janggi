@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Piece {
@@ -35,6 +36,10 @@ public class Piece {
 
     public boolean isPo() {
         return pieceType == PieceType.PO;
+    }
+
+    public List<Route> findRoutes() {
+        return pieceType.getMoveRule().findRoutes(this.team);
     }
 
     @Override
