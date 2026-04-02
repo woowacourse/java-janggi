@@ -17,17 +17,12 @@ import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
+import domain.strategy.ConditionalMovementStrategy;
 import domain.strategy.MovementStrategy;
 import java.util.List;
 
 public class Jol extends Piece {
-    private static final List<DirectionPath> NON_PALACE_CHO_PATHS = List.of(
-            DirectionPath.of(NORTH),
-            DirectionPath.of(EAST),
-            DirectionPath.of(WEST)
-    );
-
-    private static final List<DirectionPath> PALACE_CHO_PATHS = List.of(
+    private static final List<DirectionPath> CHO_PATHS = List.of(
             DirectionPath.of(NORTH),
             DirectionPath.of(EAST),
             DirectionPath.of(WEST),
@@ -35,13 +30,7 @@ public class Jol extends Piece {
             DirectionPath.of(NORTH_WEST)
     );
 
-    private static final List<DirectionPath> NON_PALACE_HAN_PATHS = List.of(
-            DirectionPath.of(SOUTH),
-            DirectionPath.of(EAST),
-            DirectionPath.of(WEST)
-    );
-
-    private static final List<DirectionPath> PALACE_HAN_PATHS = List.of(
+    private static final List<DirectionPath> HAN_PATHS = List.of(
             DirectionPath.of(SOUTH),
             DirectionPath.of(EAST),
             DirectionPath.of(WEST),
@@ -49,11 +38,13 @@ public class Jol extends Piece {
             DirectionPath.of(SOUTH_WEST)
     );
 
-    private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
-    private static final PathGenerator CHO_NON_PALACE_GENERATOR = new NonStraightPathGenerator(NON_PALACE_CHO_PATHS);
-    private static final PathGenerator CHO_PALACE_GENERATOR = new NonStraightPathGenerator(PALACE_CHO_PATHS);
-    private static final PathGenerator HAN_NON_PALACE_GENERATOR = new NonStraightPathGenerator(NON_PALACE_HAN_PATHS);
-    private static final PathGenerator HAN_PALACE_GENERATOR = new NonStraightPathGenerator(PALACE_HAN_PATHS);
+    private static final MovementStrategy MOVEMENT_STRATEGY =
+            new ConditionalMovementStrategy(
+                    new BlockedMovementStrategy(),
+                    pathPieces -> pathPieces.isOrthogonalMove() || pathPieces.isPalaceMove()
+            );
+    private static final PathGenerator CHO_PATH_GENERATOR = new NonStraightPathGenerator(CHO_PATHS);
+    private static final PathGenerator HAN_PATH_GENERATOR = new NonStraightPathGenerator(HAN_PATHS);
 
     public Jol(Team team) {
         super(team, PieceType.JOL);
@@ -61,7 +52,7 @@ public class Jol extends Piece {
 
     @Override
     public Path calculatePath(Position source, Position destination) {
-        return selectGenerator(source).calculatePath(source, destination);
+        return selectGenerator().calculatePath(source, destination);
     }
 
     @Override
@@ -69,24 +60,10 @@ public class Jol extends Piece {
         return MOVEMENT_STRATEGY.validatePath(pathPieces);
     }
 
-    private PathGenerator selectGenerator(Position source) {
+    private PathGenerator selectGenerator() {
         if (getTeam().isCho()) {
-            return selectChoGenerator(source);
+            return CHO_PATH_GENERATOR;
         }
-        return selectHanGenerator(source);
-    }
-
-    private PathGenerator selectChoGenerator(Position source) {
-        if (source.isInPalace()) {
-            return CHO_PALACE_GENERATOR;
-        }
-        return CHO_NON_PALACE_GENERATOR;
-    }
-
-    private PathGenerator selectHanGenerator(Position source) {
-        if (source.isInPalace()) {
-            return HAN_PALACE_GENERATOR;
-        }
-        return HAN_NON_PALACE_GENERATOR;
+        return HAN_PATH_GENERATOR;
     }
 }

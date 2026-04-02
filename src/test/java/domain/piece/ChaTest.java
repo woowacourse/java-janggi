@@ -2,9 +2,11 @@ package domain.piece;
 
 import static domain.TestUtil.createPosition;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import common.exception.JanggiException;
+import domain.board.MoveMeta;
+import domain.board.PathPieces;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
@@ -33,5 +35,31 @@ class ChaTest {
         assertEquals(createPosition(2, 0), path.source());
         assertEquals(createPosition(2, 3), path.destination());
         assertEquals(List.of(createPosition(2, 1), createPosition(2, 2)), path.waypoints());
+    }
+
+    @Test
+    void 차는_궁성_밖_대각선_이동_검증에_실패한다() {
+        MovablePiece cha = new Cha(Team.CHO);
+        PathPieces pathPieces = new PathPieces(
+                cha,
+                List.of(),
+                None.getInstance(),
+                new MoveMeta(false, false, true)
+        );
+
+        assertFalse(cha.validatePath(pathPieces));
+    }
+
+    @Test
+    void 차는_궁성_안_대각선_이동_검증에_성공한다() {
+        MovablePiece cha = new Cha(Team.CHO);
+        PathPieces pathPieces = new PathPieces(
+                cha,
+                List.of(),
+                None.getInstance(),
+                new MoveMeta(true, true, true)
+        );
+
+        assertTrue(cha.validatePath(pathPieces));
     }
 }

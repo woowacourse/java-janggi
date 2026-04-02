@@ -57,8 +57,8 @@ public class PathPieces {
         return moveMeta.destinationInPalace();
     }
 
-    public boolean isDiagonalMove() {
-        return moveMeta.diagonalMove();
+    public boolean isOrthogonalMove() {
+        return !moveMeta.diagonalMove();
     }
 
     public boolean isPalaceMove() {

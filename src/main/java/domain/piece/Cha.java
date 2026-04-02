@@ -3,16 +3,21 @@ package domain.piece;
 import domain.board.PathPieces;
 import domain.pathgenerator.DiagonalStraightGenerator;
 import domain.pathgenerator.PathGenerator;
-import domain.pathgenerator.StraightPathGenerator;
+import domain.pathgenerator.OrthogonalStraightPathGenerator;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
+import domain.strategy.ConditionalMovementStrategy;
 import domain.strategy.MovementStrategy;
 
 public class Cha extends Piece {
-    private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
-    private static final PathGenerator STRAIGHT_PATH_GENERATOR = new StraightPathGenerator();
+    private static final MovementStrategy MOVEMENT_STRATEGY =
+            new ConditionalMovementStrategy(
+                    new BlockedMovementStrategy(),
+                    pathPieces -> pathPieces.isOrthogonalMove() || pathPieces.isPalaceMove()
+            );
+    private static final PathGenerator STRAIGHT_PATH_GENERATOR = new OrthogonalStraightPathGenerator();
     private static final PathGenerator DIAGONAL_PATH_GENERATOR = new DiagonalStraightGenerator();
 
     public Cha(Team team) {
