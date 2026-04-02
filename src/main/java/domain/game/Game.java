@@ -39,7 +39,8 @@ public class Game {
     }
 
     public Piece movePiece(Position source, Position destination) {
-        Piece destinationPiece = board.move(source, destination);
+        Piece destinationPiece = board.findPiece(destination);
+        board.move(source, destination);
         catchPiece(destinationPiece);
         return destinationPiece;
     }

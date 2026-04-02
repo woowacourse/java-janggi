@@ -34,6 +34,24 @@ class BoardTest {
     }
 
     @Nested
+    class 보드_동등성_테스트 {
+        @Test
+        void 같은_위치에_같은_기물이_있으면_같다() {
+            Map<Position, Piece> firstBoardMap = createEmptyBoard();
+            firstBoardMap.put(new Position(0, 0), new Cha(Team.CHO));
+
+            Map<Position, Piece> secondBoardMap = createEmptyBoard();
+            secondBoardMap.put(new Position(0, 0), new Cha(Team.CHO));
+
+            Board firstBoard = new Board(firstBoardMap);
+            Board secondBoard = new Board(secondBoardMap);
+
+            assertEquals(firstBoard, secondBoard);
+            assertEquals(firstBoard.hashCode(), secondBoard.hashCode());
+        }
+    }
+
+    @Nested
     class 포_이외의_기물_이동_테스트 {
         @Test
         void 이동할_수_없는_경우는_Exception_던진다() {
@@ -92,24 +110,34 @@ class BoardTest {
     @Nested
     class 기물_이동_테스트 {
         @Test
-        void 도착_위치에_상대편_기물이_있는_경우_해당_기물을_반환한다() {
+        void 도착_위치에_상대편_기물이_있는_경우_상대편_기물이_삭제되고_기물이_이동된다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
             boardMap.put(new Position(0, 3), new Cha(Team.HAN));
 
             Board board = new Board(boardMap);
+            board.move(new Position(0, 0), new Position(0, 3));
 
-            assertEquals(new Cha(Team.HAN), board.move(new Position(0, 0), new Position(0, 3)));
+            Map<Position, Piece> expectedMap = createEmptyBoard();
+            expectedMap.put(new Position(0, 3), new Cha(Team.CHO));
+            Board expectedBoard = new Board(expectedMap);
+
+            assertEquals(expectedBoard, board);
         }
 
         @Test
-        void 도착_위치에_상대편_기물이_없는_경우_None_기물을_반환한다() {
+        void 도착_위치에_상대편_기물이_있는_경우_기물이_이동된다() {
             Map<Position, Piece> boardMap = createEmptyBoard();
             boardMap.put(new Position(0, 0), new Cha(Team.CHO));
 
             Board board = new Board(boardMap);
+            board.move(new Position(0, 0), new Position(0, 3));
 
-            assertEquals(new None(), board.move(new Position(0, 0), new Position(0, 3)));
+            Map<Position, Piece> expectedMap = createEmptyBoard();
+            expectedMap.put(new Position(0, 3), new Cha(Team.CHO));
+            Board expectedBoard = new Board(expectedMap);
+
+            assertEquals(expectedBoard, board);
         }
     }
 

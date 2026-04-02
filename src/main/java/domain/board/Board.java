@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Board {
@@ -27,10 +28,10 @@ public class Board {
         this.board = board;
     }
 
-    public Piece move(Position source, Position destination) {
+    public void move(Position source, Position destination) {
         validateSource(source);
         validateMovement(source, destination);
-        return executeMove(source, destination);
+        executeMove(source, destination);
     }
 
     private Piece executeMove(Position source, Position destination) {
@@ -88,7 +89,7 @@ public class Board {
         return Collections.unmodifiableMap(board);
     }
 
-    private Piece findPiece(Position position) {
+    public Piece findPiece(Position position) {
         return board.get(position);
     }
 
@@ -114,5 +115,22 @@ public class Board {
         if (!piece.isNone()) {
             pieces.add(piece);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Board other = (Board) o;
+        return Objects.equals(board, other.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(board);
     }
 }

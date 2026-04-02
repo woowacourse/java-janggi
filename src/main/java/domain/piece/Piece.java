@@ -75,8 +75,7 @@ public abstract class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return team == piece.team &&
-                pieceType == piece.pieceType;
+        return team == piece.team && pieceType == piece.pieceType;
     }
 
     @Override
