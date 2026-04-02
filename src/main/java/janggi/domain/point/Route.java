@@ -20,7 +20,7 @@ public class Route {
     }
 
     public boolean hasObstacle() {
-        return pieces.size() > OBSTACLE_SIZE;
+        return pieces.size() != OBSTACLE_SIZE;
     }
 
     public boolean hasSameType(PieceType type) {
