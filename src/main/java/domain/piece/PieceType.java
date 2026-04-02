@@ -41,12 +41,6 @@ public enum PieceType {
             return new King(side, new PathMovement());
         }
     },
-    EMPTY {
-        @Override
-        public Piece create(Side side) {
-            return new Empty();
-        }
-    },
     SOLDIER {
         @Override
         public Piece create(Side side) {

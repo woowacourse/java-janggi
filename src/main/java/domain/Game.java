@@ -21,7 +21,6 @@ public class Game {
         turn.next();
     }
 
-
     private void validateMovement(Position sourcePosition, Position targetPosition) {
         Piece sourcePiece = board.getPiece(sourcePosition);
         Piece targetPiece = board.getPiece(targetPosition);
@@ -29,6 +28,10 @@ public class Game {
         List<Position> route = sourcePiece.findRoute(sourcePosition, targetPosition);
         List<Piece> pieces = board.findPiecesOnRoute(route, targetPosition);
         sourcePiece.checkRoute(pieces);
+    }
+
+    public boolean isGameEnd() {
+        return board.hasKing(Side.CHO) || board.hasKing(Side.HAN);
     }
 
     public Side getCurrentTurn() {

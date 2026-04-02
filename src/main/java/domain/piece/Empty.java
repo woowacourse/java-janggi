@@ -1,14 +1,12 @@
 package domain.piece;
 
 import domain.Position;
-import domain.Side;
-
 import java.util.List;
 
-public class Empty extends Piece{
+public class Empty extends Piece {
 
     public Empty() {
-        super(Side.NONE, null);
+        super(null, null);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class JanggiController {
     }
 
     private void processMove(Game game) {
-        while (true) {
+        while (!game.isGameEnd()) {
             Side currentTurn = game.getCurrentTurn();
             outputView.printCurrentTurn(currentTurn);
             Position sourcePosition = readSourcePosition();

@@ -14,6 +14,8 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Soldier;
+import domain.piece.PieceType;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -54,6 +56,25 @@ public class GameTest {
         Assertions.assertThatThrownBy(() -> game.move(sourcePosition, targetPosition))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("해당 위치에 기물이 존재하지 않습니다.");
+    }
+
+    @DisplayName("양측 궁이 모두 존재하면 게임이 종료되지 않는다.")
+    @Test
+    void 양측_궁이_모두_존재하면_게임이_종료되지_않는다() {
+        Game game = createGame("1", "1");
+
+        assertThat(game.isGameEnd()).isFalse();
+    }
+
+    @DisplayName("한쪽 궁이 없으면 게임이 종료된다.")
+    @Test
+    void 한쪽_궁이_없으면_게임이_종료된다() {
+        Board board = new Board(Map.of(
+            Position.of(5, 2), PieceType.KING.create(Side.HAN)
+        ));
+        Game game = new Game(board);
+
+        assertThat(game.isGameEnd()).isTrue();
     }
 
     @Nested

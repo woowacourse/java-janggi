@@ -25,12 +25,8 @@ public abstract class Piece {
         return this.side == side;
     }
 
-    public Side getSide() {
-        return side;
-    }
-
     public void checkTarget(Piece piece) {
-        if (side.equals(piece.side)) {
+        if (piece.isSameSide(side)) {
             throw new IllegalArgumentException(CANNOT_CAPTURE_OWN_PIECE);
         }
     }

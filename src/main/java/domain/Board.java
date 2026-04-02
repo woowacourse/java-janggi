@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Empty;
+import domain.piece.King;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +36,14 @@ public class Board {
 
     public Piece getPiece(Position position) {
         return board.get(position);
+    }
+
+    public boolean hasKing(Side side) {
+        for (Piece piece : board.values()) {
+            if (piece instanceof King && piece.isSameSide(side)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

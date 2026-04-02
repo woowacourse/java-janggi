@@ -42,7 +42,7 @@ public class Cannon extends Piece {
 
     @Override
     public void checkTarget(Piece piece) {
-        if (piece.getSide().equals(side)) {
+        if (piece.isSameSide(side)) {
             throw new IllegalArgumentException(CANNOT_CAPTURE_OWN_PIECE);
         }
 

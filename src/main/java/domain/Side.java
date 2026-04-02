@@ -2,8 +2,7 @@ package domain;
 
 public enum Side {
     CHO,
-    HAN,
-    NONE;
+    HAN;
 
     public Side opposite() {
         if (this == CHO) {

@@ -1,6 +1,7 @@
 package domain;
 
 import constant.BoardSpec;
+import domain.piece.Empty;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public class BoardFactory {
         Map<Position, Piece> board = new HashMap<>();
         for (int x = BoardSpec.MIN_X; x <= BoardSpec.MAX_X; x++) {
             for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
-                placePiece(board, Position.of(x, y), PieceType.EMPTY.create(Side.NONE));
+                placePiece(board, Position.of(x, y), new Empty());
             }
         }
         placePieces(board, choFormation, Side.CHO);

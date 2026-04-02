@@ -51,15 +51,15 @@ public class OutputView {
     }
 
     private void printPiece(Piece piece) {
-        String color = getColor(piece.getSide());
+        String color = getColor(piece);
         System.out.printf(PIECE_FORMAT, color, piece.getName());
     }
 
-    private String getColor(Side side) {
-        if (side == Side.HAN) {
+    private String getColor(Piece piece) {
+        if (piece.isSameSide(Side.HAN)) {
             return RED;
         }
-        if (side == Side.CHO) {
+        if (piece.isSameSide(Side.CHO)) {
             return BLUE;
         }
         return RESET;
