@@ -8,6 +8,7 @@ import static janggi.domain.piece.PieceType.CHARIOT;
 import static org.assertj.core.api.Assertions.*;
 
 import janggi.domain.DomainException;
+import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.ChariotMoveStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -18,6 +19,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class BoardTest {
 
@@ -105,5 +108,27 @@ class BoardTest {
                 .hasMessageContaining(String.format(INVALID_PIECE_MOVE_MESSAGE,
                         from.row().row(), from.column().column(),
                         to.row().row(), to.column().column()));
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "CHO, 72",
+            "HAN, 73.5"
+    })
+    @DisplayName("초 나라는 72점, 한나라는 73.5점으로 시작한다.")
+    public void calculateScoreByDynasty_success(Dynasty dynasty, double expected) throws Exception {
+        // given
+        BoardDesignPolicy boardDesignPolicy =
+                new DefaultBoardDesignPolicy(Map.of(
+                        dynasty, HEHE,
+                        dynasty.next(), HEHE
+                ));
+        Board board = new Board(boardDesignPolicy);
+
+        // when
+        double score = board.calculateScoreByDynasty(dynasty);
+
+        // then
+        assertThat(score).isEqualTo(expected);
     }
 }

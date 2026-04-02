@@ -13,8 +13,6 @@ public enum PieceType {
     private final MoveStrategy moveStrategy;
     private final int score;
 
-
-
     PieceType(MoveStrategy moveStrategy, int score) {
         this.moveStrategy = moveStrategy;
         this.score = score;
@@ -22,5 +20,9 @@ public enum PieceType {
 
     public MoveStrategy moveStrategy() {
         return moveStrategy;
+    }
+
+    public int score() {
+        return score;
     }
 }

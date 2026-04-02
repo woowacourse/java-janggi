@@ -53,4 +53,8 @@ public class Game {
         return false;
     }
 
+    public double calculateScoreByDynasty(Dynasty dynasty) {
+        return board.calculateScoreByDynasty(dynasty);
+    }
+
 }

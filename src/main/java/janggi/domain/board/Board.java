@@ -51,4 +51,16 @@ public class Board {
         board.put(to, fromPiece);
     }
 
+    public double calculateScoreByDynasty(Dynasty dynasty) {
+        double sum = dynasty.additionalScore();
+        for (Position position : board.keySet()) {
+            Piece piece = board.get(position);
+            if (piece.dynasty().equals(dynasty)) {
+                sum += piece.pieceType().score();
+            }
+        }
+
+        return sum;
+    }
+
 }

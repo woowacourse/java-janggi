@@ -33,6 +33,10 @@ public enum Dynasty {
         return values[(ordinal() + 1) % values.length];
     }
 
+    public double additionalScore() {
+        return additionalScore;
+    }
+
     public Row flipRowIfNeeded(Row row) {
         if(isFlipped) {
             return row.flip();
