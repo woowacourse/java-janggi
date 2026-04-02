@@ -56,4 +56,24 @@ class PositionTest {
         PositionPath positionPath = from.moveVertical(3);
         assertThat(positionPath.getDestination()).isEqualTo(new Position(Row.NINE, Column.THREE));
     }
+
+    @DisplayName("현재 위치가 궁성영역 안이라면 True이다.")
+    @Test
+    void isInPalace_true() {
+        //given
+        Position palacePosition = new Position(Row.EIGHT, Column.FOUR);
+
+        //when & then
+        assertThat(palacePosition.isInPalace()).isTrue();
+    }
+
+    @DisplayName("현재 위치가 궁성영역 밖이라면 False이다.")
+    @Test
+    void isInPalace_false() {
+        //given
+        Position palacePosition = new Position(Row.EIGHT, Column.ONE);
+
+        //when & thenT
+        assertThat(palacePosition.isInPalace()).isFalse();
+    }
 }
