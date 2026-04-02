@@ -31,71 +31,6 @@ class SaTest {
                 .hasMessage("이동할 수 없는 위치입니다.");
     }
 
-    @DisplayName("남쪽으로 한칸 이동한다.")
-    @Test
-    void getLegalPath_moveSouth() {
-        //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SIX, Column.FIVE);
-        Sa sa = new Sa(Team.HAN);
-
-        //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
-
-        //then
-        assertThat(positionPath.stream().count())
-                .isEqualTo(0);
-    }
-
-    @DisplayName("북쪽으로 한칸 이동한다.")
-    @Test
-    void getLegalPath_moveNorth() {
-        //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.EIGHT, Column.FIVE);
-        Sa sa = new Sa(Team.HAN);
-
-        //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
-
-        //then
-        assertThat(positionPath.stream().count())
-                .isEqualTo(0);
-    }
-
-
-    @DisplayName("동쪽으로 한칸 이동한다.")
-    @Test
-    void getLegalPath_moveEast() {
-        //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SEVEN, Column.SIX);
-        Sa sa = new Sa(Team.CHO);
-
-        //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
-
-        //then
-        assertThat(positionPath.stream().count())
-                .isEqualTo(0);
-    }
-
-    @DisplayName("서쪽으로 한칸 이동한다.")
-    @Test
-    void getLegalPath_moveWest() {
-        //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SEVEN, Column.FOUR);
-        Sa sa = new Sa(Team.HAN);
-
-        //when
-        PositionPath positionPath = sa.getLegalPath(from, to);
-
-        //then
-        assertThat(positionPath.stream().count())
-                .isEqualTo(0);
-    }
-
     @DisplayName("경로 상에 기물이 없으면 true를 반환한다.")
     @Test
     void canPassThrough_empty_path() {
@@ -149,5 +84,39 @@ class SaTest {
         //when & then
         assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
+    }
+
+    @DisplayName("궁성 밖으로 이동하면 예외가 발생한다.")
+    @Test
+    void getLegalPath_outsidePalace() {
+        Position from = new Position(Row.EIGHT, Column.FIVE);
+        Position to = new Position(Row.SEVEN, Column.FIVE);
+        Sa sa = new Sa(Team.CHO);
+
+        assertThatThrownBy(() -> sa.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
+    @DisplayName("궁성 내에서 한칸 이동한다.")
+    @Test
+    void getLegalPath_insidePalace() {
+        Position from = new Position(Row.ZERO, Column.FIVE);
+        Position to = new Position(Row.NINE, Column.FIVE);
+        Sa sa = new Sa(Team.CHO);
+
+        PositionPath positionPath = sa.getLegalPath(from, to);
+        assertThat(positionPath.stream().count()).isEqualTo(0);
+    }
+
+    @DisplayName("궁성 내에서 대각선으로 이동한다.")
+    @Test
+    void getLegalPath_palace_diagonal() {
+        Position from = new Position(Row.ZERO, Column.FOUR);
+        Position to = new Position(Row.NINE, Column.FIVE);
+        Sa sa = new Sa(Team.CHO);
+
+        PositionPath positionPath = sa.getLegalPath(from, to);
+        assertThat(positionPath.stream().count()).isEqualTo(0);
     }
 }

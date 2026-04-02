@@ -16,11 +16,27 @@ public abstract class AbstractPalaceGimul extends AbstractGimul {
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
+        validateInPalace(from, to);
         PositionDelta positionDelta = PositionDelta.between(from, to);
         if (positionDelta.isMultiStep()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
+        if (!positionDelta.isHorizontal() && !positionDelta.isVertical()) {
+            validatePalaceDiagonal(from, to);
+        }
         return calculatePath(from, positionDelta);
+    }
+
+    private void validateInPalace(Position from, Position to) {
+        if (!from.isInPalace() || !to.isInPalace()) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+    }
+
+    private void validatePalaceDiagonal(Position from, Position to) {
+        if (!from.isOnPalaceDiagonal() || !to.isOnPalaceDiagonal()) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
     }
 
     private PositionPath calculatePath(Position from, PositionDelta positionDelta) {
