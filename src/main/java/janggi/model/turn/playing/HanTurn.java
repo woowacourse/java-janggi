@@ -1,8 +1,10 @@
-package janggi.model.turn;
+package janggi.model.turn.playing;
 
 import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.position.absolute.Position;
+import janggi.model.turn.GameOver;
+import janggi.model.turn.Turn;
 
 public class HanTurn extends PlayingTurn {
 
