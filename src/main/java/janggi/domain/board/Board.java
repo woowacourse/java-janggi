@@ -46,6 +46,13 @@ public class Board {
         return false;
     }
 
+    public int sumPointsOf(Dynasty dynasty) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameDynasty(dynasty))
+                .mapToInt(piece -> piece.pieceType().points())
+                .sum();
+    }
+
     public Map<Position, Piece> board() {
         return Map.copyOf(board);
     }

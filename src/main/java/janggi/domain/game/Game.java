@@ -41,6 +41,9 @@ public class Game {
     }
 
     public Dynasty judgeWinner() {
+        if (isLessThan30()) {
+            return findWinner();
+        }
         if (board.hasGeneral(HAN)) {
             return HAN;
         }
@@ -48,7 +51,7 @@ public class Game {
     }
 
     public boolean isFinished() {
-        return !board.hasGeneral(HAN) || !board.hasGeneral(CHO);
+        return isGeneralCaptured() || isLessThan30();
     }
 
     public Map<Position, Piece> boardMap() {
@@ -57,6 +60,27 @@ public class Game {
 
     public CurrentTurn currentTurn() {
         return currentTurn;
+    }
+
+    private boolean isGeneralCaptured() {
+        return !board.hasGeneral(HAN) || !board.hasGeneral(CHO);
+    }
+
+    private boolean isLessThan30() {
+        double pointsOfHan = board.sumPointsOf(HAN) + 1.5;
+        double pointsOfCho = board.sumPointsOf(CHO);
+
+        return pointsOfHan < 30 && pointsOfCho < 30;
+    }
+
+    private Dynasty findWinner() {
+        double pointsOfHan = board.sumPointsOf(HAN) + 1.5;
+        double pointsOfCho = board.sumPointsOf(CHO);
+
+        if (pointsOfHan < pointsOfCho) {
+            return CHO;
+        }
+        return HAN;
     }
 
 }

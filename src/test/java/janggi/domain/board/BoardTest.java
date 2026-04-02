@@ -114,4 +114,19 @@ class BoardTest {
         assertThat(hasGeneral).isFalse();
     }
 
+    @Test
+    public void 나라_별로_기물의_점수를_계산할_수_있다() {
+        // given
+        DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
+        Board board = new Board(policy);
+
+        // when
+        int pointsOfCho = board.sumPointsOf(CHO);
+        int pointsOfHan = board.sumPointsOf(HAN);
+
+        // then
+        assertThat(pointsOfCho).isEqualTo(72);
+        assertThat(pointsOfHan).isEqualTo(72);
+    }
+
 }
