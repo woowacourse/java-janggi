@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -9,11 +11,39 @@ public class Board {
         this.pieces = pieces;
     }
 
+    public boolean isExistPieceAt(Position position) {
+        return pieces.containsKey(position);
+    }
+
     public Piece pieceAt(Position position) {
-        if (!pieces.containsKey(position)) {
+        if (!isExistPieceAt(position)) {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }
 
         return pieces.get(position);
+    }
+
+    public void move(Position departure, Position destination) {
+        Piece departurePiece = pieceAt(departure);
+
+        List<Position> positions = departurePiece.getPath(departure, destination);
+
+        List<PathInfo> path = new ArrayList<>();
+        positions.forEach(position -> path.add(new PathInfo(position, pieceAt(position))));
+
+        departurePiece.validateBlockingPiece(path, departure, destination);
+
+        if (isExistPieceAt(destination)) {
+            validateCapture(departurePiece, pieceAt(destination));
+        }
+
+        pieces.remove(departure);
+        pieces.put(destination, departurePiece);
+    }
+
+    private void validateCapture(Piece departurePiece, Piece destinationPiece) {
+        if (departurePiece.isSameCampe(destinationPiece)) {
+            throw new IllegalArgumentException("같은 팀끼리는 잡을 수 없습니다.");
+        }
     }
 }

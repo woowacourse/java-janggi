@@ -11,6 +11,10 @@ public record Position(int column, int row) {
 
     }
 
+    public Position move(int deltaX, int deltaY) {
+        return new Position(this.column + deltaX, this.row + deltaY);
+    }
+
     public int calculateDeltaX(Position destination) {
         return destination.column - this.column;
     }
