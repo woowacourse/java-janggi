@@ -25,7 +25,7 @@ public class DBExecutor {
                 throw e;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 트랜잭션 진행 중 SQL 예외 발생" + e);
         }
     }
 
@@ -41,7 +41,7 @@ public class DBExecutor {
                 throw e;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 트랜잭션 진행 중 SQL 예외 발생" + e);
         }
     }
 
