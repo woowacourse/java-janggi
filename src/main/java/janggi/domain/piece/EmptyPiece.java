@@ -44,4 +44,9 @@ public class EmptyPiece implements Piece {
     public PieceType getType() {
         return PieceType.EMPTY;
     }
+
+    @Override
+    public boolean isSame(PieceType pieceType) {
+        return PieceType.EMPTY == pieceType;
+    }
 }
