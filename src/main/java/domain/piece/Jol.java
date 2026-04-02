@@ -6,7 +6,7 @@ import static domain.direction.Direction.SOUTH;
 import static domain.direction.Direction.WEST;
 
 import domain.board.PathPieces;
-import domain.direction.Direction;
+import domain.pathgenerator.DirectionPath;
 import domain.pathgenerator.NonStraightPathGenerator;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
@@ -18,15 +18,15 @@ import java.util.List;
 
 public class Jol extends Piece {
 
-    private static final List<List<Direction>> CHO_PATHS = List.of(
-            List.of(NORTH),
-            List.of(EAST),
-            List.of(WEST));
+    private static final List<DirectionPath> CHO_PATHS = List.of(
+            DirectionPath.of(NORTH),
+            DirectionPath.of(EAST),
+            DirectionPath.of(WEST));
 
-    private static final List<List<Direction>> HAN_PATHS = List.of(
-            List.of(SOUTH),
-            List.of(EAST),
-            List.of(WEST));
+    private static final List<DirectionPath> HAN_PATHS = List.of(
+            DirectionPath.of(SOUTH),
+            DirectionPath.of(EAST),
+            DirectionPath.of(WEST));
 
     private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
     private static final PathGenerator CHO_GENERATOR = new NonStraightPathGenerator(CHO_PATHS);

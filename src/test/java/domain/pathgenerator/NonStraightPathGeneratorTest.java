@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import common.exception.JanggiException;
-import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.List;
@@ -22,15 +21,15 @@ import org.junit.jupiter.api.Test;
 class NonStraightPathGeneratorTest {
 
     NonStraightPathGenerator nonStraightPathGenerator;
-    private static final List<List<Direction>> sangPaths = List.of(
-            List.of(NORTH, NORTH_EAST, NORTH_EAST),
-            List.of(NORTH, NORTH_WEST, NORTH_WEST),
-            List.of(SOUTH, SOUTH_EAST, SOUTH_EAST),
-            List.of(SOUTH, SOUTH_WEST, SOUTH_WEST),
-            List.of(EAST, NORTH_EAST, NORTH_EAST),
-            List.of(EAST, SOUTH_EAST, SOUTH_EAST),
-            List.of(WEST, NORTH_WEST, NORTH_WEST),
-            List.of(WEST, SOUTH_WEST, SOUTH_WEST)
+    private static final List<DirectionPath> sangPaths = List.of(
+            DirectionPath.of(NORTH, NORTH_EAST, NORTH_EAST),
+            DirectionPath.of(NORTH, NORTH_WEST, NORTH_WEST),
+            DirectionPath.of(SOUTH, SOUTH_EAST, SOUTH_EAST),
+            DirectionPath.of(SOUTH, SOUTH_WEST, SOUTH_WEST),
+            DirectionPath.of(EAST, NORTH_EAST, NORTH_EAST),
+            DirectionPath.of(EAST, SOUTH_EAST, SOUTH_EAST),
+            DirectionPath.of(WEST, NORTH_WEST, NORTH_WEST),
+            DirectionPath.of(WEST, SOUTH_WEST, SOUTH_WEST)
     );
 
     @Test

@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public class NonStraightPathGenerator implements PathGenerator {
 
-    private final List<List<Direction>> paths;
+    private final List<DirectionPath> paths;
 
-    public NonStraightPathGenerator(List<List<Direction>> paths) {
+    public NonStraightPathGenerator(List<DirectionPath> paths) {
         this.paths = paths;
     }
 
@@ -26,9 +26,9 @@ public class NonStraightPathGenerator implements PathGenerator {
                 .orElseThrow(() -> new JanggiException("기물을 이동할 수 없습니다."));
     }
 
-    private Optional<Path> tryBuildPath(Position source, Position destination, List<Direction> directionPath) {
+    private Optional<Path> tryBuildPath(Position source, Position destination, DirectionPath directionPath) {
         try {
-            List<Position> waypoints = gatherWaypoints(source, directionPath);
+            List<Position> waypoints = gatherWaypoints(source, directionPath.directions());
 
             if (destination.equals(waypoints.getLast())) {
                 waypoints.removeLast();
@@ -40,10 +40,10 @@ public class NonStraightPathGenerator implements PathGenerator {
         return Optional.empty();
     }
 
-    private List<Position> gatherWaypoints(Position source, List<Direction> directionPath) {
+    private List<Position> gatherWaypoints(Position source, List<Direction> directions) {
         List<Position> waypoints = new ArrayList<>();
         Position current = source;
-        for (Direction direction : directionPath) {
+        for (Direction direction : directions) {
             current = direction.calculateNextPosition(current);
             waypoints.add(current);
         }

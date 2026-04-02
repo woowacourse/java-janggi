@@ -10,7 +10,7 @@ import static domain.direction.Direction.SOUTH_WEST;
 import static domain.direction.Direction.WEST;
 
 import domain.board.PathPieces;
-import domain.direction.Direction;
+import domain.pathgenerator.DirectionPath;
 import domain.pathgenerator.NonStraightPathGenerator;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
@@ -22,15 +22,15 @@ import java.util.List;
 
 public class Ma extends Piece {
 
-    private static final List<List<Direction>> PATHS = List.of(
-            List.of(NORTH, NORTH_EAST),
-            List.of(NORTH, NORTH_WEST),
-            List.of(SOUTH, SOUTH_EAST),
-            List.of(SOUTH, SOUTH_WEST),
-            List.of(EAST, NORTH_EAST),
-            List.of(EAST, SOUTH_EAST),
-            List.of(WEST, NORTH_WEST),
-            List.of(WEST, SOUTH_WEST)
+    private static final List<DirectionPath> PATHS = List.of(
+            DirectionPath.of(NORTH, NORTH_EAST),
+            DirectionPath.of(NORTH, NORTH_WEST),
+            DirectionPath.of(SOUTH, SOUTH_EAST),
+            DirectionPath.of(SOUTH, SOUTH_WEST),
+            DirectionPath.of(EAST, NORTH_EAST),
+            DirectionPath.of(EAST, SOUTH_EAST),
+            DirectionPath.of(WEST, NORTH_WEST),
+            DirectionPath.of(WEST, SOUTH_WEST)
     );
 
     private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
