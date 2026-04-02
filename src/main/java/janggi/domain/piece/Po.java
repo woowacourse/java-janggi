@@ -49,7 +49,7 @@ public class Po extends Piece {
             throw new IllegalArgumentException("이동 경로에 기물이 존재하지 않아 이동할 수 없습니다.");
         }
         if (obstacles.size() > 1) {
-            throw new IllegalArgumentException("이동 경로에 기물이 1개 이상 존재합니다.");
+            throw new IllegalArgumentException("이동 경로에 기물이 2개 이상 존재합니다.");
         }
         if (obstacles.getFirst().getPieceType() == PieceType.PO) {
             throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");

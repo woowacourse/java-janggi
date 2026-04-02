@@ -75,7 +75,7 @@ class PoTest {
         // when & then
         assertThatThrownBy(() -> po.validateCanMove(start, end, board))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동 경로에 기물이 1개 이상 존재합니다.");
+                .hasMessage("이동 경로에 기물이 2개 이상 존재합니다.");
     }
 
     @Test
